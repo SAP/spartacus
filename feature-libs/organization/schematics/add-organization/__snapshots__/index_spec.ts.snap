@@ -93,6 +93,54 @@ export class OrganizationAdministrationFeatureModule { }
 "
 `;
 
+exports[`Spartacus Organization schematics: ng-add Administration feature general setup should install the required feature dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/organization\\";"`;
 
 exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should update angular.json 1`] = `
@@ -130,6 +178,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/organization.scss\\"
             ],
             \\"scripts\\": []
@@ -199,6 +248,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/organization.scss\\"
             ],
             \\"scripts\\": []
@@ -304,6 +354,85 @@ export class OrganizationOrderApprovalFeatureModule { }
 "
 `;
 
+exports[`Spartacus Organization schematics: ng-add Order approval feature general setup should install the required feature dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add Order approval feature general setup should install the required feature dependencies 2`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { orderTranslationChunksConfig, orderTranslations } from \\"@spartacus/order/assets\\";
+import { OrderRootModule, ORDER_FEATURE } from \\"@spartacus/order/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OrderRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ORDER_FEATURE]: {
+        module: () =>
+          import('@spartacus/order').then((m) => m.OrderModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: orderTranslations,
+      chunks: orderTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class OrderFeatureModule { }
+"
+`;
+
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/organization\\";"`;
 
 exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should update angular.json 1`] = `
@@ -341,6 +470,9 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
+              \\"src/styles/spartacus/order.scss\\",
               \\"src/styles/spartacus/organization.scss\\"
             ],
             \\"scripts\\": []
@@ -410,6 +542,9 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
+              \\"src/styles/spartacus/order.scss\\",
               \\"src/styles/spartacus/organization.scss\\"
             ],
             \\"scripts\\": []

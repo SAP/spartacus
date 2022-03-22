@@ -13,11 +13,13 @@ import {
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   LibraryOptions as SpartacusOrganizationOptions,
+  orderFeatureModulePath,
   organizationAdministrationFeatureModulePath,
   organizationOrderApprovalFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -155,6 +157,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
+      it('should install the required feature dependencies', async () => {
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toMatchSnapshot();
+      });
+
       describe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
@@ -210,6 +217,14 @@ describe('Spartacus Organization schematics: ng-add', () => {
           organizationOrderApprovalFeatureModulePath
         );
         expect(module).toMatchSnapshot();
+      });
+
+      it('should install the required feature dependencies', async () => {
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toMatchSnapshot();
+
+        const orderFeatureModule = appTree.readContent(orderFeatureModulePath);
+        expect(orderFeatureModule).toMatchSnapshot();
       });
 
       describe('styling', () => {

@@ -6,14 +6,13 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeCrossFeatureDependencies,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusOrganizationOptions,
-  ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG,
-  ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG,
   readPackageJson,
   shouldAddFeature,
   validateSpartacusInstallation,
@@ -27,42 +26,26 @@ export function addSpartacusOrganization(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
+    const features = analyzeCrossFeatureDependencies(options.features ?? []);
+
     return chain([
+      addFeatures(options, features),
+
+      shouldAddB2b(options)
+        ? configureB2bFeatures(options, packageJson)
+        : noop(),
+
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
-
-      shouldAddFeature(
-        CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
-        options.features
-      )
-        ? chain([
-            addAdministrationFeature(options),
-            configureB2bFeatures(options, packageJson),
-          ])
-        : noop(),
-
-      shouldAddFeature(
-        CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
-        options.features
-      )
-        ? chain([
-            addOrderApprovalsFeature(options),
-            configureB2bFeatures(options, packageJson),
-          ])
-        : noop(),
     ]);
   };
 }
 
-function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
-  return addLibraryFeature(
-    options,
-    ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG
-  );
-}
-
-function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
-  return addLibraryFeature(
-    options,
-    ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG
+function shouldAddB2b(options: SpartacusOrganizationOptions): boolean {
+  return (
+    shouldAddFeature(
+      CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
+      options.features
+    ) ||
+    shouldAddFeature(CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE, options.features)
   );
 }
