@@ -23,6 +23,7 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 
+// TODO:#schematics - refactor after introducing wrapper modules
 export function addProductConfiguratorFeatures(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
