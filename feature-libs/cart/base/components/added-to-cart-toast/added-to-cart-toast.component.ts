@@ -1,9 +1,9 @@
 import {
   ChangeDetectorRef,
   Component,
+  ElementRef,
   HostBinding,
   OnDestroy,
-  OnInit,
   Renderer2,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
@@ -22,7 +22,7 @@ import { AddedToCartToastComponentService } from './added-to-cart-toast-componen
   selector: 'cx-added-to-cart-toast',
   templateUrl: './added-to-cart-toast.component.html',
 })
-export class AddedToCartToastComponent implements OnInit, OnDestroy {
+export class AddedToCartToastComponent implements OnDestroy {
   protected subscription = new Subscription();
 
   customClass?: string;
@@ -47,12 +47,11 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected cd: ChangeDetectorRef,
     protected addedToCartToastService: AddedToCartToastComponentService,
-    protected activeCartService: ActiveCartFacade
+    protected activeCartService: ActiveCartFacade,
+    protected el: ElementRef
   ) {}
 
-  ngOnInit(): void {
-    this.headerElement = this.winRef.document.querySelector('header');
-
+  init(): void {
     if (!this.customClass) {
       this.customClass = 'cx-added-cart-toast';
     }
@@ -66,6 +65,14 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
   }
 
   addToast(event: CartUiEventAddToCart) {
+    this.headerElement = document.querySelector('header');
+    if (this.headerElement) {
+      this.el.nativeElement.style.setProperty(
+        '--cx-added-to-cart-toast-header-offset',
+        `${this.headerElement.offsetHeight}px`
+      );
+    }
+
     this.activeCartService
       .getLastEntry(event.productCode)
       .pipe(
@@ -162,7 +169,6 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
         return (toastBaseClass += ' close-toast');
       }
     }
-
     if (this.isHeaderFixed()) {
       positionClasses.push('on-fixed-header');
     } else if (this.isHeaderInView()) {
