@@ -1,18 +1,18 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeCrossFeatureDependencies,
   CLI_EPD_VISUALIZATION_FEATURE,
   CustomConfig,
   EPD_SCHEMATICS_CONFIG,
   EPD_VISUALIZATION_CONFIG,
-  FeatureConfig,
+  FeatureConfigurationOverrides,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_EPD_VISUALIZATION_ROOT,
@@ -28,17 +28,23 @@ export function addEpdVisualizationFeature(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+    const features = analyzeCrossFeatureDependencies(options.features ?? []);
+    const overrides = buildEpdVisualizationConfig(options);
 
-      shouldAddFeature(CLI_EPD_VISUALIZATION_FEATURE, options.features)
-        ? chain([addEpdVisualization(options)])
-        : noop(),
+    return chain([
+      addFeatures(options, features, overrides),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
 }
 
-function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
+function buildEpdVisualizationConfig(
+  options: SpartacusEpdVisualizationOptions
+): Record<string, FeatureConfigurationOverrides> {
+  if (!shouldAddFeature(CLI_EPD_VISUALIZATION_FEATURE, options.features)) {
+    return {};
+  }
+
   const customConfig: CustomConfig[] = [
     {
       import: [
@@ -61,10 +67,9 @@ function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
     },
   ];
 
-  const config: FeatureConfig = {
-    ...EPD_SCHEMATICS_CONFIG,
-    customConfig,
+  return {
+    [CLI_EPD_VISUALIZATION_FEATURE]: {
+      schematics: { ...EPD_SCHEMATICS_CONFIG, customConfig },
+    },
   };
-
-  return addLibraryFeature(options, config);
 }
