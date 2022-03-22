@@ -80,9 +80,10 @@ export function kahnsAlgorithm(graph: Graph): string[] {
   return Object.keys(topNums).reverse();
 }
 
-export const dependencyGraph: Graph = createLibraryDependencyGraph();
-export const libraryInstallationOrder: string[] =
-  kahnsAlgorithm(dependencyGraph);
+export const libraryDependencyGraph: Graph = createLibraryDependencyGraph();
+export const libraryInstallationOrder: string[] = kahnsAlgorithm(
+  libraryDependencyGraph
+);
 
 export const crossFeatureDependencyGraph: Graph =
   createCrossFeaturesDependencyGraph();

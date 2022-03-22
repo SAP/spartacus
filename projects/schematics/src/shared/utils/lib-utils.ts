@@ -1026,6 +1026,7 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
   return (tree: Tree, context: SchematicContext): void => {
     let message = `Ordering the installed Spartacus features...`;
     if (options.debug) {
+      // TODO:#schematics - switch to `crossFeatureInstallationOrder`
       message = `Sorting the installed Spartacus features according to the dependency graph: ${libraryInstallationOrder.join(
         ', '
       )}`;
@@ -1057,6 +1058,7 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
           calculateSort(
             moduleA.spartacusLibrary,
             moduleB.spartacusLibrary,
+            // TODO:#schematics - switch to sorting using the `crossFeatureInstallationOrder`
             libraryInstallationOrder
           )
         )

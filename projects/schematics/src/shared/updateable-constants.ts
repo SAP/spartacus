@@ -379,8 +379,7 @@ export function getKeyByMappingValue(
  */
 /**
  * TODO:#schematics - remove, as it's built dynamically based on the `SCHEMATICS_CONFIGS`.
- * However, it's currently possible to remove,
- * as it does not contain both main and root modules.
+ * Remove after implementing the wrapper modules.
  */
 export const packageFeatureConfigMapping: Record<string, string[]> = {
   /** Feature modules lib start */
