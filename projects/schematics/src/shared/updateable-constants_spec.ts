@@ -35,7 +35,7 @@ import {
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_ORDER,
 } from './libs-constants';
-import { generateMappings } from './updateable-constants';
+import { generateMappings, getKeyByMappingValue } from './updateable-constants';
 
 describe('generateMappings', () => {
   describe('cliFeatureMapping', () => {
@@ -94,6 +94,22 @@ describe('generateMappings', () => {
         CHECKOUT_B2B_SCHEMATICS_CONFIG,
         CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
       ]);
+    });
+  });
+  describe('getKeyByMappingValue', () => {
+    it('should return the key', () => {
+      const mapping: Record<string, string[]> = {
+        x: ['1', '2'],
+      };
+      const result = getKeyByMappingValue(mapping, '1');
+      expect(result).toEqual('x');
+    });
+    it('should return the undefined when not found', () => {
+      const mapping: Record<string, string[]> = {
+        x: ['1', '2'],
+      };
+      const result = getKeyByMappingValue(mapping, '3');
+      expect(result).toBeFalsy();
     });
   });
 });

@@ -351,7 +351,10 @@ function populateConfigMapping(
   ];
 }
 
-// TODO:#schematics - comment
+/**
+ * Based on the given value,
+ * it returns the key of the given object.
+ */
 export function getKeyByMappingValue(
   mapping: Record<string, string[]>,
   value: string
