@@ -273,12 +273,30 @@ function updateAppModule(project: string): Rule {
   };
 }
 
+function logDependencyFeatures(
+  options: SpartacusOptions,
+  context: SchematicContext,
+  features: string[]
+) {
+  const selectedFeatures = options.features ?? [];
+  const notSelectedFeatures = features.filter(
+    (feature) => !selectedFeatures.includes(feature)
+  );
+  if (notSelectedFeatures.length) {
+    context.logger.info(
+      `\n⚙️ Configuring the additional features as the dependencies of ${selectedFeatures.join(
+        ', '
+      )}: ${notSelectedFeatures.join(', ')}\n`
+    );
+  }
+}
+
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
 
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
-    // TODO:#schematics - check the diff between the selected features and features-to-be-installed, and log the missing ones
+    logDependencyFeatures(options, context, features);
 
     return chain([
       setupStoreModules(options.project),
