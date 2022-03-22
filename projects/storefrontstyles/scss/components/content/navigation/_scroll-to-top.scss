@@ -1,10 +1,10 @@
 %cx-scroll-to-top {
   display: none;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   position: fixed;
-  bottom: 60px;
-  right: 30px;
+  bottom: 70px;
+  right: 50px;
 
   &.display {
     display: initial;
@@ -14,10 +14,10 @@
     height: inherit;
     width: inherit;
     font-size: 30px;
-    border-radius: 8px;
+    border-radius: 5px;
     color: var(--cx-color-inverse);
-    background-color: var(--cx-color-primary);
-    border: 1px solid var(--cx-color-primary);
+    background-color: rgb(160, 160, 160);
+    border: transparent;
     box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px,
       rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px,
       rgba(0, 0, 0, 0.07) 0px 16px 16px;
@@ -26,6 +26,11 @@
       &:hover {
         animation: shake 1.85s infinite;
       }
+    }
+
+    .caret-up-icon {
+      position: relative;
+      transform: translate(0, -25%);
     }
   }
 
@@ -45,5 +50,10 @@
     40% {
       transform: translateY(0);
     }
+  }
+
+  //Compact
+  @include media-breakpoint-down(sm) {
+    right: 15px;
   }
 }
