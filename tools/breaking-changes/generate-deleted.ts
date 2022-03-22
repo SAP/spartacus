@@ -26,8 +26,6 @@ console.log(
   `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
 );
 
-let ticketCount = 0;
-
 const deletedApiSchematics = [];
 for (let index = 0; index < breakingChangesData.length; index++) {
   const apiElement = breakingChangesData[index];

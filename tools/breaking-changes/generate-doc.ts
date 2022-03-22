@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { isMember, isTopLevelApi } from './common';
 const { execSync } = require('child_process');
 
 /**
@@ -8,7 +9,6 @@ const { execSync } = require('child_process');
  * Output: A file, `generate-doc.out.md`, that contains the markdown doc to be copied in the release docs.
  *
  */
-
 
 /**
  * -----------
@@ -27,8 +27,6 @@ const breakingChangesData = JSON.parse(
 console.log(
   `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
 );
-
-let ticketCount = 0;
 
 const breakingChangeDoc = [];
 breakingChangesData.forEach((apiElement: any) => {
@@ -183,28 +181,4 @@ ${MD_CODEBLOCK}${breakingChange.currentStateDoc}${MD_CODEBLOCK}
   }
 
   return doc;
-}
-
-function isMember(kind: string): boolean {
-  const memberKinds = [
-    'Constructor',
-    'IndexSignature',
-    'MethodSignature',
-    'Method',
-    'PropertySignature',
-    'Property',
-  ];
-  return memberKinds.includes(kind);
-}
-
-function isTopLevelApi(kind: string): boolean {
-  const apiKinds = [
-    'Interface',
-    'Class',
-    'Enum',
-    'TypeAlias',
-    'Variable',
-    'Function',
-  ];
-  return apiKinds.includes(kind);
 }

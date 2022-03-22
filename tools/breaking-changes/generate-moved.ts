@@ -26,8 +26,6 @@ console.log(
   `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
 );
 
-let ticketCount = 0;
-
 const movedApiSchematics = [];
 breakingChangesData
   .filter((apiElement: any) => apiElement.isMoved && !apiElement.namespace)

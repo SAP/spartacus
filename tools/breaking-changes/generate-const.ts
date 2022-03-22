@@ -37,7 +37,7 @@ const breakingChangesData = JSON.parse(
 console.log(
   `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
 );
-let constructorChangesCount = 0;
+
 const apiElementsWithConstructorChanges = breakingChangesData.filter(
   (apiElement: any) => {
     return getConstructorChanges(apiElement).length > 0;
