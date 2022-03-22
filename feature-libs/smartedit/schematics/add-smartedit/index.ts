@@ -1,18 +1,18 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeCrossFeatureDependencies,
   CLI_SMARTEDIT_FEATURE,
   CustomConfig,
   FeatureConfig,
+  FeatureConfigurationOverrides,
   readPackageJson,
-  shouldAddFeature,
   SMARTEDIT_SCHEMATICS_CONFIG,
   SMART_EDIT_CONFIG,
   SPARTACUS_SMARTEDIT_ROOT,
@@ -26,17 +26,27 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+    const features = analyzeCrossFeatureDependencies(options.features ?? []);
 
-      shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)
-        ? addSmartEditFeature(options)
-        : noop(),
+    const smartEditSchematicsConfig: FeatureConfig =
+      buildSmartEditConfig(options);
+
+    const overrides: FeatureConfigurationOverrides = {
+      schematics: {
+        [CLI_SMARTEDIT_FEATURE]: smartEditSchematicsConfig,
+      },
+    };
+
+    return chain([
+      addFeatures(options, features, overrides),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
 }
 
-function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
+function buildSmartEditConfig(
+  options: SpartacusSmartEditOptions
+): FeatureConfig {
   const customConfig: CustomConfig[] = [];
   if (options.storefrontPreviewRoute || options.allowOrigin) {
     let content = `<${SMART_EDIT_CONFIG}>{
@@ -60,10 +70,8 @@ function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
     });
   }
 
-  const config: FeatureConfig = {
+  return {
     ...SMARTEDIT_SCHEMATICS_CONFIG,
     customConfig,
   };
-
-  return addLibraryFeature(options, config);
 }
