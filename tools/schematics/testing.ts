@@ -20,7 +20,12 @@ const featureLibsFolders: string[] = [
   'user',
 ];
 
-const integrationLibsFolders: string[] = ['cdc', 'cds', 'digital-payments', 'epd-visualization'];
+const integrationLibsFolders: string[] = [
+  'cdc',
+  'cds',
+  'digital-payments',
+  'epd-visualization',
+];
 
 const commands = [
   'publish',
