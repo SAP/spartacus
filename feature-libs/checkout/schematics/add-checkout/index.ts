@@ -6,9 +6,11 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
+  addFeatures,
   addFeatureTranslations,
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  analyzeCrossFeatureDependencies,
   CHECKOUT_B2B_SCHEMATICS_CONFIG,
   CHECKOUT_BASE_SCHEMATICS_CONFIG,
   CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
@@ -28,14 +30,17 @@ export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+    const features = analyzeCrossFeatureDependencies(options.features ?? []);
 
+    return chain([
+      addFeatures(options, features),
       determineCheckoutFeatures(options, packageJson),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
 }
 
+// TODO:#schematics - refactor after introducing wrapper modules
 function determineCheckoutFeatures(
   options: SpartacusCheckoutOptions,
   packageJson: any
