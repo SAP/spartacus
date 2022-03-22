@@ -17,11 +17,11 @@ export interface FeatureConfigurationOverrides<T = LibraryOptions> {
    * If specified, overrides the pre-defined schematics configuration.
    * Usually used when customConfig needs to be provided.
    */
-  schematics?: Record<string, FeatureConfig>;
+  schematics?: FeatureConfig;
   /**
    * If specified, overrides the pre-defined schematics options.
    */
-  options?: Record<string, T>;
+  options?: T;
 }
 
 // TODO:#schematics - test
@@ -31,7 +31,7 @@ export interface FeatureConfigurationOverrides<T = LibraryOptions> {
 export function addFeatures<T extends LibraryOptions>(
   options: SpartacusOptions,
   features: string[],
-  configurationOverrides?: FeatureConfigurationOverrides<T>
+  configurationOverrides?: Record<string, FeatureConfigurationOverrides<T>>
 ): Rule {
   return (_tree: Tree, _context: SchematicContext): Rule => {
     const genericLibraryOptions: LibraryOptions = {
@@ -52,10 +52,10 @@ export function addFeatures<T extends LibraryOptions>(
       }
 
       const config =
-        configurationOverrides?.schematics?.[feature] ??
+        configurationOverrides?.[feature]?.schematics ??
         schematicsConfiguration;
       const libraryOptions =
-        configurationOverrides?.options?.[feature] ?? genericLibraryOptions;
+        configurationOverrides?.[feature]?.options ?? genericLibraryOptions;
       rules.push(addLibraryFeature(libraryOptions, config));
     }
     return chain(rules);

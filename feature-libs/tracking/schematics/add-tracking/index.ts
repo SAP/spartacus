@@ -1,22 +1,19 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  analyzeCrossFeatureDependencies,
   CLI_TRACKING_TMS_AEP_FEATURE,
   CLI_TRACKING_TMS_GTM_FEATURE,
+  FeatureConfigurationOverrides,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
   shouldAddFeature,
-  TRACKING_AEP_SCHEMATICS_CONFIG,
-  TRACKING_GTM_SCHEMATICS_CONFIG,
-  TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -26,40 +23,63 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
+    const features = analyzeCrossFeatureDependencies(options.features ?? []);
+    const overrides = buildTrackingConfig(options);
+
     return chain([
+      addFeatures(options, features, overrides),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
-
-      shouldAddFeature(CLI_TRACKING_TMS_GTM_FEATURE, options.features)
-        ? addGtm(options)
-        : noop(),
-
-      shouldAddFeature(CLI_TRACKING_TMS_AEP_FEATURE, options.features)
-        ? addAep(options)
-        : noop(),
-
-      shouldAddFeature(CLI_TRACKING_PERSONALIZATION_FEATURE, options.features)
-        ? addPersonalizationFeature(options)
-        : noop(),
     ]);
   };
 }
 
-function addGtm(options: SpartacusTrackingOptions): Rule {
-  return addLibraryFeature(
-    // Just import the feature module
-    { ...options, lazy: false },
-    TRACKING_GTM_SCHEMATICS_CONFIG
-  );
+function buildTrackingConfig(
+  options: SpartacusTrackingOptions
+): Record<string, FeatureConfigurationOverrides> {
+  const gtmConfig = shouldAddFeature(
+    CLI_TRACKING_TMS_GTM_FEATURE,
+    options.features
+  )
+    ? buildGtm(options)
+    : {};
+
+  const aepConfig = shouldAddFeature(
+    CLI_TRACKING_TMS_AEP_FEATURE,
+    options.features
+  )
+    ? buildAep(options)
+    : {};
+
+  return {
+    ...gtmConfig,
+    ...aepConfig,
+  };
 }
 
-function addAep(options: SpartacusTrackingOptions): Rule {
-  return addLibraryFeature(
-    // Just import the feature module
-    { ...options, lazy: false },
-    TRACKING_AEP_SCHEMATICS_CONFIG
-  );
+function buildGtm(
+  options: SpartacusTrackingOptions
+): Record<string, FeatureConfigurationOverrides> {
+  return {
+    [CLI_TRACKING_TMS_GTM_FEATURE]: {
+      options: {
+        // Just import the feature module
+        ...options,
+        lazy: false,
+      },
+    },
+  };
 }
 
-function addPersonalizationFeature(options: SpartacusTrackingOptions): Rule {
-  return addLibraryFeature(options, TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG);
+function buildAep(
+  options: SpartacusTrackingOptions
+): Record<string, FeatureConfigurationOverrides> {
+  return {
+    [CLI_TRACKING_TMS_AEP_FEATURE]: {
+      options: {
+        // Just import the feature module
+        ...options,
+        lazy: false,
+      },
+    },
+  };
 }
