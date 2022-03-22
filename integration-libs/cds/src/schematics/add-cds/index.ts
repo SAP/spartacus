@@ -13,9 +13,9 @@ import {
   CDS_SCHEMATICS_CONFIG,
   CLI_CDS_FEATURE,
   CustomConfig,
-  FeatureConfig,
   FeatureConfigurationOverrides,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_CDS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -28,24 +28,7 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
-
-    const cdsOptions: SpartacusCdsOptions = {
-      ...options,
-      lazy: false,
-    };
-    const cdsSchematicsConfig: FeatureConfig = buildCdsConfig(
-      cdsOptions,
-      context
-    );
-
-    const overrides: FeatureConfigurationOverrides = {
-      schematics: {
-        [CLI_CDS_FEATURE]: cdsSchematicsConfig,
-      },
-      options: {
-        [CLI_CDS_FEATURE]: cdsOptions,
-      },
-    };
+    const overrides = buildCdsConfig(options, context);
 
     return chain([
       addFeatures(options, features, overrides),
@@ -57,7 +40,11 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
 function buildCdsConfig(
   options: SpartacusCdsOptions,
   context: SchematicContext
-): FeatureConfig {
+): Record<string, FeatureConfigurationOverrides> {
+  if (!shouldAddFeature(CLI_CDS_FEATURE, options.features)) {
+    return {};
+  }
+
   validateCdsOptions(options, context);
 
   const customConfig: CustomConfig[] = [
@@ -105,8 +92,16 @@ function buildCdsConfig(
   }
 
   return {
-    ...CDS_SCHEMATICS_CONFIG,
-    customConfig,
+    [CLI_CDS_FEATURE]: {
+      schematics: {
+        ...CDS_SCHEMATICS_CONFIG,
+        customConfig,
+      },
+      options: {
+        ...options,
+        lazy: false,
+      },
+    },
   };
 }
 
