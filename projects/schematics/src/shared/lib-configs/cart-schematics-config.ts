@@ -171,6 +171,48 @@ export const CART_QUICK_ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
   },
 };
 
+export const SAVED_CART_MODULE = 'SavedCartModule';
+export const SAVED_CART_ROOT_MODULE = 'SavedCartRootModule';
+export const CART_SAVED_CART_MODULE_NAME = 'CartSavedCart';
+export const CART_SAVED_CART_FEATURE_NAME_CONSTANT = 'CART_SAVED_CART_FEATURE';
+export const SAVED_CART_TRANSLATIONS = 'savedCartTranslations';
+export const SAVED_CART_TRANSLATION_CHUNKS_CONFIG =
+  'savedCartTranslationChunksConfig';
+
+export const CART_SAVED_CART_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: {
+    cli: CLI_CART_SAVED_CART_FEATURE,
+    mainScope: SPARTACUS_CART,
+    featureScope: SPARTACUS_SAVED_CART,
+  },
+  folderName: CART_FOLDER_NAME,
+  moduleName: CART_SAVED_CART_MODULE_NAME,
+  featureModule: {
+    name: SAVED_CART_MODULE,
+    importPath: SPARTACUS_SAVED_CART,
+  },
+  rootModule: {
+    name: SAVED_CART_ROOT_MODULE,
+    importPath: SPARTACUS_SAVED_CART_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_SAVED_CART_ROOT,
+    namedImports: [CART_SAVED_CART_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: SAVED_CART_TRANSLATIONS,
+    chunks: SAVED_CART_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_SAVED_CART_ASSETS,
+  },
+  styles: {
+    scssFileName: CART_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_CART,
+  },
+  dependencyManagement: {
+    [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+  },
+};
+
 export const CART_WISHLIST_FEATURE_MODULE_NAME = 'WishList';
 export const CART_WISHLIST_MODULE = 'WishListModule';
 export const ADD_TO_WISHLIST_MODULE = 'AddToWishListModule';
@@ -214,48 +256,6 @@ export const CART_WISHLIST_SCHEMATICS_CONFIG: FeatureConfig = {
     resources: CART_WISHLIST_TRANSLATIONS,
     chunks: CART_WISHLIST_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_CART_WISHLIST_ASSETS,
-  },
-  styles: {
-    scssFileName: CART_SCSS_FILE_NAME,
-    importStyle: SPARTACUS_CART,
-  },
-  dependencyManagement: {
-    [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
-  },
-};
-
-export const SAVED_CART_MODULE = 'SavedCartModule';
-export const SAVED_CART_ROOT_MODULE = 'SavedCartRootModule';
-export const CART_SAVED_CART_MODULE_NAME = 'CartSavedCart';
-export const CART_SAVED_CART_FEATURE_NAME_CONSTANT = 'CART_SAVED_CART_FEATURE';
-export const SAVED_CART_TRANSLATIONS = 'savedCartTranslations';
-export const SAVED_CART_TRANSLATION_CHUNKS_CONFIG =
-  'savedCartTranslationChunksConfig';
-
-export const CART_SAVED_CART_SCHEMATICS_CONFIG: FeatureConfig = {
-  library: {
-    cli: CLI_CART_SAVED_CART_FEATURE,
-    mainScope: SPARTACUS_CART,
-    featureScope: SPARTACUS_SAVED_CART,
-  },
-  folderName: CART_FOLDER_NAME,
-  moduleName: CART_SAVED_CART_MODULE_NAME,
-  featureModule: {
-    name: SAVED_CART_MODULE,
-    importPath: SPARTACUS_SAVED_CART,
-  },
-  rootModule: {
-    name: SAVED_CART_ROOT_MODULE,
-    importPath: SPARTACUS_SAVED_CART_ROOT,
-  },
-  lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_SAVED_CART_ROOT,
-    namedImports: [CART_SAVED_CART_FEATURE_NAME_CONSTANT],
-  },
-  i18n: {
-    resources: SAVED_CART_TRANSLATIONS,
-    chunks: SAVED_CART_TRANSLATION_CHUNKS_CONFIG,
-    importPath: SPARTACUS_SAVED_CART_ASSETS,
   },
   styles: {
     scssFileName: CART_SCSS_FILE_NAME,
