@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  ADD_TO_CART_FEEDBACK,
+  ADDED_TO_CART_FEEDBACK,
   CartAddEntryFailEvent,
   CartConfig,
   CartUiEventAddToCart,
@@ -52,7 +52,7 @@ class MockModalService {
 
 const mockCartConfig: CartConfig = {
   cart: {
-    addToCartFeedback: { feedback: ADD_TO_CART_FEEDBACK.MODAL },
+    addToCartFeedback: { feedback: ADDED_TO_CART_FEEDBACK.MODAL },
   },
 };
 

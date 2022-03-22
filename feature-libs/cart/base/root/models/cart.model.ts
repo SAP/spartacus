@@ -197,7 +197,7 @@ export interface AddToCartToastConfig {
   timeout?: number;
 }
 
-export enum ADD_TO_CART_FEEDBACK {
+export enum ADDED_TO_CART_FEEDBACK {
   MODAL,
   TOAST,
   NONE,

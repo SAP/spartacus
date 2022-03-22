@@ -4,7 +4,7 @@ import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import {
-  ADD_TO_CART_FEEDBACK,
+  ADDED_TO_CART_FEEDBACK,
   CartConfig,
   CartUiEventAddToCart,
 } from '../../root';
@@ -27,7 +27,7 @@ export class AddedToCartToastEventListener implements OnDestroy {
 
   protected onAddToCart(): void {
     const feedbackType = this.cartConfig.cart?.addToCartFeedback.feedback;
-    if (feedbackType !== ADD_TO_CART_FEEDBACK.TOAST) {
+    if (feedbackType !== ADDED_TO_CART_FEEDBACK.TOAST) {
       return;
     }
 

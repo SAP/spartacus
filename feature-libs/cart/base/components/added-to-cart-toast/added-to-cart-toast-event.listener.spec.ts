@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  ADD_TO_CART_FEEDBACK,
+  ADDED_TO_CART_FEEDBACK,
   CartConfig,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
@@ -37,7 +37,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 const mockCartConfig: CartConfig = {
   cart: {
     addToCartFeedback: {
-      feedback: ADD_TO_CART_FEEDBACK.TOAST,
+      feedback: ADDED_TO_CART_FEEDBACK.TOAST,
       toast: { timeout: 3000 },
     },
   },
