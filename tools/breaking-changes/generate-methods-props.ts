@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
+import { printStatsForBreakingChangeList } from './common';
 const { execSync } = require('child_process');
 
 /**
@@ -26,11 +27,11 @@ console.log(
   `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
 );
 
-let ticketCount = 0;
-
 const deletedMemberSchematics = [];
 
-const deletedMembers = getDeletedMembers(breakingChangesData);
+const deletedMembers = getUpdatedMembers(breakingChangesData);
+console.log(`Found ${deletedMembers.length} updated members.`);
+printStatsForBreakingChangeList(deletedMembers);
 
 deletedMembers.forEach((breakingChange: any) => {
   deletedMemberSchematics.push(getSchematicsData(breakingChange));
@@ -53,13 +54,37 @@ function getSchematicsData(breakingChange: any): any {
   schematicsData.class = breakingChange.apiElementName;
   schematicsData.importPath = breakingChange.entryPoint;
   schematicsData.deprecatedNode = breakingChange.deletedMember.name;
-  schematicsData.comment = `${breakingChange.deletedComment} ${breakingChange.migrationComment}`;
+  schematicsData.comment = getShematicsComment(breakingChange);
   return schematicsData;
 }
 
-function getDeletedMembers(breakingChangesData: any) {
+function getShematicsComment(breakingChange: any): string {
+  if (breakingChange.changeType === 'DELETED') {
+    return `${breakingChange.deletedComment} ${breakingChange.migrationComment}`;
+  }
+  if (breakingChange.changeKind.startsWith('Method')) {
+    return `The '${breakingChange.changeElementName}' method's signature changed.  It iis now: 'TODO'`;
+  }
+  if (breakingChange.changeKind.startsWith('Property')) {
+    return `The type of property '${breakingChange.changeElementName}' changed.  It is now: '${breakingChange.currentStateDoc}' `;
+  }
+  throw new Error(
+    `Unsupported breaking change ${breakingChange.change}:${breakingChange.changeElementName}`
+  );
+}
+
+function getUpdatedMembers(breakingChangesData: any) {
   return breakingChangesData
+    .filter((apiElement: any) => apiElement.kind === 'Class')
     .map((apiElement: any) => apiElement.breakingChanges)
     .flat()
-    .filter((breakingChange: any) => breakingChange.isDeletedMember);
+    .filter(
+      (breakingChange: any) =>
+        breakingChange.changeType === 'DELETED' &&
+        isMethodOrProperty(breakingChange.changeKind)
+    );
+}
+
+function isMethodOrProperty(memberKind: string): boolean {
+  return memberKind.startsWith('Method') || memberKind.startsWith('Property');
 }
