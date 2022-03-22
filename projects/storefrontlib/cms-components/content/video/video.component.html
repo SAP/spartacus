@@ -7,8 +7,8 @@
     data.overlayTitle
   }}</a>
   <video
-    #videoPlayer
     *ngIf="source"
+    [style.height.px]="setHeight(data)"
     controls
     [poster]="thumbnail?.src"
     [loop]="loop"

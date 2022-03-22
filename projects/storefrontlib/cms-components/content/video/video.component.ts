@@ -1,17 +1,11 @@
 import {
-  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   HostBinding,
   OnDestroy,
-  Renderer2,
-  ViewChild,
 } from '@angular/core';
 import {
-  CmsBannerComponentMedia,
-  CmsResponsiveBannerComponentMedia,
   CmsService,
   CmsVideoComponent,
   ContainerBackgroundOptions,
@@ -33,9 +27,8 @@ import { MediaService } from '../../../shared/components/media/media.service';
   templateUrl: './video.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoComponent implements AfterViewChecked, OnDestroy {
+export class VideoComponent implements OnDestroy {
   @HostBinding('class') styleClasses: string | undefined;
-  @ViewChild('videoPlayer') videoPlayer: ElementRef;
 
   source: string | undefined;
   thumbnail: Media | undefined;
@@ -43,15 +36,13 @@ export class VideoComponent implements AfterViewChecked, OnDestroy {
   autoPlay: boolean;
   loop: boolean;
   mute: string | undefined;
-  height: string;
   protected subscriptions = new Subscription();
 
   data$: Observable<CmsVideoComponent> = this.component.data$.pipe(
     tap((data) => {
       this.styleClasses = data.styleClasses;
-      this.setMedia(data.video, data.videoMedia, data.containerBackground);
-      this.setControls(data.autoPlay, data.loop, data.mute);
-      this.setVideoHeight(data.containerSize, data.videoContainerHeight);
+      this.setMedia(data);
+      this.setControls(data);
       this.setRouting(data);
     })
   );
@@ -61,51 +52,29 @@ export class VideoComponent implements AfterViewChecked, OnDestroy {
     protected mediaService: MediaService,
     protected urlService: SemanticPathService,
     protected cmsService: CmsService,
-    protected cd: ChangeDetectorRef,
-    protected renderer: Renderer2
+    protected cd: ChangeDetectorRef
   ) {}
 
-  ngAfterViewChecked(): void {
-    this.renderer.setStyle(
-      this.videoPlayer.nativeElement,
-      'height',
-      this.height
-    );
-  }
-
-  protected setMedia(
-    video?: CmsBannerComponentMedia,
-    media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia,
-    containerBackground?: ContainerBackgroundOptions
-  ) {
-    if (video) {
-      this.source = this.mediaService.getMedia(video)?.src;
+  protected setMedia(data: CmsVideoComponent) {
+    if (data.video) {
+      this.source = this.mediaService.getMedia(data.video)?.src;
     }
 
     if (
-      containerBackground ===
+      data.containerBackground ===
         ContainerBackgroundOptions.UPLOAD_RESPONSIVE_IMAGE &&
-      media
+      data.videoMedia
     ) {
-      this.thumbnail = this.mediaService.getMedia(media as MediaContainer);
+      this.thumbnail = this.mediaService.getMedia(
+        data.videoMedia as MediaContainer
+      );
     }
   }
 
-  protected setControls(autoPlay?: string, loop?: string, mute?: string) {
-    this.autoPlay = autoPlay === 'true';
-    this.loop = loop === 'true';
-    this.mute = mute === 'true' ? 'muted' : undefined;
-  }
-
-  protected setVideoHeight(
-    containerSize?: ContainerSizeOptions,
-    videoContainerHeight?: number
-  ) {
-    this.height =
-      containerSize === ContainerSizeOptions.DEFINE_CONTAINER_HEIGHT &&
-      videoContainerHeight
-        ? `${videoContainerHeight}px`
-        : '100%';
+  protected setControls(data: CmsVideoComponent) {
+    this.autoPlay = data.autoPlay === 'true';
+    this.loop = data.loop === 'true';
+    this.mute = data.mute === 'true' ? 'muted' : undefined;
   }
 
   protected setRouting(data: CmsVideoComponent) {
@@ -138,6 +107,16 @@ export class VideoComponent implements AfterViewChecked, OnDestroy {
         params: { code: data.category },
       });
     }
+  }
+
+  protected setHeight(data: CmsVideoComponent) {
+    if (
+      data.containerSize === ContainerSizeOptions.DEFINE_CONTAINER_HEIGHT &&
+      data.videoContainerHeight) {
+        return data.videoContainerHeight;
+      } else {
+        return undefined;
+      }
   }
 
   ngOnDestroy(): void {
