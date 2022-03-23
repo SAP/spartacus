@@ -30,7 +30,9 @@ export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const features = analyzeCrossFeatureDependencies(options.features ?? []);
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
 
     return chain([
       addFeatures(options, features),

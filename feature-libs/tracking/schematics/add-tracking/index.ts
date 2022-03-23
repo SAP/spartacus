@@ -23,7 +23,9 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const features = analyzeCrossFeatureDependencies(options.features ?? []);
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
     const overrides = buildTrackingConfig(options);
 
     return chain([

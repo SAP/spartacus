@@ -28,7 +28,9 @@ export function addEpdVisualizationFeature(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const features = analyzeCrossFeatureDependencies(options.features ?? []);
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
     const overrides = buildEpdVisualizationConfig(options);
 
     return chain([

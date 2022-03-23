@@ -27,7 +27,9 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const features = analyzeCrossFeatureDependencies(options.features ?? []);
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
     const overrides = buildCdsConfig(options, context);
 
     return chain([
