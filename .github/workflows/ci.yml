@@ -18,13 +18,11 @@ jobs:
         run: yarn install
       - name: Install cypress dependencies
         run: yarn install
-        with:
           working-directory: projects/storefrontapp-e2e-cypress
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
         run: ./e2e-cypress.sh
-        with:
           working-directory: ci-scripts
         env: 
           SPA_ENV: ci,b2c
