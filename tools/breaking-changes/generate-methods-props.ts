@@ -63,9 +63,11 @@ function getShematicsComment(breakingChange: any): string {
     return `${breakingChange.deletedComment} ${breakingChange.migrationComment}`;
   }
   if (breakingChange.changeKind.startsWith('Method')) {
+    // TODO: Update the compare process to provide the member's info in the breaking change.
+    // We don't want to normalize the doc, but instead get the signatire from the data.
     return `The '${
       breakingChange.changeElementName
-    }' method's signature changed to: '${normalizeDoc(
+    }' method's signature changed to: '${normalizeDocSignature(
       breakingChange.currentStateDoc
     )}'`;
   }
@@ -103,6 +105,13 @@ function isMethodOrProperty(memberKind: string): boolean {
   return memberKind.startsWith('Method') || memberKind.startsWith('Property');
 }
 
-function normalizeDoc(doc: string): string {
-  return doc.replace(/\n/g, '').replace(/\s+/g, ' ').trim();
+function normalizeDocSignature(doc: string): string {
+  return normalizeNewLines(doc).replace(/\s+/g, ' ').trim();
+}
+
+function normalizeNewLines(doc: string) {
+  doc = doc.slice(1).slice(0, -1); // Remove first and last chars.  They are \n.
+  doc = doc.replace(/\(\n/, '('); // Remove \n next to the opening parenthesis.
+  doc = doc.replace(/\n\)/, ' )'); // Remove \n next to the closing parenthesis.
+  return doc.replace(/\n/g, ','); // The rest of the \n are between params.  Replace with `,`
 }

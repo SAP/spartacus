@@ -137,7 +137,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'getSavedCart',
       comment:
-        "The 'getSavedCart' method's signature changed to: 'getSavedCart( cartId: string): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>'",
+        "The 'getSavedCart' method's signature changed to: 'getSavedCart( cartId: string ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>'",
     },
     {
       class: 'SavedCartService',
@@ -179,7 +179,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/cart/saved-cart/root',
       deprecatedNode: 'getSavedCart',
       comment:
-        "The 'getSavedCart' method's signature changed to: 'getSavedCart( cartId: string): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>'",
+        "The 'getSavedCart' method's signature changed to: 'getSavedCart( cartId: string ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>'",
     },
     {
       class: 'SavedCartOrderEntriesContext',
@@ -277,14 +277,14 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'disableEnableStep',
       comment:
-        "The 'disableEnableStep' method's signature changed to: 'disableEnableStep( currentStepType: CheckoutStepType | string disabled: boolean): void'",
+        "The 'disableEnableStep' method's signature changed to: 'disableEnableStep( currentStepType: CheckoutStepType | string, disabled: boolean ): void'",
     },
     {
       class: 'CheckoutStepsSetGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'canActivate',
       comment:
-        "The 'canActivate' method's signature changed to: 'canActivate( route: ActivatedRouteSnapshot): Observable<boolean | UrlTree>'",
+        "The 'canActivate' method's signature changed to: 'canActivate( route: ActivatedRouteSnapshot ): Observable<boolean | UrlTree>'",
     },
     {
       class: 'CheckoutStepsSetGuard',
@@ -319,7 +319,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'isStepSet',
       comment:
-        "The 'isStepSet' method's signature changed to: 'isStepSet( step: CheckoutStep): Observable<boolean | UrlTree>'",
+        "The 'isStepSet' method's signature changed to: 'isStepSet( step: CheckoutStep ): Observable<boolean | UrlTree>'",
     },
     {
       class: 'CheckoutStepsSetGuard',
@@ -452,7 +452,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'setCostCenter',
       comment:
-        "The 'setCostCenter' method's signature changed to: 'setCostCenter( costCenterId: string): Observable<Cart>'",
+        "The 'setCostCenter' method's signature changed to: 'setCostCenter( costCenterId: string ): Observable<Cart>'",
     },
     {
       class: 'CheckoutPageMetaResolver',
@@ -543,7 +543,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'createPaymentDetails',
       comment:
-        "The 'createPaymentDetails' method's signature changed to: 'createPaymentDetails( paymentDetails: PaymentDetails): Observable<unknown>'",
+        "The 'createPaymentDetails' method's signature changed to: 'createPaymentDetails( paymentDetails: PaymentDetails ): Observable<unknown>'",
     },
     {
       class: 'CheckoutPaymentService',
@@ -592,7 +592,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'setPaymentDetails',
       comment:
-        "The 'setPaymentDetails' method's signature changed to: 'setPaymentDetails( paymentDetails: PaymentDetails): Observable<unknown>'",
+        "The 'setPaymentDetails' method's signature changed to: 'setPaymentDetails( paymentDetails: PaymentDetails ): Observable<unknown>'",
     },
     {
       class: 'OccCheckoutAdapter',
@@ -690,14 +690,14 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'setCostCenter',
       comment:
-        "The 'setCostCenter' method's signature changed to: 'setCostCenter( costCenterId: string): Observable<Cart>'",
+        "The 'setCostCenter' method's signature changed to: 'setCostCenter( costCenterId: string ): Observable<Cart>'",
     },
     {
       class: 'CheckoutPaymentFacade',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'createPaymentDetails',
       comment:
-        "The 'createPaymentDetails' method's signature changed to: 'createPaymentDetails( paymentDetails: PaymentDetails): Observable<unknown>'",
+        "The 'createPaymentDetails' method's signature changed to: 'createPaymentDetails( paymentDetails: PaymentDetails ): Observable<unknown>'",
     },
     {
       class: 'CheckoutPaymentFacade',
@@ -739,7 +739,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'setPaymentDetails',
       comment:
-        "The 'setPaymentDetails' method's signature changed to: 'setPaymentDetails( paymentDetails: PaymentDetails): Observable<unknown>'",
+        "The 'setPaymentDetails' method's signature changed to: 'setPaymentDetails( paymentDetails: PaymentDetails ): Observable<unknown>'",
     },
     {
       class: 'OrderConfirmationOrderEntriesContext',
@@ -767,21 +767,21 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'getEntry',
       comment:
-        "The 'getEntry' method's signature changed to: 'getEntry( productCode: string): Observable<OrderEntry | undefined>'",
+        "The 'getEntry' method's signature changed to: 'getEntry( productCode: string ): Observable<OrderEntry | undefined>'",
     },
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'getLastEntry',
       comment:
-        "The 'getLastEntry' method's signature changed to: 'getLastEntry( productCode: string): Observable<OrderEntry | undefined>'",
+        "The 'getLastEntry' method's signature changed to: 'getLastEntry( productCode: string ): Observable<OrderEntry | undefined>'",
     },
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'isCartCreating',
       comment:
-        "The 'isCartCreating' method's signature changed to: 'isCartCreating( cartState: StateUtils.ProcessesLoaderState<Cart | undefined> cartId: string): boolean | undefined'",
+        "The 'isCartCreating' method's signature changed to: 'isCartCreating( cartState: StateUtils.ProcessesLoaderState<Cart | undefined>, cartId: string ): boolean | undefined'",
     },
     {
       class: 'ActiveCartService',
@@ -802,7 +802,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'isGuestCart',
       comment:
-        "The 'isGuestCart' method's signature changed to: 'isGuestCart( cart: Cart): Observable<boolean>'",
+        "The 'isGuestCart' method's signature changed to: 'isGuestCart( cart: Cart ): Observable<boolean>'",
     },
     {
       class: 'ActiveCartService',
@@ -823,7 +823,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'requireLoadedCart',
       comment:
-        "The 'requireLoadedCart' method's signature changed to: 'requireLoadedCart( forGuestMerge: boolean): Observable<Cart>'",
+        "The 'requireLoadedCart' method's signature changed to: 'requireLoadedCart( forGuestMerge: boolean ): Observable<Cart>'",
     },
     {
       class: 'ActiveCartService',
@@ -900,14 +900,14 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'load',
       comment:
-        "The 'load' method's signature changed to: 'load( userId: string cartId: string): Observable<Cart | undefined>'",
+        "The 'load' method's signature changed to: 'load( userId: string, cartId: string ): Observable<Cart | undefined>'",
     },
     {
       class: 'CartConnector',
       importPath: '@spartacus/core',
       deprecatedNode: 'load',
       comment:
-        "The 'load' method's signature changed to: 'load( userId: string cartId: string): Observable<Cart | undefined>'",
+        "The 'load' method's signature changed to: 'load( userId: string, cartId: string ): Observable<Cart | undefined>'",
     },
     {
       class: 'CartEventBuilder',
@@ -949,14 +949,14 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'execute',
       comment:
-        "The 'execute' method's signature changed to: 'execute( parameters: PARAMS): Observable<RESULT>'",
+        "The 'execute' method's signature changed to: 'execute( parameters: PARAMS ): Observable<RESULT>'",
     },
     {
       class: 'CommandService',
       importPath: '@spartacus/core',
       deprecatedNode: 'create',
       comment:
-        "The 'create' method's signature changed to: 'create( commandFactory: (command: PARAMS) => Observable<any> options: { strategy?: CommandStrategy; }): Command<PARAMS, RESULT>'",
+        "The 'create' method's signature changed to: 'create( commandFactory: (command: PARAMS) => Observable<any>, options: {, strategy?: CommandStrategy;, } ): Command<PARAMS, RESULT>'",
     },
     {
       class: 'DeleteUserAddressEvent',
@@ -977,49 +977,49 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'createCart',
       comment:
-        "The 'createCart' method's signature changed to: 'createCart( { userId, oldCartId, toMergeCartGuid, extraData, }: { userId: string; oldCartId?: string; toMergeCartGuid?: string; extraData?: { active?: boolean; }; }): Observable<Cart>'",
+        "The 'createCart' method's signature changed to: 'createCart( { userId, oldCartId, toMergeCartGuid, extraData, }: {, userId: string;, oldCartId?: string;, toMergeCartGuid?: string;, extraData?: {, active?: boolean;, };, } ): Observable<Cart>'",
     },
     {
       class: 'MultiCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'getCartEntity',
       comment:
-        "The 'getCartEntity' method's signature changed to: 'getCartEntity( cartId: string): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>'",
+        "The 'getCartEntity' method's signature changed to: 'getCartEntity( cartId: string ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>'",
     },
     {
       class: 'MultiCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'getEntry',
       comment:
-        "The 'getEntry' method's signature changed to: 'getEntry( cartId: string productCode: string): Observable<OrderEntry | undefined>'",
+        "The 'getEntry' method's signature changed to: 'getEntry( cartId: string, productCode: string ): Observable<OrderEntry | undefined>'",
     },
     {
       class: 'MultiCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'getLastEntry',
       comment:
-        "The 'getLastEntry' method's signature changed to: 'getLastEntry( cartId: string productCode: string): Observable<OrderEntry | undefined>'",
+        "The 'getLastEntry' method's signature changed to: 'getLastEntry( cartId: string, productCode: string ): Observable<OrderEntry | undefined>'",
     },
     {
       class: 'OccCartAdapter',
       importPath: '@spartacus/core',
       deprecatedNode: 'load',
       comment:
-        "The 'load' method's signature changed to: 'load( userId: string cartId: string): Observable<Cart | undefined>'",
+        "The 'load' method's signature changed to: 'load( userId: string, cartId: string ): Observable<Cart | undefined>'",
     },
     {
       class: 'OccCartVoucherAdapter',
       importPath: '@spartacus/core',
       deprecatedNode: 'getCartVoucherEndpoint',
       comment:
-        "The 'getCartVoucherEndpoint' method's signature changed to: 'getCartVoucherEndpoint( userId: string cartId: string): string'",
+        "The 'getCartVoucherEndpoint' method's signature changed to: 'getCartVoucherEndpoint( userId: string, cartId: string ): string'",
     },
     {
       class: 'OrderReturnRequestService',
       importPath: '@spartacus/core',
       deprecatedNode: 'getOrderReturnRequestList',
       comment:
-        "The 'getOrderReturnRequestList' method's signature changed to: 'getOrderReturnRequestList( pageSize: number): Observable<ReturnRequestList | undefined>'",
+        "The 'getOrderReturnRequestList' method's signature changed to: 'getOrderReturnRequestList( pageSize: number ): Observable<ReturnRequestList | undefined>'",
     },
     {
       class: 'OrderReturnRequestService',
@@ -1033,7 +1033,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'getRouteConfig',
       comment:
-        "The 'getRouteConfig' method's signature changed to: 'getRouteConfig( routeName: string): RouteConfig | undefined'",
+        "The 'getRouteConfig' method's signature changed to: 'getRouteConfig( routeName: string ): RouteConfig | undefined'",
     },
     {
       class: 'SelectiveCartService',
@@ -1075,7 +1075,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'getEntry',
       comment:
-        "The 'getEntry' method's signature changed to: 'getEntry( productCode: string): Observable<OrderEntry | undefined>'",
+        "The 'getEntry' method's signature changed to: 'getEntry( productCode: string ): Observable<OrderEntry | undefined>'",
     },
     {
       class: 'SelectiveCartService',
@@ -1621,14 +1621,14 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'extractProductCardParameters',
       comment:
-        "The 'extractProductCardParameters' method's signature changed to: 'extractProductCardParameters( disableAllButtons: boolean | null hideRemoveButton: boolean | null value: Configurator.Value index: number): ConfiguratorAttributeProductCardComponentOptions'",
+        "The 'extractProductCardParameters' method's signature changed to: 'extractProductCardParameters( disableAllButtons: boolean | null, hideRemoveButton: boolean | null, value: Configurator.Value, index: number ): ConfiguratorAttributeProductCardComponentOptions'",
     },
     {
       class: 'ConfiguratorAttributeSingleSelectionBundleComponent',
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'extractProductCardParameters',
       comment:
-        "The 'extractProductCardParameters' method's signature changed to: 'extractProductCardParameters( value: Configurator.Value index: number): ConfiguratorAttributeProductCardComponentOptions'",
+        "The 'extractProductCardParameters' method's signature changed to: 'extractProductCardParameters( value: Configurator.Value, index: number ): ConfiguratorAttributeProductCardComponentOptions'",
     },
     {
       class: 'ConfiguratorCartService',
@@ -1726,14 +1726,14 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'getCardContent',
       comment:
-        "The 'getCardContent' method's signature changed to: 'getCardContent( address: Address): Observable<{ role: string; textBold: string; text: string[]; actions: { name: string; event: string; }[]; header: string; deleteMsg: string; label: string; }>'",
+        "The 'getCardContent' method's signature changed to: 'getCardContent( address: Address ): Observable<{, role: string;, textBold: string;, text: string[];, actions: {, name: string;, event: string;, }[];, header: string;, deleteMsg: string;, label: string;, }>'",
     },
     {
       class: 'AddressBookComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'setAddressAsDefault',
       comment:
-        "The 'setAddressAsDefault' method's signature changed to: 'setAddressAsDefault( address: Address): void'",
+        "The 'setAddressAsDefault' method's signature changed to: 'setAddressAsDefault( address: Address ): void'",
     },
     {
       class: 'AddToCartComponent',
@@ -1775,7 +1775,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'getProductInWishList',
       comment:
-        "The 'getProductInWishList' method's signature changed to: 'getProductInWishList( product: Product entries: OrderEntry[]): OrderEntry | undefined'",
+        "The 'getProductInWishList' method's signature changed to: 'getProductInWishList( product: Product, entries: OrderEntry[] ): OrderEntry | undefined'",
     },
     {
       class: 'AddToWishListComponent',
@@ -1824,7 +1824,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'isProductOutOfStock',
       comment:
-        "The 'isProductOutOfStock' method's signature changed to: 'isProductOutOfStock( product: any): any'",
+        "The 'isProductOutOfStock' method's signature changed to: 'isProductOutOfStock( product: any ): any'",
     },
     {
       class: 'CartItemListComponent',
@@ -1838,7 +1838,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'getControl',
       comment:
-        "The 'getControl' method's signature changed to: 'getControl( item: OrderEntry): Observable<FormGroup> | undefined'",
+        "The 'getControl' method's signature changed to: 'getControl( item: OrderEntry ): Observable<FormGroup> | undefined'",
     },
     {
       class: 'CartItemListComponent',
@@ -1866,7 +1866,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'handle',
       comment:
-        "The 'handle' method's signature changed to: 'handle( slots$: Observable<string[]> pageTemplate: string section: string): Observable<string[]>'",
+        "The 'handle' method's signature changed to: 'handle( slots$: Observable<string[]>, pageTemplate: string, section: string ): Observable<string[]>'",
     },
     {
       class: 'CartPageLayoutHandler',
@@ -2034,21 +2034,21 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'getOrderCurrentDateCardContent',
       comment:
-        "The 'getOrderCurrentDateCardContent' method's signature changed to: 'getOrderCurrentDateCardContent( isoDate: string | null): Observable<Card>'",
+        "The 'getOrderCurrentDateCardContent' method's signature changed to: 'getOrderCurrentDateCardContent( isoDate: string | null ): Observable<Card>'",
     },
     {
       class: 'OrderOverviewComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'getReplenishmentNextDateCardContent',
       comment:
-        "The 'getReplenishmentNextDateCardContent' method's signature changed to: 'getReplenishmentNextDateCardContent( isoDate: string | null): Observable<Card>'",
+        "The 'getReplenishmentNextDateCardContent' method's signature changed to: 'getReplenishmentNextDateCardContent( isoDate: string | null ): Observable<Card>'",
     },
     {
       class: 'OrderOverviewComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'getReplenishmentStartOnCardContent',
       comment:
-        "The 'getReplenishmentStartOnCardContent' method's signature changed to: 'getReplenishmentStartOnCardContent( isoDate: string | null): Observable<Card>'",
+        "The 'getReplenishmentStartOnCardContent' method's signature changed to: 'getReplenishmentStartOnCardContent( isoDate: string | null ): Observable<Card>'",
     },
     {
       class: 'OrderReturnRequestListComponent',
