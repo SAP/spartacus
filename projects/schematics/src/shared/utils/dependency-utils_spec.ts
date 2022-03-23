@@ -20,6 +20,7 @@ import {
 import {
   analyzeCrossFeatureDependencies,
   analyzeCrossLibraryDependencies,
+  collectCrossSpartacusPeerDeps,
 } from './dependency-utils';
 
 describe('dependency-util', () => {
@@ -72,6 +73,18 @@ describe('dependency-util', () => {
       const result = analyzeCrossLibraryDependencies([CLI_CDC_FEATURE]);
 
       expect(result).toEqual([SPARTACUS_USER, SPARTACUS_ASM, SPARTACUS_CDC]);
+    });
+  });
+
+  describe.only('collectCrossSpartacusPeerDeps', () => {
+    it('should correctly collect all peer deps for the given library and its dependencies', () => {
+      const result: string[] = [];
+      collectCrossSpartacusPeerDeps(SPARTACUS_DIGITAL_PAYMENTS, result);
+
+      expect(result).toContain(SPARTACUS_CART);
+      expect(result).toContain(SPARTACUS_CHECKOUT);
+      expect(result).toContain(SPARTACUS_ORDER);
+      expect(result).toContain(SPARTACUS_USER);
     });
   });
 });

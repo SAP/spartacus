@@ -67,10 +67,7 @@ function collectSpartacusLibraryDependencies(packageJson: any): {
 
   let spartacusPeerDeps: string[] = [];
   for (const spartacusLib of installedLibs) {
-    spartacusPeerDeps = collectCrossSpartacusPeerDeps(
-      spartacusLib,
-      spartacusPeerDeps
-    );
+    collectCrossSpartacusPeerDeps(spartacusLib, spartacusPeerDeps);
   }
 
   // remove the duplicates

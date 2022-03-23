@@ -1,4 +1,3 @@
-// TODO:#schematics - move this file to utils
 import { SchematicsException } from '@angular-devkit/schematics';
 import collectedDependencies from '../../dependencies.json';
 import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
@@ -17,9 +16,9 @@ import { getConfiguredDependencies } from './schematics-config-utils';
  * Analyzes cross-feature Spartacus dependencies
  * for the given set of features.
  *
- * E.g. Digital Payments feature has a dependency on
- * Base checkout, Base cart and Order. Transitively,
- * it also depends on User features: Profile and Account.
+ * E.g. when installing Digital Payments feature,
+ * the following features will also be configured:
+ * Account, Profile, Cart, Order, Checkout
  *
  * Returns the ordered list, according to the graph.
  */
@@ -95,10 +94,7 @@ Please check its schematics configuration.`
 
   let spartacusPeerDeps: string[] = startingLibraries;
   for (const spartacusLib of startingLibraries) {
-    spartacusPeerDeps = collectCrossSpartacusPeerDeps(
-      spartacusLib,
-      spartacusPeerDeps
-    );
+    collectCrossSpartacusPeerDeps(spartacusLib, spartacusPeerDeps);
   }
 
   // remove the duplicates
@@ -111,12 +107,18 @@ Please check its schematics configuration.`
   return spartacusPeerDeps;
 }
 
-// TODO:#schematics - export?
-// TODO:#schematics - add comment
+/**
+ * Recursively collects the cross Spartacus library dependencies for the given library.
+ */
 export function collectCrossSpartacusPeerDeps(
   name: string,
-  collectedDeps: string[]
-): string[] {
+  collectedDeps: string[],
+  processed: string[] = []
+): void {
+  if (processed.includes(name)) {
+    return;
+  }
+
   const peerDepsWithVersions =
     (collectedDependencies as Record<string, Record<string, string>>)[name] ??
     {};
@@ -126,10 +128,10 @@ export function collectCrossSpartacusPeerDeps(
     .filter((d) => !CORE_SPARTACUS_SCOPES.includes(d))
     .filter((d) => !collectedDeps.includes(d));
 
-  collectedDeps = collectedDeps.concat(peerDeps);
-  for (const peerDep of peerDeps) {
-    collectedDeps = collectCrossSpartacusPeerDeps(peerDep, collectedDeps);
-  }
+  collectedDeps.push(...peerDeps);
+  processed.push(name);
 
-  return collectedDeps;
+  for (const peerDep of peerDeps) {
+    collectCrossSpartacusPeerDeps(peerDep, collectedDeps);
+  }
 }
