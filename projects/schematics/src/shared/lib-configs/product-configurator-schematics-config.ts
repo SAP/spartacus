@@ -81,7 +81,7 @@ export const PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE =
 
 export const PRODUCT_CONFIGURATOR_RULEBASED_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    // TODO:#schematics - double check
+    // TODO:#schematics - double check. After wrapper modules
     cli: CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
     mainScope: SPARTACUS_PRODUCT_CONFIGURATOR,
     featureScope: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
