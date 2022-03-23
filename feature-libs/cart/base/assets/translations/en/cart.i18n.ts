@@ -17,6 +17,7 @@ export const cart = {
     cartTotal: 'Cart total ({{count}} item)',
     cartTotal_plural: 'Cart total ({{count}} items)',
     itemRemoved: 'Selected item has been removed. Cart total has been updated.',
+    caption: 'Shopping cart contents.',
   },
   orderCost: {
     orderSummary: 'Order Summary',
