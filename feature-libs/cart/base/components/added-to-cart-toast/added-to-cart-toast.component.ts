@@ -58,6 +58,7 @@ export class AddedToCartToastComponent implements OnDestroy {
 
     this.baseClass = `${this.customClass}`;
     this.toastContainerClass = this.toastContainerBaseClass;
+    this.headerElement = this.winRef.document.querySelector('header');
   }
 
   ngOnDestroy(): void {
@@ -65,13 +66,7 @@ export class AddedToCartToastComponent implements OnDestroy {
   }
 
   addToast(event: CartUiEventAddToCart) {
-    this.headerElement = document.querySelector('header');
-    if (this.headerElement) {
-      this.el.nativeElement.style.setProperty(
-        '--cx-added-to-cart-toast-header-offset',
-        `${this.headerElement.offsetHeight}px`
-      );
-    }
+    this.setOffsetHeight();
 
     this.activeCartService
       .getLastEntry(event.productCode)
@@ -106,6 +101,15 @@ export class AddedToCartToastComponent implements OnDestroy {
           this._closeToast(toastItem);
         }, this.timeout);
       });
+  }
+
+  setOffsetHeight() {
+    if (this.headerElement) {
+      this.el.nativeElement.style.setProperty(
+        '--cx-added-to-cart-toast-header-offset',
+        `${this.headerElement?.offsetHeight}px`
+      );
+    }
   }
 
   triggerScrollEvent(): void {
