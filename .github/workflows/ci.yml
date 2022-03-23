@@ -2,9 +2,9 @@ on:
   push:
     branches:
       - develop
-      - epic/**"
-      - release/**"
-      - integration-libs/**"
+      - epic/**
+      - release/**
+      - integration-libs/**
   pull_request:
     types: [opened, synchronize, reopened]
 name: Spartacus CI pipeline
