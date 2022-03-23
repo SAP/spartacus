@@ -10,10 +10,7 @@ import {
   TaskId,
   Tree,
 } from '@angular-devkit/schematics';
-import {
-  NodePackageInstallTask,
-  RunSchematicTask,
-} from '@angular-devkit/schematics/tasks';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   addPackageJsonDependency,
@@ -143,7 +140,7 @@ export interface FeatureConfig {
    * If set to true, instead of appending the configuration to the existing module,
    * it will recreate the feature module with the new configuration.
    */
-  // TODO:#schematics - remove
+  // TODO:#schematics - remove after wrapper modules
   recreate?: boolean;
 }
 
@@ -184,38 +181,6 @@ export function shouldAddFeature(
 
 // TODO:#schematics - search for "subfeature", and rename to "feature"
 // TODO:#schematics - search for "cliFeature", and rename to "feature"?
-
-// TODO:#schematics - unused
-// export function prepareCliPackageAndSubFeature(
-//   features: string[]
-// ): Record<string, string[]> {
-//   return features.reduce((cliFeatures, subFeature) => {
-//     const packageName = getPackageBySubFeature(subFeature);
-//     const subFeatures = [...(cliFeatures[packageName] ?? []), subFeature];
-
-//     return { ...cliFeatures, [packageName]: subFeatures };
-//   }, {} as Record<string, string[]>);
-// }
-
-// TODO:#schematics - unused
-// export function getPackageBySubFeature(subFeature: string): string {
-//   for (const spartacusPackage in packageCliMapping) {
-//     if (!packageCliMapping.hasOwnProperty(spartacusPackage)) {
-//       continue;
-//     }
-
-//     const subFeatures = packageCliMapping[spartacusPackage];
-//     if (subFeatures.includes(subFeature)) {
-//       return spartacusPackage;
-//     }
-//   }
-
-//   // TODO:#schematics - alter the message?
-//   throw new SchematicsException(
-//     `The given '${subFeature}' doesn't contain a Spartacus package mapping.
-// Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/updateable-constants.ts'`
-//   );
-// }
 
 export function addLibraryFeature<T extends LibraryOptions>(
   options: T,
@@ -783,7 +748,9 @@ export function addPackageJsonDependencies(
   };
 }
 
-// TODO:#schematics - do we need this?
+/**
+ * Adds libraries dependencies to package.json
+ */
 export function addPackageJsonDependenciesForLibrary<
   OPTIONS extends LibraryOptions
 >(dependencies: Record<string, string>, _options: OPTIONS): Rule {
@@ -793,67 +760,12 @@ export function addPackageJsonDependenciesForLibrary<
     const thirdPartyLibraries = createDependencies(dependencies);
     const libraries = spartacusLibraries.concat(thirdPartyLibraries);
 
-    // TODO:#schematics - ???
-    // const cliFeatures = spartacusLibraries
-    //   .map((dependency) => dependency.name)
-    //   .reduce((previous, current) => {
-    //     return {
-    //       ...previous,
-    //       /**
-    //        * Just install the Spartacus library,
-    //        * but don't configure any sub-features
-    //        */
-    //       [current]: [],
-    //     };
-    //   }, {} as Record<string, string[]>);
-    // const featureOptions = createSpartacusFeatureOptionsForLibrary(
-    //   options,
-    //   cliFeatures,
-    //   false
-    // );
-    // addSchematicsTasks(featureOptions, context);
-
     return chain([
       addPackageJsonDependencies(libraries, packageJson),
       installPackageJsonDependencies(),
     ]);
   };
 }
-
-// // TODO:#schematics - unused.
-// export function installRequiredSpartacusFeatures<
-//   OPTIONS extends LibraryOptions
-// >(featureConfig: FeatureConfig, options: OPTIONS): Rule {
-//   return (_tree: Tree, context: SchematicContext): void => {
-//     if (!featureConfig.dependencyManagement) {
-//       return;
-//     }
-
-//     logFeatureInstallation(featureConfig, context);
-//     const featureOptions = createSpartacusFeatureOptionsForLibrary(
-//       options,
-//       featureConfig.dependencyManagement
-//     );
-//     addSchematicsTasks(featureOptions, context);
-//   };
-// }
-
-// function logFeatureInstallation(
-//   featureConfig: FeatureConfig,
-//   context: SchematicContext
-// ): void {
-//   const cliFeatures = featureConfig.dependencyManagement ?? {};
-//   for (const spartacusScope in cliFeatures) {
-//     if (!cliFeatures.hasOwnProperty(spartacusScope)) {
-//       continue;
-//     }
-
-//     const requiredFeatures = cliFeatures[spartacusScope].join(',');
-//     context.logger.info(
-//       `⚙️  ${featureConfig.library.cli} requires the following features from ${spartacusScope}: ${requiredFeatures}`
-//     );
-//   }
-// }
 
 export function dependencyExists(
   dependency: NodeDependency,
@@ -919,60 +831,7 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
   };
 }
 
-/**
- * A helper method that creates the default options for the given Spartacus' libraries.
- *
- * All `features` options will be set to an empty array, meaning that no features should be installed.
- *
- * @param spartacusLibraries
- * @param options
- * @returns
- */
-// TODO:#schematics - unused
-// export function createSpartacusFeatureOptionsForLibrary<
-//   OPTIONS extends LibraryOptions
-// >(
-//   options: OPTIONS,
-//   features: string[],
-//   interactive = true
-// ): {
-//   feature: string;
-//   options: LibraryOptions;
-// }[] {
-//   return Object.keys(cliFeatures).map((spartacusLibrary) => ({
-//     feature: spartacusLibrary,
-//     options: {
-//       ...options,
-//       // an empty array means that no library features will be installed.
-//       features: cliFeatures[spartacusLibrary] ?? [],
-//       interactive,
-//     },
-//   }));
-// }
-
-export function addSchematicsTasks(
-  featureOptions: {
-    feature: string;
-    options: LibraryOptions;
-  }[],
-  context: SchematicContext
-): void {
-  const installationTaskId = createNodePackageInstallationTask(context);
-
-  featureOptions.forEach((featureOption) => {
-    const runSchematicTaskOptions: RunSchematicTaskOptions<LibraryOptions> = {
-      collection: featureOption.feature,
-      name: 'add',
-      options: featureOption.options,
-    };
-
-    context.addTask(
-      new RunSchematicTask('add-spartacus-library', runSchematicTaskOptions),
-      [installationTaskId]
-    );
-  });
-}
-
+// TODO:#schematics - do we need this?
 export function runExternalSpartacusLibrary(
   taskOptions: RunSchematicTaskOptions<LibraryOptions>
 ): Rule {
