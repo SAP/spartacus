@@ -11,9 +11,16 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { CDS_CONFIG, UTF_8 } from '../constants';
-import { SPARTACUS_CDS, SPARTACUS_FEATURES_MODULE } from '../libs-constants';
+import {
+  SPARTACUS_CART,
+  SPARTACUS_CDS,
+  SPARTACUS_CHECKOUT,
+  SPARTACUS_FEATURES_MODULE,
+  SPARTACUS_ORDER,
+} from '../libs-constants';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   FeatureConfig,
   LibraryOptions,
   orderInstalledFeatures,
@@ -436,43 +443,44 @@ describe('Lib utils', () => {
     });
   });
 
-  // TODO:#schematics - remove?
-  // describe('addPackageJsonDependenciesForLibrary', () => {
-  //   let tree: Tree;
+  describe('addPackageJsonDependenciesForLibrary', () => {
+    let tree: Tree;
 
-  //   beforeEach(async () => {
-  //     tree = await schematicRunner
-  //       .callRule(
-  //         addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
-  //         appTree
-  //       )
-  //       .toPromise();
-  //   });
+    beforeEach(async () => {
+      tree = await schematicRunner
+        .callRule(
+          addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
+          appTree
+        )
+        .toPromise();
+    });
 
-  //   it('checkout', async () => {
-  //     const peerDependencies: Record<string, string> = {
-  //       '@spartacus/cart': '4.1.0-next.0',
-  //       '@spartacus/checkout': '4.1.0-next.0',
-  //     };
+    it('checkout', async () => {
+      const peerDependencies: Record<string, string> = {
+        [SPARTACUS_ORDER]: '4.1.0-next.0',
+        [SPARTACUS_CART]: '4.1.0-next.0',
+        [SPARTACUS_CHECKOUT]: '4.1.0-next.0',
+      };
 
-  //     await schematicRunner
-  //       .callRule(
-  //         addPackageJsonDependenciesForLibrary(
-  //           peerDependencies,
-  //           CHECKOUT_OPTIONS
-  //         ),
-  //         tree
-  //       )
-  //       .toPromise();
+      await schematicRunner
+        .callRule(
+          addPackageJsonDependenciesForLibrary(
+            peerDependencies,
+            CHECKOUT_OPTIONS
+          ),
+          tree
+        )
+        .toPromise();
 
-  //     const tasks = schematicRunner.tasks
-  //       .filter((task) => task.name === 'run-schematic')
-  //       .map((task) => task.options as RunSchematicTask<LibraryOptions>)
-  //       .map((task) => (task as any).options.collection);
+      const packageJson = JSON.parse(
+        tree.read('package.json')?.toString(UTF_8) ?? ''
+      ).dependencies as Record<string, string>;
 
-  //     expect(tasks).toEqual(['@spartacus/cart', '@spartacus/checkout']);
-  //   });
-  // });
+      expect(packageJson[SPARTACUS_ORDER]).toBeTruthy();
+      expect(packageJson[SPARTACUS_CART]).toBeTruthy();
+      expect(packageJson[SPARTACUS_CHECKOUT]).toBeTruthy();
+    });
+  });
 
   describe('feature ordering', () => {
     let tree: Tree;
