@@ -1,6 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
-import { CONSTRUCTOR_DEPRECATIONS_DATA } from './data/constructor-deprecations.migration';
+import { CONSTRUCTOR_DEPRECATIONS_DATA } from './data/constructor.migration';
 import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
 import { TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION } from './data/tab-paragraph-container.component.migration';
 

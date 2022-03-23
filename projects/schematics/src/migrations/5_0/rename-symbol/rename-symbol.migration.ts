@@ -1,6 +1,6 @@
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 
-export const CART_LIB_CHECKOUT_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
+export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   {
     previousNode: 'QuickOrderOrderEntriesContext',
     previousImportPath: '@spartacus/cart/quick-order/root',
