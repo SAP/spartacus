@@ -6,6 +6,7 @@
       else loading
     "
   >
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="cx-visually-hidden">
       {{ location?.displayName }}
     </div>

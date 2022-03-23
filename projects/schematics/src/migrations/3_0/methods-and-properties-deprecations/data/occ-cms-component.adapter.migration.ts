@@ -1,9 +1,9 @@
 import {
   FIND_COMPONENTS_BY_IDS_LEGACY,
   OCC_CMS_COMPONENT_ADAPTER,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/core/src/occ/adapters/cms/occ-cms-component.adapter.ts

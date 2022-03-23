@@ -1,9 +1,9 @@
 import {
   DYNAMIC_ATTRIBUTE_SERVICE,
   SMART_EDIT_SERVICE,
-  SPARTACUS_CORE,
   UNIFIED_INJECTOR,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION: ConstructorDeprecation = {

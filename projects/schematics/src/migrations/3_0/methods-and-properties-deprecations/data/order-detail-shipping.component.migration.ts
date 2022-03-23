@@ -4,9 +4,9 @@ import {
   GET_PAYMENT_CARD_CONTENT,
   GET_SHIPPING_METHOD_CARD_CONTENT,
   ORDER_DETAIL_SHIPPING_COMPONENT,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 //projects/storefrontlib/cms-components/myaccount/order/order-details/order-detail-shipping/order-detail-shipping.component.ts;

@@ -95,6 +95,7 @@ describe('FormErrors', () => {
 
   it('should render multiple errors', () => {
     control.setErrors({ email: true, required: true });
+    control.markAsTouched();
     fixture.detectChanges();
     const renderedErrors =
       fixture.debugElement.nativeElement.querySelectorAll('p');
@@ -106,6 +107,7 @@ describe('FormErrors', () => {
     describe('key', () => {
       it('should use the error key with default prefix', () => {
         control.setErrors(mockError);
+        control.markAsTouched();
         fixture.detectChanges();
         expect(getContent()).toEqual('formErrors.exampleError');
       });
@@ -113,6 +115,7 @@ describe('FormErrors', () => {
       it('should use the error key with prefix @Input', () => {
         component.prefix = 'customPrefix';
         control.setErrors(mockError);
+        control.markAsTouched();
         fixture.detectChanges();
         expect(getContent()).toEqual('customPrefix.exampleError');
       });
@@ -125,6 +128,7 @@ describe('FormErrors', () => {
           bar: '2',
         });
         control.setErrors({ exampleError: { foo: '1', bar: '2' } });
+        control.markAsTouched();
         fixture.detectChanges();
         expect(getContent()).toEqual('formErrors.exampleError bar:2 foo:1');
         expect(component.getTranslationParams).toHaveBeenCalledWith({
