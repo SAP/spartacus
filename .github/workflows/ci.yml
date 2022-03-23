@@ -12,12 +12,15 @@ jobs:
   e2eTests:
     name: Cypress e2e tests
     runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: yarn install
       - name: Install cypress dependencies
-        run: cd ./projects/storefrontapp-e2e-cypress && yarn install & cd ../..
+        run: cd projects/storefrontapp-e2e-cypress && yarn install
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
