@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { AuthActions } from '@spartacus/core';
 import { merge, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
-import { ProductConnector } from '../../connectors/product/product.connector';
-import { ProductActions } from '../actions/index';
-import { ScopedProductData } from '../../connectors/product/scoped-product-data';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
-import { Action } from '@ngrx/store';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
+import { ProductConnector } from '../../connectors/product/product.connector';
+import { ScopedProductData } from '../../connectors/product/scoped-product-data';
+import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductEffects {
@@ -70,6 +71,14 @@ export class ProductEffects {
       })
     );
   }
+
+  @Effect()
+  clearProductSummary$: Observable<ProductActions.ClearProductSummary> = this.actions$.pipe(
+    ofType(AuthActions.LOGOUT, AuthActions.LOGIN),
+    mergeMap(() => {
+      return [new ProductActions.ClearProductSummary()];
+    })
+  );
 
   constructor(
     private actions$: Actions,
