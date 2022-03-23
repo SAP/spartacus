@@ -22,4 +22,4 @@ jobs:
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
           SPA_ENV: ci,b2c
-        run: cd ./ci-scripts && ./e2e-cypress.sh
+        run: ./ci-script/e2e-cypress.sh
