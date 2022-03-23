@@ -51,6 +51,7 @@ export class AddedToCartToastEventListener implements OnDestroy {
       .subscribe((component: ComponentRef<AddedToCartToastComponent>) => {
         this.component = component.instance;
         this.component.timeout = timeout ? timeout : 3000;
+        this.component.init();
       });
   }
 
