@@ -42,7 +42,7 @@ oldApiData.forEach((oldApiElement: any) => {
         addBreakingChanges(oldApiElement, [
           {
             ...getChangeDesc(oldApiElement, 'MOVED'),
-            target: 'toplevel', // Not used. Remove when appropriate.
+            target: 'toplevel', // // TODO: Not used. Remove when appropriate.
             to: {
               entryPoint: newApiElementMoved.entryPoint,
               namespace: newApiElementMoved.namespace ?? '',
@@ -68,7 +68,7 @@ oldApiData.forEach((oldApiElement: any) => {
       addBreakingChanges(oldApiElement, [
         {
           ...getChangeDesc(oldApiElement, 'DELETED'),
-          target: 'toplevel', // Not used. Remove when appropriate.
+          target: 'toplevel', // // TODO: Not used. Remove when appropriate.
         },
       ]);
     }
@@ -204,7 +204,7 @@ function getParameterDoc(functonElement: any): string {
   if (functonElement.parameters?.length) {
     let parameterDoc = '\n';
     functonElement.parameters.forEach((parameter: any) => {
-      parameterDoc += `  ${parameter.name}: ${parameter.type},\n`;
+      parameterDoc += `  ${parameter.name}: ${parameter.type}\n`; // TODO: Add comma aat the end of the line
     });
     return parameterDoc;
   } else {
@@ -448,7 +448,7 @@ function getChangeDesc(element: any, changeType: string): any {
     changeKind: element.kind,
     changeLabel: getChangeLabel(changeType),
     changeElementName: element.name,
-    changeDesc: true, // Not used. Remove when appropriate.
+    changeDesc: true, // TODO: Not used. Remove when appropriate.
   };
 }
 
