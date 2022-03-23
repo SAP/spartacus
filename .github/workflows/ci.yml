@@ -17,15 +17,17 @@ jobs:
         working-directory: ./
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: yarn install
-      - name: Install cypress dependencies
-        run: |
-          ls -al
-          cd projects/storefrontapp-e2e-cypress && yarn install
-          ls -al
+      # - name: Install dependencies
+      #   run: yarn install
+      # - name: Install cypress dependencies
+      #   run: |
+      #     ls -al
+      #     cd projects/storefrontapp-e2e-cypress && yarn install
+      #     ls -al
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
           SPA_ENV: ci,b2c
-        run: ls -al
+        run: |
+          ls -al         
+          ci-scripts/e2e-cypress.sh
