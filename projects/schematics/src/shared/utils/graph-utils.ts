@@ -91,6 +91,7 @@ export const crossFeatureInstallationOrder: string[] = kahnsAlgorithm(
   crossFeatureDependencyGraph
 );
 
+// TODO:#schematics - test
 function createLibraryDependencyGraph(): Graph {
   const skip = CORE_SPARTACUS_SCOPES.concat(
     'storefrontapp-e2e-cypress',
@@ -133,7 +134,7 @@ function createCrossFeaturesDependencyGraph(): Graph {
     for (const subFeature of subFeatures) {
       graph.addVertex(subFeature);
 
-      const dependencies = getConfiguredDependencies(spartacusLib, subFeature);
+      const dependencies = getConfiguredDependencies(subFeature);
       for (const dependency of dependencies) {
         graph.createEdge(subFeature, dependency);
       }

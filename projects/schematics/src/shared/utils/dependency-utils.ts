@@ -58,7 +58,7 @@ function collectCrossFeatureDeps(feature: string, result: string[]): void {
 
   result.push(feature);
 
-  const cliDependencies = getConfiguredDependencies(spartacusLib, feature);
+  const cliDependencies = getConfiguredDependencies(feature);
   for (const cliDependency of cliDependencies) {
     collectCrossFeatureDeps(cliDependency, result);
   }
