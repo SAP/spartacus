@@ -37,7 +37,7 @@
     "generate:deps": "ts-node ./tools/schematics/dependency-collector.ts",
     "e2e:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
     "e2e:open:b2b": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open:b2b",
-    "e2e:open:ci:ccv2": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open:ci:ccv2",
+    "e2e:open:ccv2": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open:ccv2",
     "e2e:run": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run",
     "e2e:run:b2b": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:b2b",
     "e2e:run:ci": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci",

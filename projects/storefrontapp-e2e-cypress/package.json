@@ -8,7 +8,7 @@
     "cy:open": "cypress open",
     "cy:open:b2b": "cypress open --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
     "cy:open:epd-visualization": "cypress open --env BASE_SITE=powertools-epdvisualization-spa",
-    "cy:open:ci:ccv2": "cypress open --config baseUrl=https://spartacusstore.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud --env API_URL=https://api.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud ",
+    "cy:open:ccv2": "cypress open --config baseUrl=https://spartacusstore.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud --env API_URL=https://api.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud",
     "cy:run": "cypress run",
     "cy:run:b2b": "cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
     "cy:run:product-configurator-vc": "cypress run --spec \"cypress/integration/**/*-configurator*.*e2e-spec.ts\"",
