@@ -24,7 +24,8 @@ export interface FeatureConfigurationOverrides<T = LibraryOptions> {
   options?: T;
 }
 
-// TODO:#schematics - move some of the methods from lib-utils?
+// TODO:#schematics - move some of the methods from lib-utils? at the end, to not cause any noise
+
 /**
  * Configures feature modules for the given array of features.
  *

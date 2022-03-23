@@ -129,13 +129,13 @@ function createCrossFeaturesDependencyGraph(): Graph {
       continue;
     }
 
-    const subFeatures = packageCliMapping[spartacusLib] ?? [];
-    for (const subFeature of subFeatures) {
-      graph.addVertex(subFeature);
+    const features = packageCliMapping[spartacusLib] ?? [];
+    for (const feature of features) {
+      graph.addVertex(feature);
 
-      const dependencies = getConfiguredDependencies(subFeature);
+      const dependencies = getConfiguredDependencies(feature);
       for (const dependency of dependencies) {
-        graph.createEdge(subFeature, dependency);
+        graph.createEdge(feature, dependency);
       }
     }
   }

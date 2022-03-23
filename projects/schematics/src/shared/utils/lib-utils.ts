@@ -177,7 +177,6 @@ export function shouldAddFeature(
   return features.includes(feature);
 }
 
-// TODO:#schematics - search for "subfeature", and rename to "feature"
 // TODO:#schematics - search for "cliFeature", and rename to "feature"?
 
 export function addLibraryFeature<T extends LibraryOptions>(
