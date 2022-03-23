@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Install cypress dependencies
-        run: cd ./projects/storefrontapp-e2e-cypress && yarn install
+        run: cd ./projects/storefrontapp-e2e-cypress && yarn install & cd ../..
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
