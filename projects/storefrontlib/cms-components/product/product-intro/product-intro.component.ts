@@ -1,10 +1,13 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  AfterContentChecked,
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
-import { Product, TranslationService, WindowRef } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+  EventService,
+  Product,
+  TranslationService,
+  WindowRef,
+} from '@spartacus/core';
+import { ComponentCreateEvent, ComponentEvent } from '@spartacus/storefront';
+import { defer, Observable } from 'rxjs';
+import { filter, map, startWith } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -12,24 +15,36 @@ import { CurrentProductService } from '../current-product.service';
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductIntroComponent implements AfterContentChecked {
+export class ProductIntroComponent {
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
 
-  areReviewsAvailable$ = new BehaviorSubject<boolean>(false);
+  /**
+   * Observable that check reviews status.
+   * Emits true if reviews component is defined.
+   * Else, observe EventService for reviews availability.
+   */
+  // NOTE: defer is used due to potential race condition in EventService
+  protected areReviewsAvailable$ = defer(() =>
+    this.eventService.get(ComponentEvent).pipe(
+      filter(({ id }) => id === this.reviewsComponentId),
+      map((event) => (event instanceof ComponentCreateEvent ? true : false)),
+      startWith(!!this.getReviewsComponent())
+    )
+  );
 
-  protected reviewsTranslationKey =
-    'TabPanelContainer.tabs.ProductReviewsTabComponent';
+  protected reviewsComponentId = 'ProductReviewsTabComponent';
+
+  protected reviewsTranslationKey = `TabPanelContainer.tabs.${this.reviewsComponentId}`;
+
+  protected pageLayoutSelector = 'cx-page-layout.ProductDetailsPageTemplate';
 
   constructor(
     protected currentProductService: CurrentProductService,
     protected translationService: TranslationService,
+    protected eventService: EventService,
     protected winRef: WindowRef
   ) {}
-
-  ngAfterContentChecked() {
-    this.areReviewsAvailable$.next(!!this.getReviewsComponent());
-  }
 
   /**
    * Scroll to views component on page and click "Reviews" tab

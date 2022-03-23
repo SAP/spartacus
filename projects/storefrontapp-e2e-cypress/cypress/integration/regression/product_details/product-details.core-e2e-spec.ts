@@ -17,9 +17,6 @@ context('Product details', () => {
 
 //TODO split this test in two files (one for mobile)
 context(`${formats.mobile.width + 1}p resolution - Product details`, () => {
-  before(() => {
-    cy.viewport(formats.mobile.width, formats.mobile.height);
-  });
   beforeEach(() => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
   });
