@@ -1,45 +1,5 @@
 %cx-cart-item-list {
-  table {
-    margin: 1em 0;
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  th,
-  td {
-    padding: 1.25rem 0.1rem 1.25rem 0.5rem;
-    vertical-align: middle;
-    text-align: center;
-  }
-
-  .cx-mobile-header {
-    display: none;
-  }
-
-  tr {
-    border-bottom: 1px solid var(--cx-color-light);
-    padding: 1.25rem 0;
-  }
-
-  th {
-    vertical-align: bottom;
-    text-transform: uppercase;
-    text-align: center;
-    color: var(--cx-color-secondary);
-    font-weight: var(--cx-font-weight-bold);
-    font-size: var(--cx-font-size, 0.875rem);
-    white-space: nowrap;
-  }
-
-  th:nth-of-type(1),
-  td:nth-of-type(1) {
-    text-align: start;
-  }
-
-  td:nth-last-of-type(1),
-  th:nth-last-of-type(1) {
-    text-align: end;
-  }
+  @extend .cx-agnostic-table;
 
   td.cx-actions {
     button {
@@ -55,10 +15,6 @@
     grid-template-columns: 5rem 14rem;
     gap: 1rem;
     text-indent: 0;
-  }
-
-  .cx-cart-item-image {
-    display: block;
   }
 
   .cx-name {
@@ -91,30 +47,7 @@
     }
   }
 
-  .cx-cart-mobile {
-    display: none;
-  }
-
   @include media-breakpoint-down(md) {
-    table,
-    tr,
-    td {
-      display: flex;
-      flex-wrap: wrap;
-      flex-basis: 100%;
-    }
-
-    td {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      padding: 0.313rem;
-    }
-
-    thead {
-      display: none;
-    }
-
     .cx-table-item-container {
       grid-template-columns: 5em auto;
 
@@ -123,32 +56,12 @@
       }
     }
 
-    .cx-cart-mobile {
-      display: flex;
-    }
-
-    .cx-mobile-header {
-      display: block;
-      white-space: nowrap;
-      text-align: start;
-      font-weight: var(--cx-font-weight-bold);
-      line-height: var(--cx-line-height, 1.2222222222);
-      overflow-wrap: break-word;
-      padding-inline-end: 1rem;
-      min-width: 5rem;
-    }
-
     .cx-quantity {
       @include media-breakpoint-down(sm) {
         .cx-mobile-header {
           margin-bottom: 5px;
         }
       }
-    }
-
-    td:not(:nth-of-type(1)) {
-      font-size: var(--cx-font-size, 0.875rem);
-      margin-inline-start: 5.7rem;
     }
 
     .cx-value {
@@ -162,18 +75,14 @@
       text-align: start;
     }
 
-    th:nth-child(1) {
-      clip: rect(0 0 0 0);
-      clip-path: inset(50%);
-      height: 1px;
-      overflow: hidden;
-      position: absolute;
-      white-space: nowrap;
-      width: 1px;
-    }
-
-    td:nth-of-type(1) {
-      padding-inline-start: 0;
+    td {
+      &:nth-of-type(1) {
+        padding-inline-start: 0;
+      }
+      &:not(:nth-of-type(1)) {
+        font-size: var(--cx-font-size, 0.875rem);
+        margin-inline-start: 5.7rem;
+      }
     }
   }
 }
