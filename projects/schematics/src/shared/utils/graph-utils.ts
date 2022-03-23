@@ -29,6 +29,17 @@ export class Graph {
   }
 }
 
+export const libraryDependencyGraph: Graph = createLibraryDependencyGraph();
+export const libraryInstallationOrder: string[] = kahnsAlgorithm(
+  libraryDependencyGraph
+);
+
+export const crossFeatureDependencyGraph: Graph =
+  createCrossFeaturesDependencyGraph();
+export const crossFeatureInstallationOrder: string[] = kahnsAlgorithm(
+  crossFeatureDependencyGraph
+);
+
 /**
  * Creates the order in which the Spartacus libraries should be installed.
  * https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm
@@ -80,18 +91,6 @@ export function kahnsAlgorithm(graph: Graph): string[] {
   return Object.keys(topNums).reverse();
 }
 
-export const libraryDependencyGraph: Graph = createLibraryDependencyGraph();
-export const libraryInstallationOrder: string[] = kahnsAlgorithm(
-  libraryDependencyGraph
-);
-
-export const crossFeatureDependencyGraph: Graph =
-  createCrossFeaturesDependencyGraph();
-export const crossFeatureInstallationOrder: string[] = kahnsAlgorithm(
-  crossFeatureDependencyGraph
-);
-
-// TODO:#schematics - test
 function createLibraryDependencyGraph(): Graph {
   const skip = CORE_SPARTACUS_SCOPES.concat(
     'storefrontapp-e2e-cypress',
