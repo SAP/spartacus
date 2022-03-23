@@ -35,6 +35,7 @@ import {
   CLI_CHECKOUT_BASE_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   CLI_DIGITAL_PAYMENTS_FEATURE,
+  CLI_EPD_VISUALIZATION_FEATURE,
   CLI_ORDER_FEATURE,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
@@ -52,7 +53,6 @@ import {
   CLI_TRACKING_TMS_GTM_FEATURE,
   CLI_USER_ACCOUNT_FEATURE,
   CLI_USER_PROFILE_FEATURE,
-  CLI_EPD_VISUALIZATION_FEATURE,
   CMS_CONFIG,
   I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
@@ -60,11 +60,11 @@ import {
   SPARTACUS_CART,
   SPARTACUS_CDC,
   SPARTACUS_CDS,
-  SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_CHECKOUT,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_DIGITAL_PAYMENTS,
+  SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
   SPARTACUS_ORDER,
@@ -88,7 +88,6 @@ import {
   Import,
 } from './new-module-utils';
 import {
-  cleanSemverVersion,
   createDependencies,
   createSpartacusDependencies,
   getPrefixedSpartacusSchematicsVersion,
@@ -102,7 +101,6 @@ import {
   getWorkspace,
   scaffoldStructure,
 } from './workspace-utils';
-import semver from 'semver';
 
 export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
@@ -1049,57 +1047,4 @@ export function runExternalSpartacusLibrary(
 
 function createModuleFileName(config: FeatureConfig): string {
   return `${dasherize(config.moduleName)}-feature.module.ts`;
-}
-
-export function updatePackageJsonDependencies(
-  dependencies: NodeDependency[],
-  packageJson: any
-): Rule {
-  return (tree: Tree, context: SchematicContext): Rule => {
-    const dependenciesToAdd: NodeDependency[] = [];
-
-    for (const dependency of dependencies) {
-      const currentVersion = getCurrentDependencyVersion(
-        dependency,
-        packageJson
-      );
-      if (!currentVersion) {
-        dependenciesToAdd.push(dependency);
-        continue;
-      }
-
-      if (semver.satisfies(currentVersion, dependency.version)) {
-        continue;
-      }
-
-      const versionToUpdate = semver.parse(
-        cleanSemverVersion(dependency.version)
-      );
-      if (!versionToUpdate || semver.eq(versionToUpdate, currentVersion)) {
-        continue;
-      }
-
-      addPackageJsonDependency(tree, dependency);
-      const change = semver.gt(versionToUpdate, currentVersion)
-        ? 'Upgrading'
-        : 'Downgrading';
-      context.logger.info(
-        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
-      );
-    }
-
-    return addPackageJsonDependencies(dependenciesToAdd, packageJson);
-  };
-}
-
-export function getCurrentDependencyVersion(
-  dependency: NodeDependency,
-  packageJson: any
-): semver.SemVer | null {
-  if (!dependencyExists(dependency, packageJson)) {
-    return null;
-  }
-  const dependencies = packageJson[dependency.type];
-  const currentVersion = dependencies[dependency.name];
-  return semver.parse(cleanSemverVersion(currentVersion));
 }

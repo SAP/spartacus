@@ -11,14 +11,12 @@ import {
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SCOPE,
 } from '../../../shared/constants';
-import {
-  installPackageJsonDependencies,
-  updatePackageJsonDependencies,
-} from '../../../shared/utils/lib-utils';
+import { installPackageJsonDependencies } from '../../../shared/utils/lib-utils';
 import {
   CORE_SPARTACUS_SCOPES,
   createDependencies,
   readPackageJson,
+  updatePackageJsonDependencies,
 } from '../../../shared/utils/package-utils';
 
 export function migrateDependencies(

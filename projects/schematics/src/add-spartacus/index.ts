@@ -21,7 +21,6 @@ import {
   createSpartacusFeatureOptionsForLibrary,
   LibraryOptions,
   prepareCliPackageAndSubFeature,
-  updatePackageJsonDependencies,
 } from '../shared/utils/lib-utils';
 import { addModuleImport } from '../shared/utils/new-module-utils';
 import {
@@ -31,6 +30,7 @@ import {
   prepare3rdPartyDependencies,
   prepareSpartacusDependencies,
   readPackageJson,
+  updatePackageJsonDependencies,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -295,12 +295,13 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     const spartacusRxjsDependency: NodeDependency[] = [
       spartacusDependencies.find((dep) => dep.name === RXJS) as NodeDependency,
     ];
-
     return chain([
       addPackageJsonDependencies(spartacusDependencies, packageJsonFile),
 
-      // Force installing a specific version of rxjs that Spartacus depends on,
-      // in case when Angular CLI installs a different rxjs version by default:
+      /**
+       * Force installing versions of dependencies used by Spartacus.
+       * E.g. ng13 uses rxjs 7, but Spartacus uses rxjs 6.
+       */
       updatePackageJsonDependencies(spartacusRxjsDependency, packageJsonFile),
 
       setupStoreModules(options.project),

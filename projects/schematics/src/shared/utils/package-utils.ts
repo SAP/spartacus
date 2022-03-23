@@ -1,8 +1,15 @@
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import {
+  Rule,
+  SchematicContext,
+  SchematicsException,
+  Tree,
+} from '@angular-devkit/schematics';
+import {
+  addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import semver from 'semver';
 import { version } from '../../../package.json';
 import collectedDependencies from '../../dependencies.json';
 import {
@@ -16,6 +23,7 @@ import {
   UTF_8,
 } from '../constants';
 import { getServerTsPath } from './file-utils';
+import { addPackageJsonDependencies, dependencyExists } from './lib-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
 
 export const CORE_SPARTACUS_SCOPES = [
@@ -198,4 +206,57 @@ export function prepare3rdPartyDependencies(): NodeDependency[] {
     ...collectedDependencies[SPARTACUS_ASSETS],
   });
   return thirdPartyDependencies;
+}
+
+export function updatePackageJsonDependencies(
+  dependencies: NodeDependency[],
+  packageJson: any
+): Rule {
+  return (tree: Tree, context: SchematicContext): Rule => {
+    const dependenciesToAdd: NodeDependency[] = [];
+
+    for (const dependency of dependencies) {
+      const currentVersion = getCurrentDependencyVersion(
+        dependency,
+        packageJson
+      );
+      if (!currentVersion) {
+        dependenciesToAdd.push(dependency);
+        continue;
+      }
+
+      if (semver.satisfies(currentVersion, dependency.version)) {
+        continue;
+      }
+
+      const versionToUpdate = semver.parse(
+        cleanSemverVersion(dependency.version)
+      );
+      if (!versionToUpdate || semver.eq(versionToUpdate, currentVersion)) {
+        continue;
+      }
+
+      addPackageJsonDependency(tree, { ...dependency, overwrite: true });
+      const change = semver.gt(versionToUpdate, currentVersion)
+        ? 'Upgrading'
+        : 'Downgrading';
+      context.logger.info(
+        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
+      );
+    }
+
+    return addPackageJsonDependencies(dependenciesToAdd, packageJson);
+  };
+}
+
+function getCurrentDependencyVersion(
+  dependency: NodeDependency,
+  packageJson: any
+): semver.SemVer | null {
+  if (!dependencyExists(dependency, packageJson)) {
+    return null;
+  }
+  const dependencies = packageJson[dependency.type];
+  const currentVersion = dependencies[dependency.name];
+  return semver.parse(cleanSemverVersion(currentVersion));
 }
