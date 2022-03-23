@@ -2,7 +2,6 @@ import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
   ExecutionOptions,
-  externalSchematic,
   noop,
   Rule,
   SchematicContext,
@@ -11,7 +10,6 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   addPackageJsonDependency,
   NodeDependency,
@@ -828,32 +826,6 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
     }
 
     return tree;
-  };
-}
-
-// TODO:#schematics - do we need this?
-export function runExternalSpartacusLibrary(
-  taskOptions: RunSchematicTaskOptions<LibraryOptions>
-): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    if (!taskOptions.collection) {
-      throw new SchematicsException(
-        `Can't run the Spartacus library schematic, please specify the 'collection' argument.`
-      );
-    }
-
-    const executionOptions: Partial<ExecutionOptions> = {
-      interactive: taskOptions.options.interactive,
-    };
-
-    return chain([
-      externalSchematic(
-        taskOptions.collection,
-        taskOptions.name,
-        taskOptions.options,
-        executionOptions
-      ),
-    ])(tree, context);
   };
 }
 
