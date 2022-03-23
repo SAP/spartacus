@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize, reopened]
 name: Spartacus CI pipeline
 jobs:
-  e2eTests:
+  e2e:
     name: Cypress e2e tests
     runs-on: ubuntu-latest
     container: cypress/included:8.5.0
