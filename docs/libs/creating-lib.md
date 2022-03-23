@@ -94,7 +94,7 @@ module.exports = function (config) {
 
 - `ng-package.json`
 
-Add `umdModuleIds` and `assets` section sor your file looks like this:
+Add `assets` section sor your file looks like this:
 (adapt assets path to what makes sense for your lib)
 ```json
 {
@@ -102,12 +102,6 @@ Add `umdModuleIds` and `assets` section sor your file looks like this:
   "dest": "../../dist/{LIB_NAME}",
   "lib": {
     "entryFile": "./public_api.ts",
-    "umdModuleIds": {
-      "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront",
-      "@ng-bootstrap/ng-bootstrap": "ng-bootstrap",
-      "rxjs": "rxjs"
-    }
   },
   "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
 }
@@ -203,10 +197,32 @@ Use the following template:
 }
 ```
 
+- `tsconfig.spec.json` - add `"target": "es2015", "module": "es2020"` in `"compilerOptions"`:
+```json
+{
+  /* ... */
+  "compilerOptions": {
+    /* ... */
+    "target": "es2015",
+    "module": "es2020",
+  }
+}
+```
+
 - run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
 - `tslint.json` - remove
 - the rest of the generated files should be removed
+
+- `package.json` of your library - if your library exports any `scss` styles, add the following `exports` section to your `package.json`:
+  ```json
+    "exports": {
+      ".": {
+        "sass": "./_index.scss"
+      }
+    },
+  ```
+  and then run `yarn config:update` (to fix the formatting)
 
 ### Additional changes to existing files
 
