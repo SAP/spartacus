@@ -176,6 +176,12 @@ function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
         ...getChangeDesc(oldElement, 'CHANGED'),
         previousStateDoc: getSignatureDoc(oldElement),
         currentStateDoc: getSignatureDoc(newElement),
+        oldParams: oldElement.parameters,
+        oldReturnType: oldElement.returnType,
+        oldOverloadIndex: oldElement.overloadIndex,
+        newParams: newElement.parameters,
+        newReturnType: newElement.returnType,
+        newOverloadIndex: newElement.overloadIndex,
       },
     ];
   } else {
@@ -198,7 +204,7 @@ function getParameterDoc(functonElement: any): string {
   if (functonElement.parameters?.length) {
     let parameterDoc = '\n';
     functonElement.parameters.forEach((parameter: any) => {
-      parameterDoc += `  ${parameter.name}: ${parameter.type}\n`;
+      parameterDoc += `  ${parameter.name}: ${parameter.type},\n`;
     });
     return parameterDoc;
   } else {
