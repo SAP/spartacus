@@ -75,9 +75,7 @@ export class ProductEffects {
   @Effect()
   clearProductSummary$: Observable<ProductActions.ClearProductSummary> = this.actions$.pipe(
     ofType(AuthActions.LOGOUT, AuthActions.LOGIN),
-    mergeMap(() => {
-      return [new ProductActions.ClearProductSummary()];
-    })
+    map(() => new ProductActions.ClearProductSummary())
   );
 
   constructor(
