@@ -102,7 +102,9 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: FeatureConfig = {
     importStyle: SPARTACUS_CHECKOUT,
   },
   dependencyManagement: {
+    // TODO:#schematics - remove once we have wrapper modules
     [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+    // TODO:#schematics - remove once we have wrapper modules
     [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
     [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_BASE_FEATURE],
   },
@@ -149,7 +151,9 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: FeatureConfig =
       importStyle: SPARTACUS_CHECKOUT,
     },
     dependencyManagement: {
+      // TODO:#schematics - remove once we have wrapper modules
       [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+      // TODO:#schematics - remove once we have wrapper modules
       [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
       [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_B2B_FEATURE],
     },
