@@ -24,10 +24,13 @@ export interface FeatureConfigurationOverrides<T = LibraryOptions> {
   options?: T;
 }
 
-// TODO:#schematics - test
 // TODO:#schematics - move some of the methods from lib-utils?
-
-// TODO:#schematics - comment
+/**
+ * Configures feature modules for the given array of features.
+ *
+ * Optionally, an override can be provided for the default
+ * schematics options and/or feature-schematics configuration.
+ */
 export function addFeatures<T extends LibraryOptions>(
   options: SpartacusOptions,
   features: string[],
