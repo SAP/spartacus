@@ -1,4 +1,4 @@
-// TODO:#schematics - rename the file? at the end, to not cause any noise
+// TODO:#schematics - [at the end] rename the file?
 import {
   ASM_MODULE,
   ASM_ROOT_MODULE,
@@ -203,7 +203,7 @@ export const SCHEMATICS_CONFIGS: FeatureConfig[] = [
  */
 export const {
   /**
-   * Mapping of sub-features to Spartacus library.
+   * Mapping of features to Spartacus library.
    *
    * E.g.:
    *
@@ -213,7 +213,7 @@ export const {
    * ...
    * }
    */
-  packageCliMapping,
+  libraryFeatureMapping,
   /**
    * Mapping of feature-modules to the Spartacus library.
    *
@@ -226,7 +226,7 @@ export const {
    * ...
    * }
    */
-  packageFeatureMapping,
+  libraryFeatureModuleMapping,
   /**
    * Mapping of root feature-modules to the Spartacus library.
    *
@@ -239,7 +239,7 @@ export const {
    * ...
    * }
    */
-  packageRootMapping,
+  libraryRootModuleMapping,
   /**
    * Mapping of schematics configurations to the Spartacus library.
    *
@@ -251,52 +251,52 @@ export const {
    * ...
    * }
    */
-  packageSchematicConfigMapping,
+  librarySchematicConfigMapping,
 } = generateMappings();
 
 export function generateMappings(): {
-  packageCliMapping: Record<string, string[]>;
-  packageFeatureMapping: Record<string, string[]>;
-  packageRootMapping: Record<string, string[]>;
-  packageSchematicConfigMapping: Record<string, FeatureConfig[]>;
+  libraryFeatureMapping: Record<string, string[]>;
+  libraryFeatureModuleMapping: Record<string, string[]>;
+  libraryRootModuleMapping: Record<string, string[]>;
+  librarySchematicConfigMapping: Record<string, FeatureConfig[]>;
 } {
-  const cliMapping: Record<string, string[]> = {};
   const featureMapping: Record<string, string[]> = {};
-  const rootMapping: Record<string, string[]> = {};
-  const packageConfigMapping: Record<string, FeatureConfig[]> = {};
+  const featureModuleMapping: Record<string, string[]> = {};
+  const rootModuleMapping: Record<string, string[]> = {};
+  const configMapping: Record<string, FeatureConfig[]> = {};
 
   for (const featureConfig of SCHEMATICS_CONFIGS) {
-    populateCliFeatureMapping(cliMapping, featureConfig);
-    populateMainModules(featureMapping, featureConfig);
-    populateRootModules(rootMapping, featureConfig);
-    populateConfigMapping(packageConfigMapping, featureConfig);
+    populateFeatureMapping(featureMapping, featureConfig);
+    populateFeatureModuleMapping(featureModuleMapping, featureConfig);
+    populateRootModulesMapping(rootModuleMapping, featureConfig);
+    populateConfigMapping(configMapping, featureConfig);
   }
 
   return {
-    packageCliMapping: cliMapping,
-    packageFeatureMapping: featureMapping,
-    packageRootMapping: rootMapping,
-    packageSchematicConfigMapping: packageConfigMapping,
+    libraryFeatureMapping: featureMapping,
+    libraryFeatureModuleMapping: featureModuleMapping,
+    libraryRootModuleMapping: rootModuleMapping,
+    librarySchematicConfigMapping: configMapping,
   };
 }
 
-function populateCliFeatureMapping(
+function populateFeatureMapping(
   mapping: Record<string, string[]>,
   featureConfig: FeatureConfig
 ): void {
   const feature = featureConfig.library.mainScope;
-  const cli = featureConfig.library.cli;
+  const featureName = featureConfig.library.cli;
 
-  const existingCliMapping = mapping[feature] ?? [];
+  const existingFeatureMapping = mapping[feature] ?? [];
   // avoid adding duplicates
-  if (existingCliMapping.includes(cli)) {
+  if (existingFeatureMapping.includes(featureName)) {
     return;
   }
 
-  mapping[feature] = [...existingCliMapping, cli];
+  mapping[feature] = [...existingFeatureMapping, featureName];
 }
 
-function populateMainModules(
+function populateFeatureModuleMapping(
   mapping: Record<string, string[]>,
   featureConfig: FeatureConfig
 ): void {
@@ -319,7 +319,7 @@ function populateMainModules(
   mapping[feature] = [...existingFeatureMarkerMapping, ...featureModules];
 }
 
-function populateRootModules(
+function populateRootModulesMapping(
   mapping: Record<string, string[]>,
   featureConfig: FeatureConfig
 ): void {

@@ -79,8 +79,9 @@ export interface FeatureConfig {
    */
   library: {
     /**
-     * The CLI feature name, e.g. CLI_CHECKOUT_BASE_FEATURE
+     * The feature name, e.g. CHECKOUT_BASE_FEATURE
      */
+    // TODO:#schematics - [at the end] - rename to featureName
     cli: string;
     /**
      * Spartacus library scope, e.g. `@spartacus/checkout`
@@ -176,8 +177,6 @@ export function shouldAddFeature(
 ): boolean {
   return features.includes(feature);
 }
-
-// TODO:#schematics - search for "cliFeature", and rename to "feature"?
 
 export function addLibraryFeature<T extends LibraryOptions>(
   options: T,

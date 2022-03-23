@@ -1,6 +1,6 @@
 import collectedDependencies from '../../dependencies.json';
 import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
-import { packageCliMapping } from '../updateable-constants';
+import { libraryFeatureMapping } from '../updateable-constants';
 import { getConfiguredDependencies } from './schematics-config-utils';
 
 export class Graph {
@@ -124,12 +124,12 @@ function createLibraryDependencyGraph(): Graph {
 function createCrossFeaturesDependencyGraph(): Graph {
   const graph = new Graph();
 
-  for (const spartacusLib in packageCliMapping) {
-    if (!packageCliMapping.hasOwnProperty(spartacusLib)) {
+  for (const spartacusLib in libraryFeatureMapping) {
+    if (!libraryFeatureMapping.hasOwnProperty(spartacusLib)) {
       continue;
     }
 
-    const features = packageCliMapping[spartacusLib] ?? [];
+    const features = libraryFeatureMapping[spartacusLib] ?? [];
     for (const feature of features) {
       graph.addVertex(feature);
 

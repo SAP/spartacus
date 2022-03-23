@@ -1,5 +1,5 @@
 import { SchematicsException } from '@angular-devkit/schematics';
-import { packageSchematicConfigMapping } from '../updateable-constants';
+import { librarySchematicConfigMapping } from '../updateable-constants';
 import { FeatureConfig } from './lib-utils';
 
 /**
@@ -30,12 +30,12 @@ export function getConfiguredDependencies(feature: string): string[] {
 export function getSchematicsConfigurationByFeature(
   feature: string
 ): FeatureConfig | undefined {
-  for (const library in packageSchematicConfigMapping) {
-    if (!packageSchematicConfigMapping.hasOwnProperty(library)) {
+  for (const library in librarySchematicConfigMapping) {
+    if (!librarySchematicConfigMapping.hasOwnProperty(library)) {
       continue;
     }
 
-    const featureConfigs = packageSchematicConfigMapping[library];
+    const featureConfigs = librarySchematicConfigMapping[library];
 
     for (const featureConfig of featureConfigs) {
       if (featureConfig.library.cli === feature) {

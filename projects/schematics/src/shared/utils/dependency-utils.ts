@@ -3,7 +3,7 @@ import collectedDependencies from '../../dependencies.json';
 import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
 import {
   getKeyByMappingValue,
-  packageCliMapping,
+  libraryFeatureMapping,
 } from '../updateable-constants';
 import {
   crossFeatureInstallationOrder,
@@ -47,20 +47,20 @@ function collectCrossFeatureDeps(feature: string, result: string[]): void {
     return;
   }
 
-  const spartacusLib = getKeyByMappingValue(packageCliMapping, feature);
+  const spartacusLib = getKeyByMappingValue(libraryFeatureMapping, feature);
   if (!spartacusLib) {
     throw new SchematicsException(
       `Spartacus library not found for '${spartacusLib}' in ${JSON.stringify(
-        packageCliMapping
+        libraryFeatureMapping
       )}`
     );
   }
 
   result.push(feature);
 
-  const cliDependencies = getConfiguredDependencies(feature);
-  for (const cliDependency of cliDependencies) {
-    collectCrossFeatureDeps(cliDependency, result);
+  const featureDependencies = getConfiguredDependencies(feature);
+  for (const featureDependency of featureDependencies) {
+    collectCrossFeatureDeps(featureDependency, result);
   }
 }
 
@@ -81,7 +81,7 @@ export function analyzeCrossLibraryDependencies(
 ): string[] {
   const startingLibraries: string[] = [];
   for (const feature of startingFeatures) {
-    const library = getKeyByMappingValue(packageCliMapping, feature);
+    const library = getKeyByMappingValue(libraryFeatureMapping, feature);
     if (!library) {
       throw new SchematicsException(
         `The given '${feature}' doesn't contain a Spartacus package mapping.

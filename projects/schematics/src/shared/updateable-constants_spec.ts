@@ -38,9 +38,9 @@ import {
 import { generateMappings, getKeyByMappingValue } from './updateable-constants';
 
 describe('generateMappings', () => {
-  describe('cliFeatureMapping', () => {
+  describe('libraryFeatureMapping', () => {
     it('should generate a correct mapping', () => {
-      const result = generateMappings().packageCliMapping;
+      const result = generateMappings().libraryFeatureMapping;
 
       expect(result[SPARTACUS_ASM]).toEqual([CLI_ASM_FEATURE]);
       expect(result[SPARTACUS_CHECKOUT]).toEqual([
@@ -52,9 +52,9 @@ describe('generateMappings', () => {
       expect(result[SPARTACUS_CDC]).toEqual([CLI_CDC_FEATURE]);
     });
   });
-  describe('packageFeatureMapping', () => {
+  describe('libraryFeatureModuleMapping', () => {
     it('should generate a correct mapping', () => {
-      const result = generateMappings().packageFeatureMapping;
+      const result = generateMappings().libraryFeatureModuleMapping;
 
       expect(result[SPARTACUS_ASM]).toEqual([ASM_MODULE]);
       expect(result[SPARTACUS_CART]).toContain(MINI_CART_MODULE);
@@ -67,9 +67,9 @@ describe('generateMappings', () => {
       expect(result[SPARTACUS_CDC]).toEqual([CDC_MODULE]);
     });
   });
-  describe('packageRootMapping', () => {
+  describe('libraryRootModuleMapping', () => {
     it('should generate a correct mapping', () => {
-      const result = generateMappings().packageRootMapping;
+      const result = generateMappings().libraryRootModuleMapping;
 
       expect(result[SPARTACUS_ASM]).toEqual([ASM_ROOT_MODULE]);
       expect(result[SPARTACUS_CART]).toContain(CART_BASE_ROOT_MODULE);
@@ -84,9 +84,9 @@ describe('generateMappings', () => {
       expect(result[SPARTACUS_DIGITAL_PAYMENTS]).toEqual([]);
     });
   });
-  describe('packageSchematicConfigMapping', () => {
+  describe('librarySchematicConfigMapping', () => {
     it('should generate a correct mapping', () => {
-      const result = generateMappings().packageSchematicConfigMapping;
+      const result = generateMappings().librarySchematicConfigMapping;
 
       expect(result[SPARTACUS_ASM]).toEqual([ASM_SCHEMATICS_CONFIG]);
       expect(result[SPARTACUS_CHECKOUT]).toEqual([

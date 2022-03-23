@@ -167,6 +167,7 @@ export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 /***** File structure end *****/
 
 /***** CLI start *****/
+// TODO:#schematics - [at the end] - instead of CLI_, use the _FEATURE suffix
 export const CLI_ASM_FEATURE = 'ASM';
 
 export const CLI_CART_BASE_FEATURE = 'Cart';
