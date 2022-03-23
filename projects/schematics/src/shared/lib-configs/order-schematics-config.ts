@@ -1,12 +1,10 @@
 import {
   CLI_CART_BASE_FEATURE,
   CLI_ORDER_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
   SPARTACUS_CART,
   SPARTACUS_ORDER,
   SPARTACUS_ORDER_ASSETS,
   SPARTACUS_ORDER_ROOT,
-  SPARTACUS_USER,
 } from '../libs-constants';
 import { FeatureConfig } from '../utils/lib-utils';
 
@@ -50,6 +48,5 @@ export const ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
   },
   dependencyManagement: {
     [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
-    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
   },
 };
