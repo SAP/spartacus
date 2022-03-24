@@ -65,13 +65,16 @@ describe('ScrollToTopComponent', () => {
   });
 
   it('should not be displayed at top of page', () => {
+    fixture.detectChanges();
     winRef.nativeWindow?.scrollTo(0, 0);
     fixture.detectChanges();
     const scrollComponent = el.query(By.css('.display'));
     expect(scrollComponent).toBeNull();
   });
 
-  it('should be visible and scroll to top of page', (done) => {
+  it('should be visible and scroll to top of page', () => {
+    fixture.detectChanges();
+
     spyOn(window, 'scrollTo').and.callThrough();
     winRef.nativeWindow?.scrollTo(0, 200);
     winRef.nativeWindow?.dispatchEvent(new Event('scroll'));
@@ -90,10 +93,17 @@ describe('ScrollToTopComponent', () => {
       [0, 200],
       [{ top: 0, behavior: 'smooth' }],
     ]);
+  });
 
-    setTimeout(() => {
-      expect(winRef.nativeWindow?.scrollY).toEqual(0);
-      done();
-    }, 500);
+  it('should focus top most focusable element of the page', () => {
+    fixture.detectChanges();
+    spyOn(window, 'scrollTo').and.callThrough();
+    winRef.nativeWindow?.scrollTo(0, 200);
+    winRef.nativeWindow?.dispatchEvent(new Event('scroll'));
+
+    fixture.detectChanges();
+
+    const scrollBtn = el.query(By.css('.scroll-to-top-btn')).nativeElement;
+    scrollBtn.click();
   });
 });

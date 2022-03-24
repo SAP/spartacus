@@ -22,7 +22,6 @@ export interface StandardCmsComponentConfig {
   ProductReferencesComponent?: CmsComponentMapping;
   CMSTabParagraphComponent?: CmsComponentMapping;
   LoginComponent?: CmsComponentMapping;
-  ScrollToTopComponent?: CmsComponentMapping;
 }
 
 export interface JspIncludeCmsComponentConfig {
