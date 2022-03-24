@@ -17,9 +17,7 @@ jobs:
       run: 
         working-directory: ./
     steps:
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '12.16.1'
+      - uses: actions/checkout@v2
       - name: Run unit tests for core and storefront
         run: |
           ls -al         
