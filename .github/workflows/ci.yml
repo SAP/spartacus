@@ -4,7 +4,7 @@ on:
       - develop
       - epic/**
       - release/**
-      - feature/GH-15442
+      - feature/**
       - integration-libs/**
   pull_request:
     types: [opened, synchronize, reopened]
