@@ -9,6 +9,14 @@ on:
     types: [opened, synchronize, reopened]
 name: Spartacus CI pipeline
 jobs:
+  # 1. setup spartacus and build and upload the artifact to be re-used job
+
+  # 2. each other jobs will be dependent on 1. to finish, while 2. runs in parallel
+  # downloads the artifact from 1.
+
+
+  # alternative: leverage the github actions from cypress and use steps above
+
   e2eTests:
     name: Cypress e2e tests
     runs-on: ubuntu-latest
