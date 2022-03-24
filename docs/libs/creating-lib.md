@@ -128,6 +128,11 @@ Use the following template:
     "TODO:"
   ],
   "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss"
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -149,6 +154,7 @@ Make sure to replace `TODO:`s with the relevant information.
 Adjust the `@spartacus/core` and/or `@spartacus/storefront` depending on the need.
 Make sure the versions match the current spartacus version.
 Make sure the `@angular` peer dependencies matches the versions specified in the _core_ lib.
+If your library doesn't expose any SCSS styles, remove the section `exports`/`sass`.
 
 - `test.ts` 
   - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
