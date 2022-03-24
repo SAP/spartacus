@@ -14,6 +14,7 @@ import { of } from 'rxjs';
 @Component({
   template: `
     <div style="height: 2000px;">
+      <button class="test"></button>
       <h1>Test page</h1>
       <cx-scroll-to-top></cx-scroll-to-top>
     </div>
@@ -60,6 +61,16 @@ describe('ScrollToTopComponent', () => {
     el = fixture.debugElement;
   });
 
+  function getKeyboardFocusableElement(): HTMLElement {
+    return [
+      ...(winRef.nativeWindow?.document?.querySelectorAll(
+        'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
+      ) as any),
+    ].filter(
+      (el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden')
+    )[0];
+  }
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -103,7 +114,20 @@ describe('ScrollToTopComponent', () => {
 
     fixture.detectChanges();
 
+    const topElement = getKeyboardFocusableElement();
+
     const scrollBtn = el.query(By.css('.scroll-to-top-btn')).nativeElement;
+    const testBtn = el.query(By.css('.test')).nativeElement;
+    testBtn.focus();
+
+    let focusedElem = winRef.nativeWindow?.document
+      .activeElement as HTMLElement;
+
+    expect(focusedElem).toEqual(testBtn);
+
     scrollBtn.click();
+    focusedElem = winRef.nativeWindow?.document.activeElement as HTMLElement;
+
+    expect(focusedElem).toEqual(topElement);
   });
 });
