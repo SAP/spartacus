@@ -5,6 +5,7 @@ import {
   WindowRef,
   CmsScrollToTopComponent,
   ScrollBehavior,
+  I18nTestingModule,
 } from '@spartacus/core';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ScrollToTopComponent } from './scroll-to-top.component';
@@ -43,7 +44,7 @@ describe('ScrollToTopComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [IconTestingModule],
+      imports: [IconTestingModule, I18nTestingModule],
       declarations: [MockComponent, ScrollToTopComponent],
       providers: [
         {
