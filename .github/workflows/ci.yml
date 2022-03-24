@@ -25,23 +25,8 @@ jobs:
       - name: Install angular CLI
         run: npm install -g @angular/cli@latest
       - name: Install yarn
-      - run: npm install --g yarn
+      - run: npm install -g yarn
       - name: Run unit tests for core and storefront
         run: |
           ls -al         
           ci-scripts/unit-tests-core-lib.sh
-  e2eTests:
-    name: Cypress e2e tests
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:
-          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-          SPA_ENV: ci,b2c
-        run: |
-          ls -al         
-          ci-scripts/e2e-cypress.sh
