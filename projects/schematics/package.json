@@ -9,7 +9,6 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/schematics",
   "license": "MIT",
-  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "build": "yarn clean && yarn --cwd ../../ generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
