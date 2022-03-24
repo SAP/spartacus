@@ -18,6 +18,7 @@ jobs:
         working-directory: ./
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
       - name: Run unit tests for core and storefront
         run: |
           ls -al         
