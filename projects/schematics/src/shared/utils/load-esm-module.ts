@@ -13,9 +13,11 @@
  * Use of this source code is governed by an MIT-style license that can be
  * found in the LICENSE file at https://angular.io/license
  *
+ * ----------------------------------------------------------------------------------------
+ *
  * See original code: https://github.com/angular/angular/blob/e0015d3c456d584242269b0765878d598a550888/packages/core/schematics/utils/load_esm.ts#L11-L35
  *
- *
+ * --------------------------------------------------------------------------------
  * This uses a dynamic import to load a module which may be ESM.
  * CommonJS code can load ESM code via a dynamic import. Unfortunately, TypeScript
  * will currently, unconditionally downlevel dynamic import into a require call.
