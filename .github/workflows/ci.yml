@@ -1,6 +1,3 @@
-language: node_js
-node_js:
-  - 12.16.1
 on:
   push:
     branches:
@@ -21,6 +18,9 @@ jobs:
         working-directory: ./
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.16.1'
       - name: Run unit tests for core and storefront
         run: |
           ls -al         
