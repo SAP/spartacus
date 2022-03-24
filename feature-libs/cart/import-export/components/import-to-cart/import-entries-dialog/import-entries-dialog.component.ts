@@ -38,7 +38,7 @@ export class ImportEntriesDialogComponent {
   handleClick(event: UIEvent): void {
     // Close on click outside the dialog window
     if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      if (!this.uploading) {
+      if (!this.summary$.getValue().loading) {
         this.close('Cross click');
       }
     }
