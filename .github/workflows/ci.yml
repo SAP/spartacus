@@ -27,13 +27,13 @@ jobs:
     defaults:
       run:
         working-directory: ./
-      steps:
-        - uses: actions/checkout@v2
-        - name: build spartacus
-          run: |
-            ls -al
-            ci-scripts/build-spartacus.sh
-            ls -al
+    steps:
+      - uses: actions/checkout@v2
+      - name: build spartacus
+        run: |
+          ls -al
+          ci-scripts/build-spartacus.sh
+          ls -al
   # b2cE2eTest:
   #   name: B2C Cypress e2e tests
   #   runs-on: ubuntu-latest
