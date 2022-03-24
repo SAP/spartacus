@@ -58,24 +58,6 @@ export class ConfiguratorAttributeNumericInputFieldService {
   }
 
   /**
-   * Get the interval help text based of the values of the attribute
-   *
-   * @param values values of the attribute
-   * @returns {string} concatenated string with all value texts separated by a semicolon
-   */
-  getIntervalHelpText(
-    values: Configurator.Value[] | undefined
-  ): string | undefined {
-    let helpText: string | undefined;
-    if (values && values.length > 0) {
-      helpText = '';
-      values.forEach((value) => (helpText += value.name + ' ; '));
-      helpText = helpText.slice(0, -3); //remove last semicolon
-    }
-    return helpText;
-  }
-
-  /**
    * Parses the value names and returns the intervals.
    *
    * @param values values of the attribute
@@ -85,9 +67,15 @@ export class ConfiguratorAttributeNumericInputFieldService {
     values: Configurator.Value[] | undefined
   ): ConfiguratorAttributeNumericInterval[] | undefined {
     let intervals: ConfiguratorAttributeNumericInterval[] | undefined;
+    let interval: ConfiguratorAttributeNumericInterval | undefined;
     if (values && values.length > 0) {
       intervals = [];
-      values.forEach((value) => intervals?.push(this.getInterval(value)));
+      values.forEach((value) => {
+        interval = this.getInterval(value);
+        if (interval && Object.keys(interval).length !== 0) {
+          intervals?.push(interval);
+        }
+      });
     }
     return intervals;
   }
@@ -113,10 +101,12 @@ export class ConfiguratorAttributeNumericInputFieldService {
    * @param value value which will be parsed
    * @returns {ConfiguratorAttributeNumericInterval} parsed interval
    */
-  getInterval(value: Configurator.Value): ConfiguratorAttributeNumericInterval {
+  getInterval(
+    value: Configurator.Value
+  ): ConfiguratorAttributeNumericInterval | undefined {
     let interval: ConfiguratorAttributeNumericInterval = {};
-    if (!value || !value.name) {
-      return interval;
+    if (!value || !value.name || value.selected) {
+      return undefined;
     }
 
     let minVal: string = '';
@@ -169,7 +159,6 @@ export class ConfiguratorAttributeNumericInputFieldService {
     if (maxVal && maxVal.length > 0) {
       interval.maxValue = +maxVal;
     }
-
     return interval;
   }
 

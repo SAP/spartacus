@@ -37,9 +37,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   numericFormatPattern: string;
   locale: string;
   iconType = ICON_TYPE;
-  intervalPlaceholder: string | undefined;
   intervals: ConfiguratorAttributeNumericInterval[] | undefined;
-  ariaLabelInterval: string;
 
   @Input() language: string;
 
@@ -110,11 +108,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     }
 
     if (this.attribute.intervalInDomain) {
-      this.intervalPlaceholder =
-        this.configAttributeNumericInputFieldService.getIntervalHelpText(
-          this.attribute.values
-        );
-
       this.intervals =
         this.configAttributeNumericInputFieldService.getIntervals(
           this.attribute.values
@@ -137,18 +130,36 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     super.ngOnDestroy();
   }
 
-  getAriaLabelForInterval(
-    intervals: ConfiguratorAttributeNumericInterval[]
-  ): string {
+  /**
+   * Returns a concatenated help text for multiple intervals.
+   */
+  getHelpTextForInterval(): string {
     let intervalText = '';
-    intervals.forEach((interval) => {
-      intervalText += this.getIntervalText(interval);
-      intervalText += ' ';
-    });
-
-    return intervalText.trim();
+    let concatenatedIntervalText = '';
+    if (this.intervals && this.intervals.length > 0) {
+      this.intervals.forEach((interval, index) => {
+        intervalText = this.getIntervalText(interval);
+        if (index > 0) {
+          intervalText =
+            intervalText.charAt(0).toLowerCase() + intervalText.slice(1);
+          this.translation
+            .translate('configurator.a11y.combinedIntervalsText', {
+              combinedInterval: concatenatedIntervalText,
+              newInterval: intervalText,
+            })
+            .pipe(take(1))
+            .subscribe((text) => (concatenatedIntervalText = text));
+        } else {
+          concatenatedIntervalText = intervalText;
+        }
+      });
+    }
+    return concatenatedIntervalText.trim();
   }
 
+  /**
+   * Returns the combined aria text for attribute and value and the interval help text
+   */
   getAriaLabelComplete(): string {
     let completeAriaText = '';
     if (this.attribute.userInput?.length === 0) {
@@ -170,7 +181,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
     if (this.intervals && this.intervals.length > 0) {
       completeAriaText += ' ';
-      completeAriaText += this.getAriaLabelForInterval(this.intervals);
+      completeAriaText += this.getHelpTextForInterval();
     }
 
     return completeAriaText;

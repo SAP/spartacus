@@ -353,7 +353,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       interval.minValueIncluded = true;
       interval.maxValueIncluded = true;
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
@@ -370,7 +369,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       interval.minValueIncluded = true;
       interval.maxValueIncluded = false;
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
@@ -389,7 +387,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       interval.minValueIncluded = false;
       interval.maxValueIncluded = true;
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
@@ -408,7 +405,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       interval.minValueIncluded = false;
       interval.maxValueIncluded = false;
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
@@ -425,9 +421,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       interval.minValue = 5;
       interval.maxValue = undefined;
       interval.minValueIncluded = false;
-      //interval.maxValueIncluded = false;
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
@@ -440,9 +434,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       interval.minValue = 5;
       interval.maxValue = undefined;
       interval.minValueIncluded = true;
-      //interval.maxValueIncluded = false;
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
@@ -455,9 +447,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       interval.minValue = undefined;
       interval.maxValue = 7;
       interval.maxValueIncluded = false;
-      //interval.maxValueIncluded = false;
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
@@ -470,10 +460,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       interval.minValue = undefined;
       interval.maxValue = 7;
       interval.maxValueIncluded = true;
-      //interval.maxValueIncluded = false;
 
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
@@ -486,45 +474,31 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   describe('getIntervalTexts', () => {
     let interval1: ConfiguratorAttributeNumericInterval = {};
     let interval2: ConfiguratorAttributeNumericInterval = {};
-    let interval3: ConfiguratorAttributeNumericInterval = {};
-    let intervals: ConfiguratorAttributeNumericInterval[] = [];
 
     it('should return concatenated aria text for multiple intervals', fakeAsync(() => {
       interval1.minValue = 5;
       interval1.maxValue = 7;
       interval1.minValueIncluded = true;
       interval1.maxValueIncluded = true;
-      //component.intervals = [];
-      intervals.push(interval1);
+      component.intervals = [];
+      component.intervals.push(interval1);
       interval2.minValue = 10;
       interval2.maxValue = undefined;
       interval2.minValueIncluded = true;
-      intervals.push(interval2);
-      interval3.minValue = 20;
-      interval3.maxValue = 30;
-      interval3.minValueIncluded = true;
-      interval3.maxValueIncluded = false;
-      intervals.push(interval3);
+      component.intervals.push(interval2);
 
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
-      expect(component.getAriaLabelForInterval(intervals)).toBe(
-        'configurator.a11y.numericIntervalStandard maxValue:' +
+      expect(component.getHelpTextForInterval()).toBe(
+        'configurator.a11y.combinedIntervalsText combinedInterval:' +
+          'configurator.a11y.numericIntervalStandard maxValue:' +
           interval1.maxValue +
           ' minValue:' +
           interval1.minValue +
-          ' ' +
+          ' newInterval:' +
           'configurator.a11y.numericInfiniteIntervalMinValueIncluded minValue:' +
-          interval2.minValue +
-          ' ' +
-          'configurator.a11y.numericIntervalStandard maxValue:' +
-          interval3.maxValue +
-          ' minValue:' +
-          interval3.minValue +
-          ' ' +
-          'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
+          interval2.minValue
       );
     }));
   });
@@ -544,7 +518,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       component.attribute.label = 'Intervaltest';
       component.attribute.userInput = '123';
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
       expect(component.getAriaLabelComplete()).toBe(
@@ -565,7 +538,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       interval.minValue = 5;
       interval.maxValue = undefined;
       interval.minValueIncluded = false;
-      //interval.maxValueIncluded = false;
 
       component.intervals = [];
       component.intervals.push(interval);
@@ -573,7 +545,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       component.attribute.label = 'Intervaltest';
       component.attribute.userInput = '';
       fixture.detectChanges();
-      //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
       expect(component.getAriaLabelComplete()).toBe(

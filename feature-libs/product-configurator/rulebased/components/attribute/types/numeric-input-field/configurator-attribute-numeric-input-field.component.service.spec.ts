@@ -133,36 +133,6 @@ describe('ConfigAttributeNumericInputFieldService', () => {
     ).toBe('#,###,###,###');
   });
 
-  describe('getIntervalHelpText', () => {
-    let value1: Configurator.Value = {
-      valueCode: '1',
-      name: '>4 - 7',
-    };
-
-    let value2: Configurator.Value = {
-      valueCode: '2',
-      name: '10 - 12',
-    };
-
-    let value3: Configurator.Value = {
-      valueCode: '3',
-      name: '≥20',
-    };
-
-    let values: Configurator.Value[] = [];
-    values.push(value1);
-    values.push(value2);
-    values.push(value3);
-
-    const concatenatedIntervals: string = '>4 - 7 ; 10 - 12 ; ≥20';
-
-    it('should get concatenated intervals', () => {
-      expect(serviceUnderTest.getIntervalHelpText(values)).toEqual(
-        concatenatedIntervals
-      );
-    });
-  });
-
   describe('getIntervals', () => {
     let intervals: ConfiguratorAttributeNumericInterval[] = [
       {
