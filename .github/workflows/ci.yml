@@ -25,7 +25,7 @@ jobs:
       - name: Install angular CLI
         run: npm install -g @angular/cli@latest
       - name: Install yarn
-      - run: npm install -g yarn
+        run: npm install -g yarn
       - name: Run unit tests for core and storefront
         run: |
           ls -al         
