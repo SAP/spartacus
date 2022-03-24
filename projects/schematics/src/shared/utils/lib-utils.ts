@@ -31,7 +31,7 @@ import {
   SPARTACUS_SETUP,
 } from '../libs-constants';
 import { getB2bConfiguration } from './config-utils';
-import { libraryInstallationOrder } from './graph-utils';
+import { crossLibraryInstallationOrder } from './graph-utils';
 import { isImportedFrom } from './import-utils';
 import {
   addModuleImport,
@@ -856,7 +856,7 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
     let message = `Ordering the installed Spartacus features...`;
     if (options.debug) {
       // TODO:#schematics - switch to `crossFeatureInstallationOrder`
-      message = `Sorting the installed Spartacus features according to the dependency graph: ${libraryInstallationOrder.join(
+      message = `Sorting the installed Spartacus features according to the dependency graph: ${crossLibraryInstallationOrder.join(
         ', '
       )}`;
     }
@@ -888,7 +888,7 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
             moduleA.spartacusLibrary,
             moduleB.spartacusLibrary,
             // TODO:#schematics - switch to sorting using the `crossFeatureInstallationOrder`
-            libraryInstallationOrder
+            crossLibraryInstallationOrder
           )
         )
         .map((featureModule) => featureModule.moduleNode.getText());

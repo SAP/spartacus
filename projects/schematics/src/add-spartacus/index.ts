@@ -12,7 +12,7 @@ import { ANGULAR_HTTP } from '../shared/constants';
 import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
 import {
   analyzeCrossFeatureDependencies,
-  analyzeCrossLibraryDependencies,
+  analyzeCrossLibraryDependenciesByFeatures,
 } from '../shared/utils/dependency-utils';
 import { addFeatures } from '../shared/utils/feature-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
@@ -217,7 +217,7 @@ function increaseBudgets(): Rule {
 function prepareDependencies(features: string[]): NodeDependency[] {
   const spartacusDependencies = prepareSpartacusDependencies();
 
-  const libraries = analyzeCrossLibraryDependencies(features);
+  const libraries = analyzeCrossLibraryDependenciesByFeatures(features);
   const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
   const spartacusLibraryDependencies = libraries.map((library) =>
     mapPackageToNodeDependencies(library, spartacusVersion)

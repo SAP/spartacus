@@ -1,4 +1,5 @@
 // TODO:#schematics - [at the end] rename the file?
+import { SchematicsException } from '@angular-devkit/schematics';
 import {
   ASM_MODULE,
   ASM_ROOT_MODULE,
@@ -355,10 +356,10 @@ function populateConfigMapping(
  * Based on the given value,
  * it returns the key of the given object.
  */
-export function getKeyByMappingValue(
+export function getKeyByMappingValueOrThrow(
   mapping: Record<string, string[]>,
   value: string
-): string | undefined {
+): string {
   for (const key in mapping) {
     if (!mapping.hasOwnProperty(key)) {
       continue;
@@ -369,7 +370,9 @@ export function getKeyByMappingValue(
     }
   }
 
-  return undefined;
+  throw new SchematicsException(
+    `Given value ${value} not found in ${JSON.stringify(mapping)}`
+  );
 }
 
 /**

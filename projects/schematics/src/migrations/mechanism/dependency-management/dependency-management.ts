@@ -15,7 +15,7 @@ import {
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SCOPE,
 } from '../../../shared/libs-constants';
-import { collectCrossSpartacusPeerDeps } from '../../../shared/utils/dependency-utils';
+import { analyzeCrossLibraryDependenciesByLibraries } from '../../../shared/utils/dependency-utils';
 import {
   addPackageJsonDependencies,
   dependencyExists,
@@ -65,13 +65,9 @@ function collectSpartacusLibraryDependencies(packageJson: any): {
     dependency.startsWith(SPARTACUS_SCOPE)
   );
 
-  let spartacusPeerDeps: string[] = [];
-  for (const spartacusLib of installedLibs) {
-    collectCrossSpartacusPeerDeps(spartacusLib, spartacusPeerDeps);
-  }
+  const spartacusPeerDeps =
+    analyzeCrossLibraryDependenciesByLibraries(installedLibs);
 
-  // remove the duplicates
-  spartacusPeerDeps = Array.from(new Set<string>(spartacusPeerDeps));
   return {
     installedLibs,
     spartacusPeerDeps,

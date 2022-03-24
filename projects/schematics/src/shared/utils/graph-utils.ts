@@ -29,9 +29,10 @@ export class Graph {
   }
 }
 
-export const libraryDependencyGraph: Graph = createLibraryDependencyGraph();
-export const libraryInstallationOrder: string[] = kahnsAlgorithm(
-  libraryDependencyGraph
+export const crossLibraryDependencyGraph: Graph =
+  createLibraryDependencyGraph();
+export const crossLibraryInstallationOrder: string[] = kahnsAlgorithm(
+  crossLibraryDependencyGraph
 );
 
 export const crossFeatureDependencyGraph: Graph =

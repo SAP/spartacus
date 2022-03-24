@@ -34,17 +34,23 @@ import {
   SPARTACUS_ASM,
   SPARTACUS_CART,
   SPARTACUS_CDC,
+  SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
   SPARTACUS_DIGITAL_PAYMENTS,
+  SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_ORDER,
+  SPARTACUS_ORGANIZATION,
   SPARTACUS_PRODUCT,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
+  SPARTACUS_TRACKING,
   SPARTACUS_USER,
 } from '../libs-constants';
 import {
   crossFeatureInstallationOrder,
+  crossLibraryInstallationOrder,
   Graph,
   kahnsAlgorithm,
 } from './graph-utils';
@@ -141,6 +147,27 @@ describe('Graph utils', () => {
       } catch (e: any) {
         expect(e.message).toEqual('Circular dependency detected.');
       }
+    });
+
+    it('should have generated the correct order', () => {
+      expect(crossLibraryInstallationOrder).toEqual([
+        SPARTACUS_USER,
+        SPARTACUS_CART,
+        SPARTACUS_ORDER,
+        SPARTACUS_CHECKOUT,
+        SPARTACUS_TRACKING,
+        SPARTACUS_ASM,
+        SPARTACUS_EPD_VISUALIZATION,
+        SPARTACUS_DIGITAL_PAYMENTS,
+        SPARTACUS_CDS,
+        SPARTACUS_CDC,
+        SPARTACUS_STOREFINDER,
+        SPARTACUS_SMARTEDIT,
+        SPARTACUS_QUALTRICS,
+        SPARTACUS_PRODUCT_CONFIGURATOR,
+        SPARTACUS_PRODUCT,
+        SPARTACUS_ORGANIZATION,
+      ]);
     });
   });
 

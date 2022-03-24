@@ -35,7 +35,10 @@ import {
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_ORDER,
 } from './libs-constants';
-import { generateMappings, getKeyByMappingValue } from './updateable-constants';
+import {
+  generateMappings,
+  getKeyByMappingValueOrThrow,
+} from './updateable-constants';
 
 describe('generateMappings', () => {
   describe('libraryFeatureMapping', () => {
@@ -96,20 +99,25 @@ describe('generateMappings', () => {
       ]);
     });
   });
-  describe('getKeyByMappingValue', () => {
+  describe('getKeyByMappingValueOrThrow', () => {
     it('should return the key', () => {
       const mapping: Record<string, string[]> = {
         x: ['1', '2'],
       };
-      const result = getKeyByMappingValue(mapping, '1');
+      const result = getKeyByMappingValueOrThrow(mapping, '1');
       expect(result).toEqual('x');
     });
-    it('should return the undefined when not found', () => {
+    it('should throw if not found', () => {
       const mapping: Record<string, string[]> = {
         x: ['1', '2'],
       };
-      const result = getKeyByMappingValue(mapping, '3');
-      expect(result).toBeFalsy();
+      try {
+        getKeyByMappingValueOrThrow(mapping, '3');
+      } catch (e) {
+        expect((e as any).message).toEqual(
+          `Given value 3 not found in {"x":["1","2"]}`
+        );
+      }
     });
   });
 });

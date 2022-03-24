@@ -1,14 +1,11 @@
-import { SchematicsException } from '@angular-devkit/schematics';
+import { crossLibraryInstallationOrder } from '.';
 import collectedDependencies from '../../dependencies.json';
 import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
 import {
-  getKeyByMappingValue,
+  getKeyByMappingValueOrThrow,
   libraryFeatureMapping,
 } from '../updateable-constants';
-import {
-  crossFeatureInstallationOrder,
-  libraryInstallationOrder,
-} from './graph-utils';
+import { crossFeatureInstallationOrder } from './graph-utils';
 import { calculateSort } from './lib-utils';
 import { getConfiguredDependencies } from './schematics-config-utils';
 
@@ -47,15 +44,6 @@ function collectCrossFeatureDeps(feature: string, result: string[]): void {
     return;
   }
 
-  const spartacusLib = getKeyByMappingValue(libraryFeatureMapping, feature);
-  if (!spartacusLib) {
-    throw new SchematicsException(
-      `Spartacus library not found for '${spartacusLib}' in ${JSON.stringify(
-        libraryFeatureMapping
-      )}`
-    );
-  }
-
   result.push(feature);
 
   const featureDependencies = getConfiguredDependencies(feature);
@@ -70,29 +58,32 @@ function collectCrossFeatureDeps(feature: string, result: string[]): void {
  *
  * For example, CDC depends on User and ASM features.
  *
- * Returns the ordered list, according to the graph.
+ * Returns the ordered list, according to the features graph.
  */
-/**
- * TODO:#schematics - very similar to collectSpartacusLibraryDependencies() and collectSpartacusPeerDeps()
- * from projects/schematics/src/migrations/mechanism/dependency-management/dependency-management.ts
- */
-export function analyzeCrossLibraryDependencies(
+export function analyzeCrossLibraryDependenciesByFeatures(
   startingFeatures: string[]
 ): string[] {
   const startingLibraries: string[] = [];
   for (const feature of startingFeatures) {
-    const library = getKeyByMappingValue(libraryFeatureMapping, feature);
-    if (!library) {
-      throw new SchematicsException(
-        `The given '${feature}' doesn't contain a Spartacus package mapping.
-Please check its schematics configuration.`
-      );
-    }
-
+    const library = getKeyByMappingValueOrThrow(libraryFeatureMapping, feature);
     startingLibraries.push(library);
   }
 
-  let spartacusPeerDeps: string[] = startingLibraries;
+  return analyzeCrossLibraryDependenciesByLibraries(startingLibraries);
+}
+
+/**
+ * Analyzes cross-library Spartacus dependencies
+ * for the given set of libraries.
+ *
+ * For example, CDC depends on User and ASM features.
+ *
+ * Returns the ordered list, according to the features graph.
+ */
+export function analyzeCrossLibraryDependenciesByLibraries(
+  startingLibraries: string[]
+): string[] {
+  let spartacusPeerDeps = [...startingLibraries];
   for (const spartacusLib of startingLibraries) {
     collectCrossSpartacusPeerDeps(spartacusLib, spartacusPeerDeps);
   }
@@ -101,7 +92,7 @@ Please check its schematics configuration.`
   spartacusPeerDeps = Array.from(new Set<string>(spartacusPeerDeps));
   // order the libraries
   spartacusPeerDeps = spartacusPeerDeps.sort((featureA, featureB) =>
-    calculateSort(featureA, featureB, libraryInstallationOrder)
+    calculateSort(featureA, featureB, crossLibraryInstallationOrder)
   );
 
   return spartacusPeerDeps;
@@ -111,17 +102,18 @@ Please check its schematics configuration.`
  * Recursively collects the cross Spartacus library dependencies for the given library.
  */
 export function collectCrossSpartacusPeerDeps(
-  name: string,
+  libraryName: string,
   collectedDeps: string[],
   processed: string[] = []
 ): void {
-  if (processed.includes(name)) {
+  if (processed.includes(libraryName)) {
     return;
   }
 
   const peerDepsWithVersions =
-    (collectedDependencies as Record<string, Record<string, string>>)[name] ??
-    {};
+    (collectedDependencies as Record<string, Record<string, string>>)[
+      libraryName
+    ] ?? {};
 
   const peerDeps = Object.keys(peerDepsWithVersions)
     .filter((d) => d.startsWith(SPARTACUS_SCOPE))
@@ -129,7 +121,7 @@ export function collectCrossSpartacusPeerDeps(
     .filter((d) => !collectedDeps.includes(d));
 
   collectedDeps.push(...peerDeps);
-  processed.push(name);
+  processed.push(libraryName);
 
   for (const peerDep of peerDeps) {
     collectCrossSpartacusPeerDeps(peerDep, collectedDeps);
