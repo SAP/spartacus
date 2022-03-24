@@ -17,6 +17,7 @@
                   [sortOptions]="model.sorts"
                   (sortListEvent)="sortList($event)"
                   [selectedOption]="model.pagination.sort"
+                  [ariaControls]="'product-results-list'"
                   placeholder="{{ 'productList.sortBy' | cxTranslate }}"
                 ></cx-sorting>
               </label>
@@ -42,7 +43,7 @@
               </div>
             </div>
           </div>
-          <div class="cx-product-container">
+          <div id="product-results-list" class="cx-product-container">
             <!-- Product list when using pagination -->
             <ng-container *ngIf="!isInfiniteScroll; else infiniteScroll">
               <ng-container *ngIf="viewMode === ViewModes.Grid">
@@ -83,6 +84,7 @@
                   [sortOptions]="model.sorts"
                   (sortListEvent)="sortList($event)"
                   [selectedOption]="model.pagination.sort"
+                  [ariaControls]="'product-results-list'"
                   placeholder="{{ 'productList.sortBy' | cxTranslate }}"
                 ></cx-sorting>
               </label>

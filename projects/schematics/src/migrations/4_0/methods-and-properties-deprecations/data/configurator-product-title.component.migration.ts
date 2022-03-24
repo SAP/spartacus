@@ -3,9 +3,9 @@ import {
   CONFIGURATOR_PRODUCT_TITLE_COMPONENT,
   GET_PRODUCT_IMAGE_ALT,
   GET_PRODUCT_IMAGE_URL,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 //feature-libs/product-configurator/rulebased/components/product-title/configurator-product-title.component.ts

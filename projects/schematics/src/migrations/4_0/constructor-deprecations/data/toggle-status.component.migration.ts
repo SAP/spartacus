@@ -1,13 +1,15 @@
-import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 import {
-  TOGGLE_STATUS_COMPONENT,
-  SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
+  DISABLE_INFO_SERVICE,
+  FEATURE_CONFIG_SERVICE,
   ITEM_SERVICE,
   MESSAGE_SERVICE,
-  FEATURE_CONFIG_SERVICE,
-  SPARTACUS_CORE,
-  DISABLE_INFO_SERVICE,
+  TOGGLE_STATUS_COMPONENT,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
+} from '../../../../shared/libs-constants';
+import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const TOGGLE_STATUS_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
   class: TOGGLE_STATUS_COMPONENT,

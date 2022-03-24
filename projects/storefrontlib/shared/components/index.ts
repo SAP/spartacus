@@ -14,4 +14,5 @@ export * from './split-view/index';
 export * from './star-rating/index';
 export * from './table/index';
 export * from './truncate-text-popover/index';
+export * from './ng-select-a11y/index';
 export * from './assistive-technology-message/index';

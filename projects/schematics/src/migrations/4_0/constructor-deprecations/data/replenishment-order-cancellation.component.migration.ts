@@ -3,11 +3,13 @@ import {
   LAUNCH_DIALOG_SERVICE,
   REPLENISHMENT_ORDER_CANCELLATION_COMPONENT,
   REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   USER_REPLENISHMENT_ORDER_SERVICE,
   VIEW_CONTAINER_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const REPLENISHMENT_ORDER_CANCELLATION_COMPONENT_MIGRATION_V1: ConstructorDeprecation =
