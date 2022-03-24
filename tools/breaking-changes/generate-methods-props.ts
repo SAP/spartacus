@@ -64,7 +64,7 @@ function getShematicsComment(breakingChange: any): string {
   }
   if (breakingChange.changeKind.startsWith('Method')) {
     // TODO: Update the compare process to provide the member's info in the breaking change.
-    // We don't want to normalize the doc, but instead get the signatire from the data.
+    // When the method info is available, we probably want to generate the signature instead of formatting the doc.
     return `The '${
       breakingChange.changeElementName
     }' method's signature changed to: '${normalizeDocSignature(
@@ -84,7 +84,7 @@ function getUpdatedMembers(breakingChangesData: any) {
     .filter((apiElement: any) => apiElement.kind === 'Class')
     .map((apiElement: any) => {
       return apiElement.breakingChanges.map((breakingChange) => {
-        //TODO: Update the compare process to bake this info in each breaking change in advances.
+        //TODO: Update the compare process to bake this info in each breaking change in breaking-changes.json.
         return {
           ...breakingChange,
           apiElementName: apiElement.name,
