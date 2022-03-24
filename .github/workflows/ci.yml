@@ -19,6 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@latest
       - name: Run unit tests for core and storefront
         run: |
           ls -al         
