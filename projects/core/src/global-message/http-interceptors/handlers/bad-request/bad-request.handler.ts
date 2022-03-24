@@ -52,8 +52,15 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.getErrors(response)
       .filter((error) => error.type === 'PasswordMismatchError')
       .forEach(() => {
+        // Updating email and changing password share same http error occurence.
+        // Determine the context global error message based on url path
+        const url = new URL(_request.url);
+        const key = url.pathname.includes('password')
+          ? 'httpHandlers.badRequestOldPasswordIncorrect'
+          : 'httpHandlers.validationErrors.invalid.password';
+
         this.globalMessageService.add(
-          { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
+          { key: key },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
