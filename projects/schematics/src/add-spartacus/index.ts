@@ -8,11 +8,8 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import {
-  ANGULAR_HTTP,
-  RXJS,
-  SPARTACUS_STOREFRONTLIB,
-} from '../shared/constants';
+import { ANGULAR_HTTP, RXJS } from '../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -270,6 +267,7 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
     const libraryOptions: LibraryOptions = {
       project: options.project,
       lazy: options.lazy,
+      debug: options.debug,
     };
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       libraryOptions,

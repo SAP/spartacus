@@ -26,12 +26,12 @@ import {
   NGRX_STORE,
   PLATFORM,
   PLATFORM_ID_STRING,
-  SPARTACUS_CORE,
   STORE,
   TODO_SPARTACUS,
   USER_ADDRESS_SERVICE,
   UTF_8,
 } from '../constants';
+import { SPARTACUS_CORE } from '../libs-constants';
 import {
   addConstructorParam,
   buildSpartacusComment,

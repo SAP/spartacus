@@ -102,6 +102,8 @@
             class="rating-input"
           />
           <cx-star-rating
+            tabindex="0"
+            [attr.aria-label]="'productReview.ratingRequired' | cxTranslate"
             (change)="setRating($event)"
             [disabled]="false"
           ></cx-star-rating>

@@ -43,10 +43,16 @@ title: Changes to Styles in 5.0
 
 - wrapped everything in `%pdpTabs`inside a `> div {...}` to restore styling after template changes
 - wrapped everything in `%pdpFlat`inside a `> div {...}` to restore styling after template changes
+- `span.accordion-icon` has been added for screen reader improvments.
+- `$useAccordionOnly` var has been added allowing to switch between tabs and accordion view.
 
 ## Change in \_order-summary.scss
 
 - `h2` has been changed to `.cx-summary-heading` to restore styling for corresponding markup changes
+
+## Change in tables.scss
+
+- `text-align: center` has been removed from `.table > thead > th` 
 
 ## Change in store-finder-list-item.scss
 
@@ -74,3 +80,8 @@ title: Changes to Styles in 5.0
 - Width for `cx-label` in `cx-total` set to `100px` in mobile view
 - Width for `cx-label` in `cx-quantity` set to `100px` in mobile view
 - Set `display` to `block` for `cx-actions > link` in mobile view
+
+### FormErrorsComponent
+
+- `display: none` has been removed from `cx-form-errors`
+- Style structure `&.control-invalid > &.control-dirty, &.control-touched` has ben removed `cx-form-errors`

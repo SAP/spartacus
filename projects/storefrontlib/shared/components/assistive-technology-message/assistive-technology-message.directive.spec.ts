@@ -19,6 +19,15 @@ import createSpy = jasmine.createSpy;
     >
       Action
     </button>
+    <button
+      class="confirm-btn"
+      [cxAtMessage]="[
+        'checkoutOrderConfirmation.thankYou' | cxTranslate,
+        'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate
+      ]"
+    >
+      Action
+    </button>
   `,
 })
 class MockComponent {}
@@ -58,6 +67,10 @@ describe('AtMessageDirective', () => {
     return fixture.debugElement.query(By.css('.results-btn'));
   }
 
+  function getConfirmationButton(): DebugElement {
+    return fixture.debugElement.query(By.css('.confirm-btn'));
+  }
+
   it('should create test component', () => {
     expect(component).toBeTruthy();
   });
@@ -76,6 +89,18 @@ describe('AtMessageDirective', () => {
     getResultsButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       'searchBox.productsResult count:4',
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
+  });
+
+  it('should add assitive global message composed from two translations', () => {
+    const expectedMessage =
+      'checkoutOrderConfirmation.thankYou\n' +
+      'checkoutOrderConfirmation.invoiceHasBeenSentByEmail';
+    fixture.detectChanges();
+    getConfirmationButton().nativeElement.click();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      expectedMessage,
       GlobalMessageType.MSG_TYPE_ASSISTIVE
     );
   });

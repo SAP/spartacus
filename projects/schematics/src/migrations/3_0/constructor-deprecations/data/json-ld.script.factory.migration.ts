@@ -5,10 +5,12 @@ import {
   JSON_LD_SCRIPT_FACTORY,
   RENDERER_FACTORY_2,
   SEO_CONFIG,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const JSON_LD_SCRIPT_FACTORY_CONSTRUCTOR_MIGRATION: ConstructorDeprecation =

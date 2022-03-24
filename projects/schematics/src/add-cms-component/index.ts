@@ -24,10 +24,12 @@ import {
   CONFIG_MODULE_CLASS,
   OBSERVABLE_CLASS,
   RXJS,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   UTF_8,
 } from '../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../shared/libs-constants';
 import {
   commitChanges,
   defineProperty,

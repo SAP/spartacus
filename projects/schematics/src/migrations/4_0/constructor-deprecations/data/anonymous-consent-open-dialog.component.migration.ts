@@ -3,9 +3,9 @@ import {
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
   ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT,
   LAUNCH_DIALOG_SERVICE,
-  SPARTACUS_STOREFRONTLIB,
   VIEW_CONTAINER_REF,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION_V1: ConstructorDeprecation =

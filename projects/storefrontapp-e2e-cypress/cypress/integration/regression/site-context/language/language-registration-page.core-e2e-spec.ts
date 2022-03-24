@@ -32,9 +32,11 @@ describe('Language switch - registration page', () => {
         siteContextSelector.LANGUAGE_LABEL
       );
 
-      cy.get('cx-register select')
-        .select(deutschName)
-        .should('have.value', 'mr');
+      cy.get('[formcontrolname="titleCode"]').ngSelect(deutschName);
+      cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
+        'have.text',
+        deutschName
+      );
     });
   });
 });
