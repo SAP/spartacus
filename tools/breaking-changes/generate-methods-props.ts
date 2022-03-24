@@ -27,20 +27,20 @@ console.log(
   `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
 );
 
-const deletedMemberSchematics = [];
+const updatedMemberSchematics = [];
 
-const deletedMembers = getUpdatedMembers(breakingChangesData);
-console.log(`Found ${deletedMembers.length} updated members.`);
-printStatsForBreakingChangeList(deletedMembers);
+const updatedMembers = getUpdatedMembers(breakingChangesData);
+console.log(`Found ${updatedMembers.length} updated members.`);
+printStatsForBreakingChangeList(updatedMembers);
 
-deletedMembers.forEach((breakingChange: any) => {
-  deletedMemberSchematics.push(getSchematicsData(breakingChange));
+updatedMembers.forEach((breakingChange: any) => {
+  updatedMemberSchematics.push(getSchematicsData(breakingChange));
 });
 
-console.log(`Generated ${deletedMemberSchematics.length} entries.`);
+console.log(`Generated ${updatedMemberSchematics.length} entries.`);
 fs.writeFileSync(
   `generate-methods-props.out.ts`,
-  stringifyObject(deletedMemberSchematics)
+  stringifyObject(updatedMemberSchematics)
 );
 
 /**
