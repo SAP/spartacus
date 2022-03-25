@@ -88,7 +88,9 @@ fi
 
 #     yarn e2e:run:ci:ssr
 # else
+yarn install
 (cd projects/storefrontapp-e2e-cypress && yarn install)
+
 yarn start:pwa &
 
 echo '-----'
