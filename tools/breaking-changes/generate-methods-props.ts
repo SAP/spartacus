@@ -54,11 +54,11 @@ function getSchematicsData(breakingChange: any): any {
   schematicsData.class = breakingChange.apiElementName;
   schematicsData.importPath = breakingChange.entryPoint;
   schematicsData.deprecatedNode = breakingChange.changeElementName;
-  schematicsData.comment = getShematicsComment(breakingChange);
+  schematicsData.comment = getSchematicsComment(breakingChange);
   return schematicsData;
 }
 
-function getShematicsComment(breakingChange: any): string {
+function getSchematicsComment(breakingChange: any): string {
   if (breakingChange.changeType === 'DELETED') {
     return `${breakingChange.deletedComment} ${breakingChange.migrationComment}`;
   }
@@ -72,7 +72,7 @@ function getShematicsComment(breakingChange: any): string {
     )}'`;
   }
   if (breakingChange.changeKind.startsWith('Property')) {
-    return `The type of property '${breakingChange.changeElementName}' changed to: '${breakingChange.currentStateDoc}' `;
+    return `The type of property '${breakingChange.previousStateDoc}' changed to: '${breakingChange.currentStateDoc}' `;
   }
   throw new Error(
     `Unsupported breaking change ${breakingChange.change}:${breakingChange.changeElementName}`

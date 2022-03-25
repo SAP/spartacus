@@ -7,26 +7,28 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/cart/quick-order/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'QuickOrderComponent',
       importPath: '@spartacus/cart/quick-order/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'QuickOrderFormComponent',
       importPath: '@spartacus/cart/quick-order/components',
       deprecatedNode: 'cd',
-      comment: "The type of property 'cd' changed to: 'cd: ChangeDetectorRef' ",
+      comment:
+        "The type of property 'cd: ChangeDetectorRef | undefined' changed to: 'cd: ChangeDetectorRef' ",
     },
     {
       class: 'QuickOrderFormComponent',
       importPath: '@spartacus/cart/quick-order/components',
       deprecatedNode: 'config',
-      comment: "The type of property 'config' changed to: 'config: Config' ",
+      comment:
+        "The type of property 'config: Config | undefined' changed to: 'config: Config' ",
     },
     {
       class: 'QuickOrderFormComponent',
@@ -39,14 +41,15 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       class: 'QuickOrderFormComponent',
       importPath: '@spartacus/cart/quick-order/components',
       deprecatedNode: 'winRef',
-      comment: "The type of property 'winRef' changed to: 'winRef: WindowRef' ",
+      comment:
+        "The type of property 'winRef: WindowRef | undefined' changed to: 'winRef: WindowRef' ",
     },
     {
       class: 'QuickOrderService',
       importPath: '@spartacus/cart/quick-order/core',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'QuickOrderService',
@@ -60,7 +63,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/cart/quick-order/core',
       deprecatedNode: 'productSearchConnector',
       comment:
-        "The type of property 'productSearchConnector' changed to: 'productSearchConnector: ProductSearchConnector' ",
+        "The type of property 'productSearchConnector: ProductSearchConnector | undefined' changed to: 'productSearchConnector: ProductSearchConnector' ",
     },
     {
       class: 'QuickOrderService',
@@ -81,7 +84,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/cart/quick-order/root',
       deprecatedNode: 'quickOrder',
       comment:
-        "The type of property 'quickOrder' changed to: 'quickOrder: {\n        searchForm?: {\n            displayProductImages: boolean;\n            maxProducts: number;\n            minCharactersBeforeRequest: number;\n        };\n        list?: {\n            hardDeleteTimeout: number;\n        };\n    }' ",
+        "The type of property 'quickOrder: {\n        searchForm?: {\n            displayProductImages: boolean;\n            maxProducts: number;\n            minCharactersBeforeRequest: number;\n        };\n    }' changed to: 'quickOrder: {\n        searchForm?: {\n            displayProductImages: boolean;\n            maxProducts: number;\n            minCharactersBeforeRequest: number;\n        };\n        list?: {\n            hardDeleteTimeout: number;\n        };\n    }' ",
     },
     {
       class: 'QuickOrderFacade',
@@ -123,7 +126,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'multiCartService',
       comment:
-        "The type of property 'multiCartService' changed to: 'multiCartService: MultiCartFacade' ",
+        "The type of property 'multiCartService: MultiCartService' changed to: 'multiCartService: MultiCartFacade' ",
     },
     {
       class: 'SavedCartEventBuilder',
@@ -144,7 +147,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'multiCartService',
       comment:
-        "The type of property 'multiCartService' changed to: 'multiCartService: MultiCartFacade' ",
+        "The type of property 'multiCartService: MultiCartService' changed to: 'multiCartService: MultiCartFacade' ",
     },
     {
       class: 'OccSavedCartAdapter',
@@ -172,7 +175,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/cart/saved-cart/root',
       deprecatedNode: 'multiCartService',
       comment:
-        "The type of property 'multiCartService' changed to: 'multiCartService: MultiCartFacade' ",
+        "The type of property 'multiCartService: MultiCartService' changed to: 'multiCartService: MultiCartFacade' ",
     },
     {
       class: 'SavedCartFacade',
@@ -193,7 +196,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/cart/saved-cart/root',
       deprecatedNode: 'multiCartService',
       comment:
-        "The type of property 'multiCartService' changed to: 'multiCartService: MultiCartFacade' ",
+        "The type of property 'multiCartService: MultiCartService' changed to: 'multiCartService: MultiCartFacade' ",
     },
     {
       class: 'CartNotEmptyGuard',
@@ -879,21 +882,21 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'payload',
       comment:
-        "The type of property 'payload' changed to: 'payload: {\n        userId: string;\n        name?: string;\n        description?: string;\n    }' ",
+        "The type of property 'payload: {\n        userId: string;\n        name: string;\n        description?: string;\n    }' changed to: 'payload: {\n        userId: string;\n        name?: string;\n        description?: string;\n    }' ",
     },
     {
       class: 'CreateWishListSuccess',
       importPath: '@spartacus/core',
       deprecatedNode: 'payload',
       comment:
-        "The type of property 'payload' changed to: 'payload: {\n        cart: Cart;\n        cartId: string;\n    }' ",
+        "The type of property 'payload: {\n        cart: Cart;\n        userId: string;\n    }' changed to: 'payload: {\n        cart: Cart;\n        cartId: string;\n    }' ",
     },
     {
       class: 'LoadWishListSuccess',
       importPath: '@spartacus/core',
       deprecatedNode: 'payload',
       comment:
-        "The type of property 'payload' changed to: 'payload: {\n        cart: Cart;\n        cartId: string;\n    }' ",
+        "The type of property 'payload: LoadWishListSuccessPayload' changed to: 'payload: {\n        cart: Cart;\n        cartId: string;\n    }' ",
     },
     {
       class: 'CartAdapter',
@@ -914,7 +917,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'CartPersistenceModule',
@@ -942,7 +945,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'store',
       comment:
-        "The type of property 'store' changed to: 'store: Store<StateWithProcess<void>>' ",
+        "The type of property 'store: Store<fromProcessStore.StateWithProcess<void>>' changed to: 'store: Store<StateWithProcess<void>>' ",
     },
     {
       class: 'Command',
@@ -970,7 +973,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'globalMessages',
       comment:
-        "The type of property 'globalMessages' changed to: 'globalMessages: {\n        [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_ASSISTIVE]?: GlobalMessageTypeConfig;\n    }' ",
+        "The type of property 'globalMessages: {\n        [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig;\n    }' changed to: 'globalMessages: {\n        [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_ASSISTIVE]?: GlobalMessageTypeConfig;\n    }' ",
     },
     {
       class: 'MultiCartService',
@@ -1026,7 +1029,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'store',
       comment:
-        "The type of property 'store' changed to: 'store: Store<StateWithOrder>' ",
+        "The type of property 'store: Store<StateWithUser | StateWithProcess<void>>' changed to: 'store: Store<StateWithOrder>' ",
     },
     {
       class: 'RoutingConfigService',
@@ -1635,7 +1638,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'ConfiguratorCartService',
@@ -1649,7 +1652,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'ConfiguratorCommonsService',
@@ -1705,7 +1708,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'entry$',
       comment:
-        "The type of property 'entry$' changed to: 'entry$: Observable<OrderEntry | undefined>' ",
+        "The type of property 'entry$: Observable<OrderEntry>' changed to: 'entry$: Observable<OrderEntry | undefined>' ",
     },
     {
       class: 'AddedToCartDialogComponent',
@@ -1740,7 +1743,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'AddToCartComponent',
@@ -1789,35 +1792,35 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'cartVoucherService',
       comment:
-        "The type of property 'cartVoucherService' changed to: 'cartVoucherService: CartVoucherFacade' ",
+        "The type of property 'cartVoucherService: CartVoucherService' changed to: 'cartVoucherService: CartVoucherFacade' ",
     },
     {
       class: 'CartCouponComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'CartCouponComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'cartVoucherService',
       comment:
-        "The type of property 'cartVoucherService' changed to: 'cartVoucherService: CartVoucherFacade' ",
+        "The type of property 'cartVoucherService: CartVoucherService' changed to: 'cartVoucherService: CartVoucherFacade' ",
     },
     {
       class: 'CartDetailsComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'CartDetailsComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'selectiveCartService',
       comment:
-        "The type of property 'selectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
+        "The type of property 'selectiveCartService: SelectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
     },
     {
       class: 'CartItemComponent',
@@ -1831,7 +1834,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'CartItemListComponent',
@@ -1845,21 +1848,21 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'multiCartService',
       comment:
-        "The type of property 'multiCartService' changed to: 'multiCartService: MultiCartFacade' ",
+        "The type of property 'multiCartService: MultiCartService' changed to: 'multiCartService: MultiCartFacade' ",
     },
     {
       class: 'CartItemListComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'selectiveCartService',
       comment:
-        "The type of property 'selectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
+        "The type of property 'selectiveCartService: SelectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
     },
     {
       class: 'CartPageLayoutHandler',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'CartPageLayoutHandler',
@@ -1873,14 +1876,14 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'selectiveCartService',
       comment:
-        "The type of property 'selectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
+        "The type of property 'selectiveCartService: SelectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
     },
     {
       class: 'CartTotalsComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'CartTotalsComponent',
@@ -1929,14 +1932,14 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'activeCartService',
       comment:
-        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'CartValidationGuard',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'cartValidationService',
       comment:
-        "The type of property 'cartValidationService' changed to: 'cartValidationService: CartValidationFacade' ",
+        "The type of property 'cartValidationService: CartValidationService' changed to: 'cartValidationService: CartValidationFacade' ",
     },
     {
       class: 'CartValidationWarningsComponent',
@@ -1957,7 +1960,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'getIconType',
       comment:
-        "The type of property 'getIconType' changed to: 'getIconType: ICON_TYPE' ",
+        "The type of property 'getIconType: string' changed to: 'getIconType: ICON_TYPE' ",
     },
     {
       class: 'MiniCartComponent',
@@ -1985,35 +1988,35 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'cancel$',
       comment:
-        "The type of property 'cancel$' changed to: 'cancel$: Observable<Consignment[] | undefined>' ",
+        "The type of property 'cancel$: Observable<Consignment[]>' changed to: 'cancel$: Observable<Consignment[] | undefined>' ",
     },
     {
       class: 'OrderDetailItemsComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'completed$',
       comment:
-        "The type of property 'completed$' changed to: 'completed$: Observable<Consignment[] | undefined>' ",
+        "The type of property 'completed$: Observable<Consignment[]>' changed to: 'completed$: Observable<Consignment[] | undefined>' ",
     },
     {
       class: 'OrderDetailItemsComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'order$',
       comment:
-        "The type of property 'order$' changed to: 'order$: Observable<Order>' ",
+        "The type of property 'order$: Observable<any>' changed to: 'order$: Observable<Order>' ",
     },
     {
       class: 'OrderDetailItemsComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'others$',
       comment:
-        "The type of property 'others$' changed to: 'others$: Observable<Consignment[] | undefined>' ",
+        "The type of property 'others$: Observable<Consignment[]>' changed to: 'others$: Observable<Consignment[] | undefined>' ",
     },
     {
       class: 'OrderHistoryComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'orders$',
       comment:
-        "The type of property 'orders$' changed to: 'orders$: Observable<OrderHistoryList | undefined>' ",
+        "The type of property 'orders$: Observable<OrderHistoryList>' changed to: 'orders$: Observable<OrderHistoryList | undefined>' ",
     },
     {
       class: 'OrderHistoryComponent',
@@ -2055,14 +2058,14 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'returnRequests$',
       comment:
-        "The type of property 'returnRequests$' changed to: 'returnRequests$: Observable<ReturnRequestList | undefined>' ",
+        "The type of property 'returnRequests$: Observable<ReturnRequestList>' changed to: 'returnRequests$: Observable<ReturnRequestList | undefined>' ",
     },
     {
       class: 'OrderReturnService',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'returnRequestService',
       comment:
-        "The type of property 'returnRequestService' changed to: 'returnRequestService: OrderReturnRequestFacade' ",
+        "The type of property 'returnRequestService: OrderReturnRequestService' changed to: 'returnRequestService: OrderReturnRequestFacade' ",
     },
     {
       class: 'ProgressButtonComponent',
@@ -2097,7 +2100,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'replenishmentOrders$',
       comment:
-        "The type of property 'replenishmentOrders$' changed to: 'replenishmentOrders$: Observable<ReplenishmentOrderList | undefined>' ",
+        "The type of property 'replenishmentOrders$: Observable<ReplenishmentOrderList>' changed to: 'replenishmentOrders$: Observable<ReplenishmentOrderList | undefined>' ",
     },
     {
       class: 'ReplenishmentOrderHistoryComponent',
@@ -2111,21 +2114,21 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/storefront',
       deprecatedNode: 'injector',
       comment:
-        "The type of property 'injector' changed to: 'injector: UnifiedInjector' ",
+        "The type of property 'injector: Injector' changed to: 'injector: UnifiedInjector' ",
     },
     {
       class: 'SaveForLaterComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'cartService',
       comment:
-        "The type of property 'cartService' changed to: 'cartService: ActiveCartFacade' ",
+        "The type of property 'cartService: ActiveCartService' changed to: 'cartService: ActiveCartFacade' ",
     },
     {
       class: 'SaveForLaterComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'selectiveCartService',
       comment:
-        "The type of property 'selectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
+        "The type of property 'selectiveCartService: SelectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
     },
     {
       class: 'TabParagraphContainerComponent',
