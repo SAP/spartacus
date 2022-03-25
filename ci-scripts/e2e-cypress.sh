@@ -76,18 +76,18 @@ echo '-----'
 echo "Building Spartacus storefrontapp"
 yarn build
 
-if [[ "${SSR}" = true ]]; then
-    echo "Building Spartacus storefrontapp (SSR PROD mode)"
-    yarn build:ssr:ci
+# if [[ "${SSR}" = true ]]; then
+#     echo "Building Spartacus storefrontapp (SSR PROD mode)"
+#     yarn build:ssr:ci
 
-    echo "Starting Spartacus storefrontapp in SSR mode"
-    (yarn serve:ssr:ci &)
+#     echo "Starting Spartacus storefrontapp in SSR mode"
+#     (yarn serve:ssr:ci &)
 
-    echo '-----'
-    echo "Running SSR Cypress smoke test"
+#     echo '-----'
+#     echo "Running SSR Cypress smoke test"
 
-    yarn e2e:run:ci:ssr
-else
+#     yarn e2e:run:ci:ssr
+# else
 # yarn install
 # (cd projects/storefrontapp-e2e-cypress && yarn install)
 
