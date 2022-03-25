@@ -37,7 +37,8 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: spartacus
-          path: dist/
+          path: dist
+          retention-days: 1
   b2c_e2e_test:
     name: B2C Cypress e2e tests
     runs-on: ubuntu-latest
@@ -56,7 +57,9 @@ jobs:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
           SPA_ENV: ci,b2c
         run: |
-          ls -al         
+          ls -al     
+          echo $GITHUB_WORKSPACE
+          pwd    
           ci-scripts/e2e-cypress.sh
   # b2bE2eTest:
   #   name: B2B Cypress e2e tests
