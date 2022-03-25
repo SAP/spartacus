@@ -10,8 +10,8 @@ on:
     types: [opened, synchronize, reopened]
 name: Spartacus CI pipeline
 jobs:
-  unitTests:
-    name: Unit tests
+  unitTestsCore:
+    name: Unit tests Core
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -22,8 +22,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@latest
       - name: Install yarn
         run: npm install -g yarn
       - name: Package installation
@@ -32,7 +30,23 @@ jobs:
         run: |
           ls -al         
           ci-scripts/unit-tests-core-lib.sh
+  unitTestsLibs:
+    name: Unit tests libs
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install yarn
+        run: npm install -g yarn
+      - name: Package installation
+        run: yarn install
       - name: Run unit tests for libs
         run: |
           ls -al         
-          ci-scripts/unit-tests.sh
+          ci-scripts/unit-tests-core-lib.sh
