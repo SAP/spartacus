@@ -41,7 +41,7 @@ class MockEventService {
 
 const reviewsLabel = 'Reviews';
 
-describe('ProductIntroComponent in product', () => {
+fdescribe('ProductIntroComponent in product', () => {
   let productIntroComponent: ProductIntroComponent;
   let fixture: ComponentFixture<ProductIntroComponent>;
   let translationService: TranslationService;
@@ -192,7 +192,6 @@ describe('ProductIntroComponent in product', () => {
     it('should not display Show Reviews when reviews are not available', () => {
       productIntroComponent.product$ = of<Product>({
         averageRating: 5,
-        numberOfReviews: 1,
       });
       productIntroComponent['getReviewsComponent'] = () => null;
 
@@ -206,12 +205,15 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentDestroyEvent();
       event.id = 'ProductReviewsTabComponent';
 
+      spyOn(eventService, 'get').and.returnValues(of(), of(event));
+
+      fixture = TestBed.createComponent(ProductIntroComponent);
+      productIntroComponent = fixture.componentInstance;
+
       productIntroComponent.product$ = of<Product>({
         averageRating: 5,
-        numberOfReviews: 1,
       });
-      productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
-      spyOn(eventService, 'get').and.returnValue(of(event));
+      productIntroComponent['getReviewsComponent'] = () => null;
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).not.toContain(
@@ -223,12 +225,15 @@ describe('ProductIntroComponent in product', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
+      spyOn(eventService, 'get').and.returnValues(of(event), of());
+
+      fixture = TestBed.createComponent(ProductIntroComponent);
+      productIntroComponent = fixture.componentInstance;
+
       productIntroComponent.product$ = of<Product>({
         averageRating: 5,
-        numberOfReviews: 1,
       });
       productIntroComponent['getReviewsComponent'] = () => null;
-      spyOn(eventService, 'get').and.returnValue(of(event));
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
@@ -248,7 +253,6 @@ describe('ProductIntroComponent in product', () => {
 
       productIntroComponent.product$ = of<Product>({
         averageRating: 4.5,
-        numberOfReviews: 1,
       });
 
       spyOn(reviewsTab, 'focus');
