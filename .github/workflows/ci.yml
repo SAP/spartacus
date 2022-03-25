@@ -68,6 +68,7 @@ jobs:
   b2bE2eTest:
     name: B2B Cypress e2e tests
     runs-on: ubuntu-latest
+    needs: build_spartacus
     defaults:
       run: 
         working-directory: ./
