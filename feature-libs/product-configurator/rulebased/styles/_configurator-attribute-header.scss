@@ -4,9 +4,7 @@
   margin-inline-start: 17px;
   margin-inline-end: 17px;
 
-  @include forVersion(3.3) {
-    margin-block-end: 17px;
-  }
+  margin-block-end: 17px;
 
   label {
     @include type('5');
@@ -28,7 +26,6 @@
     cx-icon {
       color: var(--cx-color-warning);
       font-size: 20px;
-      padding-inline-start: 5px;
       padding-inline-end: 5px;
     }
 
@@ -36,6 +33,10 @@
       color: var(--cx-color-text);
       font-size: 14px;
     }
+  }
+
+  a.cx-conflict-msg {
+    cursor: pointer;
   }
 
   img {

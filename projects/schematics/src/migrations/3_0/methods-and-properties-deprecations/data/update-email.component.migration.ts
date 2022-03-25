@@ -1,12 +1,12 @@
 import {
   ON_SUCCESS,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
   UPDATE_EMAIL_COMPONENT,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/cms-components/myaccount/update-email/update-email.component.ts
+// projects/storefrontlib/cms-components/myaccount/update-email/update-email.component.ts
 export const UPDATE_EMAIL_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: UPDATE_EMAIL_COMPONENT,

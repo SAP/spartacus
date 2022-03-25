@@ -1,5 +1,4 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -8,6 +7,7 @@ import { ConfirmationMessageComponent } from '../../message/confirmation/confirm
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
+import { DisableInfoService } from '../disable-info/disable-info.service';
 
 /**
  * Reusable component in the my-company is to toggle the disabled state for
@@ -53,26 +53,9 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   protected confirmation: Subject<ConfirmationMessageData>;
 
   constructor(
-    itemService: ItemService<T>,
-    messageService: MessageService<ConfirmationMessageData>
-  );
-
-  /**
-   * @deprecated since version 3.2
-   * Use constructor( protected itemService: ItemService<T>, protected messageService: MessageService<ConfirmationMessageData>, protected featureConfigService: FeatureConfigService) {} instead
-   */
-  // TODO(#11387): Remove deprecated constructors
-  constructor(
-    itemService: ItemService<T>,
-    messageService: MessageService<ConfirmationMessageData>,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService
-  );
-
-  constructor(
     protected itemService: ItemService<T>,
     protected messageService: MessageService<ConfirmationMessageData>,
-    protected featureConfigService?: FeatureConfigService
+    protected disableInfoService: DisableInfoService<T>
   ) {}
 
   toggle(item: T) {
@@ -83,12 +66,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
       if (!this.confirmation) {
         this.confirmation = this.messageService.add({
           message: {
-            key: `${this.i18nRoot}${
-              //TODO(#11387): Replace deactivateBody with deactivate
-              this.featureConfigService?.isLevel('3.2')
-                ? '.messages.deactivateBody'
-                : '.messages.deactivate'
-            }`,
+            key: this.i18nRoot + '.messages.deactivate',
             params: { item },
           },
           messageTitle: {
@@ -123,9 +101,8 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   isDisabled(item: T): boolean {
     return (
       this.disabled ??
-      //* TODO: 4.0: Use this.disableInfoService.isParentDisabled(item) instead
-      !(item.orgUnit || item.unit || item.parentOrgUnit)?.active
-      //*
+      (this.disableInfoService.isParentDisabled(item) ||
+        this.disableInfoService.isRootUnit(item))
     );
   }
 

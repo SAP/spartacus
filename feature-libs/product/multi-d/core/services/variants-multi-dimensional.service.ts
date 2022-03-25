@@ -7,7 +7,13 @@ import {
   VariantOption,
 } from 'projects/core/src/model';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  shareReplay,
+  map,
+  tap,
+} from 'rxjs/operators';
 
 export interface GridVariantOption extends VariantOption {
   variantData: VariantData[];
@@ -16,9 +22,7 @@ export interface VariantData {
   type: string;
   value: string;
 }
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class VariantsMultiDimensionalService {
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
     filter(isNotNullable),
@@ -32,14 +36,15 @@ export class VariantsMultiDimensionalService {
       }
 
       this.extractAndAssignVariantValuesFromMatrix(product);
-    })
+    }),
+    shareReplay(1)
   );
 
-  private variantCategories: string[] = [];
-  private variantOptions: GridVariantOption[] = [];
-  private variants: VariantMatrixElement[] = [];
+  protected variantCategories: string[] = [];
+  protected variantOptions: GridVariantOption[] = [];
+  protected variants: VariantMatrixElement[] = [];
 
-  constructor(private currentProductService: CurrentProductService) {}
+  constructor(protected currentProductService: CurrentProductService) {}
 
   variantHasImages(variants: VariantMatrixElement[]): boolean {
     return variants.some(
@@ -88,7 +93,7 @@ export class VariantsMultiDimensionalService {
     }
   }
 
-  getProductCategories(product: Product): void {
+  private getProductCategories(product: Product): void {
     this.variantCategories = this.extractVariantCategories(product);
   }
 
@@ -96,7 +101,7 @@ export class VariantsMultiDimensionalService {
     product: Product,
     matrix: VariantMatrixElement[]
   ): number {
-    let productVariantMatrixIndex: number;
+    let productVariantMatrixIndex!: number;
 
     matrix.forEach((variant: VariantMatrixElement, index: number) => {
       if (variant.variantOption?.code === product.code) {

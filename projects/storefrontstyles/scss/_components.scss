@@ -6,40 +6,34 @@
 // selector is not used.
 $skipComponentStyles: () !default;
 
-$layout-components-whitelist: () !default;
-$product-components-whitelist: () !default;
-$user-components-whitelist: () !default;
-$cart-components-whitelist: () !default;
-$checkout-components-whitelist: () !default;
-$content-components-whitelist: () !default;
-$misc-components-whitelist: () !default;
-$asm-components-whitelist: () !default;
-$pwa-components-whitelist: () !default;
-$cds-components-whitelist: () !default;
-$wish-list-components-whitelist: () !default;
-$myaccount-components-whitelist: () !default;
+$layout-components-allowlist: () !default;
+$product-components-allowlist: () !default;
+$user-components-allowlist: () !default;
+$content-components-allowlist: () !default;
+$misc-components-allowlist: () !default;
+$pwa-components-allowlist: () !default;
+$cds-components-allowlist: () !default;
+$epd-visualization-components-allowlist: () !default;
+$myaccount-components-allowlist: () !default;
 
 $selectors: mergeAll(
   (
-    $layout-components-whitelist,
-    $misc-components-whitelist,
-    $content-components-whitelist,
-    $product-components-whitelist,
-    $cart-components-whitelist,
-    $checkout-components-whitelist,
-    $user-components-whitelist,
-    $myaccount-components-whitelist,
-    $pwa-components-whitelist,
-    $cds-components-whitelist,
-    $asm-components-whitelist,
-    $wish-list-components-whitelist
+    $layout-components-allowlist,
+    $misc-components-allowlist,
+    $content-components-allowlist,
+    $product-components-allowlist,
+    $user-components-allowlist,
+    $myaccount-components-allowlist,
+    $pwa-components-allowlist,
+    $cds-components-allowlist,
+    $epd-visualization-components-allowlist
   )
 );
 
 @each $selector in $selectors {
   #{$selector} {
     // skip selectors if they're added to the $skipComponentStyles list
-    @if (index($skipComponentStyles, $selector) == null) {
+    @if (index($skipComponentStyles, $selector) ==null) {
       @extend %#{$selector} !optional;
     }
   }
@@ -48,7 +42,7 @@ $selectors: mergeAll(
 // add body specific selectors
 body {
   @each $selector in $selectors {
-    @if (index($skipComponentStyles, $selector) == null) {
+    @if (index($skipComponentStyles, $selector) ==null) {
       @extend %#{$selector}__body !optional;
     }
   }

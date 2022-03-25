@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule],
   declarations: [ProductVariantColorSelectorComponent],
-  entryComponents: [ProductVariantColorSelectorComponent],
   exports: [ProductVariantColorSelectorComponent],
 })
 export class ProductVariantColorSelectorModule {}

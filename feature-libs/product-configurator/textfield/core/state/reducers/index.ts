@@ -12,6 +12,7 @@ export function getConfiguratorTextfieldReducers(): ActionReducerMap<Configurati
   return {
     loaderState: StateUtils.loaderReducer<ConfiguratorTextfield.Configuration>(
       CONFIGURATION_TEXTFIELD_DATA,
+      // @ts-ignore TODO (#12620)
       configuratorTextfieldReducer
     ),
   };

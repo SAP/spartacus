@@ -1,0 +1,54 @@
+@import '~@spartacus/styles/scss/cxbase/blocks/modal';
+
+cx-product-image-zoom-dialog {
+  color: var(--cx-color-text);
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-image-zoom-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+    @extend .modal-lg;
+
+    @include media-breakpoint-up(md) {
+      // !important is required to override bootstrap
+      max-width: 90vw !important;
+      min-width: 90vw !important;
+      height: 90vh;
+    }
+
+    // Landscape phones
+    @media only screen and (max-width: 900px) and (orientation: landscape) {
+      max-width: 100% !important;
+      min-width: 100% !important;
+      height: 100%;
+      margin: 0;
+    }
+
+    .cx-dialog-content {
+      @extend .modal-content;
+      height: 100%;
+
+      .cx-dialog-header {
+        @extend .modal-header;
+        padding: 1.5rem 1.75rem 0.85rem;
+        border-bottom: none;
+        max-height: 76px;
+
+        // Landscape phones
+        @media only screen and (max-width: 900px) and (orientation: landscape) {
+          padding: 1rem;
+        }
+      }
+      .cx-dialog-body {
+        @extend .modal-body;
+        background-color: var(--cx-color-inverse);
+        height: calc(100% - 76px);
+
+        // Landscape phones
+        @media only screen and (max-width: 900px) and (orientation: landscape) {
+          padding: 0;
+        }
+      }
+    }
+  }
+}

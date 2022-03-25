@@ -33,7 +33,7 @@ export class UserConsentService {
    * Retrieves all consents.
    */
   loadConsents(): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(new UserActions.LoadUserConsents(userId));
     });
   }
@@ -54,7 +54,7 @@ export class UserConsentService {
         filter(([_templates, loading, _success]) => !loading),
         tap(([templates, _loading, success]) => {
           if (!templates || templates.length === 0) {
-            // avoid infite loop - if we've already attempted to load templates and we got an empty array as the response
+            // avoid infinite loop - if we've already attempted to load templates and we got an empty array as the response
             if (!success) {
               this.loadConsents();
             }
@@ -105,7 +105,7 @@ export class UserConsentService {
   getConsent(templateId: string): Observable<Consent> {
     return this.authService.isUserLoggedIn().pipe(
       filter(Boolean),
-      tap(() => this.getConsents(true)),
+      switchMap(() => this.getConsents(true)),
       switchMap(() =>
         this.store.pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))
@@ -149,7 +149,7 @@ export class UserConsentService {
    * @param consentTemplateVersion a template version for which to give a consent
    */
   giveConsent(consentTemplateId: string, consentTemplateVersion: number): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.GiveUserConsent({
           userId,
@@ -199,7 +199,7 @@ export class UserConsentService {
    * @param consentCode for which to withdraw the consent
    */
   withdrawConsent(consentCode: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.WithdrawUserConsent({
           userId,

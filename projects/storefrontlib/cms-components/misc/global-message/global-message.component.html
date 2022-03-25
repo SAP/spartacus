@@ -1,0 +1,78 @@
+<div *ngIf="messages$ | async as messages">
+  <div
+    class="cx-visually-hidden"
+    *ngFor="let assistiveMsg of messages[messageType.MSG_TYPE_ASSISTIVE]"
+  >
+    <span>{{ assistiveMsg | cxTranslate }}</span>
+  </div>
+  <div
+    class="alert alert-success"
+    *ngFor="
+      let confMsg of messages[messageType.MSG_TYPE_CONFIRMATION];
+      let i = index
+    "
+  >
+    <span class="alert-icon">
+      <cx-icon [type]="iconTypes.SUCCESS"></cx-icon>
+    </span>
+    <span>{{ confMsg | cxTranslate }}</span>
+    <button
+      class="close"
+      type="button"
+      (click)="clear(messageType.MSG_TYPE_CONFIRMATION, i)"
+    >
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </div>
+  <div
+    class="alert alert-info"
+    *ngFor="let infoMsg of messages[messageType.MSG_TYPE_INFO]; let i = index"
+  >
+    <span class="alert-icon">
+      <cx-icon [type]="iconTypes.INFO"></cx-icon>
+    </span>
+    <span>{{ infoMsg | cxTranslate }}</span>
+    <button
+      class="close"
+      type="button"
+      (click)="clear(messageType.MSG_TYPE_INFO, i)"
+    >
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </div>
+  <div
+    class="alert alert-warning"
+    *ngFor="
+      let infoMsg of messages[messageType.MSG_TYPE_WARNING];
+      let i = index
+    "
+  >
+    <span class="alert-icon">
+      <cx-icon [type]="iconTypes.WARNING"></cx-icon>
+    </span>
+    <span>{{ infoMsg | cxTranslate }}</span>
+    <button
+      class="close"
+      type="button"
+      (click)="clear(messageType.MSG_TYPE_WARNING, i)"
+    >
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </div>
+  <div
+    class="alert alert-danger"
+    *ngFor="let errorMsg of messages[messageType.MSG_TYPE_ERROR]; let i = index"
+  >
+    <span class="alert-icon">
+      <cx-icon [type]="iconTypes.ERROR"></cx-icon>
+    </span>
+    <span>{{ errorMsg | cxTranslate }}</span>
+    <button
+      class="close"
+      type="button"
+      (click)="clear(messageType.MSG_TYPE_ERROR, i)"
+    >
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </div>
+</div>

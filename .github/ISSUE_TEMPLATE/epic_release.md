@@ -19,6 +19,7 @@ The following is a checklist for new epics or features acceptance for Spartacus,
 - [ ] Epic complies with [Accessibility best practices](https://sap.github.io/spartacus-docs/a11y-best-practices/)
 - [ ] Epic CSS supports directionality (if required)
 - [ ] Epic code scans have been conducted (sonar, whitesource, checkmarx)
+- [ ] Epic renders successfully in SSR
 
 ## Audits/reviews
 
@@ -43,4 +44,5 @@ If the new feature requires new or updated sample data for a specific Commerce b
 - [ ] New sample data has been loaded and tested in our CI server
 
 ## Documentation
+
 - [ ] Documentation input is provided for it to be published on the doc site.

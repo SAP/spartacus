@@ -1,6 +1,7 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
   <label>
     <input
+      required="true"
       #searchTerm
       type="text"
       formControlName="searchTerm"
@@ -37,7 +38,11 @@
 </div>
 
 <div class="asm-results" *ngIf="searchResultsLoading$ | async">
-  <div class="spinner" aria-hidden="false" aria-label="Loading">
+  <div
+    class="spinner"
+    aria-hidden="false"
+    [attr.aria-label]="'common.loading' | cxTranslate"
+  >
     <div></div>
     <div></div>
     <div></div>

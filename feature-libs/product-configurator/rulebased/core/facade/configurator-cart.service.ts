@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
-  CheckoutService,
   OCC_USER_ID_CURRENT,
   StateUtils,
-  StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
 import {
@@ -18,16 +17,18 @@ import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorSelectors } from '../state/selectors/index';
+import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartService {
   constructor(
-    protected cartStore: Store<StateWithMultiCart>,
     protected store: Store<StateWithConfigurator>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected checkoutService: CheckoutService,
-    protected userIdService: UserIdService
+    // TODO:#checkout - handle the breaking changes
+    protected checkoutQueryFacade: CheckoutQueryFacade,
+    protected userIdService: UserIdService,
+    protected configuratorUtilsService: ConfiguratorUtilsService
   ) {}
 
   /**
@@ -50,26 +51,28 @@ export class ConfiguratorCartService {
         this.activeCartService.isStable().pipe(filter((stable) => stable))
       ),
       delayWhen(() =>
-        this.checkoutService.isLoading().pipe(filter((loading) => !loading))
+        this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
+          map((state) => state.loading),
+          filter((loading) => !loading)
+        )
       ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
           this.activeCartService
             .requireLoadedCart()
             .pipe(take(1))
-            .subscribe((cartState) => {
+            .subscribe((cart) => {
               this.userIdService
                 .getUserId()
                 .pipe(take(1))
                 .subscribe((userId) => {
-                  const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-                    userId: userId,
-                    cartId: this.commonConfigUtilsService.getCartId(
-                      cartState.value
-                    ),
-                    cartEntryNumber: owner.id,
-                    owner: owner,
-                  };
+                  const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+                    {
+                      userId: userId,
+                      cartId: this.commonConfigUtilsService.getCartId(cart),
+                      cartEntryNumber: owner.id,
+                      owner: owner,
+                    };
                   this.store.dispatch(
                     new ConfiguratorActions.ReadCartEntryConfiguration(
                       readFromCartEntryParameters
@@ -79,10 +82,17 @@ export class ConfiguratorCartService {
             });
         }
       }),
-      filter((configurationState) =>
-        this.isConfigurationCreated(configurationState.value)
+      filter(
+        (configurationState) =>
+          configurationState.value !== undefined &&
+          this.isConfigurationCreated(configurationState.value)
       ),
-      map((configurationState) => configurationState.value)
+      //save to assume configuration is defined after previous filter
+      map((configurationState) =>
+        this.configuratorUtilsService.getConfigurationFromState(
+          configurationState
+        )
+      )
     );
   }
   /**
@@ -104,12 +114,13 @@ export class ConfiguratorCartService {
           const ownerIdParts = this.commonConfigUtilsService.decomposeOwnerId(
             owner.id
           );
-          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-            userId: OCC_USER_ID_CURRENT,
-            orderId: ownerIdParts.documentId,
-            orderEntryNumber: ownerIdParts.entryNumber,
-            owner: owner,
-          };
+          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+            {
+              userId: OCC_USER_ID_CURRENT,
+              orderId: ownerIdParts.documentId,
+              orderEntryNumber: ownerIdParts.entryNumber,
+              owner: owner,
+            };
           this.store.dispatch(
             new ConfiguratorActions.ReadOrderEntryConfiguration(
               readFromOrderEntryParameters
@@ -117,10 +128,17 @@ export class ConfiguratorCartService {
           );
         }
       }),
-      filter((configurationState) =>
-        this.isConfigurationCreated(configurationState.value)
+      filter(
+        (configurationState) =>
+          configurationState.value !== undefined &&
+          this.isConfigurationCreated(configurationState.value)
       ),
-      map((configurationState) => configurationState.value)
+      //save to assume configuration is defined after previous filter
+      map((configurationState) =>
+        this.configuratorUtilsService.getConfigurationFromState(
+          configurationState
+        )
+      )
     );
   }
 
@@ -139,14 +157,14 @@ export class ConfiguratorCartService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
             const addToCartParameters: Configurator.AddToCartParameters = {
               userId: userId,
-              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
+              cartId: this.commonConfigUtilsService.getCartId(cart),
               productCode: productCode,
               quantity: 1,
               configId: configId,
@@ -170,17 +188,18 @@ export class ConfiguratorCartService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-              userId: userId,
-              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
-              cartEntryNumber: configuration.owner.id,
-              configuration: configuration,
-            };
+            const parameters: Configurator.UpdateConfigurationForCartEntryParameters =
+              {
+                userId: userId,
+                cartId: this.commonConfigUtilsService.getCartId(cart),
+                cartEntryNumber: configuration.owner.id,
+                configuration: configuration,
+              };
 
             this.store.dispatch(
               new ConfiguratorActions.UpdateCartEntry(parameters)
@@ -194,7 +213,9 @@ export class ConfiguratorCartService {
    */
   activeCartHasIssues(): Observable<boolean> {
     return this.activeCartService.requireLoadedCart().pipe(
-      map((cartState) => cartState.value.entries),
+      map((cart) => {
+        return cart ? cart.entries : [];
+      }),
       map((entries) =>
         entries
           ? entries.filter((entry) =>
@@ -206,20 +227,31 @@ export class ConfiguratorCartService {
     );
   }
 
+  /**
+   * Remove all configurations that are linked to cart entries
+   */
+  removeCartBoundConfigurations(): void {
+    this.store.dispatch(
+      new ConfiguratorActions.RemoveCartBoundConfigurations()
+    );
+  }
+
   protected isConfigurationCreated(
     configuration: Configurator.Configuration
   ): boolean {
-    const configId: String = configuration?.configId;
-    return configId !== undefined && configId.length !== 0;
+    const configId: String = configuration.configId;
+    return configId.length !== 0;
   }
 
   protected configurationNeedsReading(
     configurationState: StateUtils.LoaderState<Configurator.Configuration>
   ): boolean {
+    const configuration = configurationState.value;
     return (
-      !this.isConfigurationCreated(configurationState.value) &&
-      !configurationState.loading &&
-      !configurationState.error
+      configuration === undefined ||
+      (!this.isConfigurationCreated(configuration) &&
+        !configurationState.loading &&
+        !configurationState.error)
     );
   }
 }

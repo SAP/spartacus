@@ -13,13 +13,15 @@ export const orgBudget = {
   endDate: 'End',
   actions: '',
 
-  byName: 'Sort by name',
-  byUnitName: 'Sort by unit',
-  byCode: 'Sort by code',
-  byValue: 'Sort by value',
+  sortBy: 'Sort by',
+  sort: {
+    byName: 'Name',
+    byUnitName: 'Unit',
+    byCode: 'Code',
+    byValue: 'Value',
+  },
 
-  hint:
-    'Budgets set overall purchase limits and are assigned to cost centers. A buyer selects a cost center when checking out.',
+  hint: 'Budgets set overall purchase limits and are assigned to cost centers. A buyer selects a cost center when checking out.',
 
   details: {
     title: 'Budget Details',
@@ -38,8 +40,7 @@ export const orgBudget = {
 
   messages: {
     deactivateTitle: 'Disable this budget?',
-    deactivate: 'Are you sure you want to disable this budget?',
-    deactivateBody:
+    deactivate:
       'Disabled budgets no longer apply to the cost centers they are assigned to. Ensure that the associated cost center has at least one budget.',
     confirmEnabled: 'Budget {{ item.name }} enabled successfully',
     confirmDisabled: 'Budget {{ item.name }} disabled successfully',

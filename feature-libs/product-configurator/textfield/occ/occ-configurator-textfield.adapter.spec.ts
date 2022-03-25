@@ -4,18 +4,27 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/base/root';
 import {
-  CART_MODIFICATION_NORMALIZER,
+  BaseOccUrlProperties,
   ConverterService,
+  DynamicAttributes,
   OccEndpointsService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { OccConfiguratorTextfieldAdapter } from '.';
 import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converters';
 import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
@@ -25,7 +34,9 @@ class MockOccEndpointsService {
 const productCode = 'CONF_LAPTOP';
 const USER_ID = 'theUser';
 const CART_ID = '98876';
+const ORDER_ID = '0001000';
 const CART_ENTRY_NUMBER = '1';
+const ORDER_ENTRY_NUMBER = '10';
 const PRODUCT_CODE = 'CPQ_LAPTOP';
 const QUANTITY = 1;
 const LABEL1 = 'LABEL1';
@@ -38,6 +49,7 @@ const configuration: ConfiguratorTextfield.Configuration = {
       status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
     },
   ],
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
 const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
@@ -48,17 +60,28 @@ const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
   configuration: configuration,
 };
 
-const updateCartEntryParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
-  userId: USER_ID,
-  cartId: CART_ID,
-  cartEntryNumber: CART_ENTRY_NUMBER,
-  configuration: configuration,
-};
-const readParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-  userId: USER_ID,
-  cartId: CART_ID,
-  cartEntryNumber: '0',
-};
+const updateCartEntryParameters: ConfiguratorTextfield.UpdateCartEntryParameters =
+  {
+    userId: USER_ID,
+    cartId: CART_ID,
+    cartEntryNumber: CART_ENTRY_NUMBER,
+    configuration: configuration,
+  };
+const readParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+  {
+    userId: USER_ID,
+    cartId: CART_ID,
+    cartEntryNumber: '0',
+    owner: ConfiguratorModelUtils.createInitialOwner(),
+  };
+
+const readParamsForOrder: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+  {
+    userId: USER_ID,
+    orderId: ORDER_ID,
+    orderEntryNumber: ORDER_ENTRY_NUMBER,
+    owner: ConfiguratorModelUtils.createInitialOwner(),
+  };
 
 describe('OccConfigurationTextfieldAdapter', () => {
   let occConfiguratorVariantAdapter: OccConfiguratorTextfieldAdapter;
@@ -91,7 +114,7 @@ describe('OccConfigurationTextfieldAdapter', () => {
 
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -100,17 +123,22 @@ describe('OccConfigurationTextfieldAdapter', () => {
 
   it('should call createTextfieldConfiguration endpoint', () => {
     occConfiguratorVariantAdapter
-      .createConfiguration(productCode, null)
+      .createConfiguration(
+        productCode,
+        ConfiguratorModelUtils.createInitialOwner()
+      )
       .subscribe();
 
     const mockReq = httpMock.expectOne((req) => {
       return req.method === 'GET' && req.url === 'createTextfieldConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'createTextfieldConfiguration',
       {
-        productCode,
+        urlParams: {
+          productCode,
+        },
       }
     );
 
@@ -133,9 +161,45 @@ describe('OccConfigurationTextfieldAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readTextfieldConfigurationForCartEntry',
-      readParams
+      {
+        urlParams: {
+          userId: USER_ID,
+          cartId: CART_ID,
+          cartEntryNumber: '0',
+        },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CONFIGURATION_TEXTFIELD_NORMALIZER
+    );
+  });
+
+  it('should call readTextfieldConfigurationForOrderEntry endpoint', () => {
+    occConfiguratorVariantAdapter
+      .readConfigurationForOrderEntry(readParamsForOrder)
+      .subscribe();
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' &&
+        req.url === 'readTextfieldConfigurationForOrderEntry'
+      );
+    });
+
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'readTextfieldConfigurationForOrderEntry',
+      {
+        urlParams: {
+          userId: USER_ID,
+          orderId: ORDER_ID,
+          orderEntryNumber: ORDER_ENTRY_NUMBER,
+        },
+      }
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -154,11 +218,13 @@ describe('OccConfigurationTextfieldAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'addTextfieldConfigurationToCart',
       {
-        userId: USER_ID,
-        cartId: CART_ID,
+        urlParams: {
+          userId: USER_ID,
+          cartId: CART_ID,
+        },
       }
     );
 
@@ -181,12 +247,14 @@ describe('OccConfigurationTextfieldAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateTextfieldConfigurationForCartEntry',
       {
-        userId: USER_ID,
-        cartId: CART_ID,
-        cartEntryNumber: CART_ENTRY_NUMBER,
+        urlParams: {
+          userId: USER_ID,
+          cartId: CART_ID,
+          cartEntryNumber: CART_ENTRY_NUMBER,
+        },
       }
     );
 

@@ -28,6 +28,9 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
     userId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl('getActiveCostCenters', { userId }, params);
+    return this.occEndpoints.buildUrl('getActiveCostCenters', {
+      urlParams: { userId },
+      queryParams: params,
+    });
   }
 }

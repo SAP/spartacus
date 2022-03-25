@@ -1,13 +1,23 @@
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
-import {
-  addPaymentMethod,
-  addShippingAddress,
-  deletePaymentCard,
-  deleteShippingAddress,
-  verifyAndPlaceOrder,
-} from './checkout-as-persistent-user';
+import { registerCartPageRoute } from './cart';
+import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
+import { waitForPage, waitForProductPage } from './checkout-flow';
 
 export const eosCameraProductName = 'EOS450D';
+
+export const defaultAddress = {
+  defaultAddress: false,
+  titleCode: 'mr',
+  firstName: 'Cypress',
+  lastName: 'Customer',
+  line1: '10 Fifth Avenue',
+  line2: '',
+  city: 'New York',
+  region: { isocode: 'US-NY' },
+  country: { isocode: 'US' },
+  postal: '10001',
+  phone: '917-123-0000',
+};
 
 export function checkForAppliedPromotionsInCartModal(productName: string) {
   cy.get('.cx-promotions').should('contain', productName);
@@ -22,42 +32,36 @@ export function checkForAppliedPromotions() {
 }
 
 export function addProductToCart() {
+  cy.intercept(
+    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*`
+  ).as('cart_refresh');
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();
-  cy.server();
-  cy.route(
-    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/carts/*`
-  ).as('cart');
-  cy.wait(`@cart`).its('status').should('eq', 200);
+  cy.wait(`@cart_refresh`);
 }
 
-export function goToCartDetailsViewFromCartDialog() {
-  cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.findByText(/view cart/i).click();
-  });
+export function goToCartDetailsView() {
+  cy.get('cx-mini-cart').click();
 }
 
 export function selectShippingAddress() {
   cy.findByText(/proceed to checkout/i).click();
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
+  cy.get('.cx-card-title').should('contain', 'Default Delivery Address');
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
-  // TODO: make it more stable when JaloError happens
 }
 
 export function selectDeliveryMethod() {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-net').should('be.checked');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+  cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
-  // cannot use cy.visit here, as payment details are unavailable
-  cy.wait(1000);
 }
 
 export function selectPaymentMethod() {
@@ -67,9 +71,9 @@ export function selectPaymentMethod() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', '✓ DEFAULT');
   cy.get('.card-header').should('contain', 'Selected');
+  const reviewOrderAlias = waitForPage('/checkout/review-order', 'reviewOrder');
   cy.get('button.btn-primary').click();
-  // cannot use cy.visit here, as review order is unavailable
-  cy.wait(1000);
+  cy.wait(`@${reviewOrderAlias}`);
 }
 
 export function goToOrderHistoryDetailsFromSummary() {
@@ -80,24 +84,26 @@ export function goToOrderHistoryDetailsFromSummary() {
   });
 }
 
-export function checkAppliedPromotionsForLoggedUser() {
-  it('Should display promotions for product in modal after adding to cart', () => {
-    addProductToCart();
-    checkForAppliedPromotionsInCartModal(eosCameraProductName);
-  });
-
-  it('Should display promotions in users cart view for added product', () => {
-    goToCartDetailsViewFromCartDialog();
+export function checkAppliedPromotions() {
+  it('Should display promotions for product in cart and checkout', () => {
+    goToCartDetailsView();
     checkForAppliedPromotions();
-  });
 
-  it('Should go through checkout and display promotions for product in submit order', () => {
-    addShippingAddress();
-    addPaymentMethod();
-    selectShippingAddress();
-    selectDeliveryMethod();
-    selectPaymentMethod();
-    checkForAppliedPromotions();
+    cy.get('.cart-details-wrapper > .cx-total').then(($cart) => {
+      const cartId = $cart.text().match(/[0-9]+/)[0];
+      cy.log(`CartId: ${cartId}`);
+      cy.window()
+        .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+        .then(({ token }) => {
+          const stateAuth = token;
+          cy.requireDeliveryAddressAdded(defaultAddress, stateAuth, cartId);
+          cy.requirePaymentMethodAdded(cartId);
+        });
+      selectShippingAddress();
+      selectDeliveryMethod();
+      selectPaymentMethod();
+      checkForAppliedPromotions();
+    });
   });
 
   it('Should verify and place order, then go to order in order history', () => {
@@ -109,19 +115,6 @@ export function checkAppliedPromotionsForLoggedUser() {
     goToOrderHistoryDetailsFromSummary();
     checkForAppliedPromotions();
   });
-
-  after(() => {
-    deletePaymentCard();
-    deleteShippingAddress();
-  });
-}
-
-export function checkForAppliedCartPromotions(shouldContainPromotion) {
-  if (shouldContainPromotion) {
-    cy.get('.cx-promotions').should('contain', '200');
-  } else {
-    cy.get('.cx-promotions').should('not.contain', '200');
-  }
 }
 
 export function decreaseQuantityOfCartEntry() {
@@ -134,27 +127,66 @@ export function removeCartEntry() {
   });
 }
 
+export function closeCartDialog() {
+  cy.get('cx-added-to-cart-dialog').should('be.visible');
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('button.close').click({ force: true });
+  });
+}
+
 export function checkAppliedPromotionsFordifferentCartTotals() {
   const batteryProductCode = '266685';
 
-  it('Should add two products to the cart', () => {
+  it('Should display promotions for cart quantities increase/decrease', () => {
     cy.visit(`/product/${batteryProductCode}`);
     addProductToCart();
     cy.visit(`/product/${batteryProductCode}`);
     addProductToCart();
-  });
 
-  it('Should display promotions in users cart view for added products', () => {
-    goToCartDetailsViewFromCartDialog();
-    checkForAppliedCartPromotions(true);
-  });
+    registerCartPageRoute();
+    cy.intercept({
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/*/customercoupons`,
+    }).as('customer_coupons');
 
-  it('Should not display promotions in users cart view after removing first product', () => {
+    closeCartDialog();
+    goToCartDetailsView();
+    cy.wait('@cart_page');
+    cy.wait('@customer_coupons');
+    cy.get('.cx-promotions').should('contain', '200');
+
     decreaseQuantityOfCartEntry();
-    checkForAppliedCartPromotions(false);
+    cy.get('.cx-promotions').should('not.contain', '200');
   });
+}
 
-  after(() => {
-    removeCartEntry();
+export function testPromotionsForLoggedInUser() {
+  describe('As a logged in user', () => {
+    before(() => {
+      const eosCameraProductCode = '1382080';
+      const productPage = waitForProductPage(
+        eosCameraProductCode,
+        'getProductPage'
+      );
+      cy.visit(`/product/${eosCameraProductCode}`);
+      cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+      addProductToCart();
+      checkForAppliedPromotionsInCartModal(eosCameraProductName);
+      closeCartDialog();
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    checkAppliedPromotions();
+
+    checkAppliedPromotionsFordifferentCartTotals();
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
   });
 }

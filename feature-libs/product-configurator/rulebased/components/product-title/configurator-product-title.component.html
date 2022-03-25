@@ -1,94 +1,78 @@
-<ng-container *ngIf="product$ | async as product">
+<ng-container *ngIf="product$ | async as product; else ghostProductTitle">
   <div class="cx-general-product-info">
     <div class="cx-title">
-      <ng-container *cxFeatureLevel="'!3.3'">
-        {{ product.name }}
-      </ng-container>
-      <ng-container *cxFeatureLevel="'3.3'">
-        <span> {{ product.name }} </span>
-      </ng-container>
+      <span> {{ product.name }} </span>
     </div>
-    <ng-container *cxFeatureLevel="'!3.3'">
-      <a
-        role="link"
-        (click)="triggerDetails()"
-        (keyup)="clickOnEnter($event)"
-        tabindex="0"
-      >
-        <ng-container *ngIf="!showMore">
-          <div class="cx-toggle-details-link-text">
-            {{ 'configurator.header.showMore' | cxTranslate }}
-          </div>
-          <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
-        </ng-container>
+    <button (click)="triggerDetails()" [attr.aria-expanded]="showMore">
+      <ng-container *ngIf="!showMore">
+        <div
+          class="cx-toggle-details-link-text"
+          [attr.aria-label]="
+            'configurator.a11y.showMoreProductInfo'
+              | cxTranslate: { product: product.name }
+          "
+        >
+          <span aria-hidden="true">{{
+            'configurator.header.showMore' | cxTranslate
+          }}</span>
+        </div>
+        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
+      </ng-container>
 
-        <ng-container *ngIf="showMore">
-          <div class="cx-toggle-details-link-text">
-            {{ 'configurator.header.showLess' | cxTranslate }}
-          </div>
-          <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
-        </ng-container>
-      </a>
-    </ng-container>
-    <ng-container *cxFeatureLevel="'3.3'">
-      <button (click)="triggerDetails()">
-        <ng-container *ngIf="!showMore">
-          <div class="cx-toggle-details-link-text">
-            {{ 'configurator.header.showMore' | cxTranslate }}
-          </div>
-          <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
-        </ng-container>
-
-        <ng-container *ngIf="showMore">
-          <div class="cx-toggle-details-link-text">
-            {{ 'configurator.header.showLess' | cxTranslate }}
-          </div>
-          <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
-        </ng-container>
-      </button>
-    </ng-container>
+      <ng-container *ngIf="showMore">
+        <div
+          class="cx-toggle-details-link-text"
+          [attr.aria-label]="
+            'configurator.a11y.showLessProductInfo'
+              | cxTranslate: { product: product.name }
+          "
+        >
+          {{ 'configurator.header.showLess' | cxTranslate }}
+        </div>
+        <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
+      </ng-container>
+    </button>
     <div class="cx-details" [class.open]="showMore">
-      <div class="cx-details-image">
-        <ng-container *cxFeatureLevel="'!3.3'">
-          <img
-            [alt]="getProductImageAlt(product)"
-            [src]="getProductImageURL(product)"
-          />
-        </ng-container>
-        <!-- TODO: update feature level to the release we are publishing with-->
-        <ng-container *cxFeatureLevel="'3.3'">
-          <cx-media
-            [container]="product?.images?.PRIMARY"
-            format="product"
-          ></cx-media>
-        </ng-container>
+      <div class="cx-details-image" aria-hidden="true">
+        <cx-media
+          [container]="product?.images?.PRIMARY"
+          format="product"
+        ></cx-media>
       </div>
-      <div class="cx-details-content">
+      <div
+        class="cx-details-content"
+        [attr.aria-hidden]="showMore ? false : true"
+      >
         <div class="cx-detail-title">
-          <ng-container *cxFeatureLevel="'!3.3'">
+          <span
+            *ngIf="product.name"
+            [attr.aria-label]="'configurator.a11y.productName' | cxTranslate"
+          >
             {{ product.name }}
-          </ng-container>
-          <ng-container *cxFeatureLevel="'3.3'">
-            <span *ngIf="product.name"> {{ product.name }} </span>
-          </ng-container>
+          </span>
         </div>
         <div class="cx-code">
-          <ng-container *cxFeatureLevel="'!3.3'">
+          <span
+            *ngIf="product.code"
+            [attr.aria-label]="'configurator.a11y.productCode' | cxTranslate"
+          >
             {{ product.code }}
-          </ng-container>
-          <ng-container *cxFeatureLevel="'3.3'">
-            <span *ngIf="product.code"> {{ product.code }} </span>
-          </ng-container>
+          </span>
         </div>
         <div class="cx-description">
-          <ng-container *cxFeatureLevel="'!3.3'">
+          <span
+            *ngIf="product.description"
+            [attr.aria-label]="
+              'configurator.a11y.productDescription' | cxTranslate
+            "
+          >
             {{ product.description }}
-          </ng-container>
-          <ng-container *cxFeatureLevel="'3.3'">
-            <span *ngIf="product.description"> {{ product.description }} </span>
-          </ng-container>
+          </span>
         </div>
       </div>
     </div>
   </div>
 </ng-container>
+<ng-template #ghostProductTitle>
+  <div class="cx-ghost-general-product-info"></div>
+</ng-template>

@@ -1,9 +1,11 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
+  CmsConfig,
   ConfigInitializerService,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { LogoutGuard } from '@spartacus/storefront';
+import { tap } from 'rxjs/operators';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 import { CdcLogoutGuard } from './guards/cdc-logout.guard';
 import { CdcJsService } from './service/cdc-js.service';
@@ -13,14 +15,19 @@ export function cdcJsFactory(
   configInit: ConfigInitializerService
 ) {
   const func = () =>
-    configInit.getStableConfig('context', 'cdc').then(() => {
-      cdcJsService.initialize();
-    });
+    configInit
+      .getStable('context', 'cdc')
+      .pipe(
+        tap(() => {
+          cdcJsService.initialize();
+        })
+      )
+      .toPromise();
   return func;
 }
 
-export function defaultCdcComponentsConfig() {
-  const config = {
+export function defaultCdcComponentsConfig(): CmsConfig {
+  const config: CmsConfig = {
     featureModules: {
       [CDC_FEATURE]: {
         cmsComponents: ['GigyaRaasComponent'],

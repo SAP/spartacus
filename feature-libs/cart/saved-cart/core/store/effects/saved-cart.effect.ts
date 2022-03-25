@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { CartActions, CartConnector } from '@spartacus/cart/base/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-  ActiveCartService,
-  Cart,
-  CartActions,
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
@@ -160,8 +159,8 @@ export class SavedCartEffects {
     ofType(SavedCartActions.SAVE_CART),
     map((action: SavedCartActions.SaveCart) => action.payload),
     switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
-      return this.savedCartConnector
-        .saveCart(userId, cartId, saveCartName, saveCartDescription)
+      return this.cartConnector
+        .save(userId, cartId, saveCartName, saveCartDescription)
         .pipe(
           switchMap((savedCart: Cart) => {
             return [
@@ -204,8 +203,8 @@ export class SavedCartEffects {
     ofType(SavedCartActions.EDIT_SAVED_CART),
     map((action: SavedCartActions.EditSavedCart) => action.payload),
     switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
-      return this.savedCartConnector
-        .saveCart(userId, cartId, saveCartName, saveCartDescription)
+      return this.cartConnector
+        .save(userId, cartId, saveCartName, saveCartDescription)
         .pipe(
           switchMap((savedCart: Cart) => {
             return [
@@ -237,10 +236,53 @@ export class SavedCartEffects {
     })
   );
 
+  @Effect()
+  cloneSavedCart$: Observable<
+    | SavedCartActions.CloneSavedCartFail
+    | SavedCartActions.CloneSavedCartSuccess
+    | SavedCartActions.CloneSavedCart
+    | SavedCartActions.RestoreSavedCart
+    | SavedCartActions.LoadSavedCarts
+  > = this.actions$.pipe(
+    ofType(SavedCartActions.CLONE_SAVED_CART),
+    map((action: SavedCartActions.CloneSavedCart) => action.payload),
+    switchMap(({ userId, cartId, saveCartName }) => {
+      return this.savedCartConnector
+        .cloneSavedCart(userId, cartId, saveCartName)
+        .pipe(
+          switchMap((_) => {
+            return [
+              new SavedCartActions.CloneSavedCartSuccess({
+                userId,
+                cartId,
+                saveCartName,
+              }),
+              new SavedCartActions.RestoreSavedCart({
+                userId,
+                cartId,
+              }),
+              new SavedCartActions.LoadSavedCarts({ userId }),
+            ];
+          }),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new SavedCartActions.CloneSavedCartFail({
+                userId,
+                cartId,
+                saveCartName,
+                error: normalizeHttpError(error),
+              })
+            )
+          )
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private savedCartConnector: SavedCartConnector,
-    private activeCartService: ActiveCartService,
-    private globalMessageService: GlobalMessageService
+    private activeCartService: ActiveCartFacade,
+    private globalMessageService: GlobalMessageService,
+    private cartConnector: CartConnector
   ) {}
 }

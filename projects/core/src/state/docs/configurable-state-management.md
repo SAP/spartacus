@@ -1,18 +1,4 @@
-# Configurable State Persistence and Rehydration
-
-## Storage Synchronization
-
-You can configure state synchronization with session or local storage. The following is an example:
-
-```typescript
-ConfigModule.withConfig({
-  state: {
-    storageSync: {
-      keys: [{ auth: ['userToken', 'clientToken'] }]
-    }
-  }
-});
-```
+# Configurable State Rehydration
 
 ## SSR Transfer State
 

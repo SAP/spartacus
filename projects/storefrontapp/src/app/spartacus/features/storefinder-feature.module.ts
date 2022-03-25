@@ -4,14 +4,17 @@ import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
 } from '@spartacus/storefinder/assets';
-import { StoreFinderRootModule } from '@spartacus/storefinder/root';
+import {
+  StoreFinderRootModule,
+  STORE_FINDER_FEATURE,
+} from '@spartacus/storefinder/root';
 
 @NgModule({
   imports: [StoreFinderRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
-        storeFinder: {
+        [STORE_FINDER_FEATURE]: {
           module: () =>
             import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
         },

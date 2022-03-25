@@ -5,7 +5,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you are logged in. Returns generated email.
+       * Registers a new user and logs him in. Returns user (generated) email.
        *
        * @memberof Cypress.Chainable
        *
@@ -78,8 +78,8 @@ Cypress.Commands.add(
     const defaultAccount: AccountData = {
       user: randomString(),
       registrationData: {
-        firstName: 'Winston',
-        lastName: 'Rumfoord',
+        firstName: 'Cypress',
+        lastName: 'TestUser',
         password: 'Password123.',
         titleCode: 'mr',
       },
@@ -89,7 +89,6 @@ Cypress.Commands.add(
       account.registrationData.email ||
       generateMail(account.user, options.freshUserOnTestRefresh);
 
-    cy.server();
     login(username, account.registrationData.password, false).then((res) => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage

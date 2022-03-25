@@ -14,10 +14,10 @@ export class PersonalizationContextService {
     protected cmsService: CmsService
   ) {}
 
-  getPersonalizationContext(): Observable<PersonalizationContext> {
-    if (!this.config.personalization.context) {
+  getPersonalizationContext(): Observable<PersonalizationContext | undefined> {
+    if (!this.config.personalization?.context) {
       if (isDevMode()) {
-        console.warn(`There is no context configured in Personalization`);
+        console.warn(`There is no context configured in Personalization.`);
       }
       return EMPTY;
     } else {
@@ -26,29 +26,32 @@ export class PersonalizationContextService {
         filter<Page>(Boolean),
         map((page: Page) => page.slots?.[context.slotPosition]),
         filter<any>(Boolean),
-        map((slot) =>
-          slot.components?.find(
+        map((slot) => {
+          const scriptComponent = slot.components?.find(
             (i: ContentSlotComponentData) => i.uid === context.componentId
-          )
-        ),
-        filter<ContentSlotComponentData>(Boolean),
-        map((component: ContentSlotComponentData) =>
-          this.buildPersonalizationContext(component.properties.script.data)
-        )
+          );
+          return this.buildPersonalizationContext(
+            scriptComponent?.properties?.script?.data
+          );
+        })
       );
     }
   }
 
-  private buildPersonalizationContext(data: string): PersonalizationContext {
-    const context = JSON.parse(atob(data));
-    context.actions.forEach((action: any) => {
-      Object.keys(action).forEach((key) => {
-        action[key] = atob(action[key]);
+  private buildPersonalizationContext(
+    data: string
+  ): PersonalizationContext | undefined {
+    if (data) {
+      const context = JSON.parse(atob(data));
+      context.actions.forEach((action: any) => {
+        Object.keys(action).forEach((key) => {
+          action[key] = atob(action[key]);
+        });
       });
-    });
-    for (let i = 0; i < context.segments.length; i++) {
-      context.segments[i] = atob(context.segments[i]);
+      for (let i = 0; i < context.segments.length; i++) {
+        context.segments[i] = atob(context.segments[i]);
+      }
+      return context;
     }
-    return context;
   }
 }

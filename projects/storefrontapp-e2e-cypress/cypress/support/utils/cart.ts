@@ -31,10 +31,11 @@ export function addToCart(
     method: 'POST',
     url: addToCartUrl,
     body: {
-      code: productCode,
+      product: {
+        code: productCode,
+      },
       qty: quantity,
     },
-    form: true,
     headers: {
       Authorization: `bearer ${accessToken}`,
     },

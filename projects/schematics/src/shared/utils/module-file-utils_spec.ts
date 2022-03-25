@@ -14,7 +14,6 @@ import { getPathResultsForFile } from './file-utils';
 import {
   addImport,
   addToModuleDeclarations,
-  addToModuleEntryComponents,
   addToModuleExports,
   addToModuleImports,
   getTemplateInfo,
@@ -157,25 +156,7 @@ describe('Module file utils', () => {
         expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
       });
     });
-    describe('addToModuleEntryComponents', () => {
-      it('should add passed position to entryComponents array', async () => {
-        const appModulePath = getPathResultsForFile(
-          appTree,
-          'app.module.ts',
-          'src'
-        )[0];
-        expect(appModulePath).toBeTruthy();
-        const resultChange = addToModuleEntryComponents(
-          appTree,
-          appModulePath,
-          'MockUnitTestModule'
-        );
 
-        expect(resultChange).toBeTruthy();
-        expect(resultChange.length).toEqual(1);
-        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
-      });
-    });
     describe('addToModuleExports', () => {
       it('should add passed position to exports array', async () => {
         const appModulePath = getPathResultsForFile(

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/base/root';
 import { BehaviorSubject, of, ReplaySubject, Subject } from 'rxjs';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import {

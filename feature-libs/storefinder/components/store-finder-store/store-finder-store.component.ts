@@ -26,7 +26,7 @@ export class StoreFinderStoreComponent implements OnInit {
   ngOnInit() {
     if (!this.location) {
       this.requestStoresData();
-      this.location$ = this.storeFinderService.getFindStoresEntities();
+      this.location$ = this.storeFinderService.getFindStoreEntityById();
       this.isLoading$ = this.storeFinderService.getStoresLoading();
     }
   }

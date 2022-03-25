@@ -1,11 +1,12 @@
-import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { map } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -16,10 +17,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  // TODO(#11681): make quantityService a required dependency
-  constructor(
-    protected quantityService?: ConfiguratorAttributeQuantityService
-  ) {
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
 
@@ -30,10 +28,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {boolean} - Display quantity picker on attribute level?
    */
   get withQuantityOnAttributeLevel(): boolean {
-    return (
-      this.quantityService?.withQuantityOnAttributeLevel(this.attribute) ??
-      false
-    );
+    return this.quantityService.withQuantityOnAttributeLevel(this.attribute);
   }
 
   /**
@@ -43,11 +38,9 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {boolean} - Display quantity picker?
    */
   get withQuantity(): boolean {
-    return (
-      this.quantityService?.withQuantity(
-        this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-        this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
-      ) ?? false
+    return this.quantityService.withQuantity(
+      this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
     );
   }
 
@@ -57,10 +50,8 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {boolean} - Disable quantity picker?
    */
   get disableQuantityActions(): boolean {
-    return (
-      this.quantityService?.disableQuantityActionsMultiSelection(
-        this.attribute
-      ) ?? true
+    return this.quantityService.disableQuantityActionsMultiSelection(
+      this.attribute
     );
   }
 
@@ -72,7 +63,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(
-    initialQuantity: number,
+    initialQuantity?: number,
     allowZero?: boolean
   ): ConfiguratorAttributeQuantityComponentOptions {
     const disableQuantityActions$ = this.loading$.pipe(
@@ -101,5 +92,41 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     };
 
     this.selectionChange.emit(event);
+  }
+
+  /**
+   * Extract corresponding price formula parameters.
+   * For the multi-selection attribute types only total price of the attribute should be displayed at the attribute level.
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
+    return {
+      quantity: 0,
+      price: {
+        value: 0,
+        currencyIso: '',
+      },
+      priceTotal: this.attribute.attributePriceTotal,
+      isLightedUp: true,
+    };
+  }
+
+  /**
+   * Extract corresponding value price formula parameters.
+   * For the multi-selection attribute types the complete price formula should be displayed at the value level.
+   *
+   * @param {Configurator.Value} value - Configurator value
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractValuePriceFormulaParameters(
+    value: Configurator.Value
+  ): ConfiguratorPriceComponentOptions | undefined {
+    return {
+      quantity: value.quantity,
+      price: value.valuePrice,
+      priceTotal: value.valuePriceTotal,
+      isLightedUp: value.selected,
+    };
   }
 }

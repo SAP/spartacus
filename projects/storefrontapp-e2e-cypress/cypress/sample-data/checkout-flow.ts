@@ -1,6 +1,7 @@
 import { generateMail, randomString } from '../helpers/user';
 
 export interface SampleUser {
+  titleCode?: string;
   firstName?: string;
   lastName?: string;
   fullName?: string;
@@ -31,6 +32,10 @@ export interface SampleProduct {
   code: string;
 }
 
+export interface SampleNonPurchasableProduct extends SampleProduct {
+  multidimensional: boolean;
+}
+
 export interface SampleCartProduct {
   estimatedShipping: string;
   total: string;
@@ -41,6 +46,7 @@ export const user = getSampleUser();
 
 export function getSampleUser() {
   return {
+    titleCode: 'Mr',
     firstName: 'Cypress',
     lastName: 'customer',
     fullName: 'Cypress customer',
@@ -81,15 +87,11 @@ export const cheapProduct: SampleProduct = {
 export const cart: SampleCartProduct = {
   estimatedShipping: '$11.99',
   total: '$2,623.08',
-  totalAndShipping: '$2,633.07', // $2,623.08 + $9.99
+  totalAndShipping: '$2,635.07', // $2,623.08 + $9.99
 };
 
 export const cartWithCheapProduct: SampleCartProduct = {
-  estimatedShipping: '$9.99',
+  estimatedShipping: '$11.99',
   total: '$8.20',
-  totalAndShipping: '$18.19',
-};
-
-export const delivery = {
-  mode: 'standard-net',
+  totalAndShipping: '$20.19',
 };

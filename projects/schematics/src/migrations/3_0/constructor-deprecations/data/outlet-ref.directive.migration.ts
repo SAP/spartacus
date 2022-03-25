@@ -1,16 +1,18 @@
 import {
+  ANGULAR_CORE,
+  FEATURE_CONFIG_SERVICE,
   OUTLET_REF_DIRECTIVE,
+  OUTLET_SERVICE,
+  TEMPLATE_REF,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-  TEMPLATE_REF,
-  ANGULAR_CORE,
-  OUTLET_SERVICE,
-  FEATURE_CONFIG_SERVICE,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const OUTLET_REF_DIRECTIVE_CONSTRUCTOR_MIGRATION: ConstructorDeprecation =
-  // projects/storefrontlib/src/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts
+  // projects/storefrontlib/cms-structure/outlet/outlet-ref/outlet-ref.directive.ts
 
   {
     class: OUTLET_REF_DIRECTIVE,

@@ -25,8 +25,8 @@ import collectedDependencies from '../dependencies.json';
 import {
   ANGULAR_PLATFORM_BROWSER,
   NGUNIVERSAL_EXPRESS_ENGINE,
-  SPARTACUS_SETUP,
 } from '../shared/constants';
+import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   getIndexHtmlPath,
   getPathResultsForFile,
@@ -42,7 +42,7 @@ import {
   addToModuleImportsAndCommitChanges,
 } from '../shared/utils/module-file-utils';
 import {
-  getSpartacusSchematicsVersion,
+  getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
 
@@ -153,7 +153,7 @@ function modifyAppModuleFile(): Rule {
 }
 
 function prepareDependencies(): NodeDependency[] {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
 
   const spartacusDependencies: NodeDependency[] = [];
   spartacusDependencies.push({
@@ -184,7 +184,7 @@ export function addSSR(options: SpartacusOptions): Rule {
     return chain([
       addPackageJsonDependencies(prepareDependencies(), packageJson),
       externalSchematic(NGUNIVERSAL_EXPRESS_ENGINE, 'ng-add', {
-        clientProject: options.project,
+        project: options.project,
       }),
       modifyAppServerModuleFile(),
       modifyIndexHtmlFile(options),

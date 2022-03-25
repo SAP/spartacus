@@ -25,7 +25,6 @@ import { MerchandisingCarouselComponent } from './merchandising-carousel/merchan
     }),
   ],
   declarations: [MerchandisingCarouselComponent],
-  entryComponents: [MerchandisingCarouselComponent],
   exports: [MerchandisingCarouselComponent],
 })
 export class MerchandisingCarouselCmsModule {}

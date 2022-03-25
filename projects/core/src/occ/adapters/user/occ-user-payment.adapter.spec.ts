@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, PAYMENT_DETAILS_NORMALIZER } from '@spartacus/core';
-import { PaymentDetails } from '../../../model/cart.model';
+import { PaymentDetails } from '../../../model/payment.model';
 import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services';
@@ -40,7 +40,7 @@ describe('OccUserPaymentAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -67,10 +67,10 @@ describe('OccUserPaymentAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'paymentDetailsAll',
         {
-          userId: username,
+          urlParams: { userId: username },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -108,10 +108,12 @@ describe('OccUserPaymentAdapter', () => {
         return req.method === 'PATCH' && req.body.defaultPayment === true;
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('paymentDetail', {
-        userId: username,
-        paymentDetailId: mockPayment.id,
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'paymentDetail',
+        {
+          urlParams: { userId: username, paymentDetailId: mockPayment.id },
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');
@@ -132,10 +134,12 @@ describe('OccUserPaymentAdapter', () => {
         return req.method === 'DELETE';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('paymentDetail', {
-        userId: username,
-        paymentDetailId: mockPayment.id,
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'paymentDetail',
+        {
+          urlParams: { userId: username, paymentDetailId: mockPayment.id },
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');

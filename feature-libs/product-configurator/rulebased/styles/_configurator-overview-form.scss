@@ -3,13 +3,9 @@
   flex-direction: column;
   justify-content: flex-start;
   max-width: 1140px;
-  padding-inline-start: 20px;
-  padding-inline-end: 25px;
 
-  @include forVersion(3.3) {
-    padding-inline-start: 0px;
-    padding-inline-end: 0px;
-  }
+  padding-inline-start: 0px;
+  padding-inline-end: 0px;
 
   padding-block-start: 5px;
   padding-block-end: 5px;
@@ -28,112 +24,116 @@
     margin-inline-start: -20px;
     margin-inline-end: -25px;
 
-    @include forVersion(3.3) {
-      @include media-breakpoint-up(md) {
-        padding-block-start: 20px;
-        padding-block-end: 20px;
-        margin-inline-start: 0px;
-        margin-inline-end: 0px;
-      }
+    @include media-breakpoint-up(md) {
+      padding-block-start: 20px;
+      padding-block-end: 20px;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+    }
 
-      @include media-breakpoint-down(sm) {
-        padding-block-start: 20px;
-        padding-block-end: 20px;
-        margin-inline-start: -20px;
-        margin-inline-end: -20px;
+    @include media-breakpoint-down(sm) {
+      padding-block-start: 20px;
+      padding-block-end: 20px;
+      margin-inline-start: -20px;
+      margin-inline-end: -20px;
+    }
+
+    &.topLevel {
+      h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        border-bottom: solid 1px var(--cx-color-light);
+        border-top: solid 1px var(--cx-color-light);
+        border-left-style: none;
+        border-right-style: none;
+        background: none;
+        text-transform: none;
       }
     }
 
-    h2 {
-      padding-inline-start: 30px;
-      padding-inline-end: 30px;
-      padding-block-start: 15px;
-      padding-block-end: 15px;
+    &.subgroupTopLevel {
+      margin-bottom: -60px;
+    }
 
-      @include forVersion(3.3) {
-        padding-inline-start: 32px;
-        padding-inline-end: 32px;
+    h2 {
+      padding-inline-start: 32px;
+      padding-inline-end: 32px;
+      padding-block-start: 16px;
+      padding-block-end: 16px;
+
+      @include media-breakpoint-down(sm) {
+        padding-inline-start: 16px;
+        padding-inline-end: 16px;
         padding-block-start: 16px;
         padding-block-end: 16px;
-
-        @include media-breakpoint-down(sm) {
-          padding-inline-start: 16px;
-          padding-inline-end: 16px;
-          padding-block-start: 16px;
-          padding-block-end: 16px;
-        }
       }
 
       border: solid 1px var(--cx-color-light);
+      background-color: var(--cx-color-background);
+      font-size: 1rem;
+      text-transform: uppercase;
 
-      @include forVersion(3.3) {
-        span {
-          @include cx-configurator-truncate-content();
-        }
+      span {
+        @include cx-configurator-truncate-content();
       }
     }
 
     .cx-attribute-value-pair {
-      padding-inline-start: 30px;
-      padding-inline-end: 30px;
+      padding-inline-start: 32px;
+      padding-inline-end: 32px;
 
-      @include forVersion(3.3) {
-        padding-inline-start: 32px;
-        padding-inline-end: 32px;
+      @include media-breakpoint-down(sm) {
+        padding-inline-start: 16px;
+        padding-inline-end: 16px;
+      }
+
+      &.general {
+        @include media-breakpoint-up(md) {
+          &:not(:first-of-type) {
+            .cx-attribute-label {
+              visibility: hidden;
+            }
+          }
+        }
 
         @include media-breakpoint-down(sm) {
-          padding-inline-start: 16px;
-          padding-inline-end: 16px;
-        }
-
-        &.general {
-          @include media-breakpoint-up(md) {
-            &:not(:first-of-type) {
-              .cx-attribute-label {
-                visibility: hidden;
-              }
-            }
+          .cx-attribute-label {
+            display: none;
           }
 
-          @include media-breakpoint-down(sm) {
+          &.last-value-pair {
             .cx-attribute-label {
-              display: none;
-            }
-
-            &.last-value-pair {
-              .cx-attribute-label {
-                display: inline;
-              }
+              display: inline;
             }
           }
         }
+      }
+
+      &.bundle {
+        background-color: var(--cx-color-background);
+
+        @include media-breakpoint-up(md) {
+          &:not(:first-of-type) {
+            .cx-attribute-label {
+              visibility: hidden;
+            }
+          }
+        }
+      }
+
+      &.margin {
+        margin-block-start: 15px;
 
         &.bundle {
-          background-color: var(--cx-color-background);
-
-          @include media-breakpoint-up(md) {
-            &:not(:first-of-type) {
-              .cx-attribute-label {
-                visibility: hidden;
-              }
-            }
+          .cx-attribute-label {
+            visibility: visible;
           }
         }
 
-        &.margin {
-          margin-block-start: 15px;
-
-          &.bundle {
+        @include media-breakpoint-up(md) {
+          &.general {
             .cx-attribute-label {
               visibility: visible;
-            }
-          }
-
-          @include media-breakpoint-up(md) {
-            &.general {
-              .cx-attribute-label {
-                visibility: visible;
-              }
             }
           }
         }
@@ -144,12 +144,138 @@
   .cx-no-attribute-value-pairs {
     padding-inline-start: 10px;
     padding-inline-end: 10px;
-    padding-block-start: 25px;
-    padding-block-end: 25px;
+    padding-block-start: 20px;
+    padding-block-end: 20px;
+  }
 
-    @include forVersion(3.3) {
-      padding-block-start: 20px;
-      padding-block-end: 20px;
+  .cx-ghost-group {
+    @include media-breakpoint-down(sm) {
+      margin-inline-start: -20px;
+      margin-inline-end: -20px;
+    }
+
+    .cx-ghost-header,
+    .cx-ghost-value,
+    .cx-ghost-label,
+    .cx-ghost-attribute-price {
+      background-color: var(--cx-color-ghost);
+    }
+
+    .cx-ghost-value,
+    .cx-ghost-label,
+    .cx-ghost-attribute-price {
+      height: 30px;
+    }
+
+    .cx-ghost-header {
+      width: 100%;
+      height: 58px;
+      margin-block-end: 8px;
+    }
+
+    .cx-ghost-body {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-block-start: 15px;
+
+      @include media-breakpoint-down(md) {
+        padding-inline-start: 16px;
+        padding-inline-end: 16px;
+      }
+
+      .cx-ghost-attribute-label,
+      .cx-ghost-attribute-value,
+      .cx-ghost-attribute-price {
+        margin-block-start: 10px;
+        margin-block-end: 10px;
+      }
+
+      .cx-ghost-attribute-value {
+        width: 30%;
+
+        @include media-breakpoint-only(xs) {
+          width: 30%;
+        }
+
+        .ghost {
+          height: 25px;
+        }
+      }
+
+      @include media-breakpoint-up(sm) {
+        .cx-ghost-attribute-value:nth-child(1) .ghost {
+          width: 25%;
+        }
+
+        .cx-ghost-attribute-value:nth-child(4) .ghost {
+          width: 75%;
+        }
+
+        .cx-ghost-attribute-value:nth-child(7) .ghost {
+          width: 25%;
+        }
+
+        .cx-ghost-attribute-value:nth-child(10) .ghost {
+          width: 65%;
+        }
+
+        .cx-ghost-attribute-value:nth-child(13) .ghost {
+          width: 25%;
+        }
+
+        .cx-ghost-attribute-value:nth-child(16) .ghost {
+          width: 35%;
+        }
+      }
+
+      .cx-ghost-attribute-label {
+        width: 60%;
+
+        @include media-breakpoint-only(xs) {
+          width: 80%;
+        }
+      }
+
+      @include media-breakpoint-up(sm) {
+        .cx-ghost-attribute-label:nth-child(2) .ghost {
+          width: 65%;
+        }
+
+        .cx-ghost-attribute-label:nth-child(5) .ghost {
+          width: 80%;
+          height: 85px;
+        }
+
+        .cx-ghost-attribute-label:nth-child(8) .ghost {
+          width: 75%;
+        }
+
+        .cx-ghost-attribute-label:nth-child(11) .ghost {
+          width: 70%;
+          height: 65px;
+        }
+
+        .cx-ghost-attribute-label:nth-child(14) .ghost {
+          width: 60%;
+        }
+
+        .cx-ghost-attribute-label:nth-child(17) .ghost {
+          width: 70%;
+        }
+      }
+
+      @include media-breakpoint-up(sm) {
+        .cx-ghost-attribute-price {
+          width: 10%;
+        }
+
+        .cx-ghost-attribute-price:nth-child(6),
+        .cx-ghost-attribute-price:nth-child(9),
+        .cx-ghost-attribute-price:nth-child(18) {
+          background-color: transparent;
+        }
+      }
     }
   }
 }

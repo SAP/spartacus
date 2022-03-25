@@ -73,13 +73,13 @@ export default async function run(
     '@spartacus/styles': 'projects/storefrontstyles',
     '@spartacus/assets': 'projects/assets',
     '@spartacus/schematics': 'projects/schematics',
-    '@spartacus/incubator': 'projects/incubator',
     '@spartacus/user': 'feature-libs/user',
     '@spartacus/cds': 'integration-libs/cds',
     '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
     '@spartacus/product-configurator': 'feature-libs/product-configurator',
     '@spartacus/storefinder': 'feature-libs/storefinder',
+    '@spartacus/checkout': 'feature-libs/checkout',
     '@spartacus/asm': 'feature-libs/asm',
     '@spartacus/smartedit': 'feature-libs/smartedit',
     '@spartacus/tracking': 'feature-libs/tracking',
@@ -87,6 +87,9 @@ export default async function run(
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
     '@spartacus/cart': 'feature-libs/cart',
+    '@spartacus/order': 'feature-libs/order',
+    '@spartacus/digital-payments': 'integration-libs/digital-payments',
+    '@spartacus/epd-visualization': 'integration-libs/epd-visualization',
   };
 
   const duplexUtil = through(function (
@@ -290,10 +293,6 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/schematics':
       config.library = '@spartacus/schematics';
       break;
-    case 'incubator':
-    case '@spartacus/incubator':
-      config.library = '@spartacus/incubator';
-      break;
     case 'user':
     case '@spartacus/user':
       config.library = '@spartacus/user';
@@ -325,9 +324,17 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/cdc':
       config.library = '@spartacus/cdc';
       break;
+    case 'digital-payments':
+    case '@spartacus/digital-payments':
+      config.library = '@spartacus/digital-payments';
+      break;
     case 'storefinder':
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';
+      break;
+    case 'checkout':
+    case '@spartacus/checkout':
+      config.library = '@spartacus/checkout';
       break;
     case 'tracking':
     case '@spartacus/tracking':
@@ -348,6 +355,18 @@ if (typeof config.to === 'undefined') {
     case 'cart':
     case '@spartacus/cart':
       config.library = '@spartacus/cart';
+      break;
+    case 'order':
+    case '@spartacus/order':
+      config.library = '@spartacus/order';
+      break;
+    case 'digital-payments':
+    case '@spartacus/digital-payments':
+      config.library = '@spartacus/digital-payments';
+      break;
+    case 'epd-visualization':
+    case '@spartacus/epd-visualization':
+      config.library = '@spartacus/epd-visualization';
       break;
     default:
       config.library = undefined;

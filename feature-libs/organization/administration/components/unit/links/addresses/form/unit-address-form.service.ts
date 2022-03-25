@@ -6,8 +6,8 @@ import {
   Region,
   Title,
   UserAddressService,
-  UserService,
 } from '@spartacus/core';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { FormService } from '../../../../shared/form/form.service';
@@ -18,7 +18,7 @@ import { FormService } from '../../../../shared/form/form.service';
 export class UnitAddressFormService extends FormService<Address> {
   constructor(
     protected userAddressService: UserAddressService,
-    protected userService: UserService
+    protected userProfileFacade: UserProfileFacade
   ) {
     super();
   }
@@ -61,13 +61,7 @@ export class UnitAddressFormService extends FormService<Address> {
   }
 
   getTitles(): Observable<Title[]> {
-    return this.userService.getTitles().pipe(
-      tap((titles) => {
-        if (Object.keys(titles).length === 0) {
-          this.userService.loadTitles();
-        }
-      })
-    );
+    return this.userProfileFacade.getTitles();
   }
 
   getRegions(): Observable<Region[]> {

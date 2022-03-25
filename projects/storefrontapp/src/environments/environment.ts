@@ -10,17 +10,19 @@
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-import 'zone.js/dist/zone-error'; // Included with Angular CLI.
+import 'zone.js/plugins/zone-error'; // Included with Angular CLI.
 import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: false,
   // occBaseUrl: buildProcess.env.CX_BASE_URL,
-  occBaseUrl: 'https://spartacus-dev0.eastus.cloudapp.azure.com:9002/',
+  occBaseUrl: 'https://spartacus-dev7.eastus.cloudapp.azure.com:9002/',
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
   // b2b: buildProcess.env.CX_B2B ?? false,
   b2b: true,
   cdc: buildProcess.env.CX_CDC ?? false,
   cpq: buildProcess.env.CX_CPQ ?? false,
+  digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,
+  epdVisualization: buildProcess.env.CX_EPD_VISUALIZATION ?? false,
 };

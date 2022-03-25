@@ -29,6 +29,5 @@ import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.
   ],
   declarations: [ConfiguratorOverviewFormComponent],
   exports: [ConfiguratorOverviewFormComponent],
-  entryComponents: [ConfiguratorOverviewFormComponent],
 })
 export class ConfiguratorOverviewFormModule {}

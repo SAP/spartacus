@@ -1,10 +1,15 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
-import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';
-import { ReplaySubject } from 'rxjs';
+import { CartItemContextSource } from '@spartacus/cart/base/components';
+import {
+  CartItemContext,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
+import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import {
   ConfigurationInfo,
   OrderEntryStatus,
@@ -19,10 +24,32 @@ class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: any;
+}
+
+@Component({
+  selector: 'cx-configure-cart-entry',
+  template: '',
+})
+class MockConfigureCartEntryComponent {
+  @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
+}
+
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<FormControl>(1);
+  location$ = new BehaviorSubject<PromotionLocation>(
+    PromotionLocation.ActiveCart
+  );
 }
 
 describe('ConfigureIssuesNotificationComponent', () => {
@@ -37,122 +64,208 @@ describe('ConfigureIssuesNotificationComponent', () => {
     readOnly: boolean;
     productConfigurable: boolean;
   }) {
-    mockCartItemContext.item$.next({
+    mockCartItemContext.item$?.next({
       statusSummaryList: testData.statusSummary,
       configurationInfos: testData.configurationInfos,
       product: { configurable: testData.productConfigurable ?? true },
+      entryNumber: 0,
     });
-    mockCartItemContext.readonly$.next(testData.readOnly);
-    mockCartItemContext.quantityControl$.next(new FormControl());
+    mockCartItemContext.readonly$?.next(testData.readOnly);
+    mockCartItemContext.quantityControl$?.next(new FormControl());
   }
+  describe('with cart item context', () => {
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          declarations: [
+            ConfiguratorIssuesNotificationComponent,
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockConfigureCartEntryComponent,
+          ],
+          providers: [
+            { provide: CartItemContext, useClass: MockCartItemContext },
+          ],
+        }).compileComponents();
+      })
+    );
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorIssuesNotificationComponent,
-          MockTranslatePipe,
+    beforeEach(() => {
+      fixture = TestBed.createComponent(
+        ConfiguratorIssuesNotificationComponent
+      );
+      component = fixture.componentInstance;
+      htmlElem = fixture.nativeElement;
+      mockCartItemContext = TestBed.inject(CartItemContext) as any;
+
+      fixture.detectChanges();
+    });
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should expose orderEntry$', (done) => {
+      const orderEntry: OrderEntry = { orderCode: '123' };
+
+      component.orderEntry$.pipe(take(1)).subscribe((value) => {
+        expect(value).toBe(orderEntry);
+        done();
+      });
+
+      mockCartItemContext.item$?.next(orderEntry);
+    });
+
+    it('should expose quantityControl$', (done) => {
+      const quantityControl = new FormControl();
+      component.quantityControl$.pipe(take(1)).subscribe((value) => {
+        expect(value).toBe(quantityControl);
+        done();
+      });
+
+      mockCartItemContext.quantityControl$?.next(quantityControl);
+    });
+
+    it('should expose readonly$', (done) => {
+      component.readonly$.pipe(take(2), toArray()).subscribe((values) => {
+        expect(values).toEqual([true, false]);
+        done();
+      });
+
+      mockCartItemContext.readonly$?.next(true);
+      mockCartItemContext.readonly$?.next(false);
+    });
+
+    it('should display configure from cart in case issues are present', () => {
+      emitNewContextValue({
+        statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
+        configurationInfos: [],
+        readOnly: false,
+        productConfigurable: true,
+      });
+
+      fixture.detectChanges();
+
+      expect(
+        htmlElem.querySelectorAll('cx-configure-cart-entry').length
+      ).toBeGreaterThan(0);
+    });
+
+    it('should not display configure from cart in case issues are present but product not configurable', () => {
+      emitNewContextValue({
+        statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
+        configurationInfos: [],
+        readOnly: false,
+        productConfigurable: false,
+      });
+
+      fixture.detectChanges();
+
+      expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
+        0
+      );
+    });
+
+    it('should return false if number of issues of ERROR status is = 0', () => {
+      emitNewContextValue({
+        statusSummary: [
+          { numberOfIssues: 2, status: OrderEntryStatus.Success },
         ],
-        providers: [
-          { provide: CartItemContext, useClass: MockCartItemContext },
-        ],
-      }).compileComponents();
-    })
-  );
+        configurationInfos: [],
+        readOnly: false,
+        productConfigurable: true,
+      });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ConfiguratorIssuesNotificationComponent);
-    component = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
-    mockCartItemContext = TestBed.inject(CartItemContext) as any;
-
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should expose orderEntry$', (done) => {
-    const orderEntry: OrderEntry = { orderCode: '123' };
-
-    component.orderEntry$.pipe(take(1)).subscribe((value) => {
-      expect(value).toBe(orderEntry);
-      done();
+      fixture.detectChanges();
+      expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
+        0
+      );
     });
 
-    mockCartItemContext.item$.next(orderEntry);
-  });
+    describe('shouldShowButton', () => {
+      beforeEach(() => {
+        const quantityControl = new FormControl();
 
-  it('should expose quantityControl$', (done) => {
-    const quantityControl = new FormControl();
-    component.quantityControl$.pipe(take(1)).subscribe((value) => {
-      expect(value).toBe(quantityControl);
-      done();
+        mockCartItemContext.quantityControl$?.next(quantityControl);
+        mockCartItemContext.item$?.next({
+          statusSummaryList: [
+            { numberOfIssues: 2, status: OrderEntryStatus.Error },
+          ],
+          product: { configurable: true },
+        });
+      });
+      it('should prevent the rendering of "edit configuration" if context is SaveForLater', () => {
+        mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
+        fixture.detectChanges();
+
+        const htmlElem = fixture.nativeElement;
+        expect(
+          htmlElem.querySelectorAll('.cx-configure-cart-entry').length
+        ).toBe(0);
+      });
+
+      it('should allow the rendering of "edit configuration" if context is active cart', () => {
+        mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+        fixture.detectChanges();
+
+        const htmlElem = fixture.nativeElement;
+        expect(
+          htmlElem.querySelectorAll('cx-configure-cart-entry').length
+        ).toBe(1);
+      });
     });
 
-    mockCartItemContext.quantityControl$.next(quantityControl);
-  });
+    describe('Notification banner', () => {
+      it('should contain div element with ID for error message containing cart entry number', function () {
+        emitNewContextValue({
+          statusSummary: [
+            { numberOfIssues: 2, status: OrderEntryStatus.Error },
+          ],
+          configurationInfos: [],
+          readOnly: false,
+          productConfigurable: true,
+        });
 
-  it('should expose readonly$', (done) => {
-    component.readonly$.pipe(take(2), toArray()).subscribe((values) => {
-      expect(values).toEqual([true, false]);
-      done();
+        fixture.detectChanges();
+
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '#cx-error-msg-0'
+        );
+      });
     });
-
-    mockCartItemContext.readonly$.next(true);
-    mockCartItemContext.readonly$.next(false);
   });
-
-  it('should display configure from cart in case issues are present', () => {
-    emitNewContextValue({
-      statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
-      configurationInfos: null,
-      readOnly: false,
-      productConfigurable: true,
-    });
-
-    fixture.detectChanges();
-
-    expect(
-      htmlElem.querySelectorAll('cx-configure-cart-entry').length
-    ).toBeGreaterThan(
-      0,
-      'expected configure cart entry to be present, but it is not; innerHtml: ' +
-        htmlElem.innerHTML
+  describe('without cart item context', () => {
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          declarations: [
+            ConfiguratorIssuesNotificationComponent,
+            MockTranslatePipe,
+            MockCxIconComponent,
+            MockConfigureCartEntryComponent,
+          ],
+          providers: [{ provide: CartItemContext, useValue: null }],
+        }).compileComponents();
+      })
     );
-  });
 
-  it('should not display configure from cart in case issues are present but product not configurable', () => {
-    emitNewContextValue({
-      statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
-      configurationInfos: null,
-      readOnly: false,
-      productConfigurable: false,
+    beforeEach(() => {
+      fixture = TestBed.createComponent(
+        ConfiguratorIssuesNotificationComponent
+      );
+      component = fixture.componentInstance;
     });
 
-    fixture.detectChanges();
-
-    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
-      0,
-      'expected configure cart entry not to be present, but it is; innerHtml: ' +
-        htmlElem.innerHTML
-    );
-  });
-
-  it('should return false if number of issues of ERROR status is = 0', () => {
-    emitNewContextValue({
-      statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
-      configurationInfos: null,
-      readOnly: false,
-      productConfigurable: true,
+    it('should create', () => {
+      expect(component).toBeTruthy();
     });
 
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
-      0,
-      'expected configure cart entry not to be present, but it is; innerHtml: ' +
-        htmlElem.innerHTML
-    );
+    it('should initialize its members with EMPTY', () => {
+      expect(component.orderEntry$).toBe(EMPTY);
+      expect(component.quantityControl$).toBe(EMPTY);
+      expect(component.readonly$).toBe(EMPTY);
+    });
   });
 });

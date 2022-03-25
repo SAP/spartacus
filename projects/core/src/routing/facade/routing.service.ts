@@ -1,5 +1,10 @@
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import {
+  NavigationBehaviorOptions,
+  NavigationExtras,
+  Router,
+} from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { WindowRef } from '../../window/window-ref';
@@ -20,8 +25,8 @@ export class RoutingService {
     protected winRef: WindowRef,
     protected semanticPathService: SemanticPathService,
     protected routingParamsService: RoutingParamsService,
-    // TODO(#10467): Consider making router mandatory in next major
-    protected router?: Router
+    protected router: Router,
+    protected location: Location
   ) {}
 
   /**
@@ -72,13 +77,14 @@ export class RoutingService {
   /**
    * Navigation with a new state into history
    * @param commands: url commands
-   * @param query
    * @param extras: Represents the extra options used during navigation.
+   *
+   * @returns Promise that resolves to `true` when navigation succeeds,
+   *          to `false` when navigation fails, or is rejected on error.
    */
-  go(commands: UrlCommands, query?: object, extras?: NavigationExtras): void {
+  go(commands: UrlCommands, extras?: NavigationExtras): Promise<boolean> {
     const path = this.semanticPathService.transform(commands);
-
-    return this.navigate(path, query, extras);
+    return this.navigate(path, extras);
   }
 
   /**
@@ -87,11 +93,6 @@ export class RoutingService {
    * The absolute url can be resolved using `getFullUrl()`.
    */
   getUrl(commands: UrlCommands, extras?: NavigationExtras): string {
-    // TODO(#10467): Remove the warning as soon as the router becomes mandatory
-    if (!this.router) {
-      console.warn('No router injected to create the url tree');
-      return '';
-    }
     let url = this.router.serializeUrl(
       this.router.createUrlTree(
         this.semanticPathService.transform(commands),
@@ -117,11 +118,15 @@ export class RoutingService {
   }
 
   /**
-   * Navigation using URL
+   * Navigation using absolute route path
    * @param url
+   * @param extras: Represents the extra options used during navigation.
+   *
+   * @returns Promise that resolves to `true` when navigation succeeds,
+   *          to `false` when navigation fails, or is rejected on error.
    */
-  goByUrl(url: string) {
-    this.store.dispatch(new RoutingActions.RouteGoByUrlAction(url));
+  goByUrl(url: string, extras?: NavigationBehaviorOptions): Promise<boolean> {
+    return this.router.navigateByUrl(url, extras);
   }
 
   /**
@@ -132,7 +137,7 @@ export class RoutingService {
       this.winRef.nativeWindow.location.origin
     );
     if (isLastPageInApp) {
-      this.store.dispatch(new RoutingActions.RouteBackAction());
+      this.location.back();
       return;
     }
     this.go(['/']);
@@ -143,26 +148,18 @@ export class RoutingService {
    * Navigating forward
    */
   forward(): void {
-    this.store.dispatch(new RoutingActions.RouteForwardAction());
+    this.location.forward();
   }
 
   /**
    * Navigation with a new state into history
    * @param path
-   * @param query
    * @param extras: Represents the extra options used during navigation.
+   *
+   * @returns Promise that resolves to `true` when navigation succeeds,
+   *          to `false` when navigation fails, or is rejected on error.
    */
-  protected navigate(
-    path: any[],
-    query?: object,
-    extras?: NavigationExtras
-  ): void {
-    this.store.dispatch(
-      new RoutingActions.RouteGoAction({
-        path,
-        query,
-        extras,
-      })
-    );
+  protected navigate(path: any[], extras?: NavigationExtras): Promise<boolean> {
+    return this.router.navigate(path, extras);
   }
 }

@@ -1,0 +1,42 @@
+%cx-close-account-modal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .cx-dialog-header {
+    padding-top: 2rem;
+    padding-inline-end: 1.75rem;
+    padding-bottom: 0.85rem;
+    padding-inline-start: 1.75rem;
+    border-width: 0;
+  }
+
+  h3 {
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  .cx-row {
+    display: flex;
+  }
+
+  .cx-confirmation {
+    margin: 0 0 3em 0;
+  }
+
+  .cx-btn-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    button:first-child {
+      margin: 0 0 1em 0;
+    }
+  }
+
+  .modal-body {
+    @include media-breakpoint-down(sm) {
+      top: -85px;
+      flex: none;
+      margin: auto 0;
+    }
+  }
+}

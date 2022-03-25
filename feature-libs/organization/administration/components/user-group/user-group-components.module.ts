@@ -9,7 +9,6 @@ import { UserGroupFormModule } from './form/user-group-form.module';
 import { UserGroupPermissionModule } from './permissions/user-group-permission-list.module';
 import {
   userGroupCmsConfig,
-  userGroupRoutingConfig,
   userGroupTableConfigFactory,
 } from './user-group.config';
 import { UserGroupUserModule } from './users/user-group-user-list.module';
@@ -23,7 +22,6 @@ import { UserGroupUserModule } from './users/user-group-user-list.module';
     UserGroupUserModule,
   ],
   providers: [
-    provideDefaultConfig(userGroupRoutingConfig),
     provideDefaultConfig(userGroupCmsConfig),
     provideDefaultConfigFactory(userGroupTableConfigFactory),
   ],

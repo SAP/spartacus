@@ -16,6 +16,5 @@ import { ConfiguratorGroupTitleComponent } from './configurator-group-title.comp
   ],
   declarations: [ConfiguratorGroupTitleComponent],
   exports: [ConfiguratorGroupTitleComponent],
-  entryComponents: [ConfiguratorGroupTitleComponent],
 })
 export class ConfiguratorGroupTitleModule {}

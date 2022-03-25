@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CartActions, normalizeHttpError } from '@spartacus/core';
+import { CartActions } from '@spartacus/cart/base/core';
+import { normalizeHttpError } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorTextfieldConnector } from '../../connectors/configurator-textfield.connector';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../actions/index';
+
 @Injectable()
 export class ConfiguratorTextfieldEffects {
   @Effect()
@@ -127,6 +129,35 @@ export class ConfiguratorTextfieldEffects {
             ]),
             catchError((error) => [
               new ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail(
+                normalizeHttpError(error)
+              ),
+            ])
+          );
+      }
+    )
+  );
+
+  @Effect()
+  readConfigurationForOrderEntry$: Observable<
+    | ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess
+    | ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail
+  > = this.actions$.pipe(
+    ofType(ConfiguratorTextfieldActions.READ_ORDER_ENTRY_CONFIGURATION),
+    switchMap(
+      (action: ConfiguratorTextfieldActions.ReadOrderEntryConfiguration) => {
+        const parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+          action.payload;
+
+        return this.configuratorTextfieldConnector
+          .readConfigurationForOrderEntry(parameters)
+          .pipe(
+            switchMap((result: ConfiguratorTextfield.Configuration) => [
+              new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess(
+                result
+              ),
+            ]),
+            catchError((error) => [
+              new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail(
                 normalizeHttpError(error)
               ),
             ])

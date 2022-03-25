@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
-import {
-  Converter,
-  ConverterService,
-  Occ,
-  ORDER_NORMALIZER,
-} from '@spartacus/core';
+import { Converter, ConverterService, Occ } from '@spartacus/core';
+import { ORDER_NORMALIZER } from '@spartacus/order/root';
 import { OrderApproval } from '../../core/model/order-approval.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OccOrderApprovalNormalizer
-  implements Converter<Occ.OrderApproval, OrderApproval> {
+  implements Converter<Occ.OrderApproval, OrderApproval>
+{
   constructor(private converter: ConverterService) {}
 
   convert(source: Occ.OrderApproval, target?: OrderApproval): OrderApproval {

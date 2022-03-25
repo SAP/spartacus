@@ -60,7 +60,7 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
    * Function called on each browser storage read.
    * Used to update state from browser -> state.
    */
-  protected onRead(state: SyncedAnonymousConsentsState) {
+  protected onRead(state: SyncedAnonymousConsentsState | undefined) {
     const templates = state?.templates;
     const consents = state?.consents;
     const ui = state?.ui;
@@ -68,7 +68,7 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
     // templates
     if (templates?.success) {
       this.store.dispatch(
-        new LoadAnonymousConsentTemplatesSuccess(templates.value)
+        new LoadAnonymousConsentTemplatesSuccess(templates.value ?? [])
       );
     }
 

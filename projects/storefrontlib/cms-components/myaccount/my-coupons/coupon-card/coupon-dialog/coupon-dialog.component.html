@@ -1,0 +1,48 @@
+<div #dialog>
+  <!-- Modal Header -->
+
+  <div class="cx-dialog-header modal-header">
+    <div class="cx-dialog-title modal-title">
+      {{ 'myCoupons.dialogTitle' | cxTranslate }}
+    </div>
+    <button
+      type="button"
+      class="close"
+      [attr.aria-label]="'common.close' | cxTranslate"
+      (click)="dismissModal('Cross click')"
+    >
+      <span aria-hidden="true">
+        <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+      </span>
+    </button>
+  </div>
+  <!-- Modal Body -->
+  <div class="cx-dialog-body modal-body">
+    <div class="cx-dialog-row">
+      <div class="cx-dialog-item col-sm-12 col-md-12">
+        <div class="cx-coupon-card-head">
+          <span class="card-label-bold cx-coupon-card-id">{{
+            coupon?.couponId
+          }}</span>
+          <span>: {{ coupon?.name }}</span>
+        </div>
+        <div class="cx-coupon-description">{{ coupon?.description }}</div>
+
+        <div class="cx-coupon-dialog-date">
+          <p>{{ 'myCoupons.effectiveTitle' | cxTranslate }}</p>
+          <div class="cx-coupon-date">
+            {{ coupon?.startDate | cxDate: 'medium' }} -
+            {{ coupon?.endDate | cxDate: 'medium' }}
+          </div>
+        </div>
+
+        <div class="cx-coupon-dialog-status">
+          <p>{{ 'myCoupons.status' | cxTranslate }}</p>
+          <div class="cx-coupon-status {{ coupon?.status | lowercase }}">
+            {{ 'myCoupons.' + coupon?.status | cxTranslate }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

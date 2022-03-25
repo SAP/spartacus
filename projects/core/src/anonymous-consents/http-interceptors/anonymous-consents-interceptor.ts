@@ -47,7 +47,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
             if (
               event instanceof HttpResponse &&
               (event.url ?? '').startsWith(
-                this.occEndpoints.getUrl('anonymousConsentTemplates')
+                this.occEndpoints.buildUrl('anonymousConsentTemplates')
               )
             ) {
               this.handleResponse(
@@ -69,9 +69,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
   ): void {
     if (!isUserLoggedIn && newRawConsents) {
       let newConsents: AnonymousConsent[] = [];
-      newConsents = this.anonymousConsentsService.decodeAndDeserialize(
-        newRawConsents
-      );
+      newConsents =
+        this.anonymousConsentsService.decodeAndDeserialize(newRawConsents);
       newConsents = this.giveRequiredConsents(newConsents);
 
       if (
@@ -93,9 +92,8 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
       return request;
     }
 
-    const rawConsents = this.anonymousConsentsService.serializeAndEncode(
-      consents
-    );
+    const rawConsents =
+      this.anonymousConsentsService.serializeAndEncode(consents);
     return request.clone({
       setHeaders: {
         [ANONYMOUS_CONSENTS_HEADER]: rawConsents,
@@ -104,7 +102,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
   }
 
   private isOccUrl(url: string): boolean {
-    return url.includes(this.occEndpoints.getBaseEndpoint());
+    return url.includes(this.occEndpoints.getBaseUrl());
   }
 
   private giveRequiredConsents(

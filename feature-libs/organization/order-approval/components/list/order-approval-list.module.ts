@@ -30,6 +30,5 @@ import { OrderApprovalListComponent } from './order-approval-list.component';
   ],
   declarations: [OrderApprovalListComponent],
   exports: [OrderApprovalListComponent],
-  entryComponents: [OrderApprovalListComponent],
 })
 export class OrderApprovalListModule {}

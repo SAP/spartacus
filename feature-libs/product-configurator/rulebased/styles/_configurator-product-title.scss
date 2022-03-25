@@ -1,43 +1,42 @@
 %cx-configurator-product-title {
-  display: none;
-
   &:not(:empty) {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    background-color: var(--cx-color-background);
-    margin-block-end: 15px;
-    padding-inline-start: 0px;
-    padding-inline-end: 0px;
-    padding-block-start: 15px;
-    padding-block-end: 15px;
+    @include media-breakpoint-up(lg) {
+      width: 1140px;
+    }
+
+    @include media-breakpoint-down(lg) {
+      width: 100%;
+    }
+
+    .cx-general-product-info,
+    .cx-ghost-general-product-info {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      background-color: var(--cx-color-background);
+      margin-block-end: 15px;
+    }
 
     .cx-general-product-info {
       display: flex;
       flex-direction: column;
-
-      @include media-breakpoint-up(lg) {
-        width: 1140px;
-      }
-
-      @include media-breakpoint-down(lg) {
-        width: 100%;
-      }
+      padding-inline-start: 0px;
+      padding-inline-end: 0px;
+      padding-block-start: 15px;
+      padding-block-end: 15px;
 
       .cx-title {
         font-weight: bold;
         align-self: center;
         min-block-size: 1rem;
 
-        @include forVersion(3.3) {
-          @include media-breakpoint-down(sm) {
-            width: 80%;
-          }
+        @include media-breakpoint-down(sm) {
+          width: 80%;
+        }
 
-          span {
-            @include cx-configurator-truncate-content();
-            text-align: center;
-          }
+        span {
+          @include cx-configurator-truncate-content();
+          text-align: center;
         }
       }
 
@@ -74,35 +73,33 @@
         }
       }
 
-      @include forVersion(3.3) {
-        button {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: nowrap;
-          align-self: flex-end;
-          margin-block-start: -25px;
+      button {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-self: flex-end;
+        margin-block-start: -25px;
+        margin-inline-end: 5px;
+        font-weight: normal;
+        color: var(--cx-color-text);
+        border: none;
+        background-color: transparent;
+        outline-offset: 0px;
+
+        cx-icon {
+          margin-inline-start: 5px;
           margin-inline-end: 5px;
-          font-weight: normal;
-          color: var(--cx-color-text);
-          border: none;
-          background-color: transparent;
-          outline-offset: 0px;
+          align-self: center;
+        }
 
-          cx-icon {
-            margin-inline-start: 5px;
-            margin-inline-end: 5px;
-            align-self: center;
-          }
+        @include media-breakpoint-down(xs) {
+          margin-block-start: -20px;
+        }
 
+        .cx-toggle-details-link-text {
+          text-decoration: underline;
           @include media-breakpoint-down(xs) {
-            margin-block-start: -20px;
-          }
-
-          .cx-toggle-details-link-text {
-            text-decoration: underline;
-            @include media-breakpoint-down(xs) {
-              display: none;
-            }
+            display: none;
           }
         }
       }
@@ -122,14 +119,12 @@
           // If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
           max-block-size: 400px;
 
-          @include forVersion(3.3) {
-            @include media-breakpoint-down(sm) {
-              padding-inline-start: 16px;
-            }
+          @include media-breakpoint-down(sm) {
+            padding-inline-start: 16px;
+          }
 
-            @include media-breakpoint-only(md) {
-              padding-inline-start: 32px;
-            }
+          @include media-breakpoint-only(md) {
+            padding-inline-start: 32px;
           }
         }
 
@@ -138,9 +133,7 @@
           margin-block-end: 0px;
           max-inline-size: 100px;
 
-          @include forVersion(3.3) {
-            @include cx-configurator-image();
-          }
+          @include cx-configurator-image();
         }
 
         .cx-details-content {
@@ -160,21 +153,21 @@
             font-weight: bold;
           }
 
-          .cx-code {
-            color: var(--cx-color-secondary);
-          }
-
           .cx-detail-title,
           .cx-code,
           .cx-description {
-            @include forVersion(3.3) {
-              span {
-                @include cx-configurator-truncate-content();
-              }
+            span {
+              @include cx-configurator-truncate-content();
             }
           }
         }
       }
+    }
+
+    .cx-ghost-general-product-info {
+      height: 58px;
+      margin-block-end: 15px;
+      background-color: var(--cx-color-ghost);
     }
   }
 }

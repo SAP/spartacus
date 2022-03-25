@@ -23,7 +23,8 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 })
 export class ConfiguratorAttributeInputFieldComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   attributeInputForm = new FormControl('');
   protected sub: Subscription;
 
@@ -40,20 +41,7 @@ export class ConfiguratorAttributeInputFieldComponent
    */
   protected readonly FALLBACK_DEBOUNCE_TIME = 500;
 
-  // TODO(#11681): make config a required dependency
-  /**
-   * @param {ConfiguratorUISettingsConfig} config Optional configuration for debounce time,
-   * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
-   */
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  constructor(config: ConfiguratorUISettingsConfig);
-
-  /**
-   * @deprecated  since 3.3
-   */
-  constructor();
-
-  constructor(protected config?: ConfiguratorUISettingsConfig) {
+  constructor(protected config: ConfiguratorUISettingsConfig) {
     super();
   }
 
@@ -71,7 +59,7 @@ export class ConfiguratorAttributeInputFieldComponent
       .pipe(
         debounce(() =>
           timer(
-            this.config?.productConfigurator?.updateDebounceTime?.input ??
+            this.config.productConfigurator?.updateDebounceTime?.input ??
               this.FALLBACK_DEBOUNCE_TIME
           )
         )

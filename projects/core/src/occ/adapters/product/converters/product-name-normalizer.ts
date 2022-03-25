@@ -9,7 +9,7 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
   constructor(protected config: OccConfig) {}
 
   convert(source: Occ.Product, target?: Product): Product {
-    target = target ?? { ...((source as unknown) as Partial<Product>) };
+    target = target ?? { ...(source as unknown as Partial<Product>) };
 
     if (source.name) {
       target.name = this.normalize(source.name);

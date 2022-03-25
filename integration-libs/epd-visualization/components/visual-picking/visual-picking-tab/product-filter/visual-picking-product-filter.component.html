@@ -1,0 +1,34 @@
+<div class="form-group search-wrapper">
+  <input
+    type="text"
+    [(ngModel)]="filter"
+    class="form-control"
+    placeholder="{{
+      'epdVisualization.visualPicking.visualPickingProductFilter.input.placeholder'
+        | cxTranslate
+    }}"
+  />
+
+  <cx-icon
+    [type]="iconTypes.SEARCH"
+    [attr.aria-label]="
+      'epdVisualization.visualPicking.visualPickingProductFilter.searchButton.label'
+        | cxTranslate
+    "
+    class="search"
+    [hidden]="filter.length > 0"
+  ></cx-icon>
+
+  <cx-icon
+    [type]="iconTypes.RESET"
+    [attr.aria-label]="
+      'epdVisualization.visualPicking.visualPickingProductFilter.resetButton.label'
+        | cxTranslate
+    "
+    (mousedown)="filter = ''"
+    (keydown.enter)="filter = ''"
+    [hidden]="filter.length == 0"
+    class="reset"
+    tabindex="0"
+  ></cx-icon>
+</div>

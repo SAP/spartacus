@@ -9,21 +9,25 @@
 
   cx-navigation-ui {
     // first level heading / links
-    h5 {
+    span {
       text-transform: uppercase;
       @include type('5');
       margin-bottom: 20px;
+      display: block;
     }
-  }
 
-  cx-navigation-ui {
     justify-content: center;
-    @include media-breakpoint-down(sm) {
-      flex-direction: column;
-    }
 
-    > nav {
-      margin: 3vw;
+    > nav > ul {
+      display: flex;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
+
+      > li {
+        margin: 3vw;
+      }
     }
   }
 }

@@ -1,16 +1,16 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-  ActiveCartService,
   AuthService,
-  Cart,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { SavedCartFormLaunchDialogService } from '../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 const mockCart: Cart = {
@@ -22,7 +22,7 @@ const mockCart: Cart = {
 const cart$ = new BehaviorSubject<Cart>(mockCart);
 const isLoggedInSubject$ = new BehaviorSubject(false);
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return cart$.asObservable();
   }
@@ -35,39 +35,45 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(): void {}
+  go = () => Promise.resolve(true);
 }
 
-class MockSavedCartFormLaunchDialogService {
-  openDialog(_openElement?: ElementRef, _vcr?: ViewContainerRef, _data?: any) {}
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return of();
+  }
 }
 
 describe('AddToSavedCartComponent', () => {
   let component: AddToSavedCartComponent;
   let fixture: ComponentFixture<AddToSavedCartComponent>;
-  let savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService;
   let routingService: RoutingService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), I18nTestingModule, UrlTestingModule],
+      imports: [
+        StoreModule.forRoot({}),
+        I18nTestingModule,
+        UrlTestingModule,
+        RouterTestingModule,
+      ],
       declarations: [AddToSavedCartComponent],
       providers: [
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: SavedCartFormLaunchDialogService,
-          useClass: MockSavedCartFormLaunchDialogService,
-        },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
 
     isLoggedInSubject$.next(false);
     routingService = TestBed.inject(RoutingService);
-    savedCartFormLaunchDialogService = TestBed.inject(
-      SavedCartFormLaunchDialogService
-    );
+    launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
   beforeEach(() => {
@@ -85,11 +91,12 @@ describe('AddToSavedCartComponent', () => {
   });
 
   it('should open service dialog', () => {
-    spyOn(savedCartFormLaunchDialogService, 'openDialog').and.stub();
+    spyOn(launchDialogService, 'openDialog').and.stub();
 
     component.openDialog(mockCart);
 
-    expect(savedCartFormLaunchDialogService.openDialog).toHaveBeenCalledWith(
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.SAVED_CART,
       component.element,
       component['vcr'],
       {
@@ -114,17 +121,20 @@ describe('AddToSavedCartComponent', () => {
 
     describe('when user is logged in', () => {
       it('should open dialog ', () => {
-        spyOn(savedCartFormLaunchDialogService, 'openDialog').and.stub();
+        spyOn(launchDialogService, 'openDialog').and.stub();
         isLoggedInSubject$.next(true);
 
         component.saveCart(mockCart);
 
-        expect(
-          savedCartFormLaunchDialogService.openDialog
-        ).toHaveBeenCalledWith(component.element, component['vcr'], {
-          cart: mockCart,
-          layoutOption: 'save',
-        });
+        expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+          LAUNCH_CALLER.SAVED_CART,
+          component.element,
+          component['vcr'],
+          {
+            cart: mockCart,
+            layoutOption: 'save',
+          }
+        );
       });
     });
   });

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartService, UserIdService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
@@ -18,7 +20,7 @@ import { ConfiguratorTextFieldSelectors } from '../state/selectors/index';
 export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected configuratorUtils: CommonConfiguratorUtilsService,
     protected userIdService: UserIdService
   ) {}
@@ -36,9 +38,10 @@ export class ConfiguratorTextfieldService {
     return this.store.pipe(
       select(ConfiguratorTextFieldSelectors.getConfigurationsState),
       tap((configurationState) => {
+        const configuration = configurationState.loaderState.value;
         const isAvailableForProduct =
-          configurationState.loaderState.value?.owner.type ===
-          CommonConfigurator.OwnerType.PRODUCT;
+          configuration !== undefined &&
+          !ConfiguratorModelUtils.isInitialOwner(configuration.owner);
         const isLoading = configurationState.loaderState.loading;
         if (!isAvailableForProduct && !isLoading) {
           this.store.dispatch(
@@ -50,7 +53,15 @@ export class ConfiguratorTextfieldService {
         }
       }),
       map((configurationState) => configurationState.loaderState.value),
-      filter((configuration) => !this.isConfigurationInitial(configuration))
+      filter((configuration) => !this.isConfigurationInitial(configuration)),
+      //save to assume configuration is defined, see previous filter
+      map(
+        (configuration) =>
+          configuration ?? {
+            configurationInfos: [],
+            owner: ConfiguratorModelUtils.createInitialOwner(),
+          }
+      )
     );
   }
 
@@ -68,14 +79,16 @@ export class ConfiguratorTextfieldService {
         take(1)
       )
       .subscribe((oldConfiguration) => {
-        this.store.dispatch(
-          new ConfiguratorTextfieldActions.UpdateConfiguration(
-            this.createNewConfigurationWithChange(
-              changedAttribute,
-              oldConfiguration
+        if (oldConfiguration) {
+          this.store.dispatch(
+            new ConfiguratorTextfieldActions.UpdateConfiguration(
+              this.createNewConfigurationWithChange(
+                changedAttribute,
+                oldConfiguration
+              )
             )
-          )
-        );
+          );
+        }
       });
   }
 
@@ -92,18 +105,19 @@ export class ConfiguratorTextfieldService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
-              userId: userId,
-              cartId: this.configuratorUtils.getCartId(cartState.value),
-              productCode: productCode,
-              configuration: configuration,
-              quantity: 1,
-            };
+            const addToCartParameters: ConfiguratorTextfield.AddToCartParameters =
+              {
+                userId: userId,
+                cartId: this.configuratorUtils.getCartId(cart),
+                productCode: productCode,
+                configuration: configuration,
+                quantity: 1,
+              };
             this.store.dispatch(
               new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
             );
@@ -124,17 +138,18 @@ export class ConfiguratorTextfieldService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
-              userId: userId,
-              cartId: this.configuratorUtils.getCartId(cartState.value),
-              cartEntryNumber: cartEntryNumber,
-              configuration: configuration,
-            };
+            const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters =
+              {
+                userId: userId,
+                cartId: this.configuratorUtils.getCartId(cart),
+                cartEntryNumber: cartEntryNumber,
+                configuration: configuration,
+              };
             this.store.dispatch(
               new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
                 updateCartParameters
@@ -155,17 +170,17 @@ export class ConfiguratorTextfieldService {
     owner: CommonConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.activeCartService.requireLoadedCart().pipe(
-      switchMap((cartState) =>
+      switchMap((cart) =>
         this.userIdService
           .getUserId()
           .pipe(
             take(1),
-            map((userId) => ({ cartState, userId: userId }))
+            map((userId) => ({ cart, userId: userId }))
           )
           .pipe(
             map((cont) => ({
               userId: cont.userId,
-              cartId: this.configuratorUtils.getCartId(cont.cartState.value),
+              cartId: this.configuratorUtils.getCartId(cont.cart),
               cartEntryNumber: owner.id,
               owner: owner,
             })),
@@ -183,12 +198,57 @@ export class ConfiguratorTextfieldService {
             ),
             filter(
               (configuration) => !this.isConfigurationInitial(configuration)
+            ),
+            //save to assume that the configuration exists, see previous filter
+            map((configuration) =>
+              configuration
+                ? configuration
+                : {
+                    configurationInfos: [],
+                    owner: ConfiguratorModelUtils.createInitialOwner(),
+                  }
             )
           )
       )
     );
   }
 
+  /**
+   * Returns the textfield configuration attached to an order entry.
+   *
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
+   *
+   * @returns {Observable<ConfiguratorTextfield.Configuration>}
+   */
+  readConfigurationForOrderEntry(
+    owner: CommonConfigurator.Owner
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    const ownerIdParts = this.configuratorUtils.decomposeOwnerId(owner.id);
+    const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        userId: OCC_USER_ID_CURRENT,
+        orderId: ownerIdParts.documentId,
+        orderEntryNumber: ownerIdParts.entryNumber,
+        owner: owner,
+      };
+    this.store.dispatch(
+      new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
+        readFromOrderEntryParameters
+      )
+    );
+    return this.store.pipe(
+      select(ConfiguratorTextFieldSelectors.getConfigurationContent),
+      filter((configuration) => !this.isConfigurationInitial(configuration)),
+      map((configuration) =>
+        configuration
+          ? configuration
+          : {
+              configurationInfos: [],
+              owner: ConfiguratorModelUtils.createInitialOwner(),
+            }
+      )
+    );
+  }
   /**
    * Creates a textfield configuration supposed to be sent to the backend when an attribute
    * has been changed
@@ -217,8 +277,11 @@ export class ConfiguratorTextfieldService {
   }
 
   protected isConfigurationInitial(
-    configuration: ConfiguratorTextfield.Configuration
+    configuration?: ConfiguratorTextfield.Configuration
   ): boolean {
-    return configuration?.owner?.type === undefined;
+    return (
+      configuration === undefined ||
+      ConfiguratorModelUtils.isInitialOwner(configuration.owner)
+    );
   }
 }

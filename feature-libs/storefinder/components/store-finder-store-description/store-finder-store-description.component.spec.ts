@@ -3,9 +3,9 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { StoreFinderStoreDescriptionComponent } from './store-finder-store-description.component';
-import { StoreDataService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@spartacus/storefinder/core';
 
-class StoreDataServiceMock {
+class StoreFinderServiceMock {
   getStoreLatitude() {}
   getStoreLongitude() {}
 }
@@ -34,7 +34,7 @@ describe('StoreFinderStoreDescriptionComponent', () => {
           MockStoreFinderMapComponent,
         ],
         providers: [
-          { provide: StoreDataService, useClass: StoreDataServiceMock },
+          { provide: StoreFinderService, useClass: StoreFinderServiceMock },
         ],
       }).compileComponents();
     })

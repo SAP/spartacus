@@ -30,10 +30,7 @@ class CmsStructureConfigServiceMock {}
 const endpoint = '/cms';
 
 class OccEndpointsServiceMock {
-  getEndpoint(): string {
-    return endpoint;
-  }
-  getUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
+  buildUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
     return '';
   }
 }
@@ -93,11 +90,10 @@ describe('OccCmsComponentAdapter', () => {
 
       const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint);
 
-      expect(endpointsService.getUrl).toHaveBeenCalledWith(
-        'component',
-        { id: 'comp1' },
-        { productCode: '123' }
-      );
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
+        urlParams: { id: 'comp1' },
+        queryParams: { productCode: '123' },
+      });
 
       assertTestRequest(testRequest, component);
     });
@@ -149,7 +145,7 @@ describe('OccCmsComponentAdapter', () => {
   });
 
   function spyOnEndpoint(requestUrl: string): jasmine.Spy {
-    return spyOn(endpointsService, 'getUrl').and.returnValue(requestUrl);
+    return spyOn(endpointsService, 'buildUrl').and.returnValue(requestUrl);
   }
 
   function mockHttpRequest(
@@ -171,17 +167,15 @@ describe('OccCmsComponentAdapter', () => {
   }
 
   function assertGetRequestGetUrl(fields: string, pageSize: string) {
-    expect(endpointsService.getUrl).toHaveBeenCalledWith(
-      'components',
-      {},
-      {
+    expect(endpointsService.buildUrl).toHaveBeenCalledWith('components', {
+      queryParams: {
         fields,
         componentIds: ids.toString(),
         productCode: '123',
         currentPage: '0',
         pageSize,
-      }
-    );
+      },
+    });
   }
 
   function assertConverterPipeableMany() {
