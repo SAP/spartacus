@@ -54,3 +54,25 @@ jobs:
         run: |
           ls -al         
           ci-scripts/unit-tests-core-lib.sh
+  linting:
+    name: linting
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@latest
+      - name: Install yarn
+        run: npm install -g yarn
+      - name: Package installation
+        run: yarn install
+      - name: linting
+        run: |
+          ls -al         
+          ci-scripts/./ci-scripts/validate-lint.sh.sh
