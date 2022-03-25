@@ -52,10 +52,10 @@ jobs:
         working-directory: ./
     steps:
       - uses: actions/checkout@v2
-      - name: Download Spartacus artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: spartacus
+      # - name: Download Spartacus artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: spartacus
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
@@ -74,10 +74,10 @@ jobs:
         working-directory: ./
     steps:
       - uses: actions/checkout@v2
-      - name: Download Spartacus artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: spartacus
+      # - name: Download Spartacus artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: spartacus
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
@@ -96,10 +96,10 @@ jobs:
         working-directory: ./
     steps:
       - uses: actions/checkout@v2
-      - name: Download Spartacus artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: spartacus
+      # - name: Download Spartacus artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: spartacus
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
@@ -118,10 +118,10 @@ jobs:
         working-directory: ./
     steps:
       - uses: actions/checkout@v2
-      - name: Download Spartacus artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: spartacus
+      # - name: Download Spartacus artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: spartacus
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
@@ -140,10 +140,10 @@ jobs:
         working-directory: ./
     steps:
       - uses: actions/checkout@v2
-      - name: Download Spartacus artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: spartacus
+      # - name: Download Spartacus artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: spartacus
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
@@ -162,10 +162,10 @@ jobs:
         working-directory: ./
     steps:
       - uses: actions/checkout@v2
-      - name: Download Spartacus artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: spartacus
+      # - name: Download Spartacus artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: spartacus
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
@@ -182,10 +182,10 @@ jobs:
         working-directory: ./
     steps:
       - uses: actions/checkout@v2
-      - name: Download Spartacus artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: spartacus
+      # - name: Download Spartacus artifact
+      #   uses: actions/download-artifact@v3
+      #   with:
+      #     name: spartacus
       - name: Run e2es
         env:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
