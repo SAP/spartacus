@@ -3,4 +3,6 @@ export const enum ProductScope {
   DETAILS = 'details',
   ATTRIBUTES = 'attributes',
   VARIANTS = 'variants',
+  // TODO
+  VARIANTS_MULTIDIMENSIONAL = 'variantsMultidimensional',
 }

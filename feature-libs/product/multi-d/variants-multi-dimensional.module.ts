@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
-import { VariantsMultiDimensionalCoreModule } from '@spartacus/product/multi-d/core';
-import { VariantsMultiDimensionalOccModule } from '@spartacus/product/multi-d/occ';
-import { VariantsMultiDimensionalComponentsModule } from '@spartacus/product/multi-d/components';
+import { VariantsMultiDimensionalComponentsModule } from './components/variants-multi-dimensional-components.module';
+import { VariantsMultiDimensionalOccModule } from './occ/variants-multi-dimensional-occ.module';
 
 @NgModule({
   imports: [
-    VariantsMultiDimensionalCoreModule,
     VariantsMultiDimensionalOccModule,
     VariantsMultiDimensionalComponentsModule,
   ],

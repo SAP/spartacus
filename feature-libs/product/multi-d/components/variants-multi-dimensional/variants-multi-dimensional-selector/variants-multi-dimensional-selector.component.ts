@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Inject,
   Input,
   OnInit,
 } from '@angular/core';
@@ -15,7 +14,6 @@ import {
   VariantMatrixElement,
   VariantOptionQualifier,
 } from '@spartacus/core';
-import { StorefrontConfig } from 'projects/storefrontlib/src/storefront-config';
 import { filter, take } from 'rxjs/operators';
 import { VariantsMultiDimensionalService } from '../../../core/services/variants-multi-dimensional.service';
 
@@ -28,11 +26,13 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
   @Input()
   product: Product;
 
+  protected readonly PRODUCT_SCOPE = ProductScope.VARIANTS_MULTIDIMENSIONAL;
+
   constructor(
-    @Inject(Config) protected config: StorefrontConfig,
-    private multiDimensionalService: VariantsMultiDimensionalService,
-    private productService: ProductService,
-    private routingService: RoutingService
+    protected config: Config,
+    protected multiDimensionalService: VariantsMultiDimensionalService,
+    protected productService: ProductService,
+    protected routingService: RoutingService
   ) {}
 
   ngOnInit() {
@@ -50,7 +50,7 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
   changeVariant(code: string): void {
     if (code) {
       this.productService
-        .get(code, ProductScope.VARIANTS_MULTIDIMENSIONAL)
+        .get(code, this.PRODUCT_SCOPE)
         .pipe(filter(Boolean), take(1))
         .subscribe((product) => {
           this.routingService.go({

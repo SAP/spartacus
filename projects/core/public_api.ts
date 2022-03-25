@@ -33,4 +33,6 @@ export { OccEndpoints } from './src/occ/occ-models/occ-endpoints.model';
 export { Config } from './src/config/config-tokens';
 export { RoutingConfigDefinition } from './src/routing/configurable-routes/config/routing-config';
 export { BackendConfig } from './src/occ/config/occ-config';
+// TODO
+// export { ProductScope } from './src/product/model/product-scope';
 /** AUGMENTABLE_TYPES_END */
