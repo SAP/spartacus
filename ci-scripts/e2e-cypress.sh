@@ -74,7 +74,6 @@ else
 fi
 echo '-----'
 echo "Building Spartacus storefrontapp"
-yarn build
 
 if [[ "${SSR}" = true ]]; then
     echo "Building Spartacus storefrontapp (SSR PROD mode)"
