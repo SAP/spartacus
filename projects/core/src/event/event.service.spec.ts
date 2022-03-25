@@ -178,7 +178,6 @@ describe('EventService', () => {
       done();
     });
     service.dispatch(new EventA(1));
-    sub.unsubscribe();
   });
 
   it('should register the parent class', () => {
