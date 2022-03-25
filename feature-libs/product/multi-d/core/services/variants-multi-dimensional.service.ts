@@ -1,29 +1,35 @@
 import { Injectable } from '@angular/core';
-import { isNotNullable } from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
+  isNotNullable,
   Product,
   VariantMatrixElement,
   VariantOption,
-} from 'projects/core/src/model';
-import { Observable, of } from 'rxjs';
+  VariantOptionQualifier,
+} from '@spartacus/core';
+import { CurrentProductService } from '@spartacus/storefront';
+import { Observable, of, Subject } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
-  shareReplay,
   map,
+  shareReplay,
   tap,
 } from 'rxjs/operators';
 
 export interface GridVariantOption extends VariantOption {
   variantData: VariantData[];
+  images?: VariantOptionQualifier[] | undefined;
 }
 export interface VariantData {
   type: string;
   value: string;
 }
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class VariantsMultiDimensionalService {
+  entriesCleared$: Subject<void> = new Subject<void>();
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
     filter(isNotNullable),
     distinctUntilChanged(),
@@ -44,7 +50,10 @@ export class VariantsMultiDimensionalService {
   protected variantOptions: GridVariantOption[] = [];
   protected variants: VariantMatrixElement[] = [];
 
-  constructor(protected currentProductService: CurrentProductService) {}
+  constructor(
+    protected activeCartService: ActiveCartFacade,
+    protected currentProductService: CurrentProductService
+  ) {}
 
   variantHasImages(variants: VariantMatrixElement[]): boolean {
     return variants.some(
@@ -93,6 +102,17 @@ export class VariantsMultiDimensionalService {
     }
   }
 
+  /**
+   * Adding to cart all products from the list
+   */
+  addToCart(entries: any): void {
+    this.activeCartService.addEntries(entries);
+  }
+
+  isCartStable(): Observable<boolean> {
+    return this.activeCartService.isStable();
+  }
+
   private getProductCategories(product: Product): void {
     this.variantCategories = this.extractVariantCategories(product);
   }
@@ -115,6 +135,7 @@ export class VariantsMultiDimensionalService {
   private extractAndAssignVariantValuesFromMatrix(product: Product): void {
     if (product.variantMatrix) {
       this.findAllVariantOptions(product?.variantMatrix);
+      this.removeMissingVariantOptions();
     }
   }
 
@@ -159,9 +180,17 @@ export class VariantsMultiDimensionalService {
 
         if (variant) {
           variant.variantData = elementVariantTypes;
+          variant.images =
+            variantMatrixElement.variantOption?.variantOptionQualifiers;
           list.push(variant);
         }
       }
+    });
+  }
+
+  private removeMissingVariantOptions(): void {
+    this.variantOptions = this.variantOptions.filter((variant) => {
+      return variant.variantData?.length;
     });
   }
 

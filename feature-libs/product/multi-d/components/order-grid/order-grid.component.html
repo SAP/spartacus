@@ -1,7 +1,8 @@
-<ng-container *ngIf="product$ | async">
+<ng-container *ngIf="product$ | async as product">
   <div class="container">
     <table class="table cx-order-grid-table">
       <thead class="cx-order-grid-list-thead-mobile">
+        <th scope="col"></th>
         <th *ngFor="let type of getVariantCategories()" scope="col">
           {{ type }}
         </th>
@@ -13,6 +14,14 @@
       </thead>
       <tbody>
         <tr *ngFor="let variant of getVariantOptions() | async">
+          <td class="cx-order-grid-list-image">
+            <cx-media
+              [container]="getVariantOptionImages(variant, product)"
+              format="thumbnail"
+            >
+            </cx-media>
+          </td>
+
           <td
             *ngFor="let data of variant.variantData"
             class="cx-order-grid-list-variant-type"
@@ -81,15 +90,25 @@
 
     <div class="cx-order-grid-add-to-cart-btn row">
       <div class="col-xs-12 col-md-5 col-lg-4">
-        <button class="btn btn-block btn-secondary" (click)="clearEntries()">
+        <button
+          [disabled]="!(isCartStable$ | async)"
+          class="btn btn-block btn-secondary"
+          (click)="clearEntries()"
+        >
           {{ 'orderGrid.clearForm' | cxTranslate }}
         </button>
       </div>
 
+      {{ processing }}
       <div class="col-xs-12 col-md-5 col-lg-4">
-        <button class="btn btn-block btn-primary" (click)="addAllToCart()">
+        <cx-progress-button
+          (clickEvent)="addAllToCart()"
+          [disabled]="!(isCartStable$ | async)"
+          [loading]="!(isCartStable$ | async)"
+          [class]="'btn btn-block btn-primary'"
+        >
           {{ 'orderGrid.addToCart' | cxTranslate }}
-        </button>
+        </cx-progress-button>
       </div>
     </div>
   </div>

@@ -34,7 +34,7 @@ cx-order-grid {
 
   th {
     padding: 1rem 0;
-    text-align: start;
+    text-align: center !important;
 
     &:first-child {
       padding-inline-start: 20px;
@@ -91,6 +91,12 @@ cx-order-grid {
     }
   }
 
+  .cx-order-grid-list-image {
+    cx-media {
+      height: 50px;
+      width: auto;
+    }
+  }
   .cx-order-grid-list-quantity,
   .cx-order-grid-list-availability,
   .cx-order-grid-list-item-price {

@@ -1,4 +1,9 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
+import { Config, OccConfig, Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrderGridEntry } from '../../core/model/order-grid-entry.model';
 import {
@@ -13,11 +18,14 @@ import {
 })
 export class OrderGridComponent {
   product$ = this.multiDimensionalService.product$;
+  isCartStable$ = this.multiDimensionalService.isCartStable();
 
   private entries: OrderGridEntry[] = [];
 
   constructor(
-    protected multiDimensionalService: VariantsMultiDimensionalService
+    protected config: Config,
+    protected multiDimensionalService: VariantsMultiDimensionalService,
+    protected cd: ChangeDetectorRef
   ) {}
 
   getVariantOptions(): Observable<GridVariantOption[]> {
@@ -32,6 +40,23 @@ export class OrderGridComponent {
     return this.entries.reduce((prev, current) => {
       return prev + current.quantity;
     }, 0);
+  }
+
+  getVariantOptionImages(variant: GridVariantOption, product?: Product) {
+    const images = {};
+    const defaultImageObject = {
+      altText: product?.name || '',
+    };
+
+    (variant.images || []).forEach((element: any) => {
+      const imageObject = Object.assign(defaultImageObject, {
+        format: element.image?.format,
+        url: this.getBaseUrl() + element.image?.url,
+      });
+      Object.assign(images, imageObject);
+    });
+
+    return images;
   }
 
   updateEntries(entry: OrderGridEntry): void {
@@ -52,11 +77,20 @@ export class OrderGridComponent {
   }
 
   addAllToCart(): void {
-    // TODO
+    this.multiDimensionalService.addToCart(this.entries);
     this.clearEntries();
   }
 
   clearEntries(): void {
     this.entries = [];
+    this.multiDimensionalService.entriesCleared$.next();
+  }
+
+  protected getBaseUrl(): string {
+    return (
+      (this.config as OccConfig).backend?.media?.baseUrl ??
+      (this.config as OccConfig).backend?.occ?.baseUrl ??
+      ''
+    );
   }
 }

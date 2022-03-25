@@ -8,9 +8,11 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Product } from '@spartacus/core';
 import { OrderGridEntry } from 'feature-libs/product/multi-d/core/model/order-grid-entry.model';
-import { GridVariantOption } from 'feature-libs/product/multi-d/core/services/variants-multi-dimensional.service';
+import {
+  GridVariantOption,
+  VariantsMultiDimensionalService,
+} from 'feature-libs/product/multi-d/core/services/variants-multi-dimensional.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -33,7 +35,9 @@ export class OrderGridCounterComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor() {}
+  constructor(
+    protected multiDimensionalService: VariantsMultiDimensionalService
+  ) {}
 
   ngOnInit() {
     if (this.variant) {
@@ -48,9 +52,11 @@ export class OrderGridCounterComponent implements OnInit, OnDestroy {
         });
       })
     );
+
+    this.watchEntriesCleared();
   }
 
-  private setStockInfo(product: Product): void {
+  private setStockInfo(product: GridVariantOption): void {
     this.hasStock = !!(
       product.stock && product.stock.stockLevelStatus !== 'outOfStock'
     );
@@ -58,6 +64,14 @@ export class OrderGridCounterComponent implements OnInit, OnDestroy {
     if (this.hasStock && product.stock?.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
     }
+  }
+
+  private watchEntriesCleared(): void {
+    this.subscription.add(
+      this.multiDimensionalService.entriesCleared$.subscribe(() =>
+        this.form.get('quantity')?.setValue(0)
+      )
+    );
   }
 
   ngOnDestroy(): void {

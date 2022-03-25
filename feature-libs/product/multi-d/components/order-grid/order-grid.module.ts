@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { ItemCounterModule } from '@spartacus/storefront';
+import {
+  ItemCounterModule,
+  MediaModule,
+  ProgressButtonModule,
+} from '@spartacus/storefront';
 import { OrderGridCounterComponent } from './order-grid-counter/order-grid-counter.component';
 import { OrderGridComponent } from './order-grid.component';
 
@@ -10,9 +14,11 @@ import { OrderGridComponent } from './order-grid.component';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule,
     I18nModule,
     ItemCounterModule,
+    MediaModule,
+    ProgressButtonModule,
+    ReactiveFormsModule,
   ],
   declarations: [OrderGridComponent, OrderGridCounterComponent],
   entryComponents: [OrderGridComponent, OrderGridCounterComponent],
