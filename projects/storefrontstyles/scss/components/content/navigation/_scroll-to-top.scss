@@ -8,6 +8,7 @@
 
   &.display {
     display: initial;
+    animation: popup 1.5s 1;
   }
 
   button {
@@ -43,6 +44,15 @@
       transform: translateY(-3px);
     }
     40% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes popup {
+    0% {
+      transform: translateY(100px);
+    }
+    100% {
       transform: translateY(0);
     }
   }
