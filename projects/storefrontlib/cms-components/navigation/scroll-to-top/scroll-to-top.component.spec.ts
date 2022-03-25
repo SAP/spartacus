@@ -62,7 +62,7 @@ describe('ScrollToTopComponent', () => {
     el = fixture.debugElement;
   });
 
-  function getKeyboardFocusableElement(): HTMLElement {
+  function getFirstKeyboardFocusableElement(): HTMLElement {
     return [
       ...(winRef.nativeWindow?.document?.querySelectorAll(
         'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
@@ -115,7 +115,7 @@ describe('ScrollToTopComponent', () => {
 
     fixture.detectChanges();
 
-    const topElement = getKeyboardFocusableElement();
+    const topElement = getFirstKeyboardFocusableElement();
 
     const scrollBtn = el.query(By.css('.scroll-to-top-btn')).nativeElement;
     const testBtn = el.query(By.css('.test')).nativeElement;

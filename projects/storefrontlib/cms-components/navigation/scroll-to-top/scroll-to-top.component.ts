@@ -4,14 +4,13 @@ import {
   HostBinding,
   HostListener,
   OnInit,
-  OnDestroy,
 } from '@angular/core';
 import {
   WindowRef,
   CmsScrollToTopComponent,
   ScrollBehavior,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 @Component({
@@ -19,13 +18,12 @@ import { ICON_TYPE } from '../../misc/icon/icon.model';
   templateUrl: './scroll-to-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScrollToTopComponent implements OnInit, OnDestroy {
+export class ScrollToTopComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   @HostBinding('class.display')
   display: boolean | undefined;
 
-  protected subscription = new Subscription();
   protected window: Window | undefined = this.winRef.nativeWindow;
   protected scrollBehavior: ScrollBehavior = ScrollBehavior.SMOOTH;
   protected displayThreshold: number = (this.window?.innerHeight ?? 400) / 2;
@@ -43,19 +41,17 @@ export class ScrollToTopComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription.add(
-      this.componentData.data$.subscribe((data) => {
-        this.scrollBehavior = data.scrollBehavior ?? this.scrollBehavior;
-        this.displayThreshold = data.displayThreshold ?? this.displayThreshold;
-      })
-    );
+    this.componentData.data$.pipe(take(1)).subscribe((data) => {
+      this.scrollBehavior = data.scrollBehavior ?? this.scrollBehavior;
+      this.displayThreshold = data.displayThreshold ?? this.displayThreshold;
+    });
   }
 
   /**
    * Scroll back to the top of the page and set focus on top most focusable element.
    */
   scrollToTop(): void {
-    this.getKeyboardFocusableElement().focus();
+    this.getFirstKeyboardFocusableElement().focus();
     this.window?.scrollTo({
       top: 0,
       behavior: this.scrollBehavior,
@@ -66,7 +62,7 @@ export class ScrollToTopComponent implements OnInit, OnDestroy {
    *Get first focusable element in the DOM that is not hidden or disabled.
    * @returns HTMLElement
    */
-  protected getKeyboardFocusableElement(): HTMLElement {
+  protected getFirstKeyboardFocusableElement(): HTMLElement {
     return [
       ...(this.window?.document?.querySelectorAll(
         'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
@@ -74,9 +70,5 @@ export class ScrollToTopComponent implements OnInit, OnDestroy {
     ].filter(
       (el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden')
     )[0];
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }
