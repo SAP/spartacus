@@ -22,6 +22,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@latest
       - name: Install yarn
         run: npm install -g yarn
       - name: Package installation
@@ -42,6 +44,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@latest
       - name: Install yarn
         run: npm install -g yarn
       - name: Package installation
