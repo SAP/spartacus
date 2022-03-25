@@ -66,7 +66,6 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
 
   getVariantOptionImages(variantOptionQualifier: VariantOptionQualifier[]) {
     const images = {};
-    console.log('variantOptionQualifier, variantOptionQualifier');
     const defaultImageObject = {
       altText: this.product.name || '',
     };

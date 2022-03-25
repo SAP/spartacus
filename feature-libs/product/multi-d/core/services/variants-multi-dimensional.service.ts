@@ -7,7 +7,7 @@ import {
   VariantOption,
 } from 'projects/core/src/model';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, shareReplay, tap } from 'rxjs/operators';
 
 export interface GridVariantOption extends VariantOption {
   variantData: VariantData[];
@@ -30,7 +30,8 @@ export class VariantsMultiDimensionalService {
       }
 
       this.extractAndAssignVariantValuesFromMatrix(product);
-    })
+    }),
+    shareReplay(1)
   );
 
   protected variantCategories: string[] = [];
@@ -100,7 +101,6 @@ export class VariantsMultiDimensionalService {
   }
 
   private extractAndAssignVariantValuesFromMatrix(product: Product): void {
-    console.log('1 extractAndAssignVariantValuesFromMatrix', product);
     if (product.variantMatrix) {
       this.findAllVariantOptions(product?.variantMatrix);
     }
@@ -112,8 +112,6 @@ export class VariantsMultiDimensionalService {
     list: GridVariantOption[] = [],
     itteration: number = 0
   ): void {
-    console.log('2 findAllVariantOptions', variantMatrix);
-
     variantMatrix.forEach((variantMatrixElement: VariantMatrixElement) => {
       // Remove reference
       const elementVariantTypes = JSON.parse(JSON.stringify(variantTypes));
