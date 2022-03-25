@@ -21,32 +21,32 @@ jobs:
   #       run: |
   #         ls -al         
   #         ci-scripts/unit-tests-core-lib.sh
-  build_spartacus:
-    name: Building Spartacus libs and shellapp
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: build spartacus
-        run: |
-          ls -al
-          ci-scripts/build-spartacus.sh
-          ls -al
-      - name: move artifact to folder for upload
-        run: | 
-          mkdir upload-artifact && mv dist/ upload-artifact
-          ls -al upload-artifact
-      - uses: actions/upload-artifact@v3
-        with:
-          name: spartacus
-          path: upload-artifact
-          retention-days: 1
-  b2c_e2e_test:
+  # build_spartacus:
+  #   name: Building Spartacus libs and shellapp
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run:
+  #       working-directory: ./
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: build spartacus
+  #       run: |
+  #         ls -al
+  #         ci-scripts/build-spartacus.sh
+  #         ls -al
+  #     - name: move artifact to folder for upload
+  #       run: | 
+  #         mkdir upload-artifact && mv dist/ upload-artifact
+  #         ls -al upload-artifact
+  #     - uses: actions/upload-artifact@v3
+  #       with:
+  #         name: spartacus
+  #         path: upload-artifact
+  #         retention-days: 1
+  b2c_e2e_test_1:
     name: B2C Cypress e2e tests
     runs-on: ubuntu-latest
-    needs: build_spartacus
+    # needs: build_spartacus
     defaults:
       run: 
         working-directory: ./
@@ -65,10 +65,118 @@ jobs:
           echo $GITHUB_WORKSPACE
           pwd    
           ci-scripts/e2e-cypress.sh
-  b2bE2eTest:
+    b2c_e2e_test_2:
+    name: B2C Cypress e2e tests
+    runs-on: ubuntu-latest
+    # needs: build_spartacus
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Spartacus artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: spartacus
+      - name: Run e2es
+        env:
+          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+          SPA_ENV: ci,b2c
+        run: |
+          ls -al     
+          echo $GITHUB_WORKSPACE
+          pwd    
+          ci-scripts/e2e-cypress.sh
+    b2c_e2e_test_3:
+    name: B2C Cypress e2e tests
+    runs-on: ubuntu-latest
+    # needs: build_spartacus
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Spartacus artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: spartacus
+      - name: Run e2es
+        env:
+          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+          SPA_ENV: ci,b2c
+        run: |
+          ls -al     
+          echo $GITHUB_WORKSPACE
+          pwd    
+          ci-scripts/e2e-cypress.sh
+    b2c_e2e_test_4:
+    name: B2C Cypress e2e tests
+    runs-on: ubuntu-latest
+    # needs: build_spartacus
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Spartacus artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: spartacus
+      - name: Run e2es
+        env:
+          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+          SPA_ENV: ci,b2c
+        run: |
+          ls -al     
+          echo $GITHUB_WORKSPACE
+          pwd    
+          ci-scripts/e2e-cypress.sh
+  b2c_e2e_test_5:
+    name: B2C Cypress e2e tests
+    runs-on: ubuntu-latest
+    # needs: build_spartacus
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Spartacus artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: spartacus
+      - name: Run e2es
+        env:
+          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+          SPA_ENV: ci,b2c
+        run: |
+          ls -al     
+          echo $GITHUB_WORKSPACE
+          pwd    
+          ci-scripts/e2e-cypress.sh
+  b2b_e2e_test_1:
     name: B2B Cypress e2e tests
     runs-on: ubuntu-latest
-    needs: build_spartacus
+    # needs: build_spartacus
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Spartacus artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: spartacus
+      - name: Run e2es
+        env:
+          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+          SPA_ENV: ci,b2b
+        run: |
+          ls -al         
+          ci-scripts/e2e-cypress.sh -s b2b
+  b2b_e2e_test_2:
+    name: B2B Cypress e2e tests
+    runs-on: ubuntu-latest
+    # needs: build_spartacus
     defaults:
       run: 
         working-directory: ./
