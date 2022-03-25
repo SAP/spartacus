@@ -75,4 +75,4 @@ jobs:
       - name: linting
         run: |
           ls -al         
-          ci-scripts/./ci-scripts/validate-lint.sh
+          ci-scripts/ci-scripts/validate-lint.sh
