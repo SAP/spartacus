@@ -12,6 +12,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   CLI_QUALTRICS_FEATURE,
   LibraryOptions as SpartacusQualtricsOptions,
+  qualtricsFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
@@ -19,8 +20,6 @@ import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/qualtrics-embedded-feedback.scss';
 
 describe('Spartacus Qualtrics schematics: ng-add', () => {
@@ -99,7 +98,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(qualtricsFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -137,7 +136,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(qualtricsFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -166,7 +165,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(qualtricsFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

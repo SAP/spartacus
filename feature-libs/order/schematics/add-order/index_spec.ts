@@ -10,17 +10,18 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  cartBaseFeatureModulePath,
   CLI_ORDER_FEATURE,
   LibraryOptions as SpartacusOrderOptions,
+  orderFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/order/order-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/order.scss';
 
 describe('Spartacus Order schematics: ng-add', () => {
@@ -103,7 +104,7 @@ describe('Spartacus Order schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(orderFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -141,8 +142,18 @@ describe('Spartacus Order schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(orderFeatureModulePath);
         expect(module).toMatchSnapshot();
+      });
+
+      it('should install the required feature dependencies', async () => {
+        const baseCartFeatureModule = appTree.readContent(
+          cartBaseFeatureModulePath
+        );
+        expect(baseCartFeatureModule).toMatchSnapshot();
+
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toMatchSnapshot();
       });
 
       describe('styling', () => {
@@ -170,7 +181,7 @@ describe('Spartacus Order schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(orderFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

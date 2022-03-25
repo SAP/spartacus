@@ -1,6 +1,5 @@
 /// <reference types="jest" />
 
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -11,21 +10,19 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  cdcFeatureModulePath,
   CLI_CDC_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
-  LibraryOptions,
   LibraryOptions as SpartacusCdcOptions,
   SpartacusOptions,
   SPARTACUS_ASM,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/cdc/cdc-feature.module.ts';
 
 describe('Spartacus CDC schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -117,7 +114,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(cdcFeatureModulePath)).toBeFalsy();
     });
   });
 
@@ -154,40 +151,13 @@ describe('Spartacus CDC schematics: ng-add', () => {
         }
       });
 
-      it('should run the proper installation tasks', async () => {
-        const tasks = schematicRunner.tasks
-          .filter((task) => task.name === 'run-schematic')
-          .map(
-            (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
-          );
-        expect(tasks.length).toEqual(3);
-
-        const asmTask = tasks[0];
-        expect(asmTask).toBeTruthy();
-        expect(asmTask.name).toEqual('add-spartacus-library');
-        expect(asmTask.options).toHaveProperty('collection', SPARTACUS_ASM);
-        expect(asmTask.options.options?.features).toEqual([]);
-
-        const userTask = tasks[1];
-        expect(userTask).toBeTruthy();
-        expect(userTask.name).toEqual('add-spartacus-library');
-        expect(userTask.options).toHaveProperty('collection', SPARTACUS_USER);
-        expect(userTask.options.options?.features).toEqual([]);
-
-        const userTaskWithSubFeatures = tasks[2];
-        expect(userTaskWithSubFeatures).toBeTruthy();
-        expect(userTaskWithSubFeatures.name).toEqual('add-spartacus-library');
-        expect(userTaskWithSubFeatures.options).toHaveProperty(
-          'collection',
-          SPARTACUS_USER
-        );
-        expect(userTaskWithSubFeatures.options.options?.features).toEqual([
-          CLI_USER_PROFILE_FEATURE,
-        ]);
+      it('should install the required feature dependencies', async () => {
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toMatchSnapshot();
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(cdcFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
@@ -204,7 +174,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(cdcFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

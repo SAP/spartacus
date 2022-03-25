@@ -1,31 +1,24 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeCrossFeatureDependencies,
   CLI_SMARTEDIT_FEATURE,
   CustomConfig,
+  FeatureConfigurationOverrides,
   readPackageJson,
   shouldAddFeature,
-  SMARTEDIT_MODULE,
-  SMARTEDIT_ROOT_MODULE,
+  SMARTEDIT_SCHEMATICS_CONFIG,
   SMART_EDIT_CONFIG,
-  SPARTACUS_SMARTEDIT,
+  SPARTACUS_SMARTEDIT_ROOT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
-import {
-  SMARTEDIT_FEATURE_NAME_CONSTANT,
-  SMARTEDIT_FOLDER_NAME,
-  SMARTEDIT_MODULE_NAME,
-  SPARTACUS_SMARTEDIT_ASSETS,
-  SPARTACUS_SMARTEDIT_ROOT,
-} from '../constants';
 import { Schema as SpartacusSmartEditOptions } from './schema';
 
 export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
@@ -33,17 +26,25 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
+    const overrides = buildSmartEditConfig(options);
 
-      shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)
-        ? addSmartEditFeature(options)
-        : noop(),
+    return chain([
+      addFeatures(options, features, overrides),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
 }
 
-function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
+function buildSmartEditConfig(
+  options: SpartacusSmartEditOptions
+): Record<string, FeatureConfigurationOverrides> {
+  if (!shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)) {
+    return {};
+  }
+
   const customConfig: CustomConfig[] = [];
   if (options.storefrontPreviewRoute || options.allowOrigin) {
     let content = `<${SMART_EDIT_CONFIG}>{
@@ -67,25 +68,12 @@ function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
     });
   }
 
-  return addLibraryFeature(options, {
-    folderName: SMARTEDIT_FOLDER_NAME,
-    moduleName: SMARTEDIT_MODULE_NAME,
-    featureModule: {
-      name: SMARTEDIT_MODULE,
-      importPath: SPARTACUS_SMARTEDIT,
+  return {
+    [CLI_SMARTEDIT_FEATURE]: {
+      schematics: {
+        ...SMARTEDIT_SCHEMATICS_CONFIG,
+        customConfig,
+      },
     },
-    rootModule: {
-      name: SMARTEDIT_ROOT_MODULE,
-      importPath: SPARTACUS_SMARTEDIT_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_SMARTEDIT_ROOT,
-      namedImports: [SMARTEDIT_FEATURE_NAME_CONSTANT],
-    },
-    customConfig,
-    assets: {
-      input: SPARTACUS_SMARTEDIT_ASSETS,
-      glob: '**/*',
-    },
-  });
+  };
 }

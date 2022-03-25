@@ -1,5 +1,4 @@
 import { Tree } from '@angular-devkit/schematics';
-import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -12,7 +11,13 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { CDS_CONFIG, UTF_8 } from '../constants';
-import { SPARTACUS_CDS, SPARTACUS_FEATURES_MODULE } from '../libs-constants';
+import {
+  SPARTACUS_CART,
+  SPARTACUS_CDS,
+  SPARTACUS_CHECKOUT,
+  SPARTACUS_FEATURES_MODULE,
+  SPARTACUS_ORDER,
+} from '../libs-constants';
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
@@ -70,6 +75,10 @@ describe('Lib utils', () => {
   const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
 
   const BASE_FEATURE_CONFIG: FeatureConfig = {
+    library: {
+      cli: CLI_FEATURE_NAME,
+      mainScope: FEATURE_MODULE_IMPORT_PATH,
+    },
     folderName: FEATURE_FOLDER_NAME,
     moduleName: FEATURE_NAME,
     featureModule: {
@@ -98,6 +107,10 @@ describe('Lib utils', () => {
   };
 
   const DP_FEATURE_CONFIG: FeatureConfig = {
+    library: {
+      cli: 'dp',
+      mainScope: '@spartacus/digital-payments',
+    },
     folderName: 'dp',
     moduleName: 'DigitalPayments',
     featureModule: {
@@ -112,15 +125,20 @@ describe('Lib utils', () => {
   };
 
   const CHECKOUT_FEATURE_CONFIG: FeatureConfig = {
+    library: {
+      cli: 'checkout',
+      mainScope: '@spartacus/checkout',
+      featureScope: '@spartacus/checkout/base',
+    },
     folderName: 'checkout',
     moduleName: 'Checkout',
     featureModule: {
       name: 'CheckoutModule',
-      importPath: '@spartacus/Checkout/base',
+      importPath: '@spartacus/checkout/base',
     },
     rootModule: {
       name: 'CheckoutRootModule',
-      importPath: '@spartacus/Checkout/base/root',
+      importPath: '@spartacus/checkout/base/root',
     },
   };
   const CHECKOUT_OPTIONS: LibraryOptions = {
@@ -130,6 +148,11 @@ describe('Lib utils', () => {
   };
 
   const CART_FEATURE_CONFIG: FeatureConfig = {
+    library: {
+      cli: 'cart',
+      mainScope: '@spartacus/cart',
+      featureScope: '@spartacus/cart/base',
+    },
     folderName: 'cart',
     moduleName: 'Cart',
     featureModule: {
@@ -148,6 +171,10 @@ describe('Lib utils', () => {
   };
 
   const USER_PROFILE_FEATURE_CONFIG: FeatureConfig = {
+    library: {
+      cli: 'user-profile',
+      mainScope: '@spartacus/user',
+    },
     folderName: 'user',
     moduleName: 'UserProfile',
     featureModule: {
@@ -166,6 +193,10 @@ describe('Lib utils', () => {
   };
 
   const ORDER_FEATURE_CONFIG: FeatureConfig = {
+    library: {
+      cli: 'order',
+      mainScope: '@spartacus/order',
+    },
     folderName: 'order',
     moduleName: 'Order',
     featureModule: {
@@ -426,8 +457,9 @@ describe('Lib utils', () => {
 
     it('checkout', async () => {
       const peerDependencies: Record<string, string> = {
-        '@spartacus/cart': '4.1.0-next.0',
-        '@spartacus/checkout': '4.1.0-next.0',
+        [SPARTACUS_ORDER]: '4.1.0-next.0',
+        [SPARTACUS_CART]: '4.1.0-next.0',
+        [SPARTACUS_CHECKOUT]: '4.1.0-next.0',
       };
 
       await schematicRunner
@@ -440,12 +472,13 @@ describe('Lib utils', () => {
         )
         .toPromise();
 
-      const tasks = schematicRunner.tasks
-        .filter((task) => task.name === 'run-schematic')
-        .map((task) => task.options as RunSchematicTask<LibraryOptions>)
-        .map((task) => (task as any).options.collection);
+      const packageJson = JSON.parse(
+        tree.read('package.json')?.toString(UTF_8) ?? ''
+      ).dependencies as Record<string, string>;
 
-      expect(tasks).toEqual(['@spartacus/cart', '@spartacus/checkout']);
+      expect(packageJson[SPARTACUS_ORDER]).toBeTruthy();
+      expect(packageJson[SPARTACUS_CART]).toBeTruthy();
+      expect(packageJson[SPARTACUS_CHECKOUT]).toBeTruthy();
     });
   });
 

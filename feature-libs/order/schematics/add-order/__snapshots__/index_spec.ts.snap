@@ -55,6 +55,91 @@ export class OrderFeatureModule { }
 "
 `;
 
+exports[`Spartacus Order schematics: ng-add Order feature general setup should install the required feature dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
+import { ADD_TO_CART_FEATURE, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART_FEATURE } from \\"@spartacus/cart/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CartBaseRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CART_BASE_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base').then((m) => m.CartBaseModule),
+      }, [MINI_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
+      }, [ADD_TO_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: cartBaseTranslations,
+      chunks: cartBaseTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CartBaseFeatureModule { }
+"
+`;
+
+exports[`Spartacus Order schematics: ng-add Order feature general setup should install the required feature dependencies 2`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
 exports[`Spartacus Order schematics: ng-add Order feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/order\\";"`;
 
 exports[`Spartacus Order schematics: ng-add Order feature general setup styling should update angular.json 1`] = `
@@ -92,6 +177,8 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
               \\"src/styles/spartacus/order.scss\\"
             ],
             \\"scripts\\": []
@@ -161,6 +248,8 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
               \\"src/styles/spartacus/order.scss\\"
             ],
             \\"scripts\\": []

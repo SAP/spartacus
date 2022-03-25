@@ -10,20 +10,22 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  cartBaseFeatureModulePath,
+  checkoutFeatureModulePath,
   CLI_CHECKOUT_B2B_FEATURE,
   CLI_CHECKOUT_BASE_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   LibraryOptions as SpartacusCheckoutOptions,
+  orderFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/checkout/checkout-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/checkout.scss';
 
 describe('Spartacus Checkout schematics: ng-add', () => {
@@ -117,7 +119,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(checkoutFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -156,8 +158,23 @@ describe('Spartacus Checkout schematics: ng-add', () => {
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(checkoutFeatureModulePath);
           expect(module).toMatchSnapshot();
+        });
+
+        it('should install the required feature dependencies', async () => {
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toMatchSnapshot();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toMatchSnapshot();
+
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
         });
 
         describe('styling', () => {
@@ -185,7 +202,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(checkoutFeatureModulePath);
           expect(module).toMatchSnapshot();
         });
       });
@@ -200,8 +217,23 @@ describe('Spartacus Checkout schematics: ng-add', () => {
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(checkoutFeatureModulePath);
           expect(module).toMatchSnapshot();
+        });
+
+        it('should install the required feature dependencies', async () => {
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toMatchSnapshot();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toMatchSnapshot();
+
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
         });
 
         describe('styling', () => {
@@ -238,7 +270,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(checkoutFeatureModulePath);
           expect(module).toMatchSnapshot();
         });
       });
@@ -257,8 +289,23 @@ describe('Spartacus Checkout schematics: ng-add', () => {
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(checkoutFeatureModulePath);
           expect(module).toMatchSnapshot();
+        });
+
+        it('should install the required feature dependencies', async () => {
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toMatchSnapshot();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toMatchSnapshot();
+
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
         });
 
         describe('styling', () => {
@@ -295,7 +342,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(checkoutFeatureModulePath);
           expect(module).toMatchSnapshot();
         });
       });

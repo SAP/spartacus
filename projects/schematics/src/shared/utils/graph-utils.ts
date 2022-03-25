@@ -1,3 +1,8 @@
+import collectedDependencies from '../../dependencies.json';
+import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
+import { libraryFeatureMapping } from '../updateable-constants';
+import { getConfiguredDependencies } from './schematics-config-utils';
+
 export class Graph {
   protected adjacentVertices: Record<string, Array<string>> = {};
 
@@ -23,6 +28,18 @@ export class Graph {
     return this.adjacentVertices;
   }
 }
+
+export const crossLibraryDependencyGraph: Graph =
+  createLibraryDependencyGraph();
+export const crossLibraryInstallationOrder: string[] = kahnsAlgorithm(
+  crossLibraryDependencyGraph
+);
+
+export const crossFeatureDependencyGraph: Graph =
+  createCrossFeaturesDependencyGraph();
+export const crossFeatureInstallationOrder: string[] = kahnsAlgorithm(
+  crossFeatureDependencyGraph
+);
 
 /**
  * Creates the order in which the Spartacus libraries should be installed.
@@ -73,4 +90,56 @@ export function kahnsAlgorithm(graph: Graph): string[] {
   }
 
   return Object.keys(topNums).reverse();
+}
+
+function createLibraryDependencyGraph(): Graph {
+  const skip = CORE_SPARTACUS_SCOPES.concat(
+    'storefrontapp-e2e-cypress',
+    'storefrontapp'
+  );
+
+  const spartacusLibraries = Object.keys(collectedDependencies).filter(
+    (dependency) => !skip.includes(dependency)
+  );
+
+  const graph = new Graph(spartacusLibraries);
+  for (const spartacusLib of spartacusLibraries) {
+    const libraryDependencies = (
+      collectedDependencies as Record<string, Record<string, string>>
+    )[spartacusLib];
+    const spartacusPeerDependencies = Object.keys(libraryDependencies).filter(
+      (dependency) => dependency.startsWith(SPARTACUS_SCOPE)
+    );
+    for (const spartacusPackage of spartacusPeerDependencies) {
+      if (skip.includes(spartacusPackage)) {
+        continue;
+      }
+
+      graph.createEdge(spartacusLib, spartacusPackage);
+    }
+  }
+
+  return graph;
+}
+
+function createCrossFeaturesDependencyGraph(): Graph {
+  const graph = new Graph();
+
+  for (const spartacusLib in libraryFeatureMapping) {
+    if (!libraryFeatureMapping.hasOwnProperty(spartacusLib)) {
+      continue;
+    }
+
+    const features = libraryFeatureMapping[spartacusLib] ?? [];
+    for (const feature of features) {
+      graph.addVertex(feature);
+
+      const dependencies = getConfiguredDependencies(feature);
+      for (const dependency of dependencies) {
+        graph.createEdge(feature, dependency);
+      }
+    }
+  }
+
+  return graph;
 }

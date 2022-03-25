@@ -1,27 +1,25 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeCrossFeatureDependencies,
   CDS_CONFIG,
-  CDS_MODULE,
+  CDS_SCHEMATICS_CONFIG,
   CLI_CDS_FEATURE,
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
   CustomConfig,
+  FeatureConfigurationOverrides,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CDS,
-  SPARTACUS_TRACKING,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../../package.json';
-import { CDS_FOLDER_NAME, CDS_MODULE_NAME } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {
@@ -29,17 +27,26 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
+    const overrides = buildCdsConfig(options, context);
 
-      shouldAddFeature(CLI_CDS_FEATURE, options.features)
-        ? addCds(options, context)
-        : noop(),
+    return chain([
+      addFeatures(options, features, overrides),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
 }
 
-function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
+function buildCdsConfig(
+  options: SpartacusCdsOptions,
+  context: SchematicContext
+): Record<string, FeatureConfigurationOverrides> {
+  if (!shouldAddFeature(CLI_CDS_FEATURE, options.features)) {
+    return {};
+  }
+
   validateCdsOptions(options, context);
 
   const customConfig: CustomConfig[] = [
@@ -86,25 +93,18 @@ function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
     });
   }
 
-  return addLibraryFeature(
-    { ...options, lazy: false },
-    {
-      folderName: CDS_FOLDER_NAME,
-      moduleName: CDS_MODULE_NAME,
-      featureModule: {
-        importPath: SPARTACUS_CDS,
-        name: CDS_MODULE,
-        content: `${CDS_MODULE}.forRoot()`,
+  return {
+    [CLI_CDS_FEATURE]: {
+      schematics: {
+        ...CDS_SCHEMATICS_CONFIG,
+        customConfig,
       },
-      customConfig,
-      dependencyManagement: {
-        featureName: CLI_CDS_FEATURE,
-        featureDependencies: {
-          [SPARTACUS_TRACKING]: [CLI_TRACKING_PERSONALIZATION_FEATURE],
-        },
+      options: {
+        ...options,
+        lazy: false,
       },
-    }
-  );
+    },
+  };
 }
 
 function validateCdsOptions(

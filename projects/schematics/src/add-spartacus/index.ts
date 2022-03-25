@@ -10,14 +10,16 @@ import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { ANGULAR_HTTP } from '../shared/constants';
 import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
+import {
+  analyzeCrossFeatureDependencies,
+  analyzeCrossLibraryDependenciesByFeatures,
+} from '../shared/utils/dependency-utils';
+import { addFeatures } from '../shared/utils/feature-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
-  addSchematicsTasks,
-  createSpartacusFeatureOptionsForLibrary,
-  LibraryOptions,
-  prepareCliPackageAndSubFeature,
+  installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
 import { addModuleImport } from '../shared/utils/new-module-utils';
 import {
@@ -212,9 +214,20 @@ function increaseBudgets(): Rule {
   };
 }
 
-function prepareDependencies(): NodeDependency[] {
+function prepareDependencies(features: string[]): NodeDependency[] {
   const spartacusDependencies = prepareSpartacusDependencies();
-  return spartacusDependencies.concat(prepare3rdPartyDependencies());
+
+  const libraries = analyzeCrossLibraryDependenciesByFeatures(features);
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+  const spartacusLibraryDependencies = libraries.map((library) =>
+    mapPackageToNodeDependencies(library, spartacusVersion)
+  );
+
+  const dependencies: NodeDependency[] = spartacusDependencies
+    .concat(spartacusLibraryDependencies)
+    .concat(prepare3rdPartyDependencies());
+
+  return dependencies;
 }
 
 function updateAppModule(project: string): Rule {
@@ -260,36 +273,32 @@ function updateAppModule(project: string): Rule {
   };
 }
 
-function addSpartacusFeatures(options: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const cliFeatures = prepareCliPackageAndSubFeature(options.features ?? []);
-    const libraryOptions: LibraryOptions = {
-      project: options.project,
-      lazy: options.lazy,
-      debug: options.debug,
-    };
-    const featureOptions = createSpartacusFeatureOptionsForLibrary(
-      libraryOptions,
-      cliFeatures
+function logDependencyFeatures(
+  options: SpartacusOptions,
+  context: SchematicContext,
+  features: string[]
+) {
+  const selectedFeatures = options.features ?? [];
+  const notSelectedFeatures = features.filter(
+    (feature) => !selectedFeatures.includes(feature)
+  );
+  if (notSelectedFeatures.length) {
+    context.logger.info(
+      `\n⚙️ Configuring the additional features as the dependencies of ${selectedFeatures.join(
+        ', '
+      )}: ${notSelectedFeatures.join(', ')}\n`
     );
-    addSchematicsTasks(featureOptions, context);
-
-    const packageJson = readPackageJson(tree);
-    const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
-    const dependencies = Object.keys(cliFeatures).map((feature) =>
-      mapPackageToNodeDependencies(feature, spartacusVersion)
-    );
-    return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
-  };
+  }
 }
 
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
 
-    return chain([
-      addPackageJsonDependencies(prepareDependencies(), readPackageJson(tree)),
+    const features = analyzeCrossFeatureDependencies(options.features ?? []);
+    logDependencyFeatures(options, context, features);
 
+    return chain([
       setupStoreModules(options.project),
 
       scaffoldStructure(options),
@@ -306,7 +315,15 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
       increaseBudgets(),
 
-      addSpartacusFeatures(options),
+      addFeatures(options, features),
+
+      chain([
+        addPackageJsonDependencies(
+          prepareDependencies(features),
+          readPackageJson(tree)
+        ),
+        installPackageJsonDependencies(),
+      ]),
     ])(tree, context);
   };
 }
