@@ -5,6 +5,7 @@ import { I18nModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 
 @NgModule({
   imports: [
@@ -14,9 +15,9 @@ import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attrib
     I18nModule,
     KeyboardFocusModule,
     ReactiveFormsModule,
+    ConfiguratorPriceModule,
   ],
   declarations: [ConfiguratorAttributeRadioButtonComponent],
   exports: [ConfiguratorAttributeRadioButtonComponent],
-  entryComponents: [ConfiguratorAttributeRadioButtonComponent],
 })
 export class ConfiguratorAttributeRadioButtonModule {}

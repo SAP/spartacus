@@ -24,10 +24,12 @@ import {
   CONFIG_MODULE_CLASS,
   OBSERVABLE_CLASS,
   RXJS,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   UTF_8,
 } from '../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../shared/libs-constants';
 import {
   commitChanges,
   defineProperty,
@@ -40,7 +42,6 @@ import {
 } from '../shared/utils/file-utils';
 import {
   addToModuleDeclarations,
-  addToModuleEntryComponents,
   addToModuleExports,
   addToModuleImports,
   buildRelativePath,
@@ -125,14 +126,6 @@ function updateModule(options: CxCmsComponentSchema): Rule {
       moduleTs
     );
     changes.push(...addToModuleDeclarationsChanges);
-
-    const addToModuleEntryComponentsChanges = addToModuleEntryComponents(
-      tree,
-      modulePath,
-      componentName,
-      moduleTs
-    );
-    changes.push(...addToModuleEntryComponentsChanges);
 
     const addToModuleExportsChanges = addToModuleExports(
       tree,
@@ -382,7 +375,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       export: exportOption,
       name: componentName,
       changeDetection,
-      entryComponent,
       flat,
       inlineStyle,
       inlineTemplate,
@@ -428,7 +420,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         : noop(),
       externalSchematic(ANGULAR_SCHEMATICS, 'component', {
         changeDetection,
-        entryComponent,
         export: exportOption,
         flat,
         inlineStyle,

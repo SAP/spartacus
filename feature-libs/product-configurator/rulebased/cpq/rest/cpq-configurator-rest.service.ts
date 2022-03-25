@@ -136,8 +136,8 @@ export class CpqConfiguratorRestService {
     config.tabs = [];
     tabReqResultList.forEach((tabReqResult) => {
       let tab: Cpq.Tab;
-      const currentTab = tabReqResult.tabs.find((tab) => tab.isSelected);
-      if (tabReqResult.tabs && tabReqResult.tabs.length > 0) {
+      const currentTab = tabReqResult.tabs?.find((tab) => tab.isSelected);
+      if (currentTab && tabReqResult.tabs && tabReqResult.tabs.length > 0) {
         tab = {
           ...currentTab,
         };
@@ -147,7 +147,7 @@ export class CpqConfiguratorRestService {
         };
       }
       tab.attributes = tabReqResult.attributes;
-      config.tabs.push(tab);
+      config.tabs?.push(tab);
     });
     return config;
   }

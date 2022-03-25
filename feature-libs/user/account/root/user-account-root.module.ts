@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import {
+  CmsConfig,
   provideDefaultConfigFactory,
   UserAccountFacadeTransitionalToken,
 } from '@spartacus/core';
-import { PageLayoutModule } from '@spartacus/storefront';
+import { UserAccountEventModule } from './events/user-account-event.module';
+import { UserAccountFacade } from './facade/user-account.facade';
 import {
   USER_ACCOUNT_CORE_FEATURE,
   USER_ACCOUNT_FEATURE,
 } from './feature-name';
-import { UserAccountFacade } from './facade/user-account.facade';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
-export function defaultUserAccountComponentsConfig() {
-  const config = {
+export function defaultUserAccountComponentsConfig(): CmsConfig {
+  const config: CmsConfig = {
     featureModules: {
       [USER_ACCOUNT_FEATURE]: {
         cmsComponents: [
@@ -29,7 +30,7 @@ export function defaultUserAccountComponentsConfig() {
 }
 
 @NgModule({
-  imports: [PageLayoutModule],
+  imports: [UserAccountEventModule],
   providers: [
     provideDefaultConfigFactory(defaultUserAccountComponentsConfig),
     {

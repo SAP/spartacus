@@ -1,0 +1,38 @@
+%cx-suggested-addresses-dialog {
+  .cx-dialog-header {
+    padding-top: 1rem;
+    padding-inline-end: 1rem;
+    padding-bottom: 1rem;
+    padding-inline-start: 2rem;
+    border-color: var(--cx-color-light);
+  }
+  .cx-dialog-title {
+    @include type('3');
+  }
+  .cx-dialog-body {
+    padding: 1rem;
+    @include media-breakpoint-down(sm) {
+      padding: 15px 0;
+    }
+  }
+  .cx-dialog-suggested,
+  .cx-dialog-entered {
+    @include type('7');
+    margin-inline-start: 0.75rem;
+  }
+  .cx-dialog-label {
+    @include type('5');
+  }
+  .cx-dialog-actions {
+    display: flex;
+    flex-direction: row;
+  }
+  .cx-dialog-buttons {
+    display: flex;
+    justify-content: center;
+  }
+
+  .cx-dialog-buttons + .cx-dialog-buttons {
+    margin-inline-start: 0.5rem;
+  }
+}

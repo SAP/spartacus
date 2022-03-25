@@ -4,10 +4,22 @@
     else loading
   "
 >
-  <div class="container">
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <div
+    class="container"
+    aria-live="assertive"
+    aria-atomic="true"
+    aria-relevant="additions"
+  >
+    <div class="cx-visually-hidden">
+      {{
+        'storeFinder.storesFound'
+          | cxTranslate: { count: locations?.stores?.length }
+      }}
+    </div>
     <div class="row">
       <div
-        class="col-sm-4 col-md-4 col-lg-3 item"
+        class="col-sm-6 col-md-4 col-lg-3 item"
         *ngFor="let location of locations?.stores"
       >
         <cx-store-finder-list-item

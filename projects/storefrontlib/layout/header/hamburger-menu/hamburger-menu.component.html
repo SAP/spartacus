@@ -1,0 +1,13 @@
+<button
+  class="cx-hamburger"
+  type="button"
+  (click)="toggle()"
+  [class.is-active]="isExpanded | async"
+  [attr.aria-expanded]="isExpanded | async"
+  [attr.aria-label]="'common.menu' | cxTranslate"
+  aria-controls="header-account-container, header-categories-container, header-locale-container"
+>
+  <span class="hamburger-box">
+    <span class="hamburger-inner"></span>
+  </span>
+</button>

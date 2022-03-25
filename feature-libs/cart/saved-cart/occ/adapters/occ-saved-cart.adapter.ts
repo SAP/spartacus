@@ -1,13 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
 import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
-import {
-  Cart,
-  CART_NORMALIZER,
-  ConverterService,
-  Occ,
-  OccEndpointsService,
-} from '@spartacus/core';
+import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';
 
@@ -41,51 +36,45 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
       .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
   }
 
-  saveCart(
+  cloneSavedCart(
     userId: string,
     cartId: string,
-    saveCartName: string,
-    saveCartDescription: string
+    saveCartName: string
   ): Observable<Cart> {
     return this.http
-      .patch<Occ.Cart>(
-        this.getSaveCartEndpoint(
-          userId,
-          cartId,
-          saveCartName,
-          saveCartDescription
-        ),
+      .post<Occ.Cart>(
+        this.getCloneSavedCartEndpoint(userId, cartId, saveCartName),
         cartId
       )
       .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
   }
 
-  protected getSaveCartEndpoint(
-    userId: string,
-    cartId: string,
-    saveCartName: string,
-    saveCartDescription: string
-  ): string {
-    return this.occEndpoints.getUrl('saveCart', {
-      userId,
-      cartId,
-      saveCartName,
-      saveCartDescription,
+  protected getSavedCartEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.buildUrl('savedCart', {
+      urlParams: { userId, cartId },
     });
   }
 
-  protected getSavedCartEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('savedCart', { userId, cartId });
-  }
-
   protected getSavedCartListEndpoint(userId: string): string {
-    return this.occEndpoints.getUrl('savedCarts', { userId });
+    return this.occEndpoints.buildUrl('savedCarts', { urlParams: { userId } });
   }
 
   protected getRestoreSavedCartEndpoint(
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('restoreSavedCart', { userId, cartId });
+    return this.occEndpoints.buildUrl('restoreSavedCart', {
+      urlParams: { userId, cartId },
+    });
+  }
+
+  protected getCloneSavedCartEndpoint(
+    userId: string,
+    cartId: string,
+    saveCartName: string
+  ): string {
+    return this.occEndpoints.buildUrl('cloneSavedCart', {
+      urlParams: { userId, cartId, saveCartName },
+    });
   }
 }

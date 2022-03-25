@@ -6,13 +6,15 @@ import {
   DELIVERY_MODE_SET_GUARD,
   ROUTER,
   ROUTING_CONFIG_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const DELIVERY_MODE_SET_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/guards/delivery-mode-set.guard.ts
+  // projects/storefrontlib/cms-components/checkout/guards/delivery-mode-set.guard.ts
   class: DELIVERY_MODE_SET_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

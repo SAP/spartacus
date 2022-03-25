@@ -36,7 +36,7 @@ class MockAsmComponentService implements Partial<AsmComponentService> {
   logoutCustomerSupportAgentAndCustomer(): void {}
 }
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = () => Promise.resolve(true);
   isNavigating() {
     return of(false);
   }

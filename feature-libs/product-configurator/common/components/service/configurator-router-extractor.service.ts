@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { ConfiguratorModelUtils } from '../../shared/utils/configurator-model-utils';
 import { ConfiguratorRouter } from './configurator-router-data';
 
 /**
@@ -27,7 +28,7 @@ export class ConfiguratorRouterExtractorService {
       filter((routingData) => routingData.nextState === undefined),
       map((routingData) => {
         const owner = this.createOwnerFromRouterState(routingData);
-        const semanticRoute = routingData.state?.semanticRoute;
+        const semanticRoute = routingData.state.semanticRoute;
         const routerData: ConfiguratorRouter.Data = {
           owner: owner,
           isOwnerCartEntry:
@@ -35,7 +36,7 @@ export class ConfiguratorRouterExtractorService {
           displayOnly: routingData.state.params.displayOnly,
           resolveIssues:
             routingData.state.queryParams?.resolveIssues === 'true',
-          forceReload: routingData.state?.queryParams?.forceReload === 'true',
+          forceReload: routingData.state.queryParams?.forceReload === 'true',
           pageType:
             semanticRoute &&
             semanticRoute.includes(this.ROUTE_FRAGMENT_OVERVIEW)
@@ -51,7 +52,8 @@ export class ConfiguratorRouterExtractorService {
   createOwnerFromRouterState(
     routerState: RouterState
   ): CommonConfigurator.Owner {
-    const owner: CommonConfigurator.Owner = {};
+    const owner: CommonConfigurator.Owner =
+      ConfiguratorModelUtils.createInitialOwner();
     const params = routerState.state.params;
     if (params.ownerType) {
       const entityKey = params.entityKey;
@@ -62,11 +64,10 @@ export class ConfiguratorRouterExtractorService {
       owner.type = CommonConfigurator.OwnerType.PRODUCT;
       owner.id = params.rootProduct;
     }
-    const semanticRoute = routerState.state?.semanticRoute;
+    const semanticRoute = routerState.state.semanticRoute;
     if (semanticRoute) {
-      const configuratorType = this.getConfiguratorTypeFromSemanticRoute(
-        semanticRoute
-      );
+      const configuratorType =
+        this.getConfiguratorTypeFromSemanticRoute(semanticRoute);
       owner.configuratorType = configuratorType;
     }
     this.configUtilsService.setOwnerKey(owner);

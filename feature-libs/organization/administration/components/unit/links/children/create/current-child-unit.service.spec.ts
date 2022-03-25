@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
-import { ROUTE_PARAMS } from 'feature-libs/organization/administration/components/constants';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { of, Subject } from 'rxjs';
 import { CurrentUnitChildService } from './current-unit-child.service';
 

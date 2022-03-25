@@ -8,7 +8,7 @@ export * from './model/content-slot-data.model';
 export * from './model/node-item.model';
 export * from './model/page.model';
 export * from './page/index';
-export * from './page/page.module';
+export * from './page/page-meta.module';
 export * from './services/index';
 export * from './store/actions/index';
 export * from './store/cms-state';

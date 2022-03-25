@@ -13,7 +13,7 @@ export class CpqAccessLoaderService {
 
   getCpqAccessData(): Observable<CpqAccessData> {
     return this.http.get<CpqAccessData>(
-      this.occEndpointsService.getUrl('getCpqAccessData')
+      this.occEndpointsService.buildUrl('getCpqAccessData')
     );
   }
 }

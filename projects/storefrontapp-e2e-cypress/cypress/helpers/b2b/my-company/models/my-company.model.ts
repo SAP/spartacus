@@ -5,7 +5,7 @@ export enum INPUT_TYPE {
   NG_SELECT = 'ngSelect',
   CHECKBOX = 'checkbox',
 }
-export const DEFAULT_SORT_LABEL = 'name';
+export const DEFAULT_SORT_LABEL = 'Name';
 export const MAX_PAGES = 2;
 export const ENTITY_UID_COOKIE_KEY = 'spartacus-entity-uid';
 

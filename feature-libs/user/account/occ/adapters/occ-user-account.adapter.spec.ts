@@ -4,7 +4,9 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
+  BaseOccUrlProperties,
   ConverterService,
+  DynamicAttributes,
   OccConfig,
   OccEndpointsService,
 } from '@spartacus/core';
@@ -26,8 +28,12 @@ export const mockOccModuleConfig: OccConfig = {
 };
 
 export class MockOccEndpointsService {
-  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpointKey);
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
+    return this.getEndpoint(endpoint);
   }
   getEndpoint(endpoint: string) {
     if (!endpoint.startsWith('/')) {
@@ -35,7 +41,7 @@ export class MockOccEndpointsService {
     }
     return endpoint;
   }
-  getBaseEndpoint() {
+  getBaseUrl() {
     return '';
   }
 }
@@ -74,7 +80,7 @@ describe('OccUserAccountAdapter', () => {
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEndpointsService, 'getUrl').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -91,8 +97,8 @@ describe('OccUserAccountAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('user', {
-        userId: user.customerId,
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('user', {
+        urlParams: { userId: user.customerId },
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

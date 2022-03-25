@@ -10,7 +10,10 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
@@ -18,10 +21,11 @@ import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-te
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
-const OWNER: CommonConfigurator.Owner = {
-  type: CommonConfigurator.OwnerType.PRODUCT,
-  id: PRODUCT_CODE,
-};
+const OWNER = ConfiguratorModelUtils.createOwner(
+  CommonConfigurator.OwnerType.PRODUCT,
+  PRODUCT_CODE
+);
+
 const configurationTextField: ConfiguratorTextfield.Configuration = {
   configurationInfos: [],
   owner: OWNER,
@@ -70,7 +74,10 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     );
     expect(buttonElements).toBeDefined();
     expect(buttonElements.length).toBe(1);
-    expect(buttonElements[0].textContent.trim()).toBe(buttonText);
+    const seenText = buttonElements[0].textContent
+      ? buttonElements[0].textContent.trim()
+      : undefined;
+    expect(seenText).toBe(buttonText);
   }
 
   beforeEach(

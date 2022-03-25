@@ -10,6 +10,7 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
         --suite, -s                             e2e suite to run (b2c, b2b, cds, flaky). Default: b2c
         --environment, --env                    [ 2005 | 2011 | ccv2]. Default: 2005
         --help, -h                              show help
+        --ssr                                   Run ssr smoke test
 "
 
 while [ "${1:0:1}" == "-" ]
@@ -23,6 +24,10 @@ do
         '--environment' | '--env' )
             CI_ENV=":$2"
             shift
+            shift
+            ;;
+        '--ssr' )
+            SSR=true
             shift
             ;;
         '--help' | '-h' )
@@ -40,6 +45,14 @@ do
 done
 
 set -- "${POSITIONAL[@]}"
+
+if [ "$SUITE" == ":ccv2" ]; then
+    export SPA_ENV='ccv2,b2c'
+fi
+
+if [ "$SUITE" == ":ccv2-b2b" ]; then
+    export SPA_ENV='ccv2,b2b'
+fi
 
 echo '-----'
 echo "Building Spartacus libraries"
@@ -60,14 +73,29 @@ else
     exit 1
 fi
 echo '-----'
-echo "Building Spartacus storefront app"
+echo "Building Spartacus storefrontapp"
 yarn build
 
-yarn start:pwa &
+if [[ "${SSR}" = true ]]; then
+    echo "Building Spartacus storefrontapp (SSR PROD mode)"
+    yarn build:ssr:ci
 
-echo '-----'
-echo "Running Cypress end to end tests"
+    echo "Starting Spartacus storefrontapp in SSR mode"
+    (yarn serve:ssr:ci &)
 
-yarn e2e:run:ci"${SUITE}"
+    echo '-----'
+    echo "Running SSR Cypress smoke test"
 
-echo "Running Cypress end to end tests finished"
+    yarn e2e:run:ci:ssr
+else
+    yarn start:pwa &
+
+    echo '-----'
+    echo "Running Cypress end to end tests"
+
+    if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
+        yarn e2e:run:ci"${SUITE}"
+    else
+        yarn e2e:run:ci:core"${SUITE}"
+    fi
+fi

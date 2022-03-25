@@ -1,20 +1,18 @@
-import {
-  AuthGuard,
-  CmsConfig,
-  ParamsMapping,
-  RoutingConfig,
-} from '@spartacus/core';
+import { AuthGuard, CmsConfig } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { TableConfig } from '@spartacus/storefront';
-import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
+import { MAX_OCC_INTEGER_VALUE } from '../constants';
+import { PermissionDetailsCellComponent } from '../permission/details-cell/permission-details-cell.component';
 import { ItemService } from '../shared/item.service';
 import { ListComponent } from '../shared/list/list.component';
 import { ListService } from '../shared/list/list.service';
+import { OrganizationTableType } from '../shared/organization.model';
 import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
 import { ActiveLinkCellComponent } from '../shared/table/active-link/active-link-cell.component';
 import { CellComponent } from '../shared/table/cell.component';
 import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
-import { OrganizationTableType } from '../shared/organization.model';
+import { UserDetailsCellComponent } from '../user/details-cell/user-details-cell.component';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupFormComponent } from './form/user-group-form.component';
 import { UserGroupAssignedPermissionListComponent } from './permissions/assigned/user-group-assigned-permission-list.component';
@@ -24,51 +22,6 @@ import { UserGroupListService } from './services/user-group-list.service';
 import { UserGroupRoutePageMetaResolver } from './services/user-group-route-page-meta.resolver';
 import { UserGroupAssignedUserListComponent } from './users/assigned/user-group-assigned-user-list.component';
 import { UserGroupUserListComponent } from './users/user-group-user-list.component';
-import { UserDetailsCellComponent } from '../user/details-cell/user-details-cell.component';
-import { PermissionDetailsCellComponent } from '../permission/details-cell/permission-details-cell.component';
-
-const listPath = `organization/user-groups/:${ROUTE_PARAMS.userGroupCode}`;
-const paramsMapping: ParamsMapping = {
-  userGroupCode: 'uid',
-};
-
-// TODO: this doesn't work with lazy loaded feature
-export const userGroupRoutingConfig: RoutingConfig = {
-  routing: {
-    routes: {
-      orgUserGroup: {
-        paths: ['organization/user-groups'],
-      },
-      orgUserGroupCreate: {
-        paths: ['organization/user-groups/create'],
-      },
-      orgUserGroupDetails: {
-        paths: [listPath],
-        paramsMapping,
-      },
-      orgUserGroupEdit: {
-        paths: [`${listPath}/edit`],
-        paramsMapping,
-      },
-      orgUserGroupUsers: {
-        paths: [`${listPath}/users`],
-        paramsMapping,
-      },
-      orgUserGroupAssignUsers: {
-        paths: [`${listPath}/users/assign`],
-        paramsMapping,
-      },
-      orgUserGroupPermissions: {
-        paths: [`${listPath}/purchase-limits`],
-        paramsMapping,
-      },
-      orgUserGroupAssignPermissions: {
-        paths: [`${listPath}/purchase-limits/assign`],
-        paramsMapping,
-      },
-    },
-  },
-};
 
 export const userGroupCmsConfig: CmsConfig = {
   cmsComponents: {

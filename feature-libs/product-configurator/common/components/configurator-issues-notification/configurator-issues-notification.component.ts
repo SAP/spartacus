@@ -1,7 +1,7 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
-import { CartItemContext, ICON_TYPE } from '@spartacus/storefront';
+import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
@@ -14,8 +14,7 @@ export class ConfiguratorIssuesNotificationComponent {
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
-    @Optional() protected cartItemContext?: CartItemContext
+    @Optional() protected cartItemContext: CartItemContext
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
@@ -27,11 +26,15 @@ export class ConfiguratorIssuesNotificationComponent {
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 
+  // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
+  readonly shouldShowButton$: Observable<boolean> =
+    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
+
   /**
    * Verifies whether the item has any issues.
    *
-   * @param {OrderEntry} item - Cart item
-   * @returns {boolean} - whether there are any issues
+   * @param item - Cart item
+   * @returns - whether there are any issues
    */
   hasIssues(item: OrderEntry): boolean {
     return this.commonConfigUtilsService.hasIssues(item);
@@ -40,10 +43,20 @@ export class ConfiguratorIssuesNotificationComponent {
   /**
    * Retrieves the number of issues at the cart item.
    *
-   * @param {OrderEntry} item - Cart item
-   * @returns {number} - the number of issues at the cart item
+   * @param item - Cart item
+   * @returns - the number of issues at the cart item
    */
   getNumberOfIssues(item: OrderEntry): number {
     return this.commonConfigUtilsService.getNumberOfIssues(item);
+  }
+
+  /**
+   * Retrieves the unique id for the error message.
+   *
+   * @param item - Cart item
+   * @returns - Unique id for error message
+   */
+  getErrorMessageId(item: OrderEntry): string {
+    return 'cx-error-msg-' + item.entryNumber;
   }
 }

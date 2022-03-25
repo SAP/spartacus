@@ -10,7 +10,7 @@ export const unitShippingAddressConfig: MyCompanyConfig = {
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: `Cyprus`,
       updateValue: `Croatia`,
-      formLabel: 'Country',
+      formLabel: 'Country/Region',
     },
     {
       inputType: INPUT_TYPE.NG_SELECT,
@@ -80,6 +80,10 @@ export const unitConfig: MyCompanyConfig = {
   apiEndpoint: '/orgUnits',
   objectType: 'children',
   verifyStatusInDetails: true,
+  selectOptionsEndpoint: [
+    '*availableOrgUnitNodes*',
+    '*orgUnitsAvailableApprovalProcesses*',
+  ],
   rows: [
     {
       label: 'Name',
@@ -90,7 +94,7 @@ export const unitConfig: MyCompanyConfig = {
       showInTable: true,
       showInDetails: true,
       formLabel: 'Name',
-      sortLabel: 'name',
+      sortLabel: 'Name',
     },
     {
       label: 'Status',
@@ -205,7 +209,7 @@ export const unitConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
     {
-      name: 'Shipping Addresses',
+      name: 'Delivery Addresses',
       baseUrl: `/addresses`,
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',
@@ -228,5 +232,11 @@ export const unitConfig: MyCompanyConfig = {
     MY_COMPANY_FEATURE.UPDATE,
     MY_COMPANY_FEATURE.NESTED_LIST,
     MY_COMPANY_FEATURE.ASSIGNMENTS,
+  ],
+  coreFeatures: [
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.NESTED_LIST,
   ],
 };

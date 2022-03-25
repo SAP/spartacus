@@ -1,20 +1,26 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  FeatureLevelDirective,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
-  ConfiguratorType,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { NEVER, Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
+import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
 const owner: CommonConfigurator.Owner =
@@ -23,29 +29,28 @@ const mockRouterState: any = ConfigurationTestData.mockRouterState;
 const configId = '1234-56-7890';
 
 const configCreate: Configurator.Configuration = {
-  configId: configId,
-  owner: owner,
+  ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configCreate2: Configurator.Configuration = {
-  configId: '1234-11111',
-  owner: owner,
+  ...ConfiguratorTestUtils.createConfiguration('1234-11111', owner),
   overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configInitial: Configurator.Configuration = {
-  configId: configId,
-  owner: owner,
+  ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   overview: {
+    configId: ConfigurationTestData.CONFIG_ID,
+    productCode: '',
     groups: [],
   },
 };
 
-let routerStateObservable;
-let configurationObservable;
-let overviewObservable;
-let defaultConfigObservable;
-let defaultRouterStateObservable;
-let defaultRouterDataObservable;
+let routerStateObservable: any;
+let configurationObservable: any;
+let overviewObservable: any;
+let defaultConfigObservable: any;
+let defaultRouterStateObservable: any;
+
 let component: ConfiguratorOverviewFormComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFormComponent>;
 let htmlElem: HTMLElement;
@@ -56,12 +61,6 @@ class MockRoutingService {
       ? routerStateObservable
       : defaultRouterStateObservable;
     return obs;
-  }
-}
-
-class MockRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(defaultRouterDataObservable);
   }
 }
 
@@ -118,6 +117,14 @@ function checkConfigurationOverviewObs(
   );
 }
 
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
@@ -126,6 +133,8 @@ describe('ConfigurationOverviewFormComponent', () => {
         declarations: [
           ConfiguratorOverviewFormComponent,
           ConfiguratorOverviewAttributeComponent,
+          FeatureLevelDirective,
+          MockConfiguratorPriceComponent,
         ],
         providers: [
           {
@@ -151,6 +160,13 @@ describe('ConfigurationOverviewFormComponent', () => {
   it('should create component', () => {
     initialize();
     expect(component).toBeDefined();
+  });
+
+  it('should display ghost view, consisting of 3 elements representing groups, if no data is present', () => {
+    defaultConfigObservable = NEVER;
+    initialize();
+
+    expect(htmlElem.querySelectorAll('.cx-ghost-group').length).toBe(3);
   });
 
   it('should display configuration overview', () => {
@@ -195,8 +211,14 @@ describe('ConfigurationOverviewFormComponent', () => {
   it('should detect that a configuration w/o groups has no attributes', () => {
     initialize();
     const configWOOverviewGroups: Configurator.Configuration = {
-      configId: configId,
-      overview: {},
+      ...ConfiguratorTestUtils.createConfiguration(
+        configId,
+        ConfiguratorModelUtils.createInitialOwner()
+      ),
+      overview: {
+        configId: ConfigurationTestData.CONFIG_ID,
+        productCode: ConfigurationTestData.PRODUCT_CODE,
+      },
     };
     expect(component.hasAttributes(configWOOverviewGroups)).toBe(false);
   });
@@ -204,8 +226,15 @@ describe('ConfigurationOverviewFormComponent', () => {
   it('should detect that a configuration w/o groups that carry attributes does not provide OV attributes', () => {
     initialize();
     const configWOOverviewAttributes: Configurator.Configuration = {
-      configId: configId,
-      overview: { groups: [{ id: 'GROUP1' }] },
+      ...ConfiguratorTestUtils.createConfiguration(
+        configId,
+        ConfiguratorModelUtils.createInitialOwner()
+      ),
+      overview: {
+        configId: ConfigurationTestData.CONFIG_ID,
+        productCode: ConfigurationTestData.PRODUCT_CODE,
+        groups: [{ id: 'GROUP1' }],
+      },
     };
     expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
   });
@@ -338,63 +367,49 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result.includes('last-value-pair')).toBe(true);
     });
   });
-});
 
-describe('ConfigurationOverviewFormComponent with forceReload', () => {
-  let configuratorCommonsServiceMock: ConfiguratorCommonsService;
-  const theOwner = {
-    id: '1',
-    type: CommonConfigurator.OwnerType.CART_ENTRY,
-    configuratorType: ConfiguratorType.VARIANT,
-  };
-  beforeEach(
-    waitForAsync(() => {
-      const bed = TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorOverviewFormComponent,
-          ConfiguratorOverviewAttributeComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockRouterExtractorService,
-          },
-        ],
-      });
-      configuratorCommonsServiceMock = bed.inject(ConfiguratorCommonsService);
-      bed.compileComponents();
-    })
-  );
-  beforeEach(() => {
-    routerStateObservable = null;
-    configurationObservable = null;
-    overviewObservable = null;
-    defaultRouterStateObservable = of(mockRouterState);
-    defaultConfigObservable = of(configCreate2);
-    defaultRouterDataObservable = {
-      forceReload: true,
-      owner: theOwner,
-    };
-  });
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      initialize();
+    });
 
-  it('should create component and call removeConfiguration', () => {
-    spyOn(
-      configuratorCommonsServiceMock,
-      'removeConfiguration'
-    ).and.callThrough();
-    initialize();
-    expect(component).toBeDefined();
-    expect(
-      configuratorCommonsServiceMock.removeConfiguration
-    ).toHaveBeenCalledWith(theOwner);
+    it("should contain action span element with class name 'cx-visually-hidden' that hides element on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.listOfAttributesAndValues'
+      );
+    });
+
+    it("should contain action span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        1,
+        undefined,
+        undefined,
+        'configurator.a11y.group group:Group 1'
+      );
+    });
+
+    it("should contain action h2 element with 'aria-hidden' attribute that removes h2 element from the accessibility tree", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'h2',
+        undefined,
+        0,
+        'aria-hidden',
+        'true',
+        'Group 1'
+      );
+    });
   });
 });

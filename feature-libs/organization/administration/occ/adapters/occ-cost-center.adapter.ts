@@ -99,21 +99,29 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
     userId: string,
     costCenterCode: string
   ): string {
-    return this.occEndpoints.getUrl('costCenter', { userId, costCenterCode });
+    return this.occEndpoints.buildUrl('costCenter', {
+      urlParams: { userId, costCenterCode },
+    });
   }
 
   protected getCostCentersEndpoint(
     userId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl('costCenters', { userId }, params);
+    return this.occEndpoints.buildUrl('costCenters', {
+      urlParams: { userId },
+      queryParams: params,
+    });
   }
 
   protected getAllCostCentersEndpoint(
     userId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl('costCentersAll', { userId }, params);
+    return this.occEndpoints.buildUrl('costCentersAll', {
+      urlParams: { userId },
+      queryParams: params,
+    });
   }
 
   protected getBudgetsEndpoint(
@@ -121,11 +129,10 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
     costCenterCode: string,
     params?: SearchConfig | { budgetCode: string }
   ): string {
-    return this.occEndpoints.getUrl(
-      'costCenterBudgets',
-      { userId, costCenterCode },
-      params
-    );
+    return this.occEndpoints.buildUrl('costCenterBudgets', {
+      urlParams: { userId, costCenterCode },
+      queryParams: params,
+    });
   }
 
   protected getBudgetEndpoint(
@@ -133,10 +140,12 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
     costCenterCode: string,
     budgetCode: string
   ): string {
-    return this.occEndpoints.getUrl('costCenterBudget', {
-      userId,
-      costCenterCode,
-      budgetCode,
+    return this.occEndpoints.buildUrl('costCenterBudget', {
+      urlParams: {
+        userId,
+        costCenterCode,
+        budgetCode,
+      },
     });
   }
 }

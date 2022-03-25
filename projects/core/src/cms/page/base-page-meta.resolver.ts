@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, defer, Observable, of } from 'rxjs';
+import { combineLatest, defer, Observable } from 'rxjs';
 import { filter, map, shareReplay, startWith } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { CmsService } from '../facade/cms.service';
@@ -19,21 +19,20 @@ import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 @Injectable({
   providedIn: 'root',
 })
-
-// TODO(#10467) make router and pageLinkService standard (non optional arguments)
 export class BasePageMetaResolver
   implements
     PageTitleResolver,
     PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageRobotsResolver,
-    CanonicalPageResolver {
+    CanonicalPageResolver
+{
   constructor(
     protected cmsService: CmsService,
     protected translation: TranslationService,
     protected routingPageMetaResolver: RoutingPageMetaResolver,
-    protected router?: Router,
-    protected pageLinkService?: PageLinkService
+    protected router: Router,
+    protected pageLinkService: PageLinkService
   ) {}
 
   /**
@@ -58,9 +57,7 @@ export class BasePageMetaResolver
   /**
    * Breadcrumb for the home page.
    */
-  protected homeBreadcrumb$: Observable<
-    BreadcrumbMeta[]
-  > = this.translation
+  protected homeBreadcrumb$: Observable<BreadcrumbMeta[]> = this.translation
     .translate('common.home')
     .pipe(map((label) => [{ label: label, link: '/' }] as BreadcrumbMeta[]));
 
@@ -83,6 +80,10 @@ export class BasePageMetaResolver
     return this.description$;
   }
 
+  /**
+   * Resolves a single breadcrumb item to the home page for each `ContentPage`.
+   * The home page label is resolved from the translation service.
+   */
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[] | undefined> {
     return this.breadcrumb$;
   }
@@ -92,14 +93,10 @@ export class BasePageMetaResolver
   }
 
   resolveCanonicalUrl(options?: CanonicalUrlOptions): Observable<string> {
-    return this.router && this.pageLinkService
-      ? this.router.events.pipe(
-          filter((ev) => ev instanceof NavigationEnd),
-          startWith(null),
-          // TODO(#10467) the pageLinkService will no longer be optional
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          map(() => this.pageLinkService!.getCanonicalUrl(options) ?? '')
-        )
-      : of();
+    return this.router.events.pipe(
+      filter((ev) => ev instanceof NavigationEnd),
+      startWith(null),
+      map(() => this.pageLinkService.getCanonicalUrl(options))
+    );
   }
 }

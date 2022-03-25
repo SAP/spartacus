@@ -6,7 +6,9 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
-      "rxjs": "rxjs"
+      "@spartacus/checkout": "checkout",
+      "rxjs": "rxjs",
+      "@spartacus/cart": "cart"
     }
   },
   "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]

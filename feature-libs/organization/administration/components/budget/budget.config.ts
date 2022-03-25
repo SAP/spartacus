@@ -1,58 +1,24 @@
-import {
-  AuthGuard,
-  CmsConfig,
-  ParamsMapping,
-  RoutingConfig,
-} from '@spartacus/core';
+import { AuthGuard, CmsConfig } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { TableConfig } from '@spartacus/storefront';
-import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
+import { MAX_OCC_INTEGER_VALUE } from '../constants';
+import { CostCenterDetailsCellComponent } from '../cost-center/details-cell/cost-center-details-cell.component';
 import { ItemService } from '../shared/item.service';
 import { ListComponent } from '../shared/list/list.component';
 import { ListService } from '../shared/list/list.service';
+import { OrganizationTableType } from '../shared/organization.model';
 import { ActiveLinkCellComponent } from '../shared/table';
 import { AmountCellComponent } from '../shared/table/amount/amount-cell.component';
 import { DateRangeCellComponent } from '../shared/table/date-range/date-range-cell.component';
 import { StatusCellComponent } from '../shared/table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
-import { OrganizationTableType } from '../shared/organization.model';
 import { BudgetCostCenterListComponent } from './cost-centers/budget-cost-center-list.component';
 import { BudgetDetailsComponent } from './details/budget-details.component';
 import { BudgetFormComponent } from './form/budget-form.component';
 import { BudgetItemService } from './services/budget-item.service';
 import { BudgetListService } from './services/budget-list.service';
 import { BudgetRoutePageMetaResolver } from './services/budget-route-page-meta.resolver';
-import { CostCenterDetailsCellComponent } from '../cost-center/details-cell/cost-center-details-cell.component';
-
-const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
-const paramsMapping: ParamsMapping = {
-  budgetCode: 'code',
-};
-
-export const budgetRoutingConfig: RoutingConfig = {
-  routing: {
-    routes: {
-      orgBudget: {
-        paths: ['organization/budgets'],
-      },
-      orgBudgetCreate: {
-        paths: ['organization/budgets/create'],
-      },
-      orgBudgetDetails: {
-        paths: [`${listPath}`],
-        paramsMapping,
-      },
-      orgBudgetCostCenters: {
-        paths: [`${listPath}/cost-centers`],
-        paramsMapping,
-      },
-      orgBudgetEdit: {
-        paths: [`${listPath}/edit`],
-        paramsMapping,
-      },
-    },
-  },
-};
 
 export const budgetCmsConfig: CmsConfig = {
   cmsComponents: {

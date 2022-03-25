@@ -17,6 +17,5 @@ import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.compon
   ],
   declarations: [ConfiguratorGroupMenuComponent],
   exports: [ConfiguratorGroupMenuComponent],
-  entryComponents: [ConfiguratorGroupMenuComponent],
 })
 export class ConfiguratorGroupMenuModule {}

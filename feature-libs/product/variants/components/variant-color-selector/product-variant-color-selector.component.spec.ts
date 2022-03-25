@@ -6,6 +6,7 @@ import {
   RoutingService,
   UrlCommands,
   VariantQualifier,
+  VariantOptionQualifier,
 } from '@spartacus/core';
 import { ProductVariantColorSelectorComponent } from './product-variant-color-selector.component';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -31,6 +32,8 @@ const mockVariant: BaseOption = {
   options: [],
   variantType: VariantType.SIZE,
 };
+
+const mockQualifiers2 = {} as VariantOptionQualifier;
 
 class MockRoutingService {
   go(
@@ -84,5 +87,10 @@ describe('ProductVariantColorSelectorComponent', () => {
     expect(result).toEqual(
       mockVariant.selected.variantOptionQualifiers[0].value
     );
+  });
+
+  it('should not find variant', () => {
+    const result = component.getVariantOptionValue([mockQualifiers2]);
+    expect(result).toEqual('');
   });
 });

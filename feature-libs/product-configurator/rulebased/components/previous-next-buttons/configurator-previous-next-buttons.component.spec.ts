@@ -9,23 +9,22 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
-import {
-  GROUP_ID_1,
-  PRODUCT_CODE,
-} from '../../shared/testing/configurator-test-data';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { GROUP_ID_1, PRODUCT_CODE } from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
-let routerStateObservable = null;
+let routerStateObservable: any = null;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -37,12 +36,15 @@ class MockConfiguratorGroupsService {
   getCurrentGroupId() {
     return of('');
   }
+
   getNextGroupId() {
     return of('');
   }
+
   getPreviousGroupId() {
     return of('');
   }
+
   navigateToGroup() {}
 }
 
@@ -54,13 +56,15 @@ const groups: Configurator.Group = {
 };
 
 const configWithoutGroups: Configurator.Configuration = {
-  configId: 'CONFIG_ID',
+  ...ConfiguratorTestUtils.createConfiguration(
+    'CONFIG_ID',
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  ),
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  },
   groups: [groups],
   flatGroups: [groups],
 };
@@ -72,6 +76,7 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
   }
+
   isConfigurationLoading(): Observable<boolean> {
     return of(false);
   }
@@ -79,21 +84,25 @@ class MockConfiguratorCommonsService {
 
 class MockConfigUtilsService {
   scrollToConfigurationElement(): void {}
+
+  focusFirstAttribute(): void {}
 }
 
 @Directive({
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: any;
 }
 
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
+  let htmlElem: HTMLElement;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
   beforeEach(
     waitForAsync(() => {
@@ -135,6 +144,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
@@ -146,6 +156,14 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(config.owner);
+
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'focusFirstAttribute'
+    ).and.callThrough();
   });
 
   it('should create', () => {
@@ -167,8 +185,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of(null)
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-action'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-action')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(true);
   });
 
@@ -177,8 +196,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of('anyGroupId')
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-action'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-action')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
 
@@ -187,8 +207,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of(null)
     );
     fixture.detectChanges();
-    const lastBtn = fixture.debugElement.query(By.css('.btn-secondary'))
-      .nativeElement;
+    const lastBtn = fixture.debugElement.query(
+      By.css('.btn-secondary')
+    ).nativeElement;
     expect(lastBtn.disabled).toBe(true);
   });
 
@@ -197,8 +218,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of('anyGroupId')
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-secondary'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-secondary')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
 
@@ -247,51 +269,94 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should navigate to group exactly one time on navigateToPreviousGroup', () => {
-    //usage of TestScheduler because of the async check in last line
-    const testScheduler = new TestScheduler((actual, expected) => {
-      expect(actual).toEqual(expected);
+    const previousGroup = cold('-a-b|', {
+      a: ConfigurationTestData.GROUP_ID_1,
+      b: ConfigurationTestData.GROUP_ID_2,
     });
-    testScheduler.run((helpers) => {
-      const { expectObservable } = helpers;
-      const previousGroup = cold('-a-b', {
-        a: ConfigurationTestData.GROUP_ID_1,
-        b: ConfigurationTestData.GROUP_ID_2,
-      });
-      //this just validates the testScheduler
-      expectObservable(previousGroup.pipe(take(1))).toBe('-(a|)', {
-        a: ConfigurationTestData.GROUP_ID_1,
-      });
 
-      spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
-        previousGroup
-      );
-      spyOn(configurationGroupsService, 'navigateToGroup');
+    spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
+      previousGroup
+    );
+    spyOn(configurationGroupsService, 'navigateToGroup');
 
-      classUnderTest.onPrevious(config);
+    classUnderTest.onPrevious(config);
+    previousGroup.subscribe({
+      complete: () => {
+        expect(
+          configurationGroupsService.navigateToGroup
+        ).toHaveBeenCalledTimes(1);
+      },
     });
-    //this is the actual test
-    expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to group exactly one time on navigateToNextGroup', () => {
-    //usage of TestScheduler because of the async check in last line
+    const nextGroup = cold('-a-b|', {
+      a: ConfigurationTestData.GROUP_ID_1,
+      b: ConfigurationTestData.GROUP_ID_2,
+    });
+
+    spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
+      nextGroup
+    );
+    spyOn(configurationGroupsService, 'navigateToGroup');
+
+    classUnderTest.onNext(config);
+    nextGroup.subscribe({
+      complete: () => {
+        expect(
+          configurationGroupsService.navigateToGroup
+        ).toHaveBeenCalledTimes(1);
+      },
+    });
+  });
+
+  it('should call focusFirstAttribute', () => {
     const testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected);
     });
+    //we need to run the test in a test scheduler
+    //because of the delay() in method focusFirstAttribute
     testScheduler.run(() => {
-      const nextGroup = cold('-a-b', {
-        a: ConfigurationTestData.GROUP_ID_1,
-        b: ConfigurationTestData.GROUP_ID_2,
+      const configurationLoading = cold('-a-b', {
+        a: true,
+        b: false,
       });
+      spyOn(
+        configuratorCommonsService,
+        'isConfigurationLoading'
+      ).and.returnValue(configurationLoading);
+      classUnderTest['focusFirstAttribute']();
+    });
+    expect(
+      configuratorStorefrontUtilsService.focusFirstAttribute
+    ).toHaveBeenCalledTimes(1);
+  });
 
-      spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
-        nextGroup
+  describe('Accessibility', () => {
+    it("should contain action button element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-action',
+        0,
+        'aria-label',
+        'configurator.a11y.previous',
+        'configurator.button.previous'
       );
-      spyOn(configurationGroupsService, 'navigateToGroup');
-
-      classUnderTest.onNext(config);
     });
 
-    expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);
+    it("should contain secondary button element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-secondary',
+        0,
+        'aria-label',
+        'configurator.a11y.next',
+        'configurator.button.next'
+      );
+    });
   });
 });

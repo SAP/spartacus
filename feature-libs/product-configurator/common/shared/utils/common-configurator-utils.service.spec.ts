@@ -1,23 +1,28 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
+import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
   Cart,
-  OCC_USER_ID_ANONYMOUS,
+  CartItemContext,
   OrderEntry,
-  UserIdService,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
+import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
+import { BREAKPOINT, LayoutConfig } from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,
   ConfiguratorType,
   OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
+import { ConfiguratorModelUtils } from './configurator-model-utils';
 
 const productCode = 'CONF_LAPTOP';
 const documentId = '12344';
 const entryNumber = 4;
-let owner: CommonConfigurator.Owner = null;
+let owner: CommonConfigurator.Owner;
 
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
@@ -37,8 +42,39 @@ class MockUserIdService {
   }
 }
 
+class MockCartItemContext implements Partial<CartItemContext> {
+  item$ = new ReplaySubject<OrderEntry>(1);
+  readonly$ = new ReplaySubject<boolean>(1);
+  quantityControl$ = new ReplaySubject<FormControl>(1);
+  location$ = new BehaviorSubject<PromotionLocation>(
+    PromotionLocation.ActiveCart
+  );
+}
+
+const slotsLargeResolution = ['SiteContext', 'SiteLinks', 'SiteLogo'];
+
+const slotsSmallResolution = ['SiteLogo'];
+
+const templateName = 'ConfiguratorTemplate';
+const sectionName = 'headerDisplayOnly';
+const layoutConfig: LayoutConfig = {
+  layoutSlots: {
+    ConfiguratorTemplate: {
+      headerDisplayOnly: {
+        lg: {
+          slots: slotsLargeResolution,
+        },
+        xs: {
+          slots: slotsSmallResolution,
+        },
+      },
+    },
+  },
+};
+
 describe('CommonConfiguratorUtilsService', () => {
   let classUnderTest: CommonConfiguratorUtilsService;
+  let mockCartItemContext: CartItemContextSource;
 
   beforeEach(
     waitForAsync(() => {
@@ -48,6 +84,7 @@ describe('CommonConfiguratorUtilsService', () => {
             provide: UserIdService,
             useClass: MockUserIdService,
           },
+          { provide: CartItemContext, useClass: MockCartItemContext },
         ],
       }).compileComponents();
     })
@@ -56,7 +93,8 @@ describe('CommonConfiguratorUtilsService', () => {
     classUnderTest = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    owner = {};
+    owner = ConfiguratorModelUtils.createInitialOwner();
+    mockCartItemContext = TestBed.inject(CartItemContext) as any;
     cartItem = {};
   });
 
@@ -80,33 +118,6 @@ describe('CommonConfiguratorUtilsService', () => {
     expect(owner.key.includes(CommonConfigurator.OwnerType.CART_ENTRY)).toBe(
       true
     );
-  });
-
-  it('should throw an error if no owner type is present', () => {
-    expect(function () {
-      classUnderTest.setOwnerKey(owner);
-    }).toThrow();
-  });
-
-  it('should throw an error if for owner type PRODUCT if no product code is present', () => {
-    owner.type = CommonConfigurator.OwnerType.PRODUCT;
-    expect(function () {
-      classUnderTest.setOwnerKey(owner);
-    }).toThrow();
-  });
-
-  it('should throw an error if for owner type CART_ENTRY no cart entry link is present', () => {
-    owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
-    expect(function () {
-      classUnderTest.setOwnerKey(owner);
-    }).toThrow();
-  });
-
-  it('should throw an error if for owner type ORDER_ENTRY no order entry link is present', () => {
-    owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
-    expect(function () {
-      classUnderTest.setOwnerKey(owner);
-    }).toThrow();
   });
 
   it('should compose an owner ID from 2 attributes', () => {
@@ -186,14 +197,14 @@ describe('CommonConfiguratorUtilsService', () => {
       cartItem.statusSummaryList = [
         { numberOfIssues: 2, status: OrderEntryStatus.Error },
       ];
-      expect(classUnderTest.hasIssues(cartItem)).toBeTrue();
+      expect(classUnderTest.hasIssues(cartItem)).toBe(true);
     });
 
     it('should return false if number of issues of ERROR status is = 0', () => {
       cartItem.statusSummaryList = [
         { numberOfIssues: 2, status: OrderEntryStatus.Success },
       ];
-      expect(classUnderTest.hasIssues(cartItem)).toBeFalse();
+      expect(classUnderTest.hasIssues(cartItem)).toBe(false);
     });
   });
 
@@ -238,6 +249,87 @@ describe('CommonConfiguratorUtilsService', () => {
       expect(
         classUnderTest.isBundleBasedConfigurator(ConfiguratorType.CPQ)
       ).toBe(true);
+    });
+  });
+
+  describe('isActiveCartContext', () => {
+    it('should emit false if context is SaveForLater', () => {
+      mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
+
+      let result: boolean | undefined;
+
+      classUnderTest
+        .isActiveCartContext(mockCartItemContext)
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should emit true if context is active cart', () => {
+      mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+
+      let result: boolean | undefined;
+
+      classUnderTest
+        .isActiveCartContext(mockCartItemContext)
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('getSlotsFromLayoutConfiguration', () => {
+    it('should find slots in layout configuration providing a breakpoint', () => {
+      expect(
+        classUnderTest.getSlotsFromLayoutConfiguration(
+          layoutConfig,
+          templateName,
+          sectionName,
+          BREAKPOINT.lg
+        )
+      ).toBe(slotsLargeResolution);
+    });
+
+    it('should return empty array in case no layout config is available', () => {
+      expect(
+        classUnderTest.getSlotsFromLayoutConfiguration(
+          {},
+          templateName,
+          sectionName,
+          BREAKPOINT.lg
+        )
+      ).toEqual([]);
+    });
+
+    it('should throw error in case of unknown template, section or breakpoint ', () => {
+      expect(() =>
+        classUnderTest.getSlotsFromLayoutConfiguration(
+          layoutConfig,
+          'UnknownTemplate',
+          sectionName,
+          BREAKPOINT.lg
+        )
+      ).toThrowError();
+
+      expect(() =>
+        classUnderTest.getSlotsFromLayoutConfiguration(
+          layoutConfig,
+          templateName,
+          'UnknownSection',
+          BREAKPOINT.lg
+        )
+      ).toThrowError();
+
+      expect(() =>
+        classUnderTest.getSlotsFromLayoutConfiguration(
+          layoutConfig,
+          templateName,
+          sectionName,
+          BREAKPOINT.sm
+        )
+      ).toThrowError();
     });
   });
 });

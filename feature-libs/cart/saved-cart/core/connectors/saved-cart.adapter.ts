@@ -1,4 +1,4 @@
-import { Cart } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 
 export abstract class SavedCartAdapter {
@@ -19,12 +19,11 @@ export abstract class SavedCartAdapter {
   abstract restoreSavedCart(userId: string, cartId: string): Observable<Cart>;
   /**
    *
-   * Abstract method used to save a cart or update a saved cart
+   * Abstract method used to clone a saved cart
    */
-  abstract saveCart(
+  abstract cloneSavedCart(
     userId: string,
     cartId: string,
-    saveCartName?: string,
-    saveCartDescription?: string
+    saveCartName?: string
   ): Observable<Cart>;
 }

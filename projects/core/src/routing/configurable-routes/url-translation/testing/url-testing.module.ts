@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { MockUrlPipe, URL_TESTING_WHITELISTED_PARAMS } from './mock-url.pipe';
+import { MockUrlPipe, URL_TESTING_ALLOWLISTED_PARAMS } from './mock-url.pipe';
 
 @NgModule({
   imports: [CommonModule],
@@ -8,15 +8,15 @@ import { MockUrlPipe, URL_TESTING_WHITELISTED_PARAMS } from './mock-url.pipe';
   exports: [MockUrlPipe],
 })
 export class UrlTestingModule {
-  static whitelistParams(
-    whitelistedParams: string[]
+  static allowlistParams(
+    allowlistedParams: string[]
   ): ModuleWithProviders<UrlTestingModule> {
     return {
       ngModule: UrlTestingModule,
       providers: [
         {
-          provide: URL_TESTING_WHITELISTED_PARAMS,
-          useValue: whitelistedParams,
+          provide: URL_TESTING_ALLOWLISTED_PARAMS,
+          useValue: allowlistedParams,
         },
       ],
     };

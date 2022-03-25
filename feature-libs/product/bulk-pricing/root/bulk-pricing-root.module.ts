@@ -1,16 +1,24 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
+import { PRODUCT_BULK_PRICING_FEATURE } from './feature-name';
+
+// TODO: Inline this factory when we start releasing Ivy compiled libraries
+export function defaultProductBulkPricingComponentsConfig(): CmsConfig {
+  const config: CmsConfig = {
+    featureModules: {
+      [PRODUCT_BULK_PRICING_FEATURE]: {
+        cmsComponents: ['BulkPricingTableComponent'],
+      },
+    },
+  };
+
+  return config;
+}
 
 @NgModule({
   imports: [],
   providers: [
-    provideDefaultConfig({
-      featureModules: {
-        productBulkPricing: {
-          cmsComponents: ['BulkPricingTableComponent'],
-        },
-      },
-    }),
+    provideDefaultConfigFactory(defaultProductBulkPricingComponentsConfig),
   ],
 })
 export class BulkPricingRootModule {}

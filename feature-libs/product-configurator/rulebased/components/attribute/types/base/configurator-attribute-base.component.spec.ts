@@ -1,13 +1,17 @@
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 
+const attributeCode = 1;
+const currentAttribute: Configurator.Attribute = {
+  name: 'attributeId',
+  attrCode: attributeCode,
+  uiType: Configurator.UiType.RADIOBUTTON,
+};
+
+const attributeIncomplete: Configurator.Attribute = { name: 'name' };
+
 describe('ConfigUIKeyGeneratorService', () => {
   let classUnderTest: ConfiguratorAttributeBaseComponent;
-
-  const currentAttribute: Configurator.Attribute = {
-    name: 'attributeId',
-    uiType: Configurator.UiType.RADIOBUTTON,
-  };
 
   beforeEach(() => {
     classUnderTest = new ConfiguratorAttributeBaseComponent();
@@ -37,12 +41,6 @@ describe('ConfigUIKeyGeneratorService', () => {
     ).toEqual('cx-configurator--label--attributeId');
   });
 
-  it("should return only attribute id for aria-labelledby because value id is 'null'", () => {
-    expect(
-      classUnderTest.createAriaLabelledBy('prefix', 'attributeId', null)
-    ).toEqual('cx-configurator--label--attributeId');
-  });
-
   it('should return attribute id, value id  and without quantity for aria-labelledby', () => {
     expect(
       classUnderTest.createAriaLabelledBy('prefix', 'attributeId', 'valueId')
@@ -58,19 +56,6 @@ describe('ConfigUIKeyGeneratorService', () => {
         'attributeId',
         'valueId',
         undefined
-      )
-    ).toEqual(
-      'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
-    );
-  });
-
-  it("should return attribute id, value id  and with quantity equals 'null' for aria-labelledby", () => {
-    expect(
-      classUnderTest.createAriaLabelledBy(
-        'prefix',
-        'attributeId',
-        'valueId',
-        null
       )
     ).toEqual(
       'cx-configurator--label--attributeId cx-configurator--prefix--attributeId--valueId cx-configurator--price--optionsPriceValue--attributeId--valueId'
@@ -122,5 +107,31 @@ describe('ConfigUIKeyGeneratorService', () => {
     expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
       'attrCode--valueCode--focus'
     );
+  });
+
+  describe('getUiType', () => {
+    it('should return ui type from attribute if set on attribute level', () => {
+      expect(classUnderTest['getUiType'](currentAttribute)).toBe(
+        Configurator.UiType.RADIOBUTTON
+      );
+    });
+    it('should return ui type "not implemented" if not available on attribute', () => {
+      expect(classUnderTest['getUiType'](attributeIncomplete)).toBe(
+        Configurator.UiType.NOT_IMPLEMENTED
+      );
+    });
+  });
+
+  describe('getAttributeCode', () => {
+    it('should return code from attribute if available', () => {
+      expect(classUnderTest['getAttributeCode'](currentAttribute)).toBe(
+        attributeCode
+      );
+    });
+    it('should throw exception if no code available', () => {
+      expect(() =>
+        classUnderTest['getAttributeCode'](attributeIncomplete)
+      ).toThrow();
+    });
   });
 });

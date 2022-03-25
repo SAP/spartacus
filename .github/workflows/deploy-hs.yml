@@ -1,6 +1,15 @@
 on:
   pull_request:
     types: [opened, synchronize]
+    branches:
+      - 'develop'
+      - 'feature/GH-**'
+      - 'epic/**'
+      - '!release/4.1.x'
+  push:
+    branches:
+      - develop
+      - release/4.1.x
 name: Hosting service - Deploy
 jobs:
   hostingServiceDeploy:
@@ -24,4 +33,3 @@ jobs:
           UPP_TENANT: ${{ secrets.UPP_TENANT}}
           UPP_CLIENT: ${{ secrets.UPP_CLIENT}}
           UPP_SECRET: ${{ secrets.UPP_SECRET}}
-      

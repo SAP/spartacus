@@ -33,7 +33,9 @@ export class BudgetService {
         this.store.dispatch(
           new BudgetActions.LoadBudget({ userId, budgetCode })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -41,7 +43,9 @@ export class BudgetService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(new BudgetActions.LoadBudgets({ userId, params })),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -112,7 +116,9 @@ export class BudgetService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(new BudgetActions.CreateBudget({ userId, budget })),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -122,7 +128,9 @@ export class BudgetService {
         this.store.dispatch(
           new BudgetActions.UpdateBudget({ userId, budgetCode, budget })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 

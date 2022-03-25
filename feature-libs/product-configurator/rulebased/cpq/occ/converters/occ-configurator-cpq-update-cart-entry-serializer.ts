@@ -9,18 +9,20 @@ export class OccConfiguratorCpqUpdateCartEntrySerializer
     Converter<
       Configurator.UpdateConfigurationForCartEntryParameters,
       OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
-    > {
+    >
+{
   convert(
     source: Configurator.UpdateConfigurationForCartEntryParameters,
     target?: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
   ): OccCpqConfigurator.UpdateConfigurationForCartEntryParameters {
-    const resultTarget: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters = {
-      ...target,
-      userId: source.userId,
-      cartId: source.cartId,
-      entryNumber: source.cartEntryNumber,
-      configId: source.configuration.configId,
-    };
+    const resultTarget: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters =
+      {
+        ...target,
+        userId: source.userId,
+        cartId: source.cartId,
+        entryNumber: source.cartEntryNumber,
+        configId: source.configuration.configId,
+      };
 
     return resultTarget;
   }

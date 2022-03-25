@@ -5,7 +5,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfigModule } from '../../../config/config.module';
 import { BaseSite } from '../../../model/misc.model';
-import { OccModule } from '../../../occ/occ.module';
+import { BaseOccModule } from '../../../occ/base-occ.module';
 import { SiteAdapter } from '../../connectors/site.adapter';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
@@ -21,7 +21,7 @@ describe('BaseSite Effects', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ConfigModule.forRoot(), HttpClientTestingModule, OccModule],
+      imports: [ConfigModule.forRoot(), HttpClientTestingModule, BaseOccModule],
       providers: [
         fromEffects.BaseSiteEffects,
         { provide: SiteAdapter, useValue: {} },

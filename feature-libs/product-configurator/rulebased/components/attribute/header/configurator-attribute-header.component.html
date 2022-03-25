@@ -1,34 +1,61 @@
 <label
   id="{{ createAttributeUiKey('label', attribute.name) }}"
-  [class.cx-required-icon]="attribute.required"
   [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
   [attr.aria-label]="
     !attribute.required
-      ? attribute.label
-      : ('configurator.attribute.requiredAttribute'
+      ? ('configurator.a11y.attribute'
+        | cxTranslate: { attribute: attribute.label })
+      : ('configurator.a11y.requiredAttribute'
         | cxTranslate: { param: attribute.label })
   "
-  >{{ attribute.label }}</label
+  ><span
+    [class.cx-required-icon]="attribute.required"
+    [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
+    >{{ attribute.label }}</span
+  ></label
 >
-<div *ngIf="attribute.hasConflicts" class="cx-conflict-msg">
+<div
+  *ngIf="attribute.hasConflicts"
+  class="cx-conflict-msg"
+  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+  [attr.aria-live]="isAttributeGroup() ? 'assertive' : 'off'"
+  [attr.aria-atomic]="isAttributeGroup() ? true : false"
+  role="alert"
+  [attr.aria-label]="
+    isAttributeGroup()
+      ? ('configurator.a11y.conflictDetected' | cxTranslate)
+      : ''
+  "
+>
   <cx-icon
-    *ngIf="isAttributeGroup(groupType)"
+    *ngIf="isAttributeGroup()"
     [type]="iconTypes.WARNING"
+    aria-hidden="true"
   ></cx-icon>
-  <div class="cx-conflict-msg">
-    {{ getConflictMessageKey(groupType) | cxTranslate }}
-  </div>
+  <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
+    <div class="cx-conflict-msg">
+      {{ getConflictMessageKey() | cxTranslate }}
+    </div>
+  </ng-container>
 </div>
 <div
   *ngIf="showRequiredMessageForDomainAttribute$ | async"
   class="cx-required-error-msg"
+  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+  [attr.aria-label]="getRequiredMessageKey() | cxTranslate"
 >
   <cx-icon [type]="iconTypes.ERROR"></cx-icon>
   {{ getRequiredMessageKey() | cxTranslate }}
 </div>
 <img
-  *ngIf="attribute.images[0]"
+  *ngIf="hasImage"
   class="cx-attribute-img"
-  src="{{ attribute.images[0].url }}"
-  alt="{{ attribute.images[0].altText }}"
+  src="{{ image?.url }}"
+  alt="{{ image?.altText }}"
 />
+
+<ng-template #conflictGroup>
+  <a class="cx-conflict-msg" (click)="navigateToGroup()">
+    {{ getConflictMessageKey() | cxTranslate }}
+  </a>
+</ng-template>

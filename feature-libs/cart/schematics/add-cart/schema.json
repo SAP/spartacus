@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "CartSchematics",
+  "$id": "CartSchematics",
   "title": "Cart Schematics",
   "type": "object",
   "properties": {
@@ -11,6 +11,11 @@
         "$source": "projectName"
       }
     },
+    "debug": {
+      "description": "Display additional details during the running process.",
+      "type": "boolean",
+      "default": false
+    },
     "lazy": {
       "type": "boolean",
       "description": "Lazy load the Saved cart feature.",
@@ -20,11 +25,48 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Saved Cart (b2b feature)"],
+        "enum": [
+          "Cart",
+          "WishList",
+          "Saved-Cart",
+          "Quick-Order",
+          "Import-Export"
+        ],
         "type": "string"
       },
-      "default": ["Saved Cart (b2b feature)"],
-      "x-prompt": "Which Cart features would you like to setup?"
+      "default": [
+        "Cart",
+        "WishList",
+        "Saved-Cart",
+        "Quick-Order",
+        "Import-Export"
+      ],
+      "x-prompt": {
+        "message": "Which Cart features would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "Cart",
+            "label": "Cart"
+          },
+          {
+            "value": "WishList",
+            "label": "Wish List"
+          },
+          {
+            "value": "Saved-Cart",
+            "label": "Saved Cart"
+          },
+          {
+            "value": "Quick-Order",
+            "label": "Quick Order"
+          },
+          {
+            "value": "Import-Export",
+            "label": "Import/Export"
+          }
+        ]
+      }
     }
   },
   "required": []

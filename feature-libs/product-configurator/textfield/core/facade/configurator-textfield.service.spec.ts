@@ -2,13 +2,16 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-  ActiveCartService,
-  Cart,
   OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
   UserIdService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
@@ -28,30 +31,47 @@ const CHANGED_VALUE = 'theNewValue';
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const CART_ENTRY_NUMBER = '2';
-const owner: CommonConfigurator.Owner = {
-  id: PRODUCT_CODE,
-  type: CommonConfigurator.OwnerType.PRODUCT,
-};
+const ORDER_NUMBER = '0001';
+const ORDER_ENTRY_NUMBER = '10';
+const owner = ConfiguratorModelUtils.createOwner(
+  CommonConfigurator.OwnerType.PRODUCT,
+  PRODUCT_CODE
+);
 
-const ownerCartRelated: CommonConfigurator.Owner = {
-  id: CART_ENTRY_NUMBER,
-  type: CommonConfigurator.OwnerType.CART_ENTRY,
-};
-const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-  userId: 'anonymous',
-  cartId: CART_GUID,
-  cartEntryNumber: CART_ENTRY_NUMBER,
-  owner: ownerCartRelated,
-};
+const ownerCartRelated = ConfiguratorModelUtils.createOwner(
+  CommonConfigurator.OwnerType.CART_ENTRY,
+  CART_ENTRY_NUMBER
+);
+
+const ownerOrderRelated = ConfiguratorModelUtils.createOwner(
+  CommonConfigurator.OwnerType.ORDER_ENTRY,
+  ORDER_NUMBER + '+' + ORDER_ENTRY_NUMBER
+);
+
+const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+  {
+    userId: 'anonymous',
+    cartId: CART_GUID,
+    cartEntryNumber: CART_ENTRY_NUMBER,
+    owner: ownerCartRelated,
+  };
+
+const readFromOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+  {
+    userId: OCC_USER_ID_CURRENT,
+    orderId: ORDER_NUMBER,
+    orderEntryNumber: ORDER_ENTRY_NUMBER,
+    owner: ownerOrderRelated,
+  };
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [
     { configurationLabel: ATTRIBUTE_NAME, configurationValue: ATTRIBUTE_VALUE },
   ],
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  },
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    PRODUCT_CODE
+  ),
 };
 
 const loaderState: ConfigurationTextfieldState = {
@@ -82,10 +102,10 @@ const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
       status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
     },
   ],
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  },
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    PRODUCT_CODE
+  ),
 };
 
 const cart: Cart = {
@@ -94,13 +114,9 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
-const cartState: any = {
-  value: cart,
-};
-
 class MockActiveCartService {
   requireLoadedCart(): any {
-    return of(cartState);
+    return of(cart);
   }
 }
 
@@ -113,9 +129,9 @@ class MockUserIdService {
 describe('ConfiguratorTextfieldService', () => {
   let serviceUnderTest: ConfiguratorTextfieldService;
   let store: Store<StateWithConfigurationTextfield>;
-  const mockConfigLoaderStateReturned = createSpy(
-    'select'
-  ).and.returnValue(() => of(loaderState));
+  const mockConfigLoaderStateReturned = createSpy('select').and.returnValue(
+    () => of(loaderState)
+  );
   const mockConfigLoaderStateNothingPresent = createSpy(
     'select'
   ).and.returnValue(() => of(loaderStateNothingPresent));
@@ -130,7 +146,7 @@ describe('ConfiguratorTextfieldService', () => {
         providers: [
           ConfiguratorTextfieldService,
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {
@@ -193,9 +209,8 @@ describe('ConfiguratorTextfieldService', () => {
 
   it('should dispatch the correct action when readFromCartEntry is called', () => {
     spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
-    const configurationFromStore = serviceUnderTest.readConfigurationForCartEntry(
-      ownerCartRelated
-    );
+    const configurationFromStore =
+      serviceUnderTest.readConfigurationForCartEntry(ownerCartRelated);
 
     expect(configurationFromStore).toBeDefined();
 
@@ -208,6 +223,26 @@ describe('ConfiguratorTextfieldService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
         readFromCartEntryParams
+      )
+    );
+  });
+
+  it('should dispatch the correct action when readConfigurationForOrderEntry is called', () => {
+    spyOnProperty(ngrxStore, 'select').and.returnValues(mockConfigReturned);
+    const configurationFromStore =
+      serviceUnderTest.readConfigurationForOrderEntry(ownerOrderRelated);
+
+    expect(configurationFromStore).toBeDefined();
+
+    configurationFromStore
+      .subscribe((configuration) =>
+        expect(configuration.configurationInfos.length).toBe(1)
+      )
+      .unsubscribe();
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
+        readFromOrderEntryParams
       )
     );
   });

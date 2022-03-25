@@ -1,39 +1,34 @@
 %cx-configurator-group-menu {
-  ul {
-    list-style-type: none;
-    background-color: #ffffff;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-    border-radius: 2px;
-    padding-inline-start: 0px;
-    padding-inline-end: 0px;
-    padding-block-start: 0px;
-    padding-block-end: 0px;
-    margin-inline-start: 0px;
-    margin-inline-end: 25px;
-    margin-block-start: 0px;
-    margin-block-end: 0px;
+  &:not(:empty) {
+    .cx-group-menu,
+    .cx-ghost-group-menu {
+      margin-inline-end: 25px;
 
-    @include media-breakpoint-down(md) {
-      background-color: var(--cx-color-background);
-      margin-inline-start: 0px;
-      margin-inline-end: 0px;
-      margin-block-start: 0px;
-      margin-block-end: 0px;
+      @include media-breakpoint-down(md) {
+        background-color: var(--cx-color-background);
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        margin-block-start: 0px;
+        margin-block-end: 0px;
+      }
     }
 
-    .cx-menu-item {
-      line-height: var(--cx-line-height, 1.6);
-      border-width: 0 0 1px 0;
+    .cx-group-menu {
+      list-style-type: none;
+      background-color: #ffffff;
+      border-width: 1px;
       border-style: solid;
       border-color: var(--cx-color-light);
+      border-radius: 2px;
+      padding-inline-start: 0px;
+      padding-inline-end: 0px;
+      padding-block-start: 0px;
+      padding-block-end: 0px;
+      margin-inline-start: 0px;
+      margin-block-start: 0px;
+      margin-block-end: 0px;
 
-      &:last-child {
-        border-width: 0;
-      }
-
-      a.cx-menu-item-link {
+      .cx-menu-item {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -41,6 +36,15 @@
         align-items: center;
         text-decoration: none;
         color: var(--cx-color-text);
+        border: none;
+        background-color: transparent;
+        outline-offset: 0px;
+        width: 100%;
+
+        line-height: var(--cx-line-height, 1.6);
+        border-width: 1px 1px 0 1px;
+        border-style: solid;
+        border-color: var(--cx-color-light);
 
         padding-inline-start: 15px;
         padding-inline-end: 15px;
@@ -54,6 +58,7 @@
 
         &.active {
           color: var(--cx-color-primary);
+          font-weight: bold;
         }
 
         &.disable {
@@ -68,15 +73,13 @@
           overflow: hidden;
           line-break: anywhere;
 
-          @include forVersion(3.3) {
-            @include cx-configurator-truncate-content();
-          }
+          @include cx-configurator-truncate-content();
         }
 
         .groupIndicators {
           display: flex;
           flex-direction: row;
-          align-self: flex-start;
+          align-self: center;
           inline-size: 100px;
 
           .groupStatusIndicator {
@@ -120,55 +123,72 @@
             inline-size: 25px;
           }
         }
+
+        &.ERROR cx-icon.ERROR,
+        &.WARNING cx-icon.WARNING,
+        &.COMPLETE cx-icon.COMPLETE {
+          display: inline-block !important;
+        }
+
+        &.cx-menu-conflict {
+          background-color: mix(#ffffff, theme-color('warning'), 78%);
+        }
       }
 
-      &.ERROR cx-icon.ERROR,
-      &.WARNING cx-icon.WARNING,
-      &.COMPLETE cx-icon.COMPLETE {
-        display: inline-block !important;
+      &:last-child {
+        border-width: 0 0 1px 0;
       }
 
-      &.cx-menu-conflict {
-        background-color: mix(#ffffff, theme-color('warning'), 78%);
+      .cx-menu-back {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-content: center;
+        align-items: center;
+        text-decoration: none;
+        color: var(--cx-color-text);
+        border: none;
+        background-color: transparent;
+        outline-offset: 0px;
+        width: 100%;
+
+        line-height: var(--cx-line-height, 1.6);
+        border-width: 1px 1px 0 1px;
+        border-style: solid;
+        border-color: var(--cx-color-light);
+        background-color: var(--cx-color-background);
+
+        padding-inline-start: 15px;
+        padding-inline-end: 15px;
+        padding-block-start: 15px;
+        padding-block-end: 15px;
+
+        &:hover {
+          cursor: pointer;
+          color: var(--cx-color-primary);
+        }
+
+        &.active {
+          color: var(--cx-color-primary);
+        }
+
+        cx-icon {
+          margin-inline-start: 5px;
+          margin-inline-end: 5px;
+          margin-block-start: 5px;
+          margin-block-end: 5px;
+        }
       }
     }
-  }
 
-  .cx-menu-back {
-    line-height: var(--cx-line-height, 1.6);
-    border-width: 0 0 1px 0;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-    background-color: var(--cx-color-background);
+    .cx-ghost-group-menu {
+      .cx-ghost-menu-item {
+        padding-block-end: 5px;
 
-    a.cx-menu-back-link {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      align-content: center;
-      align-items: center;
-      text-decoration: none;
-      color: var(--cx-color-text);
-
-      padding-inline-start: 15px;
-      padding-inline-end: 15px;
-      padding-block-start: 15px;
-      padding-block-end: 15px;
-
-      &:hover {
-        cursor: pointer;
-        color: var(--cx-color-primary);
-      }
-
-      &.active {
-        color: var(--cx-color-primary);
-      }
-
-      cx-icon {
-        margin-inline-start: 5px;
-        margin-inline-end: 5px;
-        margin-block-start: 5px;
-        margin-block-end: 5px;
+        .cx-ghost-item-title {
+          height: 55px;
+          background-color: var(--cx-color-ghost);
+        }
       }
     }
   }

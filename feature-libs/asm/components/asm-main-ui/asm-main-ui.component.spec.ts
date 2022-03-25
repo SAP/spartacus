@@ -88,7 +88,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = () => Promise.resolve(true);
 }
 
 class MockAsmComponentService {

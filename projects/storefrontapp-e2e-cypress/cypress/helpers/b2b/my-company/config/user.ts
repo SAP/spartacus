@@ -14,6 +14,7 @@ export const userConfig: MyCompanyConfig = {
   objectType: 'users',
   entityIdField: 'customerId',
   preserveCookies: true,
+  selectOptionsEndpoint: ['*availableOrgUnitNodes*', '*titles*'],
   rows: [
     {
       label: 'Name',
@@ -21,7 +22,7 @@ export const userConfig: MyCompanyConfig = {
       inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
-      sortLabel: 'name',
+      sortLabel: 'Name',
       showInTable: true,
       showInDetails: false,
       useCookie: ENTITY_UID_COOKIE_KEY,
@@ -100,7 +101,7 @@ export const userConfig: MyCompanyConfig = {
       variableName: 'orgUnit.name',
       link: `/organization/units/Rustic%20Retail`,
       updatedLink: `/organization/units/Custom%20Retail`,
-      sortLabel: 'unit',
+      sortLabel: 'Unit',
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Rustic Retail',
       updateValue: 'Custom Retail',
@@ -143,5 +144,11 @@ export const userConfig: MyCompanyConfig = {
     MY_COMPANY_FEATURE.LIST,
     MY_COMPANY_FEATURE.ASSIGNMENTS,
     MY_COMPANY_FEATURE.USER_PASSWORD,
+  ],
+  coreFeatures: [
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.LIST,
   ],
 };

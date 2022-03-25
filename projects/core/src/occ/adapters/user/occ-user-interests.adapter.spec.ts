@@ -55,7 +55,7 @@ describe('OccUserInterestsAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -75,10 +75,10 @@ describe('OccUserInterestsAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'getProductInterests',
         {
-          userId: userId,
+          urlParams: { userId: userId },
         }
       );
 

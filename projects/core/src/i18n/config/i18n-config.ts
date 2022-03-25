@@ -1,6 +1,6 @@
-import { TranslationResources } from '../translation-resources';
 import { Injectable } from '@angular/core';
 import { Config } from '../../config/config-tokens';
+import { TranslationResources } from '../translation-resources';
 
 @Injectable({
   providedIn: 'root',
@@ -49,4 +49,8 @@ export abstract class I18nConfig {
       [chunk: string]: string[];
     };
   };
+}
+
+declare module '../../config/config-tokens' {
+  interface Config extends I18nConfig {}
 }

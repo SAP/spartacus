@@ -16,13 +16,14 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorPreviousNextButtonsComponent {
-  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.getConfiguration(routerData.owner)
-      )
-    );
+  configuration$: Observable<Configurator.Configuration> =
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
+        )
+      );
 
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
@@ -36,8 +37,13 @@ export class ConfiguratorPreviousNextButtonsComponent {
       .getPreviousGroupId(configuration.owner)
       .pipe(take(1))
       .subscribe((groupId) => {
-        this.configuratorGroupsService.navigateToGroup(configuration, groupId);
-        this.focusFirstAttribute();
+        if (groupId) {
+          this.configuratorGroupsService.navigateToGroup(
+            configuration,
+            groupId
+          );
+          this.focusFirstAttribute();
+        }
       });
 
     this.configUtils.scrollToConfigurationElement(
@@ -50,8 +56,13 @@ export class ConfiguratorPreviousNextButtonsComponent {
       .getNextGroupId(configuration.owner)
       .pipe(take(1))
       .subscribe((groupId) => {
-        this.configuratorGroupsService.navigateToGroup(configuration, groupId);
-        this.focusFirstAttribute();
+        if (groupId) {
+          this.configuratorGroupsService.navigateToGroup(
+            configuration,
+            groupId
+          );
+          this.focusFirstAttribute();
+        }
       });
 
     this.configUtils.scrollToConfigurationElement(
@@ -87,7 +98,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
                   .pipe(
                     filter((isLoading) => !isLoading),
                     take(1),
-                    delay(0) //we need to consider the rerendering of the page
+                    delay(0) //we need to consider the re-rendering of the page
                   )
               )
             )

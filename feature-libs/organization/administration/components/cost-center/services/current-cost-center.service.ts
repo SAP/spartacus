@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CostCenter, RoutingService } from '@spartacus/core';
 import { CostCenterService } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable } from 'rxjs';
-import { ROUTE_PARAMS } from '../../constants';
 import { CurrentItemService } from '../../shared/current-item.service';
 
 @Injectable({

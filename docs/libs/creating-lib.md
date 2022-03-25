@@ -42,7 +42,7 @@ The list of the files that need to modified:
 
 - `karma.conf.js`
 
-Just copy paste the following:
+Just copy paste the following and and make sure to rename `TODO:` to you lib's name:
 
 ```js
 // Karma configuration file, see link for more information
@@ -55,25 +55,24 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-coverage'),
-      require('karma-junit-reporter'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
     },
-    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'dots'],
-    coverageIstanbulReporter: {
+    reporters: ['progress', 'kjhtml', 'dots'],
+    coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/TODO:'),
-      reports: ['lcov', 'cobertura', 'text-summary'],
-      fixWebpackSourcePaths: true,
-      thresholds: {
-        statements: 80,
-        lines: 80,
-        branches: 70,
-        functions: 80,
+      reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
+      check: {
+        global: {
+          statements: 80,
+          lines: 80,
+          branches: 70,
+          functions: 80,
+        },
       },
     },
     port: 9876,
@@ -87,23 +86,36 @@ module.exports = function (config) {
 };
 ```
 
-Make sure to rename `TODO:` to you lib's name.
+- `public-api.ts` 
+  - rename this file to `public_api.ts` (with the underscore instead of the dash)
+  - move `public_api.ts` from `./src/lib/public_api.ts` to `./public_api.ts`.
+  - change the path in `ng-package.json`'s `entryFile` property to `./public_api.ts`
+
 
 - `ng-package.json`
 
-Add the following under `lib` section:
-
+Add `umdModuleIds` and `assets` section sor your file looks like this:
+(adapt assets path to what makes sense for your lib)
 ```json
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/{LIB_NAME}",
+  "lib": {
+    "entryFile": "./public_api.ts",
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
+      "@ng-bootstrap/ng-bootstrap": "ng-bootstrap",
       "rxjs": "rxjs"
     }
+  },
+  "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
+}
 ```
 
 If necessary, add entries for other libraries such as `"@ngrx/store": "store"`, etc.
 
-- `public-api.ts` - rename this file to `public_api.ts` (with the underscore instead of the dash) and change the path in `ng-package.json`'s `entryFile` property to `./public_api.ts`
+
 
 - `package.json`
 
@@ -144,6 +156,15 @@ Adjust the `@spartacus/core` and/or `@spartacus/storefront` depending on the nee
 Make sure the versions match the current spartacus version.
 Make sure the `@angular` peer dependencies matches the versions specified in the _core_ lib.
 
+- `test.ts` 
+  - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
+  
+  This change requires an update in:
+
+  1. `angular.json` - change the `projects -> lib-name -> architect -> test -> options -> main` value to reflect the new file path
+  2. `feature-libs/<lib-name>/tsconfig.lib.json` - update the path in `exclude`
+  3. `feature-libs/<lib-name>/tsconfig.spec.json` - update the path in `files`
+
 - `tsconfig.lib.json`
 
 Use the following template:
@@ -178,7 +199,7 @@ Use the following template:
     "strictTemplates": true,
     "strictInputAccessModifiers": true
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  "exclude": ["test.ts", "**/*.spec.ts"]
 }
 ```
 
@@ -203,13 +224,13 @@ The following files should be modified:
 Add the following scripts:
 
 ```json
-"build:myaccount": "ng build my-account --prod",
-"release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../..",
+"build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --configuration production",
+"release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
 ```
 
-And replace `myaccount` and `my-account` instances with the name of yours lib.
+And replace `asm` instances with the name of yours lib.
 
-Optionally, add the generated lib to the `build:libs` and `test:libs` scripts.
+Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
 - `.github/ISSUE_TEMPLATE/new-release.md`
 
@@ -230,7 +251,7 @@ Add `- [ ] `npm run release:TODO::with-changelog` (needed since `x.x.x`)` under 
     "publishPath": "./../../dist/TODO:"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build TODO: --prod"
+    "after:version:bump": "cd ../.. && ng build TODO: --configuration production"
   },
   "github": {
     "release": true,
@@ -306,12 +327,6 @@ Sources:
 If adding multiple entry points to the generated library, make sure to do the following changes:
 
 - `angular.json` - change the `projects -> lib-name -> sourceRoot` to have the same value as the `root` property. This will enable code coverage report to be properly generated for all the entry points.
-- `test.ts` - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
-This change requires an update in the:
-
-  1. `angular.json` - change the `projects -> lib-name -> architect -> test -> options -> main` value to reflect the new file path
-  2. `feature-libs/<lib-name>/tsconfig.lib.json` - update the path in `exclude`
-  3. `feature-libs/<lib-name>/tsconfig.spec.json` - update the path in `files`
 
 - make sure to follow the general folder structure, as seen in e.g. `feature-libs/product` library
 - add `ng-package.json` to each of the feature folders
@@ -323,7 +338,7 @@ Don't forget to:
 
 - run the tests for the generated library - `ng test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
 - build the generated library _with Ivy enabled_ - `ng build <lib-name>`
-- build the generated library (without Ivy) - `ng build <lib-name> --prod`
+- build the generated library (without Ivy) - `ng build <lib-name> --configuration production`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
   - `yarn build:libs` (build all the libs)
   - `yarn build`

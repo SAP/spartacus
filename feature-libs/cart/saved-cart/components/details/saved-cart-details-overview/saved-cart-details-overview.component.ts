@@ -5,11 +5,16 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Cart, TranslationService } from '@spartacus/core';
-import { Card, ICON_TYPE } from '@spartacus/storefront';
+import { Cart } from '@spartacus/cart/base/root';
+import { TranslationService } from '@spartacus/core';
+import {
+  Card,
+  ICON_TYPE,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({
@@ -22,15 +27,14 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
   @ViewChild('element') element: ElementRef;
 
   iconTypes = ICON_TYPE;
-  savedCart$: Observable<
-    Cart | undefined
-  > = this.savedCartDetailsService.getCartDetails();
+  savedCart$: Observable<Cart | undefined> =
+    this.savedCartDetailsService.getCartDetails();
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,
     protected translation: TranslationService,
-    protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   getCartName(cartName: string): Observable<Card> {
@@ -63,15 +67,13 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
     );
   }
 
-  getDateSaved(saveTime: string): Observable<Card> {
+  getDateSaved(saveTime: string | null): Observable<Card> {
     return this.translation.translate('savedCartDetails.dateSaved').pipe(
       filter(() => Boolean(saveTime)),
       map((textTitle) => {
-        const date = this.getDate(new Date(saveTime));
-
         return {
           title: textTitle,
-          text: [date],
+          text: [saveTime ?? ''],
         };
       })
     );
@@ -108,7 +110,8 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
   }
 
   openDialog(cart: Cart): void {
-    const dialog = this.savedCartFormLaunchDialogService.openDialog(
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.SAVED_CART,
       this.element,
       this.vcr,
       { cart, layoutOption: 'edit' }
@@ -117,16 +120,6 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
     if (dialog) {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
-  }
-
-  private getDate(givenDate: Date): string {
-    const date = givenDate.toDateString().split(' ');
-
-    const month = date[1];
-    const day = date[2];
-    const year = date[3];
-
-    return month + ' ' + day + ' ' + year;
   }
 
   ngOnDestroy(): void {

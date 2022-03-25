@@ -6,8 +6,12 @@ import { Config } from '@spartacus/core';
   useExisting: Config,
 })
 export abstract class SmartEditConfig {
-  smartEdit: {
-    storefrontPreviewRoute: string;
-    allowOrigin: string;
+  smartEdit?: {
+    storefrontPreviewRoute?: string;
+    allowOrigin?: string;
   };
+}
+
+declare module '@spartacus/core' {
+  interface Config extends SmartEditConfig {}
 }

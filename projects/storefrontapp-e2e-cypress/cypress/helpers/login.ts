@@ -7,8 +7,8 @@ export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';
 
 export const defaultUser = {
-  name: 'test-user-cypress@ydev.hybris.com',
-  password: 'Password123.',
+  name: 'test-user-with-orders@sap.cx.com',
+  password: 'pw4all',
 };
 
 /**
@@ -22,7 +22,7 @@ export function registerUserFromLoginPage() {
   cy.get('cx-page-layout > cx-page-slot > cx-login-register')
     .findByText('Register')
     .click();
-  cy.wait(`@${registerPage}`).its('status').should('eq', 200);
+  cy.wait(`@${registerPage}`).its('response.statusCode').should('eq', 200);
 
   register(user);
   return user;
@@ -37,7 +37,7 @@ export function registerUserFromLoginPage() {
 export function registerUser() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
   return registerUserFromLoginPage();
 }
@@ -54,12 +54,12 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
-export function loginWithBadCredentials() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+export function loginWithBadCredentialsFromLoginPage() {
+  listenForTokenAuthenticationRequest();
 
   login(user.email, 'Password321');
+
+  cy.wait('@tokenAuthentication').its('response.statusCode').should('eq', 400);
 
   cy.get(userGreetSelector).should('not.exist');
 
@@ -68,18 +68,38 @@ export function loginWithBadCredentials() {
     .should('contain', 'Bad credentials. Please login again');
 }
 
+export function loginWithBadCredentials() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.get(loginLinkSelector).click();
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+
+  loginWithBadCredentialsFromLoginPage();
+}
+
 export function loginAsDefaultUser() {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
   login(defaultUser.name, defaultUser.password);
 }
 
 export function listenForTokenRevocationRequest(): string {
   const aliasName = 'tokenRevocation';
-  cy.server();
-  cy.route('POST', '/authorizationserver/oauth/revoke').as(aliasName);
+  cy.intercept({
+    method: 'POST',
+    path: '/authorizationserver/oauth/revoke',
+  }).as(aliasName);
+
+  return `@${aliasName}`;
+}
+
+export function listenForTokenAuthenticationRequest(): string {
+  const aliasName = 'tokenAuthentication';
+  cy.intercept({
+    method: 'POST',
+    path: '/authorizationserver/oauth/token',
+  }).as(aliasName);
 
   return `@${aliasName}`;
 }

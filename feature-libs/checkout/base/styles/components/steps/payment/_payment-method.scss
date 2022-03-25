@@ -1,0 +1,72 @@
+%cx-payment-method {
+  @include checkout-media-style();
+
+  .cx-payment {
+    &.container {
+      padding: 0;
+    }
+  }
+
+  .cx-payment-card {
+    padding-bottom: 30px;
+  }
+
+  .cx-payment-card-inner {
+    height: 100%;
+    background-color: var(--cx-color-inverse);
+    cursor: pointer;
+
+    @include media-breakpoint-down(md) {
+      background-color: var(--cx-color-inverse);
+    }
+  }
+
+  .cx-card-img-container {
+    .fab,
+    .fas {
+      &::before {
+        font-size: var(--cx-font-size, 48px);
+      }
+    }
+  }
+
+  .cx-checkout-title {
+    text-transform: uppercase;
+    margin: 0 auto;
+    padding: 2.375rem 0 1.75rem 0;
+  }
+
+  .cx-checkout-text {
+    @include media-breakpoint-down(md) {
+      padding-inline-start: 3.5rem;
+    }
+    @include media-breakpoint-down(sm) {
+      padding-inline-start: 1.5rem;
+    }
+  }
+
+  .cx-checkout-btns {
+    padding-bottom: 1rem;
+
+    @include media-breakpoint-down(md) {
+      padding: 1.25rem 0;
+    }
+
+    .btn-action {
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .cx-checkout-body {
+    display: flex;
+    align-items: stretch;
+
+    &.row {
+      @include media-breakpoint-down(md) {
+        padding: 0;
+      }
+    }
+  }
+}

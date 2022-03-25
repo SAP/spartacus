@@ -1,9 +1,12 @@
 export const USERID_CURRENT = 'current';
 export const config = {
   tokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/token`,
+  revokeTokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/revoke`,
   newUserUrl: `${Cypress.env('API_URL')}/${Cypress.env(
     'OCC_PREFIX'
-  )}/${Cypress.env('BASE_SITE')}/users/?lang=en&curr=USD`,
+  )}/${Cypress.env('BASE_SITE')}/users/?lang=en&curr=${Cypress.env(
+    'BASE_CURRENCY'
+  )}`,
   client: {
     client_id: Cypress.env('CLIENT_ID'),
     client_secret: Cypress.env('CLIENT_SECRET'),

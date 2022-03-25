@@ -7,13 +7,15 @@ import {
   EXPRESS_CHECKOUT_SERVICE,
   ROUTER,
   ROUTING_CONFIG_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts
+  // projects/storefrontlib/cms-components/checkout/guards/checkout.guard.ts
   class: CHECKOUT_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
