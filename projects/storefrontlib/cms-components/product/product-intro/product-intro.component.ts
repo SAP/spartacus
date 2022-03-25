@@ -5,9 +5,12 @@ import {
   TranslationService,
   WindowRef,
 } from '@spartacus/core';
-import { ComponentCreateEvent, ComponentEvent } from '@spartacus/storefront';
-import { defer, Observable } from 'rxjs';
-import { filter, map, startWith } from 'rxjs/operators';
+import {
+  ComponentCreateEvent,
+  ComponentDestroyEvent,
+} from '@spartacus/storefront';
+import { defer, Observable, of, merge } from 'rxjs';
+import { filter, mapTo } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -20,16 +23,20 @@ export class ProductIntroComponent {
     this.currentProductService.getProduct();
 
   /**
-   * Observable that check reviews status.
-   * Emits true if reviews component is defined.
-   * Else, observe EventService for reviews availability.
+   * Observable that checks the reviews component availability on the page.
    */
-  // NOTE: defer is used due to potential race condition in EventService
-  protected areReviewsAvailable$ = defer(() =>
-    this.eventService.get(ComponentEvent).pipe(
-      filter(({ id }) => id === this.reviewsComponentId),
-      map((event) => (event instanceof ComponentCreateEvent ? true : false)),
-      startWith(!!this.getReviewsComponent())
+  protected areReviewsAvailable$ = merge(
+    // Check if reviews component is already defined:
+    defer(() => of(!!this.getReviewsComponent())),
+
+    // Observe EventService for reviews availability:
+    this.eventService.get(ComponentCreateEvent).pipe(
+      filter((event) => event.id === this.reviewsComponentId),
+      mapTo(true)
+    ),
+    this.eventService.get(ComponentDestroyEvent).pipe(
+      filter((event) => event.id === this.reviewsComponentId),
+      mapTo(false)
     )
   );
 
