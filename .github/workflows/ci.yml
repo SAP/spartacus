@@ -24,10 +24,10 @@ jobs:
           node-version: '14'
       - name: Install angular CLI
         run: npm install -g @angular/cli@latest
-      - name: "Install Karma"
-        run: npm install @angular-devkit/build-angular:karma
       - name: Install yarn
         run: npm install -g yarn
+      - name: "Install Karma"
+        run: yarn install @angular-devkit/build-angular:karma
       - name: Run unit tests for core and storefront
         run: |
           ls -al         
