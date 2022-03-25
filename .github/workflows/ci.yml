@@ -27,7 +27,7 @@ jobs:
       - name: Install yarn
         run: npm install -g yarn
       - name: "Install Karma"
-        run: yarn install @angular-devkit/build-angular:karma
+        run: yarn add @angular-devkit/build-angular:karma
       - name: Run unit tests for core and storefront
         run: |
           ls -al         
