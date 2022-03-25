@@ -4,6 +4,7 @@ import { VariantsMultiDimensionalService } from '../../core/services/variants-mu
 @Component({
   selector: 'cx-variants-multi-dimensional',
   templateUrl: './variants-multi-dimensional.component.html',
+  providers: [VariantsMultiDimensionalService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantsMultiDimensionalComponent {

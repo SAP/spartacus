@@ -17,7 +17,7 @@ import {
 } from '@spartacus/core';
 import { StorefrontConfig } from 'projects/storefrontlib/src/storefront-config';
 import { filter, take } from 'rxjs/operators';
-import { VariantsMultiDimensionalService } from '../../core/services/variants-multi-dimensional.service';
+import { VariantsMultiDimensionalService } from '../../../core/services/variants-multi-dimensional.service';
 
 @Component({
   selector: 'cx-variants-multi-dimensional-selector',
@@ -30,7 +30,7 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
 
   constructor(
     @Inject(Config) protected config: StorefrontConfig,
-    public multiDimensionalService: VariantsMultiDimensionalService,
+    private multiDimensionalService: VariantsMultiDimensionalService,
     private productService: ProductService,
     private routingService: RoutingService
   ) {}
@@ -66,7 +66,7 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
 
   getVariantOptionImages(variantOptionQualifier: VariantOptionQualifier[]) {
     const images = {};
-
+    console.log('variantOptionQualifier, variantOptionQualifier');
     const defaultImageObject = {
       altText: this.product.name || '',
     };

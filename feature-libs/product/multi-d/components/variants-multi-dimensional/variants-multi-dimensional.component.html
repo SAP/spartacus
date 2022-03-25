@@ -1,4 +1,7 @@
 <div *ngIf="product$ | async as product" class="variants-section">
+  Product exist
+  {{ product.multidimensional }}
+  <pre [style.width.px]="300">{{ product.variantMatrix | json }}</pre>
   <cx-variants-multi-dimensional-selector
     *ngIf="product.multidimensional && product.variantMatrix"
     [product]="product"

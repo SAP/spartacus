@@ -16,9 +16,7 @@ export interface VariantData {
   type: string;
   value: string;
 }
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class VariantsMultiDimensionalService {
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
     filter(isNotNullable),
@@ -35,12 +33,11 @@ export class VariantsMultiDimensionalService {
     })
   );
 
-  // TODO change to private
-  public variantCategories: string[] = [];
-  private variantOptions: GridVariantOption[] = [];
-  private variants: VariantMatrixElement[] = [];
+  protected variantCategories: string[] = [];
+  protected variantOptions: GridVariantOption[] = [];
+  protected variants: VariantMatrixElement[] = [];
 
-  constructor(private currentProductService: CurrentProductService) {}
+  constructor(protected currentProductService: CurrentProductService) {}
 
   variantHasImages(variants: VariantMatrixElement[]): boolean {
     return variants.some(
@@ -83,7 +80,7 @@ export class VariantsMultiDimensionalService {
     }
   }
 
-  getProductCategories(product: Product): void {
+  private getProductCategories(product: Product): void {
     this.variantCategories = this.extractVariantCategories(product);
   }
 
@@ -91,7 +88,7 @@ export class VariantsMultiDimensionalService {
     product: Product,
     matrix: VariantMatrixElement[]
   ): number {
-    let productVariantMatrixIndex: number;
+    let productVariantMatrixIndex!: number;
 
     matrix.forEach((variant: VariantMatrixElement, index: number) => {
       if (variant.variantOption?.code === product.code) {
@@ -103,6 +100,7 @@ export class VariantsMultiDimensionalService {
   }
 
   private extractAndAssignVariantValuesFromMatrix(product: Product): void {
+    console.log('1 extractAndAssignVariantValuesFromMatrix', product);
     if (product.variantMatrix) {
       this.findAllVariantOptions(product?.variantMatrix);
     }
@@ -114,6 +112,8 @@ export class VariantsMultiDimensionalService {
     list: GridVariantOption[] = [],
     itteration: number = 0
   ): void {
+    console.log('2 findAllVariantOptions', variantMatrix);
+
     variantMatrix.forEach((variantMatrixElement: VariantMatrixElement) => {
       // Remove reference
       const elementVariantTypes = JSON.parse(JSON.stringify(variantTypes));

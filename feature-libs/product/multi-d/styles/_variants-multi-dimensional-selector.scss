@@ -6,13 +6,15 @@ cx-variants-multi-dimensional-selector {
     .image-variant-container {
       display: flex;
       height: 70px;
+      margin-bottom: 10px;
       width: 70px;
 
       .image-variant {
         cursor: pointer;
         height: 70px;
-        margin: 0 5px 0 0;
+        margin-right: 5px;
         min-width: 70px;
+        padding: 5px;
         width: 70px;
 
         &.active {
@@ -30,7 +32,7 @@ cx-variants-multi-dimensional-selector {
     }
 
     .select-variant-container {
-      margin: 0 0 10px 0;
+      margin-bottom: 10px;
     }
   }
 }
