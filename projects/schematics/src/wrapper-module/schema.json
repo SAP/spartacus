@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SpartacusSchematics",
+  "title": "Spartacus Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "featureModuleName": {
+      "type": "string",
+      "description": "Name of the feature module for which to generate the wrapper module."
+    }
+  },
+  "required": ["featureModuleName"]
+}

@@ -31,6 +31,13 @@
       "factory": "./add-cms-component/index#addCmsComponent",
       "schema": "./add-cms-component/schema.json",
       "aliases": ["cms"]
+    },
+    "wrapper-module": {
+      "description": "Generate a feature wrapper module",
+      "factory": "./wrapper-module/index#generateWrapperModule",
+      "private": true,
+      "hidden": true,
+      "aliases": ["wrapper"]
     }
   }
 }
