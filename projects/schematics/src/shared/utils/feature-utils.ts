@@ -6,8 +6,8 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
+import { featureSchematicConfigMapping } from '../updateable-constants';
 import { addLibraryFeature, FeatureConfig, LibraryOptions } from './lib-utils';
-import { getSchematicsConfigurationByFeature } from './schematics-config-utils';
 
 /**
  * Override the pre-defined configurations for the given feature
@@ -48,7 +48,7 @@ export function addFeatures<T extends LibraryOptions>(
     const rules: Rule[] = [];
     for (const feature of features) {
       const schematicsConfiguration =
-        getSchematicsConfigurationByFeature(feature);
+        featureSchematicConfigMapping.get(feature);
       if (!schematicsConfiguration) {
         throw new SchematicsException(
           `No feature config found for ${feature}. Please check if you added the schematics config to the projects/schematics/src/shared/updateable-constants.ts`

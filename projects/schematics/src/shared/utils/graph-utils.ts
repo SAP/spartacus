@@ -125,12 +125,8 @@ function createLibraryDependencyGraph(): Graph {
 function createCrossFeaturesDependencyGraph(): Graph {
   const graph = new Graph();
 
-  for (const spartacusLib in libraryFeatureMapping) {
-    if (!libraryFeatureMapping.hasOwnProperty(spartacusLib)) {
-      continue;
-    }
-
-    const features = libraryFeatureMapping[spartacusLib] ?? [];
+  for (const spartacusLib of Array.from(libraryFeatureMapping.keys())) {
+    const features = libraryFeatureMapping.get(spartacusLib) ?? [];
     for (const feature of features) {
       graph.addVertex(feature);
 

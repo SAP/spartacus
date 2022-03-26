@@ -199,7 +199,6 @@ export const SCHEMATICS_CONFIGS: FeatureConfig[] = [
   EPD_SCHEMATICS_CONFIG,
 ];
 
-// TODO:#schematics - convert to Maps?
 /**
  * Maps sub-features to their parent feature.
  */
@@ -223,13 +222,13 @@ export const {
    *
    * {
    * ...,
-   * '@spartacus/checkout': ['CheckoutModule', 'CheckoutB2BModule',
-   * 'CheckoutScheduledReplenishmentModule'],
+   * 'Checkout': ['CheckoutModule'],
+   * 'Checkout-B2B': ['CheckoutB2BModule'],
+   * 'Checkout-Scheduled-Replenishment': ['CheckoutScheduledReplenishmentModule'],
    * ...
    * }
    */
-  // TODO:#schematics - should actually be `featureFeatureModule`
-  libraryFeatureModuleMapping,
+  featureFeatureModuleMapping,
   /**
    * Mapping of root feature-modules to the Spartacus library.
    *
@@ -237,13 +236,13 @@ export const {
    *
    * {
    * ...,
-   * '@spartacus/checkout': ['CheckoutRootModule', 'CheckoutB2BRootModule',
-   * 'CheckoutScheduledReplenishmentRootModule'],
+   * 'Checkout': ['CheckoutRootModule'],
+   * 'Checkout-B2B': ['CheckoutB2BRootModule'],
+   * 'Checkout-Scheduled-Replenishment': ['CheckoutScheduledReplenishmentRootModule'],
    * ...
    * }
    */
-  // TODO:#schematics - should actually be `featureRootModule`
-  libraryRootModuleMapping,
+  featureRootModuleMapping,
   /**
    * Mapping of schematics configurations to the Spartacus library.
    *
@@ -255,19 +254,19 @@ export const {
    * ...
    * }
    */
-  librarySchematicConfigMapping,
+  featureSchematicConfigMapping,
 } = generateMappings();
 
 export function generateMappings(): {
-  libraryFeatureMapping: Record<string, string[]>;
-  libraryFeatureModuleMapping: Record<string, string[]>;
-  libraryRootModuleMapping: Record<string, string[]>;
-  librarySchematicConfigMapping: Record<string, FeatureConfig[]>;
+  libraryFeatureMapping: Map<string, string[]>;
+  featureFeatureModuleMapping: Map<string, string[]>;
+  featureRootModuleMapping: Map<string, string[]>;
+  featureSchematicConfigMapping: Map<string, FeatureConfig>;
 } {
-  const featureMapping: Record<string, string[]> = {};
-  const featureModuleMapping: Record<string, string[]> = {};
-  const rootModuleMapping: Record<string, string[]> = {};
-  const configMapping: Record<string, FeatureConfig[]> = {};
+  const featureMapping: Map<string, string[]> = new Map();
+  const featureModuleMapping: Map<string, string[]> = new Map();
+  const rootModuleMapping: Map<string, string[]> = new Map();
+  const configMapping: Map<string, FeatureConfig> = new Map();
 
   for (const featureConfig of SCHEMATICS_CONFIGS) {
     populateFeatureMapping(featureMapping, featureConfig);
@@ -278,81 +277,71 @@ export function generateMappings(): {
 
   return {
     libraryFeatureMapping: featureMapping,
-    libraryFeatureModuleMapping: featureModuleMapping,
-    libraryRootModuleMapping: rootModuleMapping,
-    librarySchematicConfigMapping: configMapping,
+    featureFeatureModuleMapping: featureModuleMapping,
+    featureRootModuleMapping: rootModuleMapping,
+    featureSchematicConfigMapping: configMapping,
   };
 }
 
 function populateFeatureMapping(
-  mapping: Record<string, string[]>,
+  mapping: Map<string, string[]>,
   featureConfig: FeatureConfig
 ): void {
   const feature = featureConfig.library.mainScope;
   const featureName = featureConfig.library.cli;
 
-  const existingFeatureMapping = mapping[feature] ?? [];
+  const existingMapping = mapping.get(feature) ?? [];
   // avoid adding duplicates
-  if (existingFeatureMapping.includes(featureName)) {
+  if (existingMapping.includes(featureName)) {
     return;
   }
 
-  mapping[feature] = [...existingFeatureMapping, featureName];
+  mapping.set(feature, [...existingMapping, featureName]);
 }
 
 function populateFeatureModuleMapping(
-  mapping: Record<string, string[]>,
+  mapping: Map<string, string[]>,
   featureConfig: FeatureConfig
 ): void {
-  const feature = featureConfig.library.mainScope;
+  const feature = featureConfig.library.cli;
 
-  const existingFeatureMarkerMapping = mapping[feature] ?? [];
+  const existingMapping = mapping.get(feature) ?? [];
   const featureModules = ([] as Module[])
     .concat(featureConfig.featureModule)
     .map((fm) => fm.name);
 
   // avoid adding duplicates
-  if (
-    existingFeatureMarkerMapping.some((existing) =>
-      featureModules.includes(existing)
-    )
-  ) {
+  if (existingMapping.some((existing) => featureModules.includes(existing))) {
     return;
   }
 
-  mapping[feature] = [...existingFeatureMarkerMapping, ...featureModules];
+  mapping.set(feature, [...existingMapping, ...featureModules]);
 }
 
 function populateRootModulesMapping(
-  mapping: Record<string, string[]>,
+  mapping: Map<string, string[]>,
   featureConfig: FeatureConfig
 ): void {
-  const feature = featureConfig.library.mainScope;
+  const feature = featureConfig.library.cli;
 
-  const existingRootMarkerMapping = mapping[feature] ?? [];
+  const existingMapping = mapping.get(feature) ?? [];
   const rooModules = ([] as Module[])
     .concat(featureConfig.rootModule ?? [])
     .map((rm) => rm.name);
 
   // avoid adding duplicates
-  if (
-    existingRootMarkerMapping.some((existing) => rooModules.includes(existing))
-  ) {
+  if (existingMapping.some((existing) => rooModules.includes(existing))) {
     return;
   }
 
-  mapping[feature] = [...existingRootMarkerMapping, ...rooModules];
+  mapping.set(feature, [...existingMapping, ...rooModules]);
 }
 
 function populateConfigMapping(
-  mapping: Record<string, FeatureConfig[]>,
+  mapping: Map<string, FeatureConfig>,
   featureConfig: FeatureConfig
 ): void {
-  const existingConfigs = mapping[featureConfig.library.mainScope] ?? [];
-  mapping[featureConfig.library.mainScope] = [
-    ...existingConfigs,
-    featureConfig,
-  ];
+  mapping.set(featureConfig.library.cli, featureConfig);
 }
 
 /**
@@ -360,22 +349,16 @@ function populateConfigMapping(
  * it returns the key of the given object.
  */
 export function getKeyByMappingValueOrThrow(
-  mapping: Record<string, string[]>,
+  mapping: Map<string, string[]>,
   value: string
 ): string {
-  for (const key in mapping) {
-    if (!mapping.hasOwnProperty(key)) {
-      continue;
-    }
-
-    if ((mapping[key] ?? []).includes(value)) {
+  for (const key of Array.from(mapping.keys())) {
+    if ((mapping.get(key) ?? []).includes(value)) {
       return key;
     }
   }
 
-  throw new SchematicsException(
-    `Given value ${value} not found in ${JSON.stringify(mapping)}`
-  );
+  throw new SchematicsException(`Value ${value} not found in the given map.`);
 }
 
 /**
