@@ -199,6 +199,7 @@ export const SCHEMATICS_CONFIGS: FeatureConfig[] = [
   EPD_SCHEMATICS_CONFIG,
 ];
 
+// TODO:#schematics - convert to Maps?
 /**
  * Maps sub-features to their parent feature.
  */
@@ -227,6 +228,7 @@ export const {
    * ...
    * }
    */
+  // TODO:#schematics - should actually be `featureFeatureModule`
   libraryFeatureModuleMapping,
   /**
    * Mapping of root feature-modules to the Spartacus library.
@@ -240,6 +242,7 @@ export const {
    * ...
    * }
    */
+  // TODO:#schematics - should actually be `featureRootModule`
   libraryRootModuleMapping,
   /**
    * Mapping of schematics configurations to the Spartacus library.

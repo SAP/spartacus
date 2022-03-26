@@ -141,6 +141,36 @@ export interface FeatureConfig {
    */
   // TODO:#schematics - remove after wrapper modules
   recreate?: boolean;
+  /**
+   * Configuration for generating the wrapper modules.
+   *
+   * The key is the feature name for which wrapper module is being generated.
+   * The value is the feature module configuration which will be
+   * used to determine if the wrapper module is already created.
+   *
+   * E.g., the B2B Checkout's configuration is:
+   *
+   *
+   * wrappers: {
+   *  [CLI_CHECKOUT_BASE_FEATURE]: {
+   *  importPath: '@spartacus/checkout/base',
+   *  name: 'CheckoutModule',
+   * }
+   *
+   * // TODO:#schematics - adjust the import paths
+   * While the CDC's configuration is a bit more complex:
+   * wrappers: {
+   *  [CLI_USER_ACCOUNT_FEATURE]: {
+   *  importPath: '@spartacus/cdc/account',
+   *  name: 'CdcAccountModule',
+   *  },
+   *  [CLI_USER_PROFILE_FEATURE]: {
+   *    importPath: '@spartacus/cdc/profile',
+   *    name: 'CdcProfileModule',
+   *   },
+   *  },
+   */
+  wrappers?: Record<string, Module>;
 }
 
 export interface CustomConfig {

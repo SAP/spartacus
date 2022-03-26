@@ -15,7 +15,7 @@ import {
   SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
   SPARTACUS_ORDER,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { FeatureConfig, Module } from '../utils/lib-utils';
 
 export const CHECKOUT_FOLDER_NAME = 'checkout';
 export const CHECKOUT_SCSS_FILE_NAME = 'checkout.scss';
@@ -28,6 +28,10 @@ export const CHECKOUT_BASE_TRANSLATIONS = 'checkoutTranslations';
 export const CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG =
   'checkoutTranslationChunksConfig';
 
+const CHECKOUT_FEATURE_MODULE: Module = {
+  name: CHECKOUT_BASE_MODULE,
+  importPath: SPARTACUS_CHECKOUT_BASE,
+};
 export const CHECKOUT_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
     cli: CLI_CHECKOUT_BASE_FEATURE,
@@ -36,10 +40,7 @@ export const CHECKOUT_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
   },
   folderName: CHECKOUT_FOLDER_NAME,
   moduleName: CHECKOUT_BASE_MODULE_NAME,
-  featureModule: {
-    name: CHECKOUT_BASE_MODULE,
-    importPath: SPARTACUS_CHECKOUT_BASE,
-  },
+  featureModule: CHECKOUT_FEATURE_MODULE,
   rootModule: {
     name: CHECKOUT_BASE_ROOT_MODULE,
     importPath: SPARTACUS_CHECKOUT_BASE_ROOT,
@@ -69,6 +70,10 @@ export const CHECKOUT_B2B_TRANSLATIONS = 'checkoutB2BTranslations';
 export const CHECKOUT_B2B_TRANSLATION_CHUNKS_CONFIG =
   'checkoutB2BTranslationChunksConfig';
 
+const CHECKOUT_B2B_FEATURE_MODULE: Module = {
+  name: CHECKOUT_B2B_MODULE,
+  importPath: SPARTACUS_CHECKOUT_B2B,
+};
 export const CHECKOUT_B2B_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
     cli: CLI_CHECKOUT_B2B_FEATURE,
@@ -77,10 +82,7 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: FeatureConfig = {
   },
   folderName: CHECKOUT_FOLDER_NAME,
   moduleName: CHECKOUT_BASE_MODULE_NAME,
-  featureModule: {
-    name: CHECKOUT_B2B_MODULE,
-    importPath: SPARTACUS_CHECKOUT_B2B,
-  },
+  featureModule: CHECKOUT_B2B_FEATURE_MODULE,
   rootModule: {
     name: CHECKOUT_B2B_ROOT_MODULE,
     importPath: SPARTACUS_CHECKOUT_B2B_ROOT,
@@ -102,6 +104,9 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: FeatureConfig = {
     // TODO:#schematics - remove once we have wrapper modules
     [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
     [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_BASE_FEATURE],
+  },
+  wrappers: {
+    [CLI_CHECKOUT_BASE_FEATURE]: CHECKOUT_FEATURE_MODULE,
   },
   recreate: true,
 };
@@ -149,6 +154,9 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: FeatureConfig =
       // TODO:#schematics - remove once we have wrapper modules
       [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
       [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_B2B_FEATURE],
+    },
+    wrappers: {
+      [CLI_CHECKOUT_B2B_FEATURE]: CHECKOUT_B2B_FEATURE_MODULE,
     },
     recreate: true,
   };
