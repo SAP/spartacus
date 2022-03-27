@@ -24,11 +24,9 @@ jobs:
       - name: Install yarn
         run: npm install -g yarn
       - name: Package installation
-        run: yarn install
+        run: yarn --frozen-lockfile
       - name: Run unit tests for core and storefront
-        run: |
-          ls -al         
-          ci-scripts/unit-tests-core-lib.sh
+        run: ci-scripts/unit-tests-core-lib.sh
   unitTestsLibs:
     name: Unit tests libs
     runs-on: ubuntu-latest
@@ -43,11 +41,9 @@ jobs:
       - name: Install yarn
         run: npm install -g yarn
       - name: Package installation
-        run: yarn install
+        run: yarn --frozen-lockfile
       - name: Run unit tests for libs
-        run: |
-          ls -al         
-          ci-scripts/unit-tests-core-lib.sh
+        run: ci-scripts/unit-tests-core-lib.sh
   linting:
     name: linting
     runs-on: ubuntu-latest
@@ -62,8 +58,6 @@ jobs:
       - name: Install yarn
         run: npm install -g yarn
       - name: Package installation
-        run: yarn install
+        run: yarn --frozen-lockfile
       - name: linting
-        run: |
-          ls -al         
-          ci-scripts/validate-lint.sh
+        run: ci-scripts/validate-lint.sh
