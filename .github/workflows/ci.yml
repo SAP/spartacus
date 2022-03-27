@@ -32,9 +32,6 @@ jobs:
   unitTestsLibs:
     name: Unit tests libs
     runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
@@ -54,9 +51,6 @@ jobs:
   linting:
     name: linting
     runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
@@ -73,17 +67,3 @@ jobs:
         run: |
           ls -al         
           ci-scripts/validate-lint.sh
-  e2eTestsB2B1:
-    name: Cypress e2e tests B2B job1
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:
-          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-        run: |
-          ls -al         
-          export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b
