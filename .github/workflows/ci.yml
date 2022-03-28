@@ -23,8 +23,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-          cache: 'yarn'
-          cache-dependency-path: '**/package-lock.json'
+      - uses: actions/cache@v3
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -39,7 +44,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-          cache: 'yarn'
+      - uses: actions/cache@v3
+        id: yarn-cache
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
