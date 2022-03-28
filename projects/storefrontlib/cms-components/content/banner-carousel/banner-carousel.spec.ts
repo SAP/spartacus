@@ -62,6 +62,6 @@ describe('CreateComponent', () => {
   });
 
   it('should get items', () => {
-    expect(bannerCarouselComponent.getItems()).toBeTruthy();
+    expect(bannerCarouselComponent.getItems()).toBeFalsy();
   });
 });
