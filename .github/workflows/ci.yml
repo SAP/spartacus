@@ -16,7 +16,6 @@ jobs:
   no_retry: 
     name: No retry allowed. Please push an empty commit.
     runs-on: ubuntu-latest
-    uses: actions/github-script@v5
     if: ${{ github.run_attemp > 1 }}
     steps:
       - name: Required CI failed
