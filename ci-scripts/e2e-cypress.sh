@@ -57,47 +57,45 @@ fi
 echo '-----'
 echo "Building Spartacus libraries"
 
-echo "test ${GITHUB_EVENT_NAME}"
+yarn install
 
-# yarn install
+(cd projects/storefrontapp-e2e-cypress && yarn install)
 
-# (cd projects/storefrontapp-e2e-cypress && yarn install)
+yarn build:libs 2>&1 | tee build.log
 
-# yarn build:libs 2>&1 | tee build.log
+results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
+if [[ -z "${results}" ]]; then
+    echo "Success: Spartacus production build was successful."
+    rm build.log
+else
+    echo "ERROR: Spartacus production build failed. Check the import statements. 'Warning: Can't resolve all parameters for ...' found in the build log."
+    rm build.log
+    exit 1
+fi
+echo '-----'
+echo "Building Spartacus storefrontapp"
+yarn build
 
-# results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
-# if [[ -z "${results}" ]]; then
-#     echo "Success: Spartacus production build was successful."
-#     rm build.log
-# else
-#     echo "ERROR: Spartacus production build failed. Check the import statements. 'Warning: Can't resolve all parameters for ...' found in the build log."
-#     rm build.log
-#     exit 1
-# fi
-# echo '-----'
-# echo "Building Spartacus storefrontapp"
-# yarn build
+if [[ "${SSR}" = true ]]; then
+    echo "Building Spartacus storefrontapp (SSR PROD mode)"
+    yarn build:ssr:ci
 
-# if [[ "${SSR}" = true ]]; then
-#     echo "Building Spartacus storefrontapp (SSR PROD mode)"
-#     yarn build:ssr:ci
+    echo "Starting Spartacus storefrontapp in SSR mode"
+    (yarn serve:ssr:ci &)
 
-#     echo "Starting Spartacus storefrontapp in SSR mode"
-#     (yarn serve:ssr:ci &)
+    echo '-----'
+    echo "Running SSR Cypress smoke test"
 
-#     echo '-----'
-#     echo "Running SSR Cypress smoke test"
+    yarn e2e:run:ci:ssr
+else
+    yarn start:pwa &
 
-#     yarn e2e:run:ci:ssr
-# else
-#     yarn start:pwa &
+    echo '-----'
+    echo "Running Cypress end to end tests"
 
-#     echo '-----'
-#     echo "Running Cypress end to end tests"
-
-#     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-#         yarn e2e:run:ci:core"${SUITE}"
-#     else
-#         yarn e2e:run:ci"${SUITE}"
-#     fi
-# fi
+    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+        yarn e2e:run:ci:core"${SUITE}"
+    else
+        yarn e2e:run:ci"${SUITE}"
+    fi
+fi
