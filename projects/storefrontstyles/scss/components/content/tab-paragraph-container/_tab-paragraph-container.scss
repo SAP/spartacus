@@ -73,6 +73,7 @@ $useAccordionOnly: false !default;
 
     > div {
       &:not(.active) {
+        background: var(--cx-color-background);
         display: none;
       }
       .container > h2 {
