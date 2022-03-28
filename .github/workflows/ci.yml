@@ -139,5 +139,5 @@ jobs:
           echo b2c ${{ toJSON(needs.b2c_e2e_test_1) }}
           echo b2b ${{ toJSON(needs.b2b_e2e_test_1) }} 
           echo test
-          echo job status 1 ${{ b2c_e2e_test_1.status }}
-          echo job status 2 ${{ b2b_e2e_test_1.status }}
+          echo job status 1 ${{ needs.b2c_e2e_test_1.status }}
+          echo job status 2 ${{ needs.b2b_e2e_test_1.status }}
