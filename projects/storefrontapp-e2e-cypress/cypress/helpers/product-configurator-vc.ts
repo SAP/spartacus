@@ -90,9 +90,18 @@ export function clickOnConfigureBtnInCatalog(): void {
 }
 
 /**
+ * Verifies whether the ghost animation is not displayed.
+ */
+export function checkGhostAnimationNotDisplayed(): void {
+  cy.log('Wait until the ghost animation is not displayed anymore');
+  cy.get('.ghost').should('not.exist');
+}
+
+/**
  * Verifies whether the configuration page is displayed.
  */
 export function checkConfigPageDisplayed(): void {
+  checkGhostAnimationNotDisplayed();
   checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
   configuration.checkTabBarDisplayed();
@@ -100,7 +109,7 @@ export function checkConfigPageDisplayed(): void {
   configuration.checkGroupFormDisplayed();
   configuration.checkPreviousAndNextBtnsDispalyed();
   configuration.checkPriceSummaryDisplayed();
-  configuration.checkAddToCartBtnDisplayed();
+  //configuration.checkAddToCartBtnDisplayed(); //the add to cart button could be overlayed by the cookies button. The caller has to check that the add to cart button is visible.
   checkProductTitleDisplayed();
   configuration.checkShowMoreLinkAtProductTitleDisplayed();
 }
@@ -163,7 +172,7 @@ export function checkImageSelected(
   const attributeId = configuration.getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
   cy.log('valueId: ' + valueId);
-  cy.get(`#${valueId}`).should('be.checked');
+  cy.get(`#${valueId}`).should('have.attr', 'aria-checked', 'true');
 }
 
 /**
@@ -197,6 +206,24 @@ export function checkConflictDetectedMsgNotDisplayed(
 export function checkConflictDescriptionDisplayed(description: string): void {
   cy.get('cx-configurator-conflict-description').should(($div) => {
     expect($div).to.contain(description);
+  });
+}
+
+/**
+ * Navigates to the configuration group that contains an attribute which is involved in a conflict.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfiguration(attribute: string): void {
+  checkGhostAnimationNotDisplayed();
+  cy.get('cx-configurator-attribute-header').within(() => {
+    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
+      cy.get('.cx-conflict-msg')
+        .click()
+        .then(() => {
+          checkGhostAnimationNotDisplayed();
+        });
+    });
   });
 }
 

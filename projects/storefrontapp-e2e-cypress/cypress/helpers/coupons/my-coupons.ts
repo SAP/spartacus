@@ -207,3 +207,17 @@ export function waitForGetCoupons(): string {
   }).as(aliasName);
   return `${aliasName}`;
 }
+
+export function testClaimCustomerCoupon() {
+  describe('Claim customer coupon', () => {
+    it('should claim customer coupon successfully', () => {
+      verifyClaimCouponSuccess(validCouponCode);
+      cy.saveLocalStorage();
+    });
+
+    it('should not claim invalid customer coupon', () => {
+      cy.restoreLocalStorage();
+      verifyClaimCouponFail(invalidCouponCode);
+    });
+  });
+}

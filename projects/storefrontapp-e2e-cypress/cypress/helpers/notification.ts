@@ -1,4 +1,5 @@
 import { login } from './auth-forms';
+import { waitForPage } from './checkout-flow';
 import { generateMail, randomString } from './user';
 
 export const normalProductCode = '872912';
@@ -6,37 +7,80 @@ export const firstProductCodeSelector =
   'cx-my-interests .cx-product-interests-product-item:first .cx-code';
 export const firstProductAscending = '4205431';
 export const firstProductDescending = '898520';
+export const NOTIFICATION_PREFERENCES_CHANGE_ENDPOINT_ALIAS =
+  'notificationPreferencesChange';
+export const GET_STOCK_NOTIFICATION_ENDPOINT_ALIAS =
+  'getStockNotificationEndpointAlias';
 
-// notification preference
-export function navigateToNotificationPreferencePage() {
+function navigateToNotificationPreferencePage() {
+  const alias = waitForPage(
+    '/my-account/notification-preference',
+    'notificationPreferencePage'
+  );
+
   cy.selectUserMenuOption({
     option: 'Notification Preference',
   });
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
-export function interceptNotificationPreferencesChange() {
+function navigateToMyInterestsPage() {
+  const alias = waitForPage('/my-account/my-interests', 'myInterestsPage');
+
+  cy.selectUserMenuOption({
+    option: 'My Interests',
+  });
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+}
+
+function navigateToUpdateEmailPage() {
+  const alias = waitForPage('/my-account/update-email', 'updateEmailPage');
+
+  cy.selectUserMenuOption({
+    option: 'Email Address',
+  });
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
+}
+
+function interceptNotificationPreferencesChange() {
   cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/current/notificationpreferences*`
-  ).as('notificationPreferencesChange');
+  ).as(NOTIFICATION_PREFERENCES_CHANGE_ENDPOINT_ALIAS);
+
+  return NOTIFICATION_PREFERENCES_CHANGE_ENDPOINT_ALIAS;
+}
+
+function interceptGetStockNotification() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields*`
+  ).as(GET_STOCK_NOTIFICATION_ENDPOINT_ALIAS);
+
+  return GET_STOCK_NOTIFICATION_ENDPOINT_ALIAS;
 }
 
 export function enableNotificationChannel() {
   navigateToNotificationPreferencePage();
-  interceptNotificationPreferencesChange();
+  const notificationPreferencesChange =
+    interceptNotificationPreferencesChange();
+
   cy.get('[type="checkbox"]').first().check();
-  cy.wait('@notificationPreferencesChange')
+  cy.wait(`@${notificationPreferencesChange}`)
     .its('response.statusCode')
     .should('eq', 200);
 }
 
 export function disableNotificationChannel() {
-  navigateToNotificationPreferencePage();
-  interceptNotificationPreferencesChange();
+  const notificationPreferencesChange =
+    interceptNotificationPreferencesChange();
+
   cy.get('[type="checkbox"]').first().uncheck();
-  cy.wait('@notificationPreferencesChange')
+  cy.wait(`@${notificationPreferencesChange}`)
     .its('response.statusCode')
     .should('eq', 200);
 }
@@ -44,9 +88,9 @@ export function disableNotificationChannel() {
 export function updateEmail(): String {
   const password = 'Password123.';
   const newUid = generateMail(randomString(), true);
-  cy.selectUserMenuOption({
-    option: 'Email Address',
-  });
+
+  navigateToUpdateEmailPage();
+
   cy.get('cx-update-email [formcontrolname="email"]').type(newUid);
   cy.get('cx-update-email [formcontrolname="confirmEmail"]').type(newUid);
   cy.get('cx-update-email [formcontrolname="password"]').type(password);
@@ -95,17 +139,31 @@ export function subscribeStockNotification(productCode: string) {
 
 export function unsubscribeStockNotification(productCode: string) {
   navigateToPDP(productCode);
+
+  const getStockNotification = interceptGetStockNotification();
+
   cy.get('cx-stock-notification > .btn')
     .should('contain', 'STOP NOTIFICATION')
     .click();
+
+  cy.wait(`@${getStockNotification}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function clickNotifyMeBtn(productCode: string) {
   navigateToPDP(productCode);
+
+  const getStockNotification = interceptGetStockNotification();
+
   cy.get('cx-stock-notification > .btn')
     .should('contain', 'NOTIFY ME')
     .should('not.be.disabled')
-    .click();
+    .click({ force: true });
+
+  cy.wait(`@${getStockNotification}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function verifyStockNotification() {
@@ -208,8 +266,12 @@ export function verifyPagingAndSorting() {
   cy.get('.cx-code > span').should('contain.text', 'ID 872912');
 }
 
-export function navigateToMyInterestsPage() {
-  cy.selectUserMenuOption({
-    option: 'My Interests',
+export function testEnableDisableNotification() {
+  it('should enable/disable notification preference', () => {
+    enableNotificationChannel();
+    cy.get('[type="checkbox"]').first().should('be.checked');
+
+    disableNotificationChannel();
+    cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }

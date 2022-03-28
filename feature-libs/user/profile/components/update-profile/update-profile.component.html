@@ -5,19 +5,25 @@
     <span class="label-content">{{
       'updateProfileForm.title' | cxTranslate
     }}</span>
-    <select formControlName="titleCode" class="form-control">
-      <option value="">{{ 'updateProfileForm.none' | cxTranslate }}</option>
-      <option *ngFor="let title of titles$ | async" [value]="title.code">
-        {{ title.name }}
-      </option>
-    </select>
+    <ng-select
+      [clearable]="false"
+      [searchable]="false"
+      formControlName="titleCode"
+    >
+      <ng-option [value]="">{{
+        'updateProfileForm.none' | cxTranslate
+      }}</ng-option>
+      <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{
+        title.name
+      }}</ng-option>
+    </ng-select>
   </label>
   <label>
     <span class="label-content">{{
       'updateProfileForm.firstName.label' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="text"
       class="form-control"
       name="firstName"
@@ -26,11 +32,7 @@
       }}"
       formControlName="firstName"
     />
-    <cx-form-errors
-      aria-live="assertive"
-      aria-atomic="true"
-      [control]="form.get('firstName')"
-    ></cx-form-errors>
+    <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
   </label>
 
   <label>
@@ -38,18 +40,14 @@
       'updateProfileForm.lastName.label' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="text"
       class="form-control"
       name="lastName"
       placeholder="{{ 'updateProfileForm.lastName.placeholder' | cxTranslate }}"
       formControlName="lastName"
     />
-    <cx-form-errors
-      aria-live="assertive"
-      aria-atomic="true"
-      [control]="form.get('lastName')"
-    ></cx-form-errors>
+    <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
   </label>
 
   <label>
@@ -57,18 +55,14 @@
       'updateProfileForm.customerId' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="text"
       class="form-control"
       name="customerId"
       formControlName="customerId"
       readonly
     />
-    <cx-form-errors
-      aria-live="assertive"
-      aria-atomic="true"
-      [control]="form.get('lastName')"
-    ></cx-form-errors>
+    <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
   </label>
 
   <a

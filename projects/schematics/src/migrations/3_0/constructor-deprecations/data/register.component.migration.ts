@@ -7,10 +7,12 @@ import {
   GLOBAL_MESSAGE_SERVICE,
   REGISTER_COMPONENT,
   ROUTING_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   USER_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const REGISTER_COMPONENT_MIGRATION: ConstructorDeprecation = {

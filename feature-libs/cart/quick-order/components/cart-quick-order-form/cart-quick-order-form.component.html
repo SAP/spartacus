@@ -10,9 +10,13 @@
             {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }}
           </label>
           <input
+            [attr.aria-label]="
+              'quickOrderCartForm.entryProductCode' | cxTranslate
+            "
             aria-required="true"
             class="form-control input-product-code"
             formControlName="productCode"
+            required="true"
             placeholder="{{
               'quickOrderCartForm.productCodePlaceholder' | cxTranslate
             }}"
@@ -25,28 +29,27 @@
             {{ 'quickOrderCartForm.quantityLabel' | cxTranslate }}
           </label>
           <input
+            [attr.aria-label]="'quickOrderCartForm.quantity' | cxTranslate"
             aria-required="true"
             class="form-control input-quantity"
             formControlName="quantity"
+            required="true"
             type="number"
           />
         </span>
         <button
+          [attr.aria-label]="'quickOrderCartForm.addToCart' | cxTranslate"
           [class.disabled]="cartIsLoading$ | async"
           [disabled]="cartIsLoading$ | async"
           class="btn btn-block btn-action apply-quick-order-button"
           type="submit"
         >
-          {{ 'quickOrderCartForm.addToCart' | cxTranslate }}
+          {{ 'quickOrderCartForm.add' | cxTranslate }}
         </button>
         <cx-form-errors
-          aria-live="assertive"
-          aria-atomic="true"
           [control]="quickOrderForm.get('productCode')"
         ></cx-form-errors>
         <cx-form-errors
-          aria-live="assertive"
-          aria-atomic="true"
           [control]="quickOrderForm.get('quantity')"
         ></cx-form-errors>
       </div>

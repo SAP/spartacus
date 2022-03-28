@@ -1,17 +1,26 @@
 <div
   *ngIf="content"
   class="cx-card"
+  [tabindex]="border ? 0 : -1"
+  [attr.role]="content.role ?? null"
+  [attr.aria-label]="
+    content.label ? (content.label | cxTranslate: { number: this.index }) : null
+  "
   [class.cx-card-border]="border"
   [class.cx-card-fit-to-container]="fitToContainer"
 >
   <!-- Card Header -->
-  <div *ngIf="content.header && !editMode" class="card-header">
+  <div
+    *ngIf="content.header && !editMode"
+    class="card-header"
+    [id]="'content-header' + (index >= 0 ? '-' + index : '')"
+  >
     {{ content.header }}
   </div>
   <!-- Card Body -->
   <div class="card-body cx-card-body" [class.cx-card-delete]="editMode">
     <!-- Edit message -->
-    <div *ngIf="editMode" class="cx-card-delete-msg">
+    <div *ngIf="editMode" role="alert" class="cx-card-delete-msg">
       {{ content.deleteMsg }}
     </div>
     <!-- Card title -->
@@ -54,11 +63,15 @@
     <!-- Edit Mode Actions -->
     <div *ngIf="editMode" class="row cx-card-body-delete">
       <div class="col-md-6">
-        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
+        <button
+          [cxAtMessage]="'assistiveMessage.actionCancelled' | cxTranslate"
+          class="btn btn-block btn-secondary"
+          (click)="cancelEdit()"
+        >
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6" [cxFocus]="{ autofocus: true }">
         <button class="btn btn-block btn-primary" (click)="delete()">
           {{ 'common.delete' | cxTranslate }}
         </button>
@@ -68,45 +81,50 @@
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
         <div [ngSwitch]="action.event">
-          <a
+          <button
+            type="button"
             *ngSwitchCase="'delete'"
-            class="cx-card-link card-link btn-link cx-action-link"
+            class="link cx-action-link"
             (click)="delete()"
-            (keydown.enter)="delete()"
-            tabindex="0"
-            >{{ action.name }}</a
           >
-          <a
+            {{ action.name }}
+          </button>
+          <button
+            type="button"
             *ngSwitchCase="'default'"
-            class="cx-card-link card-link btn-link cx-action-link"
+            class="link cx-action-link"
             (click)="setDefault()"
-            (keydown.enter)="setDefault()"
-            tabindex="0"
-            >{{ action.name }}</a
           >
-          <a
+            {{ action.name }}
+          </button>
+          <button
+            type="button"
             *ngSwitchCase="'send'"
-            class="cx-card-link card-link btn-link cx-action-link"
+            class="link cx-action-link"
             (click)="send()"
-            (keydown.enter)="send()"
-            tabindex="0"
-            >{{ action.name }}</a
+            [attr.aria-describedby]="
+              index >= 0 && content.header && !editMode
+                ? 'content-header-' + index
+                : null
+            "
           >
-          <a
+            {{ action.name }}
+          </button>
+          <button
+            type="button"
             *ngSwitchCase="'edit'"
-            class="cx-card-link card-link btn-link cx-action-link"
+            class="link cx-action-link"
             (click)="edit()"
-            (keydown.enter)="edit()"
-            tabindex="0"
-            >{{ action.name }}</a
           >
+            {{ action.name }}
+          </button>
           <a
             *ngSwitchDefault
             href="{{ action.link }}"
-            class="card-link btn-link cx-action-link"
-            tabindex="0"
-            >{{ action.name }}</a
+            class="link cx-action-link"
           >
+            {{ action.name }}
+          </a>
         </div>
       </div>
     </div>

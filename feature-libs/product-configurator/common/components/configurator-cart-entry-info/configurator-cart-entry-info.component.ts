@@ -1,7 +1,6 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
+import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
@@ -39,8 +38,7 @@ export class ConfiguratorCartEntryInfoComponent {
     const configurationInfos = item.configurationInfos;
 
     return configurationInfos
-      ? configurationInfos.length > 0 &&
-          configurationInfos[0]?.status !== 'NONE'
+      ? configurationInfos.length > 0 && configurationInfos[0].status !== 'NONE'
       : false;
   }
 
@@ -53,12 +51,11 @@ export class ConfiguratorCartEntryInfoComponent {
   isAttributeBasedConfigurator(item: OrderEntry): boolean {
     const configurationInfos = item.configurationInfos;
 
-    const attributeBased = configurationInfos
+    return configurationInfos
       ? this.commonConfigUtilsService.isAttributeBasedConfigurator(
           configurationInfos[0]?.configuratorType
         )
       : false;
-    return attributeBased ? attributeBased : false;
   }
 
   getHiddenConfigurationInfoId(index: number): string {

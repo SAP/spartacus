@@ -1,4 +1,4 @@
-<ng-container *ngIf="configuration$ | async as configuration">
+<ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
   <ng-container *ngIf="hasAttributes(configuration); else noAttributes">
     <ng-container
       *ngTemplateOutlet="
@@ -80,5 +80,24 @@
         "
       ></ng-container>
     </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #ghostForm>
+  <ng-container *ngFor="let number of [0, 1, 2]">
+    <div class="cx-ghost-group">
+      <div class="cx-ghost-header ghost"></div>
+      <div class="cx-ghost-body">
+        <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5]">
+          <div class="cx-ghost-attribute-value">
+            <div class="cx-ghost-value ghost"></div>
+          </div>
+          <div class="cx-ghost-attribute-label">
+            <div class="cx-ghost-label ghost"></div>
+          </div>
+          <div class="cx-ghost-attribute-price ghost"></div>
+        </ng-container>
+      </div>
+    </div>
   </ng-container>
 </ng-template>

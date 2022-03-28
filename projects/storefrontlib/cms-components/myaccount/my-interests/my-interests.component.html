@@ -6,6 +6,7 @@
     class="cx-product-interests-body"
     *ngIf="!(getInterestsloading$ | async); else loading"
   >
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <ng-container *ngIf="interests.pagination.totalCount > 0; else noInterest">
       <div class="cx-product-interests-sort top row">
         <label
@@ -157,7 +158,7 @@
                           | cxTranslate
                             : {
                                 expirationDate:
-                                  interestEntry.expirationDate | date
+                                  interestEntry.expirationDate | cxDate
                               }
                       }}
                     </span>

@@ -1,5 +1,9 @@
 <form [formGroup]="form" class="quick-order-form-container">
-  <div class="quick-order-form-input">
+  <div
+    class="quick-order-form-input"
+    role="search"
+    [attr.aria-label]="'quickOrderForm.quickOrderSearch' | cxTranslate"
+  >
     <input
       (blur)="onBlur($event)"
       (focus)="open()"
@@ -7,7 +11,10 @@
       (keydown.arrowup)="focusPreviousChild($event)"
       (keydown.enter)="addProduct($event)"
       (keydown.escape)="clear($event)"
-      [attr.aria-label]="'common.search' | cxTranslate"
+      [attr.aria-label]="
+        'quickOrderForm.searchBoxLabel' | cxTranslate: { limit: limit }
+      "
+      aria-controls="results"
       aria-describedby="quickOrderFormInitialDescription"
       class="form-control"
       formControlName="product"
@@ -38,16 +45,27 @@
     <span
       *ngIf="!(canAddProduct() | async) && form.get('product')?.dirty"
       class="list-limit-reached-text"
+      role="alert"
     >
       {{ 'quickOrderForm.listLimitReached' | cxTranslate }}
     </span>
   </div>
 
-  <div *ngIf="isResultsBoxOpen()" role="listbox" class="quick-order-results">
-    <ul *ngIf="results.length" class="quick-order-results-products">
+  <div
+    *ngIf="isResultsBoxOpen()"
+    class="quick-order-results"
+    role="dialog"
+    id="results"
+  >
+    <ul
+      *ngIf="results.length"
+      class="quick-order-results-products"
+      role="listbox"
+    >
       <li
         *ngFor="let product of results; let i = index"
         class="quick-order-results-product-container"
+        role="option"
       >
         <button
           (blur)="onBlur($event)"
@@ -56,9 +74,6 @@
           (keydown.arrowup)="focusPreviousChild($event)"
           (keydown.enter)="add(product, $event)"
           (keydown.escape)="clear($event)"
-          [attr.aria-label]="
-            'quickOrderForm.addProduct' | cxTranslate: { product: product.name }
-          "
           [class.has-media]="
             config?.quickOrder?.searchForm?.displayProductImages
           "
@@ -66,6 +81,7 @@
         >
           <cx-media
             *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
+            [alt]="product.name"
             [container]="product.images?.PRIMARY"
             class="media"
             format="thumbnail"

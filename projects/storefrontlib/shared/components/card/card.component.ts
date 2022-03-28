@@ -20,6 +20,8 @@ export interface Card {
   img?: string;
   actions?: Array<CardAction | CardLinkAction>;
   deleteMsg?: string;
+  label?: string;
+  role?: string;
 }
 
 @Component({
@@ -60,6 +62,9 @@ export class CardComponent implements OnInit {
 
   @Input()
   charactersLimit = 100;
+
+  @Input()
+  index: number;
 
   // ACTIONS
 

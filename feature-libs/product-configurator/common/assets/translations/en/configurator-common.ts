@@ -57,6 +57,8 @@ export const configurator = {
       remove: 'Remove',
       exit: 'Exit Configuration',
       exitMobile: 'Exit',
+      cancelConfiguration: 'Cancel Configuration',
+      cancelConfigurationMobile: 'Cancel',
     },
     priceSummary: {
       basePrice: 'Base Price',
@@ -85,7 +87,7 @@ export const configurator = {
       suggestionTitle: 'Suggestion {{number}}:',
       suggestionText: 'Change value for "{{ attribute }}"',
       viewConflictDetails: 'Conflict Detected',
-      viewConfigurationDetails: '',
+      viewConfigurationDetails: 'View In Configuration',
     },
     a11y: {
       configureProduct: 'Configure product',

@@ -1,3 +1,5 @@
+import { DeepPartial } from './form';
+
 export interface Address {
   line1: string;
   line2?: string;
@@ -28,51 +30,57 @@ export interface PaymentDetails {
 }
 
 export function fillShippingAddress(
-  shippingAddress: AddressData,
+  shippingAddress: Partial<AddressData>,
   submitForm: boolean = true
 ) {
   cy.get('button.btn-primary').should('be.visible');
-  cy.get('cx-page-layout').then((body) => {
-    // If the address form does not exists, shipping address has been added in previous
-    // spec attempt so we can continue
-    if (!body.find('cx-address-form').length) {
-      cy.get('button.btn-primary').click();
-    } else {
-      cy.get('cx-address-form').within(() => {
-        cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
-          shippingAddress.address.country
-        );
-        cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
-        cy.get('[formcontrolname="firstName"]')
+  cy.get('cx-address-form').within(() => {
+    if (shippingAddress) {
+      shippingAddress?.address?.country &&
+        cy
+          .get('.country-select[formcontrolname="isocode"]')
+          .ngSelect(shippingAddress.address.country);
+      cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+      shippingAddress?.firstName &&
+        cy
+          .get('[formcontrolname="firstName"]')
           .clear()
           .type(shippingAddress.firstName);
-        cy.get('[formcontrolname="lastName"]')
+
+      shippingAddress?.lastName &&
+        cy
+          .get('[formcontrolname="lastName"]')
           .clear()
           .type(shippingAddress.lastName);
-        cy.get('[formcontrolname="line1"]')
+      shippingAddress?.address?.line1 &&
+        cy
+          .get('[formcontrolname="line1"]')
           .clear()
           .type(shippingAddress.address.line1);
-        if (shippingAddress.address.line2) {
-          cy.get('[formcontrolname="line2"]')
-            .clear()
-            .type(shippingAddress.address.line2);
-        }
-        cy.get('[formcontrolname="town"]')
+      shippingAddress?.address?.line2 &&
+        cy
+          .get('[formcontrolname="line2"]')
+          .clear()
+          .type(shippingAddress.address.line2);
+      shippingAddress?.address?.city &&
+        cy
+          .get('[formcontrolname="town"]')
           .clear()
           .type(shippingAddress.address.city);
-        if (shippingAddress.address.state) {
-          cy.get('.region-select[formcontrolname="isocode"]').ngSelect(
-            shippingAddress.address.state
-          );
-        }
-        cy.get('[formcontrolname="postalCode"]')
+      shippingAddress?.address?.state &&
+        cy
+          .get('.region-select[formcontrolname="isocode"]')
+          .ngSelect(shippingAddress.address.state);
+      shippingAddress?.address?.postal &&
+        cy
+          .get('[formcontrolname="postalCode"]')
           .clear()
           .type(shippingAddress.address.postal);
+      shippingAddress?.phone &&
         cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
-        if (submitForm) {
-          cy.get('button.btn-primary').click();
-        }
-      });
+    }
+    if (submitForm) {
+      cy.get('button.btn-primary').click();
     }
   });
 }
@@ -110,25 +118,38 @@ export function fillBillingAddress(billingAddress: AddressData) {
 }
 
 export function fillPaymentDetails(
-  paymentDetails: PaymentDetails,
+  paymentDetails: DeepPartial<PaymentDetails>,
   billingAddress?: AddressData,
   submitForm: boolean = true
 ) {
   cy.get('cx-payment-form').within(() => {
-    cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);
-    cy.get('[formcontrolname="accountHolderName"]')
-      .clear()
-      .type(paymentDetails.fullName);
-    cy.get('[formcontrolname="cardNumber"]')
-      .clear()
-      .type(paymentDetails.payment.number);
-    cy.get('[formcontrolname="expiryMonth"]').ngSelect(
-      paymentDetails.payment.expires.month
-    );
-    cy.get('[formcontrolname="expiryYear"]').ngSelect(
-      paymentDetails.payment.expires.year
-    );
-    cy.get('[formcontrolname="cvn"]').clear().type(paymentDetails.payment.cvv);
+    if (paymentDetails) {
+      paymentDetails?.payment?.card &&
+        cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);
+      paymentDetails?.fullName &&
+        cy
+          .get('[formcontrolname="accountHolderName"]')
+          .clear()
+          .type(paymentDetails.fullName);
+      paymentDetails?.payment?.number &&
+        cy
+          .get('[formcontrolname="cardNumber"]')
+          .clear()
+          .type(paymentDetails.payment.number);
+      paymentDetails?.payment?.expires?.month &&
+        cy
+          .get('[formcontrolname="expiryMonth"]')
+          .ngSelect(paymentDetails.payment.expires.month);
+      paymentDetails?.payment?.expires?.year &&
+        cy
+          .get('[formcontrolname="expiryYear"]')
+          .ngSelect(paymentDetails.payment.expires.year);
+      paymentDetails?.payment?.cvv &&
+        cy
+          .get('[formcontrolname="cvn"]')
+          .clear()
+          .type(paymentDetails.payment.cvv);
+    }
     if (billingAddress) {
       fillBillingAddress(billingAddress);
     } else {
@@ -142,7 +163,10 @@ export function fillPaymentDetails(
        * Was reported in the ec-spartacus-release https://sap-cx.slack.com/archives/GLJ5MR1LL/p1586937731001500
        */
       //cy.wait(3000);
-      cy.get('button.btn.btn-block.btn-primary').contains('Continue').click();
+      cy.get('button.btn.btn-block.btn-primary')
+        .should('be.enabled')
+        .contains('Continue')
+        .click();
     }
   });
 }

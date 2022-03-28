@@ -21,15 +21,20 @@
       *ngIf="!(addressesStateLoading$ | async); else loading"
     >
       <div
-        *ngFor="let address of addresses$ | async"
+        role="status"
+        [attr.aria-label]="'common.loaded' | cxTranslate"
+      ></div>
+      <div
+        *ngFor="let address of addresses$ | async; let i = index"
         class="col-md-6 cx-address-card"
       >
         <cx-card
+          [index]="i"
           [border]="true"
           [fitToContainer]="true"
           [content]="getCardContent(address) | async"
           (editCard)="editAddressButtonHandle(address)"
-          (setDefaultCard)="setAddressAsDefault(address.id)"
+          (setDefaultCard)="setAddressAsDefault(address)"
           (deleteCard)="setEdit(address.id)"
           [editMode]="address.id === editCard"
           (cancelCard)="cancelCard()"
@@ -41,7 +46,7 @@
   <ng-container *ngIf="!(addresses$ | async).length || showAddAddressForm">
     <section>
       <p class="cx-section-msg">
-        {{ 'addressBook.addNewShippingAddress' | cxTranslate }}
+        {{ 'addressBook.addNewDeliveryAddress' | cxTranslate }}
       </p>
       <cx-address-form
         class="cx-form"
@@ -60,7 +65,7 @@
   <ng-container *ngIf="showEditAddressForm">
     <section>
       <p class="cx-section-msg">
-        {{ 'addressBook.editShippingAddress' | cxTranslate }}
+        {{ 'addressBook.editDeliveryAddress' | cxTranslate }}
       </p>
       <cx-address-form
         showTitleCode="true"

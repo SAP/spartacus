@@ -1,54 +1,56 @@
-<label class="searchbox" [class.dirty]="!!searchInput.value">
-  <input
-    #searchInput
-    [placeholder]="'searchBox.placeholder' | cxTranslate"
-    autocomplete="off"
-    aria-describedby="initialDescription"
-    aria-controls="results"
-    [attr.aria-label]="'common.search' | cxTranslate"
-    (focus)="open()"
-    (click)="open()"
-    (input)="search(searchInput.value)"
-    (blur)="close($event)"
-    (keydown.escape)="close($event)"
-    (keydown.enter)="
-      close($event, true);
-      launchSearchResult($event, searchInput.value);
-      updateChosenWord(searchInput.value)
-    "
-    (keydown.arrowup)="focusPreviousChild($event)"
-    (keydown.arrowdown)="focusNextChild($event)"
-    value="{{ chosenWord }}"
-  />
+<div [attr.aria-label]="'searchBox.productSearch' | cxTranslate" role="search">
+  <label class="searchbox" [class.dirty]="!!searchInput.value">
+    <input
+      #searchInput
+      [placeholder]="'searchBox.placeholder' | cxTranslate"
+      autocomplete="off"
+      aria-describedby="initialDescription"
+      aria-controls="results"
+      [attr.aria-label]="'searchBox.placeholder' | cxTranslate"
+      (focus)="open()"
+      (click)="open()"
+      (input)="search(searchInput.value)"
+      (blur)="close($event)"
+      (keydown.escape)="close($event)"
+      (keydown.enter)="
+        close($event, true);
+        launchSearchResult($event, searchInput.value);
+        updateChosenWord(searchInput.value)
+      "
+      (keydown.arrowup)="focusPreviousChild($event)"
+      (keydown.arrowdown)="focusNextChild($event)"
+      value="{{ chosenWord }}"
+    />
 
-  <button
-    [attr.aria-label]="'common.reset' | cxTranslate"
-    (mousedown)="clear(searchInput)"
-    (keydown.enter)="clear(searchInput)"
-    class="reset"
-  >
-    <cx-icon [type]="iconTypes.RESET"></cx-icon>
-  </button>
+    <button
+      [attr.aria-label]="'common.reset' | cxTranslate"
+      (mousedown)="clear(searchInput)"
+      (keydown.enter)="clear(searchInput)"
+      class="reset"
+    >
+      <cx-icon [type]="iconTypes.RESET"></cx-icon>
+    </button>
 
-  <div role="presentation" class="search-icon">
-    <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
-  </div>
+    <div role="presentation" class="search-icon">
+      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+    </div>
 
-  <button
-    [attr.aria-label]="'common.search' | cxTranslate"
-    class="search"
-    (click)="open()"
-  >
-    <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
-  </button>
-</label>
+    <button
+      [attr.aria-label]="'common.search' | cxTranslate"
+      class="search"
+      (click)="open()"
+    >
+      <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+    </button>
+  </label>
+</div>
 
 <div
   *ngIf="results$ | async as result"
   class="results"
   id="results"
   (click)="close($event, true)"
-  role="listbox"
+  role="dialog"
 >
   <div
     *ngIf="result.message"
@@ -59,10 +61,11 @@
   <ul
     class="suggestions"
     attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
-    tabindex="0"
+    role="listbox"
   >
     <li *ngFor="let suggestion of result.suggestions">
       <a
+        role="option"
         [innerHTML]="suggestion | cxHighlight: searchInput.value"
         [routerLink]="
           {
@@ -93,10 +96,11 @@
     class="products"
     *ngIf="result.products"
     attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
-    tabindex="0"
+    role="listbox"
   >
     <li *ngFor="let product of result.products">
       <a
+        role="option"
         [routerLink]="
           {
             cxRoute: 'product',

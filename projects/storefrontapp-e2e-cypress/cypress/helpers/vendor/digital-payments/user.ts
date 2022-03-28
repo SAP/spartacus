@@ -24,8 +24,8 @@ export function checkoutShippingAddress() {
     '/checkout/delivery-mode',
     'getDeliveryModePage'
   );
-  cy.get('cx-shipping-address').within(() => {
-    cy.get('cx-card').eq(0).findByText('Selected');
+  cy.get('cx-delivery-address').within(() => {
+    cy.findByText('Selected');
     cy.get('cx-card')
       .eq(0)
       .within(() => {

@@ -8,8 +8,11 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, ReplenishmentOrder } from '@spartacus/core';
-import { ReplenishmentOrderFacade } from '@spartacus/order/root';
+import { I18nTestingModule } from '@spartacus/core';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderHistoryFacade,
+} from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation.component';
@@ -25,7 +28,9 @@ const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
   mockReplenishmentOrder
 );
 
-class MockUserReplenishmentOrderService {
+class MockReplenishmentOrderHistoryFacade
+  implements Partial<ReplenishmentOrderHistoryFacade>
+{
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return mockReplenishmentOrder$.asObservable();
   }
@@ -51,7 +56,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 describe('ReplenishmentOrderCancellationComponent', () => {
   let component: ReplenishmentOrderCancellationComponent;
-  let userReplenishmentOrderService: ReplenishmentOrderFacade;
+  let replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade;
   let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationComponent>;
   let el: DebugElement;
@@ -63,8 +68,8 @@ describe('ReplenishmentOrderCancellationComponent', () => {
         declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
         providers: [
           {
-            provide: ReplenishmentOrderFacade,
-            useClass: MockUserReplenishmentOrderService,
+            provide: ReplenishmentOrderHistoryFacade,
+            useClass: MockReplenishmentOrderHistoryFacade,
           },
           {
             provide: LaunchDialogService,
@@ -77,7 +82,9 @@ describe('ReplenishmentOrderCancellationComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);
-    userReplenishmentOrderService = TestBed.inject(ReplenishmentOrderFacade);
+    replenishmentOrderHistoryFacade = TestBed.inject(
+      ReplenishmentOrderHistoryFacade
+    );
     launchDialogService = TestBed.inject(LaunchDialogService);
 
     component = fixture.componentInstance;
@@ -92,7 +99,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   it('should be able to get replenishment order details', () => {
     let result: ReplenishmentOrder;
 
-    userReplenishmentOrderService
+    replenishmentOrderHistoryFacade
       .getReplenishmentOrderDetails()
       .subscribe((data) => (result = data))
       .unsubscribe();

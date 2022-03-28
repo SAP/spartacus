@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import {
@@ -46,7 +46,7 @@ describe('ConfiguratorGroupsService', () => {
           ConfiguratorGroupStatusService,
           ConfiguratorUtilsService,
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {
@@ -223,7 +223,7 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('getPreviousGroupId', () => {
-    it('should return null', (done) => {
+    it('should return null in case commons service returns an undefined configuration', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(undefined)
       );
