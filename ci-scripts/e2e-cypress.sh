@@ -57,7 +57,7 @@ fi
 echo '-----'
 echo "Building Spartacus libraries"
 
-echo "test ${GITHUB_EVENT_NAME}"
+echo "test something ${GITHUB_EVENT_NAME}"
 
 # yarn install
 
