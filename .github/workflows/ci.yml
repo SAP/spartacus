@@ -13,8 +13,20 @@ env:
 
 name: Spartacus CI pipeline
 jobs:
+  no_retry: 
+    name: No retry allowed. Please push an empty commit.
+    runs-on: ubuntu-latest
+    uses: actions/github-script@v5
+    if: ${{ github.run_attemp > 1 }}
+    steps:
+      - name: Required CI failed
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push an empty commit - git commit --allow-empty -m "Trigger Build"') 
   unit_tests_core:
     name: Unit tests for core Spartacus libs
+    needs: [no_retry]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -30,6 +42,7 @@ jobs:
         run: ci-scripts/unit-tests-core-lib.sh
   unit_tests_libs:
     name: Unit tests for integration libs
+    needs: [no_retry]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -45,6 +58,7 @@ jobs:
         run: ci-scripts/unit-tests.sh
   linting:
     name: Validation checks
+    needs: [no_retry]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -60,6 +74,7 @@ jobs:
         run: ci-scripts/validate-lint.sh
   b2c_e2e_tests_1:
     name: E2E tests for B2C, 1st job
+    needs: [no_retry]
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -73,6 +88,7 @@ jobs:
           ci-scripts/e2e-cypress.sh        
   b2c_e2e_tests_2:
     name: E2E tests for B2C, 2nd job
+    needs: [no_retry]
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -86,6 +102,7 @@ jobs:
           ci-scripts/e2e-cypress.sh
   b2c_e2e_tests_3:
     name: E2E tests for B2C, 3rd job
+    needs: [no_retry]
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -99,6 +116,7 @@ jobs:
           ci-scripts/e2e-cypress.sh
   b2c_e2e_tests_4:
     name: E2E tests for B2C, 4th job
+    needs: [no_retry]
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -112,6 +130,7 @@ jobs:
           ci-scripts/e2e-cypress.sh
   b2c_e2e_tests_5:
     name: E2E tests for B2C, 5th job
+    needs: [no_retry]
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -125,6 +144,7 @@ jobs:
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
     name: E2E tests for SSR B2C
+    needs: [no_retry]
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -136,6 +156,7 @@ jobs:
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests_1:
     name: E2E tests for B2B, 1st job
+    needs: [no_retry]
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -149,6 +170,7 @@ jobs:
           ci-scripts/e2e-cypress.sh -s b2b
   b2b_e2e_tests_2:
     name: E2E tests for B2B, 2nd job
+    needs: [no_retry]
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -162,6 +184,7 @@ jobs:
           ci-scripts/e2e-cypress.sh -s b2b
   lighthouse:
     name: Lighthouse score validation
+    needs: [no_retry]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -187,6 +210,7 @@ jobs:
           script: |
             core.setFailed('CI failed')  
         if: |
+          needs.no_retry == 'failure' ||
           needs.unit_tests_core.result == 'failure' ||
           needs.unit_tests_libsresult == 'failure' ||
           needs.linting.result == 'failure' ||
