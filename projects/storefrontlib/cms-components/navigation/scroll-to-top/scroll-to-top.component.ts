@@ -41,6 +41,10 @@ export class ScrollToTopComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.setConfig();
+  }
+
+  protected setConfig(): void {
     this.componentData.data$.pipe(take(1)).subscribe((data) => {
       this.scrollBehavior = data.scrollBehavior ?? this.scrollBehavior;
       this.displayThreshold = data.displayThreshold ?? this.displayThreshold;
