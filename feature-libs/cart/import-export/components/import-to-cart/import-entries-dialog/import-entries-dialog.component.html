@@ -4,7 +4,7 @@
   class="cx-import-entries-dialog"
   [cxFocus]="focusConfig"
 >
-  <div tabindex="0" class="cx-import-entries-container">
+  <div tabindex="-1" class="cx-import-entries-container">
     <!-- Modal Header -->
     <div class="modal-header cx-import-entries-header">
       <ng-container>
@@ -49,6 +49,7 @@
           [summary]="summary"
           [type]="context.type"
           (closeEvent)="close('Close Import Products Dialog')"
+       
         ></cx-import-entries-summary>
       </ng-template>
     </ng-container>
