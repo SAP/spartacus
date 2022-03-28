@@ -72,7 +72,6 @@ $useAccordionOnly: false !default;
     }
 
     > div {
-      background: var(--cx-color-background);
       &:not(.active) {
         display: none;
       }
@@ -218,5 +217,9 @@ $useAccordionOnly: false !default;
 
   .active {
     background-color: var(--cx-color-inverse);
+  }
+
+  .tab-info {
+    background-color: var(--cx-color-background);
   }
 }
