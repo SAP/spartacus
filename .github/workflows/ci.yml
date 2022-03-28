@@ -154,8 +154,7 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('test fail')
-            
+            core.setFailed('test fail')  
         if: |
           needs.b2c_e2e_test_1.status == 'failure' || 
-          needs.b2c_e2e_test_1.status == 'failure'
+          needs.b2b_e2e_test_1.status == 'failure'
