@@ -13,7 +13,18 @@ env:
 
 name: Spartacus CI pipeline
 jobs:
+  no_retries: 
+    name: No retries allowed. Please push an empty commit.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Force fail CI
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push an empty commit - git commit --allow-empty -m "Trigger Build"') 
+        if: ${{ github.run_attempt > 1 }}
   unit_tests_core:
+    needs: no_retries
     name: Unit tests for core Spartacus libs
     runs-on: ubuntu-latest
     steps:
@@ -29,6 +40,7 @@ jobs:
       - name: Run unit tests for core and storefront
         run: ci-scripts/unit-tests-core-lib.sh
   unit_tests_libs:
+    needs: no_retries
     name: Unit tests for integration libs
     runs-on: ubuntu-latest
     steps:
@@ -44,6 +56,7 @@ jobs:
       - name: Run unit tests for libs
         run: ci-scripts/unit-tests.sh
   linting:
+    needs: no_retries
     name: Validation checks
     runs-on: ubuntu-latest
     steps:
@@ -59,6 +72,7 @@ jobs:
       - name: linting
         run: ci-scripts/validate-lint.sh
   b2c_e2e_tests:
+    needs: no_retries
     name: E2E tests for B2C
     runs-on: ubuntu-latest
     defaults:
@@ -75,6 +89,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
+    needs: no_retries
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
     defaults:
@@ -86,6 +101,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
+    needs: no_retries
     name: E2E tests for B2B
     runs-on: ubuntu-latest
     defaults:
@@ -102,6 +118,7 @@ jobs:
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   lighthouse:
+    needs: no_retries
     name: Lighthouse score validation
     runs-on: ubuntu-latest
     steps:
@@ -128,6 +145,7 @@ jobs:
           script: |
             core.setFailed('CI failed')
         if: |
+          needs.no_retries.result == 'failure' ||
           needs.unit_tests_core.result == 'failure' ||
           needs.unit_tests_libsresult == 'failure' ||
           needs.linting.result == 'failure' ||
