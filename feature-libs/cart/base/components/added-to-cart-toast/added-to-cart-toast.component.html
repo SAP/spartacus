@@ -1,6 +1,10 @@
 <ng-container *ngIf="cartToasts$ | async as cartToasts">
   <div *ngFor="let toast of cartToasts" [class]="toast.baseClass">
-    <div class="added-to-cart-toast-title">
+    <div
+      class="added-to-cart-toast-title"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       {{
         toast.quantity > 1
           ? ('cartToast.entriesAdded'
