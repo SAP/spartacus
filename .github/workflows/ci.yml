@@ -136,8 +136,8 @@ jobs:
     steps:
       - name: Run e2es
         run: |
-          echo b2c ${{ toJSON(needs.b2c_e2e_test_1) }}
-          echo b2b ${{ toJSON(needs.b2b_e2e_test_1) }} 
+          echo b2c ${{ toJSON(needs.b2c_e2e_test_1).status }}
+          echo b2b ${{ toJSON(needs.b2b_e2e_test_1).status }} 
           echo test
-          echo job status 1 ${{ needs.b2c_e2e_test_1.status }}
-          echo job status 2 ${{ needs.b2b_e2e_test_1.status }}
+          echo job status 1 ${{ fromJSON(needs.b2c_e2e_test_1.status).status }}
+          echo job status 2 ${{ fromJSON(needs.b2b_e2e_test_1.status).status }}
