@@ -181,6 +181,9 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
+      - name: test
+        run: |
+          echo test ${GITHUB_EVENT_NAME}
       - name: Required CI failed
         uses: actions/github-script@v5
         with:
