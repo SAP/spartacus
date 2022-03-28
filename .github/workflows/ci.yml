@@ -37,7 +37,7 @@ jobs:
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
-      - name: Run unit tests for core and storefront
+      - name: Run unit tests for Spartacus libs
         run: ci-scripts/unit-tests-core-lib.sh
   unit_tests_libs:
     needs: no_retries
@@ -53,7 +53,7 @@ jobs:
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
-      - name: Run unit tests for libs
+      - name: Run unit tests for integration libs
         run: ci-scripts/unit-tests.sh
   linting:
     needs: no_retries
@@ -69,7 +69,7 @@ jobs:
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
-      - name: linting
+      - name: Run linting validation
         run: ci-scripts/validate-lint.sh
   b2c_e2e_tests:
     needs: no_retries
@@ -131,7 +131,7 @@ jobs:
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
-      - name: Run unit tests for core and storefront
+      - name: Run lighthouse score validation
         run: ci-scripts/lhci.sh
   ci_conclusion:
     needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
