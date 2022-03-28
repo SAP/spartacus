@@ -228,7 +228,9 @@ describe('ConfigAttributeNumericInputFieldService', () => {
     it('should get minValue from infinite interval string', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         minValue: 5,
+        maxValue: undefined,
         minValueIncluded: false,
+        maxValueIncluded: false,
       };
       let value: Configurator.Value = {
         valueCode: '1',
@@ -240,7 +242,9 @@ describe('ConfigAttributeNumericInputFieldService', () => {
     it('should get minValue from infinite interval string, minValue included', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         minValue: 5,
+        maxValue: undefined,
         minValueIncluded: true,
+        maxValueIncluded: false,
       };
       let value: Configurator.Value = {
         valueCode: '1',
@@ -251,8 +255,10 @@ describe('ConfigAttributeNumericInputFieldService', () => {
 
     it('should get maxValue from interval string', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
+        minValue: undefined,
         maxValue: 5,
         maxValueIncluded: false,
+        minValueIncluded: false,
       };
       let value: Configurator.Value = {
         valueCode: '1',
@@ -263,12 +269,28 @@ describe('ConfigAttributeNumericInputFieldService', () => {
 
     it('should get maxValue from interval string, value included', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
+        minValue: undefined,
         maxValue: 5,
         maxValueIncluded: true,
+        minValueIncluded: false,
       };
       let value: Configurator.Value = {
         valueCode: '1',
         name: '≤5',
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(interval);
+    });
+
+    it('should get single value from interval string', () => {
+      let interval: ConfiguratorAttributeNumericInterval = {
+        maxValue: 5,
+        minValue: 5,
+        maxValueIncluded: false,
+        minValueIncluded: false,
+      };
+      let value: Configurator.Value = {
+        valueCode: '1',
+        name: '5',
       };
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
     });

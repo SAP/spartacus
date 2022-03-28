@@ -345,13 +345,14 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   describe('getIntervalText', () => {
-    let interval: ConfiguratorAttributeNumericInterval = {};
+    let interval: ConfiguratorAttributeNumericInterval = {
+      minValue: 5,
+      maxValue: 7,
+      minValueIncluded: true,
+      maxValueIncluded: true,
+    };
 
     it('should retun aria text for standard interval', fakeAsync(() => {
-      interval.minValue = 5;
-      interval.maxValue = 7;
-      interval.minValueIncluded = true;
-      interval.maxValueIncluded = true;
       fixture.detectChanges();
       tick(DEBOUNCE_TIME);
 
@@ -472,19 +473,22 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   describe('getIntervalTexts', () => {
-    let interval1: ConfiguratorAttributeNumericInterval = {};
-    let interval2: ConfiguratorAttributeNumericInterval = {};
+    let interval1: ConfiguratorAttributeNumericInterval = {
+      minValue: 5,
+      maxValue: 7,
+      minValueIncluded: true,
+      maxValueIncluded: true,
+    };
+    let interval2: ConfiguratorAttributeNumericInterval = {
+      minValue: 10,
+      maxValue: undefined,
+      minValueIncluded: true,
+      maxValueIncluded: false,
+    };
 
     it('should return concatenated aria text for multiple intervals', fakeAsync(() => {
-      interval1.minValue = 5;
-      interval1.maxValue = 7;
-      interval1.minValueIncluded = true;
-      interval1.maxValueIncluded = true;
       component.intervals = [];
       component.intervals.push(interval1);
-      interval2.minValue = 10;
-      interval2.maxValue = undefined;
-      interval2.minValueIncluded = true;
       component.intervals.push(interval2);
 
       fixture.detectChanges();
@@ -504,14 +508,14 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   });
 
   describe('getAriaLabelComplete', () => {
-    let interval: ConfiguratorAttributeNumericInterval = {};
+    let interval: ConfiguratorAttributeNumericInterval = {
+      minValue: 5,
+      maxValue: 7,
+      minValueIncluded: true,
+      maxValueIncluded: true,
+    };
 
     it('should return aria text for entered value including text for standard interval', fakeAsync(() => {
-      interval.minValue = 5;
-      interval.maxValue = 7;
-      interval.minValueIncluded = true;
-      interval.maxValueIncluded = true;
-
       component.intervals = [];
       component.intervals.push(interval);
       component.attribute.intervalInDomain = true;

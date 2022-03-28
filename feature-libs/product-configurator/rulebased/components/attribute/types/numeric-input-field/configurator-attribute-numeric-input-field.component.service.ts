@@ -10,8 +10,8 @@ import { Configurator } from '../../../../core/model/configurator.model';
 export interface ConfiguratorAttributeNumericInterval {
   minValue?: number;
   maxValue?: number;
-  minValueIncluded?: boolean;
-  maxValueIncluded?: boolean;
+  minValueIncluded: boolean;
+  maxValueIncluded: boolean;
 }
 
 /**
@@ -104,7 +104,12 @@ export class ConfiguratorAttributeNumericInputFieldService {
   getInterval(
     value: Configurator.Value
   ): ConfiguratorAttributeNumericInterval | undefined {
-    let interval: ConfiguratorAttributeNumericInterval = {};
+    let interval: ConfiguratorAttributeNumericInterval = {
+      minValue: undefined,
+      maxValue: undefined,
+      minValueIncluded: false,
+      maxValueIncluded: false,
+    };
     if (!value || !value.name || value.selected) {
       return undefined;
     }
@@ -150,6 +155,15 @@ export class ConfiguratorAttributeNumericInputFieldService {
         maxVal = value.name;
         interval.maxValueIncluded = true;
         maxVal = maxVal.replace('≤', '');
+      }
+      if (
+        !value.name.includes('>') &&
+        !value.name.includes('<') &&
+        !value.name.includes('≤') &&
+        !value.name.includes('≥')
+      ) {
+        minVal = value.name;
+        maxVal = value.name;
       }
     }
 
