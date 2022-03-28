@@ -183,9 +183,9 @@ jobs:
     steps:
       - name: test
         run: | 
-          echo test ${{GITHUB_EVENT_NAME}}
-          echo test2 ${GITHUB_EVENT_NAME}
-          echo test3 $GITHUB_EVENT_NAME
+          echo test ${{ github.event }}
+          echo test ${{ github.event_name }}
+          echo test ${{ github.action_status }}
       - name: Required CI failed
         uses: actions/github-script@v5
         with:
