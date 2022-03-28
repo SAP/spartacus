@@ -79,9 +79,6 @@ jobs:
     needs: no_retries
     name: E2E tests for B2C
     runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
@@ -96,9 +93,6 @@ jobs:
     needs: no_retries
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
     steps:
       - uses: actions/checkout@v2
       - name: Run e2es
@@ -108,9 +102,6 @@ jobs:
     needs: no_retries
     name: E2E tests for B2B
     runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
     strategy:
       matrix:
         containers: [1, 2]
