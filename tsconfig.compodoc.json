@@ -459,7 +459,7 @@
         "projects/incubator/public_api"
       ],
       "@spartacus/storefront": [
-        "projects/storefrontlib/src/public_api"
+        "projects/storefrontlib/public_api"
       ],
       "@spartacus/cart/bundle/core": [
         "feature-libs/cart/bundle/core/public_api"
