@@ -22,7 +22,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '12'
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -37,7 +37,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '12'
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -52,7 +52,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '12'
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -169,7 +169,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '12'
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
