@@ -91,7 +91,7 @@ else
     yarn start:pwa &
 
     echo '-----'
-    echo "Running Cypress end to end tests"
+    echo "Running Cypress end to end tests abc"
 
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
         yarn e2e:run:ci:core"${SUITE}"
