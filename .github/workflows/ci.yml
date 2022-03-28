@@ -136,5 +136,5 @@ jobs:
     steps:
       - name: Run e2es
         run: |
-          echo b2c ${{ needs.b2c_e2e_test_1.conclusion}}
-          echo b2b ${{ needs.b2b_e2e_test_1.conclusion}}
+          echo b2c ${{ needs.b2c_e2e_test_1}}
+          echo b2b ${{ needs.b2b_e2e_test_1}}
