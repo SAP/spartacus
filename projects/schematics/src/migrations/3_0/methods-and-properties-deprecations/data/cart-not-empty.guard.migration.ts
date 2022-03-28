@@ -1,12 +1,12 @@
 import {
   CAN_ACTIVATE,
   CART_NOT_EMPTY_GUARD,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/cms-components/cart/cart-not-empty.guard.ts
+// projects/storefrontlib/cms-components/cart/cart-not-empty.guard.ts
 export const CART_NOT_EMPTY_GUARD_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: CART_NOT_EMPTY_GUARD,

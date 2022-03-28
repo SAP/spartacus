@@ -46,6 +46,14 @@ done
 
 set -- "${POSITIONAL[@]}"
 
+if [ "$SUITE" == ":ccv2" ]; then
+    export SPA_ENV='ccv2,b2c'
+fi
+
+if [ "$SUITE" == ":ccv2-b2b" ]; then
+    export SPA_ENV='ccv2,b2b'
+fi
+
 echo '-----'
 echo "Building Spartacus libraries"
 
@@ -73,7 +81,7 @@ if [[ "${SSR}" = true ]]; then
     yarn build:ssr:ci
 
     echo "Starting Spartacus storefrontapp in SSR mode"
-    (yarn serve:ssr &)
+    (yarn serve:ssr:ci &)
 
     echo '-----'
     echo "Running SSR Cypress smoke test"
@@ -85,5 +93,9 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    yarn e2e:run:ci"${SUITE}"
+    if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
+        yarn e2e:run:ci"${SUITE}"
+    else
+        yarn e2e:run:ci:core"${SUITE}"
+    fi
 fi

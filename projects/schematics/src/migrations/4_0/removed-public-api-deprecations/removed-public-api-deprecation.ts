@@ -1,7 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
-  ASM_MODULE,
   B2B_STOREFRONT_MODULE,
   B2C_LAYOUT_CONFIG,
   B2C_STOREFRONT_MODULE,
@@ -44,7 +43,6 @@ import {
   OCC_USER_PROFILE_ADAPTER,
   PAGE_EVENT_BUILDER,
   PAGE_EVENT_MODULE,
-  PERSONALIZATION_MODULE,
   PRODUCT_VARIANTS_MODULE,
   PRODUCT_VARIANT_COMPONENT,
   PRODUCT_VARIANT_GUARD,
@@ -67,22 +65,6 @@ import {
   SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
   SMART_EDIT_MODULE,
   SORT_CODE,
-  SPARTACUS_CART_SAVED_CART_COMPONENTS,
-  SPARTACUS_CORE,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-  SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
-  SPARTACUS_SETUP,
-  SPARTACUS_STOREFINDER,
-  SPARTACUS_STOREFRONTLIB,
-  SPARTACUS_USER,
-  SPARTACUS_USER_ACCOUNT,
-  SPARTACUS_USER_ACCOUNT_COMPONENTS,
-  SPARTACUS_USER_ACCOUNT_CORE,
-  SPARTACUS_USER_ACCOUNT_OCC,
-  SPARTACUS_USER_PROFILE,
-  SPARTACUS_USER_PROFILE_COMPONENTS,
-  SPARTACUS_USER_PROFILE_CORE,
-  SPARTACUS_USER_PROFILE_OCC,
   STOREFRONT_CONFIG,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
@@ -103,7 +85,6 @@ import {
   UPDATE_PROFILE_MODULE,
   USER_ACCOUNT_ADAPTER,
   USER_ACCOUNT_CONNECTOR,
-  USER_ACCOUNT_MODULE,
   USER_ACCOUNT_NORMALIZER,
   USER_ACCOUNT_SERIALIZER,
   USER_ACTIONS,
@@ -120,7 +101,6 @@ import {
   USER_PROFILE_ADAPTER,
   USER_PROFILE_CONNECTOR,
   USER_PROFILE_FACADE_TRANSITIONAL_TOKEN,
-  USER_PROFILE_MODULE,
   USER_PROFILE_NORMALIZER,
   USER_PROFILE_SERIALIZER,
   USER_REGISTER_ENDPOINT,
@@ -142,6 +122,28 @@ import {
   VARIANT_STYLE_SELECTOR_MODULE,
   VIEW_CONFIG_MODULE,
 } from '../../../shared/constants';
+import {
+  ASM_MODULE,
+  PERSONALIZATION_MODULE,
+  SPARTACUS_CART_SAVED_CART_COMPONENTS,
+  SPARTACUS_CORE,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+  SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
+  SPARTACUS_SETUP,
+  SPARTACUS_STOREFINDER,
+  SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_USER,
+  SPARTACUS_USER_ACCOUNT,
+  SPARTACUS_USER_ACCOUNT_COMPONENTS,
+  SPARTACUS_USER_ACCOUNT_CORE,
+  SPARTACUS_USER_ACCOUNT_OCC,
+  SPARTACUS_USER_PROFILE,
+  SPARTACUS_USER_PROFILE_COMPONENTS,
+  SPARTACUS_USER_PROFILE_CORE,
+  SPARTACUS_USER_PROFILE_OCC,
+  USER_ACCOUNT_MODULE,
+  USER_PROFILE_MODULE,
+} from '../../../shared/libs-constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
@@ -254,55 +256,55 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CORE,
     comment: `'${PERSONALIZATION_MODULE}' was removed. Use @spartacus/tracking/personalization instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/tracking --features=Personalization'.`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.module.ts
+  // projects/storefrontlib/cms-components/product/product-variants/product-variants.module.ts
   {
     node: PRODUCT_VARIANTS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${PRODUCT_VARIANTS_MODULE}' was removed from @spartacus/storefront. Use @spartacus/product/variants feature-library instead. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/product --features=Product-Variants'.`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
+  // projects/storefrontlib/cms-components/product/product-variants/product-variants.component.ts
   {
     node: PRODUCT_VARIANT_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${PRODUCT_VARIANT_COMPONENT}' was removed from @spartacus/storefront. Use ProductVariantsContainerComponent from @spartacus/product/variants/components as a replacement.`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-color-selector/variant-color-selector.component.ts
+  // projects/storefrontlib/cms-components/product/product-variants/variant-color-selector/variant-color-selector.component.ts
   {
     node: VARIANT_COLOR_SELECTOR_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${VARIANT_COLOR_SELECTOR_COMPONENT}' was removed from @spartacus/storefront. Use ProductVariantColorSelectorComponent from @spartacus/product/variants/components as a replacement.`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-color-selector/variant-color-selector.module.ts
+  // projects/storefrontlib/cms-components/product/product-variants/variant-color-selector/variant-color-selector.module.ts
   {
     node: VARIANT_COLOR_SELECTOR_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${VARIANT_COLOR_SELECTOR_MODULE}' was removed from @spartacus/storefront. Use ProductVariantColorSelectorModule from @spartacus/product/variants/components as a replacement.`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-size-selector/variant-size-selector.component.ts
+  // projects/storefrontlib/cms-components/product/product-variants/variant-size-selector/variant-size-selector.component.ts
   {
     node: VARIANT_SIZE_SELECTOR_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${VARIANT_SIZE_SELECTOR_COMPONENT}' was removed from @spartacus/storefront. Use ProductVariantSizeSelectorComponent from @spartacus/product/variants/components as a replacement.`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-size-selector/variant-size-selector.module.ts
+  // projects/storefrontlib/cms-components/product/product-variants/variant-size-selector/variant-size-selector.module.ts
   {
     node: VARIANT_SIZE_SELECTOR_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${VARIANT_SIZE_SELECTOR_MODULE}' was removed from @spartacus/storefront. Use ProductVariantSizeSelectorModule from @spartacus/product/variants/components as a replacement.`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-selector/variant-style-selector.component.ts
+  // projects/storefrontlib/cms-components/product/product-variants/variant-style-selector/variant-style-selector.component.ts
   {
     node: VARIANT_STYLE_SELECTOR_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${VARIANT_STYLE_SELECTOR_COMPONENT}' was removed from @spartacus/storefront. Use ProductVariantStyleSelectorComponent from @spartacus/product/variants/components as a replacement.`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-selector/variant-style-selector.module.ts
+  // projects/storefrontlib/cms-components/product/product-variants/variant-style-selector/variant-style-selector.module.ts
   {
     node: VARIANT_STYLE_SELECTOR_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${VARIANT_STYLE_SELECTOR_MODULE}' was removed from @spartacus/storefront. Use ProductVariantStyleSelectorModule from @spartacus/product/variants/components as a replacement.`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/guards/product-variant.guard.ts
+  // projects/storefrontlib/cms-components/product/product-variants/guards/product-variant.guard.ts
   {
     node: PRODUCT_VARIANT_GUARD,
     importPath: SPARTACUS_STOREFRONTLIB,
@@ -349,79 +351,79 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${TRANSLATION_CHUNKS_CONFIG}' - Following translation chunks '${MINI_LOGIN_TRANSLATION_CHUNK}', '${UPDATE_EMAIL_FORM_TRANSLATION_CHUNK}', '${FORGOTTEN_PASSWORD_TRANSLATION_CHUNK}', '${LOGIN_FORM_TRANSLATION_CHUNK}', '${REGISTER_TRANSLATION_CHUNK}' were moved to ${SPARTACUS_USER}.`,
   },
-  // projects/storefrontlib/src/cms-components/cms-lib.module.ts
+  // projects/storefrontlib/cms-components/cms-lib.module.ts
   {
     node: CMS_LIB_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${CMS_LIB_MODULE}' - Following module imports '${CLOSE_ACCOUNT_MODULE}', '${FORGOT_PASSWORD_MODULE}', '${RESET_PASSWORD_MODULE}', '${UPDATE_EMAIL_MODULE}', '${UPDATE_PASSWORD_MODULE}', '${UPDATE_PROFILE_MODULE}', '${USER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
   },
-  // projects/storefrontlib/src/cms-components/user/user.module.ts
+  // projects/storefrontlib/cms-components/user/user.module.ts
   {
     node: USER_COMPONENT_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${USER_COMPONENT_MODULE}' - Following module imports '${LOGIN_MODULE}', '${LOGIN_FORM_MODULE}', '${LOGIN_REGISTER_MODULE}', '${REGISTER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/close-account/components/close-account-modal/close-account-modal.component.ts
+  // projects/storefrontlib/cms-components/myaccount/close-account/components/close-account-modal/close-account-modal.component.ts
   {
     node: CLOSE_ACCOUNT_MODAL_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${CLOSE_ACCOUNT_MODAL_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Also there were small changes in component's logic. For more details please look into 4.0 migration documentation.`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/forgot-password/forgot-password.component.ts
+  // projects/storefrontlib/cms-components/myaccount/forgot-password/forgot-password.component.ts
   {
     node: FORGOT_PASSWORD_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${FORGOT_PASSWORD_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed and introduced in new 'ForgotPasswordService'. For more details please look into 4.0 migration documentation.`,
   },
-  // projects/storefrontlib/src/cms-components/user/login/login.component.ts
+  // projects/storefrontlib/cms-components/user/login/login.component.ts
   {
     node: LOGIN_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${LOGIN_COMPONENT}' was moved to '${SPARTACUS_USER_ACCOUNT_COMPONENTS}'. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
-  // projects/storefrontlib/src/cms-components/user/login-form/login-form.component.ts
+  // projects/storefrontlib/cms-components/user/login-form/login-form.component.ts
   {
     node: LOGIN_FORM_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${LOGIN_FORM_COMPONENT}' was moved to '${SPARTACUS_USER_ACCOUNT_COMPONENTS}'. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
-  // projects/storefrontlib/src/cms-components/user/register/register.component.ts
+  // projects/storefrontlib/cms-components/user/register/register.component.ts
   {
     node: REGISTER_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${REGISTER_COMPONENT}' was moved to '${SPARTACUS_USER_PROFILE_COMPONENTS}'. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/reset-password/reset-password-form.component.ts
+  // projects/storefrontlib/cms-components/myaccount/reset-password/reset-password-form.component.ts
   {
     node: RESET_PASSWORD_FORM_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${RESET_PASSWORD_FORM_COMPONENT}' was renamed to '${RESET_PASSWORD_COMPONENT}' and now it can be used from ${SPARTACUS_USER_PROFILE_COMPONENTS}. Also logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-email/update-email.component.ts
+  // projects/storefrontlib/cms-components/myaccount/update-email/update-email.component.ts
   {
     node: UPDATE_EMAIL_FORM_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${UPDATE_EMAIL_FORM_COMPONENT}' was removed. For replacement use '${UPDATE_EMAIL_COMPONENT}' from ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-email/update-email-form/update-email-form.component.ts
+  // projects/storefrontlib/cms-components/myaccount/update-email/update-email-form/update-email-form.component.ts
   {
     node: UPDATE_EMAIL_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${UPDATE_EMAIL_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-password/components/update-password-form/update-password-form.component.ts
+  // projects/storefrontlib/cms-components/myaccount/update-password/components/update-password-form/update-password-form.component.ts
   {
     node: UPDATE_PASSWORD_FORM_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${UPDATE_PASSWORD_FORM_COMPONENT}' was removed. For replacement use '${UPDATE_PASSWORD_COMPONENT}' from ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-password/components/update-password/update-password.component.ts
+  // projects/storefrontlib/cms-components/myaccount/update-password/components/update-password/update-password.component.ts
   {
     node: UPDATE_PASSWORD_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${UPDATE_PASSWORD_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-profile/update-profile.component.ts
+  // projects/storefrontlib/cms-components/myaccount/update-profile/update-profile.component.ts
   {
     node: UPDATE_PROFILE_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
@@ -443,7 +445,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${PAGE_EVENT_BUILDER}' was removed, please use 'NavigationEventBuilder' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
   },
-  // projects/storefrontlib/src/storefront-config.ts
+  // projects/storefrontlib/storefront-config.ts
   {
     node: STOREFRONT_CONFIG,
     importPath: SPARTACUS_STOREFRONTLIB,
@@ -551,7 +553,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CORE,
     comment: `'${USER_MODULE}' was removed. Main modules currently are '${USER_ACCOUNT_MODULE}' in '${SPARTACUS_USER_ACCOUNT}' and '${USER_PROFILE_MODULE}' in '${SPARTACUS_USER_PROFILE}'. To benefit from lazy loading it by default, consider removing the module import and running the command 'ng add @spartacus/user'.`,
   },
-  // projects/storefrontlib/src/shared/components/table/table.model.ts
+  // projects/storefrontlib/shared/components/table/table.model.ts
   {
     node: TABLE_HEADER,
     importPath: SPARTACUS_STOREFRONTLIB,
@@ -569,7 +571,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CORE,
     comment: `'${EXTERNAL_JS_FILE_LOADER}' was removed, please use 'ScriptLoader' from '${SPARTACUS_CORE} instead.`,
   },
-  // projects/storefrontlib/src/recipes/config/layout-config.ts#b2cLayoutConfig
+  // projects/storefrontlib/recipes/config/layout-config.ts#b2cLayoutConfig
   {
     node: B2C_LAYOUT_CONFIG,
     importPath: SPARTACUS_STOREFRONTLIB,

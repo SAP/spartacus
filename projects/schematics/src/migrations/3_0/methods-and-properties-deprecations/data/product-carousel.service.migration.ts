@@ -1,12 +1,12 @@
 import {
   GET_PRODUCT_REFERENCES,
   PRODUCT_CAROUSEL_SERVICE,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/cms-components/product/carousel/product-carousel.service.ts
+// projects/storefrontlib/cms-components/product/carousel/product-carousel.service.ts
 export const PRODUCT_CAROUSEL_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: PRODUCT_CAROUSEL_SERVICE,

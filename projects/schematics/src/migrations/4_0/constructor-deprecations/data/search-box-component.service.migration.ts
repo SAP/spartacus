@@ -3,15 +3,17 @@ import {
   ROUTING_SERVICE,
   SEARCH_BOX_COMPONENT_SERVICE,
   SEARCH_BOX_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   TRANSLATION_SERVICE,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SEARCH_BOX_COMPONENT_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts
+  // projects/storefrontlib/cms-components/navigation/search-box/search-box-component.service.ts
   class: SEARCH_BOX_COMPONENT_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

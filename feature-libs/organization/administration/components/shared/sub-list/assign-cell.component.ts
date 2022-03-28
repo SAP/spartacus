@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'cx-org-assign-cell',
   template: `
-    <button *ngIf="hasItem" (click)="toggleAssign()" class="link">
+    <button type="button" *ngIf="hasItem" (click)="toggleAssign()" class="link">
       {{ isAssigned ? 'unassign' : 'assign' }}
     </button>
   `,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CartModification } from '@spartacus/core';
+import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -15,7 +15,8 @@ import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 @Injectable()
 export class CpqConfiguratorRestAdapter
-  implements RulebasedConfiguratorAdapter {
+  implements RulebasedConfiguratorAdapter
+{
   constructor(
     protected cpqRestService: CpqConfiguratorRestService,
     protected cpqOccService: CpqConfiguratorOccService

@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CartModification } from '@spartacus/core';
+import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -32,24 +32,27 @@ const productConfiguration: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
 };
 
-const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-  userId: USER_ID,
-  cartId: CART_ID,
-  owner: productConfiguration.owner,
-};
+const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+  {
+    userId: USER_ID,
+    cartId: CART_ID,
+    owner: productConfiguration.owner,
+  };
 
-const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-  userId: USER_ID,
-  orderId: CART_ID,
-  owner: productConfiguration.owner,
-};
+const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+  {
+    userId: USER_ID,
+    orderId: CART_ID,
+    owner: productConfiguration.owner,
+  };
 
-const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-  userId: USER_ID,
-  cartId: CART_ID,
-  configuration: productConfiguration,
-  cartEntryNumber: '0',
-};
+const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntryParameters =
+  {
+    userId: USER_ID,
+    cartId: CART_ID,
+    configuration: productConfiguration,
+    cartEntryNumber: '0',
+  };
 
 const cartModification: CartModification = {};
 

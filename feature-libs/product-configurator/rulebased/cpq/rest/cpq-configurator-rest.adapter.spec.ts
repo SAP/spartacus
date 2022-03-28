@@ -1,7 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CartModification } from '@spartacus/core';
+import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -50,12 +50,13 @@ const addToCartParams: Configurator.AddToCartParameters = {
   cartId: documentId,
 };
 
-const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters = {
-  userId: userId,
-  cartId: documentId,
-  cartEntryNumber: '3',
-  configuration: ConfiguratorTestUtils.createConfiguration(configId, owner),
-};
+const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters =
+  {
+    userId: userId,
+    cartId: documentId,
+    cartEntryNumber: '3',
+    configuration: ConfiguratorTestUtils.createConfiguration(configId, owner),
+  };
 
 const cartResponse: CartModification = {
   quantityAdded: 1,
@@ -63,19 +64,21 @@ const cartResponse: CartModification = {
   statusCode: '201',
 };
 
-const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-  userId: userId,
-  cartId: documentId,
-  cartEntryNumber: '3',
-  owner: owner,
-};
+const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+  {
+    userId: userId,
+    cartId: documentId,
+    cartEntryNumber: '3',
+    owner: owner,
+  };
 
-const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-  userId: userId,
-  orderId: documentId,
-  orderEntryNumber: '3',
-  owner: owner,
-};
+const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+  {
+    userId: userId,
+    orderId: documentId,
+    orderEntryNumber: '3',
+    owner: owner,
+  };
 
 const asSpy = (f: any) => <jasmine.Spy>f;
 

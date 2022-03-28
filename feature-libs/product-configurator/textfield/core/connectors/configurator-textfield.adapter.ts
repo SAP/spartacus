@@ -1,4 +1,4 @@
-import { CartModification } from '@spartacus/core';
+import { CartModification } from '@spartacus/cart/base/root';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
@@ -36,6 +36,16 @@ export abstract class ConfiguratorTextfieldAdapter {
    */
   abstract readConfigurationForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+  ): Observable<ConfiguratorTextfield.Configuration>;
+
+  /**
+   * Abstract method to read a configuration for an order entry
+   *
+   * @param {CommonConfigurator.ReadConfigurationFromOrderEntryParameters} parameters read from order entry parameters object
+   * @returns {Observable<ConfiguratorTextfield.Configuration>} Observable of configurations
+   */
+  abstract readConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<ConfiguratorTextfield.Configuration>;
 
   /**

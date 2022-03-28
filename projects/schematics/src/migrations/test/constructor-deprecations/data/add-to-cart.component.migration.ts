@@ -6,13 +6,15 @@ import {
   CHANGE_DETECTOR_REF,
   CURRENT_PRODUCT_SERVICE,
   MODAL_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ADD_TO_CART_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/cart/add-to-cart/add-to-cart.component.ts
+  // projects/storefrontlib/cms-components/cart/add-to-cart/add-to-cart.component.ts
   class: ADD_TO_CART_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

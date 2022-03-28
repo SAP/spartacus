@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import {
@@ -46,7 +46,7 @@ describe('ConfiguratorGroupsService', () => {
           ConfiguratorGroupStatusService,
           ConfiguratorUtilsService,
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {
@@ -161,10 +161,11 @@ describe('ConfiguratorGroupsService', () => {
     });
 
     it('should return undefined if menu parent group is not availaible in uiState', (done) => {
-      const configurationWoMenuParentGroup = ConfiguratorTestUtils.createConfiguration(
-        CONFIG_ID,
-        ConfiguratorModelUtils.createInitialOwner()
-      );
+      const configurationWoMenuParentGroup =
+        ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        );
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configurationWoMenuParentGroup)
       );
@@ -222,7 +223,7 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   describe('getPreviousGroupId', () => {
-    it('should return null', (done) => {
+    it('should return null in case commons service returns an undefined configuration', (done) => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(undefined)
       );
@@ -330,9 +331,8 @@ describe('ConfiguratorGroupsService', () => {
       );
     });
     it('should not navigate in case no conflict group is present', () => {
-      const consistentConfiguration = ConfiguratorTestUtils.createConfiguration(
-        '1'
-      );
+      const consistentConfiguration =
+        ConfiguratorTestUtils.createConfiguration('1');
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(consistentConfiguration)
       );
@@ -357,9 +357,8 @@ describe('ConfiguratorGroupsService', () => {
       );
     });
     it('should not navigate in case no incomplete group is present', () => {
-      const completeConfiguration = ConfiguratorTestUtils.createConfiguration(
-        '1'
-      );
+      const completeConfiguration =
+        ConfiguratorTestUtils.createConfiguration('1');
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(completeConfiguration)
       );

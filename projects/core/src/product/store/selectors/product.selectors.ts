@@ -61,9 +61,7 @@ export const getSelectedProductErrorFactory = (
   );
 };
 
-export const getAllProductCodes: MemoizedSelector<
-  StateWithProduct,
-  string[]
-> = createSelector(getProductState, (details) => {
-  return Object.keys(details.entities);
-});
+export const getAllProductCodes: MemoizedSelector<StateWithProduct, string[]> =
+  createSelector(getProductState, (details) => {
+    return Object.keys(details.entities);
+  });

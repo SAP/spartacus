@@ -18,12 +18,12 @@ export function productListTabbingOrderDesktop(config: TabElement[]) {
 }
 
 export function productListTabbingOrderMobile(config: TabElement[]) {
-  cy.server();
-  cy.route(
-    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components*`
-  ).as('getComponents');
+    )}/cms/components`,
+  }).as('getComponents');
 
   cy.visit(testProductListUrl);
   cy.viewport(formats.mobile.width, formats.mobile.height);
@@ -39,12 +39,12 @@ export function productListTabbingOrderMobile(config: TabElement[]) {
 const containerSelectorMobileFilters = 'cx-facet-list';
 
 export function productListTabbingOrderMobileFilters(config: TabElement[]) {
-  cy.server();
-  cy.route(
-    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/components*`
-  ).as('getComponents');
+    )}/cms/components`,
+  }).as('getComponents');
 
   cy.visit(testProductListUrl);
   cy.viewport(formats.mobile.width, formats.mobile.height);

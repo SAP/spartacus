@@ -1,0 +1,25 @@
+cx-quick-order {
+  .quick-order-errors,
+  .quick-order-successes,
+  .quick-order-warnings {
+    padding-inline-start: 30px;
+
+    .quick-order-error-item,
+    .quick-order-success-item,
+    .quick-order-warning-item {
+      padding-bottom: 3px;
+    }
+  }
+
+  .quick-order-form-body {
+    background-color: $background;
+    margin-top: 20px;
+    padding: 27px 22px;
+    width: 100%;
+  }
+
+  .quick-order-footer {
+    justify-content: flex-end;
+    margin-top: 40px;
+  }
+}

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpErrorModel } from '../model/misc.model';
 import { isDevMode } from '@angular/core';
+import { HttpErrorModel } from '../model/misc.model';
 
 /**
  * Normalizes HttpErrorResponse to HttpErrorModel.
@@ -11,15 +11,18 @@ import { isDevMode } from '@angular/core';
  * (which usually happens when logic in NgRx Effect is not sealed correctly)
  */
 export function normalizeHttpError(
-  error: HttpErrorResponse | any
+  error: HttpErrorResponse | HttpErrorModel | any
 ): HttpErrorModel | undefined {
+  if (error instanceof HttpErrorModel) {
+    return error;
+  }
+
   if (error instanceof HttpErrorResponse) {
-    const normalizedError: HttpErrorModel = {
-      message: error.message,
-      status: error.status,
-      statusText: error.statusText,
-      url: error.url,
-    };
+    const normalizedError = new HttpErrorModel();
+    normalizedError.message = error.message;
+    normalizedError.status = error.status;
+    normalizedError.statusText = error.statusText;
+    normalizedError.url = error.url;
 
     // include backend's error details
     if (Array.isArray(error.error.errors)) {
