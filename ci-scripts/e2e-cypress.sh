@@ -57,6 +57,14 @@ fi
 echo '-----'
 echo "Building Spartacus libraries"
 
+echo "GITHUB_BASE: ${GITHUB_BASE_REF}"
+echo "GITHUB_HEAD: ${GITHUB_HEAD_REF}"
+echo "GITHUB_PR: ${github.event.pull_request}"
+
+echo "GITHUB_EVENT_NAME: ${GITHUB_EVENT_NAME}"
+
+
+
 yarn install
 
 (cd projects/storefrontapp-e2e-cypress && yarn install)
