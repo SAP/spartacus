@@ -11,6 +11,10 @@ on:
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
 
+concurrency: 
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 name: Spartacus CI pipeline
 jobs:
   no_retries: 
