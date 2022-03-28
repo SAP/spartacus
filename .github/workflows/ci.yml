@@ -149,3 +149,12 @@ jobs:
     name: CI Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
+    steps:
+      - name: Required CI failed
+      - uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('test fail')
+        if: |
+          needs.b2c_e2e_test_1.status == 'failure' || 
+          needs.b2c_e2e_test_1.status == 'failure'
