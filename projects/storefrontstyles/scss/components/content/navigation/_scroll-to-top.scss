@@ -8,7 +8,7 @@
 
   &.display {
     display: initial;
-    animation: popup 1.5s 1;
+    animation: popup 1s 1;
   }
 
   button {
@@ -57,7 +57,7 @@
     }
   }
 
-  //Compact
+  // Compact styling
   @include media-breakpoint-down(sm) {
     right: 15px;
   }

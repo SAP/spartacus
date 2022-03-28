@@ -1,7 +1,12 @@
 // given that we're likely going to refactor the directives, we're
 // NOT exposing all it to the public API.
 export * from './focus.directive';
-export { FocusConfig, TrapFocus, TrapFocusType } from './keyboard-focus.model';
+export {
+  FocusConfig,
+  TrapFocus,
+  TrapFocusType,
+  focusableSelectors,
+} from './keyboard-focus.model';
 export * from './keyboard-focus.module';
 export * from './focus-testing.module';
 export * from './services/index';

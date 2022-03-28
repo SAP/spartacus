@@ -13,6 +13,8 @@ import {
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
+import { focusableSelectors } from '../../../layout/a11y/index';
+
 @Component({
   selector: 'cx-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
@@ -63,16 +65,14 @@ export class ScrollToTopComponent implements OnInit {
   }
 
   /**
-   *Get first focusable element in the DOM that is not hidden or disabled.
+   * Get first focusable element in the DOM that is also not hidden from accessibility API.
    * @returns HTMLElement
    */
   protected getFirstKeyboardFocusableElement(): HTMLElement {
     return [
       ...(this.window?.document?.querySelectorAll(
-        'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
+        focusableSelectors.join(',')
       ) as any),
-    ].filter(
-      (el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden')
-    )[0];
+    ].filter((el) => !el.getAttribute('aria-hidden'))[0];
   }
 }
