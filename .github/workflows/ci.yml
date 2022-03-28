@@ -58,68 +58,19 @@ jobs:
         run: yarn --frozen-lockfile
       - name: linting
         run: ci-scripts/validate-lint.sh
-  b2c_e2e_tests_1:
+  b2c_e2e_tests:
     name: E2E tests for B2C, 1st job
     runs-on: ubuntu-latest
     defaults:
       run: 
         working-directory: ./
+    strategy:
+      matrix:
+        containers: [1, 2, 3, 4, 5]
     steps:
       - uses: actions/checkout@v2
       - name: Run e2es
-        env:        
-          SPA_ENV: ci,b2c
-        run: | 
-          ci-scripts/e2e-cypress.sh        
-  b2c_e2e_tests_2:
-    name: E2E tests for B2C, 2nd job
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:         
-          SPA_ENV: ci,b2c
-        run: |  
-          ci-scripts/e2e-cypress.sh
-  b2c_e2e_tests_3:
-    name: E2E tests for B2C, 3rd job
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:         
-          SPA_ENV: ci,b2c
-        run: |
-          ci-scripts/e2e-cypress.sh
-  b2c_e2e_tests_4:
-    name: E2E tests for B2C, 4th job
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:         
-          SPA_ENV: ci,b2c
-        run: |
-          ci-scripts/e2e-cypress.sh
-  b2c_e2e_tests_5:
-    name: E2E tests for B2C, 5th job
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:         
+        env: 
           SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh
@@ -134,25 +85,15 @@ jobs:
       - name: Run e2es
         run: |
           ci-scripts/e2e-cypress.sh --ssr
-  b2b_e2e_tests_1:
+  b2b_e2e_tests:
     name: E2E tests for B2B, 1st job
     runs-on: ubuntu-latest
     defaults:
       run: 
         working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:        
-          SPA_ENV: ci,b2b
-        run: |     
-          ci-scripts/e2e-cypress.sh -s b2b
-  b2b_e2e_tests_2:
-    name: E2E tests for B2B, 2nd job
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
+    strategy:
+      matrix:
+        containers: [1, 2]
     steps:
       - uses: actions/checkout@v2
       - name: Run e2es
@@ -176,7 +117,7 @@ jobs:
       - name: Run unit tests for core and storefront
         run: ci-scripts/lhci.sh
   ci_conclusion:
-    needs: [unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests_1, b2c_e2e_tests_2, b2c_e2e_tests_3, b2c_e2e_tests_4, b2c_e2e_tests_5, b2c_ssr_e2e_tests, b2b_e2e_tests_1, b2b_e2e_tests_2, lighthouse]
+    needs: [unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
     name: CI Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -190,12 +131,7 @@ jobs:
           needs.unit_tests_core.result == 'failure' ||
           needs.unit_tests_libsresult == 'failure' ||
           needs.linting.result == 'failure' ||
-          needs.b2c_e2e_tests_1.result == 'failure' ||
-          needs.b2c_e2e_tests_2.result == 'failure' ||
-          needs.b2c_e2e_tests_3.result == 'failure' ||
-          needs.b2c_e2e_tests_4.result == 'failure' ||
-          needs.b2c_e2e_tests_5.result == 'failure' ||
+          needs.b2c_e2e_tests.result == 'failure' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || 
-          needs.b2b_e2e_tests_1.result == 'failure' || 
-          needs.b2b_e2e_tests_2.result == 'failure' ||
+          needs.b2b_e2e_tests.result == 'failure' || 
           needs.lighthouse.result == 'failure'
