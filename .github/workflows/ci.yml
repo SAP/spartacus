@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: '14'
           cache: 'yarn'
+          cache-dependency-path: ./package-lock.json
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
