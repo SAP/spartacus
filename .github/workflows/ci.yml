@@ -13,7 +13,52 @@ env:
 
 name: Spartacus CI pipeline
 jobs:
-  b2c_e2e_test_1:
+  unit_tests_core:
+    name: Unit tests for core Spartacus libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@v12-lts
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: Run unit tests for core and storefront
+        run: ci-scripts/unit-tests-core-lib.sh
+  unit_tests_libs:
+    name: Unit tests for integration libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@v12-lts
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: Run unit tests for libs
+        run: ci-scripts/unit-tests-core-lib.sh
+  linting:
+    name: Validation checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@v12-lts
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: linting
+        run: ci-scripts/validate-lint.sh
+  b2c_e2e_tests_1:
     name: E2E tests for B2C, 1st job
     runs-on: ubuntu-latest
     defaults:
@@ -26,7 +71,7 @@ jobs:
           SPA_ENV: ci,b2c
         run: | 
           ci-scripts/e2e-cypress.sh        
-  b2c_e2e_test_2:
+  b2c_e2e_tests_2:
     name: E2E tests for B2C, 2nd job
     runs-on: ubuntu-latest
     defaults:
@@ -39,7 +84,7 @@ jobs:
           SPA_ENV: ci,b2c
         run: |  
           ci-scripts/e2e-cypress.sh
-  b2c_e2e_test_3:
+  b2c_e2e_tests_3:
     name: E2E tests for B2C, 3rd job
     runs-on: ubuntu-latest
     defaults:
@@ -52,7 +97,7 @@ jobs:
           SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh
-  b2c_e2e_test_4:
+  b2c_e2e_tests_4:
     name: E2E tests for B2C, 4th job
     runs-on: ubuntu-latest
     defaults:
@@ -65,7 +110,7 @@ jobs:
           SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh
-  b2c_e2e_test_5:
+  b2c_e2e_tests_5:
     name: E2E tests for B2C, 5th job
     runs-on: ubuntu-latest
     defaults:
@@ -78,7 +123,7 @@ jobs:
           SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh
-  b2c_ssr_e2e_test:
+  b2c_ssr_e2e_tests:
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
     defaults:
@@ -89,7 +134,7 @@ jobs:
       - name: Run e2es
         run: |
           ci-scripts/e2e-cypress.sh --ssr
-  b2b_e2e_test_1:
+  b2b_e2e_tests_1:
     name: E2E tests for B2B, 1st job
     runs-on: ubuntu-latest
     defaults:
@@ -102,7 +147,7 @@ jobs:
           SPA_ENV: ci,b2b
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
-  b2b_e2e_test_2:
+  b2b_e2e_tests_2:
     name: E2E tests for B2B, 2nd job
     runs-on: ubuntu-latest
     defaults:
@@ -115,8 +160,21 @@ jobs:
           SPA_ENV: ci,b2b
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
+  lighthouse:
+    name: Unit tests for core Spartacus libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@v12-lts
+      - name: Run unit tests for core and storefront
+        run: ci-scripts/unit-tests-core-lib.sh
   ci_conclusion:
-    needs: [b2c_e2e_test_1, b2c_e2e_test_2, b2c_e2e_test_3, b2c_e2e_test_4, b2c_e2e_test_5, b2c_ssr_e2e_test, b2b_e2e_test_1, b2b_e2e_test_2]
+    needs: [unit_tests_core, unit_tests_lib, linting, b2c_e2e_tests_1, b2c_e2e_tests_2, b2c_e2e_tests_3, b2c_e2e_tests_4, b2c_e2e_tests_5, b2c_ssr_e2e_tests, b2b_e2e_tests_1, b2b_e2e_tests_2, lighthouse]
     name: CI Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -125,13 +183,17 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('test fail')  
+            core.setFailed('CI failed')  
         if: |
-          needs.b2c_e2e_test_1.result == 'failure' ||
-          needs.b2c_e2e_test_2.result == 'failure' ||
-          needs.b2c_e2e_test_3.result == 'failure' ||
-          needs.b2c_e2e_test_4.result == 'failure' ||
-          needs.b2c_e2e_test_5.result == 'failure' ||
-          needs.b2c_ssr_e2e_test.result == 'failure' || 
-          needs.b2b_e2e_test_1.result == 'failure' || 
-          needs.b2b_e2e_test_2.result == 'failure'
+          needs.unit_tests_core.result == 'failure' ||
+          needs.unit_tests_lib.result == 'failure' ||
+          needs.linting.result == 'failure' ||
+          needs.b2c_e2e_tests_1.result == 'failure' ||
+          needs.b2c_e2e_tests_2.result == 'failure' ||
+          needs.b2c_e2e_tests_3.result == 'failure' ||
+          needs.b2c_e2e_tests_4.result == 'failure' ||
+          needs.b2c_e2e_tests_5.result == 'failure' ||
+          needs.b2c_ssr_e2e_tests.result == 'failure' || 
+          needs.b2b_e2e_tests_1.result == 'failure' || 
+          needs.b2b_e2e_tests_2.result == 'failure' ||
+          needs.lighthouse.result == 'failure'
