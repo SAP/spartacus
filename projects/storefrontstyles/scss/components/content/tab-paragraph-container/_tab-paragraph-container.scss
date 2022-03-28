@@ -72,8 +72,8 @@ $useAccordionOnly: false !default;
     }
 
     > div {
+      background: var(--cx-color-background);
       &:not(.active) {
-        background: var(--cx-color-background);
         display: none;
       }
       .container > h2 {
