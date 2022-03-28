@@ -110,9 +110,9 @@ jobs:
           ls -al         
           ci-scripts/e2e-cypress.sh -s b2b
       - uses: actions/github-script@v5
-          with:
-              script: |
-                core.setFailed('test fail')
+        with:
+          script: |
+            core.setFailed('test fail')
   # b2b_e2e_test_2:
   #   name: B2B Cypress e2e tests 2
   #   runs-on: ubuntu-latest
