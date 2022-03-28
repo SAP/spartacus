@@ -131,6 +131,7 @@ jobs:
   ci_conclusion:
     needs: [b2c_e2e_test_1, b2b_e2e_test_1]
     name: CI Conclusion
+    runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
       - name: Run e2es
