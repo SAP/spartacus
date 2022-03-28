@@ -44,9 +44,8 @@ jobs:
           node-version: '14'
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
-      - name: Package installation
+      - run: yarn --frozen-lockfile
         if: steps.yarn-cache.outputs.cache-hit != 'true'
-        run: yarn --frozen-lockfile
       - name: Run unit tests for core and storefront
         run: ci-scripts/unit-tests-core-lib.sh
   unit_tests_libs:
