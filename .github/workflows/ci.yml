@@ -134,7 +134,7 @@ jobs:
       - name: Run unit tests for core and storefront
         run: ci-scripts/lhci.sh
   ci_conclusion:
-    needs: [unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
+    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
     name: CI Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
