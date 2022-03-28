@@ -26,7 +26,7 @@ jobs:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
           SPA_ENV: ci,b2c
         run: |
-          echo $TEST_CONCLUSION
+          echo {{ env.TEST_CONCLUSION }}
           ls -al     
           echo $GITHUB_WORKSPACE
           pwd    
@@ -116,6 +116,7 @@ jobs:
           CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
           SPA_ENV: ci,b2b
         run: |
+          echo {{ env.TEST_CONCLUSION }}
           ls -al         
           ci-scripts/e2e-cypress.sh -s b2b
       - uses: actions/github-script@v5
@@ -124,7 +125,9 @@ jobs:
             core.setFailed('test fail')
       - name: Update tests conclusion status on failure
         if: ${{ failure() }} 
-        run: echo "TESTS_CONCLUSION=failure" >> $GITHUB_ENV
+        run: | 
+          echo "TESTS_CONCLUSION=failure" >> $GITHUB_ENV
+          echo {{ env.TEST_CONCLUSION }}
 
   # b2b_e2e_test_2:
   #   name: B2B Cypress e2e tests 2
@@ -149,7 +152,7 @@ jobs:
     steps:
       - name: Run e2es
         run: |
-          echo $TEST_CONCLUSION
+          echo {{ env.TEST_CONCLUSION }}
 
           echo job status 1 ${{ job.b2c_e2e_test_1 }}
           echo job status 2 ${{ job.b2b_e2e_test_1 }}
