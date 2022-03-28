@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -25,12 +25,19 @@ import {
 } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { PasswordInputComponent } from '../../../../../projects/storefrontlib/shared';
 
 @Component({
   selector: 'cx-register',
   templateUrl: './register.component.html',
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+  @ViewChild('password')
+  passwordInput: PasswordInputComponent;
+
+  @ViewChild('passwordConf')
+  passwordConfInput: PasswordInputComponent;
+
   titles$: Observable<Title[]>;
 
   isLoading$ = new BehaviorSubject(false);
@@ -205,6 +212,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
       } else {
         this.anonymousConsentsService.withdrawConsent(registerConsent);
       }
+    }
+  }
+
+  getPasswordIcon(passwordInput: PasswordInputComponent): string {
+    return passwordInput ? passwordInput.getPasswordIcon() : 'EYE';
+  }
+
+  changePasswordVisibility(passwordInput: PasswordInputComponent): void {
+    if (passwordInput) {
+      passwordInput.changePasswordVisibility();
     }
   }
 

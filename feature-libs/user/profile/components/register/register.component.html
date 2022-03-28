@@ -93,16 +93,28 @@
               <span class="label-content">{{
                 'register.password.label' | cxTranslate
               }}</span>
-              <input
-                required="true"
-                class="form-control"
-                type="password"
-                name="password"
-                placeholder="{{
-                  'register.password.placeholder' | cxTranslate
-                }}"
-                formControlName="password"
-              />
+
+              <span class="input-group">
+                <input
+                  #password
+                  cxPassword
+                  required="true"
+                  class="form-control"
+                  name="password"
+                  placeholder="{{
+                    'register.password.placeholder' | cxTranslate
+                  }}"
+                  formControlName="password"
+                />
+                <span class="input-group-append">
+                  <cx-icon
+                    [type]="getPasswordIcon(passwordInput)"
+                    (click)="changePasswordVisibility(passwordInput)"
+                    class="input-group-text h-100 d-flex"
+                    role="button"
+                  ></cx-icon>
+                </span>
+              </span>
               <cx-form-errors
                 [control]="registerForm.get('password')"
               ></cx-form-errors>
@@ -114,16 +126,28 @@
               <span class="label-content">{{
                 'register.confirmPassword.label' | cxTranslate
               }}</span>
-              <input
-                required="true"
-                class="form-control"
-                type="password"
-                name="confirmpassword"
-                placeholder="{{
-                  'register.confirmPassword.placeholder' | cxTranslate
-                }}"
-                formControlName="passwordconf"
-              />
+              <span class="input-group">
+                <input
+                  #passwordConf
+                  cxPassword
+                  required="true"
+                  class="form-control"
+                  name="confirmpassword"
+                  placeholder="{{
+                    'register.confirmPassword.placeholder' | cxTranslate
+                  }}"
+                  formControlName="passwordconf"
+                />
+                <span class="input-group-append">
+                  <cx-icon
+                    [type]="getPasswordIcon(passwordConf)"
+                    (click)="changePasswordVisibility(passwordConf)"
+                    class="input-group-text h-100 d-flex"
+                    role="button"
+                  ></cx-icon>
+                </span>
+              </span>
+
               <cx-form-errors
                 [control]="registerForm.get('passwordconf')"
               ></cx-form-errors>

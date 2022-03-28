@@ -15,6 +15,8 @@ import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
+import { PasswordInputModule } from '../../../../../projects/storefrontlib/shared';
+import { IconModule } from '../../../../../projects/storefrontlib/cms-components';
 
 @NgModule({
   imports: [
@@ -26,6 +28,8 @@ import { UpdatePasswordComponent } from './update-password.component';
     FormErrorsModule,
     UrlModule,
     RouterModule,
+    PasswordInputModule,
+    IconModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

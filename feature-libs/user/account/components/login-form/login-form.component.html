@@ -1,4 +1,4 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async"></cx-spinner>
 
 <form (ngSubmit)="onSubmit()" [formGroup]="form">
   <label>
@@ -19,13 +19,24 @@
     <span class="label-content">{{
       'loginForm.password.label' | cxTranslate
     }}</span>
-    <input
-      required="true"
-      type="password"
-      class="form-control"
-      placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
-      formControlName="password"
-    />
+    <span class="input-group">
+      <input
+        #password
+        cxPassword
+        required="true"
+        class="form-control"
+        placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
+        formControlName="password"
+      />
+      <span class="input-group-append">
+        <cx-icon
+          [type]="getPasswordIcon()"
+          (click)="changePasswordVisibility()"
+          class="input-group-text h-100 d-flex"
+          role="button"
+        ></cx-icon>
+      </span>
+    </span>
     <cx-form-errors [control]="form.get('password')"></cx-form-errors>
   </label>
 

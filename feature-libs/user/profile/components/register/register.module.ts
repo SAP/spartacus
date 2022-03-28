@@ -12,6 +12,8 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { RegisterComponent } from './register.component';
+import { PasswordInputModule } from '../../../../../projects/storefrontlib/shared';
+import { IconModule } from '../../../../../projects/storefrontlib/cms-components';
 
 @NgModule({
   imports: [
@@ -23,6 +25,8 @@ import { RegisterComponent } from './register.component';
     SpinnerModule,
     FormErrorsModule,
     NgSelectModule,
+    PasswordInputModule,
+    IconModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

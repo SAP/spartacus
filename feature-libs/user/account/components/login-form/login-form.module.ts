@@ -15,6 +15,8 @@ import {
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
+import { PasswordInputModule } from '../../../../../projects/storefrontlib/shared';
+import { IconModule } from '../../../../../projects/storefrontlib/cms-components/misc/icon/index';
 
 @NgModule({
   imports: [
@@ -26,6 +28,8 @@ import { LoginFormComponent } from './login-form.component';
     I18nModule,
     FormErrorsModule,
     SpinnerModule,
+    PasswordInputModule,
+    IconModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
