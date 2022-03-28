@@ -59,7 +59,7 @@ jobs:
       - name: linting
         run: ci-scripts/validate-lint.sh
   b2c_e2e_tests:
-    name: E2E tests for B2C, 1st job
+    name: E2E tests for B2C
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -86,7 +86,7 @@ jobs:
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
-    name: E2E tests for B2B, 1st job
+    name: E2E tests for B2B
     runs-on: ubuntu-latest
     defaults:
       run: 
