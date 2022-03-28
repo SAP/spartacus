@@ -182,8 +182,10 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: test
-        run: |
-          echo test ${GITHUB_EVENT_NAME}
+        run: | 
+          echo test ${{GITHUB_EVENT_NAME}}
+          echo test2 ${GITHUB_EVENT_NAME}
+          echo test3 $GITHUB_EVENT_NAME
       - name: Required CI failed
         uses: actions/github-script@v5
         with:
