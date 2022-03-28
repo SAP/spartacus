@@ -152,8 +152,8 @@ jobs:
     steps:
       - name: test
         run: |
-          echo ${{ b2c toJSON(needs.b2c_e2e_test_1) }}
-          echo ${{ b2b toJSON(needs.b2b_e2e_test_1) }}
+          echo b2c ${{  toJSON(needs.b2c_e2e_test_1) }}
+          echo b2b ${{  toJSON(needs.b2b_e2e_test_1) }}
       - name: Required CI failed
         uses: actions/github-script@v5
         with:
