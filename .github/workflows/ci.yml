@@ -8,13 +8,13 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-env: 
-  TESTS_CONCLUSION: success
+env:
+  CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
 
 name: Spartacus CI pipeline
 jobs:
   b2c_e2e_test_1:
-    name: B2C Cypress e2e tests 1
+    name: E2E tests for B2C, 1st job
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -22,89 +22,88 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run e2es
-        env:
-          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+        env:        
+          SPA_ENV: ci,b2c
+        run: | 
+          ci-scripts/e2e-cypress.sh        
+  b2c_e2e_test_2:
+    name: E2E tests for B2C, 2nd job
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run e2es
+        env:         
+          SPA_ENV: ci,b2c
+        run: |  
+          ci-scripts/e2e-cypress.sh
+  b2c_e2e_test_3:
+    name: E2E tests for B2C, 3rd job
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run e2es
+        env:         
           SPA_ENV: ci,b2c
         run: |
-          echo ${{ env.TEST_CONCLUSION }}
-          ls -al     
-          echo $GITHUB_WORKSPACE
-          pwd    
           ci-scripts/e2e-cypress.sh
-      - name: Update tests conclusion status on failure
-        if: ${{ failure() }} 
-        run: echo "TESTS_CONCLUSION=failure" >> $GITHUB_ENV
-        
-  # b2c_e2e_test_2:
-  #   name: B2C Cypress e2e tests 2
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run: 
-  #       working-directory: ./
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Run e2es
-  #       env:
-  #         CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  #         SPA_ENV: ci,b2c
-  #       run: |
-  #         ls -al     
-  #         echo $GITHUB_WORKSPACE
-  #         pwd    
-  #         ci-scripts/e2e-cypress.sh
-  # b2c_e2e_test_3:
-  #   name: B2C Cypress e2e tests 3
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run: 
-  #       working-directory: ./
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Run e2es
-  #       env:
-  #         CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  #         SPA_ENV: ci,b2c
-  #       run: |
-  #         ls -al     
-  #         echo $GITHUB_WORKSPACE
-  #         pwd    
-  #         ci-scripts/e2e-cypress.sh
-  # b2c_e2e_test_4:
-  #   name: B2C Cypress e2e tests 4
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run: 
-  #       working-directory: ./
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Run e2es
-  #       env:
-  #         CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  #         SPA_ENV: ci,b2c
-  #       run: |
-  #         ls -al     
-  #         echo $GITHUB_WORKSPACE
-  #         pwd    
-  #         ci-scripts/e2e-cypress.sh
-  # b2c_e2e_test_5:
-  #   name: B2C Cypress e2e tests 5
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run: 
-  #       working-directory: ./
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Run e2es
-  #       env:
-  #         CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  #         SPA_ENV: ci,b2c
-  #       run: |
-  #         ls -al     
-  #         echo $GITHUB_WORKSPACE
-  #         pwd    
-  #         ci-scripts/e2e-cypress.sh
+  b2c_e2e_test_4:
+    name: E2E tests for B2C, 4th job
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run e2es
+        env:         
+          SPA_ENV: ci,b2c
+        run: |
+          ci-scripts/e2e-cypress.sh
+  b2c_e2e_test_5:
+    name: E2E tests for B2C, 5th job
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run e2es
+        env:         
+          SPA_ENV: ci,b2c
+        run: |
+          ci-scripts/e2e-cypress.sh
+  b2c_ssr_e2e_test:
+    name: E2E tests for SSR B2C
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run e2es
+        run: |
+          ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_test_1:
-    name: B2B Cypress e2e tests 1
+    name: E2E tests for B2B, 1st job
+    runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run e2es
+        env:        
+          SPA_ENV: ci,b2b
+        run: |     
+          ci-scripts/e2e-cypress.sh -s b2b
+  b2b_e2e_test_2:
+    name: E2E tests for B2B, 2nd job
     runs-on: ubuntu-latest
     defaults:
       run: 
@@ -113,39 +112,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run e2es
         env:
-          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
           SPA_ENV: ci,b2b
-        run: |
-          echo ${{ env.TEST_CONCLUSION }}
-          ls -al         
+        run: |     
           ci-scripts/e2e-cypress.sh -s b2b
-      - uses: actions/github-script@v5
-        with:
-          script: |
-            core.setFailed('test fail')
-      - name: Update tests conclusion status on failure
-        if: ${{ failure() }} 
-        run: | 
-          echo "TESTS_CONCLUSION=failure" >> $GITHUB_ENV
-          echo ${{ env.TEST_CONCLUSION }}
-
-  # b2b_e2e_test_2:
-  #   name: B2B Cypress e2e tests 2
-  #   runs-on: ubuntu-latest
-  #   defaults:
-  #     run: 
-  #       working-directory: ./
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Run e2es
-  #       env:
-  #         CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-  #         SPA_ENV: ci,b2b
-  #       run: |
-  #         ls -al         
-  #         ci-scripts/e2e-cypress.sh -s b2b
   ci_conclusion:
-    needs: [b2c_e2e_test_1, b2b_e2e_test_1]
+    needs: [b2c_e2e_test_1, b2c_e2e_test_2, b2c_e2e_test_3, b2c_e2e_test_4, b2c_e2e_test_5, b2c_ssr_e2e_test, b2b_e2e_test_1, b2b_e2e_test_2]
     name: CI Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -156,5 +127,11 @@ jobs:
           script: |
             core.setFailed('test fail')  
         if: |
-          needs.b2c_e2e_test_1.result == 'failure' || 
-          needs.b2b_e2e_test_1.result == 'failure'
+          needs.b2c_e2e_test_1.result == 'failure' ||
+          needs.b2c_e2e_test_2.result == 'failure' ||
+          needs.b2c_e2e_test_3.result == 'failure' ||
+          needs.b2c_e2e_test_4.result == 'failure' ||
+          needs.b2c_e2e_test_5.result == 'failure' ||
+          needs.b2c_ssr_e2e_test.result == 'failure' || 
+          needs.b2b_e2e_test_1.result == 'failure' || 
+          needs.b2b_e2e_test_2.result == 'failure'
