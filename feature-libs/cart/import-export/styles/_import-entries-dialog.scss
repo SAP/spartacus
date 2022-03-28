@@ -1,4 +1,5 @@
 cx-import-entries-dialog {
+  user-select: text;
   background-color: rgba(0, 0, 0, 0.5);
   .cx-import-entries-dialog {
     @extend .modal-dialog;
@@ -14,7 +15,6 @@ cx-import-entries-dialog {
 
       .cx-import-entries-header {
         .cx-import-entries-title {
-          pointer-events: none;
           font-size: var(--cx-font-size, 1.375rem);
           font-weight: var(--cx-font-weight-semi);
           line-height: var(--cx-line-height, 1.2222222222);
@@ -89,7 +89,6 @@ cx-import-entries-dialog {
       }
 
       cx-import-entries-summary {
-        pointer-events: none;
         @extend .modal-body;
 
         ul {
