@@ -151,7 +151,7 @@ jobs:
     if: ${{ always() }}
     steps:
       - name: Required CI failed
-      - uses: actions/github-script@v5
+        uses: actions/github-script@v5
         with:
           script: |
             core.setFailed('test fail')
