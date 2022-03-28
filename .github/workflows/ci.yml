@@ -26,74 +26,74 @@ jobs:
           echo $GITHUB_WORKSPACE
           pwd    
           ci-scripts/e2e-cypress.sh
-  b2c_e2e_test_2:
-    name: B2C Cypress e2e tests 2
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:
-          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-          SPA_ENV: ci,b2c
-        run: |
-          ls -al     
-          echo $GITHUB_WORKSPACE
-          pwd    
-          ci-scripts/e2e-cypress.sh
-  b2c_e2e_test_3:
-    name: B2C Cypress e2e tests 3
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:
-          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-          SPA_ENV: ci,b2c
-        run: |
-          ls -al     
-          echo $GITHUB_WORKSPACE
-          pwd    
-          ci-scripts/e2e-cypress.sh
-  b2c_e2e_test_4:
-    name: B2C Cypress e2e tests 4
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:
-          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-          SPA_ENV: ci,b2c
-        run: |
-          ls -al     
-          echo $GITHUB_WORKSPACE
-          pwd    
-          ci-scripts/e2e-cypress.sh
-  b2c_e2e_test_5:
-    name: B2C Cypress e2e tests 5
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:
-          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-          SPA_ENV: ci,b2c
-        run: |
-          ls -al     
-          echo $GITHUB_WORKSPACE
-          pwd    
-          ci-scripts/e2e-cypress.sh
+  # b2c_e2e_test_2:
+  #   name: B2C Cypress e2e tests 2
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run: 
+  #       working-directory: ./
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Run e2es
+  #       env:
+  #         CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+  #         SPA_ENV: ci,b2c
+  #       run: |
+  #         ls -al     
+  #         echo $GITHUB_WORKSPACE
+  #         pwd    
+  #         ci-scripts/e2e-cypress.sh
+  # b2c_e2e_test_3:
+  #   name: B2C Cypress e2e tests 3
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run: 
+  #       working-directory: ./
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Run e2es
+  #       env:
+  #         CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+  #         SPA_ENV: ci,b2c
+  #       run: |
+  #         ls -al     
+  #         echo $GITHUB_WORKSPACE
+  #         pwd    
+  #         ci-scripts/e2e-cypress.sh
+  # b2c_e2e_test_4:
+  #   name: B2C Cypress e2e tests 4
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run: 
+  #       working-directory: ./
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Run e2es
+  #       env:
+  #         CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+  #         SPA_ENV: ci,b2c
+  #       run: |
+  #         ls -al     
+  #         echo $GITHUB_WORKSPACE
+  #         pwd    
+  #         ci-scripts/e2e-cypress.sh
+  # b2c_e2e_test_5:
+  #   name: B2C Cypress e2e tests 5
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run: 
+  #       working-directory: ./
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Run e2es
+  #       env:
+  #         CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+  #         SPA_ENV: ci,b2c
+  #       run: |
+  #         ls -al     
+  #         echo $GITHUB_WORKSPACE
+  #         pwd    
+  #         ci-scripts/e2e-cypress.sh
   b2b_e2e_test_1:
     name: B2B Cypress e2e tests 1
     runs-on: ubuntu-latest
@@ -109,19 +109,31 @@ jobs:
         run: |
           ls -al         
           ci-scripts/e2e-cypress.sh -s b2b
-  b2b_e2e_test_2:
-    name: B2B Cypress e2e tests 2
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./
+      - uses: actions/github-script@v5
+          with:
+              script: |
+                core.setFailed('test fail')
+  # b2b_e2e_test_2:
+  #   name: B2B Cypress e2e tests 2
+  #   runs-on: ubuntu-latest
+  #   defaults:
+  #     run: 
+  #       working-directory: ./
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Run e2es
+  #       env:
+  #         CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+  #         SPA_ENV: ci,b2b
+  #       run: |
+  #         ls -al         
+  #         ci-scripts/e2e-cypress.sh -s b2b
+  ci_conclusion:
+    needs: [b2c_e2e_test_1, b2b_e2e_test_1]
+    name: CI Conclusion
+    if(: ${{ always() }})
     steps:
-      - uses: actions/checkout@v2
       - name: Run e2es
-        env:
-          CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
-          SPA_ENV: ci,b2b
         run: |
-          ls -al         
-          ci-scripts/e2e-cypress.sh -s b2b
-        
+          echo b2c ${{ needs.b2c_e2e_test_1.conclusion}}
+          echo b2b ${{ needs.b2b_e2e_test_1.conclusion}}
