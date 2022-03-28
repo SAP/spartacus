@@ -26,7 +26,7 @@ jobs:
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
-      - name: Run unit tests for core and storefront
+      - name: Run unit tests for core Spartacus libs
         run: ci-scripts/unit-tests-core-lib.sh
   unit_tests_libs:
     name: Unit tests for integration libs
@@ -41,7 +41,7 @@ jobs:
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
-      - name: Run unit tests for libs
+      - name: Run unit tests for integration libs
         run: ci-scripts/unit-tests.sh
   linting:
     name: Validation checks
@@ -56,7 +56,7 @@ jobs:
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
-      - name: linting
+      - name: Validate linting
         run: ci-scripts/validate-lint.sh
   b2c_e2e_tests_1:
     name: E2E tests for B2C, 1st job
@@ -173,7 +173,7 @@ jobs:
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
-      - name: Run unit tests for core and storefront
+      - name: Run lighthouse score validation
         run: ci-scripts/lhci.sh
   ci_conclusion:
     needs: [unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests_1, b2c_e2e_tests_2, b2c_e2e_tests_3, b2c_e2e_tests_4, b2c_e2e_tests_5, b2c_ssr_e2e_tests, b2b_e2e_tests_1, b2b_e2e_tests_2, lighthouse]
