@@ -59,6 +59,9 @@ echo "Building Spartacus libraries"
 
 echo "test something ${GITHUB_EVENT_NAME}"
 
+echo "TEST"
+echo $GITHUB_RUN_ATTEMPT
+
 # yarn install
 
 # (cd projects/storefrontapp-e2e-cypress && yarn install)
