@@ -14,10 +14,10 @@ env:
 name: Spartacus CI pipeline
 jobs:
   no_retries: 
-    name: No retries allowed. Please push an empty commit.
+    name: Verify retries
     runs-on: ubuntu-latest
     steps:
-      - name: Force fail CI
+      - name: Force fail CI. No retries allowed. Please push an empty commit.
         uses: actions/github-script@v5
         with:
           script: |
@@ -139,23 +139,17 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - name: test
-        run: | 
-          echo test ${{ github.event.state }}
-          echo test ${{ github.event.status }}
-          echo test ${{ toJSON(needs.no_retries) }}
-          echo test ${{ toJSON(needs.b2c_e2e_tests) }}
       - name: Required CI failed
         uses: actions/github-script@v5
         with:
           script: |
             core.setFailed('CI failed')
         if: |
-          needs.no_retries.result == 'failure' ||
-          needs.unit_tests_core.result == 'failure' ||
-          needs.unit_tests_libsresult == 'failure' ||
-          needs.linting.result == 'failure' ||
-          needs.b2c_e2e_tests.result == 'failure' ||
-          needs.b2c_ssr_e2e_tests.result == 'failure' || 
-          needs.b2b_e2e_tests.result == 'failure' || 
-          needs.lighthouse.result == 'failure'
+          needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' || needs.no_retries.result == 'skipped' ||
+          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' || needs.unit_tests_core.result == 'skipped' ||
+          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' || needs.unit_tests_libs.result == 'skipped' ||
+          needs.linting.result == 'failure' || needs.linting.result == 'cancelled' || needs.linting.result == 'skipped' ||
+          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' || needs.b2c_e2e_tests.result == 'skipped' ||
+          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || needs.b2c_ssr_e2e_tests.result == 'skipped' || 
+          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' || needs.b2b_e2e_tests.result == 'skipped' || 
+          needs.lighthouse.result == 'failure' || needs.lighthouse.result == 'cancelled' || needs.lighthouse.result == 'skipped'
