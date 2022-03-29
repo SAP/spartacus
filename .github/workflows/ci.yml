@@ -22,11 +22,11 @@ jobs:
     name: Verify retries
     runs-on: ubuntu-latest
     steps:
-      - name: Force fail CI. No retries allowed. Please push an empty commit.
+      - name: Forcefully fail CI pipeline if retried
         uses: actions/github-script@v5
         with:
           script: |
-            core.setFailed('Please push an empty commit - git commit --allow-empty -m "Trigger Build"') 
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
   unit_tests_core:
     needs: no_retries
