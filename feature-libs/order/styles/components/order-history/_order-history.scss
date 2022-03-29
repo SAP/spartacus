@@ -186,6 +186,8 @@
   }
 
   .cx-order-history-no-order {
+    display: flex;
+    flex-wrap: wrap;
     @include type('5');
     font-weight: $font-weight-normal;
     min-height: 415px;
