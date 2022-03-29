@@ -118,9 +118,7 @@ function normalizeNewLinesForFunction(doc: string) {
 }
 
 function normalizePropertyDoc(doc: string): string {
-  return normalizeNewLinesForProperty(doc).replace(/\s+/g, ' ').trim();
-}
-
-function normalizeNewLinesForProperty(doc: string) {
-  return doc.replace(/\n/g, '');
+  doc = doc.replace(/\n/g, ''); // remove newline chars.
+  doc = doc.replace(/\s+/g, ' ').trim(); // remove multiple consecutive spaces
+  return doc;
 }

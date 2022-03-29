@@ -411,22 +411,6 @@ function getEnumBreakingChange(oldElement: any, newElement: any): any[] {
   }
 }
 
-function getGenericCompareBreakingChange(
-  oldElement: any,
-  newElement: any
-): any[] {
-  if (!deepEqual(oldElement, newElement)) {
-    return [
-      {
-        ...getChangeDesc(oldElement, 'CHANGED'),
-        new: newElement,
-      },
-    ];
-  } else {
-    return [];
-  }
-}
-
 function getChangeName(elementKind: string, changeType: string) {
   return `${elementKind.toUpperCase()}_${changeType}`;
 }

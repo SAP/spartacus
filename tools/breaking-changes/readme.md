@@ -46,7 +46,7 @@ Typically the documentation is placed in the folder `docs/migration`
 
 Some cases requires manual review to complete.  The preferable way to deal with those is to update the data in `breaking-changes.json`.  This way, the migration assets can be re-generated to reflect the changes.
 
-The API elements that were detected as deleted by the script need human intervention.  Theere are different cases:
+The API elements that were detected as deleted by the script need human intervention.  There are different cases:
 
 ## The API element is deleted
 
