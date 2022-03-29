@@ -16,6 +16,7 @@ import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
+  DialogComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, pluck } from 'rxjs/operators';
@@ -24,7 +25,7 @@ import { finalize, pluck } from 'rxjs/operators';
   templateUrl: './import-entries-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesDialogComponent {
+export class ImportEntriesDialogComponent extends DialogComponent {
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -36,10 +37,8 @@ export class ImportEntriesDialogComponent {
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
     // Close on click outside the dialog window
-    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      if (!this.summary$.getValue().loading) {
-        this.close('Cross click');
-      }
+    if (!this.summary$.getValue().loading) {
+      super.handleClick(event);
     }
   }
 
@@ -60,14 +59,12 @@ export class ImportEntriesDialogComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
-  ) {}
+  ) {
+    super(launchDialogService, el);
+  }
 
   isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;
-  }
-
-  close(reason: string): void {
-    this.launchDialogService.closeDialog(reason);
   }
 
   importProducts(

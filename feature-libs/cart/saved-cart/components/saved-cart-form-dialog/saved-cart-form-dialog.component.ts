@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -28,6 +27,7 @@ import {
   FormUtils,
   ICON_TYPE,
   LaunchDialogService,
+  DialogComponent,
 } from '@spartacus/storefront';
 import { combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { map, mapTo, take } from 'rxjs/operators';
@@ -42,7 +42,10 @@ export interface SavedCartFormDialogOptions {
   templateUrl: './saved-cart-form-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
+export class SavedCartFormDialogComponent
+  extends DialogComponent
+  implements OnInit, OnDestroy
+{
   private subscription = new Subscription();
   savedCartFormType = SavedCartFormType;
   form: FormGroup;
@@ -72,14 +75,6 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     );
   }
 
-  @HostListener('click', ['$event'])
-  handleClick(event: UIEvent): void {
-    // Close on click outside the dialog window
-    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.close('Cross click');
-    }
-  }
-
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
@@ -87,7 +82,9 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected eventService: EventService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService
-  ) {}
+  ) {
+    super(launchDialogService, el);
+  }
 
   ngOnInit(): void {
     this.resetSavedCartStates();
@@ -190,10 +187,6 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  close(reason: string): void {
-    this.launchDialogService.closeDialog(reason);
-  }
-
   onComplete(success: boolean): void {
     if (success) {
       switch (this.layoutOption) {
@@ -291,6 +284,5 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
-    this.close('close dialog');
   }
 }
