@@ -119,7 +119,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
     // standard interval a - b
     if (value.name.includes(' - ')) {
-      let index = value?.name.indexOf(' - ');
+      let index = value.name.indexOf(' - ');
       minVal = value.name.substring(0, index);
       maxVal = value.name.substring(index + 3, value.name.length);
       interval.minValueIncluded = true;
@@ -134,7 +134,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
         maxVal = maxVal.replace('<', '');
       }
 
-      // infinite interval
+      // infinite interval or single value
     } else {
       if (value.name.includes('>')) {
         minVal = value.name;

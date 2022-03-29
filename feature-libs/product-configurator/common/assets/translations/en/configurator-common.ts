@@ -187,6 +187,7 @@ export const configurator = {
       numericInfiniteIntervalMaxValueIncluded:
         'Enter a value less than or equal to {{ maxValue }}',
       numericInfiniteIntervalMaxValue: 'Enter a value less than {{ maxValue }}',
+      numericIntervalSingleValue: 'Enter {{ value }}',
       combinedIntervalsText: '{{ combinedInterval }} or {{ newInterval }}',
     },
   },

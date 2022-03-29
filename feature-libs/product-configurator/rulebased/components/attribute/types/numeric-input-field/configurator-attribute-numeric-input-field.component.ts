@@ -192,6 +192,15 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   ): string {
     let intervalText = '';
     if (interval.minValue && interval.maxValue) {
+      if (interval.minValue === interval.maxValue) {
+        this.translation
+          .translate('configurator.a11y.numericIntervalSingleValue', {
+            value: interval.minValue,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (intervalText = text));
+        return intervalText;
+      }
       this.translation
         .translate('configurator.a11y.numericIntervalStandard', {
           minValue: interval.minValue,
@@ -203,28 +212,21 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       if (!interval.minValueIncluded || !interval.maxValueIncluded) {
         if (!interval.minValueIncluded && !interval.maxValueIncluded) {
           intervalText += ' ';
-          this.translation
-            .translate('configurator.a11y.numericIntervalStandardOpen')
-            .pipe(take(1))
-            .subscribe((text) => (intervalText += text));
+          intervalText += this.getAdditionalIntervalText(
+            'configurator.a11y.numericIntervalStandardOpen'
+          );
         } else {
           if (!interval.minValueIncluded) {
             intervalText += ' ';
-            this.translation
-              .translate(
-                'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
-              )
-              .pipe(take(1))
-              .subscribe((text) => (intervalText += text));
+            intervalText += this.getAdditionalIntervalText(
+              'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
+            );
           }
           if (!interval.maxValueIncluded) {
             intervalText += ' ';
-            this.translation
-              .translate(
-                'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
-              )
-              .pipe(take(1))
-              .subscribe((text) => (intervalText += text));
+            intervalText += this.getAdditionalIntervalText(
+              'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
+            );
           }
         }
       }
@@ -271,6 +273,15 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         }
       }
     }
+    return intervalText;
+  }
+
+  protected getAdditionalIntervalText(key: string): string {
+    let intervalText = '';
+    this.translation
+      .translate(key)
+      .pipe(take(1))
+      .subscribe((text) => (intervalText = text));
     return intervalText;
   }
 

@@ -352,7 +352,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       maxValueIncluded: true,
     };
 
-    it('should retun aria text for standard interval', fakeAsync(() => {
+    it('should return aria text for standard interval', fakeAsync(() => {
       fixture.detectChanges();
       tick(DEBOUNCE_TIME);
 
@@ -470,6 +470,20 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           interval.maxValue
       );
     }));
+
+    it('should return text for single value', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = 5;
+      interval.minValueIncluded = false;
+      interval.maxValueIncluded = false;
+
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+      expect(component['getIntervalText'](interval)).toBe(
+        'configurator.a11y.numericIntervalSingleValue value:' +
+          interval.minValue
+      );
+    }));
   });
 
   describe('getIntervalTexts', () => {
@@ -503,6 +517,31 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ' newInterval:' +
           'configurator.a11y.numericInfiniteIntervalMinValueIncluded minValue:' +
           interval2.minValue
+      );
+    }));
+
+    it('should return concatenated aria text for multiple intervals with single value', fakeAsync(() => {
+      let interval3: ConfiguratorAttributeNumericInterval = {
+        minValue: 10,
+        maxValue: 10,
+        minValueIncluded: false,
+        maxValueIncluded: false,
+      };
+
+      component.intervals = [];
+      component.intervals.push(interval1);
+      component.intervals.push(interval3);
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getHelpTextForInterval()).toBe(
+        'configurator.a11y.combinedIntervalsText combinedInterval:' +
+          'configurator.a11y.numericIntervalStandard maxValue:' +
+          interval1.maxValue +
+          ' minValue:' +
+          interval1.minValue +
+          ' newInterval:configurator.a11y.numericIntervalSingleValue value:' +
+          interval3.minValue
       );
     }));
   });
