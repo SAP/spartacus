@@ -67,12 +67,14 @@ function getSchematicsComment(breakingChange: any): string {
     // When the method info is available, we probably want to generate the signature instead of formatting the doc.
     return `The '${
       breakingChange.changeElementName
-    }' method's signature changed to: '${normalizeDocSignature(
+    }' method's signature changed to: '${normalizeFunctionSignatureDoc(
       breakingChange.currentStateDoc
     )}'`;
   }
   if (breakingChange.changeKind.startsWith('Property')) {
-    return `The type of property '${breakingChange.previousStateDoc}' changed to: '${breakingChange.currentStateDoc}' `;
+    return `The type of property '${normalizePropertyDoc(
+      breakingChange.previousStateDoc
+    )}' changed to: '${normalizePropertyDoc(breakingChange.currentStateDoc)}' `;
   }
   throw new Error(
     `Unsupported breaking change ${breakingChange.change}:${breakingChange.changeElementName}`
@@ -105,13 +107,21 @@ function isMethodOrProperty(memberKind: string): boolean {
   return memberKind.startsWith('Method') || memberKind.startsWith('Property');
 }
 
-function normalizeDocSignature(doc: string): string {
-  return normalizeNewLines(doc).replace(/\s+/g, ' ').trim();
+function normalizeFunctionSignatureDoc(doc: string): string {
+  return normalizeNewLinesForFunction(doc).replace(/\s+/g, ' ').trim();
 }
 
-function normalizeNewLines(doc: string) {
+function normalizeNewLinesForFunction(doc: string) {
   doc = doc.slice(1).slice(0, -1); // Remove first and last chars.  They are \n.
   doc = doc.replace(/\(\n/, '('); // Remove \n next to the opening parenthesis.
   doc = doc.replace(/\n\)/, ' )'); // Remove \n next to the closing parenthesis.
   return doc.replace(/\n/g, ','); // The rest of the \n are between params.  Replace with `,`
+}
+
+function normalizePropertyDoc(doc: string): string {
+  return normalizeNewLinesForProperty(doc).replace(/\s+/g, ' ').trim();
+}
+
+function normalizeNewLinesForProperty(doc: string) {
+  return doc.replace(/\n/g, '');
 }
