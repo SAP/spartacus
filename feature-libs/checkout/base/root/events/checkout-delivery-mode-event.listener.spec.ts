@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { LoadCartEvent } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, LoadCartEvent } from '@spartacus/cart/base/root';
 import {
   createFrom,
   CxEvent,
@@ -34,6 +34,10 @@ class MockEventService implements Partial<EventService> {
   dispatch = createSpy();
 }
 
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+}
+
 describe(`CheckoutDeliveryModeEventListener`, () => {
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let eventService: EventService;
@@ -50,35 +54,51 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
           provide: CheckoutDeliveryModesFacade,
           useClass: MockCheckoutDeliveryModesFacade,
         },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
+        },
       ],
     });
 
     TestBed.inject(CheckoutDeliveryModeEventListener);
     checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     eventService = TestBed.inject(EventService);
+    TestBed.inject(ActiveCartFacade);
   });
 
   describe(`onUserAddressChange`, () => {
     it(`UpdateUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(new UpdateUserAddressEvent());
+      mockEventStream$.next(
+        createFrom(UpdateUserAddressEvent, {
+          userId: mockUserId,
+          address: {},
+          addressId: 'test-address-id',
+        })
+      );
 
       expect(
         checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
       ).toHaveBeenCalled();
       expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
+        { cartId: mockCartId, userId: mockUserId },
         CheckoutResetDeliveryModesEvent
       );
     });
 
     it(`DeleteUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(new DeleteUserAddressEvent());
+      mockEventStream$.next(
+        createFrom(DeleteUserAddressEvent, {
+          userId: mockUserId,
+          addressId: 'test-address-id',
+        })
+      );
 
       expect(
         checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
       ).toHaveBeenCalled();
       expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
+        { cartId: mockCartId, userId: mockUserId },
         CheckoutResetDeliveryModesEvent
       );
     });
