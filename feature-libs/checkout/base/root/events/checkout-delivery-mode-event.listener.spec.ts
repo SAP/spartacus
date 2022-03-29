@@ -1,14 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, LoadCartEvent } from '@spartacus/cart/base/root';
-import {
-  createFrom,
-  CxEvent,
-  DeleteUserAddressEvent,
-  EventService,
-  UpdateUserAddressEvent,
-} from '@spartacus/core';
-import { of, Subject } from 'rxjs';
-import { CheckoutDeliveryModesFacade } from '../facade/checkout-delivery-modes.facade';
+import { createFrom, CxEvent, EventService } from '@spartacus/core';
+import { Subject } from 'rxjs';
 import { CheckoutDeliveryModeEventListener } from './checkout-delivery-mode-event.listener';
 import {
   CheckoutDeliveryModeClearedEvent,
@@ -21,12 +14,6 @@ import createSpy = jasmine.createSpy;
 const mockUserId = 'test-user-id';
 const mockCartId = 'test-cart-id';
 
-class MockCheckoutDeliveryModesFacade
-  implements Partial<CheckoutDeliveryModesFacade>
-{
-  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
-}
-
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
@@ -34,12 +21,7 @@ class MockEventService implements Partial<EventService> {
   dispatch = createSpy();
 }
 
-class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-}
-
 describe(`CheckoutDeliveryModeEventListener`, () => {
-  let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let eventService: EventService;
 
   beforeEach(() => {
@@ -50,58 +32,12 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
           provide: EventService,
           useClass: MockEventService,
         },
-        {
-          provide: CheckoutDeliveryModesFacade,
-          useClass: MockCheckoutDeliveryModesFacade,
-        },
-        {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartFacade,
-        },
       ],
     });
 
     TestBed.inject(CheckoutDeliveryModeEventListener);
-    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     eventService = TestBed.inject(EventService);
     TestBed.inject(ActiveCartFacade);
-  });
-
-  describe(`onUserAddressChange`, () => {
-    it(`UpdateUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(
-        createFrom(UpdateUserAddressEvent, {
-          userId: mockUserId,
-          address: {},
-          addressId: 'test-address-id',
-        })
-      );
-
-      expect(
-        checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
-      ).toHaveBeenCalled();
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { cartId: mockCartId, userId: mockUserId },
-        CheckoutResetDeliveryModesEvent
-      );
-    });
-
-    it(`DeleteUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(
-        createFrom(DeleteUserAddressEvent, {
-          userId: mockUserId,
-          addressId: 'test-address-id',
-        })
-      );
-
-      expect(
-        checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
-      ).toHaveBeenCalled();
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { cartId: mockCartId, userId: mockUserId },
-        CheckoutResetDeliveryModesEvent
-      );
-    });
   });
 
   describe(`onDeliveryModeChange`, () => {
