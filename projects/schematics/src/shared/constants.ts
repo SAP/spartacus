@@ -270,6 +270,7 @@ export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
 export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
 export const TAB_PARAGRAPH_CONTAINER_COMPONENT =
   'TabParagraphContainerComponent';
+export const PARAGRAPH_COMPONENT = 'ParagraphComponent';
 export const NAVIGATION_UI_COMPONENT = 'NavigationUIComponent';
 export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
 export const CART_CONFIG_SERVICE = 'CartConfigService';
