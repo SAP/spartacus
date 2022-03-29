@@ -44,19 +44,17 @@ Typically the documentation is placed in the folder `docs/migration`
 
 # Post generation tasks:
 
-## Manual review of all the deleted API element.
-
 Some cases requires manual review to complete.  The preferable way to deal with those is to update the data in `breaking-changes.json`.  This way, the migration assets can be re-generated to reflect the changes.
 
 The API elements that were detected as deleted by the script need human intervention.  Theere are different cases:
 
-### The API element is deleted
+## The API element is deleted
 
 tl/dr: Add a migration comment in `breaking-changes.json`.
 
 The simple case is when the API element is indeed deleted.  In this case, we have to add a `migrationComment` in the corresponding entry in `breaking-changes.json`.  The migration comment is meant to help users understand why the item is deleted and most importantly what to use instead.
 
-### The API element is Renamed
+## The API element is Renamed
 
 tl/dr: Flag the api element as renamed in `breaking-changes.json` and add any other breaking changes that the api element might contain.
 
