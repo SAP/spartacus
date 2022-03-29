@@ -73,7 +73,7 @@ else
     exit 1
 fi
 echo '-----'
-echo "Building Spartacus storefrontapp"
+echo "Building Spartacus storefrontapp 2"
 yarn build
 
 if [[ "${SSR}" = true ]]; then
