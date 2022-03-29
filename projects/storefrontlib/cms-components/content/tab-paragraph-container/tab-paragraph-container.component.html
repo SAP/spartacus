@@ -21,7 +21,11 @@
           <span class="accordion-icon" aria-hidden="true"></span>
         </button>
 
-        <div [class.active]="i === activeTabNum" tabindex="0" class="tab-info">
+        <div
+          [class.active]="i === activeTabNum"
+          class="cx-tab-paragraph-content"
+          tabindex="0"
+        >
           <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
             <ng-container
               [cxComponentWrapper]="component"
