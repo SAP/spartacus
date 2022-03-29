@@ -23,6 +23,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/index';
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   activeTabNum = 0;
+  key: string | undefined;
 
   @ViewChildren(ComponentWrapperDirective)
   children!: QueryList<ComponentWrapperDirective>;
@@ -46,6 +47,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
               if (!tab) {
                 return undefined;
               }
+              this.key = data.uid;
 
               if (!tab.flexType) {
                 tab = {

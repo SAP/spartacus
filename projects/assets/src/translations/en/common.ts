@@ -199,4 +199,8 @@ export const common = {
   assistiveMessage: {
     actionCancelled: 'Action cancelled, nothing changed',
   },
+  tabParagraphContainer: {
+    TabPanelContainer: 'Tab group with more product details',
+    AccountOrderHistoryTabContainer: 'Tab group with order history details',
+  },
 };
