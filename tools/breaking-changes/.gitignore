@@ -2,3 +2,4 @@ src
 out
 *.out.ts
 *.out.md
+*.out.txt

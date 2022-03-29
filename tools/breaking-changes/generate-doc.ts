@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-const { execSync } = require('child_process');
+import { isMember, isTopLevelApi } from './common';
 
 /**
  * This script generates thee breaking changes markdown doc.
@@ -8,7 +8,6 @@ const { execSync } = require('child_process');
  * Output: A file, `generate-doc.out.md`, that contains the markdown doc to be copied in the release docs.
  *
  */
-
 
 /**
  * -----------
@@ -27,8 +26,6 @@ const breakingChangesData = JSON.parse(
 console.log(
   `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
 );
-
-let ticketCount = 0;
 
 const breakingChangeDoc = [];
 breakingChangesData.forEach((apiElement: any) => {
@@ -85,18 +82,6 @@ function hasNewNamespace(apiElement: any): boolean {
 function hasNewEntryPoint(apiElement: any): boolean {
   return !!apiElement.newEntryPoint;
 }
-// function getFullNewName(apiElement: any): string {
-//   const newName = isRenamed(apiElement) ? apiElement.newName : apiElement.name;
-//   const newNamespace = hasNewNamespace(apiElement)
-//     ? apiElement.newNamespace
-//     : apiElement.nameSpace;
-
-//   if (newNamespace) {
-//     return `${newNamespace}.${newName}`;
-//   } else {
-//     return newName;
-//   }
-// }
 
 function getDeletdDoc(apiElement: any): string {
   return `
@@ -183,28 +168,4 @@ ${MD_CODEBLOCK}${breakingChange.currentStateDoc}${MD_CODEBLOCK}
   }
 
   return doc;
-}
-
-function isMember(kind: string): boolean {
-  const memberKinds = [
-    'Constructor',
-    'IndexSignature',
-    'MethodSignature',
-    'Method',
-    'PropertySignature',
-    'Property',
-  ];
-  return memberKinds.includes(kind);
-}
-
-function isTopLevelApi(kind: string): boolean {
-  const apiKinds = [
-    'Interface',
-    'Class',
-    'Enum',
-    'TypeAlias',
-    'Variable',
-    'Function',
-  ];
-  return apiKinds.includes(kind);
 }

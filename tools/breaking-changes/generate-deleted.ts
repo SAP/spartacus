@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
-const { execSync } = require('child_process');
 
 /**
  * This script generates deleted api elements schematics code.
@@ -25,8 +24,6 @@ const breakingChangesData = JSON.parse(
 console.log(
   `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
 );
-
-let ticketCount = 0;
 
 const deletedApiSchematics = [];
 for (let index = 0; index < breakingChangesData.length; index++) {

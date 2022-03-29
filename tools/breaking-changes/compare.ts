@@ -5,7 +5,6 @@ import * as common from './common';
 // --------------------------------------------------
 // Main Logic
 // --------------------------------------------------
-const memberTypes = new Set();
 const oldApiFile = process.argv[2];
 const newApiFile = process.argv[3];
 
@@ -334,7 +333,6 @@ function paramDiff(oldMember: any, newMember: any): any[] {
 
 function setParamsImportPath(parameters: any[], apiData: any[]) {
   parameters.forEach((param: any, index: number) => {
-    //console.log(`canon ref: ${param.canonicalReference} `);
     if (param.canonicalReference.startsWith('@spartacus')) {
       // lookup
       const kind = extractKindFromCanonical(param.canonicalReference); // class, interface, etc
@@ -418,22 +416,6 @@ function getEnumBreakingChange(oldElement: any, newElement: any): any[] {
         previousStateDoc: oldElement.members.join(',\n'),
         currentStateDoc: newElement.members.join(',\n'),
         new: newElement.members,
-      },
-    ];
-  } else {
-    return [];
-  }
-}
-
-function getGenericCompareBreakingChange(
-  oldElement: any,
-  newElement: any
-): any[] {
-  if (!deepEqual(oldElement, newElement)) {
-    return [
-      {
-        ...getChangeDesc(oldElement, 'CHANGED'),
-        new: newElement,
       },
     ];
   } else {

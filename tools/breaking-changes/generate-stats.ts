@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as common from './common';
-const { execSync } = require('child_process');
 
 /**
  * This script generates stats from a breaking changes data sfile.
