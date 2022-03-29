@@ -9,7 +9,6 @@ import {
   CmsService,
   CmsVideoComponent,
   ContainerBackgroundOptions,
-  ContainerSizeOptions,
   PageType,
   SemanticPathService,
 } from '@spartacus/core';
