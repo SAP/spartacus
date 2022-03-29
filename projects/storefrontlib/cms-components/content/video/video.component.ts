@@ -109,15 +109,6 @@ export class VideoComponent implements OnDestroy {
     }
   }
 
-  getHeight(data: CmsVideoComponent): number | undefined {
-    if (
-      data.containerSize === ContainerSizeOptions.DEFINE_CONTAINER_HEIGHT &&
-      data.videoContainerHeight
-    ) {
-      return data.videoContainerHeight;
-    }
-  }
-
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
