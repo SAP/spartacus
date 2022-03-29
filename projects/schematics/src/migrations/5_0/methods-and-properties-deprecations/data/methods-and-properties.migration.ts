@@ -84,7 +84,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/cart/quick-order/root',
       deprecatedNode: 'quickOrder',
       comment:
-        "The type of property 'quickOrder: {\n        searchForm?: {\n            displayProductImages: boolean;\n            maxProducts: number;\n            minCharactersBeforeRequest: number;\n        };\n    }' changed to: 'quickOrder: {\n        searchForm?: {\n            displayProductImages: boolean;\n            maxProducts: number;\n            minCharactersBeforeRequest: number;\n        };\n        list?: {\n            hardDeleteTimeout: number;\n        };\n    }' ",
+        "The type of property 'quickOrder: { searchForm?: { displayProductImages: boolean; maxProducts: number; minCharactersBeforeRequest: number; }; }' changed to: 'quickOrder: { searchForm?: { displayProductImages: boolean; maxProducts: number; minCharactersBeforeRequest: number; }; list?: { hardDeleteTimeout: number; }; }' ",
     },
     {
       class: 'QuickOrderFacade',
@@ -882,21 +882,21 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'payload',
       comment:
-        "The type of property 'payload: {\n        userId: string;\n        name: string;\n        description?: string;\n    }' changed to: 'payload: {\n        userId: string;\n        name?: string;\n        description?: string;\n    }' ",
+        "The type of property 'payload: { userId: string; name: string; description?: string; }' changed to: 'payload: { userId: string; name?: string; description?: string; }' ",
     },
     {
       class: 'CreateWishListSuccess',
       importPath: '@spartacus/core',
       deprecatedNode: 'payload',
       comment:
-        "The type of property 'payload: {\n        cart: Cart;\n        userId: string;\n    }' changed to: 'payload: {\n        cart: Cart;\n        cartId: string;\n    }' ",
+        "The type of property 'payload: { cart: Cart; userId: string; }' changed to: 'payload: { cart: Cart; cartId: string; }' ",
     },
     {
       class: 'LoadWishListSuccess',
       importPath: '@spartacus/core',
       deprecatedNode: 'payload',
       comment:
-        "The type of property 'payload: LoadWishListSuccessPayload' changed to: 'payload: {\n        cart: Cart;\n        cartId: string;\n    }' ",
+        "The type of property 'payload: LoadWishListSuccessPayload' changed to: 'payload: { cart: Cart; cartId: string; }' ",
     },
     {
       class: 'CartAdapter',
@@ -973,7 +973,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'globalMessages',
       comment:
-        "The type of property 'globalMessages: {\n        [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig;\n    }' changed to: 'globalMessages: {\n        [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_ASSISTIVE]?: GlobalMessageTypeConfig;\n    }' ",
+        "The type of property 'globalMessages: { [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig; }' changed to: 'globalMessages: { [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig; [GlobalMessageType.MSG_TYPE_ASSISTIVE]?: GlobalMessageTypeConfig; }' ",
     },
     {
       class: 'MultiCartService',
