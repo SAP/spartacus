@@ -1,7 +1,6 @@
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
-const { execSync } = require('child_process');
 
 /**
  * This script generated the constructor deprecation schematics entries.

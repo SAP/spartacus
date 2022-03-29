@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
-const { execSync } = require('child_process');
 
 /**
  * This script generates deleted api elements schematics code.

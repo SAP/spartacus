@@ -31,16 +31,11 @@ function runExtractor(libPath: string) {
   // Update the package.json file
   console.log(`update package name in file ${libPath}/package.json`);
   updateNameInPackageJson(`${libPath}/package.json`);
-  // copy the config file
-  // TODO
   // Load and parse the api-extractor.json file
   const apiExtractorJsonPath: string = path.join(
     __dirname,
     `${libPath}/api-extractor.json`
   );
-  // console.log(
-  //   `Copy config file ./api-extractor.json -> ${apiExtractorJsonPath}`
-  // );
   fs.copyFileSync('api-extractor.json', apiExtractorJsonPath);
 
   const extractorConfig: ExtractorConfig =

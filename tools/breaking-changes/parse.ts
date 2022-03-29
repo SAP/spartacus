@@ -191,16 +191,6 @@ function getParamType(tokenRange: any, tokens: any[]): string {
   return paramType;
 }
 
-function getCanonicalReference(tokenRange: any, tokens: any[]): string {
-  const startIndex: number = tokenRange.startIndex;
-  const endIndex: number = tokenRange.endIndex;
-  return tokens
-    .slice(startIndex, endIndex)
-    .filter((token) => token.kind === 'Reference')
-    .map((token) => token.canonicalReference)
-    .join('');
-}
-
 function getTypeReferenceToken(tokenRange: any, tokens: any[]): any {
   const startIndex: number = tokenRange.startIndex;
   const endIndex: number = tokenRange.endIndex;

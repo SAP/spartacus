@@ -5,7 +5,6 @@ import * as common from './common';
 // --------------------------------------------------
 // Main Logic
 // --------------------------------------------------
-const memberTypes = new Set();
 const oldApiFile = process.argv[2];
 const newApiFile = process.argv[3];
 
@@ -322,7 +321,6 @@ function paramDiff(oldMember: any, newMember: any): any[] {
 
 function setParamsImportPath(parameters: any[], apiData: any[]) {
   parameters.forEach((param: any, index: number) => {
-    //console.log(`canon ref: ${param.canonicalReference} `);
     if (param.canonicalReference.startsWith('@spartacus')) {
       // lookup
       const kind = extractKindFromCanonical(param.canonicalReference); // class, interface, etc

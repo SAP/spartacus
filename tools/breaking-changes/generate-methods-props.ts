@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
 import { printStatsForBreakingChangeList } from './common';
-const { execSync } = require('child_process');
 
 /**
  * This script generates methods and properties schematics code.

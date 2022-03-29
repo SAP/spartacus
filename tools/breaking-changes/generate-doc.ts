@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import { isMember, isTopLevelApi } from './common';
-const { execSync } = require('child_process');
 
 /**
  * This script generates thee breaking changes markdown doc.
@@ -83,18 +82,6 @@ function hasNewNamespace(apiElement: any): boolean {
 function hasNewEntryPoint(apiElement: any): boolean {
   return !!apiElement.newEntryPoint;
 }
-// function getFullNewName(apiElement: any): string {
-//   const newName = isRenamed(apiElement) ? apiElement.newName : apiElement.name;
-//   const newNamespace = hasNewNamespace(apiElement)
-//     ? apiElement.newNamespace
-//     : apiElement.nameSpace;
-
-//   if (newNamespace) {
-//     return `${newNamespace}.${newName}`;
-//   } else {
-//     return newName;
-//   }
-// }
 
 function getDeletdDoc(apiElement: any): string {
   return `
