@@ -44,13 +44,11 @@ export class ProductIntroComponent {
 
   protected reviewsTranslationKey = `TabPanelContainer.tabs.${this.reviewsComponentId}`;
 
-  protected pageLayoutSelector = 'cx-page-layout.ProductDetailsPageTemplate';
-
   constructor(
     protected currentProductService: CurrentProductService,
     protected translationService: TranslationService,
-    protected eventService: EventService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected eventService: EventService
   ) {}
 
   /**

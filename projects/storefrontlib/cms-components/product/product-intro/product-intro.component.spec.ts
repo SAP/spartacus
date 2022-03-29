@@ -41,7 +41,7 @@ class MockEventService {
 
 const reviewsLabel = 'Reviews';
 
-fdescribe('ProductIntroComponent in product', () => {
+describe('ProductIntroComponent in product', () => {
   let productIntroComponent: ProductIntroComponent;
   let fixture: ComponentFixture<ProductIntroComponent>;
   let translationService: TranslationService;
@@ -201,11 +201,11 @@ fdescribe('ProductIntroComponent in product', () => {
       );
     });
 
-    it('should not display Show Reviews when reviews component has been destroyed', () => {
-      const event = new ComponentDestroyEvent();
+    it('should display Show Reviews when the reviews component is available', () => {
+      const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
-      spyOn(eventService, 'get').and.returnValues(of(), of(event));
+      spyOn(eventService, 'get').and.returnValues(of(event), of());
 
       fixture = TestBed.createComponent(ProductIntroComponent);
       productIntroComponent = fixture.componentInstance;
@@ -213,15 +213,15 @@ fdescribe('ProductIntroComponent in product', () => {
       productIntroComponent.product$ = of<Product>({
         averageRating: 5,
       });
-      productIntroComponent['getReviewsComponent'] = () => null;
+      productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
 
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
         'productSummary.showReviews'
       );
     });
 
-    it('should display Show Reviews when reviews are available', () => {
+    it('should display Show Reviews when reviews component has been created', () => {
       const event = new ComponentCreateEvent();
       event.id = 'ProductReviewsTabComponent';
 
@@ -237,6 +237,26 @@ fdescribe('ProductIntroComponent in product', () => {
 
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'productSummary.showReviews'
+      );
+    });
+
+    it('should not display Show Reviews when reviews component has been destroyed', () => {
+      const event = new ComponentDestroyEvent();
+      event.id = 'ProductReviewsTabComponent';
+
+      spyOn(eventService, 'get').and.returnValues(of(), of(event));
+
+      fixture = TestBed.createComponent(ProductIntroComponent);
+      productIntroComponent = fixture.componentInstance;
+
+      productIntroComponent.product$ = of<Product>({
+        averageRating: 4,
+      });
+      productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
+
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
         'productSummary.showReviews'
       );
     });
