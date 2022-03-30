@@ -65,7 +65,6 @@
       <li
         *ngFor="let product of results; let i = index"
         class="quick-order-results-product-container"
-        role="option"
       >
         <button
           (blur)="onBlur($event)"
@@ -78,6 +77,7 @@
             config?.quickOrder?.searchForm?.displayProductImages
           "
           class="quick-order-results-product"
+          role="option"
         >
           <cx-media
             *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
