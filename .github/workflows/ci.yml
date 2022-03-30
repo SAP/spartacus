@@ -85,7 +85,7 @@ jobs:
         run: |
           ci-scripts/unit-tests-core-lib.sh
   unit_tests_libs:
-    needs: no_retries
+    needs: [no_retries, build_step]
     name: Unit tests for integration libs
     runs-on: ubuntu-latest
     steps:
@@ -114,7 +114,7 @@ jobs:
         run: |
           ci-scripts/unit-tests.sh
   linting:
-    needs: no_retries
+    needs: [no_retries, build_step]
     name: Validation checks
     runs-on: ubuntu-latest
     steps:
@@ -128,8 +128,17 @@ jobs:
         run: yarn cache list
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
-      - name: Package installation
-        run: yarn --frozen-lockfile
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-
+      - run: yarn --frozen-lockfile
+        if: |
+          steps.cache-node-modules.outputs.cache-hit != 'true'
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
@@ -171,7 +180,7 @@ jobs:
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   lighthouse:
-    needs: no_retries
+    needs: [no_retries, build_step]
     name: Lighthouse score validation
     runs-on: ubuntu-latest
     steps:
