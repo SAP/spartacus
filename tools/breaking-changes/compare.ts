@@ -175,16 +175,16 @@ function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
         ...getChangeDesc(oldElement, 'CHANGED'),
         previousStateDoc: getSignatureDoc(oldElement),
         currentStateDoc: getSignatureDoc(newElement),
-        oldElement: {
-          parameters: oldElement.parameters,
-          returnType: oldElement.returnType,
-          overloadIndex: oldElement.overloadIndex,
-        },
-        newElement: {
-          parameters: newElement.parameters,
-          returnType: newElement.returnType,
-          overloadIndex: newElement.overloadIndex,
-        },
+        // oldElement: {
+        //   parameters: oldElement.parameters,
+        //   returnType: oldElement.returnType,
+        //   overloadIndex: oldElement.overloadIndex,
+        // },
+        // newElement: {
+        //   parameters: newElement.parameters,
+        //   returnType: newElement.returnType,
+        //   overloadIndex: newElement.overloadIndex,
+        // },
       },
     ];
   } else {
