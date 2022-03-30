@@ -46,6 +46,8 @@ done
 
 set -- "${POSITIONAL[@]}"
 
+(cd projects/storefrontapp-e2e-cypress && yarn install)
+
 if [ "$SUITE" == ":ccv2" ]; then
     export SPA_ENV='ccv2,b2c'
 fi
@@ -64,7 +66,7 @@ if [[ "${SSR}" = true ]]; then
     echo '-----'
     echo "Running SSR Cypress smoke test"
 
-    (cd projects/storefrontapp-e2e-cypress && yarn e2e:run:ci:ssr)
+    yarn e2e:run:ci:ssr
 else
     yarn start:pwa &
 
@@ -72,8 +74,8 @@ else
     echo "Running Cypress end to end tests"
 
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-        (cd projects/storefrontapp-e2e-cypress && yarn e2e:run:ci:core"${SUITE}")
+        yarn e2e:run:ci:core"${SUITE}"
     else
-        (cd projects/storefrontapp-e2e-cypress && yarn install yarn e2e:run:ci"${SUITE}")
+        yarn e2e:run:ci"${SUITE}"
     fi
 fi
