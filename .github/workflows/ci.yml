@@ -150,7 +150,6 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     steps:
       - uses: actions/checkout@v2
-      - name: Run e2es
       - name: Cache dist folder
         id: cache-dist
         uses: actions/cache@v2
@@ -159,6 +158,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id}}-dist
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-dist
+      - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
         run: |
