@@ -39,7 +39,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: 'yarn'
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -54,11 +54,11 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: 'yarn'
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
-        run: yarn --frozen-lockfile
+        run: yarn --prefer-offline
       - name: Run unit tests for Spartacus libs
         run: |
           ci-scripts/unit-tests-core-lib.sh
