@@ -40,10 +40,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
-      - name: List yarn cache
-        run: yarn cache list
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
       - name: Cache node_modules
         id: cache-node-modules
         uses: actions/cache@v2
@@ -71,8 +67,6 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
@@ -97,8 +91,6 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: node_modules
-          key: ${{ runner.os }}-${{ github.run_id }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
@@ -123,8 +115,6 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: node_modules
-          key: ${{ runner.os }}-${{ github.run_id }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
@@ -186,8 +176,6 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
-          path: node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
