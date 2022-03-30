@@ -7,6 +7,8 @@ echo "Building Spartacus libraries"
 
 yarn install
 
+(cd projects/storefrontapp-e2e-cypress && yarn install)
+
 yarn build:libs 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)

@@ -46,7 +46,7 @@ done
 
 set -- "${POSITIONAL[@]}"
 
-(cd projects/storefrontapp-e2e-cypress && yarn install)
+cd projects/storefrontapp-e2e-cypress
 
 
 if [ "$SUITE" == ":ccv2" ]; then
