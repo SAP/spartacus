@@ -170,7 +170,8 @@ export const common = {
     required: 'This field is required',
     cxInvalidEmail: 'This is not a valid email format',
     cxInvalidPassword: 'This is not a valid password format',
-    cxPasswordRequirements: 'Passwords must include: both uppercase and lowercase letters, one or more numerical digits, one or more special characters, at least 8 total characters', // change me to reflect the current password requirements
+    cxPasswordRequirements:
+      'Passwords must include: both uppercase and lowercase letters, one or more numerical digits, one or more special characters, at least 8 total characters', // change me to reflect the current password requirements
     cxPasswordsMustMatch: 'Password fields must match',
     cxEmailsMustMatch: 'Email fields must match',
     cxStarRatingEmpty: 'Rating field is required',
