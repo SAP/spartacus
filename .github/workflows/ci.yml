@@ -49,12 +49,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-
+            ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
-        if: |
-          steps.cache-node-modules.outputs.cache-hit != 'true'
   unit_tests_core:
     needs: [no_retries, build_step]
     name: Unit tests for core Spartacus libs
@@ -74,9 +72,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-
+            ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
       - name: Run unit tests for Spartacus libs
         run: |
@@ -100,12 +98,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ github.run_id }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-
+            ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
-        if: |
-          steps.cache-node-modules.outputs.cache-hit != 'true'
       - name: Run unit tests for integration libs
         run: |
           ci-scripts/unit-tests.sh
@@ -128,12 +124,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ github.run_id }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-
+            ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
-        if: |
-          steps.cache-node-modules.outputs.cache-hit != 'true'
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
@@ -193,12 +187,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-
+            ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
-        if: |
-          steps.cache-node-modules.outputs.cache-hit != 'true'
       - name: Run lighthouse score validation
         run: |
           ci-scripts/lhci.sh
