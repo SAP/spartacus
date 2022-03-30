@@ -175,6 +175,8 @@ function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
         ...getChangeDesc(oldElement, 'CHANGED'),
         previousStateDoc: getSignatureDoc(oldElement),
         currentStateDoc: getSignatureDoc(newElement),
+        // Removed temporarily to be able to produce a breaking changes file
+        // that can compare well wiith the manually modified breaking changes file.
         // oldElement: {
         //   parameters: oldElement.parameters,
         //   returnType: oldElement.returnType,
