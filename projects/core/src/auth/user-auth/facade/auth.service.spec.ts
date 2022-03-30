@@ -132,7 +132,6 @@ describe('AuthService', () => {
 
         expect(authRedirectService.redirect).not.toHaveBeenCalled();
       });
-      ``;
     });
   });
 
