@@ -65,15 +65,14 @@ export class ConfiguratorAttributeNumericInputFieldService {
    */
   getIntervals(
     values: Configurator.Value[] | undefined
-  ): ConfiguratorAttributeNumericInterval[] | undefined {
-    let intervals: ConfiguratorAttributeNumericInterval[] | undefined;
-    let interval: ConfiguratorAttributeNumericInterval | undefined;
+  ): ConfiguratorAttributeNumericInterval[] {
+    let intervals: ConfiguratorAttributeNumericInterval[] = [];
     if (values && values.length > 0) {
       intervals = [];
       values.forEach((value) => {
-        interval = this.getInterval(value);
+        let interval = this.getInterval(value);
         if (interval && Object.keys(interval).length !== 0) {
-          intervals?.push(interval);
+          intervals.push(interval);
         }
       });
     }

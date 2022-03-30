@@ -8,6 +8,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { TranslationService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
@@ -17,7 +18,6 @@ import {
   ConfiguratorAttributeNumericInputFieldService,
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
-import { TranslationService } from '@spartacus/core';
 
 class DefaultSettings {
   numDecimalPlaces: number;
@@ -37,7 +37,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   numericFormatPattern: string;
   locale: string;
   iconType = ICON_TYPE;
-  intervals: ConfiguratorAttributeNumericInterval[] | undefined;
+  intervals: ConfiguratorAttributeNumericInterval[] = [];
 
   @Input() language: string;
 
@@ -136,24 +136,24 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   getHelpTextForInterval(): string {
     let intervalText = '';
     let concatenatedIntervalText = '';
-    if (this.intervals && this.intervals.length > 0) {
-      this.intervals.forEach((interval, index) => {
-        intervalText = this.getIntervalText(interval);
-        if (index > 0) {
-          intervalText =
-            intervalText.charAt(0).toLowerCase() + intervalText.slice(1);
-          this.translation
-            .translate('configurator.a11y.combinedIntervalsText', {
-              combinedInterval: concatenatedIntervalText,
-              newInterval: intervalText,
-            })
-            .pipe(take(1))
-            .subscribe((text) => (concatenatedIntervalText = text));
-        } else {
-          concatenatedIntervalText = intervalText;
-        }
-      });
-    }
+
+    this.intervals.forEach((interval, index) => {
+      intervalText = this.getIntervalText(interval);
+      if (index > 0) {
+        intervalText =
+          intervalText.charAt(0).toLowerCase() + intervalText.slice(1);
+        this.translation
+          .translate('configurator.a11y.combinedIntervalsText', {
+            combinedInterval: concatenatedIntervalText,
+            newInterval: intervalText,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (concatenatedIntervalText = text));
+      } else {
+        concatenatedIntervalText = intervalText;
+      }
+    });
+
     return concatenatedIntervalText.trim();
   }
 
@@ -179,10 +179,8 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         .subscribe((text) => (completeAriaText = text));
     }
 
-    if (this.intervals && this.intervals.length > 0) {
-      completeAriaText += ' ';
-      completeAriaText += this.getHelpTextForInterval();
-    }
+    completeAriaText += ' ';
+    completeAriaText += this.getHelpTextForInterval();
 
     return completeAriaText;
   }
