@@ -62,7 +62,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id}}-dist
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-dist
-      - run: sudo ci-scripts/build.sh
+      - run: sudo chmod +x ci-scripts/build.sh
   unit_tests_core:
     needs: [no_retries, build_step]
     name: Unit tests for core Spartacus libs
