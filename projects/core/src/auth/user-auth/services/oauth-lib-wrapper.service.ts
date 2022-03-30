@@ -1,6 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { WindowRef } from '../../../window/window-ref';
 import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
@@ -15,6 +15,11 @@ import { AuthConfigService } from './auth-config.service';
 })
 export class OAuthLibWrapperService {
   events$: Observable<OAuthEvent> = this.oAuthService.events;
+
+  /**
+   * Returns true if the `tryLogin()` call has not completed.
+   */
+  loginInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
 
   // TODO: Remove platformId dependency in 4.0
   constructor(
@@ -122,6 +127,8 @@ export class OAuthLibWrapperService {
    */
   tryLogin(): Promise<OAuthTryLoginResult> {
     return new Promise((resolve) => {
+      (this.loginInProgress$ as BehaviorSubject<boolean>).next(true);
+
       // We use the 'token_received' event to check if we have returned
       // from the auth server.
       let tokenReceivedEvent: OAuthEvent | undefined;
@@ -145,6 +152,7 @@ export class OAuthLibWrapperService {
         })
         .finally(() => {
           subscription.unsubscribe();
+          (this.loginInProgress$ as BehaviorSubject<boolean>).next(false);
         });
     });
   }

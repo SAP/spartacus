@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
@@ -113,8 +113,13 @@ export class AuthService {
    * Returns `true` if the user is logged in; and `false` if the user is anonymous.
    */
   isUserLoggedIn(): Observable<boolean> {
-    return this.authStorageService.getToken().pipe(
-      map((userToken) => Boolean(userToken?.access_token)),
+    return combineLatest([
+      this.authStorageService.getToken(),
+      this.oAuthLibWrapperService.loginInProgress$,
+    ]).pipe(
+      map(([userToken, inProgress]) =>
+        Boolean(userToken?.access_token && !inProgress)
+      ),
       distinctUntilChanged()
     );
   }
