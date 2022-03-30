@@ -36,6 +36,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
     return Promise.resolve({ result: true, tokenReceived: true });
   }
   events$ = oauthLibEvents;
+  loginInProgress$ = of(false);
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -131,6 +132,7 @@ describe('AuthService', () => {
 
         expect(authRedirectService.redirect).not.toHaveBeenCalled();
       });
+      ``;
     });
   });
 
@@ -196,6 +198,18 @@ describe('AuthService', () => {
 
     it('should return false when there is not access_token', (done) => {
       spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
+
+      service
+        .isUserLoggedIn()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBeFalse();
+          done();
+        });
+    });
+
+    it('should return false when login is in progress', (done) => {
+      oAuthLibWrapperService.loginInProgress$ = of(true);
 
       service
         .isUserLoggedIn()
