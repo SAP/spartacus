@@ -54,8 +54,6 @@ export class BadRequestHandler extends HttpErrorHandler {
       .forEach(() => {
         // Updating email and changing password share same http error occurence.
         // Determine the context of global error message based on request url
-        console.log(_request);
-
         const url = new URL(_request.url);
         const key = url.pathname.endsWith('/password')
           ? 'httpHandlers.badRequestOldPasswordIncorrect'
