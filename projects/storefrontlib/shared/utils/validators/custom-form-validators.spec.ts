@@ -37,6 +37,7 @@ describe('FormValidationService', () => {
 
     passwordError = {
       cxInvalidPassword: true,
+      cxPasswordRequirements: true
     };
 
     starRatingEmpty = {
