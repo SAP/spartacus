@@ -19,21 +19,6 @@ concurrency:
 
 name: Spartacus build pipeline
 jobs:
-  build_setup:
-    needs: no_retries
-    name: Unit tests for core Spartacus libs
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
-      - name: Package installation
-        run: yarn --frozen-lockfile
   no_retries: 
     name: Verify retries
     runs-on: ubuntu-latest
@@ -44,6 +29,21 @@ jobs:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
+  build_setup:
+    needs: no_retries
+    name: Unit tests for core Spartacus libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+      - name: Install angular CLI
+        run: yarn add -g @angular/cli@v12-lts
+      - name: Package installation
+        run: yarn --frozen-lockfile
   unit_tests_core:
     needs: [no_retries, build_setup]
     name: Unit tests for core Spartacus libs
@@ -54,9 +54,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
+          cache: 'yarn'
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: yarn add -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for Spartacus libs
@@ -73,7 +73,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: yarn add -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for integration libs
@@ -90,7 +90,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: yarn add -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run linting validation
@@ -144,7 +144,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: yarn add -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run lighthouse score validation
