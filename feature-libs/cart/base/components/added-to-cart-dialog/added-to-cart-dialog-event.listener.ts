@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  ADD_TO_CART_FEEDBACK,
+  ADDED_TO_CART_FEEDBACK,
   CartAddEntryFailEvent,
   CartConfig,
   CartUiEventAddToCart,
@@ -28,7 +28,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
 
   protected onAddToCart() {
     const feedbackType = this.cartConfig.cart?.addToCartFeedback.feedback;
-    if (feedbackType !== ADD_TO_CART_FEEDBACK.MODAL) {
+    if (feedbackType !== ADDED_TO_CART_FEEDBACK.MODAL) {
       return;
     }
 

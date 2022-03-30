@@ -4,11 +4,10 @@ import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import {
-  ADD_TO_CART_FEEDBACK,
+  ADDED_TO_CART_FEEDBACK,
   CartConfig,
   CartUiEventAddToCart,
 } from '../../root';
-import { AddedToCartToastComponentService } from './added-to-cart-toast-component.service';
 import { AddedToCartToastComponent } from './added-to-cart-toast.component';
 
 @Injectable({
@@ -16,12 +15,11 @@ import { AddedToCartToastComponent } from './added-to-cart-toast.component';
 })
 export class AddedToCartToastEventListener implements OnDestroy {
   protected subscription = new Subscription();
-  protected component: AddedToCartToastComponent;
+  protected component: AddedToCartToastComponent | undefined;
 
   constructor(
     protected eventService: EventService,
     protected launchDialogService: LaunchDialogService,
-    protected addedToCartToastService: AddedToCartToastComponentService,
     protected cartConfig: CartConfig
   ) {
     this.onAddToCart();
@@ -29,7 +27,7 @@ export class AddedToCartToastEventListener implements OnDestroy {
 
   protected onAddToCart(): void {
     const feedbackType = this.cartConfig.cart?.addToCartFeedback.feedback;
-    if (feedbackType !== ADD_TO_CART_FEEDBACK.TOAST) {
+    if (feedbackType !== ADDED_TO_CART_FEEDBACK.TOAST) {
       return;
     }
 
@@ -58,10 +56,11 @@ export class AddedToCartToastEventListener implements OnDestroy {
     if (!this.component) {
       this.renderToastUi();
     }
-    this.component.addToast(event);
+    this.component?.addToast(event);
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.component?.ngOnDestroy();
   }
 }
