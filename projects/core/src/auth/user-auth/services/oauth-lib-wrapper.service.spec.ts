@@ -258,4 +258,28 @@ describe('OAuthLibWrapperService', () => {
       });
     });
   });
+
+  describe('loginInProgress$', () => {
+    beforeEach(() => {
+      service.events$ = new BehaviorSubject<OAuthEvent>({
+        type: 'token_received',
+      });
+    });
+
+    it('should return true while `tryLogin()` is executing', async () => {
+      const inProgress = service.loginInProgress$ as BehaviorSubject<boolean>;
+      const spy = spyOn(inProgress, 'next');
+      expect(spy).not.toHaveBeenCalled();
+
+      service.tryLogin();
+      expect(spy).toHaveBeenCalledWith(true);
+      expect(spy).toHaveBeenCalledTimes(1);
+
+      // Let tryLogin() run finally clause
+      await setTimeout(() => {
+        expect(spy).toHaveBeenCalledWith(false);
+        expect(spy).toHaveBeenCalledTimes(2);
+      });
+    });
+  });
 });
