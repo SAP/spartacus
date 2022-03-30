@@ -62,7 +62,7 @@ jobs:
            dist
            node_modules
            projects/storefrontapp-e2e-cypress/node_modules
-           projects/storefrontapp-e2e-cypress/cypress/cache
+           ~/.cache/Cypress
           key: ${{ runner.os }}-${{ github.run_id}}-dist
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-dist
@@ -163,7 +163,7 @@ jobs:
            dist
            node_modules
            projects/storefrontapp-e2e-cypress/node_modules
-           projects/storefrontapp-e2e-cypress/cypress/cache
+           ~/.cache/Cypress
           key: ${{ runner.os }}-${{ github.run_id}}-dist
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-dist
