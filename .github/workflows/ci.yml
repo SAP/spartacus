@@ -60,6 +60,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
+      - name: List yarn cache
+        run: yarn cache list
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -78,6 +80,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
+      - name: List yarn cache
+        run: yarn cache list
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -133,6 +137,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
+      - name: List yarn cache
+        run: yarn cache list
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
