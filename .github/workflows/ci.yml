@@ -78,8 +78,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.node-version }}-nodemodules-
       - run: yarn --frozen-lockfile
-        if: |
-          steps.cache-node-modules.outputs.cache-hit != 'true'
       - name: Run unit tests for Spartacus libs
         run: |
           ci-scripts/unit-tests-core-lib.sh
