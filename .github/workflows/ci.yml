@@ -65,7 +65,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
       - name: List yarn cache
         run: yarn cache list
       - name: Install angular CLI
@@ -94,7 +93,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
       - name: List yarn cache
         run: yarn cache list
       - name: Install angular CLI
@@ -123,7 +121,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
       - name: List yarn cache
         run: yarn cache list
       - name: Install angular CLI
@@ -189,7 +186,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
       - name: List yarn cache
         run: yarn cache list
       - name: Install angular CLI
