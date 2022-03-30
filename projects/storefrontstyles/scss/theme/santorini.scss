@@ -93,6 +93,12 @@
     }
   }
 
+  cx-scroll-to-top {
+    button {
+      border-radius: var(--cx-buttons-border-radius);
+    }
+  }
+
   cx-searchbox {
     > * {
       @include media-breakpoint-up(md) {

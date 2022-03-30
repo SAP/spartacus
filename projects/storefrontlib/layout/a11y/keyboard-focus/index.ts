@@ -5,7 +5,7 @@ export {
   FocusConfig,
   TrapFocus,
   TrapFocusType,
-  focusableSelectors,
+  focusableElementSelectors,
 } from './keyboard-focus.model';
 export * from './keyboard-focus.module';
 export * from './focus-testing.module';

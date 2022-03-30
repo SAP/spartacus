@@ -13,7 +13,7 @@ import {
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
-import { focusableSelectors } from '../../../layout/a11y/index';
+import { focusableElementSelectors } from '../../../layout/a11y/index';
 
 @Component({
   selector: 'cx-scroll-to-top',
@@ -71,7 +71,7 @@ export class ScrollToTopComponent implements OnInit {
   protected getFirstKeyboardFocusableElement(): HTMLElement {
     return [
       ...(this.window?.document?.querySelectorAll(
-        focusableSelectors.join(',')
+        focusableElementSelectors.join(',')
       ) as any),
     ].filter((el) => !el.getAttribute('aria-hidden'))[0];
   }

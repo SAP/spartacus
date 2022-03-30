@@ -8,7 +8,7 @@ export const enum MOVE_FOCUS {
   PREV = -1,
 }
 
-export const focusableSelectors = [
+export const focusableElementSelectors = [
   `a[href]:not([tabindex='-1']):not([hidden])`,
   `area[href]:not([tabindex='-1']):not([hidden])`,
   `input:not([disabled]):not([tabindex='-1']):not([hidden])`,
