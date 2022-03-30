@@ -30,6 +30,7 @@ jobs:
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
   unit_tests_core:
+    needs: no_retries
     name: Unit tests for core Spartacus libs
     runs-on: ubuntu-latest
     steps:
