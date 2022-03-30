@@ -2014,7 +2014,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/core",
         "deletedComment": "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderService'.",
-        "migrationComment": ""
+        "migrationComment": "Use 'softDeleteEntry' instead."
       },
       {
         "change": "METHOD_DELETED",
@@ -2042,7 +2042,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/core",
         "deletedComment": "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderService'.",
-        "migrationComment": ""
+        "migrationComment": "Use 'searchProducts' instead."
       }
     ]
   },
@@ -3419,7 +3419,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'.",
-        "migrationComment": ""
+        "migrationComment": "It was moved to 'CartEventBuilder', and was renamed to 'registerDeleteCart'."
       }
     ]
   },
@@ -23427,7 +23427,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleExpiredToken' was removed from Class 'AuthHttpHeaderService'.",
-        "migrationComment": ""
+        "migrationComment": "Use 'getValidToken' instead."
       },
       {
         "change": "PROPERTY_DELETED",
@@ -23446,7 +23446,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'refreshInProgress' was removed from Class 'AuthHttpHeaderService'.",
-        "migrationComment": ""
+        "migrationComment": "Use 'refreshInProgress$' Observable instead."
       }
     ]
   },
@@ -23722,7 +23722,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'.",
-        "migrationComment": ""
+        "migrationComment": "Please use new methods in BadVoucherRequestHandler."
       }
     ]
   },
@@ -50221,7 +50221,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/product-configurator/rulebased",
         "deletedComment": "// TODO:Spartacus - Method 'removeObsoleteProductBoundConfiguration' was removed from Class 'ConfiguratorCommonsService'.",
-        "migrationComment": ""
+        "migrationComment": "Consult the migration documentation on how to deal with that."
       }
     ]
   },
@@ -51168,7 +51168,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/product-configurator/rulebased",
         "deletedComment": "// TODO:Spartacus - Property 'configuration$' was removed from Class 'ConfiguratorGroupTitleComponent'.",
-        "migrationComment": ""
+        "migrationComment": "Consult the migration documentation on how to deal with that."
       }
     ]
   },
@@ -51877,7 +51877,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class RulebasedConfiguratorEventListener has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Please use 'ConfiguratorRouterListener' instead",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -57658,7 +57658,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Method 'reinitalizeMenu' was removed from Class 'NavigationUIComponent'.",
-        "migrationComment": ""
+        "migrationComment": "Use 'reinitializeMenu' instead."
       }
     ]
   },
@@ -60288,7 +60288,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Property 'clikEvent' was removed from Class 'ProgressButtonComponent'.",
-        "migrationComment": ""
+        "migrationComment": "It is renamed to 'clickEvent' to fix a typo."
       }
     ]
   },
