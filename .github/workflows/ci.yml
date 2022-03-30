@@ -34,6 +34,8 @@ jobs:
     name: Unit tests for core Spartacus libs
     runs-on: ubuntu-latest
     steps:
+      - name: List yarn cache
+        run: yarn cache list
       - uses: actions/checkout@v2
       - name: Setup node
         uses: actions/setup-node@v2
@@ -55,6 +57,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
+      - name: List yarn cache
+        run: yarn cache list
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
