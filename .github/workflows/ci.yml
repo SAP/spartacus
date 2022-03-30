@@ -48,6 +48,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
+  build_dist:
+    needs: no_retries
+    name: Build and cache dist folder
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache dist folder
+        id: cache-dist
+        uses: actions/cache@v2
+        with:
+          path: dist
+          key: ${{ runner.os }}-${{ github.run_id}}-dist
+          restore-keys: |
+            ${{ runner.os }}-${{ github.run_id }}-dist
+      - run: ci-scripts/build.sh
   unit_tests_core:
     needs: [no_retries, build_step]
     name: Unit tests for core Spartacus libs
@@ -136,6 +151,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run e2es
+      - name: Cache dist folder
+        id: cache-dist
+        uses: actions/cache@v2
+        with:
+          path: dist
+          key: ${{ runner.os }}-${{ github.run_id}}-dist
+          restore-keys: |
+            ${{ runner.os }}-${{ github.run_id }}-dist
         env: 
           SPA_ENV: ci,b2c
         run: |
