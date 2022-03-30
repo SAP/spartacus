@@ -40,7 +40,7 @@ export class CustomFormValidators {
 
     return password && (!password.length || password.match(PASSWORD_PATTERN))
       ? null
-      : { cxInvalidPassword: true };
+      : { cxInvalidPassword: true, cxPasswordRequirements: true };
   }
 
   /**
