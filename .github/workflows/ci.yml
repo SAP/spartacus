@@ -28,9 +28,9 @@ jobs:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
-  build_step:
+  cache_modules:
     needs: no_retries
-    name: Build Step
+    name: Install packages and cache node_modules
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -44,9 +44,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: |
-            ${{ runner.os }}-${{ github.run_id }}-nodemodules-
+            ${{ runner.os }}-${{ github.run_id }}-nodemodules
       - run: yarn --frozen-lockfile
   build_dist:
     needs: no_retries
@@ -69,7 +69,7 @@ jobs:
       - run: |
           ci-scripts/build_lib.sh
   unit_tests_core:
-    needs: [no_retries, build_step]
+    needs: [no_retries, cache_modules]
     name: Unit tests for core Spartacus libs
     runs-on: ubuntu-latest
     steps:
@@ -95,7 +95,7 @@ jobs:
         run: |
           ci-scripts/unit-tests-core-lib.sh
   unit_tests_libs:
-    needs: [no_retries, build_step]
+    needs: [no_retries, cache_modules]
     name: Unit tests for integration libs
     runs-on: ubuntu-latest
     steps:
@@ -121,7 +121,7 @@ jobs:
         run: |
           ci-scripts/unit-tests.sh
   linting:
-    needs: [no_retries, build_step]
+    needs: [no_retries, cache_modules]
     name: Validation checks
     runs-on: ubuntu-latest
     steps:
@@ -196,7 +196,7 @@ jobs:
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   lighthouse:
-    needs: [no_retries, build_step]
+    needs: [no_retries, cache_modules]
     name: Lighthouse score validation
     runs-on: ubuntu-latest
     steps:
