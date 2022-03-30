@@ -46,8 +46,6 @@ done
 
 set -- "${POSITIONAL[@]}"
 
-(cd projects/storefrontapp-e2e-cypress && yarn install)
-
 if [ "$SUITE" == ":ccv2" ]; then
     export SPA_ENV='ccv2,b2c'
 fi
