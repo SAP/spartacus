@@ -208,7 +208,6 @@
     "prettier": "~2.4.1",
     "release-it": "^14.10.0",
     "rimraf": "^3.0.2",
-    "sass": "^1.33",
     "semver": "^6.3.0",
     "semver-extra": "^3.0.0",
     "shelljs": "^0.8.5",
