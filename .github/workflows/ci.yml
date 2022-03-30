@@ -67,6 +67,8 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
@@ -91,6 +93,8 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ github.run_id }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
@@ -115,6 +119,8 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ github.run_id }}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
@@ -176,6 +182,8 @@ jobs:
         id: cache-node-modules
         uses: actions/cache@v2
         with:
+          path: node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-nodemodules-
       - run: yarn --frozen-lockfile
