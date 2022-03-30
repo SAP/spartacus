@@ -5,7 +5,7 @@ import {
 } from '../../../../helpers/auth-redirects';
 import { AccountData } from '../../../../support/require-logged-in.commands';
 
-// TODO. Fix Priority 3. Remove this line after this spec runs successfully with CCV2. 
+// TODO. Fix Priority 3. Remove this line after this spec runs successfully with CCV2.
 
 context('Redirect after auth', () => {
   let user: AccountData;

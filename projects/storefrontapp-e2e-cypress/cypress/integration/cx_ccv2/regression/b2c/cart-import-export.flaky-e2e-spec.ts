@@ -3,7 +3,7 @@ import * as importExport from '../../../../helpers/cart-import-export';
 import { APPAREL_BASESITE } from '../../../../helpers/variants/apparel-checkout-flow';
 import { viewportContext } from '../../../../helpers/viewport-context';
 
-// TODO. Fix Priority 2. Remove this line after this spec runs successfully with CCV2. 
+// TODO. Fix Priority 2. Remove this line after this spec runs successfully with CCV2.
 
 context('Cart Import/Export', () => {
   viewportContext(['desktop'], () => {

@@ -1,7 +1,7 @@
 import * as productDetails from '../../../../helpers/product-details';
 import { formats } from '../../../../sample-data/viewports';
 
-// TODO. Fix Priority 2. Remove this line after this spec runs successfully with CCV2. 
+// TODO. Fix Priority 2. Remove this line after this spec runs successfully with CCV2.
 function productDetailsTest() {
   it('should contain correct product details', () => {
     productDetails.verifyProductDetails();

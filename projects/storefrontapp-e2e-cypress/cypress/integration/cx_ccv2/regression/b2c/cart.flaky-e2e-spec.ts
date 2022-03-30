@@ -4,7 +4,7 @@ import * as alerts from '../../../../helpers/global-message';
 import { clickHamburger } from '../../../../helpers/homepage';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import { login } from '../../../../support/utils/login';
-// TODO. Fix Priority 1. Remove this line after this spec runs successfully with CCV2. 
+// TODO. Fix Priority 1. Remove this line after this spec runs successfully with CCV2.
 
 describe('Cart', () => {
   viewportContext(['desktop'], () => {

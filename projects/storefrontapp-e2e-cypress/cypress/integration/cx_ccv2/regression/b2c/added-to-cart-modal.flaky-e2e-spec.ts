@@ -1,6 +1,6 @@
 import { viewportContext } from '../../../../helpers/viewport-context';
 
-// TODO. Fix Priority 1.Remove this line after this spec runs successfully with CCV2.   
+// TODO. Fix Priority 1.Remove this line after this spec runs successfully with CCV2.
 const productId = '3595723';
 const productId2 = '4812254';
 const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';

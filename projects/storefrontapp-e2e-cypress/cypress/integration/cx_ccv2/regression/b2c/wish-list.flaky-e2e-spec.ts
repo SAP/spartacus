@@ -1,6 +1,6 @@
 import * as wishList from '../../../../helpers/wish-list';
 
-// TODO. Fix Priority 3. Remove this line after this spec runs successfully with CCV2. 
+// TODO. Fix Priority 3. Remove this line after this spec runs successfully with CCV2.
 describe('Wish list', () => {
   before(() => {
     cy.window().then((win) => {
