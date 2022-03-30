@@ -253,6 +253,7 @@ export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
+export const INNER_COMPONENTS_HOST_DIRECTIVE = 'InnerComponentsHostDirective';
 export const POPOVER_COMPONENT = 'PopoverComponent';
 export const POPOVER_DIRECTIVE = 'PopoverDirective';
 export const POPOVER_SERVICE = 'PopoverService';
@@ -270,6 +271,7 @@ export const PRODUCT_REVIEW_SERVICE = 'ProductReviewService';
 export const SEARCH_BOX_COMPONENT_SERVICE = 'SearchBoxComponentService';
 export const TAB_PARAGRAPH_CONTAINER_COMPONENT =
   'TabParagraphContainerComponent';
+export const PARAGRAPH_COMPONENT = 'ParagraphComponent';
 export const NAVIGATION_UI_COMPONENT = 'NavigationUIComponent';
 export const STORE_FINDER_LIST_ITEM_COMPONENT = 'StoreFinderListItemComponent';
 export const CART_CONFIG_SERVICE = 'CartConfigService';
