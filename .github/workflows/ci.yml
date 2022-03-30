@@ -61,7 +61,7 @@ jobs:
           path: |
            dist
            node_modules
-           projects/storefrontapp-e2e-cypress/node_modules
+           projects/storefrontapp-e2e-cypress
           key: ${{ runner.os }}-${{ github.run_id}}-dist
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-dist
@@ -158,7 +158,10 @@ jobs:
         id: cache-dist
         uses: actions/cache@v2
         with:
-          path: dist
+          path: |
+           dist
+           node_modules
+           projects/storefrontapp-e2e-cypress
           key: ${{ runner.os }}-${{ github.run_id}}-dist
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-dist
