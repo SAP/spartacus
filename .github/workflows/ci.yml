@@ -31,7 +31,7 @@ jobs:
         if: ${{ github.run_attempt > 1 }}
   build_setup:
     needs: no_retries
-    name: Build setup
+    name: Unit tests for core Spartacus libs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -39,9 +39,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          cache: 'npm'
       - name: Install angular CLI
-        run: yarn add global @angular/cli@v12-lts
+        run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
   unit_tests_core:
@@ -54,9 +54,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          cache: 'npm'
       - name: Install angular CLI
-        run: yarn add global @angular/cli@v12-lts
+        run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for Spartacus libs
@@ -73,7 +73,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install angular CLI
-        run: yarn add global @angular/cli@v12-lts
+        run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for integration libs
@@ -90,7 +90,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install angular CLI
-        run: yarn add global @angular/cli@v12-lts
+        run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run linting validation
@@ -144,7 +144,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install angular CLI
-        run: yarn add global @angular/cli@v12-lts
+        run: npm install -g @angular/cli@v12-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run lighthouse score validation
