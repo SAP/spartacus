@@ -49,14 +49,14 @@ jobs:
             ${{ runner.os }}-${{ github.run_id }}-nodemodules
       - name: Package installation
         run: yarn --frozen-lockfile
-  build_dist:
+  cache_e2e_build:
     needs: no_retries
-    name: Build and cache dist folder
+    name: Cache e2e build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Cache dist folder
-        id: cache-dist
+      - name: Cache e2e build
+        id: cache-e2e-build
         uses: actions/cache@v2
         with:
           path: |
@@ -64,9 +64,9 @@ jobs:
            node_modules
            projects/storefrontapp-e2e-cypress/node_modules
            ~/.cache/Cypress
-          key: ${{ runner.os }}-${{ github.run_id}}-dist
+          key: ${{ runner.os }}-${{ github.run_id}}-e2ecache
           restore-keys: |
-            ${{ runner.os }}-${{ github.run_id }}-dist
+            ${{ runner.os }}-${{ github.run_id }}-e2ecache
       - run: |
           ci-scripts/build_lib.sh
   unit_tests_core:
@@ -145,7 +145,7 @@ jobs:
         run: |
           ci-scripts/validate-lint.sh
   b2c_e2e_tests:
-    needs: [no_retries, build_dist]
+    needs: [no_retries, cache_e2e_build]
     name: E2E tests for B2C
     runs-on: ubuntu-latest
     strategy:
@@ -153,8 +153,8 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     steps:
       - uses: actions/checkout@v2
-      - name: Cache dist folder
-        id: cache-dist
+      - name: Cache e2e build
+        id: cache-e2e-build
         uses: actions/cache@v2
         with:
           path: |
@@ -162,25 +162,37 @@ jobs:
            node_modules
            projects/storefrontapp-e2e-cypress/node_modules
            ~/.cache/Cypress
-          key: ${{ runner.os }}-${{ github.run_id}}-dist
+          key: ${{ runner.os }}-${{ github.run_id}}-e2ecache
           restore-keys: |
-            ${{ runner.os }}-${{ github.run_id }}-dist
+            ${{ runner.os }}-${{ github.run_id }}-e2ecache
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
-    needs: no_retries
+    needs: [no_retries, cache_e2e_build]
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Cache e2e build
+        id: cache-e2e-build
+        uses: actions/cache@v2
+        with:
+          path: |
+           dist
+           node_modules
+           projects/storefrontapp-e2e-cypress/node_modules
+           ~/.cache/Cypress
+          key: ${{ runner.os }}-${{ github.run_id}}-e2ecache
+          restore-keys: |
+            ${{ runner.os }}-${{ github.run_id }}-e2ecache
       - name: Run e2es
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
-    needs: no_retries
+    needs: [no_retries, cache_e2e_build]
     name: E2E tests for B2B
     runs-on: ubuntu-latest
     strategy:
@@ -188,6 +200,18 @@ jobs:
         containers: [1, 2]
     steps:
       - uses: actions/checkout@v2
+      - name: Cache e2e build
+        id: cache-e2e-build
+        uses: actions/cache@v2
+        with:
+          path: |
+           dist
+           node_modules
+           projects/storefrontapp-e2e-cypress/node_modules
+           ~/.cache/Cypress
+          key: ${{ runner.os }}-${{ github.run_id}}-e2ecache
+          restore-keys: |
+            ${{ runner.os }}-${{ github.run_id }}-e2ecache
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
@@ -219,7 +243,7 @@ jobs:
         run: |
           ci-scripts/lhci.sh
   build_conclusion:
-    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
+    needs: [no_retries, cache_modules, cache_e2e_build, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
