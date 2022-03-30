@@ -1,14 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { LoadCartEvent } from '@spartacus/cart/base/root';
-import {
-  DeleteUserAddressEvent,
-  EventService,
-  UpdateUserAddressEvent,
-  UserAddressEvent,
-} from '@spartacus/core';
+import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { CheckoutDeliveryModesFacade } from '../facade/checkout-delivery-modes.facade';
 import {
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
@@ -25,36 +18,9 @@ import {
 export class CheckoutDeliveryModeEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
-  constructor(
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected eventService: EventService
-  ) {
-    this.onUserAddressChange();
+  constructor(protected eventService: EventService) {
     this.onDeliveryModeChange();
     this.onDeliveryModeReset();
-  }
-
-  /**
-   * Registers listeners for the User address events.
-   */
-  protected onUserAddressChange(): void {
-    this.subscriptions.add(
-      this.eventService
-        .get(UserAddressEvent)
-        .pipe(
-          filter(
-            (event) =>
-              event instanceof UpdateUserAddressEvent ||
-              event instanceof DeleteUserAddressEvent
-          )
-        )
-        .subscribe(() => {
-          // we want to LL the checkout feature (if not already loaded), in order to clear the checkout data that's potentially set on the back-end
-          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode();
-
-          this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
-        })
-    );
   }
 
   /**
