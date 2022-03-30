@@ -8,7 +8,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   Renderer2,
   Type,
@@ -51,29 +50,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private launcherResource?: Subscription;
 
-  /**
-   * @deprecated since version 3.3
-   * Use the following constructor instead:
-   * ```
-   * constructor( protected vcr: ViewContainerRef,
-   * protected cmsComponentsService: CmsComponentsService,
-   * protected injector: Injector,
-   * protected dynamicAttributeService: DynamicAttributeService,
-   * protected renderer: Renderer2,
-   * protected componentHandler: ComponentHandlerService,
-   * protected cmsInjector: CmsInjectorService,
-   * protected eventService: EventService) {}
-   * ```
-   */
-  constructor(
-    vcr: ViewContainerRef,
-    cmsComponentsService: CmsComponentsService,
-    injector: Injector,
-    dynamicAttributeService: DynamicAttributeService,
-    renderer: Renderer2,
-    componentHandler: ComponentHandlerService,
-    cmsInjector: CmsInjectorService
-  );
   constructor(
     protected vcr: ViewContainerRef,
     protected cmsComponentsService: CmsComponentsService,
@@ -82,7 +58,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
     protected cmsInjector: CmsInjectorService,
-    @Optional() protected eventService?: EventService
+    protected eventService: EventService
   ) {}
 
   ngOnInit() {
@@ -150,7 +126,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     if (event === ComponentCreateEvent) {
       (payload as ComponentCreateEvent).host = elementRef?.nativeElement;
     }
-    this.eventService?.dispatch(payload, event);
+    this.eventService.dispatch(payload, event);
   }
 
   private decorate(elementRef: ElementRef): void {
