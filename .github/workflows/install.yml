@@ -1,6 +1,7 @@
 on:
   push:
     branches:
+      - 'fix/installation-script-ng-version'
       - 'release/4.**'
       - 'epic/**'
       - 'develop'
