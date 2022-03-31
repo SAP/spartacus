@@ -49,7 +49,8 @@ jobs:
             ${{ runner.os }}-${{ github.run_id }}-nodemodules
       - name: Package installation
         run: yarn --frozen-lockfile
-  cache_e2e_build:
+  # to ask about ~/.cache/Cypress and node_modules for cache_e2e_build
+  cache_b2c_e2e_build:
     needs: no_retries
     name: Cache e2e build
     env: 
@@ -66,9 +67,31 @@ jobs:
            node_modules
            projects/storefrontapp-e2e-cypress/node_modules
            ~/.cache/Cypress
-          key: ${{ runner.os }}-${{ github.run_id}}-e2ecache
+          key: ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
           restore-keys: |
-            ${{ runner.os }}-${{ github.run_id }}-e2ecache
+            ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
+      - run: |
+          ci-scripts/build_lib.sh
+  cache_b2b_e2e_build:
+    needs: no_retries
+    name: Cache e2e build
+    env: 
+      SPA_ENV: ci,b2b
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache e2e build
+        id: cache-e2e-build
+        uses: actions/cache@v2
+        with:
+          path: |
+           dist
+           node_modules
+           projects/storefrontapp-e2e-cypress/node_modules
+           ~/.cache/Cypress
+          key: ${{ runner.os }}-${{ github.run_id }}-b2be2ecache
+          restore-keys: |
+            ${{ runner.os }}-${{ github.run_id }}-b2be2ecache
       - run: |
           ci-scripts/build_lib.sh
   unit_tests_core:
@@ -147,7 +170,7 @@ jobs:
         run: |
           ci-scripts/validate-lint.sh
   b2c_e2e_tests:
-    needs: [no_retries, cache_e2e_build]
+    needs: [no_retries, cache_b2c_e2e_build]
     name: E2E tests for B2C
     runs-on: ubuntu-latest
     strategy:
@@ -164,16 +187,16 @@ jobs:
            node_modules
            projects/storefrontapp-e2e-cypress/node_modules
            ~/.cache/Cypress
-          key: ${{ runner.os }}-${{ github.run_id}}-e2ecache
+          key: ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
           restore-keys: |
-            ${{ runner.os }}-${{ github.run_id }}-e2ecache
+            ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
       - name: Run e2es
         env:
           SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
-    needs: [no_retries, cache_e2e_build]
+    needs: [no_retries, cache_b2c_e2e_build]
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
     steps:
@@ -187,14 +210,14 @@ jobs:
            node_modules
            projects/storefrontapp-e2e-cypress/node_modules
            ~/.cache/Cypress
-          key: ${{ runner.os }}-${{ github.run_id}}-e2ecache
+          key: ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
           restore-keys: |
-            ${{ runner.os }}-${{ github.run_id }}-e2ecache
+            ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
       - name: Run e2es
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
-    needs: [no_retries, cache_e2e_build]
+    needs: [no_retries, cache_b2b_e2e_build]
     name: E2E tests for B2B
     runs-on: ubuntu-latest
     strategy:
@@ -211,9 +234,9 @@ jobs:
            node_modules
            projects/storefrontapp-e2e-cypress/node_modules
            ~/.cache/Cypress
-          key: ${{ runner.os }}-${{ github.run_id}}-e2ecache
+          key: ${{ runner.os }}-${{ github.run_id }}-b2be2ecache
           restore-keys: |
-            ${{ runner.os }}-${{ github.run_id }}-e2ecache
+            ${{ runner.os }}-${{ github.run_id }}-b2be2ecache
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
@@ -245,7 +268,7 @@ jobs:
         run: |
           ci-scripts/lhci.sh
   build_conclusion:
-    needs: [no_retries, cache_modules, cache_e2e_build, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
+    needs: [no_retries, cache_modules, cache_b2c_e2e_build, cache_b2b_e2e_build, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -255,6 +278,7 @@ jobs:
         with:
           script: |
             core.setFailed('Build failed')
+        # TO include failure / cancelled / skipped because user can stop workflow making the conclusion pass
         if: |
           needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' || needs.no_retries.result == 'skipped' ||
           needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' || needs.unit_tests_core.result == 'skipped' ||
