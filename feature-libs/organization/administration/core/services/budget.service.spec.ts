@@ -73,7 +73,7 @@ describe('BudgetService', () => {
   ));
 
   describe('get budget', () => {
-    xit('get() should trigger load budget details when they are not present in the store', fakeAsync(() => {
+    it('get() should trigger load budget details when they are not present in the store', fakeAsync(() => {
       spyOn(service, 'loadBudget').and.callThrough();
       const sub = service.get(budgetCode).subscribe();
 
