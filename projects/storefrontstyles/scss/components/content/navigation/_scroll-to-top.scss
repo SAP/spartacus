@@ -5,6 +5,7 @@
   position: fixed;
   bottom: 80px;
   right: 60px;
+  z-index: 100;
 
   &.display {
     display: initial;
