@@ -5,9 +5,11 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-  FormErrorsModule, IconModule, PasswordInputModule,
-  SpinnerModule
-} from "@spartacus/storefront";
+  FormErrorsModule,
+  IconModule,
+  PasswordInputModule,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
