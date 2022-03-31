@@ -49,10 +49,10 @@ jobs:
             ${{ runner.os }}-${{ github.run_id }}-nodemodules
       - name: Package installation
         run: yarn --frozen-lockfile
-  # to ask about ~/.cache/Cypress and node_modules for cache_e2e_build
+  # to ask about ~/.cache/Cypress and node_modules for cache_e2e_build - all in one?
   cache_b2c_e2e_build:
     needs: no_retries
-    name: Cache e2e build
+    name: Cache B2C e2e build
     env: 
       SPA_ENV: ci,b2c
     runs-on: ubuntu-latest
@@ -74,7 +74,7 @@ jobs:
           ci-scripts/build_lib.sh
   cache_b2b_e2e_build:
     needs: no_retries
-    name: Cache e2e build
+    name: Cache B2B e2e build
     env: 
       SPA_ENV: ci,b2b
     runs-on: ubuntu-latest
@@ -191,8 +191,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
       - name: Run e2es
-        env:
-          SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
@@ -238,8 +236,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-b2be2ecache
       - name: Run e2es
-        env:
-          SPA_ENV: ci,b2b
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   lighthouse:
@@ -288,6 +284,8 @@ jobs:
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || needs.b2c_ssr_e2e_tests.result == 'skipped' || 
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' || needs.b2b_e2e_tests.result == 'skipped' || 
           needs.lighthouse.result == 'failure' || needs.lighthouse.result == 'cancelled' || needs.lighthouse.result == 'skipped'
+  # need permissions from slack admins :/ will follow up with Gil as I believe we had a bot for Spartacus before that we can re-use.
+  # just need the token if ever
   send_slack_message:
     needs: build_conclusion
     name: Slack message for failed develop CI build in Spartacus
