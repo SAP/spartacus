@@ -28,7 +28,7 @@ export const CHECKOUT_BASE_TRANSLATIONS = 'checkoutTranslations';
 export const CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG =
   'checkoutTranslationChunksConfig';
 
-const CHECKOUT_FEATURE_MODULE: Module = {
+export const CHECKOUT_FEATURE_MODULE: Module = {
   name: CHECKOUT_BASE_MODULE,
   importPath: SPARTACUS_CHECKOUT_BASE,
 };

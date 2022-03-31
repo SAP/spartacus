@@ -56,6 +56,7 @@ export const CART_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
       name: CART_BASE_MODULE,
       importPath: SPARTACUS_CART_BASE,
     },
+    // TODO:#schematics - does it depend on CartBaseModule?
     {
       name: MINI_CART_MODULE,
       importPath: MINI_CART_ENTRY_POINT,
