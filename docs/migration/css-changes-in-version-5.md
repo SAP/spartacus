@@ -45,6 +45,7 @@ title: Changes to Styles in 5.0
 - wrapped everything in `%pdpFlat`inside a `> div {...}` to restore styling after template changes
 - `span.accordion-icon` has been added for screen reader improvments.
 - `$useAccordionOnly` var has been added allowing to switch between tabs and accordion view.
+- Class `div.cx-tab-paragraph-content` has been added to change the background color of active open tab.
 
 ## Change in \_order-summary.scss
 
