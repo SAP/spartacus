@@ -10,12 +10,15 @@ import {
   provideDefaultConfig,
   RoutingService,
 } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  SpinnerModule,
+  IconModule,
+  PasswordInputModule,
+} from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
-import { PasswordInputModule } from '../../../../../projects/storefrontlib/shared';
-import { IconModule } from '../../../../../projects/storefrontlib/cms-components';
 
 @NgModule({
   imports: [

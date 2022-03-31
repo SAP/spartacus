@@ -10,10 +10,13 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  SpinnerModule,
+  IconModule,
+  PasswordInputModule,
+} from '@spartacus/storefront';
 import { RegisterComponent } from './register.component';
-import { PasswordInputModule } from '../../../../../projects/storefrontlib/shared';
-import { IconModule } from '../../../../../projects/storefrontlib/cms-components';
 
 @NgModule({
   imports: [

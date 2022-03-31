@@ -12,11 +12,14 @@ import {
   UrlModule,
   WindowRef,
 } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  SpinnerModule,
+  IconModule,
+  PasswordInputModule,
+} from '@spartacus/storefront';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
-import { PasswordInputModule } from '../../../../../projects/storefrontlib/shared';
-import { IconModule } from '../../../../../projects/storefrontlib/cms-components/misc/icon/index';
 
 @NgModule({
   imports: [
