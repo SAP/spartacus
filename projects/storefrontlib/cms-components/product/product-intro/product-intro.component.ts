@@ -3,15 +3,16 @@ import {
   EventService,
   Product,
   TranslationService,
-  WindowRef,
+  WindowRef
 } from '@spartacus/core';
 import {
   ComponentCreateEvent,
-  ComponentDestroyEvent,
-} from '@spartacus/storefront';
-import { defer, Observable, of, merge } from 'rxjs';
+  ComponentDestroyEvent
+} from 'projects/storefrontlib/cms-structure';
+import { defer, merge, Observable, of } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
+
 
 @Component({
   selector: 'cx-product-intro',
@@ -25,7 +26,7 @@ export class ProductIntroComponent {
   /**
    * Observable that checks the reviews component availability on the page.
    */
-  protected areReviewsAvailable$ = merge(
+  areReviewsAvailable$ = merge(
     // Check if reviews component is already defined:
     defer(() => of(!!this.getReviewsComponent())),
 
