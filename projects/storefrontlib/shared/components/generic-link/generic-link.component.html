@@ -1,6 +1,6 @@
 <!-- https://github.com/angular/angular/issues/24567 -->
 
-<ng-container *ngIf="isExternalUrl(); else isLocalUrl">
+<ng-container *ngIf="isExternalUrl() || isContactUrl(); else isLocalUrl">
   <a
     [href]="url"
     [attr.target]="target"
