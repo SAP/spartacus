@@ -1,6 +1,10 @@
 %ProductDetailsPageTemplate {
   padding: var(--cx-padding, 2.5rem 0 0);
 
+  .cx-tab-paragraph-content {
+    background-color: var(--cx-color-background);
+  }
+
   cx-page-slot {
     &.Summary {
       @extend .container !optional;
