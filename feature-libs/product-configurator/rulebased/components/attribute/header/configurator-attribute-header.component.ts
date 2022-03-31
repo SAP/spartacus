@@ -2,19 +2,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
+  OnInit
 } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
+import {
+  ConfiguratorCommonsService,
+  ConfiguratorGroupsService
+} from '../../../core';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
-import {
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-} from '../../../core';
 
 @Component({
   selector: 'cx-configurator-attribute-header',
@@ -169,11 +169,13 @@ export class ConfiguratorAttributeHeaderComponent
 
   findConflictGroupKey(
     configuration: Configurator.Configuration,
-    attribute: Configurator.Attribute
+    currentAttribute: Configurator.Attribute
   ): string {
-    configuration;
-    attribute;
-    return '';
+    let groupId = '';
+    configuration.flatGroups.filter(group => group.groupType === Configurator.GroupType.CONFLICT_GROUP).forEach(group => {
+      groupId = group.attributes?.find(attribute => attribute.key === currentAttribute.key) ? group.id : groupId;
+    });
+    return groupId;
   }
 
   /**

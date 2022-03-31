@@ -3,25 +3,25 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils,
+  ConfiguratorModelUtils
 } from '@spartacus/product-configurator/common';
+import {
+  ConfiguratorCommonsService,
+  ConfiguratorGroupsService
+} from '@spartacus/product-configurator/rulebased';
 import {
   IconLoaderService,
   IconModule,
-  ICON_TYPE,
+  ICON_TYPE
 } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { TestScheduler } from 'rxjs/testing';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
+import * as ConfigurationTestData from '../../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
-import {
-  ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
-} from '@spartacus/product-configurator/rulebased';
-import * as ConfigurationTestData from '../../../testing/configurator-test-data';
-import { cold } from 'jasmine-marbles';
-import { TestScheduler } from 'rxjs/testing';
 
 export class MockIconFontLoaderService {
   useSvg(_iconType: ICON_TYPE) {
