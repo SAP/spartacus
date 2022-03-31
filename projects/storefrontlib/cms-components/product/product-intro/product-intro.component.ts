@@ -3,16 +3,15 @@ import {
   EventService,
   Product,
   TranslationService,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
-import {
-  ComponentCreateEvent,
-  ComponentDestroyEvent
-} from 'projects/storefrontlib/cms-structure';
 import { defer, merge, Observable, of } from 'rxjs';
 import { filter, mapTo } from 'rxjs/operators';
+import {
+  ComponentCreateEvent,
+  ComponentDestroyEvent,
+} from '../../../cms-structure';
 import { CurrentProductService } from '../current-product.service';
-
 
 @Component({
   selector: 'cx-product-intro',
