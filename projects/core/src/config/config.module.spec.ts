@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Config } from '@spartacus/core';
+import { ConfigFactory } from './config-factory';
 import {
   provideConfig,
   provideConfigFactory,
@@ -9,11 +10,12 @@ import {
 import { ConfigModule } from './config.module';
 
 describe('ConfigModule', () => {
-  const exampleConfigFactory = () => ({
-    test1: 'test config',
-    test2: 'a' + 'b',
-    test3: 3 * 5,
-  });
+  const exampleConfigFactory: ConfigFactory = () =>
+    ({
+      test1: 'test config',
+      test2: 'a' + 'b',
+      test3: 3 * 5,
+    } as Config);
 
   it('configuration token should expose configuration', () => {
     TestBed.configureTestingModule({});
