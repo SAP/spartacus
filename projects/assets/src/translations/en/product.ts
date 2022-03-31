@@ -65,7 +65,7 @@ export const product = {
     rating: 'Rating',
     ratingRequired: 'Product rating, required',
     addRate: 'Add rate: {{count}} star',
-    addRate_plural: 'Add rate: {{count}} stars',
+    addRate_other: 'Add rate: {{count}} stars',
     reviewerName: 'Reviewer name (optional)',
     writeReview: 'Write a Review',
     more: 'Show More Reviews',
