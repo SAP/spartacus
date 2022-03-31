@@ -52,6 +52,8 @@ jobs:
   cache_e2e_build:
     needs: no_retries
     name: Cache e2e build
+    env: 
+      SPA_ENV: ci,b2c
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -166,8 +168,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-e2ecache
       - name: Run e2es
-        env: 
-          SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
@@ -213,8 +213,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-e2ecache
       - name: Run e2es
-        env:
-          SPA_ENV: ci,b2b
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   lighthouse:
