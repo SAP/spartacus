@@ -128,6 +128,42 @@ describe('GenericLinkComponent', () => {
     });
   });
 
+  describe('isContactUrl', () => {
+    it('should return true when url starts with mailto: or tel:', () => {
+      component.url = 'tel:123456789';
+      expect(component.isContactUrl()).toBeTruthy();
+
+      component.url = 'mailto:test@example.com';
+      expect(component.isContactUrl()).toBeTruthy();
+
+      component.url = 'tel:';
+      expect(component.isContactUrl()).toBeTruthy();
+
+      component.url = 'mailto:';
+      expect(component.isContactUrl()).toBeTruthy();
+    });
+
+    it('should return false when url does not start with tel: or mailto:', () => {
+      component.url = 'other-protocol://example.com';
+      expect(component.isContactUrl()).toBeFalsy();
+
+      component.url = '://example.com';
+      expect(component.isContactUrl()).toBeFalsy();
+
+      component.url = 'example.com';
+      expect(component.isContactUrl()).toBeFalsy();
+
+      component.url = './local/url';
+      expect(component.isContactUrl()).toBeFalsy();
+
+      component.url = '/local/url';
+      expect(component.isContactUrl()).toBeFalsy();
+
+      component.url = 'local/url';
+      expect(component.isContactUrl()).toBeFalsy();
+    });
+  });
+
   describe('routerUrl', () => {
     it('should return absolute url wrapped in array when url is string', () => {
       component.ngOnChanges(changeUrl('local/url1'));
