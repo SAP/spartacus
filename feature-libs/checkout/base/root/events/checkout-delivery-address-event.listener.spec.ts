@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   createFrom,
   CxEvent,
-  DeleteUserAddressEvent,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -41,6 +41,10 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
+  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+}
+
 describe(`CheckoutDeliveryAddressEventListener`, () => {
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let eventService: EventService;
@@ -62,6 +66,10 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
+        },
       ],
     });
 
@@ -71,29 +79,42 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
     );
     eventService = TestBed.inject(EventService);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    TestBed.inject(ActiveCartFacade);
   });
 
   describe(`onUserAddressChange`, () => {
     it(`UpdateUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(new UpdateUserAddressEvent());
+      mockEventStream$.next(
+        createFrom(UpdateUserAddressEvent, {
+          userId: mockUserId,
+          address: {},
+          addressId: 'test-address-id',
+        })
+      );
 
       expect(
         checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
       ).toHaveBeenCalled();
       expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
+        { cartId: mockCartId, userId: mockUserId },
         CheckoutResetDeliveryModesEvent
       );
     });
 
     it(`DeleteUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(new DeleteUserAddressEvent());
+      mockEventStream$.next(
+        createFrom(UpdateUserAddressEvent, {
+          userId: mockUserId,
+          address: {},
+          addressId: 'test-address-id',
+        })
+      );
 
       expect(
         checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
       ).toHaveBeenCalled();
       expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
+        { cartId: mockCartId, userId: mockUserId },
         CheckoutResetDeliveryModesEvent
       );
     });
