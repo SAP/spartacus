@@ -1,9 +1,7 @@
 <cx-org-form [i18nRoot]="i18nRoot">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
-      <span class="label-content required">{{
-        'orgUnit.name' | cxTranslate
-      }}</span>
+      <span class="label-content required">{{ 'orgUnit.name' | cxTranslate }}</span>
       <input
         type="text"
         class="form-control"
@@ -16,9 +14,7 @@
     </label>
 
     <label>
-      <span class="label-content required">{{
-        'orgUnit.uid' | cxTranslate
-      }}</span>
+      <span class="label-content required">{{ 'orgUnit.uid' | cxTranslate }}</span>
       <input
         class="form-control"
         type="text"
@@ -30,9 +26,7 @@
     </label>
 
     <label formGroupName="approvalProcess" class="full-width">
-      <span class="label-content required">{{
-        'orgUnit.approvalProcess' | cxTranslate
-      }}</span>
+      <span class="label-content required">{{ 'orgUnit.approvalProcess' | cxTranslate }}</span>
       <ng-select
         [inputAttrs]="{ required: 'true' }"
         formControlName="code"
@@ -44,15 +38,11 @@
         [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
       >
       </ng-select>
-      <cx-form-errors
-        [control]="form.get('approvalProcess.code')"
-      ></cx-form-errors>
+      <cx-form-errors [control]="form.get('approvalProcess.code')"></cx-form-errors>
     </label>
     <ng-container *ngIf="form.get('parentOrgUnit'); else parentOrgUnitNotes">
       <label *ngIf="form.get('parentOrgUnit')" formGroupName="parentOrgUnit">
-        <span class="label-content required">{{
-          'orgUnit.form.parentOrgUnit' | cxTranslate
-        }}</span>
+        <span class="label-content required">{{ 'orgUnit.form.parentOrgUnit' | cxTranslate }}</span>
         <ng-select
           [inputAttrs]="{ required: 'true' }"
           formControlName="uid"
@@ -65,9 +55,7 @@
           [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
         >
         </ng-select>
-        <cx-form-errors
-          [control]="form.get('parentOrgUnit.uid')"
-        ></cx-form-errors>
+        <cx-form-errors [control]="form.get('parentOrgUnit.uid')"></cx-form-errors>
       </label>
     </ng-container>
     <ng-template #parentOrgUnitNotes>
