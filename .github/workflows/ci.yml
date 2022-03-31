@@ -30,7 +30,7 @@ jobs:
         if: ${{ github.run_attempt > 1 }}
   cache_modules:
     needs: no_retries
-    name: Install packages and cache node_modules
+    name: Cache node_modules
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -52,7 +52,7 @@ jobs:
   # to ask about ~/.cache/Cypress and node_modules for cache_e2e_build - all in one?
   cache_b2c_e2e_build:
     needs: no_retries
-    name: Cache B2C e2e build
+    name: Cache B2C E2E build
     env: 
       SPA_ENV: ci,b2c
     runs-on: ubuntu-latest
@@ -74,7 +74,7 @@ jobs:
           ci-scripts/build_lib.sh
   cache_b2b_e2e_build:
     needs: no_retries
-    name: Cache B2B e2e build
+    name: Cache B2B E2E build
     env: 
       SPA_ENV: ci,b2b
     runs-on: ubuntu-latest
