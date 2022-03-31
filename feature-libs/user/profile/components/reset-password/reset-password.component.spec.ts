@@ -4,7 +4,12 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  SpinnerModule,
+  IconModule,
+  PasswordInputModule,
+} from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
@@ -41,6 +46,8 @@ describe('ResetPasswordComponent', () => {
           I18nTestingModule,
           FormErrorsModule,
           SpinnerModule,
+          IconModule,
+          PasswordInputModule,
         ],
         declarations: [ResetPasswordComponent],
         providers: [

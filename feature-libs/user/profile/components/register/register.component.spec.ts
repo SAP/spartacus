@@ -19,7 +19,11 @@ import {
   RoutingService,
   Title,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  IconModule,
+  PasswordInputModule,
+} from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Observable, of, Subject } from 'rxjs';
 import { RegisterComponent } from './register.component';
@@ -125,6 +129,8 @@ describe('RegisterComponent', () => {
           I18nTestingModule,
           FormErrorsModule,
           NgSelectModule,
+          IconModule,
+          PasswordInputModule,
         ],
         declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
         providers: [

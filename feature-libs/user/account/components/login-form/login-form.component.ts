@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { LoginFormComponentService } from './login-form-component.service';
-import { PasswordInputComponent } from '../../../../../projects/storefrontlib/shared';
+import { PasswordInputComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-login-form',

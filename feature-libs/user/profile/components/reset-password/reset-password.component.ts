@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
-import { PasswordInputComponent } from '../../../../../projects/storefrontlib/shared';
+import { PasswordInputComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-reset-password',

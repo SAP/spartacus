@@ -25,7 +25,7 @@ import {
 } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { PasswordInputComponent } from '../../../../../projects/storefrontlib/shared';
+import { PasswordInputComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-register',

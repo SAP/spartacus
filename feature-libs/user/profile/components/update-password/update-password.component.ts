@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UpdatePasswordComponentService } from './update-password-component.service';
-import { PasswordInputComponent } from '../../../../../projects/storefrontlib/shared';
+import { PasswordInputComponent } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-update-password',
