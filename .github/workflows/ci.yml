@@ -168,6 +168,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-e2ecache
       - name: Run e2es
+        env:
+          SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
@@ -213,6 +215,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-e2ecache
       - name: Run e2es
+        env:
+          SPA_ENV: ci,b2b
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   lighthouse:
