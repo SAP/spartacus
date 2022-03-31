@@ -120,7 +120,8 @@ export class OccConfiguratorVariantNormalizer
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
       uiType: this.convertAttributeType(
-        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
+        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED,
+        sourceAttribute.conflicts ? sourceAttribute.conflicts.length > 0 : false
       ),
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput: sourceAttribute.formattedValue,
@@ -190,13 +191,17 @@ export class OccConfiguratorVariantNormalizer
     values: Configurator.Value[]
   ) {
     if (this.uiSettingsConfig?.productConfigurator?.addRetractOption) {
+      const hasConflicts: boolean = sourceAttribute.conflicts
+        ? sourceAttribute.conflicts.length > 0
+        : false;
       const attributeType = this.convertAttributeType(
-        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
+        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED,
+        hasConflicts
       );
-
       if (
         attributeType === Configurator.UiType.RADIOBUTTON ||
-        attributeType === Configurator.UiType.DROPDOWN
+        attributeType === Configurator.UiType.DROPDOWN ||
+        (attributeType === Configurator.UiType.READ_ONLY && hasConflicts)
       ) {
         const value: Configurator.Value = {
           valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
@@ -257,7 +262,10 @@ export class OccConfiguratorVariantNormalizer
     images.push(image);
   }
 
-  convertAttributeType(type: OccConfigurator.UiType): Configurator.UiType {
+  convertAttributeType(
+    type: OccConfigurator.UiType,
+    isConflicting: boolean = false
+  ): Configurator.UiType {
     let uiType: Configurator.UiType;
     switch (type) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
@@ -277,7 +285,9 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
       case OccConfigurator.UiType.READ_ONLY: {
-        uiType = Configurator.UiType.READ_ONLY;
+        uiType = isConflicting
+          ? Configurator.UiType.RADIOBUTTON
+          : Configurator.UiType.READ_ONLY;
         break;
       }
       case OccConfigurator.UiType.CHECK_BOX_LIST: {
