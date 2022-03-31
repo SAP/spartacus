@@ -58,7 +58,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Cache e2e build
+      - name: Cache E2E build
         id: cache-e2e-build
         uses: actions/cache@v2
         with:
@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Cache e2e build
+      - name: Cache E2E build
         id: cache-e2e-build
         uses: actions/cache@v2
         with:
@@ -178,7 +178,7 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     steps:
       - uses: actions/checkout@v2
-      - name: Cache e2e build
+      - name: Cache E2E build
         id: cache-e2e-build
         uses: actions/cache@v2
         with:
@@ -190,7 +190,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
-      - name: Run e2es
+      - name: Run E2Es
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
@@ -199,7 +199,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Cache e2e build
+      - name: Cache E2E build
         id: cache-e2e-build
         uses: actions/cache@v2
         with:
@@ -211,7 +211,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
-      - name: Run e2es
+      - name: Run E2Es
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
@@ -223,7 +223,7 @@ jobs:
         containers: [1, 2]
     steps:
       - uses: actions/checkout@v2
-      - name: Cache e2e build
+      - name: Cache E2E build
         id: cache-e2e-build
         uses: actions/cache@v2
         with:
@@ -235,7 +235,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id }}-b2be2ecache
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-b2be2ecache
-      - name: Run e2es
+      - name: Run E2Es
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   lighthouse:
