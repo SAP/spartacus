@@ -70,8 +70,9 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-b2ce2ecache
-      - run: |
-          ci-scripts/build_lib.sh
+      - name: Build Spartacus
+        run: |
+          ci-scripts/build_libs.sh
   cache_b2b_e2e_build:
     needs: no_retries
     name: Cache B2B E2E build
@@ -92,8 +93,9 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id }}-b2be2ecache
           restore-keys: |
             ${{ runner.os }}-${{ github.run_id }}-b2be2ecache
-      - run: |
-          ci-scripts/build_lib.sh
+      - name: Build Spartacus
+        run: |
+          ci-scripts/build_libs.sh
   unit_tests_core:
     needs: [no_retries, cache_modules]
     name: Unit tests for core Spartacus libs
