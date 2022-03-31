@@ -47,6 +47,9 @@ class MockConfigUtilsService {
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
+const configConflict: Configurator.Configuration =
+  ConfigurationTestData.productConfigurationWithConflicts;
+
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
@@ -87,7 +90,9 @@ describe('ConfigAttributeHeaderComponent', () => {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
     images: images,
+    key: 'ATTRIBUTE_1',
   };
+
   let htmlElem: HTMLElement;
 
   beforeEach(
@@ -810,6 +815,16 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(
         configuratorStorefrontUtilsService.focusAttribute
       ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not find the conflicting group key when there is no conflict', () => {
+      expect(component.findConflictGroupKey(config, currentAttribute)).toBe('');
+    });
+
+    it('should find the conflicting group key', () => {
+      expect(
+        component.findConflictGroupKey(configConflict, currentAttribute)
+      ).toBe(ConfigurationTestData.GROUP_ID_CONFLICT_1);
     });
   });
 });

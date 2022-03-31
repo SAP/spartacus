@@ -155,6 +155,7 @@ export class ConfiguratorAttributeHeaderComponent
       .subscribe((configuration) => {
         if (this.groupType === Configurator.GroupType.CONFLICT_GROUP) {
           const groupId = this.attribute.groupId;
+
           if (groupId) {
             this.configuratorGroupsService.navigateToGroup(
               configuration,
@@ -164,6 +165,15 @@ export class ConfiguratorAttributeHeaderComponent
           }
         }
       });
+  }
+
+  findConflictGroupKey(
+    configuration: Configurator.Configuration,
+    attribute: Configurator.Attribute
+  ): string {
+    configuration;
+    attribute;
+    return '';
   }
 
   /**
