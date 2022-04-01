@@ -167,7 +167,10 @@ function getTypeAliasBreakingChange(oldElement: any, newElement: any): any[] {
   }
 }
 function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
-  const paramBreakingChanges = compareParamaters(oldElement, newElement);
+  const paramBreakingChanges = getParamatersBreakingChange(
+    oldElement,
+    newElement
+  );
   const returnTypeChanged = oldElement.returnType !== newElement.returnType;
   if (paramBreakingChanges.length > 0 || returnTypeChanged) {
     return [
@@ -259,7 +262,7 @@ function getConstructorIfUnique(newApiElement: any): any {
 function getMemberBreakingChange(oldMember: any, newMember: any): any[] {
   switch (oldMember.kind) {
     case 'Constructor': {
-      return compareParamaters(oldMember, newMember);
+      return getParamatersBreakingChange(oldMember, newMember);
     }
     case 'IndexSignature':
     case 'MethodSignature':
@@ -278,29 +281,20 @@ function getMemberBreakingChange(oldMember: any, newMember: any): any[] {
   }
 }
 
-function compareParamaters(oldMember: any, newMember: any): any[] {
+function getParamatersBreakingChange(oldMember: any, newMember: any): any[] {
   if (!oldMember?.parameters && !newMember?.parameters) {
     return [];
   }
+  // TODO: Evaluate moving setParamsImportPath to the parse script
   setParamsImportPath(oldMember.parameters, oldApiData);
   setParamsImportPath(newMember.parameters, newApiData);
-  let hasBreakingChange = false;
+  let parametersHaveBreakingChange = isParametersBreakingChangeDetected(
+    oldMember.parameters,
+    newMember.parameters
+  );
   // TODO: improve parameter compare.  Optional params can be added
   // without beeing a breaking change.
-  if (oldMember.parameters.length !== newMember.parameters.length) {
-    hasBreakingChange = true;
-  }
-  for (let index = 0; index < oldMember.parameters.length; index++) {
-    if (
-      !isSameTypeParameter(
-        oldMember.parameters[index],
-        newMember.parameters[index]
-      )
-    ) {
-      hasBreakingChange = true;
-    }
-  }
-  if (hasBreakingChange) {
+  if (parametersHaveBreakingChange) {
     const removedParams: any[] = paramDiff(oldMember, newMember);
     const addedParams: any[] = paramDiff(newMember, oldMember);
 
@@ -322,6 +316,31 @@ function compareParamaters(oldMember: any, newMember: any): any[] {
   } else {
     return [];
   }
+}
+
+function isParametersBreakingChangeDetected(
+  oldParameters: any[],
+  newParameters: any[]
+): boolean {
+  // Removed params is a breaking change
+  if (oldParameters.length > newParameters.length) {
+    return true;
+  }
+  // Were parameter(s) added?
+  // If they are not optional, it's a breaking change
+  if (oldParameters.length < newParameters.length) {
+    const extraParams = newParameters.slice(oldParameters.length);
+    if (!extraParams.every((param: any) => param.isOptional)) {
+      return true;
+    }
+  }
+  // Detect changes in the existing parameters.
+  for (let index = 0; index < oldParameters.length; index++) {
+    if (!isSameTypeParameter(oldParameters[index], newParameters[index])) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function paramDiff(oldMember: any, newMember: any): any[] {
