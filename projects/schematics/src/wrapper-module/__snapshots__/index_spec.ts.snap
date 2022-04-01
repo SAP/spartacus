@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Cart - multiple dynamic imports in the file should generate appropriate feature module 1`] = `
+"import { NgModule } from '@angular/core';
+import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
+import { ADD_TO_CART_FEATURE, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART_FEATURE } from \\"@spartacus/cart/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CartBaseRootModule
+    ],
+    providers: [provideConfig(<CmsConfig>{
+            featureModules: {
+                [CART_BASE_FEATURE]: {
+                    module: () => import('./cart-base-wrapper.module').then((m) => m.CartBaseWrapperModule),
+                }, [MINI_CART_FEATURE]: {
+                    module: () => import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
+                }, [ADD_TO_CART_FEATURE]: {
+                    module: () => import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
+                },
+            }
+        }),
+        provideConfig(<I18nConfig>{
+            i18n: {
+                resources: cartBaseTranslations,
+                chunks: cartBaseTranslationChunksConfig,
+            },
+        })
+    ]
+})
+export class CartBaseFeatureModule {
+}
+"
+`;
+
+exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Cart - multiple dynamic imports in the file should generate appropriate feature module 2`] = `
+"import { NgModule } from '@angular/core';
+import { CartBaseModule } from \\"@spartacus/cart/base\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CartBaseModule
+    ]
+})
+export class CartBaseWrapperModule {
+}
+"
+`;
+
+exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout - One dynamic import in the file should generate appropriate feature module 1`] = `
+"import { NgModule } from '@angular/core';
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CheckoutRootModule
+    ],
+    providers: [provideConfig(<CmsConfig>{
+            featureModules: {
+                [CHECKOUT_FEATURE]: {
+                    module: () => import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+                },
+            }
+        }),
+        provideConfig(<I18nConfig>{
+            i18n: {
+                resources: checkoutTranslations,
+                chunks: checkoutTranslationChunksConfig,
+            },
+        })
+    ]
+})
+export class CheckoutFeatureModule {
+}
+"
+`;
+
+exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module Checkout - One dynamic import in the file should generate appropriate feature module 2`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CheckoutModule
+    ]
+})
+export class CheckoutWrapperModule {
+}
+"
+`;
+
+exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module double execution should not change anything 1`] = `
+"import { NgModule } from '@angular/core';
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CheckoutRootModule
+    ],
+    providers: [provideConfig(<CmsConfig>{
+            featureModules: {
+                [CHECKOUT_FEATURE]: {
+                    module: () => import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+                },
+            }
+        }),
+        provideConfig(<I18nConfig>{
+            i18n: {
+                resources: checkoutTranslations,
+                chunks: checkoutTranslationChunksConfig,
+            },
+        })
+    ]
+})
+export class CheckoutFeatureModule {
+}
+"
+`;
+
+exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module double execution should not change anything 2`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CheckoutModule
+    ]
+})
+export class CheckoutWrapperModule {
+}
+"
+`;
