@@ -1,6 +1,7 @@
 on:
   push:
     branches:
+      - feature/GH-15525
       - develop
       - 'epic/**'
       - 'release/**'
