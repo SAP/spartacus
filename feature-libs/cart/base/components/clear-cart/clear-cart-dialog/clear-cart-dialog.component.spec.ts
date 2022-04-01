@@ -2,6 +2,7 @@ import { ClearCartDialogComponentService } from './clear-cart-dialog-component.s
 import {
   IconTestingModule,
   KeyboardFocusTestingModule,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonModule } from '@angular/common';
@@ -10,7 +11,9 @@ import { ClearCartDialogComponent } from './clear-cart-dialog.component';
 import { By } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 
-//const mockCloseReason = 'Cancel Clear Cart';
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  closeDialog(_reason: string): void {}
+}
 
 class MockClearCartService implements Partial<ClearCartDialogComponentService> {
   deleteActiveCart(): Observable<boolean> {
@@ -22,6 +25,7 @@ describe('ClearCartDialogComponent', () => {
   let component: ClearCartDialogComponent;
   let fixture: ComponentFixture<ClearCartDialogComponent>;
   let clearCartService: ClearCartDialogComponentService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,10 +41,15 @@ describe('ClearCartDialogComponent', () => {
           provide: ClearCartDialogComponentService,
           useClass: MockClearCartService,
         },
+        {
+          provide: LaunchDialogService,
+          useClass: MockLaunchDialogService,
+        },
       ],
     }).compileComponents();
 
     clearCartService = TestBed.inject(ClearCartDialogComponentService);
+    launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
   beforeEach(() => {
@@ -66,22 +75,26 @@ describe('ClearCartDialogComponent', () => {
   });
 
   it('should close dialog on cancel', () => {
-    spyOn(clearCartService, 'deleteActiveCart');
-    const clearBtn = fixture.debugElement.query(
+    spyOn(launchDialogService, 'closeDialog');
+    const closeBtn = fixture.debugElement.query(
       By.css('.btn-action')
     ).nativeElement;
 
-    clearBtn.click();
+    closeBtn.click();
 
-    expect(clearCartService.deleteActiveCart).toHaveBeenCalledWith();
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Cancel Clear Cart'
+    );
   });
 
   it('should close dialog on cross click', () => {
-    spyOn(clearCartService, 'deleteActiveCart');
-    const clearBtn = fixture.debugElement.query(By.css('.close')).nativeElement;
+    spyOn(launchDialogService, 'closeDialog');
+    const crossBtn = fixture.debugElement.query(By.css('.close')).nativeElement;
 
-    clearBtn.click();
+    crossBtn.click();
 
-    expect(clearCartService.deleteActiveCart).toHaveBeenCalled();
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Close Clear Cart Dialog'
+    );
   });
 });
