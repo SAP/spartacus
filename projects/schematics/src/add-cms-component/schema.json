@@ -142,11 +142,6 @@
       "type": "boolean",
       "default": true,
       "description": "When true, the declaring NgModule exports this component."
-    },
-    "lintFix": {
-      "type": "boolean",
-      "default": false,
-      "description": "When true, applies lint fixes after generating the component."
     }
   },
   "required": ["name"]
