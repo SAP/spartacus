@@ -39,9 +39,6 @@ export async function prepareRepositoryForApiExtractor(
 
   await cache.restoreCache(paths, key, []);
 
-  core.warning('check fs 1');
-  await exec.exec('ls', ['-al']);
-
   try {
     // Cache restores files in the same location, so we need to move them manually
     await io.cp(BUILD_DIR, `${BASE_BRANCH_DIR}/${BUILD_DIR}`, {
@@ -50,24 +47,19 @@ export async function prepareRepositoryForApiExtractor(
     });
     await io.rmRF(BUILD_DIR);
   } catch {
-    core.warning('check fs 2');
-    await exec.exec('ls', ['-al']);
-    core.warning('dist folder not found in cache');
-    // If we didn't restored builded libs, we need to also build base branch
+    core.warning(
+      'dist folder not found as it failed to be restored from cache'
+    );
+
+    // If we didn't restore builded libs from cache on the BASE branch, we need to also build base branch
     await exec.exec('yarn', ['--cwd', BASE_BRANCH_DIR]);
     await exec.exec('yarn', ['--cwd', BASE_BRANCH_DIR, BUILD_COMMAND]);
-
-    core.warning('check fs 3');
-    await exec.exec('ls', ['-al']);
   }
 
-  // Build the libraries
+  // Build the libraries from the HEAD branch
   // TODO: We can parallel these builds, when schematics builds won't trigger yarn install
   await exec.exec('yarn');
   await exec.exec('yarn', [BUILD_COMMAND]);
-
-  core.warning('check fs 4');
-  await exec.exec('ls', ['-al']);
 
   core.endGroup();
 }
