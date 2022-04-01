@@ -102,9 +102,9 @@ class MockconfiguratorUtilsService {
     return configId !== undefined && configId.length !== 0;
   }
   getConfigurationFromState(
-    configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
+    configurationLoaderState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
   ): Configurator.Configuration | undefined {
-    return configurationState.value;
+    return configurationLoaderState.value;
   }
 }
 
