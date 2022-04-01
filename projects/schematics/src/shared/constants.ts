@@ -224,6 +224,7 @@ export const PRODUCT_LIST_COMPONENT_SERVICE = 'ProductListComponentService';
 export const PRODUCT_LIST_ITEM_COMPONENT = 'ProductListItemComponent';
 export const PRODUCT_LIST_ITEM_CONTEXT_SOURCE = 'ProductListItemContextSource';
 export const PRODUCT_GRID_ITEM_COMPONENT = 'ProductGridItemComponent';
+export const PRODUCT_INTRO_COMPONENT = 'ProductIntroComponent';
 export const CART_ITEM_CONTEXT_SOURCE = 'CartItemContextSource';
 export const CART_ITEM_CONTEXT = 'CartItemContext';
 export const PAGE_LAYOUT_SERVICE = 'PageLayoutService';
