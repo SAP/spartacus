@@ -99,6 +99,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: test...... installation script is broken locally too though
+        run: |
+          ng --version
       - name: Run e2es
         run: |
           ci-scripts/e2e-cypress.sh --ssr

@@ -16,7 +16,7 @@ const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
   concurrency: 20,
-  timeout: Number(process.env.SSR_TIMEOUT ?? 3000),
+  timeout: Number(process.env['SSR_TIMEOUT'] ?? 3000),
   reuseCurrentRendering: true,
 };
 
