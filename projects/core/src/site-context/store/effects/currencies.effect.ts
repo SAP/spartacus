@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
@@ -17,38 +17,41 @@ import { StateWithSiteContext } from '../state';
 
 @Injectable()
 export class CurrenciesEffects {
-  @Effect()
   loadCurrencies$: Observable<
     | SiteContextActions.LoadCurrenciesSuccess
     | SiteContextActions.LoadCurrenciesFail
-  > = this.actions$.pipe(
-    ofType(SiteContextActions.LOAD_CURRENCIES),
-    exhaustMap(() => {
-      return this.siteConnector.getCurrencies().pipe(
-        map(
-          (currencies) =>
-            new SiteContextActions.LoadCurrenciesSuccess(currencies)
-        ),
-        catchError((error) =>
-          of(
-            new SiteContextActions.LoadCurrenciesFail(normalizeHttpError(error))
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SiteContextActions.LOAD_CURRENCIES),
+      exhaustMap(() => {
+        return this.siteConnector.getCurrencies().pipe(
+          map(
+            (currencies) =>
+              new SiteContextActions.LoadCurrenciesSuccess(currencies)
+          ),
+          catchError((error) =>
+            of(
+              new SiteContextActions.LoadCurrenciesFail(
+                normalizeHttpError(error)
+              )
+            )
           )
-        )
-      );
-    })
+        );
+      })
+    )
   );
 
-  @Effect()
-  activateCurrency$: Observable<SiteContextActions.CurrencyChange> = this.state
-    .select(getActiveCurrency)
-    .pipe(
-      bufferCount(2, 1),
+  activateCurrency$: Observable<SiteContextActions.CurrencyChange> =
+    createEffect(() =>
+      this.state.select(getActiveCurrency).pipe(
+        bufferCount(2, 1),
 
-      // avoid dispatching `change` action when we're just setting the initial value:
-      filter(([previous]) => !!previous),
-      map(
-        ([previous, current]) =>
-          new SiteContextActions.CurrencyChange({ previous, current })
+        // avoid dispatching `change` action when we're just setting the initial value:
+        filter(([previous]) => !!previous),
+        map(
+          ([previous, current]) =>
+            new SiteContextActions.CurrencyChange({ previous, current })
+        )
       )
     );
 

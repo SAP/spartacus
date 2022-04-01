@@ -8,9 +8,11 @@ import { IconModule } from '../../../misc/icon/index';
 import { AddressFormComponent } from './address-form.component';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 import { FormErrorsModule } from '../../../../shared/index';
+import { NgSelectA11yModule } from '../../../../shared/components/ng-select-a11y';
 
 @NgModule({
   imports: [
+    NgSelectA11yModule,
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
