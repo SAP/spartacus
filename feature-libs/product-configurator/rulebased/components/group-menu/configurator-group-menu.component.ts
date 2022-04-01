@@ -5,6 +5,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { TranslationService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -31,30 +32,33 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
 export class ConfiguratorGroupMenuComponent {
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
 
-  routerData$: Observable<ConfiguratorRouter.Data> = this.configRouterExtractorService.extractRouterData();
+  routerData$: Observable<ConfiguratorRouter.Data> =
+    this.configRouterExtractorService.extractRouterData();
 
-  configuration$: Observable<Configurator.Configuration> = this.routerData$.pipe(
-    switchMap((routerData) =>
-      this.configCommonsService
-        .getConfiguration(routerData.owner)
-        .pipe(
-          map((configuration) => ({ routerData, configuration })),
-          //We need to ensure that the navigation to conflict groups or
-          //groups with mandatory attributes already has taken place, as this happens
-          //in an onInit of another component.
-          //otherwise we risk that this component is completely initialized too early,
-          //in dev mode resulting in ExpressionChangedAfterItHasBeenCheckedError
-          filter(
-            (cont) =>
-              (cont.configuration.complete && cont.configuration.consistent) ||
-              cont.configuration.interactionState.issueNavigationDone ||
-              !cont.routerData.resolveIssues
+  configuration$: Observable<Configurator.Configuration> =
+    this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configCommonsService
+          .getConfiguration(routerData.owner)
+          .pipe(
+            map((configuration) => ({ routerData, configuration })),
+            //We need to ensure that the navigation to conflict groups or
+            //groups with mandatory attributes already has taken place, as this happens
+            //in an onInit of another component.
+            //otherwise we risk that this component is completely initialized too early,
+            //in dev mode resulting in ExpressionChangedAfterItHasBeenCheckedError
+            filter(
+              (cont) =>
+                (cont.configuration.complete &&
+                  cont.configuration.consistent) ||
+                cont.configuration.interactionState.issueNavigationDone ||
+                !cont.routerData.resolveIssues
+            )
           )
-        )
 
-        .pipe(map((cont) => cont.configuration))
-    )
-  );
+          .pipe(map((cont) => cont.configuration))
+      )
+    );
 
   currentGroup$: Observable<Configurator.Group> = this.routerData$.pipe(
     switchMap((routerData) =>
@@ -64,39 +68,38 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Current parent group. Undefined for top level groups
    */
-  displayedParentGroup$: Observable<
-    Configurator.Group | undefined
-  > = this.configuration$.pipe(
-    switchMap((configuration) =>
-      this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
-    ),
-    switchMap((parentGroup) => {
-      return parentGroup
-        ? this.getCondensedParentGroup(parentGroup)
-        : of(parentGroup);
-    })
-  );
+  displayedParentGroup$: Observable<Configurator.Group | undefined> =
+    this.configuration$.pipe(
+      switchMap((configuration) =>
+        this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
+      ),
+      switchMap((parentGroup) => {
+        return parentGroup
+          ? this.getCondensedParentGroup(parentGroup)
+          : of(parentGroup);
+      })
+    );
 
-  displayedGroups$: Observable<
-    Configurator.Group[]
-  > = this.displayedParentGroup$.pipe(
-    switchMap((parentGroup) => {
-      return this.configuration$.pipe(
-        map((configuration) => {
-          if (parentGroup) {
-            return this.condenseGroups(parentGroup.subGroups);
-          } else {
-            return this.condenseGroups(configuration.groups);
-          }
-        })
-      );
-    })
-  );
+  displayedGroups$: Observable<Configurator.Group[]> =
+    this.displayedParentGroup$.pipe(
+      switchMap((parentGroup) => {
+        return this.configuration$.pipe(
+          map((configuration) => {
+            if (parentGroup) {
+              return this.condenseGroups(parentGroup.subGroups);
+            } else {
+              return this.condenseGroups(configuration.groups);
+            }
+          })
+        );
+      })
+    );
 
   iconTypes = ICON_TYPE;
   ERROR = ' ERROR';
   COMPLETE = ' COMPLETE';
   WARNING = ' WARNING';
+  ICON = 'ICON';
 
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,
@@ -105,12 +108,13 @@ export class ConfiguratorGroupMenuComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configGroupMenuService: ConfiguratorGroupMenuService,
-    protected directionService: DirectionService
+    protected directionService: DirectionService,
+    protected translation: TranslationService
   ) {}
 
   click(group: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      if (configuration.interactionState?.currentGroup === group.id) {
+      if (configuration.interactionState.currentGroup === group.id) {
         return;
       }
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
@@ -155,7 +159,10 @@ export class ConfiguratorGroupMenuComponent {
    * @return {string} - number of conflicts
    */
   getConflictNumber(group: Configurator.Group): string {
-    if (group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP) {
+    if (
+      group &&
+      group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+    ) {
       return '(' + group.subGroups.length + ')';
     }
     return '';
@@ -257,6 +264,28 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
+   * Returns true if group is conflict header group.
+   *
+   * @param {Configurator.Group} group - Current group
+   *  @return {boolean} - Returns 'true' if the current group is conflict header group, otherwise 'false'.
+   */
+  isConflictHeader(group: Configurator.Group): boolean {
+    return (
+      group && group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+    );
+  }
+
+  /**
+   * Returns true if group is conflict group.
+   *
+   * @param {Configurator.Group} group - Current group
+   *  @return {boolean} - Returns 'true' if the current group is conflict group, otherwise 'false'.
+   */
+  isConflictGroup(group: Configurator.Group): boolean {
+    return group && group.groupType === Configurator.GroupType.CONFLICT_GROUP;
+  }
+
+  /**
    * Returns group-status style classes dependent on completeness, conflicts, visited status and configurator type.
    *
    * @param {Configurator.Group} group - Current group
@@ -272,15 +301,13 @@ export class ConfiguratorGroupMenuComponent {
         const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
         let groupStatusStyle: string = 'cx-menu-item';
         if (
-          configuration.owner?.configuratorType !==
-            CLOUDCPQ_CONFIGURATOR_TYPE &&
+          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
           !group.consistent
         ) {
           groupStatusStyle = groupStatusStyle + this.WARNING;
         }
         if (
-          configuration.owner?.configuratorType !==
-            CLOUDCPQ_CONFIGURATOR_TYPE &&
+          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
           group.complete &&
           group.consistent &&
           isVisited
@@ -354,12 +381,12 @@ export class ConfiguratorGroupMenuComponent {
     } else if (this.isForwardsNavigation(event)) {
       if (targetGroup && this.hasSubGroups(targetGroup)) {
         this.click(targetGroup);
-        this.setFocusForSubGroup(targetGroup, currentGroup?.id);
+        this.setFocusForSubGroup(targetGroup, currentGroup.id);
       }
     } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
         this.navigateUp();
-        this.setFocusForMainMenu(currentGroup?.id);
+        this.setFocusForMainMenu(currentGroup.id);
       }
     }
   }
@@ -373,13 +400,13 @@ export class ConfiguratorGroupMenuComponent {
   setFocusForMainMenu(currentGroupId?: string): void {
     let key: string | undefined = currentGroupId;
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      configuration?.groups?.forEach((group) => {
+      configuration.groups?.forEach((group) => {
         if (
-          group?.subGroups?.length !== 1 &&
-          (this.isGroupSelected(group?.id, currentGroupId) ||
+          group.subGroups?.length !== 1 &&
+          (this.isGroupSelected(group.id, currentGroupId) ||
             this.containsSelectedGroup(group, currentGroupId))
         ) {
-          key = group?.id;
+          key = group.id;
         }
       });
     });
@@ -416,7 +443,7 @@ export class ConfiguratorGroupMenuComponent {
     currentGroupId?: string
   ): boolean {
     let isCurrentGroupFound = false;
-    group?.subGroups?.forEach((subGroup) => {
+    group.subGroups?.forEach((subGroup) => {
       if (this.isGroupSelected(subGroup.id, currentGroupId)) {
         isCurrentGroupFound = true;
       }
@@ -462,5 +489,99 @@ export class ConfiguratorGroupMenuComponent {
    */
   createAriaControls(groupId?: string): string | undefined {
     return this.configUtils.createGroupId(groupId);
+  }
+
+  /**
+   * Generates aria-label for group menu item
+   *
+   * @param {string} groupId - group ID
+   * @returns {string | undefined} - generated group ID
+   */
+  getAriaLabel(group: Configurator.Group): string {
+    let translatedText = '';
+    if (group && group.groupType && this.isConflictGroupType(group.groupType)) {
+      if (this.isConflictHeader(group)) {
+        this.translation
+          .translate('configurator.a11y.conflictsInConfiguration', {
+            numberOfConflicts: this.getConflictNumber(group),
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      } else {
+        translatedText = group.description ? group.description : '';
+      }
+    } else {
+      this.translation
+        .translate('configurator.a11y.groupName', {
+          group: group.description,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+    return translatedText;
+  }
+
+  /**
+   * Generates an id for icons.
+   *
+   * @param {string} prefix - prefix for type of icon
+   * @param {string} groupId - group id
+   * @returns {string | undefined} - generated icon id
+   */
+  createIconId(type: ICON_TYPE, groupId?: string): string | undefined {
+    return this.ICON + type + groupId;
+  }
+
+  /**
+   * Generates aria-describedby
+   *
+   * @param {Configurator.Group} group - Current group
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @return {Observable<string>} - aria-describedby
+   */
+  getAriaDescribedby(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): Observable<string> {
+    return this.isGroupVisited(group, configuration).pipe(
+      map((isVisited) => {
+        const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
+        let ariaDescribedby: string = '';
+        if (
+          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
+          !group.consistent &&
+          group.groupType &&
+          !this.isConflictGroupType(group.groupType)
+        ) {
+          ariaDescribedby =
+            ariaDescribedby + this.createIconId(ICON_TYPE.WARNING, group.id);
+        }
+        if (
+          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
+          group.complete &&
+          group.consistent &&
+          isVisited
+        ) {
+          ariaDescribedby =
+            ariaDescribedby +
+            ' ' +
+            this.createIconId(ICON_TYPE.SUCCESS, group.id);
+        }
+        if (!group.complete && isVisited) {
+          ariaDescribedby =
+            ariaDescribedby +
+            ' ' +
+            this.createIconId(ICON_TYPE.ERROR, group.id);
+        }
+        if (this.hasSubGroups(group)) {
+          ariaDescribedby =
+            ariaDescribedby +
+            ' ' +
+            this.createIconId(ICON_TYPE.CARET_RIGHT, group.id);
+        }
+        ariaDescribedby = ariaDescribedby + ' inListOfGroups';
+        return ariaDescribedby;
+      })
+    );
   }
 }

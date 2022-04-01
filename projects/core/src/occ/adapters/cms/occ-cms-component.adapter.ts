@@ -93,9 +93,9 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return requestParams;
   }
 
-  protected getContextParams(
-    pageContext: PageContext
-  ): { [key: string]: string } {
+  protected getContextParams(pageContext: PageContext): {
+    [key: string]: string;
+  } {
     let requestParams = {};
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {

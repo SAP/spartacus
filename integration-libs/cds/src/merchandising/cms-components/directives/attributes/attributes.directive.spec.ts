@@ -66,9 +66,8 @@ describe('cxAttributes directive', () => {
     const mockAttributes = { [testAttributeName]: testAttributeValue };
 
     const expectedAttributes = {};
-    expectedAttributes[
-      `${attributeNamePrefix}-${testAttributeName}`
-    ] = testAttributeValue;
+    expectedAttributes[`${attributeNamePrefix}-${testAttributeName}`] =
+      testAttributeValue;
 
     testComponent.attributes = mockAttributes;
     testComponent.attributesNamePrefix = attributeNamePrefix;
@@ -87,9 +86,8 @@ describe('cxAttributes directive', () => {
     };
 
     const expectedAttributes = {};
-    expectedAttributes[
-      `${attributeNamePrefix}-${testAttributeName}`
-    ] = testAttributeValue;
+    expectedAttributes[`${attributeNamePrefix}-${testAttributeName}`] =
+      testAttributeValue;
 
     testComponent.attributes = mockAttributes;
     testComponent.attributesNamePrefix = attributeNamePrefix;

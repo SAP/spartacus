@@ -166,9 +166,8 @@ describe('ConfigRouterExtractorService', () => {
 
   describe('createOwnerFromRouterState', () => {
     it('should create owner from router state correctly', () => {
-      const owner: CommonConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
-        mockRouterState
-      );
+      const owner: CommonConfigurator.Owner =
+        serviceUnderTest.createOwnerFromRouterState(mockRouterState);
 
       expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
     });
@@ -177,9 +176,8 @@ describe('ConfigRouterExtractorService', () => {
       mockRouterState.state.params = {
         rootProduct: PRODUCT_CODE,
       };
-      const owner: CommonConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
-        mockRouterState
-      );
+      const owner: CommonConfigurator.Owner =
+        serviceUnderTest.createOwnerFromRouterState(mockRouterState);
 
       expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
     });
@@ -189,9 +187,8 @@ describe('ConfigRouterExtractorService', () => {
         CommonConfigurator.OwnerType.CART_ENTRY;
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
 
-      const owner: CommonConfigurator.Owner = serviceUnderTest.createOwnerFromRouterState(
-        mockRouterState
-      );
+      const owner: CommonConfigurator.Owner =
+        serviceUnderTest.createOwnerFromRouterState(mockRouterState);
 
       expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
     });

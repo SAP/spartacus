@@ -20,28 +20,30 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
   const ENTRY_NUMBER = '12314';
   const CONFIGURATOR_TYPE = ConfiguratorType.VARIANT;
 
-  const sourceParameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-    userId: USER_ID,
-    cartId: CART_ID,
-    configuration: {
-      ...ConfiguratorTestUtils.createConfiguration(
-        CONFIG_ID,
-        ConfiguratorModelUtils.createInitialOwner()
-      ),
-      productCode: PRODUCT_CODE,
-    },
-    cartEntryNumber: ENTRY_NUMBER,
-  };
+  const sourceParameters: Configurator.UpdateConfigurationForCartEntryParameters =
+    {
+      userId: USER_ID,
+      cartId: CART_ID,
+      configuration: {
+        ...ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        productCode: PRODUCT_CODE,
+      },
+      cartEntryNumber: ENTRY_NUMBER,
+    };
 
-  const targetParameters: OccConfigurator.UpdateConfigurationForCartEntryParameters = {
-    userId: USER_ID,
-    cartId: CART_ID,
-    product: { code: PRODUCT_CODE },
-    quantity: QUANTITY,
-    configId: CONFIG_ID,
-    entryNumber: ENTRY_NUMBER,
-    configurationInfos: [{ configuratorType: CONFIGURATOR_TYPE }],
-  };
+  const targetParameters: OccConfigurator.UpdateConfigurationForCartEntryParameters =
+    {
+      userId: USER_ID,
+      cartId: CART_ID,
+      product: { code: PRODUCT_CODE },
+      quantity: QUANTITY,
+      configId: CONFIG_ID,
+      entryNumber: ENTRY_NUMBER,
+      configurationInfos: [{ configuratorType: CONFIGURATOR_TYPE }],
+    };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -54,9 +56,8 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
   });
 
   it('should convert updateCartEntry parameters to occ updateConfigurationForCartEntryParameters', () => {
-    const convertedParameters = occConfiguratorVariantUpdateCartEntrySerializer.convert(
-      sourceParameters
-    );
+    const convertedParameters =
+      occConfiguratorVariantUpdateCartEntrySerializer.convert(sourceParameters);
     expect(convertedParameters.userId).toEqual(targetParameters.userId);
     expect(convertedParameters.configId).toEqual(targetParameters.configId);
     expect(convertedParameters.product?.code).toEqual(

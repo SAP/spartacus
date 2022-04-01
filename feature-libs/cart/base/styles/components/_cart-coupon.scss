@@ -1,0 +1,91 @@
+%cx-cart-coupon {
+  padding-inline-end: 0;
+  padding-inline-start: 3rem;
+  padding-top: 0;
+  padding-bottom: 1rem;
+
+  @include media-breakpoint-down(md) {
+    padding-top: 2rem;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-inline-start: 0;
+    padding-top: 0;
+  }
+
+  .form-group .col-md-4 {
+    @include media-breakpoint-up(md) {
+      padding: 0;
+    }
+  }
+
+  .cx-cart-coupon-title {
+    @include type('5');
+    margin: 1.125rem 0 0.5rem;
+  }
+
+  .cx-cart-coupon-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: repeat(1, 1fr);
+    grid-column-gap: 15px;
+    grid-row-gap: 0px;
+
+    input {
+      grid-area: 1 / 1 / 2 / 2;
+    }
+
+    button {
+      grid-area: 1 / 2 / 2 / 3;
+    }
+
+    cx-form-errors {
+      grid-area: 2 / 1 / 3 / 3;
+    }
+  }
+
+  .cx-available-coupon {
+    .title {
+      font-weight: bold;
+    }
+
+    .message {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .scroll {
+      display: block;
+      height: auto;
+      box-sizing: border-box;
+      max-height: 240px;
+      overflow-y: auto;
+    }
+
+    .card {
+      @include type('7');
+      display: inline-flex;
+      align-items: flex-start;
+      padding: var(--cx-padding, 0.25rem 0.25rem);
+      word-break: break-all;
+      margin-top: 0.25rem;
+      margin-inline-end: 0.25rem;
+      margin-bottom: 0;
+      margin-inline-start: 0;
+      background: var(--cx-color-background);
+      border: 1px solid $light;
+      border-radius: $border-radius;
+    }
+  }
+
+  button.link {
+    @include type('8');
+    color: var(--cx-color-text);
+    border-width: 0;
+    text-decoration: none;
+    background: var(--cx-color-background);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

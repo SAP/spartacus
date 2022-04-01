@@ -1,15 +1,14 @@
 import { AbstractType, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import {
   CartAddEntrySuccessEvent,
+  CartPageEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
-  CxEvent,
-  EventService,
-} from '@spartacus/core';
+} from '@spartacus/cart/base/root';
+import { CxEvent, EventService } from '@spartacus/core';
+import { OrderPlacedEvent } from '@spartacus/order/root';
 import {
-  CartPageEvent,
   CategoryPageResultsEvent,
   HomePageEvent,
   PageEvent,
@@ -461,10 +460,10 @@ describe('profileTagPushEventsService', () => {
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: OrderPlacedEvent[] = [{ code: '123' }];
+      const mockOrderEntry: OrderPlacedEvent[] = [{ order: { code: '123' } }];
       const mockOrderEntries: OrderPlacedEvent[] = [
-        { code: '234' },
-        { code: '345' },
+        { order: { code: '234' } },
+        { order: { code: '345' } },
       ];
       eventServiceEvents.get(OrderPlacedEvent).next(mockOrderEntry);
       eventServiceEvents.get(OrderPlacedEvent).next(mockOrderEntries);

@@ -5,13 +5,15 @@ import {
   PROMOTION_SERVICE,
   ROUTING_SERVICE,
   SELECTIVE_CART_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_DETAILS_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/cart/cart-details/cart-details.component.ts
+  // projects/storefrontlib/cms-components/cart/cart-details/cart-details.component.ts
   class: CART_DETAILS_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

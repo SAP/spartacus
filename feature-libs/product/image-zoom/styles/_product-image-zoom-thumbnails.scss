@@ -1,0 +1,11 @@
+cx-product-image-zoom-thumbnails {
+  .carousel-panel {
+    align-self: center;
+    .slide {
+      &.active {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}

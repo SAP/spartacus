@@ -13,16 +13,14 @@ import * as fromAsmUiReducer from './asm-ui.reducer';
 
 export function getReducers(): ActionReducerMap<AsmState> {
   return {
-    customerSearchResult: StateUtils.loaderReducer<CustomerSearchPage>(
-      CUSTOMER_SEARCH_DATA
-    ),
+    customerSearchResult:
+      StateUtils.loaderReducer<CustomerSearchPage>(CUSTOMER_SEARCH_DATA),
     asmUi: fromAsmUiReducer.reducer,
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<AsmState>
-> = new InjectionToken<ActionReducerMap<AsmState>>('AsmReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<AsmState>> =
+  new InjectionToken<ActionReducerMap<AsmState>>('AsmReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

@@ -8,14 +8,16 @@ import {
   FORM_BUILDER,
   GLOBAL_MESSAGE_SERVICE,
   LOGIN_FORM_COMPONENT,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LOGIN_FORM_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/user/login-form/login-form.component.ts
+  // projects/storefrontlib/cms-components/user/login-form/login-form.component.ts
   class: LOGIN_FORM_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

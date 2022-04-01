@@ -29,11 +29,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {boolean} - Display quantity picker?
    */
   get withQuantity(): boolean {
-    return (
-      this.quantityService?.withQuantity(
-        this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-        this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
-      ) ?? false
+    return this.quantityService.withQuantity(
+      this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
     );
   }
 
@@ -43,10 +41,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {boolean} - Disable quantity picker?
    */
   get disableQuantityActions(): boolean {
-    return (
-      this.quantityService?.disableQuantityActions(
-        this.attribute?.selectedSingleValue
-      ) ?? true
+    return this.quantityService.disableQuantityActions(
+      this.attribute.selectedSingleValue
     );
   }
 
@@ -92,11 +88,11 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   protected getInitialQuantity(form?: FormControl): number {
-    const quantity: number = this.attribute?.quantity ?? 0;
+    const quantity: number = this.attribute.quantity ?? 0;
     if (form) {
-      return form?.value !== '0' ? quantity : 0;
+      return form.value !== '0' ? quantity : 0;
     } else {
-      return this.attribute?.selectedSingleValue ? quantity : 0;
+      return this.attribute.selectedSingleValue ? quantity : 0;
     }
   }
 
@@ -117,7 +113,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     );
 
     return {
-      allowZero: !this.attribute?.required,
+      allowZero: !this.attribute.required,
       initialQuantity: initialQuantity,
       disableQuantityActions$: disableQuantityActions$,
     };
@@ -131,9 +127,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
-      quantity: this.attribute?.quantity,
+      quantity: this.attribute.quantity,
       price: this.getSelectedValuePrice(),
-      priceTotal: this.attribute?.attributePriceTotal,
+      priceTotal: this.attribute.attributePriceTotal,
       isLightedUp: true,
     };
   }
@@ -157,6 +153,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
-    return this.attribute?.values?.find((value) => value?.selected)?.valuePrice;
+    return this.attribute.values?.find((value) => value.selected)?.valuePrice;
   }
 }

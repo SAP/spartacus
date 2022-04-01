@@ -10,6 +10,7 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CDS_CONFIG,
+  CDS_MODULE,
   CLI_CDS_FEATURE,
   CLI_TRACKING_PERSONALIZATION_FEATURE,
   CustomConfig,
@@ -20,7 +21,7 @@ import {
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../../package.json';
-import { CDS_FOLDER_NAME, CDS_MODULE, CDS_MODULE_NAME } from '../constants';
+import { CDS_FOLDER_NAME, CDS_MODULE_NAME } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {

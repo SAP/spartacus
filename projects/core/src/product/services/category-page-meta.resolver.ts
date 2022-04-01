@@ -29,22 +29,23 @@ import { ProductSearchService } from '../facade/product-search.service';
 })
 export class CategoryPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver {
+  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver
+{
   // reusable observable for search page data
-  protected searchPage$: Observable<
-    ProductSearchPage | Page
-  > = this.cms.getCurrentPage().pipe(
-    filter((page) => Boolean(page)),
-    switchMap((page: Page) =>
-      // only the existence of a plp component tells us if products
-      // are rendered or if this is an ordinary content page
-      this.hasProductListComponent(page)
-        ? this.productSearchService
-            .getResults()
-            .pipe(filter((result) => Boolean(result)))
-        : of(page)
-    )
-  );
+  protected searchPage$: Observable<ProductSearchPage | Page> = this.cms
+    .getCurrentPage()
+    .pipe(
+      filter((page) => Boolean(page)),
+      switchMap((page: Page) =>
+        // only the existence of a plp component tells us if products
+        // are rendered or if this is an ordinary content page
+        this.hasProductListComponent(page)
+          ? this.productSearchService
+              .getResults()
+              .pipe(filter((result) => Boolean(result)))
+          : of(page)
+      )
+    );
 
   constructor(
     protected productSearchService: ProductSearchService,

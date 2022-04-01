@@ -1,12 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilKeyChanged,
-  filter,
-  switchMap,
-  take,
-} from 'rxjs/operators';
+import { distinctUntilKeyChanged, filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -18,9 +13,8 @@ import { Configurator } from '../../core/model/configurator.model';
 export class ConfiguratorOverviewFormComponent {
   attributeOverviewType = Configurator.AttributeOverviewType;
 
-  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
+  configuration$: Observable<Configurator.Configuration> =
+    this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.configuratorCommonsService.getOrCreateConfiguration(
           routerData.owner
@@ -38,20 +32,7 @@ export class ConfiguratorOverviewFormComponent {
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
-  ) {
-    //In case the 'forceReload' is set (means the page is launched from the checkout in display only mode),
-    //we need to initialise the cart configuration
-    this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(take(1))
-      .subscribe((routingData) => {
-        if (routingData.forceReload) {
-          this.configuratorCommonsService.removeConfiguration(
-            routingData.owner
-          );
-        }
-      });
-  }
+  ) {}
 
   /**
    * Does the configuration contain any selected attribute values?

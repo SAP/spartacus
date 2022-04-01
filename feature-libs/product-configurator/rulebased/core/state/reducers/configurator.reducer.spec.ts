@@ -79,7 +79,7 @@ describe('Configurator reducer', () => {
       const configurationWithoutCurrentGroup: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration('A', owner),
         productCode: PRODUCT_CODE,
-        overview: { configId: CONFIG_ID },
+        overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
         flatGroups: [
           ConfiguratorTestUtils.createGroup('flatFirstGroup'),
           ConfiguratorTestUtils.createGroup('flatFirstGroup'),
@@ -136,12 +136,11 @@ describe('Configurator reducer', () => {
   describe('UpdateConfigurationFail action', () => {
     it('should not put configuration into the state', () => {
       const { initialState } = StateReduce;
-      const action: ConfiguratorActions.ConfiguratorAction = new ConfiguratorActions.UpdateConfigurationFail(
-        {
+      const action: ConfiguratorActions.ConfiguratorAction =
+        new ConfiguratorActions.UpdateConfigurationFail({
           configuration: configuration,
           error: null,
-        }
-      );
+        });
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(initialState);
@@ -151,9 +150,8 @@ describe('Configurator reducer', () => {
   describe('UpdateConfiguration action', () => {
     it('should not put configuration into the state because it is only triggering the update process', () => {
       const { initialState } = StateReduce;
-      const action: ConfiguratorActions.ConfiguratorAction = new ConfiguratorActions.UpdateConfiguration(
-        configuration
-      );
+      const action: ConfiguratorActions.ConfiguratorAction =
+        new ConfiguratorActions.UpdateConfiguration(configuration);
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(initialState);
@@ -190,7 +188,7 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        overview: { configId: CONFIG_ID },
+        overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
       };
       const state = StateReduce.configuratorReducer(
         configurationWithOverview,
@@ -218,9 +216,8 @@ describe('Configurator reducer', () => {
 
   describe('UpdatePriceSummarySuccess action', () => {
     it('should keep the existing groups although it does not provide groups in its data', () => {
-      const actionProvidingState = new ConfiguratorActions.CreateConfigurationSuccess(
-        configuration
-      );
+      const actionProvidingState =
+        new ConfiguratorActions.CreateConfigurationSuccess(configuration);
       const firstState = StateReduce.configuratorReducer(
         undefined,
         actionProvidingState
@@ -360,6 +357,7 @@ describe('Configurator reducer', () => {
       const priceSummary: Configurator.PriceSummary = {};
       const overview: Configurator.Overview = {
         configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
         priceSummary: priceSummary,
       };
       const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
@@ -375,7 +373,10 @@ describe('Configurator reducer', () => {
 
   describe('GetConfigurationOverviewSuccess action', () => {
     it('should put configuration overview into the state', () => {
-      const overview: Configurator.Overview = { configId: CONFIG_ID };
+      const overview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
+      };
       const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
         ownerKey: configuration.owner.key,
         overview: overview,
@@ -389,6 +390,7 @@ describe('Configurator reducer', () => {
       const priceSummary: Configurator.PriceSummary = {};
       const overview: Configurator.Overview = {
         configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
         priceSummary: priceSummary,
       };
       const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
@@ -403,7 +405,10 @@ describe('Configurator reducer', () => {
 
   describe('ReadOrderEntryConfigurationSuccess action', () => {
     it('should put configuration overview into the state', () => {
-      const overview: Configurator.Overview = { configId: CONFIG_ID };
+      const overview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
+      };
       configuration.overview = overview;
       const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
         configuration
@@ -417,6 +422,7 @@ describe('Configurator reducer', () => {
       const priceSummary: Configurator.PriceSummary = {};
       const overview: Configurator.Overview = {
         configId: CONFIG_ID,
+        productCode: PRODUCT_CODE,
         priceSummary: priceSummary,
       };
       configuration.overview = overview;

@@ -10,6 +10,5 @@ import { InjectionToken } from '@angular/core';
  * defined is used in a eager loading configuration, MODULE_INITIALIZER
  * will fall back to work like APP_INITIALIZER.
  */
-export const MODULE_INITIALIZER: InjectionToken<
-  (() => any)[]
-> = new InjectionToken<(() => any)[]>('MODULE_INITIALIZER');
+export const MODULE_INITIALIZER: InjectionToken<(() => any)[]> =
+  new InjectionToken<(() => any)[]>('MODULE_INITIALIZER');

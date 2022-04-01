@@ -12,17 +12,18 @@ import {
 import semver from 'semver';
 import collectedDependencies from '../../../dependencies.json';
 import {
+  CORE_SPARTACUS_SCOPES,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SCOPE,
-} from '../../../shared/constants';
+} from '../../../shared/libs-constants';
 import {
   addPackageJsonDependencies,
   dependencyExists,
+  getSpartacusLibraries,
   installPackageJsonDependencies,
 } from '../../../shared/utils/lib-utils';
 import {
   cleanSemverVersion,
-  CORE_SPARTACUS_SCOPES,
   createDependencies,
   readPackageJson,
 } from '../../../shared/utils/package-utils';
@@ -33,10 +34,8 @@ export function migrateDependencies(
   removedDependencies: string[]
 ): Rule {
   const packageJson = readPackageJson(tree);
-  const {
-    spartacusPeerDeps,
-    installedLibs,
-  } = collectSpartacusLibraryDependencies(packageJson);
+  const { spartacusPeerDeps, installedLibs } =
+    collectSpartacusLibraryDependencies(packageJson);
   const allSpartacusDeps = installedLibs.concat(spartacusPeerDeps);
 
   checkAndLogRemovedDependencies(
@@ -58,20 +57,18 @@ export function migrateDependencies(
   ]);
 }
 
-function collectSpartacusLibraryDependencies(
-  packageJson: any
-): { installedLibs: string[]; spartacusPeerDeps: string[] } {
-  const dependencies =
-    (packageJson.dependencies as Record<string, string>) ?? {};
-  const installedLibs = Object.keys(dependencies).filter((dep) =>
-    dep.startsWith(SPARTACUS_SCOPE)
-  );
+function collectSpartacusLibraryDependencies(packageJson: any): {
+  installedLibs: string[];
+  spartacusPeerDeps: string[];
+} {
+  const dependencies: Record<string, string> = packageJson.dependencies;
+  const installedLibs = getSpartacusLibraries(dependencies);
 
   let spartacusPeerDeps: string[] = [];
   for (const spartacusLib of installedLibs) {
     spartacusPeerDeps = collectSpartacusPeerDeps(
-      spartacusPeerDeps,
-      spartacusLib
+      spartacusLib,
+      spartacusPeerDeps
     );
   }
 
@@ -84,13 +81,12 @@ function collectSpartacusLibraryDependencies(
 }
 
 function collectSpartacusPeerDeps(
-  collectedDeps: string[],
-  name: string
+  name: string,
+  collectedDeps: string[]
 ): string[] {
-  const peerDepsWithVersions = (collectedDependencies as Record<
-    string,
-    Record<string, string>
-  >)[name];
+  const peerDepsWithVersions = (
+    collectedDependencies as Record<string, Record<string, string>>
+  )[name];
   const peerDeps = Object.keys(peerDepsWithVersions)
     .filter((d) => d.startsWith(SPARTACUS_SCOPE))
     .filter((d) => !CORE_SPARTACUS_SCOPES.includes(d))
@@ -98,7 +94,7 @@ function collectSpartacusPeerDeps(
 
   collectedDeps = collectedDeps.concat(peerDeps);
   for (const peerDep of peerDeps) {
-    collectedDeps = collectSpartacusPeerDeps(collectedDeps, peerDep);
+    collectedDeps = collectSpartacusPeerDeps(peerDep, collectedDeps);
   }
 
   return collectedDeps;
@@ -111,10 +107,9 @@ function createSpartacusLibraryDependencies(
   const dependenciesToAdd: NodeDependency[] = [];
 
   for (const libraryName of allSpartacusLibraries) {
-    const spartacusLibrary = (collectedDependencies as Record<
-      string,
-      Record<string, string>
-    >)[libraryName];
+    const spartacusLibrary = (
+      collectedDependencies as Record<string, Record<string, string>>
+    )[libraryName];
 
     const newDependencies = createDependencies(spartacusLibrary, {
       skipScopes,
@@ -142,18 +137,16 @@ function checkAndLogRemovedDependencies(
   removedDependencies: string[],
   logger: logging.LoggerApi
 ): void {
-  const dependencies =
-    (packageJson.dependencies as Record<string, string>) ?? {};
-
   let allSpartacusDeps: string[] = [];
   for (const libraryName of installedSpartacusLibs) {
-    const spartacusLibrary = (collectedDependencies as Record<
-      string,
-      Record<string, string>
-    >)[libraryName];
+    const spartacusLibrary = (
+      collectedDependencies as Record<string, Record<string, string>>
+    )[libraryName];
     allSpartacusDeps = allSpartacusDeps.concat(Object.keys(spartacusLibrary));
   }
 
+  const dependencies =
+    (packageJson.dependencies as Record<string, string>) ?? {};
   const removed: string[] = [];
   for (const removedDependency of removedDependencies) {
     if (!dependencies[removedDependency]) {

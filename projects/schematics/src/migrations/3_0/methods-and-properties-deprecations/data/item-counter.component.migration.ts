@@ -1,12 +1,12 @@
 import {
   GET_CONTROL,
   ITEM_COUNTER_COMPONENT,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/shared/components/item-counter/item-counter.component.ts
+// projects/storefrontlib/shared/components/item-counter/item-counter.component.ts
 export const ITEM_COUNTER_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: ITEM_COUNTER_COMPONENT,

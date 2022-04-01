@@ -13,17 +13,18 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
   const CONFIG_ID = '12314';
   const ENTRY_NUMBER = '12314';
 
-  const sourceParameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-    userId: USER_ID,
-    cartId: CART_ID,
-    configuration: {
-      ...ConfiguratorTestUtils.createConfiguration(
-        CONFIG_ID,
-        ConfiguratorModelUtils.createInitialOwner()
-      ),
-    },
-    cartEntryNumber: ENTRY_NUMBER,
-  };
+  const sourceParameters: Configurator.UpdateConfigurationForCartEntryParameters =
+    {
+      userId: USER_ID,
+      cartId: CART_ID,
+      configuration: {
+        ...ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+      },
+      cartEntryNumber: ENTRY_NUMBER,
+    };
 
   beforeEach(() => {
     TestBed.configureTestingModule({

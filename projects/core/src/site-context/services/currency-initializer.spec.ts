@@ -21,12 +21,14 @@ class MockCurrencyService implements Partial<CurrencyService> {
 }
 
 class MockCurrencyStatePersistenceService
-  implements Partial<CurrencyStatePersistenceService> {
+  implements Partial<CurrencyStatePersistenceService>
+{
   initSync = createSpy().and.returnValue(of(EMPTY));
 }
 
 class MockConfigInitializerService
-  implements Partial<ConfigInitializerService> {
+  implements Partial<ConfigInitializerService>
+{
   getStable = () => of(mockSiteContextConfig);
 }
 
