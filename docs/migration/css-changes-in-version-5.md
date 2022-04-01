@@ -86,3 +86,9 @@ title: Changes to Styles in 5.0
 
 - `display: none` has been removed from `cx-form-errors`
 - Style structure `&.control-invalid > &.control-dirty, &.control-touched` has ben removed `cx-form-errors`
+
+## Change in _variables.scss
+- `$primary-accent: #ff8b8b !default;` has been added to Sparta theme colors
+
+## Change in santorini.scss
+- `--cx-color-primary-accent: #50b0f4;` and `--cx-color-secondary-accent: #c3cbde;` were added to santorini theme.

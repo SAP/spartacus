@@ -22,7 +22,7 @@ import { PaginationItem, PaginationItemType } from './pagination.model';
 })
 export class PaginationComponent {
   /** The (optional) pageRoute used for the anchor links created in the pagination   */
-  @Input() pageRoute: string;
+  @Input() pageRoute: string = '.';
 
   /** The (optional) query parameter which is added to the page route.  */
   @Input() queryParam: string;

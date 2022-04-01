@@ -37,9 +37,9 @@ export const importEntriesDialog = {
     successes:
       '{{ successesCount }} out of {{ total }} products have been imported successfully.',
     warning: '{{ count }} product was not imported totally.',
-    warning_plural: '{{ count }} products were not imported totally.',
+    warning_other: '{{ count }} products were not imported totally.',
     error: '{{ count }} product was not imported.',
-    error_plural: '{{ count }} products were not imported.',
+    error_other: '{{ count }} products were not imported.',
     messages: {
       unknownIdentifier: 'Product SKU "{{ productCode}}" does not exist.',
       lowStock:
