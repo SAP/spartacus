@@ -29,6 +29,9 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
     text-overflow: ellipsis;
 
     ol {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       list-style: none;
       padding-inline-start: 0;
       li {
