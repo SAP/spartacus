@@ -30,8 +30,8 @@ class MockWinRef {
 }
 
 class MockSelectFocusUtility {
-  findFocusable(): HTMLElement[] {
-    return [window.document.body];
+  findFirstFocusable(): HTMLElement {
+    return window.document.body;
   }
 }
 
@@ -87,7 +87,7 @@ describe('ScrollToTopComponent', () => {
 
   it('should be visible and scroll to top of page', () => {
     fixture.detectChanges();
-    spyOn(focusUtility, 'findFocusable').and.callThrough();
+    spyOn(focusUtility, 'findFirstFocusable').and.callThrough();
     spyOn(window, 'scrollTo').and.callThrough();
     winRef.nativeWindow?.scrollTo(0, 200);
     winRef.nativeWindow?.dispatchEvent(new Event('scroll'));
@@ -111,7 +111,7 @@ describe('ScrollToTopComponent', () => {
   it('should focus top most focusable element of the page', () => {
     fixture.detectChanges();
     spyOn(window, 'scrollTo').and.callThrough();
-    spyOn(focusUtility, 'findFocusable').and.callThrough();
+    spyOn(focusUtility, 'findFirstFocusable').and.callThrough();
     winRef.nativeWindow?.scrollTo(0, 200);
     winRef.nativeWindow?.dispatchEvent(new Event('scroll'));
 

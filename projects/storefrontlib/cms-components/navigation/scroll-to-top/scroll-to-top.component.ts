@@ -58,21 +58,14 @@ export class ScrollToTopComponent implements OnInit {
    * Scroll back to the top of the page and set focus on top most focusable element.
    */
   scrollToTop(): void {
-    this.focusFirstKeyboardFocusableElement();
+    // Focus first focusable element within the html body
+    this.selectFocusUtility
+      .findFirstFocusable(this.winRef.document.body, { autofocus: '' })
+      ?.focus();
+
     this.window?.scrollTo({
       top: 0,
       behavior: this.scrollBehavior,
     });
-  }
-
-  /**
-   * Focus the first focusable element in the DOM that is also not hidden
-   * from accessibility API.
-   */
-  protected focusFirstKeyboardFocusableElement(): void {
-    const elements = this.selectFocusUtility.findFocusable(
-      this.winRef.document.body
-    );
-    elements[0].focus();
   }
 }
