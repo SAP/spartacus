@@ -1,7 +1,7 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}">
   <ng-container
     *ngIf="
-      attribute.values != undefined && attribute.values.length > 0;
+      attribute.values !== undefined && attribute.values.length > 0;
       else noStaticDomain
     "
   >
