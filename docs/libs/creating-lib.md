@@ -94,7 +94,7 @@ module.exports = function (config) {
 
 - `ng-package.json`
 
-Add `umdModuleIds` and `assets` section sor your file looks like this:
+Add `assets` section sor your file looks like this:
 (adapt assets path to what makes sense for your lib)
 ```json
 {
@@ -102,12 +102,6 @@ Add `umdModuleIds` and `assets` section sor your file looks like this:
   "dest": "../../dist/{LIB_NAME}",
   "lib": {
     "entryFile": "./public_api.ts",
-    "umdModuleIds": {
-      "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront",
-      "@ng-bootstrap/ng-bootstrap": "ng-bootstrap",
-      "rxjs": "rxjs"
-    }
   },
   "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
 }
@@ -134,6 +128,11 @@ Use the following template:
     "TODO:"
   ],
   "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss"
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -155,6 +154,7 @@ Make sure to replace `TODO:`s with the relevant information.
 Adjust the `@spartacus/core` and/or `@spartacus/storefront` depending on the need.
 Make sure the versions match the current spartacus version.
 Make sure the `@angular` peer dependencies matches the versions specified in the _core_ lib.
+If your library doesn't expose any SCSS styles, remove the section `exports`/`sass`.
 
 - `test.ts` 
   - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
@@ -203,10 +203,32 @@ Use the following template:
 }
 ```
 
+- `tsconfig.spec.json` - add `"target": "es2015", "module": "es2020"` in `"compilerOptions"`:
+```json
+{
+  /* ... */
+  "compilerOptions": {
+    /* ... */
+    "target": "es2015",
+    "module": "es2020",
+  }
+}
+```
+
 - run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
 - `tslint.json` - remove
 - the rest of the generated files should be removed
+
+- `package.json` of your library - if your library exports any `scss` styles, add the following `exports` section to your `package.json`:
+  ```json
+    "exports": {
+      ".": {
+        "sass": "./_index.scss"
+      }
+    },
+  ```
+  and then run `yarn config:update` (to fix the formatting)
 
 ### Additional changes to existing files
 
