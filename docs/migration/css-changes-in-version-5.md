@@ -87,6 +87,12 @@ title: Changes to Styles in 5.0
 - `display: none` has been removed from `cx-form-errors`
 - Style structure `&.control-invalid > &.control-dirty, &.control-touched` has ben removed `cx-form-errors`
 
+### AddToCartComponent
+
+- Added `position` and set to `absolute` of `quantity.info`
+- Added `transform` and set to `translate(0, -50%)` of `quantity.info`
+- Added `top` and set to `50%` of `quantity.info`
+
 ## Change in _variables.scss
 - `$primary-accent: #ff8b8b !default;` has been added to Sparta theme colors
 
