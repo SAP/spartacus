@@ -429,19 +429,25 @@ function findMatchingMember(newApiElement: any, oldMember: any) {
 }
 
 function getEnumBreakingChange(oldElement: any, newElement: any): any[] {
-  //TODO: Improve comparision to only flag breaking changes for removed members
-  if (!deepEqual(oldElement.members, newElement.members)) {
+  if (isEnumValueRemoved(oldElement.members, newElement.members)) {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
         previousStateDoc: oldElement.members.join(',\n'),
         currentStateDoc: newElement.members.join(',\n'),
+        old: oldElement.members,
         new: newElement.members,
       },
     ];
   } else {
     return [];
   }
+}
+
+function isEnumValueRemoved(oldMembers: any[], newMembers: any[]): boolean {
+  return !oldMembers.every((oldMember: any) => {
+    return newMembers.some((newMember: any) => newMember === oldMember);
+  });
 }
 
 function getChangeName(elementKind: string, changeType: string) {
