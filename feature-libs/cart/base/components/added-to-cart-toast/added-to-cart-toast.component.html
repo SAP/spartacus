@@ -24,9 +24,13 @@
           {{ 'cartToast.price' | cxTranslate }}: {{ toast.unitPrice }}
         </span>
       </div>
-      <span class="continue-shopping" (click)="closeToast(toast)">
+      <button
+        type="button"
+        class="link continue-shopping"
+        (click)="closeToast(toast)"
+      >
         {{ 'cartToast.continueShopping' | cxTranslate }}
-      </span>
+      </button>
       <a
         [routerLink]="{ cxRoute: 'cart' } | cxUrl"
         (click)="closeToast(toast)"
