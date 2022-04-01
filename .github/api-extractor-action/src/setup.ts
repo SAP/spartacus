@@ -35,25 +35,36 @@ export async function prepareRepositoryForApiExtractor(
   // Builded libraries are cached by `cache-builded-libs` action
   const paths = [BUILD_DIR];
   const key = `dist-${baseCommit}`;
-
-  await cache.restoreCache(paths, key, []);
-
-  // Build the libraries for HEAD
-  // TODO: We can parallel these builds, when schematics builds won't trigger yarn install
-  const BUILD_COMMAND = 'build:libs';
-  await exec.exec('yarn');
-  await exec.exec('yarn', [BUILD_COMMAND]);
+  let cacheKey;
 
   try {
+    core.warning('test 1');
+    cacheKey = await cache.restoreCache(paths, key, []);
+    core.warning('test 2');
+  } catch {
+    core.warning('dist folder is not found');
+  }
+
+  if (cacheKey) {
+    core.warning('test 3');
+    // Cache restores files in the same location, so we need to move them manually
     await io.cp(BUILD_DIR, `${BASE_BRANCH_DIR}/${BUILD_DIR}`, {
       recursive: true,
       force: false,
     });
+    core.warning('test 4');
     await io.rmRF(BUILD_DIR);
-  } catch {
-    core.warning('dist folder was not found');
+  }
 
-    // Build the libraries for BASE if dist is not found in cache
+  core.warning('test 5');
+
+  // Build the libraries
+  // TODO: We can parallel these builds, when schematics builds won't trigger yarn install
+  const BUILD_COMMAND = 'build:libs';
+  await exec.exec('yarn');
+  await exec.exec('yarn', [BUILD_COMMAND]);
+  // If we didn't restored builded libs, we need to also build base branch
+  if (!cacheKey) {
     await exec.exec('yarn', ['--cwd', BASE_BRANCH_DIR]);
     await exec.exec('yarn', ['--cwd', BASE_BRANCH_DIR, BUILD_COMMAND]);
   }
