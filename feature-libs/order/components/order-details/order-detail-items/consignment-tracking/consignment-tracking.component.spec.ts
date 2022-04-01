@@ -61,6 +61,7 @@ describe('ConsignmentTrackingComponent', () => {
     }
     return equals;
   };
+
   const userOrderService = jasmine.createSpyObj('UserOrderService', [
     'loadConsignmentTracking',
     'getConsignmentTracking',
