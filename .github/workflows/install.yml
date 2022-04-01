@@ -4,6 +4,7 @@ on:
       - 'release/4.**'
       - 'epic/**'
       - 'develop'
+      - feature/GH-15525
 name: Installation
 jobs:
   install:
