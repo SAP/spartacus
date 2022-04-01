@@ -35,7 +35,14 @@ export async function prepareRepositoryForApiExtractor(
   // Builded libraries are cached by `cache-builded-libs` action
   const paths = [BUILD_DIR];
   const key = `dist-${baseCommit}`;
-  const cacheKey = await cache.restoreCache(paths, key, []);
+  let cacheKey;
+
+  try {
+    cacheKey = await cache.restoreCache(paths, key, []);
+  } catch {
+    core.warning('dist folder is not found');
+  }
+
   if (cacheKey) {
     // Cache restores files in the same location, so we need to move them manually
     await io.cp(BUILD_DIR, `${BASE_BRANCH_DIR}/${BUILD_DIR}`, {
