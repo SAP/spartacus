@@ -8,12 +8,14 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClearCartDialogComponent } from './clear-cart-dialog.component';
 import { By } from '@angular/platform-browser';
+import { Observable, of } from 'rxjs';
 
-const mockCloseReason = 'Cancel Clear Cart';
+//const mockCloseReason = 'Cancel Clear Cart';
 
 class MockClearCartService implements Partial<ClearCartDialogComponentService> {
-  deleteActiveCart(): void {}
-  closeDialog(): void {}
+  deleteActiveCart(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 describe('ClearCartDialogComponent', () => {
@@ -64,22 +66,22 @@ describe('ClearCartDialogComponent', () => {
   });
 
   it('should close dialog on cancel', () => {
-    spyOn(clearCartService, 'closeDialog');
+    spyOn(clearCartService, 'deleteActiveCart');
     const clearBtn = fixture.debugElement.query(
       By.css('.btn-action')
     ).nativeElement;
 
     clearBtn.click();
 
-    expect(clearCartService.closeDialog).toHaveBeenCalledWith(mockCloseReason);
+    expect(clearCartService.deleteActiveCart).toHaveBeenCalledWith();
   });
 
   it('should close dialog on cross click', () => {
-    spyOn(clearCartService, 'closeDialog');
+    spyOn(clearCartService, 'deleteActiveCart');
     const clearBtn = fixture.debugElement.query(By.css('.close')).nativeElement;
 
     clearBtn.click();
 
-    expect(clearCartService.closeDialog).toHaveBeenCalled();
+    expect(clearCartService.deleteActiveCart).toHaveBeenCalled();
   });
 });

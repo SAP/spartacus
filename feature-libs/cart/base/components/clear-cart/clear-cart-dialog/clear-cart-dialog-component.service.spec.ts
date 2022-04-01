@@ -77,7 +77,6 @@ describe('ClearCartDialogComponentService', () => {
     multiCartFacade = TestBed.inject(MultiCartFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
-
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
@@ -90,11 +89,9 @@ describe('ClearCartDialogComponentService', () => {
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(of('00001122'));
     spyOn<any>(service, 'displayGlobalMessage').and.callThrough();
 
-    service.deleteActiveCart();
+     let ob = service.deleteActiveCart();
+     ob.subscribe(undefined);
 
-    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      'Close dialog after cart cleared'
-    );
     expect(eventService.get).toHaveBeenCalled();
     expect(multiCartFacade.deleteCart).toHaveBeenCalled();
     expect(userIdService.getUserId).toHaveBeenCalled();
@@ -112,15 +109,15 @@ describe('ClearCartDialogComponentService', () => {
     spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(of('00001122'));
 
-    service.deleteActiveCart();
+    let ob = service.deleteActiveCart();
+    ob.subscribe(undefined);
 
     expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 
   it('should close dialog on close method', () => {
     spyOn(launchDialogService, 'closeDialog');
-    service.closeDialog(mockCloseReason);
-
+    launchDialogService.closeDialog(mockCloseReason);
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       mockCloseReason
     );
