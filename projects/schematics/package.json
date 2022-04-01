@@ -16,20 +16,20 @@
     "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "^12.0.5",
-    "@nguniversal/express-engine": "^12.0.2",
-    "semver": "^6.3.0",
+    "@angular/pwa": "^13.2.0",
+    "@nguniversal/express-engine": "^13.0.2",
+    "semver": "^7.3.5",
     "ts-morph": "^9.1.0",
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "^12.0.5",
-    "@angular-devkit/schematics": "^12.0.5",
-    "@angular/compiler": "^12.0.5",
-    "@schematics/angular": "^12.0.5",
+    "@angular-devkit/core": "^13.2.0",
+    "@angular-devkit/schematics": "^13.2.0",
+    "@angular/compiler": "^13.2.0",
+    "@schematics/angular": "^13.2.0",
     "jsonc-parser": "^3.0.0",
     "parse5": "^6.0.1",
-    "typescript": "^4.2.4"
+    "typescript": "^4.4.4"
   },
   "ng-add": {
     "save": "devDependencies"
