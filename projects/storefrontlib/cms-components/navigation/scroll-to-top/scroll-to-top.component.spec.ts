@@ -10,14 +10,15 @@ import {
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ScrollToTopComponent } from './scroll-to-top.component';
 import { IconTestingModule } from '../../misc/icon/testing/icon-testing.module';
+import { SelectFocusUtility } from '../../../layout/a11y/index';
 import { of } from 'rxjs';
 
 @Component({
   template: `
     <div style="height: 2000px;">
-      <button class="test"></button>
       <h1>Test page</h1>
       <cx-scroll-to-top></cx-scroll-to-top>
+      <button class="test"></button>
     </div>
   `,
 })
@@ -25,6 +26,13 @@ class MockComponent {}
 
 class MockWinRef {
   nativeWindow = window;
+  document = window.document;
+}
+
+class MockSelectFocusUtility {
+  findFocusable(): HTMLElement[] {
+    return [window.document.body];
+  }
 }
 
 const mockData: CmsScrollToTopComponent = {
@@ -40,6 +48,7 @@ describe('ScrollToTopComponent', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
   let winRef: WindowRef;
+  let focusUtility: SelectFocusUtility;
   let el: DebugElement;
 
   beforeEach(() => {
@@ -52,9 +61,11 @@ describe('ScrollToTopComponent', () => {
           useValue: MockCmsComponentData,
         },
         { provide: WindowRef, useClass: MockWinRef },
+        { provide: SelectFocusUtility, useClass: MockSelectFocusUtility },
       ],
     }).compileComponents();
 
+    focusUtility = TestBed.inject(SelectFocusUtility);
     winRef = TestBed.inject(WindowRef);
     fixture = TestBed.createComponent(MockComponent);
 
@@ -62,17 +73,7 @@ describe('ScrollToTopComponent', () => {
     el = fixture.debugElement;
   });
 
-  function getFirstKeyboardFocusableElement(): HTMLElement {
-    return [
-      ...(winRef.nativeWindow?.document?.querySelectorAll(
-        'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
-      ) as any),
-    ].filter(
-      (el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden')
-    )[0];
-  }
-
-  it('should create', () => {
+  it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
@@ -86,7 +87,7 @@ describe('ScrollToTopComponent', () => {
 
   it('should be visible and scroll to top of page', () => {
     fixture.detectChanges();
-
+    spyOn(focusUtility, 'findFocusable').and.callThrough();
     spyOn(window, 'scrollTo').and.callThrough();
     winRef.nativeWindow?.scrollTo(0, 200);
     winRef.nativeWindow?.dispatchEvent(new Event('scroll'));
@@ -94,7 +95,7 @@ describe('ScrollToTopComponent', () => {
     fixture.detectChanges();
 
     const scrollComponent = el.query(By.css('.display'));
-    const scrollBtn = el.query(By.css('.scroll-to-top-btn')).nativeElement;
+    const scrollBtn = el.query(By.css('.cx-scroll-to-top-btn')).nativeElement;
 
     expect(scrollComponent.nativeElement).toBeTruthy();
     expect(scrollBtn).toBeTruthy();
@@ -110,25 +111,18 @@ describe('ScrollToTopComponent', () => {
   it('should focus top most focusable element of the page', () => {
     fixture.detectChanges();
     spyOn(window, 'scrollTo').and.callThrough();
+    spyOn(focusUtility, 'findFocusable').and.callThrough();
     winRef.nativeWindow?.scrollTo(0, 200);
     winRef.nativeWindow?.dispatchEvent(new Event('scroll'));
 
     fixture.detectChanges();
 
-    const topElement = getFirstKeyboardFocusableElement();
-
-    const scrollBtn = el.query(By.css('.scroll-to-top-btn')).nativeElement;
-    const testBtn = el.query(By.css('.test')).nativeElement;
-    testBtn.focus();
-
-    let focusedElem = winRef.nativeWindow?.document
-      .activeElement as HTMLElement;
-
-    expect(focusedElem).toEqual(testBtn);
+    const scrollBtn = el.query(By.css('.cx-scroll-to-top-btn')).nativeElement;
 
     scrollBtn.click();
-    focusedElem = winRef.nativeWindow?.document.activeElement as HTMLElement;
+    const focusedElem = winRef.nativeWindow?.document
+      .activeElement as HTMLElement;
 
-    expect(focusedElem).toEqual(topElement);
+    expect(focusedElem).toEqual(winRef.nativeWindow?.document.body);
   });
 });

@@ -13,7 +13,7 @@ import {
 import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
-import { focusableElementSelectors } from '../../../layout/a11y/index';
+import { SelectFocusUtility } from '../../../layout/a11y/index';
 
 @Component({
   selector: 'cx-scroll-to-top',
@@ -39,7 +39,8 @@ export class ScrollToTopComponent implements OnInit {
 
   constructor(
     protected winRef: WindowRef,
-    protected componentData: CmsComponentData<CmsScrollToTopComponent>
+    protected componentData: CmsComponentData<CmsScrollToTopComponent>,
+    protected selectFocusUtility: SelectFocusUtility
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +58,7 @@ export class ScrollToTopComponent implements OnInit {
    * Scroll back to the top of the page and set focus on top most focusable element.
    */
   scrollToTop(): void {
-    this.getFirstKeyboardFocusableElement().focus();
+    this.focusFirstKeyboardFocusableElement();
     this.window?.scrollTo({
       top: 0,
       behavior: this.scrollBehavior,
@@ -65,14 +66,13 @@ export class ScrollToTopComponent implements OnInit {
   }
 
   /**
-   * Get first focusable element in the DOM that is also not hidden from accessibility API.
-   * @returns HTMLElement
+   * Focus the first focusable element in the DOM that is also not hidden
+   * from accessibility API.
    */
-  protected getFirstKeyboardFocusableElement(): HTMLElement {
-    return [
-      ...(this.window?.document?.querySelectorAll(
-        focusableElementSelectors.join(',')
-      ) as any),
-    ].filter((el) => !el.getAttribute('aria-hidden'))[0];
+  protected focusFirstKeyboardFocusableElement(): void {
+    const elements = this.selectFocusUtility.findFocusable(
+      this.winRef.document.body
+    );
+    elements[0].focus();
   }
 }

@@ -8,18 +8,6 @@ export const enum MOVE_FOCUS {
   PREV = -1,
 }
 
-export const focusableElementSelectors = [
-  `a[href]:not([tabindex='-1']):not([hidden])`,
-  `area[href]:not([tabindex='-1']):not([hidden])`,
-  `input:not([disabled]):not([tabindex='-1']):not([hidden])`,
-  `select:not([disabled]):not([tabindex='-1']):not([hidden])`,
-  `textarea:not([disabled]):not([tabindex='-1']):not([hidden])`,
-  `button:not([disabled]):not([tabindex='-1']):not([hidden])`,
-  `iframe:not([tabindex='-1']):not([hidden])`,
-  `[tabindex]:not([tabindex='-1']):not([hidden])`,
-  `[contentEditable=true]:not([tabindex='-1']):not([hidden])`,
-];
-
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface BaseFocusConfig {}
 
