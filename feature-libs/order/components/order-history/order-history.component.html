@@ -5,7 +5,7 @@
   } as type"
 >
   <ng-container *ngIf="type.orderHistory">
-    <div [ngClass]="type.replenishmentOrder">
+    <div>
       <!-- HEADER -->
       <div
         [ngClass]="
@@ -161,7 +161,7 @@
                 : 'cx-order-history-no-order'
             "
           >
-            <div [ngClass]="type.replenishmentOrder">
+            <div>
               <ng-container *ngIf="type.replenishmentOrder; else otherOrder">
                 <div>{{ 'orderHistory.notFound' | cxTranslate }}</div>
               </ng-container>
