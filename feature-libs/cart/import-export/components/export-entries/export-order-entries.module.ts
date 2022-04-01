@@ -25,6 +25,5 @@ import { ExportOrderEntriesComponent } from './export-order-entries.component';
   ],
   exports: [ExportOrderEntriesComponent],
   declarations: [ExportOrderEntriesComponent],
-  entryComponents: [ExportOrderEntriesComponent],
 })
 export class ExportOrderEntriesModule {}

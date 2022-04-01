@@ -18,7 +18,7 @@
       aria-checked="true"
       (change)="changeOrderType(type.value)"
       [value]="type.value"
-      [checked]="type.value == (selectedOrderType$ | async)"
+      [checked]="type.value === (selectedOrderType$ | async)"
     />
     <label
       class="order-type-label form-check-label form-radio-label"
