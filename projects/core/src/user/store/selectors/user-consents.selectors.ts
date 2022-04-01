@@ -13,7 +13,11 @@ export const getConsentsState: MemoizedSelector<
 export const getConsentsValue: MemoizedSelector<
   StateWithUser,
   ConsentTemplate[]
-> = createSelector(getConsentsState, StateUtils.loaderValueSelector);
+> = createSelector(
+  getConsentsState,
+  (state: StateUtils.LoaderState<ConsentTemplate[]>) =>
+    StateUtils.loaderValueSelector(state)
+);
 
 export const getConsentByTemplateId = (
   templateId: string

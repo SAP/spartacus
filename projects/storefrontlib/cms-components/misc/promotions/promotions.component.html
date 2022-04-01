@@ -1,5 +1,5 @@
 <div class="cx-promotions" *ngIf="promotions">
-  <ng-container *ngIf="promotions.length == 1">
+  <ng-container *ngIf="promotions.length === 1">
     <p>{{ promotions[0].description }}</p>
   </ng-container>
   <ng-container *ngIf="promotions.length > 1">
