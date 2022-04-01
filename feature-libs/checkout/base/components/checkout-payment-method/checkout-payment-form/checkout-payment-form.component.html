@@ -1,5 +1,6 @@
 <!-- FORM -->
 <ng-container *ngIf="!loading; else spinner">
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
     <div class="row">
       <div class="col-md-12 col-xl-10">
@@ -19,6 +20,10 @@
                   bindValue="code"
                   placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
                   formControlName="code"
+                  id="card-type-select"
+                  [cxNgSelectA11y]="{
+                    ariaLabel: 'paymentForm.paymentType' | cxTranslate
+                  }"
                 >
                 </ng-select>
                 <cx-form-errors
@@ -80,11 +85,13 @@
                   [items]="months"
                   placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
                   formControlName="expiryMonth"
-                  [attr.aria-label]="
-                    'paymentForm.expirationMonth'
+                  id="month-select"
+                  [cxNgSelectA11y]="{
+                    ariaLabel:
+                      'paymentForm.expirationMonth'
                       | cxTranslate
                         : { selected: paymentForm.get('expiryMonth')?.value }
-                  "
+                  }"
                 >
                 </ng-select>
                 <cx-form-errors
@@ -98,11 +105,13 @@
                   [clearable]="false"
                   [items]="years"
                   placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
-                  [attr.aria-label]="
-                    'paymentForm.expirationYear'
+                  id="year-select"
+                  [cxNgSelectA11y]="{
+                    ariaLabel:
+                      'paymentForm.expirationYear'
                       | cxTranslate
                         : { selected: paymentForm.get('expiryYear')?.value }
-                  "
+                  }"
                   formControlName="expiryYear"
                 >
                 </ng-select>
@@ -217,6 +226,10 @@
                         }}"
                         (change)="countrySelected($event)"
                         formControlName="isocode"
+                        id="country-payment-select"
+                        [cxNgSelectA11y]="{
+                          ariaLabel: 'addressForm.country' | cxTranslate
+                        }"
                       >
                       </ng-select>
                       <cx-form-errors
@@ -361,6 +374,10 @@
                           placeholder="{{
                             'addressForm.selectOne' | cxTranslate
                           }}"
+                          id="region-select"
+                          [cxNgSelectA11y]="{
+                            ariaLabel: 'addressForm.state' | cxTranslate
+                          }"
                         >
                         </ng-select>
                         <cx-form-errors

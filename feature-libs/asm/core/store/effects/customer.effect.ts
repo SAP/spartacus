@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -9,17 +9,18 @@ import { AsmActions } from '../actions/index';
 
 @Injectable()
 export class CustomerEffects {
-  @Effect()
-  customerSearch$: Observable<AsmActions.CustomerAction> = this.actions$.pipe(
-    ofType(AsmActions.CUSTOMER_SEARCH),
-    map((action: AsmActions.CustomerSearch) => action.payload),
-    switchMap((options) =>
-      this.asmConnector.customerSearch(options).pipe(
-        map((customerSearchResults: CustomerSearchPage) => {
-          return new AsmActions.CustomerSearchSuccess(customerSearchResults);
-        }),
-        catchError((error) =>
-          of(new AsmActions.CustomerSearchFail(normalizeHttpError(error)))
+  customerSearch$: Observable<AsmActions.CustomerAction> = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AsmActions.CUSTOMER_SEARCH),
+      map((action: AsmActions.CustomerSearch) => action.payload),
+      switchMap((options) =>
+        this.asmConnector.customerSearch(options).pipe(
+          map((customerSearchResults: CustomerSearchPage) => {
+            return new AsmActions.CustomerSearchSuccess(customerSearchResults);
+          }),
+          catchError((error) =>
+            of(new AsmActions.CustomerSearchFail(normalizeHttpError(error)))
+          )
         )
       )
     )

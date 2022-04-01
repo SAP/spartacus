@@ -43,6 +43,9 @@ title: Changes to Styles in 5.0
 
 - wrapped everything in `%pdpTabs`inside a `> div {...}` to restore styling after template changes
 - wrapped everything in `%pdpFlat`inside a `> div {...}` to restore styling after template changes
+- `span.accordion-icon` has been added for screen reader improvments.
+- `$useAccordionOnly` var has been added allowing to switch between tabs and accordion view.
+- Class `div.cx-tab-paragraph-content` has been added to change the background color of active open tab.
 
 ## Change in \_order-summary.scss
 
@@ -78,3 +81,14 @@ title: Changes to Styles in 5.0
 - Width for `cx-label` in `cx-total` set to `100px` in mobile view
 - Width for `cx-label` in `cx-quantity` set to `100px` in mobile view
 - Set `display` to `block` for `cx-actions > link` in mobile view
+
+### FormErrorsComponent
+
+- `display: none` has been removed from `cx-form-errors`
+- Style structure `&.control-invalid > &.control-dirty, &.control-touched` has ben removed `cx-form-errors`
+
+## Change in _variables.scss
+- `$primary-accent: #ff8b8b !default;` has been added to Sparta theme colors
+
+## Change in santorini.scss
+- `--cx-color-primary-accent: #50b0f4;` and `--cx-color-secondary-accent: #c3cbde;` were added to santorini theme.

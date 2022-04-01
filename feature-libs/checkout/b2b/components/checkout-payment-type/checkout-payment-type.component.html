@@ -6,6 +6,7 @@
   <ng-container
     *ngIf="(typeSelected$ | async) && !(isUpdating$ | async); else loading"
   >
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="row">
       <div class="col-md-12 col-lg-6">
         <label>
@@ -39,7 +40,7 @@
               aria-checked="true"
               (change)="changeType(type.code)"
               [value]="type.code"
-              [checked]="type.code == typeSelected"
+              [checked]="type.code === typeSelected"
               formControlName="paymentType"
             />
             <label

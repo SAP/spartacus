@@ -21,6 +21,7 @@ export const product = {
     showLess: 'Show less...',
     showMore: 'Show more...',
     sortBy: 'Sort by',
+    sortResults: 'Sort results',
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
     productSearchPagination: 'Product search pagination',
@@ -42,7 +43,7 @@ export const product = {
     ariaLabelShowMore:
       'Show more, button, clicking on this button will show all options for the active group',
     ariaLabelItemsAvailable: '{{name}}, {{state}} {{count}} item available',
-    ariaLabelItemsAvailable_plural:
+    ariaLabelItemsAvailable_other:
       '{{name}}, {{state}} {{count}} items available',
     decreaseOptionsVisibility:
       'Options were hidden from the active group, tab backward to read them or forward for the next group',
@@ -64,7 +65,7 @@ export const product = {
     rating: 'Rating',
     ratingRequired: 'Product rating, required',
     addRate: 'Add rate: {{count}} star',
-    addRate_plural: 'Add rate: {{count}} stars',
+    addRate_other: 'Add rate: {{count}} stars',
     reviewerName: 'Reviewer name (optional)',
     writeReview: 'Write a Review',
     more: 'Show More Reviews',
@@ -123,12 +124,12 @@ export const product = {
     subscriptionDialog: {
       header: 'Out of stock subscription',
       notifiedPrefix: 'You will be notified on:',
-      notifiedSuffix: 'as soons as this product is back in stock.',
+      notifiedSuffix: 'as soon as this product is back in stock.',
       manageChannelsPrefix:
-        'Manage your prefered notification channels at the ',
+        'Manage your preferred notification channels on the ',
       manageChannelsLink: 'Notification Preference',
       manageChannelsSuffix: ' page.',
-      manageSubscriptionsPrefix: 'You can manage your subscriptions at ',
+      manageSubscriptionsPrefix: 'You can manage your subscriptions on ',
       manageSubscriptionsLink: 'My Interests',
       manageSubscriptionsSuffix: ' page.',
       okBtn: 'OK',
