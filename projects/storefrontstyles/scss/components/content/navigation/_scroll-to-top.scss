@@ -4,7 +4,7 @@
   width: 48px;
   position: fixed;
   bottom: 80px;
-  right: 60px;
+  inset-inline-end: 60px; /* evaluates to right in ltr and left in rtl */
   z-index: 100;
 
   &.display {
@@ -42,6 +42,6 @@
 
   // Compact styling
   @include media-breakpoint-down(sm) {
-    right: 15px;
+    inset-inline-end: 15px;
   }
 }
