@@ -1,6 +1,5 @@
+import { CartModification, OrderEntry } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
-import { CartModification } from '../../../model/cart.model';
-import { OrderEntry } from '../../../model/order.model';
 
 export abstract class CartEntryGroupAdapter {
   /**

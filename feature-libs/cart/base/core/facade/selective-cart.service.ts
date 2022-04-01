@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   Cart,
   CartType,
+  EntryGroup,
   MultiCartFacade,
   OrderEntry,
   SelectiveCartFacade,
@@ -69,6 +70,14 @@ export class SelectiveCartService implements SelectiveCartFacade {
   getEntries(): Observable<OrderEntry[]> {
     return this.getSelectiveCartId().pipe(
       switchMap((selectiveId) => this.multiCartFacade.getEntries(selectiveId))
+    );
+  }
+
+  getEntryGroups(): Observable<EntryGroup[]> {
+    return this.getSelectiveCartId().pipe(
+      switchMap((selectiveId) =>
+        this.multiCartFacade.getEntryGroups(selectiveId)
+      )
     );
   }
 

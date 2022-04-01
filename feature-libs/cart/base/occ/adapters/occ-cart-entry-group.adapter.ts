@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CartEntryGroupAdapter } from '@spartacus/cart/base/core';
+import {
+  CartModification,
+  CART_MODIFICATION_NORMALIZER,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CART_MODIFICATION_NORMALIZER } from '../../../cart/connectors/entry/converters';
-import { CartModification } from '../../../model/cart.model';
-import { ConverterService } from '../../../util/converter.service';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { OrderEntry } from '../../../model';
-import { CartEntryGroupAdapter } from '../../../cart/connectors/entry-group/cart-entry-group.adapter';
 
 @Injectable()
 export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
@@ -14,7 +15,7 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService
-  ) { }
+  ) {}
 
   /**
    * Adds a product to a cart entry group.
@@ -45,10 +46,12 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
       'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl('addToEntryGroup', {
-      userId,
-      cartId,
-      entryGroupNumber,
+    const url = this.occEndpointsService.buildUrl('addToEntryGroup', {
+      urlParams: {
+        userId,
+        cartId,
+        entryGroupNumber,
+      },
     });
 
     return this.http
@@ -77,10 +80,12 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
       'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl('deleteEntryGroup', {
-      userId,
-      cartId,
-      entryGroupNumber,
+    const url = this.occEndpointsService.buildUrl('deleteEntryGroup', {
+      urlParams: {
+        userId,
+        cartId,
+        entryGroupNumber,
+      },
     });
 
     return this.http

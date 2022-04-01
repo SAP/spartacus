@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { Cart, CartType, OrderEntry } from '../models/cart.model';
+import { Cart, CartType, EntryGroup, OrderEntry } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -121,6 +121,12 @@ export abstract class MultiCartFacade {
   abstract getEntries(cartId: string): Observable<OrderEntry[]>;
 
   /**
+   * Get cart entryGroups as an observable
+   * @param cartId
+   */
+  abstract getEntryGroups(cartId: string): Observable<EntryGroup[]>;
+
+  /**
    * Get last entry for specific product code from cart.
    * Needed to cover processes where multiple entries can share the same product code
    * (e.g. promotions or configurable products)
@@ -132,6 +138,20 @@ export abstract class MultiCartFacade {
     cartId: string,
     productCode: string
   ): Observable<OrderEntry | undefined>;
+
+  // /**
+  //  * Add multiple entries to cart
+  //  *
+  //  * @param userId
+  //  * @param cartId
+  //  * @param products Array with items (productCode and quantity)
+  //  */
+  // abstract addEntryGroup(
+  //   cartId: string,
+  //   userId: string,
+  //   entryGroupNumber: number,
+  //   entry: OrderEntry
+  // ): void;
 
   /**
    * Add entry to cart
@@ -162,6 +182,22 @@ export abstract class MultiCartFacade {
   ): void;
 
   /**
+   * Add product to bundle
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   * @param product
+   * @param quantity
+   */
+  abstract addToEntryGroup(
+    cartId: string,
+    userId: string,
+    entryGroupNumber: number,
+    entry: OrderEntry
+  ): void;
+
+  /**
    * Remove entry from cart
    *
    * @param userId
@@ -172,6 +208,19 @@ export abstract class MultiCartFacade {
     userId: string,
     cartId: string,
     entryNumber: number
+  ): void;
+
+  /**
+   * Remove bundle
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   */
+  abstract deleteEntryGroup(
+    cartId: string,
+    userId: string,
+    entryGroupNumber: number
   ): void;
 
   /**

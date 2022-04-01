@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { withdrawOn } from '../../../util';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
-import { CartModification } from '../../../model/cart.model';
-import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { CartModification } from '@spartacus/cart/base/root';
+import { SiteContextActions, withdrawOn } from '@spartacus/core';
 import { CartEntryGroupConnector } from '../../connectors/entry-group';
 import { CartActions } from '../actions/index';
 
@@ -98,5 +97,5 @@ export class CartEntryGroupEffects {
   constructor(
     private actions$: Actions,
     private cartEntryGroupConnector: CartEntryGroupConnector
-  ) { }
+  ) {}
 }

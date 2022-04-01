@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import {
   Cart,
   CartType,
+  EntryGroup,
   MultiCartFacade,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -183,6 +184,16 @@ export class MultiCartService implements MultiCartFacade {
   }
 
   /**
+   * Get cart entryGroups as an observable
+   * @param cartId
+   */
+  getEntryGroups(cartId: string): Observable<EntryGroup[]> {
+    return this.store.pipe(
+      select(MultiCartSelectors.getCartEntryGroupsSelectorFactory(cartId))
+    );
+  }
+
+  /**
    * Get last entry for specific product code from cart.
    * Needed to cover processes where multiple entries can share the same product code
    * (e.g. promotions or configurable products)
@@ -345,6 +356,48 @@ export class MultiCartService implements MultiCartFacade {
       new CartActions.DeleteCart({
         userId,
         cartId,
+      })
+    );
+  }
+
+  /**
+   * Remove bundle
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   */
+  deleteEntryGroup(cartId: string, userId: string, entryGroupNumber: number) {
+    this.store.dispatch(
+      new CartActions.DeleteEntryGroup({
+        cartId,
+        userId,
+        entryGroupNumber,
+      })
+    );
+  }
+
+  /**
+   * Add product to bundle
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   * @param product
+   * @param quantity
+   */
+  addToEntryGroup(
+    cartId: string,
+    userId: string,
+    entryGroupNumber: number,
+    entry: OrderEntry
+  ) {
+    this.store.dispatch(
+      new CartActions.AddToEntryGroup({
+        cartId,
+        userId,
+        entryGroupNumber,
+        entry,
       })
     );
   }

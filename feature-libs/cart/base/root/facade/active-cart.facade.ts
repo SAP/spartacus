@@ -90,6 +90,13 @@ export abstract class ActiveCartFacade {
   abstract removeEntry(entry: OrderEntry): void;
 
   /**
+   * Remove bundle
+   *
+   * @param entryGroupNumber
+   */
+  abstract deleteEntryGroup(entryGroupNumber: number): void;
+
+  /**
    * Update entry
    *
    * @param entryNumber
