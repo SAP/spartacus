@@ -1,7 +1,7 @@
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Breadcrumb,
   Facet,
-  OrderEntry,
   Product,
   SearchConfig,
   SearchState,

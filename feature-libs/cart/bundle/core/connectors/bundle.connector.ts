@@ -2,11 +2,8 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { BundleStarter } from '../model/bundle.model';
 import { BundleAdapter } from './bundle.adapter';
-import {
-  CartModification,
-  ProductSearchPage,
-  SearchConfig,
-} from '@spartacus/core';
+import { ProductSearchPage, SearchConfig } from '@spartacus/core';
+import { CartModification } from '@spartacus/cart/base/root';
 
 @Injectable({
   providedIn: 'root',

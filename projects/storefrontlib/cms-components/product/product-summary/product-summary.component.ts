@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Product, SelectiveCartService } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import {
   BundleStarter,
   BundleTemplate,
@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';
 import { filter, take } from 'rxjs/operators';
+import { SelectiveCartService } from '@spartacus/cart/base/core';
 
 @Component({
   selector: 'cx-product-summary',
