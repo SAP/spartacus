@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import {
   ConfiguratorCommonsService,
-  ConfiguratorGroupsService
+  ConfiguratorGroupsService,
 } from '../../../core';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
@@ -153,28 +153,38 @@ export class ConfiguratorAttributeHeaderComponent
       .getConfiguration(this.owner)
       .pipe(take(1))
       .subscribe((configuration) => {
+        let groupId;
         if (this.groupType === Configurator.GroupType.CONFLICT_GROUP) {
-          const groupId = this.attribute.groupId;
-
-          if (groupId) {
-            this.configuratorGroupsService.navigateToGroup(
-              configuration,
-              groupId
-            );
-            this.focusAttribute(this.attribute.name);
-          }
+          groupId = this.attribute.groupId;
+        } else {
+          groupId = this.findConflictGroupId(configuration, this.attribute);
+        }
+        if (groupId) {
+          this.configuratorGroupsService.navigateToGroup(
+            configuration,
+            groupId
+          );
+          this.focusAttribute(this.attribute.name);
         }
       });
   }
 
-  findConflictGroupKey(
+  findConflictGroupId(
     configuration: Configurator.Configuration,
     currentAttribute: Configurator.Attribute
   ): string {
     let groupId = '';
-    configuration.flatGroups.filter(group => group.groupType === Configurator.GroupType.CONFLICT_GROUP).forEach(group => {
-      groupId = group.attributes?.find(attribute => attribute.key === currentAttribute.key) ? group.id : groupId;
-    });
+    configuration.flatGroups
+      .filter(
+        (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
+      )
+      .forEach((group) => {
+        groupId = group.attributes?.find(
+          (attribute) => attribute.key === currentAttribute.key
+        )
+          ? group.id
+          : groupId;
+      });
     return groupId;
   }
 

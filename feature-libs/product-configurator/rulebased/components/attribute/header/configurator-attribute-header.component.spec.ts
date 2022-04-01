@@ -3,16 +3,16 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import {
   ConfiguratorCommonsService,
-  ConfiguratorGroupsService
+  ConfiguratorGroupsService,
 } from '@spartacus/product-configurator/rulebased';
 import {
   IconLoaderService,
   IconModule,
-  ICON_TYPE
+  ICON_TYPE,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -811,13 +811,13 @@ describe('ConfigAttributeHeaderComponent', () => {
 
     it('should not find the conflicting group key when there is no conflict', () => {
       expect(
-        component.findConflictGroupKey(configWithoutConflicts, currentAttribute)
+        component.findConflictGroupId(configWithoutConflicts, currentAttribute)
       ).toBe('');
     });
 
     it('should find the conflicting group key', () => {
       expect(
-        component.findConflictGroupKey(configConflict, currentAttribute)
+        component.findConflictGroupId(configConflict, currentAttribute)
       ).toBe(ConfigurationTestData.GROUP_ID_CONFLICT_1);
     });
   });
