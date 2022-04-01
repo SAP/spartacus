@@ -33,7 +33,6 @@ describe('Added to cart toast - Anonymous user', () => {
     it('should dismiss the toast', () => {
       cy.visit(`/product/${productId}`);
       cy.get('cx-add-to-cart button[type=submit]').click();
-      // cy.get('.added-to-cart-toast-content > .link').click();
       cy.get('cx-added-to-cart-toast').within(() => {
         cy.get('button').click();
       });

@@ -131,7 +131,9 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
   }
 
   _closeToast = (toastItem: CartToastItem) => {
-    this.scrollEventUnlistener();
+    if (this.scrollEventUnlistener) {
+      this.scrollEventUnlistener();
+    }
 
     toastItem.baseClass = this.getToastStyles(
       CART_TOAST_STATE.CLOSING,
