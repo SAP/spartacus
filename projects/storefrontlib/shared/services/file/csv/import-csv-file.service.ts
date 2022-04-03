@@ -44,20 +44,22 @@ export class ImportCsvFileService {
       maxEntries?: number;
     }
   ): Observable<CsvFileValidationErrors | null> {
-    const errors: CsvFileValidationErrors = {};
+    const validationErrors: CsvFileValidationErrors = {};
     return (
       this.fileReaderService.loadTextFile(file) as Observable<string>
     ).pipe(
       tap((data: string) => {
-        this.validateEmpty(data, errors);
+        this.validateEmpty(data, validationErrors);
       }),
       map((res) => this.parse(res, separator)),
       tap((data: string[][]) => {
-        this.validateNotParsable(data, errors, isDataParsable);
-        this.validateTooManyEntries(data, errors, maxEntries);
+        this.validateNotParsable(data, validationErrors, isDataParsable);
+        this.validateTooManyEntries(data, validationErrors, maxEntries);
       }),
       catchError((errors) => of(errors)),
-      map(() => (Object.keys(errors).length === 0 ? null : errors))
+      map(() =>
+        Object.keys(validationErrors).length === 0 ? null : validationErrors
+      )
     );
   }
 
