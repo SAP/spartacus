@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, zip } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CmsComponent } from '../../../model/cms.model';
 import { OccConfig } from '../../../occ/config/occ-config';
@@ -32,6 +32,8 @@ export class CmsComponentConnector {
       );
   }
 
+  protected PAGE_SIZE = 30;
+
   getList(ids: string[], pageContext: PageContext): Observable<CmsComponent[]> {
     return this.cmsStructureConfigService.getComponentsFromConfig(ids).pipe(
       switchMap((configuredComponents) => {
@@ -47,14 +49,26 @@ export class CmsComponentConnector {
         );
 
         if (missingIds.length > 0) {
-          return this.cmsComponentAdapter
-            .findComponentsByIds(missingIds, pageContext)
-            .pipe(
-              map((loadedComponents) => [
-                ...configuredComponents.filter(Boolean),
-                ...loadedComponents,
-              ])
+          const p: Observable<any>[] = [];
+          const num = Math.floor(missingIds.length / this.PAGE_SIZE);
+          let curr = 0;
+          while (curr <= num) {
+            p.push(
+              this.cmsComponentAdapter.findComponentsByIds(
+                missingIds,
+                pageContext,
+                'DEFAULT',
+                curr,
+                this.PAGE_SIZE
+              )
             );
+            curr++;
+          }
+          return zip(...p).pipe(
+            map((comps) =>
+              [...configuredComponents.filter(Boolean)].concat(...comps)
+            )
+          );
         } else {
           return of(configuredComponents);
         }

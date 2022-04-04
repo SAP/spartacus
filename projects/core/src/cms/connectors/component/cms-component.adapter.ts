@@ -16,8 +16,18 @@ export abstract class CmsComponentAdapter {
     fields?: string
   ): Observable<T>;
 
+  /**
+   * Abstract method to get components by list of ids.
+   *
+   * @param ids
+   * @param pageContext
+   */
   abstract findComponentsByIds(
     ids: string[],
-    pageContext: PageContext
+    pageContext: PageContext,
+    fields?: string,
+    currentPage?: number,
+    pageSize?: number,
+    sort?: string
   ): Observable<CmsComponent[]>;
 }
