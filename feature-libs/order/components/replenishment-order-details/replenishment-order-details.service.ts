@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, StateUtils } from '@spartacus/core';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
@@ -39,6 +39,16 @@ export class ReplenishmentOrderDetailsService {
     protected routingService: RoutingService,
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
   ) {}
+
+  getOrderDetailState(): Observable<
+    StateUtils.LoaderState<ReplenishmentOrder>
+  > {
+    return this.replenishmentOrderLoad$.pipe(
+      switchMap((_) =>
+        this.replenishmentOrderHistoryFacade.getOrderDetailState()
+      )
+    );
+  }
 
   getOrderDetails(): Observable<ReplenishmentOrder> {
     return this.replenishmentOrderLoad$.pipe(

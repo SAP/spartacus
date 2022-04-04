@@ -1,6 +1,18 @@
 %cx-order-details-items {
   margin-top: 30px;
   margin-bottom: 15px;
+
+  .header {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    h2 {
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+  }
+
   .cx-list-header {
     @include media-breakpoint-down(sm) {
       padding: 0;

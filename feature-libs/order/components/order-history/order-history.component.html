@@ -4,7 +4,7 @@
     replenishmentOrder: hasReplenishmentOrder$ | async
   } as type"
 >
-  <ng-container *ngIf="type.orderHistory">
+  <ng-container *ngIf="type.orderHistory?.orders?.length">
     <div>
       <!-- HEADER -->
       <div

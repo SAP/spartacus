@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
+import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ORDER_CORE_FEATURE } from '../feature-name';
 import {
@@ -13,6 +13,7 @@ export function replenishmentOrderHistoryFacadeFactory() {
     feature: ORDER_CORE_FEATURE,
     methods: [
       'loadReplenishmentOrderDetails',
+      'getOrderDetailState',
       'getReplenishmentOrderDetails',
       'getReplenishmentOrderDetailsLoading',
       'getReplenishmentOrderDetailsSuccess',
@@ -45,6 +46,13 @@ export abstract class ReplenishmentOrderHistoryFacade {
    * @param replenishmentOrderCode a replenishment order code
    */
   abstract loadReplenishmentOrderDetails(replenishmentOrderCode: string): void;
+
+  /**
+   * Returns a replenishment order details state
+   */
+  abstract getOrderDetailState(): Observable<
+    StateUtils.LoaderState<ReplenishmentOrder>
+  >;
 
   /**
    * Returns a replenishment order details

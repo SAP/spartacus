@@ -62,6 +62,7 @@ export const order = {
     statusDisplay_assigned: {
       admin: 'Assigned To Administrator',
     },
+    orderNotFound: 'Order not found',
     consignmentTracking: {
       action: 'Track package',
       dialog: {

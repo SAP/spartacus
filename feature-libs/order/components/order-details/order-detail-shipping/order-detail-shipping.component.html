@@ -1,3 +1,12 @@
-<ng-container *ngIf="order$ | async as order">
-  <cx-order-overview [order]="order"></cx-order-overview>
+<ng-container *ngIf="state$ | async as state">
+  <ng-container *ngIf="!state.loading; else loading">
+    <cx-order-overview
+      *ngIf="!state.error"
+      [order]="state.value"
+    ></cx-order-overview>
+  </ng-container>
+
+  <ng-template #loading>
+    <cx-spinner></cx-spinner>
+  </ng-template>
 </ng-container>

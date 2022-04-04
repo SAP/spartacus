@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, StateUtils } from '@spartacus/core';
 import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import {
@@ -35,6 +35,12 @@ export class OrderDetailsService {
         }
       }),
       shareReplay({ bufferSize: 1, refCount: true })
+    );
+  }
+
+  getOrderDetailState(): Observable<StateUtils.LoaderState<Order>> {
+    return this.orderLoad$.pipe(
+      switchMap(() => this.orderHistoryFacade.getOrderDetailState())
     );
   }
 

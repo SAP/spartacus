@@ -65,14 +65,21 @@ export class OrderApprovalService {
     );
   }
 
-  get(orderApprovalCode: string): Observable<OrderApproval> {
+  getState(
+    orderApprovalCode: string
+  ): Observable<StateUtils.LoaderState<OrderApproval>> {
     return this.getOrderApproval(orderApprovalCode).pipe(
       observeOn(queueScheduler),
       tap((state) => {
         if (!(state.loading || state.success || state.error)) {
           this.loadOrderApproval(orderApprovalCode);
         }
-      }),
+      })
+    );
+  }
+
+  get(orderApprovalCode: string): Observable<OrderApproval> {
+    return this.getState(orderApprovalCode).pipe(
       filter((state) => state.success || state.error),
       map((state) => state.value)
     );

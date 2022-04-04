@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { RoutingService, StateUtils } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import {
@@ -34,6 +34,17 @@ export class OrderApprovalDetailService {
 
   protected order$ = this.orderApproval$.pipe(pluck('order'));
 
+  orderApprovalState$ = this.approvalCode$.pipe(
+    filter(Boolean),
+    tap((approvalCode: string) =>
+      this.orderApprovalService.loadOrderApproval(approvalCode)
+    ),
+    switchMap((approvalCode: string) =>
+      this.orderApprovalService.getState(approvalCode)
+    ),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
   constructor(
     protected routingService: RoutingService,
     protected orderApprovalService: OrderApprovalService
@@ -61,5 +72,16 @@ export class OrderApprovalDetailService {
    */
   getOrderApproval(): Observable<OrderApproval> {
     return this.orderApproval$;
+  }
+
+  /**
+   * Returns the order details state
+   */
+  getOrderDetailState(): Observable<StateUtils.LoaderState<OrderApproval>> {
+    return this.orderApprovalState$.pipe(
+      map((state) => {
+        return { ...state, value: state?.value?.order || {} };
+      })
+    );
   }
 }

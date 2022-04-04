@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import {
   ProcessSelectors,
   RoutingService,
+  StateUtils,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
@@ -27,6 +28,13 @@ export class OrderHistoryService implements OrderHistoryFacade {
     protected userIdService: UserIdService,
     protected routingService: RoutingService
   ) {}
+
+  /**
+   * Returns an order's detail
+   */
+  getOrderDetailState(): Observable<StateUtils.LoaderState<Order>> {
+    return this.store.pipe(select(OrderSelectors.getOrderDetailState));
+  }
 
   /**
    * Returns an order's detail

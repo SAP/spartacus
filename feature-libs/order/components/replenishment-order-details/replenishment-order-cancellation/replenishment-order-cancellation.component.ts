@@ -11,7 +11,7 @@ import {
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-replenishment-order-cancellation',
@@ -23,7 +23,9 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
   private subscription = new Subscription();
 
   replenishmentOrder$: Observable<ReplenishmentOrder> =
-    this.replenishmentOrderHistoryFacade.getReplenishmentOrderDetails();
+    this.replenishmentOrderHistoryFacade
+      .getReplenishmentOrderDetails()
+      .pipe(map((data) => (Object.keys(data).length ? data : undefined)));
 
   constructor(
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,

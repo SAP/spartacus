@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   ProcessSelectors,
+  StateUtils,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
@@ -48,6 +49,15 @@ export class ReplenishmentOrderHistoryService
         // TODO: for future releases, refactor this part to thrown errors
       }
     );
+  }
+
+  /**
+   * Returns a replenishment order details state
+   */
+  getOrderDetailState(): Observable<
+    StateUtils.LoaderState<ReplenishmentOrder>
+  > {
+    return this.store.pipe(select(OrderSelectors.getReplenishmentOrderState));
   }
 
   /**

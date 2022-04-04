@@ -1,3 +1,18 @@
+<ng-container *ngIf="error$ | async">
+  <div class="cx-nav row header">
+    <h2 class="col-12">{{ 'orderDetails.orderNotFound' | cxTranslate }}</h2>
+
+    <div class="col-xs-12 col-md-4 col-lg-3">
+      <button
+        [routerLink]="{ cxRoute: 'orders' } | cxUrl"
+        class="btn btn-block btn-action"
+      >
+        {{ 'common.back' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-container>
+
 <ng-container *ngIf="order$ | async as order">
   <ng-container
     *ngIf="

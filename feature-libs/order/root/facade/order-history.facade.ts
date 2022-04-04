@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
+import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ORDER_CORE_FEATURE } from '../feature-name';
 import { ConsignmentTracking } from '../model/consignment-tracking.model';
@@ -14,6 +14,7 @@ export function orderHistoryFacadeFactory() {
     facade: OrderHistoryFacade,
     feature: ORDER_CORE_FEATURE,
     methods: [
+      'getOrderDetailState',
       'getOrderDetails',
       'loadOrderDetails',
       'clearOrderDetails',
@@ -38,6 +39,11 @@ export function orderHistoryFacadeFactory() {
   useFactory: orderHistoryFacadeFactory,
 })
 export abstract class OrderHistoryFacade {
+  /**
+   * Returns an order's detail
+   */
+  abstract getOrderDetailState(): Observable<StateUtils.LoaderState<Order>>;
+
   /**
    * Returns an order's detail
    */

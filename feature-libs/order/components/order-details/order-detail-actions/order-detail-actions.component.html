@@ -1,4 +1,4 @@
-<ng-container *ngIf="order$ | async as order">
+<ng-container>
   <div class="cx-nav row">
     <div class="col-xs-12 col-md-4 col-lg-3">
       <button
@@ -9,7 +9,7 @@
       </button>
     </div>
 
-    <div class="col-xs-12 col-md-4 col-lg-3">
+    <div *ngIf="order$ | async as order" class="col-xs-12 col-md-4 col-lg-3">
       <a
         *ngIf="order.cancellable"
         [routerLink]="
