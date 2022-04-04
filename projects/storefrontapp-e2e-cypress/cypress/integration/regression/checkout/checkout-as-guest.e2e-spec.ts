@@ -55,7 +55,7 @@ context('Checkout as guest', () => {
       cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-cart-item-list')
-        .contains('cx-cart-item', cheapProduct.code)
+        .contains('tr[cx-cart-item-list-row]', cheapProduct.code)
         .within(() => {
           cy.get('cx-item-counter input').should('have.value', '1');
         });
