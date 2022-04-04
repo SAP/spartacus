@@ -37,6 +37,14 @@
       <div class="price">
         {{ item.price?.formattedValue }}
       </div>
+      <div class="price" *ngIf="item.stock?.stockLevel > 0; else outOfStock">
+        {{ item.stock?.stockLevelStatus }} : {{ item.stock?.stockLevel }}
+      </div>
+      <ng-template #outOfStock>
+        <div class="price">
+          {{ item.stock?.stockLevelStatus }}
+        </div>
+      </ng-template>
     </a>
   </ng-template>
 </ng-container>

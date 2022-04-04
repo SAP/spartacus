@@ -3,8 +3,8 @@
   label.disabled-link {
     color: var(--cx-color-primary);
     text-decoration: none;
-    font-size: inherit;
-    font-weight: bold;
+    font-size: var(--cx-font-size, 1.188rem);
+    font-weight: var(--cx-font-weight-bold);
     inline-size: max-content;
   }
 

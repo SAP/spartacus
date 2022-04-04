@@ -100,6 +100,7 @@ export const order = {
       cancelSuccess:
         'Replenishment order #{{replenishmentOrderCode}} has been successfully cancelled',
     },
+    caption: 'Order contents.',
   },
   orderHistory: {
     orderHistory: 'Order history',
@@ -166,5 +167,6 @@ export const order = {
     estimatedRefund: 'Estimated refund',
     note: 'The totals are estimated and may not include applicable taxes or other charges.',
     cancelSuccess: 'Your return request ({{rma}}) was cancelled',
+    caption: 'Order contents.',
   },
 };
