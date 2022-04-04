@@ -295,7 +295,7 @@ export function verifyMiniCartQuantity(quantity: number) {
 
 export function verifyCartDetails(cart: any) {
   cy.get('cx-cart-item-list')
-    .contains('cx-cart-item', cart.entries[0].product.code)
+    .contains('tr[cx-cart-item-list-row]', cart.entries[0].product.code)
     .within(() => {
       cy.get('.cx-name').should('contain', cart.entries[0].product.name);
     });

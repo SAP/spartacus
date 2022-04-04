@@ -1,5 +1,6 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 import { interceptGet, interceptPost } from '../../../support/utils/intercept';
+import { removeCartItem } from '../../../helpers/cart';
 
 const productId = '266685';
 const productId2 = '2006139';
@@ -101,10 +102,8 @@ describe('Added to cart modal - Anonymous user', () => {
         interceptGet('getRefreshedCart', '/users/anonymous/carts/*');
 
         // delete a product and check if the total is updated
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', 'Battery Video Light')
-          .find('button.cx-remove-btn')
-          .click();
+        removeCartItem({ name: 'Battery Video Light' });
+
         cy.get('cx-cart-details').should('contain', 'Cart #');
 
         // check for the other product still exist
