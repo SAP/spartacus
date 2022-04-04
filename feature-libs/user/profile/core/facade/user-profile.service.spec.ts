@@ -62,8 +62,8 @@ describe('UserProfileService', () => {
 
   it('should inject UserProfileService', inject(
     [UserProfileService],
-    (UserProfileService: UserProfileService) => {
-      expect(UserProfileService).toBeTruthy();
+    (userProfileService: UserProfileService) => {
+      expect(userProfileService).toBeTruthy();
     }
   ));
 
