@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductImportInfoService } from '@spartacus/cart/base/core';
-import { Cart, MultiCartFacade, ProductData } from '@spartacus/cart/base/root';
+import { Cart, MultiCartFacade, ProductData, ProductImportStatus } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -20,7 +20,7 @@ const mockProductData: ProductData[] = [
   { productCode: '693923', quantity: 1 },
   { productCode: '232133', quantity: 2 },
 ];
-const mockInavlidProductData: ProductData[] = [
+const mockInvalidProductData: ProductData[] = [
   { productCode: '3857732', quantity: 1 },
 ];
 
@@ -38,6 +38,8 @@ class MockSavedCartService implements Partial<SavedCartFacade> {
   loadSavedCarts = createSpy().and.callThrough();
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
   deleteCart = createSpy();
+  deleteSavedCart = createSpy();
+  // getSavedCartList = createSpy().and.callThrough().returnValue(of([]));
 }
 
 const mockProductImportInfo = {
@@ -46,6 +48,14 @@ const mockProductImportInfo = {
 };
 class MockProductImportInfoService {
   getResults = createSpy().and.returnValue(of(mockProductImportInfo));
+}
+
+const mockFailingProductImportInfo = {
+  productCode: 'testProductCode',
+  statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
+};
+class MockFailingProductImportInfoService {
+  getResults = createSpy().and.returnValue(of(mockFailingProductImportInfo));
 }
 
 describe('NewSavedCartOrderEntriesContext', () => {
@@ -102,37 +112,66 @@ describe('NewSavedCartOrderEntriesContext', () => {
         mockCartId
       );
     });
+  });
+});
 
 
-    it('should delete the cart for invalid products', () => {
-      service.addEntries(mockInavlidProductData, mockSavedCart).subscribe();
+describe('failing NewSavedCartOrderEntriesContext', () => {
+  let service: NewSavedCartOrderEntriesContext;
+  let multiCartService: MultiCartFacade;
+  let savedCartService: SavedCartFacade;
+  let userIdService: UserIdService;
+  let productImportInfoService: ProductImportInfoService;
 
-      expect(userIdService.takeUserId).toHaveBeenCalledWith();
-      expect(multiCartService.createCart).toHaveBeenCalledWith({
-        userId: mockUserId,
-        extraData: { active: false },
-      });
-      expect(savedCartService.saveCart).toHaveBeenCalledWith({
-        cartId: mockCartId,
-        saveCartName: mockSavedCart.name,
-        saveCartDescription: mockSavedCart.description,
-      });
-      expect(savedCartService.loadSavedCarts).toHaveBeenCalled();
-      expect(multiCartService.addEntries).toHaveBeenCalledWith(
-        mockUserId,
-        mockCartId,
-        mockProductData
-      );
-      expect(productImportInfoService.getResults).toHaveBeenCalledWith(
-        mockCartId
-      );
-      expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(
-        mockCartId
-      );
-      expect(multiCartService.deleteCart).toHaveBeenCalledWith(
-        mockCartId,
-        mockUserId
-      );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          useClass: MockFailingProductImportInfoService,
+          provide: ProductImportInfoService,
+        },
+        { useClass: MockSavedCartService, provide: SavedCartFacade },
+        { useClass: MockMultiCartFacade, provide: MultiCartFacade },
+        { useClass: MockUserIdService, provide: UserIdService },
+      ],
     });
+    service = TestBed.inject(NewSavedCartOrderEntriesContext);
+    multiCartService = TestBed.inject(MultiCartFacade);
+    savedCartService = TestBed.inject(SavedCartFacade);
+    userIdService = TestBed.inject(UserIdService);
+    productImportInfoService = TestBed.inject(ProductImportInfoService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  it('should delete the cart for invalid products', () => {
+    service.addEntries(mockInvalidProductData, mockSavedCart).subscribe();
+
+    expect(userIdService.takeUserId).toHaveBeenCalledWith();
+    expect(multiCartService.createCart).toHaveBeenCalledWith({
+      userId: mockUserId,
+      extraData: { active: false },
+    });
+    expect(savedCartService.saveCart).toHaveBeenCalledWith({
+      cartId: mockCartId,
+      saveCartName: mockSavedCart.name,
+      saveCartDescription: mockSavedCart.description,
+    });
+    expect(savedCartService.loadSavedCarts).toHaveBeenCalled();
+    expect(multiCartService.addEntries).toHaveBeenCalledWith(
+      mockUserId,
+      mockCartId,
+      mockInvalidProductData
+    );
+    expect(productImportInfoService.getResults).toHaveBeenCalledWith(
+      mockCartId
+    );
+    expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(
+      mockCartId
+    );
+    // TODO improve me
+    // expect(savedCartService.getSavedCartList).toEqual(of([]));
   });
 });
