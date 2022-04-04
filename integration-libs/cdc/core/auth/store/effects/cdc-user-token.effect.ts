@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -13,39 +13,41 @@ import { CdcAuthActions } from '../actions/index';
 
 @Injectable()
 export class CdcUserTokenEffects {
-  @Effect()
-  loadCdcUserToken$: Observable<CdcAuthActions.CdcUserTokenAction> = this.actions$.pipe(
-    ofType(CdcAuthActions.LOAD_CDC_USER_TOKEN),
-    map((action: CdcAuthActions.LoadCdcUserToken) => action.payload),
-    mergeMap((payload) =>
-      this.userTokenService
-        .loadTokenUsingCustomFlow(
-          payload.UID,
-          payload.UIDSignature,
-          payload.signatureTimestamp,
-          payload.idToken,
-          payload.baseSite
-        )
-        .pipe(
-          switchMap((token) => {
-            this.cdcAuthService.loginWithToken(token);
-            return EMPTY;
-          }),
-          catchError((error) => {
-            this.globalMessageService.add(
-              { key: 'httpHandlers.badGateway' },
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-            return of(
-              new CdcAuthActions.LoadCdcUserTokenFail({
-                error: normalizeHttpError(error),
-                initialActionPayload: payload,
+  loadCdcUserToken$: Observable<CdcAuthActions.CdcUserTokenAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(CdcAuthActions.LOAD_CDC_USER_TOKEN),
+        map((action: CdcAuthActions.LoadCdcUserToken) => action.payload),
+        mergeMap((payload) =>
+          this.userTokenService
+            .loadTokenUsingCustomFlow(
+              payload.UID,
+              payload.UIDSignature,
+              payload.signatureTimestamp,
+              payload.idToken,
+              payload.baseSite
+            )
+            .pipe(
+              switchMap((token) => {
+                this.cdcAuthService.loginWithToken(token);
+                return EMPTY;
+              }),
+              catchError((error) => {
+                this.globalMessageService.add(
+                  { key: 'httpHandlers.badGateway' },
+                  GlobalMessageType.MSG_TYPE_ERROR
+                );
+                return of(
+                  new CdcAuthActions.LoadCdcUserTokenFail({
+                    error: normalizeHttpError(error),
+                    initialActionPayload: payload,
+                  })
+                );
               })
-            );
-          })
+            )
         )
-    )
-  );
+      )
+    );
 
   constructor(
     private actions$: Actions,

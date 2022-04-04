@@ -86,9 +86,9 @@ export class ExpressCheckoutService {
         }
         return of([supportedDeliveryModesState]).pipe(
           filter(
-            ([supportedDeliveryModesState]) =>
-              !supportedDeliveryModesState.loading &&
-              !!supportedDeliveryModesState.data?.length
+            ([supportedDeliveryModesStateObject]) =>
+              !supportedDeliveryModesStateObject.loading &&
+              !!supportedDeliveryModesStateObject.data?.length
           ),
           switchMap(([deliveryModesState]) => {
             if (!deliveryModesState.data) {

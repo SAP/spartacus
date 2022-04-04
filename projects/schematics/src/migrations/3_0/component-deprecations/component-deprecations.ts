@@ -1,5 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ComponentData } from '../../../shared/utils/file-utils';
+import { loadEsmModule } from '../../../shared/utils/load-esm-module';
 import { migrateComponentMigration } from '../../mechanism/component-deprecations/component-deprecations';
 import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/added-to-cart-dialog.component.migration';
 import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item.component.migration';
@@ -30,7 +31,27 @@ export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
 ];
 
 export function migrate(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    return migrateComponentMigration(tree, context, COMPONENT_DEPRECATION_DATA);
+  // This workaround is needed only for schematics depending on `@angular/compiler` since Ng13
+  // It can be removed as soon as Angular Schematics starts supporting ES Modules
+  // (https://github.com/angular/angular-cli/issues/22786) and when we change in
+  // our `tsconfig.schematics.json` to `"module": "es2015"` (or higher).
+  //
+  // The workaround consists of:
+  // - importing dynamically `@angular/compiler` via `loadEsmModule` function
+  // - a wrapper function returning Promise<Rule>
+  // - passing the resolved `angularCompiler` as an argument down to other helper functions
+  return async (tree: Tree, context: SchematicContext): Promise<Rule> => {
+    const angularCompiler = await loadEsmModule<
+      typeof import('@angular/compiler')
+    >('@angular/compiler');
+
+    return (): Tree => {
+      return migrateComponentMigration(
+        tree,
+        context,
+        COMPONENT_DEPRECATION_DATA,
+        angularCompiler
+      );
+    };
   };
 }

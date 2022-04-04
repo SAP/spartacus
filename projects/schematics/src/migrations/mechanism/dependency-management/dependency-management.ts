@@ -5,26 +5,18 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
-import {
-  addPackageJsonDependency,
-  NodeDependency,
-} from '@schematics/angular/utility/dependencies';
-import semver from 'semver';
+import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import collectedDependencies from '../../../dependencies.json';
 import {
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SCOPE,
 } from '../../../shared/libs-constants';
 import { analyzeCrossLibraryDependenciesByLibraries } from '../../../shared/utils/dependency-utils';
+import { installPackageJsonDependencies } from '../../../shared/utils/lib-utils';
 import {
-  addPackageJsonDependencies,
-  dependencyExists,
-  installPackageJsonDependencies,
-} from '../../../shared/utils/lib-utils';
-import {
-  cleanSemverVersion,
   createDependencies,
   readPackageJson,
+  updatePackageJsonDependencies,
 } from '../../../shared/utils/package-utils';
 
 export function migrateDependencies(
@@ -138,57 +130,4 @@ function checkAndLogRemovedDependencies(
       )}. If you don't use these dependencies in your application, you might want to consider removing them from your dependencies list.`
     );
   }
-}
-
-function updatePackageJsonDependencies(
-  dependencies: NodeDependency[],
-  packageJson: any
-): Rule {
-  return (tree: Tree, context: SchematicContext): Rule => {
-    const dependenciesToAdd: NodeDependency[] = [];
-
-    for (const dependency of dependencies) {
-      const currentVersion = getCurrentDependencyVersion(
-        dependency,
-        packageJson
-      );
-      if (!currentVersion) {
-        dependenciesToAdd.push(dependency);
-        continue;
-      }
-
-      if (semver.satisfies(currentVersion, dependency.version)) {
-        continue;
-      }
-
-      const versionToUpdate = semver.parse(
-        cleanSemverVersion(dependency.version)
-      );
-      if (!versionToUpdate || semver.eq(versionToUpdate, currentVersion)) {
-        continue;
-      }
-
-      addPackageJsonDependency(tree, dependency);
-      const change = semver.gt(versionToUpdate, currentVersion)
-        ? 'Upgrading'
-        : 'Downgrading';
-      context.logger.info(
-        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
-      );
-    }
-
-    return addPackageJsonDependencies(dependenciesToAdd, packageJson);
-  };
-}
-
-function getCurrentDependencyVersion(
-  dependency: NodeDependency,
-  packageJson: any
-): semver.SemVer | null {
-  if (!dependencyExists(dependency, packageJson)) {
-    return null;
-  }
-  const dependencies = packageJson[dependency.type];
-  const currentVersion = dependencies[dependency.name];
-  return semver.parse(cleanSemverVersion(currentVersion));
 }
