@@ -42,7 +42,7 @@ export class VideoComponent {
       this.setMedia(data);
       this.setControls(data);
       this.setRouting(data);
-    }),
+    })
   );
 
   constructor(
