@@ -53,6 +53,7 @@ export const common = {
     categoryNavLabel: 'Category menu',
     footerNavLabel: 'Footer links',
     navigateTo: 'Navigate to {{nav}}',
+    scrollToTop: 'Scroll back to the top of the page',
   },
   searchBox: {
     placeholder: 'Enter product name or SKU',
