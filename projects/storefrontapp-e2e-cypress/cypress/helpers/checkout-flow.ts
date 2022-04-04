@@ -540,13 +540,16 @@ export function verifyOrderConfirmationPageWithCheapProduct(
     });
   });
   if (!isApparel) {
-    cy.get('cx-cart-item .cx-code').should('contain', sampleProduct.code);
+    cy.get('.cx-item-list-row .cx-code').should('contain', sampleProduct.code);
   } else {
-    cy.get('cx-cart-item .cx-code')
+    cy.get('.cx-item-list-row .cx-code')
       .should('have.length', products.length)
       .each((_, index) => {
         console.log('products', products[index]);
-        cy.get('cx-cart-item .cx-code').should('contain', products[index].code);
+        cy.get('.cx-item-list-row .cx-code').should(
+          'contain',
+          products[index].code
+        );
       });
   }
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
