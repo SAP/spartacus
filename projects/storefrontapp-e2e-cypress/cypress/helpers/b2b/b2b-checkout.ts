@@ -39,6 +39,7 @@ export function loginB2bUser() {
 export function addB2bProductToCartAndCheckout() {
   const code = products[0].code;
   const productPage = waitForProductPage(code, 'getProductPage');
+  const getPaymentTypes = interceptPaymentTypesEndpoint();
 
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
   cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
@@ -58,13 +59,10 @@ export function addB2bProductToCartAndCheckout() {
   );
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getPaymentTypes}`).its('response.statusCode').should('eq', 200);
 }
 
 export function enterPONumber() {
-  const getPaymentTypes = interceptPaymentTypesEndpoint();
-
-  cy.wait(`@${getPaymentTypes}`).its('response.statusCode').should('eq', 200);
-
   cy.get('cx-payment-type .cx-payment-type-container').should(
     'contain',
     'Payment method'
