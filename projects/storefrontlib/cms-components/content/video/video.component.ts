@@ -12,7 +12,7 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import {
   Media,
@@ -41,7 +41,8 @@ export class VideoComponent {
       this.setMedia(data);
       this.setControls(data);
       this.setRouting(data);
-    })
+    }),
+    distinctUntilChanged()
   );
 
   constructor(
