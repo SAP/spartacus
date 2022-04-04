@@ -117,10 +117,9 @@ export function selectCreditCardPayment() {
 }
 
 export function selectAccountShippingAddress() {
-  const getCartWithDeliveryAddress = interceptCartWithDeliveryAddressEndpoint();
   const updateAddress = interceptUpdateAddressEndpoint();
   const getCheckoutDetails = interceptCheckoutB2BDetailsEndpoint();
-  const pudDeliveryMode = interceptPutDeliveryModeEndpoint();
+  const putDeliveryMode = interceptPutDeliveryModeEndpoint();
 
   cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
@@ -129,7 +128,7 @@ export function selectAccountShippingAddress() {
     .should('not.be.empty');
 
   //wait for call before updateing address
-  cy.wait(`@${getCartWithDeliveryAddress}`)
+  cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
 
@@ -137,7 +136,7 @@ export function selectAccountShippingAddress() {
   cy.wait(`@${updateAddress}`).its('response.statusCode').should('eq', 200);
 
   //wait for response with updated address
-  cy.wait(`@${getCartWithDeliveryAddress}`)
+  cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
 
@@ -167,7 +166,7 @@ export function selectAccountShippingAddress() {
   cy.get('button.btn-primary').should('be.enabled').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
-  cy.wait(`@${pudDeliveryMode}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${putDeliveryMode}`).its('response.statusCode').should('eq', 200);
   cy.wait(`@${getCheckoutDetails}`)
     .its('response.statusCode')
     .should('eq', 200);
@@ -436,18 +435,6 @@ export function interceptPaymentTypesEndpoint(): string {
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/paymenttypes*`,
-  }).as(alias);
-
-  return alias;
-}
-
-export function interceptCartWithDeliveryAddressEndpoint(): string {
-  const alias = 'getCartWithDeliveryAddress';
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/carts/*?fields=deliveryAddress(FULL)*`,
   }).as(alias);
 
   return alias;
