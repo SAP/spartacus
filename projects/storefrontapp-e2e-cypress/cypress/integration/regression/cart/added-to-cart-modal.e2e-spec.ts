@@ -109,35 +109,20 @@ describe('Added to cart modal - Anonymous user', () => {
         // check for the other product still exist
         cy.get('cx-cart-item-list .cx-item-list-items')
           .contains('.cx-info', productName2)
-          .should('be.visible');
+          .should('be.visible')
+          .within(() => {
+            cy.get('cx-item-counter input[type=number]:not([disabled])').should(
+              'have.value',
+              '1'
+            );
+            cy.get('.cx-price .cx-value').should('contain', cartEntryPrice);
+            cy.get('.cx-total .cx-value').should('contain', cartEntryPrice);
 
-        // check the item quantity of the product
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', productName2)
-          .find('cx-item-counter input')
-          .should('have.value', '1');
+            cy.wait('@getRefreshedCart');
 
-        // check the item price of the product
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', productName2)
-          .find('.cx-price .cx-value')
-          .first()
-          .should('contain', cartEntryPrice);
-
-        // check the item price total of the product
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', productName2)
-          .find('.cx-total .cx-value')
-          .first()
-          .should('contain', cartEntryPrice);
-
-        cy.wait('@getRefreshedCart');
-
-        // delete the last product in cart
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', productName2)
-          .find('button.cx-remove-btn')
-          .click();
+            // delete the last product in cart
+            cy.get('button.cx-remove-btn').click();
+          });
 
         cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
       });
