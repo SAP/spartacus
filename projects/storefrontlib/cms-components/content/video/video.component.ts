@@ -36,13 +36,13 @@ export class VideoComponent {
   mute: string | undefined;
 
   data$: Observable<CmsVideoComponent> = this.component.data$.pipe(
+    distinctUntilChanged(),
     tap((data) => {
       this.styleClasses = data.styleClasses;
       this.setMedia(data);
       this.setControls(data);
       this.setRouting(data);
     }),
-    distinctUntilChanged()
   );
 
   constructor(
