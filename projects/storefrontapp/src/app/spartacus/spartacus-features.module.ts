@@ -133,8 +133,8 @@ if (environment.epdVisualization) {
     FooterNavigationModule,
     PageTitleModule,
     BreadcrumbModule,
-    VideoModule,
     ScrollToTopModule,
+    VideoModule,
 
     // User Core
     UserModule,
