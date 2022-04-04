@@ -7,12 +7,14 @@ import {
   OrderEntriesSource,
   ProductData,
   ProductImportInfo,
+  ProductImportStatus,
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UserIdService } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import {
   delayWhen,
+  every,
   filter,
   map,
   observeOn,
@@ -39,6 +41,23 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
     savedCartInfo?: { name: string; description: string }
   ): Observable<ProductImportInfo> {
     return this.add(products, savedCartInfo).pipe(
+      tap((cartId: string) => {
+        this.importInfoService
+          .getResults(cartId)
+          .pipe(
+            take(products.length),
+            every(
+              (productInfo: ProductImportInfo) =>
+                productInfo.statusCode ===
+                ProductImportStatus.UNKNOWN_IDENTIFIER
+            )
+          )
+          .subscribe((isInvalid: boolean) => {
+            if (isInvalid) {
+              this.savedCartService.deleteSavedCart(cartId);
+            }
+          });
+      }),
       switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
       take(products.length)
     );
