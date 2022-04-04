@@ -56,7 +56,7 @@ export const products: TestProduct[] = [
 ];
 
 function getCartItem(name: string) {
-  return cy.get('cx-cart-item-list').contains('cx-cart-item', name);
+  return cy.get('cx-cart-item-list').contains('.cx-item-list-row', name);
 }
 
 function checkCartSummary(subtotal: string) {
@@ -176,7 +176,7 @@ export function checkBasicCart() {
   removeCartItem(products[0]);
 
   cy.wait('@refresh_cart');
-  cy.get('cx-cart-item').should('have.length', 1);
+  cy.get('.cx-item-list-row').should('have.length', 1);
 
   removeCartItem(products[4]);
 
@@ -287,7 +287,7 @@ export function removeCartItem(product) {
   registerDeleteCartItemRoute();
 
   getCartItem(product.name).within(() => {
-    cy.get('.cx-remove-btn > .link').click();
+    cy.get('button.cx-remove-btn').click();
   });
 
   cy.wait('@delete_cart_item');
