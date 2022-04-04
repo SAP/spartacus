@@ -24,6 +24,9 @@ export class ProductFacetService {
     protected productListComponentService: ProductListComponentService
   ) {}
 
+  model$: Observable<ProductSearchPage> =
+    this.productListComponentService.model$;
+
   protected readonly routeState$ = this.routing
     .getRouterState()
     .pipe(pluck('state'));

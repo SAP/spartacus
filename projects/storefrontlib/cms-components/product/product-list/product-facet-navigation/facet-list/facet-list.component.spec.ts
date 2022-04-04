@@ -19,7 +19,6 @@ import {
 } from '../facet.model';
 import { FacetService } from '../services/facet.service';
 import { FacetListComponent } from './facet-list.component';
-import { ProductListComponentService } from '../../container/product-list-component.service';
 
 @Component({
   selector: 'cx-icon',
@@ -57,9 +56,6 @@ class MockFacetService {
   }
   toggleExpand() {}
 }
-class MockProductListComponentService {
-  model$ = of(mockFacetList);
-}
 
 describe('FacetListComponent', () => {
   let component: FacetListComponent;
@@ -78,13 +74,7 @@ describe('FacetListComponent', () => {
           MockFacetComponent,
           MockKeyboadFocusDirective,
         ],
-        providers: [
-          { provide: FacetService, useClass: MockFacetService },
-          {
-            provide: ProductListComponentService,
-            useClass: MockProductListComponentService,
-          },
-        ],
+        providers: [{ provide: FacetService, useClass: MockFacetService }],
       })
         .overrideComponent(FacetListComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },

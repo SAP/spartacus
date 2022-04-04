@@ -9,7 +9,6 @@ import {
   Renderer2,
 } from '@angular/core';
 import { Facet, ProductSearchPage } from '@spartacus/core';
-import { ProductListComponentService } from '../../container/product-list-component.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
@@ -46,8 +45,7 @@ export class FacetListComponent {
   /** The list of all facet and values related to the products in the list */
   facetList$: Observable<FacetList> = this.facetService.facetList$;
 
-  model$: Observable<ProductSearchPage> =
-    this.productListComponentService.model$;
+  model$: Observable<ProductSearchPage> = this.facetService.model$;
 
   iconTypes = ICON_TYPE;
 
@@ -65,8 +63,7 @@ export class FacetListComponent {
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef,
-    protected renderer: Renderer2,
-    protected productListComponentService: ProductListComponentService
+    protected renderer: Renderer2
   ) {}
 
   /**
@@ -106,6 +103,6 @@ export class FacetListComponent {
   }
 
   block(event?: MouseEvent) {
-    event.stopPropagation();
+    event?.stopPropagation();
   }
 }

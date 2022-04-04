@@ -1,6 +1,6 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Facet } from '@spartacus/core';
+import { Facet, ProductSearchPage } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {
@@ -19,6 +19,7 @@ import { ProductFacetService } from './product-facet.service';
   providedIn: 'root',
 })
 export class FacetService {
+  model$: Observable<ProductSearchPage> = this.productFacetService.model$;
   /**
    * An internal map where we keep the UI state of the facets.
    */
