@@ -3,7 +3,6 @@ import {
   ChangeDetectorRef,
   Component,
   HostBinding,
-  OnDestroy,
 } from '@angular/core';
 import {
   CmsService,
@@ -12,7 +11,7 @@ import {
   PageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import {
@@ -26,7 +25,7 @@ import { MediaService } from '../../../shared/components/media/media.service';
   templateUrl: './video.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoComponent implements OnDestroy {
+export class VideoComponent {
   @HostBinding('class') styleClasses: string | undefined;
 
   source: string | undefined;
@@ -35,7 +34,6 @@ export class VideoComponent implements OnDestroy {
   autoPlay: boolean;
   loop: boolean;
   mute: string | undefined;
-  protected subscriptions = new Subscription();
 
   data$: Observable<CmsVideoComponent> = this.component.data$.pipe(
     tap((data) => {
@@ -80,21 +78,19 @@ export class VideoComponent implements OnDestroy {
     if (data.url) {
       this.routerLink = data.url;
     } else if (data.contentPage) {
-      this.subscriptions.add(
-        this.cmsService
-          .getPage({
-            id: data.contentPage,
-            type: PageType.CONTENT_PAGE,
-          })
-          .pipe(take(1))
-          .subscribe((page) => {
-            const pageLabel = page.label || '';
-            this.routerLink = this.urlService.transform({
-              cxRoute: pageLabel.substring(1),
-            });
-            this.cd.markForCheck();
-          })
-      );
+      this.cmsService
+        .getPage({
+          id: data.contentPage,
+          type: PageType.CONTENT_PAGE,
+        })
+        .pipe(take(1))
+        .subscribe((page) => {
+          const pageLabel = page.label || '';
+          this.routerLink = this.urlService.transform({
+            cxRoute: pageLabel.substring(1),
+          });
+          this.cd.markForCheck();
+        });
     } else if (data.product) {
       this.routerLink = this.urlService.transform({
         cxRoute: 'product',
@@ -106,9 +102,5 @@ export class VideoComponent implements OnDestroy {
         params: { code: data.category },
       });
     }
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 }
