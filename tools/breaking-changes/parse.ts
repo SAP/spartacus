@@ -162,6 +162,10 @@ function parseMethodParameters(method: any): any[] {
       rawParam.parameterTypeTokenRange,
       method.excerptTokens
     );
+    parsedParam.isOptional = isParamDeclaredOptional(
+      rawParam.parameterTypeTokenRange,
+      method.excerptTokens
+    );
     const typeToken = getTypeReferenceToken(
       rawParam.parameterTypeTokenRange,
       method.excerptTokens
@@ -189,6 +193,17 @@ function getParamType(tokenRange: any, tokens: any[]): string {
     .map((token) => token.text)
     .join('');
   return paramType;
+}
+
+function isParamDeclaredOptional(typeTokenRange: any, tokens: any[]): boolean {
+  const typeStartIndex: number = typeTokenRange.startIndex;
+  if (typeStartIndex <= 0) {
+    return false;
+  }
+  const declaration = tokens[typeStartIndex - 1];
+  const isDeclaredOptional =
+    declaration.kind === 'Content' && declaration.text.includes(`?:`);
+  return isDeclaredOptional;
 }
 
 function getTypeReferenceToken(tokenRange: any, tokens: any[]): any {
