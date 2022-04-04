@@ -20,4 +20,13 @@
       color: var(--cx-color-secondary);
     }
   }
+  .btn--add-to-cart {
+    display: flex;
+    align-items: center;
+
+    .btn--add-to-cart--text {
+      line-height: 1;
+      width: 100%;
+    }
+  }
 }

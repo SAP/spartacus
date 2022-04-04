@@ -21,10 +21,12 @@
 
   <button
     *ngIf="hasStock"
-    class="btn btn-primary btn-block"
+    class="btn btn-primary btn-block btn--add-to-cart"
     type="submit"
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
-    {{ 'addToCart.addToCart' | cxTranslate }}
+    <span class="btn--add-to-cart--text">
+      {{ 'addToCart.addToCart' | cxTranslate }}
+    </span>
   </button>
 </form>
