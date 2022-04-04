@@ -306,8 +306,7 @@ function build_ssr {
         echo "Skipping ssr app build (No port defined)"
     else
         printh "Building ssr app"
-        printh "test test test......"
-        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && ng --version && yarn build && yarn build:ssr )
+        ( cd ${INSTALLATION_DIR}/${SSR_APP_NAME} && yarn build && yarn build:ssr )
     fi
 }
 
