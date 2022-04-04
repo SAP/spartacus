@@ -50,3 +50,11 @@ export function isTopLevelApi(kind: string): boolean {
   ];
   return apiKinds.includes(kind);
 }
+
+export function unEscapePackageName(packageName: string) {
+  return packageName.replace(/_/g, '/');
+}
+
+export function escapePackageName(packageName: string) {
+  return packageName.replace(/\//g, '_').replace(/\_/, '/');
+}

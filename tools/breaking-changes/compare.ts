@@ -1,6 +1,6 @@
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
-import * as common from './common';
+import { printStats, unEscapePackageName } from './common';
 
 // --------------------------------------------------
 // Main Logic
@@ -75,7 +75,7 @@ oldApiData.forEach((oldApiElement: any) => {
   }
 });
 
-common.printStats(breakingChanges);
+printStats(breakingChanges);
 
 fs.writeFileSync(`data/breaking-changes.json`, JSON.stringify(breakingChanges));
 
@@ -390,10 +390,6 @@ export function lookupImportPath(
   } else {
     return '';
   }
-}
-
-export function unEscapePackageName(packageName: string) {
-  return packageName.replace(/_/g, '/');
 }
 
 function isIdenticalParams(oldParam: any, newParam: any) {

@@ -1,10 +1,24 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
+import { unEscapePackageName } from './common';
+/**
+ * This script combines all the json api files produced by MS Api Extractor in one file with a
+ * flat list of of api elelments.
+ *
+ * Input: A Spartacus source home/base folder, like './src/old'.  This script will parse the `temp` folder
+ * produced by MS Api Extractor.
+ * Output: A file, `public-api.json`, contains a flat list of of api elelments. The file is created in the folder passed as a param, like like './src/old/public-api.json'.
+ *
+ */
+
+/**
+ * -----------
+ * Main logic
+ * -----------
+ */
 
 const spartacusHomeDir = process.argv[2];
 console.log(`Parsing public API for libs in ${spartacusHomeDir}/temp.`);
-
-const typeList = new Set();
 
 const files = glob.sync(`${spartacusHomeDir}/temp/*.api.json`);
 console.log(`Found ${files.length} api.json files.`);
@@ -12,17 +26,17 @@ let publicApiData: any[] = [];
 files.forEach((file) => {
   publicApiData.push(...parseFile(file));
 });
-console.log(`publicApiData ${publicApiData.length}`);
 
-console.log(`Type LIST:`);
-typeList.forEach((typeee) => {
-  console.log(typeee);
-});
+const outputFilePath = `${spartacusHomeDir}/public-api.json`;
+console.log(`Write ${publicApiData.length} api elements to ${outputFilePath}.`);
 
-fs.writeFileSync(
-  `${spartacusHomeDir}/public-api.json`,
-  JSON.stringify(publicApiData)
-);
+fs.writeFileSync(outputFilePath, JSON.stringify(publicApiData));
+
+/**
+ * -----------
+ * Functions
+ * -----------
+ */
 
 export function parseFile(filePath: string): any[] {
   console.log(`Read ${filePath}`);
@@ -63,12 +77,7 @@ function parseElement(
   parsedElement.kind = rawElement.kind;
   parsedElement.name = rawElement.name;
   parsedElement.namespace = namespace;
-  if (namespace) {
-    console.log(`  ${rawElement.kind}: ${namespace}.${rawElement.name}`);
-  } else {
-    console.log(`  ${rawElement.kind}: ${rawElement.name}`);
-  }
-  typeList.add(parsedElement.kind);
+
   switch (parsedElement.kind) {
     case 'Class':
     case 'Interface': {
@@ -170,8 +179,10 @@ function parseMethodParameters(method: any): any[] {
       rawParam.parameterTypeTokenRange,
       method.excerptTokens
     );
-    // This if condition filtters out anonymous types
+    // This if condition filters out anonymous types
     // like `payload: { userid: string, cart: Cart }`
+    // TODO: Handle cases where there are no types.
+    // They usually have 0 to 0 token index.
     if (parsedParam.type?.startsWith(typeToken.text)) {
       parsedParam.canonicalReference = typeToken.canonicalReference ?? '';
       parsedParam.shortType = typeToken.text ?? '';
@@ -227,8 +238,4 @@ function getTypeAliases(rawElement: any): any {
 
 function getEnumMembers(rawElement: any): any {
   return rawElement.members.map((member: any) => member.name);
-}
-
-export function unEscapePackageName(packageName: string) {
-  return packageName.replace(/_/g, '/');
 }
