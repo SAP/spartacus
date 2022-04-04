@@ -20,6 +20,9 @@ const mockProductData: ProductData[] = [
   { productCode: '693923', quantity: 1 },
   { productCode: '232133', quantity: 2 },
 ];
+const mockInavlidProductData: ProductData[] = [
+  { productCode: '3857732', quantity: 1 },
+];
 
 class MockUserIdService implements Partial<UserIdService> {
   takeUserId = createSpy().and.returnValue(of(mockUserId));
@@ -34,6 +37,7 @@ class MockSavedCartService implements Partial<SavedCartFacade> {
   saveCart = createSpy().and.callThrough();
   loadSavedCarts = createSpy().and.callThrough();
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
+  deleteCart = createSpy();
 }
 
 const mockProductImportInfo = {
@@ -96,6 +100,38 @@ describe('NewSavedCartOrderEntriesContext', () => {
       );
       expect(productImportInfoService.getResults).toHaveBeenCalledWith(
         mockCartId
+      );
+    });
+
+
+    it('should delete the cart for invalid products', () => {
+      service.addEntries(mockInavlidProductData, mockSavedCart).subscribe();
+
+      expect(userIdService.takeUserId).toHaveBeenCalledWith();
+      expect(multiCartService.createCart).toHaveBeenCalledWith({
+        userId: mockUserId,
+        extraData: { active: false },
+      });
+      expect(savedCartService.saveCart).toHaveBeenCalledWith({
+        cartId: mockCartId,
+        saveCartName: mockSavedCart.name,
+        saveCartDescription: mockSavedCart.description,
+      });
+      expect(savedCartService.loadSavedCarts).toHaveBeenCalled();
+      expect(multiCartService.addEntries).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId,
+        mockProductData
+      );
+      expect(productImportInfoService.getResults).toHaveBeenCalledWith(
+        mockCartId
+      );
+      expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(
+        mockCartId
+      );
+      expect(multiCartService.deleteCart).toHaveBeenCalledWith(
+        mockCartId,
+        mockUserId
       );
     });
   });
