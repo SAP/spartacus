@@ -86,10 +86,7 @@ export class VideoComponent {
         })
         .pipe(take(1))
         .subscribe((page) => {
-          const pageLabel = page.label || '';
-          this.routerLink = this.urlService.transform({
-            cxRoute: pageLabel,
-          });
+          this.routerLink = page.label;
           this.cd.markForCheck();
         });
     } else if (data.product) {
