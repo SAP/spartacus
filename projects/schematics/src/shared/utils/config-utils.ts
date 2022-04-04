@@ -1,4 +1,11 @@
-import { ArrayLiteralExpression, Expression, Node, SourceFile } from 'ts-morph';
+import {
+  ArrayLiteralExpression,
+  Expression,
+  Node,
+  ObjectLiteralExpression,
+  SourceFile,
+  SyntaxKind,
+} from 'ts-morph';
 import { PROVIDE_CONFIG_FUNCTION } from '../constants';
 import { SPARTACUS_CORE, SPARTACUS_SETUP } from '../libs-constants';
 import { isImportedFromSpartacusLibs } from './import-utils';
@@ -68,6 +75,40 @@ function normalizeConfiguration(config: string | Node): string {
   newConfig = newConfig.replace(EMPTY_SPACE_REG_EXP, '');
 
   return newConfig;
+}
+
+export function normalizeObject(obj: string): string {
+  return obj.replace(EMPTY_SPACE_REG_EXP, '');
+}
+
+// TODO:#schematics - test
+// TODO:#schematics - comment
+export function removeProperty(
+  objectLiteral: ObjectLiteralExpression,
+  propertyName: string
+): void {
+  const properties = objectLiteral.getProperties();
+  for (const property of properties) {
+    if (!Node.isPropertyAssignment(property)) {
+      continue;
+    }
+
+    if (property.getName() === propertyName) {
+      property.remove();
+      return;
+    }
+
+    const nestedConfigObject = property.getFirstDescendantByKind(
+      SyntaxKind.ObjectLiteralExpression
+    );
+    if (nestedConfigObject) {
+      removeProperty(nestedConfigObject, propertyName);
+    }
+
+    if (normalizeObject(property.getInitializer()?.getText() ?? '') === '{}') {
+      property.remove();
+    }
+  }
 }
 
 export function getB2bConfiguration(): CustomConfig[] {

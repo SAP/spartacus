@@ -23,7 +23,8 @@ import {
   addPackageJsonDependenciesForLibrary,
   FeatureConfig,
   LibraryOptions,
-  orderInstalledFeatures,
+  // TODO:#schematics - remove?
+  // orderInstalledFeatures,
   shouldAddFeature,
 } from './lib-utils';
 
@@ -295,36 +296,6 @@ describe('Lib utils', () => {
         expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
       });
     });
-    describe('recreate option', () => {
-      it('should remove the feature module and recreate it', async () => {
-        let tree: Tree;
-        tree = await schematicRunner
-          .callRule(
-            addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG),
-            appTree
-          )
-          .toPromise();
-
-        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
-
-        tree = await schematicRunner
-          .callRule(
-            addLibraryFeature(BASE_OPTIONS, {
-              ...BASE_FEATURE_CONFIG,
-              recreate: true,
-              featureModule: {
-                ...BASE_FEATURE_CONFIG.featureModule,
-                // this should change
-                name: 'YyyModule',
-              },
-            }),
-            appTree
-          )
-          .toPromise();
-
-        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
-      });
-    });
     describe('custom config option', () => {
       it('should add the custom config when set', async () => {
         const featureConfig: FeatureConfig = {
@@ -510,9 +481,10 @@ describe('Lib utils', () => {
         .callRule(addLibraryFeature(ORDER_OPTIONS, ORDER_FEATURE_CONFIG), tree)
         .toPromise();
 
-      tree = await schematicRunner
-        .callRule(orderInstalledFeatures(spartacusDefaultOptions), tree)
-        .toPromise();
+      // TODO:#schematics - enable?
+      // tree = await schematicRunner
+      //   .callRule(orderInstalledFeatures(spartacusDefaultOptions), tree)
+      //   .toPromise();
     });
 
     it('should appropriately order the feature modules', () => {

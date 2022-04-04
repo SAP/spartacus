@@ -1,21 +1,69 @@
 import {
   chain,
+  noop,
   Rule,
+  schematic,
   SchematicContext,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
+import {
+  ArrowFunction,
+  CallExpression,
+  Expression,
+  Identifier,
+  Node,
+  SourceFile,
+  ts as tsMorph,
+} from 'ts-morph';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
+import { Schema as SpartacusWrapperOptions } from '../../wrapper-module/schema';
 import { ANGULAR_CORE } from '../constants';
 import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
 } from '../libs-constants';
 import { featureSchematicConfigMapping } from '../updateable-constants';
-import { isImportedFrom } from './import-utils';
-import { addLibraryFeature, FeatureConfig, LibraryOptions } from './lib-utils';
+import { crossLibraryInstallationOrder } from './graph-utils';
+import {
+  collectDynamicImports,
+  findImport,
+  getDynamicImportImportPath,
+  getDynamicImportPropertyAccess,
+  getImportDeclaration,
+  isImportedFrom,
+  isImportedFromSpartacusLibs,
+  isRelative,
+} from './import-utils';
+import {
+  addLibraryFeature,
+  FeatureConfig,
+  LibraryOptions,
+  Module,
+} from './lib-utils';
+import { getModulePropertyInitializer } from './new-module-utils';
 import { createProgram } from './program';
+import { getProjectTsConfigPaths } from './project-tsconfig-paths';
+
+export interface FeatureModuleImports {
+  importPath: string;
+  moduleNode: Expression | Identifier;
+}
+/**
+ * Represents the result of the `collectInstalledModules` function,
+ * and contains all features imported in the `spartacus-features.module.ts` file.
+ */
+export interface SpartacusFeatureModule {
+  /**
+   * All imports in the in SpartacusFeaturesModule,
+   * including their import paths and module nodes.
+   */
+  spartacusFeaturesModuleImports: FeatureModuleImports[];
+  /**
+   * Warnings produced while looking for feature modules.
+   */
+  warnings: string[];
+}
 
 /**
  * Override the pre-defined configurations for the given feature
@@ -68,10 +116,41 @@ export function addFeatures<T extends LibraryOptions>(
         schematicsConfiguration;
       const libraryOptions =
         configurationOverrides?.[feature]?.options ?? genericLibraryOptions;
+
       rules.push(addLibraryFeature(libraryOptions, config));
+      rules.push(handleWrapperModule(libraryOptions, config));
     }
     return chain(rules);
   };
+}
+
+function handleWrapperModule<OPTIONS extends LibraryOptions>(
+  options: OPTIONS,
+  featureConfig: FeatureConfig
+): Rule {
+  if (!featureConfig.wrappers) {
+    return noop();
+  }
+
+  const rules: Rule[] = [];
+  for (const markerModuleName in featureConfig.wrappers) {
+    if (!featureConfig.wrappers.hasOwnProperty(markerModuleName)) {
+      continue;
+    }
+
+    const featureModuleName = featureConfig.wrappers[markerModuleName];
+    const wrapperOptions: SpartacusWrapperOptions = {
+      scope: options.scope,
+      interactive: options.interactive,
+      project: options.project,
+      markerModuleName,
+      featureModuleName,
+    };
+
+    rules.push(schematic('wrapper-module', wrapperOptions));
+  }
+
+  return chain(rules);
 }
 
 /**
@@ -135,4 +214,330 @@ function getSpartacusFeaturesNgModuleDecorator(
 
   sourceFile.forEachChild(visitor);
   return spartacusFeaturesModule;
+}
+
+// TODO:#schematics - move somewhere else
+// TODO:#schematics - test
+// TODO:#schematics - comment
+export function orderInstalledFeatures<T extends LibraryOptions>(
+  options: T
+): Rule {
+  return (tree: Tree, context: SchematicContext): void => {
+    let message = `Ordering the installed Spartacus features...`;
+    if (options.debug) {
+      // TODO:#schematics - switch to `crossFeatureInstallationOrder`
+      message = `Sorting the installed Spartacus features according to the dependency graph: ${crossLibraryInstallationOrder.join(
+        ', '
+      )}`;
+    }
+    context.logger.info(message);
+
+    const basePath = process.cwd();
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    for (const tsconfigPath of buildPaths) {
+      const spartacusFeaturesModule = getSpartacusFeaturesModule(
+        tree,
+        basePath,
+        tsconfigPath
+      );
+      if (!spartacusFeaturesModule) {
+        continue;
+      }
+
+      const collectedModules = collectInstalledModules(spartacusFeaturesModule);
+      if (!collectedModules) {
+        continue;
+      }
+
+      // TODO:#schematics - uncomment
+      // const spartacusCoreModules = collectedModules.spartacusCoreModules.map(
+      //   (spartacusCoreModule) => spartacusCoreModule.getText()
+      // );
+      // const featureModules = collectedModules.featureModules
+      //   .sort((moduleA, moduleB) =>
+      //     calculateSort(
+      //       moduleA.spartacusLibrary,
+      //       moduleB.spartacusLibrary,
+      //       // TODO:#schematics - switch to sorting using the `crossFeatureInstallationOrder`
+      //       crossLibraryInstallationOrder
+      //     )
+      //   )
+      //   .map((featureModule) => featureModule.moduleNode.getText());
+      // const unrecognizedModules = collectedModules.unrecognizedModules.map(
+      //   (unrecognizedModule) => unrecognizedModule.getText()
+      // );
+
+      // const moduleImportsProperty = getModulePropertyInitializer(
+      //   spartacusFeaturesModule,
+      //   'imports',
+      //   false
+      // );
+      // if (!moduleImportsProperty) {
+      //   continue;
+      // }
+
+      // if (collectedModules.warnings.length) {
+      //   context.logger.warn(
+      //     'The following modules were not recognized due to various reasons:'
+      //   );
+      //   for (const warning of collectedModules.warnings) {
+      //     context.logger.warn(warning);
+      //   }
+      // }
+
+      // const orderedModules: string[] = spartacusCoreModules
+      //   .concat(featureModules)
+      //   .concat(unrecognizedModules);
+      // moduleImportsProperty.replaceWithText(`[${orderedModules.join(',\n')}]`);
+      // saveAndFormat(spartacusFeaturesModule);
+    }
+  };
+}
+
+interface CollectingResult {
+  coreModules: (Expression | Identifier)[];
+  featureModules: {
+    moduleImport: Expression | Identifier;
+    moduleConfig: Module;
+    isWrapper: boolean;
+  }[];
+  unrecognizedModules: (Expression | Identifier)[];
+  warnings: string[];
+}
+/**
+ * Collects the installed modules in the
+ * given source file.
+ */
+// TODO:#schematics - test
+export function collectInstalledModules(
+  spartacusFeaturesModule: SourceFile
+): CollectingResult | undefined {
+  const initializer = getModulePropertyInitializer(
+    spartacusFeaturesModule,
+    'imports',
+    false
+  );
+  if (!initializer) {
+    return undefined;
+  }
+
+  const warnings: string[] = [];
+  const coreModules: (Expression | Identifier)[] = [];
+  const featureModules: {
+    moduleImport: Expression | Identifier;
+    moduleConfig: Module;
+    isWrapper: boolean;
+  }[] = [];
+  const unrecognizedModules: (Expression | Identifier)[] = [];
+
+  for (const element of initializer.getElements()) {
+    const moduleIdentifier = getModuleIdentifier(element);
+    if (!moduleIdentifier) {
+      warnings.push(
+        `Skipping ${element.print()} as it is not recognized as a module.`
+      );
+      continue;
+    }
+
+    const importDeclaration = getImportDeclaration(moduleIdentifier);
+    if (!importDeclaration) {
+      warnings.push(
+        `Skipping ${element.print()} as there is no import found for it.`
+      );
+      continue;
+    }
+
+    const importPath = importDeclaration.getModuleSpecifierValue();
+    if (isImportedFromSpartacusLibs(importPath)) {
+      coreModules.push(element);
+      continue;
+    }
+
+    // TODO:#schematics - test if an import is from e.g. `@ngrx/core` or any non-spartacus lib
+    const localImportModule = importDeclaration.getModuleSpecifierSourceFile();
+    if (!localImportModule) {
+      warnings.push(`Module from ${importPath} not recognized.`);
+      unrecognizedModules.push(element);
+      continue;
+    }
+
+    // for (const schematicsConfig of SCHEMATICS_CONFIGS) {
+    // TODO:#schematics - attempt to recognize the feature module
+    // const recognizedFeatureModule = recognizeFeatureModule(
+    //   localImportModule,
+    //   schematicsConfig.featureModule
+    // );
+    // if (!recognizedFeatureModule) {
+    //   unrecognizedModules.push(element);
+    //   continue;
+    // }
+
+    // featureModules.push({
+    //   ...recognizedFeatureModule,
+    //   moduleImport: element,
+    // });
+    // }
+
+    // const potentialFeatureModule =
+    //   importDeclaration.getModuleSpecifierSourceFile();
+    // if (!potentialFeatureModule) {
+    //   warnings.push(
+    //     `Skipping ${element.print()} as there is no file found for ${importDeclaration.print()}.`
+    //   );
+    //   continue;
+    // }
+
+    // const spartacusLibrary = recognizeFeatureModule(potentialFeatureModule);
+    // if (spartacusLibrary) {
+    //   featureModules.push({ spartacusLibrary, moduleNode: element });
+    // } else {
+    //   unrecognizedModules.push(element);
+    // }
+  }
+
+  return {
+    coreModules,
+    featureModules,
+    unrecognizedModules,
+    warnings,
+  };
+}
+
+/**
+ * Analyzes both ts' imports and ngModule's imports.
+ * If a match is found, it returns the found config.
+ */
+// function analyzeWrapperModule(
+//   featureModule: SourceFile,
+//   featureModuleConfig: Module | Module[]
+// ): Module | undefined {
+//   const importSearchResult = searchImports(featureModule, featureModuleConfig);
+//   if (!importSearchResult) {
+//     return undefined;
+//   }
+
+//   const ngModuleImports =
+//     getModulePropertyInitializer(
+//       featureModule,
+//       'imports',
+//       false
+//     )?.getElements() ?? [];
+//   for (const ngModuleImport of ngModuleImports) {
+//     if (ngModuleImport.getText() === importSearchResult.name) {
+//       return importSearchResult;
+//     }
+//   }
+
+//   return undefined;
+// }
+
+// TODO:#schematics - move up somewhere
+export interface DynamicImport {
+  importPath: string;
+  importModule: string;
+  isRelative: boolean;
+}
+/**
+ * Analyzes the dynamic imports of the given module.
+ * If both dynamic import's import path and module name
+ * are found in the given config, it returns the config.
+ */
+// TODO:#schematics - not needed?
+// TODO:#schematics - test
+export function findDynamicImport(
+  sourceFile: SourceFile,
+  importPathToFind: string,
+  moduleNameToFind: string
+): ArrowFunction | undefined {
+  const collectedDynamicImports = collectDynamicImports(sourceFile);
+
+  for (const dynamicImport of collectedDynamicImports) {
+    const importPath = getDynamicImportImportPath(dynamicImport) ?? '';
+    if (isRelative(importPath)) {
+      if (!importPath.includes(importPathToFind)) {
+        continue;
+      }
+    } else {
+      if (importPath !== importPathToFind) {
+        continue;
+      }
+    }
+
+    const importModule =
+      getDynamicImportPropertyAccess(dynamicImport)
+        ?.getLastChildByKind(tsMorph.SyntaxKind.Identifier)
+        ?.getText() ?? '';
+    if (importModule === moduleNameToFind) {
+      return dynamicImport;
+    }
+  }
+
+  return undefined;
+}
+
+// TODO:#schematics - test
+// TODO:#schematics - comment
+export function getModuleConfig(
+  featureModuleName: string,
+  featureConfig: FeatureConfig
+): Module | undefined {
+  const featureModuleConfigs = ([] as Module[]).concat(
+    featureConfig.featureModule
+  );
+  for (const featureModuleConfig of featureModuleConfigs) {
+    if (featureModuleConfig.name === featureModuleName) {
+      return featureModuleConfig;
+    }
+  }
+
+  return undefined;
+}
+
+export function isWrapperModule(
+  sourceFile: SourceFile,
+  featureModuleName: string,
+  featureConfig: FeatureConfig
+): boolean {
+  const moduleConfig = getModuleConfig(featureModuleName, featureConfig);
+  if (!moduleConfig) {
+    return false;
+  }
+
+  return findImport(sourceFile, moduleConfig.importPath, moduleConfig.name);
+}
+
+// TODO:#schematics - test
+export function isFeatureModule(
+  sourceFile: SourceFile,
+  featureModuleName: string,
+  featureConfig: FeatureConfig
+): boolean {
+  const moduleConfig = getModuleConfig(featureModuleName, featureConfig);
+  if (!moduleConfig) {
+    return false;
+  }
+
+  return !!findDynamicImport(
+    sourceFile,
+    moduleConfig.importPath,
+    moduleConfig.name
+  );
+}
+
+function getModuleIdentifier(element: Node): Identifier | undefined {
+  if (Node.isIdentifier(element)) {
+    return element;
+  }
+
+  if (Node.isCallExpression(element)) {
+    const propertyAccessExpression = element.getFirstChild();
+    if (Node.isPropertyAccessExpression(propertyAccessExpression)) {
+      const firstIdentifier = propertyAccessExpression.getFirstChild();
+      if (Node.isIdentifier(firstIdentifier)) {
+        return firstIdentifier;
+      }
+    }
+  }
+
+  return undefined;
 }
