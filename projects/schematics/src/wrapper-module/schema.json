@@ -11,10 +11,14 @@
         "$source": "projectName"
       }
     },
+    "markerModuleName": {
+      "type": "string",
+      "description": "The marker module for which to find or generate the wrapper module."
+    },
     "featureModuleName": {
       "type": "string",
-      "description": "Name of the feature module for which to generate the wrapper module."
+      "description": "Name of the feature module which to add to the wrapper module."
     }
   },
-  "required": ["featureModuleName"]
+  "required": ["markerModuleName", "featureModuleName"]
 }

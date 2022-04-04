@@ -1,6 +1,5 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
@@ -8,14 +7,11 @@ import {
 import {
   addFeatures,
   addFeatureTranslations,
-  addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   analyzeCrossFeatureDependencies,
   CHECKOUT_B2B_SCHEMATICS_CONFIG,
-  CHECKOUT_BASE_SCHEMATICS_CONFIG,
   CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
   CLI_CHECKOUT_B2B_FEATURE,
-  CLI_CHECKOUT_BASE_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusCheckoutOptions,
@@ -36,47 +32,41 @@ export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
 
     return chain([
       addFeatures(options, features),
-      determineCheckoutFeatures(options, packageJson),
+      additionalCheckoutConfiguration(options, packageJson),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
 }
 
-// TODO:#schematics - refactor after introducing wrapper modules
-function determineCheckoutFeatures(
+function additionalCheckoutConfiguration(
   options: SpartacusCheckoutOptions,
   packageJson: any
 ): Rule {
+  const rules: Rule[] = [];
+
+  if (shouldAddFeature(CLI_CHECKOUT_B2B_FEATURE, options.features)) {
+    rules.push(
+      configureB2bFeatures(options, packageJson),
+      addFeatureTranslations(options, CHECKOUT_B2B_SCHEMATICS_CONFIG)
+    );
+  }
+
   if (
     shouldAddFeature(
       CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
       options.features
     )
   ) {
-    return chain([
-      addLibraryFeature(
+    rules.push(
+      // TODO:#schematics - offload to schematics-feature-config and lib/feature utils
+      configureB2bFeatures(options, packageJson),
+      addFeatureTranslations(options, CHECKOUT_B2B_SCHEMATICS_CONFIG),
+      addFeatureTranslations(
         options,
         CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG
-      ),
-      addFeatureTranslations(options, CHECKOUT_BASE_SCHEMATICS_CONFIG),
-      addFeatureTranslations(options, CHECKOUT_B2B_SCHEMATICS_CONFIG),
-
-      configureB2bFeatures(options, packageJson),
-    ]);
+      )
+    );
   }
 
-  if (shouldAddFeature(CLI_CHECKOUT_B2B_FEATURE, options.features)) {
-    return chain([
-      addLibraryFeature(options, CHECKOUT_B2B_SCHEMATICS_CONFIG),
-      addFeatureTranslations(options, CHECKOUT_BASE_SCHEMATICS_CONFIG),
-
-      configureB2bFeatures(options, packageJson),
-    ]);
-  }
-
-  if (shouldAddFeature(CLI_CHECKOUT_BASE_FEATURE, options.features)) {
-    return addLibraryFeature(options, CHECKOUT_BASE_SCHEMATICS_CONFIG);
-  }
-
-  return noop();
+  return chain(rules);
 }

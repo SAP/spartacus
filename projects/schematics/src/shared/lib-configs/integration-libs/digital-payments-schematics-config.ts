@@ -7,7 +7,10 @@ import {
   SPARTACUS_DIGITAL_PAYMENTS_ASSETS,
 } from '../../libs-constants';
 import { FeatureConfig, Module } from '../../utils/lib-utils';
-import { CHECKOUT_BASE_FEATURE_NAME_CONSTANT } from '../checkout-schematics-config';
+import {
+  CHECKOUT_BASE_FEATURE_NAME_CONSTANT,
+  CHECKOUT_BASE_MODULE,
+} from '../checkout-schematics-config';
 
 export const DIGITAL_PAYMENTS_FOLDER_NAME = 'digital-payments';
 export const DIGITAL_PAYMENTS_MODULE_NAME = 'DigitalPayments';
@@ -27,10 +30,7 @@ export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: FeatureConfig = {
   },
   folderName: DIGITAL_PAYMENTS_FOLDER_NAME,
   moduleName: DIGITAL_PAYMENTS_MODULE_NAME,
-  featureModule: {
-    name: DIGITAL_PAYMENTS_MODULE,
-    importPath: SPARTACUS_DIGITAL_PAYMENTS,
-  },
+  featureModule: DIGITAL_PAYMENTS_FEATURE_MODULE,
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
     namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
@@ -44,6 +44,6 @@ export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: FeatureConfig = {
     [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_BASE_FEATURE],
   },
   wrappers: {
-    [CLI_CHECKOUT_BASE_FEATURE]: DIGITAL_PAYMENTS_FEATURE_MODULE,
+    [CHECKOUT_BASE_MODULE]: DIGITAL_PAYMENTS_MODULE,
   },
 };

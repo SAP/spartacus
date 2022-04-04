@@ -1,12 +1,12 @@
 import {
   CLI_CDC_FEATURE,
-  CLI_USER_ACCOUNT_FEATURE,
   CLI_USER_PROFILE_FEATURE,
   SPARTACUS_CDC,
   SPARTACUS_CDC_ROOT,
   SPARTACUS_USER,
 } from '../../libs-constants';
 import { FeatureConfig, Module } from '../../utils/lib-utils';
+import { USER_PROFILE_MODULE } from '../user-schematics-config';
 
 export const CDC_FOLDER_NAME = 'cdc';
 export const CDC_MODULE_NAME = 'Cdc';
@@ -58,13 +58,6 @@ export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
     [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
   },
   wrappers: {
-    [CLI_USER_ACCOUNT_FEATURE]: {
-      importPath: '@spartacus/cdc/account',
-      name: 'CdcAccountModule',
-    },
-    [CLI_USER_PROFILE_FEATURE]: {
-      importPath: '@spartacus/cdc/profile',
-      name: 'CdcProfileModule',
-    },
+    [USER_PROFILE_MODULE]: CDC_MODULE,
   },
 };

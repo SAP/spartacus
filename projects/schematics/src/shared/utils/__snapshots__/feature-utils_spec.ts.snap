@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Lib utils addFeatures should generate feature modules for the given array of features 1`] = `
+exports[`Feature utils addFeatures should generate feature modules for the given array of features 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
@@ -31,7 +31,7 @@ export class UserFeatureModule { }
 "
 `;
 
-exports[`Lib utils addFeatures should override the options 1`] = `
+exports[`Feature utils addFeatures should override the options 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { UserAccountModule } from \\"@spartacus/user/account\\";
@@ -55,7 +55,7 @@ export class UserFeatureModule { }
 "
 `;
 
-exports[`Lib utils addFeatures should override the schematics config 1`] = `
+exports[`Feature utils addFeatures should override the schematics config 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";

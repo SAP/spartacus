@@ -3,15 +3,21 @@ import {
   noop,
   Rule,
   SchematicContext,
-  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { ArrowFunction, Node, SourceFile } from 'ts-morph';
+import {
+  ArrowFunction,
+  CallExpression,
+  Node,
+  SourceFile,
+  SyntaxKind,
+} from 'ts-morph';
 import {
   featureFeatureModuleMapping,
-  featureSchematicConfigMapping,
   getKeyByMappingValueOrThrow,
+  getSchematicsConfigByFeatureOrThrow,
 } from '../shared/updateable-constants';
+import { normalizeObject, removeProperty } from '../shared/utils/config-utils';
 import {
   findDynamicImport,
   getModuleConfig,
@@ -23,9 +29,9 @@ import {
   getDynamicImportPropertyAccess,
 } from '../shared/utils/import-utils';
 import {
+  createSpartacusFeatureFileName,
   createSpartacusFeatureFolderPath,
   createSpartacusWrapperModuleFileName,
-  FeatureConfig,
 } from '../shared/utils/lib-utils';
 import {
   addModuleImport,
@@ -38,13 +44,24 @@ import { Schema as SpartacusWrapperOptions } from './schema';
 
 // TODO:#schematics - update tsmorph to v14
 
-function createWrapperModule(
-  options: SpartacusWrapperOptions,
-  featureConfig: FeatureConfig
-): Rule {
+/**
+ * Creates the wrapper module using the feature config
+ * for the given module name.
+ * It skips the creation if the wrapper module exists.
+ */
+function createWrapperModule(options: {
+  project: string;
+  moduleName: string;
+}): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+
+    const feature = getKeyByMappingValueOrThrow(
+      featureFeatureModuleMapping,
+      options.moduleName
+    );
+    const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
 
     const path = createSpartacusFeatureFolderPath(featureConfig.folderName);
     const name = createSpartacusWrapperModuleFileName(featureConfig.moduleName);
@@ -54,18 +71,15 @@ function createWrapperModule(
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       for (const sourceFile of appSourceFiles) {
-        if (
-          isWrapperModule(sourceFile, options.featureModuleName, featureConfig)
-        ) {
-          // nothing to do if the wrapper module already exists
+        if (isWrapperModule(sourceFile, options.moduleName, featureConfig)) {
+          // no need to create the wrapper module if it already exists
           return noop();
         }
 
-        if (
-          !isFeatureModule(sourceFile, options.featureModuleName, featureConfig)
-        ) {
+        if (!isFeatureModule(sourceFile, options.moduleName, featureConfig)) {
           continue;
         }
+
         rules.push(
           ensureModuleExists({
             path,
@@ -73,7 +87,7 @@ function createWrapperModule(
             project: options.project,
             /**
              * Only temporarily import the wrapper module to the feature module.
-             * Will be removed once we start updating the wrapper module.
+             * The import will be removed in updateFeatureModule().
              *
              * This is a workaround for a weird behavior of the ts-morph library,
              * which does not "see" the newly created module if it is not
@@ -90,16 +104,25 @@ function createWrapperModule(
   };
 }
 
-function updateWrapperModule(
-  options: SpartacusWrapperOptions,
-  featureConfig: FeatureConfig
-): Rule {
+/**
+ * Statically imports the given feature modules.
+ */
+function updateWrapperModule(options: {
+  project: string;
+  moduleName: string;
+  markerFeatureModulePath: string;
+}): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
+    const feature = getKeyByMappingValueOrThrow(
+      featureFeatureModuleMapping,
+      options.moduleName
+    );
+    const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const featureModuleConfig = getModuleConfig(
-      options.featureModuleName,
+      options.moduleName,
       featureConfig
     );
     if (!featureModuleConfig) {
@@ -107,15 +130,14 @@ function updateWrapperModule(
       return noop();
     }
 
-    const path = createSpartacusFeatureFolderPath(featureConfig.folderName);
-    const name = createSpartacusWrapperModuleFileName(featureConfig.moduleName);
-
     const rules: Rule[] = [];
     for (const tsconfigPath of buildPaths) {
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       for (const wrapperModule of appSourceFiles) {
-        if (!wrapperModule.getFilePath().includes(`${path}/${name}`)) {
+        if (
+          !wrapperModule.getFilePath().includes(options.markerFeatureModulePath)
+        ) {
           continue;
         }
 
@@ -135,20 +157,31 @@ function updateWrapperModule(
   };
 }
 
-function updateFeatureModule(
-  options: SpartacusWrapperOptions,
-  featureConfig: FeatureConfig
-): Rule {
+/**
+ * Updates the feature module to point to the
+ * created wrapper module.
+ * It also removes the temporary static import to
+ * the wrapper module from the ngModule's array.
+ */
+function updateFeatureModule(options: {
+  project: string;
+  moduleName: string;
+}): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
+    const feature = getKeyByMappingValueOrThrow(
+      featureFeatureModuleMapping,
+      options.moduleName
+    );
+    const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const featureModuleConfig = getModuleConfig(
-      options.featureModuleName,
+      options.moduleName,
       featureConfig
     );
     if (!featureModuleConfig) {
-      // TODO:#schematics - how to handle it?
+      // TODO:#schematics - do what?
       return noop();
     }
 
@@ -207,6 +240,7 @@ function updateFeatureModule(
         }
 
         saveAndFormat(featureModule);
+        // TODO:$schematics - break?
       }
     }
 
@@ -214,23 +248,106 @@ function updateFeatureModule(
   };
 }
 
+/**
+ * Searches for the feature module by looking in ngModule's
+ * imports' reference for the given wrapper module.
+ */
 function findFeatureModule(wrapperModule: SourceFile): SourceFile | undefined {
   const referenceSymbols = wrapperModule.getClasses()[0].findReferences();
   for (const referenceSymbol of referenceSymbols) {
     for (const reference of referenceSymbol.getReferences()) {
-      const node = reference.getNode();
-      const parent = node.getParentOrThrow();
-      if (!Node.isArrayLiteralExpression(parent)) {
-        continue;
+      const parent = reference.getNode().getParentOrThrow();
+      if (Node.isArrayLiteralExpression(parent)) {
+        return parent.getSourceFile();
       }
-
-      return parent.getSourceFile();
     }
   }
 
   return undefined;
 }
 
+/**
+ * Removes the dynamic imports pointing to the given
+ * `moduleName` from the feature module.
+ */
+function removeLibraryDynamicImport(options: {
+  project: string;
+  moduleName: string;
+}): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    const basePath = process.cwd();
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+
+    const feature = getKeyByMappingValueOrThrow(
+      featureFeatureModuleMapping,
+      options.moduleName
+    );
+    const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
+    const featureModuleConfig = getModuleConfig(
+      options.moduleName,
+      featureConfig
+    );
+    if (!featureModuleConfig) {
+      // TODO:#schematics - do what?
+      return noop();
+    }
+
+    const path = createSpartacusFeatureFolderPath(featureConfig.folderName);
+    const name = createSpartacusFeatureFileName(featureConfig.moduleName);
+
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const featureModule of appSourceFiles) {
+        if (!featureModule.getFilePath().includes(`${path}/${name}`)) {
+          continue;
+        }
+
+        const spartacusProvider = findDynamicImport(
+          featureModule,
+          featureModuleConfig.importPath,
+          featureModuleConfig.name
+        )?.getFirstAncestorByKind(SyntaxKind.CallExpression);
+        if (!spartacusProvider) {
+          continue;
+        }
+
+        cleanupConfig(spartacusProvider);
+
+        saveAndFormat(featureModule);
+        return;
+      }
+    }
+  };
+}
+
+/**
+ * Takes the given spartacus provider, and removes the
+ * 'module' configuration property from it.
+ * If the are no other properties left, the whole
+ * spartacus provider is removed.
+ */
+function cleanupConfig(spartacusProvider: CallExpression): void {
+  const objectLiteral = spartacusProvider.getFirstDescendantByKind(
+    SyntaxKind.ObjectLiteralExpression
+  );
+  if (!objectLiteral) {
+    return;
+  }
+
+  removeProperty(objectLiteral, 'module');
+  if (normalizeObject(objectLiteral.getText()) === '{}') {
+    spartacusProvider
+      .getParentIfKindOrThrow(SyntaxKind.ArrayLiteralExpression)
+      .removeElement(spartacusProvider);
+  }
+}
+
+/**
+ * Replaces the given dynamic import's path.
+ * E.g. for the given `() => import('@spartacus/checkout/base')`
+ * it replaces it with the given path: `() => import('./checkout-wrapper.module')`.
+ */
 function updateDynamicImportPath(
   dynamicImport: ArrowFunction,
   path: string
@@ -240,6 +357,11 @@ function updateDynamicImportPath(
     ?.insertArgument(0, `'${path}'`);
 }
 
+/**
+ * Replaces the given dynamic import's module name.
+ * E.g. for the given `(m) => m.CheckoutModule`
+ * it replaces it with the given module name: `(m) => m.CheckoutWrapperModule`.
+ */
 function updateDynamicImportModuleName(
   dynamicImport: ArrowFunction,
   wrapperModuleName: string
@@ -250,48 +372,50 @@ function updateDynamicImportModuleName(
 }
 
 /**
- * TODO:#schematics - test
- * 1. multiple dynamic imports in one file
- * 2. mixed dynamic imports to local and node_modules files
- * 3. Run e.g DP and expect all previous extensions to be added to the wrapper module
- */
-
-/**
  * Generates wrapper modules for the given
  * Spartacus feature module.
  */
 export function generateWrapperModule(options: SpartacusWrapperOptions): Rule {
   return (_tree: Tree, _context: SchematicContext): Rule => {
-    const feature = getKeyByMappingValueOrThrow(
-      featureFeatureModuleMapping,
-      options.featureModuleName
+    const markerFeatureConfig = getSchematicsConfigByFeatureOrThrow(
+      getKeyByMappingValueOrThrow(
+        featureFeatureModuleMapping,
+        options.markerModuleName
+      )
     );
-    const featureConfig = featureSchematicConfigMapping.get(feature);
-    if (!featureConfig) {
-      throw new SchematicsException(
-        `Config not found for the given feature '${feature}'`
-      );
-    }
+    const folderPath = createSpartacusFeatureFolderPath(
+      markerFeatureConfig.folderName
+    );
+    const fileName = createSpartacusWrapperModuleFileName(
+      markerFeatureConfig.moduleName
+    );
+    const markerFeatureModulePath = `${folderPath}/${fileName}`;
 
     return chain([
-      createWrapperModule(options, featureConfig),
-      updateWrapperModule(options, featureConfig),
-      updateFeatureModule(options, featureConfig),
+      createWrapperModule({
+        project: options.project,
+        moduleName: options.markerModuleName,
+      }),
+
+      updateWrapperModule({
+        project: options.project,
+        moduleName: options.markerModuleName,
+        markerFeatureModulePath,
+      }),
+      updateWrapperModule({
+        project: options.project,
+        moduleName: options.featureModuleName,
+        markerFeatureModulePath,
+      }),
+
+      updateFeatureModule({
+        project: options.project,
+        moduleName: options.markerModuleName,
+      }),
+      removeLibraryDynamicImport({
+        project: options.project,
+        moduleName: options.featureModuleName,
+      }),
     ]);
   };
 }
-
-// TODO:#schematics - algo
-// pull the schematics config associated with the given feature module name
-// iterate through the collected feature modules
-// check for imports of the given feature module
-// if found, make sure it's actually imported in the ngmodule's imports[]
-// if not found, fall back to checking the dynamic imports import in providers array
-// if the dynamic import is found, check the import path
-// ---
-// if found in the dynamic import --> tear it down and create a wrapper module
-// if found in the ngmodule's imports[] --> we need to check if it's not already a wrapper module.
-// we can do that by checking for the Module's references, and check if there's a reference to the module using a dynamic import.
-// if yes, we found a wrapper module, and we can just import the given module name to it
-// and sort its imports[].
-// if there isn't a dynamic import reference, what are we working with? An eagerly loaded feature?

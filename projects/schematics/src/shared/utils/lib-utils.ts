@@ -15,9 +15,7 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
-  ANGULAR_CORE,
   CMS_CONFIG,
   I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
@@ -31,14 +29,12 @@ import {
   SPARTACUS_SETUP,
 } from '../libs-constants';
 import { getB2bConfiguration } from './config-utils';
-import { crossLibraryInstallationOrder } from './graph-utils';
-import { isImportedFrom } from './import-utils';
+import { getSpartacusFeaturesModule } from './feature-utils';
+import { createImports } from './import-utils';
 import {
   addModuleImport,
   addModuleProvider,
-  collectInstalledModules,
   ensureModuleExists,
-  getModulePropertyInitializer,
   Import,
 } from './new-module-utils';
 import {
@@ -91,6 +87,10 @@ export interface FeatureConfig {
      * E.g. `@spartacus/checkout/base/b2b`
      */
     featureScope?: string;
+    /**
+     *  TODO:#schematics - add `b2b?: boolean` which would indicate if the b2b config should be provided.
+     * then, remove the configureB2bFeatures() from all other schematics
+     */
   };
   /**
    * The folder in which we will generate the feature module. E.g. app/spartacus/features/__organization__ (__NOTE__: just the `organization` part should be provided.).
@@ -136,41 +136,15 @@ export interface FeatureConfig {
    */
   dependencyManagement?: Record<string, string[]>;
   /**
-   * If set to true, instead of appending the configuration to the existing module,
-   * it will recreate the feature module with the new configuration.
-   */
-  // TODO:#schematics - remove after wrapper modules
-  recreate?: boolean;
-  /**
    * Configuration for generating the wrapper modules.
    *
-   * The key is the feature name for which wrapper module is being generated.
-   * The value is the feature module configuration which will be
-   * used to determine if the wrapper module is already created.
+   * The key is the feature module name for which to search for
+   * in either the feature module or the wrapper module.
    *
-   * E.g., the B2B Checkout's configuration is:
-   *
-   *
-   * wrappers: {
-   *  [CLI_CHECKOUT_BASE_FEATURE]: {
-   *  importPath: '@spartacus/checkout/base',
-   *  name: 'CheckoutModule',
-   * }
-   *
-   * // TODO:#schematics - adjust the import paths
-   * While the CDC's configuration is a bit more complex:
-   * wrappers: {
-   *  [CLI_USER_ACCOUNT_FEATURE]: {
-   *  importPath: '@spartacus/cdc/account',
-   *  name: 'CdcAccountModule',
-   *  },
-   *  [CLI_USER_PROFILE_FEATURE]: {
-   *    importPath: '@spartacus/cdc/profile',
-   *    name: 'CdcProfileModule',
-   *   },
-   *  },
+   * The values is the feature module name which should be added
+   * to the wrapper module.
    */
-  wrappers?: Record<string, Module>;
+  wrappers?: Record<string, string>;
 }
 
 export interface CustomConfig {
@@ -223,6 +197,7 @@ export function addLibraryFeature<T extends LibraryOptions>(
         'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
       );
     }
+
     return chain([
       spartacusFeatureModuleExists ? noop() : scaffoldStructure(options),
 
@@ -237,7 +212,15 @@ export function addLibraryFeature<T extends LibraryOptions>(
        *
        * In other words, it's not necessary when installing Spartacus for the first time.
        */
-      orderInstalledFeatures(options),
+      /**
+       * TODO:#schematics - just collect the imported modules
+       * filter out the feature modules
+       * recognize them by looking checking if featuremodules are in
+       *  1. imports
+       * 2. if so, check if the module is actually imported in the ngmodules
+       * 3. if nothing is found in the imports, check dynamic imports
+       */
+      // orderInstalledFeatures(options),
     ]);
   };
 }
@@ -260,69 +243,6 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
   return false;
 }
 
-/**
- * If exists, it returns the spartacus-features.module.ts' source.
- * Otherwise, it returns undefined.
- */
-function getSpartacusFeaturesModule(
-  tree: Tree,
-  basePath: string,
-  tsconfigPath: string
-): SourceFile | undefined {
-  const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-
-  for (const sourceFile of appSourceFiles) {
-    if (
-      sourceFile
-        .getFilePath()
-        .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
-    ) {
-      if (getSpartacusFeaturesNgModuleDecorator(sourceFile)) {
-        return sourceFile;
-      }
-    }
-  }
-  return undefined;
-}
-
-/**
- * Returns the NgModule decorator, if exists.
- */
-function getSpartacusFeaturesNgModuleDecorator(
-  sourceFile: SourceFile
-): CallExpression | undefined {
-  let spartacusFeaturesModule: CallExpression | undefined;
-
-  function visitor(node: Node) {
-    if (Node.isCallExpression(node)) {
-      const expression = node.getExpression();
-      if (
-        Node.isIdentifier(expression) &&
-        expression.getText() === 'NgModule' &&
-        isImportedFrom(expression, ANGULAR_CORE)
-      ) {
-        const classDeclaration = node.getFirstAncestorByKind(
-          tsMorph.SyntaxKind.ClassDeclaration
-        );
-        if (classDeclaration) {
-          const identifier = classDeclaration.getNameNode();
-          if (
-            identifier &&
-            identifier.getText() === SPARTACUS_FEATURES_NG_MODULE
-          ) {
-            spartacusFeaturesModule = node;
-          }
-        }
-      }
-    }
-
-    node.forEachChild(visitor);
-  }
-
-  sourceFile.forEachChild(visitor);
-  return spartacusFeaturesModule;
-}
-
 function handleFeature<T extends LibraryOptions>(
   options: T,
   config: FeatureConfig
@@ -330,18 +250,15 @@ function handleFeature<T extends LibraryOptions>(
   return (_tree: Tree, _context: SchematicContext) => {
     const rules: Rule[] = [];
 
-    if (config.recreate) {
-      rules.push(deleteFeatureModuleFile(options, config));
-    }
-
     rules.push(
       ensureModuleExists({
-        name: `${dasherize(config.moduleName)}-feature`,
-        path: `app/spartacus/features/${config.folderName}`,
+        name: createSpartacusFeatureFileName(config.moduleName),
+        path: createSpartacusFeatureFolderPath(config.folderName),
         module: SPARTACUS_FEATURES_MODULE,
         project: options.project,
       })
     );
+    // TODO:#schematics - order root modules
     rules.push(addRootModule(options, config));
     rules.push(addFeatureModule(options, config));
     rules.push(addFeatureTranslations(options, config));
@@ -351,30 +268,19 @@ function handleFeature<T extends LibraryOptions>(
   };
 }
 
-function deleteFeatureModuleFile<T extends LibraryOptions>(
-  options: T,
-  config: FeatureConfig
-): Rule {
-  return (tree: Tree): Tree => {
-    const basePath = process.cwd();
+// TODO:#schematics - test
+export function createSpartacusFeatureFolderPath(folderName: string): string {
+  return `app/spartacus/features/${dasherize(folderName)}`;
+}
 
-    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
-    for (const tsconfigPath of buildPaths) {
-      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+// TODO:#schematics - test
+export function createSpartacusFeatureFileName(name: string): string {
+  return `${dasherize(name)}-feature`;
+}
 
-      const moduleFileName = createModuleFileName(config);
-      for (const sourceFile of appSourceFiles) {
-        if (!sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-          continue;
-        }
-
-        sourceFile.deleteImmediatelySync();
-        break;
-      }
-    }
-
-    return tree;
-  };
+// TODO:#schematics - test
+export function createSpartacusWrapperModuleFileName(name: string): string {
+  return `${dasherize(name)}-wrapper`;
 }
 
 function addRootModule<T extends LibraryOptions>(
@@ -419,9 +325,13 @@ function addFeatureModule<T extends LibraryOptions>(
   options: T,
   config: FeatureConfig
 ): Rule {
-  return (tree: Tree): Tree => {
+  return (tree: Tree) => {
     const basePath = process.cwd();
     const moduleFileName = createModuleFileName(config);
+
+    // TODO:#schematics - skip if the feature the wrapper module is used
+    // first, check if the feature should be composed by checking the .wrappers
+    // is it enough to just skip the adding if the wrapper config is present?
 
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
     for (const tsconfigPath of buildPaths) {
@@ -443,7 +353,7 @@ function addFeatureModule<T extends LibraryOptions>(
             if (config.lazyLoadingChunk) {
               const content = config.lazyLoadingChunk.namedImports[i];
               lazyLoadingChunkName = `[${content}]`;
-              sourceFile.addImportDeclaration(config.lazyLoadingChunk);
+              createImports(sourceFile, config.lazyLoadingChunk);
             }
             content =
               content +
@@ -462,7 +372,7 @@ function addFeatureModule<T extends LibraryOptions>(
             content: content + `}})`,
           });
         } else {
-          for (let featureModule of configFeatures) {
+          for (const featureModule of configFeatures) {
             addModuleImport(sourceFile, {
               import: {
                 moduleSpecifier: featureModule.importPath,
@@ -877,78 +787,4 @@ export function calculateSort(
    * we want to sort it at the end of the list.
    */
   return (indexA > -1 ? indexA : Infinity) - (indexB > -1 ? indexB : Infinity);
-}
-
-export function orderInstalledFeatures<T extends LibraryOptions>(
-  options: T
-): Rule {
-  return (tree: Tree, context: SchematicContext): void => {
-    let message = `Ordering the installed Spartacus features...`;
-    if (options.debug) {
-      // TODO:#schematics - switch to `crossFeatureInstallationOrder`
-      message = `Sorting the installed Spartacus features according to the dependency graph: ${crossLibraryInstallationOrder.join(
-        ', '
-      )}`;
-    }
-    context.logger.info(message);
-
-    const basePath = process.cwd();
-    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
-    for (const tsconfigPath of buildPaths) {
-      const spartacusFeaturesModule = getSpartacusFeaturesModule(
-        tree,
-        basePath,
-        tsconfigPath
-      );
-      if (!spartacusFeaturesModule) {
-        continue;
-      }
-
-      const collectedModules = collectInstalledModules(spartacusFeaturesModule);
-      if (!collectedModules) {
-        continue;
-      }
-
-      const spartacusCoreModules = collectedModules.spartacusCoreModules.map(
-        (spartacusCoreModule) => spartacusCoreModule.getText()
-      );
-      const featureModules = collectedModules.featureModules
-        .sort((moduleA, moduleB) =>
-          calculateSort(
-            moduleA.spartacusLibrary,
-            moduleB.spartacusLibrary,
-            // TODO:#schematics - switch to sorting using the `crossFeatureInstallationOrder`
-            crossLibraryInstallationOrder
-          )
-        )
-        .map((featureModule) => featureModule.moduleNode.getText());
-      const unrecognizedModules = collectedModules.unrecognizedModules.map(
-        (unrecognizedModule) => unrecognizedModule.getText()
-      );
-
-      const moduleImportsProperty = getModulePropertyInitializer(
-        spartacusFeaturesModule,
-        'imports',
-        false
-      );
-      if (!moduleImportsProperty) {
-        continue;
-      }
-
-      if (collectedModules.warnings.length) {
-        context.logger.warn(
-          'The following modules were not recognized due to various reasons:'
-        );
-        for (const warning of collectedModules.warnings) {
-          context.logger.warn(warning);
-        }
-      }
-
-      const orderedModules: string[] = spartacusCoreModules
-        .concat(featureModules)
-        .concat(unrecognizedModules);
-      moduleImportsProperty.replaceWithText(`[${orderedModules.join(',\n')}]`);
-      saveAndFormat(spartacusFeaturesModule);
-    }
-  };
 }
