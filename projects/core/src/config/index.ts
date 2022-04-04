@@ -1,3 +1,4 @@
+export * from './config-factory';
 export * from './config-initializer/index';
 export * from './config-providers';
 export {

@@ -74,7 +74,11 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     if (event && event?.target) {
       const target = event.target as HTMLElement;
       const parentNode = target.parentNode as HTMLElement;
-      this.winRef?.nativeWindow?.scrollTo(0, parentNode.offsetTop);
+      this.winRef?.nativeWindow?.scrollTo({
+        left: 0,
+        top: parentNode.offsetTop,
+        behavior: 'smooth',
+      });
     }
   }
 
