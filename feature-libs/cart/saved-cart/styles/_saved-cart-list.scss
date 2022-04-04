@@ -12,11 +12,21 @@ cx-saved-cart-list {
 
     .cx-saved-cart-list-th-qty {
       width: 150px;
+
+      @include media-breakpoint-up(md) {
+        text-align: center;
+      }
+    }
+
+    .cx-saved-cart-list-th-total {
+      @include media-breakpoint-up(md) {
+        text-align: end;
+      }
     }
 
     .cx-table-label-mobile {
       @include media-breakpoint-up(lg) {
-        display: none !important;
+        display: none;
       }
     }
 
@@ -104,9 +114,22 @@ cx-saved-cart-list {
       }
     }
 
+    .cx-saved-cart-list-quantity {
+      @include media-breakpoint-up(lg) {
+        text-align: center;
+      }
+    }
+
+    .cx-saved-cart-list-total {
+      @include media-breakpoint-up(lg) {
+        text-align: end;
+      }
+    }
+
     .cx-saved-cart-list-make-cart-active {
       .cx-saved-cart-make-active {
         text-decoration: underline;
+        text-transform: capitalize;
       }
     }
 

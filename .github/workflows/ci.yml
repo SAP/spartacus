@@ -1,0 +1,155 @@
+on:
+  push:
+    branches:
+      - develop
+      - epic/**
+      - release/**
+      - integration-libs/**
+  pull_request:
+    types: [opened, synchronize]
+
+env:
+  CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
+  NODE_VERSION: '16'
+
+concurrency: 
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+name: Spartacus build pipeline
+jobs:
+  no_retries: 
+    name: Verify retries
+    runs-on: ubuntu-latest
+    steps:
+      - name: Forcefully fail build if retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
+  unit_tests_core:
+    needs: no_retries
+    name: Unit tests for core Spartacus libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@v12-lts
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: Run unit tests for Spartacus libs
+        run: |
+          ci-scripts/unit-tests-core-lib.sh
+  unit_tests_libs:
+    needs: no_retries
+    name: Unit tests for integration libs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@v12-lts
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: Run unit tests for integration libs
+        run: |
+          ci-scripts/unit-tests.sh
+  linting:
+    needs: no_retries
+    name: Validation checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@v12-lts
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: Run linting validation
+        run: |
+          ci-scripts/validate-lint.sh
+  b2c_e2e_tests:
+    needs: no_retries
+    name: E2E tests for B2C
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run e2es
+        env: 
+          SPA_ENV: ci,b2c
+        run: |
+          ci-scripts/e2e-cypress.sh
+  b2c_ssr_e2e_tests:
+    needs: no_retries
+    name: E2E tests for SSR B2C
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run e2es
+        run: |
+          ci-scripts/e2e-cypress.sh --ssr
+  b2b_e2e_tests:
+    needs: no_retries
+    name: E2E tests for B2B
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run e2es
+        env:
+          SPA_ENV: ci,b2b
+        run: |     
+          ci-scripts/e2e-cypress.sh -s b2b
+  lighthouse:
+    needs: no_retries
+    name: Lighthouse score validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install angular CLI
+        run: npm install -g @angular/cli@v12-lts
+      - name: Package installation
+        run: yarn --frozen-lockfile
+      - name: Run lighthouse score validation
+        run: |
+          ci-scripts/lhci.sh
+  build_conclusion:
+    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
+    name: Build Conclusion
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Required build failed
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Build failed')
+        if: |
+          needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' || needs.no_retries.result == 'skipped' ||
+          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' || needs.unit_tests_core.result == 'skipped' ||
+          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' || needs.unit_tests_libs.result == 'skipped' ||
+          needs.linting.result == 'failure' || needs.linting.result == 'cancelled' || needs.linting.result == 'skipped' ||
+          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' || needs.b2c_e2e_tests.result == 'skipped' ||
+          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || needs.b2c_ssr_e2e_tests.result == 'skipped' || 
+          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' || needs.b2b_e2e_tests.result == 'skipped' || 
+          needs.lighthouse.result == 'failure' || needs.lighthouse.result == 'cancelled' || needs.lighthouse.result == 'skipped'
