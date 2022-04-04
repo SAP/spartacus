@@ -9,7 +9,7 @@ import {
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, ProductSearchPage } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import {
@@ -48,8 +48,13 @@ const mockFacetList: FacetList = {
   activeFacets: [{ facetName: 'facet-B' }, { facetName: 'facet-C' }],
 };
 
+const mockProductSearchPage: ProductSearchPage = {
+  facets: [{ name: 'facet-A' }],
+};
+
 class MockFacetService {
   facetList$ = of(mockFacetList);
+  model$ = of(mockProductSearchPage);
 
   getState() {
     return of();
