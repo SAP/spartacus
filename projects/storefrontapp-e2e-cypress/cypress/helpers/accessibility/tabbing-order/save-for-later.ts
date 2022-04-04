@@ -16,5 +16,5 @@ function addCartItemsAndLoadCart() {
       .first()
       .click();
   });
-  cy.get('cx-cart-item .cx-sfl-btn button:not([disabled])');
+  cy.get('cx-cart-item button:not([disabled]).cx-sfl-btn');
 }
