@@ -26,7 +26,7 @@ class MockTranslatePipe implements PipeTransform {
 
 class MockCmsService {
   getPage(pageContext: PageContext): Observable<Page> {
-    return of({ label: ` ${pageContext.id}` });
+    return of({ label: `${pageContext.id}` });
   }
 }
 

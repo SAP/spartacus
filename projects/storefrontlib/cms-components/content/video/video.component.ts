@@ -87,7 +87,7 @@ export class VideoComponent {
         .subscribe((page) => {
           const pageLabel = page.label || '';
           this.routerLink = this.urlService.transform({
-            cxRoute: pageLabel.substring(1),
+            cxRoute: pageLabel,
           });
           this.cd.markForCheck();
         });
