@@ -285,15 +285,13 @@ function getParamatersBreakingChange(oldMember: any, newMember: any): any[] {
   if (!oldMember?.parameters && !newMember?.parameters) {
     return [];
   }
-  // TODO: Evaluate moving setParamsImportPath to the parse script
+  // TODO: Consider moving setParamsImportPath to the parse script
   setParamsImportPath(oldMember.parameters, oldApiData);
   setParamsImportPath(newMember.parameters, newApiData);
-  let parametersHaveBreakingChange = isParametersBreakingChangeDetected(
+  const parametersHaveBreakingChange = isParametersBreakingChangeDetected(
     oldMember.parameters,
     newMember.parameters
   );
-  // TODO: improve parameter compare.  Optional params can be added
-  // without beeing a breaking change.
   if (parametersHaveBreakingChange) {
     const removedParams: any[] = paramDiff(oldMember, newMember);
     const addedParams: any[] = paramDiff(newMember, oldMember);
