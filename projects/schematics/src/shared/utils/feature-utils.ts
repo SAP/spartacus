@@ -361,6 +361,26 @@ export function collectInstalledModules(
       continue;
     }
 
+    /**
+     * Algo
+     *
+     * 1. call function `collectNgImports` _just_ collects the ngimports without analyzing them
+     * 2. iterate through the collected imports and call `analyzeModule` on each one
+     * 3. the `analyzeModule` will analyze the given ngmodule import and determine if the given module is:
+     *  - imported from a Spartacus core library --> check if the import is from the core Spartacus scopes.
+     *  - a Spartacus library module import --> e.g. `@spartacus/checkout/base` will map to CLI_CHECKOUT_BASE_FEATURE.
+     *  - imported from a local Spartacus feature module --> needs further analysis. Call a separate function `analyzeLocalSpartacusModule`. We expect to find only root module imports here.
+     *      1. The separate function will collect the ngModule imports by calling `collectNgImports`.
+     *      2. It will iterate through them, and check the if the import is _not_ from a Spartacus library.
+     *      3. If it is not from a Spartacus library, return as unrecognized. We do this because we expect to find only root module imports in the local Spartacus feature module.
+     *      4. use the root <-> feature mapping in order to recognize the local Spartacus file.
+     *      5. if there's no mapping, return as unrecognized.
+     *      6. use the graph to order all the root modules, and label the local Spartacus feature module _as the first feature found in the ordered array_. Why? Think about the user-feature.module.ts -> it has both User Account and User Profile configs. It should be labeled as the User Account feature, as it might affect the correct order of the features later on
+     *  - unrecognized --> can be an import from a 3rd party library, internal customer's library, or the local Spartacus feature was not recognized.
+     * 4. If there's only one unrecognized module, we will abort the main loop, and print a nice message for the client by saying they need to import the following modules manually, and in the correct order
+     * 5. if there are no unrecognized modules, sort them according to the feature graph
+     */
+
     // for (const schematicsConfig of SCHEMATICS_CONFIGS) {
     // TODO:#schematics - attempt to recognize the feature module
     // const recognizedFeatureModule = recognizeFeatureModule(
