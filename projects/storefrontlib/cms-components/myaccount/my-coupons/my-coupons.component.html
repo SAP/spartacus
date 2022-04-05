@@ -23,6 +23,7 @@
               [sortLabels]="sortLabels | async"
               (sortListEvent)="sortChange($event)"
               [selectedOption]="sort"
+              [ariaLabel]="'myCoupons.sortCoupons' | cxTranslate"
               ariaControls="coupon-deck"
             >
             </cx-sorting>

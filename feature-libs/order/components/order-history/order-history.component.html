@@ -39,6 +39,7 @@
                 (sortListEvent)="changeSortCode($event)"
                 [selectedOption]="type.orderHistory.pagination.sort"
                 placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
+                [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
                 ariaControls="order-history-table"
               ></cx-sorting>
             </label>

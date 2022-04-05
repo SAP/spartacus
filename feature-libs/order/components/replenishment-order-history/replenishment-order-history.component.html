@@ -28,6 +28,7 @@
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="replenishmentOrders.pagination.sort"
               placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
+              [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
               ariaControls="replenishment-order-history-table"
             ></cx-sorting>
           </label>
