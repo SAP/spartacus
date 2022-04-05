@@ -10,7 +10,7 @@ import {
 })
 export class GenericLinkService {
   /**
-   * Returns true when the @Input `url` is a string starting with `http://`, `https://`, `mailto:`, `tel:`.
+   * Returns true when the given `url` is a string starting with `http://`, `https://`, `mailto:`, `tel:`.
    */
   isExternalUrl(url: string | any[]): boolean {
     return (
