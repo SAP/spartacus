@@ -103,7 +103,7 @@ describe('Added to cart modal - Anonymous user', () => {
         // delete a product and check if the total is updated
         cy.get('cx-cart-item-list .cx-item-list-items')
           .contains('.cx-info', 'Battery Video Light')
-          .find('.cx-actions .cx-remove-btn > .link')
+          .find('button.cx-remove-btn')
           .click();
         cy.get('cx-cart-details').should('contain', 'Cart #');
 
@@ -137,7 +137,7 @@ describe('Added to cart modal - Anonymous user', () => {
         // delete the last product in cart
         cy.get('cx-cart-item-list .cx-item-list-items')
           .contains('.cx-info', productName2)
-          .find('.cx-actions .cx-remove-btn > .link')
+          .find('button.cx-remove-btn')
           .click();
 
         cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
