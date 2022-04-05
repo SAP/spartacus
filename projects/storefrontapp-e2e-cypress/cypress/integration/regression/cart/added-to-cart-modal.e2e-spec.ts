@@ -111,12 +111,12 @@ describe('Added to cart modal - Anonymous user', () => {
           .contains('.cx-info', productName2)
           .should('be.visible')
           .within(() => {
+            cy.get('.cx-price .cx-value').should('contain', cartEntryPrice);
+            cy.get('.cx-total .cx-value').should('contain', cartEntryPrice);
             cy.get('cx-item-counter input[type=number]:not([disabled])').should(
               'have.value',
               '1'
             );
-            cy.get('.cx-price .cx-value').should('contain', cartEntryPrice);
-            cy.get('.cx-total .cx-value').should('contain', cartEntryPrice);
 
             cy.wait('@getRefreshedCart');
 
