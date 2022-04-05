@@ -49,9 +49,9 @@ export class CmsComponentConnector {
         if (missingIds.length > 0) {
           const pageSize = this.config.componentsLoading?.pageSize || 50;
           const p: Observable<any>[] = [];
-          const num = Math.floor(missingIds.length / pageSize);
+          const num = Math.ceil(missingIds.length / pageSize);
           let curr = 0;
-          while (curr <= num) {
+          while (curr < num) {
             p.push(
               this.cmsComponentAdapter.findComponentsByIds(
                 missingIds,
