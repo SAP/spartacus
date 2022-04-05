@@ -7,15 +7,7 @@ import { GenericLinkConfig } from './generic-link.config';
 export class GenericLinkService {
   constructor(protected config: GenericLinkConfig) {}
 
-  isExternalLink(url: string | any[]): boolean {
-    console.log(
-      url,
-      this.config.genericLinks?.externalLinkRegexes,
-      typeof url === 'string' &&
-        !!this.config.genericLinks?.externalLinkRegexes?.filter(
-          (regex: RegExp) => regex.test(url)
-        )?.length
-    );
+  isExternalUrl(url: string | any[]): boolean {
     return (
       typeof url === 'string' &&
       !!this.config.genericLinks?.externalLinkRegexes?.filter((regex: RegExp) =>

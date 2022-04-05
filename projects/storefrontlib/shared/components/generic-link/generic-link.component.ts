@@ -53,7 +53,7 @@ export class GenericLinkComponent implements OnChanges {
    * or a custom regex expression.
    */
   isExternalUrl(): boolean {
-    return this.service.isExternalLink(this.url);
+    return this.service.isExternalUrl(this.url);
   }
 
   get rel() {
