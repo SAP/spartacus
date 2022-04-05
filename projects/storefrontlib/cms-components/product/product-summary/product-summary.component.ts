@@ -12,9 +12,10 @@ import { ProductDetailOutlets } from '../product-outlets.model';
 export class ProductSummaryComponent {
   outlets = ProductDetailOutlets;
 
-  product$: Observable<Product> = this.currentProductService.getProduct(
-    ProductScope.SUMMARY
-  );
+  product$: Observable<Product> = this.currentProductService.getProduct([
+    ProductScope.DETAILS,
+    ProductScope.PRICE,
+  ]);
 
   constructor(protected currentProductService: CurrentProductService) {}
 }

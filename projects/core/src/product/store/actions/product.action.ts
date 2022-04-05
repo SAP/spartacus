@@ -8,7 +8,7 @@ import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 export const LOAD_PRODUCT = '[Product] Load Product Data';
 export const LOAD_PRODUCT_FAIL = '[Product] Load Product Data Fail';
 export const LOAD_PRODUCT_SUCCESS = '[Product] Load Product Data Success';
-export const CLEAR_PRODUCT_SUMMARY = '[Product] Clear Product Summary';
+export const CLEAR_PRODUCT_PRICE = '[Product] Clear Product PRICE';
 
 export interface ProductMeta extends EntityLoaderMeta {
   scope?: string;
@@ -40,10 +40,10 @@ export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSu
   }
 }
 
-export class ClearProductSummary extends EntityScopedLoaderActions.EntityScopedResetAction {
-  readonly type = CLEAR_PRODUCT_SUMMARY;
+export class ClearProductPrice extends EntityScopedLoaderActions.EntityScopedResetAction {
+  readonly type = CLEAR_PRODUCT_PRICE;
   constructor() {
-    super(PRODUCT_DETAIL_ENTITY, undefined, ProductScope.SUMMARY);
+    super(PRODUCT_DETAIL_ENTITY, undefined, ProductScope.PRICE);
   }
 }
 
@@ -52,4 +52,4 @@ export type ProductAction =
   | LoadProduct
   | LoadProductFail
   | LoadProductSuccess
-  | ClearProductSummary;
+  | ClearProductPrice;

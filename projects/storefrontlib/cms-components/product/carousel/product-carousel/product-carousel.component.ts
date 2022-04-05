@@ -37,10 +37,7 @@ export class ProductCarouselComponent {
     map((data) => data.productCodes?.trim().split(' ') ?? []),
     map((codes) =>
       codes.map((code) =>
-        this.productService.get(code, [
-          this.PRODUCT_SCOPE,
-          ProductScope.SUMMARY,
-        ])
+        this.productService.get(code, [this.PRODUCT_SCOPE, ProductScope.PRICE])
       )
     )
   );

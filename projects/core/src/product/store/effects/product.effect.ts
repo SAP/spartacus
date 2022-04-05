@@ -73,9 +73,9 @@ export class ProductEffects {
   }
 
   @Effect()
-  clearProductSummary$: Observable<ProductActions.ClearProductSummary> = this.actions$.pipe(
+  clearProductPrice$: Observable<ProductActions.ClearProductPrice> = this.actions$.pipe(
     ofType(AuthActions.LOGOUT, AuthActions.LOGIN),
-    map(() => new ProductActions.ClearProductSummary())
+    map(() => new ProductActions.ClearProductPrice())
   );
 
   constructor(

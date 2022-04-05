@@ -100,20 +100,20 @@ describe('Product Effects', () => {
     });
   });
 
-  describe('clearProductSummary$', () => {
+  describe('clearProductPrice$', () => {
     const loginLogoutAction = ['Login', 'Logout'];
 
     loginLogoutAction.forEach((actionName) => {
       it(`should reset product summary and price on ${actionName}`, () => {
         const action = new AuthActions[actionName]();
-        const clearProductSummary = new ProductActions.ClearProductSummary();
+        const clearProductSummary = new ProductActions.ClearProductPrice();
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', {
           b: clearProductSummary,
         });
 
-        expect(effects.clearProductSummary$).toBeObservable(expected);
+        expect(effects.clearProductPrice$).toBeObservable(expected);
       });
     });
   });

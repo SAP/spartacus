@@ -58,16 +58,16 @@ describe('Product Actions', () => {
       });
     });
 
-    describe('ClearProductSummary', () => {
+    describe('ClearProductPrice', () => {
       it('should create an action', () => {
-        const action = new fromProduct.ClearProductSummary();
+        const action = new fromProduct.ClearProductPrice();
 
         expect({ ...action }).toEqual({
-          type: fromProduct.CLEAR_PRODUCT_SUMMARY,
+          type: fromProduct.CLEAR_PRODUCT_PRICE,
           meta: EntityScopedLoaderActions.entityScopedResetMeta(
             PRODUCT_DETAIL_ENTITY,
             undefined,
-            ProductScope.SUMMARY
+            ProductScope.PRICE
           ),
         });
       });

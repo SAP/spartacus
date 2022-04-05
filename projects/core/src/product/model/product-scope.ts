@@ -3,5 +3,5 @@ export const enum ProductScope {
   DETAILS = 'details',
   ATTRIBUTES = 'attributes',
   VARIANTS = 'variants',
-  SUMMARY = 'summary',
+  PRICE = 'price',
 }
