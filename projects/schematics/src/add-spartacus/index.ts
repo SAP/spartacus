@@ -331,10 +331,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         /**
          * Force installing versions of dependencies used by Spartacus.
          * E.g. ng13 uses rxjs 7, but Spartacus uses rxjs 6.
-         */ updatePackageJsonDependencies(
-          spartacusRxjsDependency,
-          packageJsonFile
-        ),
+         */
+        updatePackageJsonDependencies(spartacusRxjsDependency, packageJsonFile),
         installPackageJsonDependencies(),
       ]),
     ])(tree, context);
