@@ -14,9 +14,12 @@ export class GenericLinkService {
    */
   isExternalUrl(url: string | any[]): boolean {
     return (
-      (typeof url === 'string' && HTTP_PROTOCOL_REGEX.test(url)) ||
-      MAILTO_PROTOCOL_REGEX.test(<string>url) ||
-      TEL_PROTOCOL_REGEX.test(<string>url)
+      typeof url === 'string' && 
+      (
+        HTTP_PROTOCOL_REGEX.test(url) ||
+        MAILTO_PROTOCOL_REGEX.test(url) ||
+        TEL_PROTOCOL_REGEX.test(url)
+      )
     );
   }
 }
