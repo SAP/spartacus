@@ -107,22 +107,21 @@ describe('Added to cart modal - Anonymous user', () => {
         cy.get('cx-cart-details').should('contain', 'Cart #');
 
         // check for the other product still exist
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', productName2)
+        cy.get('cx-cart-item-list')
+          .contains('tr[cx-cart-item-list-row]', productName2)
           .should('be.visible')
           .within(() => {
-            cy.get('.cx-price .cx-value').should('contain', cartEntryPrice);
-            cy.get('.cx-total .cx-value').should('contain', cartEntryPrice);
-            cy.get('cx-item-counter input[type=number]:not([disabled])').should(
-              'have.value',
-              '1'
+            cy.get('.cx-price:not(.cx-mobile-only) .cx-value').should(
+              'contain',
+              cartEntryPrice
             );
+            cy.get('.cx-total .cx-value').should('contain', cartEntryPrice);
+            cy.get('cx-item-counter input').should('have.value', '1');
 
             cy.wait('@getRefreshedCart');
-
-            // delete the last product in cart
-            cy.get('button.cx-remove-btn').click();
           });
+        // delete the last product in cart
+        removeCartItem({ name: productName2 });
 
         cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
       });
