@@ -10,6 +10,7 @@ import {
   UserOccModule,
 } from '@spartacus/core';
 import {
+  ScrollToTopModule,
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
@@ -131,6 +132,7 @@ if (environment.epdVisualization) {
     FooterNavigationModule,
     PageTitleModule,
     BreadcrumbModule,
+    ScrollToTopModule,
 
     // User Core
     UserModule,
