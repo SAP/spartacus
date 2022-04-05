@@ -12,4 +12,7 @@ export const defaultCmsModuleConfig: CmsConfig = {
     },
   },
   cmsComponents: {},
+  componentsLoading: {
+    pageSize: 50,
+  },
 };

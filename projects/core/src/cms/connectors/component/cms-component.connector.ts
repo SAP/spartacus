@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of, zip } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CmsComponent } from '../../../model/cms.model';
-import { OccConfig } from '../../../occ/config/occ-config';
 import { PageContext } from '../../../routing/models/page-context.model';
+import { CmsConfig } from '../../config/cms-config';
 import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
 import { CmsComponentAdapter } from './cms-component.adapter';
 
@@ -14,7 +14,7 @@ export class CmsComponentConnector {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
     protected cmsComponentAdapter: CmsComponentAdapter,
-    protected config: OccConfig
+    protected config: CmsConfig
   ) {}
 
   get<T extends CmsComponent>(
@@ -32,8 +32,6 @@ export class CmsComponentConnector {
       );
   }
 
-  protected PAGE_SIZE = 30;
-
   getList(ids: string[], pageContext: PageContext): Observable<CmsComponent[]> {
     return this.cmsStructureConfigService.getComponentsFromConfig(ids).pipe(
       switchMap((configuredComponents) => {
@@ -49,8 +47,9 @@ export class CmsComponentConnector {
         );
 
         if (missingIds.length > 0) {
+          const pageSize = this.config.componentsLoading?.pageSize || 50;
           const p: Observable<any>[] = [];
-          const num = Math.floor(missingIds.length / this.PAGE_SIZE);
+          const num = Math.floor(missingIds.length / pageSize);
           let curr = 0;
           while (curr <= num) {
             p.push(
@@ -59,7 +58,7 @@ export class CmsComponentConnector {
                 pageContext,
                 'DEFAULT',
                 curr,
-                this.PAGE_SIZE
+                pageSize
               )
             );
             curr++;
