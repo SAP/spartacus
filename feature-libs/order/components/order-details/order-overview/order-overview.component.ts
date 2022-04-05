@@ -172,11 +172,11 @@ export class OrderOverviewComponent {
 
         addressCard.text = [
           formattedAddress,
-          deliveryAddress.country?.name || '-',
+          deliveryAddress?.country?.name || '-',
         ];
 
         Object.assign(addressCard, {
-          textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
+          textBold: `${deliveryAddress?.firstName} ${deliveryAddress?.lastName}`,
         });
 
         return addressCard;
@@ -236,8 +236,8 @@ export class OrderOverviewComponent {
             title: textTitle,
             textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
             text: [
-              billingAddress.formattedAddress,
-              billingAddress.country?.name,
+              billingAddress?.formattedAddress,
+              billingAddress?.country?.name,
             ],
           } as Card)
       )
