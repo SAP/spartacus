@@ -28,7 +28,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
 
     // Handle b2b case where the x-www-form-urlencoded is still used
     if (url.includes(`quantity=${quantity}`)) {
-      const headers = new HttpHeaders({
+      const httpHeaders = new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
       });
 
@@ -36,7 +36,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         .post<CartModification>(
           url,
           {},
-          { headers, params: { code: productCode } }
+          { headers: httpHeaders, params: { code: productCode } }
         )
         .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }
