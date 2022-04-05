@@ -23,7 +23,8 @@ export class SelectFocusUtility {
   //   `iframe`, // we really don't like iframes...
   //   `area[href]`, // very debatable!
 
-  protected focusableSelectorSuffix = ':not([disabled]):not([hidden])';
+  protected focusableSelectorSuffix =
+    ':not([disabled]):not([hidden]):not([aria-hidden])';
 
   query(host: HTMLElement, selector: string): HTMLElement[] {
     if (!selector || selector === '') {

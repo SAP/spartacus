@@ -18,6 +18,10 @@ class MockAuthService implements Partial<AuthService> {
   coreLogout() {
     return Promise.resolve();
   }
+
+  isUserLoggedIn(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 @Component({
@@ -158,6 +162,17 @@ describe('LogoutGuard', () => {
           expect(result).toBe(true);
           done();
         });
+    });
+  });
+
+  describe('When user is not authorized,', () => {
+    it('should prevent navigating to logout route', async () => {
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      spyOn(authService, 'coreLogout').and.callThrough();
+
+      await zone.run(() => router.navigateByUrl('/logout'));
+
+      expect(authService.coreLogout).not.toHaveBeenCalled();
     });
   });
 });
