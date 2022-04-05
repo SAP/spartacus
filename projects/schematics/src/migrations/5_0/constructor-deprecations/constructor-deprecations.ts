@@ -12,6 +12,7 @@ import { CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION } from './data/configurator
 import { CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_MIGRATION } from './data/configurator-overview-bundle-attribute.component.migration';
 import { CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION } from './data/configurator-tab-bar.component.migration';
 import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
+import { GENERIC_LINK_COMPONENT_MIGRATION } from './data/generic-link.component.migration';
 import { INNER_COMPONENTS_HOST_DIRECTIVE_MIGRATION } from './data/inner-components-host.directive.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
 import { PAGE_LAYOUT_SERVICE_MIGRATION } from './data/page-layout.service.migration';
@@ -42,6 +43,7 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION,
   COMPONENT_WRAPPER_DIRECTIVE_MIGRATION,
   INNER_COMPONENTS_HOST_DIRECTIVE_MIGRATION,
+  GENERIC_LINK_COMPONENT_MIGRATION,
   IMPORT_ENTRIES_DIALOG_COMPONENT_MIGRATION,
 ];
 
