@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { GenericLinkService } from './generic-link.service';
+import { GenericLinkComponentService } from './generic-link-component.service';
 
 // private
 interface RouteParts {
@@ -24,7 +24,7 @@ interface RouteParts {
 export class GenericLinkComponent implements OnChanges {
   constructor(
     protected router: Router,
-    protected service: GenericLinkService
+    protected service: GenericLinkComponentService
   ) {}
 
   /**

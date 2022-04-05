@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { GenericLinkService } from './generic-link.service';
+import { GenericLinkComponentService } from './generic-link-component.service';
 
 describe('GenericLinkService', () => {
-  let service: GenericLinkService;
+  let service: GenericLinkComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [GenericLinkService],
+      providers: [GenericLinkComponentService],
     });
-    service = TestBed.inject(GenericLinkService);
+    service = TestBed.inject(GenericLinkComponentService);
   });
 
   describe('isExternalUrl', () => {
