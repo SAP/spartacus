@@ -352,21 +352,22 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       maxValueIncluded: true,
     };
 
+    let minValueFormatted = '5.00';
+    let maxValueFormatted = '7.00';
+
     it('should return aria text for standard interval', fakeAsync(() => {
       fixture.detectChanges();
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
-          interval.maxValue +
+          maxValueFormatted +
           ' minValue:' +
-          interval.minValue
+          minValueFormatted
       );
     }));
 
     it('should return aria text for half open interval, upper value not included', fakeAsync(() => {
-      interval.minValue = 5;
-      interval.maxValue = 7;
       interval.minValueIncluded = true;
       interval.maxValueIncluded = false;
       fixture.detectChanges();
@@ -374,17 +375,15 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
-          interval.maxValue +
+          maxValueFormatted +
           ' minValue:' +
-          interval.minValue +
+          minValueFormatted +
           ' ' +
           'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
       );
     }));
 
     it('should return aria text for half open interval, lower value not included', fakeAsync(() => {
-      interval.minValue = 5;
-      interval.maxValue = 7;
       interval.minValueIncluded = false;
       interval.maxValueIncluded = true;
       fixture.detectChanges();
@@ -392,17 +391,15 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
-          interval.maxValue +
+          maxValueFormatted +
           ' minValue:' +
-          interval.minValue +
+          minValueFormatted +
           ' ' +
           'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
       );
     }));
 
     it('should return aria text for open interval', fakeAsync(() => {
-      interval.minValue = 5;
-      interval.maxValue = 7;
       interval.minValueIncluded = false;
       interval.maxValueIncluded = false;
       fixture.detectChanges();
@@ -410,9 +407,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
 
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
-          interval.maxValue +
+          maxValueFormatted +
           ' minValue:' +
-          interval.minValue +
+          minValueFormatted +
           ' ' +
           'configurator.a11y.numericIntervalStandardOpen'
       );
@@ -426,8 +423,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
-        'configurator.a11y.numericInfiniteIntervalMinValue minValue:' +
-          interval.minValue
+        'configurator.a11y.numericInfiniteIntervalMinValue value:' +
+          minValueFormatted
       );
     }));
 
@@ -439,8 +436,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
-        'configurator.a11y.numericInfiniteIntervalMinValueIncluded minValue:' +
-          interval.minValue
+        'configurator.a11y.numericInfiniteIntervalMinValueIncluded value:' +
+          minValueFormatted
       );
     }));
 
@@ -452,8 +449,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
-        'configurator.a11y.numericInfiniteIntervalMaxValue maxValue:' +
-          interval.maxValue
+        'configurator.a11y.numericInfiniteIntervalMaxValue value:' +
+          maxValueFormatted
       );
     }));
 
@@ -466,8 +463,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       tick(DEBOUNCE_TIME);
 
       expect(component['getIntervalText'](interval)).toBe(
-        'configurator.a11y.numericInfiniteIntervalMaxValueIncluded maxValue:' +
-          interval.maxValue
+        'configurator.a11y.numericInfiniteIntervalMaxValueIncluded value:' +
+          maxValueFormatted
       );
     }));
 
@@ -481,7 +478,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       tick(DEBOUNCE_TIME);
       expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalSingleValue value:' +
-          interval.minValue
+          minValueFormatted
       );
     }));
   });
@@ -500,6 +497,10 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       maxValueIncluded: false,
     };
 
+    let minValue1Formatted = '5.00';
+    let maxValue1Formatted = '7.00';
+    let minValue2Formatted = '10.00';
+
     it('should return concatenated aria text for multiple intervals', fakeAsync(() => {
       component.intervals = [];
       component.intervals.push(interval1);
@@ -511,22 +512,24 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       expect(component.getHelpTextForInterval()).toBe(
         'configurator.a11y.combinedIntervalsText combinedInterval:' +
           'configurator.a11y.numericIntervalStandard maxValue:' +
-          interval1.maxValue +
+          maxValue1Formatted +
           ' minValue:' +
-          interval1.minValue +
+          minValue1Formatted +
           ' newInterval:' +
-          'configurator.a11y.numericInfiniteIntervalMinValueIncluded minValue:' +
-          interval2.minValue
+          'configurator.a11y.numericInfiniteIntervalMinValueIncluded value:' +
+          minValue2Formatted
       );
     }));
 
     it('should return concatenated aria text for multiple intervals with single value', fakeAsync(() => {
       let interval3: ConfiguratorAttributeNumericInterval = {
-        minValue: 10,
-        maxValue: 10,
+        minValue: 12,
+        maxValue: 12,
         minValueIncluded: false,
         maxValueIncluded: false,
       };
+
+      let minValue3Formatted = '12.00';
 
       component.intervals = [];
       component.intervals.push(interval1);
@@ -537,11 +540,11 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       expect(component.getHelpTextForInterval()).toBe(
         'configurator.a11y.combinedIntervalsText combinedInterval:' +
           'configurator.a11y.numericIntervalStandard maxValue:' +
-          interval1.maxValue +
+          maxValue1Formatted +
           ' minValue:' +
-          interval1.minValue +
+          minValue1Formatted +
           ' newInterval:configurator.a11y.numericIntervalSingleValue value:' +
-          interval3.minValue
+          minValue3Formatted
       );
     }));
   });
@@ -553,6 +556,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       minValueIncluded: true,
       maxValueIncluded: true,
     };
+
+    let minValueFormatted = '5.00';
+    let maxValueFormatted = '7.00';
 
     it('should return aria text for entered value including text for standard interval', fakeAsync(() => {
       component.intervals = [];
@@ -571,9 +577,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           component.attribute.userInput +
           ' ' +
           'configurator.a11y.numericIntervalStandard maxValue:' +
-          interval.maxValue +
+          maxValueFormatted +
           ' minValue:' +
-          interval.minValue
+          minValueFormatted
       );
     }));
 
@@ -594,8 +600,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'configurator.a11y.valueOfAttributeBlank attribute:' +
           component.attribute.label +
           ' ' +
-          'configurator.a11y.numericInfiniteIntervalMinValue minValue:' +
-          interval.minValue
+          'configurator.a11y.numericInfiniteIntervalMinValue value:' +
+          minValueFormatted
       );
     }));
   });

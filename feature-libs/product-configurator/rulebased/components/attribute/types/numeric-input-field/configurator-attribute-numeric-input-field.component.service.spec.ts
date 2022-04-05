@@ -168,6 +168,19 @@ describe('ConfigAttributeNumericInputFieldService', () => {
     });
   });
 
+  describe('formatIntervalValue', () => {
+    it('should format interval value in en format', () => {
+      expect(serviceUnderTest.formatIntervalValue(2.75, 3, 'en')).toEqual(
+        '2.750'
+      );
+    });
+    it('should format large interval value in en format', () => {
+      expect(serviceUnderTest.formatIntervalValue(3222543.75, 2, 'en')).toEqual(
+        '3,222,543.75'
+      );
+    });
+  });
+
   describe('getInterval', () => {
     it('should get minValue and maxValue from closed interval string', () => {
       let interval: ConfiguratorAttributeNumericInterval = {

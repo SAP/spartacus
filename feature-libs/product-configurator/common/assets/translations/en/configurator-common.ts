@@ -181,12 +181,11 @@ export const configurator = {
       numericIntervalStandardUpperEndpointNotIncluded:
         '(The upper endpoint is not included)',
       numericInfiniteIntervalMinValueIncluded:
-        'Enter a value greater than or equal to {{ minValue }}',
-      numericInfiniteIntervalMinValue:
-        'Enter a value greater than {{ minvalue }}',
+        'Enter a value greater than or equal to {{ value }}',
+      numericInfiniteIntervalMinValue: 'Enter a value greater than {{ value }}',
       numericInfiniteIntervalMaxValueIncluded:
-        'Enter a value less than or equal to {{ maxValue }}',
-      numericInfiniteIntervalMaxValue: 'Enter a value less than {{ maxValue }}',
+        'Enter a value less than or equal to {{ value }}',
+      numericInfiniteIntervalMaxValue: 'Enter a value less than {{ value }}',
       numericIntervalSingleValue: 'Enter {{ value }}',
       combinedIntervalsText: '{{ combinedInterval }} or {{ newInterval }}',
     },

@@ -189,11 +189,33 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     interval: ConfiguratorAttributeNumericInterval
   ): string {
     let intervalText = '';
+    let formattedMinValue = '';
+    let formattedMaxValue = '';
+
+    console.log('DEBUG:' + this.attribute.numDecimalPlaces);
+
+    if (interval.minValue) {
+      formattedMinValue =
+        this.configAttributeNumericInputFieldService.formatIntervalValue(
+          interval.minValue,
+          this.attribute.numDecimalPlaces,
+          this.locale
+        );
+    }
+    if (interval.maxValue) {
+      formattedMaxValue =
+        this.configAttributeNumericInputFieldService.formatIntervalValue(
+          interval.maxValue,
+          this.attribute.numDecimalPlaces,
+          this.locale
+        );
+    }
+
     if (interval.minValue && interval.maxValue) {
       if (interval.minValue === interval.maxValue) {
         this.translation
           .translate('configurator.a11y.numericIntervalSingleValue', {
-            value: interval.minValue,
+            value: formattedMinValue,
           })
           .pipe(take(1))
           .subscribe((text) => (intervalText = text));
@@ -201,8 +223,8 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       }
       this.translation
         .translate('configurator.a11y.numericIntervalStandard', {
-          minValue: interval.minValue,
-          maxValue: interval.maxValue,
+          minValue: formattedMinValue,
+          maxValue: formattedMaxValue,
         })
         .pipe(take(1))
         .subscribe((text) => (intervalText = text));
@@ -231,42 +253,28 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     } else {
       if (interval.minValue) {
         if (interval.minValueIncluded) {
-          this.translation
-            .translate(
-              'configurator.a11y.numericInfiniteIntervalMinValueIncluded',
-              {
-                minValue: interval.minValue,
-              }
-            )
-            .pipe(take(1))
-            .subscribe((text) => (intervalText = text));
+          intervalText = this.getInfiniteIntervalText(
+            'configurator.a11y.numericInfiniteIntervalMinValueIncluded',
+            formattedMinValue
+          );
         } else {
-          this.translation
-            .translate('configurator.a11y.numericInfiniteIntervalMinValue', {
-              minValue: interval.minValue,
-            })
-            .pipe(take(1))
-            .subscribe((text) => (intervalText = text));
+          intervalText = this.getInfiniteIntervalText(
+            'configurator.a11y.numericInfiniteIntervalMinValue',
+            formattedMinValue
+          );
         }
       } else {
         if (interval.maxValue) {
           if (interval.maxValueIncluded) {
-            this.translation
-              .translate(
-                'configurator.a11y.numericInfiniteIntervalMaxValueIncluded',
-                {
-                  maxValue: interval.maxValue,
-                }
-              )
-              .pipe(take(1))
-              .subscribe((text) => (intervalText = text));
+            intervalText = this.getInfiniteIntervalText(
+              'configurator.a11y.numericInfiniteIntervalMaxValueIncluded',
+              formattedMaxValue
+            );
           } else {
-            this.translation
-              .translate('configurator.a11y.numericInfiniteIntervalMaxValue', {
-                maxValue: interval.maxValue,
-              })
-              .pipe(take(1))
-              .subscribe((text) => (intervalText = text));
+            intervalText = this.getInfiniteIntervalText(
+              'configurator.a11y.numericInfiniteIntervalMaxValue',
+              formattedMaxValue
+            );
           }
         }
       }
@@ -278,6 +286,17 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     let intervalText = '';
     this.translation
       .translate(key)
+      .pipe(take(1))
+      .subscribe((text) => (intervalText = text));
+    return intervalText;
+  }
+
+  protected getInfiniteIntervalText(key: string, value: string): string {
+    let intervalText = '';
+    this.translation
+      .translate(key, {
+        value: value,
+      })
       .pipe(take(1))
       .subscribe((text) => (intervalText = text));
     return intervalText;

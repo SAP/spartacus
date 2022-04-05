@@ -57,6 +57,19 @@ export class ConfiguratorAttributeNumericInputFieldService {
     );
   }
 
+  formatIntervalValue(
+    intervalValue: number,
+    decimalPlaces: number | undefined,
+    locale: string
+  ): string {
+    let formatted = formatNumber(
+      intervalValue,
+      locale,
+      '1.' + decimalPlaces + '-' + decimalPlaces
+    );
+    return formatted;
+  }
+
   /**
    * Parses the value names and returns the intervals.
    *
@@ -172,6 +185,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     if (maxVal && maxVal.length > 0) {
       interval.maxValue = +maxVal;
     }
+
     return interval;
   }
 
