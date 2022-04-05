@@ -1,6 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { defaultGenericLinkConfig } from './default-generic-link-config';
-import { GenericLinkConfig } from './generic-link.config';
 import { GenericLinkService } from './generic-link.service';
 
 describe('GenericLinkService', () => {
@@ -8,13 +6,7 @@ describe('GenericLinkService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        GenericLinkService,
-        {
-          provide: GenericLinkConfig,
-          useValue: defaultGenericLinkConfig,
-        },
-      ],
+      providers: [GenericLinkService],
     });
     service = TestBed.inject(GenericLinkService);
   });

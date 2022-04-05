@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
-import { GenericLinkConfig } from './generic-link.config';
+import {
+  HTTP_PROTOCOL_REGEX,
+  MAILTO_PROTOCOL_REGEX,
+  TEL_PROTOCOL_REGEX,
+} from './generic-link.models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GenericLinkService {
-  constructor(protected config: GenericLinkConfig) {}
-
+  /**
+   * Returns true when the @Input `url` is a string starting with `http://`, `https://`, `mailto:`, `tel:`.
+   */
   isExternalUrl(url: string | any[]): boolean {
     return (
-      typeof url === 'string' &&
-      !!this.config.genericLinks?.externalLinkRegexes?.filter((regex: RegExp) =>
-        regex.test(url)
-      )?.length
+      (typeof url === 'string' && HTTP_PROTOCOL_REGEX.test(url)) ||
+      MAILTO_PROTOCOL_REGEX.test(<string>url) ||
+      TEL_PROTOCOL_REGEX.test(<string>url)
     );
   }
 }

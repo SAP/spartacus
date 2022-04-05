@@ -48,10 +48,6 @@ export class GenericLinkComponent implements OnChanges {
   @Input() style: string;
   @Input() title: string;
 
-  /**
-   * Returns true when the @Input `url` is a string starting with `http://`, `https://`, `mailto:`, `tel:`
-   * or a custom regex expression.
-   */
   isExternalUrl(): boolean {
     return this.service.isExternalUrl(this.url);
   }
