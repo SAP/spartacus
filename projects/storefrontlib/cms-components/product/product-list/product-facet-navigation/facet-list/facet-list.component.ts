@@ -8,7 +8,7 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { Facet, ProductSearchPage } from '@spartacus/core';
+import { Facet } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
@@ -44,8 +44,6 @@ export class FacetListComponent {
 
   /** The list of all facet and values related to the products in the list */
   facetList$: Observable<FacetList> = this.facetService.facetList$;
-
-  model$: Observable<ProductSearchPage> = this.facetService.model$;
 
   iconTypes = ICON_TYPE;
 
