@@ -158,6 +158,12 @@ title: Changes to Styles in 5.0
 - Changed `font-size` to `var(--cx-font-size, 1.188rem)` for `label.disabled-link` in `%cx-configure-cart-entry`.
 - Changed `font-weight` to `var(--cx-font-weight-bold)` for `label.disabled-link` in `%cx-configure-cart-entry`.
 
+### ImportEntriesDialog (_import-entries-dialog.scss)
+
+- new style `user-select: text;` added.
+- Removed `pointer-events: none;` from `.cx-import-entries-container`.
+- Added `pointer-events: none;` to `cx-import-entries-form, cx-import-to-new-saved-cart-form`. and `.cx-import-entries-footer`.
+
 ## Change in _variables.scss
 - `$primary-accent: #ff8b8b !default;` has been added to Sparta theme colors
 
