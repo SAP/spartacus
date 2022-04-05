@@ -4,7 +4,12 @@
 
 <ng-container *ngIf="paymentTypes$ | async as paymentTypes">
   <ng-container
-    *ngIf="(typeSelected$ | async) && !(isUpdating$ | async); else loading"
+    *ngIf="
+      !!paymentTypes.length &&
+        (typeSelected$ | async) &&
+        !(isUpdating$ | async);
+      else loading
+    "
   >
     <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="row">
