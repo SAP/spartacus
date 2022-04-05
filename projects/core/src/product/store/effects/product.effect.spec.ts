@@ -104,13 +104,13 @@ describe('Product Effects', () => {
     const loginLogoutAction = ['Login', 'Logout'];
 
     loginLogoutAction.forEach((actionName) => {
-      it(`should reset product summary and price on ${actionName}`, () => {
+      it(`should reset product price on ${actionName}`, () => {
         const action = new AuthActions[actionName]();
-        const clearProductSummary = new ProductActions.ClearProductPrice();
+        const clearProductPrice = new ProductActions.ClearProductPrice();
 
         actions$ = hot('-a', { a: action });
         const expected = cold('-b', {
-          b: clearProductSummary,
+          b: clearProductPrice,
         });
 
         expect(effects.clearProductPrice$).toBeObservable(expected);
