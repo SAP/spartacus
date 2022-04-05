@@ -7,14 +7,11 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { Schema as SpartacusWrapperOptions } from '../../wrapper-module/schema';
 import { UTF_8 } from '../constants';
-import { CHECKOUT_BASE_MODULE } from '../lib-configs/checkout-schematics-config';
 import { USER_ACCOUNT_SCHEMATICS_CONFIG } from '../lib-configs/user-schematics-config';
 import { CLI_USER_ACCOUNT_FEATURE } from '../libs-constants';
 import { addFeatures, FeatureConfigurationOverrides } from './feature-utils';
 import { LibraryOptions } from './lib-utils';
-import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import { userFeatureModulePath } from './test-utils';
 
 describe('Feature utils', () => {
@@ -24,7 +21,6 @@ describe('Feature utils', () => {
   );
 
   let appTree: Tree;
-  let buildPath: string;
 
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
@@ -52,12 +48,6 @@ describe('Feature utils', () => {
     lazy: true,
   };
 
-  const wrapperOptions: SpartacusWrapperOptions = {
-    project: 'schematics-test',
-    markerModuleName: CHECKOUT_BASE_MODULE,
-    featureModuleName: CHECKOUT_BASE_MODULE,
-  };
-
   beforeEach(async () => {
     appTree = await schematicRunner
       .runExternalSchematicAsync(
@@ -81,9 +71,6 @@ describe('Feature utils', () => {
         appTree
       )
       .toPromise();
-
-    buildPath = getProjectTsConfigPaths(appTree, BASE_OPTIONS.project)
-      .buildPaths[0];
   });
 
   describe('addFeatures', () => {
