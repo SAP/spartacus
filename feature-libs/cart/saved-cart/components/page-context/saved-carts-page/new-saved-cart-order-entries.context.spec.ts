@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductImportInfoService } from '@spartacus/cart/base/core';
-import { Cart, MultiCartFacade, ProductData, ProductImportStatus } from '@spartacus/cart/base/root';
+import { Cart, MultiCartFacade, ProductData, ProductImportStatus} from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -37,9 +37,10 @@ class MockSavedCartService implements Partial<SavedCartFacade> {
   saveCart = createSpy().and.callThrough();
   loadSavedCarts = createSpy().and.callThrough();
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
-  deleteCart = createSpy();
-  deleteSavedCart = createSpy();
-  // getSavedCartList = createSpy().and.callThrough().returnValue(of([]));
+  deleteCart = createSpy().and.callThrough();
+  deleteSavedCart = createSpy().and.callThrough();
+  getSavedCartList = createSpy().and.returnValue(of([]));
+  getList = createSpy().and.callThrough();
 }
 
 const mockProductImportInfo = {
@@ -115,8 +116,7 @@ describe('NewSavedCartOrderEntriesContext', () => {
   });
 });
 
-
-describe('failing NewSavedCartOrderEntriesContext', () => {
+fdescribe('failing NewSavedCartOrderEntriesContext', () => {
   let service: NewSavedCartOrderEntriesContext;
   let multiCartService: MultiCartFacade;
   let savedCartService: SavedCartFacade;
@@ -146,7 +146,7 @@ describe('failing NewSavedCartOrderEntriesContext', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should delete the cart for invalid products', () => {
+  fit('should delete the cart for invalid products', () => {
     service.addEntries(mockInvalidProductData, mockSavedCart).subscribe();
 
     expect(userIdService.takeUserId).toHaveBeenCalledWith();
@@ -168,10 +168,7 @@ describe('failing NewSavedCartOrderEntriesContext', () => {
     expect(productImportInfoService.getResults).toHaveBeenCalledWith(
       mockCartId
     );
-    expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(
-      mockCartId
-    );
-    // TODO improve me
-    // expect(savedCartService.getSavedCartList).toEqual(of([]));
+    expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(mockCartId);
+
   });
 });
