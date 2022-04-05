@@ -81,9 +81,10 @@ export class OrderOverviewComponent {
 
   getOrderCodeCardContent(orderCode: string): Observable<Card> {
     return this.translation.translate('orderDetails.orderNumber').pipe(
+      filter(() => Boolean(orderCode)),
       map((textTitle) => ({
         title: textTitle,
-        text: [orderCode || '-'],
+        text: [orderCode],
       }))
     );
   }
@@ -92,17 +93,9 @@ export class OrderOverviewComponent {
     return this.translation.translate('orderDetails.placedOn').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
-        let date: string | null;
-
-        if (Boolean(isoDate)) {
-          date = isoDate;
-        } else {
-          date = '-';
-        }
-
         return {
           title: textTitle,
-          text: [date],
+          text: [isoDate],
         } as Card;
       })
     );
@@ -115,7 +108,7 @@ export class OrderOverviewComponent {
     ]).pipe(
       map(([textTitle, textStatus]) => ({
         title: textTitle,
-        text: [textStatus || '-'],
+        text: [textStatus],
       }))
     );
   }
@@ -160,50 +153,37 @@ export class OrderOverviewComponent {
 
   getAddressCardContent(deliveryAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.shipTo').pipe(
+      filter(() => Boolean(deliveryAddress)),
       map((textTitle) => {
-        const addressCard = { title: textTitle, text: ['-'] };
-        let formattedAddress = '-';
+        const formattedAddress = this.normalizeFormattedAddress(
+          deliveryAddress.formattedAddress ?? ''
+        );
 
-        if (deliveryAddress && deliveryAddress.formattedAddress) {
-          formattedAddress = this.normalizeFormattedAddress(
-            deliveryAddress.formattedAddress
-          );
-        }
-
-        addressCard.text = [
-          formattedAddress,
-          deliveryAddress?.country?.name || '-',
-        ];
-
-        Object.assign(addressCard, {
-          textBold: `${deliveryAddress?.firstName} ${deliveryAddress?.lastName}`,
-        });
-
-        return addressCard;
+        return {
+          title: textTitle,
+          textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
+          text: [formattedAddress, deliveryAddress.country?.name],
+        } as Card;
       })
     );
   }
 
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
     return this.translation.translate('orderDetails.shippingMethod').pipe(
-      map((textTitle) => {
-        const deliveryModeCard = { title: textTitle, text: ['-'] };
-
-        if (deliveryMode) {
-          deliveryModeCard.text = [
-            deliveryMode.description || '-',
-            deliveryMode.deliveryCost?.formattedValue
-              ? deliveryMode.deliveryCost?.formattedValue
-              : '',
-          ];
-
-          Object.assign(deliveryModeCard, {
+      filter(() => Boolean(deliveryMode)),
+      map(
+        (textTitle) =>
+          ({
+            title: textTitle,
             textBold: deliveryMode.name,
-          });
-        }
-
-        return deliveryModeCard;
-      })
+            text: [
+              deliveryMode.description,
+              deliveryMode.deliveryCost?.formattedValue
+                ? deliveryMode.deliveryCost?.formattedValue
+                : '',
+            ],
+          } as Card)
+      )
     );
   }
 
@@ -236,8 +216,8 @@ export class OrderOverviewComponent {
             title: textTitle,
             textBold: `${billingAddress.firstName} ${billingAddress.lastName}`,
             text: [
-              billingAddress?.formattedAddress,
-              billingAddress?.country?.name,
+              billingAddress.formattedAddress,
+              billingAddress.country?.name,
             ],
           } as Card)
       )
