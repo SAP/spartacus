@@ -72,7 +72,6 @@ describe('CmsComponentConnector', () => {
 
     describe('getList using GET request', () => {
       it('should call adapter', () => {
-        console.log('here');
         service.getList(ids, context).subscribe();
         expect(adapter.findComponentsByIds).toHaveBeenCalledWith(
           ids,
