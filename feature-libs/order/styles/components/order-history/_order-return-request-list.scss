@@ -109,6 +109,10 @@
     text-transform: uppercase;
     color: var(--cx-color-secondary);
 
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+
     @include media-breakpoint-down(sm) {
       @include type('8');
       min-width: 110px;
