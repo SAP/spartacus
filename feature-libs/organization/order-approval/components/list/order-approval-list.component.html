@@ -16,6 +16,8 @@
           [sortLabels]="sortLabels$ | async"
           (sortListEvent)="changeSortCode($event)"
           [selectedOption]="orderApprovals.pagination.sort"
+          [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
+          ariaControls="order-approval-table"
         ></cx-sorting>
       </div>
       <div class="cx-order-approval-pagination">
@@ -26,7 +28,7 @@
       </div>
     </div>
     <!-- TABLE -->
-    <table class="table cx-order-approval-table">
+    <table id="order-approval-table" class="table cx-order-approval-table">
       <thead class="cx-order-approval-thead-mobile">
         <th scope="col">
           {{ 'orderApprovalList.orderCode' | cxTranslate }}
