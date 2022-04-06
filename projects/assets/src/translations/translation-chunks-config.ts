@@ -63,4 +63,5 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'productView',
   ],
   user: ['anonymousConsents', 'loginRegister', 'checkoutLogin', 'authMessages'],
+  video: ['player'],
 };

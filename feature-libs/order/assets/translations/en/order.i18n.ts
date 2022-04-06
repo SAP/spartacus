@@ -131,6 +131,7 @@ export const order = {
       AccountOrderHistoryComponent: 'ALL ORDERS ({{param}})',
       OrderReturnRequestListComponent: 'RETURNS ({{param}})',
     },
+    tabPanelContainerRegion: 'Group with order history details',
   },
   returnRequestList: {
     returnRequestId: 'Return #',
