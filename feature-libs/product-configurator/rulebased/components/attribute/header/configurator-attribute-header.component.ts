@@ -159,7 +159,6 @@ export class ConfiguratorAttributeHeaderComponent
         } else {
           groupId = this.findConflictGroupId(configuration, this.attribute);
         }
-        console.log(groupId);
         if (groupId) {
           this.configuratorGroupsService.navigateToGroup(
             configuration,
