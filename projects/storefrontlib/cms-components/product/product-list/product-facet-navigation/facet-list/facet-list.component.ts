@@ -101,6 +101,6 @@ export class FacetListComponent {
   }
 
   block(event?: MouseEvent) {
-    event.stopPropagation();
+    event?.stopPropagation();
   }
 }
