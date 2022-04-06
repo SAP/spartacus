@@ -17,8 +17,8 @@ export const product = {
       label: 'Filter by',
       action: 'Filter by',
     },
-    filter:
-      '{{facetValue}} filter, clicking on this link will remove the filter',
+    activeFilter:
+      '{{filter}} filter, clicking on this button will remove the filter',
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
