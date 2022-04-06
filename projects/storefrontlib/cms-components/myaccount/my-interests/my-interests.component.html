@@ -22,6 +22,8 @@
             (sortListEvent)="sortChange($event)"
             [selectedOption]="sort"
             placeholder="{{ 'myInterests.sortBy' | cxTranslate }}"
+            [ariaLabel]="'myInterests.sortInterests' | cxTranslate"
+            ariaControls="product-interests-table"
           >
           </cx-sorting>
         </label>
@@ -36,7 +38,10 @@
           ></cx-pagination>
         </div>
       </div>
-      <table class="table cx-product-interests-table">
+      <table
+        id="product-interests-table"
+        class="table cx-product-interests-table"
+      >
         <thead class="cx-product-interests-thead-mobile">
           <th scope="col">
             {{ 'myInterests.item' | cxTranslate }}
@@ -195,6 +200,8 @@
             (sortListEvent)="sortChange($event)"
             [selectedOption]="sort"
             placeholder="{{ 'myInterests.sortBy' | cxTranslate }}"
+            [ariaLabel]="'myInterests.sortInterests' | cxTranslate"
+            ariaControls="product-interests-table"
           >
           </cx-sorting>
         </label>

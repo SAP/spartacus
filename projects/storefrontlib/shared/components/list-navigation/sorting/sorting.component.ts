@@ -18,6 +18,8 @@ export class SortingComponent {
   @Input()
   ariaControls: string;
   @Input()
+  ariaLabel: string;
+  @Input()
   selectedOption: string;
   @Input()
   placeholder: string;
