@@ -66,6 +66,7 @@ title: Changes to Styles in 5.0
 ### BreadcrumbComponent 
 
 - Style structure changed from `span > a` to `ol > li > a` to account for the changes in template markup.
+- Added `text-transform` and set to `capitalize` for `h1`
 
 ### AddressFormComponent
 
