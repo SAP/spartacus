@@ -12,7 +12,7 @@ import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cx-quick-order-item',
+  selector: '[cx-quick-order-item], cx-quick-order-item',
   templateUrl: './quick-order-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
