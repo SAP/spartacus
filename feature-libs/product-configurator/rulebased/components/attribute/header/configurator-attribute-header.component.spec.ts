@@ -770,12 +770,14 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.groupId = undefined;
 
       spyOn(configurationGroupsService, 'navigateToGroup');
+      spyOn(component, 'logWarning');
       fixture.detectChanges();
 
       component.navigateToGroup();
       expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
         0
       );
+      expect(component.logWarning).toHaveBeenCalled();
     });
 
     it('should call focusAttribute', () => {

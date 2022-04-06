@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  isDevMode,
   OnInit,
 } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -165,6 +166,8 @@ export class ConfiguratorAttributeHeaderComponent
             groupId
           );
           this.focusAttribute(this.attribute.name);
+        } else {
+          this.logWarning('Attribute was not found in any conflict group');
         }
       });
   }
@@ -182,6 +185,12 @@ export class ConfiguratorAttributeHeaderComponent
           (attribute) => attribute.key === currentAttribute.key
         );
       })?.id;
+  }
+
+  logWarning(text: string): void {
+    if (isDevMode()) {
+      console.warn(text);
+    }
   }
 
   /**

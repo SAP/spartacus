@@ -350,6 +350,12 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
       attributes: [],
       subGroups: [
         {
+          id: GROUP_ID_CONFLICT_3,
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+          subGroups: [],
+          attributes: undefined,
+        },
+        {
           id: GROUP_ID_CONFLICT_1,
           groupType: Configurator.GroupType.CONFLICT_GROUP,
           subGroups: [],
@@ -363,12 +369,6 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
           groupType: Configurator.GroupType.CONFLICT_GROUP,
           subGroups: [],
           attributes: [{ name: 'ATTRIBUTE_5_STRING', key: 'ATTRIBUTE_5' }],
-        },
-        {
-          id: GROUP_ID_CONFLICT_3,
-          groupType: Configurator.GroupType.CONFLICT_GROUP,
-          subGroups: [],
-          attributes: [],
         },
       ],
     },
@@ -486,6 +486,12 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
   ],
   flatGroups: [
     {
+      id: GROUP_ID_CONFLICT_3,
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+      subGroups: [],
+      attributes: undefined,
+    },
+    {
       id: GROUP_ID_CONFLICT_1,
       groupType: Configurator.GroupType.CONFLICT_GROUP,
       subGroups: [],
@@ -500,12 +506,7 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
       subGroups: [],
       attributes: [{ name: 'ATTRIBUTE_5_STRING', key: 'ATTRIBUTE_5' }],
     },
-    {
-      id: GROUP_ID_CONFLICT_3,
-      groupType: Configurator.GroupType.CONFLICT_GROUP,
-      subGroups: [],
-      attributes: [],
-    },
+
     {
       id: GROUP_ID_1,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
