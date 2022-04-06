@@ -64,9 +64,9 @@ export class VisualPickingProductListService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getFilteredProductReferencesSubscription.unsubscribe();
-    this.filteredItemsSubscription.unsubscribe();
-    this.productReferencesSubscription.unsubscribe();
+    this.getFilteredProductReferencesSubscription?.unsubscribe();
+    this.filteredItemsSubscription?.unsubscribe();
+    this.productReferencesSubscription?.unsubscribe();
   }
 
   private get productReferenceType() {

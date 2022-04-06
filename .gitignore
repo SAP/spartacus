@@ -45,6 +45,7 @@ scripts/install/config.sh
 **/coverage
 
 # misc
+/.angular/cache
 .lighthouseci/
 /.sass-cache
 /connect.lock
@@ -62,3 +63,4 @@ debug.log
 Thumbs.db
 
 **/git-ignore
+

@@ -189,11 +189,11 @@ describe('Order Cancellations and Returns', () => {
       cy.get('cx-return-request-items .cx-item-list-row')
         .eq(index)
         .within(() => {
-          cy.get('.cx-info-container').should(
+          cy.get('.cx-info .cx-name').should(
             'contain',
             entry.orderEntry.product.name
           );
-          cy.get('.cx-info-container').should(
+          cy.get('.cx-info .cx-code').should(
             'contain',
             entry.orderEntry.product.code
           );
