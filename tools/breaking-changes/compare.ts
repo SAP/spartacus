@@ -1,6 +1,6 @@
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
-import { printStats, unEscapePackageName } from './common';
+import { getSignatureDoc, printStats, unEscapePackageName } from './common';
 
 // --------------------------------------------------
 // Main Logic
@@ -171,52 +171,22 @@ function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
   );
   const returnTypeChanged = oldElement.returnType !== newElement.returnType;
   if (paramBreakingChanges.length > 0 || returnTypeChanged) {
+    const oldElementCopy = { ...oldElement };
+    delete oldElementCopy.breakingChanges; // avoid circular references
+    const newElementCopy = { ...newElement };
+    delete newElementCopy.breakingChanges; // avoid circular references
+
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
         previousStateDoc: getSignatureDoc(oldElement),
         currentStateDoc: getSignatureDoc(newElement),
-        // Removed temporarily to be able to produce a breaking changes file
-        // that can compare well wiith the manually modified breaking changes file.
-        // oldElement: {
-        //   parameters: oldElement.parameters,
-        //   returnType: oldElement.returnType,
-        //   overloadIndex: oldElement.overloadIndex,
-        // },
-        // newElement: {
-        //   parameters: newElement.parameters,
-        //   returnType: newElement.returnType,
-        //   overloadIndex: newElement.overloadIndex,
-        // },
+        oldElement: oldElementCopy,
+        newElement: newElementCopy,
       },
     ];
   } else {
     return [];
-  }
-}
-
-function getSignatureDoc(functonElement: any): string {
-  const parameterDoc = getParameterDoc(functonElement);
-  let doc = `
-${functonElement.name}(${parameterDoc})${
-    functonElement.returnType ? ': ' + functonElement.returnType : ''
-  }
-`;
-
-  return doc;
-}
-
-function getParameterDoc(functonElement: any): string {
-  if (functonElement.parameters?.length) {
-    let parameterDoc = '\n';
-    functonElement.parameters.forEach((parameter: any, index: number) => {
-      parameterDoc += `  ${parameter.name}: ${parameter.type}${
-        index + 1 >= functonElement.parameters.length ? '' : ','
-      }\n`;
-    });
-    return parameterDoc;
-  } else {
-    return '';
   }
 }
 

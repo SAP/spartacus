@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
-import { printStatsForBreakingChangeList } from './common';
+import { getSignatureDoc, printStatsForBreakingChangeList } from './common';
 
 /**
  * This script generates methods and properties schematics code.
@@ -66,8 +66,9 @@ function getSchematicsComment(breakingChange: any): string {
     // When the method info is available, we probably want to generate the signature instead of formatting the doc.
     return `The '${
       breakingChange.changeElementName
-    }' method's signature changed to: '${normalizeFunctionSignatureDoc(
-      breakingChange.currentStateDoc
+    }' method's signature changed to: '${getSignatureDoc(
+      breakingChange.newElement,
+      false
     )}'`;
   }
   if (breakingChange.changeKind.startsWith('Property')) {

@@ -58,3 +58,38 @@ export function unEscapePackageName(packageName: string) {
 export function escapePackageName(packageName: string) {
   return packageName.replace(/\//g, '_').replace(/\_/, '/');
 }
+
+export function getSignatureDoc(
+  functonElement: any,
+  multiLine: boolean = true
+): string {
+  const lineEnding = getLineEnding(multiLine);
+  const parameterDoc = getParameterDoc(functonElement, multiLine);
+  let doc = `${lineEnding}${functonElement.name}(${parameterDoc})${
+    functonElement.returnType ? ': ' + functonElement.returnType : ''
+  }${lineEnding}`;
+
+  return doc;
+}
+
+export function getParameterDoc(
+  functonElement: any,
+  multiLine: boolean = true
+): string {
+  const lineEnding = getLineEnding(multiLine);
+  if (functonElement.parameters?.length) {
+    let parameterDoc = lineEnding;
+    functonElement.parameters.forEach((parameter: any, index: number) => {
+      parameterDoc += `  ${parameter.name}: ${parameter.type}${
+        index + 1 >= functonElement.parameters.length ? '' : ','
+      }${lineEnding}`;
+    });
+    return parameterDoc;
+  } else {
+    return '';
+  }
+}
+
+function getLineEnding(multiLine: boolean = true) {
+  return multiLine ? '\n' : '';
+}
