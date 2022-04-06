@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Params, Router } from '@angular/router';
+import { GenericLinkComponentService } from './generic-link-component.service';
 
 // private
 interface RouteParts {
@@ -21,12 +22,36 @@ interface RouteParts {
   templateUrl: './generic-link.component.html',
 })
 export class GenericLinkComponent implements OnChanges {
-  constructor(protected router: Router) {}
-
   /**
    * Pattern matching string starting with `http://` or `https://`.
    */
   private readonly PROTOCOL_REGEX: RegExp = /^https?:\/\//i;
+
+  /**
+   * Pattern matching string starting with `mailto:`.
+   */
+  protected MAILTO_PROTOCOL_REGEX: RegExp = /^mailto:/i;
+
+  /**
+   * Pattern matching string starting with `tel:`.
+   */
+  protected TEL_PROTOCOL_REGEX: RegExp = /^tel:/i;
+
+  /**
+   * @deprecated since version 5.0
+   * Use the following constructor instead:
+   * ```
+   * constructor(
+   *   protected router: Router,
+   *   protected service?: GenericLinkComponentService
+   * )
+   * ```
+   */
+  constructor(router: Router);
+  constructor(
+    protected router: Router,
+    protected service?: GenericLinkComponentService
+  ) {}
 
   /**
    * Used to split url into 2 parts:
@@ -49,11 +74,14 @@ export class GenericLinkComponent implements OnChanges {
   @Input() style: string;
   @Input() title: string;
 
-  /**
-   * Returns true when the @Input `url` is a string starting with `http://` or `https://`.
-   */
   isExternalUrl(): boolean {
-    return typeof this.url === 'string' && this.PROTOCOL_REGEX.test(this.url);
+    return (
+      this.service?.isExternalUrl(this.url) ||
+      (typeof this.url === 'string' &&
+        (this.PROTOCOL_REGEX.test(this.url) ||
+          this.MAILTO_PROTOCOL_REGEX.test(this.url) ||
+          this.TEL_PROTOCOL_REGEX.test(this.url)))
+    );
   }
 
   get rel() {
