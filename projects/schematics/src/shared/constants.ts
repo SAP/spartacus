@@ -224,6 +224,7 @@ export const PRODUCT_LIST_COMPONENT_SERVICE = 'ProductListComponentService';
 export const PRODUCT_LIST_ITEM_COMPONENT = 'ProductListItemComponent';
 export const PRODUCT_LIST_ITEM_CONTEXT_SOURCE = 'ProductListItemContextSource';
 export const PRODUCT_GRID_ITEM_COMPONENT = 'ProductGridItemComponent';
+export const PRODUCT_INTRO_COMPONENT = 'ProductIntroComponent';
 export const CART_ITEM_CONTEXT_SOURCE = 'CartItemContextSource';
 export const CART_ITEM_CONTEXT = 'CartItemContext';
 export const PAGE_LAYOUT_SERVICE = 'PageLayoutService';
@@ -1065,3 +1066,6 @@ export const CSS_V4_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
 export const CSS_V5_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-5/';
+
+export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';
+export const GENERIC_LINK_COMPONENT_SERVICE = 'GenericLinkComponentService';
