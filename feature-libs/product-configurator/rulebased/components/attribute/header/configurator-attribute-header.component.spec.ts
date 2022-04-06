@@ -812,7 +812,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it('should not find the conflicting group key when there is no conflict', () => {
       expect(
         component.findConflictGroupId(configWithoutConflicts, currentAttribute)
-      ).toBe('');
+      ).toBe(undefined);
     });
 
     it('should find the conflicting group key', () => {
