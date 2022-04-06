@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
+import { TokenResponse } from 'angular-oauth2-oidc';
 import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -21,9 +21,6 @@ class MockUserIdService implements Partial<UserIdService> {
   setUserId() {}
 }
 
-const oauthLibEvents = new BehaviorSubject<OAuthEvent>({
-  type: 'token_received',
-});
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   revokeAndLogout() {
     return Promise.resolve();
@@ -35,7 +32,6 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   tryLogin() {
     return Promise.resolve(true);
   }
-  events$ = oauthLibEvents;
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -100,6 +96,7 @@ describe('AuthService', () => {
     it('should login user when token is present', async () => {
       spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
       spyOn(userIdService, 'setUserId').and.callThrough();
+      spyOn(authRedirectService, 'redirect').and.callThrough();
       spyOn(store, 'dispatch').and.callThrough();
       spyOn(authStorageService, 'getItem').and.returnValue('token');
 
@@ -108,27 +105,7 @@ describe('AuthService', () => {
       expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
       expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
-    });
-
-    describe('when the token is received', () => {
-      it('should redirect', async () => {
-        spyOn(authRedirectService, 'redirect').and.callThrough();
-
-        await service.checkOAuthParamsInUrl();
-
-        expect(authRedirectService.redirect).toHaveBeenCalled();
-      });
-    });
-
-    describe('when the token is NOT received', () => {
-      it('should NOT redirect', async () => {
-        oauthLibEvents.next({ type: 'discovery_document_load_error' });
-        spyOn(authRedirectService, 'redirect').and.stub();
-
-        await service.checkOAuthParamsInUrl();
-
-        expect(authRedirectService.redirect).not.toHaveBeenCalled();
-      });
+      expect(authRedirectService.redirect).toHaveBeenCalled();
     });
   });
 
