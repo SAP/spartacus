@@ -28,7 +28,7 @@ export const myAccount = {
     passwordUpdateSuccess: 'Password updated with success',
   },
   updateProfileForm: {
-    title: '',
+    title: 'Title',
     none: '',
     firstName: {
       label: 'First name',
