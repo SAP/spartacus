@@ -49,7 +49,7 @@
       ></cx-form-errors>
     </label>
     <ng-container *ngIf="form.get('parentOrgUnit'); else parentOrgUnitNotes">
-      <label *ngIf="form.get('parentOrgUnit')" formGroupName="parentOrgUnit">
+      <label formGroupName="parentOrgUnit">
         <span class="label-content required">{{
           'orgUnit.form.parentOrgUnit' | cxTranslate
         }}</span>
@@ -71,7 +71,7 @@
       </label>
     </ng-container>
     <ng-template #parentOrgUnitNotes>
-      <span class="label-content">{{
+      <span class="notes-content">{{
         'orgUnit.form.parentOrgUnitNotes' | cxTranslate
       }}</span>
     </ng-template>
