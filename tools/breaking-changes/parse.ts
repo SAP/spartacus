@@ -39,11 +39,10 @@ fs.writeFileSync(outputFilePath, JSON.stringify(publicApiData));
  */
 
 export function parseFile(filePath: string): any[] {
-  console.log(`Read ${filePath}`);
   const inputFileData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   const entryPoint = inputFileData.members[0];
   console.log(
-    `Entry point ${inputFileData.name}, ${entryPoint.members.length} high lvl members`
+    `Read ${filePath}, ${inputFileData.name}, ${entryPoint.members.length} api elements.`
   );
   return parseElementGroup(entryPoint.members, inputFileData.name);
 }
@@ -181,8 +180,6 @@ function parseMethodParameters(method: any): any[] {
     );
     // This if condition filters out anonymous types
     // like `payload: { userid: string, cart: Cart }`
-    // TODO: Handle cases where there are no types.
-    // They usually have 0 to 0 token index.
     if (parsedParam.type?.startsWith(typeToken.text)) {
       parsedParam.canonicalReference = typeToken.canonicalReference ?? '';
       parsedParam.shortType = typeToken.text ?? '';

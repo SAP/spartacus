@@ -41,7 +41,6 @@ oldApiData.forEach((oldApiElement: any) => {
         addBreakingChanges(oldApiElement, [
           {
             ...getChangeDesc(oldApiElement, 'MOVED'),
-            target: 'toplevel', // // TODO: Not used. Remove when appropriate.
             to: {
               entryPoint: newApiElementMoved.entryPoint,
               namespace: newApiElementMoved.namespace ?? '',
@@ -67,7 +66,6 @@ oldApiData.forEach((oldApiElement: any) => {
       addBreakingChanges(oldApiElement, [
         {
           ...getChangeDesc(oldApiElement, 'DELETED'),
-          target: 'toplevel', // // TODO: Not used. Remove when appropriate.
         },
       ]);
     }
@@ -104,7 +102,7 @@ function findMovedElementInApi(apiData: Array<any>, elementToFind: any): any {
       // moved to both entry points and namespace
       // However, we don't want to have false moves with
       // the model interfaces that have no namespace, but
-      // all have a couonterpart in the 'Occ' namespace.
+      // all have a counterpart in the 'Occ' namespace.
       (elementToFind.namespace
         ? true
         : apiDataElement.namespace === elementToFind.namespace)
@@ -211,8 +209,10 @@ ${functonElement.name}(${parameterDoc})${
 function getParameterDoc(functonElement: any): string {
   if (functonElement.parameters?.length) {
     let parameterDoc = '\n';
-    functonElement.parameters.forEach((parameter: any) => {
-      parameterDoc += `  ${parameter.name}: ${parameter.type}\n`; // TODO: Add comma aat the end of the line
+    functonElement.parameters.forEach((parameter: any, index: number) => {
+      parameterDoc += `  ${parameter.name}: ${parameter.type}${
+        index + 1 >= functonElement.parameters.length ? '' : ','
+      }\n`;
     });
     return parameterDoc;
   } else {
@@ -455,7 +455,6 @@ function getChangeDesc(element: any, changeType: string): any {
     changeKind: element.kind,
     changeLabel: getChangeLabel(changeType),
     changeElementName: element.name,
-    changeDesc: true, // TODO: Not used. Remove when appropriate.
   };
 }
 
