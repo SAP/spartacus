@@ -15,9 +15,10 @@ import { AppServerModule } from './src/main.server';
 const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
-  concurrency: 20,
-  timeout: Number(process.env.SSR_TIMEOUT ?? 3000),
+  timeout: 3000,
+  cache: false,
   reuseCurrentRendering: true,
+  debug: true,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
@@ -37,6 +38,7 @@ export function app() {
     'html',
     ngExpressEngine({
       bootstrap: AppServerModule,
+      inlineCriticalCss: false,
     })
   );
 

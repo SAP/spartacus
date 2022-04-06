@@ -1,3 +1,4 @@
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   ElementRef,
   Inject,
@@ -7,12 +8,11 @@ import {
   Renderer2,
   ViewContainerRef,
 } from '@angular/core';
+import { CmsComponent, CmsComponentMapping, Priority } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { ComponentHandler } from './component-handler';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { CxApiService } from '../services/cx-api.service';
-import { CmsComponentMapping, Priority } from '@spartacus/core';
 import { CmsComponentData } from '../../model';
+import { CxApiService } from '../services/cx-api.service';
+import { ComponentHandler } from './component-handler';
 
 /**
  * Component handler responsible for launching cms web components.
@@ -126,5 +126,11 @@ export class WebComponentHandler implements ComponentHandler {
         resolve(selector);
       }
     });
+  }
+
+  resolveComponent(
+    _componentMapping: CmsComponentMapping<CmsComponent>
+  ): Observable<unknown> | undefined {
+    return undefined;
   }
 }

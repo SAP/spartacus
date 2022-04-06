@@ -33,7 +33,7 @@ export class ComponentHandlerService {
    *
    * @param componentMapping
    */
-  protected resolve(componentMapping: CmsComponentMapping): ComponentHandler {
+  resolve(componentMapping: CmsComponentMapping): ComponentHandler | undefined {
     const handler = resolveApplicable(this.handlers, [componentMapping]);
 
     if (isDevMode() && !handler) {
