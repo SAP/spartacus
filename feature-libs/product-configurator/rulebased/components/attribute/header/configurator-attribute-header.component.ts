@@ -159,6 +159,7 @@ export class ConfiguratorAttributeHeaderComponent
         } else {
           groupId = this.findConflictGroupId(configuration, this.attribute);
         }
+        console.log(groupId);
         if (groupId) {
           this.configuratorGroupsService.navigateToGroup(
             configuration,
@@ -172,20 +173,16 @@ export class ConfiguratorAttributeHeaderComponent
   findConflictGroupId(
     configuration: Configurator.Configuration,
     currentAttribute: Configurator.Attribute
-  ): string {
-    let groupId = '';
-    configuration.flatGroups
+  ): string | undefined {
+    return configuration.flatGroups
       .filter(
         (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
       )
-      .forEach((group) => {
-        groupId = group.attributes?.find(
+      .find((group) => {
+        return group.attributes?.find(
           (attribute) => attribute.key === currentAttribute.key
-        )
-          ? group.id
-          : groupId;
-      });
-    return groupId;
+        );
+      })?.id;
   }
 
   /**
