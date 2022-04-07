@@ -98,4 +98,22 @@ describe('Product Effects', () => {
       ).toBeObservable(expected);
     });
   });
+
+  describe('clearProductPrice$', () => {
+    const loginLogoutAction = ['Login', 'Logout'];
+
+    loginLogoutAction.forEach((actionName) => {
+      it(`should reset product price on ${actionName}`, () => {
+        const action = new AuthActions[actionName]();
+        const clearProductPrice = new ProductActions.ClearProductPrice();
+
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', {
+          b: clearProductPrice,
+        });
+
+        expect(effects.clearProductPrice$).toBeObservable(expected);
+      });
+    });
+  });
 });
