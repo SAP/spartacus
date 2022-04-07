@@ -1,4 +1,4 @@
-import { ChildProcess, exec, execSync } from 'child_process';
+import { ChildProcess, exec, execFileSync, execSync } from 'child_process';
 import { prompt } from 'enquirer';
 import fs from 'fs';
 import glob from 'glob';
@@ -100,13 +100,13 @@ function publishLibs(reload = false): void {
     // Publish package
     const dir = path.dirname(packagePath);
     console.log(`\nPublishing ${content.name}`);
-    execSync(
-      `yarn publish --cwd ${dir} --new-version ${
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        currentVersion!.version
-      } --registry=http://localhost:4873/ --no-git-tag-version`,
-      { stdio: 'inherit' }
-    );
+    const cmd: string = "yarn publish";
+    const args: string[] = ["--cwd", `${dir}`, "--new-version", `${
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      currentVersion!.version
+    }`, "--registry=http://localhost:4873/", "--no-git-tag-version"];
+    const options: Object = { stdio: 'inherit' };
+    execFileSync(cmd, args, options);
   });
 }
 
