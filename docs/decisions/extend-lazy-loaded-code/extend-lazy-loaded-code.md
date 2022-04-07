@@ -126,7 +126,7 @@ The following diagram shows possibility of composing many extensions for the che
 
 Assuming, that the lazy-loadable feature has its own wrapper module in the app, the installation of the extension features means appending the extension module inside the wrapper module.
 
-The installer should basically locate the import of the base feature module in the customer's codebase (e.g. import of `CheckoutModule`), and append the extension module (e.g. `DigitalPayments`) after it. The followin example shows the content of the wrapper module, including the CheckoutModule (being a marker for the schematics installer) and the extensions modules `B2bCheckoutModule` and `DigitalPaymentsModule` imported after the marker:
+The installer should basically locate the import of the base feature module in the customer's codebase (e.g. import of `CheckoutModule`), and append the extension module (e.g. `DigitalPayments`) after it. The following example shows the content of the wrapper module, including the base `CheckoutModule` (being a marker for the schematics installer) and the extensions modules `B2bCheckoutModule` and `DigitalPaymentsModule` imported after the marker:
 
 ```ts
 // CheckoutWrapperModule in the app:
@@ -140,7 +140,10 @@ The installer should basically locate the import of the base feature module in t
 export class CheckoutWrapperModule {}
 ```
 
-The wrapper modules should be called `XxxWrapperModule`. For reference, here are alternatives that were considered, based on the example of `CheckoutModule`:
+
+Note: the order of installing libraries is important. The base feature must be installed first (so the base module is added in the codebase), and later the extensions must be installed (because their installer will look for the marker base module).
+
+Note: It's debatable how to name the wrapper modules. By voting in the Blamed Team, we've chosen `XxxWrapperModule`. For reference, here are alternatives that were considered, based on the example of `CheckoutModule`:
 - `CheckoutWrapperModule` ✅ 
 - `CheckoutExtensionModule`
 - `CheckoutExtendedModule`
@@ -149,7 +152,6 @@ The wrapper modules should be called `XxxWrapperModule`. For reference, here are
 - `CheckoutLocalModule`
 
 
-Note: the order of installing libraries is important. The base feature must be installed first (to add a marker module in the code), and the extensions must be installed after the base feature (because they would look for the marker module).
 
 #### Pros
 - It works
