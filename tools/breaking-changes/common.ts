@@ -93,3 +93,15 @@ export function getParameterDoc(
 function getLineEnding(multiLine: boolean = true) {
   return multiLine ? '\n' : '';
 }
+
+export function getElementCategory(apiElement: any): string {
+  if (isTopLevelApi(apiElement.kind)) {
+    return 'TOP_LEVEL_API';
+  }
+  if (isMember(apiElement.kind)) {
+    return 'MEMBER';
+  }
+  throw new Error(
+    `Unknown api element category for element "${apiElement.name}" with kind ${apiElement.kind}}`
+  );
+}

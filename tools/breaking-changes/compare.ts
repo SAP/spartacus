@@ -1,6 +1,11 @@
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
-import { getSignatureDoc, printStats, unEscapePackageName } from './common';
+import {
+  getElementCategory,
+  getSignatureDoc,
+  printStats,
+  unEscapePackageName,
+} from './common';
 
 // --------------------------------------------------
 // Main Logic
@@ -380,7 +385,16 @@ function addBreakingChanges(element: any, breakingChanges: any[]) {
   if (!element.breakingChanges) {
     element.breakingChanges = [];
   }
+  breakingChanges = addBreakingChangeContext(element, breakingChanges);
   element.breakingChanges.push(...breakingChanges);
+}
+
+function addBreakingChangeContext(apiElement: any, breakingChanges: any[]) {
+  return breakingChanges.map((breakingChange: any) => {
+    breakingChange.topLevelApiElementName = apiElement.name;
+    breakingChange.entryPoint = apiElement.entryPoint;
+    return breakingChange;
+  });
 }
 
 function findMatchingMember(newApiElement: any, oldMember: any) {
@@ -425,6 +439,7 @@ function getChangeDesc(element: any, changeType: string): any {
     changeKind: element.kind,
     changeLabel: getChangeLabel(changeType),
     changeElementName: element.name,
+    changeElementCategory: getElementCategory(element),
   };
 }
 
