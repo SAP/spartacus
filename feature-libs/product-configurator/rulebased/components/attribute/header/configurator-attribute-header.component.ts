@@ -187,7 +187,7 @@ export class ConfiguratorAttributeHeaderComponent
       })?.id;
   }
 
-  logWarning(text: string): void {
+  protected logWarning(text: string): void {
     if (isDevMode()) {
       console.warn(text);
     }
