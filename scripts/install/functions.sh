@@ -200,7 +200,7 @@ function publish_package {
 }
 
 function restore_clone {
-    if [ ${BRANCH} == 'feature/GH-15525' ]; then
+    if [ ${BRANCH} == 'develop' ]; then
         pushd ../.. > /dev/null
         for path in ${SPARTACUS_PROJECTS[@]}
         do

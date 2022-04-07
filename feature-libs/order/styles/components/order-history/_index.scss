@@ -1,4 +1,3 @@
-@import '@spartacus/cart';
 @import './amend-order-actions';
 @import './amend-order-items';
 @import './order-history';
@@ -9,6 +8,7 @@
 @import './return-request-totals';
 @import './cancel-order';
 @import './consignment-tracking';
+@import 'cart';
 
 $order-history-allowlist: cx-amend-order-actions, cx-amend-order-items,
   cx-cancel-order, cx-consignment-tracking, cx-tracking-events, cx-order-history,
