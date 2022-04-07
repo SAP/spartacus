@@ -9,7 +9,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Breadcrumb, I18nTestingModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetList } from '../facet.model';
 import { FacetService } from '../services/facet.service';
@@ -62,14 +62,14 @@ describe('ActiveFacetsComponent', () => {
   });
 
   it('should not render h4 when there are no active facets', () => {
-    component.facetList$ = null;
+    component.facetList$ = EMPTY;
     fixture.detectChanges();
     const header = element.queryAll(By.css('h4'));
     expect(header.length).toBeFalsy();
   });
 
   it('should not render anchor links when there are no active facets', () => {
-    component.facetList$ = null;
+    component.facetList$ = EMPTY;
     fixture.detectChanges();
     const header = element.queryAll(By.css('a'));
     expect(header.length).toEqual(0);
@@ -110,16 +110,11 @@ describe('ActiveFacetsComponent', () => {
     component.facetList$ = of(mockFacetList);
     fixture.detectChanges();
     const filter = element.query(By.css('a')).nativeElement;
-    console.log(filter);
-
     filter.focus();
+
     fixture.detectChanges();
 
-    filter.nativeElement?.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        key: ' ',
-      })
-    );
+    filter.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
     fixture.detectChanges();
 
     expect(component.removeFilterWithSpacebar).toHaveBeenCalled();
