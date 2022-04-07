@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  AfterViewInit,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { Breadcrumb } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
@@ -14,14 +22,20 @@ import { FacetService } from '../services/facet.service';
   templateUrl: './active-facets.component.html',
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ActiveFacetsComponent {
+export class ActiveFacetsComponent implements AfterViewInit {
   /** Active facets which are applied to the product results. */
   facetList$: Observable<FacetList> = this.facetService.facetList$;
 
   /** Configurable icon which is used for the active facet close button */
   @Input() closeIcon = ICON_TYPE.CLOSE;
 
+  @ViewChildren('activeFilters') activeFilters: QueryList<ElementRef>;
+
   constructor(protected facetService: FacetService) {}
+
+  ngAfterViewInit(): void {
+    this.activeFilters.toArray();
+  }
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(facet.removeQuery?.query?.value);
@@ -41,5 +55,18 @@ export class ActiveFacetsComponent {
     )
       ? ''
       : facet.facetValueName;
+  }
+
+  /**
+   * Purpose of this function is to allow keyboard users to click on a filter they
+   * wish to remove by pressing spacebar. Event not handled natively since active
+   * filters are <a> elements.
+   *
+   * @param index of active filter selected
+   * @param event spacebar keydown
+   */
+  removeFilterWithSpacebar(index: number, event?: Event): void {
+    event?.preventDefault(); // Avoid spacebar scroll
+    this.activeFilters.get(index)?.nativeElement.click();
   }
 }

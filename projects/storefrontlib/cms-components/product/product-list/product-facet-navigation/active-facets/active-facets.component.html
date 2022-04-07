@@ -5,7 +5,9 @@
 
   <a
     role="button"
-    *ngFor="let facet of facetList?.activeFacets"
+    #activeFilters
+    (keydown.space)="removeFilterWithSpacebar(i, $event)"
+    *ngFor="let facet of facetList?.activeFacets; let i = index"
     routerLink="./"
     [queryParams]="getLinkParams(facet)"
     [cxFocus]="getFocusKey(facetList, facet)"
