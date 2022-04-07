@@ -70,7 +70,7 @@ provideConfig({
 The following diagram shows that e.g. digital payments module imports statically the original checkout module. And in the app our dynamic import points to the digital payments module.
 ![](./pre-baked-digital-payments-module-diagram.png)
 
-Unfortunately, this approach allows for installing automatically (via schematics) only one extension feature for one base feature. This is a blocker issue. Taking as an example the Checkout feature, customers might want to use have many possible opt-in extensions originating from vaious Spartacus libraries, e.g. `DigitalPaymentsModule`, `B2bCheckoutModule` or `ScheduledReplenishmentCheckoutModule`. The following diagram pictures the dillema, to which library's the dynamic import should point to:
+Unfortunately, this approach allows for installing automatically (via schematics) only one extension feature for one base feature. This is a blocker issue. Taking as an example the Checkout feature, customers might want to use many possible opt-in extensions originating from vaious Spartacus libraries, e.g. `DigitalPaymentsModule`, `B2bCheckoutModule` or `ScheduledReplenishmentCheckoutModule`. The following diagram pictures the dillema, to which library's the dynamic import should point to:
 ![](./pre-baked-wrapper-modules-diagram.png)
 
 Note: at the time of writing, this solution is used in the `develop` branch, with known limitations. See https://github.com/SAP/spartacus/blob/780cd570ca56b2f55a94872b4c0f7ae30b5fdccd/integration-libs/digital-payments/src/digital-payments.module.ts#L5-L8
@@ -83,9 +83,17 @@ Note: at the time of writing, this solution is used in the `develop` branch, wit
 
 ### Option 1: Wrapper modules in the app
 Idea: Introduce a wrapper module in the app and import it dynamically instead of the original Spartacus module:
-```diff
-- ()=>import('@spartacus/user/profile').then(m=>m.UserProfileService)
-+ ()=>import('./wrapper-user-profile.module').then(m=>WrapperUserProfileModule)
+```ts
+// CheckoutFeatureModule in the app:
+provideConfig({
+  featureModules: {
+    [CHECKOUT_FEATURE]: {
+      module: () =>
+        import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+        // point to a separate file in the app 👆
+    },
+  },
+}),
 ```
 
 Then inside the wrapper module we primarily import (statically) the original Spartacus module, but also allow for importing (statically) other extensions modules. Because the child-injector belongs to the wrapper module (as it's lazy-loaded), and both the original and the extension modules are imported inside the wrapper module, they all share the same child injector. Therefore the extension service can overwrite the original service. The following example shows the content of the wrapper module in the app:
