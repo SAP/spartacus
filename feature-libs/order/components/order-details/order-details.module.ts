@@ -15,6 +15,7 @@ import {
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { OrderHistoryDetailsGuard } from '../guards/order-history-details.guard';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
 import { ConsignmentTrackingComponent } from './order-detail-items/consignment-tracking/consignment-tracking.component';
 import { TrackingEventsComponent } from './order-detail-items/consignment-tracking/tracking-events/tracking-events.component';
@@ -52,15 +53,19 @@ const moduleComponents = [
       cmsComponents: {
         AccountOrderDetailsActionsComponent: {
           component: OrderDetailActionsComponent,
+          guards: [OrderHistoryDetailsGuard],
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,
+          guards: [OrderHistoryDetailsGuard],
         },
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,
+          guards: [OrderHistoryDetailsGuard],
         },
         AccountOrderDetailsShippingComponent: {
           component: OrderDetailShippingComponent,
+          guards: [OrderHistoryDetailsGuard],
         },
       },
       features: {

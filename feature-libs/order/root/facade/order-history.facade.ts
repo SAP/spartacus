@@ -15,6 +15,7 @@ export function orderHistoryFacadeFactory() {
     feature: ORDER_CORE_FEATURE,
     methods: [
       'getOrderDetails',
+      'getOrder',
       'loadOrderDetails',
       'clearOrderDetails',
       'getOrderHistoryList',
@@ -42,6 +43,11 @@ export abstract class OrderHistoryFacade {
    * Returns an order's detail
    */
   abstract getOrderDetails(): Observable<Order>;
+
+  /**
+   * Returns an order's detail
+   */
+  abstract getOrder(code: string): Observable<Order>;
 
   /**
    * Retrieves order's details

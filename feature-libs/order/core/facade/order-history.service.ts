@@ -14,7 +14,7 @@ import {
   OrderHistoryList,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { filter, map, shareReplay, take, tap } from 'rxjs/operators';
 import { OrderActions } from '../store/actions/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithOrder } from '../store/order-state';
 import { OrderSelectors } from '../store/selectors/index';
@@ -33,6 +33,20 @@ export class OrderHistoryService implements OrderHistoryFacade {
    */
   getOrderDetails(): Observable<Order> {
     return this.store.pipe(select(OrderSelectors.getOrderDetails));
+  }
+
+  /**
+   * Returns an order's detail
+   */
+  getOrder(code: string): Observable<Order> {
+    this.loadOrderDetails(code);
+
+    return this.store.pipe(
+      select(OrderSelectors.getOrderDetailState),
+      filter((state) => !state.loading),
+      map((state) => state.value),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
   }
 
   /**
