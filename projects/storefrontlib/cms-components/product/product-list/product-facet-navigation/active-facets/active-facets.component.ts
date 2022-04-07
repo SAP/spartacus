@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  ElementRef,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Breadcrumb } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
@@ -27,8 +20,6 @@ export class ActiveFacetsComponent {
 
   /** Configurable icon which is used for the active facet close button */
   @Input() closeIcon = ICON_TYPE.CLOSE;
-
-  @ViewChildren('activeFilters') activeFilters: QueryList<ElementRef>;
 
   constructor(protected facetService: FacetService) {}
 
@@ -57,11 +48,10 @@ export class ActiveFacetsComponent {
    * wish to remove by pressing spacebar. Event not handled natively since active
    * filters are <a> elements.
    *
-   * @param index of active filter selected
    * @param event spacebar keydown
    */
-  removeFilterWithSpacebar(index: number, event?: Event): void {
+  removeFilterWithSpacebar(event: Event): void {
     event?.preventDefault(); // Avoid spacebar scroll
-    this.activeFilters.get(index)?.nativeElement.click();
+    event.target.dispatchEvent(new MouseEvent('click'));
   }
 }
