@@ -1,5 +1,5 @@
 %cx-wish-list {
-  @extend %cx-cart-item-list;
+  @extend .cx-cart-item-list;
 
   td.cx-actions {
     cx-add-to-cart {

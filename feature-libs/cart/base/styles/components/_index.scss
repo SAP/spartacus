@@ -17,7 +17,7 @@
 @import './clear-cart';
 
 $cart-components-allowlist: cx-mini-cart, cx-add-to-cart, cx-item-counter,
-  cx-added-to-cart-dialog, cx-cart-details, cx-cart-item, cx-cart-item-list,
+  cx-added-to-cart-dialog, cx-cart-details, cx-cart-item,
   cx-cart-totals, cx-cart-coupon, cx-applied-coupons, cx-save-for-later,
   cx-order-summary, cx-cart-validation-warnings, cx-cart-item-validation-warning,
   cx-cart-proceed-to-checkout, cx-clear-cart-dialog, cx-clear-cart !default;
