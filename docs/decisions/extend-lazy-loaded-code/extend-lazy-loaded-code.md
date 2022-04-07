@@ -155,8 +155,7 @@ Note: It's debatable how to name the wrapper modules. By voting in the Blamed Te
 
 #### Pros
 - It works
-- by the way, it improves the customer's developer experience - it shows the straightforward place where customers they can overwrite our OOTB services in a lazy-loaded feature (nowadays the [documentation says customers need to create wrapper modules themselves manually](https://sap.github.io/spartacus-docs/lazy-loading-guide/#customizing-lazy-loaded-modules))
-- additionally, it allows for tree-shaking any unused public API of the feature library entrypoint (which was not the case previously, when importing dynamically module from the direct path of the library)
+- by the way, when the base module is imported inside a wrapper module, it improves tree-shaking - any public API members exported from the library's path (e.g. `@spartacus/checkout/base`) that are not used in the app will be tree-shaken
 
 #### Cons
 - we add more modules in customer's app
