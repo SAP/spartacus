@@ -9,7 +9,7 @@ import { OrderAmendService } from '../amend-order.service';
   selector: 'cx-amend-order-items',
   templateUrl: './amend-order-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'cx-cart-item-list' },
+  host: { class: 'cx-cart-item-list cx-amend-order-items' },
 })
 export class CancelOrReturnItemsComponent {
   @Input() entries: OrderEntry[];

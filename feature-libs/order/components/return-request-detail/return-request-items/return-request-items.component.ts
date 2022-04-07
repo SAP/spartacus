@@ -7,7 +7,7 @@ import { ReturnRequestService } from '../return-request.service';
   selector: 'cx-return-request-items',
   templateUrl: './return-request-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'cx-cart-item-list' },
+  host: { class: 'cx-cart-item-list cx-return-request-items' },
 })
 export class ReturnRequestItemsComponent {
   constructor(protected returnRequestService: ReturnRequestService) {}
