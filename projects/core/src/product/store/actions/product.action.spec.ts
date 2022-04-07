@@ -1,5 +1,6 @@
 import { Product } from '../../../model/product.model';
 import { EntityScopedLoaderActions } from '../../../state/utils/scoped-loader/entity-scoped-loader.actions';
+import { ProductScope } from '../../model/product-scope';
 import { PRODUCT_DETAIL_ENTITY } from '../product-state';
 import * as fromProduct from './product.action';
 
