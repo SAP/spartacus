@@ -53,7 +53,7 @@ export function entitySuccessMeta(
 
 export function entityResetMeta(
   entityType: string,
-  id: string | string[]
+  id?: string | string[]
 ): EntityLoaderMeta {
   return {
     ...resetMeta(entityType),
