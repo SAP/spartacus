@@ -179,7 +179,7 @@ function increaseBudgets(): Rule {
       if (budget.type === 'initial') {
         return {
           ...budget,
-          maximumError: '2.5mb',
+          maximumError: '3mb',
         };
       }
       return budget;
