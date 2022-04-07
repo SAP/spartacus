@@ -185,12 +185,6 @@ Note: It's debatable how to name the wrapper modules. By voting in the Blamed Te
   - YES, we need to add a logic that analyzes the dependencies between feature and extension modules and then installs all features in the correct order
 - [x] how do we name the wrapper modules?
   - WrapperXxxModule
-- [ ] it might seriously complicate the future automated migrations in case we will change in the future the suggested division of the features in to lazy-laoded chunks (e.g. we propose more fine-grained or reorganized chunks).
-  - TBD: in the end of the day, it's up to customers to decide how to optimize their code. But it would be good to provide nice OOTB experience.
-- [ ] how does the shell app look files structure look like if every feature is blown into many modules (main feature module with configs, and one or more lazy-loaded wrapper feature modules)
-  - TBD
-- [ ] can we have one library entry point for multiple lazy-loaded modules? if yes, how do we enforce boundaries?
-  - TODO 
   
 #### Plan of implementation
 
