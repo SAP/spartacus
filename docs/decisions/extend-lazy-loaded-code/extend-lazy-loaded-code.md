@@ -217,7 +217,7 @@ Suggested TODO before 5.0:
       - it's problematic as there is no single file where we could break down the dynamic import
 
 
-### Option 2: Configure the extension module as `dependencies` of the lazy-loaded feature module
+### Option 2: Configure the extension module as `dependencies` of the base feature module
 Spartacus allows for configuring `dependencies` for a feature module, for example:
 
 ```ts
@@ -245,7 +245,7 @@ So this this option is disqualified as it's not solving our problem.
 
 *Note*: why the dependency module's injector cannot have higher priority than the feature module's injector? It's because the Angular's public API allows only for setting a *parent injector* for the dynamically instantiated module: `NgModuleFactory<any>.create(parentInjector: Injector | null): NgModuleRef<any>`. And the parent injector, by definition has a lower priority than the injector of the instantiated module. 
 
-### Option 3: Configure the original module as `dependencies` of the extension module (tweaked Option 2)
+### Option 3: Configure the base module as `dependencies` of the extension module (tweaked Option 2)
 We could tweak the Option (2), and set the extension module as the main feature `module`, while setting the original feature module only as `dependencies`. Then the injector of the extension module should have higher priority than the original feature module, when resolving services. See example:
 
 ```ts
@@ -363,13 +363,12 @@ Interesting:
 - Should we use JIT in general? Angular may remove the JIT compilation in the (far?) future, however it’s not definitely decided yet. See [RFC](https://github.com/angular/angular/issues/43133#issuecomment-941151334).
 - using JIT compiler introduces [some security concerns](https://angular.io/guide/security#use-the-aot-template-compiler). How much will we be affected, when calling compileModuleAsync or the alternative function createNgModuleRef() (that was introduced only in v13)
 
-
-TODO: We need to create a working PoC
+Note: Here's the working PoC PR: https://github.com/SAP/spartacus/pull/14954
 
 ## 5. Decision
 _Elaborate the decision_
 
-TODO
+Decision is Option 1: Introduce local wrapper modules in the app.
 
 ## 6. Consequences
 _What becomes easier or more difficult to do because of this change?_
