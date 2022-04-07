@@ -1,6 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, Product } from '@spartacus/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  EventService,
+  I18nTestingModule,
+  Product,
+  TranslationService,
+} from '@spartacus/core';
+import {
+  ComponentCreateEvent,
+  ComponentDestroyEvent,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';
@@ -20,9 +29,23 @@ class MockCurrentProductService {
   }
 }
 
+class MockTranslationService {
+  translate() {}
+}
+
+class MockEventService {
+  get() {
+    return of();
+  }
+}
+
+const reviewsLabel = 'Reviews';
+
 describe('ProductIntroComponent in product', () => {
   let productIntroComponent: ProductIntroComponent;
   let fixture: ComponentFixture<ProductIntroComponent>;
+  let translationService: TranslationService;
+  let eventService: EventService;
 
   beforeEach(
     waitForAsync(() => {
@@ -34,12 +57,25 @@ describe('ProductIntroComponent in product', () => {
             provide: CurrentProductService,
             useClass: MockCurrentProductService,
           },
+          {
+            provide: TranslationService,
+            useClass: MockTranslationService,
+          },
+          {
+            provide: EventService,
+            useClass: MockEventService,
+          },
         ],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
+    translationService = TestBed.inject(TranslationService);
+    spyOn(translationService, 'translate').and.returnValue(of(reviewsLabel));
+
+    eventService = TestBed.inject(EventService);
+
     fixture = TestBed.createComponent(ProductIntroComponent);
     productIntroComponent = fixture.componentInstance;
   });
@@ -107,6 +143,14 @@ describe('ProductIntroComponent in product', () => {
   });
 
   describe('Product rating', () => {
+    const tabsComponent: HTMLElement = document.createElement(
+      'cx-tab-paragraph-container'
+    );
+
+    beforeEach(() => {
+      productIntroComponent['getTabsComponent'] = () => tabsComponent;
+    });
+
     it('should display rating component when rating is available', () => {
       productIntroComponent.product$ = of<Product>({ averageRating: 4.5 });
       fixture.detectChanges();
@@ -135,17 +179,114 @@ describe('ProductIntroComponent in product', () => {
       );
     });
 
-    it('should not display Show Reviews when no reviews available', () => {
+    it('should not display Show Reviews when no average rating', () => {
       productIntroComponent.product$ = of<Product>({
         averageRating: undefined,
       });
-      productIntroComponent.ngAfterContentChecked = () => {
-        productIntroComponent.reviewsTabAvailable.next(true);
-      };
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).not.toContain(
         'productSummary.showReviews'
       );
+    });
+
+    it('should not display Show Reviews when reviews are not available', () => {
+      productIntroComponent.product$ = of<Product>({
+        averageRating: 5,
+      });
+      productIntroComponent['getReviewsComponent'] = () => null;
+
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
+        'productSummary.showReviews'
+      );
+    });
+
+    it('should display Show Reviews when the reviews component is available', () => {
+      const event = new ComponentCreateEvent();
+      event.id = 'ProductReviewsTabComponent';
+
+      spyOn(eventService, 'get').and.returnValues(of(event), of());
+
+      fixture = TestBed.createComponent(ProductIntroComponent);
+      productIntroComponent = fixture.componentInstance;
+
+      productIntroComponent.product$ = of<Product>({
+        averageRating: 5,
+      });
+      productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
+
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'productSummary.showReviews'
+      );
+    });
+
+    it('should display Show Reviews when reviews component has been created', () => {
+      const event = new ComponentCreateEvent();
+      event.id = 'ProductReviewsTabComponent';
+
+      spyOn(eventService, 'get').and.returnValues(of(event), of());
+
+      fixture = TestBed.createComponent(ProductIntroComponent);
+      productIntroComponent = fixture.componentInstance;
+
+      productIntroComponent.product$ = of<Product>({
+        averageRating: 5,
+      });
+      productIntroComponent['getReviewsComponent'] = () => null;
+
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).toContain(
+        'productSummary.showReviews'
+      );
+    });
+
+    it('should not display Show Reviews when reviews component has been destroyed', () => {
+      const event = new ComponentDestroyEvent();
+      event.id = 'ProductReviewsTabComponent';
+
+      spyOn(eventService, 'get').and.returnValues(of(), of(event));
+
+      fixture = TestBed.createComponent(ProductIntroComponent);
+      productIntroComponent = fixture.componentInstance;
+
+      productIntroComponent.product$ = of<Product>({
+        averageRating: 4,
+      });
+      productIntroComponent['getReviewsComponent'] = () => ({} as HTMLElement);
+
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.innerText).not.toContain(
+        'productSummary.showReviews'
+      );
+    });
+
+    it('should scroll to Reviews tab and set focus on Show Reviews click', (done) => {
+      const tab1: HTMLElement = document.createElement('button');
+      const reviewsTab: HTMLElement = document.createElement('button');
+
+      tab1.innerText = 'Tab 1';
+      reviewsTab.innerText = reviewsLabel;
+
+      tabsComponent.appendChild(tab1);
+      tabsComponent.appendChild(reviewsTab);
+
+      productIntroComponent.product$ = of<Product>({
+        averageRating: 4.5,
+      });
+
+      spyOn(reviewsTab, 'focus');
+      spyOn(reviewsTab, 'scrollIntoView');
+
+      fixture.detectChanges();
+
+      productIntroComponent.showReviews();
+
+      setTimeout(() => {
+        expect(reviewsTab.focus).toHaveBeenCalled();
+        expect(reviewsTab.scrollIntoView).toHaveBeenCalled();
+        done();
+      }, 100);
     });
   });
 });
