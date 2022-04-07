@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
-  ContextService,
   OrderEntriesContext,
+  OrderEntry,
   ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/storefront';
+} from '@spartacus/cart/base/root';
+import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
@@ -15,6 +15,8 @@ import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.se
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExportOrderEntriesComponent {
+  @HostBinding('class') styles = 'container';
+
   constructor(
     protected exportEntriesService: ExportOrderEntriesToCsvService,
     protected contextService: ContextService

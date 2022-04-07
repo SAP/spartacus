@@ -1,0 +1,12 @@
+<button
+  class="btn btn-link"
+  type="submit"
+  [disabled]="disabled"
+  [class.checked]="checked"
+  [attr.aria-checked]="checked"
+>
+  <div class="buttonVBox">
+    <cx-icon class="{{ iconLibraryClass }} {{ iconClass }}"></cx-icon>
+    <span class="buttonText">{{ text }}</span>
+  </div>
+</button>

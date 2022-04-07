@@ -1,7 +1,9 @@
+import { addProductToCart as addToCart } from './applied-promotions';
+
 export const summaryContainer = `cx-product-summary`;
 export const infoContainer = `cx-product-intro`;
 export const tabsContainer = 'cx-tab-paragraph-container';
-export const tabsHeaderList = `${tabsContainer} > button`;
+export const tabsHeaderList = `${tabsContainer} > div > button`;
 export const activeTabContainer = `${tabsContainer} .active .container`;
 export const shippingTabActive = `${tabsContainer} .active cx-paragraph`;
 export const reviewContainer = 'cx-product-reviews';
@@ -23,6 +25,13 @@ export const variantStyleList = `${variantSelectorContainer} ul.variant-list`;
 export const PRODUCT_NAME = 'Battery Video Light';
 
 export function verifyProductDetails() {
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/components`,
+  }).as('getComponents');
+  cy.wait('@getComponents').its('response.statusCode').should('eq', 200);
   cy.get(`${breadcrumbContainer} h1`).should('contain', PRODUCT_NAME);
   cy.get(`${infoContainer} .code`).should('contain', 'ID 266685');
   cy.get(`${summaryContainer} .summary`).should(
@@ -36,6 +45,16 @@ export function verifyCorrectTabs() {
   cy.get(tabsHeaderList).eq(1).should('contain', 'Specs');
   cy.get(tabsHeaderList).eq(2).should('contain', 'Reviews');
   cy.get(tabsHeaderList).eq(3).should('contain', 'Shipping');
+}
+
+export function verifyShowReviewsLink() {
+  cy.get(`${infoContainer} .cx-action-link`)
+    .contains(/show reviews/i)
+    .click();
+  cy.get(`${tabsHeaderList}`)
+    .contains(/reviews/i)
+    .should('be.focused')
+    .and('have.attr', 'aria-expanded', 'true');
 }
 
 export function verifyTextInTabs() {
@@ -67,11 +86,12 @@ export function verifyContentInReviewTab() {
 }
 
 export function verifyReviewForm() {
-  cy.intercept(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/products/*/reviews?lang=en&curr=USD`
-  ).as('submitReview');
+    )}/products/*/reviews?lang=en&curr=USD`,
+  }).as('submitReview');
 
   cy.get(writeAReviewButton).click();
   cy.get(writeAReviewForm).should('be.visible');
@@ -91,9 +111,7 @@ export function verifyReviewForm() {
 }
 
 export function verifyQuantityInCart() {
-  cy.get(addToCartButton)
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get(atcModal).should('be.visible');
   cy.get(atcModalTitle).should('contain', 'Item(s) added to your cart');
   cy.get(`${atcModalItem} .cx-name`).should('contain', PRODUCT_NAME);
@@ -102,9 +120,7 @@ export function verifyQuantityInCart() {
   for (let i = 0; i <= 2; i++) {
     cy.get(itemCounter).findByText('+').click();
   }
-  cy.get(addToCartButton)
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog cx-cart-item');
   cy.get(atcModalCloseButton).click();
   cy.get(headerCartButton).should('contain', '5');
@@ -141,6 +157,10 @@ export function productDetailsTest() {
     verifyContentInReviewTab();
   });
 
+  it('should jump to reviews section when Show Reviews clicked', () => {
+    verifyShowReviewsLink();
+  });
+
   it('should submit a review', () => {
     verifyReviewForm();
   });
@@ -170,12 +190,12 @@ export function configureDefaultProduct() {
     },
   });
 
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?pageType=ProductPage**`
-  ).as('productPage');
+    )}/cms/pages?pageType=ProductPage**`,
+  }).as('productPage');
 
   cy.visit('/product/266685');
 

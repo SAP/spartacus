@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProductSearchPage } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  ProductSearchPage,
+} from '@spartacus/core';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, skip, take } from 'rxjs/operators';
 import { PageLayoutService } from '../../../../cms-structure/page/index';
 import { ViewConfig } from '../../../../shared/config/view-config';
 import { ViewModes } from '../product-view/product-view.component';
@@ -25,6 +29,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(
     private pageLayoutService: PageLayoutService,
     private productListComponentService: ProductListComponentService,
+    private globalMessageService: GlobalMessageService,
     public scrollConfig: ViewConfig
   ) {}
 
@@ -41,6 +46,21 @@ export class ProductListComponent implements OnInit, OnDestroy {
               : ViewModes.List
           );
         })
+    );
+
+    this.subscription.add(
+      combineLatest([this.model$, this.viewMode$])
+        .pipe(
+          skip(1),
+          filter(([model, mode]) => !!model && !!mode)
+        )
+        .subscribe(() =>
+          this.globalMessageService.add(
+            { key: 'sorting.pageViewUpdated' },
+            GlobalMessageType.MSG_TYPE_ASSISTIVE,
+            500
+          )
+        )
     );
   }
 

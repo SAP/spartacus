@@ -1,7 +1,8 @@
 @import '../../theme';
-@import '~bootstrap/scss/tables';
 
 .table {
+  width: 100%;
+
   thead {
     th {
       border-bottom: 0 none;
@@ -10,7 +11,6 @@
       font-weight: $font-weight-semi;
       text-transform: uppercase;
       color: theme-color('secondary');
-      text-align: center;
     }
   }
   td {

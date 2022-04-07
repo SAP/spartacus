@@ -77,7 +77,7 @@ export function addProductToTheListAndModifyQuantity(
 }
 
 export function modifyProductQuantityInQuickOrderList(quantity: number) {
-  cy.get('.cx-quick-order-table-item-quantity cx-item-counter input')
+  cy.get('.cx-quantity cx-item-counter input')
     .type('{selectall}{backspace}')
     .type(`${quantity}`)
     .blur();
@@ -97,7 +97,7 @@ export function clearList() {
 export function removeFirstRow() {
   cy.get(`cx-quick-order .cx-quick-order-table-row`)
     .first()
-    .find('.cx-quick-order-table-item-action .cx-action-link')
+    .find('button.link.cx-action-link')
     .click();
 }
 
@@ -105,7 +105,7 @@ export function removeManyRows(quantity: number = 1) {
   for (let i = 0; i < quantity; i++) {
     cy.get(`cx-quick-order .cx-quick-order-table-row`)
       .first()
-      .find('.cx-quick-order-table-item-action .cx-action-link')
+      .find('button.link.cx-action-link')
       .click();
   }
 }
@@ -225,17 +225,23 @@ export function prepareCartWithProduct() {
   this.visitCartPage();
 }
 
-export function getQuickOrderResultBox(query: string, resultBoxLength: number) {
+export function getQuickOrderResultBox(query: string) {
   const alias = this.interceptSearchProductsEndpoint(query);
+  const maxBoxListLength = 5;
 
   cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
   cy.get('.quick-order-results-products').should('exist');
-
-  cy.get('.quick-order-results-products li').should(
-    'have.length',
-    resultBoxLength
-  );
+  cy.get(`@${alias}`)
+    .its('response.body')
+    .then((body) => {
+      cy.get('.quick-order-results-products li').should(
+        'have.length',
+        body?.products?.length > maxBoxListLength
+          ? maxBoxListLength
+          : body?.products?.length
+      );
+    });
 }
 
 export function verifyCartPageTabbingOrder() {

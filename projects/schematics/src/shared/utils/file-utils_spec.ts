@@ -26,12 +26,12 @@ import {
   NGRX_STORE,
   PLATFORM,
   PLATFORM_ID_STRING,
-  SPARTACUS_CORE,
   STORE,
   TODO_SPARTACUS,
   USER_ADDRESS_SERVICE,
   UTF_8,
 } from '../constants';
+import { SPARTACUS_CORE } from '../libs-constants';
 import {
   addConstructorParam,
   buildSpartacusComment,
@@ -398,10 +398,13 @@ describe('File utils', () => {
 
   describe('insertHtmlComment', () => {
     it('should insert the comment with *ngIf', async () => {
+      const angularCompiler = await import('@angular/compiler');
+
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[2];
       const result = insertHtmlComment(
         HTML_EXAMPLE_NGIF,
-        (componentDeprecation.removedProperties || [])[0]
+        (componentDeprecation.removedProperties || [])[0],
+        angularCompiler
       );
 
       expect(result).toBeTruthy();

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
-import { GlobalMessageService, Order, RoutingService } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { GlobalMessageService, RoutingService } from '@spartacus/core';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderCancellationService } from './order-cancellation.service';
@@ -44,7 +44,7 @@ class MockGlobalMessageService {
 
 describe('OrderCancellationService', () => {
   let service: OrderCancellationService;
-  let userOrderService: OrderFacade;
+  let orderHistoryFacade: OrderHistoryFacade;
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
 
@@ -59,7 +59,7 @@ describe('OrderCancellationService', () => {
           useClass: MockOrderDetailsService,
         },
         {
-          provide: OrderFacade,
+          provide: OrderHistoryFacade,
           useClass: MockUserOrderService,
         },
         {
@@ -75,7 +75,7 @@ describe('OrderCancellationService', () => {
 
     service = TestBed.inject(OrderCancellationService);
 
-    userOrderService = TestBed.inject(OrderFacade);
+    orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
 
@@ -119,7 +119,7 @@ describe('OrderCancellationService', () => {
   it('should save one item', () => {
     service.save();
 
-    expect(userOrderService.cancelOrder).toHaveBeenCalledWith('123', {
+    expect(orderHistoryFacade.cancelOrder).toHaveBeenCalledWith('123', {
       cancellationRequestEntryInputs: [{ orderEntryNumber: 1, quantity: 3 }],
     });
   });

@@ -5,19 +5,29 @@
     <span class="label-content">{{
       'updateProfileForm.title' | cxTranslate
     }}</span>
-    <select formControlName="titleCode" class="form-control">
-      <option value="">{{ 'updateProfileForm.none' | cxTranslate }}</option>
-      <option *ngFor="let title of titles$ | async" [value]="title.code">
-        {{ title.name }}
-      </option>
-    </select>
+    <ng-select
+      [clearable]="false"
+      [searchable]="false"
+      formControlName="titleCode"
+      id="title-select"
+      [cxNgSelectA11y]="{
+        ariaLabel: 'updateProfileForm.title' | cxTranslate
+      }"
+    >
+      <ng-option [value]="">{{
+        'updateProfileForm.none' | cxTranslate
+      }}</ng-option>
+      <ng-option *ngFor="let title of titles$ | async" [value]="title.code">{{
+        title.name
+      }}</ng-option>
+    </ng-select>
   </label>
   <label>
     <span class="label-content">{{
       'updateProfileForm.firstName.label' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="text"
       class="form-control"
       name="firstName"
@@ -34,7 +44,7 @@
       'updateProfileForm.lastName.label' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="text"
       class="form-control"
       name="lastName"
@@ -49,7 +59,7 @@
       'updateProfileForm.customerId' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="text"
       class="form-control"
       name="customerId"

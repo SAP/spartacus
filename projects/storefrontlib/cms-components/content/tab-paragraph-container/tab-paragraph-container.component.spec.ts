@@ -194,4 +194,11 @@ describe('TabParagraphContainerComponent', () => {
 
     expect(param).toEqual('title param');
   });
+
+  it('should be able to get ariaLabel', () => {
+    fixture.detectChanges();
+    expect(component.ariaLabel).toEqual(
+      'TabPanelContainer.tabPanelContainerRegion'
+    );
+  });
 });

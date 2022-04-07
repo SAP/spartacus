@@ -10,9 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_CHECKOUT_FEATURE,
+  CLI_CHECKOUT_B2B_FEATURE,
+  CLI_CHECKOUT_BASE_FEATURE,
+  CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   LibraryOptions as SpartacusCheckoutOptions,
   SpartacusOptions,
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -55,10 +58,21 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     features: [],
   };
 
-  const checkoutFeatureOptions: SpartacusCheckoutOptions = {
+  const checkoutBaseFeatureOptions: SpartacusCheckoutOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CHECKOUT_FEATURE],
+    features: [CLI_CHECKOUT_BASE_FEATURE],
   };
+
+  const checkoutB2BFeatureOptions: SpartacusCheckoutOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_CHECKOUT_B2B_FEATURE],
+  };
+
+  const checkoutScheduledReplenishmentFeatureOptions: SpartacusCheckoutOptions =
+    {
+      ...libraryNoFeaturesOptions,
+      features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+    };
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
@@ -133,45 +147,157 @@ describe('Spartacus Checkout schematics: ng-add', () => {
   });
 
   describe('Checkout feature', () => {
-    describe('general setup', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', checkoutFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
-      });
-
-      describe('styling', () => {
-        it('should create a proper scss file', () => {
-          const scssContent = appTree.readContent(scssFilePath);
-          expect(scssContent).toMatchSnapshot();
+    describe('base', () => {
+      describe('general setup', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', checkoutBaseFeatureOptions, appTree)
+            .toPromise();
         });
 
-        it('should update angular.json', async () => {
-          const content = appTree.readContent('/angular.json');
-          expect(content).toMatchSnapshot();
+        it('should add the feature using the lazy loading syntax', async () => {
+          const module = appTree.readContent(featureModulePath);
+          expect(module).toMatchSnapshot();
+        });
+
+        describe('styling', () => {
+          it('should create a proper scss file', () => {
+            const scssContent = appTree.readContent(scssFilePath);
+            expect(scssContent).toMatchSnapshot();
+          });
+
+          it('should update angular.json', async () => {
+            const content = appTree.readContent('/angular.json');
+            expect(content).toMatchSnapshot();
+          });
+        });
+      });
+
+      describe('eager loading', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutBaseFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+        });
+
+        it('should import appropriate modules', async () => {
+          const module = appTree.readContent(featureModulePath);
+          expect(module).toMatchSnapshot();
         });
       });
     });
 
-    describe('eager loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...checkoutFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+    describe('b2b', () => {
+      describe('general setup', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', checkoutB2BFeatureOptions, appTree)
+            .toPromise();
+        });
+
+        it('should add the feature using the lazy loading syntax', async () => {
+          const module = appTree.readContent(featureModulePath);
+          expect(module).toMatchSnapshot();
+        });
+
+        describe('styling', () => {
+          it('should create a proper scss file', () => {
+            const scssContent = appTree.readContent(scssFilePath);
+            expect(scssContent).toMatchSnapshot();
+          });
+
+          it('should update angular.json', async () => {
+            const content = appTree.readContent('/angular.json');
+            expect(content).toMatchSnapshot();
+          });
+        });
+
+        describe('b2b features', () => {
+          it('configuration should be added', () => {
+            const configurationModule = appTree.readContent(
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            );
+            expect(configurationModule).toMatchSnapshot();
+          });
+        });
       });
 
-      it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
+      describe('eager loading', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutB2BFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+        });
+
+        it('should import appropriate modules', async () => {
+          const module = appTree.readContent(featureModulePath);
+          expect(module).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('scheduled replenishment', () => {
+      describe('general setup', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              checkoutScheduledReplenishmentFeatureOptions,
+              appTree
+            )
+            .toPromise();
+        });
+
+        it('should add the feature using the lazy loading syntax', async () => {
+          const module = appTree.readContent(featureModulePath);
+          expect(module).toMatchSnapshot();
+        });
+
+        describe('styling', () => {
+          it('should create a proper scss file', () => {
+            const scssContent = appTree.readContent(scssFilePath);
+            expect(scssContent).toMatchSnapshot();
+          });
+
+          it('should update angular.json', async () => {
+            const content = appTree.readContent('/angular.json');
+            expect(content).toMatchSnapshot();
+          });
+        });
+
+        describe('b2b features', () => {
+          it('configuration should be added', () => {
+            const configurationModule = appTree.readContent(
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            );
+            expect(configurationModule).toMatchSnapshot();
+          });
+        });
+      });
+
+      describe('eager loading', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutScheduledReplenishmentFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+        });
+
+        it('should import appropriate modules', async () => {
+          const module = appTree.readContent(featureModulePath);
+          expect(module).toMatchSnapshot();
+        });
       });
     });
   });

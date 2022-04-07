@@ -27,9 +27,16 @@
     *ngFor="let facet of facets"
     #facetRef
     [facet]="facet"
-    [cxFocus]="{ lock: true, trap: true, autofocus: 'a' }"
-    (unlock)="expandFacetGroup(facet, facetRef)"
     [class.expanded]="isExpanded(facet) | async"
     [class.collapsed]="isCollapsed(facet) | async"
+    role="group"
+    attr.aria-label="{{
+      'productFacetNavigation.ariaLabelItemsAvailable'
+        | cxTranslate
+          : {
+              name: facet.name,
+              count: facet?.values?.length
+            }
+    }}"
   ></cx-facet>
 </section>

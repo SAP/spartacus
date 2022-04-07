@@ -1,6 +1,7 @@
-import { waitForPage } from './checkout-flow';
+import { addProductToCart as addToCart } from './applied-promotions';
 import { login } from './auth-forms';
 import * as cart from './cart';
+import { waitForPage } from './checkout-flow';
 
 interface TestProduct {
   code: string;
@@ -47,11 +48,11 @@ export function getItem(product, position: ItemList) {
   if (position === ItemList.Cart) {
     return cy
       .get('cx-cart-details > .cart-details-wrapper > cx-cart-item-list')
-      .contains('cx-cart-item', product.code);
+      .contains('.cx-item-list-row', product.code);
   } else {
     return cy
       .get('cx-save-for-later > .cart-details-wrapper > cx-cart-item-list')
-      .contains('cx-cart-item', product.code);
+      .contains('.cx-item-list-row', product.code);
   }
 }
 
@@ -82,7 +83,7 @@ export function moveItem(
   const currentPosition =
     targetPosition === ItemList.Cart ? ItemList.SaveForLater : ItemList.Cart;
   getItem(product, currentPosition).within(() => {
-    cy.get('.cx-sfl-btn > .link').click();
+    cy.get('button.cx-sfl-btn').click();
   });
   if (!isAnonymous) {
     cy.wait(['@refresh_cart', '@refresh_selectivecart']);
@@ -92,7 +93,7 @@ export function moveItem(
 export function removeItem(product, position: ItemList) {
   stubForCartRefresh();
   getItem(product, position).within(() => {
-    cy.get('.cx-remove-btn > .link')
+    cy.get('button.cx-remove-btn')
       .should('not.be.disabled')
       .then((el) => {
         cy.wrap(el).click();
@@ -144,9 +145,7 @@ export function verifyMiniCartQty(qty: number) {
 export function addProductToCart(product) {
   cy.visit(`/product/${product.code}`);
 
-  cy.get('cx-add-to-cart')
-    .findAllByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', product.code);
     cy.findByText(/view cart/i).click();

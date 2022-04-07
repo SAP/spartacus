@@ -1,0 +1,23 @@
+%cx-add-to-cart {
+  .quantity {
+    margin: 0 0 20px;
+
+    .cx-counter-stock {
+      position: relative;
+    }
+
+    label {
+      @include type('8');
+      margin: 15px 0 10px 0;
+    }
+
+    .info {
+      position: absolute;
+      transform: translate(0, -50%);
+      top: 50%;
+      @include type('7');
+      margin: 0 15px;
+      color: var(--cx-color-secondary);
+    }
+  }
+}

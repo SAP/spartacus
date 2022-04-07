@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
-  CancelOrReturnRequestEntryInput,
   GlobalMessageService,
   GlobalMessageType,
-  OrderEntry,
   RoutingService,
 } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import {
+  CancelOrReturnRequestEntryInput,
+  OrderHistoryFacade,
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../../order-details/order-details.service';
@@ -21,7 +23,7 @@ export class OrderCancellationService extends OrderAmendService {
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected userOrderService: OrderFacade,
+    protected orderHistoryFacade: OrderHistoryFacade,
     protected routing: RoutingService,
     protected globalMessageService: GlobalMessageService
   ) {
@@ -60,18 +62,18 @@ export class OrderCancellationService extends OrderAmendService {
 
     this.form.reset();
 
-    this.userOrderService.cancelOrder(orderCode, {
+    this.orderHistoryFacade.cancelOrder(orderCode, {
       cancellationRequestEntryInputs: inputs,
     });
 
-    this.userOrderService
+    this.orderHistoryFacade
       .getCancelOrderSuccess()
       .pipe(first(Boolean))
       .subscribe(() => this.afterSave(orderCode));
   }
 
   private afterSave(orderCode: string): void {
-    this.userOrderService.resetCancelOrderProcessState();
+    this.orderHistoryFacade.resetCancelOrderProcessState();
     this.globalMessageService.add(
       {
         key: 'orderDetails.cancellationAndReturn.cancelSuccess',

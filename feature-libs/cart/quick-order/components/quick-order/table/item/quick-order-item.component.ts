@@ -7,12 +7,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { OrderEntry } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'cx-quick-order-item',
+  selector: '[cx-quick-order-item], cx-quick-order-item',
   templateUrl: './quick-order-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

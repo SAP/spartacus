@@ -16,6 +16,7 @@ export abstract class GlobalMessageConfig {
     [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig;
     [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig;
     [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig;
+    [GlobalMessageType.MSG_TYPE_ASSISTIVE]?: GlobalMessageTypeConfig;
   };
 }
 

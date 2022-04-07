@@ -32,6 +32,7 @@ import { IconModule } from '../../misc/icon/icon.module';
     ListNavigationModule,
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,

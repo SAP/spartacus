@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
-  CartOutlets,
   IconModule,
   OutletPosition,
   provideOutlet,
@@ -21,8 +21,8 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
   declarations: [ConfiguratorIssuesNotificationComponent],
   providers: [
     provideOutlet({
-      id: CartOutlets.ITEM,
-      position: OutletPosition.BEFORE,
+      id: CartOutlets.ITEM_CONFIGURATOR_ISSUES,
+      position: OutletPosition.REPLACE,
       component: ConfiguratorIssuesNotificationComponent,
     }),
   ],

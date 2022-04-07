@@ -4,7 +4,9 @@
   --cx-color-inverse: #ffffff;
   --cx-color-transparent: transparent;
   --cx-color-primary: #1672b7;
-  --cx-color-secondary: #a1aabf;
+  --cx-color-primary-accent: #50b0f4;
+  --cx-color-secondary: #6c7079;
+  --cx-color-secondary-accent: #c3cbde;
   --cx-buttons-border-radius: 27px;
   --cx-buttons-border-width: 3px;
   --cx-color-dark: #212738;
@@ -34,6 +36,11 @@
   }
 
   cx-site-context-selector {
+    label {
+      span {
+        color: var(--cx-color-text);
+      }
+    }
     select {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
@@ -79,6 +86,18 @@
     box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
     @include media-breakpoint-up(lg) {
       box-shadow: none;
+    }
+
+    nav {
+      ol li a {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  cx-scroll-to-top {
+    button {
+      border-radius: var(--cx-buttons-border-radius);
     }
   }
 
@@ -239,7 +258,7 @@
 
   %cx-pagination {
     a {
-      @include type('4');
+      font-size: var(--cx-font-size, 1.188rem);
       font-weight: var(--cx-font-weight-normal);
 
       &.current {
