@@ -27,6 +27,8 @@ files.forEach((file) => {
   publicApiData.push(...parseFile(file));
 });
 
+parseParameterImportPaths(publicApiData);
+
 const outputFilePath = `${spartacusHomeDir}/public-api.json`;
 console.log(`Write ${publicApiData.length} api elements to ${outputFilePath}.`);
 
@@ -235,4 +237,59 @@ function getTypeAliases(rawElement: any): any {
 
 function getEnumMembers(rawElement: any): any {
   return rawElement.members.map((member: any) => member.name);
+}
+
+function parseParameterImportPaths(publicApiData): void {
+  publicApiData.forEach((apiElement: any) => {
+    if (apiElement.parameters?.length > 0) {
+      setParamsImportPath(apiElement.parameters, publicApiData);
+    }
+    apiElement.members?.forEach((member: any) => {
+      if (member.parameters?.length > 0) {
+        setParamsImportPath(member.parameters, publicApiData);
+      }
+    });
+  });
+}
+
+function setParamsImportPath(parameters: any[], apiData: any[]) {
+  parameters.forEach((param: any, index: number) => {
+    if (param.canonicalReference.startsWith('@spartacus')) {
+      // lookup
+      const kind = extractKindFromCanonical(param.canonicalReference); // class, interface, etc
+      parameters[index].importPath = lookupImportPath(
+        param.shortType,
+        kind,
+        apiData
+      );
+    } else {
+      // parse
+      const importPath = param.canonicalReference.substring(
+        0,
+        param.canonicalReference.indexOf('!')
+      );
+      parameters[index].importPath = unEscapePackageName(importPath);
+    }
+  });
+}
+
+export function extractKindFromCanonical(canonicalReference) {
+  return canonicalReference.substring(canonicalReference.lastIndexOf(':') + 1);
+}
+
+export function lookupImportPath(
+  name: string,
+  kind: string,
+  apiData: any[]
+): string {
+  const element = apiData.find((element: any) => {
+    return (
+      element.name === name && element.kind.toLowerCase() === kind.toLowerCase()
+    );
+  });
+  if (element) {
+    return element.entryPoint;
+  } else {
+    return '';
+  }
 }

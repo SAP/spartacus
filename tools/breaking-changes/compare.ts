@@ -1,11 +1,6 @@
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
-import {
-  getElementCategory,
-  getSignatureDoc,
-  printStats,
-  unEscapePackageName,
-} from './common';
+import { getElementCategory, getSignatureDoc, printStats } from './common';
 
 // --------------------------------------------------
 // Main Logic
@@ -170,7 +165,7 @@ function getTypeAliasBreakingChange(oldElement: any, newElement: any): any[] {
   }
 }
 function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
-  const paramBreakingChanges = getParamatersBreakingChange(
+  const paramBreakingChanges = getParametersBreakingChange(
     oldElement,
     newElement
   );
@@ -237,7 +232,7 @@ function getConstructorIfUnique(newApiElement: any): any {
 function getMemberBreakingChange(oldMember: any, newMember: any): any[] {
   switch (oldMember.kind) {
     case 'Constructor': {
-      return getParamatersBreakingChange(oldMember, newMember);
+      return getParametersBreakingChange(oldMember, newMember);
     }
     case 'IndexSignature':
     case 'MethodSignature':
@@ -256,13 +251,10 @@ function getMemberBreakingChange(oldMember: any, newMember: any): any[] {
   }
 }
 
-function getParamatersBreakingChange(oldMember: any, newMember: any): any[] {
+function getParametersBreakingChange(oldMember: any, newMember: any): any[] {
   if (!oldMember?.parameters && !newMember?.parameters) {
     return [];
   }
-  // TODO: Consider moving setParamsImportPath to the parse script
-  setParamsImportPath(oldMember.parameters, oldApiData);
-  setParamsImportPath(newMember.parameters, newApiData);
   const parametersHaveBreakingChange = isParametersBreakingChangeDetected(
     oldMember.parameters,
     newMember.parameters
@@ -323,48 +315,6 @@ function paramDiff(oldMember: any, newMember: any): any[] {
         isIdenticalParams(oldParameter, newParameter)
       )
   );
-}
-
-function setParamsImportPath(parameters: any[], apiData: any[]) {
-  parameters.forEach((param: any, index: number) => {
-    if (param.canonicalReference.startsWith('@spartacus')) {
-      // lookup
-      const kind = extractKindFromCanonical(param.canonicalReference); // class, interface, etc
-      parameters[index].importPath = lookupImportPath(
-        param.shortType,
-        kind,
-        apiData
-      );
-    } else {
-      // parse
-      const importPath = param.canonicalReference.substring(
-        0,
-        param.canonicalReference.indexOf('!')
-      );
-      parameters[index].importPath = unEscapePackageName(importPath);
-    }
-  });
-}
-
-export function extractKindFromCanonical(canonicalReference) {
-  return canonicalReference.substring(canonicalReference.lastIndexOf(':') + 1);
-}
-
-export function lookupImportPath(
-  name: string,
-  kind: string,
-  apiData: any[]
-): string {
-  const element = apiData.find((element: any) => {
-    return (
-      element.name === name && element.kind.toLowerCase() === kind.toLowerCase()
-    );
-  });
-  if (element) {
-    return element.entryPoint;
-  } else {
-    return '';
-  }
 }
 
 function isIdenticalParams(oldParam: any, newParam: any) {
