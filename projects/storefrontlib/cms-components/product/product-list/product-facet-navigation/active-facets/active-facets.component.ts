@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  AfterViewInit,
   ElementRef,
   QueryList,
   ViewChildren,
@@ -22,7 +21,7 @@ import { FacetService } from '../services/facet.service';
   templateUrl: './active-facets.component.html',
   changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ActiveFacetsComponent implements AfterViewInit {
+export class ActiveFacetsComponent {
   /** Active facets which are applied to the product results. */
   facetList$: Observable<FacetList> = this.facetService.facetList$;
 
@@ -32,10 +31,6 @@ export class ActiveFacetsComponent implements AfterViewInit {
   @ViewChildren('activeFilters') activeFilters: QueryList<ElementRef>;
 
   constructor(protected facetService: FacetService) {}
-
-  ngAfterViewInit(): void {
-    this.activeFilters.toArray();
-  }
 
   getLinkParams(facet: Breadcrumb) {
     return this.facetService.getLinkParams(facet.removeQuery?.query?.value);
