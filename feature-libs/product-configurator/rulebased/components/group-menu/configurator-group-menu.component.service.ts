@@ -17,8 +17,8 @@ export class ConfiguratorGroupMenuService {
   ): number | undefined {
     if (groups) {
       const group = groups.find(
-        (group) =>
-          group.nativeElement?.id ===
+        (groupHTMLEl) =>
+          groupHTMLEl.nativeElement?.id ===
           this.windowRef?.document?.activeElement?.id
       );
       if (group) {

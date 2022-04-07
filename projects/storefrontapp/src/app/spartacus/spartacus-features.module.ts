@@ -11,6 +11,7 @@ import {
   UserOccModule,
 } from '@spartacus/core';
 import {
+  ScrollToTopModule,
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
@@ -49,6 +50,7 @@ import {
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
+  VideoModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
@@ -133,6 +135,8 @@ if (environment.epdVisualization) {
     FooterNavigationModule,
     PageTitleModule,
     BreadcrumbModule,
+    ScrollToTopModule,
+    VideoModule,
 
     // User Core
     UserModule,
