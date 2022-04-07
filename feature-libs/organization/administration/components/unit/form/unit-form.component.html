@@ -48,26 +48,32 @@
         [control]="form.get('approvalProcess.code')"
       ></cx-form-errors>
     </label>
-
-    <label *ngIf="form.get('parentOrgUnit')" formGroupName="parentOrgUnit">
-      <span class="label-content required">{{
-        'orgUnit.form.parentOrgUnit' | cxTranslate
+    <ng-container *ngIf="form.get('parentOrgUnit'); else parentOrgUnitNotes">
+      <label formGroupName="parentOrgUnit">
+        <span class="label-content required">{{
+          'orgUnit.form.parentOrgUnit' | cxTranslate
+        }}</span>
+        <ng-select
+          [inputAttrs]="{ required: 'true' }"
+          formControlName="uid"
+          [searchable]="true"
+          [clearable]="false"
+          [items]="units$ | async"
+          bindLabel="name"
+          bindValue="id"
+          appendTo="cx-org-list"
+          [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
+        >
+        </ng-select>
+        <cx-form-errors
+          [control]="form.get('parentOrgUnit.uid')"
+        ></cx-form-errors>
+      </label>
+    </ng-container>
+    <ng-template #parentOrgUnitNotes>
+      <span class="notes-content">{{
+        'orgUnit.form.parentOrgUnitNotes' | cxTranslate
       }}</span>
-      <ng-select
-        [inputAttrs]="{ required: 'true' }"
-        formControlName="uid"
-        [searchable]="true"
-        [clearable]="false"
-        [items]="units$ | async"
-        bindLabel="name"
-        bindValue="id"
-        appendTo="cx-org-list"
-        [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
-      >
-      </ng-select>
-      <cx-form-errors
-        [control]="form.get('parentOrgUnit.uid')"
-      ></cx-form-errors>
-    </label>
+    </ng-template>
   </ng-container>
 </cx-org-form>
