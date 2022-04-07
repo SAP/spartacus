@@ -114,6 +114,7 @@ export const order = {
       'We have no replenishment order records for this account.',
     startShopping: 'Start Shopping',
     sortBy: 'Sort by',
+    sortOrders: 'Sort orders',
     replenishmentOrderHistory: 'Replenishment Order History',
     replenishmentOrderId: 'Replenishment #',
     purchaseOrderNumber: 'PO #',
@@ -130,6 +131,7 @@ export const order = {
       AccountOrderHistoryComponent: 'ALL ORDERS ({{param}})',
       OrderReturnRequestListComponent: 'RETURNS ({{param}})',
     },
+    tabPanelContainerRegion: 'Group with order history details',
   },
   returnRequestList: {
     returnRequestId: 'Return #',
@@ -137,6 +139,7 @@ export const order = {
     date: 'Date Created',
     status: 'Status',
     sortBy: 'Sort by',
+    sortReturns: 'Sort returns',
     statusDisplay_APPROVAL_PENDING: 'Approval Pending',
     statusDisplay_CANCELED: 'Cancelled',
     statusDisplay_CANCELLING: 'Cancelling',
