@@ -81,8 +81,8 @@ Note: at the time of writing, this solution is used in the `develop` branch, wit
 #### Cons:
 - You canot compose and use many extensions for one one base feature
 
-### Option 1: Wrapper modules in the app
-Idea: Introduce a wrapper module in the app and import it dynamically instead of the original Spartacus module:
+### Option 1: Local wrapper module in the app
+Idea: Introduce a local wrapper module in the app and import it dynamically instead of the original Spartacus module:
 ```ts
 // CheckoutFeatureModule in the app:
 provideConfig({
@@ -96,7 +96,9 @@ provideConfig({
 }),
 ```
 
-Then inside the wrapper module we primarily import (statically) the original Spartacus module, but also allow for importing (statically) other extensions modules. Because the child-injector belongs to the wrapper module (as it's lazy-loaded), and both the original and the extension modules are imported inside the wrapper module, they all share the same child injector. Therefore the extension service can overwrite the original service. The following example shows the content of the wrapper module in the app:
+Then inside the local wrapper module we primarily import (statically) the original Spartacus module, but also allow for importing (statically) many other extensions modules. 
+
+Because the child-injector belongs to the wrapper module (as it's lazy-loaded), and both the original and the extension modules are imported inside the wrapper module, they all share the same child injector. Therefore the extension service can overwrite the original service. The following example shows the content of the `CheckoutWrapperModule` in the app:
 
 ```ts
 // CheckoutWrapperModule in the app:
@@ -106,7 +108,8 @@ import { DigitalPaymentsModule } from '@spartacus/digital-payments';
 
 @NgModule({
   imports: [ 
-    CheckoutModule, // original module providing original service
+    // original module providing original service:
+    CheckoutModule, 
     
     // extension module with providers overwriting the original service:
     DigitalPaymentsModule 
@@ -121,7 +124,7 @@ The following diagram shows possibility of composing many extensions for the che
 ![](./wrapper-module-in-the-app.png)
 
 
-Assuming, that every lazy-loadable feature has its own wrapper module in the app, the installation of the extension features means appending the extension module inside the wrapper module.
+Assuming, that the lazy-loadable feature has its own wrapper module in the app, the installation of the extension features means appending the extension module inside the wrapper module.
 
 The installer should basically locate the import of the original feature module in the customer's codebase (e.g. import of `CheckoutModule`), and append the extension module (e.g. `DigitalPayments`) after it. The followin example shows the content of the wrapper module, including the CheckoutModule (being a marker for the schematics installer) and the extensions modules `B2bCheckoutModule` and `DigitalPaymentsModule` imported after the marker:
 
