@@ -12,7 +12,7 @@ _Explain why the decision is being taken_
 
 New opt-in Spartacus features should be able to extend the existing lazy-loadable Spartacus features. We didn't have a need for it yet, but now we have a big need. It’s because we extract more-and-more code to lazy-loaded modules and we decouple more-and-more code into independent, opt-in, composable “plugin-like” libraries. And the usual techniques for extending services, don't work in the case of lazy-loaded modules.
 
-The usual technique of providing the extending service in the root injector, e.g. `{provide: ..., useClass:...}` in the `AppModule` (or any other statically imported module) doesn't overwrite the original service in the lazy-loaded module. The lazy-loaded module instantiates its own, fresh child-injector, which derives from the parent (root) injector, but locally has a higher priority than the parent one. And because the original service implementation is provided in the lazy-loaded module that has its own child-injector, the extension service provided in the root injector cannot overwrite the original one.
+The usual technique of providing the extending service in the root injector, e.g. `{provide: ..., useClass:...}` in the `AppModule` (or any other statically imported module) doesn't overwrite the base service in the lazy-loaded module. The lazy-loaded module instantiates its own, fresh child-injector, which derives from the parent (root) injector, but locally has a higher priority than the parent one. And because the base service implementation is provided in the lazy-loaded module that has its own child-injector, the extension service provided in the root injector cannot overwrite the base one.
 
 We need to find a way to automatically install (via schematics) the opt-in libraries, so they extend the existing lazy-loaded features originating from different libraries. We should find an optimal, future-proof solution, because it might be used very often in OOTB Spartacus soon.
 
@@ -37,7 +37,7 @@ provideConfig({
 _List the alternative options you considered with their pros and cons_
 
 ### Option 0 (currently used): Pre-baked wrapper modules in the Spartacus extension library
-Idea: The module of Spartacus extension library acts as the wrapper module, importing both the original feature module as well as providing custom extensions. See the following example for Digital Payments feature that extends Checkout:
+Idea: The module of Spartacus extension library acts as the wrapper module, importing both the base feature module as well as providing custom extensions. See the following example for Digital Payments feature that extends Checkout:
 ```ts
 // DigitalPaymentsModule in @spartacus/digital-payments:
 
@@ -82,7 +82,7 @@ Note: at the time of writing, this solution is used in the `develop` branch, wit
 - You canot compose and use many extensions for one one base feature
 
 ### Option 1: Local wrapper module in the app
-Idea: Introduce a local wrapper module in the app and import it dynamically instead of the original Spartacus module:
+Idea: Introduce a local wrapper module in the app and import it dynamically instead of the base Spartacus module:
 ```ts
 // CheckoutFeatureModule in the app:
 provideConfig({
@@ -96,9 +96,9 @@ provideConfig({
 }),
 ```
 
-Then inside the local wrapper module we primarily import (statically) the original Spartacus module, but also allow for importing (statically) many other extensions modules. 
+Then inside the local wrapper module we primarily import (statically) the base Spartacus module, but also allow for importing (statically) many other extensions modules. 
 
-Because the child-injector belongs to the wrapper module (as it's lazy-loaded), and both the original and the extension modules are imported inside the wrapper module, they all share the same child injector. Therefore the extension service can overwrite the original service. The following example shows the content of the `CheckoutWrapperModule` in the app:
+Because the child-injector belongs to the wrapper module (as it's lazy-loaded), and both the base and the extension modules are imported inside the wrapper module, they all share the same child injector. Therefore the extension service can overwrite the base service. The following example shows the content of the `CheckoutWrapperModule` in the app:
 
 ```ts
 // CheckoutWrapperModule in the app:
@@ -108,10 +108,10 @@ import { DigitalPaymentsModule } from '@spartacus/digital-payments';
 
 @NgModule({
   imports: [ 
-    // original module providing original service:
+    // base module providing base service:
     CheckoutModule, 
     
-    // extension module with providers overwriting the original service:
+    // extension module with providers overwriting the base service:
     DigitalPaymentsModule 
   ]
 })
@@ -126,7 +126,7 @@ The following diagram shows possibility of composing many extensions for the che
 
 Assuming, that the lazy-loadable feature has its own wrapper module in the app, the installation of the extension features means appending the extension module inside the wrapper module.
 
-The installer should basically locate the import of the original feature module in the customer's codebase (e.g. import of `CheckoutModule`), and append the extension module (e.g. `DigitalPayments`) after it. The followin example shows the content of the wrapper module, including the CheckoutModule (being a marker for the schematics installer) and the extensions modules `B2bCheckoutModule` and `DigitalPaymentsModule` imported after the marker:
+The installer should basically locate the import of the base feature module in the customer's codebase (e.g. import of `CheckoutModule`), and append the extension module (e.g. `DigitalPayments`) after it. The followin example shows the content of the wrapper module, including the CheckoutModule (being a marker for the schematics installer) and the extensions modules `B2bCheckoutModule` and `DigitalPaymentsModule` imported after the marker:
 
 ```ts
 // CheckoutWrapperModule in the app:
@@ -168,7 +168,7 @@ Note: the order of installing libraries is important. The base feature must be i
   - NO
 - [x] does it cause producing more JS chunks than before?
   - NO
-- [x] will it break lazy loading when we statically import the original module inside the wrapper module?
+- [x] will it break lazy loading when we statically import the base module inside the wrapper module?
   - NO
 - [x] should we adapt our _installation schematics_ to create wrapper modules OOTB? 
   - YES
@@ -179,7 +179,7 @@ Note: the order of installing libraries is important. The base feature must be i
 - [x] how should the installer behave, when there is no marker module in the app (e.g. because customer dismantled it into smaller modules)
   - WARN in the console and explain how to import the module manually
 - [x] how should the installer behave, when customer is not using lazy loading (i.e. when the marker module is imported only statically)
-  - NOTHING DIFFERENT, just append the extension module after the original module
+  - NOTHING DIFFERENT, just append the extension module after the base module
 - [x] should we update our installer, so it first installs the base feature and only later the extensions?
   - YES, we need to add a logic that analyzes the dependencies between feature and extension modules and then installs all features in the correct order
 - [x] how do we name the wrapper modules?
