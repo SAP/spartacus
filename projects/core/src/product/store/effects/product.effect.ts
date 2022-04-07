@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { AuthActions } from '@spartacus/core';
 import { merge, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import { AuthActions } from '../../../auth/user-auth/store/actions';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
