@@ -23,7 +23,7 @@ cx-order-detail-permission-results {
       padding-bottom: 0.75rem;
       padding-inline-start: 0.938rem;
       vertical-align: top;
-      border-top: 1px solid #dee2e6;
+      border-top: 1px solid var(--cx-color-light);
     }
 
     .cx-approval-thead-mobile {
@@ -87,8 +87,9 @@ cx-order-detail-permission-results {
       @include media-breakpoint-down(md) {
         width: 100%;
         display: flex;
+        align-items: baseline;
         border-width: 0;
-        padding: 0 1.25rem;
+        padding: 0.313rem 1.25rem;
 
         &:first-child {
           padding-top: 1.25rem;
