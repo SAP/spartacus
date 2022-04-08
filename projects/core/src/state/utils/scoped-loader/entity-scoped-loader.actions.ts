@@ -1,15 +1,15 @@
+import { Action } from '@ngrx/store';
 import {
-  ENTITY_FAIL_ACTION,
-  ENTITY_LOAD_ACTION,
-  ENTITY_RESET_ACTION,
-  ENTITY_SUCCESS_ACTION,
   entityFailMeta,
   EntityLoaderMeta,
   entityLoadMeta,
   entityResetMeta,
   entitySuccessMeta,
+  ENTITY_FAIL_ACTION,
+  ENTITY_LOAD_ACTION,
+  ENTITY_RESET_ACTION,
+  ENTITY_SUCCESS_ACTION,
 } from '../entity-loader/entity-loader.action';
-import { Action } from '@ngrx/store';
 
 export namespace EntityScopedLoaderActions {
   export interface EntityScopedLoaderMeta extends EntityLoaderMeta {
@@ -57,7 +57,7 @@ export namespace EntityScopedLoaderActions {
 
   export function entityScopedResetMeta(
     entityType: string,
-    id: string | string[],
+    id?: string | string[],
     scope?: string
   ): EntityScopedLoaderMeta {
     return {
@@ -103,7 +103,7 @@ export namespace EntityScopedLoaderActions {
   export class EntityScopedResetAction implements EntityScopedLoaderAction {
     type = ENTITY_RESET_ACTION;
     readonly meta: EntityScopedLoaderMeta;
-    constructor(entityType: string, id: string | string[], scope?: string) {
+    constructor(entityType: string, id?: string | string[], scope?: string) {
       this.meta = entityScopedResetMeta(entityType, id, scope);
     }
   }
