@@ -4,7 +4,8 @@ import { BundleConnector } from '../../connectors/bundle.connector';
 import { from, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { BundleActions } from '../actions';
-import { CartActions, SiteContextActions, withdrawOn } from '@spartacus/core';
+import { SiteContextActions, withdrawOn } from '@spartacus/core';
+import { CartActions } from '@spartacus/cart/base/core';
 
 @Injectable()
 export class BundleEffects {

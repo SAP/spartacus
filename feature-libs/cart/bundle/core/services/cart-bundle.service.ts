@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  ActiveCartService,
-  Product,
-  ProductService,
-  UserIdService,
-} from '@spartacus/core';
+import { ActiveCartService } from '@spartacus/cart/base/core';
+import { Product, ProductService, UserIdService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { BundleService } from '../facade/bundle.service';

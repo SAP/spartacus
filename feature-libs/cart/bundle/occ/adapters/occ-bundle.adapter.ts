@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/base/core';
 import {
-  CART_MODIFICATION_NORMALIZER,
   ConverterService,
   OccEndpointsService,
   PRODUCT_SEARCH_PAGE_NORMALIZER,
@@ -40,9 +40,11 @@ export class OccBundleAdapter implements BundleAdapter {
       'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl('bundleStart', {
-      userId,
-      cartId,
+    const url = this.occEndpointsService.buildUrl('bundleStart', {
+      urlParams: {
+        userId,
+        cartId,
+      },
     });
 
     return this.http
@@ -75,11 +77,16 @@ export class OccBundleAdapter implements BundleAdapter {
       'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl('bundleAllowedProductsSearch', {
-      userId,
-      cartId,
-      entryGroupNumber,
-    });
+    const url = this.occEndpointsService.buildUrl(
+      'bundleAllowedProductsSearch',
+      {
+        urlParams: {
+          userId,
+          cartId,
+          entryGroupNumber,
+        },
+      }
+    );
 
     return this.http
       .get<any>(url, {

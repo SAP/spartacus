@@ -1,8 +1,5 @@
-import {
-  CartModification,
-  ProductSearchPage,
-  SearchConfig,
-} from '@spartacus/core';
+import { CartModification } from '@spartacus/cart/base/root';
+import { ProductSearchPage, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { BundleStarter } from '../model/bundle.model';
 
