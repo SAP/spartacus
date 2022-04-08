@@ -5,7 +5,7 @@
   (change)="sortList($event)"
   [ngModel]="selectedOption"
   [cxNgSelectA11y]="{
-    ariaLabel: 'productList.sortResults' | cxTranslate,
+    ariaLabel: ariaLabel ?? ('productList.sortResults' | cxTranslate),
     ariaControls: ariaControls
   }"
 >
