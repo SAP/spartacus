@@ -5,6 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
 import { CmsComponentData } from '@spartacus/storefront';
 import { CmsParagraphComponent, CmsComponent } from '@spartacus/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 describe('CmsParagraphComponent in CmsLib', () => {
   let paragraphComponent: ParagraphComponent;
@@ -30,6 +32,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
         declarations: [ParagraphComponent],
         providers: [
           {
@@ -69,5 +72,26 @@ describe('CmsParagraphComponent in CmsLib', () => {
     expect(el.query(By.css('p')).nativeElement.innerHTML).toEqual(
       `<img src="">`
     );
+  });
+
+  it('should emit handleClick event', () => {
+    spyOn(paragraphComponent, 'handleClick');
+    expect(paragraphComponent.handleClick).toHaveBeenCalledTimes(0);
+    el.nativeElement.click();
+    fixture.detectChanges();
+    expect(paragraphComponent.handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should use router navigation for internal links', () => {
+    const dataWithLinks = Object.assign({}, componentData);
+    dataWithLinks.content = `<a href="/internal-link">Link</a>`;
+    data$.next(dataWithLinks);
+    fixture.detectChanges();
+
+    const router = TestBed.inject(Router);
+    spyOn(router, 'navigate');
+    expect(router.navigate).toHaveBeenCalledTimes(0);
+    el.query(By.css('a')).nativeElement.click();
+    expect(router.navigate).toHaveBeenCalledTimes(1);
   });
 });
