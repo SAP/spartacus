@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-// import { BundleModule } from '@spartacus/cart/bundle';
 import {
   AnonymousConsentsModule,
   AuthModule,
@@ -210,7 +209,6 @@ if (environment.epdVisualization) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
-    // BundleModule,
     BundleFeatureModule,
     SavedCartFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,

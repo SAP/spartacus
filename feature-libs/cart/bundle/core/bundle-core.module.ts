@@ -1,9 +1,14 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { BundleStoreModule } from './store/bundle-store.module';
-import { BundleConnector } from './connectors/bundle.connector';
+// import { BundleConnector } from './connectors/bundle.connector';
 
 @NgModule({
-  imports: [BundleStoreModule],
-  providers: [BundleConnector],
+  imports: [BundleStoreModule], //, BundleConnector],
 })
-export class BundleCoreModule {}
+export class BundleCoreModule {
+  static forRoot(): ModuleWithProviders<BundleCoreModule> {
+    return {
+      ngModule: BundleCoreModule,
+    };
+  }
+}

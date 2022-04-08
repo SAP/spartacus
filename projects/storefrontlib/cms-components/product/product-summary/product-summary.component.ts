@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';
-import { filter, take } from 'rxjs/operators';
+// import { filter, take } from 'rxjs/operators';
 import { SelectiveCartService } from '@spartacus/cart/base/core';
 
 @Component({
@@ -29,16 +29,16 @@ export class ProductSummaryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.product$
-      .pipe(
-        filter((product) => !!product),
-        take(1)
-      )
-      .subscribe((product: Product) => {
-        this.bundleTemplates$ = this.cartBundleService.getBundleTemplates(
-          product.code
-        );
-      });
+    // this.product$
+    //   .pipe(
+    //     filter((product) => !!product),
+    //     take(1)
+    //   )
+    //   .subscribe((product: Product) => {
+    //     // this.bundleTemplates$ = this.cartBundleService.getBundleTemplates(
+    //     //   product.code
+    //     // );
+    //   });
   }
 
   startBundle(product: Product, template: any) {

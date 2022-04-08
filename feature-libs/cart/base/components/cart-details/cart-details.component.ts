@@ -8,7 +8,7 @@ import {
   PromotionLocation,
   SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
-import { CartBundleService } from '@spartacus/cart/bundle/core';
+// import { CartBundleService } from '@spartacus/cart/bundle/core';
 import { AuthService, RoutingService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
@@ -32,8 +32,7 @@ export class CartDetailsComponent implements OnInit {
     protected selectiveCartService: SelectiveCartFacade,
     protected authService: AuthService,
     protected routingService: RoutingService,
-    protected cartConfig: CartConfigService,
-    protected cartBundleService: CartBundleService
+    protected cartConfig: CartConfigService // protected cartBundleService: CartBundleService
   ) {}
 
   ngOnInit() {
@@ -77,9 +76,9 @@ export class CartDetailsComponent implements OnInit {
     }
   }
 
-  getBundleAllowedProducts(entryGroupNumber: number) {
-    this.cartBundleService.getBundleAllowedProducts(entryGroupNumber);
-  }
+  // getBundleAllowedProducts(entryGroupNumber: number) {
+  //   this.cartBundleService.getBundleAllowedProducts(entryGroupNumber);
+  // }
 
   removeBundle(entryGroupNumber: number) {
     this.activeCartService.deleteEntryGroup(entryGroupNumber);
@@ -89,7 +88,7 @@ export class CartDetailsComponent implements OnInit {
     this.activeCartService.addToEntryGroup(entryGroupNumber, product);
   }
 
-  getAvailableProducts(entryGroupNumber: number) {
-    return this.cartBundleService.getAvailableEntries(entryGroupNumber);
-  }
+  // getAvailableProducts(entryGroupNumber: number) {
+  //   return this.cartBundleService.getAvailableEntries(entryGroupNumber);
+  // }
 }
