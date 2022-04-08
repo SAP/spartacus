@@ -5,11 +5,11 @@ export const ENTITY_REMOVE_ALL_ACTION = '[ENTITY] REMOVE ALL';
 
 export interface EntityMeta {
   entityType: string;
-  entityId: string | string[];
+  entityId?: string | string[];
   entityRemove?: boolean;
 }
 
-export function entityMeta(type: string, id: string | string[]): EntityMeta {
+export function entityMeta(type: string, id?: string | string[]): EntityMeta {
   return {
     entityType: type,
     entityId: id,

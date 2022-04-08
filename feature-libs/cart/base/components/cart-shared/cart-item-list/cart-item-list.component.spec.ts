@@ -92,7 +92,7 @@ const mockUserId = 'test-user';
 
 @Component({
   template: '',
-  selector: 'cx-cart-item',
+  selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
 })
 class MockCartItemComponent {
   @Input() item;
@@ -295,6 +295,17 @@ describe('CartItemListComponent', () => {
       expect(
         component.form.controls[multipleMockItems[1].entryNumber]
       ).toBeDefined();
+    });
+
+    it('should update controls when quantity change', () => {
+      fixture.detectChanges();
+      const mockItem0Qty = mockItem0.quantity;
+      mockItem0.quantity = 20;
+      component.items = [mockItem0, mockItem1];
+      expect(
+        component.form.controls[mockItem0.entryNumber].get('quantity')?.value
+      ).toEqual(20);
+      mockItem0.quantity = mockItem0Qty;
     });
 
     it('should be able to remove entry with free promotion product ', () => {

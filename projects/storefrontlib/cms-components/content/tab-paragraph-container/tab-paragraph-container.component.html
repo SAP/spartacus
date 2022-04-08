@@ -2,9 +2,7 @@
   <div
     role="region"
     tabindex="-1"
-    [attr.aria-label]="
-      'TabPanelContainer.tabPanelContainerRegion' | cxTranslate
-    "
+    [attr.aria-label]="ariaLabel | cxTranslate"
     class="container"
   >
     <ng-container *ngFor="let component of components; let i = index">
@@ -21,7 +19,11 @@
           <span class="accordion-icon" aria-hidden="true"></span>
         </button>
 
-        <div [class.active]="i === activeTabNum" tabindex="0">
+        <div
+          [class.active]="i === activeTabNum"
+          class="cx-tab-paragraph-content"
+          tabindex="0"
+        >
           <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
             <ng-container
               [cxComponentWrapper]="component"

@@ -261,18 +261,18 @@ export function addLibraryFeature<T extends LibraryOptions>(
   config: FeatureConfig
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusFeatureModuleExists = checkAppStructure(
+    const spartacusFeatureModuleExistsInApp = checkAppStructure(
       tree,
       options.project
     );
-    if (!spartacusFeatureModuleExists) {
+    if (!spartacusFeatureModuleExistsInApp) {
       context.logger.info('Scaffolding the new app structure...');
       context.logger.warn(
         'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
       );
     }
     return chain([
-      spartacusFeatureModuleExists ? noop() : scaffoldStructure(options),
+      spartacusFeatureModuleExistsInApp ? noop() : scaffoldStructure(options),
 
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
@@ -485,8 +485,9 @@ function addFeatureModule<T extends LibraryOptions>(
             const featureModule = configFeatures[i];
             let lazyLoadingChunkName = config.moduleName;
             if (config.lazyLoadingChunk) {
-              const content = config.lazyLoadingChunk.namedImports[i];
-              lazyLoadingChunkName = `[${content}]`;
+              const namedImportsContent =
+                config.lazyLoadingChunk.namedImports[i];
+              lazyLoadingChunkName = `[${namedImportsContent}]`;
               sourceFile.addImportDeclaration(config.lazyLoadingChunk);
             }
             content =

@@ -250,10 +250,10 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       checkQuantityStepperNotDisplayed(htmlElem);
     });
 
-    function checkQuantityStepperNotDisplayed(htmlElem: HTMLElement) {
+    function checkQuantityStepperNotDisplayed(htmlEl: HTMLElement) {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
-        htmlElem,
+        htmlEl,
         'cx-configurator-attribute-quantity'
       );
     }
