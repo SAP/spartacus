@@ -890,15 +890,16 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
     it('should return false if enableNavigationToConflict setting is not provided', () => {
-      (uiConfig.productConfigurator ??={}).enableNavigationToConflict = undefined;
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict =
+        undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
     it('should return true if enableNavigationToConflict setting is true', () => {
-      (uiConfig.productConfigurator ??={}).enableNavigationToConflict = true;
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
       expect(component.isNavigationToConflictEnabled()).toBeTruthy();
     });
     it('should return false if enableNavigationToConflict setting is false', () => {
-      (uiConfig.productConfigurator ??={}).enableNavigationToConflict = false;
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
   });
