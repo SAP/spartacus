@@ -1,6 +1,6 @@
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
-import * as common from './common';
+import { getElementCategory, getSignatureDoc, printStats } from './common';
 
 // --------------------------------------------------
 // Main Logic
@@ -41,7 +41,6 @@ oldApiData.forEach((oldApiElement: any) => {
         addBreakingChanges(oldApiElement, [
           {
             ...getChangeDesc(oldApiElement, 'MOVED'),
-            target: 'toplevel', // // TODO: Not used. Remove when appropriate.
             to: {
               entryPoint: newApiElementMoved.entryPoint,
               namespace: newApiElementMoved.namespace ?? '',
@@ -67,7 +66,6 @@ oldApiData.forEach((oldApiElement: any) => {
       addBreakingChanges(oldApiElement, [
         {
           ...getChangeDesc(oldApiElement, 'DELETED'),
-          target: 'toplevel', // // TODO: Not used. Remove when appropriate.
         },
       ]);
     }
@@ -75,7 +73,7 @@ oldApiData.forEach((oldApiElement: any) => {
   }
 });
 
-common.printStats(breakingChanges);
+printStats(breakingChanges);
 
 fs.writeFileSync(`data/breaking-changes.json`, JSON.stringify(breakingChanges));
 
@@ -104,7 +102,7 @@ function findMovedElementInApi(apiData: Array<any>, elementToFind: any): any {
       // moved to both entry points and namespace
       // However, we don't want to have false moves with
       // the model interfaces that have no namespace, but
-      // all have a couonterpart in the 'Occ' namespace.
+      // all have a counterpart in the 'Occ' namespace.
       (elementToFind.namespace
         ? true
         : apiDataElement.namespace === elementToFind.namespace)
@@ -129,6 +127,9 @@ function compareElements(oldElement: any, newElement: any): any[] {
     }
     case 'Function': {
       return getFunctionBreakingChange(oldElement, newElement);
+    }
+    case 'Namespace': {
+      return [];
     }
     default: {
       throw Error(`Compare unsupported for element kind ${oldElement.kind}.`);
@@ -167,56 +168,28 @@ function getTypeAliasBreakingChange(oldElement: any, newElement: any): any[] {
   }
 }
 function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
-  const paramBreakingChanges = getParamatersBreakingChange(
+  const paramBreakingChanges = getParametersBreakingChange(
     oldElement,
     newElement
   );
   const returnTypeChanged = oldElement.returnType !== newElement.returnType;
   if (paramBreakingChanges.length > 0 || returnTypeChanged) {
+    const oldElementCopy = { ...oldElement };
+    delete oldElementCopy.breakingChanges; // avoid circular references
+    const newElementCopy = { ...newElement };
+    delete newElementCopy.breakingChanges; // avoid circular references
+
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
         previousStateDoc: getSignatureDoc(oldElement),
         currentStateDoc: getSignatureDoc(newElement),
-        // Removed temporarily to be able to produce a breaking changes file
-        // that can compare well wiith the manually modified breaking changes file.
-        // oldElement: {
-        //   parameters: oldElement.parameters,
-        //   returnType: oldElement.returnType,
-        //   overloadIndex: oldElement.overloadIndex,
-        // },
-        // newElement: {
-        //   parameters: newElement.parameters,
-        //   returnType: newElement.returnType,
-        //   overloadIndex: newElement.overloadIndex,
-        // },
+        oldElement: oldElementCopy,
+        newElement: newElementCopy,
       },
     ];
   } else {
     return [];
-  }
-}
-
-function getSignatureDoc(functonElement: any): string {
-  const parameterDoc = getParameterDoc(functonElement);
-  let doc = `
-${functonElement.name}(${parameterDoc})${
-    functonElement.returnType ? ': ' + functonElement.returnType : ''
-  }
-`;
-
-  return doc;
-}
-
-function getParameterDoc(functonElement: any): string {
-  if (functonElement.parameters?.length) {
-    let parameterDoc = '\n';
-    functonElement.parameters.forEach((parameter: any) => {
-      parameterDoc += `  ${parameter.name}: ${parameter.type}\n`; // TODO: Add comma aat the end of the line
-    });
-    return parameterDoc;
-  } else {
-    return '';
   }
 }
 
@@ -262,7 +235,7 @@ function getConstructorIfUnique(newApiElement: any): any {
 function getMemberBreakingChange(oldMember: any, newMember: any): any[] {
   switch (oldMember.kind) {
     case 'Constructor': {
-      return getParamatersBreakingChange(oldMember, newMember);
+      return getParametersBreakingChange(oldMember, newMember);
     }
     case 'IndexSignature':
     case 'MethodSignature':
@@ -281,13 +254,10 @@ function getMemberBreakingChange(oldMember: any, newMember: any): any[] {
   }
 }
 
-function getParamatersBreakingChange(oldMember: any, newMember: any): any[] {
+function getParametersBreakingChange(oldMember: any, newMember: any): any[] {
   if (!oldMember?.parameters && !newMember?.parameters) {
     return [];
   }
-  // TODO: Consider moving setParamsImportPath to the parse script
-  setParamsImportPath(oldMember.parameters, oldApiData);
-  setParamsImportPath(newMember.parameters, newApiData);
   const parametersHaveBreakingChange = isParametersBreakingChangeDetected(
     oldMember.parameters,
     newMember.parameters
@@ -350,52 +320,6 @@ function paramDiff(oldMember: any, newMember: any): any[] {
   );
 }
 
-function setParamsImportPath(parameters: any[], apiData: any[]) {
-  parameters.forEach((param: any, index: number) => {
-    if (param.canonicalReference.startsWith('@spartacus')) {
-      // lookup
-      const kind = extractKindFromCanonical(param.canonicalReference); // class, interface, etc
-      parameters[index].importPath = lookupImportPath(
-        param.shortType,
-        kind,
-        apiData
-      );
-    } else {
-      // parse
-      const importPath = param.canonicalReference.substring(
-        0,
-        param.canonicalReference.indexOf('!')
-      );
-      parameters[index].importPath = unEscapePackageName(importPath);
-    }
-  });
-}
-
-export function extractKindFromCanonical(canonicalReference) {
-  return canonicalReference.substring(canonicalReference.lastIndexOf(':') + 1);
-}
-
-export function lookupImportPath(
-  name: string,
-  kind: string,
-  apiData: any[]
-): string {
-  const element = apiData.find((element: any) => {
-    return (
-      element.name === name && element.kind.toLowerCase() === kind.toLowerCase()
-    );
-  });
-  if (element) {
-    return element.entryPoint;
-  } else {
-    return '';
-  }
-}
-
-export function unEscapePackageName(packageName: string) {
-  return packageName.replace(/_/g, '/');
-}
-
 function isIdenticalParams(oldParam: any, newParam: any) {
   return oldParam.name === newParam?.name && oldParam.type === newParam?.type;
 }
@@ -414,7 +338,16 @@ function addBreakingChanges(element: any, breakingChanges: any[]) {
   if (!element.breakingChanges) {
     element.breakingChanges = [];
   }
+  breakingChanges = addBreakingChangeContext(element, breakingChanges);
   element.breakingChanges.push(...breakingChanges);
+}
+
+function addBreakingChangeContext(apiElement: any, breakingChanges: any[]) {
+  return breakingChanges.map((breakingChange: any) => {
+    breakingChange.topLevelApiElementName = apiElement.name;
+    breakingChange.entryPoint = apiElement.entryPoint;
+    return breakingChange;
+  });
 }
 
 function findMatchingMember(newApiElement: any, oldMember: any) {
@@ -459,7 +392,7 @@ function getChangeDesc(element: any, changeType: string): any {
     changeKind: element.kind,
     changeLabel: getChangeLabel(changeType),
     changeElementName: element.name,
-    changeDesc: true, // TODO: Not used. Remove when appropriate.
+    changeElementCategory: getElementCategory(element),
   };
 }
 

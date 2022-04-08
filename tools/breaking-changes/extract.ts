@@ -6,6 +6,7 @@ import {
 import * as fs from 'fs';
 import * as glob from 'glob';
 import * as path from 'path';
+import { escapePackageName } from './common';
 
 const spartacusHomeDir = process.argv[2];
 console.log(`Extract public API for libs in ${spartacusHomeDir}/dist.`);
@@ -77,8 +78,4 @@ export function updateNameInPackageJson(filePath: string): {
     name,
     newName,
   };
-}
-
-export function escapePackageName(packageName: string) {
-  return packageName.replace(/\//g, '_').replace(/\_/, '/');
 }

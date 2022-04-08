@@ -1,10 +1,24 @@
 import * as fs from 'fs';
 import * as glob from 'glob';
+import { unEscapePackageName } from './common';
+/**
+ * This script combines all the json api files produced by MS Api Extractor in one file with a
+ * flat list of of api elelments.
+ *
+ * Input: A Spartacus source home/base folder, like './src/old'.  This script will parse the `temp` folder
+ * produced by MS Api Extractor.
+ * Output: A file, `public-api.json`, contains a flat list of of api elelments. The file is created in the folder passed as a param, like like './src/old/public-api.json'.
+ *
+ */
+
+/**
+ * -----------
+ * Main logic
+ * -----------
+ */
 
 const spartacusHomeDir = process.argv[2];
 console.log(`Parsing public API for libs in ${spartacusHomeDir}/temp.`);
-
-const typeList = new Set();
 
 const files = glob.sync(`${spartacusHomeDir}/temp/*.api.json`);
 console.log(`Found ${files.length} api.json files.`);
@@ -12,24 +26,25 @@ let publicApiData: any[] = [];
 files.forEach((file) => {
   publicApiData.push(...parseFile(file));
 });
-console.log(`publicApiData ${publicApiData.length}`);
 
-console.log(`Type LIST:`);
-typeList.forEach((typeee) => {
-  console.log(typeee);
-});
+parseParameterImportPaths(publicApiData);
 
-fs.writeFileSync(
-  `${spartacusHomeDir}/public-api.json`,
-  JSON.stringify(publicApiData)
-);
+const outputFilePath = `${spartacusHomeDir}/public-api.json`;
+console.log(`Write ${publicApiData.length} api elements to ${outputFilePath}.`);
+
+fs.writeFileSync(outputFilePath, JSON.stringify(publicApiData));
+
+/**
+ * -----------
+ * Functions
+ * -----------
+ */
 
 export function parseFile(filePath: string): any[] {
-  console.log(`Read ${filePath}`);
   const inputFileData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
   const entryPoint = inputFileData.members[0];
   console.log(
-    `Entry point ${inputFileData.name}, ${entryPoint.members.length} high lvl members`
+    `Read ${filePath}, ${inputFileData.name}, ${entryPoint.members.length} api elements.`
   );
   return parseElementGroup(entryPoint.members, inputFileData.name);
 }
@@ -43,6 +58,9 @@ function parseElementGroup(
 
   members.forEach((member: any) => {
     if (member.kind === 'Namespace') {
+      entryPointElements.push(
+        parseElement(member, entryPointName, member.name)
+      );
       entryPointElements.push(
         ...parseElementGroup(member.members, entryPointName, member.name)
       );
@@ -62,13 +80,10 @@ function parseElement(
   parsedElement.entryPoint = unEscapePackageName(entryPointName);
   parsedElement.kind = rawElement.kind;
   parsedElement.name = rawElement.name;
-  parsedElement.namespace = namespace;
-  if (namespace) {
-    console.log(`  ${rawElement.kind}: ${namespace}.${rawElement.name}`);
-  } else {
-    console.log(`  ${rawElement.kind}: ${rawElement.name}`);
+  if (rawElement.kind !== 'Namespace') {
+    parsedElement.namespace = namespace;
   }
-  typeList.add(parsedElement.kind);
+
   switch (parsedElement.kind) {
     case 'Class':
     case 'Interface': {
@@ -93,6 +108,10 @@ function parseElement(
         rawElement.returnTypeTokenRange,
         rawElement.excerptTokens
       );
+      break;
+    }
+    case 'Namespace': {
+      // No additional parsing needed.
       break;
     }
     case 'Enum': {
@@ -170,7 +189,7 @@ function parseMethodParameters(method: any): any[] {
       rawParam.parameterTypeTokenRange,
       method.excerptTokens
     );
-    // This if condition filtters out anonymous types
+    // This if condition filters out anonymous types
     // like `payload: { userid: string, cart: Cart }`
     if (parsedParam.type?.startsWith(typeToken.text)) {
       parsedParam.canonicalReference = typeToken.canonicalReference ?? '';
@@ -229,6 +248,71 @@ function getEnumMembers(rawElement: any): any {
   return rawElement.members.map((member: any) => member.name);
 }
 
-export function unEscapePackageName(packageName: string) {
-  return packageName.replace(/_/g, '/');
+function parseParameterImportPaths(publicApiData): void {
+  publicApiData.forEach((apiElement: any) => {
+    if (apiElement.parameters?.length > 0) {
+      setParamsImportPath(apiElement.parameters, publicApiData);
+    }
+    apiElement.members?.forEach((member: any) => {
+      if (member.parameters?.length > 0) {
+        setParamsImportPath(member.parameters, publicApiData);
+      }
+    });
+  });
+}
+
+function setParamsImportPath(parameters: any[], apiData: any[]) {
+  parameters.forEach((param: any, index: number) => {
+    if (param.canonicalReference.startsWith('@spartacus')) {
+      // lookup
+      const kind = extractKindFromCanonical(param.canonicalReference); // class, interface, etc
+      const importPath = lookupImportPath(param.shortType, kind, apiData);
+      if (!importPath) {
+        console.log(
+          `Warning: "${param.shortType}" is referenced in the public API, but does not seem to be part of the public API.`
+        );
+      }
+      parameters[index].importPath = importPath;
+    } else {
+      // parse
+      const importPath = param.canonicalReference.substring(
+        0,
+        param.canonicalReference.indexOf('!')
+      );
+      parameters[index].importPath = unEscapePackageName(importPath);
+    }
+  });
+}
+
+export function extractKindFromCanonical(canonicalReference): string {
+  return canonicalReference.substring(canonicalReference.lastIndexOf(':') + 1);
+}
+
+export function lookupImportPath(
+  elementName: string,
+  kind: string,
+  apiData: any[]
+): string {
+  let lookupName = elementName;
+  let namespace;
+  if (elementName.includes('.')) {
+    namespace = elementName.substring(0, elementName.indexOf('.'));
+    lookupName = elementName.substring(elementName.indexOf('.') + 1);
+  }
+  const element = apiData.find((element: any) => {
+    return (
+      element.name === lookupName &&
+      // When the ekind it type, it could match at least TypeAlias or Enum
+      // So we don't try to match the kind when the value is 'type'
+      (kind.toLowerCase() === 'type'
+        ? true
+        : element.kind.toLowerCase() === kind.toLowerCase()) &&
+      (namespace ? element.namespace === namespace : true)
+    );
+  });
+  if (element) {
+    return element.entryPoint;
+  } else {
+    return '';
+  }
 }
