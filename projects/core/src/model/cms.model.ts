@@ -37,6 +37,8 @@ export interface CmsLinkComponent extends CmsComponent {
   container?: boolean;
   external?: boolean;
   contentPage?: string;
+  product?: string;
+  category?: string;
   contentPageLabelOrId?: string;
   linkName?: string;
   target?: string | boolean;
