@@ -59,6 +59,9 @@ function parseElementGroup(
   members.forEach((member: any) => {
     if (member.kind === 'Namespace') {
       entryPointElements.push(
+        parseElement(member, entryPointName, member.name)
+      );
+      entryPointElements.push(
         ...parseElementGroup(member.members, entryPointName, member.name)
       );
     } else {
@@ -77,7 +80,9 @@ function parseElement(
   parsedElement.entryPoint = unEscapePackageName(entryPointName);
   parsedElement.kind = rawElement.kind;
   parsedElement.name = rawElement.name;
-  parsedElement.namespace = namespace;
+  if (rawElement.kind !== 'Namespace') {
+    parsedElement.namespace = namespace;
+  }
 
   switch (parsedElement.kind) {
     case 'Class':
@@ -103,6 +108,10 @@ function parseElement(
         rawElement.returnTypeTokenRange,
         rawElement.excerptTokens
       );
+      break;
+    }
+    case 'Namespace': {
+      // No additional parsing needed.
       break;
     }
     case 'Enum': {
@@ -257,11 +266,13 @@ function setParamsImportPath(parameters: any[], apiData: any[]) {
     if (param.canonicalReference.startsWith('@spartacus')) {
       // lookup
       const kind = extractKindFromCanonical(param.canonicalReference); // class, interface, etc
-      parameters[index].importPath = lookupImportPath(
-        param.shortType,
-        kind,
-        apiData
-      );
+      const importPath = lookupImportPath(param.shortType, kind, apiData);
+      if (!importPath) {
+        console.log(
+          `Warning: "${param.shortType}" is referenced in the public API, but does not seem to be part of the public API.`
+        );
+      }
+      parameters[index].importPath = importPath;
     } else {
       // parse
       const importPath = param.canonicalReference.substring(
@@ -273,18 +284,30 @@ function setParamsImportPath(parameters: any[], apiData: any[]) {
   });
 }
 
-export function extractKindFromCanonical(canonicalReference) {
+export function extractKindFromCanonical(canonicalReference): string {
   return canonicalReference.substring(canonicalReference.lastIndexOf(':') + 1);
 }
 
 export function lookupImportPath(
-  name: string,
+  elementName: string,
   kind: string,
   apiData: any[]
 ): string {
+  let lookupName = elementName;
+  let namespace;
+  if (elementName.includes('.')) {
+    namespace = elementName.substring(0, elementName.indexOf('.'));
+    lookupName = elementName.substring(elementName.indexOf('.') + 1);
+  }
   const element = apiData.find((element: any) => {
     return (
-      element.name === name && element.kind.toLowerCase() === kind.toLowerCase()
+      element.name === lookupName &&
+      // When the ekind it type, it could match at least TypeAlias or Enum
+      // So we don't try to match the kind when the value is 'type'
+      (kind.toLowerCase() === 'type'
+        ? true
+        : element.kind.toLowerCase() === kind.toLowerCase()) &&
+      (namespace ? element.namespace === namespace : true)
     );
   });
   if (element) {

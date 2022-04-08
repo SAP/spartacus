@@ -128,6 +128,9 @@ function compareElements(oldElement: any, newElement: any): any[] {
     case 'Function': {
       return getFunctionBreakingChange(oldElement, newElement);
     }
+    case 'Namespace': {
+      return [];
+    }
     default: {
       throw Error(`Compare unsupported for element kind ${oldElement.kind}.`);
     }

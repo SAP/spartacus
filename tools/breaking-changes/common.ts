@@ -41,6 +41,7 @@ export function isMember(kind: string): boolean {
 
 export function isTopLevelApi(kind: string): boolean {
   const apiKinds = [
+    'Namespace',
     'Interface',
     'Class',
     'Enum',
