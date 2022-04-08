@@ -14,6 +14,7 @@ import {
   ConfiguratorGroupsService,
 } from '../../../core';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
@@ -38,7 +39,8 @@ export class ConfiguratorAttributeHeaderComponent
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
+    protected configuratorUiSettings: ConfiguratorUISettingsConfig
   ) {
     super();
   }
@@ -125,7 +127,9 @@ export class ConfiguratorAttributeHeaderComponent
   getConflictMessageKey(): string {
     return this.groupType === Configurator.GroupType.CONFLICT_GROUP
       ? 'configurator.conflict.viewConfigurationDetails'
-      : 'configurator.conflict.viewConflictDetails';
+      : this.isNavigationToConflictEnabled()
+      ? 'configurator.conflict.viewConflictDetails'
+      : 'configurator.conflict.conflictDetected';
   }
 
   /**
@@ -241,5 +245,11 @@ export class ConfiguratorAttributeHeaderComponent
         )
       )
       .subscribe(callback);
+  }
+  isNavigationToConflictEnabled(): boolean {
+    return (
+      this.configuratorUiSettings.productConfigurator
+        ?.enableNavigationToConflict ?? false
+    );
   }
 }
