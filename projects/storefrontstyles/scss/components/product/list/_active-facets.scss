@@ -14,16 +14,19 @@
       display: none;
     }
   }
-  a {
+
+  button {
     display: flex;
     align-items: center;
     transition: all 0.3s;
     min-width: 0;
-
-    background: var(--cx-color-background);
+    border-style: none;
+    padding: 0;
+    font-size: var(--cx-font-size, 0.92rem);
 
     &:hover {
       background: var(--cx-color-light);
+      color: var(--cx-color-primary);
       text-decoration: none;
     }
 
