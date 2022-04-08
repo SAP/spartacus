@@ -28,7 +28,7 @@
       <tbody>
         <tr *ngFor="let permissionResult of order.permissionResults">
           <td class="cx-approval-permissionCode">
-            <div class="d-md-none cx-approval-table-label">
+            <div class=" cx-approval-table-label">
               {{
                 'orderApprovalDetails.permissionResults.permission'
                   | cxTranslate
@@ -40,7 +40,7 @@
             }}
           </td>
           <td class="cx-approval-approverName">
-            <div class="d-md-none cx-approval-table-label">
+            <div class="cx-approval-table-label">
               {{
                 'orderApprovalDetails.permissionResults.approver' | cxTranslate
               }}
@@ -48,7 +48,7 @@
             {{ permissionResult.approverName }}
           </td>
           <td class="cx-approval-statusDisplay">
-            <div class="d-md-none cx-approval-table-label">
+            <div class="cx-approval-table-label">
               {{
                 'orderApprovalDetails.permissionResults.status' | cxTranslate
               }}
@@ -56,7 +56,7 @@
             {{ permissionResult.statusDisplay }}
           </td>
           <td class="cx-approval-approvalNotes">
-            <div class="d-md-none cx-approval-table-label">
+            <div class="cx-approval-table-label">
               {{
                 'orderApprovalDetails.permissionResults.approverComments'
                   | cxTranslate

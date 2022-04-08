@@ -70,6 +70,10 @@ cx-order-detail-permission-results {
       text-transform: uppercase;
       color: var(--cx-color-secondary);
 
+      @include media-breakpoint-up(md) {
+        display: none;
+      }
+
       @include media-breakpoint-down(md) {
         font-size: var(--cx-font-size, 0.875rem);
         font-weight: var(--cx-font-weight-bold);
