@@ -20,7 +20,7 @@
     "gen-methods-props": "ts-node generate-methods-props.ts ./data/breaking-changes.json",
     "gen-doc": "ts-node generate-doc.ts ./data/breaking-changes.json",
     "gen-stats": "ts-node generate-stats.ts ./data/breaking-changes.json",
-    "gen-all": "yarn parse-all && yarn compare && yarn gen-const && yarn gen-methods-props && yarn gen-deleted && yarn gen-moved && yarn gen-doc"
+    "gen-all": "yarn yarn gen-const && yarn gen-methods-props && yarn gen-deleted && yarn gen-moved && yarn gen-doc"
   },
   "dependencies": {
     "@microsoft/api-extractor": "^7.19.4"

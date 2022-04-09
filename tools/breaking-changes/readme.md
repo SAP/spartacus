@@ -75,3 +75,9 @@ If the constructor deprecation was done as expected, the script should handle th
 ## Manual review of Config abstract classes
 
 It is common that we add optional attributes in the Config abstract classes.  These cases are usually non-breaking changes.  The script can not handle those cases properly and this case benefits form a review.  If the change is non-breaking, simplpy remove the entry from `breaking-changes.json`.
+
+## Manual review of TypeAlias changes
+
+The script will report any change to TypeAlias kind of APII element.  
+There are typically not a high volume of TypeAlias changes.
+The manual rview should determine if the change is a breaking change or not.
