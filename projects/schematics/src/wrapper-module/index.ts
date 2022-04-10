@@ -142,7 +142,6 @@ function updateWrapperModule(options: {
           continue;
         }
 
-        // TODO:#schematics - order?
         addModuleImport(wrapperModule, {
           import: {
             moduleSpecifier: featureModuleConfig.importPath,
@@ -150,7 +149,9 @@ function updateWrapperModule(options: {
           },
           content: featureModuleConfig.name,
         });
+
         saveAndFormat(wrapperModule);
+        break;
       }
     }
 
@@ -241,7 +242,7 @@ function updateFeatureModule(options: {
         }
 
         saveAndFormat(featureModule);
-        // TODO:$schematics - break?
+        break;
       }
     }
 
@@ -316,7 +317,7 @@ function removeLibraryDynamicImport(options: {
         cleanupConfig(spartacusProvider);
 
         saveAndFormat(featureModule);
-        return;
+        break;
       }
     }
   };
@@ -404,7 +405,7 @@ function orderWrapperFeatures(options: {
         )?.replaceWithText(`[${ordered.join(',\n')}]`);
 
         saveAndFormat(wrapperModule);
-        return;
+        break;
       }
     }
   };

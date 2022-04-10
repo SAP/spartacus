@@ -55,7 +55,6 @@ function addConfiguration(
       addCommonConfiguration(sourceFile, options);
 
       saveAndFormat(sourceFile);
-
       break;
     }
   }

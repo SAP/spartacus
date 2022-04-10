@@ -244,7 +244,6 @@ function configureSpartacusModules(
       });
 
       saveAndFormat(sourceFile);
-
       break;
     }
   }

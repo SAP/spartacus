@@ -265,7 +265,6 @@ function updateAppModule(project: string): Rule {
           });
 
           saveAndFormat(sourceFile);
-
           break;
         }
       }
