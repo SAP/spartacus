@@ -85,3 +85,63 @@ import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/a
 export class UserFeatureModule { }
 "
 `;
+
+exports[`Feature utils analyzeFeature should correctly analyze the Spartacus feature module 1`] = `
+Array [
+  "AuthModule.forRoot()",
+  "LogoutModule",
+  "LoginRouteModule",
+  "HamburgerMenuModule",
+  "SiteContextSelectorModule",
+  "LinkModule",
+  "BannerModule",
+  "CmsParagraphModule",
+  "TabParagraphContainerModule",
+  "BannerCarouselModule",
+  "CategoryNavigationModule",
+  "NavigationModule",
+  "FooterNavigationModule",
+  "BreadcrumbModule",
+  "ScrollToTopModule",
+  "PageTitleModule",
+  "UserModule",
+  "UserOccModule",
+  "AddressBookModule",
+  "PaymentMethodsModule",
+  "NotificationPreferenceModule",
+  "MyInterestsModule",
+  "StockNotificationModule",
+  "ConsentManagementModule",
+  "MyCouponsModule",
+  "AnonymousConsentsModule.forRoot()",
+  "AnonymousConsentsDialogModule",
+  "AnonymousConsentManagementBannerModule",
+  "ProductModule.forRoot()",
+  "ProductOccModule",
+  "ProductDetailsPageModule",
+  "ProductListingPageModule",
+  "ProductListModule",
+  "SearchBoxModule",
+  "ProductFacetNavigationModule",
+  "ProductTabsModule",
+  "ProductCarouselModule",
+  "ProductReferencesModule",
+  "ProductImagesModule",
+  "ProductSummaryModule",
+  "ProductIntroModule",
+  "CostCenterOccModule",
+  "NavigationEventModule",
+  "HomePageEventModule",
+  "ProductPageEventModule",
+  "ExternalRoutesModule.forRoot()",
+]
+`;
+
+exports[`Feature utils analyzeFeature should correctly analyze the Spartacus feature module 2`] = `
+Array [
+  "Account",
+  "Cart",
+  "Order",
+  "Checkout",
+]
+`;

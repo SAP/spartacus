@@ -772,6 +772,7 @@ function createModuleFileName(config: FeatureConfig): string {
   return `${dasherize(config.moduleName)}-feature.module.ts`;
 }
 
+// TODO:#schematics - create and expose two methods `calculateCrossFeatureSort` and `calculateCrossLibrarySort`. Don't expose this function.
 /**
  * Used to sort the features in the correct order.
  */

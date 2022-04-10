@@ -9,10 +9,23 @@ import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { UTF_8 } from '../constants';
 import { USER_ACCOUNT_SCHEMATICS_CONFIG } from '../lib-configs/user-schematics-config';
-import { CLI_USER_ACCOUNT_FEATURE } from '../libs-constants';
-import { addFeatures, FeatureConfigurationOverrides } from './feature-utils';
+import {
+  CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
+  CLI_USER_ACCOUNT_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
+} from '../libs-constants';
+import {
+  addFeatures,
+  analyzeFeature,
+  FeatureConfigurationOverrides,
+} from './feature-utils';
 import { LibraryOptions } from './lib-utils';
-import { userFeatureModulePath } from './test-utils';
+import { createProgram } from './program';
+import { getProjectTsConfigPaths } from './project-tsconfig-paths';
+import {
+  spartacusFeaturesModulePath,
+  userFeatureModulePath,
+} from './test-utils';
 
 describe('Feature utils', () => {
   const schematicRunner = new SchematicTestRunner(
@@ -21,6 +34,7 @@ describe('Feature utils', () => {
   );
 
   let appTree: Tree;
+  let buildPath: string;
 
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
@@ -71,6 +85,9 @@ describe('Feature utils', () => {
         appTree
       )
       .toPromise();
+
+    buildPath = getProjectTsConfigPaths(appTree, BASE_OPTIONS.project)
+      .buildPaths[0];
   });
 
   describe('addFeatures', () => {
@@ -131,6 +148,60 @@ describe('Feature utils', () => {
           .read('src/app/spartacus/features/account/user-feature.module.ts')
           ?.toString(UTF_8)
       ).toMatchSnapshot();
+    });
+  });
+
+  describe('analyzeFeature', () => {
+    it('should correctly analyze the Spartacus feature module', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+          },
+          appTree
+        )
+        .toPromise();
+
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+
+      const spartacusFeatureModule = program.getSourceFileOrThrow(
+        spartacusFeaturesModulePath
+      );
+      const result = analyzeFeature(spartacusFeatureModule);
+      expect(result.core?.map((c) => c.print())).toMatchSnapshot();
+      expect(result.features?.map((f) => f.feature)).toMatchSnapshot();
+      expect(result.unrecognized).toEqual(undefined);
+    });
+
+    it('should correctly analyze the User feature module', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [CLI_USER_PROFILE_FEATURE],
+          },
+          appTree
+        )
+        .toPromise();
+
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+
+      const spartacusUserModule = program.getSourceFileOrThrow(
+        userFeatureModulePath
+      );
+      const result = analyzeFeature(spartacusUserModule);
+
+      expect(result.core).toEqual([]);
+      expect(result.features?.map((f) => f.feature)).toEqual([
+        CLI_USER_ACCOUNT_FEATURE,
+        CLI_USER_PROFILE_FEATURE,
+      ]);
+      expect(result.unrecognized).toEqual(undefined);
     });
   });
 });

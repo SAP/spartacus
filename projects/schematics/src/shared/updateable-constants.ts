@@ -248,6 +248,22 @@ function populateConfigMapping(
   mapping.set(featureConfig.library.cli, featureConfig);
 }
 
+// TODO:#schematics - test?
+// TODO:#schematics - comment
+export function getKeyByMappingValue(
+  mapping: Map<string, string[]>,
+  value: string
+): string | undefined {
+  try {
+    return getKeyByMappingValueOrThrow(mapping, value);
+  } catch (e) {
+    if (e instanceof SchematicsException) {
+      return undefined;
+    }
+  }
+  return undefined;
+}
+
 /**
  * Based on the given value,
  * it returns the key of the given object.

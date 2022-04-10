@@ -19,10 +19,12 @@ import {
 } from '../shared/updateable-constants';
 import { normalizeObject, removeProperty } from '../shared/utils/config-utils';
 import {
+  analyzeFeature,
   findDynamicImport,
   getModuleConfig,
   isFeatureModule,
   isWrapperModule,
+  orderFeatures,
 } from '../shared/utils/feature-utils';
 import {
   getDynamicImportCallExpression,
@@ -79,7 +81,6 @@ function createWrapperModule(options: {
         if (!isFeatureModule(sourceFile, options.moduleName, featureConfig)) {
           continue;
         }
-
         rules.push(
           ensureModuleExists({
             path,
@@ -371,6 +372,44 @@ function updateDynamicImportModuleName(
   );
 }
 
+function orderWrapperFeatures(options: {
+  project: string;
+  markerFeatureModulePath: string;
+}): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    const basePath = process.cwd();
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const wrapperModule of appSourceFiles) {
+        if (
+          !wrapperModule.getFilePath().includes(options.markerFeatureModulePath)
+        ) {
+          continue;
+        }
+
+        const analysis = analyzeFeature(wrapperModule);
+        if (analysis.unrecognized) {
+          // TODO:#schematics - do what?
+          console.error('??? ', analysis);
+        }
+
+        const ordered = orderFeatures(analysis);
+        getModulePropertyInitializer(
+          wrapperModule,
+          'imports',
+          false
+        )?.replaceWithText(`[${ordered.join(',\n')}]`);
+
+        saveAndFormat(wrapperModule);
+        return;
+      }
+    }
+  };
+}
+
 /**
  * Generates wrapper modules for the given
  * Spartacus feature module.
@@ -415,6 +454,11 @@ export function generateWrapperModule(options: SpartacusWrapperOptions): Rule {
       removeLibraryDynamicImport({
         project: options.project,
         moduleName: options.featureModuleName,
+      }),
+
+      orderWrapperFeatures({
+        project: options.project,
+        markerFeatureModulePath,
       }),
     ]);
   };

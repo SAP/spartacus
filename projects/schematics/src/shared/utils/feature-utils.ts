@@ -23,8 +23,16 @@ import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
 } from '../libs-constants';
-import { featureSchematicConfigMapping } from '../updateable-constants';
-import { crossLibraryInstallationOrder } from './graph-utils';
+import {
+  featureFeatureModuleMapping,
+  featureRootModuleMapping,
+  featureSchematicConfigMapping,
+  getKeyByMappingValue,
+} from '../updateable-constants';
+import {
+  crossFeatureInstallationOrder,
+  crossLibraryInstallationOrder,
+} from './graph-utils';
 import {
   collectDynamicImports,
   findImport,
@@ -32,11 +40,13 @@ import {
   getDynamicImportPropertyAccess,
   getImportDeclaration,
   isImportedFrom,
+  isImportedFromSpartacusCoreLib,
   isImportedFromSpartacusLibs,
   isRelative,
 } from './import-utils';
 import {
   addLibraryFeature,
+  calculateSort,
   FeatureConfig,
   LibraryOptions,
   Module,
@@ -214,6 +224,148 @@ function getSpartacusFeaturesNgModuleDecorator(
 
   sourceFile.forEachChild(visitor);
   return spartacusFeaturesModule;
+}
+
+export interface FeatureAnalysisResult {
+  unrecognized?: boolean;
+  core?: Expression[];
+  features?: { element: Expression; feature: string }[];
+}
+export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
+  const elements =
+    getModulePropertyInitializer(sourceFile, 'imports', false)?.getElements() ??
+    [];
+
+  const core: Expression[] = [];
+  const features: { element: Expression; feature: string }[] = [];
+  for (const element of elements) {
+    const analysis = analyzeModule(element);
+    if (analysis.unrecognized) {
+      // TODO: #schematics - throw exception?
+      // TODO: #schematics - print warning for the customers
+      console.error(
+        'element not recognized as a spartacus feature:',
+        element.print()
+      );
+      return {
+        unrecognized: true,
+      };
+    }
+
+    if (analysis.core) {
+      core.push(element);
+      continue;
+    }
+
+    if (analysis.feature) {
+      features.push({ element, feature: analysis.feature });
+      continue;
+    }
+  }
+
+  return {
+    core,
+    features,
+  };
+}
+
+interface AnalysisResult {
+  core?: boolean;
+  unrecognized?: boolean;
+  feature?: string;
+}
+function analyzeModule(element: Expression): AnalysisResult {
+  const moduleIdentifier = getModuleIdentifier(element);
+  if (!moduleIdentifier) {
+    return { unrecognized: true };
+  }
+
+  const importDeclaration = getImportDeclaration(moduleIdentifier);
+  if (!importDeclaration) {
+    return { unrecognized: true };
+  }
+
+  const importPath = importDeclaration.getModuleSpecifierValue();
+  if (!isImportedFromSpartacusLibs(importPath)) {
+    if (isRelative(importPath)) {
+      const localFeatureModule =
+        importDeclaration.getModuleSpecifierSourceFile();
+      if (!localFeatureModule) {
+        return { unrecognized: true };
+      }
+
+      const featureAnalysis = analyzeFeature(localFeatureModule);
+      if (featureAnalysis.unrecognized) {
+        return { unrecognized: true };
+      }
+
+      if (
+        !featureAnalysis.features ||
+        // the feature-module doesn't affect anything, so we can treat is a "core" feature
+        featureAnalysis.features.length === 0
+      ) {
+        return { core: true };
+      }
+
+      const features = featureAnalysis.features.sort((feature1, feature2) =>
+        calculateSort(
+          feature1.feature,
+          feature2.feature,
+          crossFeatureInstallationOrder
+        )
+      );
+      /**
+       * the first feature is used as the label for.
+       * the whole feature module.
+       * Imagine the UserFeatureModule for example:
+       * it has both Profile and Account features in it.
+       * Therefore, to be on the safe side, we label the
+       * feature module as the first feature.
+       */
+      const feature = features[0].feature;
+      return { feature };
+    }
+
+    // an import from a 3rd party lib, or a custom TS path mapping (https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
+    return { unrecognized: true };
+  }
+
+  if (isImportedFromSpartacusCoreLib(importPath)) {
+    return { core: true };
+  }
+
+  const feature =
+    // try to recognize the feature by feature modules
+    getKeyByMappingValue(
+      featureFeatureModuleMapping,
+      moduleIdentifier.getText()
+    ) ??
+    // try to recognize the feature by root feature modules
+    getKeyByMappingValue(featureRootModuleMapping, moduleIdentifier.getText());
+  if (feature) {
+    return { feature };
+  }
+
+  return { unrecognized: true };
+}
+
+// TODO:#schematics - test
+// TODO:#schematics - comment
+export function orderFeatures(analysisResult: FeatureAnalysisResult): string[] {
+  const features = (analysisResult.features ?? [])
+    .sort((featureAnalysis1, featureAnalysis2) =>
+      calculateSort(
+        featureAnalysis1.feature,
+        featureAnalysis2.feature,
+        crossFeatureInstallationOrder
+      )
+    )
+    .map((analysis) => analysis.element);
+
+  return (analysisResult.core ?? []).concat(features).map((element) =>
+    // TODO:#schematics - test anon.forRoot()
+    element.getText()
+  );
 }
 
 // TODO:#schematics - move somewhere else

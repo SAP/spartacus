@@ -7,14 +7,30 @@ import {
   SourceFile,
   ts as tsMorph,
 } from 'ts-morph';
-import { SPARTACUS_SCOPE } from '../libs-constants';
+import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
 import { getSpartacusProviders } from './config-utils';
 import { Import } from './new-module-utils';
 
+// TODO:#test
+// TODO:#comment
 export function isImportedFromSpartacusLibs(
   node: Identifier | string
 ): boolean {
   return isImportedFrom(node, SPARTACUS_SCOPE);
+}
+
+// TODO:#test
+// TODO:#comment
+export function isImportedFromSpartacusCoreLib(
+  node: Identifier | string
+): boolean {
+  for (const coreScope of CORE_SPARTACUS_SCOPES) {
+    if (isImportedFrom(node, coreScope)) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 export function isImportedFrom(
