@@ -1,6 +1,9 @@
 import collectedDependencies from '../../dependencies.json';
 import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
-import { libraryFeatureMapping } from '../updateable-constants';
+import {
+  getKeyByMappingValueOrThrow,
+  libraryFeatureMapping,
+} from '../updateable-constants';
 import { getConfiguredDependencies } from './schematics-config-utils';
 
 export class Graph {
@@ -37,9 +40,42 @@ export const crossLibraryInstallationOrder: string[] = kahnsAlgorithm(
 
 export const crossFeatureDependencyGraph: Graph =
   createCrossFeaturesDependencyGraph();
-export const crossFeatureInstallationOrder: string[] = kahnsAlgorithm(
-  crossFeatureDependencyGraph
-);
+export const crossFeatureInstallationOrder: string[] = groupFeatures();
+
+function groupFeatures(): string[] {
+  const order = kahnsAlgorithm(crossFeatureDependencyGraph);
+
+  const auxOrder: { library: string; feature: string }[] = [];
+  for (const [index, feature] of Array.from(order.entries())) {
+    const library = getKeyByMappingValueOrThrow(libraryFeatureMapping, feature);
+
+    const lastExistingIndex = getLastLibraryIndex(auxOrder, library);
+    if (!lastExistingIndex) {
+      auxOrder.push({ library, feature });
+      continue;
+    }
+
+    auxOrder.splice(lastExistingIndex + 1, 0, { library, feature });
+    order.splice(index);
+  }
+
+  return auxOrder.map(({ feature }) => feature);
+}
+
+function getLastLibraryIndex(
+  auxOrder: { library: string; feature: string }[],
+  library: string
+): number | undefined {
+  let lastIndex: number | undefined;
+  // TODO:#schematics - optimize somehow?
+  for (const [index, aux] of Array.from(auxOrder.entries())) {
+    if (aux.library === library) {
+      lastIndex = index;
+    }
+  }
+
+  return lastIndex;
+}
 
 /**
  * Creates the order in which the Spartacus libraries should be installed.

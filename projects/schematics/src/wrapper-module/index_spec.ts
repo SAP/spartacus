@@ -280,9 +280,8 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     });
   });
 
-  // TODO:#schematics - will make the snapshots update once the ordering happens in the wrapper module
   describe('DP and Checkout', () => {
-    it.only('Should order the imports in the wrapper and Spartacus features modules', async () => {
+    it('Should order the imports in the wrapper and Spartacus features modules', async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',

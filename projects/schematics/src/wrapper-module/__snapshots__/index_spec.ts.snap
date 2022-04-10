@@ -411,8 +411,8 @@ import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
     declarations: [],
     imports: [CheckoutModule,
         CheckoutB2BModule,
-        DigitalPaymentsModule,
-        CheckoutScheduledReplenishmentModule]
+        CheckoutScheduledReplenishmentModule,
+        DigitalPaymentsModule]
 })
 export class CheckoutWrapperModule {
 }
