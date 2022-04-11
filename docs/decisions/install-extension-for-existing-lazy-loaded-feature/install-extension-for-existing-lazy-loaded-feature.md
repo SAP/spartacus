@@ -1,5 +1,5 @@
 ## 1. Title
-Extend lazy loaded code
+Install extension for existing lazy loaded feature
 
 ## 2. Status
 Proposed
