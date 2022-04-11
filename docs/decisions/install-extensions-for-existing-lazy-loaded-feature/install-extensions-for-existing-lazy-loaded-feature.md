@@ -60,11 +60,12 @@ The schematics installer of the Digital-Payments library adds a new file in the 
 provideConfig({
   featureModules: {
     [CHECKOUT_FEATURE]: {
+      // 👆 name of the base feature
       module: () =>
         import('@spartacus/digital-payments').then((m) => m.DigitalPaymentsModule),
         // point to extension library's module 👆
-        // which inside wraps the original CheckoutModule 
-        // and provides custom extensions
+        // which inside wraps the base feature module
+        // CheckoutModule and provides custom extensions
     },
   },
 }),
