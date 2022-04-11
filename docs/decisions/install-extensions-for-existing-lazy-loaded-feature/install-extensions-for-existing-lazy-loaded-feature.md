@@ -103,7 +103,7 @@ provideConfig({
 
 Then inside the local wrapper module we primarily import (statically) the base Spartacus module, but also allow for importing (statically) many other extensions modules. 
 
-The child-injector belongs to the local wrapper module (as it's lazy-loaded). All the modules imported inside it share the same child-injector. Therefore the extension service has a chance to overwrite the base service. The following example shows the content of the local `CheckoutWrapperModule` in the app:
+The child-injector belongs to the local wrapper module (as it's lazy-loaded). All the modules imported inside share the same child-injector. Therefore the extension service has a chance to overwrite the base service. The following example shows the content of the local `CheckoutWrapperModule` in the app:
 
 ```ts
 // CheckoutWrapperModule in the app:
