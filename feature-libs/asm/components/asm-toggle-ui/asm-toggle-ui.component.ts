@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'cx-asm-toggle-ui',
   templateUrl: './asm-toggle-ui.component.html',
-  styleUrls: ['../../styles/components/asm-toggle-ui.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class AsmToggleUiComponent implements OnInit, OnDestroy {
