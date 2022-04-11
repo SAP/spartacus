@@ -62,6 +62,9 @@ export class ConfiguratorAttributeNumericInputFieldService {
     decimalPlaces: number | undefined,
     locale: string
   ): string {
+    if (decimalPlaces === undefined) {
+      decimalPlaces = 0;
+    }
     let formatted = formatNumber(
       intervalValue,
       locale,
@@ -79,9 +82,8 @@ export class ConfiguratorAttributeNumericInputFieldService {
   getIntervals(
     values: Configurator.Value[] | undefined
   ): ConfiguratorAttributeNumericInterval[] {
-    let intervals: ConfiguratorAttributeNumericInterval[] = [];
+    const intervals: ConfiguratorAttributeNumericInterval[] = [];
     if (values && values.length > 0) {
-      intervals = [];
       values.forEach((value) => {
         let interval = this.getInterval(value);
         if (interval && Object.keys(interval).length !== 0) {

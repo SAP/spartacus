@@ -179,6 +179,11 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         '3,222,543.75'
       );
     });
+    it('should format large interval value in en format with undefined decimal places', () => {
+      expect(
+        serviceUnderTest.formatIntervalValue(3222543.75, undefined, 'en')
+      ).toEqual('3,222,544');
+    });
   });
 
   describe('getInterval', () => {
@@ -306,6 +311,22 @@ describe('ConfigAttributeNumericInputFieldService', () => {
         name: '5',
       };
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
+    });
+
+    it('should return undefined if value is selected', () => {
+      let value: Configurator.Value = {
+        valueCode: '1',
+        name: '5',
+        selected: true,
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(undefined);
+    });
+
+    it('should return undefined if value name is not provided', () => {
+      let value: Configurator.Value = {
+        valueCode: '1',
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(undefined);
     });
   });
 });
