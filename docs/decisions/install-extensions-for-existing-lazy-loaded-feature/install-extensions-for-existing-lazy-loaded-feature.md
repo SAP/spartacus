@@ -159,7 +159,7 @@ Note: It's debatable how to name the wrapper modules. By voting in the Blamed Te
 
 
 #### Pros
-- It works
+- You can install many extensions for one one base feature
 - by the way, when the base module is imported inside a wrapper module, it improves tree-shaking - any public API members exported from the library's path (e.g. `@spartacus/checkout/base`) that are not used in the app will be tree-shaken
 
 #### Cons
