@@ -1,5 +1,5 @@
 ## 1. Title
-Install extension for existing lazy loaded feature
+Install extensions for existing lazy loaded feature
 
 ## 2. Status
 Proposed
