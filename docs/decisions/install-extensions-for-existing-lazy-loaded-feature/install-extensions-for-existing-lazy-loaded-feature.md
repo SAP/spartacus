@@ -270,17 +270,20 @@ This should allow for injecting services first from plugins modules, then from o
 
 The limitation for multi-provided tokens is not acceptable. For example the `MODULE_INITIALIZER`s (which are multi-provided) would not work properly.
 ### Option 4: Introduce a config `plugins` for lazy-loaded feature modules; implementation: create wrapper module in runtime using JIT compiler (tweaked Option 3)
-We could tweak the Option 3, and create the wrapper module importing the original module all the plugin modules in the runtime. This helps to avoid using the opinionated `CombinedInjector`.
-
-Interesting:
-- did we already use JIT in `develop` branch? How can we prove we did or not? We have already been calling `compiler.compileModuleAsync()` in develop.
-  - NO. How to prove: when trying to create NgModule in rutime I gout error that JIT compiler is not available.
-- Angular documented several drawbacks of using JIT: increased bundle size and increased runtime (due to compilation happening in the browser). But are those docs still up to date with regards to IVY and Angular 12/13? See https://angular.io/guide/aot-compiler
-- Should we use JIT in general? Angular may remove the JIT compilation in the (far?) future, however it’s not definitely decided yet. See [RFC](https://github.com/angular/angular/issues/43133#issuecomment-941151334).
-- using JIT compiler introduces [some security concerns](https://angular.io/guide/security#use-the-aot-template-compiler). How much will we be affected, when calling compileModuleAsync or the alternative function createNgModuleRef() (that was introduced only in v13)
+Idea: We could tweak the Option 3, and create the wrapper module importing the original module all the plugin modules in the runtime. This helps to avoid using the opinionated and limited `CombinedInjector`.
 
 Note: Here's the working PoC PR: https://github.com/SAP/spartacus/pull/14954
+#### Pros
+- extensions modules (plugins) can live in separate files in customer's app. The base feature module remains untouched.
+- it doesn't require importing both the original and plugin modules in the same file (in the wrapper module).
 
+#### Cons
+- increased bundle size (because of bundling JIT compiler) and increased runtime (due to compilation of wrapper modules happening in the browser). See https://angular.io/guide/aot-compiler
+- There is some risk that JIT compiler will be removed from Angular in the future. See RFC https://github.com/angular/angular/issues/43133#issuecomment-941151334.
+- using JIT compiler introduces some security concerns (see https://angular.io/guide/security#use-the-aot-template-compiler)
+  - However they apply mostly to compiling components, but we would only compile the wrapper module, so we should be safe.
+
+This solution is not acceptable, because of introducing increased bundle size and increased runtime.
 
 ### Option 5: Configure the extension module as `dependencies` of the base feature module
 Spartacus allows for configuring `dependencies` for a feature module, for example:
