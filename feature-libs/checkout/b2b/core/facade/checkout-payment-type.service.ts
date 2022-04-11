@@ -32,6 +32,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     return [LanguageSetEvent, CurrencySetEvent];
   }
   protected getPaymentTypesQueryResetEvents(): QueryNotifier[] {
+    console.log('test mix files');
     return [LogoutEvent, LoginEvent];
   }
 
