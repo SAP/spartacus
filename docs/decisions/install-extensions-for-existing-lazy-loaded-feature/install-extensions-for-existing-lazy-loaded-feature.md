@@ -256,7 +256,7 @@ provideConfig(<CmsConfig>{
 ```
 
 #### Implementation details
-We collect config for `module` and `plugins`. Under the hood we instantiate artificially an empty `NgModule` as the base module. And when instantiating it, we set its parent injector to the `CombinedInjector` consisting of (in the following order): the plugins' injectors, the original base feature module's injector.
+We collect config for `module` and `plugins`. Under the hood we instantiate artificially an empty `NgModule` as the base module. And when instantiating it, we set its parent injector to the `CombinedInjector` consisting of (in the following order): the plugins' injectors and the original base feature module's injector.
 This should allow for injecting services first from plugins modules, then from original feature module, and later from dependencies modules.
 (For more see the implementation of the [CombinedInjector](https://github.com/SAP/spartacus/blob/018ec3d93ecb506ce9c1bc0ef1aa99aa8c5901d4/projects/core/src/util/combined-injector.ts#L11-L20).)
 
