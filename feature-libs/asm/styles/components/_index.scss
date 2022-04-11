@@ -11,7 +11,7 @@ $asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
 
 $skipComponentStyles: () !default;
 
-@each $selector in asm-components-allowlist {
+@each $selector in $asm-components-allowlist {
   #{$selector} {
     // skip selectors if they're added to the $skipComponentStyles list
     @if (index($skipComponentStyles, $selector) == null) {
