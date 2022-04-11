@@ -83,7 +83,7 @@ Note: at the time of writing, this solution is used in the `develop` branch. See
 - You can install an extension for an existing lazy loaded feature
 
 #### Cons:
-- You cannot compose and use many extensions for one one base feature
+- You cannot install many extensions for one one base feature
 
 ### Option 1: Local wrapper module in the app
 Idea: Introduce a local wrapper module in the app and import it dynamically instead of the base Spartacus module:
