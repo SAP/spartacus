@@ -35,8 +35,6 @@
     "wrapper-module": {
       "description": "Generate a feature wrapper module",
       "factory": "./wrapper-module/index#generateWrapperModule",
-      "private": true,
-      "hidden": true,
       "aliases": ["wrapper"]
     }
   }

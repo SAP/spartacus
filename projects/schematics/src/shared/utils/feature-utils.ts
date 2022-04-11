@@ -1,8 +1,8 @@
 import {
   chain,
+  externalSchematic,
   noop,
   Rule,
-  schematic,
   SchematicContext,
   SchematicsException,
   Tree,
@@ -153,7 +153,14 @@ function handleWrapperModule<OPTIONS extends LibraryOptions>(
       featureModuleName,
     };
 
-    rules.push(schematic('wrapper-module', wrapperOptions));
+    rules.push(
+      externalSchematic(
+        '@spartacus/schematics',
+        'wrapper-module',
+        wrapperOptions
+      )
+    );
+    // rules.push(schematic('wrapper-module', wrapperOptions));
   }
 
   return chain(rules);
