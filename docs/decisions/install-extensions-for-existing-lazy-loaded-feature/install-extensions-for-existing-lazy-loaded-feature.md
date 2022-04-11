@@ -163,6 +163,10 @@ Note: It's debatable how to name the wrapper modules. By voting in the Blamed Te
 - by the way, when the base module is imported inside a wrapper module, it improves tree-shaking - any public API members exported from the library's path (e.g. `@spartacus/checkout/base`) that are not used in the app will be tree-shaken
 
 #### Cons
+- adds complexity to current installation schematics
+  - create wrapper modules
+  - append extension modules after marker modules
+  - sort the installation of features and extensions (requires custom analysis of dependency tree)
 - we add more modules in customer's app
 - negligible(!) increase in the production built JS bundle of the lazy-loaded feature: 100-200 bytes (depending on the length of the class name).
   - Note that the OOTB `UserProfileModule` feature has 42.15 kB at the moment of writing. So the increase in this case is 0.3% and it affects only the lazy-loaded chunk, but not the main JS chunk. 
@@ -204,8 +208,8 @@ Note: It's debatable how to name the wrapper modules. By voting in the Blamed Te
 1. implement the ordered invocation of specific libraries' installation-schematics (including the deep analysis of the cross-dependencies between features)
 
 1. changes needed in current installation-schematics of DigitalPayments and CheckoutB2B (and CdcLogin which is under development):
-  - currently CheckoutB2b schematics removes the original checkout file and re-creates it, using key different path in the dynamic import
-  - currently DigitalPayments (and similarly Cdc, which is under development) creates a separate module file with the same key `CHECKOUT_FEATURE`, but different dynamic import path. It's problematic as there is no single file where we could break down the dynamic import
+    - currently CheckoutB2b schematics removes the original checkout file and re-creates it, using key different path in the dynamic import
+    - currently DigitalPayments (and similarly Cdc, which is under development) creates a separate module file with the same key `CHECKOUT_FEATURE`, but different dynamic import path. It's problematic as there is no single file where we could break down the dynamic import
 
 ### Option 3: Introduce a config `plugins` for lazy-loaded feature modules; implementation: use static empty NgModule + parent CombinedInjector
 We want to allow for plugging many extensions for a single module. And ideally we would like to avoid changing the original module in customer's app, when plugging the extensions. In other words, we a want loose coupling between the original feature module and the extension modules in the app. See example structure in the customer's app:
