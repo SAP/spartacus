@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { Cart, OrderEntry } from '../models/cart.model';
+import { Cart, EntryGroup, OrderEntry } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -54,6 +54,11 @@ export abstract class ActiveCartFacade {
   abstract getEntries(): Observable<OrderEntry[]>;
 
   /**
+   * Returns cart entry groups
+   */
+  abstract getEntryGroups(): Observable<EntryGroup[]>;
+
+  /**
    * Returns last cart entry for provided product code.
    * Needed to cover processes where multiple entries can share the same product code
    * (e.g. promotions or configurable products)
@@ -88,6 +93,21 @@ export abstract class ActiveCartFacade {
    * @param entry
    */
   abstract removeEntry(entry: OrderEntry): void;
+
+  /**
+   * Add Product to bundle
+   *
+   * @param entryGroupNumber
+   * @param entry
+   */
+  abstract addToEntryGroup(entryGroupNumber: number, entry: OrderEntry): void;
+
+  /**
+   * Remove bundle
+   *
+   * @param entryGroupNumber
+   */
+  abstract deleteEntryGroup(entryGroupNumber: number): void;
 
   /**
    * Update entry

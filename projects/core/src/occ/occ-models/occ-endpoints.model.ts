@@ -513,6 +513,18 @@ export interface OccEndpoints {
    */
   b2bUserPermission?: string | OccEndpoint;
   /**
+   * Adds a product to a cart entry group.
+   *
+   * @member {string} [cart]
+   */
+  addToEntryGroup?: string | OccEndpoint;
+  /**
+   * Removes an entry group from an associated cart. The entry group is identified by an entryGroupNumber. The cart is identified by the cartId.
+   *
+   * @member {string} [cart]
+   */
+  deleteEntryGroup?: string | OccEndpoint;
+  /**
    * Endpoint for order approvals
    *
    * @member {string}

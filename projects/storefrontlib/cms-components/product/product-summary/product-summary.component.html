@@ -26,4 +26,10 @@
           </a>
         </div>
       </ng-container> -->
+
+  <div *ngFor="let template of bundleTemplates$ | async">
+    <button (click)="startBundle(product, template)">
+      Start {{ template?.rootBundleTemplateName }} Bundle
+    </button>
+  </div>
 </ng-container>

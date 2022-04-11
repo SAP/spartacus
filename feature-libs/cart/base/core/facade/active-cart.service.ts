@@ -3,6 +3,7 @@ import {
   ActiveCartFacade,
   Cart,
   CartType,
+  EntryGroup,
   MultiCartFacade,
   OrderEntry,
 } from '@spartacus/cart/base/root';
@@ -158,6 +159,16 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId$.pipe(
       switchMap((cartId) => this.multiCartFacade.getEntries(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns cart entries
+   */
+  getEntryGroups(): Observable<EntryGroup[]> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) => this.multiCartFacade.getEntryGroups(cartId)),
       distinctUntilChanged()
     );
   }
@@ -486,6 +497,42 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           );
         }
       });
+  }
+
+  /**
+   * Remove bundle
+   *
+   * @param entryGroupNumber
+   */
+  deleteEntryGroup(entryGroupNumber: number) {
+    this.requireLoadedCart().subscribe((cart) => {
+      this.userIdService.takeUserId().subscribe((userId) => {
+        this.multiCartFacade.deleteEntryGroup(
+          getCartIdByUserId(cart, userId),
+          userId,
+          entryGroupNumber
+        );
+      });
+    });
+  }
+
+  /**
+   * Add Product to bundle
+   *
+   * @param entryGroupNumber
+   * @param entry
+   */
+  addToEntryGroup(entryGroupNumber: number, entry: OrderEntry) {
+    this.requireLoadedCart().subscribe((cart) => {
+      this.userIdService.takeUserId().subscribe((userId) => {
+        this.multiCartFacade.addToEntryGroup(
+          getCartIdByUserId(cart, userId),
+          userId,
+          entryGroupNumber,
+          entry
+        );
+      });
+    });
   }
 
   /**
