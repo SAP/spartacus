@@ -4,11 +4,12 @@
   </h4>
 
   <a
-    role="button"
     *ngFor="let facet of facetList?.activeFacets"
     routerLink="./"
     [queryParams]="getLinkParams(facet)"
     [cxFocus]="getFocusKey(facetList, facet)"
+    role="button"
+    (keydown.space)="removeFilterWithSpacebar($event)"
     [attr.aria-label]="
       'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
     "
