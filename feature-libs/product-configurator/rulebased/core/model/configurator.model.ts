@@ -27,6 +27,7 @@ export namespace Configurator {
     hasConflicts?: boolean;
     retractTriggered?: boolean;
     attributePriceTotal?: PriceDetails;
+    key?: string;
   }
 
   export interface Value {
