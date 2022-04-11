@@ -180,7 +180,7 @@ Note: It's debatable how to name the wrapper modules. By voting in the Blamed Te
   - YES
 - [x] should we create wrapper modules for all features or only those that are extended by other opt-in features?
   - ONLY THE EXTENDED ONES, not to introduce unnecessary boilerplate in the app
-- [x] should we automate for customers cration of the wrapper modules out from the old dynamic imports pointing to Spartacus library's path (e.g. `()=>import('@spartacus/store-finder')`))?
+- [x] should we automate for customers creation of the wrapper modules out from the old dynamic imports pointing to Spartacus library's path (e.g. `()=>import('@spartacus/store-finder')`))?
   - YES, the local wrapper should be created on the fly by the installer of the extension module
 - [x] how should the installer behave, when there is no marker module in the app (e.g. because customer dismantled it into smaller modules)
   - WARN in the console and explain how to import the module manually
