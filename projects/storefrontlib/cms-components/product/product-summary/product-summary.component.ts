@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Product } from '@spartacus/core';
-import {
-  BundleStarter,
-  BundleTemplate,
-  CartBundleService,
-} from '@spartacus/cart/bundle/core';
+// import {
+//   BundleStarter,
+//   BundleTemplate,
+//   CartBundleService,
+// } from '@spartacus/cart/bundle/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';
 // import { filter, take } from 'rxjs/operators';
-import { SelectiveCartService } from '@spartacus/cart/base/core';
+// import { SelectiveCartService } from '@spartacus/cart/base/core';
 
 @Component({
   selector: 'cx-product-summary',
@@ -20,12 +20,10 @@ export class ProductSummaryComponent implements OnInit {
   outlets = ProductDetailOutlets;
 
   product$: Observable<Product> = this.currentProductService.getProduct();
-  bundleTemplates$: Observable<BundleTemplate[]>;
+  // bundleTemplates$: Observable<BundleTemplate[]>;
 
   constructor(
-    protected currentProductService: CurrentProductService,
-    protected selectiveCartService: SelectiveCartService,
-    protected cartBundleService: CartBundleService
+    protected currentProductService: CurrentProductService // protected selectiveCartService: SelectiveCartService, // protected cartBundleService: CartBundleService
   ) {}
 
   ngOnInit(): void {
@@ -41,11 +39,11 @@ export class ProductSummaryComponent implements OnInit {
     //   });
   }
 
-  startBundle(product: Product, template: any) {
-    this.cartBundleService.startBundle(<BundleStarter>{
-      productCode: product.code,
-      quantity: 1,
-      templateId: template.id,
-    });
-  }
+  // startBundle(product: Product, template: any) {
+  // this.cartBundleService.startBundle(<BundleStarter>{
+  //   productCode: product.code,
+  //   quantity: 1,
+  //   templateId: template.id,
+  // });
+  // }
 }
