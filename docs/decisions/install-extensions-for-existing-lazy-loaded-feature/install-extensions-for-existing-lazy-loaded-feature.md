@@ -45,7 +45,10 @@ import { CheckoutModule } from '@spartacus/checkout/base';
 import { DpCheckoutModule } from './checkout/dp-checkout.module';
 
 @NgModule({
-  imports: [CheckoutModule, DpCheckoutModule],
+  imports: [
+    CheckoutModule,   // import base feature module
+    DpCheckoutModule  // provide custom extensions
+  ],
 })
 export class DigitalPaymentsModule {}
 ```
