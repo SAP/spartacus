@@ -9,19 +9,30 @@ import {
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { ANGULAR_HTTP, RXJS } from '../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
+import {
+  SPARTACUS_FEATURES_MODULE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../shared/libs-constants';
 import {
   analyzeCrossFeatureDependencies,
   analyzeCrossLibraryDependenciesByFeatures,
 } from '../shared/utils/dependency-utils';
-import { addFeatures } from '../shared/utils/feature-utils';
+import {
+  addFeatures,
+  analyzeFeature,
+  orderFeatures,
+} from '../shared/utils/feature-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
+  checkAppStructure,
   installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
-import { addModuleImport } from '../shared/utils/new-module-utils';
+import {
+  addModuleImport,
+  getModulePropertyInitializer,
+} from '../shared/utils/new-module-utils';
 import {
   getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
@@ -291,9 +302,56 @@ function logDependencyFeatures(
   }
 }
 
+function orderInstalledFeatures(options: SpartacusOptions): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
+    const basePath = process.cwd();
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const spartacusFeaturesModule of appSourceFiles) {
+        if (
+          !spartacusFeaturesModule
+            .getFilePath()
+            .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
+        ) {
+          continue;
+        }
+
+        const analysis = analyzeFeature(spartacusFeaturesModule);
+        if (analysis.unrecognized) {
+          // TODO:#schematics - do what?
+          console.error('??? ', analysis);
+        }
+
+        const ordered = orderFeatures(analysis);
+        getModulePropertyInitializer(
+          spartacusFeaturesModule,
+          'imports',
+          false
+        )?.replaceWithText(`[${ordered.join(',\n')}]`);
+
+        saveAndFormat(spartacusFeaturesModule);
+        break;
+      }
+    }
+  };
+}
+
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const project = getProjectFromWorkspace(tree, options);
+    const spartacusFeatureModuleExists = checkAppStructure(
+      tree,
+      options.project
+    );
+    options = {
+      ...options,
+      internal: {
+        dirtyInstallation: spartacusFeatureModuleExists,
+      },
+    };
+
     const packageJsonFile = readPackageJson(tree);
 
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
@@ -316,11 +374,12 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
       updateAppModule(options.project),
       installStyles(options),
-      updateMainComponent(project, options),
+      updateMainComponent(getProjectFromWorkspace(tree, options), options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
       increaseBudgets(),
 
       addFeatures(options, features),
+      spartacusFeatureModuleExists ? orderInstalledFeatures(options) : noop(),
 
       chain([
         addPackageJsonDependencies(

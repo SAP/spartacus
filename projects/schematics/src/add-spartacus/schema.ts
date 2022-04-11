@@ -13,6 +13,13 @@ export interface Schema extends LibraryOptions {
   pwa?: boolean;
   ssr?: boolean;
   theme?: string;
+
+  /**
+   * Internal options, should not be set by the user.
+   */
+  internal?: {
+    dirtyInstallation: boolean;
+  };
 }
 
 /**

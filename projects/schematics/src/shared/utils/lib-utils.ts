@@ -212,15 +212,6 @@ export function addLibraryFeature<T extends LibraryOptions>(
        *
        * In other words, it's not necessary when installing Spartacus for the first time.
        */
-      /**
-       * TODO:#schematics - just collect the imported modules
-       * filter out the feature modules
-       * recognize them by looking checking if featuremodules are in
-       *  1. imports
-       * 2. if so, check if the module is actually imported in the ngmodules
-       * 3. if nothing is found in the imports, check dynamic imports
-       */
-      // orderInstalledFeatures(options),
     ]);
   };
 }

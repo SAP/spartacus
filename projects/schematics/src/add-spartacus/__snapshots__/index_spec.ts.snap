@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`add-spartacus when it is a dirty installation should sort the features in the spartacus-feature.module 1`] = `
+"import { NgModule } from '@angular/core';
+import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from \\"@spartacus/core\\";
+import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, PageTitleModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ScrollToTopModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule } from \\"@spartacus/storefront\\";
+import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
+import { UserFeatureModule } from './features/user/user-feature.module';
+
+@NgModule({
+  declarations: [],
+  imports: [AuthModule.forRoot(),
+    LogoutModule,
+    LoginRouteModule,
+    HamburgerMenuModule,
+    SiteContextSelectorModule,
+    LinkModule,
+    BannerModule,
+    CmsParagraphModule,
+    TabParagraphContainerModule,
+    BannerCarouselModule,
+    CategoryNavigationModule,
+    NavigationModule,
+    FooterNavigationModule,
+    BreadcrumbModule,
+    ScrollToTopModule,
+    PageTitleModule,
+    UserModule,
+    UserOccModule,
+    AddressBookModule,
+    PaymentMethodsModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
+    ConsentManagementModule,
+    MyCouponsModule,
+  AnonymousConsentsModule.forRoot(),
+    AnonymousConsentsDialogModule,
+    AnonymousConsentManagementBannerModule,
+  ProductModule.forRoot(),
+    ProductOccModule,
+    ProductDetailsPageModule,
+    ProductListingPageModule,
+    ProductListModule,
+    SearchBoxModule,
+    ProductFacetNavigationModule,
+    ProductTabsModule,
+    ProductCarouselModule,
+    ProductReferencesModule,
+    ProductImagesModule,
+    ProductSummaryModule,
+    ProductIntroModule,
+    CostCenterOccModule,
+    NavigationEventModule,
+    HomePageEventModule,
+    ProductPageEventModule,
+  ExternalRoutesModule.forRoot(),
+    UserFeatureModule,
+    CdcFeatureModule]
+})
+export class SpartacusFeaturesModule { }
+"
+`;
+
+exports[`add-spartacus when it is a dirty installation should sort the features in the spartacus-feature.module 2`] = `
+"import { NgModule } from '@angular/core';
+import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from \\"@spartacus/core\\";
+import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, PageTitleModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ScrollToTopModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule } from \\"@spartacus/storefront\\";
+import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
+import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
+import { UserFeatureModule } from './features/user/user-feature.module';
+
+@NgModule({
+  declarations: [],
+  imports: [AuthModule.forRoot(),
+    LogoutModule,
+    LoginRouteModule,
+    HamburgerMenuModule,
+    SiteContextSelectorModule,
+    LinkModule,
+    BannerModule,
+    CmsParagraphModule,
+    TabParagraphContainerModule,
+    BannerCarouselModule,
+    CategoryNavigationModule,
+    NavigationModule,
+    FooterNavigationModule,
+    BreadcrumbModule,
+    ScrollToTopModule,
+    PageTitleModule,
+    UserModule,
+    UserOccModule,
+    AddressBookModule,
+    PaymentMethodsModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
+    ConsentManagementModule,
+    MyCouponsModule,
+  AnonymousConsentsModule.forRoot(),
+    AnonymousConsentsDialogModule,
+    AnonymousConsentManagementBannerModule,
+  ProductModule.forRoot(),
+    ProductOccModule,
+    ProductDetailsPageModule,
+    ProductListingPageModule,
+    ProductListModule,
+    SearchBoxModule,
+    ProductFacetNavigationModule,
+    ProductTabsModule,
+    ProductCarouselModule,
+    ProductReferencesModule,
+    ProductImagesModule,
+    ProductSummaryModule,
+    ProductIntroModule,
+    CostCenterOccModule,
+    NavigationEventModule,
+    HomePageEventModule,
+    ProductPageEventModule,
+  ExternalRoutesModule.forRoot(),
+    UserFeatureModule,
+    PersonalizationFeatureModule,
+    CdcFeatureModule]
+})
+export class SpartacusFeaturesModule { }
+"
+`;
+
+exports[`add-spartacus when it is a dirty installation should sort the features in the wrapper module 1`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
+
+@NgModule({
+  declarations: [],
+  imports: [CheckoutModule,
+    DigitalPaymentsModule]
+})
+export class CheckoutWrapperModule { }
+"
+`;
+
+exports[`add-spartacus when it is a dirty installation should sort the features in the wrapper module 2`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";
+import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
+
+@NgModule({
+  declarations: [],
+  imports: [CheckoutModule,
+    CheckoutB2BModule,
+    CheckoutScheduledReplenishmentModule,
+    DigitalPaymentsModule]
+})
+export class CheckoutWrapperModule { }
+"
+`;
