@@ -14,7 +14,6 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-asm-session-timer',
   templateUrl: './asm-session-timer.component.html',
-  styleUrls: ['./asm-session-timer.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class AsmSessionTimerComponent implements OnInit, OnDestroy {

@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 @Component({
   selector: 'cx-csagent-login-form',
   templateUrl: './csagent-login-form.component.html',
-  styleUrls: ['./csagent-login-form.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class CSAgentLoginFormComponent implements OnInit {

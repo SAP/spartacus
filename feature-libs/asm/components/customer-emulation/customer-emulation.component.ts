@@ -6,7 +6,6 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
-  styleUrls: ['./customer-emulation.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
