@@ -188,8 +188,6 @@ Note: It's debatable how to name the wrapper modules. By voting in the Blamed Te
   - NOTHING DIFFERENT, just append the extension module after the base module
 - [x] should we update our installer, so it first installs the base feature and only later the extensions?
   - YES, we need to add a logic that analyzes the dependencies between feature and extension modules and then installs all features in the correct order
-- [x] how do we name the wrapper modules?
-  - WrapperXxxModule
   
 #### Plan of implementation
 
