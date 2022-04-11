@@ -149,16 +149,17 @@ export class ProductLoadingService {
     if (maxAge && isPlatformBrowser(this.platformId)) {
       // we want to grab load product success and load product fail for this product and scope
       const loadFinish$ = this.actions$.pipe(
+        ofType(
+          ProductActions.LOAD_PRODUCT_SUCCESS,
+          ProductActions.LOAD_PRODUCT_FAIL
+        ),
         filter(
           (
             action:
               | ProductActions.LoadProductSuccess
               | ProductActions.LoadProductFail
           ) =>
-            (action.type === ProductActions.LOAD_PRODUCT_SUCCESS ||
-              action.type === ProductActions.LOAD_PRODUCT_FAIL) &&
-            action.meta.entityId === productCode &&
-            action.meta.scope === scope
+            action.meta.entityId === productCode && action.meta.scope === scope
         )
       );
 
@@ -175,7 +176,7 @@ export class ProductLoadingService {
 
     const reloadTriggers$ = this.loadingScopes
       .getReloadTriggers('product', scope)
-      .map(this.eventService.get);
+      .map((e) => this.eventService.get(e));
 
     return triggers.concat(reloadTriggers$);
   }
