@@ -191,116 +191,23 @@ Note: It's debatable how to name the wrapper modules. By voting in the Blamed Te
   
 #### Plan of implementation
 
-After 5.0:
 1. implement schematics util that breaks down the given dynamic import into a wrapper module, e.g:
-
+    
     `ng g @spartacus/schematics:wrapper --module=CheckoutModule --module-path=@spartacus/checkout/base`
-2. implement schematics util that appends the given extension module after another "marker" module, e.g:
+
+1. implement schematics util that appends the given extension module after another "marker" module, e.g:   
     
     `ng g @spartacus/schematics:append-module --module=DigitalPaymentsModule --module-path=@spartacus/digital-payments --after-module=CheckoutModule --after-module-path=@spartacus/checkout/base`
-3. change the implementation of the installation-schematics of our extension features (e.g. DigitalPayments, CheckoutB2b) use the two util schematics above. For example: to install the Digital Payments feature (`ng add @spartacus/digital-payments`): first make sure to break down the dynamic import of `CheckoutModule` into a local wrapper module and only then append the `DigitalPaymentModule` after the `CheckoutModule`.
 
-Issues with current develop branch:
-1. because of putting the pre-baked modules into customers app (so the base module is implicitly imported inside), there is no notion about the base module the customer's code. Therefore the base module cannot be the marker for generating the wrapper modules in the future.
-   - possible solutions:
-     1. workaround: the future schematics generating the wrapper module for the Checkout will accept an array of possible maker modules (e.g. `CheckoutModule, CheckoutB2BModule, DigitalPaymentsModule`)
-        - cons: we will have to change in 6.0 those pre-baked wrapper modules (it's tech dept to pay in the future)
-     2. ...?
-2. Currently the Digital Payments installation-schematics creates a separate module file with the config chunk using the same key `CHECKOUT_FEATURE`, but different dynamic import path. It overwrites the original dynamic import implicitly thanks to config chunks being deep-merged together 
-   - possible solutions:
-     - change implementation of installation-schematics of Digital Payments to update the dynamic import "in place" inside the original Checkout module file. But this requires(!) the checkout installation-schematics to be run first. And also this requires(!) defining a marker module for replacement.
+1. change the implementation of the installation-schematics of our extension features (e.g. DigitalPayments, CheckoutB2b) use the two util schematics above. For example: to install the Digital Payments feature (`ng add @spartacus/digital-payments`): first make sure to break down the dynamic import of `CheckoutModule` into a local wrapper module and only then append the `DigitalPaymentModule` after the `CheckoutModule`.
 
-Suggested TODO before 5.0:
 1. implement the ordered invocation of specific libraries' installation-schematics (including the deep analysis of the cross-dependencies between features)
+
 1. changes needed in current installation-schematics of DigitalPayments and CheckoutB2B (and CdcLogin which is under development):
-  - current state:
-    - CheckoutB2b schematics removes the original checkout file and re-creates it, using key different path in the dynamic import
-      - it can stay I guess
-    - DigitalPayments creates a separate module file with the same key `CHECKOUT_FEATURE`, but different dynamic import path 
-      - it's problematic as there is no single file where we could break down the dynamic import
+  - currently CheckoutB2b schematics removes the original checkout file and re-creates it, using key different path in the dynamic import
+  - currently DigitalPayments (and similarly Cdc, which is under development) creates a separate module file with the same key `CHECKOUT_FEATURE`, but different dynamic import path. It's problematic as there is no single file where we could break down the dynamic import
 
-
-### Option 2: Configure the extension module as `dependencies` of the base feature module
-Spartacus allows for configuring `dependencies` for a feature module, for example:
-
-```ts
-provideConfig(<CmsConfig>{
-  featureModules: {
-    [USER_PROFILE_FEATURE]: {
-      module: () =>
-        import('@spartacus/user/profile').then((m) => m.UserProfileModule),
-
-      dependencies: [
-        () =>
-          import('@spartacus/some-extension-library').then(
-            (m) => m.ExtensionUserProfileModule
-          ),
-      ],
-    },
-  },
-}),
-```
-This allows for injecting services from the dependency module.
-
-Unfortunately for us, the dependency module's injector has lower priority than the original feature module). It's because the instantiated feature module has it's own injector. So the extension services cannot overwrite the original services.
-
-So this this option is disqualified as it's not solving our problem.
-
-*Note*: why the dependency module's injector cannot have higher priority than the feature module's injector? It's because the Angular's public API allows only for setting a *parent injector* for the dynamically instantiated module: `NgModuleFactory<any>.create(parentInjector: Injector | null): NgModuleRef<any>`. And the parent injector, by definition has a lower priority than the injector of the instantiated module. 
-
-### Option 3: Configure the base module as `dependencies` of the extension module (tweaked Option 2)
-We could tweak the Option (2), and set the extension module as the main feature `module`, while setting the original feature module only as `dependencies`. Then the injector of the extension module should have higher priority than the original feature module, when resolving services. See example:
-
-```ts
-provideConfig(<CmsConfig>{
-  featureModules: {
-    [USER_PROFILE_FEATURE]: {
-      module: () =>
-        import('@spartacus/some-extension-library').then(
-          (m) => m.ExtensionUserProfileModule
-        ),
-      
-      dependencies: [
-        () => import('@spartacus/user/profile').then((m) => m.UserProfileModule),
-      ],
-    },
-  },
-}),
-```
-We're hoping that this configuration should promote injecting services from the extension module over the services from the original feature module.
-
-Unfortunately, then we get an error:
-```
-core.js:6456 ERROR TypeError: Cannot read properties of undefined (reading 'pipe')
-    at ComponentWrapperDirective.launchComponent (component-wrapper.directive.ts:121:8)
-```
-
-It's because the implementation of the method `CmsComponentsService#determineMappings` picks the CMS component mappings only from the pointed `module`, but not from its `dependencies`. And in our case the extension module doesn't contain all those component mappings, instead they live in the original feature module (which is now set as `dependencies`).
-
-As a next step we could possibly change the behavior of `CmsComponentsService#determineMappings` to pick also cms mappings from the dependency modules.
-
-### Pros
-- It doesn't require creating a new wrapper module in customer's app
-
-#### Cons
-- it doesn't work OOTB
-- even if we make it work (e.g. by changing behavior of `CmsComponentsService#determineMappings`):
-  - it doesn't allow for plugging many independent extensions to a single feature feature (because the config allows for only one main feature `module`)
-  - it would require changing at least a core service `CmsComponentsService`, that most of the application depends on (indirectly)
-
-#### Interesting
-- will it solve our problem, if we change the behavior of `CmsComponentsService#determineMappings` to pick  mappings also from the `dependencies` modules?
-  - how much complexity will it introduce to the code?
-  - if it works, what will be the consequences of picking cms mappings not only from the main feature `module`, but also from `dependencies` modules?
-    - what if a single dependency module is reused as a dependency of more than one feature module? Should it then populate its mappings to more than one feature module?
-    - does it even make sense (semantically) to provide the cms mappings in a dependency module?
-    
-
-###
-
-
-
-### Option 4: Introduce a config `plugins` for lazy-loaded feature modules; implementation: use static empty NgModule + parent CombinedInjector
+### Option 3: Introduce a config `plugins` for lazy-loaded feature modules; implementation: use static empty NgModule + parent CombinedInjector
 We want to allow for plugging many extensions for a single module. And ideally we would like to avoid changing the original module in customer's app, when plugging the extensions. In other words, we a want loose coupling between the original feature module and the extension modules in the app. See example structure in the customer's app:
 ```
 |- user-feature.module.ts
@@ -356,7 +263,7 @@ TODO: We need to create a working PoC
 ### Interesting
 - 
 
-### Option 5: Introduce a config `plugins` for lazy-loaded feature modules; implementation: create wrapper module in runtime by JIT compiler (tweaked Option 4)
+### Option 4: Introduce a config `plugins` for lazy-loaded feature modules; implementation: create wrapper module in runtime by JIT compiler (tweaked Option 3)
 We could tweak the Option (5), and create the wrapper module importing the original module all the plugin modules in the runtime. This helps to avoid using the opinionated `CombinedInjector`.
 
 Interesting:
@@ -367,6 +274,84 @@ Interesting:
 - using JIT compiler introduces [some security concerns](https://angular.io/guide/security#use-the-aot-template-compiler). How much will we be affected, when calling compileModuleAsync or the alternative function createNgModuleRef() (that was introduced only in v13)
 
 Note: Here's the working PoC PR: https://github.com/SAP/spartacus/pull/14954
+
+
+### Option 5: Configure the extension module as `dependencies` of the base feature module
+Spartacus allows for configuring `dependencies` for a feature module, for example:
+
+```ts
+provideConfig(<CmsConfig>{
+  featureModules: {
+    [USER_PROFILE_FEATURE]: {
+      module: () =>
+        import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+
+      dependencies: [
+        () =>
+          import('@spartacus/some-extension-library').then(
+            (m) => m.ExtensionUserProfileModule
+          ),
+      ],
+    },
+  },
+}),
+```
+This allows for injecting services from the dependency module.
+
+Unfortunately for us, the dependency module's injector has lower priority than the original feature module). It's because the instantiated feature module has it's own injector. So the extension services cannot overwrite the original services.
+
+So this this option is disqualified as it's not solving our problem.
+
+*Note*: why the dependency module's injector cannot have higher priority than the feature module's injector? It's because the Angular's public API allows only for setting a *parent injector* for the dynamically instantiated module: `NgModuleFactory<any>.create(parentInjector: Injector | null): NgModuleRef<any>`. And the parent injector, by definition has a lower priority than the injector of the instantiated module. 
+
+### Option 6: Configure the base module as `dependencies` of the extension module (tweaked Option 5)
+We could tweak the Option (2), and set the extension module as the main feature `module`, while setting the original feature module only as `dependencies`. Then the injector of the extension module should have higher priority than the original feature module, when resolving services. See example:
+
+```ts
+provideConfig(<CmsConfig>{
+  featureModules: {
+    [USER_PROFILE_FEATURE]: {
+      module: () =>
+        import('@spartacus/some-extension-library').then(
+          (m) => m.ExtensionUserProfileModule
+        ),
+      
+      dependencies: [
+        () => import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+      ],
+    },
+  },
+}),
+```
+We're hoping that this configuration should promote injecting services from the extension module over the services from the original feature module.
+
+Unfortunately, then we get an error:
+```
+core.js:6456 ERROR TypeError: Cannot read properties of undefined (reading 'pipe')
+    at ComponentWrapperDirective.launchComponent (component-wrapper.directive.ts:121:8)
+```
+
+It's because the implementation of the method `CmsComponentsService#determineMappings` picks the CMS component mappings only from the pointed `module`, but not from its `dependencies`. And in our case the extension module doesn't contain all those component mappings, instead they live in the original feature module (which is now set as `dependencies`).
+
+As a next step we could possibly change the behavior of `CmsComponentsService#determineMappings` to pick also cms mappings from the dependency modules.
+
+### Pros
+- It doesn't require creating a new wrapper module in customer's app
+
+#### Cons
+- it doesn't work OOTB
+- even if we make it work (e.g. by changing behavior of `CmsComponentsService#determineMappings`):
+  - it doesn't allow for plugging many independent extensions to a single feature feature (because the config allows for only one main feature `module`)
+  - it would require changing at least a core service `CmsComponentsService`, that most of the application depends on (indirectly)
+
+#### Interesting
+- will it solve our problem, if we change the behavior of `CmsComponentsService#determineMappings` to pick  mappings also from the `dependencies` modules?
+  - how much complexity will it introduce to the code?
+  - if it works, what will be the consequences of picking cms mappings not only from the main feature `module`, but also from `dependencies` modules?
+    - what if a single dependency module is reused as a dependency of more than one feature module? Should it then populate its mappings to more than one feature module?
+    - does it even make sense (semantically) to provide the cms mappings in a dependency module?
+    
+
 
 ## 5. Decision
 _Elaborate the decision_
