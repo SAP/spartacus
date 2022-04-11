@@ -92,9 +92,10 @@ Idea: Introduce a local wrapper module in the app and import it dynamically inst
 provideConfig({
   featureModules: {
     [CHECKOUT_FEATURE]: {
+      // 👆 name of the base feature
       module: () =>
         import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
-        // point to a separate file in the app 👆
+        // point to a local file in the app 👆
     },
   },
 }),
@@ -102,7 +103,7 @@ provideConfig({
 
 Then inside the local wrapper module we primarily import (statically) the base Spartacus module, but also allow for importing (statically) many other extensions modules. 
 
-Because the child-injector belongs to the wrapper module (as it's lazy-loaded), and both the base and the extension modules are imported inside the wrapper module, they all share the same child injector. Therefore the extension service can overwrite the base service. The following example shows the content of the `CheckoutWrapperModule` in the app:
+The child-injector belongs to the local wrapper module (as it's lazy-loaded). All the modules imported inside it share the same child-injector. Therefore the extension service has a chance to overwrite the base service. The following example shows the content of the local `CheckoutWrapperModule` in the app:
 
 ```ts
 // CheckoutWrapperModule in the app:
