@@ -77,13 +77,13 @@ The following diagram shows that e.g. digital payments module imports statically
 Unfortunately, this approach allows for installing automatically (via schematics) only one extension feature for one base feature. This is a blocker issue. Taking as an example the Checkout feature, customers might want to use many possible opt-in extensions originating from vaious Spartacus libraries, e.g. `DigitalPaymentsModule`, `B2bCheckoutModule` or `ScheduledReplenishmentCheckoutModule`. The following diagram pictures the dillema, to which library's the dynamic import should point to:
 ![](./pre-baked-wrapper-modules-diagram.png)
 
-Note: at the time of writing, this solution is used in the `develop` branch, with known limitations. See https://github.com/SAP/spartacus/blob/780cd570ca56b2f55a94872b4c0f7ae30b5fdccd/integration-libs/digital-payments/src/digital-payments.module.ts#L5-L8
+Note: at the time of writing, this solution is used in the `develop` branch. See `DigitalPaymentsModule` as an example: https://github.com/SAP/spartacus/blob/780cd570ca56b2f55a94872b4c0f7ae30b5fdccd/integration-libs/digital-payments/src/digital-payments.module.ts#L5-L8
 
 #### Pros:
-- It works
+- You can install an extension for an existing lazy loaded feature
 
 #### Cons:
-- You canot compose and use many extensions for one one base feature
+- You cannot compose and use many extensions for one one base feature
 
 ### Option 1: Local wrapper module in the app
 Idea: Introduce a local wrapper module in the app and import it dynamically instead of the base Spartacus module:
