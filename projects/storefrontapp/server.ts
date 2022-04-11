@@ -16,7 +16,7 @@ const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
   concurrency: 20,
-  timeout: Number(process.env.SSR_TIMEOUT ?? 3000),
+  timeout: Number(process.env['SSR_TIMEOUT'] ?? 3000),
   reuseCurrentRendering: true,
 };
 
@@ -63,7 +63,7 @@ export function app() {
 }
 
 function run() {
-  const port = process.env.PORT || 4000;
+  const port = process.env['PORT'] || 4000;
 
   // Start up the Node server
   const server = app();

@@ -23,6 +23,8 @@
               [sortLabels]="sortLabels | async"
               (sortListEvent)="sortChange($event)"
               [selectedOption]="sort"
+              [ariaLabel]="'myCoupons.sortCoupons' | cxTranslate"
+              ariaControls="coupon-deck"
             >
             </cx-sorting>
           </label>
@@ -34,7 +36,7 @@
           </div>
         </div>
 
-        <div class="row cx-coupon-deck">
+        <div id="coupon-deck" class="row cx-coupon-deck">
           <div
             *ngFor="let coupon of couponResult.coupons"
             class="col-md-6 cx-coupon-card"
@@ -63,6 +65,8 @@
               (sortListEvent)="sortChange($event)"
               [selectedOption]="sort"
               placeholder="{{ 'myCoupons.sortBy' | cxTranslate }}"
+              [ariaLabel]="'myCoupons.sortCoupons' | cxTranslate"
+              ariaControls="coupon-deck"
             >
             </cx-sorting>
           </label>
