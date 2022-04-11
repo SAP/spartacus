@@ -104,19 +104,4 @@ describe('ActiveFacetsComponent', () => {
     );
     expect(key).toEqual('');
   });
-
-  it('should remove filter on spacebar keypress', () => {
-    spyOn(component, 'removeFilterWithSpacebar').and.callThrough();
-    component.facetList$ = of(mockFacetList);
-    fixture.detectChanges();
-    const filter = element.query(By.css('a')).nativeElement;
-    filter.focus();
-
-    fixture.detectChanges();
-
-    filter.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
-    fixture.detectChanges();
-
-    expect(component.removeFilterWithSpacebar).toHaveBeenCalled();
-  });
 });

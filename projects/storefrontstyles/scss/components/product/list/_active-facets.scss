@@ -15,14 +15,14 @@
     }
   }
 
-  button {
+  a {
     display: flex;
     align-items: center;
     transition: all 0.3s;
     min-width: 0;
-    border-style: none;
-    padding: 0;
+    color: var(--cx-color-text);
     font-size: var(--cx-font-size, 0.92rem);
+    background: var(--cx-color-background);
 
     &:hover {
       background: var(--cx-color-light);
