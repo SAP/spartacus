@@ -42,6 +42,7 @@ class MockConfigUtilsService {
   }
 
   focusAttribute(): void {}
+  scrollToConfigurationElement(): void {}
 }
 
 const configWithoutConflicts: Configurator.Configuration =
@@ -770,12 +771,14 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.groupId = undefined;
 
       spyOn(configurationGroupsService, 'navigateToGroup');
+      spyOn<any>(component, 'logWarning');
       fixture.detectChanges();
 
       component.navigateToGroup();
       expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
         0
       );
+      expect(component['logWarning']).toHaveBeenCalled();
     });
 
     it('should call focusAttribute', () => {
@@ -806,6 +809,40 @@ describe('ConfigAttributeHeaderComponent', () => {
 
       expect(
         configuratorStorefrontUtilsService.focusAttribute
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call scrollToConfigurationElement', () => {
+      const testScheduler = new TestScheduler((actual, expected) => {
+        expect(actual).toEqual(expected);
+      });
+      //we need to run the test in a test scheduler
+      //because of the delay() in method focusAttribute
+      testScheduler.run(() => {
+        component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+        component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
+
+        const configurationLoading = cold('-a-b', {
+          a: true,
+          b: false,
+        });
+        spyOn(
+          configuratorCommonsService,
+          'isConfigurationLoading'
+        ).and.returnValue(configurationLoading);
+
+        spyOn(
+          configuratorStorefrontUtilsService,
+          'scrollToConfigurationElement'
+        );
+
+        fixture.detectChanges();
+
+        component['scrollToAttribute'](ConfigurationTestData.GROUP_ID_2);
+      });
+
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalledTimes(1);
     });
 

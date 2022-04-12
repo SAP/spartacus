@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  isDevMode,
   OnInit,
 } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -36,11 +37,11 @@ export class ConfiguratorAttributeHeaderComponent
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     super();
   }
-
   ngOnInit(): void {
     /**
      * Show message that indicates that attribute is required in case attribute has a domain of values
@@ -165,8 +166,24 @@ export class ConfiguratorAttributeHeaderComponent
             groupId
           );
           this.focusAttribute(this.attribute.name);
+          this.scrollToAttribute(this.attribute.name);
+        } else {
+          this.logWarning('Attribute was not found in any conflict group');
         }
       });
+  }
+
+  /**
+   * Scroll to conflicting attribute
+   *
+   * @protected
+   */
+  protected scrollToAttribute(name: string) {
+    this.onNavigationCompleted(() =>
+      this.configUtils.scrollToConfigurationElement(
+        '#' + this.createAttributeUiKey('label', name)
+      )
+    );
   }
 
   findConflictGroupId(
@@ -184,15 +201,30 @@ export class ConfiguratorAttributeHeaderComponent
       })?.id;
   }
 
+  protected logWarning(text: string): void {
+    if (isDevMode()) {
+      console.warn(text);
+    }
+  }
+
   /**
-   * The status of the configuration loading is retrieved twice:
-   * firstly, wait that the navigation to the corresponding group is started,
-   * secondly, wait that the navigation is completed and
-   * finally, focus a value of the in conflict involved attribute in the group.
+   * Focus a value of the in conflict involved attribute in the group
    *
    * @protected
    */
   protected focusAttribute(name: string): void {
+    this.onNavigationCompleted(() => this.configUtils.focusAttribute(name));
+  }
+
+  /**
+   * The status of the configuration loading is retrieved twice:
+   * firstly, wait that the navigation to the corresponding group is started,
+   * secondly, wait that the navigation is completed and
+   * finally, invoke the callback function
+   *
+   * @protected
+   */
+  protected onNavigationCompleted(callback: () => void): void {
     this.configuratorCommonsService
       .isConfigurationLoading(this.owner)
       .pipe(
@@ -208,6 +240,6 @@ export class ConfiguratorAttributeHeaderComponent
             )
         )
       )
-      .subscribe(() => this.configUtils.focusAttribute(name));
+      .subscribe(callback);
   }
 }
