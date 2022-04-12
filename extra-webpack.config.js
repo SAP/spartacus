@@ -24,7 +24,6 @@ module.exports = {
   resolve: {
     alias: {
       '@spartacus/styles': path.join(__dirname, 'projects/storefrontstyles'),
-      '@spartacus/cart': path.join(__dirname, 'feature-libs/cart'),
     },
   },
 };
