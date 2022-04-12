@@ -24,8 +24,8 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: orderApprovalTranslations,
-        chunks: orderApprovalTranslationChunksConfig,
+        resources: registratioTranslations,
+        chunks: registrationTranslationChunksConfig,
       },
     }),
   ],
