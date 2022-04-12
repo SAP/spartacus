@@ -135,6 +135,7 @@ export class OccConfiguratorVariantNormalizer
       images: attributeImages,
       values: attributeValues,
       intervalInDomain: sourceAttribute.intervalInDomain,
+      key: sourceAttribute.key,
     };
 
     this.setSelectedSingleValue(attribute);
