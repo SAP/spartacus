@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
@@ -86,7 +86,8 @@ describe('CostCenterService', () => {
   ));
 
   describe('get costCenter', () => {
-    xit('get() should trigger load costCenter details when they are not present in the store', (done) => {
+    it('get() should trigger load costCenter details when they are not present in the store', fakeAsync(() => {
+      spyOn(service, 'load').and.callThrough();
       const sub = service.get(costCenterCode).subscribe();
 
       actions$
@@ -95,10 +96,12 @@ describe('CostCenterService', () => {
           expect(action).toEqual(
             new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
           );
-          sub.unsubscribe();
-          done();
         });
-    });
+
+      tick();
+      expect(service.load).toHaveBeenCalledWith(costCenterCode);
+      sub.unsubscribe();
+    }));
 
     it('get() should be able to get costCenter details when they are present in the store', () => {
       store.dispatch(
