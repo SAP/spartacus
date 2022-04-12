@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import {
-  CmsLinkComponent,
-  CmsService,
-  PageType,
-  SemanticPathService,
-} from '@spartacus/core';
+import { CmsLinkComponent, CmsService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -28,7 +23,6 @@ export class LinkComponent {
 
   constructor(
     protected component: CmsComponentData<CmsLinkComponent>,
-    protected urlService: SemanticPathService,
     protected cmsService: CmsService
   ) {}
 
@@ -45,26 +39,9 @@ export class LinkComponent {
    * @param linkData CMSLinkComponent data
    */
   setRouterLink(linkData: CmsLinkComponent): void {
-    if (linkData.contentPage) {
-      this.cmsService
-        .getPage({
-          id: linkData.contentPage,
-          type: PageType.CONTENT_PAGE,
-        })
-        .pipe(take(1))
-        .subscribe((page) => {
-          this.routerLink = page.label;
-        });
-    } else if (linkData.product) {
-      this.routerLink = this.urlService.transform({
-        cxRoute: 'product',
-        params: { code: linkData.product },
-      });
-    } else if (linkData.category) {
-      this.routerLink = this.urlService.transform({
-        cxRoute: 'category',
-        params: { code: linkData.category },
-      });
-    }
+    this.cmsService
+      .getRouterLink(linkData)
+      .pipe(take(1))
+      .subscribe((link) => (this.routerLink = link));
   }
 }

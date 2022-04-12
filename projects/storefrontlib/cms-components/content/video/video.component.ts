@@ -8,8 +8,7 @@ import {
   CmsService,
   CmsVideoComponent,
   ContainerBackgroundOptions,
-  PageType,
-  SemanticPathService,
+  Page,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
@@ -48,7 +47,6 @@ export class VideoComponent {
   constructor(
     protected component: CmsComponentData<CmsVideoComponent>,
     protected mediaService: MediaService,
-    protected urlService: SemanticPathService,
     protected cmsService: CmsService,
     protected cd: ChangeDetectorRef
   ) {}
@@ -78,27 +76,18 @@ export class VideoComponent {
   protected setRouting(data: CmsVideoComponent) {
     if (data.url) {
       this.routerLink = data.url;
-    } else if (data.contentPage) {
+    } else {
       this.cmsService
-        .getPage({
-          id: data.contentPage,
-          type: PageType.CONTENT_PAGE,
-        })
+        .getRouterLink(data)
         .pipe(take(1))
-        .subscribe((page) => {
-          this.routerLink = page.label;
-          this.cd.markForCheck();
+        .subscribe((route) => {
+          if ((<Page>route).label) {
+            this.routerLink = route.label;
+            this.cd.markForCheck();
+          } else {
+            this.routerLink = route;
+          }
         });
-    } else if (data.product) {
-      this.routerLink = this.urlService.transform({
-        cxRoute: 'product',
-        params: { code: data.product },
-      });
-    } else if (data.category) {
-      this.routerLink = this.urlService.transform({
-        cxRoute: 'category',
-        params: { code: data.category },
-      });
     }
   }
 }

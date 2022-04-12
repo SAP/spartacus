@@ -11,7 +11,7 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { CmsComponent } from '../../model/cms.model';
+import { CmsComponent, PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { PageContext } from '../../routing/models/page-context.model';
 import { LoaderState } from '../../state/utils/loader/loader-state';
@@ -23,6 +23,7 @@ import { CmsActions } from '../store/actions/index';
 import { StateWithCms } from '../store/cms-state';
 import { CmsSelectors } from '../store/selectors/index';
 import { serializePageContext } from '../utils/cms-utils';
+import { SemanticPathService } from '../../routing/configurable-routes/url-translation/semantic-path.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,8 @@ export class CmsService {
 
   constructor(
     protected store: Store<StateWithCms>,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected semanticPathService: SemanticPathService
   ) {}
 
   /**
@@ -277,5 +279,34 @@ export class CmsService {
 
   setPageFailIndex(pageContext: PageContext, value: string): void {
     this.store.dispatch(new CmsActions.CmsSetPageFailIndex(pageContext, value));
+  }
+
+  /**
+   * Get routerLink from CMS data
+   * @param data CMSComponent data
+   */
+  getRouterLink(data: any): Observable<any> {
+    let obs = of();
+    if (data.contentPage) {
+      obs = this.getPage({
+        id: data.contentPage,
+        type: PageType.CONTENT_PAGE,
+      });
+    } else if (data.product) {
+      obs = of(
+        this.semanticPathService.transform({
+          cxRoute: 'product',
+          params: { code: data.product },
+        })
+      );
+    } else if (data.category) {
+      obs = of(
+        this.semanticPathService.transform({
+          cxRoute: 'category',
+          params: { code: data.category },
+        })
+      );
+    }
+    return obs;
   }
 }
