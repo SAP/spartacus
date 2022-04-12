@@ -12,6 +12,9 @@ export class PasswordInputComponent {
   @Input() public form: FormGroup;
 
   @Input()
+  allowSwitch: boolean = true;
+
+  @Input()
   placeholder: string;
 
   @Input()
@@ -23,15 +26,10 @@ export class PasswordInputComponent {
   constructor() {}
 
   changePasswordVisibility(): void {
-    console.log(this.formCtrlName);
-    this.passwordType = this.isTypePassword() ? 'text' : 'password';
+    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
   }
 
   getPasswordIcon(): string {
-    return this.isTypePassword() ? 'EYE' : 'EYE_SLASH';
-  }
-
-  protected isTypePassword(): boolean {
-    return this.passwordType === 'password';
+    return this.passwordType === 'password' ? 'EYE' : 'EYE_SLASH';
   }
 }
