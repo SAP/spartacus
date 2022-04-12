@@ -3,14 +3,12 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
-  AuthGuard,
   CmsConfig,
   ConfigModule,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { ApproverGuard } from '../../core/guards/registration.guard';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
 
 @NgModule({
@@ -26,7 +24,6 @@ import { RegistrationFormComponent } from './registration-form/registration-form
       cmsComponents: {
         RegistrationFormComponent: {
           component: RegistrationFormComponent,
-          guards: [AuthGuard, ApproverGuard],
         },
       },
     }),

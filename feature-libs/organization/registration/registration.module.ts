@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
-import { OrderApprovalComponentsModule } from './components/registration-components.module';
-import { OrderApprovalCoreModule } from './core/registration-core.module';
-import { OrderApprovalOccModule } from './occ/registration-occ.module';
+import { RegistrationComponentsModule } from './components/registration-components.module';
+import { RegistrationCoreModule } from './core/registration-core.module';
 
 @NgModule({
   imports: [
-    // B2bRegistrationCoreModule.forRoot(),
+    RegistrationCoreModule.forRoot(),
     // B2bRegistrationOccModule,
-    OrderApprovalComponentsModule,
+    RegistrationComponentsModule,
   ],
 })
 export class B2bRegistrationModule {}
