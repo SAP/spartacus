@@ -39,7 +39,6 @@ export class ConfiguratorAttributeHeaderComponent
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
     protected configuratorUiSettings?: ConfiguratorUISettingsConfig
   ) {
     super();

@@ -894,7 +894,6 @@ describe('ConfigAttributeHeaderComponent', () => {
         configuratorStorefrontUtilsService,
         configuratorCommonsService,
         configurationGroupsService,
-        configuratorStorefrontUtilsService
       );
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
