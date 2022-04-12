@@ -893,7 +893,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       component = new ConfiguratorAttributeHeaderComponent(
         configuratorStorefrontUtilsService,
         configuratorCommonsService,
-        configurationGroupsService,
+        configurationGroupsService
       );
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
