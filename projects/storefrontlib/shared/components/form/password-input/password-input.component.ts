@@ -18,10 +18,10 @@ export class PasswordInputComponent {
   placeholder: string;
 
   @Input()
-  required: boolean;
+  required: boolean = true;
 
   @Input()
-  formCtrlName: string;
+  formControlName: string;
 
   constructor() {}
 
