@@ -6,6 +6,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { of, Observable } from 'rxjs';
+import { isEmpty } from 'rxjs/operators';
 import { ProductListComponentService } from '../../container/product-list-component.service';
 import { FacetList } from '../facet.model';
 import { ProductFacetService } from './product-facet.service';
@@ -72,30 +73,39 @@ describe('ProductFacetService', () => {
         service = TestBed.inject(ProductFacetService);
       });
 
-      it('should return facets', () => {
+      it('should return facets', (done) => {
         let result: FacetList;
         service.facetList$
-          .subscribe((facetList) => (result = facetList))
+          .subscribe((facetList) => {
+            result = facetList;
+            expect(result.facets.length).toEqual(1);
+            done();
+          })
           .unsubscribe();
-        expect(result.facets.length).toEqual(1);
       });
 
-      it('should return active facets', () => {
+      it('should return active facets', (done) => {
         let result: FacetList;
         service.facetList$
-          .subscribe((facetList) => (result = facetList))
+          .subscribe((facetList) => {
+            result = facetList;
+            expect(result.activeFacets?.length).toEqual(1);
+            done();
+          })
           .unsubscribe();
-        expect(result.activeFacets.length).toEqual(1);
       });
 
-      it('should not return active facets with category code', () => {
+      it('should not return active facets with category code', (done) => {
         let result: FacetList;
         service.facetList$
-          .subscribe((facetList) => (result = facetList))
+          .subscribe((facetList) => {
+            result = facetList;
+            expect(
+              result.activeFacets?.find((f) => f.facetCode === 'allCategories')
+            ).toBeFalsy();
+            done();
+          })
           .unsubscribe();
-        expect(
-          result.activeFacets.find((f) => f.facetCode === 'allCategories')
-        ).toBeFalsy();
       });
     });
 
@@ -129,12 +139,15 @@ describe('ProductFacetService', () => {
         service = TestBed.inject(ProductFacetService);
       });
 
-      it('should return facets without brand facet', () => {
+      it('should return facets without brand facet', (done) => {
         let result: FacetList;
         service.facetList$
-          .subscribe((facetList) => (result = facetList))
+          .subscribe((facetList) => {
+            result = facetList;
+            expect(result.activeFacets?.length).toEqual(2);
+            done();
+          })
           .unsubscribe();
-        expect(result.activeFacets.length).toEqual(2);
       });
     });
 
@@ -145,21 +158,14 @@ describe('ProductFacetService', () => {
             type: PageType.CONTENT_PAGE,
             id: 'search',
           },
-          params: { query: 'canon' },
+          params: { query: 'canon:1' },
         },
       };
 
       const mockSearchResult = {
-        currentQuery: {
-          query: {
-            value: 'canon:',
-          },
-        },
-        facets: [
-          {
-            name: 'facet1',
-          },
-        ],
+        currentQuery: { query: { value: 'canon:' } },
+        facets: [{ name: 'facet1' }],
+        freeTextSearch: 'canon',
       } as ProductSearchPage;
 
       beforeEach(() => {
@@ -171,12 +177,15 @@ describe('ProductFacetService', () => {
         service = TestBed.inject(ProductFacetService);
       });
 
-      it('should return facets', () => {
+      it('should return facets', (done) => {
         let result: FacetList;
         service.facetList$
-          .subscribe((facetList) => (result = facetList))
+          .subscribe((facetList) => {
+            result = facetList;
+            expect(result.facets.length).toEqual(1);
+            done();
+          })
           .unsubscribe();
-        expect(result.facets.length).toEqual(1);
       });
     });
 
@@ -196,6 +205,7 @@ describe('ProductFacetService', () => {
             name: 'facet1',
           },
         ],
+        freeTextSearch: 'canon',
       } as ProductSearchPage;
 
       beforeEach(() => {
@@ -208,12 +218,15 @@ describe('ProductFacetService', () => {
         service = TestBed.inject(ProductFacetService);
       });
 
-      it('should not return result', () => {
-        let result: FacetList;
+      it('should not return result', (done) => {
         service.facetList$
-          .subscribe((facetList) => (result = facetList))
+          .pipe(isEmpty())
+          .subscribe((result) => {
+            // Expect observable.isEmpty to be true
+            expect(result).toBeTruthy();
+            done();
+          })
           .unsubscribe();
-        expect(result).toBeFalsy();
       });
     });
   });

@@ -86,7 +86,7 @@ export const configurator = {
     conflict: {
       suggestionTitle: 'Suggestion {{number}}:',
       suggestionText: 'Change value for "{{ attribute }}"',
-      viewConflictDetails: 'Conflict Detected',
+      viewConflictDetails: 'Conflict Detected - View Details',
       viewConfigurationDetails: 'View In Configuration',
     },
     a11y: {
