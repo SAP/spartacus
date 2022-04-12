@@ -40,7 +40,7 @@ export class ConfiguratorAttributeHeaderComponent
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService,
-    protected configuratorUiSettings: ConfiguratorUISettingsConfig
+    protected configuratorUiSettings?: ConfiguratorUISettingsConfig
   ) {
     super();
   }
@@ -248,7 +248,7 @@ export class ConfiguratorAttributeHeaderComponent
   }
   isNavigationToConflictEnabled(): boolean {
     return (
-      this.configuratorUiSettings.productConfigurator
+      this.configuratorUiSettings?.productConfigurator
         ?.enableNavigationToConflict ?? false
     );
   }
