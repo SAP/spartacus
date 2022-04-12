@@ -4,7 +4,7 @@ import {
   Rule,
   SchematicContext,
   SchematicsException,
-  Tree,
+  Tree
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
@@ -17,7 +17,7 @@ import {
   addSchematicsTasks,
   createSpartacusFeatureOptionsForLibrary,
   LibraryOptions,
-  prepareCliPackageAndSubFeature,
+  prepareCliPackageAndSubFeature
 } from '../shared/utils/lib-utils';
 import { addModuleImport } from '../shared/utils/new-module-utils';
 import {
@@ -27,7 +27,7 @@ import {
   prepare3rdPartyDependencies,
   prepareSpartacusDependencies,
   readPackageJson,
-  updatePackageJsonDependencies,
+  updatePackageJsonDependencies
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -36,7 +36,7 @@ import {
   getProjectFromWorkspace,
   getProjectTargets,
   getWorkspace,
-  scaffoldStructure,
+  scaffoldStructure
 } from '../shared/utils/workspace-utils';
 import { addSpartacusConfiguration } from './configuration';
 import { Schema as SpartacusOptions } from './schema';
@@ -179,7 +179,7 @@ function increaseBudgets(): Rule {
       if (budget.type === 'initial') {
         return {
           ...budget,
-          maximumError: '2.5mb',
+          maximumError: '3mb',
         };
       }
       return budget;
