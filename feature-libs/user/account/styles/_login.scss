@@ -17,4 +17,11 @@
       @include type();
     }
   }
+
+  #account-nav {
+    nav > ul > li > button {
+      padding-top: 4px;
+      padding-bottom: 0;
+    }
+  }
 }
