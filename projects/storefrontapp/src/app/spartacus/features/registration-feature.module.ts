@@ -17,7 +17,7 @@ import {
         [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
           module: () =>
             import('@spartacus/organization/registration').then(
-              (m) => m.OrderApprovalModule
+              (m) => m.B2bRegistrationModule
             ),
         },
       },
