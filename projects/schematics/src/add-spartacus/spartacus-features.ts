@@ -71,6 +71,8 @@ function configureSpartacusModules(
         'NavigationModule,',
         'FooterNavigationModule,',
         'BreadcrumbModule,',
+        'ScrollToTopModule,',
+        'PageTitleModule',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
@@ -88,6 +90,8 @@ function configureSpartacusModules(
                 'FooterNavigationModule',
                 'NavigationModule',
                 'BreadcrumbModule',
+                'ScrollToTopModule',
+                'PageTitleModule',
               ],
             },
           ],

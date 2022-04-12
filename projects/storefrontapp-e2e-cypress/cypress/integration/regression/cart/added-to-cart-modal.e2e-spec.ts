@@ -1,5 +1,6 @@
 import { viewportContext } from '../../../helpers/viewport-context';
 import { interceptGet, interceptPost } from '../../../support/utils/intercept';
+import { removeCartItem } from '../../../helpers/cart';
 
 const productId = '266685';
 const productId2 = '2006139';
@@ -101,44 +102,26 @@ describe('Added to cart modal - Anonymous user', () => {
         interceptGet('getRefreshedCart', '/users/anonymous/carts/*');
 
         // delete a product and check if the total is updated
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', 'Battery Video Light')
-          .find('.cx-actions .cx-remove-btn > .link')
-          .click();
+        removeCartItem({ name: 'Battery Video Light' });
+
         cy.get('cx-cart-details').should('contain', 'Cart #');
 
         // check for the other product still exist
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', productName2)
-          .should('be.visible');
+        cy.get('cx-cart-item-list')
+          .contains('tr[cx-cart-item-list-row]', productName2)
+          .should('be.visible')
+          .within(() => {
+            cy.get('.cx-price:not(.cx-mobile-only) .cx-value').should(
+              'contain',
+              cartEntryPrice
+            );
+            cy.get('.cx-total .cx-value').should('contain', cartEntryPrice);
+            cy.get('cx-item-counter input').should('have.value', '1');
 
-        // check the item quantity of the product
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', productName2)
-          .find('cx-item-counter input')
-          .should('have.value', '1');
-
-        // check the item price of the product
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', productName2)
-          .find('.cx-price .cx-value')
-          .first()
-          .should('contain', cartEntryPrice);
-
-        // check the item price total of the product
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', productName2)
-          .find('.cx-total .cx-value')
-          .first()
-          .should('contain', cartEntryPrice);
-
-        cy.wait('@getRefreshedCart');
-
+            cy.wait('@getRefreshedCart');
+          });
         // delete the last product in cart
-        cy.get('cx-cart-item-list .cx-item-list-items')
-          .contains('.cx-info', productName2)
-          .find('.cx-actions .cx-remove-btn > .link')
-          .click();
+        removeCartItem({ name: productName2 });
 
         cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
       });

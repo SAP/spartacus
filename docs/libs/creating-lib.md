@@ -15,6 +15,9 @@ This document can also serve as the guideline for the future schematic that can 
   - [Additional changes to existing files](#Additional-changes-to-existing-files)
 - [Multi-entry point library](#multi-entry-point-library)
 - [Testing](#Testing)
+- [Schematics](#Schematics)
+  - [Configuring Schematics](#Configuring Schematics)
+  - [Testing Schematics](#Testing Schematics)
 
 ## Naming conventions
 
@@ -86,36 +89,29 @@ module.exports = function (config) {
 };
 ```
 
-- `public-api.ts` 
+- `public-api.ts`
+
   - rename this file to `public_api.ts` (with the underscore instead of the dash)
   - move `public_api.ts` from `./src/lib/public_api.ts` to `./public_api.ts`.
   - change the path in `ng-package.json`'s `entryFile` property to `./public_api.ts`
 
-
 - `ng-package.json`
 
-Add `umdModuleIds` and `assets` section sor your file looks like this:
+Add `assets` section so your file looks like this:
 (adapt assets path to what makes sense for your lib)
+
 ```json
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/{LIB_NAME}",
   "lib": {
-    "entryFile": "./public_api.ts",
-    "umdModuleIds": {
-      "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront",
-      "@ng-bootstrap/ng-bootstrap": "ng-bootstrap",
-      "rxjs": "rxjs"
-    }
+    "entryFile": "./public_api.ts"
   },
   "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
 }
 ```
 
 If necessary, add entries for other libraries such as `"@ngrx/store": "store"`, etc.
-
-
 
 - `package.json`
 
@@ -127,13 +123,13 @@ Use the following template:
   "version": "3.0.0-next.0",
   "description": "TODO:",
   "homepage": "https://github.com/SAP/spartacus",
-  "keywords": [
-    "spartacus",
-    "framework",
-    "storefront",
-    "TODO:"
-  ],
+  "keywords": ["spartacus", "framework", "storefront", "TODO:"],
   "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss"
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -155,10 +151,12 @@ Make sure to replace `TODO:`s with the relevant information.
 Adjust the `@spartacus/core` and/or `@spartacus/storefront` depending on the need.
 Make sure the versions match the current spartacus version.
 Make sure the `@angular` peer dependencies matches the versions specified in the _core_ lib.
+If your library doesn't expose any SCSS styles, remove the section `exports`/`sass`.
 
-- `test.ts` 
+- `test.ts`
+
   - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
-  
+
   This change requires an update in:
 
   1. `angular.json` - change the `projects -> lib-name -> architect -> test -> options -> main` value to reflect the new file path
@@ -203,10 +201,33 @@ Use the following template:
 }
 ```
 
+- `tsconfig.spec.json` - add `"target": "es2015", "module": "es2020"` in `"compilerOptions"`:
+
+```json
+{
+  /* ... */
+  "compilerOptions": {
+    /* ... */
+    "target": "es2015",
+    "module": "es2020"
+  }
+}
+```
+
 - run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
 - `tslint.json` - remove
 - the rest of the generated files should be removed
+
+- `package.json` of your library - if your library exports any `scss` styles, add the following `exports` section to your `package.json`:
+  ```json
+    "exports": {
+      ".": {
+        "sass": "./_index.scss"
+      }
+    },
+  ```
+  and then run `yarn config:update` (to fix the formatting)
 
 ### Additional changes to existing files
 
@@ -234,7 +255,7 @@ Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
 - `.github/ISSUE_TEMPLATE/new-release.md`
 
-Add `- [ ] `npm run release:TODO::with-changelog` (needed since `x.x.x`)` under the `For each package select/type version when prompted:` section, and replace `TODO:` to match the `package.json`'s release script name.
+Add `- [ ] `npm run release:TODO::with-changelog`(needed since`x.x.x`)` under the `For each package select/type version when prompted:` section, and replace `TODO:` to match the `package.json`'s release script name.
 
 - `.release-it.json`
 
@@ -303,7 +324,7 @@ Also make sure to add the lib to the `switch` statement at the end of the file.
 
 Add the library unit tests with code coverage
 
-``` sh
+```sh
 echo "Running unit tests and code coverage for TODO:"
 exec 5>&1
 output=$(ng test TODO: --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
@@ -342,3 +363,36 @@ Don't forget to:
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):
   - `yarn build:libs` (build all the libs)
   - `yarn build`
+
+## Schematics
+
+To finalize feature-lib it requires schematics
+
+### Configuring Schematics
+
+There are couple of required changes to make sure schematics will work properly
+
+- add new feature lib to schematics schemas - `projects\schematics\src\add-spartacus\schema.json` (use kebab-case (e.g. `Quick-Order`))
+- add new feature lib module to `SpartacusFeaturesModule` - `projects\storefrontapp\src\app\spartacus\spartacus-features.module.ts`
+- add new feature lib paths to tsconfig
+  - `tsconfig.json`,
+  - `tsconfig.compodoc.json`,
+  - `projects/storefrontapp/tsconfig.server.prod.json`,
+  - `projects/storefrontapp/tsconfig.server.json`,
+  - `projects/storefrontapp/tsconfig.app.prod.json`
+- add new feature lib consts in schematics folder - `feature-libs\<lib-name>\schematics\constants.ts` where the `lib-name` is the name of the new library
+- add new feature lib schema.json elements in schematics folder - `feature-libs\<lib-name>\schematics\add-<lib-name>\schema.json` where the `lib-name` is the name of the new library
+- add new feature chain method to 'shouldAddFeature' and function to add it - `feature-libs\<lib-name>\schematics\add-<lib-name>\index.ts` where the `lib-name` is the name of the new library
+- create new feature lib module in - `projects/storefrontapp/src/app/spartacus/features`
+
+
+### Testing Schematics
+
+- Install verdaccio locally `$ npm i -g verdaccio@latest` (only for the first time)
+- Run it: `$ verdaccio`
+- Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once
+- Create new angular project `ng new schematics-test --style=scss`
+- Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally) in main spartacus core folder
+- Build all libs (if it is first time, if not just build your new lib)
+- Publish
+- Add spartacus to new angular project `ng add @spartacus/schematics@latest --baseUrl https://spartacus-demo.eastus.cloudapp.azure.com:8443/ --baseSite=electronics-spa

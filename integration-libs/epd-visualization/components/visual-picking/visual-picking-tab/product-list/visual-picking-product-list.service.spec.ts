@@ -210,19 +210,19 @@ describe('VisualPickingProductListService', () => {
     it('should produce product references for the current product', (done) => {
       visualPickingProductListService
         .getProductReferences()
-        .subscribe((productReferences: ProductReference[]) => {
-          expect(productReferences).toBeTruthy();
-          expect(productReferences.length).toBe(3);
-          expect(productReferences[0].referenceType).toBe(SPAREPART);
-          expect(productReferences[0].target?.code).toBe(
+        .subscribe((productReferencesList: ProductReference[]) => {
+          expect(productReferencesList).toBeTruthy();
+          expect(productReferencesList.length).toBe(3);
+          expect(productReferencesList[0].referenceType).toBe(SPAREPART);
+          expect(productReferencesList[0].target?.code).toBe(
             sparePart1.target?.code
           );
-          expect(productReferences[1].referenceType).toBe(SPAREPART);
-          expect(productReferences[1].target?.code).toBe(
+          expect(productReferencesList[1].referenceType).toBe(SPAREPART);
+          expect(productReferencesList[1].target?.code).toBe(
             sparePart2.target?.code
           );
-          expect(productReferences[2].referenceType).toBe(SPAREPART);
-          expect(productReferences[2].target?.code).toBe(
+          expect(productReferencesList[2].referenceType).toBe(SPAREPART);
+          expect(productReferencesList[2].target?.code).toBe(
             sparePart3.target?.code
           );
           done();
