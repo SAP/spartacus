@@ -19,9 +19,11 @@
   }
 
   #account-nav {
-    nav > ul > li > button {
-      padding-top: 4px;
-      padding-bottom: 0;
+    @include media-breakpoint-up(lg) {
+      nav > ul > li > button {
+        padding-top: 4px;
+        padding-bottom: 0;
+      }
     }
   }
 }
