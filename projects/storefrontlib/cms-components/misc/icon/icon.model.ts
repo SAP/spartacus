@@ -39,6 +39,8 @@ export enum ICON_TYPE {
   OFF = 'OFF',
   LINK_OUT = 'LINK_OUT',
   EXPAND_ARROWS = 'EXPAND_ARROWS',
+  EYE = 'EYE',
+  EYE_SLASH = 'EYE_SLASH',
 }
 
 @Injectable({
