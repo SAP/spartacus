@@ -19,13 +19,12 @@
     <span class="label-content">{{
       'loginForm.password.label' | cxTranslate
     }}</span>
-    <input
-      required="true"
-      type="password"
-      class="form-control"
-      placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
-      formControlName="password"
-    />
+    <cx-password-input
+      [form]="form"
+      formCtrlName="password"
+      [placeholder]="'loginForm.password.placeholder' | cxTranslate"
+      [required]="true"
+    ></cx-password-input>
     <cx-form-errors [control]="form.get('password')"></cx-form-errors>
   </label>
 

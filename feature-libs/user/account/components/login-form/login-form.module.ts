@@ -12,7 +12,11 @@ import {
   UrlModule,
   WindowRef,
 } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  SpinnerModule,
+  PasswordInputModule,
+} from '@spartacus/storefront';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
 
@@ -26,6 +30,7 @@ import { LoginFormComponent } from './login-form.component';
     I18nModule,
     FormErrorsModule,
     SpinnerModule,
+    PasswordInputModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
