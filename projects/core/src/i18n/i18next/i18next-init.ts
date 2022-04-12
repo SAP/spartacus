@@ -30,6 +30,7 @@ export function i18nextInit(
             debug: config.i18n?.debug,
             interpolation: {
               escapeValue: false,
+              skipOnVariables: false,
             },
           };
 
