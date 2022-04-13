@@ -7,13 +7,6 @@ on:
       - integration-libs/**
   pull_request:
     types: [opened, synchronize]
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-      - 'feature-libs/**/*.spec.ts'
-      - 'integration-libs/**/*.spec.ts'
-      - 'projects/core/**/*.spec.ts'
-      - 'projects/storefrontlib/**/*.spec.ts'
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
