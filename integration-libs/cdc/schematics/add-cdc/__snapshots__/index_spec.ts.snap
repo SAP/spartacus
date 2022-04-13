@@ -28,23 +28,15 @@ export class CdcFeatureModule { }
 
 exports[`Spartacus CDC schematics: ng-add CDC feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CdcConfig, CdcRootModule, CDC_FEATURE } from \\"@spartacus/cdc/root\\";
-import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { CdcConfig, CdcRootModule } from \\"@spartacus/cdc/root\\";
+import { provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
     CdcRootModule
   ],
-  providers: [provideConfig(<CmsConfig>{
-    featureModules: {
-      [CDC_FEATURE]: {
-        module: () =>
-          import('@spartacus/cdc').then((m) => m.CdcModule),
-      },
-    }
-  }),
-  provideConfig(<CdcConfig>{
+  providers: [provideConfig(<CdcConfig>{
     cdc: [
       {
         baseSite: 'electronics-spa',
@@ -56,6 +48,20 @@ import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
   ]
 })
 export class CdcFeatureModule { }
+"
+`;
+
+exports[`Spartacus CDC schematics: ng-add CDC feature general setup should add the feature using the lazy loading syntax 2`] = `
+"import { NgModule } from '@angular/core';
+import { CdcModule } from \\"@spartacus/cdc\\";
+import { UserProfileModule } from \\"@spartacus/user/profile\\";
+
+@NgModule({
+  declarations: [],
+  imports: [UserProfileModule,
+    CdcModule]
+})
+export class UserWrapperModule { }
 "
 `;
 
@@ -91,7 +97,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
       },
     }
   }),
