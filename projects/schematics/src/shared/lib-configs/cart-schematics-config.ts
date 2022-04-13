@@ -170,6 +170,9 @@ export const CART_QUICK_ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
+  dependencyManagement: {
+    [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+  },
 };
 
 export const SAVED_CART_MODULE = 'SavedCartModule';
