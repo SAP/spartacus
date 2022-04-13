@@ -241,7 +241,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
       },
     }
   }),
@@ -254,6 +254,18 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
   ]
 })
 export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus User schematics: ng-add Profile feature general setup should add the feature using the lazy loading syntax 2`] = `
+"import { NgModule } from '@angular/core';
+import { UserProfileModule } from \\"@spartacus/user/profile\\";
+
+@NgModule({
+  declarations: [],
+  imports: [UserProfileModule]
+})
+export class UserWrapperModule { }
 "
 `;
 
@@ -289,7 +301,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
       },
     }
   }),
