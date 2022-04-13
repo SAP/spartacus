@@ -13,6 +13,7 @@ import {
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   CLI_USER_ACCOUNT_FEATURE,
   CLI_USER_PROFILE_FEATURE,
+  SPARTACUS_SCHEMATICS,
 } from '../libs-constants';
 import {
   addFeatures,
@@ -29,7 +30,7 @@ import {
 
 describe('Feature utils', () => {
   const schematicRunner = new SchematicTestRunner(
-    'schematics',
+    SPARTACUS_SCHEMATICS,
     path.join(__dirname, '../../collection.json')
   );
 
