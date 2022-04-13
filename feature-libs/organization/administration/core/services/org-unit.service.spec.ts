@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
@@ -143,7 +143,8 @@ describe('OrgUnitService', () => {
   ));
 
   describe('get orgUnit', () => {
-    xit('get() should trigger load orgUnit details when they are not present in the store', (done) => {
+    it('get() should trigger load orgUnit details when they are not present in the store', fakeAsync(() => {
+      spyOn(service, 'load').and.callThrough();
       const sub = service.get(orgUnitId).subscribe();
 
       actions$
@@ -152,10 +153,12 @@ describe('OrgUnitService', () => {
           expect(action).toEqual(
             new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
           );
-          sub.unsubscribe();
-          done();
         });
-    });
+
+      tick();
+      expect(service.load).toHaveBeenCalledWith(orgUnitId);
+      sub.unsubscribe();
+    }));
 
     it('get() should be able to get orgUnit details when they are present in the store', () => {
       store.dispatch(new OrgUnitActions.LoadOrgUnitSuccess([orgUnit]));
