@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'cx-password-input',
-  templateUrl: './password-input.component.html',
+  selector: 'cx-password-visibility',
+  templateUrl: './password-visibility.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PasswordInputComponent {
+export class PasswordVisibilityComponent {
   passwordType: string = 'password';
 
   @Input() public form: FormGroup;

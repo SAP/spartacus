@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PasswordInputComponent } from './password-input.component';
+import { PasswordVisibilityComponent } from './password-visibility.component';
 import { IconModule } from '../../../../cms-components/misc/icon/icon.module';
 import { I18nModule } from '@spartacus/core';
 
@@ -13,7 +13,7 @@ import { I18nModule } from '@spartacus/core';
     IconModule,
     I18nModule,
   ],
-  declarations: [PasswordInputComponent],
-  exports: [PasswordInputComponent],
+  declarations: [PasswordVisibilityComponent],
+  exports: [PasswordVisibilityComponent],
 })
-export class PasswordInputModule {}
+export class PasswordVisibilityModule {}
