@@ -1,32 +1,26 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 
 @Component({
   selector: 'cx-password-visibility',
   templateUrl: './password-visibility.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PasswordVisibilityComponent {
+export class PasswordVisibilityComponent implements OnInit {
   passwordType: string = 'password';
+  input: HTMLElement | null;
 
-  @Input() public form: FormGroup;
+  constructor(protected winRef: WindowRef) {}
 
-  @Input()
-  allowSwitch: boolean = true;
-
-  @Input()
-  placeholder: string;
-
-  @Input()
-  required: boolean = true;
-
-  @Input()
-  formControlName: string;
-
-  constructor() {}
+  ngOnInit(): void {
+    this.input = this.winRef.document.querySelector(
+      'div.cx-password-input > input'
+    );
+  }
 
   changePasswordVisibility(): void {
     this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+    this.input?.setAttribute('type', this.passwordType);
   }
 
   getPasswordIcon(): string {

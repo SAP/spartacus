@@ -200,7 +200,7 @@ export const common = {
   assistiveMessage: {
     actionCancelled: 'Action cancelled, nothing changed',
   },
-  passwordInput: {
+  passwordVisibility: {
     showPassword: 'Show password',
     hidePassword: 'Hide password',
   },

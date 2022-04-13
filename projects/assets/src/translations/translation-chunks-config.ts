@@ -17,7 +17,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'errorHandlers',
     'carousel',
     'assistiveMessage',
-    'passwordInput',
+    'passwordVisibility',
   ],
   address: [
     'addressForm',
