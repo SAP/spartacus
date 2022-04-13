@@ -11,6 +11,7 @@ import {
   CLI_CART_BASE_FEATURE,
   CLI_USER_ACCOUNT_FEATURE,
   CLI_USER_PROFILE_FEATURE,
+  SPARTACUS_SCHEMATICS,
 } from '../libs-constants';
 import { addFeatures } from './feature-utils';
 import {
@@ -25,7 +26,7 @@ import { cartBaseFeatureModulePath } from './test-utils';
 
 describe('Import utils', () => {
   const schematicRunner = new SchematicTestRunner(
-    'schematics',
+    SPARTACUS_SCHEMATICS,
     path.join(__dirname, '../../collection.json')
   );
 
@@ -108,13 +109,13 @@ describe('Import utils', () => {
       const result = collectDynamicImports(spartacusFeaturesModule);
       expect(result.length).toBe(3);
       expect(result[0].print()).toEqual(
-        "() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)"
+        `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)`
       );
       expect(result[1].print()).toEqual(
-        "() => import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule)"
+        `() => import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule)`
       );
       expect(result[2].print()).toEqual(
-        "() => import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule)"
+        `() => import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule)`
       );
     });
   });
@@ -129,11 +130,11 @@ describe('Import utils', () => {
 
       const dynamicImports = collectDynamicImports(spartacusFeaturesModule);
       const result = getDynamicImportCallExpression(dynamicImports[0]);
-      expect(result).toEqual('@spartacus/cart/base');
+      expect(result?.print()).toEqual(`import('@spartacus/cart/base')`);
     });
   });
 
-  describe('getDynamicImportModule', () => {
+  describe('getDynamicImportPropertyAccess', () => {
     it('should return the module name', async () => {
       const { program } = createProgram(tree, tree.root.path, buildPath);
 
@@ -143,7 +144,7 @@ describe('Import utils', () => {
 
       const dynamicImports = collectDynamicImports(spartacusFeaturesModule);
       const result = getDynamicImportPropertyAccess(dynamicImports[0]);
-      expect(result).toEqual('CartBaseModule');
+      expect(result?.print()).toEqual(`m.CartBaseModule`);
     });
   });
 });
