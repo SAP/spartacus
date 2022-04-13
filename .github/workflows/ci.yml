@@ -22,9 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
       - name: Determine whether to run e2es
         run: |
-          git branch
           ci-scripts/verify-pull-request.sh
   no_retries: 
     name: Verify retries
