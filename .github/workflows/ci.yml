@@ -22,6 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
       - name: Determine whether to run e2es
         run: |
           ci-scripts/verify-pull-request.sh
