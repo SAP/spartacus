@@ -26,7 +26,10 @@
         class="form-control"
         placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
         formControlName="password"
-      /><cx-password-visibility></cx-password-visibility>
+        [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
+      /><cx-password-visibility
+        formCtrlName="password"
+      ></cx-password-visibility>
     </div>
     <cx-form-errors [control]="form.get('password')"></cx-form-errors>
   </label>

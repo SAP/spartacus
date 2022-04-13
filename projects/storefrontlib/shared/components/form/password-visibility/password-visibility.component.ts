@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
 @Component({
@@ -10,11 +15,14 @@ export class PasswordVisibilityComponent implements OnInit {
   passwordType: string = 'password';
   input: HTMLElement | null;
 
+  @Input()
+  formCtrlName: string;
+
   constructor(protected winRef: WindowRef) {}
 
   ngOnInit(): void {
     this.input = this.winRef.document.querySelector(
-      'div.cx-password-input > input'
+      `[formcontrolname="${this.formCtrlName}"]`
     );
   }
 
