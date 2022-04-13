@@ -89,9 +89,9 @@ export interface FeatureConfig {
      */
     featureScope?: string;
     /**
-     *  TODO:#schematics - add `b2b?: boolean` which would indicate if the b2b config should be provided.
-     * then, remove the configureB2bFeatures() from all other schematics
+     * If the feature is a b2b feature, it will provide the b2b configuration.
      */
+    b2b?: boolean;
   };
   /**
    * The folder in which we will generate the feature module. E.g. app/spartacus/features/__organization__ (__NOTE__: just the `organization` part should be provided.).
@@ -239,7 +239,7 @@ function handleFeature<T extends LibraryOptions>(
   options: T,
   config: FeatureConfig
 ): Rule {
-  return (_tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     const rules: Rule[] = [];
 
     rules.push(
@@ -254,6 +254,9 @@ function handleFeature<T extends LibraryOptions>(
     rules.push(addFeatureModule(options, config));
     rules.push(addFeatureTranslations(options, config));
     rules.push(addCustomConfig(options, config));
+    if (config.library.b2b) {
+      rules.push(configureB2bFeatures(options, readPackageJson(tree)));
+    }
 
     return chain(rules);
   };

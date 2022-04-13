@@ -32,6 +32,7 @@ export const PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG: FeatureConfig = {
     cli: CLI_PRODUCT_BULK_PRICING_FEATURE,
     mainScope: SPARTACUS_PRODUCT,
     featureScope: SPARTACUS_BULK_PRICING,
+    b2b: true,
   },
   folderName: PRODUCT_FOLDER_NAME,
   moduleName: BULK_PRICING_MODULE_NAME,

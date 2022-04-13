@@ -42,6 +42,7 @@ export function addProductConfiguratorFeatures(
       shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE, options.features)
         ? chain([
             addCpqRulebasedRootModule(options),
+            // TODO:#schematics - once refactored, configure b2b in the CPQ schema config
             configureB2bFeatures(options, packageJson),
           ])
         : noop(),

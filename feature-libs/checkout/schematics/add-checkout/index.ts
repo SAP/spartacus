@@ -13,7 +13,6 @@ import {
   CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
   CLI_CHECKOUT_B2B_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
-  configureB2bFeatures,
   LibraryOptions as SpartacusCheckoutOptions,
   readPackageJson,
   shouldAddFeature,
@@ -32,23 +31,19 @@ export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
 
     return chain([
       addFeatures(options, features),
-      additionalCheckoutConfiguration(options, packageJson),
+      additionalCheckoutConfiguration(options),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
 }
 
 function additionalCheckoutConfiguration(
-  options: SpartacusCheckoutOptions,
-  packageJson: any
+  options: SpartacusCheckoutOptions
 ): Rule {
   const rules: Rule[] = [];
 
   if (shouldAddFeature(CLI_CHECKOUT_B2B_FEATURE, options.features)) {
-    rules.push(
-      configureB2bFeatures(options, packageJson),
-      addFeatureTranslations(options, CHECKOUT_B2B_SCHEMATICS_CONFIG)
-    );
+    rules.push(addFeatureTranslations(options, CHECKOUT_B2B_SCHEMATICS_CONFIG));
   }
 
   if (
@@ -58,8 +53,6 @@ function additionalCheckoutConfiguration(
     )
   ) {
     rules.push(
-      // TODO:#schematics - offload to schematics-feature-config and lib/feature utils
-      configureB2bFeatures(options, packageJson),
       addFeatureTranslations(options, CHECKOUT_B2B_SCHEMATICS_CONFIG),
       addFeatureTranslations(
         options,
