@@ -34,7 +34,6 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Package installation
         run: yarn --frozen-lockfile
@@ -65,10 +64,9 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v13-lts
+        run: npm install -g @angular/cli
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for Spartacus libs
@@ -91,10 +89,9 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v13-lts
+        run: npm install -g @angular/cli
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for integration libs
@@ -117,10 +114,9 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v13-lts
+        run: npm install -g @angular/cli
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run linting validation
@@ -142,7 +138,6 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env: 
@@ -162,7 +157,6 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         run: |
@@ -183,7 +177,6 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
@@ -207,10 +200,9 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v13-lts
+        run: npm install -g @angular/cli
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run lighthouse score validation
