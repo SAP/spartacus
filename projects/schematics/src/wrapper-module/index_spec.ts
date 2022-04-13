@@ -15,6 +15,7 @@ import {
   CLI_CHECKOUT_BASE_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   CLI_DIGITAL_PAYMENTS_FEATURE,
+  SPARTACUS_SCHEMATICS,
 } from '../shared/libs-constants';
 import { LibraryOptions } from '../shared/utils/lib-utils';
 import { createProgram } from '../shared/utils/program';
@@ -34,7 +35,10 @@ import { Schema as SpartacusWrapperOptions } from '../wrapper-module/schema';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
 
   let appTree: Tree;
   let buildPath: string;
@@ -343,6 +347,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       expect(spartacusFeaturesModule.print()).toMatchSnapshot();
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
       expect(checkoutWrapperModule.print()).toMatchSnapshot();
+      // since DP feature module doesn't have any markers, it's not recognized as a feature module
       expect(dpFeaturesModule.print()).toMatchSnapshot();
     });
   });

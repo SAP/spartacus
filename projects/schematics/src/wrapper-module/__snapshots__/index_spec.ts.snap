@@ -294,8 +294,7 @@ import { OrderFeatureModule } from './features/order/order-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 @NgModule({
     declarations: [],
-    imports: [
-        AuthModule.forRoot(),
+    imports: [AuthModule.forRoot(),
         LogoutModule,
         LoginRouteModule,
         HamburgerMenuModule,
@@ -341,12 +340,11 @@ import { UserFeatureModule } from './features/user/user-feature.module';
         HomePageEventModule,
         ProductPageEventModule,
         ExternalRoutesModule.forRoot(),
+        DigitalPaymentsFeatureModule,
         UserFeatureModule,
         CartBaseFeatureModule,
         OrderFeatureModule,
-        CheckoutFeatureModule,
-        DigitalPaymentsFeatureModule
-    ]
+        CheckoutFeatureModule]
 })
 export class SpartacusFeaturesModule {
 }
