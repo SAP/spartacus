@@ -5,6 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
+import { FormConfig } from '../../../../shared/config/form-config';
 
 @Component({
   selector: 'cx-password-visibility',
@@ -14,11 +15,12 @@ import { WindowRef } from '@spartacus/core';
 export class PasswordVisibilityComponent implements OnInit {
   passwordType: string = 'password';
   input: HTMLElement | null;
+  enabled = this.config.form?.passwordVisibility;
 
   @Input()
   formCtrlName: string;
 
-  constructor(protected winRef: WindowRef) {}
+  constructor(protected winRef: WindowRef, protected config: FormConfig) {}
 
   ngOnInit(): void {
     this.input = this.winRef.document.querySelector(
