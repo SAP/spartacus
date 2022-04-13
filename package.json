@@ -42,7 +42,7 @@
     "generate:changelog": "ts-node ./scripts/changelog.ts",
     "generate:docs": "npx @compodoc/compodoc@1.1.13 -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
     "generate:publish:docs": "yarn generate:docs && yarn publish:docs",
-    "i18n-lint": "i18n-lint -t \"{{,}}\" projects/storefrontlib/**/*.html feature-libs/**/*.html --exclude **/node_modules/**/*.html -a alt,title,placeholder,aria-label",
+    "i18n-lint": "i18n-lint -t \"{{,}}\" projects/storefrontlib/**/*.html feature-libs/**/*.html --exclude **/node_modules/**/*.html",
     "lint": "ng lint",
     "lint:styles": "stylelint \"{projects,feature-libs}/**/*.scss\"",
     "prettier": "prettier --config ./.prettierrc --list-different \"{projects,feature-libs,core-libs,integration-libs}/**/*{.ts,.js,.json,.scss,.html}\"",
