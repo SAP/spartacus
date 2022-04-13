@@ -24,6 +24,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Determine whether to run e2es
         run: |
+          git branch
           ci-scripts/verify-pull-request.sh
   no_retries: 
     name: Verify retries
