@@ -34,10 +34,6 @@
             ],
             "styles": [
               {
-                "input": "projects/storefrontapp/src/styles.scss",
-                "bundleName": "styles"
-              },
-              {
                 "input": "projects/storefrontapp/src/styles/lib-organization.scss",
                 "bundleName": "organization"
               },
@@ -76,6 +72,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
                 "bundleName": "epd-visualization"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles.scss",
+                "bundleName": "styles"
               }
             ],
             "stylePreprocessorOptions": {
