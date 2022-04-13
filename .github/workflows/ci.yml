@@ -7,7 +7,6 @@ on:
       - integration-libs/**
   pull_request:
     types: [opened, synchronize]
-
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
@@ -18,6 +17,14 @@ concurrency:
 
 name: Spartacus build pipeline
 jobs:
+  test_job:
+    name: Verify pull_request files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Determine whether to run e2es
+        run: |
+          ci-scripts/verify-pull-request.sh
   no_retries: 
     name: Verify retries
     runs-on: ubuntu-latest
@@ -38,6 +45,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
+          restore-keys: nodemodules-${{ github.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -55,6 +71,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
+          restore-keys: nodemodules-${{ github.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -72,6 +97,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
+          restore-keys: nodemodules-${{ github.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -126,6 +160,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ env.NODE_VERSION }}
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
+          restore-keys: nodemodules-${{ github.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -153,3 +196,17 @@ jobs:
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || needs.b2c_ssr_e2e_tests.result == 'skipped' || 
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' || needs.b2b_e2e_tests.result == 'skipped' || 
           needs.lighthouse.result == 'failure' || needs.lighthouse.result == 'cancelled' || needs.lighthouse.result == 'skipped'
+  send_slack_message:
+    needs: build_conclusion
+    name: Slack message for failed develop CI build in Spartacus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # TODO with slack actions for only develop
+      - name: Send Slack message when build conclusion failed
+        run: |
+          echo test
+        if: |
+          needs.no_retries.result == 'failure' || 
+          needs.no_retries.result == 'cancelled' || 
+          needs.no_retries.result == 'skipped'
