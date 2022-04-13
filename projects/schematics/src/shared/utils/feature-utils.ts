@@ -22,6 +22,7 @@ import { ANGULAR_CORE } from '../constants';
 import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_SCHEMATICS,
 } from '../libs-constants';
 import {
   featureFeatureModuleMapping,
@@ -104,7 +105,9 @@ export function addFeatures<T extends LibraryOptions>(
       project: options.project,
       lazy: options.lazy,
       debug: options.debug,
-      interactive: options.interactive,
+      // TODO:#schematics - fix the interactivity for the CDS / ASM, etc.
+      interactive:
+        options.interactive === undefined ? true : options.interactive,
     };
 
     const rules: Rule[] = [];
@@ -154,13 +157,8 @@ function handleWrapperModule<OPTIONS extends LibraryOptions>(
     };
 
     rules.push(
-      externalSchematic(
-        '@spartacus/schematics',
-        'wrapper-module',
-        wrapperOptions
-      )
+      externalSchematic(SPARTACUS_SCHEMATICS, 'wrapper-module', wrapperOptions)
     );
-    // rules.push(schematic('wrapper-module', wrapperOptions));
   }
 
   return chain(rules);
