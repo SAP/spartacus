@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-FILES=$(git diff --name-only develop..feature/simulate-cache-and-skip-e2e)
+FILES=$(git diff --name-only develop ${GITHUB_HEAD_REF} --)
 
 # echo $FILES
 
@@ -10,12 +10,12 @@ for file in $FILES; do
     echo $file
 
     case "$file" in
-    *.md | docs/** | tools/** )
+    *.md | docs/** | tools/** | *.spec.ts )
         echo "ignored files $file"
-        # fail the github action or exit but comment for now
+        # do nothing
         ;;
     * )
-        # do nothing or set output for github actions
+        #  set github actions for output to skip e2es. output will be used in the job with if outputs.skipe2e is true
         ;;
     esac
 done
