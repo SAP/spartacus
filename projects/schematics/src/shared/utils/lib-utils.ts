@@ -59,6 +59,7 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
   /**
    * When enabled, prints the additional logs.
    */
+  // TODO:#schematics - leverage this flag and print the cross-feature order
   debug?: boolean;
   /**
    * Meta.
@@ -249,7 +250,6 @@ function handleFeature<T extends LibraryOptions>(
         project: options.project,
       })
     );
-    // TODO:#schematics - order root modules
     rules.push(addRootModule(options, config));
     rules.push(addFeatureModule(options, config));
     rules.push(addFeatureTranslations(options, config));
@@ -320,9 +320,15 @@ function addFeatureModule<T extends LibraryOptions>(
     const basePath = process.cwd();
     const moduleFileName = createModuleFileName(config);
 
-    // TODO:#schematics - skip if the feature the wrapper module is used
-    // first, check if the feature should be composed by checking the .wrappers
-    // is it enough to just skip the adding if the wrapper config is present?
+    /**
+     * TODO:#schematics - skip if the feature the wrapper module is used.
+     * first, check if the feature should be composed by checking the .wrappers
+     * is it enough to just skip the adding if the wrapper config is present?
+     */
+
+    /**
+     * TODO:#schematics - check how the wrapper modules play with eagerly configured feature modules
+     */
 
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
     for (const tsconfigPath of buildPaths) {
