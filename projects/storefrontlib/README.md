@@ -9,5 +9,3 @@ For more informations, see [Spartacus](https://github.com/SAP/spartacus).
 #### Related projects
 
 [Spartacus Styles](https://www.npmjs.com/package/@spartacus/styles)
-
-test
