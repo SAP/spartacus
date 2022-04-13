@@ -92,4 +92,7 @@ export const USER_PROFILE_SCHEMATICS_CONFIG: FeatureConfig = {
   dependencyManagement: {
     [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE],
   },
+  wrappers: {
+    [USER_PROFILE_MODULE]: USER_PROFILE_MODULE,
+  },
 };
