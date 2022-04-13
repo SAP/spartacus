@@ -55,7 +55,6 @@ import { AdministrationFeatureModule } from './features/administration-feature.m
 import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CartBaseFeatureModule } from './features/cart-base-feature.module';
-import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
@@ -86,9 +85,6 @@ if (environment.b2b) {
   );
 }
 
-if (environment.cdc) {
-  featureModules.push(CdcFeatureModule);
-}
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }

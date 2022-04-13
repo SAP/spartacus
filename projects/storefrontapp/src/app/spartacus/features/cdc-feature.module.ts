@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CdcConfig, CdcRootModule } from '@spartacus/cdc/root';
+import { provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [CdcRootModule],
@@ -19,13 +19,6 @@ import { CmsConfig, provideConfig } from '@spartacus/core';
           sessionExpiration: 3600,
         },
       ],
-    }),
-    provideConfig(<CmsConfig>{
-      featureModules: {
-        [CDC_FEATURE]: {
-          module: () => import('@spartacus/cdc').then((m) => m.CdcModule),
-        },
-      },
     }),
   ],
 })
