@@ -300,7 +300,7 @@ When installing libraries separately via bash installation script, the order of 
 ```bash
 ng add --skip-confirmation @spartacus/checkout --interactive false
 ng add --skip-confirmation @spartacus/digital-payments --interactive false
-# not the extension should go after the default feature 👆
+# note the extension should go after the default feature 👆
 ```
 
 Instead of installing libraries separately, it's recommended to run `ng add @spartacus/schematics --features=...` (which automatically takes care about the order of installing libraries):
