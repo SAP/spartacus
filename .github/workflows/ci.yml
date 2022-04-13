@@ -27,6 +27,17 @@ jobs:
       - name: Determine whether to run e2es
         run: |
           ci-scripts/verify-pull-request.sh
+      - name: test pull from cache
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
+          restore-keys: nodemodules-${{ github.sha }}
+      - name: Package installation
+        run: yarn --frozen-lockfile
   no_retries: 
     name: Verify retries
     runs-on: ubuntu-latest
@@ -57,7 +68,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for Spartacus libs
@@ -83,7 +94,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for integration libs
@@ -109,7 +120,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run linting validation
@@ -172,7 +183,7 @@ jobs:
           key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
+        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run lighthouse score validation
