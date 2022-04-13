@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-FILES=$(git diff --name-only origin/develop ${GITHUB_HEAD_REF} --)
+FILES=$(git diff --name-only origin/develop)
 
 # echo $FILES
 
