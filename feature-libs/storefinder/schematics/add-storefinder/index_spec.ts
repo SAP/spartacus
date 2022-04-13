@@ -14,6 +14,7 @@ import {
   LibraryOptions as SpartacusStorefinderOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_STOREFINDER,
   storeFinderFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -24,7 +25,7 @@ const scssFilePath = 'src/styles/spartacus/storefinder.scss';
 
 describe('Spartacus Storefinder schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_STOREFINDER,
     collectionPath
   );
 

@@ -19,6 +19,7 @@ import {
   productVariantsFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_PRODUCT,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -29,7 +30,7 @@ const scssFilePath = 'src/styles/spartacus/product.scss';
 
 describe('Spartacus Product schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_PRODUCT,
     collectionPath
   );
 

@@ -13,6 +13,7 @@ import {
   cdsFeatureModulePath,
   CLI_CDS_FEATURE,
   SpartacusOptions,
+  SPARTACUS_CDS,
   SPARTACUS_SCHEMATICS,
   trackingPersonalizationFeatureModulePath,
 } from '@spartacus/schematics';
@@ -24,7 +25,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus CDS schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_CDS,
     collectionPath
   );
 

@@ -14,6 +14,7 @@ import {
   CLI_ASM_FEATURE,
   LibraryOptions as SpartacusAsmOptions,
   SpartacusOptions,
+  SPARTACUS_ASM,
   SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -24,7 +25,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus Asm schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_ASM,
     collectionPath
   );
 

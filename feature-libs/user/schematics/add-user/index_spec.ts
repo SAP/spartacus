@@ -15,6 +15,7 @@ import {
   LibraryOptions as SpartacusUserOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_USER,
   userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -25,7 +26,7 @@ const scssFilePath = 'src/styles/spartacus/user.scss';
 
 describe('Spartacus User schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_USER,
     collectionPath
   );
 

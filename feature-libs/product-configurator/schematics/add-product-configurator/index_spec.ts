@@ -14,6 +14,7 @@ import {
   LibraryOptions as SpartacusProductConfiguratorOptions,
   productConfiguratorFeatureModulePath,
   SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -24,7 +25,7 @@ const scssFilePath = 'src/styles/spartacus/product-configurator.scss';
 
 describe('Spartacus product configurator schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_PRODUCT_CONFIGURATOR,
     collectionPath
   );
 

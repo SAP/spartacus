@@ -14,6 +14,7 @@ import {
   LibraryOptions as SpartacusQualtricsOptions,
   qualtricsFeatureModulePath,
   SpartacusOptions,
+  SPARTACUS_QUALTRICS,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -24,7 +25,7 @@ const scssFilePath = 'src/styles/spartacus/qualtrics-embedded-feedback.scss';
 
 describe('Spartacus Qualtrics schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_QUALTRICS,
     collectionPath
   );
 

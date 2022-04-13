@@ -18,6 +18,7 @@ import {
   organizationOrderApprovalFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_ORGANIZATION,
   SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -29,7 +30,7 @@ const scssFilePath = 'src/styles/spartacus/organization.scss';
 
 describe('Spartacus Organization schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_ORGANIZATION,
     collectionPath
   );
 

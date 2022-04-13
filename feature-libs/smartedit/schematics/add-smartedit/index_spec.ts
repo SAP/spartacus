@@ -14,6 +14,7 @@ import {
   smartEditFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_SMARTEDIT,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -23,7 +24,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus SmartEdit schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_SMARTEDIT,
     collectionPath
   );
 

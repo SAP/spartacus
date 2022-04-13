@@ -21,6 +21,7 @@ import {
   quickOrderFeatureModulePath,
   savedCartFeatureModulePath,
   SpartacusOptions,
+  SPARTACUS_CART,
   SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
   wishListFeatureModulePath,
@@ -33,7 +34,7 @@ const scssFilePath = 'src/styles/spartacus/cart.scss';
 
 describe('Spartacus Cart schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_CART,
     collectionPath
   );
 

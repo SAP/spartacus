@@ -14,6 +14,7 @@ import {
   CLI_EPD_VISUALIZATION_FEATURE,
   epdFeatureModulePath,
   SpartacusOptions,
+  SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -25,7 +26,7 @@ const scssFilePath = 'src/styles/spartacus/epd-visualization.scss';
 
 describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_EPD_VISUALIZATION,
     collectionPath
   );
 

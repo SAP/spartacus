@@ -16,6 +16,7 @@ import {
   LibraryOptions as SpartacusTrackingOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_TRACKING,
   trackingPersonalizationFeatureModulePath,
   trackingTagManagementFeatureModulePath,
 } from '@spartacus/schematics';
@@ -26,7 +27,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus Tracking schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_TRACKING,
     collectionPath
   );
 

@@ -18,6 +18,7 @@ import {
   orderFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_CHECKOUT,
+  SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -28,7 +29,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus Digital-Payments schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_DIGITAL_PAYMENTS,
     collectionPath
   );
 

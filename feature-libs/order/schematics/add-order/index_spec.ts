@@ -15,6 +15,7 @@ import {
   LibraryOptions as SpartacusOrderOptions,
   orderFeatureModulePath,
   SpartacusOptions,
+  SPARTACUS_ORDER,
   SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -26,7 +27,7 @@ const scssFilePath = 'src/styles/spartacus/order.scss';
 
 describe('Spartacus Order schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_ORDER,
     collectionPath
   );
 

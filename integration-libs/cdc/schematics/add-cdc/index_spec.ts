@@ -15,6 +15,7 @@ import {
   LibraryOptions as SpartacusCdcOptions,
   SpartacusOptions,
   SPARTACUS_ASM,
+  SPARTACUS_CDC,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
   userFeatureModulePath,
@@ -26,7 +27,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus CDC schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
-    SPARTACUS_SCHEMATICS,
+    SPARTACUS_CDC,
     collectionPath
   );
 
