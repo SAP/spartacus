@@ -5,25 +5,29 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b eager loadin
 import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
 import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
+    CheckoutRootModule,
+    CheckoutModule,
     CheckoutB2BRootModule,
     CheckoutB2BModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutB2BTranslations,
-      chunks: checkoutB2BTranslationChunksConfig,
+      resources: checkoutTranslations,
+      chunks: checkoutTranslationChunksConfig,
     },
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: checkoutTranslations,
-      chunks: checkoutTranslationChunksConfig,
+      resources: checkoutB2BTranslations,
+      chunks: checkoutB2BTranslationChunksConfig,
     },
   })
   ]
@@ -75,37 +79,52 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
 import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
+    CheckoutRootModule,
     CheckoutB2BRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('@spartacus/checkout/b2b').then((m) => m.CheckoutB2BModule),
+          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
       },
     }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: checkoutB2BTranslations,
-      chunks: checkoutB2BTranslationChunksConfig,
-    },
   }),
   provideConfig(<I18nConfig>{
     i18n: {
       resources: checkoutTranslations,
       chunks: checkoutTranslationChunksConfig,
     },
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: checkoutB2BTranslations,
+      chunks: checkoutB2BTranslationChunksConfig,
+    },
   })
   ]
 })
 export class CheckoutFeatureModule { }
+"
+`;
+
+exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup should add the feature using the lazy loading syntax 2`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+
+@NgModule({
+  declarations: [],
+  imports: [CheckoutModule,
+    CheckoutB2BModule]
+})
+export class CheckoutWrapperModule { }
 "
 `;
 
@@ -209,7 +228,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
       },
     }
   }),
@@ -388,7 +407,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
+          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
       },
     }
   }),
@@ -401,6 +420,18 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
   ]
 })
 export class CheckoutFeatureModule { }
+"
+`;
+
+exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup should add the feature using the lazy loading syntax 2`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+
+@NgModule({
+  declarations: [],
+  imports: [CheckoutModule]
+})
+export class CheckoutWrapperModule { }
 "
 `;
 
@@ -504,7 +535,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
       },
     }
   }),
@@ -646,8 +677,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
+import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
+import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
 import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";
 import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@spartacus/checkout/scheduled-replenishment/assets\\";
 import { CheckoutScheduledReplenishmentRootModule } from \\"@spartacus/checkout/scheduled-replenishment/root\\";
@@ -656,16 +691,14 @@ import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 @NgModule({
   declarations: [],
   imports: [
+    CheckoutRootModule,
+    CheckoutModule,
+    CheckoutB2BRootModule,
+    CheckoutB2BModule,
     CheckoutScheduledReplenishmentRootModule,
     CheckoutScheduledReplenishmentModule
   ],
   providers: [provideConfig(<I18nConfig>{
-    i18n: {
-      resources: checkoutScheduledReplenishmentTranslations,
-      chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
-    },
-  }),
-  provideConfig(<I18nConfig>{
     i18n: {
       resources: checkoutTranslations,
       chunks: checkoutTranslationChunksConfig,
@@ -675,6 +708,12 @@ import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
     i18n: {
       resources: checkoutB2BTranslations,
       chunks: checkoutB2BTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: checkoutScheduledReplenishmentTranslations,
+      chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
     },
   })
   ]
@@ -724,8 +763,9 @@ export class SpartacusConfigurationModule { }
 exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
+import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
 import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@spartacus/checkout/scheduled-replenishment/assets\\";
 import { CheckoutScheduledReplenishmentRootModule } from \\"@spartacus/checkout/scheduled-replenishment/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
@@ -733,21 +773,17 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 @NgModule({
   declarations: [],
   imports: [
+    CheckoutRootModule,
+    CheckoutB2BRootModule,
     CheckoutScheduledReplenishmentRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('@spartacus/checkout/scheduled-replenishment').then((m) => m.CheckoutScheduledReplenishmentModule),
+          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
       },
     }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: checkoutScheduledReplenishmentTranslations,
-      chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
-    },
   }),
   provideConfig(<I18nConfig>{
     i18n: {
@@ -760,10 +796,32 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       resources: checkoutB2BTranslations,
       chunks: checkoutB2BTranslationChunksConfig,
     },
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: checkoutScheduledReplenishmentTranslations,
+      chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
+    },
   })
   ]
 })
 export class CheckoutFeatureModule { }
+"
+`;
+
+exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replenishment general setup should add the feature using the lazy loading syntax 2`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";
+
+@NgModule({
+  declarations: [],
+  imports: [CheckoutModule,
+    CheckoutB2BModule,
+    CheckoutScheduledReplenishmentModule]
+})
+export class CheckoutWrapperModule { }
 "
 `;
 
@@ -867,7 +925,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
       },
     }
   }),
