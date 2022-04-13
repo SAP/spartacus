@@ -35,10 +35,6 @@
             "extractCss": true,
             "styles": [
               {
-                "input": "projects/storefrontapp/src/styles.scss",
-                "bundleName": "styles"
-              },
-              {
                 "input": "projects/storefrontapp/src/styles/lib-organization.scss",
                 "bundleName": "organization"
               },
@@ -65,6 +61,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-user.scss",
                 "bundleName": "user"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles.scss",
+                "bundleName": "styles"
               }
             ],
             "stylePreprocessorOptions": {
