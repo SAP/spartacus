@@ -41,6 +41,8 @@ export const productVariantsFeatureModulePath =
   'src/app/spartacus/features/product/product-variants-feature.module.ts';
 export const productConfiguratorFeatureModulePath =
   'src/app/spartacus/features/product-configurator/product-configurator-feature.module.ts';
+export const productConfiguratorWrapperModulePath =
+  'src/app/spartacus/features/product-configurator/product-configurator-wrapper.module.ts';
 export const qualtricsFeatureModulePath =
   'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
 export const smartEditFeatureModulePath =

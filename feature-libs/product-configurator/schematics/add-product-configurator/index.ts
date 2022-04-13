@@ -1,29 +1,19 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
-  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
-  configureB2bFeatures,
+  analyzeCrossFeatureDependencies,
   LibraryOptions as SpartacusProductConfiguratorOptions,
-  PRODUCT_CONFIGURATOR_CPQ_SCHEMATICS_CONFIG,
-  PRODUCT_CONFIGURATOR_RULEBASED_CPQ_SCHEMATICS_CONFIG,
-  PRODUCT_CONFIGURATOR_RULEBASED_SCHEMATICS_CONFIG,
-  PRODUCT_CONFIGURATOR_TEXTFIELD_SCHEMATICS_CONFIG,
   readPackageJson,
-  shouldAddFeature,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 
-// TODO:#schematics - refactor after introducing wrapper modules
 export function addProductConfiguratorFeatures(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
@@ -31,69 +21,15 @@ export function addProductConfiguratorFeatures(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+    const features = analyzeCrossFeatureDependencies(
+      options.features as string[]
+    );
 
-      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_VC_FEATURE, options.features) ||
-      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE, options.features)
-        ? addProductConfiguratorRulebasedFeature(options)
-        : noop(),
-
-      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE, options.features)
-        ? chain([
-            addCpqRulebasedRootModule(options),
-            // TODO:#schematics - once refactored, configure b2b in the CPQ schema config
-            configureB2bFeatures(options, packageJson),
-          ])
-        : noop(),
-
-      shouldAddFeature(
-        CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-        options.features
-      )
-        ? addProductConfiguratorTextfieldFeature(options)
-        : noop(),
-    ]);
+    if (true) {
+      return chain([
+        addFeatures(options, features),
+        addPackageJsonDependenciesForLibrary(peerDependencies, options),
+      ]);
+    }
   };
-}
-
-/**
- * Called with or without CPQ enabled, and uses a different
- * application module for CPQ
- * @param options Schematics options
- * @returns
- */
-function addProductConfiguratorRulebasedFeature(
-  options: SpartacusProductConfiguratorOptions
-): Rule {
-  const config = shouldAddFeature(
-    CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-    options.features
-  )
-    ? PRODUCT_CONFIGURATOR_RULEBASED_CPQ_SCHEMATICS_CONFIG
-    : PRODUCT_CONFIGURATOR_RULEBASED_SCHEMATICS_CONFIG;
-
-  return addLibraryFeature(options, config);
-}
-
-/**
- * Needed to set the CPQ specific root module that
- * enforces early login and must not be active for
- * other configurators
- * @param options Schematics options
- * @returns
- */
-function addCpqRulebasedRootModule(
-  options: SpartacusProductConfiguratorOptions
-): Rule {
-  return addLibraryFeature(options, PRODUCT_CONFIGURATOR_CPQ_SCHEMATICS_CONFIG);
-}
-
-function addProductConfiguratorTextfieldFeature(
-  options: SpartacusProductConfiguratorOptions
-): Rule {
-  return addLibraryFeature(
-    options,
-    PRODUCT_CONFIGURATOR_TEXTFIELD_SCHEMATICS_CONFIG
-  );
 }

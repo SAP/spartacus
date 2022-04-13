@@ -8,14 +8,19 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  cartBaseFeatureModulePath,
+  checkoutFeatureModulePath,
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
   LibraryOptions as SpartacusProductConfiguratorOptions,
+  orderFeatureModulePath,
   productConfiguratorFeatureModulePath,
+  productConfiguratorWrapperModulePath,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -145,6 +150,31 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             productConfiguratorFeatureModulePath
           );
           expect(module).toMatchSnapshot();
+
+          const wrapperModule = appTree.readContent(
+            productConfiguratorWrapperModulePath
+          );
+          expect(wrapperModule).toMatchSnapshot();
+        });
+
+        it('should install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toMatchSnapshot();
+
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toMatchSnapshot();
+
+          const checkoutFeatureModule = appTree.readContent(
+            checkoutFeatureModulePath
+          );
+          expect(checkoutFeatureModule).toMatchSnapshot();
         });
 
         describe('styling', () => {
@@ -176,6 +206,10 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             productConfiguratorFeatureModulePath
           );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorWrapperModulePath)
+          ).toBeFalsy();
         });
       });
     });
@@ -193,6 +227,31 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             productConfiguratorFeatureModulePath
           );
           expect(module).toMatchSnapshot();
+
+          const wrapperModule = appTree.readContent(
+            productConfiguratorWrapperModulePath
+          );
+          expect(wrapperModule).toMatchSnapshot();
+        });
+
+        it('should install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toMatchSnapshot();
+
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toMatchSnapshot();
+
+          const checkoutFeatureModule = appTree.readContent(
+            checkoutFeatureModulePath
+          );
+          expect(checkoutFeatureModule).toMatchSnapshot();
         });
 
         describe('styling', () => {
@@ -233,6 +292,10 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             productConfiguratorFeatureModulePath
           );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorWrapperModulePath)
+          ).toBeFalsy();
         });
       });
     });
@@ -250,6 +313,30 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             productConfiguratorFeatureModulePath
           );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorWrapperModulePath)
+          ).toBeFalsy();
+        });
+
+        it('should install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toMatchSnapshot();
+
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toMatchSnapshot();
+
+          const checkoutFeatureModule = appTree.readContent(
+            checkoutFeatureModulePath
+          );
+          expect(checkoutFeatureModule).toMatchSnapshot();
         });
 
         describe('styling', () => {
@@ -290,6 +377,10 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             productConfiguratorFeatureModulePath
           );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorWrapperModulePath)
+          ).toBeFalsy();
         });
       });
     });
@@ -317,6 +408,31 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             productConfiguratorFeatureModulePath
           );
           expect(module).toMatchSnapshot();
+
+          const wrapperModule = appTree.readContent(
+            productConfiguratorWrapperModulePath
+          );
+          expect(wrapperModule).toMatchSnapshot();
+        });
+
+        it('should install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toMatchSnapshot();
+
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toMatchSnapshot();
+
+          const checkoutFeatureModule = appTree.readContent(
+            checkoutFeatureModulePath
+          );
+          expect(checkoutFeatureModule).toMatchSnapshot();
         });
 
         describe('styling', () => {
@@ -364,6 +480,10 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             productConfiguratorFeatureModulePath
           );
           expect(module).toMatchSnapshot();
+
+          expect(
+            appTree.readContent(productConfiguratorWrapperModulePath)
+          ).toBeFalsy();
         });
       });
     });

@@ -4,6 +4,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
 import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurator/rulebased/cpq\\";
 import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
 import { TextfieldConfiguratorModule } from \\"@spartacus/product-configurator/textfield\\";
@@ -13,8 +14,9 @@ import { TextfieldConfiguratorRootModule } from \\"@spartacus/product-configurat
   declarations: [],
   imports: [
     RulebasedConfiguratorRootModule,
-    RulebasedCpqConfiguratorModule,
+    RulebasedConfiguratorModule,
     CpqConfiguratorRootModule,
+    RulebasedCpqConfiguratorModule,
     TextfieldConfiguratorRootModule,
     TextfieldConfiguratorModule
   ],
@@ -85,7 +87,7 @@ import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule
     featureModules: {
       [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
         module: () =>
-          import('@spartacus/product-configurator/rulebased/cpq').then((m) => m.RulebasedCpqConfiguratorModule),
+          import('./product-configurator-wrapper.module').then((m) => m.ProductConfiguratorWrapperModule),
       },
     }
   }),
@@ -106,6 +108,167 @@ import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule
   ]
 })
 export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup should add the feature using the lazy loading syntax, including VC as well 2`] = `
+"import { NgModule } from '@angular/core';
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
+import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurator/rulebased/cpq\\";
+
+@NgModule({
+  declarations: [],
+  imports: [RulebasedConfiguratorModule,
+    RulebasedCpqConfiguratorModule]
+})
+export class ProductConfiguratorWrapperModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup should install the required feature dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup should install the required feature dependencies 2`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { orderTranslationChunksConfig, orderTranslations } from \\"@spartacus/order/assets\\";
+import { OrderRootModule, ORDER_FEATURE } from \\"@spartacus/order/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OrderRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ORDER_FEATURE]: {
+        module: () =>
+          import('@spartacus/order').then((m) => m.OrderModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: orderTranslations,
+      chunks: orderTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class OrderFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup should install the required feature dependencies 3`] = `
+"import { NgModule } from '@angular/core';
+import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
+import { ADD_TO_CART_FEATURE, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART_FEATURE } from \\"@spartacus/cart/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CartBaseRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CART_BASE_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base').then((m) => m.CartBaseModule),
+      }, [MINI_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
+      }, [ADD_TO_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: cartBaseTranslations,
+      chunks: cartBaseTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CartBaseFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup should install the required feature dependencies 4`] = `
+"import { NgModule } from '@angular/core';
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CheckoutRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CHECKOUT_FEATURE]: {
+        module: () =>
+          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: checkoutTranslations,
+      chunks: checkoutTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CheckoutFeatureModule { }
 "
 `;
 
@@ -146,6 +309,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
+              \\"src/styles/spartacus/order.scss\\",
+              \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
             \\"scripts\\": []
@@ -215,6 +382,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
+              \\"src/styles/spartacus/order.scss\\",
+              \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
             \\"scripts\\": []
@@ -231,6 +402,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
 import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurator/rulebased/cpq\\";
 import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
 
@@ -238,8 +410,9 @@ import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \\"@s
   declarations: [],
   imports: [
     RulebasedConfiguratorRootModule,
-    RulebasedCpqConfiguratorModule,
-    CpqConfiguratorRootModule
+    RulebasedConfiguratorModule,
+    CpqConfiguratorRootModule,
+    RulebasedCpqConfiguratorModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
@@ -306,7 +479,7 @@ import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, Rule
     featureModules: {
       [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
         module: () =>
-          import('@spartacus/product-configurator/rulebased/cpq').then((m) => m.RulebasedCpqConfiguratorModule),
+          import('./product-configurator-wrapper.module').then((m) => m.ProductConfiguratorWrapperModule),
       },
     }
   }),
@@ -319,6 +492,167 @@ import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, Rule
   ]
 })
 export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup should add the feature using the lazy loading syntax, and include VC as well 2`] = `
+"import { NgModule } from '@angular/core';
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
+import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurator/rulebased/cpq\\";
+
+@NgModule({
+  declarations: [],
+  imports: [RulebasedConfiguratorModule,
+    RulebasedCpqConfiguratorModule]
+})
+export class ProductConfiguratorWrapperModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup should install the required feature dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup should install the required feature dependencies 2`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { orderTranslationChunksConfig, orderTranslations } from \\"@spartacus/order/assets\\";
+import { OrderRootModule, ORDER_FEATURE } from \\"@spartacus/order/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OrderRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ORDER_FEATURE]: {
+        module: () =>
+          import('@spartacus/order').then((m) => m.OrderModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: orderTranslations,
+      chunks: orderTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class OrderFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup should install the required feature dependencies 3`] = `
+"import { NgModule } from '@angular/core';
+import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
+import { ADD_TO_CART_FEATURE, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART_FEATURE } from \\"@spartacus/cart/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CartBaseRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CART_BASE_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base').then((m) => m.CartBaseModule),
+      }, [MINI_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
+      }, [ADD_TO_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: cartBaseTranslations,
+      chunks: cartBaseTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CartBaseFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup should install the required feature dependencies 4`] = `
+"import { NgModule } from '@angular/core';
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CheckoutRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CHECKOUT_FEATURE]: {
+        module: () =>
+          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: checkoutTranslations,
+      chunks: checkoutTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CheckoutFeatureModule { }
 "
 `;
 
@@ -359,6 +693,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
+              \\"src/styles/spartacus/order.scss\\",
+              \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
             \\"scripts\\": []
@@ -428,6 +766,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
+              \\"src/styles/spartacus/order.scss\\",
+              \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
             \\"scripts\\": []
@@ -532,6 +874,153 @@ export class ProductConfiguratorFeatureModule { }
 "
 `;
 
+exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup should install the required feature dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup should install the required feature dependencies 2`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { orderTranslationChunksConfig, orderTranslations } from \\"@spartacus/order/assets\\";
+import { OrderRootModule, ORDER_FEATURE } from \\"@spartacus/order/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OrderRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ORDER_FEATURE]: {
+        module: () =>
+          import('@spartacus/order').then((m) => m.OrderModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: orderTranslations,
+      chunks: orderTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class OrderFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup should install the required feature dependencies 3`] = `
+"import { NgModule } from '@angular/core';
+import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
+import { ADD_TO_CART_FEATURE, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART_FEATURE } from \\"@spartacus/cart/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CartBaseRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CART_BASE_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base').then((m) => m.CartBaseModule),
+      }, [MINI_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
+      }, [ADD_TO_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: cartBaseTranslations,
+      chunks: cartBaseTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CartBaseFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup should install the required feature dependencies 4`] = `
+"import { NgModule } from '@angular/core';
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CheckoutRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CHECKOUT_FEATURE]: {
+        module: () =>
+          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: checkoutTranslations,
+      chunks: checkoutTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CheckoutFeatureModule { }
+"
+`;
+
 exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
 
 exports[`Spartacus product configurator schematics: ng-add Product config feature Textfield general setup styling should update angular.json 1`] = `
@@ -569,6 +1058,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
+              \\"src/styles/spartacus/order.scss\\",
+              \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
             \\"scripts\\": []
@@ -638,6 +1131,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
+              \\"src/styles/spartacus/order.scss\\",
+              \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
             \\"scripts\\": []
@@ -689,7 +1186,7 @@ import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule
     featureModules: {
       [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
         module: () =>
-          import('@spartacus/product-configurator/rulebased').then((m) => m.RulebasedConfiguratorModule),
+          import('./product-configurator-wrapper.module').then((m) => m.ProductConfiguratorWrapperModule),
       },
     }
   }),
@@ -702,6 +1199,165 @@ import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule
   ]
 })
 export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature VC general setup should add the feature using the lazy loading syntax 2`] = `
+"import { NgModule } from '@angular/core';
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
+
+@NgModule({
+  declarations: [],
+  imports: [RulebasedConfiguratorModule]
+})
+export class ProductConfiguratorWrapperModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature VC general setup should install the required feature dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature VC general setup should install the required feature dependencies 2`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { orderTranslationChunksConfig, orderTranslations } from \\"@spartacus/order/assets\\";
+import { OrderRootModule, ORDER_FEATURE } from \\"@spartacus/order/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OrderRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ORDER_FEATURE]: {
+        module: () =>
+          import('@spartacus/order').then((m) => m.OrderModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: orderTranslations,
+      chunks: orderTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class OrderFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature VC general setup should install the required feature dependencies 3`] = `
+"import { NgModule } from '@angular/core';
+import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
+import { ADD_TO_CART_FEATURE, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART_FEATURE } from \\"@spartacus/cart/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CartBaseRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CART_BASE_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base').then((m) => m.CartBaseModule),
+      }, [MINI_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
+      }, [ADD_TO_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: cartBaseTranslations,
+      chunks: cartBaseTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CartBaseFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature VC general setup should install the required feature dependencies 4`] = `
+"import { NgModule } from '@angular/core';
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CheckoutRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CHECKOUT_FEATURE]: {
+        module: () =>
+          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: checkoutTranslations,
+      chunks: checkoutTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CheckoutFeatureModule { }
 "
 `;
 
@@ -742,6 +1398,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
+              \\"src/styles/spartacus/order.scss\\",
+              \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
             \\"scripts\\": []
@@ -811,6 +1471,10 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
+              \\"src/styles/spartacus/cart.scss\\",
+              \\"src/styles/spartacus/order.scss\\",
+              \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
             \\"scripts\\": []
