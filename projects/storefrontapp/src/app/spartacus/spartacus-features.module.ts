@@ -10,7 +10,6 @@ import {
   UserOccModule,
 } from '@spartacus/core';
 import {
-  ScrollToTopModule,
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
@@ -45,6 +44,7 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
+  ScrollToTopModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
@@ -64,7 +64,6 @@ import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
 import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { OrderFeatureModule } from './features/order-feature.module';
-import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
@@ -93,11 +92,7 @@ if (environment.cdc) {
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
-if (environment.cpq) {
-  featureModules.push(ProductConfiguratorRulebasedCpqFeatureModule);
-} else {
-  featureModules.push(ProductConfiguratorRulebasedFeatureModule);
-}
+
 if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
 }
@@ -199,8 +194,10 @@ if (environment.epdVisualization) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
-    ProductConfiguratorTextfieldFeatureModule,
     ImageZoomFeatureModule,
+
+    ProductConfiguratorTextfieldFeatureModule,
+    ProductConfiguratorRulebasedFeatureModule,
 
     ...featureModules,
   ],
