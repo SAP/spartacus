@@ -18,10 +18,10 @@ concurrency:
 name: Spartacus build pipeline
 jobs:
   test_job:
-    - uses: actions/checkout@v2
     name: Verify pull_request files
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Determine whether to run e2es
         run: |
           ci-scripts/verify-pull-request.sh
