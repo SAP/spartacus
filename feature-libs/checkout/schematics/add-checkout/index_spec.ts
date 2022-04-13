@@ -29,7 +29,10 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/checkout.scss';
 
 describe('Spartacus Checkout schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 

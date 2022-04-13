@@ -15,6 +15,7 @@ import {
   CLI_TRACKING_PERSONALIZATION_FEATURE,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
+  SPARTACUS_SCHEMATICS,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
 } from '../shared/libs-constants';
@@ -27,7 +28,10 @@ import { Schema as SpartacusOptions } from './schema';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('add-spartacus', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 

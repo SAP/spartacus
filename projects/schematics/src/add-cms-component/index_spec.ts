@@ -16,6 +16,7 @@ import {
   CONFIG_MODULE_CLASS,
   UTF_8,
 } from '../shared/constants';
+import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import {
   commitChanges,
   getTsSourceFile,
@@ -78,7 +79,10 @@ function assertContentDoesNotExist(
 }
 
 describe('add-cms-component', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 

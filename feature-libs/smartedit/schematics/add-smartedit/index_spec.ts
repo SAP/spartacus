@@ -22,7 +22,10 @@ import { Schema as SpartacusSmartEditOptions } from './schema';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus SmartEdit schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 

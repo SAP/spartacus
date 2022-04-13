@@ -10,12 +10,16 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../shared/constants';
+import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('add-ssr', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
