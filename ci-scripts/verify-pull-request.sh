@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-FILES=$(git diff --name-only develop...${GITHUB_HEAD_REF})
+FILES=$(git diff --name-only develop..feature/simulate-cache-and-skip-e2e)
 
 # echo $FILES
 
