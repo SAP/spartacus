@@ -2,19 +2,20 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  isDevMode,
   OnInit,
 } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
-import { Configurator } from '../../../core/model/configurator.model';
-import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
 } from '../../../core';
+import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-header',
@@ -36,11 +37,11 @@ export class ConfiguratorAttributeHeaderComponent
   constructor(
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
-    protected configuratorGroupsService: ConfiguratorGroupsService
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
   ) {
     super();
   }
-
   ngOnInit(): void {
     /**
      * Show message that indicates that attribute is required in case attribute has a domain of values
@@ -153,28 +154,77 @@ export class ConfiguratorAttributeHeaderComponent
       .getConfiguration(this.owner)
       .pipe(take(1))
       .subscribe((configuration) => {
+        let groupId;
         if (this.groupType === Configurator.GroupType.CONFLICT_GROUP) {
-          const groupId = this.attribute.groupId;
-          if (groupId) {
-            this.configuratorGroupsService.navigateToGroup(
-              configuration,
-              groupId
-            );
-            this.focusAttribute(this.attribute.name);
-          }
+          groupId = this.attribute.groupId;
+        } else {
+          groupId = this.findConflictGroupId(configuration, this.attribute);
+        }
+        if (groupId) {
+          this.configuratorGroupsService.navigateToGroup(
+            configuration,
+            groupId
+          );
+          this.focusAttribute(this.attribute.name);
+          this.scrollToAttribute(this.attribute.name);
+        } else {
+          this.logWarning('Attribute was not found in any conflict group');
         }
       });
+  }
+
+  /**
+   * Scroll to conflicting attribute
+   *
+   * @protected
+   */
+  protected scrollToAttribute(name: string) {
+    this.onNavigationCompleted(() =>
+      this.configUtils.scrollToConfigurationElement(
+        '#' + this.createAttributeUiKey('label', name)
+      )
+    );
+  }
+
+  findConflictGroupId(
+    configuration: Configurator.Configuration,
+    currentAttribute: Configurator.Attribute
+  ): string | undefined {
+    return configuration.flatGroups
+      .filter(
+        (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
+      )
+      .find((group) => {
+        return group.attributes?.find(
+          (attribute) => attribute.key === currentAttribute.key
+        );
+      })?.id;
+  }
+
+  protected logWarning(text: string): void {
+    if (isDevMode()) {
+      console.warn(text);
+    }
+  }
+
+  /**
+   * Focus a value of the in conflict involved attribute in the group
+   *
+   * @protected
+   */
+  protected focusAttribute(name: string): void {
+    this.onNavigationCompleted(() => this.configUtils.focusAttribute(name));
   }
 
   /**
    * The status of the configuration loading is retrieved twice:
    * firstly, wait that the navigation to the corresponding group is started,
    * secondly, wait that the navigation is completed and
-   * finally, focus a value of the in conflict involved attribute in the group.
+   * finally, invoke the callback function
    *
    * @protected
    */
-  protected focusAttribute(name: string): void {
+  protected onNavigationCompleted(callback: () => void): void {
     this.configuratorCommonsService
       .isConfigurationLoading(this.owner)
       .pipe(
@@ -190,6 +240,6 @@ export class ConfiguratorAttributeHeaderComponent
             )
         )
       )
-      .subscribe(() => this.configUtils.focusAttribute(name));
+      .subscribe(callback);
   }
 }
