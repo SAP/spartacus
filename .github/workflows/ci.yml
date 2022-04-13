@@ -34,6 +34,7 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Package installation
         run: yarn --frozen-lockfile
@@ -64,6 +65,7 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli
@@ -89,6 +91,7 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli
@@ -114,6 +117,7 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli
@@ -138,6 +142,7 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env: 
@@ -157,6 +162,7 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         run: |
@@ -177,6 +183,7 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
         env:
@@ -200,6 +207,7 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
+          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli
