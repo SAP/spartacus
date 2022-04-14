@@ -36,6 +36,7 @@
     <a
       class="cx-conflict-msg link cx-action-link"
       (click)="navigateToGroup()"
+      (keydown.enter)="navigateToGroup()"
       tabindex="0"
     >
       {{ getConflictMessageKey() | cxTranslate }}
@@ -62,6 +63,7 @@
   <a
     class="cx-conflict-msg link cx-action-link"
     (click)="navigateToGroup()"
+    (keydown.enter)="navigateToGroup()"
     tabindex="0"
   >
     {{ getConflictMessageKey() | cxTranslate }}
