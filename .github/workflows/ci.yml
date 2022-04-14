@@ -33,18 +33,14 @@ jobs:
           echo ' ref ${{ github.ref }}'
           echo ' sha ${{ github.sha }}'
           
-          source ci-scripts/verify-pull-request.sh || true
+          source ci-scripts/verify-pull-request.sh
 
-          echo $OUTPUT_CONCLUSION
-          echo $OUTPUT_CONCLUSION_TEST
-          echo '5 ${{ env.OUTPUT_CONCLUSION }}'
-          echo '6 ${{ env.OUTPUT_CONCLUSION_TEST}}'
+          echo "RUN_E2E=$(echo $OUTPUT_CONCLUSION)" >> $GITHUB_ENV
+
+          echo $RUN_E2E
       - name: test from other step
         run: |
-          echo $OUTPUT_CONCLUSION
-          echo $OUTPUT_CONCLUSION_TEST
-          echo '5 ${{ env.OUTPUT_CONCLUSION }}'
-          echo '6 ${{ env.OUTPUT_CONCLUSION_TEST}}'
+          echo $RUN_E2E
       - name: test pull from cache
         id: cache-node-modules
         uses: actions/cache@v2
@@ -155,6 +151,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
+    if: $RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -176,6 +173,7 @@ jobs:
     needs: no_retries
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
+    if: $RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -198,6 +196,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2]
+    if: $RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
