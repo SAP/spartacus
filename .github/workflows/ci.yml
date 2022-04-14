@@ -27,7 +27,7 @@ jobs:
       - name: Determine whether to run e2es
         id: save-e2e-output-result
         run: |         
-          source ci-scripts/validate-e2e-execution.sh
+          ci-scripts/validate-e2e-execution.sh
           echo "::set-output run_e2e=$(echo $RUN_E2E)" >>
       - name: test from other step
         run: |
