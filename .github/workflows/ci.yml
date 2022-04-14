@@ -151,7 +151,6 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
-    if: env.RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -167,13 +166,13 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
+        if: env.RUN_E2E != ''
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
     needs: no_retries
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
-    if: env.RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -187,6 +186,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
+        if: env.RUN_E2E != ''
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
@@ -196,7 +196,6 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2]
-    if: env.RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -212,6 +211,7 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
+        if: env.RUN_E2E != ''
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
