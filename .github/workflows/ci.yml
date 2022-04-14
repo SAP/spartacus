@@ -35,14 +35,14 @@ jobs:
           
           source ci-scripts/verify-pull-request.sh || true
 
-          echo '1 $OUTPUT_CONCLUSION'
-          echo '2 $OUTPUT_CONCLUSION_TEST'
+          echo $OUTPUT_CONCLUSION
+          echo $OUTPUT_CONCLUSION_TEST
           echo '5 ${{ env.OUTPUT_CONCLUSION }}'
           echo '6 ${{ env.OUTPUT_CONCLUSION_TEST}}'
       - name: test from other step
         run: |
-          echo '1 $OUTPUT_CONCLUSION'
-          echo '2 $OUTPUT_CONCLUSION_TEST'
+          echo $OUTPUT_CONCLUSION
+          echo $OUTPUT_CONCLUSION_TEST
           echo '5 ${{ env.OUTPUT_CONCLUSION }}'
           echo '6 ${{ env.OUTPUT_CONCLUSION_TEST}}'
       - name: test pull from cache
