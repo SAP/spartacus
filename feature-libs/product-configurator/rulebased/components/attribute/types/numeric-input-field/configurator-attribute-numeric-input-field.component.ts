@@ -192,8 +192,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     let formattedMinValue = '';
     let formattedMaxValue = '';
 
-    console.log('DEBUG:' + this.attribute.numDecimalPlaces);
-
     if (interval.minValue) {
       formattedMinValue =
         this.configAttributeNumericInputFieldService.formatIntervalValue(
