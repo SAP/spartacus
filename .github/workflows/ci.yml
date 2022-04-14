@@ -129,6 +129,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
+    if: needs.validate_e2e_execution.outputs.run_e2e == true
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -144,7 +145,6 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
-        if: needs.validate_e2e_execution.outputs.run_e2e == true
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
@@ -174,6 +174,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2]
+    if: needs.validate_e2e_execution.outputs.run_e2e == 'true'
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -216,7 +217,6 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
-        if: needs.validate_e2e_execution.outputs.run_e2e == 'true'
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
