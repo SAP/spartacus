@@ -24,13 +24,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Determine whether to run e2es
-        run: |         
-          source ci-scripts/validate-e2e-execution.sh
-          echo "::set-output run_e2e=$(echo $RUN_E2E)"
-      # - name: test from other step
-      #   run: |
-      #     echo ${{ steps.save-e2e-output-result.outputs.run_e2e }}
+      # - name: Determine whether to run e2es
+      #   run: |         
+      #     source ci-scripts/validate-e2e-execution.sh
+      #     echo "::set-output run_e2e=$(echo $RUN_E2E)"
+      # # - name: test from other step
+      # #   run: |
+      # #     echo ${{ steps.save-e2e-output-result.outputs.run_e2e }}
   no_retries: 
     name: Verify retries
     runs-on: ubuntu-latest
