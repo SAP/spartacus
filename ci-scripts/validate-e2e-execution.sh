@@ -10,6 +10,7 @@ for file in $FILES; do
 
     case "$file" in
     *.md | docs/** | tools/** | *.spec.ts )
+        echo ""
         ;;
     * )
         echo "here $file"
