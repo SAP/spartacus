@@ -97,7 +97,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
       },
     }
   }),
@@ -498,6 +498,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
             \\"scripts\\": []
@@ -567,6 +568,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
             \\"scripts\\": []
@@ -703,7 +705,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
       },
     }
   }),
@@ -968,7 +970,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
       },
     }
   }),
