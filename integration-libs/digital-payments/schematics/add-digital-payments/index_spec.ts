@@ -12,6 +12,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   cartBaseFeatureModulePath,
   checkoutFeatureModulePath,
+  checkoutWrapperModulePath,
   CLI_DIGITAL_PAYMENTS_FEATURE,
   digitalPaymentsFeatureModulePath,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
@@ -167,6 +168,9 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(digitalPaymentsFeatureModulePath);
         expect(module).toMatchSnapshot();
+
+        const wrapperModule = appTree.readContent(checkoutWrapperModulePath);
+        expect(wrapperModule).toMatchSnapshot();
       });
     });
 
@@ -184,6 +188,8 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(digitalPaymentsFeatureModulePath);
         expect(module).toMatchSnapshot();
+
+        expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
       });
     });
   });
