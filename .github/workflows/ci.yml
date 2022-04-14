@@ -151,7 +151,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
-    if: ${{ env.RUN_E2E != '' }}
+    if: env.RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -173,7 +173,7 @@ jobs:
     needs: no_retries
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
-    if: ${{ env.RUN_E2E != '' }}
+    if: env.RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -196,7 +196,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2]
-    if: ${{ env.RUN_E2E != '' }}
+    if: env.RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
