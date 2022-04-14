@@ -216,7 +216,7 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
-        if: env.RUN_E2E == 'true'
+        if: env.RUN_E2E == true
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
