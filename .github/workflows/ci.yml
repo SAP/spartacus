@@ -33,7 +33,7 @@ jobs:
           echo ' ref ${{ github.ref }}'
           echo ' sha ${{ github.sha }}'
           
-          ci-scripts/verify-pull-request.sh
+          ci-scripts/verify-pull-request.sh || true
 
           echo '1 $OUTPUT_CONCLUSION'
           echo '2 $OUTPUT_CONCLUSION_TEST'
