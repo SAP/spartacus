@@ -81,8 +81,11 @@ export function normalizeObject(obj: string): string {
   return obj.replace(EMPTY_SPACE_REG_EXP, '');
 }
 
-// TODO:#schematics - test
-// TODO:#schematics - comment
+/**
+ * Removes the config for the given property name.
+ * If the object is empty after removal, the object
+ * itself is removed.
+ */
 export function removeProperty(
   objectLiteral: ObjectLiteralExpression,
   propertyName: string
