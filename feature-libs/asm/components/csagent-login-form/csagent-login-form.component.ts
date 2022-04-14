@@ -4,14 +4,12 @@ import {
   Input,
   OnInit,
   Output,
-  ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'cx-csagent-login-form',
   templateUrl: './csagent-login-form.component.html',
-  encapsulation: ViewEncapsulation.None,
 })
 export class CSAgentLoginFormComponent implements OnInit {
   csAgentLoginForm: FormGroup;

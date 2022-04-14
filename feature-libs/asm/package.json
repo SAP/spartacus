@@ -11,11 +11,6 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/asm",
   "license": "Apache-2.0",
-  "exports": {
-    ".": {
-      "sass": "./_index.scss"
-    }
-  },
   "scripts": {
     "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
