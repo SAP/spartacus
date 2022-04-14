@@ -77,7 +77,7 @@ import { searchResultsTabbingOrder } from '../../helpers/accessibility/tabbing-o
 import { storeDetailsTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/store-details';
 import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-order/store-finder/stores-list';
 
-describe("Tabbing order - tests don't require user to be logged in", () => {
+describe.skip("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
