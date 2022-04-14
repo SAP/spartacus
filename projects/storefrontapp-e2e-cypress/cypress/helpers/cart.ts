@@ -233,6 +233,13 @@ export function registerDeleteCartItemRoute() {
   ).as('delete_cart_item');
 }
 
+export function registerAddProductToCart() {
+  cy.intercept(
+    'POST',
+    `${getOccUrlPrefix()}/users/*/carts/*/entries/*?lang=en&curr=USD`
+  ).as('add_to_cart');
+}
+
 export function registerSaveCartRoute() {
   cy.intercept(
     'PATCH',
