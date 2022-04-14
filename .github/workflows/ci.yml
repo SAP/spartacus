@@ -186,6 +186,33 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: test from other step
+        run: |
+          echo $RUN_E2E
+
+          if ${{ env.RUN_e2e == 'true'}}; then
+            echo "something"
+          else
+            echo "nope"
+          fi
+
+          if [ env.RUN_e2e == 'true' ]; then
+            echo "something2"
+          else
+            echo "nope2"
+          fi
+
+          if [ "$RUN_e2e" == 'true' ]; then
+            echo "something3"
+          else
+            echo "nope3"
+          fi
+
+          if [ "$RUN_e2e" = true ]; then
+            echo "something4"
+          else
+            echo "nope4"
+          fi
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
