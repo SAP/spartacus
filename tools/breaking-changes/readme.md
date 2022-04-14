@@ -17,7 +17,7 @@ In both ./src/old and ./src/new, run `yarn install` and `yarn build:libs`.
 
 
 - Extract the publiic API.
-Run `yarn extract-all` in this folder.  This will extract the public api in ./src/*/temp folder into many files. (one per entry point)
+Run `yarn extract-all` in the breaking change tool home folder (tools/breaking-changes/).  This will extract the public api in ./src/*/temp folder into many files. (one per entry point)
 
 - Parse the public API
 Run `yarn parse-all`.  This will parse the files in ./src/*/temp and produce a `./src/*/public-api.json` file containing all the public api.

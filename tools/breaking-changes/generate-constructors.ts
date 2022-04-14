@@ -6,7 +6,7 @@ import stringifyObject from 'stringify-object';
  * This script generated the constructor deprecation schematics entries.
  *
  * Input: A breaking changes file, likely `./data/breaking-changes.json`
- * Output: A file, `generate-const.out.ts`, that contains a ConstructorDeprecation[] array to paste over in the migration schematics code.
+ * Output: A file, `generate-constructors.out.ts`, that contains a ConstructorDeprecation[] array to paste over in the migration schematics code.
  *
  * Some use cases need a manual review/fixing after the generation.
  *
@@ -69,7 +69,7 @@ console.log(
   `Generated ${constructorSchematics.length} constructor schematics entries.`
 );
 fs.writeFileSync(
-  `generate-const.out.ts`,
+  `generate-constructors.out.ts`,
   stringifyObject(constructorSchematics)
 );
 
