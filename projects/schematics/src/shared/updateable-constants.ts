@@ -159,6 +159,9 @@ export const {
   featureSchematicConfigMapping,
 } = generateMappings();
 
+/**
+ * Generates mappings.
+ */
 export function generateMappings(): {
   libraryFeatureMapping: Map<string, string[]>;
   featureFeatureModuleMapping: Map<string, string[]>;
@@ -246,8 +249,10 @@ function populateConfigMapping(
   mapping.set(featureConfig.library.cli, featureConfig);
 }
 
-// TODO:#schematics - test?
-// TODO:#schematics - comment
+/**
+ * Based on the given value,
+ * it returns the key of the given object.
+ */
 export function getKeyByMappingValue(
   mapping: Map<string, string[]>,
   value: string
@@ -266,7 +271,6 @@ export function getKeyByMappingValue(
  * Based on the given value,
  * it returns the key of the given object.
  */
-// TODO:#schematics - test?
 export function getKeyByMappingValueOrThrow(
   mapping: Map<string, string[]>,
   value: string
@@ -280,8 +284,10 @@ export function getKeyByMappingValueOrThrow(
   throw new SchematicsException(`Value ${value} not found in the given map.`);
 }
 
-// TODO:#schematics - comment
-// TODO:#schematics - test
+/**
+ * Returns the schematics config
+ * for the given feature.
+ */
 export function getSchematicsConfigByFeatureOrThrow(
   feature: string
 ): FeatureConfig {

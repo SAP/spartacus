@@ -37,7 +37,9 @@ import {
 } from './libs-constants';
 import {
   generateMappings,
+  getKeyByMappingValue,
   getKeyByMappingValueOrThrow,
+  getSchematicsConfigByFeatureOrThrow,
 } from './updateable-constants';
 
 describe('generateMappings', () => {
@@ -55,6 +57,7 @@ describe('generateMappings', () => {
       expect(result.get(SPARTACUS_CDC)).toEqual([CLI_CDC_FEATURE]);
     });
   });
+
   describe('featureFeatureModuleMapping', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().featureFeatureModuleMapping;
@@ -74,6 +77,7 @@ describe('generateMappings', () => {
       expect(result.get(CLI_CDC_FEATURE)).toEqual([CDC_MODULE]);
     });
   });
+
   describe('featureRootModuleMapping', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().featureRootModuleMapping;
@@ -97,6 +101,7 @@ describe('generateMappings', () => {
       expect(result.get(CLI_DIGITAL_PAYMENTS_FEATURE)).toEqual([]);
     });
   });
+
   describe('featureSchematicConfigMapping', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().featureSchematicConfigMapping;
@@ -113,6 +118,7 @@ describe('generateMappings', () => {
       );
     });
   });
+
   describe('getKeyByMappingValueOrThrow', () => {
     it('should return the key', () => {
       const mapping: Map<string, string[]> = new Map();
@@ -128,6 +134,40 @@ describe('generateMappings', () => {
       } catch (e) {
         expect((e as any).message).toEqual(
           `Value 3 not found in the given map.`
+        );
+      }
+    });
+  });
+
+  describe('getKeyByMappingValue', () => {
+    it('should return the key', () => {
+      const mapping: Map<string, string[]> = new Map();
+      mapping.set('x', ['1', '2']);
+      const result = getKeyByMappingValue(mapping, '1');
+      expect(result).toEqual('x');
+    });
+    it('should return undefined if not found', () => {
+      const mapping: Map<string, string[]> = new Map();
+      mapping.set('x', ['1', '2']);
+      const result = getKeyByMappingValue(mapping, '3');
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('getSchematicsConfigByFeatureOrThrow', () => {
+    it('should return the config', () => {
+      const config = getSchematicsConfigByFeatureOrThrow(
+        CLI_CHECKOUT_BASE_FEATURE
+      );
+      expect(config).toBeTruthy();
+    });
+    it('should throw when not found', () => {
+      const feature = 'xxx';
+      try {
+        getSchematicsConfigByFeatureOrThrow(feature);
+      } catch (e) {
+        expect((e as any).message).toEqual(
+          `Config not found for the given feature '${feature}'`
         );
       }
     });
