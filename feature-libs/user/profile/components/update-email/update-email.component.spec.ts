@@ -8,7 +8,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  PasswordVisibilityModule,
+} from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
 import { UpdateEmailComponentService } from './update-email-component.service';
@@ -49,6 +52,7 @@ describe('UpdateEmailComponent', () => {
           FormErrorsModule,
           RouterTestingModule,
           UrlTestingModule,
+          PasswordVisibilityModule,
         ],
         declarations: [UpdateEmailComponent, MockCxSpinnerComponent],
         providers: [

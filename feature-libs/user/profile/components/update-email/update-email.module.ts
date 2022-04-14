@@ -13,7 +13,11 @@ import {
   RoutingService,
   UrlModule,
 } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  SpinnerModule,
+  PasswordVisibilityModule,
+} from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
@@ -28,6 +32,7 @@ import { UpdateEmailComponent } from './update-email.component';
     RouterModule,
     I18nModule,
     FormErrorsModule,
+    PasswordVisibilityModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
