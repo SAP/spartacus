@@ -17,42 +17,20 @@ concurrency:
 
 name: Spartacus build pipeline
 jobs:
-  test_job:
-    name: Verify pull_request files
+  validate_e2e_execution:
+    name: Validate pull_request files
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Determine whether to run e2es
-        run: |
-          echo 'base sha ${{ github.event.pull_request.base.sha }}'
-          echo 'base ref ${{ github.event.pull_request.base.ref }}'
-          echo 'head ref ${{ github.event.pull_request.head.ref }}'
-
-          echo ' ref ${{ github.ref }}'
-          echo ' sha ${{ github.sha }}'
-          
-          source ci-scripts/verify-pull-request.sh
-
-          echo "RUN_E2E=$(echo $OUTPUT_CONCLUSION)" >> $GITHUB_ENV
-
-          echo $RUN_E2E
+        run: |         
+          source ci-scripts/validate-e2e-execution.sh
+          echo "RUN_E2E=$(echo $RUN_E2E)" >> $GITHUB_ENV
       - name: test from other step
         run: |
           echo $RUN_E2E
-      - name: test pull from cache
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
-          key: nodemodules-${{ github.event.pull_request.base.sha }}
-          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
-      - name: Package installation
-        run: yarn --frozen-lockfile
   no_retries: 
     name: Verify retries
     runs-on: ubuntu-latest
@@ -64,7 +42,7 @@ jobs:
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
   unit_tests_core:
-    needs: no_retries
+    needs: [no_retries, validate_e2e_execution]
     name: Unit tests for core Spartacus libs
     runs-on: ubuntu-latest
     steps:
@@ -91,7 +69,7 @@ jobs:
         run: |
           ci-scripts/unit-tests-core-lib.sh
   unit_tests_libs:
-    needs: no_retries
+    needs: [no_retries, validate_e2e_execution]
     name: Unit tests for integration libs
     runs-on: ubuntu-latest
     steps:
@@ -118,7 +96,7 @@ jobs:
         run: |
           ci-scripts/unit-tests.sh
   linting:
-    needs: no_retries
+    needs: [no_retries, validate_e2e_execution]
     name: Validation checks
     runs-on: ubuntu-latest
     steps:
@@ -145,13 +123,12 @@ jobs:
         run: |
           ci-scripts/validate-lint.sh
   b2c_e2e_tests:
-    needs: no_retries
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for B2C
     runs-on: ubuntu-latest
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
-    if: env.RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -167,10 +144,11 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
+        if: env.RUN_E2E == 'true'
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
-    needs: no_retries
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
     steps:
@@ -186,11 +164,11 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
-        if: env.RUN_E2E != ''
+        if: env.RUN_E2E == 'true'
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
-    needs: no_retries
+    needs: [no_retries, validate_e2e_execution]
     name: E2E tests for B2B
     runs-on: ubuntu-latest
     strategy:
@@ -211,7 +189,7 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
-        if: env.RUN_E2E != ''
+        if: env.RUN_E2E == 'true'
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
