@@ -34,6 +34,21 @@ jobs:
           echo ' sha ${{ github.sha }}'
           
           ci-scripts/verify-pull-request.sh
+
+          echo '1 $OUTPUT_CONCLUSION'
+          echo '2 $OUTPUT_CONCLUSION_TEST'
+          echo '5 ${{ env.OUTPUT_CONCLUSION }}'
+          echo '6 ${{ env.OUTPUT_CONCLUSION_TEST}}'
+          echo '3 ${{ OUTPUT_CONCLUSION }}'
+          echo '4 ${{ OUTPUT_CONCLUSION_TEST}}'
+      - name: test from other step
+        run: |
+          echo '1 $OUTPUT_CONCLUSION'
+          echo '2 $OUTPUT_CONCLUSION_TEST'
+          echo '5 ${{ env.OUTPUT_CONCLUSION }}'
+          echo '6 ${{ env.OUTPUT_CONCLUSION_TEST}}'
+          echo '3 ${{ OUTPUT_CONCLUSION }}'
+          echo '4 ${{ OUTPUT_CONCLUSION_TEST}}'
       - name: test pull from cache
         id: cache-node-modules
         uses: actions/cache@v2
