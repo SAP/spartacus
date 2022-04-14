@@ -151,6 +151,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
+    if: env.RUN_E2E != ''
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -166,7 +167,6 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
-        if: env.RUN_E2E != ''
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
