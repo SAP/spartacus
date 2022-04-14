@@ -342,7 +342,9 @@ export function addProducts() {
   const prods = products.slice(0, 3);
   prods.forEach((product) => {
     cy.visit(`/product/${product.code}`);
+    registerAddProductToCart();
     clickAddToCart();
+    cy.wait('@add_to_cart');
     closeAddedToCartDialog();
   });
 }
@@ -371,7 +373,6 @@ export function addProductAsAnonymous() {
     });
 
   checkAddedToCartDialog();
-  closeAddedToCartDialog();
 }
 
 export function getClearCartDialog() {

@@ -5,14 +5,18 @@ import * as sampleData from '../../../sample-data/saved-cart';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 context('Saved Cart', () => {
-  // viewportContext(['mobile', 'desktop'], () => {
-  viewportContext(['desktop'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       clearAllStorage();
     });
 
     describe('Accessibility - keyboarding', () => {
       describe('Cart page', () => {
+        before(() => {
+          cart.loginRegisteredUser();
+          savedCart.waitForCartPageData(sampleData.products[2]);
+          savedCart.visitCartPage();
+        });
         it('should conform to tabbing order', () => {
           savedCart.verifyCartPageTabbingOrder();
         });
@@ -54,136 +58,137 @@ context('Saved Cart', () => {
       });
     });
 
-    // describe('Restricted pages to anonymous user', () => {
-    //   afterEach(() => {
-    //     cy.location('pathname').should('contain', '/login');
-    //   });
+    describe('Restricted pages to anonymous user', () => {
+      afterEach(() => {
+        cy.location('pathname').should('contain', '/login');
+      });
 
-    //   it('should redirect to login page when trying to visit the saved cart "listing" page through url', () => {
-    //     cy.visit(`/my-account/saved-carts`);
-    //   });
+      it('should redirect to login page when trying to visit the saved cart "listing" page through url', () => {
+        cy.visit(`/my-account/saved-carts`);
+      });
 
-    //   it('should redirect to login page when trying to visit the saved cart "details" page through url', () => {
-    //     cy.visit(`/my-account/saved-cart/${sampleData.MOCK_ACTIVE_CART_CODE}`);
-    //   });
-    // });
+      it('should redirect to login page when trying to visit the saved cart "details" page through url', () => {
+        cy.visit(`/my-account/saved-cart/${sampleData.MOCK_ACTIVE_CART_CODE}`);
+      });
+    });
 
-    // describe('Cart page', () => {
-    //   describe('Anonymous user', () => {
-    //     beforeEach(() => {
-    //       clearAllStorage();
-    //       savedCart.addProductToCart(sampleData.products[2], 2);
-    //     });
+    describe('Cart page', () => {
+      describe('Anonymous user', () => {
+        beforeEach(() => {
+          clearAllStorage();
+          savedCart.addProductToCart(sampleData.products[2], 2);
+        });
 
-    //     afterEach(() => {
-    //       cy.location('pathname').should('contain', '/login');
-    //     });
+        afterEach(() => {
+          cy.wait(2000);
+          cy.location('pathname').should('contain', '/login');
+        });
 
-    //     it('should redirect to login page when clicking "Saved Cart"', () => {
-    //       savedCart.clickSavedCartButtonsFromCartPage(0);
-    //     });
+        it('should redirect to login page when clicking "Saved Cart"', () => {
+          savedCart.clickSavedCartButtonsFromCartPage(0);
+        });
 
-    //     it('should redirect to login page when clicking "Save Cart For Later"', () => {
-    //       savedCart.clickSavedCartButtonsFromCartPage(1);
-    //     });
-    //   });
+        it('should redirect to login page when clicking "Save Cart For Later"', () => {
+          savedCart.clickSavedCartButtonsFromCartPage(1);
+        });
+      });
 
-    //   describe('Logged in user', () => {
-    //     beforeEach(() => {
-    //       clearAllStorage();
-    //       cart.loginRegisteredUser();
-    //       savedCart.waitForCartPageData(sampleData.products[2]);
-    //       savedCart.visitCartPage();
-    //     });
+      describe('Logged in user', () => {
+        beforeEach(() => {
+          clearAllStorage();
+          cart.loginRegisteredUser();
+          savedCart.waitForCartPageData(sampleData.products[2]);
+          savedCart.visitCartPage();
+        });
 
-    //     it('should be able to visit the saved cart listing page', () => {
-    //       savedCart.clickSavedCartButtonsFromCartPage(0);
-    //       cy.location('pathname').should('contain', '/my-account/saved-carts');
-    //     });
+        it('should be able to visit the saved cart listing page', () => {
+          savedCart.clickSavedCartButtonsFromCartPage(0);
+          cy.location('pathname').should('contain', '/my-account/saved-carts');
+        });
 
-    //     it('should be able to save the active cart and view it in the listing page', () => {
-    //       savedCart.saveActiveCart();
-    //     });
-    //   });
-    // });
+        it('should be able to save the active cart and view it in the listing page', () => {
+          savedCart.saveActiveCart();
+        });
+      });
+    });
 
-    // describe('Saved Cart Listing Page', () => {
-    //   beforeEach(() => {
-    //     clearAllStorage();
-    //     cart.loginRegisteredUser();
-    //   });
+    describe('Saved Cart Listing Page', () => {
+      beforeEach(() => {
+        clearAllStorage();
+        cart.loginRegisteredUser();
+      });
 
-    //   it('should make cart active and not swap cart when active cart is empty', () => {
-    //     savedCart.restoreCart(
-    //       sampleData.products[2],
-    //       sampleData.savedActiveCartForm[2],
-    //       true
-    //     );
-    //   });
+      it('should make cart active and not swap cart when active cart is empty', () => {
+        savedCart.restoreCart(
+          sampleData.products[2],
+          sampleData.savedActiveCartForm[2],
+          true
+        );
+      });
 
-    //   it('should make cart active and not swap cart when active cart is empty, and clone saved cart with new cart name', () => {
-    //     savedCart.restoreCart(
-    //       sampleData.products[2],
-    //       sampleData.savedActiveCartForm[2],
-    //       true,
-    //       { isCloneCartActive: true, cloneName: 'newClonedName' }
-    //     );
-    //   });
+      it('should make cart active and not swap cart when active cart is empty, and clone saved cart with new cart name', () => {
+        savedCart.restoreCart(
+          sampleData.products[2],
+          sampleData.savedActiveCartForm[2],
+          true,
+          { isCloneCartActive: true, cloneName: 'newClonedName' }
+        );
+      });
 
-    //   it('should make cart active and swap cart when active cart has entries', () => {
-    //     savedCart.waitForCartPageData(sampleData.products[2]);
-    //     savedCart.visitCartPage();
+      it('should make cart active and swap cart when active cart has entries', () => {
+        savedCart.waitForCartPageData(sampleData.products[2]);
+        savedCart.visitCartPage();
 
-    //     savedCart.verifyCartDetails(sampleData.savedCarts.carts[0]);
+        savedCart.verifyCartDetails(sampleData.savedCarts.carts[0]);
 
-    //     savedCart.restoreCart(
-    //       sampleData.products[2],
-    //       sampleData.savedActiveCartForm[2]
-    //     );
-    //   });
+        savedCart.restoreCart(
+          sampleData.products[2],
+          sampleData.savedActiveCartForm[2]
+        );
+      });
 
-    //   it('should make cart active and swap cart when active cart has entries, and clone saved cart', () => {
-    //     savedCart.waitForCartPageData(sampleData.products[2]);
-    //     savedCart.visitCartPage();
+      it('should make cart active and swap cart when active cart has entries, and clone saved cart', () => {
+        savedCart.waitForCartPageData(sampleData.products[2]);
+        savedCart.visitCartPage();
 
-    //     savedCart.verifyCartDetails(sampleData.savedCarts.carts[0]);
+        savedCart.verifyCartDetails(sampleData.savedCarts.carts[0]);
 
-    //     savedCart.restoreCart(
-    //       sampleData.products[2],
-    //       sampleData.savedActiveCartForm[2],
-    //       false,
-    //       { isCloneCartActive: true }
-    //     );
-    //   });
-    // });
+        savedCart.restoreCart(
+          sampleData.products[2],
+          sampleData.savedActiveCartForm[2],
+          false,
+          { isCloneCartActive: true }
+        );
+      });
+    });
 
-    // describe('Saved Cart Details Page', () => {
-    //   beforeEach(() => {
-    //     clearAllStorage();
-    //     cart.loginRegisteredUser();
-    //   });
+    describe('Saved Cart Details Page', () => {
+      beforeEach(() => {
+        clearAllStorage();
+        cart.loginRegisteredUser();
+      });
 
-    //   it('should update saved cart name and description, and delete it from the modal', () => {
-    //     savedCart.updateSavedCartAndDelete(
-    //       sampleData.products[2],
-    //       sampleData.savedActiveCartForm[3]
-    //     );
-    //   });
+      it('should update saved cart name and description, and delete it from the modal', () => {
+        savedCart.updateSavedCartAndDelete(
+          sampleData.products[2],
+          sampleData.savedActiveCartForm[3]
+        );
+      });
 
-    //   it('should update saved cart name and description, and delete it from 0 entries', () => {
-    //     savedCart.updateSavedCartAndDelete(
-    //       sampleData.products[2],
-    //       sampleData.savedActiveCartForm[0],
-    //       true
-    //     );
-    //   });
+      it('should update saved cart name and description, and delete it from 0 entries', () => {
+        savedCart.updateSavedCartAndDelete(
+          sampleData.products[2],
+          sampleData.savedActiveCartForm[0],
+          true
+        );
+      });
 
-    //   it('should update saved cart name and description, and restore it', () => {
-    //     savedCart.updateSavedCartAndRestore(
-    //       sampleData.products[2],
-    //       sampleData.savedActiveCartForm[0]
-    //     );
-    //   });
-    // });
+      it('should update saved cart name and description, and restore it', () => {
+        savedCart.updateSavedCartAndRestore(
+          sampleData.products[2],
+          sampleData.savedActiveCartForm[0]
+        );
+      });
+    });
   });
 });

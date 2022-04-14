@@ -232,22 +232,47 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   cart: [
     {
+      value: 'Saved Carts',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Save Cart For Later',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Save For Later', type: TabbingOrderTypes.LINK },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
-    {
-      value: 'Proceed to Checkout',
-      type: TabbingOrderTypes.BUTTON,
-    },
+    { value: 'Clear Cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
     {
       value: 'couponCode',
       type: TabbingOrderTypes.FORM_FIELD,
     },
     {
       value: 'Apply',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'productCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    {
+      value: 'Add',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
@@ -287,7 +312,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
 
     {
-      value: '$35.00',
+      value: '$3.45',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -301,11 +326,11 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CX_ICON,
     },
     {
-      value: 'Cordless screwdriver 2436',
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.CX_MEDIA,
     },
     {
-      value: 'Cordless screwdriver 2436',
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },

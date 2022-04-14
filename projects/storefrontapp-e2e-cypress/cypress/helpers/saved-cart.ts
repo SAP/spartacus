@@ -15,8 +15,6 @@ export const DELETE_CART_ENDPOINT_ALIAS = 'deleteCart';
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 
 export function verifyCartPageTabbingOrder() {
-  addProductToCart(sampleData.products[2], 1);
-
   cy.get(
     'cx-cart-item-list cx-item-counter input[type=number]:not([disabled])'
   ); // wait until counter is accessible
@@ -66,19 +64,14 @@ export function interceptSaveCartEndpoint(cartCode: string) {
   return SAVE_CART_ENDPOINT_ALIAS;
 }
 
-export function interceptAnonymousAddToCartEndpoint() {
+export function interceptAddToCartEndpoint() {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/anonymous/carts/*/entries?`
+    )}/users/*/carts/*/entries*`
   ).as(ADD_TO_CART_ENDPOINT_ALIAS);
-  console.log(
-    '****',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/anonymous/carts/*/entries?`
-  );
+
   return ADD_TO_CART_ENDPOINT_ALIAS;
 }
 
@@ -181,7 +174,7 @@ export function loginUser() {
 
 export function addProductToCart(product: SampleProduct, quantity: number) {
   const alias = waitForProductPage(product.code, 'getProductPage');
-  const addToCartAlias = interceptAnonymousAddToCartEndpoint();
+  const alias2 = interceptAddToCartEndpoint();
 
   cy.visit(`/product/${product.code}`);
 
@@ -191,7 +184,7 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
 
   cart.clickAddToCart();
 
-  cy.wait(`@${addToCartAlias}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${alias2}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
