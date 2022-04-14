@@ -27,7 +27,7 @@
     "
     (mousedown)="filter = ''"
     (keydown.enter)="filter = ''"
-    [hidden]="filter.length == 0"
+    [hidden]="filter.length === 0"
     class="reset"
     tabindex="0"
   ></cx-icon>

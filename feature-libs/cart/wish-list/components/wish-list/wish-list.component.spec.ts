@@ -18,7 +18,7 @@ class MockWishListService {
 }
 
 @Component({
-  selector: 'cx-wish-list-item',
+  selector: '[cx-wish-list-item], cx-wish-list-item',
   template: '',
 })
 class MockWishListItemComponent {

@@ -21,7 +21,8 @@ import { getSourceRoot } from '../../../shared/utils/workspace-utils';
 export function migrateComponentMigration(
   tree: Tree,
   context: SchematicContext,
-  componentData: ComponentData[]
+  componentData: ComponentData[],
+  angularCompiler: typeof import('@angular/compiler')
 ): Tree {
   context.logger.info('Checking component selectors...');
 
@@ -90,7 +91,11 @@ export function migrateComponentMigration(
             }
             const content = buffer.toString(UTF_8);
 
-            const contentChange = insertHtmlComment(content, removedProperty);
+            const contentChange = insertHtmlComment(
+              content,
+              removedProperty,
+              angularCompiler
+            );
             if (contentChange) {
               tree.overwrite(htmlFilePath, contentChange);
             }
@@ -98,7 +103,8 @@ export function migrateComponentMigration(
             const oldContent = templateInfo.inlineTemplateContent;
             const contentChange = insertHtmlComment(
               oldContent,
-              removedProperty
+              removedProperty,
+              angularCompiler
             );
             if (contentChange) {
               const replaceChange = new ReplaceChange(

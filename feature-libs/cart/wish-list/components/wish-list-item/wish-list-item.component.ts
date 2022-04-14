@@ -14,7 +14,7 @@ import {
 } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-wish-list-item',
+  selector: '[cx-wish-list-item], cx-wish-list-item',
   templateUrl: './wish-list-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [

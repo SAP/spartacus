@@ -1198,8 +1198,8 @@ export class VisualViewerService implements OnDestroy {
       }
     }
     this.contentChangesFinished.emit({
-      content: content,
-      failureReason: failureReason,
+      content,
+      failureReason,
     });
   }
 
@@ -1377,7 +1377,7 @@ export class VisualViewerService implements OnDestroy {
               visualizationLoadInfo = {
                 lookupResult: VisualizationLookupResult.NoMatchFound,
                 loadStatus: VisualizationLoadStatus.NotStarted,
-                matches: matches,
+                matches,
               };
               break;
             case 1:
@@ -1387,7 +1387,7 @@ export class VisualViewerService implements OnDestroy {
               visualizationLoadInfo = {
                 lookupResult: VisualizationLookupResult.UniqueMatchFound,
                 loadStatus: VisualizationLoadStatus.NotStarted,
-                matches: matches,
+                matches,
                 visualization: matchingVisualization,
               };
               break;
@@ -1395,7 +1395,7 @@ export class VisualViewerService implements OnDestroy {
               visualizationLoadInfo = {
                 lookupResult: VisualizationLookupResult.MultipleMatchesFound,
                 loadStatus: VisualizationLoadStatus.NotStarted,
-                matches: matches,
+                matches,
               };
               break;
           }
@@ -1541,8 +1541,8 @@ export class VisualViewerService implements OnDestroy {
                 ? {
                     sceneLoadState: SceneLoadState.Loaded,
                     loadedSceneInfo: {
-                      sceneId: sceneId,
-                      contentType: contentType,
+                      sceneId,
+                      contentType,
                     },
                   }
                 : {

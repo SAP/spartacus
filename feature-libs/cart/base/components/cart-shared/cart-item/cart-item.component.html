@@ -1,5 +1,6 @@
 <!-- Item Start Outlet -->
 <ng-template [cxOutlet]="CartOutlets.ITEM">
+  <ng-template [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES"></ng-template>
   <ng-container *cxFeatureLevel="'4.2'">
     <cx-cart-item-validation-warning
       [code]="item.product?.code"

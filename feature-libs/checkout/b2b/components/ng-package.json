@@ -1,14 +1,6 @@
 {
   "$schema": "../../../../node_modules/ng-packagr/ng-package.schema.json",
   "lib": {
-    "entryFile": "./public_api.ts",
-    "umdModuleIds": {
-      "@spartacus/core": "core",
-      "@spartacus/user/account/root": "userAccount",
-      "@spartacus/storefront": "storefront",
-      "@spartacus/cart/base/components": "cartComponents",
-      "@spartacus/cart/base/root": "cartRoot",
-      "@spartacus/cart/base/core": "cartCore"
-    }
+    "entryFile": "./public_api.ts"
   }
 }

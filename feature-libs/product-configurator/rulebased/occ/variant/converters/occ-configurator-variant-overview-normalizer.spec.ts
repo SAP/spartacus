@@ -214,10 +214,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
       occConfiguratorVariantOverviewNormalizer.convertGroup(groupWithSubgroups);
     const rootGroup = result[0];
     expect(rootGroup).toBeDefined();
-    const subGroups = rootGroup.subGroups;
-    if (subGroups) {
-      expect(subGroups.length).toBe(3);
-      const secondLevelGroupInResult = subGroups[2];
+    const rootSubGroups = rootGroup.subGroups;
+    if (rootSubGroups) {
+      expect(rootSubGroups.length).toBe(3);
+      const secondLevelGroupInResult = rootSubGroups[2];
       expect(secondLevelGroupInResult.subGroups?.length).toBe(1);
     } else {
       fail();

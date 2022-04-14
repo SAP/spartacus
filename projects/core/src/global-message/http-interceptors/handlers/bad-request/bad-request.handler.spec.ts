@@ -5,7 +5,13 @@ import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { BadRequestHandler } from './bad-request.handler';
 
-const MockRequest = {} as HttpRequest<any>;
+const MockRequest = {
+  url: 'https://electronics-spa/occ/user/password',
+} as HttpRequest<any>;
+
+const MockRequestEmailChange = {
+  url: 'https://electronics-spa/occ/user/email',
+} as HttpRequest<any>;
 
 const MockRandomResponse = {} as HttpErrorResponse;
 
@@ -137,6 +143,14 @@ describe('BadRequestHandler', () => {
     service.handleError(MockRequest, MockBadLoginResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should handle non matching password response for email update', () => {
+    service.handleError(MockRequestEmailChange, MockBadLoginResponse);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'httpHandlers.validationErrors.invalid.password' },
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });
