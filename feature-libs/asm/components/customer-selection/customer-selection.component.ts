@@ -11,8 +11,10 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
 import { User } from '@spartacus/core';
+import { ICON_TYPE, ModalRef, ModalService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { CustomerListComponent } from '../customer-list/customer-list.component';
 
 @Component({
   selector: 'cx-customer-selection',
@@ -30,16 +32,23 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   searchResults: Observable<CustomerSearchPage>;
   selectedCustomer: User | undefined;
 
+  hakwooTest = 'test hakwoo';
+
+  iconTypes = ICON_TYPE;
+
   @Output()
   submitEvent = new EventEmitter<{ customerId?: string }>();
 
   @ViewChild('resultList') resultList: ElementRef;
   @ViewChild('searchTerm') searchTerm: ElementRef;
 
+  protected modalRef: ModalRef;
+
   constructor(
     protected fb: FormBuilder,
     protected asmService: AsmService,
-    protected config: AsmConfig
+    protected config: AsmConfig,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +86,21 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
         pageSize: this.config.asm?.customerSearch?.maxResults,
       });
     }
+  }
+
+  showCustomList(): void {
+    // this.asmService.getCustomerLists();
+
+    this.modalRef = this.modalService.open(CustomerListComponent, {
+      centered: true,
+      size: 'lg',
+    });
+    // const modalInstance = this.modalRef.componentInstance;
+    // modalInstance.init(
+    //   event.productCode,
+    //   event.quantity,
+    //   event.numberOfEntriesBeforeAdd
+    // );
   }
 
   selectCustomerFromList(customer: User) {

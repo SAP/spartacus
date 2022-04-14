@@ -12,7 +12,13 @@ cx-customer-selection {
     label {
       margin: 0 0 15px;
       min-width: auto;
-
+      .input-contaier {
+        display: flex;
+        .icon-button {
+          width: 36px;
+          width: 36px;
+        }
+      }
       @media (min-width: 575px) {
         margin-inline-end: 15px;
         min-width: 20rem;

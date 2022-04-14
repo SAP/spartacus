@@ -46,6 +46,7 @@
       <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
     </ng-container>
     <ng-template #showCustomerSelection>
+      <!-- <button (click)="showCustomList()">Custom List</button> -->
       <cx-customer-selection
         *ngIf="notCollapsed"
         (submitEvent)="startCustomerEmulationSession($event)"

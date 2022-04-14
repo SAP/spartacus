@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
-import { CustomerSearchPage } from '../../models/asm.models';
+import { CustomerListsPage, CustomerSearchPage } from '../../models/asm.models';
 import { AsmState, StateWithAsm } from '../asm-state';
 import { getAsmState } from './feature.selector';
 
@@ -11,6 +11,11 @@ export const getCustomerSearchResultsLoaderState: MemoizedSelector<
   getAsmState,
   (state: AsmState) => state.customerSearchResult
 );
+
+export const getCustomerListResult: MemoizedSelector<
+  StateWithAsm,
+  StateUtils.LoaderState<CustomerListsPage>
+> = createSelector(getAsmState, (state: AsmState) => state.customerLists);
 
 export const getCustomerSearchResults: MemoizedSelector<
   StateWithAsm,

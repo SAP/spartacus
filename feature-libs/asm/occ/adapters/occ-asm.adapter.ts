@@ -3,8 +3,10 @@ import { Injectable } from '@angular/core';
 import {
   AsmAdapter,
   AsmConfig,
+  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
+  CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
 import {
@@ -30,6 +32,31 @@ export class OccAsmAdapter implements AsmAdapter {
     this.baseSiteService
       .getActive()
       .subscribe((value) => (this.activeBaseSite = value));
+  }
+
+  customerLists(): Observable<CustomerListsPage> {
+    const headers = InterceptorUtil.createHeader(
+      USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+      true,
+      new HttpHeaders()
+    );
+    const params: HttpParams = new HttpParams().set(
+      'baseSite',
+      this.activeBaseSite
+    );
+
+    const url = this.occEndpointsService.buildUrl(
+      'asmCustomerLists',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
+    );
+
+    return this.http
+      .get<CustomerListsPage>(url, { headers, params })
+      .pipe(this.converterService.pipeable(CUSTOMER_LISTS_NORMALIZER));
   }
 
   customerSearch(
