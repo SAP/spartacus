@@ -15,7 +15,6 @@ for file in $FILES; do
     *.md | docs/** | tools/** | *.spec.ts )
         OUTPUT_CONCLUSION='something'
         OUTPUT_CONCLUSION_TEST='something-test'
-        exit 1
         ;;
     * )
         #  set github actions for output to skip e2es. output will be used in the job with if outputs.skipe2e is true
