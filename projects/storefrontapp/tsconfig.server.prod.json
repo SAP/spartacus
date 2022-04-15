@@ -187,6 +187,21 @@
       "@spartacus/product/variants": ["../../dist/product/variants"],
       "@spartacus/product/variants/occ": ["../../dist/product/variants/occ"],
       "@spartacus/product/variants/root": ["../../dist/product/variants/root"],
+      "@spartacus/product/future-stock/assets": [
+        "../../dist/product/future-stock/assets"
+      ],
+      "@spartacus/product/future-stock/components": [
+        "../../dist/product/future-stock/components"
+      ],
+      "@spartacus/product/future-stock/core": [
+        "../../dist/product/future-stock/core"
+      ],
+      "@spartacus/product/future-stock": [
+        "../../dist/product/future-stock"
+      ],
+      "@spartacus/product/future-stock/root": [
+        "../../dist/product/future-stock/root"
+      ],
       "@spartacus/qualtrics/components": ["../../dist/qualtrics/components"],
       "@spartacus/qualtrics": ["../../dist/qualtrics"],
       "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
