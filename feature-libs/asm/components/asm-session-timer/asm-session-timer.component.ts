@@ -1,9 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/core';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
