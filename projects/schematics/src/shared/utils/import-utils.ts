@@ -11,16 +11,18 @@ import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
 import { getSpartacusProviders } from './config-utils';
 import { Import } from './new-module-utils';
 
-// TODO:#test
-// TODO:#comment
+/**
+ * Checks if the provided import is a Spartacus library.
+ */
 export function isImportedFromSpartacusLibs(
   node: Identifier | string
 ): boolean {
   return isImportedFrom(node, SPARTACUS_SCOPE);
 }
 
-// TODO:#test
-// TODO:#comment
+/**
+ * Checks if the provided imports is a core Spartacus library.
+ */
 export function isImportedFromSpartacusCoreLib(
   node: Identifier | string
 ): boolean {
@@ -94,10 +96,9 @@ export function collectDynamicImports(source: SourceFile): ArrowFunction[] {
 }
 
 /**
- * Returns the import path of the dynamic import (if any).
- * E.g. for the given `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)` it returns TODO:#schematics - finish
+ * Returns the call expression of the dynamic import (if any).
+ * E.g. for the given `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)` it returns `import('@spartacus/cart/base')`
  */
-//  TODO:#schematics - test
 export function getDynamicImportCallExpression(
   arrowFunction: ArrowFunction
 ): CallExpression | undefined {
@@ -107,20 +108,8 @@ export function getDynamicImportCallExpression(
 }
 
 /**
- * Returns the import module of the dynamic import (if any).
- * E.g. for the given `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)` it returns TODO:#schematics - finish
+ * Returns the import path, e.g. @spartacus/cart/base
  */
-//  TODO:#schematics - test
-export function getDynamicImportPropertyAccess(
-  arrowFunction: ArrowFunction
-): PropertyAccessExpression | undefined {
-  return arrowFunction
-    .getFirstDescendantByKind(tsMorph.SyntaxKind.ArrowFunction)
-    ?.getFirstDescendantByKind(tsMorph.SyntaxKind.PropertyAccessExpression);
-}
-
-//  TODO:#schematics - test
-//  TODO:#schematics - comment
 export function getDynamicImportImportPath(
   arrowFunction: ArrowFunction
 ): string | undefined {
@@ -129,8 +118,21 @@ export function getDynamicImportImportPath(
     ?.getLiteralValue();
 }
 
-// TODO:#schematics - test
-// TODO:#schematics - comment
+/**
+ * Returns the import module of the dynamic import (if any).
+ * E.g. for the given `() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)` it returns `m.CartBaseModule`
+ */
+export function getDynamicImportPropertyAccess(
+  arrowFunction: ArrowFunction
+): PropertyAccessExpression | undefined {
+  return arrowFunction
+    .getFirstDescendantByKind(tsMorph.SyntaxKind.ArrowFunction)
+    ?.getFirstDescendantByKind(tsMorph.SyntaxKind.PropertyAccessExpression);
+}
+
+/**
+ * Creates the import statement in the given source file.
+ */
 export function createImports(
   sourceFile: SourceFile,
   imports: Import | Import[]
@@ -153,13 +155,12 @@ export function createImports(
  * it finds the match, it continues to check if
  * the named imports is contained in the given config.
  */
-// TODO:#schematics - test
-export function findImport(
-  featureModule: SourceFile,
+export function importExists(
+  sourceFile: SourceFile,
   importPathToFind: string,
   moduleNameToFind: string
 ): boolean {
-  const importDeclarations = featureModule.getImportDeclarations();
+  const importDeclarations = sourceFile.getImportDeclarations();
   for (const importDeclaration of importDeclarations) {
     const importPath = importDeclaration.getModuleSpecifierValue();
     if (importPathToFind === importPath) {
@@ -176,8 +177,9 @@ export function findImport(
   return false;
 }
 
-// TODO:#schematics - test
-// TODO:#schematics - comment
+/**
+ * Returns true if the given path is relative
+ */
 export function isRelative(path: string): boolean {
   return path.startsWith('./') || path.startsWith('../');
 }

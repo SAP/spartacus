@@ -33,10 +33,10 @@ import {
 import { crossFeatureInstallationOrder } from './graph-utils';
 import {
   collectDynamicImports,
-  findImport,
   getDynamicImportImportPath,
   getDynamicImportPropertyAccess,
   getImportDeclaration,
+  importExists,
   isImportedFrom,
   isImportedFromSpartacusCoreLib,
   isImportedFromSpartacusLibs,
@@ -435,7 +435,7 @@ export function isWrapperModule(
     return false;
   }
 
-  return findImport(sourceFile, moduleConfig.importPath, moduleConfig.name);
+  return importExists(sourceFile, moduleConfig.importPath, moduleConfig.name);
 }
 
 // TODO:#schematics - test
