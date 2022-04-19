@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   registrationTranslationChunksConfig,
-  registratioTranslations,
+  registrationTranslations,
 } from '@spartacus/organization/registration/assets';
 import {
   RegistrationRootModule,
@@ -24,7 +24,7 @@ import {
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: registratioTranslations,
+        resources: registrationTranslations,
         chunks: registrationTranslationChunksConfig,
       },
     }),

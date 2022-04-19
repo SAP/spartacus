@@ -116,6 +116,15 @@
       "@spartacus/organization/order-approval/root": [
         "dist/organization/order-approval/root"
       ],
+      "@spartacus/organization/registration/assets": [
+        "dist/organization/registration/assets/public_api"
+      ],
+      "@spartacus/organization/registration": [
+        "dist/organization/registration/public_api"
+      ],
+      "@spartacus/organization/registration/root": [
+        "dist/organization/registration/root/public_api"
+      ],
       "@spartacus/product-configurator/common/assets": [
         "dist/product-configurator/common/assets"
       ],

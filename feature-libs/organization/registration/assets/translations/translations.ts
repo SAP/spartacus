@@ -6,6 +6,6 @@ export const registrationTranslations: TranslationResources = {
 };
 
 // expose all translation chunk mapping for B2B registration feature
-export const registrationChunksConfig: TranslationChunksConfig = {
+export const registrationTranslationsChunksConfig: TranslationChunksConfig = {
   registration: ['registrationForm'],
 };

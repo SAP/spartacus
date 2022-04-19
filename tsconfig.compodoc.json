@@ -184,6 +184,15 @@
       "@spartacus/organization/order-approval/root": [
         "feature-libs/organization/order-approval/root/public_api"
       ],
+      "@spartacus/organization/registration/assets": [
+        "feature-libs/organization/registration/assets/public_api"
+      ],
+      "@spartacus/organization/registration": [
+        "feature-libs/organization/registration/public_api"
+      ],
+      "@spartacus/organization/registration/root": [
+        "feature-libs/organization/registration/root/public_api"
+      ],
       "@spartacus/product-configurator/common/assets": [
         "feature-libs/product-configurator/common/assets/public_api"
       ],
