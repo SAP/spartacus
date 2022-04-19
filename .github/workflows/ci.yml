@@ -20,7 +20,8 @@ jobs:
   validate_e2e_execution:
     name: Validate pull_request files
     runs-on: ubuntu-latest
-    outputs: ${{ steps.save-e2e-output-result.outputs.OUTPUTS_RUN_E2E }}
+    outputs: 
+      OUTPUTS_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.OUTPUTS_RUN_E2E }}
     steps:
       - uses: actions/checkout@v2
         with:
