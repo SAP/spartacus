@@ -44,7 +44,6 @@ jobs:
       - name: test from other job
         run: |
           echo ${{ toJson(needs.validate_e2e_execution) }}
-          echo ${{ toJson(needs.validate_e2e_execution.outputs) }}
           echo ${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E }}
           echo "test"
           echo "$TEST_RUN_E2E"
