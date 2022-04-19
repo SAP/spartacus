@@ -38,7 +38,7 @@ class MockUpdatePasswordService
   resetForm = createSpy().and.stub();
 }
 
-fdescribe('UpdatePasswordComponent', () => {
+describe('UpdatePasswordComponent', () => {
   let component: UpdatePasswordComponent;
   let fixture: ComponentFixture<UpdatePasswordComponent>;
   let el: DebugElement;
