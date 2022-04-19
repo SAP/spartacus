@@ -28,11 +28,11 @@ jobs:
         id: save-e2e-output-result
         run: |         
           source ci-scripts/validate-e2e-execution.sh
-          echo "::set-output name=run_e2e=$(echo $RUN_E2E)"
+          echo "::set-output name=run_e2e::$(echo $RUN_E2E)"
           echo "TEST_RUN_E2E=$(echo $RUN_E2E)" >> $GITHUB_ENV
       - name: test from other step
         run: |
-          echo ${{ steps.save-e2e-output-result.outputs.run_e2e }}
+          echo "${{ steps.save-e2e-output-result.outputs.run_e2e }}"
           echo "test"
           echo "$TEST_RUN_E2E"
           echo "{{ env.TEST_RUN_E2E }}"
@@ -43,8 +43,8 @@ jobs:
     steps:
       - name: test from other job
         run: |
-          echo ${{ needs.validate_e2e_execution }}
-          echo ${{ needs.validate_e2e_execution.outputs }}
+          echo "${{ toJson(needs.validate_e2e_execution) }}"
+          echo ${{ toJson(needs.validate_e2e_execution.outputs) }}
           echo ${{ needs.validate_e2e_execution.outputs.run_e2e }}
           echo "test"
           echo "$TEST_RUN_E2E"
