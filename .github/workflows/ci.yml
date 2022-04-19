@@ -55,7 +55,7 @@ jobs:
           echo "test"
           echo "$TEST_RUN_E2E"
           echo "${{ env.TEST_RUN_E2E }}"
-        if: ${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'false' }}
+        if: ${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
       - name: Forcefully fail build if retried
         uses: actions/github-script@v5
         with:
