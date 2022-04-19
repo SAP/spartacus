@@ -252,9 +252,6 @@ export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
   const elements =
     getModulePropertyInitializer(sourceFile, 'imports', false)?.getElements() ??
     [];
-  if (!elements.length) {
-    return { unrecognized: sourceFile.getFilePath() };
-  }
 
   const core: Expression[] = [];
   const features: { element: Expression; feature: string }[] = [];
