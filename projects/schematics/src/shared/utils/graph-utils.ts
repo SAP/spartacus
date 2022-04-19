@@ -67,7 +67,6 @@ function getLastLibraryIndex(
   library: string
 ): number | undefined {
   let lastIndex: number | undefined;
-  // TODO:#schematics - optimize somehow?
   for (const [index, aux] of Array.from(auxOrder.entries())) {
     if (aux.library === library) {
       lastIndex = index;
