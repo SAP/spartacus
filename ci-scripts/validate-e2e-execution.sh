@@ -15,7 +15,7 @@ for file in $FILES; do
     * )
         echo "here $file"
         # if anything other than `*.md | docs/** | tools/** | *.spec.ts` are found, then we need to run e2es
-        RUN_E2E=false
+        RUN_E2E=true
         ;;
     esac
 done

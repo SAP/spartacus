@@ -20,6 +20,7 @@ jobs:
   validate_e2e_execution:
     name: Validate pull_request files
     runs-on: ubuntu-latest
+    outputs: ${{ steps.save-e2e-output-result.outputs.OUTPUTS_RUN_E2E }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -28,8 +29,8 @@ jobs:
         id: save-e2e-output-result
         run: |         
           source ci-scripts/validate-e2e-execution.sh
-          echo "::set-output name=OUTPUTS_RUN_E2E::true"
-          echo "TEST_RUN_E2E=true" >> $GITHUB_ENV
+          echo "::set-output name=OUTPUTS_RUN_E2E::$(echo $RUN_E2E)"
+          echo "TEST_RUN_E2E=$(echo $RUN_E2E)" >> $GITHUB_ENV
       - name: test from other step
         run: |
           echo "${{ steps.save-e2e-output-result.outputs.OUTPUTS_RUN_E2E }}"
