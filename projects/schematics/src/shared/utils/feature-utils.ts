@@ -91,8 +91,23 @@ export interface FeatureConfigurationOverrides<T = LibraryOptions> {
  * Analysis result of feature modules.
  */
 interface FeatureAnalysisResult {
+  /**
+   * Unrecognized features.
+   */
   unrecognized?: string;
+  /**
+   * Features which don't have any imports.
+   * These features don't affect the order,
+   * and are sorted last.
+   */
+  empty?: Expression[];
+  /**
+   * Features from Spartacus core libs.
+   */
   core?: Expression[];
+  /**
+   * Spartacus features.
+   */
   features?: { element: Expression; feature: string }[];
 }
 
@@ -100,8 +115,21 @@ interface FeatureAnalysisResult {
  * Analysis result of ng-modules.
  */
 interface ModuleAnalysisResult {
-  core?: boolean;
+  /**
+   * Unrecognized feature.
+   */
   unrecognized?: string;
+  /**
+   * Feature doesn't have any imports.
+   */
+  empty?: boolean;
+  /**
+   * Feature is from Spartacus core libs.
+   */
+  core?: boolean;
+  /**
+   * Spartacus feature.
+   */
   feature?: string;
 }
 
@@ -253,6 +281,7 @@ export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
     getModulePropertyInitializer(sourceFile, 'imports', false)?.getElements() ??
     [];
 
+  const empty: Expression[] = [];
   const core: Expression[] = [];
   const features: { element: Expression; feature: string }[] = [];
   for (const element of elements) {
@@ -261,6 +290,11 @@ export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
       return {
         unrecognized: element.print(),
       };
+    }
+
+    if (analysis.empty) {
+      empty.push(element);
+      continue;
     }
 
     if (analysis.core) {
@@ -298,45 +332,48 @@ function analyzeModule(element: Expression): ModuleAnalysisResult {
 
   const importPath = importDeclaration.getModuleSpecifierValue();
   if (!isImportedFromSpartacusLibs(importPath)) {
-    if (isRelative(importPath)) {
-      const localFeatureModule =
-        importDeclaration.getModuleSpecifierSourceFile();
-      if (!localFeatureModule) {
-        return { unrecognized: element.print() };
-      }
-
-      const featureAnalysis = analyzeFeature(localFeatureModule);
-      if (featureAnalysis.unrecognized) {
-        return { unrecognized: featureAnalysis.unrecognized };
-      }
-
-      // the feature-module doesn't affect anything, so we can treat is a "core" feature
-      if (!featureAnalysis.features || featureAnalysis.features.length === 0) {
-        return { core: true };
-      }
-
-      const features = featureAnalysis.features.sort((feature1, feature2) =>
-        calculateSort(
-          feature1.feature,
-          feature2.feature,
-          crossFeatureInstallationOrder
-        )
-      );
-      /**
-       * the first ordered feature is used as the
-       * label for the whole feature module.
-       * The reason is: imagine for example the UserFeatureModule,
-       * which has both Profile and Account features in it.
-       * To be on the safe side, we label the
-       * feature module as the first feature, in cases there
-       * are some custom feature modules which enhance it.
-       */
-      const feature = features[0].feature;
-      return { feature };
+    if (!isRelative(importPath)) {
+      // an import from a 3rd party lib, or a custom TS path mapping (https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
+      return { unrecognized: element.print() };
     }
 
-    // an import from a 3rd party lib, or a custom TS path mapping (https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
-    return { unrecognized: element.print() };
+    const localFeatureModule = importDeclaration.getModuleSpecifierSourceFile();
+    if (!localFeatureModule) {
+      return { unrecognized: element.print() };
+    }
+
+    const featureAnalysis = analyzeFeature(localFeatureModule);
+    if (featureAnalysis.unrecognized) {
+      return { unrecognized: featureAnalysis.unrecognized };
+    }
+
+    if (featureAnalysis.empty) {
+      return { empty: true };
+    }
+
+    // the feature-module doesn't affect anything, so we can treat is a "core" feature
+    if (!featureAnalysis.features || featureAnalysis.features.length === 0) {
+      return { core: true };
+    }
+
+    const features = featureAnalysis.features.sort((feature1, feature2) =>
+      calculateSort(
+        feature1.feature,
+        feature2.feature,
+        crossFeatureInstallationOrder
+      )
+    );
+    /**
+     * the first ordered feature is used as the
+     * label for the whole feature module.
+     * The reason is: imagine for example the UserFeatureModule,
+     * which has both Profile and Account features in it.
+     * To be on the safe side, we label the
+     * feature module as the first feature, in cases there
+     * are some custom feature modules which enhance it.
+     */
+    const feature = features[0].feature;
+    return { feature };
   }
 
   if (isImportedFromSpartacusCoreLib(importPath)) {
@@ -371,10 +408,13 @@ export function orderFeatures(analysisResult: FeatureAnalysisResult): string[] {
     )
     .map((analysis) => analysis.element);
 
-  return (analysisResult.core ?? []).concat(features).map((element) =>
-    // TODO:#schematics - test anon.forRoot()
-    element.getText()
-  );
+  return (analysisResult.core ?? [])
+    .concat(features)
+    .concat(analysisResult.empty ?? [])
+    .map((element) =>
+      // TODO:#schematics - test anon.forRoot()
+      element.getText()
+    );
 }
 
 /**
