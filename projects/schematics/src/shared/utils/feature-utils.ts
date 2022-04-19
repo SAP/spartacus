@@ -31,9 +31,7 @@ import {
 } from '../updateable-constants';
 import { crossFeatureInstallationOrder } from './graph-utils';
 import {
-  findDynamicImport,
   getImportDeclaration,
-  importExists,
   isImportedFrom,
   isImportedFromSpartacusCoreLib,
   isImportedFromSpartacusLibs,
@@ -431,36 +429,6 @@ export function getModuleConfig(
   }
 
   return undefined;
-}
-
-export function isWrapperModule(
-  sourceFile: SourceFile,
-  featureModuleName: string,
-  featureConfig: FeatureConfig
-): boolean {
-  const moduleConfig = getModuleConfig(featureModuleName, featureConfig);
-  if (!moduleConfig) {
-    return false;
-  }
-
-  return importExists(sourceFile, moduleConfig.importPath, moduleConfig.name);
-}
-
-// TODO:#schematics - test
-export function isFeatureModule(
-  sourceFile: SourceFile,
-  featureModuleName: string,
-  featureConfig: FeatureConfig
-): boolean {
-  const moduleConfig = getModuleConfig(featureModuleName, featureConfig);
-  if (!moduleConfig) {
-    return false;
-  }
-
-  return !!findDynamicImport(sourceFile, {
-    moduleSpecifier: moduleConfig.importPath,
-    namedImports: [moduleConfig.name],
-  });
 }
 
 function getModuleIdentifier(element: Node): Identifier | undefined {

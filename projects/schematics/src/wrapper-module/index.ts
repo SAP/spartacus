@@ -21,14 +21,13 @@ import { normalizeObject, removeProperty } from '../shared/utils/config-utils';
 import {
   analyzeFeature,
   getModuleConfig,
-  isFeatureModule,
-  isWrapperModule,
   orderFeatures,
 } from '../shared/utils/feature-utils';
 import {
   findDynamicImport,
   getDynamicImportCallExpression,
   getDynamicImportPropertyAccess,
+  importExists,
 } from '../shared/utils/import-utils';
 import {
   createSpartacusFeatureFileName,
@@ -64,6 +63,10 @@ function createWrapperModule(options: {
       options.moduleName
     );
     const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
+    const moduleConfig = getModuleConfig(options.moduleName, featureConfig);
+    if (!moduleConfig) {
+      return noop();
+    }
 
     const path = createSpartacusFeatureFolderPath(featureConfig.folderName);
     const name = createSpartacusWrapperModuleFileName(featureConfig.moduleName);
@@ -73,12 +76,21 @@ function createWrapperModule(options: {
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       for (const sourceFile of appSourceFiles) {
-        if (isWrapperModule(sourceFile, options.moduleName, featureConfig)) {
+        // check if it's already a wrapper module
+        if (
+          importExists(sourceFile, moduleConfig.importPath, moduleConfig.name)
+        ) {
           // no need to create the wrapper module if it already exists
           return noop();
         }
 
-        if (!isFeatureModule(sourceFile, options.moduleName, featureConfig)) {
+        // check if it's a feature module
+        if (
+          !findDynamicImport(sourceFile, {
+            moduleSpecifier: moduleConfig.importPath,
+            namedImports: [moduleConfig.name],
+          })
+        ) {
           continue;
         }
         rules.push(
