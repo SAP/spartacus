@@ -11,7 +11,11 @@ import {
   RoutingService,
   UrlModule,
 } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  SpinnerModule,
+  PasswordVisibilityModule,
+} from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
@@ -26,6 +30,7 @@ import { UpdatePasswordComponent } from './update-password.component';
     FormErrorsModule,
     UrlModule,
     RouterModule,
+    PasswordVisibilityModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
