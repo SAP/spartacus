@@ -13,7 +13,7 @@ for file in $FILES; do
         ;;
     * )
         # if anything other than `*.md | docs/** | tools/** | *.spec.ts` are found, then we should e2es
-        RUN_E2E=true
+        RUN_E2E=false
         ;;
     esac
 done
