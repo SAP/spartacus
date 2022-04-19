@@ -40,6 +40,3 @@ jobs:
         run: npm install -g @angular/cli
       - name: Package installation
         run: yarn --frozen-lockfile
-      - name: Run lighthouse score validation
-        run: |
-          ci-scripts/lhci.sh
