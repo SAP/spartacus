@@ -413,8 +413,11 @@ export function orderFeatures(analysisResult: FeatureAnalysisResult): string[] {
     .map((element) => element.getText());
 }
 
-// TODO:#schematics - test
-// TODO:#schematics - comment
+/**
+ * For the given feature module name,
+ * returns the module configuration part
+ * of the given schematics feature config
+ */
 export function getModuleConfig(
   featureModuleName: string,
   featureConfig: FeatureConfig

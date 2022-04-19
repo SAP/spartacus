@@ -262,17 +262,14 @@ function handleFeature<T extends LibraryOptions>(
   };
 }
 
-// TODO:#schematics - test
 export function createSpartacusFeatureFolderPath(folderName: string): string {
   return `app/spartacus/features/${dasherize(folderName)}`;
 }
 
-// TODO:#schematics - test
 export function createSpartacusFeatureFileName(name: string): string {
   return `${dasherize(name)}-feature`;
 }
 
-// TODO:#schematics - test
 export function createSpartacusWrapperModuleFileName(name: string): string {
   return `${dasherize(name)}-wrapper`;
 }
@@ -327,10 +324,6 @@ function addFeatureModule<T extends LibraryOptions>(
      * TODO:#schematics - skip if the feature the wrapper module is used.
      * first, check if the feature should be composed by checking the .wrappers
      * is it enough to just skip the adding if the wrapper config is present?
-     */
-
-    /**
-     * TODO:#schematics - check how the wrapper modules play with eagerly configured feature modules
      */
 
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
