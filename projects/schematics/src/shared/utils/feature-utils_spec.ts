@@ -20,12 +20,14 @@ import {
   addFeatures,
   analyzeFeature,
   FeatureConfigurationOverrides,
+  orderFeatures,
 } from './feature-utils';
 import { LibraryOptions } from './lib-utils';
 import { addModuleImport, ensureModuleExists } from './new-module-utils';
 import { createProgram } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
+  checkoutWrapperModulePath,
   spartacusFeaturesModulePath,
   userFeatureModulePath,
 } from './test-utils';
@@ -373,6 +375,137 @@ describe('Feature utils', () => {
           expect(result.unrecognized).toEqual('XxxModule');
         });
       });
+    });
+  });
+
+  describe('orderFeatures', () => {
+    it('should sort the spartacus feature module imports correctly', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+          },
+          appTree
+        )
+        .toPromise();
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+          },
+          appTree
+        )
+        .toPromise();
+
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+      const spartacusFeaturesModule = program.getSourceFileOrThrow(
+        spartacusFeaturesModulePath
+      );
+
+      const analysis = analyzeFeature(spartacusFeaturesModule);
+      const result = orderFeatures(analysis);
+      expect(result).toMatchInlineSnapshot(`
+        Array [
+          "AuthModule.forRoot()",
+          "LogoutModule",
+          "LoginRouteModule",
+          "HamburgerMenuModule",
+          "SiteContextSelectorModule",
+          "LinkModule",
+          "BannerModule",
+          "CmsParagraphModule",
+          "TabParagraphContainerModule",
+          "BannerCarouselModule",
+          "CategoryNavigationModule",
+          "NavigationModule",
+          "FooterNavigationModule",
+          "BreadcrumbModule",
+          "ScrollToTopModule",
+          "PageTitleModule",
+          "UserModule",
+          "UserOccModule",
+          "AddressBookModule",
+          "PaymentMethodsModule",
+          "NotificationPreferenceModule",
+          "MyInterestsModule",
+          "StockNotificationModule",
+          "ConsentManagementModule",
+          "MyCouponsModule",
+          "AnonymousConsentsModule.forRoot()",
+          "AnonymousConsentsDialogModule",
+          "AnonymousConsentManagementBannerModule",
+          "ProductModule.forRoot()",
+          "ProductOccModule",
+          "ProductDetailsPageModule",
+          "ProductListingPageModule",
+          "ProductListModule",
+          "SearchBoxModule",
+          "ProductFacetNavigationModule",
+          "ProductTabsModule",
+          "ProductCarouselModule",
+          "ProductReferencesModule",
+          "ProductImagesModule",
+          "ProductSummaryModule",
+          "ProductIntroModule",
+          "CostCenterOccModule",
+          "NavigationEventModule",
+          "HomePageEventModule",
+          "ProductPageEventModule",
+          "ExternalRoutesModule.forRoot()",
+          "DigitalPaymentsFeatureModule",
+          "UserFeatureModule",
+          "CartBaseFeatureModule",
+          "OrderFeatureModule",
+          "CheckoutFeatureModule",
+        ]
+      `);
+    });
+
+    it('should sort the checkout wrapper module imports correctly', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+          },
+          appTree
+        )
+        .toPromise();
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+          },
+          appTree
+        )
+        .toPromise();
+
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+      const checkoutWrapperModule = program.getSourceFileOrThrow(
+        checkoutWrapperModulePath
+      );
+
+      const analysis = analyzeFeature(checkoutWrapperModule);
+      const result = orderFeatures(analysis);
+      expect(result).toMatchInlineSnapshot(`
+        Array [
+          "CheckoutModule",
+          "CheckoutB2BModule",
+          "CheckoutScheduledReplenishmentModule",
+          "DigitalPaymentsModule",
+        ]
+      `);
     });
   });
 });

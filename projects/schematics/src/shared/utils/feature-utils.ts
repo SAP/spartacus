@@ -395,8 +395,12 @@ function analyzeModule(element: Expression): ModuleAnalysisResult {
   return { unrecognized: element.print() };
 }
 
-// TODO:#schematics - test
-// TODO:#schematics - comment
+/**
+ * Orders the given ng-imports by the cross-feature installation order.
+ * First, the core features are ordered,
+ * followed by the spartacus features.
+ * Lastly, the empty features are ordered.
+ */
 export function orderFeatures(analysisResult: FeatureAnalysisResult): string[] {
   const features = (analysisResult.features ?? [])
     .sort((featureAnalysis1, featureAnalysis2) =>
@@ -411,10 +415,7 @@ export function orderFeatures(analysisResult: FeatureAnalysisResult): string[] {
   return (analysisResult.core ?? [])
     .concat(features)
     .concat(analysisResult.empty ?? [])
-    .map((element) =>
-      // TODO:#schematics - test anon.forRoot()
-      element.getText()
-    );
+    .map((element) => element.getText());
 }
 
 /**

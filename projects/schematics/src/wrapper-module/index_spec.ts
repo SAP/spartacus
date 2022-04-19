@@ -285,7 +285,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
   });
 
   describe('DP and Checkout', () => {
-    it.only('Should order the imports in the wrapper and Spartacus features modules', async () => {
+    it('Should order the imports in the wrapper and Spartacus features modules', async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
@@ -349,10 +349,6 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       expect(checkoutWrapperModule.print()).toMatchSnapshot();
       // since DP feature module doesn't have any markers, it's not recognized as a feature module
       expect(dpFeaturesModule.print()).toMatchSnapshot();
-
-      console.log(spartacusFeaturesModule.print());
-      console.log(checkoutWrapperModule.print());
-      console.log(dpFeaturesModule.print());
     });
   });
 });
