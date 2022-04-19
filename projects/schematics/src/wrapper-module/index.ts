@@ -43,8 +43,6 @@ import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import { Schema as SpartacusWrapperOptions } from './schema';
 
-// TODO:#schematics - update tsmorph to v14
-
 /**
  * Creates the wrapper module using the feature config
  * for the given module name.
@@ -139,7 +137,6 @@ function updateWrapperModule(options: {
       featureConfig
     );
     if (!featureModuleConfig) {
-      // TODO:#schematics - do what?
       return noop();
     }
 
@@ -195,7 +192,6 @@ function updateFeatureModule(options: {
       featureConfig
     );
     if (!featureModuleConfig) {
-      // TODO:#schematics - do what?
       return noop();
     }
 
@@ -213,7 +209,6 @@ function updateFeatureModule(options: {
 
         const featureModule = findFeatureModule(wrapperModule);
         if (!featureModule) {
-          // TODO:#schematics - how to handle it?
           continue;
         }
 
@@ -222,7 +217,6 @@ function updateFeatureModule(options: {
           namedImports: [featureModuleConfig.name],
         });
         if (!dynamicImport) {
-          // TODO:#schematics - how to handle it?
           continue;
         }
 
@@ -301,7 +295,6 @@ function removeLibraryDynamicImport(options: {
       featureConfig
     );
     if (!featureModuleConfig) {
-      // TODO:#schematics - do what?
       return noop();
     }
 

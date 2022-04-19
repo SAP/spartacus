@@ -209,14 +209,6 @@ export function addLibraryFeature<T extends LibraryOptions>(
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
-
-      /**
-       * TODO:#schematics - the ordering should happen:
-       * 1. when Spartacus is already installed (dirty installation)
-       * 2. when invoking feature library's schematics
-       *
-       * In other words, it's not necessary when installing Spartacus for the first time.
-       */
     ]);
   };
 }
@@ -323,12 +315,6 @@ function addFeatureModule<T extends LibraryOptions>(
   return (tree: Tree) => {
     const basePath = process.cwd();
     const moduleFileName = createModuleFileName(config);
-
-    /**
-     * TODO:#schematics - skip if the feature the wrapper module is used.
-     * first, check if the feature should be composed by checking the .wrappers
-     * is it enough to just skip the adding if the wrapper config is present?
-     */
 
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
     for (const tsconfigPath of buildPaths) {
