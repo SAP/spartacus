@@ -30,6 +30,10 @@ import {
 } from '../libs-constants';
 import { getB2bConfiguration } from './config-utils';
 import { getSpartacusFeaturesModule } from './feature-utils';
+import {
+  crossFeatureInstallationOrder,
+  crossLibraryInstallationOrder,
+} from './graph-utils';
 import { createImports } from './import-utils';
 import {
   addModuleImport,
@@ -765,17 +769,44 @@ function createModuleFileName(config: FeatureConfig): string {
   return `${dasherize(config.moduleName)}-feature.module.ts`;
 }
 
-// TODO:#schematics - create and expose two methods `calculateCrossFeatureSort` and `calculateCrossLibrarySort`. Don't expose this function.
 /**
- * Used to sort the features in the correct order.
+ * Used a comparator function when sorting features.
  */
-export function calculateSort(
+export function calculateCrossFeatureSort(
+  featureA: string,
+  featureB: string
+): number {
+  return calculateSortInternal(
+    featureA,
+    featureB,
+    crossFeatureInstallationOrder
+  );
+}
+
+/**
+ * Used a comparator function when sorting libraries.
+ */
+export function calculateCrossLibrarySort(
   libraryA: string,
-  libraryB: string,
+  libraryB: string
+): number {
+  return calculateSortInternal(
+    libraryA,
+    libraryB,
+    crossLibraryInstallationOrder
+  );
+}
+
+/**
+ * Used to sort libraries or features in the correct order.
+ */
+function calculateSortInternal(
+  libOrFeatureA: string,
+  libOrFeatureB: string,
   order: string[]
 ): number {
-  const indexA = order.indexOf(libraryA);
-  const indexB = order.indexOf(libraryB);
+  const indexA = order.indexOf(libOrFeatureA);
+  const indexB = order.indexOf(libOrFeatureB);
 
   /**
    * In case a feature module is _not_ found in the `order`,

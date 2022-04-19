@@ -29,7 +29,6 @@ import {
   featureSchematicConfigMapping,
   getKeyByMappingValue,
 } from '../updateable-constants';
-import { crossFeatureInstallationOrder } from './graph-utils';
 import {
   getImportDeclaration,
   isImportedFrom,
@@ -39,7 +38,7 @@ import {
 } from './import-utils';
 import {
   addLibraryFeature,
-  calculateSort,
+  calculateCrossFeatureSort,
   FeatureConfig,
   LibraryOptions,
   Module,
@@ -352,11 +351,7 @@ function analyzeModule(element: Expression): ModuleAnalysisResult {
     }
 
     const features = featureAnalysis.features.sort((feature1, feature2) =>
-      calculateSort(
-        feature1.feature,
-        feature2.feature,
-        crossFeatureInstallationOrder
-      )
+      calculateCrossFeatureSort(feature1.feature, feature2.feature)
     );
     /**
      * the first ordered feature is used as the
@@ -399,10 +394,9 @@ function analyzeModule(element: Expression): ModuleAnalysisResult {
 export function orderFeatures(analysisResult: FeatureAnalysisResult): string[] {
   const features = (analysisResult.features ?? [])
     .sort((featureAnalysis1, featureAnalysis2) =>
-      calculateSort(
+      calculateCrossFeatureSort(
         featureAnalysis1.feature,
-        featureAnalysis2.feature,
-        crossFeatureInstallationOrder
+        featureAnalysis2.feature
       )
     )
     .map((analysis) => analysis.element);
