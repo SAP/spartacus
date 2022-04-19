@@ -29,6 +29,7 @@ import {
   featureSchematicConfigMapping,
   getKeyByMappingValue,
 } from '../updateable-constants';
+import { crossFeatureInstallationOrder } from './graph-utils';
 import {
   getImportDeclaration,
   isImportedFrom,
@@ -140,7 +141,15 @@ export function addFeatures<T extends LibraryOptions>(
   features: string[],
   configurationOverrides?: Record<string, FeatureConfigurationOverrides<T>>
 ): Rule {
-  return (_tree: Tree, _context: SchematicContext): Rule => {
+  return (_tree: Tree, context: SchematicContext): Rule => {
+    if (options.debug) {
+      let message = `\n******************************\n`;
+      message += `Cross feature sorting order:\n`;
+      message += crossFeatureInstallationOrder.join(', ');
+      message += `\n******************************\n`;
+      context.logger.info(message);
+    }
+
     const genericLibraryOptions: LibraryOptions = {
       project: options.project,
       lazy: options.lazy,

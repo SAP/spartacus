@@ -63,7 +63,6 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
   /**
    * When enabled, prints the additional logs.
    */
-  // TODO:#schematics - leverage this flag and print the cross-feature order
   debug?: boolean;
   /**
    * Meta.
