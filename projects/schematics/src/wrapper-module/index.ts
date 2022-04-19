@@ -20,13 +20,13 @@ import {
 import { normalizeObject, removeProperty } from '../shared/utils/config-utils';
 import {
   analyzeFeature,
-  findDynamicImport,
   getModuleConfig,
   isFeatureModule,
   isWrapperModule,
   orderFeatures,
 } from '../shared/utils/feature-utils';
 import {
+  findDynamicImport,
   getDynamicImportCallExpression,
   getDynamicImportPropertyAccess,
 } from '../shared/utils/import-utils';
@@ -205,11 +205,10 @@ function updateFeatureModule(options: {
           continue;
         }
 
-        const dynamicImport = findDynamicImport(
-          featureModule,
-          featureModuleConfig.importPath,
-          featureModuleConfig.name
-        );
+        const dynamicImport = findDynamicImport(featureModule, {
+          moduleSpecifier: featureModuleConfig.importPath,
+          namedImports: [featureModuleConfig.name],
+        });
         if (!dynamicImport) {
           // TODO:#schematics - how to handle it?
           continue;
@@ -305,11 +304,10 @@ function removeLibraryDynamicImport(options: {
           continue;
         }
 
-        const spartacusProvider = findDynamicImport(
-          featureModule,
-          featureModuleConfig.importPath,
-          featureModuleConfig.name
-        )?.getFirstAncestorByKind(SyntaxKind.CallExpression);
+        const spartacusProvider = findDynamicImport(featureModule, {
+          moduleSpecifier: featureModuleConfig.importPath,
+          namedImports: [featureModuleConfig.name],
+        })?.getFirstAncestorByKind(SyntaxKind.CallExpression);
         if (!spartacusProvider) {
           continue;
         }

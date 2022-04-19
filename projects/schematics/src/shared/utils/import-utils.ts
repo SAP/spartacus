@@ -183,3 +183,38 @@ export function importExists(
 export function isRelative(path: string): boolean {
   return path.startsWith('./') || path.startsWith('../');
 }
+
+/**
+ * Analyzes the dynamic imports of the given module.
+ * If both dynamic import's import path and module name
+ * are found in the given config, it returns it.
+ */
+export function findDynamicImport(
+  sourceFile: SourceFile,
+  importToFind: Import
+): ArrowFunction | undefined {
+  const collectedDynamicImports = collectDynamicImports(sourceFile);
+
+  for (const dynamicImport of collectedDynamicImports) {
+    const importPath = getDynamicImportImportPath(dynamicImport) ?? '';
+    if (isRelative(importPath)) {
+      if (!importPath.includes(importToFind.moduleSpecifier)) {
+        continue;
+      }
+    } else {
+      if (importPath !== importToFind.moduleSpecifier) {
+        continue;
+      }
+    }
+
+    const importModule =
+      getDynamicImportPropertyAccess(dynamicImport)
+        ?.getLastChildByKind(tsMorph.SyntaxKind.Identifier)
+        ?.getText() ?? '';
+    if (importToFind.namedImports.includes(importModule)) {
+      return dynamicImport;
+    }
+  }
+
+  return undefined;
+}

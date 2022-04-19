@@ -7,10 +7,13 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
+import { NGRX_STORE } from '../constants';
+import { CART_BASE_MODULE } from '../lib-configs/cart-schematics-config';
 import {
   CLI_CART_BASE_FEATURE,
   CLI_USER_ACCOUNT_FEATURE,
   CLI_USER_PROFILE_FEATURE,
+  SPARTACUS_CART_BASE,
   SPARTACUS_CHECKOUT,
   SPARTACUS_CORE,
   SPARTACUS_SCHEMATICS,
@@ -19,6 +22,7 @@ import { addFeatures } from './feature-utils';
 import {
   collectDynamicImports,
   createImports,
+  findDynamicImport,
   getDynamicImportCallExpression,
   getDynamicImportImportPath,
   getDynamicImportPropertyAccess,
@@ -236,6 +240,35 @@ describe('Import utils', () => {
     it('should return false if NOT relative', async () => {
       const path = 'something';
       const result = isRelative(path);
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('findDynamicImport', () => {
+    it('should be able to find it', () => {
+      const { program } = createProgram(tree, tree.root.path, buildPath);
+      const cartFeatureModule = program.getSourceFileOrThrow(
+        cartBaseFeatureModulePath
+      );
+
+      const result = findDynamicImport(cartFeatureModule, {
+        moduleSpecifier: SPARTACUS_CART_BASE,
+        namedImports: [CART_BASE_MODULE],
+      });
+      expect(result?.print()).toMatchInlineSnapshot(
+        `"() => import('@spartacus/cart/base').then((m) => m.CartBaseModule)"`
+      );
+    });
+    it('should return undefined if the import can not be found', () => {
+      const { program } = createProgram(tree, tree.root.path, buildPath);
+      const cartFeatureModule = program.getSourceFileOrThrow(
+        cartBaseFeatureModulePath
+      );
+
+      const result = findDynamicImport(cartFeatureModule, {
+        moduleSpecifier: NGRX_STORE,
+        namedImports: [CART_BASE_MODULE],
+      });
       expect(result).toBeFalsy();
     });
   });

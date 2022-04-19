@@ -8,7 +8,6 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  ArrowFunction,
   CallExpression,
   Expression,
   Identifier,
@@ -32,9 +31,7 @@ import {
 } from '../updateable-constants';
 import { crossFeatureInstallationOrder } from './graph-utils';
 import {
-  collectDynamicImports,
-  getDynamicImportImportPath,
-  getDynamicImportPropertyAccess,
+  findDynamicImport,
   getImportDeclaration,
   importExists,
   isImportedFrom,
@@ -418,44 +415,6 @@ export function orderFeatures(analysisResult: FeatureAnalysisResult): string[] {
     .map((element) => element.getText());
 }
 
-/**
- * Analyzes the dynamic imports of the given module.
- * If both dynamic import's import path and module name
- * are found in the given config, it returns the config.
- */
-// TODO:#schematics - not needed?
-// TODO:#schematics - test
-export function findDynamicImport(
-  sourceFile: SourceFile,
-  importPathToFind: string,
-  moduleNameToFind: string
-): ArrowFunction | undefined {
-  const collectedDynamicImports = collectDynamicImports(sourceFile);
-
-  for (const dynamicImport of collectedDynamicImports) {
-    const importPath = getDynamicImportImportPath(dynamicImport) ?? '';
-    if (isRelative(importPath)) {
-      if (!importPath.includes(importPathToFind)) {
-        continue;
-      }
-    } else {
-      if (importPath !== importPathToFind) {
-        continue;
-      }
-    }
-
-    const importModule =
-      getDynamicImportPropertyAccess(dynamicImport)
-        ?.getLastChildByKind(tsMorph.SyntaxKind.Identifier)
-        ?.getText() ?? '';
-    if (importModule === moduleNameToFind) {
-      return dynamicImport;
-    }
-  }
-
-  return undefined;
-}
-
 // TODO:#schematics - test
 // TODO:#schematics - comment
 export function getModuleConfig(
@@ -498,11 +457,10 @@ export function isFeatureModule(
     return false;
   }
 
-  return !!findDynamicImport(
-    sourceFile,
-    moduleConfig.importPath,
-    moduleConfig.name
-  );
+  return !!findDynamicImport(sourceFile, {
+    moduleSpecifier: moduleConfig.importPath,
+    namedImports: [moduleConfig.name],
+  });
 }
 
 function getModuleIdentifier(element: Node): Identifier | undefined {
