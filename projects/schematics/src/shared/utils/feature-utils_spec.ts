@@ -7,7 +7,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { UTF_8 } from '../constants';
+import { NGRX_STORE, UTF_8 } from '../constants';
 import { USER_ACCOUNT_SCHEMATICS_CONFIG } from '../lib-configs/user-schematics-config';
 import {
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
@@ -21,6 +21,7 @@ import {
   FeatureConfigurationOverrides,
 } from './feature-utils';
 import { LibraryOptions } from './lib-utils';
+import { addModuleImport, ensureModuleExists } from './new-module-utils';
 import { createProgram } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
@@ -203,6 +204,122 @@ describe('Feature utils', () => {
         CLI_USER_PROFILE_FEATURE,
       ]);
       expect(result.unrecognized).toEqual(undefined);
+    });
+
+    describe(`when an unrecognized module is found in the spartacus features module`, () => {
+      it(`should stop the analysis`, async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+            },
+            appTree
+          )
+          .toPromise();
+
+        const { program } = createProgram(
+          appTree,
+          appTree.root.path,
+          buildPath
+        );
+
+        const spartacusFeatureModule = program.getSourceFileOrThrow(
+          spartacusFeaturesModulePath
+        );
+        addModuleImport(spartacusFeatureModule, {
+          import: {
+            moduleSpecifier: NGRX_STORE,
+            namedImports: ['StoreModule'],
+          },
+          content: 'StoreModule',
+        });
+
+        const result = analyzeFeature(spartacusFeatureModule);
+        expect(result.unrecognized).toEqual('StoreModule');
+      });
+    });
+
+    describe(`when an unrecognized module is found in a feature module's imports`, () => {
+      it(`should stop the analysis`, async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+            },
+            appTree
+          )
+          .toPromise();
+
+        const { program } = createProgram(
+          appTree,
+          appTree.root.path,
+          buildPath
+        );
+
+        const spartacusUserModule = program.getSourceFileOrThrow(
+          userFeatureModulePath
+        );
+        addModuleImport(spartacusUserModule, {
+          import: {
+            moduleSpecifier: NGRX_STORE,
+            namedImports: ['StoreModule'],
+          },
+          content: 'StoreModule',
+        });
+
+        const spartacusFeatureModule = program.getSourceFileOrThrow(
+          spartacusFeaturesModulePath
+        );
+
+        const result = analyzeFeature(spartacusFeatureModule);
+        expect(result.unrecognized).toEqual('UserFeatureModule');
+      });
+    });
+
+    describe(`when a custom feature module is found in spartacus feature module's imports`, () => {
+      it(`should stop the analysis`, async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+            },
+            appTree
+          )
+          .toPromise();
+        appTree = await schematicRunner
+          .callRule(
+            ensureModuleExists({
+              name: 'xxx',
+              path: 'app/spartacus',
+              project: spartacusDefaultOptions.project,
+              module: 'spartacus-features',
+            }),
+            appTree
+          )
+          .toPromise();
+
+        const { program } = createProgram(
+          appTree,
+          appTree.root.path,
+          buildPath
+        );
+
+        const spartacusFeatureModule = program.getSourceFileOrThrow(
+          spartacusFeaturesModulePath
+        );
+
+        const result = analyzeFeature(spartacusFeatureModule);
+        expect(result.unrecognized).toEqual('XxxModule');
+      });
     });
   });
 });

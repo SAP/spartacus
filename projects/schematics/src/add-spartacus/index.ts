@@ -303,7 +303,7 @@ function logDependencyFeatures(
 }
 
 function orderInstalledFeatures(options: SpartacusOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
@@ -321,8 +321,15 @@ function orderInstalledFeatures(options: SpartacusOptions): Rule {
 
         const analysis = analyzeFeature(spartacusFeaturesModule);
         if (analysis.unrecognized) {
-          // TODO:#schematics - do what?
-          console.error('??? ', analysis);
+          context.logger.warn(
+            `⚠️ Unrecognized feature found in ${spartacusFeaturesModule.getFilePath()}: ${
+              analysis.unrecognized
+            }.`
+          );
+          context.logger.warn(
+            `Please make sure the order of features in the NgModule's 'imports' array is correct.`
+          );
+          return noop();
         }
 
         const ordered = orderFeatures(analysis);

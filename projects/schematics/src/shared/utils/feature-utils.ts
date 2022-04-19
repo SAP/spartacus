@@ -87,6 +87,24 @@ export interface FeatureConfigurationOverrides<T = LibraryOptions> {
   options?: T;
 }
 
+/**
+ * Analysis result of feature modules.
+ */
+interface FeatureAnalysisResult {
+  unrecognized?: string;
+  core?: Expression[];
+  features?: { element: Expression; feature: string }[];
+}
+
+/**
+ * Analysis result of ng-modules.
+ */
+interface ModuleAnalysisResult {
+  core?: boolean;
+  unrecognized?: string;
+  feature?: string;
+}
+
 // TODO:#schematics - [at the end] move some of the methods from lib-utils?
 
 /**
@@ -227,29 +245,24 @@ function getSpartacusFeaturesNgModuleDecorator(
   return spartacusFeaturesModule;
 }
 
-export interface FeatureAnalysisResult {
-  unrecognized?: boolean;
-  core?: Expression[];
-  features?: { element: Expression; feature: string }[];
-}
+/**
+ * Analyzes the given module and returns the analysis result.
+ */
 export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
   const elements =
     getModulePropertyInitializer(sourceFile, 'imports', false)?.getElements() ??
     [];
+  if (!elements.length) {
+    return { unrecognized: sourceFile.getFilePath() };
+  }
 
   const core: Expression[] = [];
   const features: { element: Expression; feature: string }[] = [];
   for (const element of elements) {
     const analysis = analyzeModule(element);
     if (analysis.unrecognized) {
-      // TODO: #schematics - throw exception?
-      // TODO: #schematics - print warning for the customers
-      console.error(
-        'element not recognized as a spartacus feature:',
-        element.print()
-      );
       return {
-        unrecognized: true,
+        unrecognized: element.print(),
       };
     }
 
@@ -270,20 +283,20 @@ export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
   };
 }
 
-interface AnalysisResult {
-  core?: boolean;
-  unrecognized?: boolean;
-  feature?: string;
-}
-function analyzeModule(element: Expression): AnalysisResult {
+/**
+ * Analyzes the given ngModule, by checking its
+ * imports and peeking into the referenced module
+ * in case of a relative import.
+ */
+function analyzeModule(element: Expression): ModuleAnalysisResult {
   const moduleIdentifier = getModuleIdentifier(element);
   if (!moduleIdentifier) {
-    return { unrecognized: true };
+    return { unrecognized: element.print() };
   }
 
   const importDeclaration = getImportDeclaration(moduleIdentifier);
   if (!importDeclaration) {
-    return { unrecognized: true };
+    return { unrecognized: element.print() };
   }
 
   const importPath = importDeclaration.getModuleSpecifierValue();
@@ -292,19 +305,16 @@ function analyzeModule(element: Expression): AnalysisResult {
       const localFeatureModule =
         importDeclaration.getModuleSpecifierSourceFile();
       if (!localFeatureModule) {
-        return { unrecognized: true };
+        return { unrecognized: element.print() };
       }
 
       const featureAnalysis = analyzeFeature(localFeatureModule);
       if (featureAnalysis.unrecognized) {
-        return { unrecognized: true };
+        return { unrecognized: featureAnalysis.unrecognized };
       }
 
-      if (
-        !featureAnalysis.features ||
-        // the feature-module doesn't affect anything, so we can treat is a "core" feature
-        featureAnalysis.features.length === 0
-      ) {
+      // the feature-module doesn't affect anything, so we can treat is a "core" feature
+      if (!featureAnalysis.features || featureAnalysis.features.length === 0) {
         return { core: true };
       }
 
@@ -316,19 +326,20 @@ function analyzeModule(element: Expression): AnalysisResult {
         )
       );
       /**
-       * the first feature is used as the label for.
-       * the whole feature module.
-       * Imagine the UserFeatureModule for example:
-       * it has both Profile and Account features in it.
-       * Therefore, to be on the safe side, we label the
-       * feature module as the first feature.
+       * the first ordered feature is used as the
+       * label for the whole feature module.
+       * The reason is: imagine for example the UserFeatureModule,
+       * which has both Profile and Account features in it.
+       * To be on the safe side, we label the
+       * feature module as the first feature, in cases there
+       * are some custom feature modules which enhance it.
        */
       const feature = features[0].feature;
       return { feature };
     }
 
     // an import from a 3rd party lib, or a custom TS path mapping (https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
-    return { unrecognized: true };
+    return { unrecognized: element.print() };
   }
 
   if (isImportedFromSpartacusCoreLib(importPath)) {
@@ -347,7 +358,7 @@ function analyzeModule(element: Expression): AnalysisResult {
     return { feature };
   }
 
-  return { unrecognized: true };
+  return { unrecognized: element.print() };
 }
 
 // TODO:#schematics - test
