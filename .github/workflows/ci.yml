@@ -28,14 +28,14 @@ jobs:
         id: save-e2e-output-result
         run: |         
           source ci-scripts/validate-e2e-execution.sh
-          echo "::set-output run_e2e=$(echo $RUN_E2E)"
-          echo "RUN_E2E=$(echo $RUN_E2E)" >> $GITHUB_ENV
+          echo "::set-output name=run_e2e=$(echo $RUN_E2E)"
+          echo "TEST_RUN_E2E=$(echo $RUN_E2E)" >> $GITHUB_ENV
       - name: test from other step
         run: |
           echo ${{ steps.save-e2e-output-result.outputs.run_e2e }}
           echo "test"
-          echo $RUN_E2E
-          echo {{ env.RUN_E2E }}
+          echo $TEST_RUN_E2E
+          echo "{{ env.TEST_RUN_E2E }}""
   no_retries: 
     needs: validate_e2e_execution
     name: Verify retries
@@ -47,8 +47,8 @@ jobs:
           echo ${{ needs.validate_e2e_execution.outputs }}
           echo ${{ needs.validate_e2e_execution.outputs.run_e2e }}
           echo "test"
-          echo $RUN_E2E
-          echo {{ env.RUN_E2E }}
+          echo $TEST_RUN_E2E
+          echo {{ env.TEST_RUN_E2E }}
       - name: Forcefully fail build if retried
         uses: actions/github-script@v5
         with:
