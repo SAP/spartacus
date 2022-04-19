@@ -87,7 +87,7 @@ describe('UpdateEmailComponent', () => {
       component.form.disable();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('button[type="submit"]')
+        By.css('button.btn-primary')
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
@@ -103,7 +103,7 @@ describe('UpdateEmailComponent', () => {
     it('should enable the submit button', () => {
       component.form.enable();
       fixture.detectChanges();
-      const submitBtn = el.query(By.css('button[type="submit"]'));
+      const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn.nativeElement.disabled).toBeFalsy();
     });
 
