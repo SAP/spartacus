@@ -129,7 +129,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
-    if: needs.validate_e2e_execution.outputs.run_e2e == true
+    # if: needs.validate_e2e_execution.outputs.run_e2e == true
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -142,6 +142,12 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: test from other job condition
+        run: |
+          echo "${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E }}"
+          echo "test"
+          echo "$TEST_RUN_E2E"
+          echo "${{ env.TEST_RUN_E2E }}"
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
@@ -164,6 +170,12 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: test from other job condition
+        run: |
+          echo "${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E }}"
+          echo "test"
+          echo "$TEST_RUN_E2E"
+          echo "${{ env.TEST_RUN_E2E }}"
       - name: Run e2es
         run: |
           ci-scripts/e2e-cypress.sh --ssr
@@ -175,7 +187,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2]
-    if: needs.validate_e2e_execution.outputs.run_e2e == 'true'
+    # if: needs.validate_e2e_execution.outputs.run_e2e == 'true'
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -188,6 +200,12 @@ jobs:
             ~/.cache/Cypress
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: test from other job condition
+        run: |
+          echo "${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E }}"
+          echo "test"
+          echo "$TEST_RUN_E2E"
+          echo "${{ env.TEST_RUN_E2E }}"
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
