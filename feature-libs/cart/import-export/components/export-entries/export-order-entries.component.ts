@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import {
   OrderEntriesContext,
   OrderEntry,
@@ -15,6 +15,8 @@ import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.se
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExportOrderEntriesComponent {
+  @HostBinding('class') styles = 'container';
+
   constructor(
     protected exportEntriesService: ExportOrderEntriesToCsvService,
     protected contextService: ContextService

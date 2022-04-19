@@ -8,11 +8,13 @@ import {
   FormErrorsModule,
   IconModule,
   SpinnerModule,
+  NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 
 @NgModule({
   imports: [
+    NgSelectA11yModule,
     CommonModule,
     ReactiveFormsModule,
     NgSelectModule,

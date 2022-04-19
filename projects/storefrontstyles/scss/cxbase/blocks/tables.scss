@@ -1,7 +1,8 @@
 @import '../../theme';
-@import '~bootstrap/scss/tables';
 
 .table {
+  width: 100%;
+
   thead {
     th {
       border-bottom: 0 none;

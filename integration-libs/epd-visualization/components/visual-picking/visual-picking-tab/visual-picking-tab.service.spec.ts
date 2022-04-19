@@ -216,7 +216,7 @@ describe('VisualPickingTabService', () => {
         'subscribe'
       );
 
-      const mockVisualPickingProductListService = {
+      const visualPickingProductListServiceMock1 = {
         getProductReferences: () => {
           return of(productReferences);
         },
@@ -232,7 +232,7 @@ describe('VisualPickingTabService', () => {
         visualPickingTabService,
         'visualPickingProductListService',
         'get'
-      ).and.returnValue(mockVisualPickingProductListService);
+      ).and.returnValue(visualPickingProductListServiceMock1);
 
       mockVisualViewerService.expectedIncludedProductCodes =
         filteredProductReferences.map(
@@ -285,7 +285,7 @@ describe('VisualPickingTabService', () => {
         'subscribe'
       );
 
-      const mockVisualPickingProductListService = {
+      const visualPickingProductListServiceMock2 = {
         getProductReferences: () => {
           return of([]);
         },
@@ -301,7 +301,7 @@ describe('VisualPickingTabService', () => {
         visualPickingTabService,
         'visualPickingProductListService',
         'get'
-      ).and.returnValue(mockVisualPickingProductListService);
+      ).and.returnValue(visualPickingProductListServiceMock2);
 
       const loadVisualizationSpy = spyOn(
         visualViewerService,

@@ -68,25 +68,25 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   );
 
   function createImage(url: string, altText: string): Configurator.Image {
-    const image: Configurator.Image = {
+    const configImage: Configurator.Image = {
       url: url,
       altText: altText,
     };
-    return image;
+    return configImage;
   }
 
   function createValue(
     code: string,
     name: string,
     isSelected: boolean,
-    images: Configurator.Image[]
+    configImages: Configurator.Image[]
   ): Configurator.Value {
     const value: Configurator.Value = {
       valueCode: code,
       valueDisplay: name,
       name: name,
       selected: isSelected,
-      images: images,
+      images: configImages,
     };
     return value;
   }

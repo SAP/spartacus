@@ -83,9 +83,9 @@ export class VisualPickingTabService implements OnDestroy {
     if (!this.windowRef.isBrowser()) {
       return;
     }
-    this.visualizationLoadInfoChangeSubscription.unsubscribe();
-    this.getProductReferencesSubscription.unsubscribe();
-    this.getFilteredProductReferencesSubscription.unsubscribe();
+    this.visualizationLoadInfoChangeSubscription?.unsubscribe();
+    this.getProductReferencesSubscription?.unsubscribe();
+    this.getFilteredProductReferencesSubscription?.unsubscribe();
   }
 
   private visualizationLoadInfoChangeSubscription: Subscription;

@@ -136,7 +136,7 @@ export class CpqConfiguratorRestService {
     config.tabs = [];
     tabReqResultList.forEach((tabReqResult) => {
       let tab: Cpq.Tab;
-      const currentTab = tabReqResult.tabs?.find((tab) => tab.isSelected);
+      const currentTab = tabReqResult.tabs?.find((tabEl) => tabEl.isSelected);
       if (currentTab && tabReqResult.tabs && tabReqResult.tabs.length > 0) {
         tab = {
           ...currentTab,

@@ -30,14 +30,12 @@
 </ng-container>
 
 <ng-template let-ctx #moveToCartBtn>
-  <div class="col-md-3 col-lg-3 col-xl-3 cx-sfl-btn">
-    <button
-      class="link cx-action-link"
-      [disabled]="ctx.loading"
-      (click)="moveToCart(ctx.item)"
-      type="button"
-    >
-      {{ 'saveForLaterItems.moveToCart' | cxTranslate }}
-    </button>
-  </div>
+  <button
+    class="link cx-action-link cx-sfl-btn"
+    [disabled]="ctx.loading"
+    (click)="moveToCart(ctx.item)"
+    type="button"
+  >
+    {{ 'saveForLaterItems.moveToCart' | cxTranslate }}
+  </button>
 </ng-template>

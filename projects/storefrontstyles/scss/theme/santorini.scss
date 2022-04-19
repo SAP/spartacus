@@ -4,7 +4,9 @@
   --cx-color-inverse: #ffffff;
   --cx-color-transparent: transparent;
   --cx-color-primary: #1672b7;
+  --cx-color-primary-accent: #50b0f4;
   --cx-color-secondary: #6c7079;
+  --cx-color-secondary-accent: #c3cbde;
   --cx-buttons-border-radius: 27px;
   --cx-buttons-border-width: 3px;
   --cx-color-dark: #212738;
@@ -90,6 +92,12 @@
       ol li a {
         color: var(--cx-color-primary);
       }
+    }
+  }
+
+  cx-scroll-to-top {
+    button {
+      border-radius: var(--cx-buttons-border-radius);
     }
   }
 

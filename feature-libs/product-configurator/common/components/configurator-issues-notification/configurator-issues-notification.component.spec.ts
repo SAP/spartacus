@@ -198,9 +198,10 @@ describe('ConfigureIssuesNotificationComponent', () => {
         mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
         fixture.detectChanges();
 
-        const htmlElem = fixture.nativeElement;
+        const htmlElementAfterChanges = fixture.nativeElement;
         expect(
-          htmlElem.querySelectorAll('.cx-configure-cart-entry').length
+          htmlElementAfterChanges.querySelectorAll('.cx-configure-cart-entry')
+            .length
         ).toBe(0);
       });
 
@@ -208,9 +209,10 @@ describe('ConfigureIssuesNotificationComponent', () => {
         mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
         fixture.detectChanges();
 
-        const htmlElem = fixture.nativeElement;
+        const htmlElementAfterChanges = fixture.nativeElement;
         expect(
-          htmlElem.querySelectorAll('cx-configure-cart-entry').length
+          htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
+            .length
         ).toBe(1);
       });
     });
