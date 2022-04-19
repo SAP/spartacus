@@ -10,7 +10,7 @@ on:
 env:
   CYPRESS_KEY: ${{ secrets.CYPRESS_KEY }}
   NODE_VERSION: '16'
-  TEST_RUN_E2E:
+  TEST_RUN_E2E: 
 
 # concurrency: 
 #   group: ${{ github.head_ref || github.run_id }}
@@ -39,6 +39,8 @@ jobs:
           echo "${{ env.TEST_RUN_E2E }}"
   no_retries: 
     needs: validate_e2e_execution
+    environment:
+      TEST_RUN_E2E: ${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E }}
     name: Verify retries
     runs-on: ubuntu-latest
     steps:
