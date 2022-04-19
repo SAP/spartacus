@@ -43,7 +43,13 @@ jobs:
     name: Verify retries
     runs-on: ubuntu-latest
     steps:
-      - name: test from other job
+      - name: test from other job condition
+        run: |
+          echo "${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E }}"
+          echo "test"
+          echo "$TEST_RUN_E2E"
+          echo "${{ env.TEST_RUN_E2E }}"
+      - name: test from other job condition
         run: |
           echo "${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E }}"
           echo "test"
