@@ -47,25 +47,29 @@ export class CmsComponentConnector {
         );
 
         if (missingIds.length > 0) {
-          const pageSize = this.config.componentsLoading?.pageSize || 50;
-          const p: Observable<any>[] = [];
-          const num = Math.ceil(missingIds.length / pageSize);
-          let curr = 0;
-          while (curr < num) {
-            p.push(
+          const pageSize =
+            this.config.componentsLoading?.pageSize || missingIds.length;
+          const totalPages = Math.ceil(missingIds.length / pageSize);
+          const cmsComponents: Observable<CmsComponent[]>[] = [];
+
+          let currentPage = 0;
+          while (currentPage < totalPages) {
+            cmsComponents.push(
               this.cmsComponentAdapter.findComponentsByIds(
                 missingIds,
                 pageContext,
                 'DEFAULT',
-                curr,
+                currentPage,
                 pageSize
               )
             );
-            curr++;
+            currentPage++;
           }
-          return zip(...p).pipe(
-            map((comps) =>
-              [...configuredComponents.filter(Boolean)].concat(...comps)
+          return zip(...cmsComponents).pipe(
+            map((loadedComponents) =>
+              [...configuredComponents.filter(Boolean)].concat(
+                ...loadedComponents
+              )
             )
           );
         } else {
