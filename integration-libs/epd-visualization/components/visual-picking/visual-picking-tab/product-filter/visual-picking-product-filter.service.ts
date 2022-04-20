@@ -28,12 +28,12 @@ export class VisualPickingProductFilterService implements OnDestroy {
    * The current filter value.
    * @param filter The filter value to apply.
    */
-  public set filter(filter: string) {
-    if (this._filter === filter) {
+  public set filter(filterStr: string) {
+    if (this._filter === filterStr) {
       return;
     }
-    this._filter = filter;
-    this.filter$.emit(filter);
+    this._filter = filterStr;
+    this.filter$.emit(filterStr);
   }
   public get filter(): string {
     return this._filter;
@@ -47,10 +47,10 @@ export class VisualPickingProductFilterService implements OnDestroy {
   protected fieldsToMatch = ['code', 'name'];
 
   protected applyFilter(
-    filter: string,
+    filterToApply: string,
     unfilteredProductReferences: ProductReference[]
   ): ProductReference[] {
-    filter = filter.toLowerCase();
+    filterToApply = filterToApply.toLowerCase();
     const filteredProductReferences = unfilteredProductReferences.filter(
       (productReference) => {
         const product = productReference.target as Product;
@@ -58,7 +58,7 @@ export class VisualPickingProductFilterService implements OnDestroy {
           const fieldValue = (product as any)[field];
           return (
             fieldValue !== undefined &&
-            fieldValue.toLowerCase().indexOf(filter) !== -1
+            fieldValue.toLowerCase().indexOf(filterToApply) !== -1
           );
         });
       }
@@ -79,11 +79,11 @@ export class VisualPickingProductFilterService implements OnDestroy {
       unfilteredProductReferences$,
     ]).pipe(
       filter(
-        ([filter, productReferences]) =>
-          filter !== undefined && productReferences !== undefined
+        ([filterStr, productReferences]) =>
+          filterStr !== undefined && productReferences !== undefined
       ),
-      map(([filter, productReferences]) =>
-        this.applyFilter(filter, productReferences)
+      map(([filterToApply, productReferences]) =>
+        this.applyFilter(filterToApply, productReferences)
       )
     );
   }

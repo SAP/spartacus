@@ -58,7 +58,7 @@ export class CartItemComponent implements OnChanges {
     }
   }
 
-  isProductOutOfStock(product: any) {
+  isProductOutOfStock(product: any): boolean {
     // TODO Move stocklevelstatuses across the app to an enum
     return (
       product &&

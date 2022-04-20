@@ -160,7 +160,7 @@ describe('UserAddressService', () => {
   });
 
   it('should be able to add user address', () => {
-    const mockAddress: Address = {
+    const mockAddress2: Address = {
       firstName: 'John',
       lastName: 'Doe',
       titleCode: 'mr',
@@ -172,11 +172,11 @@ describe('UserAddressService', () => {
       country: { isocode: 'JP' },
     };
 
-    service.addUserAddress(mockAddress);
+    service.addUserAddress(mockAddress2);
     expect(store.dispatch).toHaveBeenCalledWith(
       new UserActions.AddUserAddress({
         userId: OCC_USER_ID_CURRENT,
-        address: mockAddress,
+        address: mockAddress2,
       })
     );
   });

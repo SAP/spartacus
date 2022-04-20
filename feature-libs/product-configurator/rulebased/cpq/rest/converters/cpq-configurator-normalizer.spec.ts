@@ -1034,7 +1034,7 @@ describe('CpqConfiguratorNormalizer', () => {
 
   describe('convert value display', () => {
     it('should convert value display - contain cpq value display for radio-buttons', () => {
-      const cpqValue: Cpq.Value = {
+      const mockCpqValue: Cpq.Value = {
         paV_ID: 0,
         valueDisplay: 'Blue',
         selected: false,
@@ -1044,26 +1044,26 @@ describe('CpqConfiguratorNormalizer', () => {
         stdAttrCode: 2,
         displayAs: Cpq.DisplayAs.RADIO_BUTTON,
         required: true,
-        values: [cpqValue],
+        values: [mockCpqValue],
       };
       const values: Configurator.Value[] = [];
       cpqConfiguratorNormalizer['convertValue'](
-        cpqValue,
+        mockCpqValue,
         cpqAttr,
         CURRENCY,
         values
       );
       let value = values[0];
       cpqConfiguratorNormalizer['convertValueDisplay'](
-        cpqValue,
+        mockCpqValue,
         cpqAttr,
         value
       );
-      expect(value.valueDisplay).toEqual(cpqValue.valueDisplay);
+      expect(value.valueDisplay).toEqual(mockCpqValue.valueDisplay);
     });
 
     it('should convert value display - contain drop-down select message', () => {
-      const cpqValue: Cpq.Value = {
+      const mockCpqValue: Cpq.Value = {
         paV_ID: 0,
         valueDisplay: 'No option selected',
         selected: true,
@@ -1073,18 +1073,18 @@ describe('CpqConfiguratorNormalizer', () => {
         stdAttrCode: 2,
         displayAs: Cpq.DisplayAs.DROPDOWN,
         required: true,
-        values: [cpqValue],
+        values: [mockCpqValue],
       };
       const values: Configurator.Value[] = [];
       cpqConfiguratorNormalizer['convertValue'](
-        cpqValue,
+        mockCpqValue,
         cpqAttr,
         CURRENCY,
         values
       );
       let value = values[0];
       cpqConfiguratorNormalizer['convertValueDisplay'](
-        cpqValue,
+        mockCpqValue,
         cpqAttr,
         value
       );
@@ -1092,7 +1092,7 @@ describe('CpqConfiguratorNormalizer', () => {
     });
 
     it('should convert value display - contain cpq value display for drop-down list', () => {
-      const cpqValue: Cpq.Value = {
+      const mockCpqValue: Cpq.Value = {
         paV_ID: 1,
         valueDisplay: 'Blue',
         selected: false,
@@ -1102,22 +1102,22 @@ describe('CpqConfiguratorNormalizer', () => {
         stdAttrCode: 2,
         displayAs: Cpq.DisplayAs.DROPDOWN,
         required: true,
-        values: [cpqValue],
+        values: [mockCpqValue],
       };
       const values: Configurator.Value[] = [];
       cpqConfiguratorNormalizer['convertValue'](
-        cpqValue,
+        mockCpqValue,
         cpqAttr,
         CURRENCY,
         values
       );
       let value = values[0];
       cpqConfiguratorNormalizer['convertValueDisplay'](
-        cpqValue,
+        mockCpqValue,
         cpqAttr,
         value
       );
-      expect(value.valueDisplay).toEqual(cpqValue.valueDisplay);
+      expect(value.valueDisplay).toEqual(mockCpqValue.valueDisplay);
     });
   });
 });

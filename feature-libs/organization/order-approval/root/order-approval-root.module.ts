@@ -56,7 +56,6 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
           },
           orderApprovalDetails: {
             paths: ['my-account/approval/:approvalCode'],
-            paramsMapping: { approvalCode: 'approvalCode' },
           },
         },
       },

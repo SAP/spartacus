@@ -43,10 +43,6 @@ export interface AngularComponentSchema {
    */
   inlineTemplate: boolean;
   /**
-   * When true, applies lint fixes after generating the component.
-   */
-  lintFix: boolean;
-  /**
    * The name of the component.
    */
   name: string;
@@ -119,10 +115,6 @@ export interface AngularModuleSchema {
    * When true, creates the new files at the top level of the current project root.
    */
   flat: boolean;
-  /**
-   * When true, applies lint fixes after generating the module.
-   */
-  lintFix: boolean;
   /**
    * The declaring NgModule.
    */

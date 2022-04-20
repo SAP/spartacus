@@ -33,7 +33,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   }
   initLoginFlow() {}
   tryLogin() {
-    return Promise.resolve(true);
+    return Promise.resolve({ result: true, tokenReceived: true });
   }
   events$ = oauthLibEvents;
 }
@@ -122,7 +122,9 @@ describe('AuthService', () => {
 
     describe('when the token is NOT received', () => {
       it('should NOT redirect', async () => {
-        oauthLibEvents.next({ type: 'discovery_document_load_error' });
+        spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
+          Promise.resolve({ result: true, tokenReceived: false })
+        );
         spyOn(authRedirectService, 'redirect').and.stub();
 
         await service.checkOAuthParamsInUrl();

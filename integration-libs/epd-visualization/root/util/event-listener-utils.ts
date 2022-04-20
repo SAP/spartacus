@@ -20,8 +20,8 @@ export class EventListenerUtils {
     callback: (event: any) => void
   ): void {
     const listener: Listener = {
-      nativeElement: nativeElement,
-      eventName: eventName,
+      nativeElement,
+      eventName,
       endListener: this.renderer.listen(nativeElement, eventName, callback),
     };
     this.listeners.push(listener);

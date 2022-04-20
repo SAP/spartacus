@@ -1,13 +1,13 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import {
   OrderReturnRequestFacade,
   ReturnRequestList,
 } from '@spartacus/order/root';
 import { ListNavigationModule } from '@spartacus/storefront';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';
 
 const mockReturns: ReturnRequestList = {
@@ -25,6 +25,8 @@ const mockReturns: ReturnRequestList = {
   sorts: [{ code: 'byDate', selected: true }],
 };
 
+const mockReturnRequestList$ = new BehaviorSubject(mockReturns);
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -33,10 +35,8 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockOrderReturnRequestService {
-  returns = new BehaviorSubject(mockReturns);
-
   getOrderReturnRequestList(): Observable<ReturnRequestList> {
-    return this.returns;
+    return mockReturnRequestList$.asObservable();
   }
 
   loadOrderReturnRequestList(
@@ -47,6 +47,12 @@ class MockOrderReturnRequestService {
   ): void {}
 
   clearOrderReturnRequestList() {}
+}
+
+class MockTranslationService {
+  translate(): Observable<string> {
+    return of('sortLabel');
+  }
 }
 
 describe('OrderReturnRequestListComponent', () => {
@@ -64,6 +70,10 @@ describe('OrderReturnRequestListComponent', () => {
             provide: OrderReturnRequestFacade,
             useClass: MockOrderReturnRequestService,
           },
+          {
+            provide: TranslationService,
+            useClass: MockTranslationService,
+          },
         ],
       }).compileComponents();
 
@@ -80,14 +90,35 @@ describe('OrderReturnRequestListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should read order return request list', () => {
-    let returns: ReturnRequestList;
+  it('should not set sort type if no return request are provided', () => {
+    let returns: ReturnRequestList | undefined;
+
+    mockReturnRequestList$.next({});
+
     component.returnRequests$
       .subscribe((value) => {
         returns = value;
       })
       .unsubscribe();
+
+    expect(returns).toEqual({});
+    expect(component.sortType).toBe(undefined);
+  });
+
+  it('should read order return request list', () => {
+    let returns: ReturnRequestList | undefined;
+
+    mockReturnRequestList$.next(mockReturns);
+    fixture.detectChanges();
+
+    component.returnRequests$
+      .subscribe((value) => {
+        returns = value;
+      })
+      .unsubscribe();
+
     expect(returns).toEqual(mockReturns);
+    expect(component.sortType).toBe('byDate');
   });
 
   it('should set correctly sort code', () => {
@@ -101,6 +132,16 @@ describe('OrderReturnRequestListComponent', () => {
       0,
       'byOrderNumber'
     );
+  });
+
+  it('getSortLabels ', (done) => {
+    component
+      .getSortLabels()
+      .subscribe((labels) => {
+        expect(labels).toEqual({ byDate: 'sortLabel', byRMA: 'sortLabel' });
+        done();
+      })
+      .unsubscribe();
   });
 
   it('should set correctly page', () => {

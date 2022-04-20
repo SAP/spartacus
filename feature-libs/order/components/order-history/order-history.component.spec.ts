@@ -55,6 +55,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 };
 
 const mockOrderHistoryList$ = new BehaviorSubject<OrderHistoryList>(mockOrders);
+
 const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
   mockReplenishmentOrder
 );
@@ -220,17 +221,46 @@ describe('OrderHistoryComponent', () => {
     );
 
     expect(elements.length).toEqual(2);
+    expect(component.sortType).toEqual('byDate');
+  });
+  it('should not have sortType if no orders and pagination are provided', () => {
+    let orders: OrderHistoryList | undefined;
+
+    mockOrderHistoryList$.next(undefined);
+
+    component.orders$
+      .subscribe((value) => {
+        orders = value;
+      })
+      .unsubscribe();
+
+    expect(orders).toEqual(undefined);
+
+    expect(component.sortType).toBe(undefined);
   });
 
-  it('should NOT display pagination', () => {
+  it('should not have sortType if no pagination is provided', () => {
+    let orders: OrderHistoryList | undefined;
+
     mockOrderHistoryList$.next(mockEmptyOrderList);
-    fixture.detectChanges();
+
+    component.orders$
+      .subscribe((value) => {
+        orders = value;
+      })
+      .unsubscribe();
 
     const elements = fixture.debugElement.queryAll(
       By.css('.cx-order-history-pagination')
     );
 
     expect(elements.length).toEqual(0);
+    expect(orders).toEqual({
+      orders: [],
+      pagination: { totalResults: 0, totalPages: 1 },
+    });
+
+    expect(component.sortType).toBe(undefined);
   });
 
   it('should clear order history data when component destroy', () => {

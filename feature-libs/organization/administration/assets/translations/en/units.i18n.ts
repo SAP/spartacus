@@ -68,6 +68,8 @@ export const orgUnit = {
   form: {
     parentOrgUnit: 'Parent business unit',
     create: 'Create Unit',
+    parentOrgUnitNotes:
+      'This unit is the top-level unit for your organization. It cannot be assigned to another unit.',
   },
   users: {
     header: 'Users in {{code}}',
