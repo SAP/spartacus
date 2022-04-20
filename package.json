@@ -188,7 +188,7 @@
     "gh-pages": "^2.1.1",
     "git-raw-commits": "^2.0.0",
     "glob": "^7.1.6",
-    "http-server": "^0.12.3",
+    "http-server": "^14.1.0",
     "i18n-lint": "^1.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-marbles": "^0.6.0",
