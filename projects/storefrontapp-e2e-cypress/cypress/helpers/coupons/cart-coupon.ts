@@ -285,7 +285,7 @@ export function verifyOrderHistoryForCouponAndPrice(
 
 export function verifyGiftProductCoupon(productCode: string) {
   cy.get('cx-cart-item-list')
-    .contains('cx-cart-item', productCode)
+    .contains('tr[cx-cart-item-list-row]', productCode)
     .within(() => {
       cy.get('.cx-price > .cx-value').should('contain', '$0.00');
       cy.get('cx-item-counter input').should('have.value', '1');

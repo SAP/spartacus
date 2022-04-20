@@ -15,6 +15,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: center;
+    text-transform: capitalize;
   }
 
   nav {
@@ -34,6 +35,8 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
       justify-content: center;
       list-style: none;
       padding-inline-start: 0;
+      margin: 0;
+
       li {
         display: inline;
         color: var(--cx-color-secondary);

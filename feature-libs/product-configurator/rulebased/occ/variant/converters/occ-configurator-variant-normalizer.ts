@@ -134,6 +134,7 @@ export class OccConfiguratorVariantNormalizer
       hasConflicts: numberOfConflicts > 0,
       images: attributeImages,
       values: attributeValues,
+      key: sourceAttribute.key,
     };
 
     this.setSelectedSingleValue(attribute);

@@ -54,6 +54,16 @@ export interface CmsSiteContextSelectorComponent extends CmsComponent {
   context?: string;
 }
 
+export enum ScrollBehavior {
+  AUTO = 'auto',
+  SMOOTH = 'smooth',
+}
+
+export interface CmsScrollToTopComponent extends CmsComponent {
+  scrollBehavior?: ScrollBehavior;
+  displayThreshold?: number;
+}
+
 export interface CmsSearchBoxComponent extends CmsComponent {
   container?: boolean;
   maxSuggestions?: number;
@@ -174,4 +184,31 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
 
 export interface CmsAddToCartComponent extends CmsComponent {
   inventoryDisplay?: boolean;
+}
+
+export interface CmsVideoComponent extends CmsComponent {
+  overlayTitle?: string;
+  autoPlay?: string;
+  loop?: string;
+  mute?: string;
+  containerSize?: ContainerSizeOptions;
+  containerBackground?: ContainerBackgroundOptions;
+  videoContainerHeight?: number;
+  video?: CmsBannerComponentMedia;
+  container?: boolean;
+  videoMedia?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
+  url?: string;
+  category?: string;
+  product?: string;
+  contentPage?: string;
+}
+
+export enum ContainerBackgroundOptions {
+  NO_BACKGROUND = 'NO_BACKGROUND',
+  UPLOAD_RESPONSIVE_IMAGE = 'UPLOAD_RESPONSIVE_IMAGE',
+}
+
+export enum ContainerSizeOptions {
+  FIT_TO_CONTENT_SIZE = 'FIT_TO_CONTENT_SIZE',
+  DEFINE_CONTAINER_HEIGHT = 'DEFINE_CONTAINER_HEIGHT',
 }

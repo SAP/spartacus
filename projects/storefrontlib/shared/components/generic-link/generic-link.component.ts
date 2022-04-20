@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Params, Router } from '@angular/router';
+import { GenericLinkComponentService } from './generic-link-component.service';
 
 // private
 interface RouteParts {
@@ -21,22 +22,10 @@ interface RouteParts {
   templateUrl: './generic-link.component.html',
 })
 export class GenericLinkComponent implements OnChanges {
-  constructor(protected router: Router) {}
-
-  /**
-   * Pattern matching string starting with `http://` or `https://`.
-   */
-  protected readonly PROTOCOL_REGEX: RegExp = /^https?:\/\//i;
-
-  /**
-   * Pattern matching string starting with `mailto:`.
-   */
-  protected readonly MAILTO_PROTOCOL_REGEX: RegExp = /^mailto:/i;
-
-  /**
-   * Pattern matching string starting with `tel:`.
-   */
-  protected readonly TEL_PROTOCOL_REGEX: RegExp = /^tel:/i;
+  constructor(
+    protected router: Router,
+    protected service: GenericLinkComponentService
+  ) {}
 
   /**
    * Used to split url into 2 parts:
@@ -59,22 +48,8 @@ export class GenericLinkComponent implements OnChanges {
   @Input() style: string;
   @Input() title: string;
 
-  /**
-   * Returns true when the @Input `url` is a string starting with `http://` or `https://`.
-   */
   isExternalUrl(): boolean {
-    return typeof this.url === 'string' && this.PROTOCOL_REGEX.test(this.url);
-  }
-
-  /**
-   * Returns true when the @Input `url` is a string starting with `mailto:` or `tel:`.
-   */
-  isContactUrl(): boolean {
-    return (
-      typeof this.url === 'string' &&
-      (this.MAILTO_PROTOCOL_REGEX.test(this.url) ||
-        this.TEL_PROTOCOL_REGEX.test(this.url))
-    );
+    return this.service.isExternalUrl(this.url);
   }
 
   get rel() {
