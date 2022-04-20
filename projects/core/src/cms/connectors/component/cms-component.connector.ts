@@ -56,11 +56,11 @@ export class CmsComponentConnector {
           while (currentPage < totalPages) {
             cmsComponents.push(
               this.cmsComponentAdapter.findComponentsByIds(
-                missingIds,
-                pageContext,
-                'DEFAULT',
-                currentPage,
-                pageSize
+                missingIds.slice(
+                  currentPage * pageSize,
+                  (currentPage + 1) * pageSize
+                ),
+                pageContext
               )
             );
             currentPage++;

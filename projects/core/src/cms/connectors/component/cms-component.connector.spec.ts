@@ -73,13 +73,7 @@ describe('CmsComponentConnector', () => {
     describe('getList using GET request', () => {
       it('should call adapter', () => {
         service.getList(ids, context).subscribe();
-        expect(adapter.findComponentsByIds).toHaveBeenCalledWith(
-          ids,
-          context,
-          'DEFAULT',
-          0,
-          2
-        );
+        expect(adapter.findComponentsByIds).toHaveBeenCalledWith(ids, context);
       });
 
       it('should use CmsStructureConfigService', () => {

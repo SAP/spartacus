@@ -24,10 +24,6 @@ export abstract class CmsComponentAdapter {
    */
   abstract findComponentsByIds(
     ids: string[],
-    pageContext: PageContext,
-    fields?: string,
-    currentPage?: number,
-    pageSize?: number,
-    sort?: string
+    pageContext: PageContext
   ): Observable<CmsComponent[]>;
 }
