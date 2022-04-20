@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ParagraphComponent } from './paragraph.component';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { ParagraphComponent } from './paragraph.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
