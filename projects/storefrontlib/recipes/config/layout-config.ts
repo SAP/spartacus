@@ -88,6 +88,7 @@ export const layoutConfig: LayoutConfig = {
       pageFold: 'Summary',
       slots: [
         'Summary',
+        'Section3', // TODO: Use descriptive slot name
         'UpSelling',
         'CrossSelling',
         'Tabs',

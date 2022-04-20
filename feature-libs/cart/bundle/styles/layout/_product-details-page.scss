@@ -55,14 +55,6 @@
         cx-stock-notification:empty {
           display: none;
         }
-
-        cx-bundle-carousel {
-          grid-column: 2;
-          padding-top: 20px;
-          padding-inline-end: 20px;
-          padding-bottom: 0px;
-          padding-inline-start: 20px;
-        }
       }
     }
     &.AddToCart {
@@ -72,9 +64,6 @@
     &.CrossSelling {
       max-width: var(--cx-page-width-max);
       margin: auto;
-    }
-    &.Section3 {
-      @extend .container !optional;
     }
   }
 

@@ -476,7 +476,10 @@
       ],
       "@spartacus/cart/bundle/root": [
         "feature-libs/cart/bundle/root/public_api"
-      ]
+      ],
+      "@spartacus/cart/bundle/components/bundle-carousel": [
+        "feature-libs/cart/base/components/bundle-carousel/public_api"
+      ],
     }
   },
   "exclude": [

@@ -1,0 +1,20 @@
+<div *ngIf="product$ | async as product">
+  <div *ngIf="product.bundleTemplates as templates">
+    <h1 [style.margin-bottom]="'48px'">Buy This Item In A Bundle</h1>
+
+    <div
+      *ngFor="let template of templates"
+      class="row"
+      [style.margin-block]="'32px'"
+    >
+      <div class="col-8">
+        <label>{{ template?.rootBundleTemplateName }}</label>
+      </div>
+      <div class="col-4 text-right">
+        <button class="btn btn-secondary" (click)="startBundle(template)">
+          Start Bundle
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
