@@ -22,7 +22,7 @@ import { RegistrationFormComponent } from './registration-form/registration-form
     RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        RegistrationFormComponent: {
+        RegisterOrgUserComponent: {
           component: RegistrationFormComponent,
         },
       },
