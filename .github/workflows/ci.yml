@@ -17,14 +17,6 @@ concurrency:
 
 name: Spartacus build pipeline
 jobs:
-  test_job:
-    name: Verify pull_request files
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Determine whether to run e2es
-        run: |
-          ci-scripts/verify-pull-request.sh
   no_retries: 
     name: Verify retries
     runs-on: ubuntu-latest
@@ -35,6 +27,20 @@ jobs:
           script: |
             core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
         if: ${{ github.run_attempt > 1 }}
+  validate_e2e_execution:
+    name: Validate pull_request files
+    runs-on: ubuntu-latest
+    outputs: 
+      SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Determine whether to run e2es
+        id: save-e2e-output-result
+        run: |         
+          source ci-scripts/validate-e2e-execution.sh
+          echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
   unit_tests_core:
     needs: no_retries
     name: Unit tests for core Spartacus libs
@@ -52,8 +58,9 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
-          restore-keys: nodemodules-${{ github.sha }}
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -78,8 +85,9 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
-          restore-keys: nodemodules-${{ github.sha }}
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -104,8 +112,9 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
-          restore-keys: nodemodules-${{ github.sha }}
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
         run: npm install -g @angular/cli@v12-lts
       - name: Package installation
@@ -113,43 +122,6 @@ jobs:
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
-  b2c_e2e_tests:
-    needs: no_retries
-    name: E2E tests for B2C
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        containers: [1, 2, 3, 4, 5]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env: 
-          SPA_ENV: ci,b2c
-        run: |
-          ci-scripts/e2e-cypress.sh
-  b2c_ssr_e2e_tests:
-    needs: no_retries
-    name: E2E tests for SSR B2C
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        run: |
-          ci-scripts/e2e-cypress.sh --ssr
-  b2b_e2e_tests:
-    needs: no_retries
-    name: E2E tests for B2B
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        containers: [1, 2]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Run e2es
-        env:
-          SPA_ENV: ci,b2b
-        run: |     
-          ci-scripts/e2e-cypress.sh -s b2b
   lighthouse:
     needs: no_retries
     name: Lighthouse score validation
@@ -176,6 +148,73 @@ jobs:
       - name: Run lighthouse score validation
         run: |
           ci-scripts/lhci.sh
+  b2c_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
+    name: E2E tests for B2C
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env: 
+          SPA_ENV: ci,b2c
+        run: |
+          ci-scripts/e2e-cypress.sh
+  b2c_ssr_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
+    name: E2E tests for SSR B2C
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        run: |
+          ci-scripts/e2e-cypress.sh --ssr
+  b2b_e2e_tests:
+    needs: [no_retries, validate_e2e_execution]
+    name: E2E tests for B2B
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        containers: [1, 2]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Run e2es
+        env:
+          SPA_ENV: ci,b2b
+        run: |     
+          ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
     needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
     name: Build Conclusion
@@ -188,25 +227,11 @@ jobs:
           script: |
             core.setFailed('Build failed')
         if: |
-          needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' || needs.no_retries.result == 'skipped' ||
-          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' || needs.unit_tests_core.result == 'skipped' ||
-          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' || needs.unit_tests_libs.result == 'skipped' ||
-          needs.linting.result == 'failure' || needs.linting.result == 'cancelled' || needs.linting.result == 'skipped' ||
-          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' || needs.b2c_e2e_tests.result == 'skipped' ||
-          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || needs.b2c_ssr_e2e_tests.result == 'skipped' || 
-          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' || needs.b2b_e2e_tests.result == 'skipped' || 
-          needs.lighthouse.result == 'failure' || needs.lighthouse.result == 'cancelled' || needs.lighthouse.result == 'skipped'
-  send_slack_message:
-    needs: build_conclusion
-    name: Slack message for failed develop CI build in Spartacus
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      # TODO with slack actions for only develop
-      - name: Send Slack message when build conclusion failed
-        run: |
-          echo test
-        if: |
-          needs.no_retries.result == 'failure' || 
-          needs.no_retries.result == 'cancelled' || 
-          needs.no_retries.result == 'skipped'
+          needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
+          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' ||
+          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' ||
+          needs.linting.result == 'failure' || needs.linting.result == 'cancelled' ||
+          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
+          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
+          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' || 
+          needs.lighthouse.result == 'failure' || needs.lighthouse.result == 'cancelled'
