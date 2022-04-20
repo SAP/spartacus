@@ -5,6 +5,20 @@
     disabled="true"
     placeholder="{{ customer?.name }}, {{ customer?.uid }}"
   />
+  <label for="cartNumber"
+    >Cart #
+    <input
+      id="cartNumber"
+      formcontrolname="cartNumber"
+      type="text"
+      placeholder="Cart number"
+      [formControl]="cartId"
+    />
+  </label>
+  <button *ngIf="cartIdExists" (click)="assignCartToCustomer()">
+    Assign Cart to Customer
+  </button>
+  <button (click)="cancel()">Cancel</button>
   <button (click)="logoutCustomer()">
     {{ 'asm.endSession' | cxTranslate }}
   </button>

@@ -65,4 +65,27 @@ export class OccAsmAdapter implements AsmAdapter {
       .get<CustomerSearchPage>(url, { headers, params })
       .pipe(this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER));
   }
+
+  bindCart(cartId: string, customerId: string): Observable<void> {
+    const headers = InterceptorUtil.createHeader(
+      USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+      true,
+      new HttpHeaders()
+    );
+    let params: HttpParams = new HttpParams()
+      .set('baseSite', this.activeBaseSite)
+      .set('cartId', cartId)
+      .set('customerId', customerId);
+
+    const url = this.occEndpointsService.buildUrl(
+      'assistedservicewebservices/bind-cart',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
+    );
+
+    return this.http.post<void>(url, {}, { headers, params });
+  }
 }

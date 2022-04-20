@@ -11,4 +11,6 @@ export abstract class AsmAdapter {
   abstract customerSearch(
     options: CustomerSearchOptions
   ): Observable<CustomerSearchPage>;
+
+  abstract bindCart(cartId: string, customerId: string): Observable<void>;
 }
