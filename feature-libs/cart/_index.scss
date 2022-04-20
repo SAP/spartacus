@@ -5,7 +5,6 @@ $useLatestStyles: true;
 @import '~bootstrap/scss/_mixins';
 
 @import '~@spartacus/styles/scss/core';
-@import '~@spartacus/styles/scss/app';
 
 @mixin visible-focus {
   outline-style: solid;
@@ -20,3 +19,9 @@ $useLatestStyles: true;
 @import './quick-order/index';
 @import './wish-list/index';
 @import './import-export/index';
+
+@import 'cxbase/blocks/modal';
+
+@import 'misc/hamburger';
+@import 'misc/dialog';
+@import 'misc/table';
