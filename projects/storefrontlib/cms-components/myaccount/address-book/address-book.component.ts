@@ -22,7 +22,7 @@ export class AddressBookComponent implements OnInit {
 
   showAddAddressForm = false;
   showEditAddressForm = false;
-  editCard: string;
+  editCard: string | null;
 
   constructor(
     public service: AddressBookComponentService,
@@ -58,7 +58,9 @@ export class AddressBookComponent implements OnInit {
 
   editAddressSubmit(address: Address): void {
     this.showEditAddressForm = false;
-    this.service.updateUserAddress(this.currentAddress['id'], address);
+    if (this.currentAddress['id']) {
+      this.service.updateUserAddress(this.currentAddress['id'], address);
+    }
   }
 
   editAddressCancel(): void {
@@ -100,7 +102,7 @@ export class AddressBookComponent implements OnInit {
             text: [
               address.line1,
               address.line2,
-              address.town + ', ' + region + address.country.isocode,
+              address.town + ', ' + region + address.country?.isocode,
               address.postalCode,
               address.phone,
             ],

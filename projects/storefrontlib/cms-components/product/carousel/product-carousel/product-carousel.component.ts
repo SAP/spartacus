@@ -18,7 +18,7 @@ export class ProductCarouselComponent {
   protected readonly PRODUCT_SCOPE = ProductScope.LIST;
 
   private componentData$: Observable<model> = this.componentData.data$.pipe(
-    filter(Boolean)
+    filter((data) => Boolean(data))
   );
 
   /**

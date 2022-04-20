@@ -109,11 +109,11 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   closeIfClickedTheSameLink(navNode: NavigationNode): void {
     if (
       typeof navNode.url === 'string' &&
-      this.winRef.nativeWindow.location.href.includes(navNode.url)
+      this.winRef.nativeWindow?.location.href.includes(navNode.url)
     ) {
       this.elemRef.nativeElement
         .querySelectorAll('li.is-open:not(.back), li.is-opened')
-        .forEach((el) => {
+        .forEach((el: any) => {
           this.renderer.removeClass(el, 'is-open');
           this.renderer.removeClass(el, 'is-opened');
         });
@@ -207,8 +207,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       (event.target || event.relatedTarget)
     );
     if (
-      target.ownerDocument.activeElement.matches('nav[tabindex]') &&
-      target.parentElement.matches('.flyout')
+      target.ownerDocument.activeElement?.matches('nav[tabindex]') &&
+      target.parentElement?.matches('.flyout')
     ) {
       target.focus();
     }

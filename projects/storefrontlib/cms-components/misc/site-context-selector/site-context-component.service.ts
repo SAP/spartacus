@@ -3,6 +3,7 @@ import {
   CmsSiteContextSelectorComponent,
   ContextServiceMap,
   CURRENCY_CONTEXT_ID,
+  isNotUndefined,
   LANGUAGE_CONTEXT_ID,
   SiteContext,
 } from '@spartacus/core';
@@ -11,7 +12,7 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SiteContextType } from './site-context.model';
 
-const LABELS = {
+const LABELS: { [key: string]: string } = {
   [LANGUAGE_CONTEXT_ID]: 'Language',
   [CURRENCY_CONTEXT_ID]: 'Currency',
 };
@@ -53,6 +54,7 @@ export class SiteContextComponentService {
 
   getLabel(context?: SiteContextType): Observable<any> {
     return this.getContext(context).pipe(
+      filter(isNotUndefined),
       map((ctx) => {
         return LABELS[ctx];
       })
@@ -71,17 +73,22 @@ export class SiteContextComponentService {
     context?: SiteContextType
   ): Observable<SiteContext<any>> {
     return this.getContext(context).pipe(
-      map((ctx: string) => (ctx ? this.getInjectedService(ctx) : undefined)),
-      filter((s) => !!s)
+      map((ctx: string | undefined) =>
+        ctx ? this.getInjectedService(ctx) : undefined
+      ),
+      filter(isNotUndefined)
     );
   }
 
-  protected getContext(context?: SiteContextType): Observable<string> {
+  protected getContext(
+    context?: SiteContextType
+  ): Observable<string | undefined> {
     if (context) {
       return of(context);
     } else if (this.componentData) {
       return this.componentData.data$.pipe(
-        map((data) => data?.context),
+        map((data) => data.context),
+        filter(isNotUndefined),
         map((ctx) => {
           switch (ctx) {
             case 'LANGUAGE':
@@ -94,12 +101,13 @@ export class SiteContextComponentService {
         })
       );
     }
+    return of(undefined);
   }
 
   protected getInjectedService(context: string): SiteContext<any> {
     return this.injector.get<SiteContext<any>>(
       this.contextServiceMap[context],
-      null
+      undefined
     );
   }
 

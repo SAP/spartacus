@@ -68,7 +68,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   addressVerifySub: Subscription;
   regionsSub: Subscription;
-  suggestedAddressModalRef: ModalRef;
+  suggestedAddressModalRef: ModalRef | null;
 
   addressForm: FormGroup = this.fb.group({
     country: this.fb.group({
@@ -116,9 +116,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       tap((regions: Region[]) => {
         const regionControl = this.addressForm.get('region.isocode');
         if (regions && regions.length > 0) {
-          regionControl.enable();
+          regionControl?.enable();
         } else {
-          regionControl.disable();
+          regionControl?.disable();
         }
       })
     );
@@ -154,7 +154,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     } else if (results.decision === 'REJECT') {
       // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
       if (
-        results.errors.errors.some(
+        results.errors?.errors.some(
           (error: ErrorModel) => error.subject === 'titleCode'
         )
       ) {
@@ -173,9 +173,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  countrySelected(country: Country): void {
-    this.addressForm.get('country')?.get('isocode')?.setValue(country.isocode);
-    this.selectedCountry$.next(country.isocode);
+  countrySelected(country?: Country): void {
+    this.addressForm.get('country')?.get('isocode')?.setValue(country?.isocode);
+    this.selectedCountry$.next(country?.isocode ?? '');
   }
 
   regionSelected(region: Region): void {
@@ -194,7 +194,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   verifyAddress(): void {
     if (this.addressForm.valid) {
-      if (this.addressForm.get('region').value.isocode) {
+      if (this.addressForm.get('region')?.value.isocode) {
         this.regionsSub = this.regions$.pipe(take(1)).subscribe((regions) => {
           const obj = regions.find(
             (region) =>
@@ -202,7 +202,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
               this.addressForm.controls['region'].value.isocode
           );
           Object.assign(this.addressForm.value.region, {
-            isocodeShort: obj.isocodeShort,
+            isocodeShort: obj?.isocodeShort,
           });
         });
       }

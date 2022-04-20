@@ -14,7 +14,7 @@ import {
   providedIn: 'root',
 })
 export class IconLoaderService {
-  private loadedResources = [];
+  private loadedResources: string[] = [];
   constructor(
     protected winRef: WindowRef,
     protected iconConfig: IconConfig,
@@ -24,14 +24,17 @@ export class IconLoaderService {
   /**
    * Returns an html fragment which can be added to the DOM in a safe way.
    */
-  getHtml(type: ICON_TYPE | string): SafeHtml {
+  getHtml(type: ICON_TYPE | string): SafeHtml | undefined {
     if (this.isResourceType(type, IconResourceType.SVG)) {
       return this.sanitizer.bypassSecurityTrustHtml(
         `<svg><use xlink:href="${this.getSvgPath(type)}"></use></svg>`
       );
     }
     if (this.isResourceType(type, IconResourceType.TEXT)) {
-      return this.sanitizer.bypassSecurityTrustHtml(this.getSymbol(type));
+      const symbol = this.getSymbol(type);
+      if (symbol) {
+        return this.sanitizer.bypassSecurityTrustHtml(symbol);
+      }
     }
   }
 
@@ -39,7 +42,7 @@ export class IconLoaderService {
    * Return the direction for which the icon should mirror (ltr vs rtl). The icon direction
    * is configurable, but optional, as only a few icons should be flipped for rtl direction.
    */
-  getFlipDirection(type: ICON_TYPE | string): DirectionMode {
+  getFlipDirection(type: ICON_TYPE | string): DirectionMode | undefined {
     return this.config?.flipDirection?.[type];
   }
 
@@ -59,12 +62,14 @@ export class IconLoaderService {
     iconType: ICON_TYPE | string,
     resourceType: IconResourceType
   ): boolean {
-    return (
-      this.config.resources &&
-      !!this.config.resources.find(
-        (res) =>
-          res.types && res.type === resourceType && res.types.includes(iconType)
-      )
+    return Boolean(
+      this.config?.resources &&
+        !!this.config.resources.find(
+          (res) =>
+            res.types &&
+            res.type === resourceType &&
+            res.types.includes(iconType)
+        )
     );
   }
 
@@ -74,8 +79,8 @@ export class IconLoaderService {
    * Additionally, the icon prefix will be taken into account to prefix the
    * icon IDs in the SVG.
    */
-  private getSvgPath(iconType: ICON_TYPE | string): string {
-    const svgResource = this.config.resources.find(
+  private getSvgPath(iconType: ICON_TYPE | string): string | undefined {
+    const svgResource = this.config?.resources?.find(
       (res) =>
         res.type === IconResourceType.SVG &&
         res.types &&
@@ -97,7 +102,7 @@ export class IconLoaderService {
    * web component.
    */
   addLinkResource(iconType: ICON_TYPE | string): void {
-    const resource: IconConfigResource = this.findResource(
+    const resource: IconConfigResource | undefined = this.findResource(
       iconType,
       IconResourceType.LINK
     );
@@ -119,8 +124,8 @@ export class IconLoaderService {
   private findResource(
     iconType: ICON_TYPE | string,
     resourceType: IconResourceType
-  ): IconConfigResource {
-    if (!this.config.resources) {
+  ): IconConfigResource | undefined {
+    if (!this.config?.resources) {
       return;
     }
 
@@ -143,7 +148,7 @@ export class IconLoaderService {
     }
   }
 
-  private get config(): IconOptions {
+  private get config(): IconOptions | undefined {
     return this.iconConfig.icon;
   }
 }

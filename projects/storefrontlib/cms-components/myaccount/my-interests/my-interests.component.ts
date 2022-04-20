@@ -30,7 +30,7 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   private DEFAULT_PAGE_SIZE = 10;
-  private sortMapping = {
+  private sortMapping: { [key: string]: string } = {
     byNameAsc: 'name:asc',
     byNameDesc: 'name:desc',
   };
