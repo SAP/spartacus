@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
 import {
   PaginationModel,
   Product,
@@ -15,6 +14,7 @@ import {
   TranslationService,
   UserInterestsService,
 } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
@@ -66,10 +66,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
         tap(
           (interests) =>
             (this.pagination = {
-              currentPage: interests.pagination.page,
-              pageSize: interests.pagination.count,
-              totalPages: interests.pagination.totalPages,
-              totalResults: interests.pagination.totalCount,
+              currentPage: interests.pagination?.page,
+              pageSize: interests.pagination?.count,
+              totalPages: interests.pagination?.totalPages,
+              totalResults: interests.pagination?.totalCount,
               sort: 'byNameAsc',
             })
         ),
@@ -114,7 +114,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   private getProduct(
     interest: ProductInterestEntryRelation
   ): Observable<Product> {
-    return this.productService.get(interest.product.code, ProductScope.DETAILS);
+    return this.productService.get(
+      interest.product?.code ?? '',
+      ProductScope.DETAILS
+    );
   }
 
   removeInterest(

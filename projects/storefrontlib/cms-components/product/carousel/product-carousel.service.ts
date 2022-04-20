@@ -19,7 +19,7 @@ export class ProductCarouselService {
   loadProduct(code: string): Observable<ProductCarouselItem> {
     return this.productService.get(code).pipe(
       filter(Boolean),
-      map((product) => this.convertProduct(product))
+      map((product: Product) => this.convertProduct(product))
     );
   }
 
