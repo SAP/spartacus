@@ -207,7 +207,7 @@
     "postcss": "^8.2.13",
     "postcss-scss": "^3.0.4",
     "prettier": "~2.4.1",
-    "release-it": "^14.10.0",
+    "release-it": "^14.14.2",
     "rimraf": "^3.0.2",
     "semver": "^7.3.5",
     "semver-extra": "^3.0.0",
