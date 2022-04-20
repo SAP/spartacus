@@ -3,7 +3,6 @@
 @import '~bootstrap/scss/_mixins';
 
 @import '~@spartacus/styles/scss/core';
-@import '~@spartacus/styles/scss/app';
 @import '~@spartacus/styles/scss/components/cart/cart-details';
 
 @mixin visible-focus {
@@ -17,3 +16,9 @@
 @import './saved-cart/index';
 @import './quick-order/index';
 @import './import-export/index';
+
+@import 'cxbase/blocks/modal';
+
+@import 'misc/hamburger';
+@import 'misc/dialog';
+@import 'misc/table';
