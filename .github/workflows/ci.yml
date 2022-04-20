@@ -122,32 +122,6 @@ jobs:
       - name: Run linting validation
         run: |
           ci-scripts/validate-lint.sh
-  lighthouse:
-    needs: no_retries
-    name: Lighthouse score validation
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - name: Cache node_modules
-        id: cache-node-modules
-        uses: actions/cache@v2
-        with:
-          path: | 
-            node_modules
-            projects/storefrontapp-e2e-cypress/node_modules
-          key: ${{ runner.os }}-${{ github.run_id}}-nodemodules
-          restore-keys: nodemodules-${{ github.sha }}
-      - name: Install angular CLI
-        run: npm install -g @angular/cli@v12-lts
-      - name: Package installation
-        run: yarn --frozen-lockfile
-      - name: Run lighthouse score validation
-        run: |
-          ci-scripts/lhci.sh
   b2c_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
     name: E2E tests for B2C
@@ -216,7 +190,7 @@ jobs:
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
-    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests, lighthouse]
+    needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
     name: Build Conclusion
     runs-on: ubuntu-latest
     if: ${{ always() }}
@@ -233,5 +207,4 @@ jobs:
           needs.linting.result == 'failure' || needs.linting.result == 'cancelled' ||
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
-          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' || 
-          needs.lighthouse.result == 'failure' || needs.lighthouse.result == 'cancelled'
+          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
