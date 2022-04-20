@@ -232,8 +232,8 @@ describe('ConfigUtilsService', () => {
       });
     });
 
-    describe('focusAttribute', () => {
-      it('should delegate to keyboard focus service', () => {
+    describe('focusSelectedValue', () => {
+      it('should delegate to keyboard focus service with attribute name', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
         const focusedElements = createFocusedElements('ATTR', 2, 3);
         document.querySelector = jasmine
@@ -242,7 +242,20 @@ describe('ConfigUtilsService', () => {
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
           focusedElements
         );
-        classUnderTest.focusAttribute('ATTR_2');
+        classUnderTest.focusValue('ATTR_2');
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+      });
+
+      it('should delegate to keyboard focus service with attribute name and value UI key', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        const focusedElements = createFocusedElements('ATTR', 2, 3);
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+        classUnderTest.focusValue('ATTR_2', 'ATTR_2--value_2');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
       });
 
@@ -252,7 +265,7 @@ describe('ConfigUtilsService', () => {
           .createSpy('HTML Element')
           .and.returnValue(undefined);
         spyOn(keyboardFocusService, 'findFocusable').and.callThrough();
-        classUnderTest.focusAttribute('ATTR_2');
+        classUnderTest.focusValue('ATTR_2');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
       });
 
@@ -265,14 +278,14 @@ describe('ConfigUtilsService', () => {
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
           focusedElements
         );
-        classUnderTest.focusAttribute('NO_ATTR_2');
+        classUnderTest.focusValue('NO_ATTR_2');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
       });
 
       it('should not delegate to keyboard focus service', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(false);
         spyOn(keyboardFocusService, 'findFocusable').and.callThrough();
-        classUnderTest.focusAttribute('ATTR_2');
+        classUnderTest.focusValue('ATTR_2');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
       });
 
@@ -283,7 +296,7 @@ describe('ConfigUtilsService', () => {
           .createSpy('HTML Element')
           .and.returnValue(theElement);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
-        classUnderTest.focusAttribute('ATTR_2');
+        classUnderTest.focusValue('ATTR_2');
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
       });
     });

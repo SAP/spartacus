@@ -41,7 +41,7 @@ class MockConfigUtilsService {
     return of(isCartEntryOrGroupVisited);
   }
 
-  focusAttribute(): void {}
+  focusValue(): void {}
   scrollToConfigurationElement(): void {}
 }
 
@@ -65,6 +65,16 @@ class MockConfiguratorCommonsService {
 
 class MockConfiguratorGroupsService {
   navigateToGroup(): void {}
+}
+
+function createValue(code: string, name: string, isSelected: boolean) {
+  const value: Configurator.Value = {
+    valueCode: code,
+    valueDisplay: name,
+    name: name,
+    selected: isSelected,
+  };
+  return value;
 }
 
 describe('ConfigAttributeHeaderComponent', () => {
@@ -781,7 +791,47 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(component['logWarning']).toHaveBeenCalled();
     });
 
-    it('should call focusAttribute', () => {
+    it('should navigate from conflict group to regular group that contains attribute with selected value which is involved in conflict', () => {
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
+
+      const value1 = createValue('1', 'val1', false);
+      const value2 = createValue('2', 'val2', false);
+      const value3 = createValue('3', 'val3', true);
+
+      component.attribute.values = [value1, value2, value3];
+
+      spyOn(configurationGroupsService, 'navigateToGroup');
+      fixture.detectChanges();
+
+      component.navigateToGroup();
+      expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        1
+      );
+    });
+
+    it('should navigate from conflict group to regular group that contains attribute without any selected value which is involved in conflict', () => {
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
+
+      const value1 = createValue('1', 'val1', false);
+      const value2 = createValue('2', 'val2', false);
+      const value3 = createValue('3', 'val3', false);
+
+      component.attribute.values = [value1, value2, value3];
+
+      spyOn(configurationGroupsService, 'navigateToGroup');
+      fixture.detectChanges();
+
+      component.navigateToGroup();
+      expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        1
+      );
+    });
+  });
+
+  describe('Focus selected value', () => {
+    it('should call focusValue with attribute name', () => {
       const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
       });
@@ -800,18 +850,63 @@ describe('ConfigAttributeHeaderComponent', () => {
           'isConfigurationLoading'
         ).and.returnValue(configurationLoading);
 
-        spyOn(configuratorStorefrontUtilsService, 'focusAttribute');
+        spyOn(configuratorStorefrontUtilsService, 'focusValue');
 
         fixture.detectChanges();
 
-        component['focusAttribute'](ConfigurationTestData.GROUP_ID_2);
+        component['focusValue'](component.attribute.name);
       });
 
       expect(
-        configuratorStorefrontUtilsService.focusAttribute
+        configuratorStorefrontUtilsService.focusValue
       ).toHaveBeenCalledTimes(1);
     });
 
+    it('should call focusValue with attribute name', () => {
+      const testScheduler = new TestScheduler((actual, expected) => {
+        expect(actual).toEqual(expected);
+      });
+      //we need to run the test in a test scheduler
+      //because of the delay() in method focusAttribute
+      testScheduler.run(() => {
+        component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+        component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
+        const value1 = createValue('1', 'val1', false);
+        const value2 = createValue('2', 'val2', false);
+        const value3 = createValue('3', 'val3', true);
+
+        component.attribute.values = [value1, value2, value3];
+
+        const configurationLoading = cold('-a-b', {
+          a: true,
+          b: false,
+        });
+        spyOn(
+          configuratorCommonsService,
+          'isConfigurationLoading'
+        ).and.returnValue(configurationLoading);
+
+        spyOn(configuratorStorefrontUtilsService, 'focusValue');
+
+        fixture.detectChanges();
+
+        const selectedValue = component.attribute.values?.find(
+          (value) => value.selected
+        );
+        const valueUiKey = component.createAttributeValueUiKey(
+          component.attribute.name,
+          selectedValue.valueCode
+        );
+        component['focusValue'](component.attribute.name, valueUiKey);
+      });
+
+      expect(
+        configuratorStorefrontUtilsService.focusValue
+      ).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('Scroll to configuration element', () => {
     it('should call scrollToConfigurationElement', () => {
       const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
@@ -845,7 +940,9 @@ describe('ConfigAttributeHeaderComponent', () => {
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalledTimes(1);
     });
+  });
 
+  describe('Find conflict group ID', () => {
     it('should not find the conflicting group key when there is no conflict', () => {
       expect(
         component.findConflictGroupId(configWithoutConflicts, currentAttribute)

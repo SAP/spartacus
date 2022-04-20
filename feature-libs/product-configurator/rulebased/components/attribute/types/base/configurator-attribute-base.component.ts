@@ -67,6 +67,15 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   /**
+   * Creates unique key for config attribute and value on the UI
+   * @param attributeId - Attribute ID
+   * @param valueId - Value ID
+   */
+  createAttributeValueUiKey(attributeId: string, valueId: string): string {
+    return attributeId + ConfiguratorAttributeBaseComponent.SEPERATOR + valueId;
+  }
+
+  /**
    * Creates unique key for config attribute to be sent to configurator
    * @param currentAttribute
    */
