@@ -11,7 +11,7 @@ env:
 
 jobs:
   cacheNodeModules:   
-    name: Cache root node_modules
+    name: Cache node_modules
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
