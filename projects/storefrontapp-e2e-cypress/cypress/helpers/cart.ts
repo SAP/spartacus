@@ -550,7 +550,7 @@ export function verifyCartIdAfterClearCart() {
 
 export function visitFirstCarouselProductPage() {
   cy.get('cx-carousel').within(() => {
-    cy.get('a').first().click();
+    cy.get('a').first().click({ force: true });
   });
 }
 

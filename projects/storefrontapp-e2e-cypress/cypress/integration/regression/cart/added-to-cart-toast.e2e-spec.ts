@@ -64,13 +64,14 @@ describe('Added to cart toast - Anonymous user', () => {
     it('should redirect to the cart page', () => {
       visitFirstCarouselProductPage();
 
+      const productNameEl = cy.get('h1');
+
       clickAddToCart();
-      cy.get('cx-added-to-cart-toast').within(() => {
-        cy.get('.btn-primary')
-          .click()
-          .then(() => {
-            cy.location('pathname').should('contain', '/cart');
-          });
+      cy.get('.added-to-cart-toast-content > .btn').click();
+
+      cy.location('pathname').should('contain', '/cart');
+      cy.get('.cx-name').should((el) => {
+        productNameEl.should('have.text', el.text());
       });
     });
   });
