@@ -1,6 +1,6 @@
 <cx-generic-link
   *ngIf="data$ | async as data"
-  [url]="data.urlLink"
+  [url]="routerLink"
   [target]="getTarget(data)"
 >
   <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
