@@ -1,4 +1,8 @@
-import { clickAddToCart, verifyAddedToCartToast } from '../../../helpers/cart';
+import {
+  clickAddToCart,
+  verifyAddedToCartToast,
+  visitFirstCarouselProductPage,
+} from '../../../helpers/cart';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
@@ -18,9 +22,7 @@ describe('Added to cart toast - Anonymous user', () => {
     it('should add a product from a PDP to cart', () => {
       const quantity = 4;
 
-      cy.get('cx-carousel').within(() => {
-        cy.get('a').first().click();
-      });
+      visitFirstCarouselProductPage();
 
       const productNameEl = cy.get('h1');
 
@@ -50,9 +52,7 @@ describe('Added to cart toast - Anonymous user', () => {
     });
 
     it('should dismiss the toast', () => {
-      cy.get('cx-carousel').within(() => {
-        cy.get('a').first().click();
-      });
+      visitFirstCarouselProductPage();
 
       clickAddToCart();
       cy.get('cx-added-to-cart-toast').within(() => {
@@ -62,9 +62,7 @@ describe('Added to cart toast - Anonymous user', () => {
     });
 
     it('should redirect to the cart page', () => {
-      cy.get('cx-carousel').within(() => {
-        cy.get('a').first().click();
-      });
+      visitFirstCarouselProductPage();
 
       clickAddToCart();
       cy.get('cx-added-to-cart-toast').within(() => {

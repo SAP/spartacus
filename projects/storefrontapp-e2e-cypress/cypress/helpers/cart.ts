@@ -548,6 +548,12 @@ export function verifyCartIdAfterClearCart() {
   });
 }
 
+export function visitFirstCarouselProductPage() {
+  cy.get('cx-carousel').within(() => {
+    cy.get('a').first().click();
+  });
+}
+
 export function verifyAddedToCartToast(quantity = 1, productNameEl) {
   cy.get('cx-added-to-cart-toast').within(() => {
     cy.get('.added-to-cart-toast-title').should(
