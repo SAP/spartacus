@@ -165,6 +165,8 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Run e2es
+        env: 
+          SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
