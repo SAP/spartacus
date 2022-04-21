@@ -76,7 +76,7 @@ export class SearchBoxComponentService {
           products: productResults ? productResults.products : null,
           suggestions,
           message,
-        };
+        } as SearchResults;
       }),
       tap((results) =>
         this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, this.hasResults(results))
