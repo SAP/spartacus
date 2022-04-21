@@ -40,6 +40,7 @@ import {
 import {
   addLibraryFeature,
   calculateCrossFeatureSort,
+  checkAppStructure,
   FeatureConfig,
   LibraryOptions,
   Module,
@@ -142,7 +143,19 @@ export function addFeatures<T extends LibraryOptions>(
   features: string[],
   configurationOverrides?: Record<string, FeatureConfigurationOverrides<T>>
 ): Rule {
-  return (_tree: Tree, context: SchematicContext): Rule => {
+  return (tree: Tree, context: SchematicContext): Rule => {
+    const spartacusFeatureModuleExists = checkAppStructure(
+      tree,
+      options.project
+    );
+    options = {
+      ...options,
+      internal: {
+        ...options.internal,
+        dirtyInstallation: spartacusFeatureModuleExists,
+      },
+    };
+
     if (options.debug) {
       let message = `\n******************************\n`;
       message += `Cross feature sorting order:\n`;
@@ -180,6 +193,7 @@ export function addFeatures<T extends LibraryOptions>(
       rules.push(handleWrapperModule(libraryOptions, config));
     }
 
+    console.log(options);
     if (options.internal?.dirtyInstallation) {
       rules.push(orderInstalledFeatures(options));
     }
@@ -464,6 +478,10 @@ function getModuleIdentifier(element: Node): Identifier | undefined {
 
 function orderInstalledFeatures(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Ordering Spartacus feature modules...`);
+    }
+
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
@@ -502,6 +520,10 @@ function orderInstalledFeatures(options: SpartacusOptions): Rule {
         saveAndFormat(spartacusFeaturesModule);
         break;
       }
+    }
+
+    if (options.debug) {
+      context.logger.info(`✅ Ordering Spartacus feature modules...`);
     }
   };
 }
