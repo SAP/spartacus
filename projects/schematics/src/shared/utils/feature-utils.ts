@@ -45,7 +45,8 @@ import {
   Module,
 } from './lib-utils';
 import { getModulePropertyInitializer } from './new-module-utils';
-import { createProgram } from './program';
+import { createProgram, saveAndFormat } from './program';
+import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 
 export interface FeatureModuleImports {
   importPath: string;
@@ -178,6 +179,11 @@ export function addFeatures<T extends LibraryOptions>(
       rules.push(addLibraryFeature(libraryOptions, config));
       rules.push(handleWrapperModule(libraryOptions, config));
     }
+
+    if (options.internal?.dirtyInstallation) {
+      rules.push(orderInstalledFeatures(options));
+    }
+
     return chain(rules);
   };
 }
@@ -453,4 +459,48 @@ function getModuleIdentifier(element: Node): Identifier | undefined {
   }
 
   return undefined;
+}
+
+function orderInstalledFeatures(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const basePath = process.cwd();
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const spartacusFeaturesModule of appSourceFiles) {
+        if (
+          !spartacusFeaturesModule
+            .getFilePath()
+            .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
+        ) {
+          continue;
+        }
+
+        const analysis = analyzeFeature(spartacusFeaturesModule);
+        if (analysis.unrecognized) {
+          context.logger.warn(
+            `⚠️ Unrecognized feature found in ${spartacusFeaturesModule.getFilePath()}: ${
+              analysis.unrecognized
+            }.`
+          );
+          context.logger.warn(
+            `Please make sure the order of features in the NgModule's 'imports' array is correct.`
+          );
+          return noop();
+        }
+
+        const ordered = orderFeatures(analysis);
+        getModulePropertyInitializer(
+          spartacusFeaturesModule,
+          'imports',
+          false
+        )?.replaceWithText(`[${ordered.join(',\n')}]`);
+
+        saveAndFormat(spartacusFeaturesModule);
+        break;
+      }
+    }
+  };
 }
