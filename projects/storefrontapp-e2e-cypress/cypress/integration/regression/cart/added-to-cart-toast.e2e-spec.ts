@@ -19,7 +19,7 @@ describe('Added to cart toast - Anonymous user', () => {
       const quantity = 4;
 
       cy.visit(`/product/${productId}`);
-      cy.get('cx-item-counter input').type(`{selectall}${quantity.toString()}`);
+      cy.get('cx-item-counter input').type(`{selectall}${quantity}`);
       cy.get('cx-add-to-cart button[type=submit]').click();
 
       cy.get('cx-added-to-cart-toast').within(() => {
@@ -44,15 +44,26 @@ describe('Added to cart toast - Anonymous user', () => {
         cy.get('cx-navigation-ui')
           .contains('Digital Cameras')
           .click({ force: true });
-        cy.get('.childs cx-generic-link')
-          .contains('Compact Cameras')
-          .click({ force: true });
       });
+
+      cy.get('a.cx-product-name > h2')
+        .first()
+        .then((productName) => {
+          cy.wrap(productName).as('productName');
+        });
 
       cy.get('cx-add-to-cart button[type=submit]').first().click();
 
       cy.get('cx-added-to-cart-toast').within(() => {
         cy.get('.added-to-cart-toast-title').should('contain', '1 item');
+
+        // check for product name
+        cy.get('.product-name').then((el) => {
+          cy.get('@productName').then((productName) => {
+            expect(el).to.contain(productName.text());
+          });
+        });
+
         // check action buttons/links
         cy.get('button').should('contain.text', 'Continue Shopping');
         cy.get('.btn-primary')
@@ -61,6 +72,8 @@ describe('Added to cart toast - Anonymous user', () => {
             expect($href).contain('/cart');
           });
       });
+
+      // wait for toast to dismiss
       cy.wait(500);
       cy.get('cx-added-to-cart-toast').should('be.empty');
     });
