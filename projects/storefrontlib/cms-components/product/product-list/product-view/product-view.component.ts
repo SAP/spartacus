@@ -25,7 +25,7 @@ export class ProductViewComponent {
   modeChange = new EventEmitter<string>();
 
   get buttonClass() {
-    const viewName: string = this.viewMode.toLowerCase();
+    const viewName: string = this.viewMode?.toLowerCase();
     return `cx-product-${viewName}`;
   }
 
@@ -36,9 +36,8 @@ export class ProductViewComponent {
   get viewMode() {
     if (this.mode === 'list') {
       return this.iconTypes.GRID;
-    } else if (this.mode === 'grid') {
-      return this.iconTypes.LIST;
     }
+    return this.iconTypes.LIST;
   }
 
   changeMode() {

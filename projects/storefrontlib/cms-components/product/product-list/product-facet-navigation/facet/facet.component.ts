@@ -76,7 +76,7 @@ export class FacetComponent {
     return this.values?.first?.nativeElement.offsetParent !== null;
   }
 
-  openLink(event: KeyboardEvent) {
+  openLink(event: KeyboardEvent | Event) {
     (event.target as HTMLElement).click();
     event.preventDefault();
   }
@@ -98,6 +98,6 @@ export class FacetComponent {
   }
 
   getLinkParams(value: FacetValue) {
-    return this.facetService.getLinkParams(value.query?.query.value);
+    return this.facetService.getLinkParams(value.query?.query?.value ?? '');
   }
 }

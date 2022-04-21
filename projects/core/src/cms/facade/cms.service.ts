@@ -171,7 +171,7 @@ export class CmsService {
    */
   loadNavigationItems(
     rootUid: string,
-    itemList: { id: string; superType: string }[]
+    itemList: { id?: string; superType?: string }[]
   ): void {
     this.store.dispatch(
       new CmsActions.LoadCmsNavigationItems({

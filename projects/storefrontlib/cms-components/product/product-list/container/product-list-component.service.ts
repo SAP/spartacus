@@ -18,8 +18,8 @@ import {
   shareReplay,
   tap,
 } from 'rxjs/operators';
-import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 import { ViewConfig } from '../../../../shared/config/view-config';
+import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 
 /**
  * The `ProductListComponentService` is used to search products. The service is used
@@ -146,16 +146,18 @@ export class ProductListComponentService {
     const pageSize = criteria.pageSize;
     const sort = criteria.sortCode;
 
-    this.productSearchService.search(
-      criteria.query,
-      // TODO: consider dropping this complex passing of cleaned object
-      Object.assign(
-        {},
-        currentPage && { currentPage },
-        pageSize && { pageSize },
-        sort && { sort }
-      )
-    );
+    if (criteria.query) {
+      this.productSearchService.search(
+        criteria.query,
+        // TODO: consider dropping this complex passing of cleaned object
+        Object.assign(
+          {},
+          currentPage && { currentPage },
+          pageSize && { pageSize },
+          sort && { sort }
+        )
+      );
+    }
   }
 
   /**

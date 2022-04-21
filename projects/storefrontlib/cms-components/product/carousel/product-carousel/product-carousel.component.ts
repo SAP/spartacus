@@ -24,7 +24,7 @@ export class ProductCarouselComponent {
   /**
    * returns an Observable string for the title.
    */
-  title$: Observable<string> = this.componentData$.pipe(
+  title$: Observable<string | undefined> = this.componentData$.pipe(
     map((data) => data.title)
   );
 
