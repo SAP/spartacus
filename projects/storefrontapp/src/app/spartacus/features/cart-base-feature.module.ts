@@ -9,7 +9,7 @@ import {
   CART_BASE_FEATURE,
   MINI_CART_FEATURE,
 } from '@spartacus/cart/base/root';
-import { I18nConfig, provideConfig } from '@spartacus/core';
+import { provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [CartBaseRootModule],
@@ -20,12 +20,20 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
           module: () =>
             import('@spartacus/cart/base').then((m) => m.CartBaseModule),
         },
+      },
+    }),
+    provideConfig({
+      featureModules: {
         [MINI_CART_FEATURE]: {
           module: () =>
             import('@spartacus/cart/base/components/mini-cart').then(
               (m) => m.MiniCartModule
             ),
         },
+      },
+    }),
+    provideConfig({
+      featureModules: {
         [ADD_TO_CART_FEATURE]: {
           module: () =>
             import('@spartacus/cart/base/components/add-to-cart').then(
@@ -34,7 +42,7 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
         },
       },
     }),
-    provideConfig(<I18nConfig>{
+    provideConfig({
       i18n: {
         resources: cartBaseTranslations,
         chunks: cartBaseTranslationChunksConfig,

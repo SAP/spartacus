@@ -10,6 +10,7 @@ import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { NGRX_STORE, UTF_8 } from '../constants';
 import { USER_ACCOUNT_SCHEMATICS_CONFIG } from '../lib-configs/user-schematics-config';
 import {
+  CLI_CDS_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   CLI_DIGITAL_PAYMENTS_FEATURE,
   CLI_USER_ACCOUNT_FEATURE,
@@ -27,6 +28,7 @@ import { addModuleImport, ensureModuleExists } from './new-module-utils';
 import { createProgram } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
+  cdsFeatureModulePath,
   checkoutWrapperModulePath,
   spartacusFeaturesModulePath,
   userFeatureModulePath,
@@ -206,6 +208,30 @@ describe('Feature utils', () => {
         CLI_USER_ACCOUNT_FEATURE,
         CLI_USER_PROFILE_FEATURE,
       ]);
+      expect(result.unrecognized).toEqual(undefined);
+    });
+
+    it('should correctly analyze the CDS forRoot() feature module', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [CLI_CDS_FEATURE],
+          },
+          appTree
+        )
+        .toPromise();
+
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+
+      const spartacusCdsModule =
+        program.getSourceFileOrThrow(cdsFeatureModulePath);
+      const result = analyzeFeature(spartacusCdsModule);
+
+      expect(result.core).toEqual([]);
+      expect(result.features?.map((f) => f.feature)).toEqual([CLI_CDS_FEATURE]);
       expect(result.unrecognized).toEqual(undefined);
     });
 

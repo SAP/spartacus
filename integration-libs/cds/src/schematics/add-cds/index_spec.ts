@@ -16,6 +16,7 @@ import {
   SPARTACUS_CDS,
   SPARTACUS_SCHEMATICS,
   trackingPersonalizationFeatureModulePath,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../../package.json';
@@ -153,6 +154,16 @@ describe('Spartacus CDS schematics: ng-add', () => {
           );
           expect(personalizationFeatureModule).toMatchSnapshot();
         });
+
+        it('should install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
+
+          const trackingPersonalizationFeatureModule = appTree.readContent(
+            trackingPersonalizationFeatureModulePath
+          );
+          expect(trackingPersonalizationFeatureModule).toMatchSnapshot();
+        });
       });
 
       describe('validation', () => {
@@ -200,6 +211,16 @@ describe('Spartacus CDS schematics: ng-add', () => {
         it('should create the feature module', async () => {
           const module = appTree.readContent(cdsFeatureModulePath);
           expect(module).toMatchSnapshot();
+        });
+
+        it('should install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
+
+          const trackingPersonalizationFeatureModule = appTree.readContent(
+            trackingPersonalizationFeatureModulePath
+          );
+          expect(trackingPersonalizationFeatureModule).toMatchSnapshot();
         });
       });
     });

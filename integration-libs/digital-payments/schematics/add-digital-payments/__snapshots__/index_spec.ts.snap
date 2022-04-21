@@ -121,10 +121,20 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_BASE_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base').then((m) => m.CartBaseModule),
-      }, [MINI_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [MINI_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
-      }, [ADD_TO_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [ADD_TO_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
       },

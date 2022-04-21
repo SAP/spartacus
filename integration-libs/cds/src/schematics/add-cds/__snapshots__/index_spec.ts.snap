@@ -39,6 +39,77 @@ export class CdsFeatureModule { }
 "
 `;
 
+exports[`Spartacus CDS schematics: ng-add CDS feature with Profile tag configured general setup should install the required feature dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus CDS schematics: ng-add CDS feature with Profile tag configured general setup should install the required feature dependencies 2`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { PersonalizationRootModule, PERSONALIZATION_FEATURE } from \\"@spartacus/tracking/personalization/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    PersonalizationRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PERSONALIZATION_FEATURE]: {
+        module: () =>
+          import('@spartacus/tracking/personalization').then((m) => m.PersonalizationModule),
+      },
+    }
+  })]
+})
+export class PersonalizationFeatureModule { }
+"
+`;
+
 exports[`Spartacus CDS schematics: ng-add CDS feature without Profile tag general setup should create the feature module 1`] = `
 "import { NgModule } from '@angular/core';
 import { CdsConfig, CdsModule } from \\"@spartacus/cds\\";
@@ -67,6 +138,77 @@ export class CdsFeatureModule { }
 `;
 
 exports[`Spartacus CDS schematics: ng-add CDS feature without Profile tag general setup should install the required feature dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { PersonalizationRootModule, PERSONALIZATION_FEATURE } from \\"@spartacus/tracking/personalization/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    PersonalizationRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PERSONALIZATION_FEATURE]: {
+        module: () =>
+          import('@spartacus/tracking/personalization').then((m) => m.PersonalizationModule),
+      },
+    }
+  })]
+})
+export class PersonalizationFeatureModule { }
+"
+`;
+
+exports[`Spartacus CDS schematics: ng-add CDS feature without Profile tag general setup should install the required feature dependencies 2`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus CDS schematics: ng-add CDS feature without Profile tag general setup should install the required feature dependencies 3`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
 import { PersonalizationRootModule, PERSONALIZATION_FEATURE } from \\"@spartacus/tracking/personalization/root\\";

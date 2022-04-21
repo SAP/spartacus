@@ -162,9 +162,20 @@ export interface CustomConfig {
 }
 
 export interface Module {
+  /** Module name */
   name: string;
+  /** Module import path */
   importPath: string;
+  /**
+   * The content to specify in ng-module's imports,
+   * e.g. `AuthModule.forRoot()`. If not specified,
+   * the `name` is used.
+   */
   content?: string;
+  /**
+   * Specifies if the feature should always be eagerly installed.
+   */
+  eager?: boolean;
 }
 
 export interface I18NConfig {
@@ -339,12 +350,12 @@ function addFeatureModule<T extends LibraryOptions>(
         }
 
         const configFeatures = ([] as Module[]).concat(config.featureModule);
+        for (let i = 0; i < configFeatures.length; i++) {
+          const featureModule = configFeatures[i];
 
-        if (options.lazy) {
           let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
             featureModules: {`;
-          for (let i = 0; i < configFeatures.length; i++) {
-            const featureModule = configFeatures[i];
+          if (!featureModule?.eager && options.lazy) {
             let lazyLoadingChunkName = config.moduleName;
             if (config.lazyLoadingChunk) {
               const namedImportsContent =
@@ -355,21 +366,20 @@ function addFeatureModule<T extends LibraryOptions>(
             content =
               content +
               `${lazyLoadingChunkName}: {
-              module: () =>
-                import('${featureModule.importPath}').then((m) => m.${featureModule.name}),
-            },`;
-          }
-          addModuleProvider(sourceFile, {
-            import: [
-              {
-                moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
-              },
-            ],
-            content: content + `}})`,
-          });
-        } else {
-          for (const featureModule of configFeatures) {
+                module: () =>
+                  import('${featureModule.importPath}').then((m) => m.${featureModule.name}),
+              },`;
+
+            addModuleProvider(sourceFile, {
+              import: [
+                {
+                  moduleSpecifier: SPARTACUS_CORE,
+                  namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
+                },
+              ],
+              content: content + `}})`,
+            });
+          } else {
             addModuleImport(sourceFile, {
               import: {
                 moduleSpecifier: featureModule.importPath,

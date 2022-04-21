@@ -22,6 +22,7 @@ export const CDS_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_CDS,
     name: CDS_MODULE,
     content: `${CDS_MODULE}.forRoot()`,
+    eager: true,
   },
   dependencyManagement: {
     [SPARTACUS_TRACKING]: [CLI_TRACKING_PERSONALIZATION_FEATURE],

@@ -2,12 +2,14 @@ import {
   CLI_TRACKING_PERSONALIZATION_FEATURE,
   CLI_TRACKING_TMS_AEP_FEATURE,
   CLI_TRACKING_TMS_GTM_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
   SPARTACUS_PERSONALIZATION,
   SPARTACUS_PERSONALIZATION_ROOT,
   SPARTACUS_TMS_AEP,
   SPARTACUS_TMS_CORE,
   SPARTACUS_TMS_GTM,
   SPARTACUS_TRACKING,
+  SPARTACUS_USER,
 } from '../libs-constants';
 import { FeatureConfig } from '../utils/lib-utils';
 
@@ -37,6 +39,9 @@ export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: FeatureConfig = {
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_PERSONALIZATION_ROOT,
     namedImports: [PERSONALIZATION_FEATURE_NAME_CONSTANT],
+  },
+  dependencyManagement: {
+    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
   },
 };
 
@@ -78,6 +83,9 @@ export const TRACKING_GTM_SCHEMATICS_CONFIG: FeatureConfig = {
       },
     }`,
   },
+  dependencyManagement: {
+    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
+  },
 };
 
 export const TMS_AEP_MODULE = 'AepModule';
@@ -114,5 +122,8 @@ export const TRACKING_AEP_SCHEMATICS_CONFIG: FeatureConfig = {
         },
       },
     }`,
+  },
+  dependencyManagement: {
+    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
   },
 };
