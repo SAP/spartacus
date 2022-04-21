@@ -1,3 +1,6 @@
+<label *ngIf="attribute.intervalInDomain" class="cx-intervalHelpText">{{
+  this.getHelpTextForInterval()
+}}</label>
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
   <input
     [formControl]="attributeInputForm"
@@ -14,20 +17,7 @@
     attr.required="{{ attribute.required }}"
     (change)="onChange()"
     maxlength="{{ attribute.maxlength }}"
-    [attr.aria-label]="
-      attribute.userInput?.length === 0
-        ? ('configurator.a11y.valueOfAttributeBlank'
-          | cxTranslate
-            : {
-                attribute: attribute.label
-              })
-        : ('configurator.a11y.valueOfAttributeFull'
-          | cxTranslate
-            : {
-                value: attribute.userInput,
-                attribute: attribute.label
-              })
-    "
+    [attr.aria-label]="getAriaLabelComplete()"
     [cxFocus]="{
       key: createAttributeIdForConfigurator(attribute)
     }"

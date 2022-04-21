@@ -4,6 +4,8 @@ import {
   CmsService,
   PageType,
   SemanticPathService,
+  Image,
+  ImageGroup,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
@@ -15,9 +17,9 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerComponent {
-  @HostBinding('class') styleClasses?: string;
-
   routerLink: string | any[] | undefined;
+
+  @HostBinding('class') styleClasses: string | undefined;
 
   data$: Observable<CmsBannerComponent> = this.component.data$.pipe(
     tap((data) => {
@@ -63,6 +65,16 @@ export class BannerComponent {
         cxRoute: 'category',
         params: { code: data.category },
       });
+    }
+  }
+  
+  getImage(data: CmsBannerComponent): Image | ImageGroup | undefined {
+    if (data.media) {
+      if ('url' in data.media) {
+        return data.media as Image;
+      } else {
+        return data.media as ImageGroup;
+      }
     }
   }
 }
