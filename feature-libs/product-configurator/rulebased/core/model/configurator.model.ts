@@ -27,6 +27,7 @@ export namespace Configurator {
     hasConflicts?: boolean;
     retractTriggered?: boolean;
     attributePriceTotal?: PriceDetails;
+    intervalInDomain?: boolean;
     key?: string;
   }
 

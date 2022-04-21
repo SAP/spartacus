@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { CmsBannerComponent } from '@spartacus/core';
+import { CmsBannerComponent, Image, ImageGroup } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
@@ -10,7 +10,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerComponent {
-  @HostBinding('class') styleClasses: string;
+  @HostBinding('class') styleClasses: string | undefined;
 
   data$: Observable<CmsBannerComponent> = this.component.data$.pipe(
     tap((data) => (this.styleClasses = data.styleClasses))
@@ -24,5 +24,15 @@ export class BannerComponent {
    */
   getTarget(data: CmsBannerComponent): string | null {
     return data.external === 'true' || data.external === true ? '_blank' : null;
+  }
+
+  getImage(data: CmsBannerComponent): Image | ImageGroup | undefined {
+    if (data.media) {
+      if ('url' in data.media) {
+        return data.media as Image;
+      } else {
+        return data.media as ImageGroup;
+      }
+    }
   }
 }
