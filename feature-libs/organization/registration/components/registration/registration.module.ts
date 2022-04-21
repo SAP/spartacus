@@ -8,7 +8,12 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  SpinnerModule,
+  NgSelectA11yModule,
+} from '@spartacus/storefront';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
 
 @NgModule({
@@ -20,6 +25,8 @@ import { RegistrationFormComponent } from './registration-form/registration-form
     FormErrorsModule,
     SpinnerModule,
     RouterModule,
+    NgSelectModule,
+    NgSelectA11yModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         RegisterOrgUserComponent: {
