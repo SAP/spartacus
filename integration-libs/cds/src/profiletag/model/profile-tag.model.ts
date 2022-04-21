@@ -173,3 +173,14 @@ export class ModifiedCartPushEvent implements ProfileTagPushEvent {
     this.data = data;
   }
 }
+
+export class CartSnapshotPushEvent implements ProfileTagPushEvent {
+  name = 'CartSnapshot';
+  data: any;
+  constructor(data: {
+    productSkus: Array<String | undefined>;
+  }) {
+    this.data = data;
+  }
+}
+

@@ -15,6 +15,7 @@ import {
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
 import { PersonalizationContextService } from '@spartacus/tracking/personalization/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -22,11 +23,13 @@ import {
   map,
   mapTo,
   pairwise,
+  skip,
   startWith,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
   AddedToCartPushEvent,
+  CartSnapshotPushEvent,
   CartViewPushEvent,
   CategoryViewPushEvent,
   HomePageViewPushEvent,
@@ -70,12 +73,14 @@ export class ProfileTagPushEventsService {
     this.orderConfirmationPageVisited(),
     this.addedToCart(),
     this.removedFromCart(),
-    this.modifiedCart()
+    this.modifiedCart(),
+    this.cartChangedEvent()
   );
 
   constructor(
     protected eventService: EventService,
-    protected personalizationContextService: PersonalizationContextService
+    protected personalizationContextService: PersonalizationContextService,
+    protected activeCartFacade: ActiveCartFacade
   ) {}
 
   /**
@@ -348,6 +353,19 @@ export class ProfileTagPushEventsService {
           })
       )
     );
+  }
+
+  protected cartChangedEvent(): Observable<ProfileTagPushEvent> {
+    return merge(this.eventService.get(CartAddEntrySuccessEvent), this.eventService.get(CartUpdateEntrySuccessEvent), this.eventService.get(CartRemoveEntrySuccessEvent))
+          //.pipe(
+            //filter(([a,b,c]) => a === null && b === null && c === null),
+            .pipe(() => this.activeCartFacade.getActive()
+              .pipe(
+                map(cart => cart.entries ? cart.entries.map((entry) => entry.product?.code) : []),
+                map((productSkus) => new CartSnapshotPushEvent({
+                  productSkus
+                })))
+            );
   }
 
   private getProductPrice(event: CartAddEntrySuccessEvent): Number {
