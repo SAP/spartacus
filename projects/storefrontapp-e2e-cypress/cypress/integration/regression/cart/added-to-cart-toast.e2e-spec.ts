@@ -1,7 +1,6 @@
+import { clickAddToCart, verifyAddedToCartToast } from '../../../helpers/cart';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-
-const productId = '266685';
 
 describe('Added to cart toast - Anonymous user', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -13,33 +12,25 @@ describe('Added to cart toast - Anonymous user', () => {
           timeout: 5000,
         },
       });
+      cy.visit('/');
     });
 
     it('should add a product from a PDP to cart', () => {
       const quantity = 4;
 
-      cy.visit(`/product/${productId}`);
-      cy.get('cx-item-counter input').type(`{selectall}${quantity}`);
-      cy.get('cx-add-to-cart button[type=submit]').click();
-
-      cy.get('cx-added-to-cart-toast').within(() => {
-        cy.get('.added-to-cart-toast-title').should(
-          'contain',
-          `${quantity} items`
-        );
-        // check action buttons/links
-        cy.get('button').should('contain.text', 'Continue Shopping');
-        cy.get('.btn-primary')
-          .should('have.attr', 'href')
-          .then(($href) => {
-            expect($href).contain('/cart');
-          });
+      cy.get('cx-carousel').within(() => {
+        cy.get('a').first().click();
       });
+
+      const productNameEl = cy.get('h1');
+
+      cy.get('cx-item-counter input').type(`{selectall}${quantity}`);
+
+      clickAddToCart();
+      verifyAddedToCartToast(quantity, productNameEl);
     });
 
     it('should add a product from a PLP to cart', () => {
-      cy.visit('/');
-
       cy.get('header').within(() => {
         cy.get('cx-navigation-ui')
           .contains('Digital Cameras')
@@ -52,35 +43,18 @@ describe('Added to cart toast - Anonymous user', () => {
           cy.wrap(productName).as('productName');
         });
 
-      cy.get('cx-add-to-cart button[type=submit]').first().click();
+      const productNameEl = cy.get('a.cx-product-name > h2').first();
 
-      cy.get('cx-added-to-cart-toast').within(() => {
-        cy.get('.added-to-cart-toast-title').should('contain', '1 item');
-
-        // check for product name
-        cy.get('.product-name').then((el) => {
-          cy.get('@productName').then((productName) => {
-            expect(el).to.contain(productName.text());
-          });
-        });
-
-        // check action buttons/links
-        cy.get('button').should('contain.text', 'Continue Shopping');
-        cy.get('.btn-primary')
-          .should('have.attr', 'href')
-          .then(($href) => {
-            expect($href).contain('/cart');
-          });
-      });
-
-      // wait for toast to dismiss
-      cy.wait(500);
-      cy.get('cx-added-to-cart-toast').should('be.empty');
+      clickAddToCart();
+      verifyAddedToCartToast(1, productNameEl);
     });
 
     it('should dismiss the toast', () => {
-      cy.visit(`/product/${productId}`);
-      cy.get('cx-add-to-cart button[type=submit]').click();
+      cy.get('cx-carousel').within(() => {
+        cy.get('a').first().click();
+      });
+
+      clickAddToCart();
       cy.get('cx-added-to-cart-toast').within(() => {
         cy.get('button').click();
       });
@@ -88,9 +62,11 @@ describe('Added to cart toast - Anonymous user', () => {
     });
 
     it('should redirect to the cart page', () => {
-      cy.visit(`/product/${productId}`);
-      cy.get('cx-add-to-cart button[type=submit]').click();
+      cy.get('cx-carousel').within(() => {
+        cy.get('a').first().click();
+      });
 
+      clickAddToCart();
       cy.get('cx-added-to-cart-toast').within(() => {
         cy.get('.btn-primary')
           .click()
