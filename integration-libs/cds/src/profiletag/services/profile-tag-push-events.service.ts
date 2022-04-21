@@ -23,7 +23,6 @@ import {
   map,
   mapTo,
   pairwise,
-  skip,
   startWith,
   withLatestFrom,
 } from 'rxjs/operators';
