@@ -1,0 +1,30 @@
+@import './_asm-main-ui.component.scss';
+@import './_asm-session-timer.component.scss';
+@import './_asm-toggle-ui.component.scss';
+@import './_csagent-login-form.component.scss';
+@import './_customer-emulation.component.scss';
+@import './_customer-selection.component.scss';
+
+$asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
+  cx-asm-toggle-ui, cx-csagent-login-form, cx-customer-emulation,
+  cx-customer-selection !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $asm-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $asm-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}
