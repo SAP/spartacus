@@ -40,7 +40,7 @@ export class BannerComponent {
     return data.external === 'true' || data.external === true ? '_blank' : null;
   }
 
-  setRouterLink(data: CmsBannerComponent): void {
+  protected setRouterLink(data: CmsBannerComponent): void {
     if (data.urlLink) {
       this.routerLink = data.urlLink;
     } else if (data.contentPage) {

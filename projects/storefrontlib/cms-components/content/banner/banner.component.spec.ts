@@ -95,11 +95,11 @@ describe('BannerComponent', () => {
 
   describe('setRouterLink()', () => {
     it('should return url', () => {
-      spyOn(bannerComponent, 'setRouterLink').and.callThrough();
+      spyOn<any>(bannerComponent, 'setRouterLink');
       data$.next(mockBannerData);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual(mockBannerData.urlLink);
-      expect(bannerComponent.setRouterLink).toHaveBeenCalledWith(
+      expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
         mockBannerData
       );
     });
@@ -110,11 +110,11 @@ describe('BannerComponent', () => {
         typeCode: 'SimpleBannerComponent',
         contentPage: 'HomePage',
       };
-      spyOn(bannerComponent, 'setRouterLink').and.callThrough();
+      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
       data$.next(mockBannerDataWithContentPage);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('HomePage');
-      expect(bannerComponent.setRouterLink).toHaveBeenCalledWith(
+      expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
         mockBannerDataWithContentPage
       );
     });
@@ -125,11 +125,11 @@ describe('BannerComponent', () => {
         typeCode: 'SimpleBannerComponent',
         product: 'Sony X Camera',
       };
-      spyOn(bannerComponent, 'setRouterLink').and.callThrough();
+      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
       data$.next(mockBannerDataWithProduct);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('Sony X Camera');
-      expect(bannerComponent.setRouterLink).toHaveBeenCalledWith(
+      expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
         mockBannerDataWithProduct
       );
     });
@@ -140,11 +140,11 @@ describe('BannerComponent', () => {
         typeCode: 'SimpleBannerComponent',
         product: 'Cameras',
       };
-      spyOn(bannerComponent, 'setRouterLink').and.callThrough();
+      spyOn<any>(bannerComponent, 'setRouterLink').and.callThrough();
       data$.next(mockBannerDataWithCategory);
       fixture.detectChanges();
       expect(bannerComponent.routerLink).toEqual('Cameras');
-      expect(bannerComponent.setRouterLink).toHaveBeenCalledWith(
+      expect(bannerComponent['setRouterLink']).toHaveBeenCalledWith(
         mockBannerDataWithCategory
       );
     });
