@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   EventService,
+  isNotUndefined,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
@@ -8,7 +9,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
@@ -181,7 +182,9 @@ export class SearchBoxComponentService {
       return of([]);
     } else {
       return this.searchService.getSuggestionResults().pipe(
-        map((res) => res.map((suggestion) => suggestion.value)),
+        map((res) =>
+          res.map((suggestion) => suggestion.value).filter(isNotUndefined)
+        ),
         switchMap((suggestions) => {
           if (suggestions.length === 0) {
             return this.getExactSuggestion(config).pipe(
@@ -206,8 +209,9 @@ export class SearchBoxComponentService {
           ? this.fetchTranslation('searchBox.help.exactMatch', {
               term: productResult.freeTextSearch,
             })
-          : of(null);
-      })
+          : of(undefined);
+      }),
+      filter(isNotUndefined)
     );
   }
 
@@ -230,9 +234,10 @@ export class SearchBoxComponentService {
         ) {
           return this.fetchTranslation('searchBox.help.noMatch');
         } else {
-          return of(null);
+          return of(undefined);
         }
-      })
+      }),
+      filter(isNotUndefined)
     );
   }
 

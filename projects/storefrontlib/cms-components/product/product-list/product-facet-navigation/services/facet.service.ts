@@ -1,7 +1,7 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Facet } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {
   FacetCollapseState,
@@ -48,7 +48,7 @@ export class FacetService {
    */
   getState(facet: Facet): Observable<FacetCollapseState> {
     this.initialize(facet);
-    return this.facetState.get(facet.name);
+    return facet.name ? this.facetState.get(facet.name) ?? of({}) : of({});
   }
 
   /**
