@@ -49,6 +49,10 @@ import { setupStoreModules } from './store';
 
 function installStyles(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): void => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Installing styles...`);
+    }
+
     const project = getProjectFromWorkspace(tree, options);
     const rootStyles = getProjectTargets(project)?.build?.options?.styles?.[0];
     const styleFilePath =
@@ -107,6 +111,10 @@ function installStyles(options: SpartacusOptions): Rule {
 
     recorder.insertLeft(htmlContent.length, insertion);
     tree.commitUpdate(recorder);
+
+    if (options.debug) {
+      context.logger.info(`✅ Style installation complete`);
+    }
   };
 }
 
@@ -115,6 +123,10 @@ function updateMainComponent(
   options: SpartacusOptions
 ): Rule {
   return (host: Tree, context: SchematicContext): Tree | void => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Updating main component...`);
+    }
+
     const filePath = project.sourceRoot + '/app/app.component.html';
     const buffer = host.read(filePath);
 
@@ -141,12 +153,19 @@ function updateMainComponent(
 
     host.commitUpdate(recorder);
 
+    if (options.debug) {
+      context.logger.info(`✅ Main component update complete`);
+    }
     return host;
   };
 }
 
 function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
-  return (host: Tree): Tree => {
+  return (host: Tree, context: SchematicContext): Tree => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Updating index file...`);
+    }
+
     const projectIndexHtmlPath = getIndexHtmlPath(tree);
     const baseUrl = options.baseUrl || 'OCC_BACKEND_BASE_URL_VALUE';
 
@@ -159,12 +178,19 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
       appendHtmlElementToHead(host, projectIndexHtmlPath, metaTag);
     });
 
+    if (options.debug) {
+      context.logger.info(`✅ Index file update complete`);
+    }
     return host;
   };
 }
 
-function increaseBudgets(): Rule {
-  return (tree: Tree): Tree => {
+function increaseBudgets(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Increasing budgets...`);
+    }
+
     const { path, workspace: angularJson } = getWorkspace(tree);
     const projectName = getDefaultProjectNameFromWorkspace(tree);
 
@@ -212,6 +238,10 @@ function increaseBudgets(): Rule {
     };
 
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    if (options.debug) {
+      context.logger.info(`✅ Budget increase complete`);
+    }
     return tree;
   };
 }
@@ -232,9 +262,13 @@ function prepareDependencies(features: string[]): NodeDependency[] {
   return dependencies;
 }
 
-function updateAppModule(project: string): Rule {
-  return (tree: Tree): Tree => {
-    const { buildPaths } = getProjectTsConfigPaths(tree, project);
+function updateAppModule(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Updating AppModule...`);
+    }
+
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
     if (!buildPaths.length) {
       throw new SchematicsException(
@@ -269,6 +303,10 @@ function updateAppModule(project: string): Rule {
           break;
         }
       }
+    }
+
+    if (options.debug) {
+      context.logger.info(`✅ AppModule update complete`);
     }
     return tree;
   };
@@ -315,21 +353,21 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       dependencies.find((dep) => dep.name === RXJS) as NodeDependency,
     ];
     return chain([
-      setupStoreModules(options.project),
+      setupStoreModules(options),
 
       scaffoldStructure(options),
 
-      setupSpartacusModule(options.project),
+      setupSpartacusModule(options),
 
-      setupSpartacusFeaturesModule(options.project),
+      setupSpartacusFeaturesModule(options),
 
       addSpartacusConfiguration(options),
 
-      updateAppModule(options.project),
+      updateAppModule(options),
       installStyles(options),
       updateMainComponent(getProjectFromWorkspace(tree, options), options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
-      increaseBudgets(),
+      increaseBudgets(options),
 
       addFeatures(options, features),
 

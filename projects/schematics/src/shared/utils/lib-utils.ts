@@ -36,6 +36,11 @@ import {
 } from './graph-utils';
 import { createImports } from './import-utils';
 import {
+  debugLog,
+  formatFeatureComplete,
+  formatFeatureStart,
+} from './logger-utils';
+import {
   addModuleImport,
   addModuleProvider,
   ensureModuleExists,
@@ -191,6 +196,10 @@ export function addLibraryFeature<T extends LibraryOptions>(
   config: FeatureConfig
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
+    if (options.debug) {
+      context.logger.info(formatFeatureStart(config.library.cli, `adding...`));
+    }
+
     const spartacusFeatureModuleExistsInApp = checkAppStructure(
       tree,
       options.project
@@ -208,6 +217,11 @@ export function addLibraryFeature<T extends LibraryOptions>(
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
+
+      debugLog(
+        formatFeatureComplete(config.library.cli, `added.`),
+        options.debug
+      ),
     ]);
   };
 }

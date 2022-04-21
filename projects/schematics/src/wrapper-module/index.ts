@@ -35,6 +35,11 @@ import {
   createSpartacusWrapperModuleFileName,
 } from '../shared/utils/lib-utils';
 import {
+  debugLog,
+  formatFeatureComplete,
+  formatFeatureStart,
+} from '../shared/utils/logger-utils';
+import {
   addModuleImport,
   ensureModuleExists,
   getModulePropertyInitializer,
@@ -51,8 +56,9 @@ import { Schema as SpartacusWrapperOptions } from './schema';
 function createWrapperModule(options: {
   project: string;
   moduleName: string;
+  debug?: boolean;
 }): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
@@ -60,6 +66,14 @@ function createWrapperModule(options: {
       featureFeatureModuleMapping,
       options.moduleName
     );
+    if (options.debug) {
+      context.logger.info(
+        formatFeatureStart(
+          feature,
+          `creating wrapper module for ${options.moduleName}...`
+        )
+      );
+    }
     const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const moduleConfig = getModuleConfig(options.moduleName, featureConfig);
     if (!moduleConfig) {
@@ -111,6 +125,15 @@ function createWrapperModule(options: {
       }
     }
 
+    rules.push(
+      debugLog(
+        formatFeatureComplete(
+          feature,
+          `wrapper module created for ${options.moduleName}.`
+        ),
+        options.debug
+      )
+    );
     return chain(rules);
   };
 }
@@ -122,8 +145,9 @@ function updateWrapperModule(options: {
   project: string;
   moduleName: string;
   markerFeatureModulePath: string;
+  debug?: boolean;
 }): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
@@ -131,6 +155,14 @@ function updateWrapperModule(options: {
       featureFeatureModuleMapping,
       options.moduleName
     );
+    if (options.debug) {
+      context.logger.info(
+        formatFeatureStart(
+          feature,
+          `updating wrapper module for ${options.moduleName}...`
+        )
+      );
+    }
     const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const featureModuleConfig = getModuleConfig(
       options.moduleName,
@@ -164,6 +196,15 @@ function updateWrapperModule(options: {
       }
     }
 
+    rules.push(
+      debugLog(
+        formatFeatureComplete(
+          feature,
+          `wrapper module updated for ${options.moduleName}.`
+        ),
+        options.debug
+      )
+    );
     return chain(rules);
   };
 }
@@ -177,8 +218,9 @@ function updateWrapperModule(options: {
 function updateFeatureModule(options: {
   project: string;
   moduleName: string;
+  debug?: boolean;
 }): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
@@ -186,6 +228,14 @@ function updateFeatureModule(options: {
       featureFeatureModuleMapping,
       options.moduleName
     );
+    if (options.debug) {
+      context.logger.info(
+        formatFeatureStart(
+          feature,
+          `updating feature module for ${options.moduleName}...`
+        )
+      );
+    }
     const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const featureModuleConfig = getModuleConfig(
       options.moduleName,
@@ -251,6 +301,15 @@ function updateFeatureModule(options: {
       }
     }
 
+    rules.push(
+      debugLog(
+        formatFeatureComplete(
+          feature,
+          `feature module updated for ${options.moduleName}.`
+        ),
+        options.debug
+      )
+    );
     return chain(rules);
   };
 }
@@ -280,8 +339,9 @@ function findFeatureModule(wrapperModule: SourceFile): SourceFile | undefined {
 function removeLibraryDynamicImport(options: {
   project: string;
   moduleName: string;
+  debug?: boolean;
 }): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
@@ -289,6 +349,14 @@ function removeLibraryDynamicImport(options: {
       featureFeatureModuleMapping,
       options.moduleName
     );
+    if (options.debug) {
+      context.logger.info(
+        formatFeatureStart(
+          feature,
+          `removing dynamic import for ${options.moduleName}...`
+        )
+      );
+    }
     const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
     const featureModuleConfig = getModuleConfig(
       options.moduleName,
@@ -322,6 +390,15 @@ function removeLibraryDynamicImport(options: {
         saveAndFormat(featureModule);
         break;
       }
+    }
+
+    if (options.debug) {
+      context.logger.info(
+        formatFeatureComplete(
+          feature,
+          `dynamic import removed for ${options.moduleName}.`
+        )
+      );
     }
   };
 }
@@ -379,8 +456,18 @@ function updateDynamicImportModuleName(
 function orderWrapperFeatures(options: {
   project: string;
   markerFeatureModulePath: string;
+  debug?: boolean;
 }): Rule {
   return (tree: Tree, context: SchematicContext) => {
+    if (options.debug) {
+      context.logger.info(
+        formatFeatureStart(
+          options.markerFeatureModulePath,
+          `ordering features in the wrapper module...`
+        )
+      );
+    }
+
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
@@ -418,6 +505,15 @@ function orderWrapperFeatures(options: {
         break;
       }
     }
+
+    if (options.debug) {
+      context.logger.info(
+        formatFeatureComplete(
+          options.markerFeatureModulePath,
+          `features ordered in the wrapper module.`
+        )
+      );
+    }
   };
 }
 
@@ -445,31 +541,37 @@ export function generateWrapperModule(options: SpartacusWrapperOptions): Rule {
       createWrapperModule({
         project: options.project,
         moduleName: options.markerModuleName,
+        debug: options.debug,
       }),
 
       updateWrapperModule({
         project: options.project,
         moduleName: options.markerModuleName,
         markerFeatureModulePath,
+        debug: options.debug,
       }),
       updateWrapperModule({
         project: options.project,
         moduleName: options.featureModuleName,
         markerFeatureModulePath,
+        debug: options.debug,
       }),
 
       updateFeatureModule({
         project: options.project,
         moduleName: options.markerModuleName,
+        debug: options.debug,
       }),
       removeLibraryDynamicImport({
         project: options.project,
         moduleName: options.featureModuleName,
+        debug: options.debug,
       }),
 
       orderWrapperFeatures({
         project: options.project,
         markerFeatureModulePath,
+        debug: options.debug,
       }),
     ]);
   };

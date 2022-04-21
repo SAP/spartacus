@@ -209,6 +209,7 @@ function handleWrapperModule<OPTIONS extends LibraryOptions>(
       project: options.project,
       markerModuleName,
       featureModuleName,
+      debug: options.debug,
     };
 
     rules.push(

@@ -11,6 +11,11 @@
         "$source": "projectName"
       }
     },
+    "debug": {
+      "description": "Display additional details during the running process.",
+      "type": "boolean",
+      "default": false
+    },
     "markerModuleName": {
       "type": "string",
       "description": "The marker module for which to find or generate the wrapper module."
