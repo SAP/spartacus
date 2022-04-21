@@ -5,6 +5,14 @@ import {
 } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { Configurator } from '../../../../core/model/configurator.model';
+
+export interface ConfiguratorAttributeNumericInterval {
+  minValue?: number;
+  maxValue?: number;
+  minValueIncluded: boolean;
+  maxValueIncluded: boolean;
+}
 
 /**
  * Provides validation and formatting of numeric input
@@ -48,6 +56,141 @@ export class ConfiguratorAttributeNumericInputFieldService {
       splitParts[1].length > numberDecimalPlaces
     );
   }
+
+  formatIntervalValue(
+    intervalValue: number,
+    decimalPlaces: number | undefined,
+    locale: string
+  ): string {
+    if (decimalPlaces === undefined) {
+      decimalPlaces = 0;
+    }
+    let formatted = formatNumber(
+      intervalValue,
+      locale,
+      '1.' + decimalPlaces + '-' + decimalPlaces
+    );
+    return formatted;
+  }
+
+  /**
+   * Parses the value names and returns the intervals.
+   *
+   * @param values values of the attribute
+   * @returns {ConfiguratorAttributeNumericInterval[]} parsed intervals
+   */
+  getIntervals(
+    values: Configurator.Value[] | undefined
+  ): ConfiguratorAttributeNumericInterval[] {
+    const intervals: ConfiguratorAttributeNumericInterval[] = [];
+    if (values && values.length > 0) {
+      values.forEach((value) => {
+        let interval = this.getInterval(value);
+        if (interval && Object.keys(interval).length !== 0) {
+          intervals.push(interval);
+        }
+      });
+    }
+    return intervals;
+  }
+
+  /**
+   * Parses the value name and returns the interval structure.
+   * Valid interval strings:
+   * Standard Interval
+   * 5 - 10
+   * 5 - <10
+   * >5 - 10
+   * >5 - <10
+   * -10 - -5
+   * 1.25 - 1.35
+   *
+   * Infinite Interval
+   * >5
+   * >=5
+   * <5
+   * <=5
+   * >-5
+   *
+   * @param value value which will be parsed
+   * @returns {ConfiguratorAttributeNumericInterval} parsed interval
+   */
+  getInterval(
+    value: Configurator.Value
+  ): ConfiguratorAttributeNumericInterval | undefined {
+    let interval: ConfiguratorAttributeNumericInterval = {
+      minValue: undefined,
+      maxValue: undefined,
+      minValueIncluded: false,
+      maxValueIncluded: false,
+    };
+    if (!value || !value.name || value.selected) {
+      return undefined;
+    }
+
+    let minVal: string = '';
+    let maxVal: string = '';
+
+    // standard interval a - b
+    if (value.name.includes(' - ')) {
+      let index = value.name.indexOf(' - ');
+      minVal = value.name.substring(0, index);
+      maxVal = value.name.substring(index + 3, value.name.length);
+      interval.minValueIncluded = true;
+      interval.maxValueIncluded = true;
+      if (minVal.includes('>')) {
+        interval.minValueIncluded = false;
+        minVal = minVal.replace('>', '');
+      }
+
+      if (maxVal.includes('<')) {
+        interval.maxValueIncluded = false;
+        maxVal = maxVal.replace('<', '');
+      }
+
+      // infinite interval or single value
+    } else {
+      if (value.name.includes('>')) {
+        minVal = value.name;
+        interval.minValueIncluded = false;
+        minVal = minVal.replace('>', '');
+      }
+      if (value.name.includes('<')) {
+        maxVal = value.name;
+        interval.maxValueIncluded = false;
+        maxVal = maxVal.replace('<', '');
+      }
+      if (value.name.includes('≥')) {
+        minVal = value.name;
+        interval.minValueIncluded = true;
+        minVal = minVal.replace('≥', '');
+      }
+      if (value.name.includes('≤')) {
+        maxVal = value.name;
+        interval.maxValueIncluded = true;
+        maxVal = maxVal.replace('≤', '');
+      }
+      if (
+        !value.name.includes('>') &&
+        !value.name.includes('<') &&
+        !value.name.includes('≤') &&
+        !value.name.includes('≥')
+      ) {
+        minVal = value.name;
+        maxVal = value.name;
+      }
+    }
+
+    if (minVal && minVal.length > 0) {
+      interval.minValue = +minVal;
+    }
+    if (maxVal && maxVal.length > 0) {
+      interval.maxValue = +maxVal;
+    }
+
+    return interval;
+  }
+
   /**
    * Get pattern for the message that is displayed when the validation fails. This message e.g. looks like
    * 'Wrong format, this numerical attribute should be entered according to pattern ##,###,###.##'
