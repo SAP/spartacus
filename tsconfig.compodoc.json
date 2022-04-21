@@ -254,6 +254,7 @@
       "@spartacus/product/variants/root": [
         "feature-libs/product/variants/root/public_api"
       ],
+      "@spartacus/punchout": ["feature-libs/punchout/public_api"],
       "@spartacus/qualtrics/components": [
         "feature-libs/qualtrics/components/public_api"
       ],

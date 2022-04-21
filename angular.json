@@ -980,6 +980,37 @@
           }
         }
       }
+    },
+    "punchout": {
+      "projectType": "library",
+      "root": "feature-libs/punchout",
+      "sourceRoot": "feature-libs/punchout/src",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "feature-libs/punchout/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/punchout/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "feature-libs/punchout/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/punchout/test.ts",
+            "tsConfig": "feature-libs/punchout/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/punchout/karma.conf.js"
+          }
+        }
+      }
     }
   },
   "defaultProject": "storefrontapp"
