@@ -117,13 +117,13 @@
         "dist/organization/order-approval/root"
       ],
       "@spartacus/organization/registration/assets": [
-        "dist/organization/registration/assets/public_api"
+        "dist/organization/registration/assets"
       ],
       "@spartacus/organization/registration": [
-        "dist/organization/registration/public_api"
+        "dist/organization/registration"
       ],
       "@spartacus/organization/registration/root": [
-        "dist/organization/registration/root/public_api"
+        "dist/organization/registration/root"
       ],
       "@spartacus/product-configurator/common/assets": [
         "dist/product-configurator/common/assets"
@@ -221,16 +221,16 @@
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/digital-payments/assets": ["dist/digital-payments/assets"],
       "@spartacus/digital-payments": ["dist/digital-payments"],
+      "@spartacus/epd-visualization/assets": ["dist/epd-visualization/assets"],
       "@spartacus/epd-visualization/components": [
         "dist/epd-visualization/components"
       ],
-      "@spartacus/epd-visualization/assets": ["dist/epd-visualization/assets"],
-      "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
       "@spartacus/epd-visualization/core": ["dist/epd-visualization/core"],
       "@spartacus/epd-visualization/epd-visualization-api": [
         "dist/epd-visualization/epd-visualization-api"
       ],
       "@spartacus/epd-visualization": ["dist/epd-visualization"],
+      "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]
