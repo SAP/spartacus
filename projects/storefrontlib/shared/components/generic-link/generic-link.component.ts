@@ -42,7 +42,7 @@ export class GenericLinkComponent implements OnChanges {
   protected routeParts: RouteParts = {};
 
   @Input() url: string | any[];
-  @Input() target: string;
+  @Input() target: string | null;
   @Input() id: string;
   @Input() class: string;
   @Input() style: string;
