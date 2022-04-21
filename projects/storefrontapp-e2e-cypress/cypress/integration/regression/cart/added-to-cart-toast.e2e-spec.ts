@@ -15,9 +15,42 @@ describe('Added to cart toast - Anonymous user', () => {
       });
     });
 
-    it('should add product to cart', () => {
+    it('should add a product from a PDP to cart', () => {
+      const quantity = 4;
+
       cy.visit(`/product/${productId}`);
+      cy.get('cx-item-counter input').type(`{selectall}${quantity.toString()}`);
       cy.get('cx-add-to-cart button[type=submit]').click();
+
+      cy.get('cx-added-to-cart-toast').within(() => {
+        cy.get('.added-to-cart-toast-title').should(
+          'contain',
+          `${quantity} items`
+        );
+        // check action buttons/links
+        cy.get('button').should('contain.text', 'Continue Shopping');
+        cy.get('.btn-primary')
+          .should('have.attr', 'href')
+          .then(($href) => {
+            expect($href).contain('/cart');
+          });
+      });
+    });
+
+    it('should add a product from a PLP to cart', () => {
+      cy.visit('/');
+
+      cy.get('header').within(() => {
+        cy.get('cx-navigation-ui')
+          .contains('Digital Cameras')
+          .click({ force: true });
+        cy.get('.childs cx-generic-link')
+          .contains('Compact Cameras')
+          .click({ force: true });
+      });
+
+      cy.get('cx-add-to-cart button[type=submit]').first().click();
+
       cy.get('cx-added-to-cart-toast').within(() => {
         cy.get('.added-to-cart-toast-title').should('contain', '1 item');
         // check action buttons/links
@@ -28,6 +61,8 @@ describe('Added to cart toast - Anonymous user', () => {
             expect($href).contain('/cart');
           });
       });
+      cy.wait(500);
+      cy.get('cx-added-to-cart-toast').should('be.empty');
     });
 
     it('should dismiss the toast', () => {
@@ -42,6 +77,7 @@ describe('Added to cart toast - Anonymous user', () => {
     it('should redirect to the cart page', () => {
       cy.visit(`/product/${productId}`);
       cy.get('cx-add-to-cart button[type=submit]').click();
+
       cy.get('cx-added-to-cart-toast').within(() => {
         cy.get('.btn-primary')
           .click()
