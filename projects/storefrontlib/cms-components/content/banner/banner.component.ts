@@ -43,26 +43,26 @@ export class BannerComponent {
   setRouterLink(data: CmsBannerComponent): void {
     if (data.urlLink) {
       this.routerLink = data.urlLink;
-      } else if (data.contentPage) {
-        this.cmsService
-          .getPage({
-            id: data.contentPage,
-            type: PageType.CONTENT_PAGE,
-          })
-          .pipe(take(1))
-          .subscribe((page) => {
-            this.routerLink = page.label;
-          });
-      } else if (data.product) {
-        this.routerLink = this.urlService.transform({
-          cxRoute: 'product',
-          params: { code: data.product },
+    } else if (data.contentPage) {
+      this.cmsService
+        .getPage({
+          id: data.contentPage,
+          type: PageType.CONTENT_PAGE,
+        })
+        .pipe(take(1))
+        .subscribe((page) => {
+          this.routerLink = page.label;
         });
-      } else if (data.category) {
-        this.routerLink = this.urlService.transform({
-          cxRoute: 'category',
-          params: { code: data.category },
-        });
+    } else if (data.product) {
+      this.routerLink = this.urlService.transform({
+        cxRoute: 'product',
+        params: { code: data.product },
+      });
+    } else if (data.category) {
+      this.routerLink = this.urlService.transform({
+        cxRoute: 'category',
+        params: { code: data.category },
+      });
     }
   }
 }
