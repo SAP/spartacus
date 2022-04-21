@@ -210,11 +210,11 @@ export function checkConflictDescriptionDisplayed(description: string): void {
 }
 
 /**
- * Navigates to the configuration group that contains an attribute which is involved in a conflict.
+ * Navigates to the corresponding group that contains an attribute which is involved in a conflict.
  *
  * @param attribute - Attribute name
  */
-export function clickOnViewInConfiguration(attribute: string): void {
+function clickOnConflictSolverLink(attribute: string): void {
   checkGhostAnimationNotDisplayed();
   cy.get('cx-configurator-attribute-header').within(() => {
     cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
@@ -225,6 +225,24 @@ export function clickOnViewInConfiguration(attribute: string): void {
         });
     });
   });
+}
+
+/**
+ * Navigates to a group that contains an attribute which is involved in a conflict.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfiguration(attribute: string): void {
+  clickOnConflictSolverLink(attribute);
+}
+
+/**
+ * Navigates to the conflict group that contains an attribute which is involved in a conflict.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnConflictDetected(attribute: string): void {
+  clickOnConflictSolverLink(attribute);
 }
 
 /**
