@@ -63,7 +63,7 @@ export class ConfiguratorFormComponent implements OnInit {
             .hasConflicts(routingData.owner)
             .pipe(take(1))
             .subscribe((hasConflicts) => {
-              if (hasConflicts) {
+              if (hasConflicts && !routingData.ignoreConflicts) {
                 this.configuratorGroupsService.navigateToConflictSolver(
                   routingData.owner
                 );

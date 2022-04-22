@@ -1,6 +1,7 @@
 <ng-container *ngIf="routerData$ | async as routerData">
   <ng-container *ngIf="configurationOverview$ | async">
     <ng-container *ngIf="numberOfIssues$ | async as numberOfIssues">
+
       <cx-icon [type]="iconTypes.ERROR"></cx-icon>
       <div class="cx-error-msg" id="cx-configurator-overview-error-msg">
         {{
@@ -19,7 +20,7 @@
               }
             } | cxUrl
           "
-          [queryParams]="{ resolveIssues: true }"
+          [queryParams]="{ resolveIssues: true, ignoreConflicts: (numberOfConflicts$ | async)>0 }"
           cxAutoFocus
         >
           {{ 'configurator.header.resolveIssues' | cxTranslate }}

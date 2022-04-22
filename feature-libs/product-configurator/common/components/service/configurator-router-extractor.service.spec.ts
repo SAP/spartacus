@@ -151,7 +151,7 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
-    it('should tell from the URL if we need to resolve issues of a configuration', () => {
+    it('should tell from the URL if we need to resolve issues without ignoring conflicts of a configuration', () => {
       mockRouterState.state.queryParams = { resolveIssues: 'true' };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
@@ -159,6 +159,23 @@ describe('ConfigRouterExtractorService', () => {
         .subscribe((data) => {
           routerData = data;
           expect(routerData.resolveIssues).toBe(true);
+          expect(routerData.ignoreConflicts).toBe(false);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if we need to ignore conflicts while resolving issues of a configuration', () => {
+      mockRouterState.state.queryParams = {
+        resolveIssues: 'true',
+        ignoreConflicts: 'true',
+      };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.resolveIssues).toBe(true);
+          expect(routerData.ignoreConflicts).toBe(true);
         })
         .unsubscribe();
     });

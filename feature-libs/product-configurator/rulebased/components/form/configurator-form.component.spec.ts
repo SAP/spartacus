@@ -339,6 +339,33 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(0);
     });
 
+    it('should go to first incomplete group in case the router requires this - has conflicts, but should be ignored', () => {
+      spyOn(
+        configuratorGroupsService,
+        'navigateToConflictSolver'
+      ).and.callThrough();
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstIncompleteGroup'
+      ).and.callThrough();
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { resolveIssues: 'true', ignoreConflicts: 'true' },
+        },
+      });
+      hasConfigurationConflictsObservable = of(true);
+      createComponent().ngOnInit();
+      expect(
+        configuratorGroupsService.navigateToConflictSolver
+      ).toHaveBeenCalledTimes(0);
+      expect(
+        configuratorGroupsService.navigateToFirstIncompleteGroup
+      ).toHaveBeenCalledTimes(1);
+    });
+
+
     it('should go to first incomplete group in case the router requires this - has no conflicts', () => {
       spyOn(
         configuratorGroupsService,
