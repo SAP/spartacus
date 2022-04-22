@@ -14,7 +14,7 @@ extensibility, lazy-loading, dependency injection, schematics installation
 ## 4. Context
 _Explain why the decision is being taken_
 
-New opt-in Spartacus features should be able to extend the existing lazy-loadable Spartacus features. We didn't have a need for it yet, but now we have a big need. It’s because we extract more-and-more code to lazy-loaded modules and we decouple more-and-more code into independent, opt-in, composable “plugin-like” libraries. And the usual techniques for extending services, don't work in the case of lazy-loaded modules.
+New opt-in Spartacus features should be able to extend the existing lazy-loadable Spartacus features. We didn't have a need for it yet, but now this changes due to extracting more-and-more code to lazy-loaded modules and decoupling into independent, opt-in, composable “plugin-like” libraries. Also, the usual techniques for extending services don't work in the case of lazy-loaded modules.
 
 The usual technique of providing the extending service in the root injector, e.g. `{provide: ..., useClass:...}` in the `AppModule` (or any other statically imported module) doesn't overwrite the base service in the lazy-loaded module. The lazy-loaded module instantiates its own, fresh child-injector, which derives from the parent (root) injector, but locally has a higher priority than the parent one. And because the base service implementation is provided in the lazy-loaded module that has its own child-injector, the extension service provided in the root injector cannot overwrite the base one.
 
@@ -313,7 +313,7 @@ When installing libraries separately via bash installation script, the order of 
 ```bash
 ng add --skip-confirmation @spartacus/checkout --interactive false
 ng add --skip-confirmation @spartacus/digital-payments --interactive false
-# not the extension should go after the default feature 👆
+# note the extension should go after the default feature 👆
 ```
 
 Instead of installing libraries separately, it's recommended to run `ng add @spartacus/schematics --features=...` (which automatically takes care about the order of installing libraries):
