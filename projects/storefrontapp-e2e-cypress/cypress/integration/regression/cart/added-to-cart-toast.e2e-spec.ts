@@ -39,12 +39,6 @@ describe('Added to cart toast - Anonymous user', () => {
           .click({ force: true });
       });
 
-      cy.get('a.cx-product-name > h2')
-        .first()
-        .then((productName) => {
-          cy.wrap(productName).as('productName');
-        });
-
       const productNameEl = cy.get('a.cx-product-name > h2').first();
 
       clickAddToCart();
