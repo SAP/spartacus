@@ -1,8 +1,12 @@
 ## 1. Title
+_Short title of the decision_
+
 Install extensions for existing lazy loaded feature
 
 ## 2. Status
-Proposed
+_Proposed / Approved / Rejected / Superseded_
+
+Approved
 
 ## 3. Involved areas
 extensibility, lazy-loading, dependency injection, schematics installation
@@ -36,7 +40,7 @@ provideConfig({
 ## 5. Alternatives considered
 _List the alternative options you considered with their pros and cons_
 
-### Option 0 (currently used): Pre-baked wrapper modules in the Spartacus extension library
+### Option 1 (currently used): Pre-baked wrapper modules in the Spartacus extension library
 Idea: The module of Spartacus extension library acts as the wrapper module, importing both the base feature module as well as providing custom extensions. See the following example for Digital Payments feature that extends Checkout:
 ```ts
 // DigitalPaymentsModule in @spartacus/digital-payments:
@@ -74,8 +78,15 @@ provideConfig({
 The following diagram shows that e.g. digital payments module imports statically the original checkout module. And in the app our dynamic import points to the digital payments module.
 ![](./pre-baked-digital-payments-module-diagram.png)
 
-Unfortunately, this approach allows for installing automatically (via schematics) only one extension feature for one base feature. This is a blocker issue. Taking as an example the Checkout feature, customers might want to use many possible opt-in extensions originating from vaious Spartacus libraries, e.g. `DigitalPaymentsModule`, `B2bCheckoutModule` or `ScheduledReplenishmentCheckoutModule`. The following diagram pictures the dillema, to which library's the dynamic import should point to:
+Moreover, this approach allows for installing automatically (via schematics) only one extension feature for one base feature. This is a blocker issue. Taking as an example the Checkout feature, customers might want to use many possible opt-in extensions originating from various Spartacus libraries, e.g. `DigitalPaymentsModule`, `B2bCheckoutModule` or `ScheduledReplenishmentCheckoutModule`. The following diagram pictures the dilemma, to which library's the dynamic import should point to:
 ![](./pre-baked-wrapper-modules-diagram.png)
+
+To combine multiple extensions we would need to export from Spartacus libraries **every possible combination of features** (e.g.`CheckoutB2bScheduledReplenishmentDigitalPaymentsModule` for checkout with: b2b, repl and digital payments). It's not acceptable, as it's:
+- hard to maintain
+- add great complexity to the schematics installer
+- it's not clear which library should export a cross-feature combination module
+- increase the bundle size, since we would be shipping extra pre-baked module which might never be used
+
 
 Note: at the time of writing, this solution is used in the `develop` branch. See `DigitalPaymentsModule` as an example: https://github.com/SAP/spartacus/blob/780cd570ca56b2f55a94872b4c0f7ae30b5fdccd/integration-libs/digital-payments/src/digital-payments.module.ts#L5-L8
 
@@ -85,7 +96,7 @@ Note: at the time of writing, this solution is used in the `develop` branch. See
 #### Cons:
 - You cannot install many extensions for one one base feature
 
-### Option 1: Local wrapper module in the app
+### Option 2: Local wrapper module in the app
 Idea: Introduce a local wrapper module in the app and import it dynamically instead of the base Spartacus module:
 ```ts
 // CheckoutFeatureModule in the app:
@@ -122,6 +133,8 @@ import { DigitalPaymentsModule } from '@spartacus/digital-payments';
 })
 export class CheckoutWrapperModule {}
 ```
+
+As a result, all the "wrapped" features are being bundled in one JS chunk and lazy-loaded in one go.
 
 The working example can be found in the PoC PR: https://github.com/SAP/spartacus/pull/14871
 
@@ -288,7 +301,7 @@ This solution is not acceptable, because of introducing increased bundle size an
 ## 5. Decision
 _Elaborate the decision_
 
-Decision is Option 1: Introduce local wrapper modules in the app.
+Decision is Option 2: Introduce local wrapper modules in the app.
 
 ## 6. Consequences
 _What becomes easier or more difficult to do because of this change?_
