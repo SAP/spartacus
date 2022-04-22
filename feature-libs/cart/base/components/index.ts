@@ -1,3 +1,4 @@
+export * from './added-to-cart-toast/index';
 export * from './added-to-cart-dialog/index';
 export * from './cart-base-components.module';
 export * from './cart-coupon/index';
