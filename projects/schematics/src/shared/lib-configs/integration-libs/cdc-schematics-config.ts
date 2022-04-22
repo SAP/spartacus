@@ -16,6 +16,7 @@ export const CDC_ROOT_MODULE = 'CdcRootModule';
 export const CDC_FEATURE_CONSTANT = 'CDC_FEATURE';
 export const CDC_CONFIG = 'CdcConfig';
 
+// TODO:#schematics - cleanup these?
 const CDC_FEATURE_MODULE: Module = {
   importPath: SPARTACUS_CDC,
   name: CDC_MODULE,
@@ -37,14 +38,15 @@ export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
     moduleSpecifier: SPARTACUS_CDC_ROOT,
     namedImports: [CDC_FEATURE_CONSTANT],
   },
-  customConfig: {
-    import: [
-      {
-        moduleSpecifier: SPARTACUS_CDC_ROOT,
-        namedImports: [CDC_CONFIG],
-      },
-    ],
-    content: `<${CDC_CONFIG}>{
+  customConfig: () => ({
+    providers: {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_CDC_ROOT,
+          namedImports: [CDC_CONFIG],
+        },
+      ],
+      content: `<${CDC_CONFIG}>{
         cdc: [
           {
             baseSite: 'electronics-spa',
@@ -53,7 +55,8 @@ export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
           },
         ],
       }`,
-  },
+    },
+  }),
   dependencyManagement: {
     [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
   },

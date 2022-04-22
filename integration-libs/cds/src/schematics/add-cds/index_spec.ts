@@ -12,6 +12,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   cdsFeatureModulePath,
   CLI_CDS_FEATURE,
+  SpartacusCdsOptions,
   SpartacusOptions,
   SPARTACUS_CDS,
   SPARTACUS_SCHEMATICS,
@@ -20,7 +21,6 @@ import {
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../../package.json';
-import { Schema as SpartacusCdsOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -163,31 +163,6 @@ describe('Spartacus CDS schematics: ng-add', () => {
             trackingPersonalizationFeatureModulePath
           );
           expect(trackingPersonalizationFeatureModule).toMatchSnapshot();
-        });
-      });
-
-      describe('validation', () => {
-        let firstMessage: string | undefined;
-        beforeEach(async () => {
-          schematicRunner.logger.subscribe((log) => {
-            if (!firstMessage) {
-              firstMessage = log.message;
-            }
-          });
-
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...cdsFeatureOptions, profileTagConfigUrl: 'xxx' },
-              appTree
-            )
-            .toPromise();
-        });
-
-        it('show the warning', () => {
-          expect(firstMessage).toEqual(
-            `Profile tag will not be added. Please run the schematic again, and make sure you provide both profile tag options.`
-          );
         });
       });
     });

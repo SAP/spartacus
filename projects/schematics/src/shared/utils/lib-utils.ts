@@ -29,7 +29,11 @@ import {
   SPARTACUS_SETUP,
 } from '../libs-constants';
 import { getB2bConfiguration } from './config-utils';
-import { getSpartacusFeaturesModule } from './feature-utils';
+import {
+  AdditionalFeatureConfiguration,
+  AdditionalProviders,
+  getSpartacusFeaturesModule,
+} from './feature-utils';
 import {
   crossFeatureInstallationOrder,
   crossLibraryInstallationOrder,
@@ -69,6 +73,12 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
    * When enabled, prints the additional logs.
    */
   debug?: boolean;
+  /**
+   * Internal options, should not be set by the user.
+   */
+  internal?: {
+    dirtyInstallation: boolean;
+  };
   /**
    * Meta.
    * Populated when programmatically invoking
@@ -136,9 +146,11 @@ export interface FeatureConfig {
    */
   assets?: AssetsConfig;
   /**
-   * An optional custom configuration to provide to the generated module.
+   * A function returning the custom configuration.
    */
-  customConfig?: CustomConfig | CustomConfig[];
+  customConfig?: <OPTIONS extends LibraryOptions>(
+    options: OPTIONS
+  ) => AdditionalFeatureConfiguration;
   /**
    * Contains the feature dependencies.
    * The key is a Spartacus scope, while the value is an array of its features.
@@ -156,11 +168,6 @@ export interface FeatureConfig {
   wrappers?: Record<string, string>;
 }
 
-export interface CustomConfig {
-  import: Import[];
-  content: string;
-}
-
 export interface Module {
   /** Module name */
   name: string;
@@ -172,10 +179,6 @@ export interface Module {
    * the `name` is used.
    */
   content?: string;
-  /**
-   * Specifies if the feature should always be eagerly installed.
-   */
-  eager?: boolean;
 }
 
 export interface I18NConfig {
@@ -355,7 +358,7 @@ function addFeatureModule<T extends LibraryOptions>(
 
           let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
             featureModules: {`;
-          if (!featureModule?.eager && options.lazy) {
+          if (options.lazy) {
             let lazyLoadingChunkName = config.moduleName;
             if (config.lazyLoadingChunk) {
               const namedImportsContent =
@@ -467,8 +470,8 @@ function addCustomConfig<T extends LibraryOptions>(
           continue;
         }
 
-        const customConfigs = ([] as CustomConfig[]).concat(
-          config.customConfig
+        const customConfigs = ([] as AdditionalProviders[]).concat(
+          config.customConfig(options).providers ?? []
         );
         customConfigs.forEach((customConfig) => {
           addModuleProvider(sourceFile, {

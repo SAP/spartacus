@@ -8,8 +8,8 @@ import {
 } from 'ts-morph';
 import { PROVIDE_CONFIG_FUNCTION } from '../constants';
 import { SPARTACUS_CORE, SPARTACUS_SETUP } from '../libs-constants';
+import { AdditionalProviders } from './feature-utils';
 import { isImportedFromSpartacusLibs } from './import-utils';
-import { CustomConfig } from './lib-utils';
 import { getModule, getModulePropertyInitializer } from './new-module-utils';
 
 export function getSpartacusProviders(
@@ -114,7 +114,7 @@ export function removeProperty(
   }
 }
 
-export function getB2bConfiguration(): CustomConfig[] {
+export function getB2bConfiguration(): AdditionalProviders[] {
   return [
     {
       import: [

@@ -45,7 +45,7 @@ import {
   LibraryOptions,
   Module,
 } from './lib-utils';
-import { getModulePropertyInitializer } from './new-module-utils';
+import { getModulePropertyInitializer, Import } from './new-module-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 
@@ -70,14 +70,21 @@ export interface SpartacusFeatureModule {
 }
 
 /**
- * Override the pre-defined configurations for the given feature
+ * Custom schematics configuration providers.
  */
-export interface FeatureConfigurationOverrides<T = LibraryOptions> {
+export interface AdditionalProviders {
+  import: Import[];
+  content: string;
+}
+
+/**
+ * Additional schematics configurations / overrides.
+ */
+export interface AdditionalFeatureConfiguration<T = LibraryOptions> {
   /**
-   * If specified, overrides the pre-defined schematics configuration.
-   * Usually used when customConfig needs to be provided.
+   * If specified, provides the specified configuration.
    */
-  schematics?: FeatureConfig;
+  providers?: AdditionalProviders | AdditionalProviders[];
   /**
    * If specified, overrides the pre-defined schematics options.
    */
@@ -138,10 +145,9 @@ interface ModuleAnalysisResult {
  * Optionally, an override can be provided for the default
  * schematics options and/or feature-schematics configuration.
  */
-export function addFeatures<T extends LibraryOptions>(
-  options: SpartacusOptions,
-  features: string[],
-  configurationOverrides?: Record<string, FeatureConfigurationOverrides<T>>
+export function addFeatures<OPTIONS extends LibraryOptions>(
+  options: OPTIONS,
+  features: string[]
 ): Rule {
   return (tree: Tree, context: SchematicContext): Rule => {
     const spartacusFeatureModuleExists = checkAppStructure(
@@ -164,15 +170,6 @@ export function addFeatures<T extends LibraryOptions>(
       context.logger.info(message);
     }
 
-    const genericLibraryOptions: LibraryOptions = {
-      project: options.project,
-      lazy: options.lazy,
-      debug: options.debug,
-      // TODO:#schematics - fix the interactivity for the CDS / ASM, etc.
-      interactive:
-        options.interactive === undefined ? true : options.interactive,
-    };
-
     const rules: Rule[] = [];
     for (const feature of features) {
       const schematicsConfiguration =
@@ -183,17 +180,14 @@ export function addFeatures<T extends LibraryOptions>(
         );
       }
 
-      const config =
-        configurationOverrides?.[feature]?.schematics ??
-        schematicsConfiguration;
+      // TODO:#schematics - fix the interactivity for the CDS / ASM, etc.
       const libraryOptions =
-        configurationOverrides?.[feature]?.options ?? genericLibraryOptions;
+        schematicsConfiguration.customConfig?.(options).options ?? options;
 
-      rules.push(addLibraryFeature(libraryOptions, config));
-      rules.push(handleWrapperModule(libraryOptions, config));
+      rules.push(addLibraryFeature(libraryOptions, schematicsConfiguration));
+      rules.push(handleWrapperModule(libraryOptions, schematicsConfiguration));
     }
 
-    console.log(options);
     if (options.internal?.dirtyInstallation) {
       rules.push(orderInstalledFeatures(options));
     }

@@ -2,15 +2,22 @@
 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
+import { provideConfig } from \\"@spartacus/core\\";
 import { SmartEditModule } from \\"@spartacus/smartedit\\";
-import { SmartEditRootModule } from \\"@spartacus/smartedit/root\\";
+import { SmartEditConfig, SmartEditRootModule } from \\"@spartacus/smartedit/root\\";
 
 @NgModule({
   declarations: [],
   imports: [
     SmartEditRootModule,
     SmartEditModule
-  ]
+  ],
+  providers: [provideConfig(<SmartEditConfig>{
+    smartEdit: {
+      storefrontPreviewRoute: 'STOREFRONT_PREVIEW_ROUTE_PLACEHOLDER',
+      allowOrigin: 'ALLOWED_ORIGIN_PLACEHOLDER',
+    },
+  })]
 })
 export class SmartEditFeatureModule { }
 "
@@ -143,7 +150,7 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
 exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
-import { SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
 
 @NgModule({
   declarations: [],
@@ -157,7 +164,14 @@ import { SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/
           import('@spartacus/smartedit').then((m) => m.SmartEditModule),
       },
     }
-  })]
+  }),
+  provideConfig(<SmartEditConfig>{
+    smartEdit: {
+      storefrontPreviewRoute: 'STOREFRONT_PREVIEW_ROUTE_PLACEHOLDER',
+      allowOrigin: 'ALLOWED_ORIGIN_PLACEHOLDER',
+    },
+  })
+  ]
 })
 export class SmartEditFeatureModule { }
 "
@@ -183,6 +197,7 @@ import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spa
   }),
   provideConfig(<SmartEditConfig>{
     smartEdit: {
+      storefrontPreviewRoute: 'STOREFRONT_PREVIEW_ROUTE_PLACEHOLDER',
       allowOrigin: 'localhost:9002',
     },
   })
@@ -213,6 +228,7 @@ import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spa
   provideConfig(<SmartEditConfig>{
     smartEdit: {
       storefrontPreviewRoute: 'cx-preview',
+      allowOrigin: 'ALLOWED_ORIGIN_PLACEHOLDER',
     },
   })
   ]

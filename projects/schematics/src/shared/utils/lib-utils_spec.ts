@@ -208,14 +208,15 @@ describe('Lib utils', () => {
       it('should add the custom config when set', async () => {
         const featureConfig: FeatureConfig = {
           ...BASE_FEATURE_CONFIG,
-          customConfig: {
-            import: [
-              {
-                moduleSpecifier: SPARTACUS_CDS,
-                namedImports: [CDS_CONFIG],
-              },
-            ],
-            content: `<${CDS_CONFIG}>{
+          customConfig: () => ({
+            providers: {
+              import: [
+                {
+                  moduleSpecifier: SPARTACUS_CDS,
+                  namedImports: [CDS_CONFIG],
+                },
+              ],
+              content: `<${CDS_CONFIG}>{
               cds: {
                 profileTag: {
                   javascriptUrl:
@@ -226,7 +227,8 @@ describe('Lib utils', () => {
                 },
               },
             }`,
-          },
+            },
+          }),
         };
         appTree = await schematicRunner
           .callRule(addLibraryFeature(BASE_OPTIONS, featureConfig), appTree)

@@ -131,7 +131,19 @@ import { provideConfig } from \\"@spartacus/core\\";
         defaultCarouselViewportThreshold: 80,
       },
     },
-  })]
+  }),
+  provideConfig(<CdsConfig>{
+    cds: {
+      profileTag: {
+        javascriptUrl:
+          'PROFILE_TAG_LOAD_URL_PLACEHOLDER',
+        configUrl:
+          'PROFILE_TAG_CONFIG_URL_PLACEHOLDER',
+        allowInsecureCookies: true,
+      },
+    },
+  })
+  ]
 })
 export class CdsFeatureModule { }
 "

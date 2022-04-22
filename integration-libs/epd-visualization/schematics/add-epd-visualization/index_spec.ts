@@ -13,13 +13,13 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   CLI_EPD_VISUALIZATION_FEATURE,
   epdFeatureModulePath,
+  SpartacusEpdVisualizationOptions,
   SpartacusOptions,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
-import { Schema as SpartacusEpdVisualizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/epd-visualization.scss';

@@ -8,12 +8,8 @@ import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
   analyzeCrossFeatureDependencies,
-  CLI_TRACKING_TMS_AEP_FEATURE,
-  CLI_TRACKING_TMS_GTM_FEATURE,
-  FeatureConfigurationOverrides,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
-  shouldAddFeature,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -26,62 +22,10 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]
     );
-    const overrides = buildTrackingConfig(options);
 
     return chain([
-      addFeatures(options, features, overrides),
+      addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
-  };
-}
-
-function buildTrackingConfig(
-  options: SpartacusTrackingOptions
-): Record<string, FeatureConfigurationOverrides> {
-  const gtmConfig = shouldAddFeature(
-    CLI_TRACKING_TMS_GTM_FEATURE,
-    options.features
-  )
-    ? buildGtm(options)
-    : {};
-
-  const aepConfig = shouldAddFeature(
-    CLI_TRACKING_TMS_AEP_FEATURE,
-    options.features
-  )
-    ? buildAep(options)
-    : {};
-
-  return {
-    ...gtmConfig,
-    ...aepConfig,
-  };
-}
-
-function buildGtm(
-  options: SpartacusTrackingOptions
-): Record<string, FeatureConfigurationOverrides> {
-  return {
-    [CLI_TRACKING_TMS_GTM_FEATURE]: {
-      options: {
-        // Just import the feature module
-        ...options,
-        lazy: false,
-      },
-    },
-  };
-}
-
-function buildAep(
-  options: SpartacusTrackingOptions
-): Record<string, FeatureConfigurationOverrides> {
-  return {
-    [CLI_TRACKING_TMS_AEP_FEATURE]: {
-      options: {
-        // Just import the feature module
-        ...options,
-        lazy: false,
-      },
-    },
   };
 }
