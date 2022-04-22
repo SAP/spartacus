@@ -95,6 +95,7 @@ Note: at the time of writing, this solution is used in the `develop` branch. See
 
 #### Cons:
 - You cannot install many extensions for one one base feature
+- if we created pre-baked modules for all combinations of features, then it would be not scalable, bigger bundle size and hard to maintain
 
 ### Option 2: Local wrapper module in the app
 Idea: Introduce a local wrapper module in the app and import it dynamically instead of the base Spartacus module:
@@ -209,13 +210,10 @@ Note: It's debatable how to name the wrapper modules. By voting in the Blamed Te
   
 #### Plan of implementation
 
-1. implement schematics util that breaks down the given dynamic import into a wrapper module, e.g:
-    
-    `ng g @spartacus/schematics:wrapper --module=CheckoutModule --module-path=@spartacus/checkout/base`
+1. implement schematics util that breaks down the given dynamic import into a wrapper module    
 
 1. implement schematics util that appends the given extension module after another "marker" module, e.g:   
-    
-    `ng g @spartacus/schematics:append-module --module=DigitalPaymentsModule --module-path=@spartacus/digital-payments --after-module=CheckoutModule --after-module-path=@spartacus/checkout/base`
+
 
 1. change the implementation of the installation-schematics of our extension features (e.g. DigitalPayments, CheckoutB2b) use the two util schematics above. For example: to install the Digital Payments feature (`ng add @spartacus/digital-payments`): first make sure to break down the dynamic import of `CheckoutModule` into a local wrapper module and only then append the `DigitalPaymentModule` after the `CheckoutModule`.
 
@@ -323,3 +321,7 @@ ng add --skip-confirmation @spartacus/schematics --interactive false \
   --features=Checkout
 # order of `--features` is NOT important above 👆
 ```
+
+### In edge cases it won't be possible to install a feature automatically
+When invoking the libraries' schematics, we will also analyze the cross-feature dependencies, create the dependency graph, and install all the missing libraries. There might be some corner cases where this won't work, like in cases where customers heavily customized their apps (e.g. dismantled the base `CheckoutModule` and imported some of its internal modules), and in those we will abort the installer with appropriate messages.
+
