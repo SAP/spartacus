@@ -122,6 +122,9 @@ export interface FeatureModuleConfig {
 export abstract class CmsConfig extends OccConfig {
   featureModules?: { [featureName: string]: FeatureModuleConfig | string };
   cmsComponents?: CMSComponentConfig;
+  componentsLoading?: {
+    pageSize?: number;
+  };
 }
 
 declare module '../../config/config-tokens' {

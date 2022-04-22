@@ -71,6 +71,51 @@ export class InheritingService extends AddToCartComponent {
   }
 }
 `;
+
+const CORRECT_PARAM_ORDER_FOR_PARAMS_NOT_AT_THE_END = `
+import { ChangeDetectorRef } from '@angular/core';
+import { CartService } from '@spartacus/core';
+import {
+  AddToCartComponent,
+  CmsComponentsService,
+  CurrentProductService,
+  ModalService,
+} from '@spartacus/storefront';
+export class InheritingService extends AddToCartComponent {
+  constructor(
+    cmsComponentsService: CmsComponentsService,
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cartService: CartService,
+    changeDetectorRef: ChangeDetectorRef
+  ) {
+    super(cmsComponentsService, cartService, modalService, currentProductService, changeDetectorRef);
+  }
+}
+`;
+
+const CORRECT_PARAM_ORDER_FOR_PARAMS_NOT_AT_THE_END_EXPECTED = `
+import { ChangeDetectorRef } from '@angular/core';
+import {  ActiveCartService } from '@spartacus/core';
+import {
+  AddToCartComponent,
+  CmsComponentsService,
+  CurrentProductService,
+  ModalService,
+} from '@spartacus/storefront';
+export class InheritingService extends AddToCartComponent {
+  constructor(
+    cmsComponentsService: CmsComponentsService,
+    modalService: ModalService,
+    currentProductService: CurrentProductService
+    ,
+    changeDetectorRef: ChangeDetectorRef, activeCartService: ActiveCartService
+  ) {
+    super(     cmsComponentsService, activeCartService, modalService, currentProductService, changeDetectorRef);
+  }
+}
+`;
+
 const NO_SUPER_CALL = `
     import { Store } from '@ngrx/store';
     import {
@@ -523,6 +568,23 @@ describe('constructor migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(WRONG_PARAM_ORDER_EXPECTED);
+    });
+  });
+
+  describe('when the class replaces a param not at the end', () => {
+    it('should apply the correct order if all params are removed', async () => {
+      writeFile(
+        host,
+        '/src/index.ts',
+        CORRECT_PARAM_ORDER_FOR_PARAMS_NOT_AT_THE_END
+      );
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(
+        CORRECT_PARAM_ORDER_FOR_PARAMS_NOT_AT_THE_END_EXPECTED
+      );
     });
   });
 
