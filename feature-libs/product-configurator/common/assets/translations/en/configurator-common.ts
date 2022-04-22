@@ -8,6 +8,7 @@ export const configurator = {
       editConfiguration: 'Edit Configuration',
       displayConfiguration: 'Display Configuration',
       resolveIssues: 'Resolve Issues',
+      resolveConflicts: 'Resolve Conflicts',
       updateMessage: 'The configuration is being updated in the background',
       showMore: 'show more',
       showLess: 'show less',
@@ -28,6 +29,9 @@ export const configurator = {
       numberOfIssues: '{{count}} issue must be resolved before checkout.',
       numberOfIssues_other:
         '{{count}} issues must be resolved before checkout.',
+      numberOfConflicts: '{{count}} conflict must be resolved before checkout.',
+      numberOfConflicts_other:
+        '{{count}} conflicts must be resolved before checkout.',
     },
     attribute: {
       id: 'ID',

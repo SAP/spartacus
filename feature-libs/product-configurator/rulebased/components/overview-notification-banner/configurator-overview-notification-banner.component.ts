@@ -40,11 +40,21 @@ export class ConfiguratorOverviewNotificationBannerComponent {
       //In case overview carries number of issues: We take it from there.
       //otherwise configuration's number will be accurate
       if (configuration.overview?.totalNumberOfIssues) {
-        return configuration.overview.totalNumberOfIssues;
+        return configuration.overview.numberOfIncompleteCharacteristics
+          ? configuration.overview.numberOfIncompleteCharacteristics
+          : configuration.overview.totalNumberOfIssues;
       } else
         return configuration.totalNumberOfIssues
           ? configuration.totalNumberOfIssues
           : 0;
+    })
+  );
+
+  numberOfConflicts$: Observable<number> = this.configuration$.pipe(
+    map((configuration) => {
+      //In case overview carries number of issues: We take it from there.
+      //otherwise configuration's number will be accurate
+      return configuration.overview?.numberOfConflicts ?? 0;
     })
   );
 
