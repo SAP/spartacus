@@ -172,6 +172,7 @@ function determineCheckoutFeatures(
   options: SpartacusCheckoutOptions,
   packageJson: any
 ): Rule {
+  console.log('test1');
   if (
     shouldAddFeature(
       CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,

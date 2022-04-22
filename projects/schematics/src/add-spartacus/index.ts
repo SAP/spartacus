@@ -45,6 +45,7 @@ import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
 
 function installStyles(options: SpartacusOptions): Rule {
+  console.log('test1');
   return (tree: Tree, context: SchematicContext): void => {
     const project = getProjectFromWorkspace(tree, options);
     const rootStyles = getProjectTargets(project)?.build?.options?.styles?.[0];

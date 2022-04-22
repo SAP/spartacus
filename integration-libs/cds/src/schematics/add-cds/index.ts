@@ -25,6 +25,7 @@ import { CDS_FOLDER_NAME, CDS_MODULE_NAME } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {
+  console.log('test1');
   return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
