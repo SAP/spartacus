@@ -19,9 +19,9 @@ import {
   Product,
 } from '@spartacus/core';
 import {
+  CmsComponentContextData,
   CmsComponentData,
   CurrentProductService,
-  ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -63,7 +63,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
-    @Optional() protected productListItemContext?: ProductListItemContext
+    @Optional() protected context?: CmsComponentContextData
   ) {}
 
   ngOnInit() {
@@ -78,8 +78,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.cd.markForCheck();
     } else {
       this.subscription = (
-        this.productListItemContext
-          ? this.productListItemContext.product$
+        this.context
+          ? this.context.context$.pipe(map((context) => context.product))
           : this.currentProductService.getProduct()
       )
         .pipe(filter(isNotNullable))
@@ -101,7 +101,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       this.maxQuantity = product.stock.stockLevel;
     }
 
-    if (this.productListItemContext) {
+    if (this.context) {
       this.showQuantity = false;
     }
   }

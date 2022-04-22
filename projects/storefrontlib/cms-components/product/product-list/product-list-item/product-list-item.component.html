@@ -50,7 +50,10 @@
       </div>
       <div class="col-12 col-md-4">
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
-          <ng-container cxInnerComponentsHost></ng-container>
+          <ng-container
+            cxInnerComponentsHost
+            [cxInnerComponentsContext]="{ product: product }"
+          ></ng-container>
         </ng-template>
       </div>
     </div>
