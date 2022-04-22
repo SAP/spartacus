@@ -17,4 +17,13 @@
       @include type();
     }
   }
+
+  #account-nav {
+    @include media-breakpoint-up(lg) {
+      nav > ul > li > button {
+        padding-top: 4px;
+        padding-bottom: 0;
+      }
+    }
+  }
 }

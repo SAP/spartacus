@@ -16,6 +16,7 @@ export const ASM_MODULE = 'AsmModule';
 export const ASM_ROOT_MODULE = 'AsmRootModule';
 export const ASM_TRANSLATIONS = 'asmTranslations';
 export const ASM_TRANSLATION_CHUNKS_CONFIG = 'asmTranslationChunksConfig';
+export const ASM_SCSS_FILE_NAME = 'asm.scss';
 
 export const ASM_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
@@ -35,6 +36,10 @@ export const ASM_SCHEMATICS_CONFIG: FeatureConfig = {
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_ASM_ROOT,
     namedImports: [ASM_FEATURE_NAME_CONSTANT],
+  },
+  styles: {
+    scssFileName: ASM_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_ASM,
   },
   i18n: {
     resources: ASM_TRANSLATIONS,

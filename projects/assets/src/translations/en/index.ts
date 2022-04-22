@@ -5,6 +5,7 @@ import { payment } from './payment';
 import { product } from './product';
 import { pwa } from './pwa';
 import { user } from './user';
+import { video } from './video';
 
 export const en = {
   address,
@@ -14,4 +15,5 @@ export const en = {
   product,
   pwa,
   user,
+  video,
 };
