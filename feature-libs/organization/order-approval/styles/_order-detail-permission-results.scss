@@ -16,6 +16,16 @@ cx-order-detail-permission-results {
   .cx-approval-table {
     padding: 15px;
 
+    th,
+    td {
+      padding-top: 0.75rem;
+      padding-inline-end: 0.938rem;
+      padding-bottom: 0.75rem;
+      padding-inline-start: 0.938rem;
+      vertical-align: top;
+      border-top: 1px solid var(--cx-color-light);
+    }
+
     .cx-approval-thead-mobile {
       background-color: var(--cx-color-dark);
 
@@ -24,32 +34,34 @@ cx-order-detail-permission-results {
         color: var(--cx-color-inverse);
       }
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         display: none;
       }
     }
 
-    &.table-striped > tr:nth-child(odd) {
-      background-color: var(--cx-color-background);
+    &.table-striped {
+      tr:nth-child(odd) {
+        background-color: var(--cx-color-background);
+      }
     }
 
     .cx-approval-permissionCode {
       width: 25%;
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         width: 100%;
       }
     }
 
     .cx-approval-approverName {
       width: 17%;
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         width: 100%;
       }
     }
 
     .cx-approval-statusDisplay {
       width: 13%;
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         width: 100%;
       }
     }
@@ -58,7 +70,11 @@ cx-order-detail-permission-results {
       text-transform: uppercase;
       color: var(--cx-color-secondary);
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-up(md) {
+        display: none;
+      }
+
+      @include media-breakpoint-down(md) {
         font-size: var(--cx-font-size, 0.875rem);
         font-weight: var(--cx-font-weight-bold);
         line-height: var(--cx-line-height, 1.2222222222);
@@ -68,11 +84,12 @@ cx-order-detail-permission-results {
     }
 
     td {
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         width: 100%;
         display: flex;
+        align-items: baseline;
         border-width: 0;
-        padding: 0 1.25rem;
+        padding: 0.313rem 1.25rem;
 
         &:first-child {
           padding-top: 1.25rem;
