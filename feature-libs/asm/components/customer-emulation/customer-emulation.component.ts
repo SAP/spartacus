@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { User, UserService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -6,8 +6,6 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
-  styleUrls: ['./customer-emulation.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
