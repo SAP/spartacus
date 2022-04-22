@@ -24,4 +24,8 @@
       {{ item.price?.formattedValue }}
     </div>
   </a>
+  <ng-container
+    cxInnerComponentsHost
+    [cxInnerComponentsContext]="{ product: item }"
+  ></ng-container>
 </ng-template>

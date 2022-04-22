@@ -7,6 +7,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { PageComponentModule } from '../../../../cms-structure/page/component/page-component.module';
 import {
   CarouselModule,
   MediaModule,
@@ -21,12 +22,18 @@ import { ProductCarouselComponent } from './product-carousel.component';
     RouterModule,
     UrlModule,
     I18nModule,
+    PageComponentModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ProductCarouselComponent: {
           component: ProductCarouselComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
+            },
+          },
         },
       },
     }),
