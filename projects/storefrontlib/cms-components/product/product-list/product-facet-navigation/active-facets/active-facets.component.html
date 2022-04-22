@@ -8,6 +8,11 @@
     routerLink="./"
     [queryParams]="getLinkParams(facet)"
     [cxFocus]="getFocusKey(facetList, facet)"
+    role="button"
+    (keydown.space)="removeFilterWithSpacebar($event)"
+    [attr.aria-label]="
+      'productList.activeFilter' | cxTranslate: { filter: facet.facetValueName }
+    "
   >
     <span>{{ facet.facetValueName }}</span>
     <cx-icon aria-hidden="true" [type]="closeIcon"></cx-icon>

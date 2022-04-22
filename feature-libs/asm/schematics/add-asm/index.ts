@@ -26,6 +26,7 @@ import {
   ASM_TRANSLATION_CHUNKS_CONFIG,
   SPARTACUS_ASM_ASSETS,
   SPARTACUS_ASM_ROOT,
+  SCSS_FILE_NAME,
 } from '../constants';
 
 export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
@@ -58,6 +59,10 @@ function addAsmFeature(options: SpartacusAsmOptions): Rule {
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_ASM_ROOT,
       namedImports: [ASM_FEATURE_NAME_CONSTANT],
+    },
+    styles: {
+      scssFileName: SCSS_FILE_NAME,
+      importStyle: SPARTACUS_ASM,
     },
     i18n: {
       resources: ASM_TRANSLATIONS,
