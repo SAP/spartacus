@@ -67,7 +67,7 @@ export class BannerComponent {
       });
     }
   }
-  
+
   getImage(data: CmsBannerComponent): Image | ImageGroup | undefined {
     if (data.media) {
       if ('url' in data.media) {
