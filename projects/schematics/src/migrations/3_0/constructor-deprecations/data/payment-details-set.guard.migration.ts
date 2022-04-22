@@ -6,13 +6,15 @@ import {
   PAYMENT_DETAILS_SET_GUARD,
   ROUTER,
   ROUTING_CONFIG_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PAYMENT_DETAILS_SET_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/guards/payment-details-set.guard.ts
+  // projects/storefrontlib/cms-components/checkout/guards/payment-details-set.guard.ts
   class: PAYMENT_DETAILS_SET_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

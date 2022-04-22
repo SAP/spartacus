@@ -12,7 +12,8 @@ import { Occ } from '../../../occ-models/occ.models';
   providedIn: 'root',
 })
 export class OccCostCenterListNormalizer
-  implements Converter<Occ.CostCentersList, EntitiesModel<CostCenter>> {
+  implements Converter<Occ.CostCentersList, EntitiesModel<CostCenter>>
+{
   constructor(private converter: ConverterService) {}
 
   convert(

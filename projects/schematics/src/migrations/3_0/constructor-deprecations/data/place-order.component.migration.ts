@@ -7,14 +7,16 @@ import {
   LAUNCH_COMPONENT_SERVICE,
   PLACE_ORDER_COMPONENT,
   ROUTING_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   VIEW_CONTAINER_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PLACE_ORDER_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/components/place-order/place-order.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/place-order/place-order.component.ts
   class: PLACE_ORDER_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

@@ -1,13 +1,15 @@
 import {
+  FEATURE_CONFIG_SERVICE,
+  OUTLET_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-  OUTLET_SERVICE,
-  FEATURE_CONFIG_SERVICE,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const OUTLET_SERVICE_CONSTRUCTOR_MIGRATION: ConstructorDeprecation =
-  // projects/storefrontlib/src/cms-structure/outlet/outlet.service.ts
+  // projects/storefrontlib/cms-structure/outlet/outlet.service.ts
 
   {
     class: OUTLET_SERVICE,

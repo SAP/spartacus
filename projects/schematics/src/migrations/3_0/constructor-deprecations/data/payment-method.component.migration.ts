@@ -10,15 +10,17 @@ import {
   GLOBAL_MESSAGE_SERVICE,
   PAYMENT_METHOD_COMPONENT,
   ROUTING_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   TRANSLATION_SERVICE,
   USER_PAYMENT_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PAYMENT_METHOD_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/payment-method/payment-method.component.ts
   class: PAYMENT_METHOD_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

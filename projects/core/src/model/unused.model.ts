@@ -1,9 +1,8 @@
 import { Address } from './address.model';
 import { Image } from './image.model';
-import { Product, Stock } from './product.model';
 import { GeoPoint, PaginationModel, SortModel } from './misc.model';
-import { Cart } from './cart.model';
 import { OpeningSchedule } from './point-of-service.model';
+import { Product, Stock } from './product.model';
 
 export interface CategoryHierarchy {
   id?: string;
@@ -83,10 +82,6 @@ export interface ProductList {
   totalPageCount?: number;
   totalProductCount?: number;
   version?: string;
-}
-
-export interface SaveCartResult {
-  savedCartData?: Cart;
 }
 
 export interface StoreFinderStockSearchPage {

@@ -78,8 +78,8 @@ describe('ProductLoadingService', () => {
 
   describe('get(productCode)', () => {
     it('should be able to get product by code', async () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(mockProduct)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(mockProduct)
       );
       const result: Product = await service.get(code, ['']).toPromise();
       expect(result).toEqual(mockProduct);

@@ -2,7 +2,7 @@ import { SHIPPING_ADDRESS_COMPONENT } from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const SHIPPING_ADDRESS_COMPONENT_MIGRATION: ComponentData = {
-  // projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/shipping-address/shipping-address.component.ts
   selector: 'cx-shipping-address',
   componentClassName: SHIPPING_ADDRESS_COMPONENT,
   removedProperties: [

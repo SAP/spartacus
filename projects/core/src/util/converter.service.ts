@@ -12,7 +12,7 @@ import { getLastValueSync } from './rxjs/get-last-value-sync';
  *
  * Converters can be stacked together to to apply decoupled customizations
  */
-export interface Converter<S, T> {
+export interface Converter<SOURCE, TARGET> {
   /**
    * Convert converts source model to target model. Can use optional target parameter,
    * used in case of stacking multiple converters (for example, to implement populator pattern).
@@ -20,7 +20,7 @@ export interface Converter<S, T> {
    * @param source Source data model
    * @param target Optional, partially converted target model
    */
-  convert(source: S, target?: T): T;
+  convert(source: SOURCE, target?: TARGET): TARGET;
 }
 
 @Injectable({

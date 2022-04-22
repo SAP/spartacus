@@ -2,7 +2,7 @@ import { PAYMENT_METHOD_COMPONENT } from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
 export const PAYMENT_METHOD_COMPONENT_MIGRATION: ComponentData = {
-  // projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/payment-method/payment-method.component.ts
   selector: 'cx-payment-method',
   componentClassName: PAYMENT_METHOD_COMPONENT,
   removedProperties: [

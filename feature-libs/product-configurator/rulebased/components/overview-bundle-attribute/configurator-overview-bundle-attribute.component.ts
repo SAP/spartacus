@@ -9,9 +9,10 @@ import {
   Product,
   ProductScope,
   ProductService,
+  TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 
@@ -25,13 +26,16 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
 
   @Input() attributeOverview: Configurator.AttributeOverview;
 
-  constructor(protected productService: ProductService) {}
+  constructor(
+    protected productService: ProductService,
+    protected translation: TranslationService
+  ) {}
 
   ngOnInit() {
     const noCommerceProduct: Product = { images: {} };
-    if (this.attributeOverview?.productCode) {
+    if (this.attributeOverview.productCode) {
       this.product$ = this.productService
-        .get(this.attributeOverview?.productCode, ProductScope.LIST)
+        .get(this.attributeOverview.productCode, ProductScope.LIST)
         .pipe(
           map((respProduct) => {
             return respProduct ? respProduct : noCommerceProduct;
@@ -61,9 +65,9 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
-      quantity: this.attributeOverview?.quantity,
-      price: this.attributeOverview?.valuePrice,
-      priceTotal: this.attributeOverview?.valuePriceTotal,
+      quantity: this.attributeOverview.quantity,
+      price: this.attributeOverview.valuePrice,
+      priceTotal: this.attributeOverview.valuePriceTotal,
       isLightedUp: true,
     };
   }
@@ -74,7 +78,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    * @return {boolean} - 'true' if the quantity should be displayed, otherwise 'false'
    */
   displayQuantity(): boolean {
-    const quantity = this.attributeOverview?.quantity;
+    const quantity = this.attributeOverview.quantity;
     return quantity !== undefined && quantity > 0;
   }
 
@@ -85,8 +89,63 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    */
   displayPrice(): boolean {
     return (
-      this.attributeOverview?.valuePrice?.value !== undefined &&
-      this.attributeOverview?.valuePrice?.value > 0
+      this.attributeOverview.valuePrice?.value !== undefined &&
+      this.attributeOverview.valuePrice?.value > 0
     );
+  }
+
+  getAriaLabel(): string {
+    let translatedText = '';
+    if (this.displayQuantity()) {
+      if (
+        this.attributeOverview.valuePrice?.value !== undefined &&
+        this.attributeOverview.valuePrice?.value !== 0
+      ) {
+        this.translation
+          .translate(
+            'configurator.a11y.itemOfAttributeFullWithPriceAndQuantity',
+            {
+              item: this.attributeOverview.value,
+              attribute: this.attributeOverview.attribute,
+              price: this.attributeOverview.valuePriceTotal?.formattedValue,
+              quantity: this.attributeOverview.quantity,
+            }
+          )
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      } else {
+        this.translation
+          .translate('configurator.a11y.itemOfAttributeFullWithQuantity', {
+            item: this.attributeOverview.value,
+            attribute: this.attributeOverview.attribute,
+            quantity: this.attributeOverview.quantity,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      }
+    } else {
+      if (
+        this.attributeOverview.valuePrice?.value !== undefined &&
+        this.attributeOverview.valuePrice?.value !== 0
+      ) {
+        this.translation
+          .translate('configurator.a11y.itemOfAttributeFullWithPrice', {
+            item: this.attributeOverview.value,
+            attribute: this.attributeOverview.attribute,
+            price: this.attributeOverview.valuePriceTotal?.formattedValue,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      } else {
+        this.translation
+          .translate('configurator.a11y.itemOfAttributeFull', {
+            item: this.attributeOverview.value,
+            attribute: this.attributeOverview.attribute,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      }
+    }
+    return translatedText;
   }
 }

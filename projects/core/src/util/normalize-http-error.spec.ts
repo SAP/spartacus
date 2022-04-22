@@ -21,13 +21,16 @@ describe('normalizeHttpError', () => {
         url: '/xxx',
       });
 
-      const result = normalizeHttpError(mockError as HttpErrorResponse);
-      expect(result).toEqual({
-        message: mockError.message,
-        status: mockError.status,
-        statusText: mockError.statusText,
-        url: mockError.url,
-      } as HttpErrorModel);
+      const result = normalizeHttpError(mockError);
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          message: mockError.message,
+          status: mockError.status,
+          statusText: mockError.statusText,
+          url: mockError.url,
+        })
+      );
+      expect(result instanceof HttpErrorModel).toBeTruthy();
     });
 
     it('should serialize details', () => {
@@ -38,18 +41,21 @@ describe('normalizeHttpError', () => {
         statusText: 'Unknown error',
         url: '/xxx',
       });
-      const result = normalizeHttpError(mockError as HttpErrorResponse);
-      expect(result).toEqual({
-        message: mockError.message,
-        status: mockError.status,
-        statusText: mockError.statusText,
-        url: mockError.url,
-        details: [
-          {
-            message: 'errorMessage',
-          },
-        ],
-      } as HttpErrorModel);
+      const result = normalizeHttpError(mockError);
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          message: mockError.message,
+          status: mockError.status,
+          statusText: mockError.statusText,
+          url: mockError.url,
+          details: [
+            {
+              message: 'errorMessage',
+            },
+          ],
+        })
+      );
+      expect(result instanceof HttpErrorModel).toBeTruthy();
     });
 
     it('should normalize single error', () => {
@@ -60,19 +66,32 @@ describe('normalizeHttpError', () => {
         statusText: 'Unknown error',
         url: '/xxx',
       });
-      const result = normalizeHttpError(mockError as HttpErrorResponse);
-      expect(result).toEqual({
-        message: mockError.message,
-        status: mockError.status,
-        statusText: mockError.statusText,
-        url: mockError.url,
-        details: [
-          {
-            message: 'errorMessage',
-            type: 'errorType',
-          },
-        ],
-      } as HttpErrorModel);
+      const result = normalizeHttpError(mockError);
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          message: mockError.message,
+          status: mockError.status,
+          statusText: mockError.statusText,
+          url: mockError.url,
+          details: [
+            {
+              message: 'errorMessage',
+              type: 'errorType',
+            },
+          ],
+        })
+      );
+      expect(result instanceof HttpErrorModel).toBeTruthy();
+    });
+  });
+
+  describe('when the provided error is an instance of HttpErrorModel due to backoff mechanism', () => {
+    it('should return the normalized error', () => {
+      const normalizedError = new HttpErrorModel();
+      normalizedError.status = 400;
+
+      const result = normalizeHttpError(normalizedError);
+      expect(result).toEqual(normalizedError);
     });
   });
 });

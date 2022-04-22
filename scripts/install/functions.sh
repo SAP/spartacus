@@ -44,6 +44,7 @@ function prepare_install {
     npm config set @spartacus:registry https://registry.npmjs.org/
 
     npm i -g verdaccio@5
+    npm i -g npm-cli-login
     npm i -g serve
     npm i -g pm2
     npm i -g concurrently
@@ -85,12 +86,19 @@ function create_shell_app {
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
         ng add --skip-confirmation @spartacus/organization@${SPARTACUS_VERSION} --interactive false
+        ng add --skip-confirmation @spartacus/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-Scheduled-Replenishment"
     fi
 }
 
 function add_cdc {
   if [ "$ADD_CDC" = true ] ; then
         ng add --skip-confirmation @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
+function add_epd_visualization {
+    if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
+        ng add --skip-confirmation @spartacus/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
     fi
 }
 
@@ -112,30 +120,45 @@ function add_feature_libs {
 
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
-    ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --interactive false
+    if [ "$BASE_SITE" = "" ] ; then
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --interactive false
+    else
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --interactive false
+    fi
     add_feature_libs
     add_b2b
     add_cdc
+    add_epd_visualization
     add_product_configurator
     )
 }
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
-    ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --interactive false
+    if [ "$BASE_SITE" = "" ] ; then
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --interactive false
+    else
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --ssr --interactive false
+    fi
     add_feature_libs
     add_b2b
     add_cdc
+    add_epd_visualization
     add_product_configurator
     )
 }
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
-    ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --interactive false
+    if [ "$BASE_SITE" = "" ] ; then
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --interactive false
+    else
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --ssr --pwa --interactive false
+    fi
     add_feature_libs
     add_b2b
     add_cdc
+    add_epd_visualization
     add_product_configurator
     )
 }
@@ -179,9 +202,11 @@ function publish_package {
 function restore_clone {
     if [ ${BRANCH} == 'develop' ]; then
         pushd ../.. > /dev/null
-        for path in ${SPARTACUS_PROJECTS[@]} 
+        for path in ${SPARTACUS_PROJECTS[@]}
         do
-            rm ${path}/package.json-E
+            if [ -f "${path}/package.json-E" ]; then
+                rm ${path}/package.json-E
+            fi
         done
         git checkout .
         popd > /dev/null
@@ -195,18 +220,9 @@ function install_from_sources {
 
     npm set @spartacus:registry http://localhost:4873/
 
-    if [ ${BRANCH} == 'develop' ]; then
-        echo "Installing develop. Reusing current repo for the build."
-        pushd ../.. > /dev/null
-        CLONE_DIR=`pwd`
-        echo "CLONE DIR: ${CLONE_DIR}"
-        yarn build:libs
-        popd > /dev/null
-    else
-        echo "Not installing develop. Cloning repo and installing dependencies."
-        clone_repo
-        ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
-    fi
+    printh "Cloning Spartacus source code and installing dependencies."
+    clone_repo
+    ( cd ${CLONE_DIR} && yarn install && yarn build:libs)
 
     printh "Updating projects versions."
     update_projects_versions ${SPARTACUS_PROJECTS[@]}
@@ -218,6 +234,8 @@ function install_from_sources {
 
     sleep 15
 
+    (npm-cli-login -u verdaccio-user -p 1234abcd -e verdaccio-user@spartacus.com -r http://localhost:4873)
+
     local dist_packages=(
         'core'
         'storefrontlib'
@@ -226,6 +244,7 @@ function install_from_sources {
         'product'
         'setup'
         'cart'
+        'order'
         'asm'
         'user'
         'organization'
@@ -235,6 +254,7 @@ function install_from_sources {
         'smartedit'
         'cds'
         'cdc'
+        'epd-visualization'
         'product-configurator'
     )
 
@@ -244,11 +264,11 @@ function install_from_sources {
     )
 
     for package in ${dist_packages[@]}; do
-        publish_dist_package ${package} 
+        publish_dist_package ${package}
     done
 
     for package in ${packages[@]}; do
-        publish_package ${package} 
+        publish_package ${package}
     done
 
     create_apps

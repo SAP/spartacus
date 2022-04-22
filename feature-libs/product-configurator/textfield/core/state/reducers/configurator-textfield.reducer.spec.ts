@@ -67,4 +67,15 @@ describe('ConfiguratorTextfieldReducer', () => {
     expect(result).toBeDefined();
     expect(result).toEqual(productConfigurationInitial);
   });
+
+  it('should take over result into state in case an order entries configuration was read successfully ', () => {
+    const result = reducer(
+      productConfigurationInitial,
+      new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess(
+        productConfiguration
+      )
+    );
+    expect(result).toBeDefined();
+    expect(result).toEqual(productConfiguration);
+  });
 });

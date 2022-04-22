@@ -3,12 +3,12 @@ import {
   LOGOUT,
   LOGOUT_GUARD,
   REDIRECT,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/cms-components/user/logout-guard.ts
+// projects/storefrontlib/cms-components/user/logout-guard.ts
 export const LOGOUT_GUARD_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: LOGOUT_GUARD,

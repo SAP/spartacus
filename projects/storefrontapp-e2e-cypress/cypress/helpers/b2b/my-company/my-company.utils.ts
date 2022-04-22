@@ -2,8 +2,12 @@ import { ENTITY_UID_COOKIE_KEY, MyCompanyConfig } from './models/index';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { testFeaturesFromConfig } from './my-company-features';
+import { testCoreFeaturesFromConfig } from './my-company-features';
 
-export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
+export function testMyCompanyFeatureFromConfig(
+  config: MyCompanyConfig,
+  core: boolean = false
+) {
   describe(`My Company - ${config.name}${config.nameSuffix || ''}`, () => {
     before(() => {
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
@@ -21,15 +25,23 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
       cy.saveLocalStorage();
     });
 
-    testFeaturesFromConfig(config);
+    if (core) {
+      testCoreFeaturesFromConfig(config);
+    } else {
+      testFeaturesFromConfig(config);
+    }
   });
 }
 
-export function waitForData(thenCommand, waitForCommand?): void {
-  waitForCommand;
-  cy.wait('@getData').then((xhr: any) => {
+export function waitForData(
+  suffix: string,
+  thenCommand: Function,
+  waitForCommand: Function = () => {}
+): void {
+  waitForCommand();
+  cy.wait(`@getData${suffix}`).then((xhr: any) => {
     if (xhr.aborted) {
-      waitForData(thenCommand);
+      waitForData(suffix, thenCommand);
     } else {
       thenCommand(xhr?.response?.body);
     }

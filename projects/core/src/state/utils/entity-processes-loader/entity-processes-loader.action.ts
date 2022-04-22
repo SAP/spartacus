@@ -52,7 +52,8 @@ export function entityProcessesDecrementMeta(
 }
 
 export class EntityProcessesLoaderResetAction
-  implements EntityProcessesLoaderAction {
+  implements EntityProcessesLoaderAction
+{
   type = ENTITY_PROCESSES_LOADER_RESET_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
@@ -61,7 +62,8 @@ export class EntityProcessesLoaderResetAction
 }
 
 export class EntityProcessesIncrementAction
-  implements EntityProcessesLoaderAction {
+  implements EntityProcessesLoaderAction
+{
   type = ENTITY_PROCESSES_INCREMENT_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {
@@ -70,7 +72,8 @@ export class EntityProcessesIncrementAction
 }
 
 export class EntityProcessesDecrementAction
-  implements EntityProcessesLoaderAction {
+  implements EntityProcessesLoaderAction
+{
   type = ENTITY_PROCESSES_DECREMENT_ACTION;
   readonly meta: EntityProcessesLoaderMeta;
   constructor(entityType: string, id: string | string[]) {

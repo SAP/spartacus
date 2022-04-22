@@ -24,10 +24,8 @@ export const getLanguagesEntities: MemoizedSelector<
   LanguagesEntities
 > = createSelector(getLanguagesState, languagesEntitiesSelector);
 
-export const getActiveLanguage: MemoizedSelector<
-  StateWithSiteContext,
-  string
-> = createSelector(getLanguagesState, activeLanguageSelector);
+export const getActiveLanguage: MemoizedSelector<StateWithSiteContext, string> =
+  createSelector(getLanguagesState, activeLanguageSelector);
 
 export const getAllLanguages: MemoizedSelector<
   StateWithSiteContext,

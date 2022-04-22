@@ -110,12 +110,12 @@ function getAddressRequest(auth, address, verify: boolean) {
 }
 
 function selectCountryCanada() {
-  cy.server();
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/countries/CA/regions*`
-  ).as('regions');
+    )}/countries/CA/regions`,
+  }).as('regions');
 
   cy.get('cx-address-book .country-select').ngSelect('Canada');
 

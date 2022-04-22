@@ -8,9 +8,11 @@ import {
   ELEMENT_REF,
   PAGE_SLOT_COMPONENT,
   RENDERER_2,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PAGE_SLOT_COMPONENT_MIGRATION: ConstructorDeprecation[] = [

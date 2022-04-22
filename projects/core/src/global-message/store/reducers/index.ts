@@ -7,11 +7,10 @@ export function getReducers(): ActionReducer<GlobalMessageState> {
   return fromGlobalMessage.reducer;
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducer<GlobalMessageState>
-> = new InjectionToken<ActionReducer<GlobalMessageState>>(
-  'GlobalMessageReducers'
-);
+export const reducerToken: InjectionToken<ActionReducer<GlobalMessageState>> =
+  new InjectionToken<ActionReducer<GlobalMessageState>>(
+    'GlobalMessageReducers'
+  );
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

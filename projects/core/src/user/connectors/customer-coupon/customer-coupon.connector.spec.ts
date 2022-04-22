@@ -18,9 +18,9 @@ class MockUserAdapter implements CustomerCouponAdapter {
   turnOffNotification = createSpy('turnOffNotification').and.returnValue(
     of({})
   );
-  claimCustomerCoupon = createSpy(
-    'claimCustomerCoupon'
-  ).and.callFake((userId) => of(`claim-${userId}`));
+  claimCustomerCoupon = createSpy('claimCustomerCoupon').and.callFake(
+    (userId) => of(`claim-${userId}`)
+  );
 }
 
 describe('CustomerCouponConnector', () => {

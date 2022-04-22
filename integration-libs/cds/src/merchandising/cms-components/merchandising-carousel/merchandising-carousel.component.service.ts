@@ -25,7 +25,7 @@ const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
   providedIn: 'root',
 })
 export class MerchandisingCarouselComponentService {
-  protected readonly PRODUCT_SCOPE = 'list';
+  protected readonly PRODUCT_SCOPE = 'details';
 
   constructor(
     protected cdsMerchandisingProductService: CdsMerchandisingProductService,
@@ -60,12 +60,10 @@ export class MerchandisingCarouselComponentService {
           strategyProducts,
           componentData
         );
-        const items$ = this.mapStrategyProductsToCarouselItems(
-          strategyProducts
-        );
-        const productIds = this.mapStrategyProductsToProductIds(
-          strategyProducts
-        );
+        const items$ =
+          this.mapStrategyProductsToCarouselItems(strategyProducts);
+        const productIds =
+          this.mapStrategyProductsToProductIds(strategyProducts);
         const id = this.getMerchandisingCarouselModelId(
           componentData,
           productIds
@@ -91,9 +89,8 @@ export class MerchandisingCarouselComponentService {
     return merchandisingCarouselModel$.pipe(
       filter((model) => model.id !== lastSendModelId),
       tap((merchandisingCarouselModel) => {
-        const carouselEvent: CarouselEvent = this.getCarouselEventFromCarouselModel(
-          merchandisingCarouselModel
-        );
+        const carouselEvent: CarouselEvent =
+          this.getCarouselEventFromCarouselModel(merchandisingCarouselModel);
         this.profileTagEventService.notifyProfileTagOfEventOccurence(
           new MerchandisingCarouselViewedEvent(
             carouselEvent,

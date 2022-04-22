@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  DeleteSavedCartEvent,
-  DeleteSavedCartFailEvent,
-  SavedCartFacade,
-} from '@spartacus/cart/saved-cart/root';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   Cart,
+  DeleteCartEvent,
+  DeleteCartFailEvent,
+} from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -14,7 +15,12 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+  LaunchDialogService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   SavedCartFormDialogComponent,
@@ -117,7 +123,15 @@ describe('SavedCartFormDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule],
+      imports: [
+        CommonModule,
+        I18nTestingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        KeyboardFocusTestingModule,
+        IconTestingModule,
+      ],
       declarations: [SavedCartFormDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -218,10 +232,14 @@ describe('SavedCartFormDialogComponent', () => {
     spyOn(savedCartService, 'restoreSavedCart');
     spyOn(savedCartService, 'cloneSavedCart');
 
+    component?.form?.get('cloneName')?.setValue(mockCart.name);
     component.isCloneSavedCart = true;
 
     component.restoreSavedCart(mockCartId);
-    expect(savedCartService.cloneSavedCart).toHaveBeenCalledWith(mockCartId);
+    expect(savedCartService.cloneSavedCart).toHaveBeenCalledWith(
+      mockCartId,
+      mockCart.name
+    );
     expect(savedCartService.restoreSavedCart).not.toHaveBeenCalled();
   });
 
@@ -244,14 +262,36 @@ describe('SavedCartFormDialogComponent', () => {
   it('should provide default value to saveCartDescription when empty', () => {
     spyOn(savedCartService, 'editSavedCart');
 
-    mockDialogData$.next({ cart: {}, layoutOption: 'edit' });
+    mockDialogData$.next({
+      cart: {
+        code: '123456789',
+        name: 'testCartName',
+      },
+      layoutOption: 'edit',
+    });
 
     component.saveOrEditCart(mockCartId);
 
     expect(savedCartService.editSavedCart).toHaveBeenCalledWith({
       cartId: mockCartId,
-      saveCartName: '',
+      saveCartName: mockCart.name,
       saveCartDescription: '-',
+    });
+  });
+
+  it('should not trigger saveOrEditCart when empty cart name is empty', () => {
+    spyOn(savedCartService, 'editSavedCart');
+
+    component.form?.get('name')?.setValue('');
+
+    mockDialogData$.next({ cart: {}, layoutOption: 'edit' });
+
+    component.saveOrEditCart(mockCartId);
+
+    expect(savedCartService.editSavedCart).not.toHaveBeenCalledWith({
+      cartId: mockCartId,
+      saveCartName: '',
+      saveCartDescription: '',
     });
   });
 
@@ -414,8 +454,8 @@ describe('SavedCartFormDialogComponent', () => {
   describe('disabling and enabling delete button using events', () => {
     it('should return true when the trigger event fired', () => {
       spyOn(eventService, 'get').and.callFake((type) => {
-        if ((type as any).type === 'DeleteSavedCartEvent') {
-          return of(new DeleteSavedCartEvent() as any);
+        if ((type as any).type === 'DeleteCartEvent') {
+          return of(new DeleteCartEvent() as any);
         } else {
           return of();
         }
@@ -434,10 +474,10 @@ describe('SavedCartFormDialogComponent', () => {
 
     it('should return false when the fail event fired', () => {
       spyOn(eventService, 'get').and.callFake((type) => {
-        if ((type as any).type === 'DeleteSavedCartEvent') {
-          return of(new DeleteSavedCartEvent() as any);
+        if ((type as any).type === 'DeleteCartEvent') {
+          return of(new DeleteCartEvent() as any);
         } else {
-          return of(new DeleteSavedCartFailEvent() as any);
+          return of(new DeleteCartFailEvent() as any);
         }
       });
 

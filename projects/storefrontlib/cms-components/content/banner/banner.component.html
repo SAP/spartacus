@@ -1,0 +1,11 @@
+<ng-container *ngIf="data$ | async as data">
+  <cx-generic-link
+    *ngIf="routerLink"
+    [url]="routerLink"
+    [target]="getTarget(data)"
+  >
+    <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
+    <cx-media [container]="getImage(data)"></cx-media>
+    <p class="content" *ngIf="data.content" [innerHTML]="data.content"></p>
+  </cx-generic-link>
+</ng-container>

@@ -3,9 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
-import { PaginationTestingModule } from 'projects/storefrontlib/src/shared/components/list-navigation/pagination/testing/pagination-testing.module';
+import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
+import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
+import { PaginationTestingModule } from 'projects/storefrontlib/shared/components/list-navigation/pagination/testing/pagination-testing.module';
 import { Subject } from 'rxjs';
 import { MessageData } from '../message.model';
 import { MessageService } from '../services/message.service';
@@ -61,8 +61,9 @@ describe('NotificationMessageComponent', () => {
   });
 
   it('should have notification message', () => {
-    const el: HTMLElement = fixture.debugElement.query(By.css('p'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('p')
+    ).nativeElement;
     expect(el.innerText).toEqual('Raw mock message');
   });
 
@@ -75,8 +76,9 @@ describe('NotificationMessageComponent', () => {
 
   it('should emit close event', () => {
     const nextEvent = spyOn(messageData.events, 'next');
-    const el: HTMLElement = fixture.debugElement.query(By.css('button.close'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('button.close')
+    ).nativeElement;
 
     el.click();
 

@@ -25,6 +25,11 @@ export interface Language {
   nativeName?: string;
 }
 
+export interface Principal {
+  name?: string;
+  uid?: string;
+}
+
 export interface User {
   currency?: Currency;
   customerId?: string;
@@ -81,7 +86,7 @@ export interface ErrorModel {
   type?: string;
 }
 
-export interface HttpErrorModel {
+export class HttpErrorModel {
   message?: string;
   status?: number;
   statusText?: string;

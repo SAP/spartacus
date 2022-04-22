@@ -1,0 +1,13 @@
+<a
+  *ngFor="let item of pages"
+  [class]="item.type"
+  [class.disabled]="isInactive(item)"
+  [class.current]="isCurrent(item)"
+  [routerLink]="pageRoute"
+  [queryParams]="getQueryParams(item)"
+  [tabIndex]="isInactive(item) ? -1 : 0"
+  (click)="pageChange(item)"
+  [attr.aria-label]="getAriaLabel(item.label, item.type)"
+>
+  {{ item.label }}
+</a>

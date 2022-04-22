@@ -9,7 +9,8 @@ export class OccConfiguratorTextfieldNormalizer
     Converter<
       OccConfiguratorTextfield.Configuration,
       ConfiguratorTextfield.Configuration
-    > {
+    >
+{
   constructor() {}
   /**
    * Converts addToCart parameters into the generic format

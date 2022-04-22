@@ -1,0 +1,34 @@
+<!-- https://github.com/angular/angular/issues/24567 -->
+
+<ng-container *ngIf="isExternalUrl(); else isLocalUrl">
+  <a
+    [href]="url"
+    [attr.target]="target"
+    [attr.rel]="rel"
+    [attr.id]="id"
+    [attr.class]="class"
+    [attr.style]="style"
+    [attr.title]="title"
+  >
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </a>
+</ng-container>
+
+<ng-template #isLocalUrl>
+  <a
+    [routerLink]="routerUrl"
+    [queryParams]="queryParams"
+    [fragment]="fragment"
+    [target]="target"
+    [attr.id]="id"
+    [attr.class]="class"
+    [attr.style]="style"
+    [attr.title]="title"
+  >
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </a>
+</ng-template>
+
+<ng-template #content>
+  <ng-content></ng-content>
+</ng-template>

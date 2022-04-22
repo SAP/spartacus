@@ -1,6 +1,7 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
   <label>
     <input
+      required="true"
       #searchTerm
       type="text"
       formControlName="searchTerm"

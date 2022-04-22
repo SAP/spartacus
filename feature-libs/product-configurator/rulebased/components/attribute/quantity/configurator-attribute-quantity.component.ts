@@ -24,7 +24,8 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeQuantityComponent
-  implements OnDestroy, OnInit {
+  implements OnDestroy, OnInit
+{
   quantity = new FormControl(1);
   optionsChangeSub: Subscription = new Subscription();
   quantityChangeSub: Subscription = new Subscription();
@@ -57,7 +58,7 @@ export class ConfiguratorAttributeQuantityComponent
     return this.quantity.valueChanges
       .pipe(
         debounce(() =>
-          timer(this.config?.productConfigurator?.updateDebounceTime?.quantity)
+          timer(this.config.productConfigurator?.updateDebounceTime?.quantity)
         ),
         take(1)
       )

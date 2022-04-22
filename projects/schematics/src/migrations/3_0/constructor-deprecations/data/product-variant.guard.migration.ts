@@ -5,13 +5,15 @@ import {
   ROUTER,
   ROUTING_SERVICE,
   SEMANTIC_PATH_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_VARIANT_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/product/product-variants/guards/product-variant.guard.ts
+  // projects/storefrontlib/cms-components/product/product-variants/guards/product-variant.guard.ts
   class: PRODUCT_VARIANT_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

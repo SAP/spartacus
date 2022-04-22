@@ -9,7 +9,8 @@ export class OccConfiguratorCpqAddToCartSerializer
     Converter<
       Configurator.AddToCartParameters,
       OccCpqConfigurator.AddToCartParameters
-    > {
+    >
+{
   convert(
     source: Configurator.AddToCartParameters,
     target?: OccCpqConfigurator.AddToCartParameters

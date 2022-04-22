@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { SavedCartAdapter } from './saved-cart.adapter';
 
@@ -19,21 +19,11 @@ export class SavedCartConnector {
     return this.adapter.restoreSavedCart(userId, cartId);
   }
 
-  saveCart(
+  cloneSavedCart(
     userId: string,
     cartId: string,
-    saveCartName?: string,
-    saveCartDescription?: string
+    saveCartName?: string
   ): Observable<Cart> {
-    return this.adapter.saveCart(
-      userId,
-      cartId,
-      saveCartName,
-      saveCartDescription
-    );
-  }
-
-  cloneSavedCart(userId: string, cartId: string): Observable<Cart> {
-    return this.adapter.cloneSavedCart(userId, cartId);
+    return this.adapter.cloneSavedCart(userId, cartId, saveCartName);
   }
 }

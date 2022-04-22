@@ -1,0 +1,37 @@
+<table
+  *ngIf="entries?.length > 0"
+  class="cx-quick-order-table-wrapper"
+  role="table"
+>
+  <caption class="cx-visually-hidden">
+    {{
+      'quickOrderTable.caption' | cxTranslate
+    }}
+  </caption>
+  <thead>
+    <tr role="row" class="cx-item-list-header cx-quick-order-table-header">
+      <th role="columnheader" class="cx-item-list-desc">
+        {{ 'quickOrderTable.product' | cxTranslate }}
+      </th>
+      <th role="columnheader" class="cx-item-list-price">
+        {{ 'quickOrderTable.price' | cxTranslate }}
+      </th>
+      <th role="columnheader" class="cx-item-list-qty">
+        {{ 'quickOrderTable.quantity' | cxTranslate }}
+      </th>
+      <th role="columnheader" class="cx-item-list-actions">
+        {{ 'quickOrderTable.actions' | cxTranslate }}
+      </th>
+    </tr>
+  </thead>
+  <tbody class="cx-item-list-items">
+    <tr
+      cx-quick-order-item
+      class="cx-item-list-row cx-quick-order-table-row"
+      *ngFor="let entry of entries; let i = index"
+      [entry]="entry"
+      [index]="i"
+      [loading]="loading"
+    ></tr>
+  </tbody>
+</table>

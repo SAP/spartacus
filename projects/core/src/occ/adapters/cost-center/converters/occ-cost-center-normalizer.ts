@@ -7,7 +7,8 @@ import { Occ } from '../../../occ-models/occ.models';
   providedIn: 'root',
 })
 export class OccCostCenterNormalizer
-  implements Converter<Occ.CostCenter, CostCenter> {
+  implements Converter<Occ.CostCenter, CostCenter>
+{
   convert(source: Occ.CostCenter, target?: CostCenter): CostCenter {
     if (target === undefined) {
       target = { ...(source as any) };

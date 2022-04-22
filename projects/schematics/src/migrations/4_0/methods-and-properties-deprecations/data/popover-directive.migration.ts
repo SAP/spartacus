@@ -1,13 +1,13 @@
 import {
   HANDLE_OPEN,
   POPOVER_DIRECTIVE,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
   TOGGLE,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/shared/components/popover/popover.directive.ts
+// projects/storefrontlib/shared/components/popover/popover.directive.ts
 
 export const POPOVER_DIRECTIVE_MIGRATION: MethodPropertyDeprecation[] = [
   {

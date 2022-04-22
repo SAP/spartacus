@@ -69,9 +69,9 @@ export abstract class ListService<T, P = PaginationModel> {
    * The pagination size defaults to 10, but can be overridden by the
    * table configuration for each entity type.
    */
-  protected pagination$: BehaviorSubject<P> = new BehaviorSubject(({
+  protected pagination$: BehaviorSubject<P> = new BehaviorSubject({
     pageSize: 10,
-  } as any) as P);
+  } as any as P);
 
   constructor(protected tableService: TableService) {}
 

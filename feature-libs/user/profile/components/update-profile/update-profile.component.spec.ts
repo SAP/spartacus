@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -20,7 +21,8 @@ class MockCxSpinnerComponent {}
 const isBusySubject = new BehaviorSubject(false);
 
 class MockUpdateProfileService
-  implements Partial<UpdateProfileComponentService> {
+  implements Partial<UpdateProfileComponentService>
+{
   user$ = of({});
   titles$ = of([]);
   form: FormGroup = new FormGroup({
@@ -50,6 +52,7 @@ describe('UpdateProfileComponent', () => {
           FormErrorsModule,
           RouterTestingModule,
           UrlTestingModule,
+          NgSelectModule,
         ],
         declarations: [UpdateProfileComponent, MockCxSpinnerComponent],
         providers: [
@@ -80,8 +83,9 @@ describe('UpdateProfileComponent', () => {
     it('should disable the submit button when form is disabled', () => {
       component.form.disable();
       fixture.detectChanges();
-      const submitBtn: HTMLButtonElement = el.query(By.css('button'))
-        .nativeElement;
+      const submitBtn: HTMLButtonElement = el.query(
+        By.css('button')
+      ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
 

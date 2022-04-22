@@ -26,7 +26,8 @@
           "path": [
             "peerDependencies.@spartacus/core",
             "peerDependencies.@spartacus/storefront",
-            "peerDependencies.@spartacus/schematics"
+            "peerDependencies.@spartacus/schematics",
+            "peerDependencies.@spartacus/styles"
           ]
         }
       ]

@@ -55,29 +55,28 @@ export class RoutingPageMetaResolver {
    * When there is no page meta resolver configured for the highest parent in the hierarchy,
    * it uses the `DefaultRoutePageMetaResolver`.
    */
-  protected readonly routesWithExtras$: Observable<
-    RouteWithExtras[]
-  > = this.routes$.pipe(
-    map((routes) =>
-      routes.reduce<RouteWithExtras[]>((results, route) => {
-        const parent = results.length
-          ? results[results.length - 1]
-          : {
-              route: null,
-              resolver: this.injector.get(DefaultRoutePageMetaResolver),
-              url: '',
-            };
+  protected readonly routesWithExtras$: Observable<RouteWithExtras[]> =
+    this.routes$.pipe(
+      map((routes) =>
+        routes.reduce<RouteWithExtras[]>((results, route) => {
+          const parent = results.length
+            ? results[results.length - 1]
+            : {
+                route: null,
+                resolver: this.injector.get(DefaultRoutePageMetaResolver),
+                url: '',
+              };
 
-        const resolver = this.getResolver(route) ?? parent.resolver; // fallback to parent's resolver
+          const resolver = this.getResolver(route) ?? parent.resolver; // fallback to parent's resolver
 
-        const urlPart = this.getUrlPart(route);
-        const url = parent.url + (urlPart ? `/${urlPart}` : ''); // don't add slash for a route with path '', to avoid double slash ...//...
+          const urlPart = this.getUrlPart(route);
+          const url = parent.url + (urlPart ? `/${urlPart}` : ''); // don't add slash for a route with path '', to avoid double slash ...//...
 
-        return results.concat({ route, resolver, url });
-      }, [])
-    ),
-    shareReplay({ bufferSize: 1, refCount: true })
-  );
+          return results.concat({ route, resolver, url });
+        }, [])
+      ),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
 
   /**
    * Array of breadcrumbs defined for all the activated routes (from the root route to the leaf route).

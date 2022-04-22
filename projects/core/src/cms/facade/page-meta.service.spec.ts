@@ -83,7 +83,8 @@ class MockCmsService {
 @Injectable()
 class ContentPageResolver
   extends PageMetaResolver
-  implements PageTitleResolver {
+  implements PageTitleResolver
+{
   pageType = PageType.CONTENT_PAGE;
   resolveTitle(): Observable<string> {
     return of('content page title');
@@ -95,7 +96,8 @@ class ContentPageResolver
 })
 class PageWithHeadingResolver
   extends PageMetaResolver
-  implements PageHeadingResolver {
+  implements PageHeadingResolver
+{
   pageType = PageType.CONTENT_PAGE;
   pageTemplate = 'template';
 
@@ -114,7 +116,8 @@ class PageWithAllResolvers
     PageImageResolver,
     PageRobotsResolver,
     PageDescriptionResolver,
-    PageBreadcrumbResolver {
+    PageBreadcrumbResolver
+{
   pageType = PageType.PRODUCT_PAGE;
   pageTemplate = 'any-template';
 

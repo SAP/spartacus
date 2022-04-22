@@ -8,7 +8,6 @@ import {
   ASM_CONFIG,
   ASM_CONNECTOR,
   ASM_FEATURE,
-  ASM_MODULE,
   ASM_OCC_MODULE,
   ASM_SELECTORS,
   ASM_SERVICE,
@@ -50,25 +49,9 @@ import {
   QUALTRICS_CONFIG,
   QUALTRICS_EVENT_NAME,
   QUALTRICS_LOADER_SERVICE,
-  QUALTRICS_MODULE,
   REGISTER_COMPONENT_MODULE,
   RESET_PASSWORD_MODULE,
   SMART_EDIT_SERVICE,
-  SPARTACUS_ASM,
-  SPARTACUS_CHECKOUT_COMPONENTS,
-  SPARTACUS_CHECKOUT_CORE,
-  SPARTACUS_CHECKOUT_OCC,
-  SPARTACUS_CHECKOUT_ROOT,
-  SPARTACUS_CORE,
-  SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
-  SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
-  SPARTACUS_PRODUCT,
-  SPARTACUS_QUALTRICS,
-  SPARTACUS_SMARTEDIT,
-  SPARTACUS_STOREFRONTLIB,
-  SPARTACUS_TRACKING,
-  SPARTACUS_USER_ACCOUNT_COMPONENTS,
-  SPARTACUS_USER_PROFILE_COMPONENTS,
   STATE_WITH_ASM,
   SYNCED_ASM_STATE,
   TOKEN_TARGET,
@@ -81,6 +64,25 @@ import {
   VARIANT_STYLE_ICONS_COMPONENT,
   VARIANT_STYLE_ICONS_MODULE,
 } from '../../../shared/constants';
+import {
+  ASM_MODULE,
+  QUALTRICS_MODULE,
+  SPARTACUS_ASM,
+  SPARTACUS_CHECKOUT_OLD_COMPONENTS,
+  SPARTACUS_CHECKOUT_OLD_CORE,
+  SPARTACUS_CHECKOUT_OLD_OCC,
+  SPARTACUS_CHECKOUT_OLD_ROOT,
+  SPARTACUS_CORE,
+  SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
+  SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
+  SPARTACUS_PRODUCT,
+  SPARTACUS_QUALTRICS,
+  SPARTACUS_SMARTEDIT,
+  SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_TRACKING,
+  SPARTACUS_USER_ACCOUNT_COMPONENTS,
+  SPARTACUS_USER_PROFILE_COMPONENTS,
+} from '../../../shared/libs-constants';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 import { migrateRenamedSymbols } from '../../mechanism/rename-symbol/rename-symbol';
 
@@ -127,44 +129,44 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newNode: DEFAULT_USER_ROUTING_CONFIG,
     newImportPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT,
   },
-  // projects/storefrontlib/src/cms-components/product/config/default-view-config.ts
+  // projects/storefrontlib/cms-components/product/config/default-view-config.ts
   {
     previousNode: 'defaultScrollConfig',
     previousImportPath: '@spartacus/storefront',
     newNode: 'defaultViewConfig',
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts
+  // projects/storefrontlib/cms-components/misc/qualtrics/qualtrics-loader.service.ts
   {
     previousNode: QUALTRICS_LOADER_SERVICE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/config/qualtrics-config.ts
+  // projects/storefrontlib/cms-components/misc/qualtrics/config/qualtrics-config.ts
   {
     previousNode: QUALTRICS_CONFIG,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts
+  // projects/storefrontlib/cms-components/misc/qualtrics/qualtrics-loader.service.ts
   {
     previousNode: QUALTRICS_EVENT_NAME,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics.component.ts
+  // projects/storefrontlib/cms-components/misc/qualtrics/qualtrics.component.ts
   {
     previousNode: QUALTRICS_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
-  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics.module.ts
+  // projects/storefrontlib/cms-components/misc/qualtrics/qualtrics.module.ts
   {
     previousNode: QUALTRICS_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newNode: 'QualtricsComponentsModule',
     newImportPath: `${SPARTACUS_QUALTRICS}/components`,
   },
-  // projects/storefrontlib/src/cms-components/asm/asm.module.ts
+  // projects/storefrontlib/cms-components/asm/asm.module.ts
   {
     previousNode: ASM_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
@@ -342,93 +344,93 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     previousImportPath: SPARTACUS_CORE,
     newImportPath: `${SPARTACUS_SMARTEDIT}/core`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-icons/variant-style-icons.component.ts
+  // projects/storefrontlib/cms-components/product/product-variants/variant-style-icons/variant-style-icons.component.ts
   {
     previousNode: VARIANT_STYLE_ICONS_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newNode: PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
     newImportPath: `${SPARTACUS_PRODUCT}/variants/root`,
   },
-  // projects/storefrontlib/src/cms-components/product/product-variants/variant-style-icons/variant-style-icons.module.ts
+  // projects/storefrontlib/cms-components/product/product-variants/variant-style-icons/variant-style-icons.module.ts
   {
     previousNode: VARIANT_STYLE_ICONS_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newNode: PRODUCT_VARIANT_STYLE_ICONS_MODULE,
     newImportPath: `${SPARTACUS_PRODUCT}/variants/root`,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/close-account/close-account.module.ts
+  // projects/storefrontlib/cms-components/myaccount/close-account/close-account.module.ts
   {
     previousNode: CLOSE_ACCOUNT_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/forgot-password/forgot-password.module.ts
+  // projects/storefrontlib/cms-components/myaccount/forgot-password/forgot-password.module.ts
   {
     previousNode: FORGOT_PASSWORD_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/user/register/register.module.ts
+  // projects/storefrontlib/cms-components/user/register/register.module.ts
   {
     previousNode: REGISTER_COMPONENT_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/reset-password/reset-password.module.ts
+  // projects/storefrontlib/cms-components/myaccount/reset-password/reset-password.module.ts
   {
     previousNode: RESET_PASSWORD_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-email/update-email.module.ts
+  // projects/storefrontlib/cms-components/myaccount/update-email/update-email.module.ts
   {
     previousNode: UPDATE_EMAIL_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-password/update-password.module.ts
+  // projects/storefrontlib/cms-components/myaccount/update-password/update-password.module.ts
   {
     previousNode: UPDATE_PASSWORD_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/update-profile/update-profile.module.ts
+  // projects/storefrontlib/cms-components/myaccount/update-profile/update-profile.module.ts
   {
     previousNode: UPDATE_PROFILE_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/user/login/login.module.ts
+  // projects/storefrontlib/cms-components/user/login/login.module.ts
   {
     previousNode: LOGIN_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/user/login-form/login-form.module.ts
+  // projects/storefrontlib/cms-components/user/login-form/login-form.module.ts
   {
     previousNode: LOGIN_FORM_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/user/login-register/login-register.module.ts
+  // projects/storefrontlib/cms-components/user/login-register/login-register.module.ts
   {
     previousNode: LOGIN_REGISTER_MODULE,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/myaccount/close-account/components/close-account/close-account.component.ts
+  // projects/storefrontlib/cms-components/myaccount/close-account/components/close-account/close-account.component.ts
   {
     previousNode: CLOSE_ACCOUNT_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_PROFILE_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/user/login-register/login-register.component.ts
+  // projects/storefrontlib/cms-components/user/login-register/login-register.component.ts
   {
     previousNode: LOGIN_REGISTER_COMPONENT,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
     newImportPath: SPARTACUS_USER_ACCOUNT_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
+  // projects/storefrontlib/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
   {
     previousNode: ITEM,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
@@ -438,559 +440,559 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
 ];
 
 export const CHECKOUT_LIB_MOVED_SYMBOLS_DATA: RenamedSymbol[] = [
-  // projects/storefrontlib/src/cms-components/user/checkout-login/*
+  // projects/storefrontlib/cms-components/user/checkout-login/*
   {
     previousNode: 'CheckoutLoginComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutLoginModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/order-confirmation/*
+  // projects/storefrontlib/cms-components/order-confirmation/*
   {
     previousNode: 'OrderConfirmationModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'ReplenishmentOrderConfirmationModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'OrderConfirmationGuard',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'GuestRegisterFormComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'OrderConfirmationItemsComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'OrderConfirmationOverviewComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'OrderConfirmationThankYouMessageComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'OrderConfirmationTotalsComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
-  // projects/storefrontlib/src/cms-components/checkout/*
+  // projects/storefrontlib/cms-components/checkout/*
   {
     previousNode: 'CheckoutComponentModule',
     newNode: 'CheckoutComponentsModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutOrchestratorComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutOrchestratorModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutOrderSummaryComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutOrderSummaryModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutProgressComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutProgressModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutProgressMobileBottomComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutProgressMobileBottomModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutProgressMobileTopComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutProgressMobileTopModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'DeliveryModeComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'DeliveryModeModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'PaymentMethodComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'PaymentMethodModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'PaymentFormComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'PaymentFormModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'PlaceOrderComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'PlaceOrderModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'ReviewSubmitComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'ReviewSubmitModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'ScheduleReplenishmentOrderComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'ScheduleReplenishmentOrderModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CardWithAddress',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'ShippingAddressComponent',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'ShippingAddressModule',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'DeliveryModePreferences',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'CheckoutConfig',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'CheckoutAuthGuard',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutStepsSetGuard',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutGuard',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'NotCheckoutAuthGuard',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutStepType',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'checkoutShippingSteps',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'checkoutPaymentSteps',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'CheckoutStep',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'CheckoutConfigService',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutDetailsService',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutReplenishmentFormService',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'CheckoutStepService',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   {
     previousNode: 'ExpressCheckoutService',
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
   // projects/core/src/occ/adapters/checkout/*
   {
     previousNode: 'CheckoutOccModule',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_OCC,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_OCC,
   },
   {
     previousNode: 'OccCheckoutCostCenterAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_OCC,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_OCC,
   },
   {
     previousNode: 'OccCheckoutDeliveryAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_OCC,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_OCC,
   },
   {
     previousNode: 'OccCheckoutPaymentTypeAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_OCC,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_OCC,
   },
   {
     previousNode: 'OccCheckoutPaymentAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_OCC,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_OCC,
   },
   {
     previousNode: 'OccCheckoutReplenishmentOrderAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_OCC,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_OCC,
   },
   {
     previousNode: 'OccCheckoutAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_OCC,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_OCC,
   },
   {
     previousNode: 'OccReplenishmentOrderFormSerializer',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_OCC,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_OCC,
   },
   // projects/core/src/checkout/*
   {
     previousNode: 'CheckoutModule',
     newNode: 'CheckoutCoreModule',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutConnector',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutCostCenterAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutCostCenterConnector',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutDeliveryAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutDeliveryConnector',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'DELIVERY_MODE_NORMALIZER',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutPaymentAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutPaymentConnector',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'PAYMENT_DETAILS_SERIALIZER',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CARD_TYPE_NORMALIZER',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'PAYMENT_TYPE_NORMALIZER',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'PaymentTypeAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'PaymentTypeConnector',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'PaymentTypeConnector',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutReplenishmentOrderAdapter',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutReplenishmentOrderConnector',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'REPLENISHMENT_ORDER_FORM_SERIALIZER',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutEventBuilder',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutEventModule',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'OrderPlacedEvent',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'CheckoutCostCenterService',
     newNode: 'CheckoutCostCenterFacade',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'CheckoutDeliveryService',
     newNode: 'CheckoutDeliveryFacade',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'CheckoutPaymentService',
     newNode: 'CheckoutPaymentFacade',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'CheckoutService',
     newNode: 'CheckoutFacade',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'PaymentTypeService',
     newNode: 'PaymentTypeFacade',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'ClearCheckoutService',
     newNode: 'ClearCheckoutFacade',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_ROOT,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_ROOT,
   },
   {
     previousNode: 'CheckoutDetails',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutPageMetaResolver',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CHECKOUT_FEATURE',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CHECKOUT_DETAILS',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'SET_DELIVERY_ADDRESS_PROCESS_ID',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'SET_DELIVERY_MODE_PROCESS_ID',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'SET_PAYMENT_DETAILS_PROCESS_ID',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'GET_PAYMENT_TYPES_PROCESS_ID',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'SET_COST_CENTER_PROCESS_ID',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'PLACED_ORDER_PROCESS_ID',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'StateWithCheckout',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CardTypesState',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutStepsState',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'PaymentTypesState',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'OrderTypesState',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'PaymentTypesState',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutState',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutActions',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
   {
     previousNode: 'CheckoutSelectors',
     previousImportPath: SPARTACUS_CORE,
-    newImportPath: SPARTACUS_CHECKOUT_CORE,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_CORE,
   },
-  // projects/storefrontlib/src/cms-components/cart/cart-not-empty.guard.ts
+  // projects/storefrontlib/cms-components/cart/cart-not-empty.guard.ts
   {
     previousNode: CART_NOT_EMPTY_GUARD,
     previousImportPath: SPARTACUS_STOREFRONTLIB,
-    newImportPath: SPARTACUS_CHECKOUT_COMPONENTS,
+    newImportPath: SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   },
 ];
 

@@ -22,10 +22,10 @@ export class ConfiguratorPriceComponent {
    * @return {string} - value price formula
    */
   get price(): string {
-    if (this.formula?.priceTotal) {
+    if (this.formula.priceTotal) {
       return this.priceTotal;
     } else {
-      return '+ ' + this.formula?.price?.formattedValue;
+      return '+ ' + this.formula.price?.formattedValue;
     }
   }
 
@@ -35,7 +35,7 @@ export class ConfiguratorPriceComponent {
    * @return {string} - total price formula
    */
   get priceTotal(): string {
-    return '+ ' + this.formula?.priceTotal?.formattedValue;
+    return '+ ' + this.formula.priceTotal?.formattedValue;
   }
 
   /**
@@ -69,9 +69,9 @@ export class ConfiguratorPriceComponent {
    */
   displayFormula(): boolean {
     const displayFormula =
-      (this.formula?.quantity && this.formula?.quantity !== 0) ||
-      (this.formula?.price && this.formula?.price?.value !== 0) ||
-      (this.formula?.priceTotal && this.formula?.priceTotal?.value !== 0);
+      (this.formula.quantity && this.formula.quantity !== 0) ||
+      (this.formula.price && this.formula.price?.value !== 0) ||
+      (this.formula.priceTotal && this.formula.priceTotal?.value !== 0);
     return displayFormula ?? false;
   }
 
@@ -82,7 +82,7 @@ export class ConfiguratorPriceComponent {
    * @return {string} - price formula
    */
   quantityWithPrice(formattedQuantity: string | null): string {
-    return formattedQuantity + 'x(' + this.formula?.price?.formattedValue + ')';
+    return formattedQuantity + 'x(' + this.formula.price?.formattedValue + ')';
   }
 
   /**

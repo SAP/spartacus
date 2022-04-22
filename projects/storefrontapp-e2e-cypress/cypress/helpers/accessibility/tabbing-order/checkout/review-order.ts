@@ -31,6 +31,8 @@ export function checkoutReviewOrderTabbingOrder(
       'getOrderConfirmationPage'
     );
     cy.get('cx-place-order button.btn-primary').click();
-    cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
+    cy.wait(`@${orderConfirmationPage}`)
+      .its('response.statusCode')
+      .should('eq', 200);
   }
 }

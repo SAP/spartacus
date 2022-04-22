@@ -43,9 +43,8 @@ describe('OccConfiguratorTextfieldUpdateCartEntrySerializer', () => {
   });
 
   it('should convert updateCartEntry parameters', () => {
-    const convertedParameters = occConfiguratorUpdateCartEntrySerializer.convert(
-      sourceParameters
-    );
+    const convertedParameters =
+      occConfiguratorUpdateCartEntrySerializer.convert(sourceParameters);
     expect(convertedParameters.userId).toEqual(sourceParameters.userId);
     const configurationInfos = convertedParameters.configurationInfos;
     if (configurationInfos) {

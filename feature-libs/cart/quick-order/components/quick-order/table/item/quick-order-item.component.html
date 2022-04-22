@@ -1,0 +1,65 @@
+<td role="cell">
+  <div class="cx-table-item-container">
+    <a
+      [ngClass]="{
+        disabled: loading,
+        'img-missing': !entry?.product?.images?.PRIMARY
+      }"
+      [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
+      tabindex="-1"
+    >
+      <cx-media
+        [container]="entry?.product?.images?.PRIMARY"
+        [alt]="entry?.product?.name"
+        format="cartIcon"
+      ></cx-media>
+    </a>
+    <div class="cx-info">
+      <div class="cx-name">
+        <a
+          [ngClass]="{ disabled: loading }"
+          [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
+          class="cx-link"
+          >{{ entry.product?.name || '-' }}
+        </a>
+      </div>
+
+      <div class="cx-code">
+        {{ 'quickOrderTable.id' | cxTranslate }} {{ entry.product?.code }}
+      </div>
+    </div>
+  </div>
+</td>
+
+<td role="cell" class="cx-price">
+  <div class="cx-mobile-header">
+    {{ 'quickOrderTable.itemPrice' | cxTranslate }}
+  </div>
+  <div class="cx-value">
+    {{ entry.basePrice?.formattedValue || '-' }}
+  </div>
+</td>
+
+<td role="cell" class="cx-quantity">
+  <div class="cx-mobile-header">
+    {{ 'quickOrderTable.qty' | cxTranslate }}
+  </div>
+  <div class="cx-value">
+    <cx-item-counter
+      [control]="quantityControl"
+      [max]="entry.product?.stock?.stockLevel"
+      [readonly]="loading"
+    ></cx-item-counter>
+  </div>
+</td>
+
+<td role="cell" class="cx-actions">
+  <button
+    (click)="removeEntry()"
+    [attr.aria-label]="'common.remove' | cxTranslate"
+    [disabled]="loading"
+    class="link cx-action-link"
+  >
+    {{ 'common.remove' | cxTranslate }}
+  </button>
+</td>

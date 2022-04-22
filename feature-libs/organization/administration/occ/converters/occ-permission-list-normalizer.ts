@@ -14,7 +14,8 @@ import {
   providedIn: 'root',
 })
 export class OccPermissionListNormalizer
-  implements Converter<Occ.PermissionsList, EntitiesModel<Permission>> {
+  implements Converter<Occ.PermissionsList, EntitiesModel<Permission>>
+{
   constructor(private converter: ConverterService) {}
 
   convert(

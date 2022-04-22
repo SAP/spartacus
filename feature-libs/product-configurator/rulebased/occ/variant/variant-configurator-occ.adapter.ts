@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
-  ConverterService,
-  OccEndpointsService,
-} from '@spartacus/core';
+} from '@spartacus/cart/base/root';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -19,7 +18,7 @@ import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
-  VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
+  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './variant-configurator-occ.converters';
@@ -27,7 +26,8 @@ import { OccConfigurator } from './variant-configurator-occ.models';
 
 @Injectable()
 export class VariantConfiguratorOccAdapter
-  implements RulebasedConfiguratorAdapter {
+  implements RulebasedConfiguratorAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -204,6 +204,7 @@ export class VariantConfiguratorOccAdapter
       map((overview) => {
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
+          productCode: overview.productCode,
           groups: [],
           flatGroups: [],
           interactionState: {},
@@ -230,22 +231,23 @@ export class VariantConfiguratorOccAdapter
         urlParams: {
           configId: configuration.configId,
         },
+        queryParams: { groupId: configuration.interactionState.currentGroup },
       }
     );
 
     return this.http.get(url).pipe(
-      this.converterService.pipeable(
-        VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER
-      ),
-      map((pricingResult) => {
+      this.converterService.pipeable(VARIANT_CONFIGURATOR_PRICE_NORMALIZER),
+      map((configResult) => {
         const result: Configurator.Configuration = {
           ...configuration,
-          priceSummary: pricingResult,
+          priceSummary: configResult.priceSummary,
+          priceSupplements: configResult.priceSupplements,
         };
         return result;
       })
     );
   }
+
   getConfigurationOverview(
     configId: string
   ): Observable<Configurator.Overview> {

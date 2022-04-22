@@ -1,0 +1,27 @@
+@import './cart-quick-order-form';
+@import './quick-order-form';
+@import './quick-order-table';
+@import './quick-order';
+
+$quick-order-components-allowlist: cx-quick-order, cx-quick-order-form,
+  cx-cart-quick-order-form, cx-quick-order-table !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $quick-order-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $quick-order-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

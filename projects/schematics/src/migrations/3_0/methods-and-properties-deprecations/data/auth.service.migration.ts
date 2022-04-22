@@ -1,8 +1,5 @@
-import {
-  AUTH_SERVICE,
-  SPARTACUS_CORE,
-  TODO_SPARTACUS,
-} from '../../../../shared/constants';
+import { AUTH_SERVICE, TODO_SPARTACUS } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const AUTH_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [

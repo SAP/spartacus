@@ -30,7 +30,8 @@ export class ContentPageMetaResolver
     PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageRobotsResolver,
-    CanonicalPageResolver {
+    CanonicalPageResolver
+{
   constructor(protected basePageMetaResolver: BasePageMetaResolver) {
     super();
     this.pageType = PageType.CONTENT_PAGE;

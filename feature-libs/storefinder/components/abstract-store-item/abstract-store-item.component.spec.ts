@@ -13,7 +13,8 @@ class MockStoreFinderService implements Partial<StoreFinderService> {
 
 describe('AbstractStoreItemComponent', () => {
   let component: AbstractStoreItemComponent;
-  const mockStoreFinderService: MockStoreFinderService = new MockStoreFinderService();
+  const mockStoreFinderService: MockStoreFinderService =
+    new MockStoreFinderService();
 
   beforeEach(() => {
     component = new AbstractStoreItemComponent(<any>mockStoreFinderService);

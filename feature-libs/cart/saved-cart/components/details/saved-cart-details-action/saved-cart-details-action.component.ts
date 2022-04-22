@@ -5,8 +5,8 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFormType } from '@spartacus/cart/saved-cart/root';
-import { Cart } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -21,9 +21,8 @@ export class SavedCartDetailsActionComponent implements OnDestroy {
   savedCartFormType = SavedCartFormType;
 
   @ViewChild('element') element: ElementRef;
-  savedCart$: Observable<
-    Cart | undefined
-  > = this.savedCartDetailsService.getCartDetails();
+  savedCart$: Observable<Cart | undefined> =
+    this.savedCartDetailsService.getCartDetails();
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,

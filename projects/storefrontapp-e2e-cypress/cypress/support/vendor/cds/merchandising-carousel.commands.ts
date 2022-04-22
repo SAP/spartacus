@@ -19,7 +19,9 @@ declare global {
 }
 
 Cypress.Commands.add('waitForCarouselEvent', (eventSchema: string) => {
-  cy.wait(`@${carouselEventRequestAlias}`).its('status').should('eq', 201);
+  cy.wait(`@${carouselEventRequestAlias}`)
+    .its('response.statusCode')
+    .should('eq', 201);
 
   cy.get<Cypress.WaitXHR>(`@${carouselEventRequestAlias}`).then(
     ({ request }) => {

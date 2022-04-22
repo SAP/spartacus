@@ -1,0 +1,142 @@
+<div *ngIf="form$ | async as form">
+  <button
+    *ngIf="!isConfirmation"
+    class="btn btn-link cx-action-link"
+    (click)="setAll(form)"
+  >
+    {{ 'orderDetails.cancellationAndReturn.setAll' | cxTranslate }}
+  </button>
+
+  <table class="cx-amend-order-items">
+    <caption class="cx-visually-hidden">
+      {{
+        'orderDetails.caption' | cxTranslate
+      }}
+    </caption>
+    <thead>
+      <tr>
+        <th role="columnheader" class="cx-item-list-desc">
+          {{ 'orderDetails.cancellationAndReturn.item' | cxTranslate }}
+        </th>
+        <th role="columnheader" class="cx-item-list-price">
+          {{ 'orderDetails.cancellationAndReturn.itemPrice' | cxTranslate }}
+        </th>
+        <th
+          *ngIf="!isConfirmation"
+          role="columnheader"
+          class="cx-item-list-amend-qty"
+        >
+          {{ 'orderDetails.cancellationAndReturn.quantity' | cxTranslate }}
+        </th>
+        <th role="columnheader" class="cx-item-list-qty">
+          {{
+            (isCancellation()
+              ? 'orderDetails.cancellationAndReturn.cancelQty'
+              : 'orderDetails.cancellationAndReturn.returnQty'
+            ) | cxTranslate
+          }}
+        </th>
+        <th
+          *ngIf="isConfirmation"
+          role="columnheader"
+          class="cx-item-list-total"
+        >
+          {{ 'orderDetails.cancellationAndReturn.totalPrice' | cxTranslate }}
+        </th>
+      </tr>
+    </thead>
+    <tbody class="cx-item-list-items">
+      <!--    TODO: This should be a separate component-->
+      <tr
+        *ngFor="let item of entries; let i = index"
+        class="cx-item-list-row cx-amend-order-item-row"
+      >
+        <td role="cell">
+          <div class="cx-table-item-container">
+            <cx-media
+              [container]="item.product.images?.PRIMARY"
+              format="thumbnail"
+            ></cx-media>
+
+            <div class="cx-info">
+              <div class="cx-name">
+                {{ item.product.name }}
+              </div>
+
+              <div *ngIf="item.product.code" class="cx-code">
+                {{ 'cartItems.id' | cxTranslate }} {{ item.product.code }}
+              </div>
+            </div>
+
+            <ng-container *ngIf="item.product.baseOptions?.length">
+              <div
+                *ngFor="
+                  let variant of item.product.baseOptions[0]?.selected
+                    ?.variantOptionQualifiers
+                "
+                class="cx-property"
+              >
+                <div class="cx-label" *ngIf="variant.name">
+                  {{ variant.name }}:
+                </div>
+                <div class="cx-value" *ngIf="variant.value">
+                  {{ variant.value }}
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </td>
+
+        <td role="cell" class="cx-price" *ngIf="item.basePrice">
+          <div class="cx-mobile-header">
+            {{ 'orderDetails.cancellationAndReturn.itemPrice' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ item.basePrice?.formattedValue }}
+          </div>
+        </td>
+
+        <td role="cell" *ngIf="!isConfirmation" class="cx-request-qty">
+          <div
+            class="cx-mobile-header"
+            title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
+          >
+            {{ 'orderDetails.cancellationAndReturn.quantity' | cxTranslate }}
+          </div>
+          <div class="cx-value">
+            {{ getMaxAmendQuantity(item) }}
+          </div>
+        </td>
+
+        <td role="cell" class="cx-quantity">
+          <div class="cx-mobile-header">
+            {{
+              (isCancellation()
+                ? 'orderDetails.cancellationAndReturn.cancelQty'
+                : 'orderDetails.cancellationAndReturn.returnQty'
+              ) | cxTranslate
+            }}
+          </div>
+          <div class="cx-value">
+            <ng-container *ngIf="isConfirmation">
+              {{ getControl(form, item).value }}
+            </ng-container>
+            <cx-item-counter
+              *ngIf="!isConfirmation"
+              [min]="0"
+              [max]="getMaxAmendQuantity(item)"
+              [control]="getControl(form, item)"
+            ></cx-item-counter>
+          </div>
+        </td>
+
+        <td role="cell" *ngIf="isConfirmation" class="cx-total">
+          <div class="cx-mobile-header">
+            {{ 'orderDetails.cancellationAndReturn.totalPrice' | cxTranslate }}
+          </div>
+          <div class="cx-value">{{ getItemPrice(item)?.formattedValue }}</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

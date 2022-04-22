@@ -1,9 +1,9 @@
 import {
   CAN_ACTIVATE,
   NOT_AUTH_GUARD,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const NOT_AUTH_GUARD_MIGRATION: MethodPropertyDeprecation[] = [

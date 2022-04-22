@@ -35,7 +35,7 @@ export const unitShippingAddressConfig: MyCompanyConfig = {
       createValue: `123 Uratiti`,
       updateValue: `456 Waiwhakamukau`,
       formLabel: 'Address',
-      sortLabel: 'Name',
+      sortLabel: 'name',
     },
     {
       inputType: INPUT_TYPE.TEXT,
@@ -157,7 +157,7 @@ export const unitConfig: MyCompanyConfig = {
             showInTable: true,
             showInDetails: true,
             formLabel: 'Name',
-            sortLabel: 'Name',
+            sortLabel: 'name',
           },
           {
             label: 'Status',
@@ -209,7 +209,7 @@ export const unitConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
     {
-      name: 'Shipping Addresses',
+      name: 'Delivery Addresses',
       baseUrl: `/addresses`,
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',
@@ -232,5 +232,11 @@ export const unitConfig: MyCompanyConfig = {
     MY_COMPANY_FEATURE.UPDATE,
     MY_COMPANY_FEATURE.NESTED_LIST,
     MY_COMPANY_FEATURE.ASSIGNMENTS,
+  ],
+  coreFeatures: [
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.NESTED_LIST,
   ],
 };

@@ -1,11 +1,24 @@
 import { NgModule } from '@angular/core';
-import { CartConfig, provideConfig, SiteContextConfig } from '@spartacus/core';
+import { CartConfig } from '@spartacus/cart/base/root';
+import { provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfig,
   mediaConfig,
   PWAModuleConfig,
 } from '@spartacus/storefront';
+import { environment } from '../../environments/environment';
+
+const defaultBaseSite = [
+  'electronics-spa',
+  'electronics',
+  'apparel-de',
+  'apparel-uk',
+  'apparel-uk-spa',
+];
+const baseSite = environment.epdVisualization
+  ? ['electronics-epdvisualization-spa'].concat(defaultBaseSite)
+  : defaultBaseSite;
 
 @NgModule({
   providers: [
@@ -15,13 +28,7 @@ import {
     provideConfig(<SiteContextConfig>{
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: [
-          'electronics-spa',
-          'electronics',
-          'apparel-de',
-          'apparel-uk',
-          'apparel-uk-spa',
-        ],
+        baseSite: baseSite,
       },
     }),
     provideConfig(<PWAModuleConfig>{

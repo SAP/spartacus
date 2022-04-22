@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -17,6 +17,7 @@ import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configura
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -32,6 +33,7 @@ import { ConfiguratorAttributeMultiSelectionImageComponent } from '../attribute/
 import { ConfiguratorAttributeRadioButtonComponent } from '../attribute/types/radio-button/configurator-attribute-radio-button.component';
 import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-only/configurator-attribute-read-only.component';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
+import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -72,6 +74,14 @@ const configRead2: Configurator.Configuration = {
 };
 
 @Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
   selector: 'cx-icon',
   template: '',
 })
@@ -80,7 +90,8 @@ class MockCxIconComponent {
 }
 
 let routerStateObservable: Observable<RouterState> = EMPTY;
-let configurationCreateObservable: Observable<Configurator.Configuration> = EMPTY;
+let configurationCreateObservable: Observable<Configurator.Configuration> =
+  EMPTY;
 let currentGroupObservable: Observable<string> = EMPTY;
 let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
 let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
@@ -167,6 +178,8 @@ describe('ConfigurationFormComponent', () => {
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let mockLanguageService;
+  let htmlElem: HTMLElement;
+  let fixture: ComponentFixture<ConfiguratorFormComponent>;
 
   beforeEach(
     waitForAsync(() => {
@@ -191,6 +204,7 @@ describe('ConfigurationFormComponent', () => {
           ConfiguratorAttributeMultiSelectionImageComponent,
           ConfiguratorAttributeSingleSelectionImageComponent,
           MockCxIconComponent,
+          MockConfiguratorPriceComponent,
         ],
         providers: [
           {
@@ -248,32 +262,20 @@ describe('ConfigurationFormComponent', () => {
   });
 
   function createComponent(): ConfiguratorFormComponent {
-    return TestBed.createComponent(ConfiguratorFormComponent).componentInstance;
+    fixture = TestBed.createComponent(ConfiguratorFormComponent);
+    htmlElem = fixture.nativeElement;
+    return fixture.componentInstance;
   }
 
-  it('should not enforce a reload of the configuration per default', () => {
-    spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
-    mockRouterState.state.queryParams = { forceReload: 'false' };
-    routerStateObservable = of(mockRouterState);
-    createComponent().ngOnInit();
-    expect(
-      configuratorCommonsService.removeConfiguration
-    ).toHaveBeenCalledTimes(0);
-  });
-
-  it('should enforce a reload of the configuration by removing the current one in case the router requires this', () => {
-    spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
-    routerStateObservable = of({
-      ...mockRouterState,
-      state: {
-        ...mockRouterState.state,
-        queryParams: { forceReload: 'true' },
-      },
-    });
-    createComponent().ngOnInit();
-    expect(
-      configuratorCommonsService.removeConfiguration
-    ).toHaveBeenCalledTimes(1);
+  it('should render ghost view if no data is present', () => {
+    createComponent();
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectNumberOfElements(
+      expect,
+      htmlElem,
+      '.cx-ghost-attribute',
+      6
+    );
   });
 
   it('should call configurator group service to check group type', () => {
@@ -397,17 +399,13 @@ describe('ConfigurationFormComponent', () => {
     routerStateObservable = of(mockRouterState);
     createComponent().updateConfiguration({
       ownerKey: owner.key,
-      changedAttribute: configRead.groups[0].attributes[0],
+      changedAttribute: ConfigurationTestData.attributeCheckbox,
     });
 
     expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
   });
 
   describe('createGroupId', () => {
-    it('should return empty string because groupID is null', () => {
-      expect(createComponent().createGroupId(null)).toBeUndefined();
-    });
-
     it('should return empty string because groupID is undefined', () => {
       expect(createComponent().createGroupId(undefined)).toBeUndefined();
     });

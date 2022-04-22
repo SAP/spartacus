@@ -19,20 +19,25 @@ export const common = {
     menu: 'Menu',
     reset: 'Reset',
     search: 'Search',
+    add: 'Add',
+    breadcrumbs: 'breadcrumbs',
+    selectFile: 'Select file',
+    clear: 'Clear',
+    loaded: 'Loaded',
   },
   pageMetaResolver: {
     category: {
       title: '{{count}} result for {{query}}',
-      title_plural: '{{count}} results for {{query}}',
+      title_other: '{{count}} results for {{query}}',
     },
     checkout: {
       title: 'Checkout',
     },
     search: {
       title: '{{count}} result for "{{query}}"',
-      title_plural: '{{count}} results for "{{query}}"',
+      title_other: '{{count}} results for "{{query}}"',
       findProductTitle: '{{count}} result for coupon "{{coupon}}"',
-      findProductTitle_plural: '{{count}} results for coupon "{{coupon}}"',
+      findProductTitle_other: '{{count}} results for coupon "{{coupon}}"',
       default_title: 'All products',
     },
     product: {
@@ -45,19 +50,23 @@ export const common = {
     loading: 'Loading...',
   },
   navigation: {
-    shopAll: 'Shop all {{ navNode}} >',
+    categoryNavLabel: 'Category menu',
+    footerNavLabel: 'Footer links',
+    navigateTo: 'Navigate to {{nav}}',
+    scrollToTop: 'Scroll back to the top of the page',
   },
   searchBox: {
-    placeholder: 'Search here...',
+    placeholder: 'Enter product name or SKU',
+    productSearch: 'Find a product',
     ariaLabelInput: 'Search here...',
     ariaLabelSuggestions: 'typing suggestions',
     ariaLabelProducts: 'product results',
     initialDescription:
       'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
     suggestionsResult: '{{ count }} suggestion and ',
-    suggestionsResult_plural: '{{ count }} suggestions and ',
+    suggestionsResult_other: '{{ count }} suggestions and ',
     productsResult: '{{ count }} product is available.',
-    productsResult_plural: '{{ count }} products are available.',
+    productsResult_other: '{{ count }} products are available.',
     resetLabel: 'Reset Search',
     help: {
       insufficientChars: 'Please type more characters',
@@ -72,6 +81,7 @@ export const common = {
     rma: 'Return Number',
     replenishmentNumber: 'Replenishment Number',
     nextOrderDate: 'Next Order Date',
+    pageViewUpdated: 'Page view updated with your selected options.',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
@@ -129,10 +139,14 @@ export const common = {
     },
     cartNotFound: 'Cart not found.',
     invalidCodeProvided: 'Invalid code provided.',
+    voucherExceeded:
+      'This coupon has exceeded the number of times it can be used',
+    unknownIdentifier: 'Item not found.',
+    otherCartErrors: 'Cart errors occurred.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',
-    item_plural: '{{count}} items currently in your cart',
+    item_other: '{{count}} items currently in your cart',
     total: '{{total}}',
     count: '{{count}}',
   },
@@ -145,6 +159,12 @@ export const common = {
       productFacets: 'Product Facets',
       productList: 'Product List',
     },
+  },
+  carousel: {
+    previousSlide: 'Previous slide',
+    nextSlide: 'Next slide',
+    slideNumber: 'Slide {{currentSlideNumber}}',
+    carouselForProduct: 'Carousel, Images for {{product}}',
   },
   formErrors: {
     globalMessage: 'The form you are trying to submit contains errors.',
@@ -164,9 +184,20 @@ export const common = {
       pattern: 'Use dateformat yyyy-mm-dd',
       invalid: 'Use a valid date',
     },
+    file: {
+      required: 'File is required',
+      empty: 'File should not be empty',
+      invalidExtension: 'File extension is not valid',
+      tooLarge: 'File size should not exceed {{ maxSize }} MB',
+      tooManyEntries: 'The number of items is greater than {{ maxEntries }}',
+      notParsable: 'File is not parsable',
+    },
   },
   errorHandlers: {
     scriptFailedToLoad: 'Failed to load the script.',
     refreshThePage: 'Please refresh the page.',
+  },
+  assistiveMessage: {
+    actionCancelled: 'Action cancelled, nothing changed',
   },
 };

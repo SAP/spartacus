@@ -10,12 +10,12 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import { NG_EXPRESS_ENGINE_DECORATOR } from '../../../shared/constants';
 import {
-  NG_EXPRESS_ENGINE_DECORATOR,
   SPARTACUS_CORE,
   SPARTACUS_SETUP,
   SPARTACUS_SETUP_SSR,
-} from '../../../shared/constants';
+} from '../../../shared/libs-constants';
 import {
   commitChanges,
   getServerTsPath,

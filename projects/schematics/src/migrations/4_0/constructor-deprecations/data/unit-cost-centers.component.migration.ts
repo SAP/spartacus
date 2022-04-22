@@ -1,9 +1,11 @@
 import {
   CURRENT_UNIT_SERVICE,
-  SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
-  SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE,
   UNIT_COST_CENTER_LIST_COMPONENT,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
+  SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const UNIT_COST_CENTERS_COMPONENT_MIGRATION: ConstructorDeprecation = {

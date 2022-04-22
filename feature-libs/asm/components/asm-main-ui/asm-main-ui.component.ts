@@ -1,9 +1,4 @@
-import {
-  Component,
-  HostBinding,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
@@ -21,8 +16,6 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
-  styleUrls: ['./asm-main-ui.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class AsmMainUiComponent implements OnInit {
   customerSupportAgentLoggedIn$: Observable<boolean>;
@@ -45,8 +38,10 @@ export class AsmMainUiComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.customerSupportAgentLoggedIn$ = this.csAgentAuthService.isCustomerSupportAgentLoggedIn();
-    this.csAgentTokenLoading$ = this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
+    this.customerSupportAgentLoggedIn$ =
+      this.csAgentAuthService.isCustomerSupportAgentLoggedIn();
+    this.csAgentTokenLoading$ =
+      this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
     this.customer$ = this.authService.isUserLoggedIn().pipe(
       switchMap((isLoggedIn) => {
         if (isLoggedIn) {

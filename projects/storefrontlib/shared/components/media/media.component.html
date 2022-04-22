@@ -1,0 +1,10 @@
+<img
+  *ngIf="media?.src"
+  [attr.src]="media.src"
+  [attr.srcset]="media.srcset"
+  [attr.alt]="media.alt"
+  [attr.role]="media.role"
+  [attr.loading]="loading"
+  (load)="loadHandler()"
+  (error)="errorHandler()"
+/>

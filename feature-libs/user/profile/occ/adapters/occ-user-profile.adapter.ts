@@ -47,12 +47,10 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     user = this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 
-    return this.http
-      .post<User>(url, user, { headers })
-      .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(USER_PROFILE_NORMALIZER)
-      );
+    return this.http.post<User>(url, user, { headers }).pipe(
+      catchError((error) => throwError(normalizeHttpError(error))),
+      this.converter.pipeable(USER_PROFILE_NORMALIZER)
+    );
   }
 
   registerGuest(guid: string, password: string): Observable<User> {
@@ -66,12 +64,10 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       .set('guid', guid)
       .set('password', password);
 
-    return this.http
-      .post<User>(url, httpParams, { headers })
-      .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
-        this.converter.pipeable(USER_PROFILE_NORMALIZER)
-      );
+    return this.http.post<User>(url, httpParams, { headers }).pipe(
+      catchError((error) => throwError(normalizeHttpError(error))),
+      this.converter.pipeable(USER_PROFILE_NORMALIZER)
+    );
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<unknown> {

@@ -38,7 +38,8 @@ export class ProductPageMetaResolver
     PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageImageResolver,
-    PageRobotsResolver {
+    PageRobotsResolver
+{
   constructor(
     protected routingService: RoutingService,
     protected productService: ProductService,
@@ -193,7 +194,7 @@ export class ProductPageMetaResolver
       return this.productService
         .get(product.baseProduct, ProductScope.LIST)
         .pipe(
-          filter((product) => Boolean(product)),
+          filter((baseProduct) => Boolean(baseProduct)),
           switchMap((baseProduct) => this.findBaseProduct(baseProduct))
         );
     }

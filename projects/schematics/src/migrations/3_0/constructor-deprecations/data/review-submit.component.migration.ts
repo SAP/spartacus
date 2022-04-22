@@ -8,16 +8,18 @@ import {
   PAYMENT_TYPE_SERVICE,
   PROMOTION_SERVICE,
   REVIEW_SUBMIT_COMPONENT,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   TRANSLATION_SERVICE,
   USER_ADDRESS_SERVICE,
   USER_COST_CENTER_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const REVIEW_SUBMIT_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/components/review-submit/review-submit.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/review-submit/review-submit.component.ts
   class: REVIEW_SUBMIT_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

@@ -27,7 +27,8 @@ class MockAuthStorageService implements Partial<AuthStorageService> {
 }
 
 class MockAuthRedirectStorageService
-  implements Partial<AuthRedirectStorageService> {
+  implements Partial<AuthRedirectStorageService>
+{
   getRedirectUrl() {
     return of(undefined);
   }

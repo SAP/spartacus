@@ -10,6 +10,8 @@ import {
   addPackageJsonDependenciesForLibrary,
   CLI_QUALTRICS_FEATURE,
   LibraryOptions as SpartacusQualtricsOptions,
+  QUALTRICS_MODULE,
+  QUALTRICS_ROOT_MODULE,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_QUALTRICS,
@@ -20,9 +22,7 @@ import {
   QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
   QUALTRICS_FEATURE_NAME_CONSTANT,
   QUALTRICS_FOLDER_NAME,
-  QUALTRICS_MODULE,
   QUALTRICS_MODULE_NAME,
-  QUALTRICS_ROOT_MODULE,
   SPARTACUS_QUALTRICS_ROOT,
 } from '../constants';
 

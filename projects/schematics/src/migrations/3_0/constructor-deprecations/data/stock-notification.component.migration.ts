@@ -3,14 +3,16 @@ import {
   CURRENT_PRODUCT_SERVICE,
   GLOBAL_MESSAGE_SERVICE,
   MODAL_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   STOCK_NOTIFICATION_COMPONENT,
   TRANSLATION_SERVICE,
   USER_ID_SERVICE,
   USER_INTERESTS_SERVICE,
   USER_NOTIFICATION_PREFERENCE_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const STOCK_NOTIFICATION_COMPONENT_MIGRATION: ConstructorDeprecation = {

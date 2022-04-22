@@ -1,0 +1,18 @@
+cx-export-order-entries {
+  width: 100%;
+  max-width: var(--cx-page-width-max);
+  margin: 1.25rem auto;
+}
+
+cx-export-order-entries.container {
+  @include media-breakpoint-down(md) {
+    max-width: 100%;
+    min-width: 100%;
+    padding-inline-start: 2.5rem;
+  }
+  @include media-breakpoint-down(sm) {
+    max-width: 100%;
+    min-width: 100%;
+    padding-inline-start: 1rem;
+  }
+}

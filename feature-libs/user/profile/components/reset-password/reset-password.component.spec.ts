@@ -14,7 +14,8 @@ const isBusySubject = new BehaviorSubject(false);
 const tokenSubject: BehaviorSubject<any> = new BehaviorSubject('123');
 
 class MockResetPasswordService
-  implements Partial<ResetPasswordComponentService> {
+  implements Partial<ResetPasswordComponentService>
+{
   resetToken$ = tokenSubject;
   form: FormGroup = new FormGroup({
     password: new FormControl(),
@@ -70,8 +71,9 @@ describe('ResetPasswordComponent', () => {
     it('should disable the submit button when form is disabled', () => {
       component.form.disable();
       fixture.detectChanges();
-      const submitBtn: HTMLButtonElement = el.query(By.css('button'))
-        .nativeElement;
+      const submitBtn: HTMLButtonElement = el.query(
+        By.css('button')
+      ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
 

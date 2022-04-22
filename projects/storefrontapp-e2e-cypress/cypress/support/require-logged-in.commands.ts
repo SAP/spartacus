@@ -89,7 +89,6 @@ Cypress.Commands.add(
       account.registrationData.email ||
       generateMail(account.user, options.freshUserOnTestRefresh);
 
-    cy.server();
     login(username, account.registrationData.password, false).then((res) => {
       if (res.status === 200) {
         // User is already registered - only set session in sessionStorage

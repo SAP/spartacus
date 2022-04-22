@@ -15,6 +15,7 @@ export function reducer(
   switch (action.type) {
     case ConfiguratorTextfieldActions.CREATE_CONFIGURATION_SUCCESS:
     case ConfiguratorTextfieldActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS:
+    case ConfiguratorTextfieldActions.READ_ORDER_ENTRY_CONFIGURATION_SUCCESS:
     case ConfiguratorTextfieldActions.UPDATE_CONFIGURATION: {
       return {
         ...state,

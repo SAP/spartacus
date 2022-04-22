@@ -17,7 +17,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_MODULE,
-} from '../constants';
+} from '../libs-constants';
 import { ensureModuleExists } from './new-module-utils';
 
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
@@ -171,7 +171,7 @@ export function validateSpartacusInstallation(packageJson: any): void {
   if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_CORE)) {
     throw new SchematicsException(
       `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation.`
+    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
     );
   }
 }

@@ -21,7 +21,8 @@ import { Translatable } from '@spartacus/core';
 })
 export class ConfirmationMessageComponent
   extends BaseMessageComponent
-  implements OnInit {
+  implements OnInit
+{
   cancelText: Translatable = {
     key: 'organization.confirmation.cancel',
   };

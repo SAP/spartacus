@@ -5,13 +5,15 @@ import {
   FEATURE_MODULES_SERVICE,
   INJECTOR,
   LAZY_MODULES_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const FEATURE_MODULES_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts
+  // projects/storefrontlib/cms-structure/services/feature-modules.service.ts
   class: FEATURE_MODULES_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

@@ -19,6 +19,12 @@ export const READ_CART_ENTRY_CONFIGURATION_FAIL =
   '[Configurator] Read cart entry configuration Textfield Fail';
 export const READ_CART_ENTRY_CONFIGURATION_SUCCESS =
   '[Configurator] Read cart entry configuration Textfield Success';
+export const READ_ORDER_ENTRY_CONFIGURATION =
+  '[Configurator] Read order entry configuration textfield';
+export const READ_ORDER_ENTRY_CONFIGURATION_FAIL =
+  '[Configurator] Read order entry configuration textfield Fail';
+export const READ_ORDER_ENTRY_CONFIGURATION_SUCCESS =
+  '[Configurator] Read order entry configuration textfield Success';
 export const UPDATE_CART_ENTRY_CONFIGURATION =
   '[Configurator] Update cart entry configuration Textfield';
 export const UPDATE_CART_ENTRY_CONFIGURATION_FAIL =
@@ -108,6 +114,29 @@ export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction 
   }
 }
 
+export class ReadOrderEntryConfiguration extends StateUtils.LoaderLoadAction {
+  readonly type = READ_ORDER_ENTRY_CONFIGURATION;
+  constructor(
+    public payload: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class ReadOrderEntryConfigurationSuccess extends StateUtils.LoaderSuccessAction {
+  readonly type = READ_ORDER_ENTRY_CONFIGURATION_SUCCESS;
+  constructor(public payload: ConfiguratorTextfield.Configuration) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class ReadOrderEntryConfigurationFail extends StateUtils.LoaderFailAction {
+  readonly type = READ_ORDER_ENTRY_CONFIGURATION_FAIL;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
+  }
+}
+
 export class RemoveConfiguration extends StateUtils.LoaderResetAction {
   readonly type = REMOVE_CONFIGURATION;
   constructor() {
@@ -123,5 +152,8 @@ export type ConfiguratorActions =
   | ReadCartEntryConfigurationFail
   | ReadCartEntryConfigurationSuccess
   | ReadCartEntryConfiguration
+  | ReadOrderEntryConfigurationFail
+  | ReadOrderEntryConfigurationSuccess
+  | ReadOrderEntryConfiguration
   | UpdateCartEntryConfiguration
   | RemoveConfiguration;

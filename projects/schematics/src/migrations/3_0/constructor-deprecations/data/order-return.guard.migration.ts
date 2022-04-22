@@ -5,13 +5,15 @@ import {
   ROUTER,
   ROUTING_SERVICE,
   SEMANTIC_PATH_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ORDER_RETURN_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/myaccount/order/amend-order/returns/order-return.guard.ts
+  // projects/storefrontlib/cms-components/myaccount/order/amend-order/returns/order-return.guard.ts
   class: ORDER_RETURN_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

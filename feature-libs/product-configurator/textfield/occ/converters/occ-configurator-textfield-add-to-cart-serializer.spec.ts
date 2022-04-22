@@ -45,9 +45,8 @@ describe('OccConfiguratorTextfieldAddToCartSerializer', () => {
   });
 
   it('should convert addToCart parameters to occAddToCartParameters', () => {
-    const convertedParameters = occConfiguratorVariantAddToCartSerializer.convert(
-      sourceParameters
-    );
+    const convertedParameters =
+      occConfiguratorVariantAddToCartSerializer.convert(sourceParameters);
     expect(convertedParameters.userId).toEqual(sourceParameters.userId);
     expect(convertedParameters.product?.code).toEqual(
       sourceParameters.productCode

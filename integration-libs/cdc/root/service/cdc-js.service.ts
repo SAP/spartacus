@@ -75,9 +75,8 @@ export class CdcJsService implements OnDestroy {
         ])
           .pipe(take(1))
           .subscribe(([baseSite, language]) => {
-            const scriptForBaseSite = this.getJavascriptUrlForCurrentSite(
-              baseSite
-            );
+            const scriptForBaseSite =
+              this.getJavascriptUrlForCurrentSite(baseSite);
             if (scriptForBaseSite) {
               const javascriptUrl = `${scriptForBaseSite}&lang=${language}`;
               this.scriptLoader.embedScript({

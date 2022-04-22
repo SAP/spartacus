@@ -1,8 +1,8 @@
 import { Injectable, NgModuleRef } from '@angular/core';
-import { LazyModulesService } from './lazy-modules.service';
 import { defer, forkJoin, Observable, of, throwError } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
 import { CmsConfig, FeatureModuleConfig } from '../cms/config/cms-config';
+import { LazyModulesService } from './lazy-modules.service';
 
 @Injectable({
   providedIn: 'root',

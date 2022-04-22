@@ -51,9 +51,8 @@ describe('CpqConfiguratorValueSerializer', () => {
   });
 
   it('should convert configuration correctly', () => {
-    const updateValue: Cpq.UpdateValue = cpqConfiguratorSerializer.convert(
-      configuration
-    );
+    const updateValue: Cpq.UpdateValue =
+      cpqConfiguratorSerializer.convert(configuration);
     expect(updateValue.configurationId).toBe(configId);
     expect(updateValue.standardAttributeCode).toBe(attrCode.toString());
     expect(updateValue.attributeValueId).toBe(valueCode);
@@ -63,9 +62,8 @@ describe('CpqConfiguratorValueSerializer', () => {
 
   describe('findFirstChangedValue', () => {
     it('should find value if present', () => {
-      const value = cpqConfiguratorSerializer['findFirstChangedValue'](
-        attribute
-      );
+      const value =
+        cpqConfiguratorSerializer['findFirstChangedValue'](attribute);
       expect(value.valueCode).toBe(valueCode);
     });
 
