@@ -165,18 +165,7 @@ export class ConfiguratorAttributeHeaderComponent
             configuration,
             groupId
           );
-          const selectedValue = this.attribute.values?.find(
-            (value) => value.selected
-          );
-          if (selectedValue) {
-            const valueUiKey = this.createAttributeValueUiKey(
-              this.attribute.name,
-              selectedValue.valueCode
-            );
-            this.focusValue(this.attribute.name, valueUiKey);
-          } else {
-            this.focusValue(this.attribute.name);
-          }
+          this.focusValue(this.attribute);
           this.scrollToAttribute(this.attribute.name);
         } else {
           this.logWarning('Attribute was not found in any conflict group');
@@ -218,10 +207,8 @@ export class ConfiguratorAttributeHeaderComponent
     }
   }
 
-  protected focusValue(attributeName: string, valueUiKey?: string): void {
-    this.onNavigationCompleted(() =>
-      this.configUtils.focusValue(attributeName, valueUiKey)
-    );
+  protected focusValue(attribute: Configurator.Attribute): void {
+    this.onNavigationCompleted(() => this.configUtils.focusValue(attribute));
   }
 
   /**

@@ -166,13 +166,19 @@ export class ConfiguratorStorefrontUtilsService {
     return this.getFocusableElementById(focusableElements, attributeName);
   }
 
+  protected createAttributeValueUiKey(
+    attributeId: string,
+    valueId: string
+  ): string {
+    return attributeId + '--' + valueId;
+  }
+
   /**
-   * Find a value by its UI key in the form and focus it.
+   * Focus a value in the form.
    *
-   * @param {string} attributeName - Attribute name
-   * @param {string} valueUiKey - Value UI key
+   * @param {Configurator.Attribute} attribute - Attribute
    */
-  focusValue(attributeName: string, valueUiKey?: string): void {
+  focusValue(attribute: Configurator.Attribute): void {
     if (!this.windowRef.isBrowser()) {
       return;
     }
@@ -181,20 +187,24 @@ export class ConfiguratorStorefrontUtilsService {
       const focusableElements: HTMLElement[] =
         this.keyboardFocusService.findFocusable(form);
       if (focusableElements.length > 0) {
-        const foundFocusableElement =
-          this.getFocusableElementByValueUiKey(
+        let foundFocusableElement = undefined;
+        const selectedValue = attribute.values?.find((value) => value.selected);
+        if (selectedValue) {
+          const valueUiKey = this.createAttributeValueUiKey(
+            attribute.name,
+            selectedValue.valueCode
+          );
+          foundFocusableElement = this.getFocusableElementByValueUiKey(
             focusableElements,
             valueUiKey
-          ) !== undefined
-            ? this.getFocusableElementByValueUiKey(
-                focusableElements,
-                valueUiKey
-              )
-            : this.getFocusableElementByAttributeId(
-                focusableElements,
-                attributeName
-              );
-
+          );
+        }
+        if (foundFocusableElement === undefined) {
+          foundFocusableElement = this.getFocusableElementByAttributeId(
+            focusableElements,
+            attribute.name
+          );
+        }
         if (foundFocusableElement) {
           foundFocusableElement.focus();
         }

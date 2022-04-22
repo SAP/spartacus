@@ -29,12 +29,6 @@ describe('ConfigUIKeyGeneratorService', () => {
     );
   });
 
-  it('should generate attribute value key', () => {
-    expect(
-      classUnderTest.createAttributeValueUiKey('attributeId', 'valueId')
-    ).toBe('attributeId--valueId');
-  });
-
   it('should return only attribute id for aria-labelledby', () => {
     expect(
       classUnderTest.createAriaLabelledBy('prefix', 'attributeId')
