@@ -4,7 +4,7 @@ on:
       - develop
       - 'epic/**'
       - 'release/**'
-name: Cache
+name: Cache libs (dist)
 jobs:
   cacheBuildedLibs:
     name: Builded libs
