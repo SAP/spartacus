@@ -42,10 +42,13 @@ jobs:
         run: |         
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=OUTPUTS_RUN_E2E::$(echo $RUN_E2E)"
+          echo "who"
+          echo $RUN_E2E
       - name: test from previous step
         run: |
           echo "${{ steps.save-e2e-output-result.outputs.OUTPUTS_RUN_E2E }}"
           echo "test"
+          ci-scripts/validate-e2e-execution.sh
   unit_tests_core:
     needs: [no_retries, validate_e2e_execution]
     name: Unit tests for core Spartacus libs

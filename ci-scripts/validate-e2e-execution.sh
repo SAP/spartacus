@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-FILES=$(git diff --name-only origin/testepic/simulate-branch-again)
+FILES=$(git diff --name-only develop)
 
 RUN_E2E=false
 
