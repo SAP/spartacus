@@ -8,7 +8,6 @@ export function defaultFutureStockComponentsConfig() {
       [PRODUCT_FUTURE_STOCK_FEATURE]: {
         cmsComponents: ['FutureStockComponent'],
       },
-      [PRODUCT_FUTURE_STOCK_FEATURE]: PRODUCT_FUTURE_STOCK_FEATURE,
     },
   };
   return config;
