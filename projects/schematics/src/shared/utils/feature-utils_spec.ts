@@ -8,7 +8,6 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { NGRX_STORE, UTF_8 } from '../constants';
-import { USER_ACCOUNT_SCHEMATICS_CONFIG } from '../lib-configs/user-schematics-config';
 import {
   CLI_CDS_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
@@ -17,12 +16,7 @@ import {
   CLI_USER_PROFILE_FEATURE,
   SPARTACUS_SCHEMATICS,
 } from '../libs-constants';
-import {
-  addFeatures,
-  analyzeFeature,
-  FeatureConfigurationOverrides,
-  orderFeatures,
-} from './feature-utils';
+import { addFeatures, analyzeFeature, orderFeatures } from './feature-utils';
 import { LibraryOptions } from './lib-utils';
 import { addModuleImport, ensureModuleExists } from './new-module-utils';
 import { createProgram } from './program';
@@ -108,52 +102,6 @@ describe('Feature utils', () => {
 
       expect(
         appTree.read(userFeatureModulePath)?.toString(UTF_8)
-      ).toMatchSnapshot();
-    });
-
-    it('should override the options', async () => {
-      const overrides: Record<string, FeatureConfigurationOverrides> = {
-        [CLI_USER_ACCOUNT_FEATURE]: {
-          options: {
-            ...BASE_OPTIONS,
-            lazy: false,
-          },
-        },
-      };
-
-      appTree = await schematicRunner
-        .callRule(
-          addFeatures(BASE_OPTIONS, [CLI_USER_ACCOUNT_FEATURE], overrides),
-          appTree
-        )
-        .toPromise();
-
-      expect(
-        appTree.read(userFeatureModulePath)?.toString(UTF_8)
-      ).toMatchSnapshot();
-    });
-
-    it('should override the schematics config', async () => {
-      const overrides: Record<string, FeatureConfigurationOverrides> = {
-        [CLI_USER_ACCOUNT_FEATURE]: {
-          schematics: {
-            ...USER_ACCOUNT_SCHEMATICS_CONFIG,
-            folderName: 'account',
-          },
-        },
-      };
-
-      appTree = await schematicRunner
-        .callRule(
-          addFeatures(BASE_OPTIONS, [CLI_USER_ACCOUNT_FEATURE], overrides),
-          appTree
-        )
-        .toPromise();
-
-      expect(
-        appTree
-          .read('src/app/spartacus/features/account/user-feature.module.ts')
-          ?.toString(UTF_8)
       ).toMatchSnapshot();
     });
   });
