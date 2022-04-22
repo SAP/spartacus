@@ -36,7 +36,7 @@ export class CarouselComponent implements OnInit {
   /**
    * The title is rendered as the carousel heading.
    */
-  @Input() title: string | undefined;
+  @Input() title: string | undefined | null;
 
   /**
    * The items$ represent the carousel items. The items$ are

@@ -39,8 +39,8 @@ export class ProductScrollComponent implements OnDestroy {
   }
 
   viewMode: ViewModes;
-  productLimit: number;
-  maxProducts: number;
+  productLimit: number | undefined;
+  maxProducts: number | undefined;
 
   ViewModes = ViewModes;
   appendProducts = false;

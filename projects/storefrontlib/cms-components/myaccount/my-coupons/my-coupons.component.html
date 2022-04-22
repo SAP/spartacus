@@ -8,8 +8,9 @@
 
       <ng-container
         *ngIf="
-          couponResult.pagination?.totalCount &&
-            couponResult.pagination?.totalCount > 0;
+          couponResult.pagination &&
+            couponResult.pagination.totalCount &&
+            couponResult.pagination.totalCount > 0;
           else noCoupons
         "
       >

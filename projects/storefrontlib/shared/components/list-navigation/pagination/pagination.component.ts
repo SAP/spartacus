@@ -37,9 +37,11 @@ export class PaginationComponent {
   get pagination(): PaginationModel {
     return this._pagination;
   }
-  @Input() set pagination(value: PaginationModel) {
-    this._pagination = value;
-    this.render(value);
+  @Input() set pagination(value: PaginationModel | undefined) {
+    if (value) {
+      this._pagination = value;
+      this.render(value);
+    }
   }
 
   @Output() viewPageEvent: EventEmitter<number> = new EventEmitter<number>();

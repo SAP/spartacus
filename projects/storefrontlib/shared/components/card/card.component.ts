@@ -52,7 +52,7 @@ export class CardComponent implements OnInit {
   isDefault = false;
 
   @Input()
-  content: Card;
+  content: Card | null;
 
   @Input()
   fitToContainer = false;
