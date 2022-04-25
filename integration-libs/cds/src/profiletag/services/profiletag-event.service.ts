@@ -25,7 +25,7 @@ import {
 export class ProfileTagEventService {
   latestConsentReference = null;
   profileTagDebug = false;
-  private consentReference$: Observable<string>;
+  private consentReference$: Observable<string | null>;
   private profileTagWindow: ProfileTagWindowObject;
   private profileTagEvents$ = merge(
     this.setConsentReference(),
@@ -56,6 +56,11 @@ export class ProfileTagEventService {
       );
     }
     return this.consentReference$;
+  }
+
+  handleConsentWithdrawn(): void {
+    this.consentReference$ = null;
+    this.latestConsentReference = null;
   }
 
   addTracker(): Observable<string> {

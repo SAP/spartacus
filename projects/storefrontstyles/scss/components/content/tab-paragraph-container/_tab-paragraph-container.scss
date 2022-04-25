@@ -1,191 +1,211 @@
 $useTabsOnPDP: false !default;
+$useAccordionOnly: false !default;
 
-%pdpTabs {
-  // On small devices we hide the toggled items
-  // in order to allow for a more condensed layout
-  @include media-breakpoint-down(sm) {
-    > div.active.toggled {
-      display: none;
-    }
-    > button.active.toggled {
-      color: initial;
+@mixin accordion {
+  > button {
+    border-top: 1px var(--cx-color-light) solid;
+    font-size: var(--cx-font-size, 1.125rem);
+    padding-top: 15px;
+    padding-inline-end: 0;
+    padding-bottom: 0;
+    padding-inline-start: 4%;
+    width: 100%;
+    text-align: start;
+    height: 63px;
+    position: relative;
+    > span.accordion-icon {
       &:before {
         content: '+';
+        margin: 0px 15px;
+        font-size: var(--cx-font-size, 2.063rem);
+        bottom: 5px;
+        position: absolute;
+        inset-inline-end: 0;
+        color: var(--cx-color-text);
       }
-      &:after {
-        width: 0;
-        opacity: var(--cx-opacity, 0);
+    }
+    &:after {
+      margin-top: 15px;
+      margin-inline-end: auto;
+      margin-bottom: auto;
+      margin-inline-start: -4%;
+    }
+    &.active {
+      > span.accordion-icon {
+        &:before {
+          bottom: 8px;
+          content: '–';
+        }
       }
+    }
+    &.active:after,
+    &:hover:after {
+      width: 104%;
     }
   }
 
   > div {
-    background: var(--cx-color-background);
-    &:not(.active) {
-      display: none;
-    }
-    .container > h2 {
-      display: none;
-    }
+    padding: 15px 5px;
   }
-  > button {
-    @include button-reset();
-    margin-bottom: 0;
-    &.active,
-    &:hover {
-      color: var(--cx-color-primary);
-    }
-    &:focus {
-      z-index: 1;
-    }
-    cursor: pointer;
-    @include media-breakpoint-up(md) {
-      &.active {
-        cursor: initial;
+}
+
+%pdpTabs {
+  > div {
+    // On small devices we hide the toggled items
+    // in order to allow for a more condensed layout
+    @include media-breakpoint-down(sm) {
+      > div.active.toggled {
+        display: none;
+      }
+      > button.active.toggled {
+        color: initial;
+        > span.accordion-icon {
+          &:before {
+            content: '+';
+          }
+        }
+        &:after {
+          width: 0;
+          opacity: var(--cx-opacity, 0);
+        }
       }
     }
 
-    // border effect
-    &:after {
-      content: '';
-      display: block;
-      margin-top: 15px;
-      margin-inline-end: auto;
-      margin-bottom: auto;
-      margin-inline-start: auto;
-      height: 5px;
-      background: var(--cx-color-primary);
-
-      // the tab hover effect uses a border in the :after pseudo
-      // that is animated from 0% to 100% width
-      width: 0;
-      opacity: 0;
-      transition: all 0.6s;
+    > div {
+      background: var(--cx-color-background);
+      &:not(.active) {
+        display: none;
+      }
+      .container > h2 {
+        display: none;
+      }
     }
-
-    &.active:after,
-    &:hover:after {
-      width: 100%;
-    }
-    &.active:after,
-    &.active:hover:after {
-      opacity: 1;
-    }
-    &:not(.active):hover:after {
-      opacity: 0.5;
-    }
-  }
-
-  @include media-breakpoint-down(sm) {
     > button {
-      border-top: 1px var(--cx-color-light) solid;
-      font-size: 18px;
-      padding-top: 15px;
-      padding-inline-end: 0;
-      padding-bottom: 0;
-      padding-inline-start: 4%;
-      width: 100%;
-      text-align: start;
-      height: 63px;
-
-      &:before {
-        content: '+';
-        margin: 0px 15px;
-        float: right;
-        font-size: 33px;
-        bottom: 12px;
-        position: relative;
-        color: var(--cx-color-text);
+      @include button-reset();
+      margin-bottom: 0;
+      &.active,
+      &:hover {
+        color: var(--cx-color-primary);
       }
+      &:focus {
+        z-index: 1;
+      }
+      cursor: pointer;
+      @include media-breakpoint-up(md) {
+        &.active {
+          cursor: initial;
+        }
+      }
+
+      // border effect
       &:after {
+        content: '';
+        display: block;
         margin-top: 15px;
         margin-inline-end: auto;
         margin-bottom: auto;
-        margin-inline-start: -4%;
+        margin-inline-start: auto;
+        height: 5px;
+        background: var(--cx-color-primary);
+
+        // the tab hover effect uses a border in the :after pseudo
+        // that is animated from 0% to 100% width
+        width: 0;
+        opacity: 0;
+        transition: all 0.6s;
       }
-      &.active {
-        &:before {
-          content: '–';
-        }
-      }
+
       &.active:after,
       &:hover:after {
-        width: 104%;
+        width: 100%;
+      }
+      &.active:after,
+      &.active:hover:after {
+        opacity: 1;
+      }
+      &:not(.active):hover:after {
+        opacity: 0.5;
       }
     }
 
-    > div {
-      padding: 15px 5px;
-    }
-  }
-
-  // in order to align the tabs to the left
-  // we simulate the container size
-  @include media-breakpoint-only(md) {
-    grid-template-columns: auto 10px repeat(4, 180px) 0px auto;
-  }
-  @include media-breakpoint-only(lg) {
-    grid-template-columns: auto 10px repeat(4, 180px) 272px auto;
-  }
-  @include media-breakpoint-only(xl) {
-    grid-template-columns: auto 10px repeat(4, 180px) 420px auto;
-  }
-
-  @include media-breakpoint-up(md) {
-    display: grid;
-
-    > button {
-      order: 0;
-      transition: all 0.6s;
-      font-size: 1.2rem;
-      text-align: center;
-      margin: 0;
-
-      &:first-of-type {
-        grid-column: 3;
+    @if $useAccordionOnly == true {
+      @include accordion();
+    } @else {
+      @include media-breakpoint-down(sm) {
+        @include accordion();
       }
-    }
 
-    // the div elements contain the content and will be rendered after the tabs
-    > div {
-      order: 2;
-      grid-column-start: 1;
-      grid-column-end: -1;
-      padding: 50px 0;
-      border-top: 1px var(--cx-color-light) solid;
+      // in order to align the tabs to the left
+      // we simulate the container size
+      @include media-breakpoint-only(md) {
+        grid-template-columns: auto 10px repeat(4, 180px) 0px auto;
+      }
+      @include media-breakpoint-only(lg) {
+        grid-template-columns: auto 10px repeat(4, 180px) 272px auto;
+      }
+      @include media-breakpoint-only(xl) {
+        grid-template-columns: auto 10px repeat(4, 180px) 420px auto;
+      }
+
+      @include media-breakpoint-up(md) {
+        display: grid;
+
+        > button {
+          order: 0;
+          transition: all 0.6s;
+          font-size: 1.2rem;
+          text-align: center;
+          margin: 0;
+
+          &:first-of-type {
+            grid-column: 3;
+          }
+        }
+
+        // the div elements contain the content and will be rendered after the tabs
+        > div {
+          order: 2;
+          grid-column-start: 1;
+          grid-column-end: -1;
+          padding: 50px 0;
+          border-top: 1px var(--cx-color-light) solid;
+        }
+      }
     }
   }
 }
 
 %pdpFlat {
-  margin: auto;
-
-  @include media-breakpoint-down(xl) {
-    max-width: var(--cx-page-width-max);
-  }
-  // make a small header with links
-  display: grid;
-  grid-template-columns: repeat(4, auto) auto;
-  justify-content: start;
-  > button {
-    @include button-reset();
-    order: 2;
-    color: var(--cx-color-primary);
-    font-weight: normal;
-    font-size: 0.9em;
-    cursor: pointer;
-    margin: 10px 15px;
-    &:hover {
-      text-decoration: underline;
-    }
-    &:focus {
-      z-index: 1;
-    }
-  }
-
   > div {
-    order: 4;
-    grid-column: 1 / span 5;
+    margin: auto;
+
+    @include media-breakpoint-down(xl) {
+      max-width: var(--cx-page-width-max);
+    }
+    // make a small header with links
+    display: grid;
+    grid-template-columns: repeat(4, auto) auto;
+    justify-content: start;
+    > button {
+      @include button-reset();
+      order: 2;
+      color: var(--cx-color-primary);
+      font-weight: normal;
+      font-size: 0.9em;
+      cursor: pointer;
+      margin: 10px 15px;
+      &:hover {
+        text-decoration: underline;
+      }
+      &:focus {
+        z-index: 1;
+      }
+    }
+
+    > div {
+      order: 4;
+      grid-column: 1 / span 5;
+    }
   }
 }
 

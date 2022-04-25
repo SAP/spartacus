@@ -14,7 +14,7 @@ export class RoutingConfigService {
   /**
    * Returns the route config for the given route name.
    */
-  getRouteConfig(routeName: string): RouteConfig {
+  getRouteConfig(routeName: string): RouteConfig | undefined {
     const routeConfig = this.config?.routing?.routes;
 
     const result = routeConfig && routeConfig[routeName];
@@ -24,7 +24,7 @@ export class RoutingConfigService {
     return result;
   }
 
-  private warn(...args) {
+  private warn(...args: string[]): void {
     if (isDevMode()) {
       console.warn(...args);
     }
@@ -51,7 +51,7 @@ export class RoutingConfigService {
    *
    * the `getRouteName('my-account/address-book')` returns `'addressBook'`.
    */
-  getRouteName(path: string) {
+  getRouteName(path: string): string {
     if (!this.routeNamesByPath) {
       this.initRouteNamesByPath();
     }
@@ -65,11 +65,11 @@ export class RoutingConfigService {
    * But this method builds up a structure with a 'reversed config'
    * to read quickly the route name by the path.
    */
-  protected initRouteNamesByPath() {
+  protected initRouteNamesByPath(): void {
     this.routeNamesByPath = {};
 
     for (const [routeName, routeConfig] of Object.entries(
-      this.config?.routing?.routes
+      this.config?.routing?.routes ?? {}
     )) {
       routeConfig?.paths?.forEach((path) => {
         if (isDevMode() && this.routeNamesByPath[path]) {

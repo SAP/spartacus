@@ -1,12 +1,12 @@
-import { RouterModule } from '@angular/router';
-import { DpPaymentMethodComponent } from './dp-payment-method.component';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { DpPaymentFormModule } from './dp-payment-form/dp-payment-form.module';
-import { CardModule, SpinnerModule } from '@spartacus/storefront';
-import { PaymentMethodModule as CorePaymentMethodModule } from '@spartacus/checkout/components';
+import { RouterModule } from '@angular/router';
+import { CheckoutPaymentMethodModule as CorePaymentMethodModule } from '@spartacus/checkout/base/components';
 import { ConfigModule, I18nModule } from '@spartacus/core';
+import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { DpPaymentCallbackModule } from './dp-payment-callback/dp-payment-callback.module';
+import { DpPaymentFormModule } from './dp-payment-form/dp-payment-form.module';
+import { DpPaymentMethodComponent } from './dp-payment-method.component';
 
 @NgModule({
   imports: [

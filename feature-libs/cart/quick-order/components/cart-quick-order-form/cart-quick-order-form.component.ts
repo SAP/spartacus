@@ -6,10 +6,12 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  ActiveCartService,
+  ActiveCartFacade,
   Cart,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+} from '@spartacus/cart/base/root';
+import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -35,7 +37,7 @@ export class CartQuickOrderFormComponent implements OnInit, OnDestroy {
   protected minQuantityValue: number = 1;
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected eventService: EventService,
     protected formBuilder: FormBuilder,
     protected globalMessageService: GlobalMessageService

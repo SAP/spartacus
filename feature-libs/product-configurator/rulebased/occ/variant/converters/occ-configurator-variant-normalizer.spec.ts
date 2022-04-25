@@ -14,6 +14,7 @@ import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-nor
 
 const configId = '192826';
 const attributeName = 'name';
+const csticKey = 'test';
 const valueKey = 'BK';
 const valueName = 'Black';
 const valueKey2 = 'BE';
@@ -46,7 +47,7 @@ const occImage: OccConfigurator.Image = {
 const occAttribute: OccConfigurator.Attribute = {
   name: attributeName,
   images: [occImage],
-  key: groupKey,
+  key: csticKey,
 };
 const occAttributeWithValues: OccConfigurator.Attribute = {
   name: attributeName,
@@ -391,6 +392,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
     occConfiguratorVariantNormalizer.convertAttribute(occAttribute, attributes);
     expect(attributes.length).toBe(1);
     expect(attributes[0].name).toBe(attributeName);
+  });
+
+  it('should convert attribute key', () => {
+    const attributes: Configurator.Attribute[] = [];
+    occConfiguratorVariantNormalizer.convertAttribute(occAttribute, attributes);
+    expect(attributes.length).toBe(1);
+    expect(attributes[0].key).toBe(csticKey);
   });
 
   it('should tell if attribute is numeric and know if negative values are allowed', () => {
@@ -747,6 +755,16 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attributeRBWithValues.incomplete).toBe(false);
     });
 
+    it('should set incomplete for radio button type with retract option correctly', () => {
+      attributeRBWithValues.selectedSingleValue =
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE;
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeRBWithValues
+      );
+
+      expect(attributeRBWithValues.incomplete).toBe(true);
+    });
+
     it('should set incomplete by drop-down type correctly', () => {
       occConfiguratorVariantNormalizer.compileAttributeIncomplete(
         attributeDDWoValues
@@ -757,6 +775,16 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
       expect(attributeDDWoValues.incomplete).toBe(true);
       expect(attributeDDWithValues.incomplete).toBe(false);
+    });
+
+    it('should set incomplete for drop-down type with retract option correctly', () => {
+      attributeDDWithValues.selectedSingleValue =
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE;
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
+
+      expect(attributeDDWithValues.incomplete).toBe(true);
     });
 
     it('should set incomplete by single-selection-image type correctly', () => {

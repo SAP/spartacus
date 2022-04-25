@@ -1,5 +1,6 @@
 export * from './components/index';
 export * from './core/connectors/index';
+export * from './core/guards/index';
 export * from './core/model/index';
 export * from './core/services/index';
 export * from './core/store/actions/index';

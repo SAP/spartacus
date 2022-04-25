@@ -16,9 +16,13 @@ export class OccConfiguratorVariantPriceNormalizer
     source.attributes?.forEach((attr) => {
       this.convertAttributeSupplements(attr, priceSupplements);
     });
+
+    //fine to build an incomplete configuratiom here,
+    //as we later on only take over the pricing related aspects
     const resultTarget: Configurator.Configuration = {
       ...target,
       configId: source.configId,
+      productCode: '',
       groups: [],
       flatGroups: [],
       owner: ConfiguratorModelUtils.createInitialOwner(),

@@ -1,0 +1,41 @@
+<ng-container *ngIf="isCartEmpty$ | async">
+  <p
+    *ngIf="data$ | async as data"
+    [innerHTML]="data.content"
+    class="cx-empty-cart-info"
+  ></p>
+</ng-container>
+
+<ng-container *ngIf="saveForLater$ | async as saveForLater">
+  <ng-container *ngIf="entries$ | async as entries">
+    <div *ngIf="saveForLater.totalItems > 0" class="cart-details-wrapper">
+      <div class="cx-total">
+        {{
+          'saveForLaterItems.itemTotal'
+            | cxTranslate: { count: saveForLater.totalItems }
+        }}
+      </div>
+      <cx-cart-item-list
+        [items]="entries"
+        [readonly]="false"
+        [cartIsLoading]="!(cartLoaded$ | async)"
+        [promotionLocation]="CartLocation.SaveForLater"
+        [options]="{
+          isSaveForLater: true,
+          optionalBtn: moveToCartBtn
+        }"
+      ></cx-cart-item-list>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template let-ctx #moveToCartBtn>
+  <button
+    class="link cx-action-link cx-sfl-btn"
+    [disabled]="ctx.loading"
+    (click)="moveToCart(ctx.item)"
+    type="button"
+  >
+    {{ 'saveForLaterItems.moveToCart' | cxTranslate }}
+  </button>
+</ng-template>

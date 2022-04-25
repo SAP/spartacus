@@ -3,9 +3,11 @@ import {
   ANGULAR_ROUTER,
   CHECKOUT_CONFIG_SERVICE,
   LOGIN_REGISTER_COMPONENT,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_USER,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LOGIN_REGISTER_COMPONENT_MIGRATION: ConstructorDeprecation = {

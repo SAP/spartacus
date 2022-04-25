@@ -89,7 +89,7 @@
                 {{ 'savedCartDialog.quantity' | cxTranslate }}
               </div>
               <div class="cx-saved-cart-value">
-                {{ cart?.totalItems }}
+                {{ cart?.totalUnitCount }}
               </div>
             </div>
 
@@ -198,18 +198,14 @@
                   'savedCartDialog.savedCartName' | cxTranslate
                 }}</span>
                 <input
-                  aria-required="true"
+                  required="true"
                   [maxLength]="nameMaxLength"
                   class="form-control"
                   formControlName="name"
                   required
                   type="text"
                 />
-                <cx-form-errors
-                  aria-live="assertive"
-                  aria-atomic="true"
-                  [control]="form.get('name')"
-                ></cx-form-errors>
+                <cx-form-errors [control]="form.get('name')"></cx-form-errors>
               </label>
             </ng-container>
           </div>
@@ -229,8 +225,6 @@
                 rows="5"
               ></textarea>
               <cx-form-errors
-                aria-live="assertive"
-                aria-atomic="true"
                 [control]="form.get('description')"
               ></cx-form-errors>
 
@@ -255,7 +249,7 @@
             <button
               (click)="saveOrEditCart(cart?.code)"
               [attr.aria-label]="'common.save' | cxTranslate"
-              [disabled]="form.invalid || (isLoading$ | async)"
+              [disabled]="isLoading$ | async"
               class="btn btn-primary"
               type="button"
             >

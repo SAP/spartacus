@@ -7,5 +7,8 @@ export const defaultQuickOrderConfig: QuickOrderConfig = {
       maxProducts: 5,
       minCharactersBeforeRequest: 3,
     },
+    list: {
+      hardDeleteTimeout: 7000,
+    },
   },
 };

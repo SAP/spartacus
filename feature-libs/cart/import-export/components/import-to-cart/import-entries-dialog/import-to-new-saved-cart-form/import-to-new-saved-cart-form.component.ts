@@ -10,6 +10,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ProductData } from '@spartacus/cart/base/root';
 import {
   CartNameGeneration,
   CartNameSource,
@@ -20,7 +21,6 @@ import {
   FilesFormValidators,
   ImportCsvFileService,
   LaunchDialogService,
-  ProductData,
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';

@@ -1,4 +1,6 @@
 %cx-configurator-attribute-numeric-input-field {
   @include cx-configurator-attribute-type();
+  flex-direction: column;
   @include cx-configurator-form-group();
+  @include cx-configurator-validation-msg();
 }

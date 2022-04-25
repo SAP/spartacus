@@ -2,12 +2,12 @@ import {
   AUTH_SERVICE,
   MULTI_CART_SERVICE,
   NGRX_STORE,
-  SPARTACUS_CORE,
   STORE,
   USER_ID_SERVICE,
   USER_SERVICE,
   WISH_LIST_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const WISH_LIST_SERVICE_MIGRATION: ConstructorDeprecation = {

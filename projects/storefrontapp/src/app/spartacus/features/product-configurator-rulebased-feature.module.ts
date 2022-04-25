@@ -5,15 +5,9 @@ import {
   PRODUCT_CONFIGURATOR_RULEBASED_FEATURE,
   RulebasedConfiguratorRootModule,
 } from '@spartacus/product-configurator/rulebased/root';
-import { VariantConfiguratorInteractiveLayoutModule } from '@spartacus/product-configurator/rulebased/root';
-import { VariantConfiguratorOverviewLayoutModule } from '@spartacus/product-configurator/rulebased/root';
 
 @NgModule({
-  imports: [
-    RulebasedConfiguratorRootModule,
-    VariantConfiguratorInteractiveLayoutModule,
-    VariantConfiguratorOverviewLayoutModule,
-  ],
+  imports: [RulebasedConfiguratorRootModule],
   providers: [
     provideConfig({
       featureModules: {

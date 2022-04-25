@@ -1,10 +1,16 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  AfterContentChecked,
-  ChangeDetectionStrategy,
-  Component,
-} from '@angular/core';
-import { Product, TranslationService, WindowRef } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+  EventService,
+  Product,
+  TranslationService,
+  WindowRef,
+} from '@spartacus/core';
+import { defer, merge, Observable, of } from 'rxjs';
+import { filter, mapTo } from 'rxjs/operators';
+import {
+  ComponentCreateEvent,
+  ComponentDestroyEvent,
+} from '../../../cms-structure';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -12,36 +18,57 @@ import { CurrentProductService } from '../current-product.service';
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductIntroComponent implements AfterContentChecked {
-  reviewsTabAvailable = new BehaviorSubject<boolean>(false);
+export class ProductIntroComponent {
+  product$: Observable<Product | null> =
+    this.currentProductService.getProduct();
 
-  product$: Observable<Product> = this.currentProductService.getProduct();
+  /**
+   * Observable that checks the reviews component availability on the page.
+   */
+  areReviewsAvailable$ = merge(
+    // Check if reviews component is already defined:
+    defer(() => of(!!this.getReviewsComponent())),
+
+    // Observe EventService for reviews availability:
+    this.eventService.get(ComponentCreateEvent).pipe(
+      filter((event) => event.id === this.reviewsComponentId),
+      mapTo(true)
+    ),
+    this.eventService.get(ComponentDestroyEvent).pipe(
+      filter((event) => event.id === this.reviewsComponentId),
+      mapTo(false)
+    )
+  );
+
+  protected reviewsComponentId = 'ProductReviewsTabComponent';
+
+  protected reviewsTranslationKey = `TabPanelContainer.tabs.${this.reviewsComponentId}`;
 
   constructor(
     protected currentProductService: CurrentProductService,
-    private translationService: TranslationService,
-    protected winRef: WindowRef
+    protected translationService: TranslationService,
+    protected winRef: WindowRef,
+    protected eventService: EventService
   ) {}
 
-  ngAfterContentChecked() {
-    this.reviewsTabAvailable.next(!!this.getReviewsComponent());
-  }
-
-  // Scroll to views component on page and click "Reviews" tab
+  /**
+   * Scroll to views component on page and click "Reviews" tab
+   */
   showReviews() {
     // Use translated label for Reviews tab reference
     this.translationService
-      .translate('TabPanelContainer.tabs.ProductReviewsTabComponent')
+      .translate(this.reviewsTranslationKey)
       .subscribe((reviewsTabLabel) => {
         const tabsComponent = this.getTabsComponent();
-        const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
-        const reviewsComponent = this.getReviewsComponent();
-        if (reviewsTab && reviewsComponent) {
+        const reviewsTab =
+          tabsComponent && this.getTabByLabel(reviewsTabLabel, tabsComponent);
+
+        if (reviewsTab) {
           this.clickTabIfInactive(reviewsTab);
-          setTimeout(
-            () => reviewsComponent.scrollIntoView({ behavior: 'smooth' }),
-            0
-          );
+          setTimeout(() => {
+            reviewsTab.scrollIntoView({ behavior: 'smooth' });
+            reviewsTab.focus({ preventScroll: true });
+          });
         }
       })
       .unsubscribe();
@@ -49,16 +76,25 @@ export class ProductIntroComponent implements AfterContentChecked {
 
   // NOTE: Does not currently exists as its own component
   // but part of tabs component. This is likely to change in refactor.
-  private getReviewsComponent(): Element {
+  /**
+   * Get Reviews Component if exists on page
+   */
+  protected getReviewsComponent(): HTMLElement | null {
     return this.winRef.document.querySelector('cx-product-reviews');
   }
 
-  // Get Tabs Component if exists on page
-  private getTabsComponent(): Element {
+  /**
+   * Get Tabs Component if exists on page
+   */
+  private getTabsComponent(): HTMLElement | null {
     return this.winRef.document.querySelector('cx-tab-paragraph-container');
   }
 
-  // Click to activate tab if not already active
+  /**
+   * Click to activate tab if not already active
+   *
+   * @param tab tab to click if needed
+   */
   private clickTabIfInactive(tab: HTMLElement): void {
     if (
       !tab.classList.contains('active') ||
@@ -68,20 +104,24 @@ export class ProductIntroComponent implements AfterContentChecked {
     }
   }
 
-  // Get Tab by label if exists on page
-  private getTabByLabel(label: string, tabsComponent: Element): HTMLElement {
-    if (tabsComponent) {
-      // NOTE: Reads through button tags to click on correct tab
-      // There may be a better way of doing this now/after refactor
-      const tabElements: HTMLCollectionOf<HTMLElement> =
-        tabsComponent.getElementsByTagName('button');
+  /**
+   * Get Tab by label if exists on page
+   *
+   * @param label label of searched tab
+   * @param tabsComponent component containing tabs
+   */
+  private getTabByLabel(
+    label: string,
+    tabsComponent: HTMLElement
+  ): HTMLElement | undefined {
+    // NOTE: Reads through button tags to click on correct tab
+    // There may be a better way of doing this now/after refactor
+    const tabElements: HTMLCollectionOf<HTMLElement> =
+      tabsComponent.getElementsByTagName('button');
 
-      // Look through button tab elements until finding tab with label
-      for (const buttonElement of Array.from(tabElements)) {
-        if (buttonElement.innerHTML.includes(label)) {
-          return buttonElement;
-        }
-      }
-    }
+    // Look through button tab elements until finding tab with label
+    return Array.from(tabElements).find((buttonElement) =>
+      buttonElement.innerHTML.includes(label)
+    );
   }
 }

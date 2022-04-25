@@ -694,17 +694,17 @@ describe('OptimizedSsrEngine', () => {
     const requestUrl = 'a';
     const differentUrl = 'b';
 
-    const getRenderingKey = (requestUrl: string): string =>
-      `https://${host}${requestUrl}`;
+    const getRenderingKey = (requestUrlStr: string): string =>
+      `https://${host}${requestUrlStr}`;
 
     const getRenderCallbacksCount = (
       engineRunner: TestEngineRunner,
-      requestUrl: string
+      requestUrlStr: string
     ): { renderCallbacksCount: number } => {
       return {
         renderCallbacksCount:
           engineRunner.optimizedSsrEngine['renderCallbacks'].get(
-            getRenderingKey(requestUrl)
+            getRenderingKey(requestUrlStr)
           )?.length ?? 0,
       };
     };

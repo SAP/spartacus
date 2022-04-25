@@ -11,31 +11,15 @@ assignees: ''
 
 - [ ] Validate that all merged tickets were tested (QA column must be empty, except for tickets marked as `not-blocking-release`)
 - [ ] If there is no maintenance branch yet:
-  - [ ] Create new maintenance branch (`release/*.*.x`)
+  - [ ] Create new maintenance branch (`release/major.minor.x`)
   - [ ] Announce new maintenance branch (Set topic in tribe channel)
   - [ ] Bump the maintenance branch for the Hosting service deployment github action (workflows/deploy-hs.yml)
-- [ ] Create new release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
+- [ ] Create new release branch `release/major.minor.patch.*` from the corresponding branch (develop/maintenance)
 - [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
 - [ ] If a new maintenance branch was created, enable the branch to be deployed by the hosting service deployment github action (workflows/deploy-hs.yml).
-- [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
-
-    ```bash
-    BACKEND_URL="https://20.83.184.244:9002"
-    BRANCH='release/*.*.*'
-    SPARTACUS_VERSION='*.*.*'
-    ```
-
-  Finally, run the script:
-
-    ```bash
-    cd scripts/install && ./run.sh install
-    ```
-
-  Once finished, run `./run.sh start` to start the apps and check that they are working. You can also go to each app directory and run it with `yarn build`, `start`, `build:ssr`, etc.
-
-  This can be done on a separate machine to speed up the release process.
-
-- [ ] Trigger a Travis build to run all e2e tests on this latest branch. Make sure all the tests pass.
+- [ ] Trigger a Travis build and make sure:
+  - [ ] All e2e tests pass.
+  - [ ] Installation script job runs successfully
 
 ---
 
@@ -85,29 +69,30 @@ Do the following steps to keep track of spartacussampledata releases:
   - If there are any problems, setup 2FA for npm & `npm set @spartacus:registry https://registry.npmjs.org/`
   - For each package select/type version when prompted:
     - [ ] `npm run release:core:with-changelog`
-    - [ ] `npm run release:storefront:with-changelog`
-    - [ ] `npm run release:user:with-changelog` (needed since `3.2.0-rc.0`)
-    - [ ] `npm run release:tracking:with-changelog` (needed since `3.2.0-next.0`)
-    - [ ] `npm run release:cds:with-changelog`
-    - [ ] `npm run release:assets:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
-    - [ ] `npm run release:order:with-changelog`
-    - [ ] `npm run release:checkout:with-changelog` (needed since `4.0.0-rc.0`)
-    - [ ] `npm run release:asm:with-changelog` (needed since `3.2.0-rc.0`)
-    - [ ] `npm run release:cart:with-changelog` (needed since `3.2.0-rc.0`)
-    - [ ] `npm run release:setup:with-changelog` (needed since `3.0.0-next.1`)
-    - [ ] `npm run release:organization:with-changelog` (needed since `3.0.0-next.1`)
-    - [ ] `npm run release:storefinder:with-changelog` (needed since `3.0.0-rc.0`)
-    - [ ] `npm run release:product:with-changelog` (needed since `3.2.0-next.1`)
+    - [ ] `npm run release:assets:with-changelog`
+    - [ ] `npm run release:schematics:with-changelog`
+    - [ ] `npm run release:storefront:with-changelog`
     - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
+    - [ ] `npm run release:tracking:with-changelog` (needed since `3.2.0-next.0`)
+    - [ ] `npm run release:user:with-changelog` (needed since `3.2.0-rc.0`)
+    - [ ] `npm run release:product:with-changelog` (needed since `3.2.0-next.1`)
+    - [ ] `npm run release:order:with-changelog`
+    - [ ] `npm run release:cart:with-changelog` (needed since `3.2.0-rc.0`)
+    - [ ] `npm run release:storefinder:with-changelog` (needed since `3.0.0-rc.0`)
+    - [ ] `npm run release:asm:with-changelog` (needed since `3.2.0-rc.0`)
+    - [ ] `npm run release:checkout:with-changelog` (needed since `4.0.0-rc.0`)
+    - [ ] `npm run release:setup:with-changelog` (needed since `3.0.0-next.1`)
+    - [ ] `npm run release:organization:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
+    - [ ] `npm run release:cds:with-changelog`
     - [ ] `npm run release:cdc:with-changelog` (needed since `3.1.0-next.0`)
       - [ ] For < 3.2.0 releases ONLY, set the spartacus peerDependencies manually, then run
       `npm run release:cdc:with-changelog`.
       - [ ] For older versions since 2.1.0-next.0 ONLY, publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release
     - [ ] `npm run release:digital-payments:with-changelog` (needed since `4.1.0-next.0`)
-    - [ ] `npm run release:schematics:with-changelog`
+    - [ ] `npm run release:epd-visualization:with-changelog` (needed since `4.3.0`)
 
 - [ ] Check that the release notes are populated on github (if they are not, update them)
 - [ ] Check tags on npm.

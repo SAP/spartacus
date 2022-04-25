@@ -1,12 +1,14 @@
 import {
   ORDER_HISTORY_COMPONENT,
   ROUTING_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   TRANSLATION_SERVICE,
   USER_ORDER_SERVICE,
   USER_REPLENISHMENT_ORDER_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ORDER_HISTORY_COMPONENT_MIGRATION: ConstructorDeprecation = {

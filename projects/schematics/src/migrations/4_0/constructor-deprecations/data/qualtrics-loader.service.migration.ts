@@ -6,10 +6,12 @@ import {
   QUALTRICS_LOADER_SERVICE,
   RENDERER_FACTORY_2,
   SCRIPT_LOADER_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_QUALTRICS_COMPONENTS,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_QUALTRICS_COMPONENTS,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const QUALTRICS_LOADER_SERVICE_MIGRATION: ConstructorDeprecation = {

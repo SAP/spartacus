@@ -1,5 +1,6 @@
 import {
   ConfigChunk,
+  ConfigFactory,
   DefaultConfigChunk,
   provideConfig,
   provideConfigFactory,
@@ -10,9 +11,10 @@ import { Config } from './config-tokens';
 
 describe('Config Providers', () => {
   const testConfig = { test: 'test' };
-  const testConfigFactory = () => ({
-    test: 'test',
-  });
+  const testConfigFactory: ConfigFactory = () =>
+    ({
+      test: 'test',
+    } as Config);
 
   describe('provideConfig', () => {
     it('should return ConfigChunk provider', () => {

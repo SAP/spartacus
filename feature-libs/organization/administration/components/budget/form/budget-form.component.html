@@ -36,6 +36,7 @@
       <cx-date-picker
         [control]="form.get('startDate')"
         [max]="form.get('endDate').value"
+        [required]="true"
         (update)="form.get('endDate').updateValueAndValidity()"
       ></cx-date-picker>
     </label>
@@ -45,15 +46,17 @@
       <cx-date-picker
         [control]="form.get('endDate')"
         [min]="form.get('startDate').value"
+        [required]="true"
         (update)="form.get('startDate').updateValueAndValidity()"
       ></cx-date-picker>
     </label>
 
-    <label aria-required="true" [formGroup]="form.get('currency')">
+    <label [formGroup]="form.get('currency')">
       <span class="label-content required">{{
         'orgBudget.currency' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
         [searchable]="false"
         [clearable]="false"
@@ -71,7 +74,7 @@
     <label>
       <span class="label-content">{{ 'orgBudget.amount' | cxTranslate }}</span>
       <input
-        aria-required="true"
+        required="true"
         type="number"
         class="form-control"
         placeholder="{{ 'orgBudget.amount' | cxTranslate }}"
@@ -81,15 +84,12 @@
       <cx-form-errors [control]="form.get('budget')"></cx-form-errors>
     </label>
 
-    <label
-      aria-required="true"
-      *ngIf="units$ | async as units"
-      [formGroup]="form.get('orgUnit')"
-    >
+    <label *ngIf="units$ | async as units" [formGroup]="form.get('orgUnit')">
       <span class="label-content required">{{
         'orgBudget.businessUnits' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"

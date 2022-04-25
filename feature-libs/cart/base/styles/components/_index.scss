@@ -1,0 +1,43 @@
+@import './mini-cart';
+@import './added-to-cart-dialog';
+@import './cart-details';
+@import './cart-item';
+@import './cart-item-list';
+@import './cart-totals';
+@import './order-summary';
+@import './add-to-cart';
+@import './cart-coupon';
+@import './applied-coupons';
+@import './item-counter';
+@import './save-for-later';
+@import './cart-validation-warnings';
+@import './cart-item-validation-warning';
+@import './cart-proceed-to-checkout';
+@import './clear-cart-dialog';
+@import './clear-cart';
+
+$cart-components-allowlist: cx-mini-cart, cx-add-to-cart, cx-item-counter,
+  cx-added-to-cart-dialog, cx-cart-details, cx-cart-item, cx-cart-item-list,
+  cx-cart-totals, cx-cart-coupon, cx-applied-coupons, cx-save-for-later,
+  cx-order-summary, cx-cart-validation-warnings, cx-cart-item-validation-warning,
+  cx-cart-proceed-to-checkout, cx-clear-cart-dialog, cx-clear-cart !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $cart-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $cart-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

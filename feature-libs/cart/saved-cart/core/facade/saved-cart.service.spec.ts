@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { StateWithMultiCart } from '@spartacus/cart/base/core';
+import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-  Cart,
-  MultiCartService,
   ProcessModule,
   StateUtils,
-  StateWithMultiCart,
   User,
   UserIdService,
   UserService,
@@ -64,7 +63,7 @@ class MockUserService implements Partial<UserService> {
   get = createSpy().and.returnValue(of(mockUser));
 }
 
-class MockMultiCartService implements Partial<MultiCartService> {
+class MockMultiCartService implements Partial<MultiCartFacade> {
   getCartEntity = createSpy().and.returnValue(of({}));
   isStable = createSpy().and.returnValue(of(true));
   getCarts = createSpy().and.returnValue(of(mockSavedCarts));
@@ -75,7 +74,7 @@ describe('SavedCartService', () => {
   let service: SavedCartService;
   let store: Store<StateWithMultiCart>;
   let userIdService: UserIdService;
-  let multiCartService: MultiCartService;
+  let multiCartService: MultiCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -84,14 +83,14 @@ describe('SavedCartService', () => {
         SavedCartService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: UserService, useClass: MockUserService },
-        { provide: MultiCartService, useClass: MockMultiCartService },
+        { provide: MultiCartFacade, useClass: MockMultiCartService },
       ],
     });
 
     service = TestBed.inject(SavedCartService);
     store = TestBed.inject(Store);
     userIdService = TestBed.inject(UserIdService);
-    multiCartService = TestBed.inject(MultiCartService);
+    multiCartService = TestBed.inject(MultiCartFacade);
     spyOn(store, 'dispatch').and.callThrough();
   });
 

@@ -2,9 +2,9 @@ import {
   ADDED_TO_CART_DIALOG_COMPONENT,
   INCREMENT,
   ORDER_PROMOTIONS$,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION: MethodPropertyDeprecation[] =

@@ -17,7 +17,6 @@ export class ConfiguratorStorefrontUtilsService {
     protected windowRef: WindowRef,
     protected keyboardFocusService: KeyboardFocusService
   ) {}
-
   /**
    * Does the configuration belong to a cart entry, or has the group been visited already?
    * In both cases we need to render indications for mandatory attributes.
@@ -115,7 +114,7 @@ export class ConfiguratorStorefrontUtilsService {
   scrollToConfigurationElement(selector: string): void {
     if (this.windowRef.isBrowser()) {
       // we don't want to run this logic when doing SSR
-      const element = this.windowRef.document?.querySelector(selector);
+      const element = this.getElement(selector);
       if (element && !this.isInViewport(element)) {
         this.scroll(element);
       }
@@ -126,17 +125,42 @@ export class ConfiguratorStorefrontUtilsService {
    * Focus the first attribute in the form.
    */
   focusFirstAttribute(): void {
-    if (this.keyboardFocusService) {
-      if (this.windowRef.isBrowser()) {
-        const form: HTMLElement | null = this.windowRef.document?.querySelector(
-          'cx-configurator-form'
-        );
-        if (form) {
-          const focusableElements: HTMLElement[] =
-            this.keyboardFocusService.findFocusable(form);
-          if (focusableElements && focusableElements.length > 0) {
-            focusableElements[0].focus();
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+    const form = this.getElement('cx-configurator-form');
+    if (form) {
+      const focusableElements: HTMLElement[] =
+        this.keyboardFocusService.findFocusable(form);
+      if (focusableElements && focusableElements.length > 0) {
+        focusableElements[0].focus();
+      }
+    }
+  }
+
+  /**
+   * Find an attribute by its name in the form and focus it.
+   *
+   * @param {string} name - Attribute name
+   */
+  focusAttribute(name: string): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+    const form = this.getElement('cx-configurator-form');
+    if (form) {
+      const focusableElements: HTMLElement[] =
+        this.keyboardFocusService.findFocusable(form);
+      if (focusableElements.length > 0) {
+        const foundFocusableElement = focusableElements.find(
+          (focusableElement) => {
+            if (focusableElement.id.indexOf(name) !== -1) {
+              return focusableElement;
+            }
           }
+        );
+        if (foundFocusableElement) {
+          foundFocusableElement.focus();
         }
       }
     }
@@ -164,6 +188,34 @@ export class ConfiguratorStorefrontUtilsService {
   setFocus(key?: string, group?: string): void {
     if (key) {
       this.keyboardFocusService.set(key, group);
+    }
+  }
+
+  /**
+   * Change styling of element
+   *
+   * @param querySelector - querySelector
+   * @param property - CSS property
+   * @param value - CSS value
+   */
+  changeStyling(querySelector: string, property: string, value: string): void {
+    const element = this.getElement(querySelector);
+    if (element) {
+      element.style.setProperty(property, value);
+    }
+  }
+
+  /**
+   * Get HTML element based on querySelector when running in browser
+   *
+   * @param querySelector - querySelector
+   * @returns selected HTML element
+   */
+  getElement(querySelector: string): HTMLElement | undefined {
+    if (this.windowRef.isBrowser()) {
+      return this.windowRef.document.querySelector(
+        querySelector
+      ) as HTMLElement;
     }
   }
 }

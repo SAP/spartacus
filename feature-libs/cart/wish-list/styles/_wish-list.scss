@@ -1,0 +1,35 @@
+%cx-wish-list {
+  @extend %cx-cart-item-list;
+
+  td.cx-actions {
+    cx-add-to-cart {
+      display: flex;
+      justify-content: flex-end;
+
+      @include media-breakpoint-down(md) {
+        width: 100%;
+
+        form {
+          width: inherit;
+        }
+
+        button {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    --cx-max-width: 75%;
+
+    .cx-item-list-row:last-of-type {
+      border: none;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    --cx-max-width: 100%;
+  }
+}

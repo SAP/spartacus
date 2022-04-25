@@ -196,6 +196,9 @@ export function addProduct(productCode?: string): void {
 
 export function checkoutNextStep(url: string) {
   const nextStep = waitForPage(url, 'getNextStep');
-  cy.findAllByText('Continue').first().click({ force: true });
+  cy.get('.btn.btn-block.btn-primary')
+    .filter(':not(:disabled)')
+    .first()
+    .click({ force: true });
   cy.wait(`@${nextStep}`);
 }

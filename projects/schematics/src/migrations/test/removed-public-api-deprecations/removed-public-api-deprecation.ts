@@ -1,9 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import {
-  CART_EFFECTS,
-  SPARTACUS_CORE,
-  WISHLIST_EFFECTS,
-} from '../../../shared/constants';
+import { CART_EFFECTS, WISHLIST_EFFECTS } from '../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../shared/libs-constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 

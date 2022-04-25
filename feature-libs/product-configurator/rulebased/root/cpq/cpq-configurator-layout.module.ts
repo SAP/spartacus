@@ -15,17 +15,40 @@ import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout
       layoutSlots: {
         CpqConfigurationTemplate: {
           header: {
-            md: {
-              slots: ['SiteLogo', 'MiniCart'],
+            lg: {
+              slots: ['SiteLogo', 'CpqConfigExitButton', 'MiniCart'],
             },
             xs: {
-              slots: ['SiteLogo', 'MiniCart'],
+              slots: ['SiteLogo', 'CpqConfigExitButton', 'MiniCart'],
+            },
+          },
+          headerDisplayOnly: {
+            lg: {
+              slots: [
+                'SiteContext',
+                'SiteLinks',
+                'SiteLogo',
+                'SearchBox',
+                'SiteLogin',
+                'MiniCart',
+                'NavigationBar',
+              ],
+            },
+            xs: {
+              slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
             },
           },
 
           navigation: {
             lg: { slots: [] },
             slots: ['CpqConfigMenu'],
+          },
+
+          navigationDisplayOnly: {
+            lg: { slots: [] },
+            xs: {
+              slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
+            },
           },
 
           lg: {

@@ -1,61 +1,13 @@
 /// <reference types="jest" />
 
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
-import {
-  Schema as ApplicationOptions,
-  Style,
-} from '@schematics/angular/application/schema';
-import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import * as path from 'path';
 import { InMemoryFileSystemHost, Project, SourceFile } from 'ts-morph';
-import { getSpartacusProviders } from './config-utils';
-
-const collectionPath = path.join(__dirname, '../../collection.json');
-const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+import {
+  getSpartacusProviders,
+  isSpartacusConfigDuplicate,
+} from './config-utils';
+import { getModulePropertyInitializer } from './new-module-utils';
 
 describe('Storefront config utils', () => {
-  let appTree: UnitTestTree;
-  const workspaceOptions: WorkspaceOptions = {
-    name: 'workspace',
-    version: '0.5.0',
-  };
-  const appOptions: ApplicationOptions = {
-    name: 'schematics-test',
-    inlineStyle: false,
-    inlineTemplate: false,
-    routing: false,
-    style: Style.Scss,
-    skipTests: false,
-    projectRoot: '',
-  };
-  const defaultOptions = {
-    project: 'schematics-test',
-  };
-
-  beforeEach(async () => {
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'workspace',
-        workspaceOptions
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runExternalSchematicAsync(
-        '@schematics/angular',
-        'application',
-        appOptions,
-        appTree
-      )
-      .toPromise();
-    appTree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-      .toPromise();
-  });
-
   describe('ts-morph config utils', () => {
     const configFileContent = `
 import { NgModule } from '@angular/core';
@@ -123,6 +75,58 @@ export class TrackingFeatureModule {}
         expect(providers[1].getText()).toMatchSnapshot();
         expect(providers[2].getText()).toMatchSnapshot();
       });
+    });
+  });
+
+  describe('isSpartacusConfigDuplicate', () => {
+    const featureModule = `
+    import { NgModule } from '@angular/core';
+    import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+    import {
+      orderTranslationChunksConfig,
+      orderTranslations,
+    } from '@spartacus/order/assets';
+    import { OrderRootModule, ORDER_FEATURE } from '@spartacus/order/root';
+    
+    @NgModule({
+      declarations: [],
+      imports: [OrderRootModule],
+      providers: [
+        provideConfig(<CmsConfig>{
+          featureModules: {
+            [ORDER_FEATURE]: {
+              module: () => import('@spartacus/order').then((m) => m.OrderModule),
+            }
+          },
+        }),
+        provideConfig(<I18nConfig>{
+          i18n: {
+            resources: orderTranslations,
+            chunks: orderTranslationChunksConfig,
+          },
+        }),
+      ],
+    })
+    export class OrderFeatureModule {}
+    `;
+    let sourceFile: SourceFile;
+
+    beforeAll(() => {
+      const project = new Project({
+        fileSystem: new InMemoryFileSystemHost(),
+      });
+      sourceFile = project.createSourceFile('feature-module.ts', featureModule);
+    });
+
+    it('should return true despite the formatting and trailing commas', () => {
+      const newContent = `
+provideConfig(<CmsConfig>{
+featureModules: {[ORDER_FEATURE]: {module: () => import('@spartacus/order').then((m) => m.OrderModule),}}}),`;
+
+      const initializer =
+        getModulePropertyInitializer(sourceFile, 'providers') ?? ({} as any);
+      const result = isSpartacusConfigDuplicate(newContent, initializer);
+      expect(result).toBeTruthy();
     });
   });
 });
