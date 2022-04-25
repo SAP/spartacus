@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts</code>
+            <code>projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts</code>
         </p>
 
 
@@ -87,6 +87,18 @@
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#cart" >cart</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#checkout" >checkout</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#checkoutDelivery" >checkoutDelivery</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#checkoutPayment" >checkoutPayment</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -203,12 +215,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(auth: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, cart: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, cms: <a href="../injectables/CmsService.html" target="_self">CmsService</a>, pageMeta: <a href="../injectables/PageMetaService.html" target="_self">PageMetaService</a>, featureConfig: <a href="../injectables/FeatureConfigService.html" target="_self">FeatureConfigService</a>, globalMessage: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>, translation: <a href="../classes/TranslationService.html" target="_self">TranslationService</a>, occEndpoints: <a href="../injectables/OccEndpointsService.html" target="_self">OccEndpointsService</a>, product: <a href="../injectables/ProductService.html" target="_self">ProductService</a>, productSearch: <a href="../injectables/ProductSearchService.html" target="_self">ProductSearchService</a>, productReview: <a href="../injectables/ProductReviewService.html" target="_self">ProductReviewService</a>, productReference: <a href="../injectables/ProductReferenceService.html" target="_self">ProductReferenceService</a>, searchbox: <a href="../injectables/SearchboxService.html" target="_self">SearchboxService</a>, routing: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, currency: <a href="../injectables/CurrencyService.html" target="_self">CurrencyService</a>, language: <a href="../injectables/LanguageService.html" target="_self">LanguageService</a>, baseSite: <a href="../injectables/BaseSiteService.html" target="_self">BaseSiteService</a>, user: <a href="../injectables/UserService.html" target="_self">UserService</a>, userAddress: <a href="../injectables/UserAddressService.html" target="_self">UserAddressService</a>, userConsent: <a href="../injectables/UserConsentService.html" target="_self">UserConsentService</a>, userOrder: <a href="../injectables/UserOrderService.html" target="_self">UserOrderService</a>, userPayment: <a href="../injectables/UserPaymentService.html" target="_self">UserPaymentService</a>, userNotificationPreferenceService: <a href="../injectables/UserNotificationPreferenceService.html" target="_self">UserNotificationPreferenceService</a>, userInterestsService: <a href="../injectables/UserInterestsService.html" target="_self">UserInterestsService</a>, selectiveCartService: <a href="../injectables/SelectiveCartService.html" target="_self">SelectiveCartService</a>, ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
+<code>constructor(auth: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, cart: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, checkout: <a href="../injectables/CheckoutService.html" target="_self">CheckoutService</a>, checkoutDelivery: <a href="../injectables/CheckoutDeliveryService.html" target="_self">CheckoutDeliveryService</a>, checkoutPayment: <a href="../injectables/CheckoutPaymentService.html" target="_self">CheckoutPaymentService</a>, cms: <a href="../injectables/CmsService.html" target="_self">CmsService</a>, pageMeta: <a href="../injectables/PageMetaService.html" target="_self">PageMetaService</a>, featureConfig: <a href="../injectables/FeatureConfigService.html" target="_self">FeatureConfigService</a>, globalMessage: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>, translation: <a href="../classes/TranslationService.html" target="_self">TranslationService</a>, occEndpoints: <a href="../injectables/OccEndpointsService.html" target="_self">OccEndpointsService</a>, product: <a href="../injectables/ProductService.html" target="_self">ProductService</a>, productSearch: <a href="../injectables/ProductSearchService.html" target="_self">ProductSearchService</a>, productReview: <a href="../injectables/ProductReviewService.html" target="_self">ProductReviewService</a>, productReference: <a href="../injectables/ProductReferenceService.html" target="_self">ProductReferenceService</a>, searchbox: <a href="../injectables/SearchboxService.html" target="_self">SearchboxService</a>, routing: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, currency: <a href="../injectables/CurrencyService.html" target="_self">CurrencyService</a>, language: <a href="../injectables/LanguageService.html" target="_self">LanguageService</a>, baseSite: <a href="../injectables/BaseSiteService.html" target="_self">BaseSiteService</a>, user: <a href="../injectables/UserService.html" target="_self">UserService</a>, userAddress: <a href="../injectables/UserAddressService.html" target="_self">UserAddressService</a>, userConsent: <a href="../injectables/UserConsentService.html" target="_self">UserConsentService</a>, userOrder: <a href="../injectables/UserOrderService.html" target="_self">UserOrderService</a>, userPayment: <a href="../injectables/UserPaymentService.html" target="_self">UserPaymentService</a>, userNotificationPreferenceService: <a href="../injectables/UserNotificationPreferenceService.html" target="_self">UserNotificationPreferenceService</a>, userInterestsService: <a href="../injectables/UserInterestsService.html" target="_self">UserInterestsService</a>, selectiveCartService: <a href="../injectables/SelectiveCartService.html" target="_self">SelectiveCartService</a>, ngZone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -242,6 +254,42 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/ActiveCartService.html" target="_self" >ActiveCartService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>checkout</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CheckoutService.html" target="_self" >CheckoutService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>checkoutDelivery</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CheckoutDeliveryService.html" target="_self" >CheckoutDeliveryService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>checkoutPayment</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CheckoutPaymentService.html" target="_self" >CheckoutPaymentService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -581,7 +629,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -617,7 +665,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:71</a></div>
                         </td>
                     </tr>
 
@@ -653,7 +701,115 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:44</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkout"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>checkout</b></span>
+                        <a href="#checkout"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/CheckoutService.html" target="_self" >CheckoutService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Optional()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:46</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkoutDelivery"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>checkoutDelivery</b></span>
+                        <a href="#checkoutDelivery"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/CheckoutDeliveryService.html" target="_self" >CheckoutDeliveryService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Optional()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="checkoutPayment"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>checkoutPayment</b></span>
+                        <a href="#checkoutPayment"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../injectables/CheckoutPaymentService.html" target="_self" >CheckoutPaymentService</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Optional()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -689,7 +845,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:50</a></div>
                         </td>
                     </tr>
 
@@ -716,7 +872,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -752,7 +908,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:62</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -788,7 +944,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:53</a></div>
                         </td>
                     </tr>
 
@@ -824,7 +980,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -860,7 +1016,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:63</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:70</a></div>
                         </td>
                     </tr>
 
@@ -887,7 +1043,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:84</a></div>
                         </td>
                     </tr>
 
@@ -923,7 +1079,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:52</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:59</a></div>
                         </td>
                     </tr>
 
@@ -959,7 +1115,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:51</a></div>
                         </td>
                     </tr>
 
@@ -995,7 +1151,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:54</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -1031,7 +1187,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:64</a></div>
                         </td>
                     </tr>
 
@@ -1067,7 +1223,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -1103,7 +1259,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:62</a></div>
                         </td>
                     </tr>
 
@@ -1139,7 +1295,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -1175,7 +1331,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:65</a></div>
                         </td>
                     </tr>
 
@@ -1211,7 +1367,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -1247,7 +1403,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -1283,7 +1439,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:66</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:73</a></div>
                         </td>
                     </tr>
 
@@ -1319,7 +1475,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:67</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:74</a></div>
                         </td>
                     </tr>
 
@@ -1355,7 +1511,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -1391,7 +1547,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:81</a></div>
                         </td>
                     </tr>
 
@@ -1427,7 +1583,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:79</a></div>
                         </td>
                     </tr>
 
@@ -1463,7 +1619,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:76</a></div>
                         </td>
                     </tr>
 
@@ -1499,7 +1655,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/storefrontlib/cms-structure/page/component/services/cx-api.service.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/services/cx-api.service.ts:77</a></div>
                         </td>
                     </tr>
 
@@ -1517,6 +1673,9 @@ import {
   ActiveCartService,
   AuthService,
   BaseSiteService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
+  CheckoutService,
   CmsService,
   CurrencyService,
   FeatureConfigService,
@@ -1553,6 +1712,10 @@ export class CxApiService {
     @Optional() public auth: AuthService,
     // cart
     @Optional() public cart: ActiveCartService,
+    // checkout
+    @Optional() public checkout: CheckoutService,
+    @Optional() public checkoutDelivery: CheckoutDeliveryService,
+    @Optional() public checkoutPayment: CheckoutPaymentService,
     // cms
     @Optional() public cms: CmsService,
     @Optional() public pageMeta: PageMetaService,

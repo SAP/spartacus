@@ -56,13 +56,13 @@
 <title>cluster_PlaceOrderModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 390,-230.8 390,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_PlaceOrderModule_declarations</title>
-<polygon fill="none" stroke="black" points="222,-40.8 222,-92.8 382,-92.8 382,-40.8 222,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_PlaceOrderModule_exports</title>
 <polygon fill="none" stroke="black" points="81,-170.8 81,-222.8 245,-222.8 245,-170.8 81,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PlaceOrderModule_declarations</title>
+<polygon fill="none" stroke="black" points="222,-40.8 222,-92.8 382,-92.8 382,-40.8 222,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_PlaceOrderModule_imports</title>
@@ -152,7 +152,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/components/components/place-order/place-order.module.ts</code>
+            <code>projects/storefrontlib/src/cms-components/checkout/components/place-order/place-order.module.ts</code>
         </p>
 
 
@@ -164,6 +164,15 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/PlaceOrderComponent.html">PlaceOrderComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/PlaceOrderComponent.html">PlaceOrderComponent</a>
@@ -210,7 +219,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from &#x27;@spartacus/core&#x27;;
-import { CartNotEmptyGuard } from &#x27;../../guards/cart-not-empty.guard&#x27;;
+import { CartNotEmptyGuard } from &#x27;../../../cart/cart-not-empty.guard&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../guards/checkout-auth.guard&#x27;;
 import { defaultPlaceOrderSpinnerLayoutConfig } from &#x27;./default-place-order-spinner-layout.config&#x27;;
 import { PlaceOrderComponent } from &#x27;./place-order.component&#x27;;
@@ -235,6 +244,7 @@ import { PlaceOrderComponent } from &#x27;./place-order.component&#x27;;
     }),
   ],
   declarations: [PlaceOrderComponent],
+  entryComponents: [PlaceOrderComponent],
   exports: [PlaceOrderComponent],
 })
 export class PlaceOrderModule {}

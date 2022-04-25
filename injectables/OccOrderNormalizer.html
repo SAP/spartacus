@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/adapters/order/converters/occ-order-normalizer.ts</code>
+            <code>projects/core/src/occ/adapters/checkout/converters/occ-order-normalizer.ts</code>
         </p>
 
 
@@ -102,12 +102,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(converter: <a href="../injectables/ConverterService.html" target="_self">ConverterService</a>, entryPromotionService?: <a href="../injectables/OrderEntryPromotionsService.html" target="_self">OrderEntryPromotionsService</a>)</code>
+<code>constructor(converter: <a href="../injectables/ConverterService.html" target="_self">ConverterService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/occ/adapters/order/converters/occ-order-normalizer.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/occ/adapters/checkout/converters/occ-order-normalizer.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -133,18 +133,6 @@
                                                   
                                                     <td>
                                                             No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>entryPromotionService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/OrderEntryPromotionsService.html" target="_self" >OrderEntryPromotionsService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -182,8 +170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/core/src/occ/adapters/order/converters/occ-order-normalizer.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/converters/occ-order-normalizer.ts:14</a></div>
                 </td>
             </tr>
 
@@ -257,15 +245,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>convertOrderEntry(source?: Occ.OrderEntry, code?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, promotions?: PromotionResult[])</code>
+                    <code>convertOrderEntry(source: Occ.OrderEntry, code: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/occ/adapters/order/converters/occ-order-normalizer.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/converters/occ-order-normalizer.ts:44</a></div>
                 </td>
             </tr>
 
@@ -291,7 +279,7 @@
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
 
@@ -303,19 +291,7 @@
                                     </td>
 
                                     <td>
-                                        Yes
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>promotions</td>
-                                    <td>
-                                            <code>PromotionResult[]</code>
-                                    </td>
-
-                                    <td>
-                                        Yes
+                                        No
                                     </td>
 
 
@@ -343,7 +319,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { PromotionResult } from &#x27;../../../../model/cart.model&#x27;;
 import { Order, OrderEntry } from &#x27;../../../../model/order.model&#x27;;
 import { PRODUCT_NORMALIZER } from &#x27;../../../../product/connectors/product/converters&#x27;;
 import {
@@ -351,69 +326,46 @@ import {
   ConverterService,
 } from &#x27;../../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
-import { OrderEntryPromotionsService } from &#x27;../../cart/converters/order-entry-promotions-service&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class OccOrderNormalizer implements Converter&lt;Occ.Order, Order&gt; {
-  constructor(
-    private converter: ConverterService,
-    private entryPromotionService?: OrderEntryPromotionsService
-  ) {}
+  constructor(private converter: ConverterService) {}
 
   convert(source: Occ.Order, target?: Order): Order {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; { ...(source as any) } as Order;
+      target &#x3D; { ...(source as any) };
     }
 
     if (source.entries) {
       target.entries &#x3D; source.entries.map((entry) &#x3D;&gt;
-        this.convertOrderEntry(
-          entry,
-          source.code,
-          source.appliedProductPromotions
-        )
+        this.convertOrderEntry(entry, source.code)
       );
     }
 
     if (source.consignments) {
       target.consignments &#x3D; source.consignments.map((consignment) &#x3D;&gt; ({
         ...consignment,
-        entries: consignment.entries?.map((entry) &#x3D;&gt; ({
+        entries: consignment.entries.map((entry) &#x3D;&gt; ({
           ...entry,
-          orderEntry: this.convertOrderEntry(
-            entry.orderEntry,
-            source.code,
-            source.appliedProductPromotions
-          ),
+          orderEntry: this.convertOrderEntry(entry.orderEntry, source.code),
         })),
       }));
     }
 
     if (source.unconsignedEntries) {
       target.unconsignedEntries &#x3D; source.unconsignedEntries.map((entry) &#x3D;&gt;
-        this.convertOrderEntry(
-          entry,
-          source.code,
-          source.appliedProductPromotions
-        )
+        this.convertOrderEntry(entry, source.code)
       );
     }
 
     return target;
   }
 
-  private convertOrderEntry(
-    source?: Occ.OrderEntry,
-    code?: string,
-    promotions?: PromotionResult[]
-  ): OrderEntry {
+  private convertOrderEntry(source: Occ.OrderEntry, code: string): OrderEntry {
     return {
       ...source,
-      product: this.converter.convert(source?.product, PRODUCT_NORMALIZER),
+      product: this.converter.convert(source.product, PRODUCT_NORMALIZER),
       orderCode: code,
-      promotions: this.entryPromotionService
-        ? this.entryPromotionService.getProductPromotion(source, promotions)
-        : [],
     };
   }
 }

@@ -171,6 +171,15 @@
                     </ul>
                 </div>
                 <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/ConfiguratorUpdateMessageComponent.html">ConfiguratorUpdateMessageComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
                     <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" title="Official documentation about module imports"><span
                                 class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
@@ -201,27 +210,33 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
-import { Config, I18nModule, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import {
+  CmsConfig,
+  Config,
+  I18nModule,
+  provideDefaultConfig,
+} from &#x27;@spartacus/core&#x27;;
 import { SpinnerModule } from &#x27;@spartacus/storefront&#x27;;
-import { ConfiguratorMessageConfig } from &#x27;../config/configurator-message.config&#x27;;
-import { defaultConfiguratorMessageConfig } from &#x27;../config/default-configurator-message.config&#x27;;
+import { DefaultMessageConfig } from &#x27;../config/default-message-config&#x27;;
+import { MessageConfig } from &#x27;../config/message-config&#x27;;
 import { ConfiguratorUpdateMessageComponent } from &#x27;./configurator-update-message.component&#x27;;
 
 @NgModule({
   imports: [CommonModule, SpinnerModule, I18nModule],
   providers: [
-    provideDefaultConfig({
+    provideDefaultConfig(&lt;CmsConfig&gt;{
       cmsComponents: {
         ConfiguratorUpdateMessage: {
           component: ConfiguratorUpdateMessageComponent,
         },
       },
     }),
-    provideDefaultConfig(defaultConfiguratorMessageConfig),
-    { provide: ConfiguratorMessageConfig, useExisting: Config },
+    provideDefaultConfig(DefaultMessageConfig),
+    { provide: MessageConfig, useExisting: Config },
   ],
   declarations: [ConfiguratorUpdateMessageComponent],
   exports: [ConfiguratorUpdateMessageComponent],
+  entryComponents: [ConfiguratorUpdateMessageComponent],
 })
 export class ConfiguratorUpdateMessageModule {}
 </code></pre>

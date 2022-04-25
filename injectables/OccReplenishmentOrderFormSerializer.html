@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/occ/adapters/converters/occ-replenishment-order-form-serializer.ts</code>
+            <code>projects/core/src/occ/adapters/checkout/converters/occ-replenishment-order-form-serializer.ts</code>
         </p>
 
 
@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">feature-libs/checkout/occ/adapters/converters/occ-replenishment-order-form-serializer.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="11"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/converters/occ-replenishment-order-form-serializer.ts:11</a></div>
                 </td>
             </tr>
 
@@ -204,8 +204,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">feature-libs/checkout/occ/adapters/converters/occ-replenishment-order-form-serializer.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/converters/occ-replenishment-order-form-serializer.ts:33</a></div>
                 </td>
             </tr>
 
@@ -262,24 +262,21 @@ Converts 2021-10-15 to 2021-10-15T15:38:05-05:00</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import {
-  Converter,
-  Occ,
-  ScheduleReplenishmentForm,
-  TimeUtils,
-} from &#x27;@spartacus/core&#x27;;
+import { TimeUtils } from &#x27;../../../../util/time-utils&#x27;;
+import { ScheduleReplenishmentForm } from &#x27;../../../../model/replenishment-order.model&#x27;;
+import { Converter } from &#x27;../../../../util/converter.service&#x27;;
+import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
 
-@Injectable()
+@Injectable({ providedIn: &#x27;root&#x27; })
 export class OccReplenishmentOrderFormSerializer
   implements
-    Converter&lt;Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm&gt;
-{
+    Converter&lt;Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm&gt; {
   convert(
     source: Occ.ScheduleReplenishmentForm,
     target?: ScheduleReplenishmentForm
   ): ScheduleReplenishmentForm {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; { ...(source as any) } as ScheduleReplenishmentForm;
+      target &#x3D; { ...(source as any) };
     }
 
     if (source.replenishmentStartDate) {

@@ -149,17 +149,15 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Action } from &#x27;@ngrx/store&#x27;;
-import { Product } from &#x27;../../../model/product.model&#x27;;
-import { EntityLoaderMeta } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
-import { EntityScopedLoaderActions } from &#x27;../../../state/utils/scoped-loader/entity-scoped-loader.actions&#x27;;
-import { ProductScope } from &#x27;../../model/product-scope&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Product } from &#x27;../../../model/product.model&#x27;;
 import { PRODUCT_DETAIL_ENTITY } from &#x27;../product-state&#x27;;
+import { EntityLoaderMeta } from &#x27;../../../state/utils/entity-loader/entity-loader.action&#x27;;
+import { Action } from &#x27;@ngrx/store&#x27;;
+import { EntityScopedLoaderActions } from &#x27;../../../state/utils/scoped-loader/entity-scoped-loader.actions&#x27;;
 
 export const LOAD_PRODUCT &#x3D; &#x27;[Product] Load Product Data&#x27;;
 export const LOAD_PRODUCT_FAIL &#x3D; &#x27;[Product] Load Product Data Fail&#x27;;
 export const LOAD_PRODUCT_SUCCESS &#x3D; &#x27;[Product] Load Product Data Success&#x27;;
-export const CLEAR_PRODUCT_PRICE &#x3D; &#x27;[Product] Clear Product PRICE&#x27;;
 
 export interface ProductMeta extends EntityLoaderMeta {
   scope?: string;
@@ -191,19 +189,8 @@ export class LoadProductSuccess extends EntityScopedLoaderActions.EntityScopedSu
   }
 }
 
-export class ClearProductPrice extends EntityScopedLoaderActions.EntityScopedResetAction {
-  readonly type &#x3D; CLEAR_PRODUCT_PRICE;
-  constructor() {
-    super(PRODUCT_DETAIL_ENTITY, undefined, ProductScope.PRICE);
-  }
-}
-
 // action types
-export type ProductAction &#x3D;
-  | LoadProduct
-  | LoadProductFail
-  | LoadProductSuccess
-  | ClearProductPrice;
+export type ProductAction &#x3D; LoadProduct | LoadProductFail | LoadProductSuccess;
 </code></pre>
     </div>
 </div>

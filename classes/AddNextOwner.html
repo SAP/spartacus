@@ -119,7 +119,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts:95</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts:92</a></div>
                             </td>
                         </tr>
 
@@ -182,7 +182,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts:96</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts:93</a></div>
                         </td>
                     </tr>
 
@@ -208,7 +208,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts:95</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts:92</a></div>
                         </td>
                     </tr>
 
@@ -254,9 +254,6 @@ export const UPDATE_CART_ENTRY_SUCCESS &#x3D;
 export const ADD_NEXT_OWNER &#x3D; &#x27;[Configurator] Add next owner&#x27;;
 export const SET_NEXT_OWNER_CART_ENTRY &#x3D;
   &#x27;[Configurator] Set next owner cart entry&#x27;;
-
-export const REMOVE_CART_BOUND_CONFIGURATIONS &#x3D;
-  &#x27;[Configurator] Remove cart bound configurations&#x27;;
 
 export class ReadCartEntryConfiguration extends StateUtils.EntityLoadAction {
   readonly type &#x3D; READ_CART_ENTRY_CONFIGURATION;
@@ -325,11 +322,6 @@ export class AddNextOwner implements Action {
   constructor(public payload: { ownerKey: string; cartEntryNo: string }) {}
 }
 
-export class RemoveCartBoundConfigurations implements Action {
-  readonly type &#x3D; REMOVE_CART_BOUND_CONFIGURATIONS;
-  constructor() {}
-}
-
 export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; SET_NEXT_OWNER_CART_ENTRY;
 
@@ -352,7 +344,6 @@ export type ConfiguratorCartAction &#x3D;
   | ReadOrderEntryConfiguration
   | ReadOrderEntryConfigurationSuccess
   | ReadOrderEntryConfigurationFail
-  | RemoveCartBoundConfigurations
   | UpdateCartEntry;
 </code></pre>
     </div>

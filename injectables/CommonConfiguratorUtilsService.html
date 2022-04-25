@@ -268,15 +268,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getCartId(cart?: <a href="../interfaces/Cart.html" target="_self">Cart</a>)</code>
+<code>getCartId(cart: <a href="../interfaces/Cart.html" target="_self">Cart</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -305,7 +305,7 @@
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
 
@@ -453,8 +453,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:87</a></div>
                 </td>
             </tr>
 
@@ -533,8 +533,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:77</a></div>
                 </td>
             </tr>
 
@@ -613,8 +613,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:134</a></div>
                 </td>
             </tr>
 
@@ -682,15 +682,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isAttributeBasedConfigurator(configuratorType: <a href="../s/undefined.html" target="_self">string | undefined</a>)</code>
+<code>isAttributeBasedConfigurator(configuratorType: string | undefined)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:106</a></div>
                 </td>
             </tr>
 
@@ -715,7 +715,7 @@
                                 <tr>
                                     <td>configuratorType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#undefined" target="_self" >string | undefined</a></code>
+                                            <code>string | undefined</code>
                                     </td>
 
                                     <td>
@@ -762,15 +762,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isBundleBasedConfigurator(configuratorType: <a href="../s/undefined.html" target="_self">string | undefined</a>)</code>
+<code>isBundleBasedConfigurator(configuratorType: string | undefined)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:124</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:122</a></div>
                 </td>
             </tr>
 
@@ -795,7 +795,7 @@
                                 <tr>
                                     <td>configuratorType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#undefined" target="_self" >string | undefined</a></code>
+                                            <code>string | undefined</code>
                                     </td>
 
                                     <td>
@@ -842,7 +842,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setOwnerKey(owner: <a href="../injectables/Config.html" target="_self">CommonConfigurator.Owner</a>)</code>
+<code>setOwnerKey(owner: <a href="../interfaces/Owner.html" target="_self">CommonConfigurator.Owner</a>)</code>
                 </td>
             </tr>
 
@@ -876,7 +876,7 @@ attribute</p>
                                 <tr>
                                     <td>owner</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
+                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
                                     </td>
 
                                     <td>
@@ -964,9 +964,7 @@ export class CommonConfiguratorUtilsService {
   decomposeOwnerId(ownerId: string): any {
     const parts: string[] &#x3D; ownerId.split(&#x27;+&#x27;);
     if (parts.length !&#x3D;&#x3D; 2) {
-      throw new Error(
-        &#x27;We only expect 2 parts in ownerId, separated by +, but was: &#x27; + ownerId
-      );
+      throw new Error(&#x27;We only expect 2 parts in ownerId, separated by +&#x27;);
     }
     const result &#x3D; { documentId: parts[0], entryNumber: parts[1] };
     return result;
@@ -976,9 +974,9 @@ export class CommonConfiguratorUtilsService {
    * @param {Cart} cart - Cart
    * @returns {string} - Cart identifier
    */
-  getCartId(cart?: Cart): string {
+  getCartId(cart: Cart): string {
     const cartId &#x3D;
-      cart?.user?.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ? cart.guid : cart?.code;
+      cart.user?.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
     if (!cartId) {
       throw new Error(&#x27;Cart ID is not defined&#x27;);
     }

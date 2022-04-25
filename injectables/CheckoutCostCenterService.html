@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/core/facade/checkout-cost-center.service.ts</code>
+            <code>projects/core/src/checkout/facade/checkout-cost-center.service.ts</code>
         </p>
 
 
@@ -101,12 +101,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutStore: Store<StateWithCheckout>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, userIdService: <a href="../injectables/UserIdService.html" target="_self">UserIdService</a>)</code>
+<code>constructor(checkoutStore: Store<StateWithCheckout | StateWithProcess>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, userIdService: <a href="../injectables/UserIdService.html" target="_self">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">feature-libs/checkout/core/facade/checkout-cost-center.service.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/checkout/facade/checkout-cost-center.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -127,7 +127,7 @@
                                                         <td>checkoutStore</td>
                                                   
                                                         <td>
-                                                                    <code>Store&lt;StateWithCheckout&gt;</code>
+                                                                    <code>Store&lt;StateWithCheckout | StateWithProcess&gt;</code>
                                                         </td>
                                                   
                                                     <td>
@@ -193,8 +193,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-cost-center.service.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-cost-center.service.ts:50</a></div>
                 </td>
             </tr>
 
@@ -205,7 +205,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Observable&lt;string | undefined&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
 
                     </div>
                 </td>
@@ -232,8 +232,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-cost-center.service.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/core/src/checkout/facade/checkout-cost-center.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -295,18 +295,22 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { CheckoutCostCenterFacade } from &#x27;@spartacus/checkout/root&#x27;;
-import { ActiveCartService, UserIdService } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import { filter, map, take } from &#x27;rxjs/operators&#x27;;
+import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
+import { ActiveCartService } from &#x27;../../cart/facade/active-cart.service&#x27;;
+import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
+import { StateWithProcess } from &#x27;../../process/store/process-state&#x27;;
 import { CheckoutActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithCheckout } from &#x27;../store/checkout-state&#x27;;
 import { CheckoutSelectors } from &#x27;../store/selectors/index&#x27;;
 
-@Injectable()
-export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+export class CheckoutCostCenterService {
   constructor(
-    protected checkoutStore: Store&lt;StateWithCheckout&gt;,
+    protected checkoutStore: Store&lt;StateWithCheckout | StateWithProcess&lt;void&gt;&gt;,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService
   ) {}
@@ -316,34 +320,29 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
    * @param costCenterId : cost center id
    */
   setCostCenter(costCenterId: string): void {
-    let cartId: string;
+    let cartId;
     this.activeCartService
       .getActiveCartId()
       .pipe(take(1))
       .subscribe((activeCartId) &#x3D;&gt; (cartId &#x3D; activeCartId));
 
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) &#x3D;&gt; {
-        if (cartId) {
-          this.checkoutStore.dispatch(
-            new CheckoutActions.SetCostCenter({
-              userId: userId,
-              cartId: cartId,
-              costCenterId: costCenterId,
-            })
-          );
-        }
-      },
-      () &#x3D;&gt; {
-        // TODO: for future releases, refactor this part to thrown errors
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
+      if (userId &amp;&amp; userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS &amp;&amp; cartId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.SetCostCenter({
+            userId: userId,
+            cartId: cartId,
+            costCenterId: costCenterId,
+          })
+        );
       }
-    );
+    });
   }
 
   /**
    * Get cost center id from cart
    */
-  getCostCenter(): Observable&lt;string | undefined&gt; {
+  getCostCenter(): Observable&lt;string&gt; {
     return combineLatest([
       this.activeCartService.getActive(),
       this.checkoutStore.pipe(select(CheckoutSelectors.getCostCenter)),
@@ -353,9 +352,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
         if (costCenterId &#x3D;&#x3D;&#x3D; undefined &amp;&amp; cart.costCenter) {
           costCenterId &#x3D; cart.costCenter.code;
           this.checkoutStore.dispatch(
-            new CheckoutActions.SetCostCenterSuccess(
-              cart.costCenter.code as string
-            )
+            new CheckoutActions.SetCostCenterSuccess(cart.costCenter.code)
           );
         }
         return costCenterId;

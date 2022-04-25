@@ -121,8 +121,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">feature-libs/user/account/root/facade/user-account.facade.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">feature-libs/user/account/root/facade/user-account.facade.ts:20</a></div>
                 </td>
             </tr>
 
@@ -131,7 +131,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Observable&lt;User | undefined&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;User | undefined&gt;</code>
 
                     </div>
                 </td>
@@ -150,14 +150,17 @@ import { User } from &#x27;../model/user.model&#x27;;
 import { facadeFactory } from &#x27;@spartacus/core&#x27;;
 import { USER_ACCOUNT_CORE_FEATURE } from &#x27;../feature-name&#x27;;
 
+export function userAccountFacadeFactory() {
+  return facadeFactory({
+    facade: UserAccountFacade,
+    feature: USER_ACCOUNT_CORE_FEATURE,
+    methods: [&#x27;get&#x27;],
+  });
+}
+
 @Injectable({
   providedIn: &#x27;root&#x27;,
-  useFactory: () &#x3D;&gt;
-    facadeFactory({
-      facade: UserAccountFacade,
-      feature: USER_ACCOUNT_CORE_FEATURE,
-      methods: [&#x27;get&#x27;],
-    }),
+  useFactory: userAccountFacadeFactory,
 })
 export abstract class UserAccountFacade {
   abstract get(): Observable&lt;User | undefined&gt;;

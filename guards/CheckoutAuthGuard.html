@@ -59,7 +59,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>feature-libs/checkout/components/guards/checkout-auth.guard.ts</code>
+                <code>projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts</code>
             </p>
 
 
@@ -83,14 +83,6 @@
                             <li>
                                 <a href="#canActivate" >canActivate</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#handleAnonymousUser" >handleAnonymousUser</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#handleUserRole" >handleUserRole</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -109,12 +101,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html" target="_self">AuthRedirectService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html" target="_self">CheckoutConfigService</a>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html" target="_self">SemanticPathService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, userService: <a href="../injectables/UserAccountFacade.html" target="_self">UserAccountFacade</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>)</code>
+<code>constructor(authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html" target="_self">AuthRedirectService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html" target="_self">CheckoutConfigService</a>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html" target="_self">SemanticPathService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, userService: <a href="../injectables/UserService.html" target="_self">UserService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">feature-libs/checkout/components/guards/checkout-auth.guard.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -207,7 +199,7 @@
                                                         <td>userService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/UserAccountFacade.html" target="_self" >UserAccountFacade</a></code>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -261,8 +253,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">feature-libs/checkout/components/guards/checkout-auth.guard.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout-auth.guard.ts:34</a></div>
                 </td>
             </tr>
 
@@ -273,146 +265,6 @@
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;boolean | UrlTree&gt;</code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="handleAnonymousUser"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>handleAnonymousUser</b></span>
-                        <a href="#handleAnonymousUser"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>handleAnonymousUser(cartUser?: <a href="../interfaces/User.html" target="_self">User</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">feature-libs/checkout/components/guards/checkout-auth.guard.ts:54</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>cartUser</td>
-                                    <td>
-                                                <code><a href="../interfaces/User.html" target="_self" >User</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>boolean | UrlTree</code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="handleUserRole"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>handleUserRole</b></span>
-                        <a href="#handleUserRole"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>handleUserRole(user: <a href="../interfaces/User.html" target="_self">User</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">feature-libs/checkout/components/guards/checkout-auth.guard.ts:69</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>user</td>
-                                    <td>
-                                                <code><a href="../interfaces/User.html" target="_self" >User</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>    <code>boolean | UrlTree</code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -434,8 +286,9 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
+  User,
+  UserService,
 } from &#x27;@spartacus/core&#x27;;
-import { User, UserAccountFacade } from &#x27;@spartacus/user/account/root&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import { filter, map } from &#x27;rxjs/operators&#x27;;
 import { CheckoutConfigService } from &#x27;../services/checkout-config.service&#x27;;
@@ -451,7 +304,7 @@ export class CheckoutAuthGuard implements CanActivate {
     protected activeCartService: ActiveCartService,
     protected semanticPathService: SemanticPathService,
     protected router: Router,
-    protected userService: UserAccountFacade,
+    protected userService: UserService,
     protected globalMessageService: GlobalMessageService
   ) {}
 
@@ -462,45 +315,44 @@ export class CheckoutAuthGuard implements CanActivate {
       this.userService.get(),
       this.activeCartService.isStable(),
     ]).pipe(
-      filter(([, , _user, isStable]) &#x3D;&gt; isStable),
-      // if the user is authenticated and we have their data, OR if the user is anonymous
-      filter(([isLoggedIn, , user]) &#x3D;&gt; (!!user &amp;&amp; isLoggedIn) || !isLoggedIn),
-      map(([isLoggedIn, cartUser, user]) &#x3D;&gt; {
-        if (!isLoggedIn) {
-          return this.handleAnonymousUser(cartUser);
-        } else if (user &amp;&amp; &#x27;roles&#x27; in user) {
-          return this.handleUserRole(user);
+      filter(([, , , isStable]) &#x3D;&gt; Boolean(isStable)),
+      map(
+        ([isLoggedIn, cartUser, user]: [
+          boolean,
+          User,
+          User | B2BUser,
+          boolean
+        ]) &#x3D;&gt; {
+          if (!isLoggedIn) {
+            if (this.activeCartService.isGuestCart()) {
+              return Boolean(cartUser);
+            }
+            this.authRedirectService.reportAuthGuard();
+            if (this.checkoutConfigService.isGuestCheckout()) {
+              return this.router.createUrlTree(
+                [this.semanticPathService.get(&#x27;login&#x27;)],
+                { queryParams: { forced: true } }
+              );
+            } else {
+              return this.router.parseUrl(
+                this.semanticPathService.get(&#x27;login&#x27;)
+              );
+            }
+          } else if (user &amp;&amp; &#x27;roles&#x27; in user) {
+            const roles &#x3D; (&lt;B2BUser&gt;user).roles;
+            if (roles.includes(B2BUserRole.CUSTOMER)) {
+              return true;
+            }
+            this.globalMessageService.add(
+              { key: &#x27;checkout.invalid.accountType&#x27; },
+              GlobalMessageType.MSG_TYPE_WARNING
+            );
+            return false;
+          }
+          return isLoggedIn;
         }
-        return isLoggedIn;
-      })
+      )
     );
-  }
-
-  protected handleAnonymousUser(cartUser?: User): boolean | UrlTree {
-    if (this.activeCartService.isGuestCart()) {
-      return !!cartUser;
-    }
-    this.authRedirectService.saveCurrentNavigationUrl();
-    if (this.checkoutConfigService.isGuestCheckout()) {
-      return this.router.createUrlTree(
-        [this.semanticPathService.get(&#x27;login&#x27;)],
-        { queryParams: { forced: true } }
-      );
-    } else {
-      return this.router.parseUrl(this.semanticPathService.get(&#x27;login&#x27;));
-    }
-  }
-
-  protected handleUserRole(user: User): boolean | UrlTree {
-    const roles &#x3D; (&lt;B2BUser&gt;user).roles;
-    if (roles?.includes(B2BUserRole.CUSTOMER)) {
-      return true;
-    }
-    this.globalMessageService.add(
-      { key: &#x27;checkout.invalid.accountType&#x27; },
-      GlobalMessageType.MSG_TYPE_WARNING
-    );
-    return this.router.parseUrl(this.semanticPathService.get(&#x27;home&#x27;));
   }
 }
 </code></pre>

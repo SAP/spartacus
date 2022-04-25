@@ -94,8 +94,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="6"
-                            class="link-to-prism">projects/core/src/state/state.module.ts:6</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="8"
+                            class="link-to-prism">projects/core/src/state/state.module.ts:8</a></div>
                 </td>
             </tr>
 
@@ -117,14 +117,19 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
+import { defaultStateConfig } from &#x27;./config/default-state-config&#x27;;
 import { stateMetaReducers } from &#x27;./reducers/index&#x27;;
+import { provideDefaultConfig } from &#x27;../config/config-providers&#x27;;
 
 @NgModule({})
 export class StateModule {
   static forRoot(): ModuleWithProviders&lt;StateModule&gt; {
     return {
       ngModule: StateModule,
-      providers: [...stateMetaReducers],
+      providers: [
+        ...stateMetaReducers,
+        provideDefaultConfig(defaultStateConfig),
+      ],
     };
   }
 }

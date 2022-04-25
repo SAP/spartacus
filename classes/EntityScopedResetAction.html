@@ -113,7 +113,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(entityType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, id?: string | string[], scope?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>constructor(entityType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, id: string | string[], scope?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -155,7 +155,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -249,18 +249,18 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Action } from &#x27;@ngrx/store&#x27;;
-import {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ENTITY_FAIL_ACTION,
+  ENTITY_LOAD_ACTION,
+  ENTITY_RESET_ACTION,
+  ENTITY_SUCCESS_ACTION,
   entityFailMeta,
   EntityLoaderMeta,
   entityLoadMeta,
   entityResetMeta,
   entitySuccessMeta,
-  ENTITY_FAIL_ACTION,
-  ENTITY_LOAD_ACTION,
-  ENTITY_RESET_ACTION,
-  ENTITY_SUCCESS_ACTION,
 } from &#x27;../entity-loader/entity-loader.action&#x27;;
+import { Action } from &#x27;@ngrx/store&#x27;;
 
 export namespace EntityScopedLoaderActions {
   export interface EntityScopedLoaderMeta extends EntityLoaderMeta {
@@ -308,7 +308,7 @@ export namespace EntityScopedLoaderActions {
 
   export function entityScopedResetMeta(
     entityType: string,
-    id?: string | string[],
+    id: string | string[],
     scope?: string
   ): EntityScopedLoaderMeta {
     return {
@@ -354,7 +354,7 @@ export namespace EntityScopedLoaderActions {
   export class EntityScopedResetAction implements EntityScopedLoaderAction {
     type &#x3D; ENTITY_RESET_ACTION;
     readonly meta: EntityScopedLoaderMeta;
-    constructor(entityType: string, id?: string | string[], scope?: string) {
+    constructor(entityType: string, id: string | string[], scope?: string) {
       this.meta &#x3D; entityScopedResetMeta(entityType, id, scope);
     }
   }

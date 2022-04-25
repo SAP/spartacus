@@ -387,8 +387,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:58</a></div>
                 </td>
             </tr>
 
@@ -467,8 +467,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:77</a></div>
                 </td>
             </tr>
 
@@ -535,8 +535,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:92</a></div>
                 </td>
             </tr>
 
@@ -695,8 +695,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:104</a></div>
                 </td>
             </tr>
 
@@ -787,8 +787,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:119</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">feature-libs/user/profile/occ/adapters/occ-user-profile.adapter.ts:121</a></div>
                 </td>
             </tr>
 
@@ -899,7 +899,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const endpoint &#x3D; this.occEndpoints.isConfigured(&#x27;userUpdateProfile&#x27;)
       ? &#x27;userUpdateProfile&#x27;
       : &#x27;user&#x27;;
-    const url &#x3D; this.occEndpoints.buildUrl(endpoint, { urlParams: { userId } });
+    const url &#x3D; this.occEndpoints.getUrl(endpoint, { userId });
     user &#x3D; this.converter.convert(user, USER_PROFILE_SERIALIZER);
     return this.http
       .patch(url, user)
@@ -907,21 +907,23 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   register(user: UserSignUp): Observable&lt;User&gt; {
-    const url: string &#x3D; this.occEndpoints.buildUrl(&#x27;userRegister&#x27;);
+    const url: string &#x3D; this.occEndpoints.getUrl(&#x27;userRegister&#x27;);
     let headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
     });
     headers &#x3D; InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     user &#x3D; this.converter.convert(user, USER_SIGN_UP_SERIALIZER);
 
-    return this.http.post&lt;User&gt;(url, user, { headers }).pipe(
-      catchError((error) &#x3D;&gt; throwError(normalizeHttpError(error))),
-      this.converter.pipeable(USER_PROFILE_NORMALIZER)
-    );
+    return this.http
+      .post&lt;User&gt;(url, user, { headers })
+      .pipe(
+        catchError((error) &#x3D;&gt; throwError(normalizeHttpError(error))),
+        this.converter.pipeable(USER_PROFILE_NORMALIZER)
+      );
   }
 
   registerGuest(guid: string, password: string): Observable&lt;User&gt; {
-    const url: string &#x3D; this.occEndpoints.buildUrl(&#x27;userRegister&#x27;);
+    const url: string &#x3D; this.occEndpoints.getUrl(&#x27;userRegister&#x27;);
     let headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
     });
@@ -931,14 +933,16 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       .set(&#x27;guid&#x27;, guid)
       .set(&#x27;password&#x27;, password);
 
-    return this.http.post&lt;User&gt;(url, httpParams, { headers }).pipe(
-      catchError((error) &#x3D;&gt; throwError(normalizeHttpError(error))),
-      this.converter.pipeable(USER_PROFILE_NORMALIZER)
-    );
+    return this.http
+      .post&lt;User&gt;(url, httpParams, { headers })
+      .pipe(
+        catchError((error) &#x3D;&gt; throwError(normalizeHttpError(error))),
+        this.converter.pipeable(USER_PROFILE_NORMALIZER)
+      );
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable&lt;unknown&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;userForgotPassword&#x27;);
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;userForgotPassword&#x27;);
     const httpParams: HttpParams &#x3D; new HttpParams().set(
       &#x27;userId&#x27;,
       userEmailAddress
@@ -953,7 +957,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   resetPassword(token: string, newPassword: string): Observable&lt;unknown&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;userResetPassword&#x27;);
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;userResetPassword&#x27;);
     let headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
     });
@@ -969,9 +973,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     currentPassword: string,
     newUserId: string
   ): Observable&lt;unknown&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;userUpdateLoginId&#x27;, {
-      urlParams: { userId },
-    });
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;userUpdateLoginId&#x27;, { userId });
     const httpParams: HttpParams &#x3D; new HttpParams()
       .set(&#x27;password&#x27;, currentPassword)
       .set(&#x27;newLogin&#x27;, newUserId);
@@ -988,9 +990,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     oldPassword: string,
     newPassword: string
   ): Observable&lt;unknown&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;userUpdatePassword&#x27;, {
-      urlParams: { userId },
-    });
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;userUpdatePassword&#x27;, { userId });
     const httpParams: HttpParams &#x3D; new HttpParams()
       .set(&#x27;old&#x27;, oldPassword)
       .set(&#x27;new&#x27;, newPassword);
@@ -1006,14 +1006,14 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const endpoint &#x3D; this.occEndpoints.isConfigured(&#x27;userCloseAccount&#x27;)
       ? &#x27;userCloseAccount&#x27;
       : &#x27;user&#x27;;
-    const url &#x3D; this.occEndpoints.buildUrl(endpoint, { urlParams: { userId } });
+    const url &#x3D; this.occEndpoints.getUrl(endpoint, { userId });
     return this.http
       .delete&lt;User&gt;(url)
       .pipe(catchError((error) &#x3D;&gt; throwError(normalizeHttpError(error))));
   }
 
   loadTitles(): Observable&lt;Title[]&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;titles&#x27;);
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;titles&#x27;);
     return this.http.get&lt;Occ.TitleList&gt;(url).pipe(
       catchError((error) &#x3D;&gt; throwError(normalizeHttpError(error))),
       map((titleList) &#x3D;&gt; titleList.titles ?? []),

@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/core/connectors/delivery/checkout-delivery.adapter.ts</code>
+            <code>projects/core/src/checkout/connectors/delivery/checkout-delivery.adapter.ts</code>
         </p>
 
 
@@ -143,8 +143,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">feature-libs/checkout/core/connectors/delivery/checkout-delivery.adapter.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">projects/core/src/checkout/connectors/delivery/checkout-delivery.adapter.ts:13</a></div>
                 </td>
             </tr>
 
@@ -239,8 +239,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">feature-libs/checkout/core/connectors/delivery/checkout-delivery.adapter.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/core/src/checkout/connectors/delivery/checkout-delivery.adapter.ts:51</a></div>
                 </td>
             </tr>
 
@@ -323,8 +323,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">feature-libs/checkout/core/connectors/delivery/checkout-delivery.adapter.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/core/src/checkout/connectors/delivery/checkout-delivery.adapter.ts:59</a></div>
                 </td>
             </tr>
 
@@ -407,8 +407,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">feature-libs/checkout/core/connectors/delivery/checkout-delivery.adapter.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/core/src/checkout/connectors/delivery/checkout-delivery.adapter.ts:26</a></div>
                 </td>
             </tr>
 
@@ -503,8 +503,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">feature-libs/checkout/core/connectors/delivery/checkout-delivery.adapter.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/core/src/checkout/connectors/delivery/checkout-delivery.adapter.ts:39</a></div>
                 </td>
             </tr>
 
@@ -587,8 +587,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Address, DeliveryMode } from &#x27;@spartacus/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
+import { Address } from &#x27;../../../model/address.model&#x27;;
+import { DeliveryMode } from &#x27;../../../model/order.model&#x27;;
 
 export abstract class CheckoutDeliveryAdapter {
   /**

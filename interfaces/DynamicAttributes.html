@@ -281,6 +281,25 @@ export class OccEndpointsService {
   }
 
   /**
+   * @Deprecated since 3.2 - use &quot;getRawEndpointValue&quot; or &quot;buildUrl&quot; instead
+   *
+   * Returns an endpoint starting from the OCC baseUrl (no baseSite)
+   * @param endpoint Endpoint suffix
+   */
+  getRawEndpoint(endpoint: string): string {
+    if (!this.config?.backend?.occ) {
+      return &#x27;&#x27;;
+    }
+    endpoint &#x3D; this.config.backend.occ.endpoints?.[endpoint];
+
+    if (!endpoint.startsWith(&#x27;/&#x27;)) {
+      endpoint &#x3D; &#x27;/&#x27; + endpoint;
+    }
+
+    return this.config.backend.occ.baseUrl + endpoint;
+  }
+
+  /**
    * Returns the value configured for a specific endpoint
    *
    * @param endpointKey the configuration key for the endpoint to return
@@ -305,6 +324,55 @@ export class OccEndpointsService {
   }
 
   /**
+   * @Deprecated since 3.2 - use &quot;buildUrl&quot; instead
+   *
+   * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
+   * Most OCC endpoints are related to a baseSite context and are therefor prefixed
+   * with the baseSite. The &#x60;/basesites&#x60; endpoint does not relate to a specific baseSite
+   * as it will load all baseSites.
+   *
+   * @param endpoint Endpoint suffix
+   */
+  getOccEndpoint(endpoint: string): string {
+    endpoint &#x3D; this.getRawEndpointValue(endpoint);
+
+    return this.getEndpoint(endpoint, { baseSite: false });
+  }
+
+  /**
+   * @Deprecated since 3.2 - use &quot;getBaseUrl&quot; with the same parameters
+   *
+   * Returns base OCC endpoint (baseUrl + prefix + baseSite) by if no parameters are specified
+   *
+   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
+   */
+  getBaseEndpoint(propertiesToOmit?: BaseOccUrlProperties): string {
+    if (!this.config?.backend?.occ) {
+      return &#x27;&#x27;;
+    }
+
+    return this.getBaseUrl(propertiesToOmit);
+  }
+
+  /**
+   * @Deprecated since 3.2 - use &quot;buildUrl&quot; with configurable endpoints instead
+   *
+   * Returns an OCC endpoint including baseUrl and baseSite
+   *
+   * @param endpoint Endpoint suffix
+   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
+   */
+  getEndpoint(
+    endpoint: string,
+    propertiesToOmit?: BaseOccUrlProperties
+  ): string {
+    if (!endpoint.startsWith(&#x27;/&#x27;) &amp;&amp; !this.getPrefix().endsWith(&#x27;/&#x27;)) {
+      endpoint &#x3D; &#x27;/&#x27; + endpoint;
+    }
+    return this.buildUrlFromEndpointString(endpoint, propertiesToOmit);
+  }
+
+  /**
    * Returns base OCC endpoint (baseUrl + prefix + baseSite) base on provided values
    *
    * @param baseUrlProperties Specify properties to not add to the url (baseUrl, prefix, baseSite)
@@ -319,7 +387,7 @@ export class OccEndpointsService {
     const baseUrl &#x3D;
       baseUrlProperties.baseUrl &#x3D;&#x3D;&#x3D; false
         ? &#x27;&#x27;
-        : this.config?.backend?.occ?.baseUrl ?? &#x27;&#x27;;
+        : this.config.backend.occ.baseUrl;
     const prefix &#x3D; baseUrlProperties.prefix &#x3D;&#x3D;&#x3D; false ? &#x27;&#x27; : this.getPrefix();
     const baseSite &#x3D;
       baseUrlProperties.baseSite &#x3D;&#x3D;&#x3D; false ? &#x27;&#x27; : this.activeBaseSite;
@@ -380,6 +448,64 @@ export class OccEndpointsService {
     }
 
     return this.buildUrlFromEndpointString(url, propertiesToOmit);
+  }
+
+  /**
+   * @Deprecated since 3.2 - use &quot;buildUrl&quot; instead
+   *
+   * Returns a fully qualified OCC Url (including baseUrl and baseSite)
+   * @param endpoint Name of the OCC endpoint key config
+   * @param urlParams  URL parameters
+   * @param queryParams Query parameters
+   * @param scope
+   */
+  getUrl(
+    endpoint: string,
+    urlParams?: object,
+    queryParams?: object,
+    scope?: string
+  ): string {
+    endpoint &#x3D; this.getEndpointForScope(endpoint, scope);
+
+    if (urlParams) {
+      Object.keys(urlParams).forEach((key) &#x3D;&gt; {
+        urlParams[key] &#x3D; encodeURIComponent(urlParams[key]);
+      });
+      endpoint &#x3D; StringTemplate.resolve(endpoint, urlParams);
+    }
+
+    if (queryParams) {
+      let httpParamsOptions &#x3D; { encoder: new HttpParamsURIEncoder() };
+
+      if (endpoint.includes(&#x27;?&#x27;)) {
+        let queryParamsFromEndpoint: string;
+        [endpoint, queryParamsFromEndpoint] &#x3D; endpoint.split(&#x27;?&#x27;);
+
+        httpParamsOptions &#x3D; {
+          ...httpParamsOptions,
+          ...{ fromString: queryParamsFromEndpoint },
+        };
+      }
+
+      let httpParams &#x3D; new HttpParams(httpParamsOptions);
+      Object.keys(queryParams).forEach((key) &#x3D;&gt; {
+        const value &#x3D; queryParams[key];
+        if (value !&#x3D;&#x3D; undefined) {
+          if (value &#x3D;&#x3D;&#x3D; null) {
+            httpParams &#x3D; httpParams.delete(key);
+          } else {
+            httpParams &#x3D; httpParams.set(key, value);
+          }
+        }
+      });
+
+      const params &#x3D; httpParams.toString();
+      if (params.length) {
+        endpoint +&#x3D; &#x27;?&#x27; + params;
+      }
+    }
+
+    return this.getEndpoint(endpoint);
   }
 
   private getEndpointFromConfig(
@@ -457,7 +583,7 @@ export class OccEndpointsService {
     ) {
       return &#x27;/&#x27; + this.config.backend.occ.prefix;
     }
-    return this.config?.backend?.occ?.prefix ?? &#x27;&#x27;;
+    return this.config.backend.occ.prefix;
   }
 }
 </code></pre>

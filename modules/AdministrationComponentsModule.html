@@ -73,6 +73,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
+import { provideDefaultConfig, RoutingConfig } from &#x27;@spartacus/core&#x27;;
 import { BudgetComponentsModule } from &#x27;./budget/budget-components.module&#x27;;
 import { CostCenterComponentsModule } from &#x27;./cost-center/cost-center-components.module&#x27;;
 import { PermissionComponentsModule } from &#x27;./permission/permission-components.module&#x27;;
@@ -88,6 +89,17 @@ import { UserComponentsModule } from &#x27;./user/user-components.module&#x27;;
     UserGroupComponentsModule,
     UserComponentsModule,
     PermissionComponentsModule,
+  ],
+  providers: [
+    provideDefaultConfig(&lt;RoutingConfig&gt;{
+      routing: {
+        routes: {
+          organization: {
+            paths: [&#x27;organization&#x27;],
+          },
+        },
+      },
+    }),
   ],
 })
 export class AdministrationComponentsModule {}

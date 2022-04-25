@@ -83,6 +83,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#currencyIso" 
 >
                                             currencyIso
@@ -96,6 +97,7 @@
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#value" 
 >
                                             value
@@ -139,6 +141,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -210,6 +217,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -222,9 +234,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonConfigurator } from &#x27;@spartacus/product-configurator/common&#x27;;
-
-// Note that this namespace should be augmentable, therefore it&#x27;s exposed in the &#x27;public_api.ts&#x27;
-// of the rulebased entry point, and there is no index.ts file in this folder
 
 export namespace Configurator {
   export interface Attribute {
@@ -253,7 +262,7 @@ export namespace Configurator {
   }
 
   export interface Value {
-    valueCode: string;
+    valueCode?: string;
     name?: string;
     valueDisplay?: string;
     description?: string;
@@ -268,25 +277,14 @@ export namespace Configurator {
 
   export interface Group {
     attributes?: Attribute[];
-    id: string;
+    id?: string;
     name?: string;
     description?: string;
     groupType?: GroupType;
     configurable?: boolean;
     complete?: boolean;
     consistent?: boolean;
-    subGroups: Group[];
-  }
-
-  export interface ValueSupplement {
-    attributeValueKey: string;
-    priceValue: PriceDetails;
-    obsoletePriceValue: PriceDetails;
-  }
-
-  export interface AttributeSupplement {
-    attributeUiKey: string;
-    valueSupplements: ValueSupplement[];
+    subGroups?: Group[];
   }
 
   export interface Configuration {
@@ -296,8 +294,7 @@ export namespace Configurator {
     totalNumberOfIssues?: number;
     productCode?: string;
     groups: Group[];
-    flatGroups: Group[];
-    priceSupplements?: AttributeSupplement[];
+    flatGroups?: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
     owner: CommonConfigurator.Owner;
@@ -319,7 +316,7 @@ export namespace Configurator {
   }
 
   export interface Overview {
-    configId: string;
+    configId?: string;
     totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
@@ -330,14 +327,11 @@ export namespace Configurator {
     id: string;
     groupDescription?: string;
     attributes?: AttributeOverview[];
-    subGroups?: GroupOverview[];
   }
 
   export interface AttributeOverview {
     attribute: string;
-    attributeId?: string;
     value: string;
-    valueId?: string;
     productCode?: string;
     type?: AttributeOverviewType;
     quantity?: number;
@@ -353,9 +347,9 @@ export namespace Configurator {
   }
 
   export interface PriceDetails {
-    currencyIso: string;
+    currencyIso?: string;
     formattedValue?: string;
-    value: number;
+    value?: number;
   }
 
   export interface PriceSavingDetails extends PriceDetails {

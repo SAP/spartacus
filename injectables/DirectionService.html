@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/layout/direction/direction.service.ts</code>
+            <code>projects/storefrontlib/src/layout/direction/direction.service.ts</code>
         </p>
 
 
@@ -151,7 +151,7 @@ is called from an APP_INITIALIZER method and should only happen once.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/layout/direction/direction.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/layout/direction/direction.service.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -240,8 +240,8 @@ is called from an APP_INITIALIZER method and should only happen once.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/storefrontlib/layout/direction/direction.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/storefrontlib/src/layout/direction/direction.service.ts:59</a></div>
                 </td>
             </tr>
 
@@ -280,8 +280,8 @@ The method is guarded to ensure that the active language is observed only once.<
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/storefrontlib/layout/direction/direction.service.ts:99</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">projects/storefrontlib/src/layout/direction/direction.service.ts:95</a></div>
                 </td>
             </tr>
 
@@ -353,8 +353,8 @@ to the configured list of languages(<code>direction.rtlLanguages</code> vs <code
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/storefrontlib/layout/direction/direction.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">projects/storefrontlib/src/layout/direction/direction.service.ts:39</a></div>
                 </td>
             </tr>
 
@@ -365,7 +365,7 @@ to the configured list of languages(<code>direction.rtlLanguages</code> vs <code
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
 
                     </div>
                 </td>
@@ -392,8 +392,8 @@ to the configured list of languages(<code>direction.rtlLanguages</code> vs <code
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">projects/storefrontlib/layout/direction/direction.service.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="105"
+                            class="link-to-prism">projects/storefrontlib/src/layout/direction/direction.service.ts:105</a></div>
                 </td>
             </tr>
 
@@ -429,8 +429,8 @@ to the configured list of languages(<code>direction.rtlLanguages</code> vs <code
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">projects/storefrontlib/layout/direction/direction.service.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">projects/storefrontlib/src/layout/direction/direction.service.ts:80</a></div>
                 </td>
             </tr>
 
@@ -518,7 +518,7 @@ attribute is removed.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/layout/direction/direction.service.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/layout/direction/direction.service.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -544,7 +544,7 @@ attribute is removed.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/layout/direction/direction.service.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/layout/direction/direction.service.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -570,7 +570,7 @@ attribute is removed.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/layout/direction/direction.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/layout/direction/direction.service.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -590,7 +590,6 @@ import {
   WindowRef,
 } from &#x27;@spartacus/core&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
-import { tap } from &#x27;rxjs/operators&#x27;;
 import { DirectionConfig } from &#x27;./config/direction.config&#x27;;
 import { Direction, DirectionMode } from &#x27;./config/direction.model&#x27;;
 
@@ -622,23 +621,20 @@ export class DirectionService implements OnDestroy {
   /**
    * Initializes the layout direction for the storefront.
    */
-  initialize(): Promise&lt;any&gt; {
+  initialize(): Promise&lt;void&gt; {
     return this.configInit
-      .getStable(&#x27;direction&#x27;)
-      .pipe(
-        tap((config: DirectionConfig) &#x3D;&gt; {
-          this.config &#x3D; config?.direction;
-          if (this.config?.detect) {
-            this.detect();
-          } else {
-            this.setDirection(
-              this.winRef.document.documentElement,
-              this.config?.default
-            );
-          }
-        })
-      )
-      .toPromise();
+      .getStableConfig(&#x27;direction&#x27;)
+      .then((config: DirectionConfig) &#x3D;&gt; {
+        this.config &#x3D; config?.direction;
+        if (this.config?.detect) {
+          this.detect();
+        } else {
+          this.setDirection(
+            this.winRef.document.documentElement,
+            this.config?.default
+          );
+        }
+      });
   }
 
   /**

@@ -176,7 +176,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/layout/a11y/skip-link/skip-link.module.ts</code>
+            <code>projects/storefrontlib/src/layout/a11y/skip-link/skip-link.module.ts</code>
         </p>
 
 
@@ -194,6 +194,15 @@
                         </li>
                         <li class="list-group-item">
                             <a href="../directives/SkipLinkDirective.html">SkipLinkDirective</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/SkipLinkComponent.html">SkipLinkComponent</a>
                         </li>
                     </ul>
                 </div>
@@ -256,6 +265,8 @@ import { SkipLinkDirective } from &#x27;./directive/skip-link.directive&#x27;;
   ],
   declarations: [SkipLinkComponent, SkipLinkDirective],
   exports: [SkipLinkDirective],
+  entryComponents: [SkipLinkComponent],
+
   providers: [
     provideDefaultConfig(defaultSkipLinkConfig),
     {
@@ -276,8 +287,9 @@ export function skipLinkFactory(
   outletService: OutletService
 ) {
   const isReady &#x3D; () &#x3D;&gt; {
-    const factory &#x3D;
-      componentFactoryResolver.resolveComponentFactory(SkipLinkComponent);
+    const factory &#x3D; componentFactoryResolver.resolveComponentFactory(
+      SkipLinkComponent
+    );
     outletService.add(&#x27;cx-storefront&#x27;, &lt;any&gt;factory, OutletPosition.BEFORE);
   };
   return isReady;

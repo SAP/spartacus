@@ -112,13 +112,13 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../interfaces/ProductConfiguratorCpqAuthConfig.html" target="_self" >ProductConfiguratorCpqAuthConfig</a></code>
+                        <i>Type : </i>    <code>literal type</code>
 
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">feature-libs/product-configurator/rulebased/root/cpq/interceptor/cpq-configurator-auth.config.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">feature-libs/product-configurator/rulebased/root/cpq/interceptor/cpq-configurator-auth.config.ts:9</a></div>
                         </td>
                     </tr>
 
@@ -133,35 +133,27 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
-import &#x27;@spartacus/product-configurator/common&#x27;;
-
-export interface ProductConfiguratorCpqAuthConfig {
-  cpq?: {
-    authentication: {
-      /** We should stop using/sending a token shortly before expiration,
-       * to avoid that it is actually expired when evaluated in the target system.
-       * Time given in ms. */
-      tokenExpirationBuffer: number;
-      /** max time in ms to pass until a token is considered expired and re-fetched,
-       * even if token expiration time is longer */
-      tokenMaxValidity: number;
-      /** min time to pass until a token is re-fetched, even if token expiration time is shorter */
-      tokenMinValidity: number;
-    };
-  };
-}
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
 export abstract class CpqConfiguratorAuthConfig {
-  productConfigurator: ProductConfiguratorCpqAuthConfig;
-}
-
-declare module &#x27;@spartacus/product-configurator/common&#x27; {
-  interface ProductConfiguratorConfig
-    extends ProductConfiguratorCpqAuthConfig {}
+  productConfigurator: {
+    cpq: {
+      authentication: {
+        /** We should stop using/sending a token shortly before expiration,
+         * to avoid that it is actually expired when evaluated in the target system.
+         * Time given in ms. */
+        tokenExpirationBuffer: number;
+        /** max time in ms to pass until a token is considered expired and re-fetched,
+         * even if token expiration time is longer */
+        tokenMaxValidity: number;
+        /** min time to pass until a token is re-fetched, even if token expiration time is shorter */
+        tokenMinValidity: number;
+      };
+    };
+  };
 }
 </code></pre>
     </div>

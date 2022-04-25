@@ -111,6 +111,7 @@
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#key" 
 >
                                             key
@@ -131,6 +132,7 @@
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#name" 
 >
                                             name
@@ -375,6 +377,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -484,6 +491,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -770,40 +782,22 @@
     /**
      * @member {string} [configId]
      */
-    configId: string;
+    configId?: string;
     /**
      * @member {boolean} [complete]
      */
     complete?: boolean;
-    /**
-     * Configuration is consistent, meaning it does not contain conflicts
-     *
-     * @member {boolean}
-     */
-    consistent?: boolean;
+
     totalNumberOfIssues?: number;
     groups?: Group[];
     rootProduct?: string;
   }
 
   export interface Prices {
-    configId: string;
-    attributes?: Supplements[];
+    configId?: string;
     pricingError?: boolean;
     showDeltaPrices?: boolean;
     priceSummary?: PriceSummary;
-  }
-
-  export interface Supplements {
-    csticUiKey: string;
-    selectedValues: string[];
-    priceSupplements: ValueSupplements[];
-  }
-
-  export interface ValueSupplements {
-    attributeValueKey: string;
-    priceValue: PriceDetails;
-    obsoletePriceValue: PriceDetails;
   }
 
   export interface PriceSummary {
@@ -814,9 +808,9 @@
   }
 
   export interface PriceDetails {
-    currencyIso: string;
+    currencyIso?: string;
     formattedValue?: string;
-    value: number;
+    value?: number;
   }
 
   export interface PriceSavingDetails extends PriceDetails {
@@ -830,20 +824,20 @@
     consistent?: boolean;
     attributes?: Attribute[];
     description?: string;
-    groupType: GroupType;
-    id: string;
+    groupType?: GroupType;
+    id?: string;
     name?: string;
     subGroups?: Group[];
   }
 
   export interface Attribute {
-    name: string;
+    name?: string;
     langDepName?: string;
     type?: UiType;
     domainValues?: Value[];
     required?: boolean;
     value?: string;
-    key: string;
+    key?: string;
     formattedValue?: string;
     maxlength?: number;
     images?: Image[];
@@ -855,7 +849,7 @@
   }
 
   export interface Value {
-    key: string;
+    key?: string;
     name?: string;
     langDepName?: string;
     readonly?: boolean;
@@ -898,7 +892,7 @@
   }
 
   export interface GroupOverview {
-    id: string;
+    id?: string;
     groupDescription?: string;
     characteristicValues?: CharacteristicOverview[];
     subGroups?: GroupOverview[];
@@ -906,13 +900,11 @@
 
   export interface CharacteristicOverview {
     characteristic: string;
-    characteristicId?: string;
     value: string;
-    valueId?: string;
   }
   export interface Image {
-    imageType: ImageType;
-    format: ImageFormatType;
+    imageType?: ImageType;
+    format?: ImageFormatType;
     url?: string;
     altText?: string;
     galleryIndex?: number;

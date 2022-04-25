@@ -676,9 +676,9 @@ retrieved from the <code>getParamKey</code>.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Address, RoutingService } from &#x27;@spartacus/core&#x27;;
 import { OrgUnitService } from &#x27;@spartacus/organization/administration/core&#x27;;
-import { ROUTE_PARAMS } from &#x27;@spartacus/organization/administration/root&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { filter, switchMap } from &#x27;rxjs/operators&#x27;;
+import { ROUTE_PARAMS } from &#x27;../../../../constants&#x27;;
 import { CurrentItemService } from &#x27;../../../../shared/current-item.service&#x27;;
 
 @Injectable({

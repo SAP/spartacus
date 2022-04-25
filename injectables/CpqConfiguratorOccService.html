@@ -192,7 +192,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addToCart(parameters: <a href="../injectables/Config.html" target="_self">Configurator.AddToCartParameters</a>)</code>
+<code>addToCart(parameters: <a href="../s/Config.html" target="_self">Configurator.AddToCartParameters</a>)</code>
                 </td>
             </tr>
 
@@ -222,7 +222,7 @@
                                 <tr>
                                     <td>parameters</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.AddToCartParameters</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.AddToCartParameters</a></code>
                                     </td>
 
                                     <td>
@@ -260,15 +260,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getConfigIdForCartEntry(parameters: <a href="../injectables/Config.html" target="_self">CommonConfigurator.ReadConfigurationFromCartEntryParameters</a>)</code>
+<code>getConfigIdForCartEntry(parameters: <a href="../classes/ReadConfiguration.html" target="_self">CommonConfigurator.ReadConfigurationFromCartEntryParameters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/cpq-configurator-occ.service.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/cpq-configurator-occ.service.ts:66</a></div>
                 </td>
             </tr>
 
@@ -290,7 +290,7 @@
                                 <tr>
                                     <td>parameters</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.ReadConfigurationFromCartEntryParameters</a></code>
+                                                <code><a href="../classes/ReadConfiguration.html" target="_self" >CommonConfigurator.ReadConfigurationFromCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -328,15 +328,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getConfigIdForOrderEntry(parameters: <a href="../injectables/Config.html" target="_self">CommonConfigurator.ReadConfigurationFromOrderEntryParameters</a>)</code>
+<code>getConfigIdForOrderEntry(parameters: <a href="../classes/ReadConfiguration.html" target="_self">CommonConfigurator.ReadConfigurationFromOrderEntryParameters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/cpq-configurator-occ.service.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/cpq-configurator-occ.service.ts:85</a></div>
                 </td>
             </tr>
 
@@ -358,7 +358,7 @@
                                 <tr>
                                     <td>parameters</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.ReadConfigurationFromOrderEntryParameters</a></code>
+                                                <code><a href="../classes/ReadConfiguration.html" target="_self" >CommonConfigurator.ReadConfigurationFromOrderEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -396,15 +396,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateCartEntry(parameters: <a href="../injectables/Config.html" target="_self">Configurator.UpdateConfigurationForCartEntryParameters</a>)</code>
+<code>updateCartEntry(parameters: <a href="../s/Config.html" target="_self">Configurator.UpdateConfigurationForCartEntryParameters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/cpq-configurator-occ.service.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/cpq-configurator-occ.service.ts:44</a></div>
                 </td>
             </tr>
 
@@ -426,7 +426,7 @@
                                 <tr>
                                     <td>parameters</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.UpdateConfigurationForCartEntryParameters</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.UpdateConfigurationForCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -485,11 +485,9 @@ export class CpqConfiguratorOccService {
   addToCart(
     parameters: Configurator.AddToCartParameters
   ): Observable&lt;CartModification&gt; {
-    const url &#x3D; this.occEndpointsService.buildUrl(&#x27;addCpqConfigurationToCart&#x27;, {
-      urlParams: {
-        userId: parameters.userId,
-        cartId: parameters.cartId,
-      },
+    const url &#x3D; this.occEndpointsService.getUrl(&#x27;addCpqConfigurationToCart&#x27;, {
+      userId: parameters.userId,
+      cartId: parameters.cartId,
     });
 
     const occAddToCartParameters &#x3D; this.converterService.convert(
@@ -505,14 +503,12 @@ export class CpqConfiguratorOccService {
   updateCartEntry(
     parameters: Configurator.UpdateConfigurationForCartEntryParameters
   ): Observable&lt;CartModification&gt; {
-    const url &#x3D; this.occEndpointsService.buildUrl(
+    const url &#x3D; this.occEndpointsService.getUrl(
       &#x27;updateCpqConfigurationForCartEntry&#x27;,
       {
-        urlParams: {
-          userId: parameters.userId,
-          cartId: parameters.cartId,
-          cartEntryNumber: parameters.cartEntryNumber,
-        },
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+        cartEntryNumber: parameters.cartEntryNumber,
       }
     );
 
@@ -529,14 +525,12 @@ export class CpqConfiguratorOccService {
   getConfigIdForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable&lt;string&gt; {
-    const url &#x3D; this.occEndpointsService.buildUrl(
+    const url &#x3D; this.occEndpointsService.getUrl(
       &#x27;readCpqConfigurationForCartEntry&#x27;,
       {
-        urlParams: {
-          userId: parameters.userId,
-          cartId: parameters.cartId,
-          cartEntryNumber: parameters.cartEntryNumber,
-        },
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+        cartEntryNumber: parameters.cartEntryNumber,
       }
     );
 
@@ -550,14 +544,12 @@ export class CpqConfiguratorOccService {
   getConfigIdForOrderEntry(
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable&lt;string&gt; {
-    const url &#x3D; this.occEndpointsService.buildUrl(
+    const url &#x3D; this.occEndpointsService.getUrl(
       &#x27;readCpqConfigurationForOrderEntry&#x27;,
       {
-        urlParams: {
-          userId: parameters.userId,
-          orderId: parameters.orderId,
-          orderEntryNumber: parameters.orderEntryNumber,
-        },
+        userId: parameters.userId,
+        orderId: parameters.orderId,
+        orderEntryNumber: parameters.orderEntryNumber,
       }
     );
 

@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/core/facade/payment-type.service.ts</code>
+            <code>projects/core/src/checkout/facade/payment-type.service.ts</code>
         </p>
 
 
@@ -113,12 +113,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutStore: Store<StateWithCheckout>, processStateStore: Store<StateWithProcess<void>>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, userIdService: <a href="../injectables/UserIdService.html" target="_self">UserIdService</a>)</code>
+<code>constructor(checkoutStore: Store<StateWithCheckout | StateWithProcess>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, userIdService: <a href="../injectables/UserIdService.html" target="_self">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">feature-libs/checkout/core/facade/payment-type.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/checkout/facade/payment-type.service.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -139,19 +139,7 @@
                                                         <td>checkoutStore</td>
                                                   
                                                         <td>
-                                                                    <code>Store&lt;StateWithCheckout&gt;</code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>processStateStore</td>
-                                                  
-                                                        <td>
-                                                                    <code>Store&lt;StateWithProcess&lt;void&gt;&gt;</code>
+                                                                    <code>Store&lt;StateWithCheckout | StateWithProcess&gt;</code>
                                                         </td>
                                                   
                                                     <td>
@@ -217,8 +205,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">feature-libs/checkout/core/facade/payment-type.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/core/src/checkout/facade/payment-type.service.ts:38</a></div>
                 </td>
             </tr>
 
@@ -256,8 +244,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">feature-libs/checkout/core/facade/payment-type.service.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">projects/core/src/checkout/facade/payment-type.service.ts:125</a></div>
                 </td>
             </tr>
 
@@ -268,7 +256,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Observable&lt;string | undefined&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
 
                     </div>
                 </td>
@@ -295,8 +283,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">feature-libs/checkout/core/facade/payment-type.service.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/core/src/checkout/facade/payment-type.service.ts:94</a></div>
                 </td>
             </tr>
 
@@ -307,7 +295,7 @@
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Observable&lt;string | undefined&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
 
                     </div>
                 </td>
@@ -334,8 +322,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">feature-libs/checkout/core/facade/payment-type.service.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">projects/core/src/checkout/facade/payment-type.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -373,8 +361,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">feature-libs/checkout/core/facade/payment-type.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/core/src/checkout/facade/payment-type.service.ts:61</a></div>
                 </td>
             </tr>
 
@@ -412,8 +400,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">feature-libs/checkout/core/facade/payment-type.service.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">projects/core/src/checkout/facade/payment-type.service.ts:70</a></div>
                 </td>
             </tr>
 
@@ -489,15 +477,6 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { PaymentTypeFacade } from &#x27;@spartacus/checkout/root&#x27;;
-import {
-  ActiveCartService,
-  B2BPaymentTypeEnum,
-  PaymentType,
-  ProcessSelectors,
-  StateWithProcess,
-  UserIdService,
-} from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import {
   map,
@@ -507,6 +486,12 @@ import {
   tap,
   withLatestFrom,
 } from &#x27;rxjs/operators&#x27;;
+import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
+import { ActiveCartService } from &#x27;../../cart/facade/active-cart.service&#x27;;
+import { B2BPaymentTypeEnum, PaymentType } from &#x27;../../model/cart.model&#x27;;
+import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
+import { StateWithProcess } from &#x27;../../process/store/process-state&#x27;;
+import { getProcessStateFactory } from &#x27;../../process/store/selectors/process-group.selectors&#x27;;
 import { CheckoutActions } from &#x27;../store/actions/index&#x27;;
 import {
   GET_PAYMENT_TYPES_PROCESS_ID,
@@ -514,11 +499,12 @@ import {
 } from &#x27;../store/checkout-state&#x27;;
 import { CheckoutSelectors } from &#x27;../store/selectors/index&#x27;;
 
-@Injectable()
-export class PaymentTypeService implements PaymentTypeFacade {
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+export class PaymentTypeService {
   constructor(
-    protected checkoutStore: Store&lt;StateWithCheckout&gt;,
-    protected processStateStore: Store&lt;StateWithProcess&lt;void&gt;&gt;,
+    protected checkoutStore: Store&lt;StateWithCheckout | StateWithProcess&lt;void&gt;&gt;,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService
   ) {}
@@ -530,12 +516,8 @@ export class PaymentTypeService implements PaymentTypeFacade {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getAllPaymentTypes),
       withLatestFrom(
-        this.processStateStore.pipe(
-          select(
-            ProcessSelectors.getProcessStateFactory(
-              GET_PAYMENT_TYPES_PROCESS_ID
-            )
-          )
+        this.checkoutStore.pipe(
+          select(getProcessStateFactory(GET_PAYMENT_TYPES_PROCESS_ID))
         )
       ),
       tap(([_, loadingState]) &#x3D;&gt; {
@@ -563,35 +545,30 @@ export class PaymentTypeService implements PaymentTypeFacade {
    * @param poNumber : purchase order number
    */
   setPaymentType(typeCode: string, poNumber?: string): void {
-    let cartId: string;
+    let cartId;
     this.activeCartService
       .getActiveCartId()
       .pipe(take(1))
       .subscribe((activeCartId) &#x3D;&gt; (cartId &#x3D; activeCartId));
 
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) &#x3D;&gt; {
-        if (cartId) {
-          this.checkoutStore.dispatch(
-            new CheckoutActions.SetPaymentType({
-              userId: userId,
-              cartId: cartId,
-              typeCode: typeCode,
-              poNumber: poNumber,
-            })
-          );
-        }
-      },
-      () &#x3D;&gt; {
-        // TODO: for future releases, refactor this part to thrown errors
+    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
+      if (userId &amp;&amp; userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS &amp;&amp; cartId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.SetPaymentType({
+            userId: userId,
+            cartId: cartId,
+            typeCode: typeCode,
+            poNumber: poNumber,
+          })
+        );
       }
-    );
+    });
   }
 
   /**
    * Get the selected payment type
    */
-  getSelectedPaymentType(): Observable&lt;string | undefined&gt; {
+  getSelectedPaymentType(): Observable&lt;string&gt; {
     return combineLatest([
       this.activeCartService.getActive(),
       this.checkoutStore.pipe(select(CheckoutSelectors.getSelectedPaymentType)),
@@ -622,7 +599,7 @@ export class PaymentTypeService implements PaymentTypeFacade {
   /**
    * Get PO Number
    */
-  getPoNumber(): Observable&lt;string | undefined&gt; {
+  getPoNumber(): Observable&lt;string&gt; {
     return combineLatest([
       this.activeCartService.getActive(),
       this.checkoutStore.pipe(select(CheckoutSelectors.getPoNumer)),

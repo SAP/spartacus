@@ -78,7 +78,7 @@
 <li>if an input is an array, the parts of output will be separated with space</li>
 <li>if an input is a string, it will be printed as string</li>
 <li>if the <code>params</code> object has too many properties that pollute the output,
- they can be allowlisted by using module&#39;s method. For example <code>UrlTestingModule.allowlistParams([&#39;code&#39;, &#39;name&#39;])</code></li>
+ they can be whitelisted by using module&#39;s method. For example <code>UrlTestingModule.whitelistParams([&#39;code&#39;, &#39;name&#39;])</code></li>
 </ul>
 
             </p>
@@ -131,7 +131,7 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>When defined allowlisted keys, don&#39;t show any non-allowlisted keys.
+                    <div class="io-description"><p>When defined whitelisted keys, don&#39;t show any non-whitelisted keys.
 Show only primitive keys.</p>
 </div>
 
@@ -343,7 +343,7 @@ Show only primitive keys.</p>
 } from &#x27;@angular/core&#x27;;
 import { UrlCommand, UrlCommands } from &#x27;../url-command&#x27;;
 
-export const URL_TESTING_ALLOWLISTED_PARAMS &#x3D; new InjectionToken&lt;string[]&gt;(
+export const URL_TESTING_WHITELISTED_PARAMS &#x3D; new InjectionToken&lt;string[]&gt;(
   &#x27;Array of params keys that will be rendered by the mock cxUrl pipe&#x27;
 );
 
@@ -365,16 +365,16 @@ export const URL_TESTING_ALLOWLISTED_PARAMS &#x3D; new InjectionToken&lt;string[
  * - if an input is an array, the parts of output will be separated with space
  * - if an input is a string, it will be printed as string
  * - if the &#x60;params&#x60; object has too many properties that pollute the output,
- *    they can be allowlisted by using module&#x27;s method. For example &#x60;UrlTestingModule.allowlistParams([&#x27;code&#x27;, &#x27;name&#x27;])&#x60;
+ *    they can be whitelisted by using module&#x27;s method. For example &#x60;UrlTestingModule.whitelistParams([&#x27;code&#x27;, &#x27;name&#x27;])&#x60;
  */
 @Pipe({
   name: &#x27;cxUrl&#x27;,
 })
 export class MockUrlPipe implements PipeTransform {
   constructor(
-    @Inject(URL_TESTING_ALLOWLISTED_PARAMS)
+    @Inject(URL_TESTING_WHITELISTED_PARAMS)
     @Optional()
-    private readonly allowlistedParams
+    private readonly whitelistedParams
   ) {}
   transform(commands: UrlCommands) {
     if (!Array.isArray(commands)) {
@@ -423,11 +423,11 @@ export class MockUrlPipe implements PipeTransform {
   }
 
   /**
-   * When defined allowlisted keys, don&#x27;t show any non-allowlisted keys.
+   * When defined whitelisted keys, don&#x27;t show any non-whitelisted keys.
    * Show only primitive keys.
    */
   private shouldShowParam(key: string, value: any): boolean {
-    if (this.allowlistedParams &amp;&amp; !this.allowlistedParams.includes(key)) {
+    if (this.whitelistedParams &amp;&amp; !this.whitelistedParams.includes(key)) {
       return false;
     }
 

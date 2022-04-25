@@ -327,7 +327,7 @@ export class AsmStatePersistenceService implements OnDestroy {
    * Function called on each browser storage read.
    * Used to update state from browser -&gt; state.
    */
-  protected onRead(state: SyncedAsmState | undefined) {
+  protected onRead(state: SyncedAsmState) {
     if (state) {
       if (state.ui) {
         this.store.dispatch(new AsmActions.AsmUiUpdate(state.ui));

@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.service.ts</code>
+            <code>projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts</code>
         </p>
 
 
@@ -81,9 +81,6 @@
                                 <a href="#addUserAddress" >addUserAddress</a>
                             </li>
                             <li>
-                                <a href="#deleteUserAddress" >deleteUserAddress</a>
-                            </li>
-                            <li>
                                 <a href="#getAddresses" >getAddresses</a>
                             </li>
                             <li>
@@ -91,9 +88,6 @@
                             </li>
                             <li>
                                 <a href="#loadAddresses" >loadAddresses</a>
-                            </li>
-                            <li>
-                                <a href="#setAddressAsDefault" >setAddressAsDefault</a>
                             </li>
                             <li>
                                 <a href="#updateUserAddress" >updateUserAddress</a>
@@ -116,12 +110,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userAddressService: <a href="../injectables/UserAddressService.html" target="_self">UserAddressService</a>)</code>
+<code>constructor(userAddressService: <a href="../injectables/UserAddressService.html" target="_self">UserAddressService</a>, checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html" target="_self">CheckoutDeliveryService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.service.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -143,6 +137,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/UserAddressService.html" target="_self" >UserAddressService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>checkoutDeliveryService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CheckoutDeliveryService.html" target="_self" >CheckoutDeliveryService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -184,8 +190,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.service.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -236,74 +242,6 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="deleteUserAddress"></a>
-                    <span class="name">
-                        <span ><b>deleteUserAddress</b></span>
-                        <a href="#deleteUserAddress"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>deleteUserAddress(addressId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.service.ts:34</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>addressId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="getAddresses"></a>
                     <span class="name">
                         <span ><b>getAddresses</b></span>
@@ -320,8 +258,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.service.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:18</a></div>
                 </td>
             </tr>
 
@@ -357,8 +295,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.service.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:22</a></div>
                 </td>
             </tr>
 
@@ -394,8 +332,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.service.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:26</a></div>
                 </td>
             </tr>
 
@@ -406,74 +344,6 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setAddressAsDefault"></a>
-                    <span class="name">
-                        <span ><b>setAddressAsDefault</b></span>
-                        <a href="#setAddressAsDefault"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>setAddressAsDefault(addressId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.service.ts:30</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>addressId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -499,8 +369,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.component.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -566,14 +436,21 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Address, UserAddressService } from &#x27;@spartacus/core&#x27;;
+import {
+  Address,
+  CheckoutDeliveryService,
+  UserAddressService,
+} from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class AddressBookComponentService {
-  constructor(protected userAddressService: UserAddressService) {}
+  constructor(
+    protected userAddressService: UserAddressService,
+    protected checkoutDeliveryService: CheckoutDeliveryService
+  ) {}
 
   getAddresses(): Observable&lt;Address[]&gt; {
     return this.userAddressService.getAddresses();
@@ -593,13 +470,7 @@ export class AddressBookComponentService {
 
   updateUserAddress(addressId: string, address: Address) {
     this.userAddressService.updateUserAddress(addressId, address);
-  }
-  setAddressAsDefault(addressId: string): void {
-    this.userAddressService.setAddressAsDefault(addressId);
-  }
-
-  deleteUserAddress(addressId: string): void {
-    this.userAddressService.deleteUserAddress(addressId);
+    this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
   }
 }
 </code></pre>

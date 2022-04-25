@@ -236,7 +236,11 @@ import { UserDetailsModule } from &#x27;./details/user-details.module&#x27;;
 import { UserFormModule } from &#x27;./form/user-form.module&#x27;;
 import { UserPermissionListModule } from &#x27;./permissions/user-permission-list.module&#x27;;
 import { UserUserGroupsModule } from &#x27;./user-groups/user-user-group-list.module&#x27;;
-import { userCmsConfig, userTableConfigFactory } from &#x27;./user.config&#x27;;
+import {
+  userCmsConfig,
+  userRoutingConfig,
+  userTableConfigFactory,
+} from &#x27;./user.config&#x27;;
 @NgModule({
   imports: [
     ListModule,
@@ -248,6 +252,7 @@ import { userCmsConfig, userTableConfigFactory } from &#x27;./user.config&#x27;;
     UserApproverListModule,
   ],
   providers: [
+    provideDefaultConfig(userRoutingConfig),
     provideDefaultConfig(userCmsConfig),
     provideDefaultConfigFactory(userTableConfigFactory),
   ],

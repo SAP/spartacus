@@ -102,8 +102,8 @@ This makes it possible to work on the same anonymous cart even after page refres
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/core/src/cart/cart-persistence.module.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/cart/cart-persistence.module.ts:44</a></div>
                 </td>
             </tr>
 
@@ -126,7 +126,6 @@ This makes it possible to work on the same anonymous cart even after page refres
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { APP_INITIALIZER, ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { ActionReducer, MetaReducer, META_REDUCERS } from &#x27;@ngrx/store&#x27;;
-import { tap } from &#x27;rxjs/operators&#x27;;
 import { ConfigInitializerService } from &#x27;../config/config-initializer/config-initializer.service&#x27;;
 import { MultiCartStatePersistenceService } from &#x27;./services/multi-cart-state-persistence.service&#x27;;
 import { activeCartInitialState } from &#x27;./store/reducers/multi-cart.reducer&#x27;;
@@ -136,14 +135,9 @@ export function cartStatePersistenceFactory(
   configInit: ConfigInitializerService
 ) {
   const result &#x3D; () &#x3D;&gt;
-    configInit
-      .getStable(&#x27;context&#x27;)
-      .pipe(
-        tap(() &#x3D;&gt; {
-          cartStatePersistenceService.initSync();
-        })
-      )
-      .toPromise();
+    configInit.getStableConfig(&#x27;context&#x27;).then(() &#x3D;&gt; {
+      cartStatePersistenceService.initSync();
+    });
   return result;
 }
 

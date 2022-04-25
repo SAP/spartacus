@@ -134,8 +134,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">core-libs/setup/ssr/engine-decorator/ng-express-engine-decorator.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">core-libs/setup/ssr/engine-decorator/ng-express-engine-decorator.ts:53</a></div>
                 </td>
             </tr>
 
@@ -206,13 +206,37 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgSetupOptions } from &#x27;@nguniversal/express-engine&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModuleFactory, StaticProvider, Type } from &#x27;@angular/core&#x27;;
+import { REQUEST } from &#x27;@nguniversal/express-engine/tokens&#x27;;
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from &#x27;@spartacus/core&#x27;;
+import { Request } from &#x27;express&#x27;;
 import {
   OptimizedSsrEngine,
   SsrCallbackFn,
 } from &#x27;../optimized-engine/optimized-ssr-engine&#x27;;
 import { SsrOptimizationOptions } from &#x27;../optimized-engine/ssr-optimization-options&#x27;;
-import { getServerRequestProviders } from &#x27;../providers/ssr-providers&#x27;;
+
+/**
+ * These are the allowed options for the engine
+ */
+export interface NgSetupOptions {
+  bootstrap: Type&lt;{}&gt; | NgModuleFactory&lt;{}&gt;;
+  providers?: StaticProvider[];
+}
+
+/**
+ * These are the allowed options for the render
+ */
+export interface RenderOptions extends NgSetupOptions {
+  req: {
+    protocol: string;
+    originalUrl: string;
+    get: (_: string) &#x3D;&gt; string;
+  }; // Request;
+  res?: any; // Response;
+  url?: string;
+  document?: string;
+}
 
 export type NgExpressEngineInstance &#x3D; (
   filePath: string,
@@ -221,7 +245,7 @@ export type NgExpressEngineInstance &#x3D; (
 ) &#x3D;&gt; void;
 
 export type NgExpressEngine &#x3D; (
-  setupOptions: Readonly&lt;NgSetupOptions&gt;
+  setupOptions: NgSetupOptions
 ) &#x3D;&gt; NgExpressEngineInstance;
 
 /**
@@ -238,7 +262,8 @@ export class NgExpressEngineDecorator {
     ngExpressEngine: NgExpressEngine,
     optimizationOptions?: SsrOptimizationOptions | null
   ): NgExpressEngine {
-    return decorateExpressEngine(ngExpressEngine, optimizationOptions);
+    const result &#x3D; decorateExpressEngine(ngExpressEngine, optimizationOptions);
+    return result;
   }
 }
 
@@ -248,7 +273,7 @@ export function decorateExpressEngine(
     concurrency: 20,
     timeout: 3000,
   }
-): NgExpressEngine {
+) {
   return function (setupOptions: NgSetupOptions) {
     const engineInstance &#x3D; ngExpressEngine({
       ...setupOptions,
@@ -265,6 +290,49 @@ export function decorateExpressEngine(
           .engineInstance
       : engineInstance;
   };
+}
+
+/**
+ * Returns Spartacus providers to be passed to the Angular express engine (in SSR)
+ *
+ * @param options
+ */
+export function getServerRequestProviders(): StaticProvider[] {
+  return [
+    {
+      provide: SERVER_REQUEST_URL,
+      useFactory: getRequestUrl,
+      deps: [REQUEST],
+    },
+    {
+      provide: SERVER_REQUEST_ORIGIN,
+      useFactory: getRequestOrigin,
+      deps: [REQUEST],
+    },
+  ];
+}
+
+function getRequestUrl(req: Request): string {
+  return getRequestOrigin(req) + req.originalUrl;
+}
+
+function getRequestOrigin(req: Request): string {
+  // If express is resolving and trusting X-Forwarded-Host, we want to take it
+  // into an account to properly generate request origin.
+  const trustProxyFn &#x3D; req.app.get(&#x27;trust proxy fn&#x27;);
+  let forwardedHost &#x3D; req.get(&#x27;X-Forwarded-Host&#x27;);
+  if (forwardedHost &amp;&amp; trustProxyFn(req.connection.remoteAddress, 0)) {
+    if (forwardedHost.indexOf(&#x27;,&#x27;) !&#x3D;&#x3D; -1) {
+      // Note: X-Forwarded-Host is normally only ever a
+      //       single value, but this is to be safe.
+      forwardedHost &#x3D; forwardedHost
+        .substring(0, forwardedHost.indexOf(&#x27;,&#x27;))
+        .trimRight();
+    }
+    return req.protocol + &#x27;://&#x27; + forwardedHost;
+  } else {
+    return req.protocol + &#x27;://&#x27; + req.get(&#x27;host&#x27;);
+  }
 }
 </code></pre>
     </div>

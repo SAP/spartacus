@@ -18,13 +18,13 @@
 <title>cluster_BudgetCostCenterListModule_declarations</title>
 <polygon fill="none" stroke="black" points="192,-152.39 192,-204.39 414,-204.39 414,-152.39 192,-152.39"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_BudgetCostCenterListModule_imports</title>
-<polygon fill="none" stroke="black" points="422,-152.39 422,-204.39 542,-204.39 542,-152.39 422,-152.39"/>
-</g>
 <g id="clust3" class="cluster">
 <title>cluster_BudgetCostCenterListModule_BudgetCostCenterListComponent_providers</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-139.39 590,-139.39 590,-40.8 16,-40.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_BudgetCostCenterListModule_imports</title>
+<polygon fill="none" stroke="black" points="64,-152.39 64,-204.39 184,-204.39 184,-152.39 64,-152.39"/>
 </g>
 <!-- BudgetCostCenterListComponent -->
 <g id="node1" class="node">
@@ -35,14 +35,14 @@
 <!-- BudgetCostCenterListModule -->
 <g id="node2" class="node">
 <title>BudgetCostCenterListModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="484.26,-261.39 481.26,-265.39 460.26,-265.39 457.26,-261.39 299.74,-261.39 299.74,-225.39 484.26,-225.39 484.26,-261.39"/>
-<text text-anchor="middle" x="392" y="-239.19" font-family="Times,serif" font-size="14.00">BudgetCostCenterListModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="305.26,-261.39 302.26,-265.39 281.26,-265.39 278.26,-261.39 120.74,-261.39 120.74,-225.39 305.26,-225.39 305.26,-261.39"/>
+<text text-anchor="middle" x="213" y="-239.19" font-family="Times,serif" font-size="14.00">BudgetCostCenterListModule</text>
 </g>
 <!-- BudgetCostCenterListComponent&#45;&gt;BudgetCostCenterListModule -->
 <g id="edge1" class="edge">
 <title>BudgetCostCenterListComponent&#45;&gt;BudgetCostCenterListModule</title>
-<path fill="none" stroke="black" d="M352.95,-196.5C352.95,-196.5 352.95,-215.38 352.95,-215.38"/>
-<polygon fill="black" stroke="black" points="349.45,-215.38 352.95,-225.38 356.45,-215.38 349.45,-215.38"/>
+<path fill="none" stroke="black" d="M252.55,-196.5C252.55,-196.5 252.55,-215.38 252.55,-215.38"/>
+<polygon fill="black" stroke="black" points="249.05,-215.38 252.55,-225.38 256.05,-215.38 249.05,-215.38"/>
 </g>
 <!-- {
  &#160;&#160;&#160;provide: ListService, useExisting: BudgetCostCenterListService,
@@ -69,14 +69,14 @@
 <!-- SubListModule -->
 <g id="node4" class="node">
 <title>SubListModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="533.61,-196.39 530.61,-200.39 509.61,-200.39 506.61,-196.39 430.39,-196.39 430.39,-160.39 533.61,-160.39 533.61,-196.39"/>
-<text text-anchor="middle" x="482" y="-174.19" font-family="Times,serif" font-size="14.00">SubListModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="175.61,-196.39 172.61,-200.39 151.61,-200.39 148.61,-196.39 72.39,-196.39 72.39,-160.39 175.61,-160.39 175.61,-196.39"/>
+<text text-anchor="middle" x="124" y="-174.19" font-family="Times,serif" font-size="14.00">SubListModule</text>
 </g>
 <!-- SubListModule&#45;&gt;BudgetCostCenterListModule -->
 <g id="edge3" class="edge">
 <title>SubListModule&#45;&gt;BudgetCostCenterListModule</title>
-<path fill="none" stroke="black" d="M457.41,-196.5C457.41,-196.5 457.41,-215.38 457.41,-215.38"/>
-<polygon fill="black" stroke="black" points="453.91,-215.38 457.41,-225.38 460.91,-215.38 453.91,-215.38"/>
+<path fill="none" stroke="black" d="M148.09,-196.5C148.09,-196.5 148.09,-215.38 148.09,-215.38"/>
+<polygon fill="black" stroke="black" points="144.59,-215.38 148.09,-225.38 151.59,-215.38 144.59,-215.38"/>
 </g>
 </g>
 </svg>

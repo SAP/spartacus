@@ -111,15 +111,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>convert(source: <a href="../injectables/Config.html" target="_self">Configurator.UpdateConfigurationForCartEntryParameters</a>, target?: <a href="../injectables/Config.html" target="_self">OccCpqConfigurator.UpdateConfigurationForCartEntryParameters</a>)</code>
+<code>convert(source: <a href="../s/Config.html" target="_self">Configurator.UpdateConfigurationForCartEntryParameters</a>, target?: <a href="../s/Config.html" target="_self">OccCpqConfigurator.UpdateConfigurationForCartEntryParameters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/converters/occ-configurator-cpq-update-cart-entry-serializer.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/converters/occ-configurator-cpq-update-cart-entry-serializer.ts:13</a></div>
                 </td>
             </tr>
 
@@ -141,7 +141,7 @@
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.UpdateConfigurationForCartEntryParameters</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.UpdateConfigurationForCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -153,7 +153,7 @@
                                 <tr>
                                     <td>target</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >OccCpqConfigurator.UpdateConfigurationForCartEntryParameters</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >OccCpqConfigurator.UpdateConfigurationForCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -168,7 +168,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >OccCpqConfigurator.UpdateConfigurationForCartEntryParameters</a></code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >OccCpqConfigurator.UpdateConfigurationForCartEntryParameters</a></code>
 
                     </div>
                     <div class="io-description">
@@ -195,20 +195,18 @@ export class OccConfiguratorCpqUpdateCartEntrySerializer
     Converter&lt;
       Configurator.UpdateConfigurationForCartEntryParameters,
       OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
-    &gt;
-{
+    &gt; {
   convert(
     source: Configurator.UpdateConfigurationForCartEntryParameters,
     target?: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
   ): OccCpqConfigurator.UpdateConfigurationForCartEntryParameters {
-    const resultTarget: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters &#x3D;
-      {
-        ...target,
-        userId: source.userId,
-        cartId: source.cartId,
-        entryNumber: source.cartEntryNumber,
-        configId: source.configuration.configId,
-      };
+    const resultTarget: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters &#x3D; {
+      ...target,
+      userId: source.userId,
+      cartId: source.cartId,
+      entryNumber: source.cartEntryNumber,
+      configId: source.configuration.configId,
+    };
 
     return resultTarget;
   }

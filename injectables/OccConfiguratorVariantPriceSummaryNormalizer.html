@@ -111,15 +111,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>convert(source: OccConfigurator.Prices, target?: <a href="../injectables/Config.html" target="_self">Configurator.PriceSummary</a>)</code>
+<code>convert(source: <a href="../injectables/OccConfig.html" target="_self">OccConfigurator.Prices</a>, target?: <a href="../s/Config.html" target="_self">Configurator.PriceSummary</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="10"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-price-summary-normalizer.ts:10</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="9"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-price-summary-normalizer.ts:9</a></div>
                 </td>
             </tr>
 
@@ -141,7 +141,7 @@
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                            <code>OccConfigurator.Prices</code>
+                                                <code><a href="../injectables/OccConfig.html" target="_self" >OccConfigurator.Prices</a></code>
                                     </td>
 
                                     <td>
@@ -153,7 +153,7 @@
                                 <tr>
                                     <td>target</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.PriceSummary</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.PriceSummary</a></code>
                                     </td>
 
                                     <td>
@@ -168,7 +168,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.PriceSummary</a></code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.PriceSummary</a></code>
 
                     </div>
                     <div class="io-description">
@@ -191,8 +191,7 @@ import { Configurator } from &#x27;./../../../core/model/configurator.model&#x27
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class OccConfiguratorVariantPriceSummaryNormalizer
-  implements Converter&lt;OccConfigurator.Prices, Configurator.PriceSummary&gt;
-{
+  implements Converter&lt;OccConfigurator.Prices, Configurator.PriceSummary&gt; {
   convert(
     source: OccConfigurator.Prices,
     target?: Configurator.PriceSummary

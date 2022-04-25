@@ -213,8 +213,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-interests.adapter.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-interests.adapter.ts:82</a></div>
                 </td>
             </tr>
 
@@ -437,8 +437,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-interests.adapter.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-interests.adapter.ts:62</a></div>
                 </td>
             </tr>
 
@@ -554,15 +554,10 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     }
 
     return this.http
-      .get(
-        this.occEndpoints.buildUrl(&#x27;getProductInterests&#x27;, {
-          urlParams: { userId },
-        }),
-        {
-          headers,
-          params,
-        }
-      )
+      .get(this.occEndpoints.getUrl(&#x27;getProductInterests&#x27;, { userId }), {
+        headers,
+        params,
+      })
       .pipe(
         this.converter.pipeable(PRODUCT_INTERESTS_NORMALIZER),
         catchError((error: any) &#x3D;&gt; throwError(error))
@@ -580,14 +575,9 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
         .set(&#x27;notificationType&#x27;, entry.interestType);
       r.push(
         this.http
-          .delete(
-            this.occEndpoints.buildUrl(&#x27;productInterests&#x27;, {
-              urlParams: { userId },
-            }),
-            {
-              params: params,
-            }
-          )
+          .delete(this.occEndpoints.getUrl(&#x27;productInterests&#x27;, { userId }), {
+            params: params,
+          })
           .pipe(catchError((error: any) &#x3D;&gt; throwError(error)))
       );
     });
@@ -604,9 +594,7 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       .set(&#x27;notificationType&#x27;, notificationType.toString());
     return this.http
       .post(
-        this.occEndpoints.buildUrl(&#x27;productInterests&#x27;, {
-          urlParams: { userId },
-        }),
+        this.occEndpoints.getUrl(&#x27;productInterests&#x27;, { userId }),
         {},
         {
           headers,

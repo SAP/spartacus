@@ -75,6 +75,21 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#sessionStorage" >sessionStorage</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -91,11 +106,7 @@
                                 <a href="#getAll" >getAll</a>
                             </li>
                             <li>
-                                <a href="#isInitialized" >isInitialized</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
-                                <a href="#isValid" >isValid</a>
+                                <a href="#initialize" >initialize</a>
                             </li>
                             <li>
                                 <a href="#setActive" >setActive</a>
@@ -118,12 +129,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithSiteContext>, config: <a href="../injectables/SiteContextConfig.html" target="_self">SiteContextConfig</a>)</code>
+<code>constructor(store: Store<StateWithSiteContext>, winRef: <a href="../injectables/WindowRef.html" target="_self">WindowRef</a>, config: <a href="../injectables/SiteContextConfig.html" target="_self">SiteContextConfig</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -145,6 +156,18 @@
                                                   
                                                         <td>
                                                                     <code>Store&lt;StateWithSiteContext&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>winRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/WindowRef.html" target="_self" >WindowRef</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -198,8 +221,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:51</a></div>
                 </td>
             </tr>
 
@@ -237,8 +260,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -260,109 +283,38 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="isInitialized"></a>
+                    <a name="initialize"></a>
                     <span class="name">
-                        <span ><b>isInitialized</b></span>
-                        <a href="#isInitialized"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>initialize</b></span>
+                        <a href="#initialize"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isInitialized()</code>
+<code>initialize()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:78</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Tells whether the value of the active language has been already initialized</p>
+                    <div class="io-description"><p>Initials the active language. The active language is either given
+by the last visit (stored in session storage) or by the
+default session language of the store.</p>
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isValid"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span ><b>isValid</b></span>
-                        <a href="#isValid"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isValid(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:81</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Tells whether the given iso code is allowed.</p>
-<p>The list of allowed iso codes can be configured in the <code>context</code> config of Spartacus.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>value</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -388,8 +340,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:61</a></div>
                 </td>
             </tr>
 
@@ -439,6 +391,39 @@
         </tbody>
     </table>
 </section>
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="sessionStorage"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>sessionStorage</b></span>
+                        <a href="#sessionStorage"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Storage</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/site-context/facade/language.service.ts:23</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
 
     </div>
 
@@ -449,7 +434,11 @@ import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { filter, take, tap } from &#x27;rxjs/operators&#x27;;
 import { Language } from &#x27;../../model/misc.model&#x27;;
-import { getContextParameterValues } from &#x27;../config/context-config-utils&#x27;;
+import { WindowRef } from &#x27;../../window/window-ref&#x27;;
+import {
+  getContextParameterDefault,
+  getContextParameterValues,
+} from &#x27;../config/context-config-utils&#x27;;
 import { SiteContextConfig } from &#x27;../config/site-context-config&#x27;;
 import { LANGUAGE_CONTEXT_ID } from &#x27;../providers/context-ids&#x27;;
 import { SiteContextActions } from &#x27;../store/actions/index&#x27;;
@@ -462,10 +451,15 @@ import { SiteContext } from &#x27;./site-context.interface&#x27;;
  */
 @Injectable()
 export class LanguageService implements SiteContext&lt;Language&gt; {
+  private sessionStorage: Storage;
+
   constructor(
     protected store: Store&lt;StateWithSiteContext&gt;,
+    winRef: WindowRef,
     protected config: SiteContextConfig
-  ) {}
+  ) {
+    this.sessionStorage &#x3D; winRef.sessionStorage;
+  }
 
   /**
    * Represents all the languages supported by the current store.
@@ -499,7 +493,7 @@ export class LanguageService implements SiteContext&lt;Language&gt; {
     this.store
       .pipe(select(SiteContextSelectors.getActiveLanguage), take(1))
       .subscribe((activeLanguage) &#x3D;&gt; {
-        if (activeLanguage !&#x3D;&#x3D; isocode &amp;&amp; this.isValid(isocode)) {
+        if (activeLanguage !&#x3D;&#x3D; isocode) {
           this.store.dispatch(
             new SiteContextActions.SetActiveLanguage(isocode)
           );
@@ -508,29 +502,34 @@ export class LanguageService implements SiteContext&lt;Language&gt; {
   }
 
   /**
-   * Tells whether the value of the active language has been already initialized
+   * Initials the active language. The active language is either given
+   * by the last visit (stored in session storage) or by the
+   * default session language of the store.
    */
-  isInitialized(): boolean {
-    let valueInitialized &#x3D; false;
+  initialize(): void {
+    let value;
     this.getActive()
-      .subscribe(() &#x3D;&gt; (valueInitialized &#x3D; true))
+      .subscribe((val) &#x3D;&gt; (value &#x3D; val))
       .unsubscribe();
+    if (value) {
+      // don&#x27;t initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
+      return;
+    }
 
-    return valueInitialized;
-  }
-
-  /**
-   * Tells whether the given iso code is allowed.
-   *
-   * The list of allowed iso codes can be configured in the &#x60;context&#x60; config of Spartacus.
-   */
-  protected isValid(value: string): boolean {
-    return (
-      !!value &amp;&amp;
+    const sessionLanguage &#x3D;
+      this.sessionStorage &amp;&amp; this.sessionStorage.getItem(&#x27;language&#x27;);
+    if (
+      sessionLanguage &amp;&amp;
       getContextParameterValues(this.config, LANGUAGE_CONTEXT_ID).includes(
-        value
+        sessionLanguage
       )
-    );
+    ) {
+      this.setActive(sessionLanguage);
+    } else {
+      this.setActive(
+        getContextParameterDefault(this.config, LANGUAGE_CONTEXT_ID)
+      );
+    }
   }
 }
 </code></pre>

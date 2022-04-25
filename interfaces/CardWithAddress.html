@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/components/components/shipping-address/shipping-address.component.ts</code>
+            <code>projects/storefrontlib/src/cms-components/checkout/components/shipping-address/shipping-address.component.ts</code>
         </p>
 
 
@@ -184,20 +184,18 @@
 } from &#x27;@angular/core&#x27;;
 import { ActivatedRoute } from &#x27;@angular/router&#x27;;
 import {
-  CheckoutCostCenterFacade,
-  CheckoutDeliveryFacade,
-  PaymentTypeFacade,
-} from &#x27;@spartacus/checkout/root&#x27;;
-import {
   ActiveCartService,
   Address,
+  CheckoutCostCenterService,
+  CheckoutDeliveryService,
+  PaymentTypeService,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
 } from &#x27;@spartacus/core&#x27;;
-import { Card } from &#x27;@spartacus/storefront&#x27;;
 import { combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
 import { distinctUntilChanged, map, switchMap, tap } from &#x27;rxjs/operators&#x27;;
+import { Card } from &#x27;../../../../shared/components/card/card.component&#x27;;
 import { CheckoutStepService } from &#x27;../../services/checkout-step.service&#x27;;
 
 export interface CardWithAddress {
@@ -221,14 +219,14 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
-    protected paymentTypeService?: PaymentTypeFacade,
+    protected paymentTypeService?: PaymentTypeService,
     protected userCostCenterService?: UserCostCenterService,
-    protected checkoutCostCenterService?: CheckoutCostCenterFacade
+    protected checkoutCostCenterService?: CheckoutCostCenterService
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -272,7 +270,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         this.selectDefaultAddress(addresses, selected)
       ),
       map(([addresses, selected, textDefault, textShipTo, textSelected]) &#x3D;&gt;
-        (&lt;any&gt;addresses).map((address: Address) &#x3D;&gt; ({
+        (&lt;any&gt;addresses).map((address) &#x3D;&gt; ({
           address,
           card: this.getCardContent(
             address,
@@ -287,27 +285,19 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   getSupportedAddresses(): Observable&lt;Address[]&gt; {
-    if (
-      this.isAccountPayment &amp;&amp;
-      this.checkoutCostCenterService &amp;&amp;
-      this.userCostCenterService
-    ) {
+    if (this.isAccountPayment) {
       return this.checkoutCostCenterService.getCostCenter().pipe(
         distinctUntilChanged(),
         switchMap((selected) &#x3D;&gt; {
           this.doneAutoSelect &#x3D; false;
-          return (
-            this.userCostCenterService?.getCostCenterAddresses(
-              selected as string
-            ) ?? []
-          );
+          return this.userCostCenterService.getCostCenterAddresses(selected);
         })
       );
     }
     return this.userAddressService.getAddresses();
   }
 
-  selectDefaultAddress(addresses: Address[], selected: Address | undefined) {
+  selectDefaultAddress(addresses: Address[], selected: Address) {
     if (
       !this.doneAutoSelect &amp;&amp;
       addresses &amp;&amp;
@@ -365,13 +355,13 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       text: [
         address.line1,
         address.line2,
-        address.town + &#x27;, &#x27; + region + address.country?.isocode,
+        address.town + &#x27;, &#x27; + region + address.country.isocode,
         address.postalCode,
         address.phone,
       ],
       actions: [{ name: textShipToThisAddress, event: &#x27;send&#x27; }],
       header: selected &amp;&amp; selected.id &#x3D;&#x3D;&#x3D; address.id ? textSelected : &#x27;&#x27;,
-    } as Card;
+    };
   }
 
   selectAddress(address: Address): void {

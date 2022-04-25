@@ -98,9 +98,6 @@
                                 <a href="#readConfigurationForOrderEntry" >readConfigurationForOrderEntry</a>
                             </li>
                             <li>
-                                <a href="#removeCartBoundConfigurations" >removeCartBoundConfigurations</a>
-                            </li>
-                            <li>
                                 <a href="#updateCartEntry" >updateCartEntry</a>
                             </li>
                         </ul>
@@ -121,7 +118,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: <a href="../injectables/Config.html" target="_self">Store&lt;StateWithConfigurator&gt;</a>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, commonConfigUtilsService: <a href="../injectables/CommonConfiguratorUtilsService.html" target="_self">CommonConfiguratorUtilsService</a>, checkoutFacade: <a href="../injectables/CheckoutFacade.html" target="_self">CheckoutFacade</a>, userIdService: <a href="../injectables/UserIdService.html" target="_self">UserIdService</a>, configuratorUtilsService: <a href="../injectables/ConfiguratorUtilsService.html" target="_self">ConfiguratorUtilsService</a>)</code>
+<code>constructor(cartStore: Store<StateWithMultiCart>, store: <a href="../s/Config.html" target="_self">Store&lt;StateWithConfigurator&gt;</a>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>, commonConfigUtilsService: <a href="../injectables/CommonConfiguratorUtilsService.html" target="_self">CommonConfiguratorUtilsService</a>, checkoutService: <a href="../injectables/CheckoutService.html" target="_self">CheckoutService</a>, userIdService: <a href="../injectables/UserIdService.html" target="_self">UserIdService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -144,10 +141,22 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
+                                                        <td>cartStore</td>
+                                                  
+                                                        <td>
+                                                                    <code>Store&lt;StateWithMultiCart&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
                                                         <td>store</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/Config.html" target="_self" >Store&lt;StateWithConfigurator&gt;</a></code>
+                                                                        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Store&lt;StateWithConfigurator&gt;</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -180,10 +189,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>checkoutFacade</td>
+                                                        <td>checkoutService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutFacade.html" target="_self" >CheckoutFacade</a></code>
+                                                                        <code><a href="../injectables/CheckoutService.html" target="_self" >CheckoutService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -196,18 +205,6 @@
                                                   
                                                         <td>
                                                                         <code><a href="../injectables/UserIdService.html" target="_self" >UserIdService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>configuratorUtilsService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/ConfiguratorUtilsService.html" target="_self" >ConfiguratorUtilsService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -249,8 +246,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="214"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:214</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:195</a></div>
                 </td>
             </tr>
 
@@ -287,15 +284,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>addToCart(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, configId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, owner: <a href="../injectables/Config.html" target="_self">CommonConfigurator.Owner</a>)</code>
+<code>addToCart(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, configId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, owner: <a href="../interfaces/Owner.html" target="_self">CommonConfigurator.Owner</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:134</a></div>
                 </td>
             </tr>
 
@@ -356,7 +353,7 @@
                                 <tr>
                                     <td>owner</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
+                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
                                     </td>
 
                                     <td>
@@ -400,15 +397,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>configurationNeedsReading(configurationState: <a href="../injectables/Config.html" target="_self">StateUtils.LoaderState&lt;Configurator.Configuration&gt;</a>)</code>
+                    <code>configurationNeedsReading(configurationState: <a href="../s/Config.html" target="_self">StateUtils.LoaderState&lt;Configurator.Configuration&gt;</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="246"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:246</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="216"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:216</a></div>
                 </td>
             </tr>
 
@@ -430,7 +427,7 @@
                                 <tr>
                                     <td>configurationState</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >StateUtils.LoaderState&lt;Configurator.Configuration&gt;</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >StateUtils.LoaderState&lt;Configurator.Configuration&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -470,15 +467,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isConfigurationCreated(configuration: <a href="../injectables/Config.html" target="_self">Configurator.Configuration</a>)</code>
+                    <code>isConfigurationCreated(configuration: <a href="../s/Config.html" target="_self">Configurator.Configuration</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="239"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:239</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="209"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:209</a></div>
                 </td>
             </tr>
 
@@ -500,7 +497,7 @@
                                 <tr>
                                     <td>configuration</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Configuration</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Configuration</a></code>
                                     </td>
 
                                     <td>
@@ -538,7 +535,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>readConfigurationForCartEntry(owner: <a href="../injectables/Config.html" target="_self">CommonConfigurator.Owner</a>)</code>
+<code>readConfigurationForCartEntry(owner: <a href="../interfaces/Owner.html" target="_self">CommonConfigurator.Owner</a>)</code>
                 </td>
             </tr>
 
@@ -571,7 +568,7 @@
                                 <tr>
                                     <td>owner</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
+                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
                                     </td>
 
                                     <td>
@@ -590,7 +587,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Observable&lt;Configurator.Configuration&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Observable&lt;Configurator.Configuration&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -614,15 +611,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>readConfigurationForOrderEntry(owner: <a href="../injectables/Config.html" target="_self">CommonConfigurator.Owner</a>)</code>
+<code>readConfigurationForOrderEntry(owner: <a href="../interfaces/Owner.html" target="_self">CommonConfigurator.Owner</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:93</a></div>
                 </td>
             </tr>
 
@@ -647,7 +644,7 @@
                                 <tr>
                                     <td>owner</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
+                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
                                     </td>
 
                                     <td>
@@ -666,50 +663,11 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Observable&lt;Configurator.Configuration&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Observable&lt;Configurator.Configuration&gt;</a></code>
 
                     </div>
                     <div class="io-description">
                         <p>Observable of product configurations</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="removeCartBoundConfigurations"></a>
-                    <span class="name">
-                        <span ><b>removeCartBoundConfigurations</b></span>
-                        <a href="#removeCartBoundConfigurations"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>removeCartBoundConfigurations()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="233"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:233</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Remove all configurations that are linked to cart entries</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -729,15 +687,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateCartEntry(configuration: <a href="../injectables/Config.html" target="_self">Configurator.Configuration</a>)</code>
+<code>updateCartEntry(configuration: <a href="../s/Config.html" target="_self">Configurator.Configuration</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="185"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:185</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts:169</a></div>
                 </td>
             </tr>
 
@@ -764,7 +722,7 @@ from the configuration&#39;s owner ID</p>
                                 <tr>
                                     <td>configuration</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Configuration</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Configuration</a></code>
                                     </td>
 
                                     <td>
@@ -803,11 +761,12 @@ from the configuration&#39;s owner ID</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
-import { CheckoutFacade } from &#x27;@spartacus/checkout/root&#x27;;
 import {
   ActiveCartService,
+  CheckoutService,
   OCC_USER_ID_CURRENT,
   StateUtils,
+  StateWithMultiCart,
   UserIdService,
 } from &#x27;@spartacus/core&#x27;;
 import {
@@ -820,17 +779,16 @@ import { Configurator } from &#x27;../model/configurator.model&#x27;;
 import { ConfiguratorActions } from &#x27;../state/actions/index&#x27;;
 import { StateWithConfigurator } from &#x27;../state/configurator-state&#x27;;
 import { ConfiguratorSelectors } from &#x27;../state/selectors/index&#x27;;
-import { ConfiguratorUtilsService } from &#x27;./utils/configurator-utils.service&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class ConfiguratorCartService {
   constructor(
+    protected cartStore: Store&lt;StateWithMultiCart&gt;,
     protected store: Store&lt;StateWithConfigurator&gt;,
     protected activeCartService: ActiveCartService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected checkoutFacade: CheckoutFacade,
-    protected userIdService: UserIdService,
-    protected configuratorUtilsService: ConfiguratorUtilsService
+    protected checkoutService: CheckoutService,
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -853,7 +811,7 @@ export class ConfiguratorCartService {
         this.activeCartService.isStable().pipe(filter((stable) &#x3D;&gt; stable))
       ),
       delayWhen(() &#x3D;&gt;
-        this.checkoutFacade.isLoading().pipe(filter((loading) &#x3D;&gt; !loading))
+        this.checkoutService.isLoading().pipe(filter((loading) &#x3D;&gt; !loading))
       ),
       tap((configurationState) &#x3D;&gt; {
         if (this.configurationNeedsReading(configurationState)) {
@@ -865,15 +823,14 @@ export class ConfiguratorCartService {
                 .getUserId()
                 .pipe(take(1))
                 .subscribe((userId) &#x3D;&gt; {
-                  const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters &#x3D;
-                    {
-                      userId: userId,
-                      cartId: this.commonConfigUtilsService.getCartId(
-                        cartState.value
-                      ),
-                      cartEntryNumber: owner.id,
-                      owner: owner,
-                    };
+                  const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters &#x3D; {
+                    userId: userId,
+                    cartId: this.commonConfigUtilsService.getCartId(
+                      cartState.value
+                    ),
+                    cartEntryNumber: owner.id,
+                    owner: owner,
+                  };
                   this.store.dispatch(
                     new ConfiguratorActions.ReadCartEntryConfiguration(
                       readFromCartEntryParameters
@@ -883,17 +840,10 @@ export class ConfiguratorCartService {
             });
         }
       }),
-      filter(
-        (configurationState) &#x3D;&gt;
-          configurationState.value !&#x3D;&#x3D; undefined &amp;&amp;
-          this.isConfigurationCreated(configurationState.value)
+      filter((configurationState) &#x3D;&gt;
+        this.isConfigurationCreated(configurationState.value)
       ),
-      //save to assume configuration is defined after previous filter
-      map((configurationState) &#x3D;&gt;
-        this.configuratorUtilsService.getConfigurationFromState(
-          configurationState
-        )
-      )
+      map((configurationState) &#x3D;&gt; configurationState.value)
     );
   }
   /**
@@ -915,13 +865,12 @@ export class ConfiguratorCartService {
           const ownerIdParts &#x3D; this.commonConfigUtilsService.decomposeOwnerId(
             owner.id
           );
-          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters &#x3D;
-            {
-              userId: OCC_USER_ID_CURRENT,
-              orderId: ownerIdParts.documentId,
-              orderEntryNumber: ownerIdParts.entryNumber,
-              owner: owner,
-            };
+          const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters &#x3D; {
+            userId: OCC_USER_ID_CURRENT,
+            orderId: ownerIdParts.documentId,
+            orderEntryNumber: ownerIdParts.entryNumber,
+            owner: owner,
+          };
           this.store.dispatch(
             new ConfiguratorActions.ReadOrderEntryConfiguration(
               readFromOrderEntryParameters
@@ -929,17 +878,10 @@ export class ConfiguratorCartService {
           );
         }
       }),
-      filter(
-        (configurationState) &#x3D;&gt;
-          configurationState.value !&#x3D;&#x3D; undefined &amp;&amp;
-          this.isConfigurationCreated(configurationState.value)
+      filter((configurationState) &#x3D;&gt;
+        this.isConfigurationCreated(configurationState.value)
       ),
-      //save to assume configuration is defined after previous filter
-      map((configurationState) &#x3D;&gt;
-        this.configuratorUtilsService.getConfigurationFromState(
-          configurationState
-        )
-      )
+      map((configurationState) &#x3D;&gt; configurationState.value)
     );
   }
 
@@ -994,15 +936,12 @@ export class ConfiguratorCartService {
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) &#x3D;&gt; {
-            const parameters: Configurator.UpdateConfigurationForCartEntryParameters &#x3D;
-              {
-                userId: userId,
-                cartId: this.commonConfigUtilsService.getCartId(
-                  cartState.value
-                ),
-                cartEntryNumber: configuration.owner.id,
-                configuration: configuration,
-              };
+            const parameters: Configurator.UpdateConfigurationForCartEntryParameters &#x3D; {
+              userId: userId,
+              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
+              cartEntryNumber: configuration.owner.id,
+              configuration: configuration,
+            };
 
             this.store.dispatch(
               new ConfiguratorActions.UpdateCartEntry(parameters)
@@ -1016,9 +955,7 @@ export class ConfiguratorCartService {
    */
   activeCartHasIssues(): Observable&lt;boolean&gt; {
     return this.activeCartService.requireLoadedCart().pipe(
-      map((cartState) &#x3D;&gt; {
-        return cartState.value ? cartState.value.entries : [];
-      }),
+      map((cartState) &#x3D;&gt; cartState.value.entries),
       map((entries) &#x3D;&gt;
         entries
           ? entries.filter((entry) &#x3D;&gt;
@@ -1030,31 +967,20 @@ export class ConfiguratorCartService {
     );
   }
 
-  /**
-   * Remove all configurations that are linked to cart entries
-   */
-  removeCartBoundConfigurations(): void {
-    this.store.dispatch(
-      new ConfiguratorActions.RemoveCartBoundConfigurations()
-    );
-  }
-
   protected isConfigurationCreated(
     configuration: Configurator.Configuration
   ): boolean {
-    const configId: String &#x3D; configuration.configId;
-    return configId.length !&#x3D;&#x3D; 0;
+    const configId: String &#x3D; configuration?.configId;
+    return configId !&#x3D;&#x3D; undefined &amp;&amp; configId.length !&#x3D;&#x3D; 0;
   }
 
   protected configurationNeedsReading(
     configurationState: StateUtils.LoaderState&lt;Configurator.Configuration&gt;
   ): boolean {
-    const configuration &#x3D; configurationState.value;
     return (
-      configuration &#x3D;&#x3D;&#x3D; undefined ||
-      (!this.isConfigurationCreated(configuration) &amp;&amp;
-        !configurationState.loading &amp;&amp;
-        !configurationState.error)
+      !this.isConfigurationCreated(configurationState.value) &amp;&amp;
+      !configurationState.loading &amp;&amp;
+      !configurationState.error
     );
   }
 }

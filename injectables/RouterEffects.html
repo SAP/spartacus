@@ -79,6 +79,18 @@
                             <li>
                                 <a href="#clearCmsRoutes$" >clearCmsRoutes$</a>
                             </li>
+                            <li>
+                                <a href="#navigate$" >navigate$</a>
+                            </li>
+                            <li>
+                                <a href="#navigateBack$" >navigateBack$</a>
+                            </li>
+                            <li>
+                                <a href="#navigateByUrl$" >navigateByUrl$</a>
+                            </li>
+                            <li>
+                                <a href="#navigateForward$" >navigateForward$</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -98,12 +110,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+<code>constructor(actions$: Actions, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, location: <a href="https://angular.io/api/common/Location" target="_blank">Location</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/routing/store/effects/router.effect.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/core/src/routing/store/effects/router.effect.ts:60</a></div>
                             </td>
                         </tr>
 
@@ -137,6 +149,18 @@
                                                   
                                                         <td>
                                                                         <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>location</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/common/Location" target="_blank" >Location</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -206,7 +230,185 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/routing/store/effects/router.effect.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/routing/store/effects/router.effect.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigate$"></a>
+                    <span class="name">
+                        <span ><b>navigate$</b></span>
+                        <a href="#navigate$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.actions$.pipe(
+    ofType(RoutingActions.ROUTER_GO),
+    map((action: RoutingActions.RouteGoAction) &#x3D;&gt; action.payload),
+    tap(({ path, query: queryParams, extras }) &#x3D;&gt; {
+      this.router.navigate(path, { queryParams, ...extras });
+    })
+  )</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Effect({dispatch: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/routing/store/effects/router.effect.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigateBack$"></a>
+                    <span class="name">
+                        <span ><b>navigateBack$</b></span>
+                        <a href="#navigateBack$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;Action&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.actions$.pipe(
+    ofType(RoutingActions.ROUTER_BACK),
+    tap(() &#x3D;&gt; this.location.back())
+  )</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Effect({dispatch: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/routing/store/effects/router.effect.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigateByUrl$"></a>
+                    <span class="name">
+                        <span ><b>navigateByUrl$</b></span>
+                        <a href="#navigateByUrl$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.actions$.pipe(
+    ofType(RoutingActions.ROUTER_GO_BY_URL),
+    map((action: RoutingActions.RouteGoAction) &#x3D;&gt; action.payload),
+    tap((url) &#x3D;&gt; {
+      this.router.navigateByUrl(url);
+    })
+  )</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Effect({dispatch: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/routing/store/effects/router.effect.ts:25</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="navigateForward$"></a>
+                    <span class="name">
+                        <span ><b>navigateForward$</b></span>
+                        <a href="#navigateForward$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;Action&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.actions$.pipe(
+    ofType(RoutingActions.ROUTER_FORWARD),
+    tap(() &#x3D;&gt; this.location.forward())
+  )</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Effect({dispatch: false})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/core/src/routing/store/effects/router.effect.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -219,18 +421,38 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Location } from &#x27;@angular/common&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
 import { Router } from &#x27;@angular/router&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
 import { Action } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { tap } from &#x27;rxjs/operators&#x27;;
+import { map, tap } from &#x27;rxjs/operators&#x27;;
 import { AuthActions } from &#x27;../../../auth/user-auth/store/actions/index&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
 import { CmsRoute } from &#x27;../../models/cms-route&#x27;;
+import { RoutingActions } from &#x27;../actions/index&#x27;;
 
 @Injectable()
 export class RouterEffects {
+  @Effect({ dispatch: false })
+  navigate$: Observable&lt;any&gt; &#x3D; this.actions$.pipe(
+    ofType(RoutingActions.ROUTER_GO),
+    map((action: RoutingActions.RouteGoAction) &#x3D;&gt; action.payload),
+    tap(({ path, query: queryParams, extras }) &#x3D;&gt; {
+      this.router.navigate(path, { queryParams, ...extras });
+    })
+  );
+
+  @Effect({ dispatch: false })
+  navigateByUrl$: Observable&lt;any&gt; &#x3D; this.actions$.pipe(
+    ofType(RoutingActions.ROUTER_GO_BY_URL),
+    map((action: RoutingActions.RouteGoAction) &#x3D;&gt; action.payload),
+    tap((url) &#x3D;&gt; {
+      this.router.navigateByUrl(url);
+    })
+  );
+
   @Effect({ dispatch: false })
   clearCmsRoutes$: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
     ofType(
@@ -248,7 +470,23 @@ export class RouterEffects {
     })
   );
 
-  constructor(private actions$: Actions, private router: Router) {}
+  @Effect({ dispatch: false })
+  navigateBack$: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
+    ofType(RoutingActions.ROUTER_BACK),
+    tap(() &#x3D;&gt; this.location.back())
+  );
+
+  @Effect({ dispatch: false })
+  navigateForward$: Observable&lt;Action&gt; &#x3D; this.actions$.pipe(
+    ofType(RoutingActions.ROUTER_FORWARD),
+    tap(() &#x3D;&gt; this.location.forward())
+  );
+
+  constructor(
+    private actions$: Actions,
+    private router: Router,
+    private location: Location
+  ) {}
 }
 </code></pre>
     </div>
