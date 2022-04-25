@@ -1,7 +1,7 @@
 <ng-container *ngIf="data$ | async as data">
   <cx-generic-link
-    *ngIf="data.urlLink"
-    [url]="data.urlLink"
+    *ngIf="routerLink"
+    [url]="routerLink"
     [target]="getTarget(data)"
   >
     <p class="headline" *ngIf="data.headline" [innerHTML]="data.headline"></p>
