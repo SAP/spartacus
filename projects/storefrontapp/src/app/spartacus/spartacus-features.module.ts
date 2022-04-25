@@ -58,6 +58,7 @@ import {
   TabParagraphContainerModule,
   VideoModule,
 } from '@spartacus/storefront';
+import { S4omModule } from 'integration-libs/s4om/src/s4om.module';
 import { environment } from '../../environments/environment';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
@@ -108,7 +109,11 @@ if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
 }
 if (environment.epdVisualization) {
-  featureModules.push(EpdVisualizationFeatureModule);
+  featureModules.push(EpdVisualizationFeatureModule); 
+}
+
+if (environment.s4om) {
+  featureModules.push(S4omModule); //TODO: Fix imports to @spartacus/s4om !
 }
 
 @NgModule({
