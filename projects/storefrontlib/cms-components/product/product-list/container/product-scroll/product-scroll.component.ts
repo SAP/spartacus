@@ -82,7 +82,7 @@ export class ProductScrollComponent implements OnDestroy {
     if (this.appendProducts) {
       this.model = {
         ...inputModel,
-        products: this.model.products.concat(inputModel.products),
+        products: this.model.products?.concat(inputModel.products ?? []),
       };
     } else {
       this.model = inputModel;
@@ -103,17 +103,19 @@ export class ProductScrollComponent implements OnDestroy {
     this.isEmpty = !this.model.products || this.model.products.length === 0;
 
     this.isLastPage =
-      this.model.pagination.currentPage ===
-      this.model.pagination.totalPages - 1;
+      this.model.pagination?.currentPage ===
+      (this.model.pagination?.totalPages ?? 0) - 1;
 
-    this.isMaxProducts =
-      this.productLimit &&
-      this.productLimit !== 0 &&
-      this.model.products.length >= this.maxProducts;
+    if (this.productLimit && this.model.products) {
+      this.isMaxProducts = Boolean(
+        this.productLimit !== 0 &&
+          this.model.products.length >= (this.maxProducts ?? 0)
+      );
 
-    //Add the productLimit to the current number of products to determine the next max number of products
-    if (this.isMaxProducts) {
-      this.maxProducts = this.model.products.length + this.productLimit;
+      //Add the productLimit to the current number of products to determine the next max number of products
+      if (this.isMaxProducts) {
+        this.maxProducts = this.model.products.length + this.productLimit;
+      }
     }
 
     //Only change viewMode once the new model is set

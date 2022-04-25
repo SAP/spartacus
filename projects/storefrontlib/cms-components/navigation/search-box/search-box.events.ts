@@ -1,4 +1,4 @@
-import { CxEvent, Suggestion } from '@spartacus/core';
+import { CxEvent } from '@spartacus/core';
 
 /**
  * Indicates that the user chose a suggestion
@@ -10,7 +10,7 @@ export class SearchBoxSuggestionSelectedEvent extends CxEvent {
   static readonly type = 'SearchBoxSuggestionSelectedEvent';
   freeText: string;
   selectedSuggestion: string;
-  searchSuggestions: Suggestion[];
+  searchSuggestions: string[];
 }
 
 /**

@@ -22,7 +22,7 @@ export class ProductViewComponent {
   @Input()
   mode: ViewModes;
   @Output()
-  modeChange = new EventEmitter<string>();
+  modeChange = new EventEmitter<ViewModes>();
 
   get buttonClass() {
     const viewName: string = this.viewMode?.toLowerCase();

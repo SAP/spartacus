@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CmsNavigationComponent, isNotUndefined } from '@spartacus/core';
+import { CmsNavigationComponent } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
 import { NavigationService } from '../navigation/navigation.service';
@@ -16,9 +16,8 @@ export class FooterNavigationComponent {
     this.componentData.data$
   );
 
-  styleClass$: Observable<string> = this.componentData.data$.pipe(
-    map((d) => d?.styleClass),
-    filter(isNotUndefined)
+  styleClass$: Observable<string | undefined> = this.componentData.data$.pipe(
+    map((d) => d?.styleClass)
   );
 
   constructor(

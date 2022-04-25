@@ -151,7 +151,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Closes the type-ahead searchBox.
    */
-  close(event: UIEvent, force?: boolean): void {
+  close(event: UIEvent | Event, force?: boolean): void {
     // Use timeout to detect changes
     setTimeout(() => {
       if ((!this.ignoreCloseEvent && !this.isSearchBoxFocused()) || force) {
@@ -160,7 +160,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected blurSearchBox(event: UIEvent): void {
+  protected blurSearchBox(event: UIEvent | Event): void {
     this.searchBoxComponentService.toggleBodyClass(
       'searchbox-is-active',
       false
@@ -213,7 +213,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // Focus on previous item in results list
-  focusPreviousChild(event: UIEvent) {
+  focusPreviousChild(event: UIEvent | Event) {
     event.preventDefault(); // Negate normal keyscroll
     const [results, focusedIndex] = [
       this.getResultElements(),
@@ -230,7 +230,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // Focus on next item in results list
-  focusNextChild(event: UIEvent) {
+  focusNextChild(event: UIEvent | Event) {
     this.open();
     event.preventDefault(); // Negate normal keyscroll
     const [results, focusedIndex] = [
@@ -252,7 +252,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    *
    * TODO: if there's a single product match, we could open the PDP.
    */
-  launchSearchResult(event: UIEvent, query: string): void {
+  launchSearchResult(event: UIEvent | Event, query: string): void {
     if (!query || query.trim().length === 0) {
       return;
     }

@@ -27,7 +27,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
    * The navigation node to render.
    */
-  @Input() node: NavigationNode;
+  @Input() node: NavigationNode | null;
 
   /**
    * The number of child nodes that must be wrapped.
@@ -37,9 +37,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
    * Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
    */
-  @Input() resetMenuOnClose: boolean;
+  @Input() resetMenuOnClose: boolean | undefined;
 
-  @Input() navAriaLabel: string;
+  @Input() navAriaLabel: string | null;
   /**
    * the icon type that will be used for navigation nodes
    * with children.
@@ -142,7 +142,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     });
   }
 
-  toggleOpen(event: UIEvent): void {
+  toggleOpen(event: UIEvent | Event): void {
     if (event.type === 'keydown') {
       event.preventDefault();
     }

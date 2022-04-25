@@ -2,6 +2,6 @@
   *ngIf="node$ | async as node"
   [node]="node"
   [flyout]="false"
-  [ngClass]="styleClass$ | async"
+  [ngClass]="(styleClass$ | async) ?? ''"
   [navAriaLabel]="'navigation.footerNavLabel' | cxTranslate"
 ></cx-navigation-ui>

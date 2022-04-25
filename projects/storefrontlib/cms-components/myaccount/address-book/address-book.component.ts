@@ -67,7 +67,7 @@ export class AddressBookComponent implements OnInit {
     this.showEditAddressForm = false;
   }
 
-  getCardContent(address: Address) {
+  getCardContent(address: Address): Observable<Card> {
     return combineLatest([
       this.translation.translate('addressCard.default'),
       this.translation.translate('addressCard.setAsDefault'),
@@ -112,7 +112,7 @@ export class AddressBookComponent implements OnInit {
             label: address.defaultAddress
               ? 'addressBook.defaultDeliveryAddress'
               : 'addressBook.additionalDeliveryAddress',
-          };
+          } as Card;
         }
       )
     );

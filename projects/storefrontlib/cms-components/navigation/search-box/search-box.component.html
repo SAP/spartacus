@@ -83,7 +83,7 @@
           dispatchSuggestionEvent({
             freeText: searchInput.value,
             selectedSuggestion: suggestion,
-            searchSuggestions: result.suggestions
+            searchSuggestions: result.suggestions ?? []
           });
           updateChosenWord(suggestion)
         "
