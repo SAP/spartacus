@@ -18,6 +18,7 @@ const featureLibsFolders: string[] = [
   'storefinder',
   'tracking',
   'user',
+  'commerce-quotes'
 ];
 
 const integrationLibsFolders: string[] = ['cdc', 'cds', 'digital-payments', 'epd-visualization'];
@@ -42,6 +43,7 @@ const commands = [
   'build storefinder/schematics',
   'build tracking/schematics',
   'build user/schematics',
+  'build commerce-quotes/schematics',
   'build all libs',
   'test all schematics',
   'exit',

@@ -45,7 +45,8 @@
           "TMS-GTM",
           "TMS-AEPL",
           "Account",
-          "Profile"
+          "Profile",
+          "Commerce-Quotes"
         ],
         "type": "string"
       },
@@ -189,6 +190,10 @@
           {
             "value": "Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Commerce-Quotes",
+            "label": "Commerce Quotes"
           }
         ]
       }
