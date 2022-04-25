@@ -6,11 +6,11 @@ import { Title, UserRegisterFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
-  selector: 'cx-registration-form',
-  templateUrl: './registration-form.component.html',
+  selector: 'cx-user-registration-form',
+  templateUrl: './user-registration-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegistrationFormComponent implements OnInit {
+export class UserRegistrationFormComponent implements OnInit {
   titles$: Observable<Title[]>;
 
   isLoading$ = new BehaviorSubject(false);

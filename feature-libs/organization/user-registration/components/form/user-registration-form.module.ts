@@ -2,9 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  CmsConfig,
   ConfigModule,
+  CmsConfig,
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
@@ -13,29 +14,28 @@ import {
   SpinnerModule,
   NgSelectA11yModule,
 } from '@spartacus/storefront';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { RegistrationFormComponent } from './registration-form/registration-form.component';
+import { UserRegistrationFormComponent } from './user-registration-form.component';
 
 @NgModule({
   imports: [
-    ReactiveFormsModule,
     CommonModule,
-    I18nModule,
-    UrlModule,
-    FormErrorsModule,
-    SpinnerModule,
+    ReactiveFormsModule,
     RouterModule,
+    UrlModule,
+    I18nModule,
+    SpinnerModule,
+    FormErrorsModule,
     NgSelectModule,
     NgSelectA11yModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        RegisterOrgUserComponent: {
-          component: RegistrationFormComponent,
+        OrgUserRegistrationComponent: {
+          component: UserRegistrationFormComponent,
         },
       },
     }),
   ],
-  declarations: [RegistrationFormComponent],
-  exports: [RegistrationFormComponent],
+  declarations: [UserRegistrationFormComponent],
+  exports: [UserRegistrationFormComponent],
 })
-export class RegistrationModule {}
+export class UserRegistrationFormModule {}

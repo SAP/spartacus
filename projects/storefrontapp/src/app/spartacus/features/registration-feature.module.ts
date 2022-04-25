@@ -1,31 +1,31 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
-  registrationTranslationChunksConfig,
-  registrationTranslations,
-} from '@spartacus/organization/registration/assets';
+  orgUserRegistrationTranslationChunksConfig,
+  orgUserRegistrationTranslations,
+} from '@spartacus/organization/user-registration/assets';
 import {
-  RegistrationRootModule,
+  UserRegistrationRootModule,
   ORGANIZATION_USER_REGISTRATION_FEATURE,
-} from '@spartacus/organization/registration/root';
+} from '@spartacus/organization/user-registration/root';
 
 @NgModule({
-  imports: [RegistrationRootModule],
+  imports: [UserRegistrationRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
         [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
           module: () =>
-            import('@spartacus/organization/registration').then(
-              (m) => m.B2bRegistrationModule
+            import('@spartacus/organization/user-registration').then(
+              (m) => m.OrgUserRegistrationModule
             ),
         },
       },
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: registrationTranslations,
-        chunks: registrationTranslationChunksConfig,
+        resources: orgUserRegistrationTranslations,
+        chunks: orgUserRegistrationTranslationChunksConfig,
       },
     }),
   ],

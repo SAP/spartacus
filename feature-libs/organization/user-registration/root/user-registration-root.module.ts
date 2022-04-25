@@ -1,14 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
-
 import { ORGANIZATION_USER_REGISTRATION_FEATURE } from './feature-name';
 
-// TODO: Inline this factory when we start releasing Ivy compiled libraries
-export function defaultOrganizationRegistrationComponentsConfig(): CmsConfig {
+export function defaultOrgUserRegistrationComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
-        cmsComponents: ['RegisterOrgUserComponent'],
+        cmsComponents: ['OrgUserRegistrationComponent'],
       },
     },
   };
@@ -18,9 +16,7 @@ export function defaultOrganizationRegistrationComponentsConfig(): CmsConfig {
 
 @NgModule({
   providers: [
-    provideDefaultConfigFactory(
-      defaultOrganizationRegistrationComponentsConfig
-    ),
+    provideDefaultConfigFactory(defaultOrgUserRegistrationComponentsConfig),
   ],
 })
-export class RegistrationRootModule {}
+export class UserRegistrationRootModule {}

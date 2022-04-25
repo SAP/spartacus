@@ -1,4 +1,4 @@
-export const registrationForm = {
+export const userRegistrationForm = {
   fields: {
     titleCode: {
       label: 'Title',
@@ -7,17 +7,14 @@ export const registrationForm = {
     firstName: {
       label: 'First name',
       placeholder: 'First name',
-      requiredMessage: 'First name is required.',
     },
     lastName: {
       label: 'Last name',
       placeholder: 'Last name',
-      requiredMessage: 'Last name is required.',
     },
     email: {
       label: 'E-mail',
       placeholder: 'E-mail',
-      requiredMessage: 'E-mail address is required.',
     },
     message: {
       label: 'Message',
@@ -27,6 +24,6 @@ export const registrationForm = {
   },
 };
 
-export const registration = {
-  registrationForm,
+export const orgUserRegistration = {
+  userRegistrationForm,
 };
