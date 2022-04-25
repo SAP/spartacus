@@ -14,13 +14,13 @@
 <title>cluster_FacetListModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 660,-230.8 660,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_FacetListModule_exports</title>
-<polygon fill="none" stroke="black" points="259,-170.8 259,-222.8 411,-222.8 411,-170.8 259,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_FacetListModule_declarations</title>
 <polygon fill="none" stroke="black" points="502,-40.8 502,-92.8 652,-92.8 652,-40.8 502,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_FacetListModule_exports</title>
+<polygon fill="none" stroke="black" points="259,-170.8 259,-222.8 411,-222.8 411,-170.8 259,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_FacetListModule_imports</title>

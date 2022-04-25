@@ -225,7 +225,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AmendOrderActionsModule-98c82e60a4aae7a1ca34782bece7c76b-1"' :
                                             'id="xs-components-links-module-AmendOrderActionsModule-98c82e60a4aae7a1ca34782bece7c76b-1"' }>
                                             <li class="link">
-                                                <a href="components/AmendOrderActionsComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AmendOrderActionsComponent</a>
+                                                <a href="components/AmendOrderActionsComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">AmendOrderActionsComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -320,13 +320,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/AsmComponentsModule.html" data-type="entity-link" >AsmComponentsModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-AsmComponentsModule-43d67e5106ee60380aef3f248c7c5a92"' : 'data-target="#xs-components-links-module-AsmComponentsModule-43d67e5106ee60380aef3f248c7c5a92"' }>
+                                            'data-target="#components-links-module-AsmComponentsModule-7fd1744a30e1462babc792582a574e93"' : 'data-target="#xs-components-links-module-AsmComponentsModule-7fd1744a30e1462babc792582a574e93"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AsmComponentsModule-43d67e5106ee60380aef3f248c7c5a92"' :
-                                            'id="xs-components-links-module-AsmComponentsModule-43d67e5106ee60380aef3f248c7c5a92"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AsmComponentsModule-7fd1744a30e1462babc792582a574e93"' :
+                                            'id="xs-components-links-module-AsmComponentsModule-7fd1744a30e1462babc792582a574e93"' }>
                                             <li class="link">
                                                 <a href="components/AsmMainUiComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AsmMainUiComponent</a>
                                             </li>
@@ -349,13 +349,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#pipes-links-module-AsmComponentsModule-43d67e5106ee60380aef3f248c7c5a92"' : 'data-target="#xs-pipes-links-module-AsmComponentsModule-43d67e5106ee60380aef3f248c7c5a92"' }>
+                                            'data-target="#pipes-links-module-AsmComponentsModule-7fd1744a30e1462babc792582a574e93"' : 'data-target="#xs-pipes-links-module-AsmComponentsModule-7fd1744a30e1462babc792582a574e93"' }>
                                             <span class="icon ion-md-add"></span>
                                             <span>Pipes</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-AsmComponentsModule-43d67e5106ee60380aef3f248c7c5a92"' :
-                                            'id="xs-pipes-links-module-AsmComponentsModule-43d67e5106ee60380aef3f248c7c5a92"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="pipes-links-module-AsmComponentsModule-7fd1744a30e1462babc792582a574e93"' :
+                                            'id="xs-pipes-links-module-AsmComponentsModule-7fd1744a30e1462babc792582a574e93"' }>
                                             <li class="link">
                                                 <a href="pipes/FormatTimerPipe.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >FormatTimerPipe</a>
                                             </li>
@@ -637,7 +637,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CancelOrderModule-fa959f78e491e0490d3601033ced5027-1"' :
                                             'id="xs-components-links-module-CancelOrderModule-fa959f78e491e0490d3601033ced5027-1"' }>
                                             <li class="link">
-                                                <a href="components/CancelOrderComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CancelOrderComponent</a>
+                                                <a href="components/CancelOrderComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">CancelOrderComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -671,7 +671,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CardModule-ac20b4da3bd33a29e8a0162a8b86e6dc-1"' :
                                             'id="xs-components-links-module-CardModule-ac20b4da3bd33a29e8a0162a8b86e6dc-1"' }>
                                             <li class="link">
-                                                <a href="components/CardComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CardComponent</a>
+                                                <a href="components/CardComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CardComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -1218,13 +1218,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/CmsParagraphModule.html" data-type="entity-link" >CmsParagraphModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-CmsParagraphModule-af8c95c614f8933fcbd594d761bfe7fc"' : 'data-target="#xs-components-links-module-CmsParagraphModule-af8c95c614f8933fcbd594d761bfe7fc"' }>
+                                            'data-target="#components-links-module-CmsParagraphModule-eec16e0c7529ed526b0b20e9be86ede7"' : 'data-target="#xs-components-links-module-CmsParagraphModule-eec16e0c7529ed526b0b20e9be86ede7"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CmsParagraphModule-af8c95c614f8933fcbd594d761bfe7fc"' :
-                                            'id="xs-components-links-module-CmsParagraphModule-af8c95c614f8933fcbd594d761bfe7fc"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CmsParagraphModule-eec16e0c7529ed526b0b20e9be86ede7"' :
+                                            'id="xs-components-links-module-CmsParagraphModule-eec16e0c7529ed526b0b20e9be86ede7"' }>
                                             <li class="link">
                                                 <a href="components/ParagraphComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ParagraphComponent</a>
                                             </li>
@@ -3354,7 +3354,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-OrderHistoryModule-04accf924cd79a34f77e07fc5de3b0ff-1"' :
                                             'id="xs-components-links-module-OrderHistoryModule-04accf924cd79a34f77e07fc5de3b0ff-1"' }>
                                             <li class="link">
-                                                <a href="components/OrderHistoryComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">OrderHistoryComponent</a>
+                                                <a href="components/OrderHistoryComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderHistoryComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -4307,7 +4307,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ReplenishmentOrderCancellationDialogModule-e71739a1ae88ba2e6eda6f9089c5ea98-1"' :
                                             'id="xs-components-links-module-ReplenishmentOrderCancellationDialogModule-e71739a1ae88ba2e6eda6f9089c5ea98-1"' }>
                                             <li class="link">
-                                                <a href="components/ReplenishmentOrderCancellationDialogComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">ReplenishmentOrderCancellationDialogComponent</a>
+                                                <a href="components/ReplenishmentOrderCancellationDialogComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderCancellationDialogComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -4350,7 +4350,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ReplenishmentOrderHistoryModule-6236e1cf4f0291b28f9266f1af405f91-1"' :
                                             'id="xs-components-links-module-ReplenishmentOrderHistoryModule-6236e1cf4f0291b28f9266f1af405f91-1"' }>
                                             <li class="link">
-                                                <a href="components/ReplenishmentOrderHistoryComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReplenishmentOrderHistoryComponent</a>
+                                                <a href="components/ReplenishmentOrderHistoryComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">ReplenishmentOrderHistoryComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -6184,15 +6184,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="components-links"' : 'id="xs-components-links"' }>
                             <li class="link">
-                                <a href="components/AmendOrderActionsComponent-1.html" data-type="entity-link" class="deprecated-name">AmendOrderActionsComponent</a>
-                            </li>
-                            <li class="link">
-                                <a href="components/CancelOrderComponent-1.html" data-type="entity-link" class="deprecated-name">CancelOrderComponent</a>
-                            </li>
-                            <li class="link">
-                                <a href="components/CardComponent-1.html" data-type="entity-link" >CardComponent</a>
-                            </li>
-                            <li class="link">
                                 <a href="components/ConsignmentTrackingComponent.html" data-type="entity-link" >ConsignmentTrackingComponent</a>
                             </li>
                             <li class="link">
@@ -6235,13 +6226,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="components/OrderDetailTotalsComponent-1.html" data-type="entity-link" class="deprecated-name">OrderDetailTotalsComponent</a>
                             </li>
                             <li class="link">
+                                <a href="components/OrderHistoryComponent-1.html" data-type="entity-link" class="deprecated-name">OrderHistoryComponent</a>
+                            </li>
+                            <li class="link">
                                 <a href="components/ReplenishmentOrderCancellationComponent.html" data-type="entity-link" >ReplenishmentOrderCancellationComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/ReplenishmentOrderCancellationComponent-1.html" data-type="entity-link" class="deprecated-name">ReplenishmentOrderCancellationComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/ReplenishmentOrderHistoryComponent-1.html" data-type="entity-link" class="deprecated-name">ReplenishmentOrderHistoryComponent</a>
+                                <a href="components/ReplenishmentOrderCancellationDialogComponent-1.html" data-type="entity-link" class="deprecated-name">ReplenishmentOrderCancellationDialogComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/ReturnRequestItemsComponent.html" data-type="entity-link" >ReturnRequestItemsComponent</a>
@@ -6754,6 +6748,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="classes/ClearProductInterests.html" data-type="entity-link" >ClearProductInterests</a>
+                            </li>
+                            <li class="link">
+                                <a href="classes/ClearProductPrice.html" data-type="entity-link" >ClearProductPrice</a>
                             </li>
                             <li class="link">
                                 <a href="classes/ClearProductSearchResult.html" data-type="entity-link" >ClearProductSearchResult</a>
@@ -9425,6 +9422,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/GatewayTimeoutHandler.html" data-type="entity-link" >GatewayTimeoutHandler</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/GenericLinkComponentService.html" data-type="entity-link" >GenericLinkComponentService</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/GlobalMessageConfig.html" data-type="entity-link" >GlobalMessageConfig</a>

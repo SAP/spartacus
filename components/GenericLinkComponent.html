@@ -140,6 +140,10 @@
                                 <a href="#id" >id</a>
                             </li>
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#MAILTO_PROTOCOL_REGEX" >MAILTO_PROTOCOL_REGEX</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                     <span class="modifier">Readonly</span>
                                 <a href="#PROTOCOL_REGEX" >PROTOCOL_REGEX</a>
@@ -153,6 +157,10 @@
                             </li>
                             <li>
                                 <a href="#target" >target</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#TEL_PROTOCOL_REGEX" >TEL_PROTOCOL_REGEX</a>
                             </li>
                             <li>
                                 <a href="#title" >title</a>
@@ -265,12 +273,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
+<code>constructor(router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, service?: <a href="../injectables/GenericLinkComponentService.html" target="_self">GenericLinkComponentService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:50</a></div>
                             </td>
                         </tr>
 
@@ -296,6 +304,18 @@
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>service</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/GenericLinkComponentService.html" target="_self" >GenericLinkComponentService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -326,7 +346,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:48</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:73</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -347,7 +367,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:47</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:72</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -368,7 +388,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:74</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -389,7 +409,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:71</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -410,7 +430,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:50</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:75</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -431,7 +451,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:70</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -467,8 +487,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:119</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:147</a></div>
                 </td>
             </tr>
 
@@ -537,16 +557,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:77</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns true when the @Input <code>url</code> is a string starting with <code>http://</code> or <code>https://</code>.</p>
-</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
@@ -576,8 +594,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:91</a></div>
                 </td>
             </tr>
 
@@ -646,8 +664,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:121</a></div>
                 </td>
             </tr>
 
@@ -718,8 +736,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="136"
+                            class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:136</a></div>
                 </td>
             </tr>
 
@@ -811,7 +829,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:73</a></div>
                         </td>
                     </tr>
 
@@ -846,10 +864,48 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:72</a></div>
                         </td>
                     </tr>
 
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="MAILTO_PROTOCOL_REGEX"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>MAILTO_PROTOCOL_REGEX</b></span>
+                        <a href="#MAILTO_PROTOCOL_REGEX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RegExp</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>/^mailto:/i</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:33</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Pattern matching string starting with <code>mailto:</code>.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -879,7 +935,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:28</a></div>
                         </td>
                     </tr>
 
@@ -917,7 +973,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:68</a></div>
                         </td>
                     </tr>
 
@@ -959,7 +1015,7 @@ It should not be used when the <code>url</code> is external.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:74</a></div>
                         </td>
                     </tr>
 
@@ -994,10 +1050,48 @@ It should not be used when the <code>url</code> is external.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:71</a></div>
                         </td>
                     </tr>
 
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="TEL_PROTOCOL_REGEX"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>TEL_PROTOCOL_REGEX</b></span>
+                        <a href="#TEL_PROTOCOL_REGEX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>RegExp</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>/^tel:/i</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:38</a></div>
+                        </td>
+                    </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Pattern matching string starting with <code>tel:</code>.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -1029,7 +1123,7 @@ It should not be used when the <code>url</code> is external.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:75</a></div>
                         </td>
                     </tr>
 
@@ -1064,7 +1158,7 @@ It should not be used when the <code>url</code> is external.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:45</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:70</a></div>
                         </td>
                     </tr>
 
@@ -1091,7 +1185,7 @@ It should not be used when the <code>url</code> is external.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:61</a></div>
                         </td>
                     </tr>
 
@@ -1130,7 +1224,7 @@ It should not be used when the <code>url</code> is external.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:59</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:87</a></div>
                                 </td>
                             </tr>
 
@@ -1152,7 +1246,7 @@ It should not be used when the <code>url</code> is external.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:72</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:100</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1185,7 +1279,7 @@ It should not be used when the <code>url</code> is external.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:79</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="107" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:107</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1218,7 +1312,7 @@ It should not be used when the <code>url</code> is external.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:86</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">projects/storefrontlib/shared/components/generic-link/generic-link.component.ts:114</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1242,6 +1336,7 @@ It should not be used when the <code>url</code> is external.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, SimpleChanges } from &#x27;@angular/core&#x27;;
 import { Params, Router } from &#x27;@angular/router&#x27;;
+import { GenericLinkComponentService } from &#x27;./generic-link-component.service&#x27;;
 
 // private
 interface RouteParts {
@@ -1263,12 +1358,36 @@ interface RouteParts {
   templateUrl: &#x27;./generic-link.component.html&#x27;,
 })
 export class GenericLinkComponent implements OnChanges {
-  constructor(protected router: Router) {}
-
   /**
    * Pattern matching string starting with &#x60;http://&#x60; or &#x60;https://&#x60;.
    */
   private readonly PROTOCOL_REGEX: RegExp &#x3D; /^https?:\/\//i;
+
+  /**
+   * Pattern matching string starting with &#x60;mailto:&#x60;.
+   */
+  protected MAILTO_PROTOCOL_REGEX: RegExp &#x3D; /^mailto:/i;
+
+  /**
+   * Pattern matching string starting with &#x60;tel:&#x60;.
+   */
+  protected TEL_PROTOCOL_REGEX: RegExp &#x3D; /^tel:/i;
+
+  /**
+   * @deprecated since version 5.0
+   * Use the following constructor instead:
+   * &#x60;&#x60;&#x60;
+   * constructor(
+   *   protected router: Router,
+   *   protected service?: GenericLinkComponentService
+   * )
+   * &#x60;&#x60;&#x60;
+   */
+  constructor(router: Router);
+  constructor(
+    protected router: Router,
+    protected service?: GenericLinkComponentService
+  ) {}
 
   /**
    * Used to split url into 2 parts:
@@ -1291,11 +1410,14 @@ export class GenericLinkComponent implements OnChanges {
   @Input() style: string;
   @Input() title: string;
 
-  /**
-   * Returns true when the @Input &#x60;url&#x60; is a string starting with &#x60;http://&#x60; or &#x60;https://&#x60;.
-   */
   isExternalUrl(): boolean {
-    return typeof this.url &#x3D;&#x3D;&#x3D; &#x27;string&#x27; &amp;&amp; this.PROTOCOL_REGEX.test(this.url);
+    return (
+      this.service?.isExternalUrl(this.url) ||
+      (typeof this.url &#x3D;&#x3D;&#x3D; &#x27;string&#x27; &amp;&amp;
+        (this.PROTOCOL_REGEX.test(this.url) ||
+          this.MAILTO_PROTOCOL_REGEX.test(this.url) ||
+          this.TEL_PROTOCOL_REGEX.test(this.url)))
+    );
   }
 
   get rel() {

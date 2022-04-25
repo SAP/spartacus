@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/qualtrics/components/qualtrics-loader/config/qualtrics-config.ts</code>
+            <code>feature-libs/tracking/tms/core/config/tms-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/QualtricsConfig.html" target="_self" >QualtricsConfig</a></code>
+                        <code><a href="../injectables/TmsConfig.html" target="_self" >TmsConfig</a></code>
             </p>
 
 
@@ -83,33 +83,50 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;@spartacus/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AbstractType, Injectable, Type } from &#x27;@angular/core&#x27;;
+import { Config, CxEvent } from &#x27;@spartacus/core&#x27;;
+import { TmsCollector } from &#x27;../model/tms.model&#x27;;
 
 /**
- * Configuration options for the Qualtrics integration, which allows you to
- * specify the qualtrics project and deployment script.
+ * Collector configuration
+ */
+export interface TmsCollectorConfig {
+  /** Should be enabled in development mode only */
+  debug?: boolean;
+  /**
+   * The name for the data layer object.
+   */
+  dataLayerProperty?: string;
+  /**
+   * Events to send to the configured TMS.
+   */
+  events?: AbstractType&lt;CxEvent&gt;[];
+  /**
+   * The collector service implementation.
+   */
+  collector?: Type&lt;TmsCollector&gt;;
+}
+
+export interface TmsCollectors {
+  [tms: string]: TmsCollectorConfig | undefined;
+}
+
+/**
+ * TMS configuration
  */
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class QualtricsConfig {
+export abstract class TmsConfig {
   /**
-   * Holds the qualtrics integration options.
+   * Tag manager config
    */
-  qualtrics?: {
-    /**
-     * Deployment script, loaded from a resource, to integrate the deployment of the qualtrics project.
-     * You would typically store the file in the local assets folder.
-     *
-     */
-    scriptSource?: string;
-  };
+  tagManager?: TmsCollectors;
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends QualtricsConfig {}
+  interface Config extends TmsConfig {}
 }
 </code></pre>
     </div>

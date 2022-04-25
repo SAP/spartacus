@@ -18,13 +18,13 @@
 <title>cluster_SiteContextSelectorModule_declarations</title>
 <polygon fill="none" stroke="black" points="554,-40.8 554,-92.8 970,-92.8 970,-40.8 554,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_SiteContextSelectorModule_imports</title>
-<polygon fill="none" stroke="black" points="302,-40.8 302,-92.8 546,-92.8 546,-40.8 302,-40.8"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_SiteContextSelectorModule_exports</title>
 <polygon fill="none" stroke="black" points="284,-170.8 284,-222.8 706,-222.8 706,-170.8 284,-170.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_SiteContextSelectorModule_imports</title>
+<polygon fill="none" stroke="black" points="302,-40.8 302,-92.8 546,-92.8 546,-40.8 302,-40.8"/>
 </g>
 <g id="clust8" class="cluster">
 <title>cluster_SiteContextSelectorModule_providers</title>

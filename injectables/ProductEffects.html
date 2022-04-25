@@ -77,6 +77,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#clearProductPrice$" >clearProductPrice$</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#contextChange$" >contextChange$</a>
                             </li>
@@ -122,7 +125,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:79</a></div>
                             </td>
                         </tr>
 
@@ -199,8 +202,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:50</a></div>
                 </td>
             </tr>
 
@@ -257,6 +260,49 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="clearProductPrice$"></a>
+                    <span class="name">
+                        <span ><b>clearProductPrice$</b></span>
+                        <a href="#clearProductPrice$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/ClearProductPrice.html" target="_self" >Observable&lt;ProductActions.ClearProductPrice&gt;</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.actions$.pipe(
+    ofType(AuthActions.LOGOUT, AuthActions.LOGIN),
+    map(() &#x3D;&gt; new ProductActions.ClearProductPrice())
+  )</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Effect()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="contextChange$"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
@@ -283,7 +329,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -331,7 +377,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/product/store/effects/product.effect.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -345,17 +391,18 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Actions, createEffect, ofType } from &#x27;@ngrx/effects&#x27;;
+import { Actions, createEffect, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
+import { Action } from &#x27;@ngrx/store&#x27;;
 import { merge, Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, mergeMap } from &#x27;rxjs/operators&#x27;;
-import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
-import { ProductConnector } from &#x27;../../connectors/product/product.connector&#x27;;
-import { ProductActions } from &#x27;../actions/index&#x27;;
-import { ScopedProductData } from &#x27;../../connectors/product/scoped-product-data&#x27;;
+import { AuthActions } from &#x27;../../../auth/user-auth/store/actions&#x27;;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
+import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { bufferDebounceTime } from &#x27;../../../util/rxjs/buffer-debounce-time&#x27;;
-import { Action } from &#x27;@ngrx/store&#x27;;
 import { withdrawOn } from &#x27;../../../util/rxjs/withdraw-on&#x27;;
+import { ProductConnector } from &#x27;../../connectors/product/product.connector&#x27;;
+import { ScopedProductData } from &#x27;../../connectors/product/scoped-product-data&#x27;;
+import { ProductActions } from &#x27;../actions/index&#x27;;
 
 @Injectable()
 export class ProductEffects {
@@ -416,6 +463,12 @@ export class ProductEffects {
       })
     );
   }
+
+  @Effect()
+  clearProductPrice$: Observable&lt;ProductActions.ClearProductPrice&gt; &#x3D; this.actions$.pipe(
+    ofType(AuthActions.LOGOUT, AuthActions.LOGIN),
+    map(() &#x3D;&gt; new ProductActions.ClearProductPrice())
+  );
 
   constructor(
     private actions$: Actions,

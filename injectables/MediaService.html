@@ -281,7 +281,7 @@ The baseUrl is read from the <code>occConfig.backend.media.baseUrl</code> or
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getMedia(mediaContainer: MediaContainer | Image, format?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, alt?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, role?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>getMedia(mediaContainer?: MediaContainer | Image, format?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, alt?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, role?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -318,7 +318,7 @@ for specific formats.</p>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
@@ -999,7 +999,7 @@ export class MediaService {
    * for specific formats.
    */
   getMedia(
-    mediaContainer: MediaContainer | Image,
+    mediaContainer?: MediaContainer | Image,
     format?: string,
     alt?: string,
     role?: string

@@ -163,7 +163,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/cms-components/product/carousel/product-carousel/product-carousel.component.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/cms-components/product/carousel/product-carousel/product-carousel.component.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -279,7 +279,9 @@
                         <i>Default value : </i><code>this.componentData$.pipe(
     map((data) &#x3D;&gt; data.productCodes?.trim().split(&#x27; &#x27;) ?? []),
     map((codes) &#x3D;&gt;
-      codes.map((code) &#x3D;&gt; this.productService.get(code, this.PRODUCT_SCOPE))
+      codes.map((code) &#x3D;&gt;
+        this.productService.get(code, [this.PRODUCT_SCOPE, ProductScope.PRICE])
+      )
     )
   )</code>
                     </td>
@@ -411,7 +413,9 @@ export class ProductCarouselComponent {
   items$: Observable&lt;Observable&lt;Product&gt;[]&gt; &#x3D; this.componentData$.pipe(
     map((data) &#x3D;&gt; data.productCodes?.trim().split(&#x27; &#x27;) ?? []),
     map((codes) &#x3D;&gt;
-      codes.map((code) &#x3D;&gt; this.productService.get(code, this.PRODUCT_SCOPE))
+      codes.map((code) &#x3D;&gt;
+        this.productService.get(code, [this.PRODUCT_SCOPE, ProductScope.PRICE])
+      )
     )
   );
 

@@ -253,6 +253,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges, SimpleChanges } from &#x27;@angular/core&#x27;;
 import { Params, Router } from &#x27;@angular/router&#x27;;
+import { GenericLinkComponentService } from &#x27;./generic-link-component.service&#x27;;
 
 // private
 interface RouteParts {
@@ -274,12 +275,36 @@ interface RouteParts {
   templateUrl: &#x27;./generic-link.component.html&#x27;,
 })
 export class GenericLinkComponent implements OnChanges {
-  constructor(protected router: Router) {}
-
   /**
    * Pattern matching string starting with &#x60;http://&#x60; or &#x60;https://&#x60;.
    */
   private readonly PROTOCOL_REGEX: RegExp &#x3D; /^https?:\/\//i;
+
+  /**
+   * Pattern matching string starting with &#x60;mailto:&#x60;.
+   */
+  protected MAILTO_PROTOCOL_REGEX: RegExp &#x3D; /^mailto:/i;
+
+  /**
+   * Pattern matching string starting with &#x60;tel:&#x60;.
+   */
+  protected TEL_PROTOCOL_REGEX: RegExp &#x3D; /^tel:/i;
+
+  /**
+   * @deprecated since version 5.0
+   * Use the following constructor instead:
+   * &#x60;&#x60;&#x60;
+   * constructor(
+   *   protected router: Router,
+   *   protected service?: GenericLinkComponentService
+   * )
+   * &#x60;&#x60;&#x60;
+   */
+  constructor(router: Router);
+  constructor(
+    protected router: Router,
+    protected service?: GenericLinkComponentService
+  ) {}
 
   /**
    * Used to split url into 2 parts:
@@ -302,11 +327,14 @@ export class GenericLinkComponent implements OnChanges {
   @Input() style: string;
   @Input() title: string;
 
-  /**
-   * Returns true when the @Input &#x60;url&#x60; is a string starting with &#x60;http://&#x60; or &#x60;https://&#x60;.
-   */
   isExternalUrl(): boolean {
-    return typeof this.url &#x3D;&#x3D;&#x3D; &#x27;string&#x27; &amp;&amp; this.PROTOCOL_REGEX.test(this.url);
+    return (
+      this.service?.isExternalUrl(this.url) ||
+      (typeof this.url &#x3D;&#x3D;&#x3D; &#x27;string&#x27; &amp;&amp;
+        (this.PROTOCOL_REGEX.test(this.url) ||
+          this.MAILTO_PROTOCOL_REGEX.test(this.url) ||
+          this.TEL_PROTOCOL_REGEX.test(this.url)))
+    );
   }
 
   get rel() {

@@ -189,9 +189,10 @@ import { CommonModule } from &#x27;@angular/common&#x27;;
 import { CmsConfig, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 import { SupplementHashAnchorsModule } from &#x27;../../../shared/pipes/suplement-hash-anchors/supplement-hash-anchors.module&#x27;;
 import { ParagraphComponent } from &#x27;./paragraph.component&#x27;;
+import { RouterModule } from &#x27;@angular/router&#x27;;
 
 @NgModule({
-  imports: [CommonModule, SupplementHashAnchorsModule],
+  imports: [CommonModule, RouterModule, SupplementHashAnchorsModule],
   providers: [
     provideDefaultConfig(&lt;CmsConfig&gt;{
       cmsComponents: {
