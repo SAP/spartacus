@@ -1,6 +1,9 @@
 <ng-container *ngIf="routerData$ | async as routerData">
   <ng-container *ngIf="configurationOverview$ | async">
-    <div class="cx-error-notification-banner" *ngIf="numberOfIssues$ | async as numberOfIssues">
+    <div
+      class="cx-error-notification-banner"
+      *ngIf="numberOfIssues$ | async as numberOfIssues"
+    >
       <cx-icon [type]="iconTypes.ERROR"></cx-icon>
       <div class="cx-error-msg" id="cx-configurator-overview-error-msg">
         {{
@@ -19,14 +22,20 @@
               }
             } | cxUrl
           "
-          [queryParams]="{ resolveIssues: true, ignoreConflicts: (numberOfConflicts$ | async)>0 }"
+          [queryParams]="{
+            resolveIssues: true,
+            ignoreConflicts: ignoreConflicts$ | async
+          }"
           cxAutoFocus
         >
           {{ 'configurator.header.resolveIssues' | cxTranslate }}
         </button>
       </div>
     </div>
-    <div class="cx-conflict-notification-banner" *ngIf="numberOfConflicts$ | async as numberOfConflicts">
+    <div
+      class="cx-conflict-notification-banner"
+      *ngIf="numberOfConflicts$ | async as numberOfConflicts"
+    >
       <cx-icon [type]="iconTypes.WARNING"></cx-icon>
       <div class="cx-conflict-msg" id="cx-configurator-overview-conflict-msg">
         {{
@@ -43,7 +52,8 @@
                 entityKey: routerData.owner.id,
                 ownerType: routerData.owner.type
               }
-            } | cxUrl          "
+            } | cxUrl
+          "
           [queryParams]="{ resolveIssues: true }"
           cxAutoFocus
         >

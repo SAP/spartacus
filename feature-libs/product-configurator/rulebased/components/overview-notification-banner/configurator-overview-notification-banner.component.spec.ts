@@ -273,6 +273,9 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           ?.numberOfConflicts
       )
     );
+    component.ignoreConflicts$.subscribe((numberOfConflicts) =>
+      expect(numberOfConflicts).toBe(true)
+    );
   });
 
   it('should count zero warnings as in case detailed issue numbers are not available', () => {
@@ -282,6 +285,9 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     initialize(routerData);
     component.numberOfConflicts$.subscribe((numberOfConflicts) =>
       expect(numberOfConflicts).toBe(0)
+    );
+    component.ignoreConflicts$.subscribe((numberOfConflicts) =>
+      expect(numberOfConflicts).toBe(false)
     );
   });
 });

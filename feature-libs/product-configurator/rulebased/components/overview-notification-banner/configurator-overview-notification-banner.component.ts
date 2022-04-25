@@ -52,9 +52,13 @@ export class ConfiguratorOverviewNotificationBannerComponent {
 
   numberOfConflicts$: Observable<number> = this.configuration$.pipe(
     map((configuration) => {
-      //In case overview carries number of issues: We take it from there.
-      //otherwise configuration's number will be accurate
       return configuration.overview?.numberOfConflicts ?? 0;
+    })
+  );
+
+  ignoreConflicts$: Observable<boolean> = this.configuration$.pipe(
+    map((configuration) => {
+      return (configuration.overview?.numberOfConflicts ?? 0) > 0;
     })
   );
 
