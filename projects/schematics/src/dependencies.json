@@ -273,6 +273,9 @@
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
+  "@spartacus/s4om": {
+    "@angular/core": "^10.1.0"
+  },
   "storefrontapp": {
     "@angular/animations": "^13.2.0",
     "@angular/common": "^13.2.0",

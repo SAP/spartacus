@@ -112,6 +112,12 @@ function add_product_configurator {
     ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false "${FEATURES[@]}"
 }
 
+function add_s4om {
+  if [ "$ADD_S4OM" = true ] ; then
+        ng add --skip-confirmation @spartacus/s4om@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
   ng add --skip-confirmation @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="TMS-GTM" --features="TMS-AEPL"

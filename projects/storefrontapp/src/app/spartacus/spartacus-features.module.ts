@@ -51,6 +51,7 @@ import {
   TabParagraphContainerModule,
   VideoModule,
 } from '@spartacus/storefront';
+import { S4omModule } from 'integration-libs/s4om/src/s4om.module';
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { AsmFeatureModule } from './features/asm-feature.module';
@@ -71,6 +72,7 @@ import { ProductConfiguratorRulebasedFeatureModule } from './features/product-co
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { QuickOrderFeatureModule } from './features/quick-order-feature.module';
+//import { S4OMFeatureModule } from './features/s4om-feature.module'; //TODO
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
@@ -110,7 +112,11 @@ if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
 }
 if (environment.epdVisualization) {
-  featureModules.push(EpdVisualizationFeatureModule);
+  featureModules.push(EpdVisualizationFeatureModule); 
+}
+
+if (environment.s4om) {
+  featureModules.push(S4omModule); //TODO: Fix imports to @spartacus/s4om !
 }
 
 @NgModule({

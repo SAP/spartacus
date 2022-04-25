@@ -726,6 +726,21 @@ export namespace Occ {
 
   /**
    *
+   * An interface representing PromotionResult.
+   */
+  export interface ScheduleLine {
+    /**
+     * @member {Date} [confirmedAt]
+     */
+    confirmedAt?: Date,
+    /**
+     * @member {number} [confirmedQuantity]
+     */
+    confirmedQuantity?: number;
+  }
+
+  /**
+   *
    * An interface representing Currency.
    */
   export interface Currency {
@@ -1790,6 +1805,10 @@ export namespace Occ {
      * @member {Principal} [savedBy]
      */
     savedBy?: Principal;
+    /**
+     * @member {ScheduleLine[]} [scheduleLines]
+     */
+     scheduleLines?: ScheduleLine[];
     /**
      * @member {string} [site]
      */

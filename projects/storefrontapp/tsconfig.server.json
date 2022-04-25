@@ -375,6 +375,7 @@
       ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
+      "@spartacus/s4om": ["../../integration-libs/s4om/public-api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
     }
   },

@@ -259,6 +259,7 @@
       "@spartacus/epd-visualization": ["../../dist/epd-visualization"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
+      "@spartacus/s4om": ["../../dist/s4om"],
       "@spartacus/storefront": ["../../dist/storefrontlib"]
     }
   }

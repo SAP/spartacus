@@ -222,6 +222,7 @@
         "dist/epd-visualization/epd-visualization-api"
       ],
       "@spartacus/epd-visualization": ["dist/epd-visualization"],
+      "@spartacus/s4om": ["dist/s4om"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]

@@ -81,6 +81,7 @@ export interface Cart {
   purchaseOrderNumber?: string;
   saveTime?: Date;
   savedBy?: Principal;
+  scheduleLines?: ScheduleLine[];
   site?: string;
   store?: string;
   subTotal?: Price;
@@ -122,6 +123,7 @@ export interface OrderEntry {
   cancelledItemsPrice?: Price;
   cancellableQuantity?: number;
   promotions?: PromotionResult[];
+  scheduleLines?: ScheduleLine[];
 }
 
 export interface PickupOrderEntryGroup {
@@ -171,6 +173,11 @@ export interface PaymentDetails {
   startMonth?: string;
   startYear?: string;
   subscriptionId?: string;
+}
+
+export interface ScheduleLine {
+  confirmedAt?: Date,
+  confirmedQuantity?: number;
 }
 
 export enum CartType {
