@@ -9,7 +9,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
-import { PasswordVisibilityComponent } from './password-visibility.component';
+//import { PasswordVisibilityComponent } from './password-visibility.component';
 
 const mockFormConfig: FormConfig = {
   form: {
@@ -58,7 +58,7 @@ describe('PasswordVisibilityComponent', () => {
           FormsModule,
           ReactiveFormsModule,
         ],
-        declarations: [MockFormComponent, PasswordVisibilityComponent],
+        declarations: [MockFormComponent],
         providers: [
           {
             provide: FormConfig,

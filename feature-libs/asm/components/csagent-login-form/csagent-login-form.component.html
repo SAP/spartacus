@@ -13,17 +13,14 @@
     <cx-form-errors [control]="csAgentLoginForm.get('userId')"></cx-form-errors>
   </label>
 
-  <label>
-    <div class="cx-password-input">
-      <input
-        required="true"
-        type="password"
-        placeholder="{{ 'asm.loginForm.password.label' | cxTranslate }}"
-        formControlName="password"
-      /><cx-password-visibility
-        formCtrlName="password"
-      ></cx-password-visibility>
-    </div>
+  <label class="cx-password">
+    <input
+      required="true"
+      type="password"
+      placeholder="{{ 'asm.loginForm.password.label' | cxTranslate }}"
+      formControlName="password"
+      cxPasswordVisibility
+    />
     <cx-form-errors
       [control]="csAgentLoginForm.get('password')"
     ></cx-form-errors>
