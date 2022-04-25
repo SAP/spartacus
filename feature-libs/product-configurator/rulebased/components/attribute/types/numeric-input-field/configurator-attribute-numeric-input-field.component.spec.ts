@@ -19,7 +19,10 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
-import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
+import {
+  ConfiguratorAttributeNumericInputFieldService,
+  ConfiguratorAttributeNumericInterval,
+} from './configurator-attribute-numeric-input-field.component.service';
 
 @Directive({
   selector: '[cxFocus]',
@@ -284,42 +287,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   }));
 
   describe('Accessibility', () => {
-    it("should contain input element with class name 'form-control' without set value and 'aria-label' attribute that defines an accessible name to label the current element", fakeAsync(() => {
-      component.attribute.userInput = '';
-      fixture.detectChanges();
-      component.ngOnInit();
-      tick(DEBOUNCE_TIME);
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'input',
-        'form-control',
-        0,
-        'aria-label',
-        'configurator.a11y.valueOfAttributeBlank attribute:' +
-          component.attribute.label
-      );
-    }));
-
-    it("should contain input element with class name 'form-control' with set value and 'aria-label' attribute that defines an accessible name to label the current element", fakeAsync(() => {
-      component.attribute.userInput = '123';
-      fixture.detectChanges();
-      component.ngOnInit();
-      tick(DEBOUNCE_TIME);
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'input',
-        'form-control',
-        0,
-        'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:' +
-          component.attribute.label +
-          ' value:' +
-          component.attribute.userInput
-      );
-    }));
-
     it("should contain input element with class name 'form-control' and 'aria-describedby' attribute attribute that indicates the ID of the element that describe the elements", fakeAsync(() => {
       component.attribute.userInput = '123';
       fixture.detectChanges();
@@ -373,6 +340,268 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         0,
         'aria-atomic',
         'true'
+      );
+    }));
+  });
+
+  describe('getIntervalText', () => {
+    let interval: ConfiguratorAttributeNumericInterval = {
+      minValue: 5,
+      maxValue: 7,
+      minValueIncluded: true,
+      maxValueIncluded: true,
+    };
+
+    let minValueFormatted = '5.00';
+    let maxValueFormatted = '7.00';
+
+    it('should return aria text for standard interval', fakeAsync(() => {
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component['getIntervalText'](interval)).toBe(
+        'configurator.a11y.numericIntervalStandard maxValue:' +
+          maxValueFormatted +
+          ' minValue:' +
+          minValueFormatted
+      );
+    }));
+
+    it('should return aria text for half open interval, upper value not included', fakeAsync(() => {
+      interval.minValueIncluded = true;
+      interval.maxValueIncluded = false;
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component['getIntervalText'](interval)).toBe(
+        'configurator.a11y.numericIntervalStandard maxValue:' +
+          maxValueFormatted +
+          ' minValue:' +
+          minValueFormatted +
+          ' ' +
+          'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
+      );
+    }));
+
+    it('should return aria text for half open interval, lower value not included', fakeAsync(() => {
+      interval.minValueIncluded = false;
+      interval.maxValueIncluded = true;
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component['getIntervalText'](interval)).toBe(
+        'configurator.a11y.numericIntervalStandard maxValue:' +
+          maxValueFormatted +
+          ' minValue:' +
+          minValueFormatted +
+          ' ' +
+          'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
+      );
+    }));
+
+    it('should return aria text for open interval', fakeAsync(() => {
+      interval.minValueIncluded = false;
+      interval.maxValueIncluded = false;
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component['getIntervalText'](interval)).toBe(
+        'configurator.a11y.numericIntervalStandard maxValue:' +
+          maxValueFormatted +
+          ' minValue:' +
+          minValueFormatted +
+          ' ' +
+          'configurator.a11y.numericIntervalStandardOpen'
+      );
+    }));
+
+    it('should return aria text for infinite interval with min value', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = undefined;
+      interval.minValueIncluded = false;
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component['getIntervalText'](interval)).toBe(
+        'configurator.a11y.numericInfiniteIntervalMinValue value:' +
+          minValueFormatted
+      );
+    }));
+
+    it('should return aria text for infinite interval with min value included', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = undefined;
+      interval.minValueIncluded = true;
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component['getIntervalText'](interval)).toBe(
+        'configurator.a11y.numericInfiniteIntervalMinValueIncluded value:' +
+          minValueFormatted
+      );
+    }));
+
+    it('should return aria text for infinite interval with max value', fakeAsync(() => {
+      interval.minValue = undefined;
+      interval.maxValue = 7;
+      interval.maxValueIncluded = false;
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component['getIntervalText'](interval)).toBe(
+        'configurator.a11y.numericInfiniteIntervalMaxValue value:' +
+          maxValueFormatted
+      );
+    }));
+
+    it('should return aria text for infinite interval with max value included', fakeAsync(() => {
+      interval.minValue = undefined;
+      interval.maxValue = 7;
+      interval.maxValueIncluded = true;
+
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component['getIntervalText'](interval)).toBe(
+        'configurator.a11y.numericInfiniteIntervalMaxValueIncluded value:' +
+          maxValueFormatted
+      );
+    }));
+
+    it('should return text for single value', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = 5;
+      interval.minValueIncluded = false;
+      interval.maxValueIncluded = false;
+
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+      expect(component['getIntervalText'](interval)).toBe(
+        'configurator.a11y.numericIntervalSingleValue value:' +
+          minValueFormatted
+      );
+    }));
+  });
+
+  describe('getIntervalTexts', () => {
+    let interval1: ConfiguratorAttributeNumericInterval = {
+      minValue: 5,
+      maxValue: 7,
+      minValueIncluded: true,
+      maxValueIncluded: true,
+    };
+    let interval2: ConfiguratorAttributeNumericInterval = {
+      minValue: 10,
+      maxValue: undefined,
+      minValueIncluded: true,
+      maxValueIncluded: false,
+    };
+
+    let minValue1Formatted = '5.00';
+    let maxValue1Formatted = '7.00';
+    let minValue2Formatted = '10.00';
+
+    it('should return concatenated aria text for multiple intervals', fakeAsync(() => {
+      component.intervals = [];
+      component.intervals.push(interval1);
+      component.intervals.push(interval2);
+
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getHelpTextForInterval()).toBe(
+        'configurator.a11y.combinedIntervalsText combinedInterval:' +
+          'configurator.a11y.numericIntervalStandard maxValue:' +
+          maxValue1Formatted +
+          ' minValue:' +
+          minValue1Formatted +
+          ' newInterval:' +
+          'configurator.a11y.numericInfiniteIntervalMinValueIncluded value:' +
+          minValue2Formatted
+      );
+    }));
+
+    it('should return concatenated aria text for multiple intervals with single value', fakeAsync(() => {
+      let interval3: ConfiguratorAttributeNumericInterval = {
+        minValue: 12,
+        maxValue: 12,
+        minValueIncluded: false,
+        maxValueIncluded: false,
+      };
+
+      let minValue3Formatted = '12.00';
+
+      component.intervals = [];
+      component.intervals.push(interval1);
+      component.intervals.push(interval3);
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getHelpTextForInterval()).toBe(
+        'configurator.a11y.combinedIntervalsText combinedInterval:' +
+          'configurator.a11y.numericIntervalStandard maxValue:' +
+          maxValue1Formatted +
+          ' minValue:' +
+          minValue1Formatted +
+          ' newInterval:configurator.a11y.numericIntervalSingleValue value:' +
+          minValue3Formatted
+      );
+    }));
+  });
+
+  describe('getAriaLabelComplete', () => {
+    let interval: ConfiguratorAttributeNumericInterval = {
+      minValue: 5,
+      maxValue: 7,
+      minValueIncluded: true,
+      maxValueIncluded: true,
+    };
+
+    let minValueFormatted = '5.00';
+    let maxValueFormatted = '7.00';
+
+    it('should return aria text for entered value including text for standard interval', fakeAsync(() => {
+      component.intervals = [];
+      component.intervals.push(interval);
+      component.attribute.intervalInDomain = true;
+      component.attribute.label = 'Intervaltest';
+      component.attribute.userInput = '123';
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getAriaLabelComplete()).toBe(
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' ' +
+          'value:' +
+          component.attribute.userInput +
+          ' ' +
+          'configurator.a11y.numericIntervalStandard maxValue:' +
+          maxValueFormatted +
+          ' minValue:' +
+          minValueFormatted
+      );
+    }));
+
+    it('should return aria text for blank value including text for infinite interval with min value', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = undefined;
+      interval.minValueIncluded = false;
+
+      component.intervals = [];
+      component.intervals.push(interval);
+      component.attribute.intervalInDomain = true;
+      component.attribute.label = 'Intervaltest';
+      component.attribute.userInput = '';
+      fixture.detectChanges();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getAriaLabelComplete()).toBe(
+        'configurator.a11y.valueOfAttributeBlank attribute:' +
+          component.attribute.label +
+          ' ' +
+          'configurator.a11y.numericInfiniteIntervalMinValue value:' +
+          minValueFormatted
       );
     }));
   });
