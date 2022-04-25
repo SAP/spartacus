@@ -49,7 +49,7 @@ export class AuthHttpHeaderService implements OnDestroy {
    * Emits the token or `undefined`
    */
   protected token$: Observable<AuthToken | undefined> = this.authStorageService
-    .getToken()
+    .getToken$()
     .pipe(map((token) => (token?.access_token ? token : undefined)));
 
   /**
@@ -153,8 +153,7 @@ export class AuthHttpHeaderService implements OnDestroy {
   }
 
   protected getAuthorizationHeader(request: HttpRequest<any>): string | null {
-    const rawValue = request.headers.get('Authorization');
-    return rawValue;
+    return request.headers.get('Authorization');
   }
 
   protected createAuthorizationHeader(
@@ -165,11 +164,7 @@ export class AuthHttpHeaderService implements OnDestroy {
         Authorization: `${token.token_type || 'Bearer'} ${token.access_token}`,
       };
     }
-    let currentToken: AuthToken | undefined;
-    this.authStorageService
-      .getToken()
-      .subscribe((authToken) => (currentToken = authToken))
-      .unsubscribe();
+    let currentToken: AuthToken | undefined = this.authStorageService.getToken();
 
     if (currentToken?.access_token) {
       return {
