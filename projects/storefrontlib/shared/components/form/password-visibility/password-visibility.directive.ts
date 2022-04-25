@@ -40,18 +40,18 @@ export class PasswordVisibilityDirective implements OnInit {
   }
 
   protected createToggle(): void {
-    const parent = this.elementRef.nativeElement.parentNode;
+    const input = this.elementRef.nativeElement;
     this.button = this.winRef.document.createElement('button');
     this.button.setAttribute('class', 'cx-show-hide-btn');
     this.button.setAttribute('type', 'button');
     this.button.setAttribute('aria-label', this.showPassword);
 
-    const inputPosition = this.elementRef.nativeElement.getBoundingClientRect();
+    const inputPosition = input.getBoundingClientRect();
     const offset = (inputPosition.bottom - inputPosition.top) / 2;
-    const top = offset + this.elementRef.nativeElement.offsetTop;
+    const top = offset + input.offsetTop;
 
     this.button.style.top = top + 'px';
-    parent.appendChild(this.button);
+    input.after(this.button);
   }
 
   protected setAriaLabels(): void {
