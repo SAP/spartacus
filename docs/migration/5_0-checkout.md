@@ -4,6 +4,9 @@ Checkout refactoring + code splitting was done as part of the initiative of remo
 
 As we want to reduce the bundle size in Spartacus, the checkout refactoring also consisted of decoupling the checkout logic into three different entry points: 
 
+
+migrationnnn
+
 - `@spartacus/checkout/base` - offers a basic checkout functionality, such as b2c.
 - `@spartacus/checkout/b2b` - offers a b2b checkout flow.
 - `@spartacus/checkout/scheduled-replenishment` - offers a scheduled replenishment checkout flow.

@@ -16,6 +16,8 @@ const glob = promisify(globModule);
 const DELIMITER_START = '/** AUGMENTABLE_TYPES_START */';
 const DELIMITER_END = '/** AUGMENTABLE_TYPES_END */';
 
+console.log('test3');
+
 export default createBuilder(augmentedTypesBuilder);
 
 /**
