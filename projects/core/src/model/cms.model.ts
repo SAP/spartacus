@@ -107,6 +107,9 @@ export interface CmsBannerComponent extends CmsComponent {
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   urlLink?: string;
   external?: string | boolean;
+  contentPage?: string;
+  product?: string;
+  category?: string;
 }
 
 export enum CmsBannerCarouselEffect {
