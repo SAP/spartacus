@@ -49,7 +49,8 @@ export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
             every(
               (productInfo: ProductImportInfo) =>
                 productInfo.statusCode ===
-                ProductImportStatus.UNKNOWN_IDENTIFIER
+                  ProductImportStatus.UNKNOWN_IDENTIFIER ||
+                productInfo.statusCode === ProductImportStatus.UNKNOWN_ERROR
             )
           )
           .subscribe((isInvalid: boolean) => {
