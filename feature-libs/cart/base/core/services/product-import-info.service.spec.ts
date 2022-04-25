@@ -133,9 +133,7 @@ describe('ProductImportInfoService', () => {
 
       service.getResults(mockCartId).subscribe((data) => (result = data));
 
-      mockActionsSubject.next(
-        new CartActions.CartAddEntrySuccess(payload)
-      );
+      mockActionsSubject.next(new CartActions.CartAddEntrySuccess(payload));
 
       expect(result).toEqual({
         productCode: '693923',
