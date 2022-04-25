@@ -5,6 +5,7 @@ import { CheckoutAdapter } from './checkout.adapter';
 import { CheckoutConnector } from './checkout.connector';
 
 import createSpy = jasmine.createSpy;
+console.log('test2');
 
 class MockOrderAdapter implements Partial<CheckoutAdapter> {
   placeOrder = createSpy('CheckoutAdapter.placeOrder').and.callFake(

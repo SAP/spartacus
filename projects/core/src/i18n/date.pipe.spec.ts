@@ -13,6 +13,8 @@ describe('DatePipe', () => {
   let pipe: CxDatePipe;
   let languageService: LanguageService;
 
+  console.log('test2');
+
   beforeEach(() => {
     const mockLanguageService = {
       getActive: () => {},

@@ -166,6 +166,7 @@ jobs:
     needs: [no_retries, validate_e2e_execution]
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
+      if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -187,7 +188,7 @@ jobs:
       - name: Run e2es
         run: |
           ci-scripts/e2e-cypress.sh --ssr
-        if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
+      
   b2b_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
     name: E2E tests for B2B
