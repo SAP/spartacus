@@ -7,21 +7,22 @@
     justify-content: flex-start;
     max-width: 1140px;
 
-    .cx-error-notification-banner{
+    .cx-error-notification-banner {
       background-color: rgba(245, 206, 206, 1);
-      .cx-icon{
+      .cx-icon {
         color: var(--cx-color-danger);
       }
     }
-    .cx-conflict-notification-banner{
+    .cx-conflict-notification-banner {
       background-color: mix(#ffffff, theme-color('warning'), 78%);
-      .cx-icon{
+      .cx-icon {
         color: var(--cx-color-warning);
       }
     }
 
-    .cx-error-notification-banner, .cx-conflict-notification-banner{
-      width:100%;
+    .cx-error-notification-banner,
+    .cx-conflict-notification-banner {
+      width: 100%;
       display: flex;
       flex-direction: row;
       justify-content: flex-start;
@@ -51,7 +52,8 @@
       padding-block-end: 5px;
     }
 
-    .cx-error-msg, .cx-conflict-msg {
+    .cx-error-msg,
+    .cx-conflict-msg {
       padding-inline-end: 15px;
 
       button.link {

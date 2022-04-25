@@ -365,7 +365,6 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(1);
     });
 
-
     it('should go to first incomplete group in case the router requires this - has no conflicts', () => {
       spyOn(
         configuratorGroupsService,
