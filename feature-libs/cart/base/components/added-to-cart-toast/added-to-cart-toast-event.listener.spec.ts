@@ -23,6 +23,7 @@ mockEvent.quantity = 3;
 mockEvent.numberOfEntriesBeforeAdd = 1;
 
 const mockInstance = {
+  init: () => {},
   addToast: (_event: CartUiEventAddToCart) => {},
 };
 
@@ -79,8 +80,10 @@ describe('AddedToCartToastEventListener', () => {
     it('should add a toast', () => {
       spyOn(launchDialogService, 'launch').and.callThrough();
       spyOn(mockInstance, 'addToast').and.stub();
+
       listener['component'] = undefined;
       listener['addToast'](mockEvent);
+
       expect(launchDialogService.launch).toHaveBeenCalled();
       expect(mockInstance.addToast).toHaveBeenCalledWith(mockEvent);
     });

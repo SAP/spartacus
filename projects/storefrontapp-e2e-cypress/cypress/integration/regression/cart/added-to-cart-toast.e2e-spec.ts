@@ -1,7 +1,10 @@
+import {
+  clickAddToCart,
+  verifyAddedToCartToast,
+  visitFirstCarouselProductPage,
+} from '../../../helpers/cart';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-
-const productId = '266685';
 
 describe('Added to cart toast - Anonymous user', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -13,26 +16,39 @@ describe('Added to cart toast - Anonymous user', () => {
           timeout: 5000,
         },
       });
+      cy.visit('/');
     });
 
-    it('should add product to cart', () => {
-      cy.visit(`/product/${productId}`);
-      cy.get('cx-add-to-cart button[type=submit]').click();
-      cy.get('cx-added-to-cart-toast').within(() => {
-        cy.get('.added-to-cart-toast-title').should('contain', '1 item');
-        // check action buttons/links
-        cy.get('button').should('contain.text', 'Continue Shopping');
-        cy.get('.btn-primary')
-          .should('have.attr', 'href')
-          .then(($href) => {
-            expect($href).contain('/cart');
-          });
+    it('should add a product from a PDP to cart', () => {
+      const quantity = 4;
+
+      visitFirstCarouselProductPage();
+
+      const productNameEl = cy.get('h1');
+
+      cy.get('cx-item-counter input').type(`{selectall}${quantity}`);
+
+      clickAddToCart();
+      verifyAddedToCartToast(quantity, productNameEl);
+    });
+
+    it('should add a product from a PLP to cart', () => {
+      cy.get('header').within(() => {
+        cy.get('cx-navigation-ui')
+          .contains('Digital Cameras')
+          .click({ force: true });
       });
+
+      const productNameEl = cy.get('a.cx-product-name > h2').first();
+
+      clickAddToCart();
+      verifyAddedToCartToast(1, productNameEl);
     });
 
     it('should dismiss the toast', () => {
-      cy.visit(`/product/${productId}`);
-      cy.get('cx-add-to-cart button[type=submit]').click();
+      visitFirstCarouselProductPage();
+
+      clickAddToCart();
       cy.get('cx-added-to-cart-toast').within(() => {
         cy.get('button').click();
       });
@@ -40,14 +56,16 @@ describe('Added to cart toast - Anonymous user', () => {
     });
 
     it('should redirect to the cart page', () => {
-      cy.visit(`/product/${productId}`);
-      cy.get('cx-add-to-cart button[type=submit]').click();
-      cy.get('cx-added-to-cart-toast').within(() => {
-        cy.get('.btn-primary')
-          .click()
-          .then(() => {
-            cy.location('pathname').should('contain', '/cart');
-          });
+      visitFirstCarouselProductPage();
+
+      const productNameEl = cy.get('h1');
+
+      clickAddToCart();
+      cy.get('.added-to-cart-toast-content > .btn').click();
+
+      cy.location('pathname').should('contain', '/cart');
+      cy.get('.cx-name').should((el) => {
+        productNameEl.should('have.text', el.text());
       });
     });
   });

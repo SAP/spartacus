@@ -101,7 +101,7 @@ describe('AddedToCartToastComponent', () => {
     component.timeout = 3000;
     component.scrollEventUnlistener = () => {};
     fixture.detectChanges();
-    component.ngOnInit();
+    component.init();
   });
 
   afterEach(() => {
@@ -119,7 +119,6 @@ describe('AddedToCartToastComponent', () => {
   });
 
   it('should set the class on init', () => {
-    component.ngOnInit();
     expect(component.baseClass).toBe('cx-added-to-cart-toast');
   });
 
