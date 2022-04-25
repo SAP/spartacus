@@ -93,14 +93,19 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
     this.modalRef = this.modalService.open(CustomerListComponent, {
       centered: true,
-      size: 'lg',
+      size: 'mf',
+      windowClass: 'classTestHak',
     });
-    // const modalInstance = this.modalRef.componentInstance;
-    // modalInstance.init(
-    //   event.productCode,
-    //   event.quantity,
-    //   event.numberOfEntriesBeforeAdd
-    // );
+
+    this.modalRef.result
+      .then((selectedUser) => {
+        if (selectedUser) {
+          this.selectCustomerFromList(selectedUser);
+        }
+      })
+      .catch(() => {
+        // this  callback is called when modal is closed with Esc key or clicking backdrop
+      });
   }
 
   selectCustomerFromList(customer: User) {

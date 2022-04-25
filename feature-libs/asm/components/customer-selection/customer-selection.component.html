@@ -1,24 +1,33 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
   <label>
-    <div class="input-contaier">
+    <!-- <div class="input-group">
       <div>
+        <div class="input-group-prepend">
+          <cx-icon
+            (click)="showCustomList()"
+            class="icon-button text"
+            [type]="iconTypes.EMPTY_HEART"
+          ></cx-icon>
+        </div>
+      </div>
+      <input
+        required="true"
+        #searchTerm
+        type="text"
+        formControlName="searchTerm"
+        placeholder="{{
+          'asm.customerSearch.searchTerm.label' | cxTranslate
+        }}"
+      />
+    </div> -->
+
+    <div class="input-contaier">
+      <div class="icon-wrapper">
         <cx-icon
           (click)="showCustomList()"
-          class="icon-button text"
-          [type]="iconTypes.EMPTY_HEART"
+          class="fa-lg"
+          [type]="iconTypes.ADDRESS_BOOK"
         ></cx-icon>
-        <!-- <cx-icon
-          (click)="showCustomList()"
-          class="icon-button text"
-          [cxPopover]="customerList"
-          [cxPopoverOptions]="{
-            placement: 'bottom',
-            class: 'my-company-popover',
-            appendToBody: true,
-            displayCloseButton: true
-          }"
-          [type]="iconTypes.EMPTY_HEART"
-        ></cx-icon> -->
       </div>
       <input
         required="true"

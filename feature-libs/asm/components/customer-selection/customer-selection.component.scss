@@ -14,9 +14,22 @@ cx-customer-selection {
       min-width: auto;
       .input-contaier {
         display: flex;
-        .icon-button {
-          width: 36px;
-          width: 36px;
+        .icon-wrapper {
+          display: flex;
+          outline: 0;
+          border: 1px solid #89919a;
+          color: #fff;
+          background-color: #1672b7;
+          padding: 0 12px;
+          height: 36px;
+          border-top-left-radius: 4px;
+          border-bottom-left-radius: 4px;
+          border-right: 0px;
+          cursor: pointer;
+        }
+        input {
+          border-top-left-radius: 0px;
+          border-bottom-left-radius: 0px;
         }
       }
       @media (min-width: 575px) {

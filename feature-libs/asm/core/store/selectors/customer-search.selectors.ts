@@ -12,10 +12,19 @@ export const getCustomerSearchResultsLoaderState: MemoizedSelector<
   (state: AsmState) => state.customerSearchResult
 );
 
-export const getCustomerListResult: MemoizedSelector<
+export const getCustomerListResultLoaderState: MemoizedSelector<
   StateWithAsm,
   StateUtils.LoaderState<CustomerListsPage>
 > = createSelector(getAsmState, (state: AsmState) => state.customerLists);
+
+export const getCustomerListResult: MemoizedSelector<
+  StateWithAsm,
+  CustomerListsPage
+> = createSelector(
+  getCustomerListResultLoaderState,
+  (state: StateUtils.LoaderState<CustomerListsPage>) =>
+    StateUtils.loaderValueSelector(state)
+);
 
 export const getCustomerSearchResults: MemoizedSelector<
   StateWithAsm,

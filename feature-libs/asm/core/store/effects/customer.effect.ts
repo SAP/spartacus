@@ -16,7 +16,6 @@ export class CustomerEffects {
       switchMap(() =>
         this.asmConnector.customerLists().pipe(
           map((customerLists: CustomerListsPage) => {
-            debugger;
             return new AsmActions.CustomerListsSuccess(customerLists);
           }),
           catchError((error) =>

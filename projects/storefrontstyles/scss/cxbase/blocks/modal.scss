@@ -10,6 +10,8 @@ $modal-max-width-md: 768px !important;
 $modal-min-width-md: 768px !important;
 $modal-max-width-sm: 100% !important;
 $modal-min-width-sm: 100% !important;
+$modal-max-width-mf: 95% !important;
+$modal-min-width-mf: 95% !important;
 
 .modal {
   &-header {
@@ -35,6 +37,11 @@ $modal-min-width-sm: 100% !important;
   &[aria-hidden='false'] {
     display: block;
   }
+}
+
+.modal-mf {
+  max-width: $modal-max-width-mf;
+  min-width: $modal-min-width-mf;
 }
 
 .modal-xl,
