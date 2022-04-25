@@ -42,6 +42,13 @@ jobs:
         run: |         
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=OUTPUTS_RUN_E2E::$(echo $RUN_E2E)"
+          echo "who"
+          echo $RUN_E2E
+      - name: test from previous step
+        run: |
+          echo "${{ steps.save-e2e-output-result.outputs.OUTPUTS_RUN_E2E }}"
+          echo "test"
+          ci-scripts/validate-e2e-execution.sh
   unit_tests_core:
     needs: [no_retries, validate_e2e_execution]
     name: Unit tests for core Spartacus libs
@@ -130,7 +137,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2, 3, 4, 5]
-    if: ${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -154,7 +161,7 @@ jobs:
           SPA_ENV: ci,b2c
         run: |
           ci-scripts/e2e-cypress.sh
-        if: ${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
+        if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
   b2c_ssr_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
     name: E2E tests for SSR B2C
@@ -180,7 +187,7 @@ jobs:
       - name: Run e2es
         run: |
           ci-scripts/e2e-cypress.sh --ssr
-        if: ${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
+        if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
   b2b_e2e_tests:
     needs: [no_retries, validate_e2e_execution]
     name: E2E tests for B2B
@@ -188,7 +195,7 @@ jobs:
     strategy:
       matrix:
         containers: [1, 2]
-    if: ${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
+    if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
     steps:
       - uses: actions/checkout@v2
       - name: Cache node_modules
@@ -212,7 +219,7 @@ jobs:
           SPA_ENV: ci,b2b
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
-        if: ${{ needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
+        if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.OUTPUTS_RUN_E2E == 'true' }}
   build_conclusion:
     needs: [no_retries, unit_tests_core, unit_tests_libs, linting, b2c_e2e_tests, b2c_ssr_e2e_tests, b2b_e2e_tests]
     name: Build Conclusion
