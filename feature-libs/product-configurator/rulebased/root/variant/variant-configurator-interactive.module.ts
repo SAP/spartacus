@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { provideDefaultConfig } from '@spartacus/core';
 import {
   CmsPageGuard,
   HamburgerMenuModule,
-  LayoutConfig,
   PageLayoutComponent,
 } from '@spartacus/storefront';
+import { VariantConfiguratorInteractiveLayoutModule } from './variant-configurator-interactive-layout.module';
 
 /**
  * Takes care of the interactive configuration process (the user enters new attribute values and navigates through the configuration).
@@ -27,55 +26,7 @@ import {
       },
     ]),
     HamburgerMenuModule,
-  ],
-  providers: [
-    provideDefaultConfig(<LayoutConfig>{
-      layoutSlots: {
-        VariantConfigurationTemplate: {
-          header: {
-            md: {
-              slots: [
-                'PreHeader',
-                'SiteContext',
-                'SiteLinks',
-                'SiteLogo',
-                'SearchBox',
-                'SiteLogin',
-                'MiniCart',
-              ],
-            },
-            xs: {
-              slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
-            },
-          },
-
-          navigation: {
-            lg: { slots: [] },
-            slots: [
-              'SiteLogin',
-              'SiteContext',
-              'SiteLinks',
-              'VariantConfigMenu',
-            ],
-          },
-
-          lg: {
-            slots: [
-              'VariantConfigHeader',
-              'VariantConfigMenu',
-              'VariantConfigContent',
-              'VariantConfigBottombar',
-            ],
-          },
-
-          slots: [
-            'VariantConfigHeader',
-            'VariantConfigContent',
-            'VariantConfigBottombar',
-          ],
-        },
-      },
-    }),
+    VariantConfiguratorInteractiveLayoutModule,
   ],
 })
 export class VariantConfiguratorInteractiveModule {}

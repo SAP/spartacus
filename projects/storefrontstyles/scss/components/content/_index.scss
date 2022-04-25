@@ -3,7 +3,9 @@
 @import './media/index';
 @import './tab-paragraph-container/index';
 @import './global-message/index';
+@import './video/index';
 
 $content-components-allowlist: cx-banner, cx-link, cx-media, cx-carousel,
   cx-banner-carousel, cx-global-message, cx-navigation-ui, cx-footer-navigation,
-  cx-category-navigation, cx-breadcrumb, cx-page-header !default;
+  cx-category-navigation, cx-breadcrumb, cx-page-header, cx-scroll-to-top,
+  cx-video !default;

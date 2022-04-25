@@ -147,4 +147,135 @@
     padding-block-start: 20px;
     padding-block-end: 20px;
   }
+
+  .cx-ghost-group {
+    @include media-breakpoint-down(sm) {
+      margin-inline-start: -20px;
+      margin-inline-end: -20px;
+    }
+
+    .cx-ghost-header,
+    .cx-ghost-value,
+    .cx-ghost-label,
+    .cx-ghost-attribute-price {
+      background-color: var(--cx-color-ghost);
+    }
+
+    .cx-ghost-value,
+    .cx-ghost-label,
+    .cx-ghost-attribute-price {
+      height: 30px;
+    }
+
+    .cx-ghost-header {
+      width: 100%;
+      height: 58px;
+      margin-block-end: 8px;
+    }
+
+    .cx-ghost-body {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-block-start: 15px;
+
+      @include media-breakpoint-down(md) {
+        padding-inline-start: 16px;
+        padding-inline-end: 16px;
+      }
+
+      .cx-ghost-attribute-label,
+      .cx-ghost-attribute-value,
+      .cx-ghost-attribute-price {
+        margin-block-start: 10px;
+        margin-block-end: 10px;
+      }
+
+      .cx-ghost-attribute-value {
+        width: 30%;
+
+        @include media-breakpoint-only(xs) {
+          width: 30%;
+        }
+
+        .ghost {
+          height: 25px;
+        }
+      }
+
+      @include media-breakpoint-up(sm) {
+        .cx-ghost-attribute-value:nth-child(1) .ghost {
+          width: 25%;
+        }
+
+        .cx-ghost-attribute-value:nth-child(4) .ghost {
+          width: 75%;
+        }
+
+        .cx-ghost-attribute-value:nth-child(7) .ghost {
+          width: 25%;
+        }
+
+        .cx-ghost-attribute-value:nth-child(10) .ghost {
+          width: 65%;
+        }
+
+        .cx-ghost-attribute-value:nth-child(13) .ghost {
+          width: 25%;
+        }
+
+        .cx-ghost-attribute-value:nth-child(16) .ghost {
+          width: 35%;
+        }
+      }
+
+      .cx-ghost-attribute-label {
+        width: 60%;
+
+        @include media-breakpoint-only(xs) {
+          width: 80%;
+        }
+      }
+
+      @include media-breakpoint-up(sm) {
+        .cx-ghost-attribute-label:nth-child(2) .ghost {
+          width: 65%;
+        }
+
+        .cx-ghost-attribute-label:nth-child(5) .ghost {
+          width: 80%;
+          height: 85px;
+        }
+
+        .cx-ghost-attribute-label:nth-child(8) .ghost {
+          width: 75%;
+        }
+
+        .cx-ghost-attribute-label:nth-child(11) .ghost {
+          width: 70%;
+          height: 65px;
+        }
+
+        .cx-ghost-attribute-label:nth-child(14) .ghost {
+          width: 60%;
+        }
+
+        .cx-ghost-attribute-label:nth-child(17) .ghost {
+          width: 70%;
+        }
+      }
+
+      @include media-breakpoint-up(sm) {
+        .cx-ghost-attribute-price {
+          width: 10%;
+        }
+
+        .cx-ghost-attribute-price:nth-child(6),
+        .cx-ghost-attribute-price:nth-child(9),
+        .cx-ghost-attribute-price:nth-child(18) {
+          background-color: transparent;
+        }
+      }
+    }
+  }
 }

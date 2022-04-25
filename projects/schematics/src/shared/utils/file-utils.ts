@@ -1,6 +1,6 @@
 import { strings } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
-import { Attribute, Element, HtmlParser, Node } from '@angular/compiler';
+import type { Element, Node } from '@angular/compiler';
 import {
   findNode,
   findNodes,
@@ -214,11 +214,13 @@ function buildSelector(selector: string): string {
 }
 
 function visitHtmlNodesRecursively(
+  angularCompiler: typeof import('@angular/compiler'),
   nodes: Node[],
   propertyName: string,
   resultingElements: Node[] = [],
   parentElement?: Element
 ): void {
+  const { Attribute, Element } = angularCompiler;
   nodes.forEach((node) => {
     if (node instanceof Attribute && parentElement) {
       if (
@@ -230,12 +232,14 @@ function visitHtmlNodesRecursively(
     }
     if (node instanceof Element) {
       visitHtmlNodesRecursively(
+        angularCompiler,
         node.attrs,
         propertyName,
         resultingElements,
         node
       );
       visitHtmlNodesRecursively(
+        angularCompiler,
         node.children,
         propertyName,
         resultingElements,
@@ -247,13 +251,16 @@ function visitHtmlNodesRecursively(
 
 export function insertHtmlComment(
   content: string,
-  componentProperty: ComponentProperty
+  componentProperty: ComponentProperty,
+  angularCompiler: typeof import('@angular/compiler')
 ): string | undefined {
+  const { HtmlParser } = angularCompiler;
   const comment = buildHtmlComment(componentProperty.comment);
   const result = new HtmlParser().parse(content, '');
 
   const resultingElements: Node[] = [];
   visitHtmlNodesRecursively(
+    angularCompiler,
     result.rootNodes,
     componentProperty.name,
     resultingElements
@@ -1075,7 +1082,7 @@ export function insertCommentAboveIdentifier(
     }
 
     const identifierNodes = findNodes(node, identifierType).filter(
-      (node) => node.getText() === identifierName
+      (identifierNode) => identifierNode.getText() === identifierName
     );
 
     identifierNodes.forEach((n) =>

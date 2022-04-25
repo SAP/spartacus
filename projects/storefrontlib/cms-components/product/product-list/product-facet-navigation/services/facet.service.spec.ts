@@ -216,8 +216,12 @@ describe('FacetService', () => {
 
   describe('getLinkParams', () => {
     it('should decode the provided value', () => {
-      const result = service.getLinkParams('test%20test');
-      expect(result).toEqual({ query: 'test test' });
+      const result = service.getLinkParams(
+        'test%20test ~ ! @ # $ & * ( ) = : / , ; ? _ . %'
+      );
+      expect(result).toEqual({
+        query: 'test test ~ ! @ # $ & * ( ) = : / , ; ? _ . %',
+      });
     });
     it(`should replace '+' with and empty space ' '`, () => {
       const result = service.getLinkParams('test+test');

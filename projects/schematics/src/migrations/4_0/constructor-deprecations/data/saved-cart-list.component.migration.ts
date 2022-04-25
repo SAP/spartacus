@@ -5,12 +5,14 @@ import {
   ROUTING_SERVICE,
   SAVED_CART_FACADE,
   SAVED_CART_LIST_COMPONENT,
-  SPARTACUS_CART,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   TRANSLATION_SERVICE,
   VIEW_CONTAINER_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CART,
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SAVED_CART_LIST_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {

@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { provideDefaultConfig } from '@spartacus/core';
 import { LayoutConfig } from '@spartacus/storefront';
 
@@ -15,7 +14,7 @@ import { LayoutConfig } from '@spartacus/storefront';
       layoutSlots: {
         VariantConfigurationTemplate: {
           header: {
-            md: {
+            lg: {
               slots: [
                 'PreHeader',
                 'SiteLogo',

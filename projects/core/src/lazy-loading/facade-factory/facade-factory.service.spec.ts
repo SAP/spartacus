@@ -1,10 +1,10 @@
+import { Injectable, NgModule } from '@angular/core';
 import {
   fakeAsync,
   flushMicrotasks,
   TestBed,
   tick,
 } from '@angular/core/testing';
-import { FacadeFactoryService } from './facade-factory.service';
 import {
   BehaviorSubject,
   isObservable,
@@ -12,14 +12,14 @@ import {
   of,
   Subscription,
 } from 'rxjs';
-import { Injectable, NgModule } from '@angular/core';
+import { take } from 'rxjs/operators';
+import { CmsConfig } from '../../cms/config/cms-config';
 import { EventService } from '../../event/event.service';
 import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
 import { ModuleInitializedEvent } from '../events/module-initialized-event';
-import { CmsConfig } from '../../cms/config/cms-config';
-import { take } from 'rxjs/operators';
-import { facadeFactory } from './facade-factory';
 import { FacadeDescriptor } from './facade-descriptor';
+import { facadeFactory } from './facade-factory';
+import { FacadeFactoryService } from './facade-factory.service';
 
 @Injectable({
   providedIn: 'root',
@@ -116,6 +116,7 @@ describe('FacadeFactoryService', () => {
       expect(facade.testMethod).toBeTruthy();
       expect(facade.testMethod2).toBeTruthy();
       expect(facade.testProperty).toBeTruthy();
+      expect(service.isProxyFacadeInstance(facade)).toBeTruthy();
     });
 
     it('should not trigger lazy loading', fakeAsync(() => {
@@ -147,6 +148,10 @@ describe('FacadeFactoryService', () => {
 
     it('should be created', () => {
       expect(facade).toBeTruthy();
+    });
+
+    it('should be identified as a proxy instance', () => {
+      expect(service.isProxyFacadeInstance(facade)).toBeTruthy();
     });
 
     describe('method call', () => {

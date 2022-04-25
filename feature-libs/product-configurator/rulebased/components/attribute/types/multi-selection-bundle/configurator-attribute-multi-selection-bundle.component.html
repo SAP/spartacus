@@ -23,12 +23,13 @@
     (handleDeselect)="onDeselect($event)"
     (handleQuantity)="onChangeValueQuantity($event)"
     (handleSelect)="onSelect($event)"
-    *ngFor="let value of attribute?.values"
+    *ngFor="let value of attribute?.values; let i = index"
     [productCardOptions]="
       extractProductCardParameters(
         loading$ | async,
         preventAction$ | async,
-        value
+        value,
+        i
       )
     "
   >

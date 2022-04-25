@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgSelectModule } from '@ng-select/ng-select';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -123,6 +124,7 @@ describe('RegisterComponent', () => {
           RouterTestingModule,
           I18nTestingModule,
           FormErrorsModule,
+          NgSelectModule,
         ],
         declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
         providers: [

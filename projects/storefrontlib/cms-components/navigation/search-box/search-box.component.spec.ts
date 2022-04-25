@@ -46,7 +46,9 @@ class MockCmsComponentData {
   name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
-  transform(): any {}
+  transform(): any {
+    return ['test', 'url'];
+  }
 }
 
 @Pipe({

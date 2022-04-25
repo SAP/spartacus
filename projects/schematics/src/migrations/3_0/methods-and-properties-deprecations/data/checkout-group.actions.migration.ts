@@ -1,9 +1,9 @@
 import {
   CHECKOUT_ACTIONS,
   PLACE_ORDER_CLASS,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/core/src/checkout/store/actions/index.ts

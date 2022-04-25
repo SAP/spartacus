@@ -84,4 +84,14 @@ describe('normalizeHttpError', () => {
       expect(result instanceof HttpErrorModel).toBeTruthy();
     });
   });
+
+  describe('when the provided error is an instance of HttpErrorModel due to backoff mechanism', () => {
+    it('should return the normalized error', () => {
+      const normalizedError = new HttpErrorModel();
+      normalizedError.status = 400;
+
+      const result = normalizeHttpError(normalizedError);
+      expect(result).toEqual(normalizedError);
+    });
+  });
 });

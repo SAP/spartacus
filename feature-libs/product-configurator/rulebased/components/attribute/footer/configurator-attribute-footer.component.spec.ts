@@ -235,4 +235,42 @@ describe('ConfigAttributeFooterComponent', () => {
       expect(classUnderTest['needsUserInputMessage']()).toBe(true);
     });
   });
+
+  describe('Accessibility', () => {
+    it("should contain div element with class name 'cx-required-error-msg' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-required-error-msg',
+        0,
+        'aria-label',
+        'configurator.attribute.defaultRequiredMessage'
+      );
+    });
+
+    it("should contain div element with class name 'cx-required-error-msg' and 'aria-live' attribute that indicates that an element will be updated, and describes the types of updates a user can expect from the live region", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-required-error-msg',
+        0,
+        'aria-live',
+        'assertive'
+      );
+    });
+
+    it("should contain div element with class name 'cx-required-error-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-required-error-msg',
+        0,
+        'aria-atomic',
+        'true'
+      );
+    });
+  });
 });

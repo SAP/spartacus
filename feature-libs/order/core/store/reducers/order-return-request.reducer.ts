@@ -1,4 +1,4 @@
-import { ReturnRequestList } from '@spartacus/core';
+import { ReturnRequestList } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 
 export const initialState: ReturnRequestList = {

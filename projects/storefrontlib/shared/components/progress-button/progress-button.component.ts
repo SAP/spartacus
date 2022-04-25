@@ -17,7 +17,7 @@ export class ProgressButtonComponent {
   loading: boolean = false;
 
   @Output()
-  clikEvent = new EventEmitter<void>();
+  clickEvent = new EventEmitter<void>();
 
   constructor() {}
 }

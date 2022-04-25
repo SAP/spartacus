@@ -1,0 +1,5 @@
+@mixin cx-configurator-validation-msg {
+  .cx-validation-msg {
+    @include cx-configurator-error-msg();
+  }
+}
