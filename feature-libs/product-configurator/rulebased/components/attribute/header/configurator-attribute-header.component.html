@@ -38,6 +38,10 @@
       (click)="navigateToGroup()"
       (keydown.enter)="navigateToGroup()"
       tabindex="0"
+      [attr.aria-label]="
+        'configurator.a11y.navigateToConflict'
+          | cxTranslate: { attribute: attribute.label }
+      "
     >
       {{ getConflictMessageKey() | cxTranslate }}
     </a>

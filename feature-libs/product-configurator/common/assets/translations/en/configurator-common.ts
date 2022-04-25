@@ -173,6 +173,8 @@ export const configurator = {
       configurationPageLink: 'Navigate to configuration  page.',
       overviewPage: 'You are on the overview page.',
       overviewPageLink: 'Navigate to configuration overview page.',
+      navigateToConflict:
+        'Follow link to get more details on conflict for attribute {{ attribute }}.',
     },
   },
 };
