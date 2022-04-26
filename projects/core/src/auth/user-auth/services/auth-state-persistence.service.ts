@@ -56,7 +56,7 @@ export class AuthStatePersistenceService implements OnDestroy {
    */
   protected getAuthState(): Observable<SyncedAuthState> {
     return combineLatest([
-      this.authStorageService.getToken().pipe(
+      this.authStorageService.getToken$().pipe(
         filter((state) => !!state),
         map((state) => {
           return {

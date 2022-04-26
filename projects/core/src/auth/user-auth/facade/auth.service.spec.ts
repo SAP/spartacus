@@ -39,7 +39,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
-  getToken() {
+  getToken$() {
     return of({ access_token: 'token' } as AuthToken);
   }
   getItem() {

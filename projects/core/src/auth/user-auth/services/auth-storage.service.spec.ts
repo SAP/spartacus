@@ -23,10 +23,10 @@ describe('AuthStorageService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getToken()', () => {
+  describe('getToken$()', () => {
     it('should return the token', (done: DoneFn) => {
       service
-        .getToken()
+        .getToken$()
         .pipe(take(1))
         .subscribe((token: AuthToken) => {
           expect(token).toEqual(authToken);
@@ -45,8 +45,10 @@ describe('AuthStorageService', () => {
 
       service.setToken(newAuthToken);
 
+      expect(service.getToken()).toEqual(newAuthToken);
+
       service
-        .getToken()
+        .getToken$()
         .pipe(take(1))
         .subscribe((token: AuthToken) => {
           expect(token).toEqual(newAuthToken);
@@ -74,8 +76,9 @@ describe('AuthStorageService', () => {
     it('should not remove anything if wrong key passed', (done: DoneFn) => {
       service.removeItem('wrongKey');
 
+      expect(service.getToken()).toEqual(authToken);
       service
-        .getToken()
+        .getToken$()
         .pipe(take(1))
         .subscribe((token: AuthToken) => {
           expect(token).toEqual(authToken);
@@ -93,8 +96,9 @@ describe('AuthStorageService', () => {
 
       service.removeItem(key);
 
+      expect(service.getToken()).toEqual(newAuthToken);
       service
-        .getToken()
+        .getToken$()
         .pipe(take(1))
         .subscribe((token: AuthToken) => {
           expect(token).toEqual(newAuthToken);
@@ -108,8 +112,9 @@ describe('AuthStorageService', () => {
     it('should not set item if no key passed', (done: DoneFn) => {
       service.setItem(null, {});
 
+      expect(service.getToken()).toEqual(authToken);
       service
-        .getToken()
+        .getToken$()
         .pipe(take(1))
         .subscribe((token: AuthToken) => {
           expect(token).toEqual(authToken);
@@ -129,8 +134,9 @@ describe('AuthStorageService', () => {
         [newKey]: newValue,
       };
 
+      expect(service.getToken()).toEqual(newAuthToken);
       service
-        .getToken()
+        .getToken$()
         .pipe(take(1))
         .subscribe((token: AuthToken) => {
           expect(token).toEqual(newAuthToken);
@@ -150,8 +156,9 @@ describe('AuthStorageService', () => {
         [newKey]: newValue,
       };
 
+      expect(service.getToken()).toEqual(newAuthToken);
       service
-        .getToken()
+        .getToken$()
         .pipe(take(1))
         .subscribe((token: AuthToken) => {
           expect(token).toEqual(newAuthToken);

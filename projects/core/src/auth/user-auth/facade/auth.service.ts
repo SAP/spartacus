@@ -113,7 +113,7 @@ export class AuthService {
    * Returns `true` if the user is logged in; and `false` if the user is anonymous.
    */
   isUserLoggedIn(): Observable<boolean> {
-    return this.authStorageService.getToken().pipe(
+    return this.authStorageService.getToken$().pipe(
       map((userToken) => Boolean(userToken?.access_token)),
       distinctUntilChanged()
     );
