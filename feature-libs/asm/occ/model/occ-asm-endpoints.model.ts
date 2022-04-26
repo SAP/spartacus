@@ -9,5 +9,6 @@ declare module '@spartacus/core' {
      */
     asmCustomerSearch?: string | OccEndpoint;
     asmBindCart?: string | OccEndpoint;
+    asmCustomerLists?: string | OccEndpoint;
   }
 }

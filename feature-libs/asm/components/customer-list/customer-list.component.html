@@ -1,0 +1,224 @@
+<div #dialog>
+  <!-- Modal Header -->
+  <ng-container>
+    <div
+      class="cx-dialog-header modal-header"
+      *ngIf="customerListsPage$ | async as customerListsPage"
+    >
+      <ng-template
+        *ngTemplateOutlet="
+          groupSelector;
+          context: { customerListsPage: customerListsPage }
+        "
+      ></ng-template>
+      <div class="header-actions">
+        <ng-template *ngTemplateOutlet="sort"></ng-template>
+        <ng-template *ngTemplateOutlet="noOfCustomers"></ng-template>
+        <ng-template *ngTemplateOutlet="pagination"></ng-template>
+        <ng-template *ngTemplateOutlet="closeButton"></ng-template>
+      </div>
+    </div>
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="cx-dialog-row">
+        <div class="cx-dialog-item">
+          <div *ngIf="customerSearchPage$ | async as customerSearchPage">
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">
+                    {{ 'asm.customerList.tableHeader.name' | cxTranslate }}
+                  </th>
+                  <th scope="col">
+                    {{ 'asm.customerList.tableHeader.emailOrId' | cxTranslate }}
+                  </th>
+                  <th scope="col">
+                    {{ 'asm.customerList.tableHeader.phone' | cxTranslate }}
+                  </th>
+                  <th scope="col" class="cell-text-center">
+                    {{ 'asm.customerList.tableHeader.cart' | cxTranslate }}
+                  </th>
+                  <th scope="col" class="cell-text-center">
+                    {{ 'asm.customerList.tableHeader.order' | cxTranslate }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let customerEntry of customerSearchPage.entries">
+                  <td>
+                    <div class="badge">
+                      {{ getbadgeText(customerEntry) }}
+                    </div>
+                  </td>
+                  <td>
+                    <span
+                      class="cell-name"
+                      (click)="onClickName(customerEntry)"
+                      >{{ customerEntry.name }}</span
+                    >
+                  </td>
+                  <td>{{ customerEntry.uid }}</td>
+                  <td>{{ customerEntry?.defaultAddress?.phone }}</td>
+                  <td class="cell-text-center">
+                    <fd-icon
+                      font="SAP-icons"
+                      glyph="cart"
+                      (click)="onClickCart(customerEntry)"
+                    ></fd-icon>
+                    <!-- <cx-icon
+                      (click)="onClickCart(customerEntry)"
+                      class="cell-icon"
+                      [class.enabled]="customerEntry?.defaultAddress?.phone"
+                      [type]="iconTypes.CART"
+                    ></cx-icon> -->
+                  </td>
+                  <td class="cell-text-center">
+                    <!-- <cx-icon
+                      (click)="onClickOrder(customerEntry)"
+                      class="cell-icon"
+                      [class.enabled]="customerEntry"
+                      [type]="iconTypes.CLIPBOARD_LIST"
+                    ></cx-icon> -->
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="cx-dialog-header modal-header">
+      <div class="cx-dialog-title modal-title">
+        {{ 'addToCart.updatingCart' | cxTranslate }}
+      </div>
+      <button
+        type="button"
+        class="close"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        cxModal="dismiss"
+        cxModalReason="Cross click"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="cx-dialog-body modal-body">
+      <div class="cx-dialog-row">
+        <div class="col-sm-12"><cx-spinner></cx-spinner></div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- For screen reader purposes (not visual)-->
+  <div class="cx-visually-hidden" aria-live="polite" aria-atomic="true"></div>
+</div>
+
+<ng-template #noOfCustomers>
+  <div
+    class="table-header-cell"
+    *ngIf="customerSearchPage$ | async as customerSearchPage"
+  >
+    {{
+      'asm.customerList.noOfCustomers'
+        | cxTranslate: { count: customerSearchPage?.entries.length || 0 }
+    }}
+  </div>
+</ng-template>
+
+<ng-template #sort>
+  <button fn-button label="Button"></button>
+
+  <div class="table-header-cell sort" (click)="onClickDataSort()">
+    <!-- <cx-icon class="icon-button" [type]="iconTypes.ARROWS_DOWN_UP"></cx-icon> -->
+    <span *ngIf="dataSortDesc">{{
+      'asm.customerList.tableSort.nameSortDesc' | cxTranslate
+    }}</span>
+    <span *ngIf="!dataSortDesc">{{
+      'asm.customerList.tableSort.nameSortAsc' | cxTranslate
+    }}</span>
+    <cx-icon class="icon-button" [type]="dataSortIconType"></cx-icon>
+  </div>
+
+  <!-- <button
+    (click)="showBody = !showBody"
+    [attr.aria-expanded]="showBody"
+    [attr.aria-label]="'common.close' | cxTranslate"
+    aria-hidden="true"
+    class="cx-message-accordion-button link cx-action-link"
+    type="button"
+  >
+    xxxxxx
+    <cx-icon type="CARET_DOWN" class="cx-message-accordion-icon"></cx-icon>
+  </button>
+  <div *ngIf="showBody" class="cx-message-body">
+    <button ngbDropdownItem>Action - 1</button>
+    <button ngbDropdownItem>Another Action</button>
+  </div> -->
+</ng-template>
+
+<ng-template #pagination>
+  <cx-pagination
+    *ngIf="customerSearchPage$ | async as customerSearchPage"
+    class="pagination"
+    [pagination]="customerSearchPage?.pagination"
+    (viewPageEvent)="pageChange($event)"
+  ></cx-pagination>
+</ng-template>
+
+<ng-template #groupSelector let-customerListsPage="customerListsPage">
+  <!-- <fn-select placeholder="Select an option" [(value)]="selectedUserGroupId"> -->
+  <!-- <fn-select placeholder="Select an option">
+    <li fn-option *ngFor="let group of testGroups" [value]="group">
+      {{ group.name }}
+    </li>
+  </fn-select> -->
+
+  <select [(ngModel)]="selectedUserGroupId">
+    <option
+      [value]="group.uid"
+      *ngFor="let group of customerListsPage?.userGroups"
+    >
+      {{ group.name }}
+    </option>
+  </select>
+
+  <ng-select
+    name="userGroup"
+    class="userGroup"
+    [searchable]="false"
+    [clearable]="false"
+    (change)="getCustomers()"
+    [tabIndex]="0"
+    [(ngModel)]="selectedUserGroupId"
+    autofocus
+  >
+    <ng-option
+      *ngFor="let group of customerListsPage?.userGroups; first as first"
+      [value]="group.uid"
+      [selected]="first"
+    >
+      {{ group.name }}
+    </ng-option>
+  </ng-select>
+  <!-- [items]="customerListsPage$ | async" -->
+</ng-template>
+
+<ng-template #closeButton>
+  <button
+    type="button"
+    class="close"
+    attr.aria-label="{{ 'common.close' | cxTranslate }}"
+    cxModal="dismiss"
+    cxModalReason="Cross click"
+  >
+    <span aria-hidden="true">
+      <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+    </span>
+  </button>
+</ng-template>

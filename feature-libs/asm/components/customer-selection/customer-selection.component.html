@@ -1,12 +1,21 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
   <label>
-    <input
-      required="true"
-      #searchTerm
-      type="text"
-      formControlName="searchTerm"
-      placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
-    />
+    <div class="input-contaier">
+      <div class="icon-wrapper">
+        <cx-icon
+          (click)="showCustomList()"
+          class="fa-lg"
+          [type]="iconTypes.ADDRESS_BOOK"
+        ></cx-icon>
+      </div>
+      <input
+        required="true"
+        #searchTerm
+        type="text"
+        formControlName="searchTerm"
+        placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+      />
+    </div>
     <cx-form-errors
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
@@ -48,3 +57,9 @@
     <div></div>
   </div>
 </div>
+
+<ng-template #customerList>
+  <div>
+    {{ hakwooTest }}
+  </div>
+</ng-template>

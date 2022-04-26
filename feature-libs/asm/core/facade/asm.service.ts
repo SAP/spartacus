@@ -1,20 +1,45 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { QueryState } from '@spartacus/core';
+import { NEVER, Observable } from 'rxjs';
 import {
   AsmUi,
+  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../models/asm.models';
 import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
+// import { AsmQueryService } from './asm-query.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AsmService {
-  constructor(protected store: Store<StateWithAsm>) {}
+  constructor(
+    protected store: Store<StateWithAsm> //
+  ) // protected asmQueryService: AsmQueryService,
+  // protected asmConnector: AsmConnector
+  {}
+
+  getCustomerLists2(): Observable<QueryState<CustomerListsPage>> {
+    // return this.asmQueryService.getCustomerLists();
+    return NEVER;
+  }
+
+  getCustomerLists3(): Observable<CustomerListsPage> {
+    // return this.asmConnector.customerLists();
+    return NEVER;
+  }
+
+  getCustomerLists(): void {
+    this.store.dispatch(new AsmActions.CustomerLists());
+  }
+
+  getCustomerListsResult(): Observable<CustomerListsPage> {
+    return this.store.pipe(select(AsmSelectors.getCustomerListResult));
+  }
 
   /**
    * Search for customers

@@ -6,7 +6,7 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
-import { CustomerSearchPage } from '../../models/asm.models';
+import { CustomerListsPage, CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions';
 import { AsmState, CUSTOMER_SEARCH_DATA } from '../asm-state';
 import * as fromAsmUiReducer from './asm-ui.reducer';
@@ -16,6 +16,8 @@ export function getReducers(): ActionReducerMap<AsmState> {
     customerSearchResult:
       StateUtils.loaderReducer<CustomerSearchPage>(CUSTOMER_SEARCH_DATA),
     asmUi: fromAsmUiReducer.reducer,
+    customerLists:
+      StateUtils.loaderReducer<CustomerListsPage>(CUSTOMER_SEARCH_DATA),
   };
 }
 
