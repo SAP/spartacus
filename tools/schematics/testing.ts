@@ -31,6 +31,7 @@ const commands = [
   'build cart/schematics',
   'build order/schematics',
   'build checkout/schematics',
+  'build commerce-quotes/schematics',
   'build cdc/schematics',
   'build cds/schematics',
   'build digital-payments/schematics',
@@ -43,7 +44,6 @@ const commands = [
   'build storefinder/schematics',
   'build tracking/schematics',
   'build user/schematics',
-  'build commerce-quotes/schematics',
   'build all libs',
   'test all schematics',
   'exit',
@@ -168,6 +168,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build cart/schematics':
     case 'build order/schematics':
     case 'build checkout/schematics':
+    case 'build commerce-quotes/schematics':
     case 'build cdc/schematics':
     case 'build cds/schematics':
     case 'build digital-payments/schematics':

@@ -15,7 +15,6 @@ import {
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_COMMERCE_QUOTES,
-  STORE_FINDER_SCSS_FILE_NAME,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -27,6 +26,7 @@ import {
   COMMERCE_QUOTES_TRANSLATION_CHUNKS_CONFIG,
   SPARTACUS_COMMERCE_QUOTES_ASSETS,
   SPARTACUS_COMMERCE_QUOTES_ROOT,
+  COMMERCE_QUOTES_SCSS_FILE_NAME
 } from '../constants';
 
 export function addCommerceQuotesFeatures(
@@ -68,7 +68,7 @@ function addCommerceQuotesFeature(options: SpartacusCommerceQuotesOptions): Rule
       importPath: SPARTACUS_COMMERCE_QUOTES_ASSETS,
     },
     styles: {
-      scssFileName: STORE_FINDER_SCSS_FILE_NAME,
+      scssFileName: COMMERCE_QUOTES_SCSS_FILE_NAME,
       importStyle: SPARTACUS_COMMERCE_QUOTES,
     },
   });
