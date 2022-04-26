@@ -12,7 +12,7 @@ env:
   NODE_VERSION: '16'
 
 concurrency: 
-  group: ${{ github.head_ref || github.run_id }}
+  group: lighthouse-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
 name: Lighthouse
