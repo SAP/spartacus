@@ -4,6 +4,7 @@ on:
       - develop
       - epic/**
       - release/**
+      - testepic/**
       - integration-libs/**
   pull_request:
     types: [opened, synchronize]
