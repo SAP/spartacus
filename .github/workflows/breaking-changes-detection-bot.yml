@@ -1,6 +1,6 @@
 on:
   pull_request:
-    types: [reopened]
+    types: [opened, synchronize, reopened]
 name: API extractor
 jobs:
   breakingChangeDetectionBot:
