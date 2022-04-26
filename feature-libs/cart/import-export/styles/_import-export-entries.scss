@@ -1,6 +1,6 @@
 cx-import-export-order-entries {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   margin: 1.5rem 0;
   max-width: var(--cx-page-width-max);
   > * {
@@ -19,9 +19,15 @@ cx-import-export-order-entries {
       }
     }
   }
-  cx-import-order-entries,
-  cx-export-order-entries {
+  cx-import-order-entries {
     width: auto;
     margin: 0;
+  }
+  // override 'container' class if 'cx-export-order-entries' is within 'cx-import-export-order-entries'
+  cx-export-order-entries {
+    width: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-width: 0 !important;
   }
 }

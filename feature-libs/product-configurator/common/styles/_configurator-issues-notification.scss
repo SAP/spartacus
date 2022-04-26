@@ -1,5 +1,6 @@
 %cx-configurator-issues-notification {
   display: none;
+  width: 100%;
 
   &:not(:empty) {
     display: flex;
@@ -15,11 +16,6 @@
 
     margin-block-start: 1.25rem;
     margin-block-end: 1.25rem;
-
-    @include media-breakpoint-down(sm) {
-      margin-inline-start: -45px;
-      margin-inline-end: -65px;
-    }
 
     cx-icon {
       align-self: flex-start;

@@ -17,6 +17,8 @@ export const product = {
       label: 'Filter by',
       action: 'Filter by',
     },
+    activeFilter:
+      '{{filter}} filter, clicking on this button will remove the filter',
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
@@ -43,7 +45,7 @@ export const product = {
     ariaLabelShowMore:
       'Show more, button, clicking on this button will show all options for the active group',
     ariaLabelItemsAvailable: '{{name}}, {{state}} {{count}} item available',
-    ariaLabelItemsAvailable_plural:
+    ariaLabelItemsAvailable_other:
       '{{name}}, {{state}} {{count}} items available',
     decreaseOptionsVisibility:
       'Options were hidden from the active group, tab backward to read them or forward for the next group',
@@ -65,7 +67,7 @@ export const product = {
     rating: 'Rating',
     ratingRequired: 'Product rating, required',
     addRate: 'Add rate: {{count}} star',
-    addRate_plural: 'Add rate: {{count}} stars',
+    addRate_other: 'Add rate: {{count}} stars',
     reviewerName: 'Reviewer name (optional)',
     writeReview: 'Write a Review',
     more: 'Show More Reviews',

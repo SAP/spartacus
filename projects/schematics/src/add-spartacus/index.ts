@@ -8,7 +8,7 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { ANGULAR_HTTP } from '../shared/constants';
+import { ANGULAR_HTTP, RXJS } from '../shared/constants';
 import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
@@ -27,6 +27,7 @@ import {
   prepare3rdPartyDependencies,
   prepareSpartacusDependencies,
   readPackageJson,
+  updatePackageJsonDependencies,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -286,9 +287,20 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
+    const packageJsonFile = readPackageJson(tree);
+    const spartacusDependencies = prepareDependencies();
 
+    const spartacusRxjsDependency: NodeDependency[] = [
+      spartacusDependencies.find((dep) => dep.name === RXJS) as NodeDependency,
+    ];
     return chain([
-      addPackageJsonDependencies(prepareDependencies(), readPackageJson(tree)),
+      addPackageJsonDependencies(spartacusDependencies, packageJsonFile),
+
+      /**
+       * Force installing versions of dependencies used by Spartacus.
+       * E.g. ng13 uses rxjs 7, but Spartacus uses rxjs 6.
+       */
+      updatePackageJsonDependencies(spartacusRxjsDependency, packageJsonFile),
 
       setupStoreModules(options.project),
 

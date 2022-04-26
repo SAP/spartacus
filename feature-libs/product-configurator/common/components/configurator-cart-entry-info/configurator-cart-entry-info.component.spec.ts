@@ -117,10 +117,11 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       });
       mockCartItemContext.readonly$.next(false);
 
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        0
-      );
+      const htmlElementAfterChanges = fixture.nativeElement;
+      expect(
+        htmlElementAfterChanges.querySelectorAll('.cx-configuration-info')
+          .length
+      ).toBe(0);
     });
 
     it('should be displayed if model provides a success entry', () => {
@@ -138,10 +139,11 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       mockCartItemContext.readonly$.next(false);
 
       fixture.detectChanges();
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        1
-      );
+      const htmlElementAfterChanges = fixture.nativeElement;
+      expect(
+        htmlElementAfterChanges.querySelectorAll('.cx-configuration-info')
+          .length
+      ).toBe(1);
     });
 
     it('should be displayed if model provides a warning entry', () => {
@@ -224,9 +226,10 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
         fixture.detectChanges();
 
-        const htmlElem = fixture.nativeElement;
+        const htmlElementAfterChanges = fixture.nativeElement;
         expect(
-          htmlElem.querySelectorAll('.cx-configure-cart-entry').length
+          htmlElementAfterChanges.querySelectorAll('.cx-configure-cart-entry')
+            .length
         ).toBe(0);
       });
 
@@ -234,9 +237,10 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
         fixture.detectChanges();
 
-        const htmlElem = fixture.nativeElement;
+        const htmlElementAfterChanges = fixture.nativeElement;
         expect(
-          htmlElem.querySelectorAll('cx-configure-cart-entry').length
+          htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
+            .length
         ).toBe(1);
       });
     });

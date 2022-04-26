@@ -45,6 +45,7 @@ title: Changes to Styles in 5.0
 - wrapped everything in `%pdpFlat`inside a `> div {...}` to restore styling after template changes
 - `span.accordion-icon` has been added for screen reader improvments.
 - `$useAccordionOnly` var has been added allowing to switch between tabs and accordion view.
+- Class `div.cx-tab-paragraph-content` has been added to change the background color of active open tab.
 
 ## Change in \_order-summary.scss
 
@@ -62,9 +63,10 @@ title: Changes to Styles in 5.0
 
 - `padding-block-end` was deleted on `@mixin cx-configurator-template` to enable floating add to cart button styling.
 
-### BreadcrumbComponent 
+### BreadcrumbComponent (_breadcrumb.scss)
 
 - Style structure changed from `span > a` to `ol > li > a` to account for the changes in template markup.
+- Added `text-transform` and set to `capitalize` for `h1`
 
 ### AddressFormComponent
 
@@ -85,3 +87,84 @@ title: Changes to Styles in 5.0
 
 - `display: none` has been removed from `cx-form-errors`
 - Style structure `&.control-invalid > &.control-dirty, &.control-touched` has ben removed `cx-form-errors`
+
+### AddToCartComponent (_add-to-cart.scss)
+
+- Added `position` and set to `absolute` of `quantity.info`
+- Added `transform` and set to `translate(0, -50%)` of `quantity.info`
+- Added `top` and set to `50%` of `quantity.info`
+
+### CartDetails (_cart-details.scss)
+
+- Removed styling for classes `cx-total, cx-remove-btn, cx-sfl-btn`.
+
+### CartItemList (_cart-item-list.scss)
+
+- Now it extends styles of `.cx-agnostic-table`
+- Most of the styles responsible for table structure has been moved to `.cx-agnostic-table`.
+- Previous styles have been removed and added custom styling for cells and used classes. Please see the source code for more details.
+
+### CartItemValidationWarning (_cart-item-validation-warning.scss)
+
+- Changed `text-align` to `var(--cx-text-align, start)` for `.alert` in `%cx-cart-item-validation-warning`.
+
+### SaveForLater (_save-for-later.scss)
+
+- Removed styling for classes `cx-total, cx-remove-btn, cx-sfl-btn`.
+
+### QuickOrderForm (_quick-order-form.scss)
+
+- Selector `cx-quick-order-form` has been replaced by placeholder selector: `%cx-quick-order-form`.
+
+### CartQuickOrderForm (_cart-quick-order-form.scss)
+
+- Selector `cx-cart-quick-order-form` has been replaced by placeholder selector: `%cx-cart-quick-order-form`.
+
+### QuickOrder (_quick-order.scss)
+
+- Selector `cx-quick-order` has been replaced by placeholder selector: `%cx-quick-order`.
+
+### QuickOrderTable (_quick-order-table.scss)
+
+- Selector `cx-quick-order-table` has been replaced by placeholder selector: `%cx-quick-order-table`.
+- Now it extends styles of `%cx-cart-item-list`.
+- All other styles has been removed.
+
+### WishList (_wish-list.scss)
+
+- Added styling for `td.cx-actions > cx-add-to-cart`.
+- Removed styling for `.cx-item-list-price`.
+- Removed `--cx-max-width: 75%` and `margin: auto` from `%cx-wish-list`.
+- Changed order of `@include media-breakpoint-down(sm)` and `@include media-breakpoint-down(md)`.
+- Styling for `.cx-item-list-row:last-of-type` has been moved from `@include media-breakpoint-down(sm)` to `@include media-breakpoint-down(md)`.
+- `--cx-max-width` from `@include media-breakpoint-down(md)` has been changed to `75%`.
+
+### WishListItem (_wish-list-item.scss)
+
+- File has been removed.
+
+### AmendOrderItems (_amend-order-items.scss)
+
+- Now it extends styles of `%cx-cart-item-list`.
+- All other styles has been removed.
+
+### ReturnRequestItems (_return-request-items.scsss)
+
+- Now it extends styles of `%_return-request-items.scss`.
+- All other styles has been removed.
+
+### LoginComponent (_login.scss)
+
+- Added `padding-top` and set to `4px` for `nav > ul > li > button` part of the `cx-page-slot`
+- Added `padding-bottom` and set to `0` for ``nav > ul > li > button` part of the `cx-page-slot`
+
+### ConfigureCartEntry (_configure-cart-entry.scss)
+
+- Changed `font-size` to `var(--cx-font-size, 1.188rem)` for `label.disabled-link` in `%cx-configure-cart-entry`.
+- Changed `font-weight` to `var(--cx-font-weight-bold)` for `label.disabled-link` in `%cx-configure-cart-entry`.
+
+## Change in _variables.scss
+- `$primary-accent: #ff8b8b !default;` has been added to Sparta theme colors
+
+## Change in santorini.scss
+- `--cx-color-primary-accent: #50b0f4;` and `--cx-color-secondary-accent: #c3cbde;` were added to santorini theme.

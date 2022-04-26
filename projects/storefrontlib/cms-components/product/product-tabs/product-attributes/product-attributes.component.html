@@ -14,7 +14,7 @@
               <span
                 *ngIf="
                   feature.featureUnit?.symbol?.length > 0 &&
-                  feature.featureUnit.unitType != '300'
+                  feature.featureUnit.unitType !== '300'
                 "
               >
                 {{ feature.featureUnit.symbol }}

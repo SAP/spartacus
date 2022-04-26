@@ -15,6 +15,7 @@ import {
   PromotionsModule,
   provideOutlet,
 } from '@spartacus/storefront';
+import { CartItemListRowComponent } from './cart-item-list-row/cart-item-list-row.component';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartItemValidationWarningModule } from '../validation/cart-item-warning/cart-item-validation-warning.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
@@ -54,7 +55,13 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     CartItemComponent,
     OrderSummaryComponent,
     CartItemListComponent,
+    CartItemListRowComponent,
   ],
-  exports: [CartItemComponent, CartItemListComponent, OrderSummaryComponent],
+  exports: [
+    CartItemComponent,
+    CartItemListRowComponent,
+    CartItemListComponent,
+    OrderSummaryComponent,
+  ],
 })
 export class CartSharedModule {}

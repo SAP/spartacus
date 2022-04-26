@@ -463,7 +463,8 @@ function categorizeUsageOfDependencies(
         } else if (
           file.endsWith('spec.ts') ||
           file === `${lib.directory}/test.ts` ||
-          file === `${lib.directory}/src/test.ts`
+          file === `${lib.directory}/src/test.ts` ||
+          file === `${lib.directory}/test-jest.ts`
         ) {
           imp.usageIn.spec = true;
         } else if (file.includes('schematics')) {

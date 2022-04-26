@@ -25,7 +25,7 @@
       [selected]="item.selected"
       [value]="item.valueCode"
       [attr.aria-label]="
-        item.valueCode == 0
+        item.valueCode === '0'
           ? ('configurator.a11y.forAttribute'
             | cxTranslate
               : { value: item.valueDisplay, attribute: attribute.label })

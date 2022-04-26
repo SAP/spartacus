@@ -28,7 +28,7 @@ export const myAccount = {
     passwordUpdateSuccess: 'Password updated with success',
   },
   updateProfileForm: {
-    title: '',
+    title: 'Title',
     none: '',
     firstName: {
       label: 'First name',
@@ -71,6 +71,7 @@ export const myAccount = {
     endDateAsc: 'End Date (ascending)',
     endDateDesc: 'End Date (descending)',
     sortBy: 'Sort by',
+    sortCoupons: 'Sort coupons',
     notesPreffix:
       'You can set your preferred channels for receiving coupon notifications on the ',
     notesLink: 'Notification Channels',
@@ -96,6 +97,7 @@ export const myAccount = {
     outOfStock: 'Out of Stock',
     BACK_IN_STOCK: 'Back In Stock',
     sortBy: 'Sort by',
+    sortInterests: 'Sort interests',
     expirationDate: ' - Till {{ expirationDate }}',
     productId: 'ID {{ code }}',
     remove: 'REMOVE',
