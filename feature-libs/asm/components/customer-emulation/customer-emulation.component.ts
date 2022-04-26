@@ -49,17 +49,16 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     const customerId = this.customer.uid;
     const cartId = this.cartId.value;
 
-    //https://localhost:9002/assistedservicewebservices/customers/search?baseSite=electronics-spa&sort=byNameAsc&query=cman&pageSize=20
-
-    console.log('customerId', customerId);
-    console.log('cartId', cartId);
-
     if (customerId) {
       this.occAsmAdapter.bindCart(cartId, customerId).subscribe();
     }
   }
 
-  cancel() {}
+  cancel() {
+    const cartId = this.cartId.value;
+    this.occAsmAdapter.bindCart(cartId, '').subscribe();
+    this.cartId.setValue('');
+  }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

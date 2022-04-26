@@ -13,13 +13,14 @@
       type="text"
       placeholder="Cart number"
       [formControl]="cartId"
+      (keydown.enter)="assignCartToCustomer()"
     />
   </label>
-  <button *ngIf="cartIdExists" (click)="assignCartToCustomer()">
-    Assign Cart to Customer
-  </button>
-  <button (click)="cancel()">Cancel</button>
-  <button (click)="logoutCustomer()">
+  <ng-container *ngIf="cartIdExists">
+    <button (click)="assignCartToCustomer()">Assign Cart to Customer</button>
+    <button (click)="cancel()">Cancel</button>
+  </ng-container>
+  <button *ngIf="!cartIdExists" (click)="logoutCustomer()">
     {{ 'asm.endSession' | cxTranslate }}
   </button>
 </ng-container>
