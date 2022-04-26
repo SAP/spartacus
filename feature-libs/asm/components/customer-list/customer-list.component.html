@@ -61,20 +61,25 @@
                   <td>{{ customerEntry.uid }}</td>
                   <td>{{ customerEntry?.defaultAddress?.phone }}</td>
                   <td class="cell-text-center">
-                    <cx-icon
+                    <fd-icon
+                      font="SAP-icons"
+                      glyph="cart"
+                      (click)="onClickCart(customerEntry)"
+                    ></fd-icon>
+                    <!-- <cx-icon
                       (click)="onClickCart(customerEntry)"
                       class="cell-icon"
                       [class.enabled]="customerEntry?.defaultAddress?.phone"
                       [type]="iconTypes.CART"
-                    ></cx-icon>
+                    ></cx-icon> -->
                   </td>
                   <td class="cell-text-center">
-                    <cx-icon
+                    <!-- <cx-icon
                       (click)="onClickOrder(customerEntry)"
                       class="cell-icon"
                       [class.enabled]="customerEntry"
                       [type]="iconTypes.CLIPBOARD_LIST"
-                    ></cx-icon>
+                    ></cx-icon> -->
                   </td>
                 </tr>
               </tbody>
