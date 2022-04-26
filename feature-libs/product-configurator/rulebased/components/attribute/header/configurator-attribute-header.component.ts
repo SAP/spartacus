@@ -39,7 +39,7 @@ export class ConfiguratorAttributeHeaderComponent
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorUiSettings?: ConfiguratorUISettingsConfig
+    protected configuratorUiSettings: ConfiguratorUISettingsConfig
   ) {
     super();
   }
@@ -245,9 +245,12 @@ export class ConfiguratorAttributeHeaderComponent
       )
       .subscribe(callback);
   }
+  /**
+   * @returns true only if navigation to conflict groups is enabled.
+   */
   isNavigationToConflictEnabled(): boolean {
     return (
-      this.configuratorUiSettings?.productConfigurator
+      this.configuratorUiSettings.productConfigurator
         ?.enableNavigationToConflict ?? false
     );
   }

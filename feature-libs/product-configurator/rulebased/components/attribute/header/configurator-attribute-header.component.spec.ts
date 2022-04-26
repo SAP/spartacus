@@ -889,14 +889,6 @@ describe('ConfigAttributeHeaderComponent', () => {
       uiConfig.productConfigurator = undefined;
       expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
-    it('should return false if configurator UI config is not available', () => {
-      component = new ConfiguratorAttributeHeaderComponent(
-        configuratorStorefrontUtilsService,
-        configuratorCommonsService,
-        configurationGroupsService
-      );
-      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
-    });
     it('should return false if enableNavigationToConflict setting is not provided', () => {
       (uiConfig.productConfigurator ??= {}).enableNavigationToConflict =
         undefined;
