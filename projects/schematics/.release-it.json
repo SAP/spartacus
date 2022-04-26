@@ -8,7 +8,7 @@
   },
   "github": {
     "release": true,
-    "releaseName": "@spartacus/schematics@${version}",
+    "releaseName": "@spartacus/schesssmatics@${version}",
     "releaseNotes": "cd ../.. && ts-node ./scripts/changelog.ts --verbose --lib schematics --to schematics-${version}"
   },
   "hooks": {
