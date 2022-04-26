@@ -39,11 +39,7 @@ export class DeferLoaderService {
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable<boolean> {
-    if (
-      this.shouldLoadInstantly(
-        (options || {}).deferLoading ?? DeferLoadingStrategy.INSTANT
-      )
-    ) {
+    if (this.shouldLoadInstantly((options || {}).deferLoading)) {
       return of(true);
     } else {
       return this.intersectionService.isIntersected(element, options);
@@ -51,7 +47,7 @@ export class DeferLoaderService {
   }
 
   private shouldLoadInstantly(
-    elementLoadingStrategy: DeferLoadingStrategy
+    elementLoadingStrategy?: DeferLoadingStrategy
   ): boolean {
     return (
       isPlatformServer(this.platformId) ||
