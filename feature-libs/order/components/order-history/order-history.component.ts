@@ -80,7 +80,7 @@ export class OrderHistoryComponent implements OnDestroy {
 
   goToOrderDetail(order: Order): void {
     this.routing.go({
-      cxRoute: 'orderDetails',
+      cxRoute: 'test',
       params: order,
     });
   }
