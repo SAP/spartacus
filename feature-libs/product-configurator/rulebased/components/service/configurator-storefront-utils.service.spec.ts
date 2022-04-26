@@ -32,6 +32,11 @@ function createElement(id: string): HTMLElement {
   return element;
 }
 
+function createNode(name: string): HTMLElement {
+  const element = document.createElement(name);
+  return element;
+}
+
 function createFocusedElements(
   attribute: string,
   amountOfAttributes: number,
@@ -56,9 +61,6 @@ function createFocusedElements(
       <label id="ATTR_1--value_1">value_1</label>
       <label id="ATTR_1--value_2">value_2</label>
       <label id="ATTR_1--value_3">value_3</label>
-      <label id="ATTR_2--value_1">value_1</label>
-      <label id="ATTR_2--value_2">value_2</label>
-      <label id="ATTR_2--value_3">value_3</label>
     </cx-configurator-form>
   `,
 })
@@ -264,26 +266,17 @@ describe('ConfigUtilsService', () => {
         return value;
       }
 
+      function spyFocusForFocusedElements(focusedElements) {
+        focusedElements.forEach((focusedElement) => {
+          spyOn(focusedElement, 'focus').and.callThrough();
+        });
+      }
+
       let attribute: Configurator.Attribute = {
-        name: 'ATTR_2',
+        name: 'ATTR_1',
         uiType: Configurator.UiType.RADIOBUTTON,
         values: [],
       };
-
-      function spyFocus(): HTMLElement | undefined {
-        const selectedValue = attribute.values?.find((value) => value.selected);
-        if (selectedValue) {
-          const valueUiKey = attribute.name + '--' + selectedValue.valueCode;
-          const focusedElement = focusedElements.find(
-            (el) => el.id.indexOf(valueUiKey) !== -1
-          );
-          if (focusedElement) {
-            spyOn(focusedElement, 'focus').and.callThrough();
-          }
-          return focusedElement;
-        }
-        return undefined;
-      }
 
       beforeEach(() => {
         focusedElements = fixture.debugElement
@@ -293,63 +286,109 @@ describe('ConfigUtilsService', () => {
         document.querySelector = jasmine
           .createSpy('HTML Element')
           .and.returnValue(focusedElements);
-
-        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
-          focusedElements
-        );
       });
 
       it('should not set focus because attribute does not contain any values', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
-        const focusedElement = spyFocus();
+        spyFocusForFocusedElements(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+
         classUnderTest.focusValue(attribute);
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
-        if (focusedElement) {
-          expect(focusedElement.focus).toHaveBeenCalled();
-        }
+
+        expect(focusedElements[0].focus).toHaveBeenCalled();
+        expect(focusedElements[1].focus).not.toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
       });
 
       it('should set focus because attribute contains selected value', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        spyFocusForFocusedElements(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
 
         const value1 = createValue('value_1', false);
         const value2 = createValue('value_2', true);
         const value3 = createValue('value_3', false);
         attribute.values = [value1, value2, value3];
-        const focusedElement = spyFocus();
 
         classUnderTest.focusValue(attribute);
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
-        if (focusedElement) {
-          expect(focusedElement.focus).toHaveBeenCalled();
-        }
+        expect(focusedElements[0].focus).not.toHaveBeenCalled();
+        expect(focusedElements[1].focus).toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
+      });
+
+      it('should set focus because on conflict description', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        focusedElements = [
+          createNode('cx-configurator-conflict-description'),
+        ].concat(focusedElements);
+        spyFocusForFocusedElements(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+
+        const value1 = createValue('value_1', false);
+        const value2 = createValue('value_2', true);
+        const value3 = createValue('value_3', false);
+        attribute.values = [value1, value2, value3];
+
+        classUnderTest.focusValue(attribute);
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+        expect(focusedElements[0].focus).toHaveBeenCalled();
+        expect(focusedElements[1].focus).not.toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
+        expect(focusedElements[3].focus).not.toHaveBeenCalled();
       });
 
       it('should not set focus because no focused element is found', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        spyFocusForFocusedElements(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
         attribute.name = 'NO_ATTR_2';
-        const focusedElement = spyFocus();
 
         classUnderTest.focusValue(attribute);
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
-        if (focusedElement) {
-          expect(focusedElement.focus).toHaveBeenCalled();
-        }
+        expect(focusedElements[0].focus).not.toHaveBeenCalled();
+        expect(focusedElements[1].focus).not.toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
       });
 
       it('should not set focus because form is not defined', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        spyFocusForFocusedElements(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
         document.querySelector = jasmine
           .createSpy('HTML Element')
           .and.returnValue(undefined);
+
         classUnderTest.focusValue(attribute);
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+        expect(focusedElements[0].focus).not.toHaveBeenCalled();
+        expect(focusedElements[1].focus).not.toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
       });
 
       it('should not set focus because browser context is not defined', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(false);
+        spyFocusForFocusedElements(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+
         classUnderTest.focusValue(attribute);
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+        expect(focusedElements[0].focus).not.toHaveBeenCalled();
+        expect(focusedElements[1].focus).not.toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
       });
     });
   });
