@@ -1,4 +1,4 @@
 {
-    "extends": "../../.eslintrc.json",
-    "ignorePatterns": ["schematics/**/*.d.ts"]
-  }
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": ["schematics/**/*.d.ts"]
+}
