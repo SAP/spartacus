@@ -58,7 +58,7 @@ export class AddressBookComponent implements OnInit {
 
   editAddressSubmit(address: Address): void {
     this.showEditAddressForm = false;
-    if (this.currentAddress['id']) {
+    if (address && this.currentAddress['id']) {
       this.service.updateUserAddress(this.currentAddress['id'], address);
     }
   }
