@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
@@ -6,13 +6,20 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import {
+  ConfiguratorCommonsService,
+  ConfiguratorGroupsService,
+} from '@spartacus/product-configurator/rulebased';
+import {
   IconLoaderService,
   IconModule,
   ICON_TYPE,
 } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { TestScheduler } from 'rxjs/testing';
 import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
+import * as ConfigurationTestData from '../../../testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
@@ -33,11 +40,39 @@ class MockConfigUtilsService {
   isCartEntryOrGroupVisited(): Observable<boolean> {
     return of(isCartEntryOrGroupVisited);
   }
+
+  focusAttribute(): void {}
+  scrollToConfigurationElement(): void {}
+}
+
+const configWithoutConflicts: Configurator.Configuration =
+  ConfigurationTestData.productConfiguration;
+
+const configConflict: Configurator.Configuration =
+  ConfigurationTestData.productConfigurationWithConflicts;
+
+let config: Configurator.Configuration;
+
+class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return of(config);
+  }
+
+  isConfigurationLoading(): Observable<boolean> {
+    return of(true);
+  }
+}
+
+class MockConfiguratorGroupsService {
+  navigateToGroup(): void {}
 }
 
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
+  let configurationGroupsService: ConfiguratorGroupsService;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+  let configuratorCommonsService: ConfiguratorCommonsService;
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
@@ -58,7 +93,9 @@ describe('ConfigAttributeHeaderComponent', () => {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
     images: images,
+    key: 'ATTRIBUTE_1',
   };
+
   let htmlElem: HTMLElement;
 
   beforeEach(
@@ -72,6 +109,14 @@ describe('ConfigAttributeHeaderComponent', () => {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfigUtilsService,
           },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
+          {
+            provide: ConfiguratorGroupsService,
+            useClass: MockConfiguratorGroupsService,
+          },
         ],
       })
         .overrideComponent(ConfiguratorAttributeHeaderComponent, {
@@ -84,6 +129,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   );
 
   beforeEach(() => {
+    config = configWithoutConflicts;
     fixture = TestBed.createComponent(ConfiguratorAttributeHeaderComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
@@ -97,6 +143,16 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
     component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     fixture.detectChanges();
+
+    configurationGroupsService = TestBed.inject(
+      ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
+    );
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+    configuratorCommonsService = TestBed.inject(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
   });
 
   it('should create', () => {
@@ -335,6 +391,32 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
+  describe('Conflict text in a conflict group and in configuration', () => {
+    it('should display a conflict text as a link to a configuration group that contains an attribute involved in conflict', () => {
+      component.attribute.hasConflicts = true;
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'a.cx-conflict-msg'
+      );
+    });
+
+    it('should display a simple conflict text without link to conflict group', () => {
+      component.attribute.hasConflicts = true;
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'div .cx-conflict-msg'
+      );
+    });
+  });
+
   describe('Conflict text at the attribute level', () => {
     it('should render conflict icon with corresponding message and corresponding aria-attributes if attribute has conflicts.', () => {
       component.attribute.hasConflicts = true;
@@ -448,13 +530,13 @@ describe('ConfigAttributeHeaderComponent', () => {
     it("should return 'true'", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       fixture.detectChanges();
-      expect(component.isAttributeGroup(component.groupType)).toBe(true);
+      expect(component.isAttributeGroup()).toBe(true);
     });
 
     it("should return 'false'", () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       fixture.detectChanges();
-      expect(component.isAttributeGroup(component.groupType)).toBe(false);
+      expect(component.isAttributeGroup()).toBe(false);
     });
   });
 
@@ -462,7 +544,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it("should return 'configurator.conflict.viewConflictDetails' conflict message key", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       fixture.detectChanges();
-      expect(component.getConflictMessageKey(component.groupType)).toEqual(
+      expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.viewConflictDetails'
       );
     });
@@ -470,7 +552,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     it("should return 'configurator.conflict.viewConfigurationDetails' conflict message key", () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       fixture.detectChanges();
-      expect(component.getConflictMessageKey(component.groupType)).toEqual(
+      expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.viewConfigurationDetails'
       );
     });
@@ -639,6 +721,141 @@ describe('ConfigAttributeHeaderComponent', () => {
         'aria-label',
         'configurator.attribute.singleSelectRequiredMessage'
       );
+    });
+  });
+
+  describe('Navigate to corresponding group', () => {
+    it('should navigate nowhere because conflict group is not found/available', () => {
+      config = configWithoutConflicts;
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.attribute.groupId = ConfigurationTestData.GROUP_ID_1;
+
+      spyOn(configurationGroupsService, 'navigateToGroup');
+      fixture.detectChanges();
+
+      component.navigateToGroup();
+      expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        0
+      );
+    });
+
+    it("should navigate to conflict group because group type is 'ATTRIBUTE_GROUP'", () => {
+      config = configConflict;
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.attribute.groupId = ConfigurationTestData.GROUP_ID_1;
+
+      spyOn(configurationGroupsService, 'navigateToGroup');
+      fixture.detectChanges();
+
+      component.navigateToGroup();
+      expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        1
+      );
+    });
+
+    it('should navigate from conflict group to regular group that contains attribute which is involved in conflict', () => {
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
+
+      spyOn(configurationGroupsService, 'navigateToGroup');
+      fixture.detectChanges();
+
+      component.navigateToGroup();
+      expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        1
+      );
+    });
+
+    it('should not navigate from conflict group to regular group because no group ID is defined', () => {
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.attribute.groupId = undefined;
+
+      spyOn(configurationGroupsService, 'navigateToGroup');
+      spyOn<any>(component, 'logWarning');
+      fixture.detectChanges();
+
+      component.navigateToGroup();
+      expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
+        0
+      );
+      expect(component['logWarning']).toHaveBeenCalled();
+    });
+
+    it('should call focusAttribute', () => {
+      const testScheduler = new TestScheduler((actual, expected) => {
+        expect(actual).toEqual(expected);
+      });
+      //we need to run the test in a test scheduler
+      //because of the delay() in method focusAttribute
+      testScheduler.run(() => {
+        component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+        component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
+
+        const configurationLoading = cold('-a-b', {
+          a: true,
+          b: false,
+        });
+        spyOn(
+          configuratorCommonsService,
+          'isConfigurationLoading'
+        ).and.returnValue(configurationLoading);
+
+        spyOn(configuratorStorefrontUtilsService, 'focusAttribute');
+
+        fixture.detectChanges();
+
+        component['focusAttribute'](ConfigurationTestData.GROUP_ID_2);
+      });
+
+      expect(
+        configuratorStorefrontUtilsService.focusAttribute
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call scrollToConfigurationElement', () => {
+      const testScheduler = new TestScheduler((actual, expected) => {
+        expect(actual).toEqual(expected);
+      });
+      //we need to run the test in a test scheduler
+      //because of the delay() in method focusAttribute
+      testScheduler.run(() => {
+        component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+        component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
+
+        const configurationLoading = cold('-a-b', {
+          a: true,
+          b: false,
+        });
+        spyOn(
+          configuratorCommonsService,
+          'isConfigurationLoading'
+        ).and.returnValue(configurationLoading);
+
+        spyOn(
+          configuratorStorefrontUtilsService,
+          'scrollToConfigurationElement'
+        );
+
+        fixture.detectChanges();
+
+        component['scrollToAttribute'](ConfigurationTestData.GROUP_ID_2);
+      });
+
+      expect(
+        configuratorStorefrontUtilsService.scrollToConfigurationElement
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not find the conflicting group key when there is no conflict', () => {
+      expect(
+        component.findConflictGroupId(configWithoutConflicts, currentAttribute)
+      ).toBe(undefined);
+    });
+
+    it('should find the conflicting group key', () => {
+      expect(
+        component.findConflictGroupId(configConflict, currentAttribute)
+      ).toBe(ConfigurationTestData.GROUP_ID_CONFLICT_1);
     });
   });
 });

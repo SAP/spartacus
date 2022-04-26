@@ -22,9 +22,14 @@
           "Quick-Order",
           "CDC",
           "CDS",
+          "Cart",
+          "WishList",
           "Checkout",
+          "Checkout-B2B",
+          "Checkout-Scheduled-Replenishment",
           "Order",
           "Digital-Payments",
+          "EPD-Visualization",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
@@ -46,6 +51,8 @@
       },
       "default": [
         "ASM",
+        "Cart",
+        "WishList",
         "Checkout",
         "Order",
         "Import-Export",
@@ -89,7 +96,23 @@
           },
           {
             "value": "Checkout",
-            "label": "Checkout"
+            "label": "Checkout base"
+          },
+          {
+            "value": "Checkout-B2B",
+            "label": "Checkout (b2b feature, includes Base Checkout)"
+          },
+          {
+            "value": "Checkout-Scheduled-Replenishment",
+            "label": "Checkout Scheduled Replenishment (b2b feature, includes Base and B2B Checkout)"
+          },
+          {
+            "value": "Cart",
+            "label": "Cart"
+          },
+          {
+            "value": "WishList",
+            "label": "WishList"
           },
           {
             "value": "Order",
@@ -98,6 +121,10 @@
           {
             "value": "Digital-Payments",
             "label": "Digital Payments Integration"
+          },
+          {
+            "value": "EPD-Visualization",
+            "label": "EPD Visualization Integration"
           },
           {
             "value": "Administration",
@@ -165,6 +192,11 @@
           }
         ]
       }
+    },
+    "debug": {
+      "description": "Display additional details during the running process.",
+      "type": "boolean",
+      "default": false
     },
     "lazy": {
       "type": "boolean",

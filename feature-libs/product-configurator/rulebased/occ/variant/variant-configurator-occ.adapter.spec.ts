@@ -5,8 +5,11 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  BaseOccUrlProperties,
   CartModification,
+  CART_MODIFICATION_NORMALIZER,
+} from '@spartacus/cart/base/root';
+import {
+  BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
   OccEndpointsService,
@@ -18,7 +21,6 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
 import {
   VariantConfiguratorOccAdapter,

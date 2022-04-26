@@ -4,11 +4,9 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import {
-  CartActions,
-  CartModification,
-  normalizeHttpError,
-} from '@spartacus/core';
+import { CartActions } from '@spartacus/cart/base/core';
+import { CartModification } from '@spartacus/cart/base/root';
+import { normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,

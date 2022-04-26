@@ -1,10 +1,12 @@
 import {
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-  TRANSLATION_SERVICE,
-  SPARTACUS_CORE,
-  PRODUCT_SERVICE,
   CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT,
+  PRODUCT_SERVICE,
+  TRANSLATION_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_MIGRATION: ConstructorDeprecation =

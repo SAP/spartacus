@@ -7,8 +7,8 @@
               item: productName
             }
     "
-    >{{ textToShow }}</span
-  >
+    [innerHTML]="textToShow"
+  ></span>
 
   <button (click)="toggleShowMore()" *ngIf="showMore" tabindex="-1">
     <ng-container *ngIf="showHiddenText; else less"

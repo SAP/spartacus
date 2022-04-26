@@ -1,202 +1,103 @@
 import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
+import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
 import {
-  CancellationRequestEntryInputList,
-  Order,
-  OrderHistoryList,
-  ProcessSelectors,
-  RoutingService,
-  StateWithProcess,
+  Command,
+  CommandService,
+  CommandStrategy,
+  EventService,
+  OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';
-import { ConsignmentTracking, OrderFacade } from '@spartacus/order/root';
-import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
-import { OrderActions } from '../store/actions/index';
-import { CANCEL_ORDER_PROCESS_ID, StateWithOrder } from '../store/order-state';
-import { OrderSelectors } from '../store/selectors/index';
+import { Order, OrderFacade, OrderPlacedEvent } from '@spartacus/order/root';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
+import { OrderConnector } from '../connectors/order.connector';
 
 @Injectable()
 export class OrderService implements OrderFacade {
+  protected placedOrder$ = new BehaviorSubject<Order | undefined>(undefined);
+
+  protected placeOrderCommand: Command<boolean, Order> =
+    this.commandService.create<boolean, Order>(
+      (payload) =>
+        this.checkoutPreconditions().pipe(
+          switchMap(([userId, cartId]) =>
+            this.orderConnector.placeOrder(userId, cartId, payload).pipe(
+              tap((order) => {
+                this.placedOrder$.next(order);
+                this.eventService.dispatch(
+                  {
+                    userId,
+                    cartId,
+                    /**
+                     * As we know the cart is not anonymous (precondition checked),
+                     * we can safely use the cartId, which is actually the cart.code.
+                     */
+                    cartCode: cartId,
+                  },
+                  RemoveCartEvent
+                );
+                this.eventService.dispatch(
+                  {
+                    userId,
+                    cartId,
+                    order,
+                  },
+                  OrderPlacedEvent
+                );
+              })
+            )
+          )
+        ),
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
+
   constructor(
-    protected store: Store<StateWithOrder>,
-    protected processStateStore: Store<StateWithProcess<void>>,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
-    protected routingService: RoutingService
+    protected commandService: CommandService,
+    protected orderConnector: OrderConnector,
+    protected eventService: EventService
   ) {}
 
   /**
-   * Returns an order's detail
+   * Performs the necessary checkout preconditions.
    */
-  getOrderDetails(): Observable<Order> {
-    return this.store.pipe(select(OrderSelectors.getOrderDetails));
-  }
-
-  /**
-   * Retrieves order's details
-   *
-   * @param orderCode an order code
-   */
-  loadOrderDetails(orderCode: string): void {
-    this.userIdService.takeUserId().subscribe((userId) => {
-      this.store.dispatch(
-        new OrderActions.LoadOrderDetails({
-          userId,
-          orderCode,
-        })
-      );
-    });
-  }
-
-  /**
-   * Clears order's details
-   */
-  clearOrderDetails(): void {
-    this.store.dispatch(new OrderActions.ClearOrderDetails());
-  }
-
-  /**
-   * Returns order history list
-   */
-  getOrderHistoryList(
-    pageSize: number
-  ): Observable<OrderHistoryList | undefined> {
-    return this.store.pipe(
-      select(OrderSelectors.getOrdersState),
-      tap((orderListState) => {
-        const attemptedLoad =
-          orderListState.loading ||
-          orderListState.success ||
-          orderListState.error;
-        if (!attemptedLoad) {
-          this.loadOrderList(pageSize);
+  protected checkoutPreconditions(): Observable<[string, string]> {
+    return combineLatest([
+      this.userIdService.takeUserId(),
+      this.activeCartFacade.takeActiveCartId(),
+      this.activeCartFacade.isGuestCart(),
+    ]).pipe(
+      take(1),
+      map(([userId, cartId, isGuestCart]) => {
+        if (
+          !userId ||
+          !cartId ||
+          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
+        ) {
+          throw new Error('Checkout conditions not met');
         }
-      }),
-      map((orderListState) => orderListState.value)
+        return [userId, cartId];
+      })
     );
   }
 
-  /**
-   * Returns a loaded flag for order history list
-   */
-  getOrderHistoryListLoaded(): Observable<boolean> {
-    return this.store.pipe(select(OrderSelectors.getOrdersLoaded));
+  placeOrder(termsChecked: boolean): Observable<Order> {
+    return this.placeOrderCommand.execute(termsChecked);
   }
 
-  /**
-   * Retrieves an order list
-   * @param pageSize page size
-   * @param currentPage current page
-   * @param sort sort
-   */
-  loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
-        let replenishmentOrderCode: string | undefined;
-
-        this.routingService
-          .getRouterState()
-          .pipe(take(1))
-          .subscribe((data) => {
-            replenishmentOrderCode =
-              data?.state?.params?.replenishmentOrderCode;
-          })
-          .unsubscribe();
-
-        this.store.dispatch(
-          new OrderActions.LoadUserOrders({
-            userId,
-            pageSize,
-            currentPage,
-            sort,
-            replenishmentOrderCode,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
+  getOrderDetails(): Observable<Order | undefined> {
+    return this.placedOrder$.asObservable();
   }
 
-  /**
-   * Cleaning order list
-   */
-  clearOrderList(): void {
-    this.store.dispatch(new OrderActions.ClearUserOrders());
+  clearPlacedOrder(): void {
+    this.placedOrder$.next(undefined);
   }
 
-  /**
-   *  Returns a consignment tracking detail
-   */
-  getConsignmentTracking(): Observable<ConsignmentTracking> {
-    return this.store.pipe(select(OrderSelectors.getConsignmentTracking));
-  }
-
-  /**
-   * Retrieves consignment tracking details
-   * @param orderCode an order code
-   * @param consignmentCode a consignment code
-   */
-  loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
-    this.userIdService.takeUserId().subscribe((userId) => {
-      this.store.dispatch(
-        new OrderActions.LoadConsignmentTracking({
-          userId,
-          orderCode,
-          consignmentCode,
-        })
-      );
-    });
-  }
-
-  /**
-   * Cleaning consignment tracking
-   */
-  clearConsignmentTracking(): void {
-    this.store.dispatch(new OrderActions.ClearConsignmentTracking());
-  }
-
-  /*
-   * Cancel an order
-   */
-  cancelOrder(
-    orderCode: string,
-    cancelRequestInput: CancellationRequestEntryInputList
-  ): void {
-    this.userIdService.takeUserId().subscribe((userId) => {
-      this.store.dispatch(
-        new OrderActions.CancelOrder({
-          userId,
-          orderCode,
-          cancelRequestInput,
-        })
-      );
-    });
-  }
-
-  /**
-   * Returns the cancel order loading flag
-   */
-  getCancelOrderLoading(): Observable<boolean> {
-    return this.processStateStore.pipe(
-      select(ProcessSelectors.getProcessLoadingFactory(CANCEL_ORDER_PROCESS_ID))
-    );
-  }
-
-  /**
-   * Returns the cancel order success flag
-   */
-  getCancelOrderSuccess(): Observable<boolean> {
-    return this.processStateStore.pipe(
-      select(ProcessSelectors.getProcessSuccessFactory(CANCEL_ORDER_PROCESS_ID))
-    );
-  }
-
-  /**
-   * Resets the cancel order process flags
-   */
-  resetCancelOrderProcessState(): void {
-    return this.store.dispatch(new OrderActions.ResetCancelOrderProcess());
+  setPlacedOrder(order: Order): void {
+    this.placedOrder$.next(order);
   }
 }

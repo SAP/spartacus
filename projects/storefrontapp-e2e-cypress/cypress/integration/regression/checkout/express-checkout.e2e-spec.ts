@@ -1,8 +1,8 @@
 import { CheckoutConfig } from '@spartacus/storefront';
 import * as checkout from '../../../helpers/checkout-flow';
+import * as expressCheckout from '../../../helpers/express-checkout';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import * as expressCheckout from '../../../helpers/express-checkout';
 
 context('Express checkout', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -33,7 +33,7 @@ context('Express checkout', () => {
 
       cy.get('cx-mini-cart').click();
       cy.findByText(/proceed to checkout/i).click();
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
     });
   });
 });

@@ -90,7 +90,7 @@ context('Product search rating flow', () => {
         assertNumberOfProducts(`@facets`, `"${productName}"`);
 
         // Select product and read all the tabs on product details page
-        const tabsHeaderList = 'cx-tab-paragraph-container > button';
+        const tabsHeaderList = 'cx-tab-paragraph-container > div > button';
 
         cy.get('cx-product-list-item:first .cx-product-name').click();
         cy.get(tabsHeaderList).eq(0).should('contain', 'Product Details');

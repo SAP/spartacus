@@ -1,11 +1,11 @@
 import {
-  USER_SERVICE,
-  SPARTACUS_CORE,
-  STORE,
   AUTH_SERVICE,
-  USER_ID_SERVICE,
   NGRX_STORE,
+  STORE,
+  USER_ID_SERVICE,
+  USER_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const USER_SERVICE_MIGRATION: ConstructorDeprecation = {

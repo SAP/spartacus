@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -30,13 +31,15 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   noResults: boolean = false;
   results: Product[] = [];
 
+  @Input() limit: number;
+
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
 
   constructor(
-    protected quickOrderService: QuickOrderFacade,
     public config: Config,
     protected cd: ChangeDetectorRef,
+    protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
   ) {}
 

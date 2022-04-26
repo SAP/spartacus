@@ -3,7 +3,7 @@
     [formControl]="attributeInputForm"
     [required]="attribute.required"
     class="form-control"
-    attr.aria-required="{{ attribute.required }}"
+    attr.required="{{ attribute.required }}"
     maxlength="{{ attribute.maxlength }}"
     [attr.aria-label]="
       attribute.userInput === undefined || attribute.userInput.length === 0

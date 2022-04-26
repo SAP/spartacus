@@ -7,10 +7,9 @@ import {
 import {
   GlobalMessageService,
   GlobalMessageType,
-  Order,
   RoutingService,
 } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -70,7 +69,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected globalMessageService: GlobalMessageService,
-    protected orderFacade: OrderFacade,
+    protected orderHistoryFacade: OrderHistoryFacade,
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected intersectionService: IntersectionService
@@ -265,10 +264,10 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   protected goToOrderDetails(owner: CommonConfigurator.Owner): void {
-    this.orderFacade.loadOrderDetails(
+    this.orderHistoryFacade.loadOrderDetails(
       this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
     );
-    this.orderFacade
+    this.orderHistoryFacade
       .getOrderDetails()
       .pipe(
         filter((order: Order) => order !== undefined),

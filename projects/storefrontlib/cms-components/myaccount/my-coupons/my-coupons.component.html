@@ -1,5 +1,6 @@
 <div class="cx-section">
   <ng-container *ngIf="!(couponsLoading$ | async); else loading">
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <ng-container *ngIf="couponResult$ | async as couponResult">
       <div class="cx-my-coupons-header">
         <h3>{{ 'myCoupons.myCoupons' | cxTranslate }}</h3>
@@ -22,6 +23,8 @@
               [sortLabels]="sortLabels | async"
               (sortListEvent)="sortChange($event)"
               [selectedOption]="sort"
+              [ariaLabel]="'myCoupons.sortCoupons' | cxTranslate"
+              ariaControls="coupon-deck"
             >
             </cx-sorting>
           </label>
@@ -33,7 +36,7 @@
           </div>
         </div>
 
-        <div class="row cx-coupon-deck">
+        <div id="coupon-deck" class="row cx-coupon-deck">
           <div
             *ngFor="let coupon of couponResult.coupons"
             class="col-md-6 cx-coupon-card"
@@ -62,6 +65,8 @@
               (sortListEvent)="sortChange($event)"
               [selectedOption]="sort"
               placeholder="{{ 'myCoupons.sortBy' | cxTranslate }}"
+              [ariaLabel]="'myCoupons.sortCoupons' | cxTranslate"
+              ariaControls="coupon-deck"
             >
             </cx-sorting>
           </label>

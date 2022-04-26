@@ -2,7 +2,8 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartService, Cart, StateUtils } from '@spartacus/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -101,9 +102,9 @@ class MockconfiguratorUtilsService {
     return configId !== undefined && configId.length !== 0;
   }
   getConfigurationFromState(
-    configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
+    configurationLoaderState: StateUtils.ProcessesLoaderState<Configurator.Configuration>
   ): Configurator.Configuration | undefined {
-    return configurationState.value;
+    return configurationLoaderState.value;
   }
 }
 
@@ -163,7 +164,7 @@ describe('ConfiguratorCommonsService', () => {
             useClass: MockConfiguratorCartService,
           },
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {

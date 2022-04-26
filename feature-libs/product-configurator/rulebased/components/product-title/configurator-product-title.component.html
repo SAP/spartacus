@@ -3,7 +3,7 @@
     <div class="cx-title">
       <span> {{ product.name }} </span>
     </div>
-    <button (click)="triggerDetails()">
+    <button (click)="triggerDetails()" [attr.aria-expanded]="showMore">
       <ng-container *ngIf="!showMore">
         <div
           class="cx-toggle-details-link-text"

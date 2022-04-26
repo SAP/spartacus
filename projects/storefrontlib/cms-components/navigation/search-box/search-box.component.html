@@ -50,7 +50,7 @@
   class="results"
   id="results"
   (click)="close($event, true)"
-  role="listbox"
+  role="dialog"
 >
   <div
     *ngIf="result.message"
@@ -61,10 +61,11 @@
   <ul
     class="suggestions"
     attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
-    tabindex="0"
+    role="listbox"
   >
     <li *ngFor="let suggestion of result.suggestions">
       <a
+        role="option"
         [innerHTML]="suggestion | cxHighlight: searchInput.value"
         [routerLink]="
           {
@@ -95,10 +96,11 @@
     class="products"
     *ngIf="result.products"
     attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
-    tabindex="0"
+    role="listbox"
   >
     <li *ngFor="let product of result.products">
       <a
+        role="option"
         [routerLink]="
           {
             cxRoute: 'product',

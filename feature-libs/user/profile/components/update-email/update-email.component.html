@@ -6,7 +6,7 @@
       'updateEmailForm.newEmailAddress.label' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="email"
       name="email"
       formControlName="email"
@@ -15,11 +15,7 @@
       }}"
       class="form-control"
     />
-    <cx-form-errors
-      aria-live="assertive"
-      aria-atomic="true"
-      [control]="form.get('email')"
-    ></cx-form-errors>
+    <cx-form-errors [control]="form.get('email')"></cx-form-errors>
   </label>
 
   <label>
@@ -27,7 +23,7 @@
       'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="email"
       name="confirmEmail"
       formControlName="confirmEmail"
@@ -36,11 +32,7 @@
       }}"
       class="form-control"
     />
-    <cx-form-errors
-      aria-live="assertive"
-      aria-atomic="true"
-      [control]="form.get('confirmEmail')"
-    ></cx-form-errors>
+    <cx-form-errors [control]="form.get('confirmEmail')"></cx-form-errors>
   </label>
 
   <label>
@@ -48,7 +40,7 @@
       'updateEmailForm.password.label' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="password"
       name="password"
       formControlName="password"
@@ -56,11 +48,7 @@
       class="form-control"
       autocomplete="new-password"
     />
-    <cx-form-errors
-      aria-live="assertive"
-      aria-atomic="true"
-      [control]="form.get('password')"
-    ></cx-form-errors>
+    <cx-form-errors [control]="form.get('password')"></cx-form-errors>
   </label>
 
   <a

@@ -8,6 +8,8 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  ASM_MODULE,
+  ASM_ROOT_MODULE,
   CLI_ASM_FEATURE,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
@@ -19,13 +21,12 @@ import { peerDependencies } from '../../package.json';
 import {
   ASM_FEATURE_NAME_CONSTANT,
   ASM_FOLDER_NAME,
-  ASM_MODULE,
   ASM_MODULE_NAME,
-  ASM_ROOT_MODULE,
   ASM_TRANSLATIONS,
   ASM_TRANSLATION_CHUNKS_CONFIG,
   SPARTACUS_ASM_ASSETS,
   SPARTACUS_ASM_ROOT,
+  SCSS_FILE_NAME,
 } from '../constants';
 
 export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
@@ -58,6 +59,10 @@ function addAsmFeature(options: SpartacusAsmOptions): Rule {
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_ASM_ROOT,
       namedImports: [ASM_FEATURE_NAME_CONSTANT],
+    },
+    styles: {
+      scssFileName: SCSS_FILE_NAME,
+      importStyle: SPARTACUS_ASM,
     },
     i18n: {
       resources: ASM_TRANSLATIONS,

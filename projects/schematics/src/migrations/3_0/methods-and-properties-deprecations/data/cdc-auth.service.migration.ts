@@ -1,8 +1,5 @@
-import {
-  CDC_AUTH_SERVICE,
-  SPARTACUS_CDC,
-  TODO_SPARTACUS,
-} from '../../../../shared/constants';
+import { CDC_AUTH_SERVICE, TODO_SPARTACUS } from '../../../../shared/constants';
+import { SPARTACUS_CDC } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CDC_AUTH_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [

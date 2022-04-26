@@ -98,7 +98,7 @@ context('CPQ Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      configuration.searchForProduct(PROD_CODE_CAM);
+      configurationCpq.searchForProduct(PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
 
@@ -469,8 +469,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Configuration Process', () => {
-    it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it, checkout and order', () => {
-      configurationCartCpq.defineDeliveryModeAlias();
+    it('should support configuration aspect in product search, cart, checkout and order history', () => {
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();

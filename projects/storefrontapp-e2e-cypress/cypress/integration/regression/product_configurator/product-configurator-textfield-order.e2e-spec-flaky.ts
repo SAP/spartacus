@@ -13,7 +13,7 @@ context('Textfield Configuration', () => {
   });
 
   describe('Configuration process', () => {
-    it('should support the textfield configuration aspect in product search, cart, checkout and order history', () => {
+    it('should support configuration aspect in product search, cart, checkout and order history', () => {
       configuration.completeOrderProcess(testProduct);
     });
   });

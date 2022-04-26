@@ -4,9 +4,9 @@ import {
   GET_DELIVERY_MODE_CARD_CONTENT,
   GET_PAYMENT_INFO_CARD_CONTENT,
   ORDER_CONFIRMATION_OVERVIEW_COMPONENT,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 //projects/storefrontlib/cms-components/order-confirmation/components/order-confirmation-overview/order-confirmation-overview.component.ts;

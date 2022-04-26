@@ -5,9 +5,11 @@ import {
   CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE,
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE,
   LANGUAGE_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_FORM_COMPONENT_MIGRATION: ConstructorDeprecation = {

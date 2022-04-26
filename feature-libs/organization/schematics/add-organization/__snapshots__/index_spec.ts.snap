@@ -28,7 +28,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bCheckoutConfig, defaultB2bOccConfig } from \\"@spartacus/setup\\";
+import { defaultB2bOccConfig } from \\"@spartacus/setup\\";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
 
 @NgModule({
@@ -56,7 +56,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
     features: {
       level: '4.1'
     }
-  }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
+  }), provideConfig(defaultB2bOccConfig)]
 })
 export class SpartacusConfigurationModule { }
 "
@@ -239,7 +239,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bCheckoutConfig, defaultB2bOccConfig } from \\"@spartacus/setup\\";
+import { defaultB2bOccConfig } from \\"@spartacus/setup\\";
 import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
 
 @NgModule({
@@ -267,7 +267,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
     features: {
       level: '4.1'
     }
-  }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
+  }), provideConfig(defaultB2bOccConfig)]
 })
 export class SpartacusConfigurationModule { }
 "

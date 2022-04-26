@@ -1,4 +1,4 @@
-import { SampleUser, user } from '../sample-data/checkout-flow';
+import { product, SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
 import {
   replenishmentOrderHistoryHeaderValue,
@@ -7,7 +7,6 @@ import {
 import { waitForPage } from './checkout-flow';
 import { checkBanner, clickHamburger } from './homepage';
 import { switchLanguage } from './language';
-import { product } from '../sample-data/checkout-flow';
 
 const orderHistoryLink = '/my-account/orders';
 
@@ -22,8 +21,8 @@ export function doPlaceOrder(productData?: any) {
       return cy.requireProductAddedToCart(stateAuth, productData);
     })
     .then(({ cartId }) => {
-      cy.requireShippingAddressAdded(user.address, stateAuth, cartId);
-      cy.requireShippingMethodSelected(stateAuth, cartId);
+      cy.requireDeliveryAddressAdded(user.address, stateAuth, cartId);
+      cy.requireDeliveryMethodSelected(stateAuth, cartId);
       cy.requirePaymentDone(stateAuth, cartId);
 
       return cy.requirePlacedOrder(stateAuth, cartId);
@@ -52,7 +51,7 @@ export const orderHistoryTest = {
           replenishmentOrderHistoryHeaderValue
         );
       } else {
-        cy.get('.cx-order-history-header h3').should(
+        cy.get('.cx-order-history-header h2').should(
           'contain',
           'Order history'
         );
@@ -82,7 +81,7 @@ export const orderHistoryTest = {
             orderData.body.code
           );
           cy.visit('/my-account/orders');
-          cy.get('cx-order-history h3').should('contain', 'Order history');
+          cy.get('cx-order-history h2').should('contain', 'Order history');
           cy.get('.cx-order-history-code > .cx-order-history-value').should(
             'contain',
             orderData.body.code

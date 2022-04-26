@@ -1,6 +1,5 @@
 @import './card/index';
 @import './icons';
-@import './order-overview/index';
 @import './pagination/index';
 @import './popover/index';
 @import './progress-button/index';
@@ -8,4 +7,4 @@
 @import './table/table';
 
 $misc-components-allowlist: cx-table, cx-icon, cx-spinner, cx-progress-button,
-  cx-card, cx-pagination, cx-order-overview, cx-popover !default;
+  cx-card, cx-pagination, cx-popover !default;

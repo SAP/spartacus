@@ -5,9 +5,11 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  BaseOccUrlProperties,
   CartModification,
   CART_MODIFICATION_NORMALIZER,
+} from '@spartacus/cart/base/root';
+import {
+  BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
   OccEndpointsService,

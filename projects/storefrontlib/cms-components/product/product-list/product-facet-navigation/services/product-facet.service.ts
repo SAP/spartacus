@@ -84,7 +84,7 @@ export class ProductFacetService {
       state.context.type === PageType.CONTENT_PAGE &&
       state.context.id === 'search'
     ) {
-      return page.currentQuery.query.value.startsWith(`${state.params.query}:`);
+      return page.freeTextSearch === state.params.query.split(':')[0];
     }
     return false;
   }

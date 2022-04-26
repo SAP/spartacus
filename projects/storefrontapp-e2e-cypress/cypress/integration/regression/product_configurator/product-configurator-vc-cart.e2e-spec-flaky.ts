@@ -145,9 +145,10 @@ context('Product Configuration', () => {
       configurationVc.checkConflictDescriptionDisplayed(
         Conflict_msg_gaming_console
       );
-      configuration.clickOnNextBtn(GENERAL);
-      // Navigate back to the configuration page and deselect conflicting value
-      configurationVc.clickOnGroup(3);
+      // Navigate back to the configuration page via clicking on 'View in Configuration' link and deselect conflicting value
+      configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
+      configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+      configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
       configurationVc.deselectConflictingValue(
         GAMING_CONSOLE,
         radioGroup,
@@ -162,8 +163,9 @@ context('Product Configuration', () => {
       configurationCartVc.verifyNotificationBannerInCart(0);
     });
   });
+
   describe('Configuration process', () => {
-    it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
+    it('should support configuration aspect in product search, cart, checkout and order history', () => {
       configuration.completeOrderProcess(testProductMultiLevel);
     });
   });

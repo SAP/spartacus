@@ -16,15 +16,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'formErrors',
     'errorHandlers',
     'carousel',
-  ],
-  cart: [
-    'cartDetails',
-    'cartItems',
-    'orderCost',
-    'voucher',
-    'wishList',
-    'saveForLaterItems',
-    'validation',
+    'assistiveMessage',
   ],
   address: [
     'addressForm',
@@ -48,7 +40,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updateProfileForm',
     'consentManagementForm',
     'myCoupons',
-    'wishlist',
     'notificationPreference',
     'myInterests',
     'AccountOrderHistoryTabContainer',
@@ -72,4 +63,5 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'productView',
   ],
   user: ['anonymousConsents', 'loginRegister', 'checkoutLogin', 'authMessages'],
+  video: ['player'],
 };

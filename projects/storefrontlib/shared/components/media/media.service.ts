@@ -38,7 +38,7 @@ export class MediaService {
    * for specific formats.
    */
   getMedia(
-    mediaContainer: MediaContainer | Image,
+    mediaContainer?: MediaContainer | Image,
     format?: string,
     alt?: string,
     role?: string

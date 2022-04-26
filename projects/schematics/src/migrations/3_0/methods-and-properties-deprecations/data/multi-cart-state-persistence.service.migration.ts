@@ -1,10 +1,10 @@
 import {
-  MULTI_CART_STATE_PERSISTENCE_SERVICE,
-  SPARTACUS_CORE,
-  TODO_SPARTACUS,
-  SYNC,
   INIT_SYNC,
+  MULTI_CART_STATE_PERSISTENCE_SERVICE,
+  SYNC,
+  TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/core/src/cart/services/multi-cart-state-persistence.service.ts

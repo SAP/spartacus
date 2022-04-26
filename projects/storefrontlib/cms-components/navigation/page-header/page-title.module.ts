@@ -21,6 +21,5 @@ import { PageTitleComponent } from './page-title.component';
   ],
   declarations: [PageTitleComponent],
   exports: [PageTitleComponent],
-  entryComponents: [PageTitleComponent],
 })
 export class PageTitleModule {}

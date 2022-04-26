@@ -1,12 +1,17 @@
-import { DpPaymentRequest } from '../models/dp-checkout.model';
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { PaymentDetails } from '@spartacus/core';
-import { Command, CommandService, CommandStrategy } from '@spartacus/core';
-import { Query, QueryService } from '@spartacus/core';
-import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
+import { PaymentDetails } from '@spartacus/cart/base/root';
+import {
+  Command,
+  CommandService,
+  CommandStrategy,
+  Query,
+  QueryService,
+  UserIdService,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { UserIdService } from '@spartacus/core';
+import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
+import { DpPaymentRequest } from '../models/dp-checkout.model';
 @Injectable({
   providedIn: 'root',
 })

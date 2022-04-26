@@ -12,7 +12,7 @@ export const configurator = {
       showMore: 'show more',
       showLess: 'show less',
       items: '{{count}} item',
-      items_plural: '{{count}} items',
+      items_other: '{{count}} items',
       show: 'show',
       hide: 'hide',
       multipleWarnings: 'There are multiple warnings.',
@@ -26,7 +26,7 @@ export const configurator = {
     },
     notificationBanner: {
       numberOfIssues: '{{count}} issue must be resolved before checkout.',
-      numberOfIssues_plural:
+      numberOfIssues_other:
         '{{count}} issues must be resolved before checkout.',
     },
     attribute: {
@@ -86,13 +86,13 @@ export const configurator = {
     conflict: {
       suggestionTitle: 'Suggestion {{number}}:',
       suggestionText: 'Change value for "{{ attribute }}"',
-      viewConflictDetails: 'Conflict Detected',
-      viewConfigurationDetails: '',
+      viewConflictDetails: 'Conflict Detected - View Details',
+      viewConfigurationDetails: 'View In Configuration',
     },
     a11y: {
       configureProduct: 'Configure product',
       cartEntryBundleInfo: 'There is an item ',
-      cartEntryBundleInfo_plural: 'There are {{items}} items ',
+      cartEntryBundleInfo_other: 'There are {{items}} items ',
       cartEntryBundleName: 'Item {{ name }}',
       cartEntryBundleNameWithQuantity:
         'Item {{ name }} item quantity {{quantity}}',
@@ -173,6 +173,21 @@ export const configurator = {
       configurationPageLink: 'Navigate to configuration  page.',
       overviewPage: 'You are on the overview page.',
       overviewPageLink: 'Navigate to configuration overview page.',
+      numericIntervalStandard:
+        'Enter a value between {{ minValue }} and {{ maxValue }}',
+      numericIntervalStandardOpen: '(Endpoints are not included)',
+      numericIntervalStandardLowerEndpointNotIncluded:
+        '(The lower endpoint is not included)',
+      numericIntervalStandardUpperEndpointNotIncluded:
+        '(The upper endpoint is not included)',
+      numericInfiniteIntervalMinValueIncluded:
+        'Enter a value greater than or equal to {{ value }}',
+      numericInfiniteIntervalMinValue: 'Enter a value greater than {{ value }}',
+      numericInfiniteIntervalMaxValueIncluded:
+        'Enter a value less than or equal to {{ value }}',
+      numericInfiniteIntervalMaxValue: 'Enter a value less than {{ value }}',
+      numericIntervalSingleValue: 'Enter {{ value }}',
+      combinedIntervalsText: '{{ combinedInterval }} or {{ newInterval }}',
     },
   },
 };

@@ -1,12 +1,17 @@
 <ng-container *ngIf="savedCart$ | async as cart">
   <ng-container *ngIf="cart?.entries?.length > 0; else emptyCartItems">
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="cart-details-wrapper">
-      <cx-cart-item-list
-        [cartId]="cart.code"
-        [cartIsLoading]="!(cartLoaded$ | async)"
-        [items]="cart.entries"
-        [promotionLocation]="CartLocation.SavedCart"
-      ></cx-cart-item-list>
+      <ng-template
+        [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+        [cxOutletContext]="{
+          cartId: cart.code,
+          cartIsLoading: !(cartLoaded$ | async),
+          items: cart.entries,
+          promotionLocation: CartLocation.SavedCart
+        }"
+      >
+      </ng-template>
     </div>
   </ng-container>
 </ng-container>

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { Order, RoutingService } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { RoutingService } from '@spartacus/core';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
 
@@ -68,7 +68,7 @@ const mockRouter = {
 
 const routerSubject = new BehaviorSubject<{ state: object }>(mockRouter);
 
-class MockUserOrderService {
+class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
   }
@@ -76,7 +76,7 @@ class MockUserOrderService {
   clearOrderDetails(): void {}
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   getRouterState(): Observable<any> {
     return routerSubject.asObservable();
   }
@@ -84,16 +84,16 @@ class MockRoutingService {
 
 describe('OrderDetailsService', () => {
   let service: OrderDetailsService;
-  let userService;
-  let routingService;
+  let orderHistoryFacade: OrderHistoryFacade;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         OrderDetailsService,
         {
-          provide: OrderFacade,
-          useClass: MockUserOrderService,
+          provide: OrderHistoryFacade,
+          useClass: MockOrderHistoryFacade,
         },
         {
           provide: RoutingService,
@@ -103,13 +103,13 @@ describe('OrderDetailsService', () => {
     });
 
     service = TestBed.inject(OrderDetailsService);
-    userService = TestBed.inject(OrderFacade);
+    orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
     routingService = TestBed.inject(RoutingService);
 
     spyOn(routingService, 'getRouterState');
-    spyOn(userService, 'loadOrderDetails');
-    spyOn(userService, 'clearOrderDetails');
-    spyOn(userService, 'getOrderDetails').and.returnValue(of(mockOrder));
+    spyOn(orderHistoryFacade, 'loadOrderDetails');
+    spyOn(orderHistoryFacade, 'clearOrderDetails');
+    spyOn(orderHistoryFacade, 'getOrderDetails').and.returnValue(of(mockOrder));
   });
 
   it('should be created', () => {
@@ -124,8 +124,8 @@ describe('OrderDetailsService', () => {
       .getOrderDetails()
       .subscribe((data) => (orderDetails = data))
       .unsubscribe();
-    expect(userService.loadOrderDetails).toHaveBeenCalledWith('1');
-    expect(userService.getOrderDetails).toHaveBeenCalled();
+    expect(orderHistoryFacade.loadOrderDetails).toHaveBeenCalledWith('1');
+    expect(orderHistoryFacade.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
   });
 
@@ -137,8 +137,8 @@ describe('OrderDetailsService', () => {
       .getOrderDetails()
       .subscribe((data) => (orderDetails = data))
       .unsubscribe();
-    expect(userService.clearOrderDetails).toHaveBeenCalled();
-    expect(userService.getOrderDetails).toHaveBeenCalled();
+    expect(orderHistoryFacade.clearOrderDetails).toHaveBeenCalled();
+    expect(orderHistoryFacade.getOrderDetails).toHaveBeenCalled();
     expect(orderDetails).toBe(mockOrder);
   });
 

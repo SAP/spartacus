@@ -1,14 +1,11 @@
 import { CheckoutConfig } from '@spartacus/storefront';
-import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import { login } from '../../../helpers/auth-forms';
+import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/checkout-flow';
 import * as loginHelper from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
-import {
-  cheapProduct,
-  getSampleUser,
-} from '../../../sample-data/checkout-flow';
+import { cheapProduct } from '../../../sample-data/checkout-flow';
 context('Checkout as guest', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
@@ -32,9 +29,9 @@ context('Checkout as guest', () => {
 
       checkout.fillAddressFormWithCheapProduct();
 
-      const shippingPage = waitForPage(
-        '/checkout/shipping-address',
-        'getShippingPage'
+      const deliveryAddressPage = waitForPage(
+        '/checkout/delivery-address',
+        'getDeliveryPage'
       );
 
       checkout.clickHamburger();
@@ -44,7 +41,12 @@ context('Checkout as guest', () => {
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
       login(guestCheckout.guestUser.email, guestCheckout.guestUser.password);
-      cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+      cy.wait(`@${deliveryAddressPage}`)
+        .its('response.statusCode')
+        .should('eq', 200);
+
+      cy.get('cx-login div.cx-login-greet').should('exist');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
 
       cy.get('cx-mini-cart .count').contains('1');
 
@@ -53,7 +55,7 @@ context('Checkout as guest', () => {
       cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-cart-item-list')
-        .contains('cx-cart-item', cheapProduct.code)
+        .contains('tr[cx-cart-item-list-row]', cheapProduct.code)
         .within(() => {
           cy.get('cx-item-counter input').should('have.value', '1');
         });

@@ -1,9 +1,9 @@
 import {
   ANONYMOUS_CONSENT_TEMPLATES_ADAPTER,
-  SPARTACUS_CORE,
-  TODO_SPARTACUS,
   LOAD_ANONYMOUS_CONSENTS,
+  TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ANONYMOUS_CONSENT_TEMPLATES_ADAPTER_MIGRATION: MethodPropertyDeprecation[] =

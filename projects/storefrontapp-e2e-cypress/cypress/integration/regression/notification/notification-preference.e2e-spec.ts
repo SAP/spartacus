@@ -1,17 +1,18 @@
 import {
+  testEnableDisableNotification,
   updateEmail,
   verifyEmailChannel,
-  testEnableDisableNotification,
 } from '../../../helpers/notification';
 import { registerAndLogin } from '../../../helpers/update-email';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 describe('Notification preference', () => {
   viewportContext(['mobile'], () => {
     describe('Logged in user', () => {
       before(() => {
-        cy.window().then((win) => win.sessionStorage.clear());
+        clearAllStorage();
         registerAndLogin();
         cy.visit('/');
       });
@@ -20,10 +21,11 @@ describe('Notification preference', () => {
       testEnableDisableNotification();
     });
   });
+
   viewportContext(['mobile', 'desktop'], () => {
     describe('Anonymous user', () => {
       before(() => {
-        cy.window().then((win) => win.sessionStorage.clear());
+        clearAllStorage();
       });
 
       it('should redirect to login page for anonymous user', () => {
@@ -34,7 +36,7 @@ describe('Notification preference', () => {
 
     describe('Logged in user', () => {
       before(() => {
-        cy.window().then((win) => win.sessionStorage.clear());
+        clearAllStorage();
         registerAndLogin();
         cy.visit('/');
       });

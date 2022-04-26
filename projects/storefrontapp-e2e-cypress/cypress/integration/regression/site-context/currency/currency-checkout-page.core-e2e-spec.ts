@@ -3,7 +3,7 @@ import * as siteContextSelector from '../../../../helpers/site-context-selector'
 
 describe('Currency switch - checkout page', () => {
   const checkoutShippingPath =
-    siteContextSelector.CHECKOUT_SHIPPING_ADDRESS_PATH;
+    siteContextSelector.CHECKOUT_DELIVERY_ADDRESS_PATH;
   const checkoutDeliveryPath = siteContextSelector.CHECKOUT_DELIVERY_MODE_PATH;
   const checkoutPaymentPath = siteContextSelector.CHECKOUT_PAYMENT_DETAILS_PATH;
   const checkoutReviewPath = siteContextSelector.CHECKOUT_REVIEW_ORDER_PATH;

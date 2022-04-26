@@ -3,9 +3,9 @@ import {
   GET_CUSTOMER_AGENT_TOKEN,
   GET_CUSTOMER_AGENT_TOKEN_LOADING,
   GET_CUSTOMER_AGENT_TOKEN_STATE,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ASM_SELECTORS_MIGRATION: MethodPropertyDeprecation[] = [

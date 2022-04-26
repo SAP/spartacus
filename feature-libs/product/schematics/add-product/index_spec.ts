@@ -15,6 +15,7 @@ import {
   CLI_PRODUCT_VARIANTS_FEATURE,
   LibraryOptions as SpartacusProductOptions,
   SpartacusOptions,
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -168,6 +169,15 @@ describe('Spartacus Product schematics: ng-add', () => {
         it('should update angular.json', async () => {
           const content = appTree.readContent('/angular.json');
           expect(content).toMatchSnapshot();
+        });
+      });
+
+      describe('b2b features', () => {
+        it('configuration should be added', () => {
+          const configurationModule = appTree.readContent(
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+          );
+          expect(configurationModule).toMatchSnapshot();
         });
       });
     });

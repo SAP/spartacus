@@ -16,13 +16,13 @@
 
     <label
       *ngIf="(types$ | async)?.length"
-      aria-required="true"
       [formGroup]="form.get('orderApprovalPermissionType')"
     >
       <span class="label-content required">{{
         'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="code"
         [searchable]="false"
         [clearable]="false"
@@ -41,11 +41,12 @@
       ></cx-form-errors>
     </label>
 
-    <label aria-required="true" *ngIf="form.get('periodRange')">
+    <label *ngIf="form.get('periodRange')">
       <span class="label-content required">{{
         'orgPurchaseLimit.periodRange' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="periodRange"
         [searchable]="false"
         [clearable]="false"
@@ -57,16 +58,13 @@
       <cx-form-errors [control]="form.get('periodRange')"></cx-form-errors>
     </label>
 
-    <label
-      aria-required="true"
-      *ngIf="form.get('currency')"
-      [formGroup]="form.get('currency')"
-    >
+    <label *ngIf="form.get('currency')" [formGroup]="form.get('currency')">
       <span class="label-content required">{{
         'orgPurchaseLimit.currency' | cxTranslate
       }}</span>
       <ng-select
         *ngIf="currencies$ | async as currencies"
+        [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
         [searchable]="false"
         [clearable]="false"
@@ -93,11 +91,12 @@
       <cx-form-errors [control]="form.get('threshold')"></cx-form-errors>
     </label>
 
-    <label aria-required="true" [formGroup]="form.get('orgUnit')">
+    <label [formGroup]="form.get('orgUnit')">
       <span class="label-content required">{{
         'orgPurchaseLimit.orgUnit' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
