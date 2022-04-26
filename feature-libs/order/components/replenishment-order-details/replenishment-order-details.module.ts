@@ -10,7 +10,6 @@ import {
 } from '@spartacus/core';
 import {
   CardModule,
-  CartSharedModule,
   ListNavigationModule,
   PromotionsModule,
   SpinnerModule,
@@ -29,7 +28,6 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CardModule,
     CommonModule,
     I18nModule,

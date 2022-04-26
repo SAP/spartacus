@@ -1,27 +1,50 @@
-<div class="cx-attribute-value">{{ attributeOverview.value }}</div>
+<span class="cx-visually-hidden">
+  {{
+    attributeOverview.valuePrice && attributeOverview.valuePrice?.value !== 0
+      ? attributeOverview.valuePriceTotal &&
+        attributeOverview.valuePriceTotal?.value !== 0
+        ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+          | cxTranslate
+            : {
+                value: attributeOverview.value,
+                attribute: attributeOverview.attribute,
+                price: attributeOverview.valuePriceTotal.formattedValue
+              })
+        : ('configurator.a11y.valueOfAttributeFullWithPrice'
+          | cxTranslate
+            : {
+                value: attributeOverview.value,
+                attribute: attributeOverview.attribute,
+                price: attributeOverview.valuePrice.formattedValue
+              })
+      : ('configurator.a11y.valueOfAttributeFull'
+        | cxTranslate
+          : {
+              value: attributeOverview.value,
+              attribute: attributeOverview.attribute
+            })
+  }}
+</span>
+<div class="cx-attribute-value" aria-hidden="true">
+  {{ attributeOverview.value }}
+</div>
 <ng-container *ngIf="isDesktop() | async; else mobile">
-  <div
-    class="cx-attribute-label"
-    [attr.aria-label]="attributeOverview.attribute"
-  >
+  <div class="cx-attribute-label" aria-hidden="true">
     {{ attributeOverview.attribute }}
   </div>
-  <div class="cx-attribute-price">
+  <div class="cx-attribute-price" aria-hidden="true">
     <cx-configurator-price
       [formula]="extractPriceFormulaParameters()"
     ></cx-configurator-price>
   </div>
 </ng-container>
 <ng-template #mobile>
-  <div class="cx-attribute-price">
+  <div class="cx-attribute-price" aria-hidden="true">
     <cx-configurator-price
       [formula]="extractPriceFormulaParameters()"
     ></cx-configurator-price>
   </div>
-  <div
-    class="cx-attribute-label"
-    [attr.aria-label]="attributeOverview.attribute"
-  >
+  <div class="cx-attribute-label" aria-hidden="true">
     {{ attributeOverview.attribute }}
   </div>
 </ng-template>

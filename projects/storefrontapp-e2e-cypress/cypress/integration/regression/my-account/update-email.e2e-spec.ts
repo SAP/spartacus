@@ -3,12 +3,9 @@ import * as alerts from '../../../helpers/global-message';
 import { checkBanner } from '../../../helpers/homepage';
 import { signOut } from '../../../helpers/register';
 import { registerAndLogin } from '../../../helpers/update-email';
-import { generateMail, randomString } from '../../../helpers/user';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
-
-const UPDATE_EMAIL_URL = '/my-account/update-email';
-const password = 'Password123.';
+import * as updateEmail from '../../../helpers/update-email';
 
 describe('My Account - Update Email', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -18,7 +15,7 @@ describe('My Account - Update Email', () => {
 
     describe('Anonymous user', () => {
       it('should redirect to login page', () => {
-        cy.visit(UPDATE_EMAIL_URL);
+        cy.visit(updateEmail.UPDATE_EMAIL_URL);
         cy.location('pathname').should('contain', '/login');
       });
     });
@@ -43,26 +40,10 @@ describe('My Account - Update Email', () => {
         cy.location('pathname').should('contain', '/');
       });
 
-      it('should update his email address and login', () => {
-        const newUid = generateMail(randomString(), true);
-        cy.get('cx-update-email').within(() => {
-          cy.get('[formcontrolname="email"]').type(newUid);
-          cy.get('[formcontrolname="confirmEmail"]').type(newUid);
-          cy.get('[formcontrolname="password"]').type(password);
+      // Core e2e test. Check with different view port.
+      updateEmail.testUpdateEmailAndLogin();
 
-          cy.get('button').click();
-        });
-        cy.get('cx-login-form').should('exist');
-
-        alerts
-          .getSuccessAlert()
-          .should('contain', `Success. Please sign in with ${newUid}`);
-
-        login(newUid, password);
-
-        cy.get('cx-login .cx-login-greet').should('exist');
-      });
-
+      // Below test depends on core test for setup.
       it('should not allow login with old email address', () => {
         signOut();
         cy.visit('/login');

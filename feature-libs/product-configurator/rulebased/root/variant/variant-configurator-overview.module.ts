@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { provideDefaultConfig } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  LayoutConfig,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { VariantConfiguratorOverviewLayoutModule } from './variant-configurator-overview-layout.module';
 
 /**
  * Takes care of the configuration overview that visualizes the attribute value assignments that have been done already in a condensed, read-only form.
@@ -27,41 +23,7 @@ import {
         canActivate: [CmsPageGuard],
       },
     ]),
-  ],
-  providers: [
-    provideDefaultConfig(<LayoutConfig>{
-      layoutSlots: {
-        VariantConfigurationOverviewTemplate: {
-          header: {
-            md: {
-              slots: [
-                'PreHeader',
-                'SiteContext',
-                'SiteLinks',
-                'SiteLogo',
-                'SearchBox',
-                'SiteLogin',
-                'MiniCart',
-              ],
-            },
-            xs: {
-              slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
-            },
-          },
-          navigation: {
-            xs: {
-              slots: ['SiteLogin', 'SiteContext', 'SiteLinks'],
-            },
-          },
-          slots: [
-            'VariantConfigOverviewHeader',
-            'VariantConfigOverviewBanner',
-            'VariantConfigOverviewContent',
-            'VariantConfigOverviewBottombar',
-          ],
-        },
-      },
-    }),
+    VariantConfiguratorOverviewLayoutModule,
   ],
 })
 export class VariantConfiguratorOverviewModule {}

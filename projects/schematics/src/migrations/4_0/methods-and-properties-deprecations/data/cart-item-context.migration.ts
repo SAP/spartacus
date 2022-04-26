@@ -2,9 +2,9 @@ import {
   CART_ITEM_CONTEXT,
   LOCATION$,
   PROMOTION_LOCATION$,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/storefrontlib/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts

@@ -1,6 +1,5 @@
 import { Injectable, NgZone, Optional } from '@angular/core';
 import {
-  ActiveCartService,
   AuthService,
   BaseSiteService,
   CmsService,
@@ -16,13 +15,11 @@ import {
   ProductService,
   RoutingService,
   SearchboxService,
-  SelectiveCartService,
   TranslationService,
   UserAddressService,
   UserConsentService,
   UserInterestsService,
   UserNotificationPreferenceService,
-  UserOrderService,
   UserPaymentService,
   UserService,
 } from '@spartacus/core';
@@ -37,8 +34,6 @@ export class CxApiService {
   constructor(
     // auth
     @Optional() public auth: AuthService,
-    // cart
-    @Optional() public cart: ActiveCartService,
     // cms
     @Optional() public cms: CmsService,
     @Optional() public pageMeta: PageMetaService,
@@ -66,13 +61,11 @@ export class CxApiService {
     @Optional() public user: UserService,
     @Optional() public userAddress: UserAddressService,
     @Optional() public userConsent: UserConsentService,
-    @Optional() public userOrder: UserOrderService,
     @Optional() public userPayment: UserPaymentService,
     @Optional()
     public userNotificationPreferenceService: UserNotificationPreferenceService,
     @Optional()
     public userInterestsService: UserInterestsService,
-    @Optional() public selectiveCartService: SelectiveCartService,
     // framework
     public ngZone: NgZone
   ) {}

@@ -2,7 +2,7 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CmsNavigationComponent } from '@spartacus/core';
+import { CmsNavigationComponent, I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { NavigationNode } from '../navigation/navigation-node.model';
@@ -17,6 +17,8 @@ class MockNavigationComponent {
   @Input() node: NavigationNode;
   @Input() wrapAfter: number;
   @Input() allowAlignToRight: number;
+  @Input() navAriaLabel: string;
+  @Input() resetMenuOnClose: boolean;
 }
 
 describe('CategoryNavigationComponent', () => {
@@ -58,7 +60,7 @@ describe('CategoryNavigationComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule],
         declarations: [CategoryNavigationComponent, MockNavigationComponent],
         providers: [
           {

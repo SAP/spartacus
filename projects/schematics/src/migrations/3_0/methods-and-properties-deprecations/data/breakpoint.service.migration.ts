@@ -3,10 +3,10 @@ import {
   GET_BREAKPOINT,
   GET_CLOSEST,
   GET_WINDOW,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/storefrontlib/layout/breakpoint/breakpoint.service.ts

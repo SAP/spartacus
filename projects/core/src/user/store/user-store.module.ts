@@ -8,9 +8,6 @@ import { effects } from './effects/index';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 import { USER_FEATURE } from './user-state';
 
-/**
- * @deprecated since 3.2, moved to the `@spartacus/user` package.
- */
 @NgModule({
   imports: [
     CommonModule,

@@ -1,10 +1,5 @@
 @mixin cx-configurator-required-error-msg {
   .cx-required-error-msg {
-    color: var(--cx-color-danger);
-    font-size: 14px;
-
-    cx-icon {
-      padding-inline-end: 5px;
-    }
+    @include cx-configurator-error-msg();
   }
 }

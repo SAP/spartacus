@@ -24,6 +24,8 @@ export class FacetService {
    */
   protected facetState = new Map<string, BehaviorSubject<FacetCollapseState>>();
 
+  protected readonly codec = new HttpUrlEncodingCodec();
+
   constructor(protected productFacetService: ProductFacetService) {}
 
   /**
@@ -35,7 +37,7 @@ export class FacetService {
    */
   facetList$: Observable<FacetList> = this.productFacetService.facetList$.pipe(
     tap((facetList) => {
-      facetList.facets.forEach((facet) => this.initialize(facet));
+      facetList.facets?.forEach((facet) => this.initialize(facet));
     })
   );
 
@@ -133,7 +135,13 @@ export class FacetService {
       // to avoid encoding issues with facets that have space (' ') in their name,
       // we replace the decoded '+' back to empty space ' '.
       // For more, see https://github.com/SAP/spartacus/issues/7348
-      query: new HttpUrlEncodingCodec().decodeValue(query).replace(/\+/g, ' '),
+      query: this.codec
+        .decodeValue(this.decodeUriComponentSafe(query))
+        .replace(/\+/g, ' '),
     };
+  }
+
+  protected decodeUriComponentSafe(query: string): string {
+    return query.replace(/%(?![0-9][0-9a-fA-F]+)/g, '%25');
   }
 }

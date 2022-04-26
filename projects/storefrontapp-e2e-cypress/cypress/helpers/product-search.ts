@@ -49,12 +49,12 @@ export function assertFirstProduct() {
   cy.get(productNameSelector).first().invoke('text').should('match', /\w+/);
 }
 
-export function checkDistinctProductName(firstProduct: string) {
+export function validateFirstProduct(xhr: any) {
+  const firstProduct = xhr.response.body.products[0].name;
   cy.get(productNameSelector)
     .first()
-    .invoke('text')
-    .should('match', /\w+/)
-    .should('not.be.eq', firstProduct);
+    .invoke('html')
+    .should('contain', firstProduct);
 }
 
 export function verifyProductSearch(
@@ -62,27 +62,23 @@ export function verifyProductSearch(
   sortingAlias: string,
   sortBy: string
 ): void {
-  cy.get(productNameSelector)
-    .first()
-    .invoke('text')
-    .should('match', /\w+/)
-    .then((firstProduct) => {
-      // Navigate to next page
-      nextPage();
-      cy.get(pageLinkSelector).should('contain', '2');
+  assertFirstProduct();
 
-      cy.wait(`@${productAlias}`);
+  nextPage();
 
-      checkDistinctProductName(firstProduct);
+  cy.get(pageLinkSelector).should('contain', '2');
 
-      cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
+  cy.wait(`@${productAlias}`).then((xhr) => {
+    validateFirstProduct(xhr);
+  });
 
-      cy.wait(`@${sortingAlias}`);
+  cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
 
-      cy.get(pageLinkSelector).should('contain', '2');
+  cy.wait(`@${sortingAlias}`).then((xhr) => {
+    validateFirstProduct(xhr);
+  });
 
-      checkDistinctProductName(firstProduct);
-    });
+  cy.get(pageLinkSelector).should('contain', '2');
 }
 
 export function searchResult() {

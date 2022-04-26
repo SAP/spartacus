@@ -1,0 +1,60 @@
+%cx-epd-visualization-visual-picking-tab {
+  .container-fluid {
+    padding: 0;
+
+    @include media-breakpoint-up(md) {
+      padding: 0 1em;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding: 0 2em;
+    }
+
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    @include media-breakpoint-up(md) {
+      flex-direction: row;
+    }
+
+    cx-epd-visualization-viewer {
+      width: 100%;
+      height: 20em;
+
+      @include media-breakpoint-up(md) {
+        width: calc(50% - 0.5em);
+        height: 50em;
+      }
+
+      @include media-breakpoint-up(lg) {
+        width: calc(60% - 0.5em);
+        height: 50em;
+      }
+    }
+
+    .visual-picking-product-list-container:not(.viewportHidden) {
+      width: 100%;
+
+      @include media-breakpoint-up(md) {
+        width: calc(50% - 0.5em);
+      }
+
+      @include media-breakpoint-up(lg) {
+        width: calc(40% - 0.5em);
+      }
+    }
+
+    .visual-picking-product-list-container.viewportHidden {
+      width: 100%;
+    }
+
+    cx-epd-visualization-product-filter {
+      margin: 0.25rem 0 1rem 0;
+
+      @include media-breakpoint-up(md) {
+        margin: 0;
+      }
+    }
+  }
+}

@@ -6,11 +6,13 @@ import {
   OCC_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
   SITE_CONTEXT_CONFIG,
+} from '../shared/constants';
+import {
   SPARTACUS_ASSETS,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../shared/constants';
+} from '../shared/libs-constants';
 import { addModuleProvider } from '../shared/utils/new-module-utils';
 import { getSpartacusCurrentFeatureLevel } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';

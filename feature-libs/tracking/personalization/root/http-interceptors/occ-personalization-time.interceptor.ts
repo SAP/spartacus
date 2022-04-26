@@ -11,13 +11,12 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { PersonalizationConfig } from '../config/personalization-config';
 
-const PERSONALIZATION_TIME_KEY = 'personalization-time';
-
 @Injectable({ providedIn: 'root' })
 export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
   private timestamp?: string | null;
   private requestHeader?: string;
   private enabled = false;
+  protected readonly PERSONALIZATION_TIME_KEY = 'personalization-time';
 
   constructor(
     private config: PersonalizationConfig,
@@ -38,10 +37,12 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
         this.requestHeader =
           this.config.personalization?.httpHeaderName?.timestamp.toLowerCase();
         this.timestamp = this.winRef.localStorage?.getItem(
-          PERSONALIZATION_TIME_KEY
+          this.PERSONALIZATION_TIME_KEY
         );
-      } else if (this.winRef.localStorage?.getItem(PERSONALIZATION_TIME_KEY)) {
-        this.winRef.localStorage.removeItem(PERSONALIZATION_TIME_KEY);
+      } else if (
+        this.winRef.localStorage?.getItem(this.PERSONALIZATION_TIME_KEY)
+      ) {
+        this.winRef.localStorage.removeItem(this.PERSONALIZATION_TIME_KEY);
       }
     }
   }
@@ -78,7 +79,7 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
               this.timestamp = receivedTimestamp;
               if (this.timestamp) {
                 this.winRef.localStorage?.setItem(
-                  PERSONALIZATION_TIME_KEY,
+                  this.PERSONALIZATION_TIME_KEY,
                   this.timestamp
                 );
               }

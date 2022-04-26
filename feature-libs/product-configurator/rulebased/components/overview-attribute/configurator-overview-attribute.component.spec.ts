@@ -1,11 +1,13 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { Component, Input, Type } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
-import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
+import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
+import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -24,7 +26,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, NgSelectModule],
+        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
         declarations: [
           ConfiguratorOverviewAttributeComponent,
           MockConfiguratorPriceComponent,
@@ -109,6 +111,100 @@ describe('ConfigurationOverviewAttributeComponent', () => {
           expect(result).toBe(true);
         })
         .unsubscribe();
+    });
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ConfiguratorOverviewAttributeComponent);
+      component = fixture.componentInstance;
+      htmlElem = fixture.nativeElement;
+      component.attributeOverview = {
+        attribute: 'Color',
+        value: 'Blue',
+        quantity: 100,
+        valuePrice: {
+          currencyIso: '$',
+          formattedValue: '$10',
+          value: 10,
+        },
+      };
+      fixture.detectChanges();
+
+      breakpointService = TestBed.inject(
+        BreakpointService as Type<BreakpointService>
+      );
+      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+    });
+
+    it("should contain span element with class name 'cx-visually-hidden' without price that hides span element content on the UI", () => {
+      fixture = TestBed.createComponent(ConfiguratorOverviewAttributeComponent);
+      component = fixture.componentInstance;
+      htmlElem = fixture.nativeElement;
+      component.attributeOverview = {
+        attribute: 'Color',
+        value: 'Blue',
+      };
+      fixture.detectChanges();
+
+      breakpointService = TestBed.inject(
+        BreakpointService as Type<BreakpointService>
+      );
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attributeOverview.attribute +
+          ' value:' +
+          component.attributeOverview.value
+      );
+    });
+
+    it("should contain span element with class name 'cx-visually-hidden' with price that hides span element content on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+          component.attributeOverview.attribute +
+          ' price:' +
+          component.attributeOverview.valuePrice.formattedValue +
+          ' value:' +
+          component.attributeOverview.value
+      );
+    });
+
+    it("should contain div element with class name 'cx-attribute-value' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-attribute-value',
+        0,
+        'aria-hidden',
+        'true'
+      );
+    });
+
+    it("should contain div element with class name 'cx-attribute-label' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-attribute-label',
+        0,
+        'aria-hidden',
+        'true'
+      );
     });
   });
 });

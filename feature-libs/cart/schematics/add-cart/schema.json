@@ -11,6 +11,11 @@
         "$source": "projectName"
       }
     },
+    "debug": {
+      "description": "Display additional details during the running process.",
+      "type": "boolean",
+      "default": false
+    },
     "lazy": {
       "type": "boolean",
       "description": "Lazy load the Saved cart feature.",
@@ -20,14 +25,34 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Saved-Cart", "Quick-Order", "Import-Export"],
+        "enum": [
+          "Cart",
+          "WishList",
+          "Saved-Cart",
+          "Quick-Order",
+          "Import-Export"
+        ],
         "type": "string"
       },
-      "default": ["Saved-Cart", "Quick-Order", "Import-Export"],
+      "default": [
+        "Cart",
+        "WishList",
+        "Saved-Cart",
+        "Quick-Order",
+        "Import-Export"
+      ],
       "x-prompt": {
         "message": "Which Cart features would you like to set up?",
         "type": "list",
         "items": [
+          {
+            "value": "Cart",
+            "label": "Cart"
+          },
+          {
+            "value": "WishList",
+            "label": "Wish List"
+          },
           {
             "value": "Saved-Cart",
             "label": "Saved Cart"

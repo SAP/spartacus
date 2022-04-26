@@ -3,4 +3,5 @@ videos
 cypress.env.json
 
 cypress/fixtures/example.json
+cypress/fixtures/a11y/snapshots/drafts
 cypress/downloads

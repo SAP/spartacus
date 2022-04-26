@@ -1,9 +1,9 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
-import { I18nTestingModule } from '@spartacus/core';
+import { GlobalMessageService, I18nTestingModule } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { Observable, of } from 'rxjs';
 import { PageLayoutService } from '../../../../cms-structure';
@@ -93,6 +93,10 @@ class MockViewConfig {
   };
 }
 
+class MockGlobalMessageService {
+  add = createSpy();
+}
+
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
@@ -123,6 +127,10 @@ describe('ProductListComponent', () => {
             provide: ViewConfig,
             useClass: MockViewConfig,
           },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
         ],
         declarations: [
           ProductListComponent,
@@ -146,10 +154,6 @@ describe('ProductListComponent', () => {
     fixture = TestBed.createComponent(ProductListComponent);
     component = fixture.componentInstance;
     componentService = TestBed.inject(ProductListComponentService);
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {

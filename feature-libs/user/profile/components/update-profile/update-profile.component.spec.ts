@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -51,6 +52,7 @@ describe('UpdateProfileComponent', () => {
           FormErrorsModule,
           RouterTestingModule,
           UrlTestingModule,
+          NgSelectModule,
         ],
         declarations: [UpdateProfileComponent, MockCxSpinnerComponent],
         providers: [

@@ -1,28 +1,42 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
+  CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import {
+  IntersectionOptions,
+  IntersectionService,
+} from '@spartacus/storefront';
+import { Observable, of, Subscription } from 'rxjs';
+import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-add-to-cart-button',
   templateUrl: './configurator-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAddToCartButtonComponent {
+export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
+  protected subscription = new Subscription();
+
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
@@ -54,8 +68,15 @@ export class ConfiguratorAddToCartButtonComponent {
     protected configuratorCartService: ConfiguratorCartService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected orderHistoryFacade: OrderHistoryFacade,
+    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
+    protected configUtils: ConfiguratorStorefrontUtilsService,
+    protected intersectionService: IntersectionService
   ) {}
+  ngOnInit(): void {
+    this.makeAddToCartButtonSticky();
+  }
 
   protected navigateToCart(): void {
     this.routingService.go('cart');
@@ -175,7 +196,9 @@ export class ConfiguratorAddToCartButtonComponent {
             isOverview,
             configuration.isCartEntryUpdateRequired ?? false
           );
-          if (configuration.isCartEntryUpdateRequired) {
+          //Only remove if we are on configuration page, because on final cart navigation,
+          //the configuration will anyhow be removed
+          if (configuration.isCartEntryUpdateRequired && !isOverview) {
             this.configuratorCommonsService.removeConfiguration(owner);
           }
         } else {
@@ -212,15 +235,84 @@ export class ConfiguratorAddToCartButtonComponent {
               // configuration for the same cart entry number stored already.
               // (Cart entries might have been deleted)
 
+              // Needs to happen only if we are on configuration page, navigation to
+              // cart will anyhow delete
+
               // we do not clean up the product bound configuration yet, as existing
               // observables would instantly trigger a re-create.
               // Cleaning up this obsolete product bound configuration will only happen
               // when a new config form requests a new observable for a product bound
               // configuration
-
-              this.configuratorCommonsService.removeConfiguration(nextOwner);
+              if (!isOverview) {
+                this.configuratorCommonsService.removeConfiguration(nextOwner);
+              }
             });
         }
       });
+  }
+  leaveConfigurationOverview(): void {
+    this.container$.pipe(take(1)).subscribe((container) => {
+      if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.ORDER_ENTRY
+      ) {
+        this.goToOrderDetails(container.routerData.owner);
+      } else {
+        this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
+      }
+    });
+  }
+
+  protected goToOrderDetails(owner: CommonConfigurator.Owner): void {
+    this.orderHistoryFacade.loadOrderDetails(
+      this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
+    );
+    this.orderHistoryFacade
+      .getOrderDetails()
+      .pipe(
+        filter((order: Order) => order !== undefined),
+        take(1)
+      )
+      .subscribe((order: Order) =>
+        this.routingService.go({ cxRoute: 'orderDetails', params: order })
+      );
+  }
+
+  protected makeAddToCartButtonSticky(): void {
+    const options: IntersectionOptions = { rootMargin: '0px 0px -100px 0px' };
+
+    this.subscription.add(
+      this.container$
+        .pipe(
+          take(1),
+          delay(0),
+          map(() => this.configUtils.getElement('.cx-price-summary-container')),
+          switchMap((priceSummary) =>
+            priceSummary
+              ? this.intersectionService.isIntersecting(priceSummary, options)
+              : of(undefined)
+          ),
+          filter((isIntersecting) => isIntersecting !== undefined)
+        )
+        .subscribe((isIntersecting) => {
+          if (isIntersecting) {
+            this.configUtils.changeStyling(
+              'cx-configurator-add-to-cart-button',
+              'position',
+              'sticky'
+            );
+          } else {
+            this.configUtils.changeStyling(
+              'cx-configurator-add-to-cart-button',
+              'position',
+              'fixed'
+            );
+          }
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

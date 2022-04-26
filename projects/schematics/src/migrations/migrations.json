@@ -90,6 +90,47 @@
       "version": "4.0.0",
       "factory": "./mechanism/scaffold-app-structure/scaffold-app-structure#scaffoldAppStructure",
       "description": "Scaffold the new app structure"
+    },
+
+    "00-migration-v5-config-deprecations": {
+      "version": "5.0.0-next.0",
+      "factory": "./5_0/config-deprecations/config-deprecations#migrate",
+      "description": "Handle deprecated configuration properties"
+    },
+    "01-migration-v5-constructor-deprecations": {
+      "version": "5.0.0-next.0",
+      "factory": "./5_0/constructor-deprecations/constructor-deprecations#migrate",
+      "description": "Add or remove constructor parameters"
+    },
+    "02-migration-v5-css": {
+      "version": "5.0.0-next.0",
+      "factory": "./5_0/css/css#migrate",
+      "description": "Handle deprecated CSS"
+    },
+    "03-migration-v5-dependency-management": {
+      "version": "5.0.0-next.0",
+      "factory": "./5_0/dependency-management/dependency-management#migrate",
+      "description": "Update dependencies"
+    },
+    "04-migration-v5-methods-and-properties-deprecations": {
+      "version": "5.0.0-next.0",
+      "factory": "./5_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
+      "description": "Comment about usage of removed public methods or properties"
+    },
+    "05-migration-v5-missing-packages": {
+      "version": "5.0.0-next.0",
+      "factory": "./5_0/missing-packages/missing-packages#migrate",
+      "description": "Check missing packages"
+    },
+    "06-migration-v5-removed-public-api-deprecations": {
+      "version": "5.0.0-next.0",
+      "factory": "./5_0/removed-public-api-deprecations/removed-public-api-deprecations#migrate",
+      "description": "Comment about usage of removed public api"
+    },
+    "07-migration-v5-rename-symbol": {
+      "version": "5.0.0-next.0",
+      "factory": "./5_0/rename-symbol/rename-symbol#migrate",
+      "description": "Rename import symbols that were moved/changed in majors"
     }
   }
 }
