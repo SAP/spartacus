@@ -19,15 +19,17 @@
     <span class="label-content">{{
       'loginForm.password.label' | cxTranslate
     }}</span>
-    <input
-      required="true"
-      type="password"
-      class="form-control"
-      placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
-      formControlName="password"
-      [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
-      cxPasswordVisibility
-    />
+    <div class="cx-password">
+      <input
+        required="true"
+        type="password"
+        class="form-control"
+        placeholder="{{ 'loginForm.password.placeholder' | cxTranslate }}"
+        formControlName="password"
+        [attr.aria-label]="'loginForm.password.placeholder' | cxTranslate"
+        cxPasswordVisibility
+      />
+    </div>
     <cx-form-errors [control]="form.get('password')"></cx-form-errors>
   </label>
 

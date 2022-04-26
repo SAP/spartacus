@@ -24,17 +24,13 @@ export class PasswordVisibilityDirective implements OnInit {
 
   ngOnInit(): void {
     if (this.enabled) {
-      this.setAriaLabels();
-
       this.createToggle();
+      this.setAriaLabels();
 
       this.icon = this.winRef.document.createElement('cx-icon');
       this.icon?.setAttribute('class', 'fas fa-eye');
       this.icon?.setAttribute('aria-hidden', 'true');
 
-      this.button?.addEventListener('click', () => {
-        this.changePasswordVisibility();
-      });
       this.button?.appendChild(this.icon);
     }
   }
@@ -44,13 +40,11 @@ export class PasswordVisibilityDirective implements OnInit {
     this.button = this.winRef.document.createElement('button');
     this.button.setAttribute('class', 'cx-show-hide-btn');
     this.button.setAttribute('type', 'button');
-    this.button.setAttribute('aria-label', this.showPassword);
 
-    const inputPosition = input.getBoundingClientRect();
-    const offset = (inputPosition.bottom - inputPosition.top) / 2;
-    const top = offset + input.offsetTop;
+    this.button?.addEventListener('click', () => {
+      this.changePasswordVisibility();
+    });
 
-    this.button.style.top = top + 'px';
     input.after(this.button);
   }
 
@@ -63,6 +57,7 @@ export class PasswordVisibilityDirective implements OnInit {
       .subscribe(([show, hide]) => {
         this.showPassword = show;
         this.hidePassword = hide;
+        this.button?.setAttribute('aria-label', this.showPassword);
       });
   }
 

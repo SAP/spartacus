@@ -97,20 +97,22 @@
               <span class="label-content">{{
                 'register.password.label' | cxTranslate
               }}</span>
-              <input
-                required="true"
-                class="form-control"
-                type="password"
-                name="password"
-                placeholder="{{
-                  'register.password.placeholder' | cxTranslate
-                }}"
-                formControlName="password"
-                [attr.aria-label]="
-                  'register.password.placeholder' | cxTranslate
-                "
-                cxPasswordVisibility
-              />
+              <div class="cx-password">
+                <input
+                  required="true"
+                  class="form-control"
+                  type="password"
+                  name="password"
+                  placeholder="{{
+                    'register.password.placeholder' | cxTranslate
+                  }}"
+                  formControlName="password"
+                  [attr.aria-label]="
+                    'register.password.placeholder' | cxTranslate
+                  "
+                  cxPasswordVisibility
+                />
+              </div>
               <cx-form-errors
                 [control]="registerForm.get('password')"
               ></cx-form-errors>
@@ -122,20 +124,22 @@
               <span class="label-content">{{
                 'register.confirmPassword.label' | cxTranslate
               }}</span>
-              <input
-                required="true"
-                class="form-control"
-                type="password"
-                name="confirmpassword"
-                placeholder="{{
-                  'register.confirmPassword.placeholder' | cxTranslate
-                }}"
-                formControlName="passwordconf"
-                [attr.aria-label]="
-                  'register.confirmPassword.placeholder' | cxTranslate
-                "
-                cxPasswordVisibility
-              />
+              <div class="cx-password">
+                <input
+                  required="true"
+                  class="form-control"
+                  type="password"
+                  name="confirmpassword"
+                  placeholder="{{
+                    'register.confirmPassword.placeholder' | cxTranslate
+                  }}"
+                  formControlName="passwordconf"
+                  [attr.aria-label]="
+                    'register.confirmPassword.placeholder' | cxTranslate
+                  "
+                  cxPasswordVisibility
+                />
+              </div>
               <cx-form-errors
                 [control]="registerForm.get('passwordconf')"
               ></cx-form-errors>

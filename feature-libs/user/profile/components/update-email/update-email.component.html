@@ -39,16 +39,18 @@
     <span class="label-content">{{
       'updateEmailForm.password.label' | cxTranslate
     }}</span>
-    <input
-      required="true"
-      type="password"
-      name="password"
-      formControlName="password"
-      placeholder="{{ 'updateEmailForm.password.placeholder' | cxTranslate }}"
-      class="form-control"
-      autocomplete="new-password"
-      cxPasswordVisibility
-    />
+    <div class="cx-password">
+      <input
+        required="true"
+        type="password"
+        name="password"
+        formControlName="password"
+        placeholder="{{ 'updateEmailForm.password.placeholder' | cxTranslate }}"
+        class="form-control"
+        autocomplete="new-password"
+        cxPasswordVisibility
+      />
+    </div>
     <cx-form-errors [control]="form.get('password')"></cx-form-errors>
   </label>
 
