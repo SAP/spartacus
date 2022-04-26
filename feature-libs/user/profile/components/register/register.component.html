@@ -20,6 +20,10 @@
                 bindLabel="name"
                 bindValue="code"
                 formControlName="titleCode"
+                id="title-select"
+                [cxNgSelectA11y]="{
+                  ariaLabel: 'register.title' | cxTranslate
+                }"
               >
               </ng-select>
             </label>

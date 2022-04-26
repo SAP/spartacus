@@ -68,6 +68,20 @@ describe('GenericLinkComponent', () => {
       expect(component.isExternalUrl()).toBeFalsy();
     });
 
+    it('should return true when url starts with mailto: or tel:', () => {
+      component.url = 'tel:123456789';
+      expect(component.isExternalUrl()).toBeTruthy();
+
+      component.url = 'mailto:test@example.com';
+      expect(component.isExternalUrl()).toBeTruthy();
+
+      component.url = 'tel:';
+      expect(component.isExternalUrl()).toBeTruthy();
+
+      component.url = 'mailto:';
+      expect(component.isExternalUrl()).toBeTruthy();
+    });
+
     describe('styling', () => {
       it('should not have any style classes', () => {
         fixture.detectChanges();
@@ -125,42 +139,6 @@ describe('GenericLinkComponent', () => {
         expect(el.style.color).toEqual('red');
         expect(el.style.border).toEqual('solid 1px var(--cx-color-primary)');
       });
-    });
-  });
-
-  describe('isContactUrl', () => {
-    it('should return true when url starts with mailto: or tel:', () => {
-      component.url = 'tel:123456789';
-      expect(component.isContactUrl()).toBeTruthy();
-
-      component.url = 'mailto:test@example.com';
-      expect(component.isContactUrl()).toBeTruthy();
-
-      component.url = 'tel:';
-      expect(component.isContactUrl()).toBeTruthy();
-
-      component.url = 'mailto:';
-      expect(component.isContactUrl()).toBeTruthy();
-    });
-
-    it('should return false when url does not start with tel: or mailto:', () => {
-      component.url = 'other-protocol://example.com';
-      expect(component.isContactUrl()).toBeFalsy();
-
-      component.url = '://example.com';
-      expect(component.isContactUrl()).toBeFalsy();
-
-      component.url = 'example.com';
-      expect(component.isContactUrl()).toBeFalsy();
-
-      component.url = './local/url';
-      expect(component.isContactUrl()).toBeFalsy();
-
-      component.url = '/local/url';
-      expect(component.isContactUrl()).toBeFalsy();
-
-      component.url = 'local/url';
-      expect(component.isContactUrl()).toBeFalsy();
     });
   });
 
