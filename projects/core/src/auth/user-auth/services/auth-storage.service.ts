@@ -101,10 +101,9 @@ export class AuthStorageService extends OAuthStorage {
   removeItem(key: string): void {
     const val = {...this._token$.value};
     delete val[key];
-    this._token = {
+    this.setToken({
       ...val,
-    }
-    this._token$.next(this._token);
+    });
   }
 
   /**
@@ -115,11 +114,10 @@ export class AuthStorageService extends OAuthStorage {
    */
   setItem(key: string, data: any): void {
     if (key) {
-      this._token = {
+      this.setToken({
         ...this._token$.value,
         [key]: this.encode(key, data),
-      }
-      this._token$.next(this._token);
+      });
     }
   }
 }
