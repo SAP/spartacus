@@ -30,7 +30,7 @@ const cartDataList: Occ.CartList = {
   carts: [cartData],
 };
 const mergedCart: Cart = {
-  name: 'mergedCart',
+  name: 'mergedCsart',
 };
 
 class MockOccEndpointsService {

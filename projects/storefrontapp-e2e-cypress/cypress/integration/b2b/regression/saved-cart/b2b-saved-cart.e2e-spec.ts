@@ -11,7 +11,7 @@ context('B2B - Saved Cart', () => {
 
     describe('Accessibility - keyboarding', () => {
       describe('Cart page', () => {
-        it('should conform to tabbing osrder', () => {
+        it('should conform to tabbing order', () => {
           savedCart.verifyCartPageTabbingOrder();
         });
       });
