@@ -21,9 +21,8 @@ export class DeferLoaderService {
     protected config: LayoutConfig,
     protected intersectionService: IntersectionService
   ) {
-    this.globalLoadStrategy = config.deferredLoading
-      ? config.deferredLoading.strategy
-      : DeferLoadingStrategy.INSTANT;
+    this.globalLoadStrategy =
+      config.deferredLoading?.strategy ?? DeferLoadingStrategy.INSTANT;
   }
 
   /**
@@ -40,7 +39,11 @@ export class DeferLoaderService {
     element: HTMLElement,
     options?: IntersectionOptions
   ): Observable<boolean> {
-    if (this.shouldLoadInstantly((options || {}).deferLoading)) {
+    if (
+      this.shouldLoadInstantly(
+        (options || {}).deferLoading ?? DeferLoadingStrategy.INSTANT
+      )
+    ) {
       return of(true);
     } else {
       return this.intersectionService.isIntersected(element, options);

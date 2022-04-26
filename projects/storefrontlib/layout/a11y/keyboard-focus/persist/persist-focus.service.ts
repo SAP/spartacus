@@ -18,7 +18,7 @@ export class PersistFocusService extends BaseFocusService {
   // We must bring this to a singleton map.
   protected focus = new Map<string, string>();
 
-  get(group?: string): string {
+  get(group?: string | null): string | undefined {
     return this.focus.get(group || GLOBAL_GROUP);
   }
 
@@ -26,7 +26,7 @@ export class PersistFocusService extends BaseFocusService {
    * Persist the keyboard focus state for the given key. The focus is stored globally
    * or for the given group.
    */
-  set(key: string, group?: string) {
+  set(key?: string, group?: string | null) {
     if (key) {
       this.focus.set(group || GLOBAL_GROUP, key);
     }
@@ -43,7 +43,10 @@ export class PersistFocusService extends BaseFocusService {
    * Returns the group for the host element based on the configured group or
    * by the `data-cx-focus-group` attribute stored on the host.
    */
-  getPersistenceGroup(host: HTMLElement, config?: PersistFocusConfig): string {
-    return config?.group ? config.group : host.getAttribute(FOCUS_GROUP_ATTR);
+  getPersistenceGroup(
+    host: HTMLElement | undefined | null,
+    config?: PersistFocusConfig
+  ): string | null | undefined {
+    return config?.group ? config.group : host?.getAttribute(FOCUS_GROUP_ATTR);
   }
 }

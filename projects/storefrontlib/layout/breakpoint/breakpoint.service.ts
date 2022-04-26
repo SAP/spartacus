@@ -149,7 +149,7 @@ export class BreakpointService {
    * max size form the current breakpoint, but if this is not available, we
    * resolve it form the next breakpoint
    */
-  protected getMaxSize(breakpoint: BREAKPOINT): number {
+  protected getMaxSize(breakpoint: BREAKPOINT): number | null {
     const breakpointConfig = this.config[breakpoint];
 
     if (!breakpointConfig) {
@@ -167,7 +167,7 @@ export class BreakpointService {
   }
 
   protected getMinSize(breakpoint: BREAKPOINT): number {
-    return (this.config[breakpoint] as BreakPoint)?.min;
+    return (this.config[breakpoint] as BreakPoint)?.min ?? 0;
   }
 
   /**

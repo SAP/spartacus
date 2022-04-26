@@ -37,7 +37,7 @@ export class LockFocusDirective
    * Indicates that the host is configured to use locking. This is available as a
    * CSS class `focus-lock`.
    */
-  @HostBinding('class.focus-lock') shouldLock: boolean;
+  @HostBinding('class.focus-lock') shouldLock: boolean | undefined;
 
   /**
    * Indicates that the host is locked. This is available as a CSS class `is-locked`.
@@ -129,10 +129,11 @@ export class LockFocusDirective
        * we persist the group key to the children, so that they can taken this
        * into account when they persist their focus state.
        */
-      if (!!this.group) {
+      if (this.group) {
+        const group = this.group;
         this.service.findFocusable(this.host).forEach((el) =>
           // we must do this in after view init as
-          this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, this.group)
+          this.renderer.setAttribute(el, FOCUS_GROUP_ATTR, group)
         );
       }
 

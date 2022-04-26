@@ -23,7 +23,7 @@ import { Direction, DirectionMode } from './config/direction.model';
   providedIn: 'root',
 })
 export class DirectionService implements OnDestroy {
-  protected config: Direction;
+  protected config: Direction | undefined;
   protected startsDetecting = false;
 
   protected subscription = new Subscription();
@@ -81,7 +81,7 @@ export class DirectionService implements OnDestroy {
    * Sets the direction attribute for the given element. If the direction is undefined, the `dir`
    * attribute is removed.
    */
-  setDirection(el: HTMLElement, direction: DirectionMode): void {
+  setDirection(el: HTMLElement, direction?: DirectionMode): void {
     if (direction) {
       el.setAttribute('dir', direction);
     } else {
@@ -96,7 +96,7 @@ export class DirectionService implements OnDestroy {
    * If no language is given, or no language mapping could be found, we fallback to the default
    * `direction.mode`.
    */
-  getDirection(language?: string): DirectionMode {
+  getDirection(language?: string): DirectionMode | undefined {
     if (language && this.config?.rtlLanguages?.includes(language)) {
       return DirectionMode.RTL;
     }
