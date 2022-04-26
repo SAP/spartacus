@@ -67,16 +67,6 @@ class MockConfiguratorGroupsService {
   navigateToGroup(): void {}
 }
 
-function createValue(code: string, name: string, isSelected: boolean) {
-  const value: Configurator.Value = {
-    valueCode: code,
-    valueDisplay: name,
-    name: name,
-    selected: isSelected,
-  };
-  return value;
-}
-
 describe('ConfigAttributeHeaderComponent', () => {
   let component: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
@@ -802,12 +792,6 @@ describe('ConfigAttributeHeaderComponent', () => {
       testScheduler.run(() => {
         component.groupType = Configurator.GroupType.CONFLICT_GROUP;
         component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
-        const value1 = createValue('1', 'val1', false);
-        const value2 = createValue('2', 'val2', false);
-        const value3 = createValue('3', 'val3', true);
-
-        component.attribute.values = [value1, value2, value3];
-
         const configurationLoading = cold('-a-b', {
           a: true,
           b: false,

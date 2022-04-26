@@ -199,7 +199,7 @@ export class ConfiguratorStorefrontUtilsService {
             valueUiKey
           );
         }
-        if (foundFocusableElement === undefined) {
+        if (!foundFocusableElement) {
           foundFocusableElement = this.getFocusableElementByAttributeId(
             focusableElements,
             attribute.name
