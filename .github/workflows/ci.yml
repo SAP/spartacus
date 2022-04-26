@@ -3,6 +3,7 @@ on:
     branches:
       - develop
       - epic/**
+      - epictest/**
       - release/**
       - integration-libs/**
   pull_request:
