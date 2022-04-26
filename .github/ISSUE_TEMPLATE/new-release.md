@@ -71,6 +71,7 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:core:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
     - [ ] `npm run release:assets:with-changelog`
+    - [ ] Run `yarn generate:deps` to make sure `dependencies.json` gets updated before releasing schematics.
     - [ ] `npm run release:schematics:with-changelog`
     - [ ] `npm run release:storefront:with-changelog`
     - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
