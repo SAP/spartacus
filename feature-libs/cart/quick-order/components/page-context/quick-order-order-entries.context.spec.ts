@@ -236,7 +236,7 @@ describe('QuickOrderOrderEntriesContext', () => {
       ]);
     });
 
-    it('should catch unwnown errors', () => {
+    it('should catch unknown errors', () => {
       canAdd$.next(true);
       productConnector.get = createSpy().and.returnValue(throwError({}));
 
