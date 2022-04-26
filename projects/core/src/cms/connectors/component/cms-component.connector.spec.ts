@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { CmsStructureConfigService } from '../../../cms/services/cms-structure-config.service';
 import { PageType } from '../../../model/cms.model';
 import { OccConfig } from '../../../occ/config/occ-config';
+import { CmsConfig } from '../../config/cms-config';
 import { CmsComponentAdapter } from './cms-component.adapter';
 import { CmsComponentConnector } from './cms-component.connector';
 import createSpy = jasmine.createSpy;
@@ -31,12 +32,9 @@ class MockCmsStructureConfigService {
   );
 }
 
-const MockOccModuleConfig: OccConfig = {
-  backend: {
-    occ: {
-      baseUrl: '',
-      prefix: '',
-    },
+const MockCmsModuleConfig: CmsConfig = {
+  componentsLoading: {
+    pageSize: 2,
   },
 };
 
@@ -53,7 +51,7 @@ describe('CmsComponentConnector', () => {
     });
 
     it('should be created', () => {
-      serviceToBeTruthy();
+      expect(service).toBeTruthy();
     });
 
     describe('get', () => {
@@ -74,15 +72,23 @@ describe('CmsComponentConnector', () => {
 
     describe('getList using GET request', () => {
       it('should call adapter', () => {
-        subscribeGetList();
+        service.getList(ids, context).subscribe();
         expect(adapter.findComponentsByIds).toHaveBeenCalledWith(ids, context);
       });
+
       it('should use CmsStructureConfigService', () => {
-        subscribeGetList();
+        service.getList(ids, context).subscribe();
         cmsStructureConfigService();
       });
+
       it('should merge config data with components', () => {
-        mergeConflictData();
+        let components;
+        service.getList(ids, context).subscribe((res) => (components = res));
+        expect(components).toEqual([
+          'config-component',
+          'componentcomp_uid1',
+          'componentcomp_uid2',
+        ]);
       });
     });
   });
@@ -103,7 +109,7 @@ describe('CmsComponentConnector', () => {
     });
 
     it('should be created', () => {
-      serviceToBeTruthy();
+      expect(service).toBeTruthy();
     });
   });
 
@@ -115,7 +121,7 @@ describe('CmsComponentConnector', () => {
           provide: CmsStructureConfigService,
           useClass: MockCmsStructureConfigService,
         },
-        { provide: OccConfig, useValue: MockOccModuleConfig },
+        { provide: CmsConfig, useValue: MockCmsModuleConfig },
       ],
     });
   }
@@ -126,27 +132,9 @@ describe('CmsComponentConnector', () => {
     structureConfigService = TestBed.inject(CmsStructureConfigService);
   }
 
-  function serviceToBeTruthy() {
-    expect(service).toBeTruthy();
-  }
-
-  function subscribeGetList() {
-    service.getList(ids, context).subscribe();
-  }
-
   function cmsStructureConfigService() {
     expect(structureConfigService.getComponentsFromConfig).toHaveBeenCalledWith(
       ids
     );
-  }
-
-  function mergeConflictData() {
-    let components;
-    service.getList(ids, context).subscribe((res) => (components = res));
-    expect(components).toEqual([
-      'config-component',
-      'componentcomp_uid1',
-      'componentcomp_uid2',
-    ]);
   }
 });
