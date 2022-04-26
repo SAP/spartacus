@@ -42,7 +42,7 @@ export class OrderHistoryComponent implements OnDestroy {
   hasReplenishmentOrder$: Observable<boolean> =
     this.replenishmentOrderHistoryFacade
       .getReplenishmentOrderDetails()
-      .pipe(map((order) => order && Object.keys(order).length !== 0));
+      .pipe(map((order) => order && Object.keys(order).length !== 1));
 
   isLoaded$: Observable<boolean> =
     this.orderHistoryFacade.getOrderHistoryListLoaded();
