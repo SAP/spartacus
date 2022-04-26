@@ -6,6 +6,9 @@ FILES=$(git diff --name-only origin/testepic/simulate-branch-again)
 
 RUN_E2E=false
 
+echo $GITHUB_HEAD_REF
+echo "abc"
+
 for file in $FILES; do
 
     case "$file" in
