@@ -1,19 +1,37 @@
-import { OnInit, Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, Input, AfterViewInit } from '@angular/core';
 import { TranslationService, WindowRef } from '@spartacus/core';
 import { combineLatest } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { FormConfig } from '../../../config/form-config';
 
+/**
+ * Directive to bind a password visibility toggle to a password input field. This
+ * toggle while alternate the appearence of the input between dots and plain text.
+ */
 @Directive({
   selector: '[cxPasswordVisibility]',
 })
-export class PasswordVisibilityDirective implements OnInit {
-  passwordType: string = 'password';
+export class PasswordVisibilityDirective implements AfterViewInit {
   icon: HTMLElement | null;
   button: HTMLElement | null;
-  showPassword: string;
-  hidePassword: string;
-  enabled = this.config.form?.passwordVisibility;
+
+  protected passwordType: string = 'password';
+  protected showPassword: string;
+  protected hidePassword: string;
+  protected enabled?: boolean;
+
+  /**
+   * Use input when the global config is set to a value but want to override it for
+   * a specific input
+   */
+  @Input() set cxPasswordVisibility(value: boolean | string) {
+    this.enabled =
+      value === ''
+        ? this.config.form?.passwordVisibility
+        : value === 'false'
+        ? false
+        : !!value;
+  }
 
   constructor(
     protected winRef: WindowRef,
@@ -22,7 +40,7 @@ export class PasswordVisibilityDirective implements OnInit {
     protected translation: TranslationService
   ) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (this.enabled) {
       this.createToggle();
       this.setAriaLabels();
