@@ -42,7 +42,7 @@ export class OrderHistoryComponent implements OnDestroy {
   hasReplenishmentOrder$: Observable<boolean> =
     this.replenishmentOrderHistoryFacade
       .getReplenishmentOrderDetails()
-      .pipe(map((order) => order && Object.keys(order).length !== 1));
+      .pipe(map((order) => order && Object.keys(order).length !== 0));
 
   isLoaded$: Observable<boolean> =
     this.orderHistoryFacade.getOrderHistoryListLoaded();
@@ -80,7 +80,7 @@ export class OrderHistoryComponent implements OnDestroy {
 
   goToOrderDetail(order: Order): void {
     this.routing.go({
-      cxRoute: 'test',
+      cxRoute: 'orderDetails',
       params: order,
     });
   }
