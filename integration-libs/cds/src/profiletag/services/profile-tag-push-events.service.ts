@@ -23,6 +23,7 @@ import {
   map,
   mapTo,
   pairwise,
+  skip,
   startWith,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -355,14 +356,16 @@ export class ProfileTagPushEventsService {
   }
 
   protected cartChangedEvent(): Observable<ProfileTagPushEvent> {
-    return merge(this.eventService.get(CartAddEntrySuccessEvent), this.eventService.get(CartUpdateEntrySuccessEvent), this.eventService.get(CartRemoveEntrySuccessEvent))
-          //.pipe(
-            //filter(([a,b,c]) => a === null && b === null && c === null),
+    return merge(
+            this.eventService.get(CartAddEntrySuccessEvent),
+            this.eventService.get(CartUpdateEntrySuccessEvent),
+            this.eventService.get(CartRemoveEntrySuccessEvent)
+            )
             .pipe(() => this.activeCartFacade.getActive()
               .pipe(
-                map(cart => cart.entries ? cart.entries.map((entry) => entry.product?.code) : []),
-                map((productSkus) => new CartSnapshotPushEvent({
-                  productSkus
+                skip(2),
+                map((cart) => new CartSnapshotPushEvent({
+                  cart
                 })))
             );
   }

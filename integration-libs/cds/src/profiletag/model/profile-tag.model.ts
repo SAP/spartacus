@@ -1,4 +1,5 @@
 import { PersonalizationAction } from '@spartacus/tracking/personalization/core';
+import { Cart } from 'feature-libs/cart/base/root';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
@@ -178,7 +179,7 @@ export class CartSnapshotPushEvent implements ProfileTagPushEvent {
   name = 'CartSnapshot';
   data: any;
   constructor(data: {
-    productSkus: Array<String | undefined>;
+    cart: Cart;
   }) {
     this.data = data;
   }
