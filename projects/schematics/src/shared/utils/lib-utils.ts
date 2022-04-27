@@ -15,6 +15,7 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import { ArrowFunction } from 'ts-morph';
 import {
   CMS_CONFIG,
   I18N_CONFIG,
@@ -38,7 +39,13 @@ import {
   crossFeatureInstallationOrder,
   crossLibraryInstallationOrder,
 } from './graph-utils';
-import { createImports } from './import-utils';
+import {
+  collectDynamicImports,
+  createImports,
+  getDynamicImportImportPath,
+  importExists,
+  isRelative,
+} from './import-utils';
 import {
   debugLog,
   formatFeatureComplete,
@@ -352,9 +359,14 @@ function addFeatureModule<T extends LibraryOptions>(
           continue;
         }
 
+        const dynamicImports = collectDynamicImports(sourceFile);
         const configFeatures = ([] as Module[]).concat(config.featureModule);
         for (let i = 0; i < configFeatures.length; i++) {
           const featureModule = configFeatures[i];
+
+          if (isInWrapperModule(featureModule, dynamicImports)) {
+            break;
+          }
 
           let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
             featureModules: {`;
@@ -399,6 +411,39 @@ function addFeatureModule<T extends LibraryOptions>(
     }
     return tree;
   };
+}
+
+/**
+ * Checks if the given feature module is already being
+ * imported in any wrapper of the wrapper modules.
+ */
+function isInWrapperModule(
+  featureModule: Module,
+  dynamicImports: ArrowFunction[]
+): boolean {
+  for (const dynamicImport of dynamicImports) {
+    const importPath = getDynamicImportImportPath(dynamicImport) ?? '';
+    if (!isRelative(importPath)) {
+      continue;
+    }
+
+    const wrapperModuleFileName = `${importPath.split('/').pop()}.ts`;
+    const wrapperModule = dynamicImport
+      .getSourceFile()
+      .getProject()
+      .getSourceFile((s) => s.getFilePath().endsWith(wrapperModuleFileName));
+    if (!wrapperModule) {
+      continue;
+    }
+
+    if (
+      importExists(wrapperModule, featureModule.importPath, featureModule.name)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 export function addFeatureTranslations<T extends LibraryOptions>(
