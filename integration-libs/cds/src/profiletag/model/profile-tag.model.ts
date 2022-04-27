@@ -1,5 +1,5 @@
 import { PersonalizationAction } from '@spartacus/tracking/personalization/core';
-import { Cart } from 'feature-libs/cart/base/root';
+import { Cart } from '@spartacus/cart/base/root';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
