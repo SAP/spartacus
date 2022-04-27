@@ -10,7 +10,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { CmsComponentMapping, resolveApplicable } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ComponentHandler } from '../handlers/component-handler';
 
 /**
@@ -63,16 +63,14 @@ export class ComponentHandlerService {
     viewContainerRef: ViewContainerRef,
     elementInjector?: Injector,
     module?: NgModuleRef<any>
-  ): Observable<
-    { elementRef: ElementRef; componentRef?: ComponentRef<any> } | undefined
-  > {
-    return (
-      this.resolve(componentMapping)?.launcher(
-        componentMapping,
-        viewContainerRef,
-        elementInjector,
-        module
-      ) ?? of(undefined)
+  ):
+    | Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }>
+    | undefined {
+    return this.resolve(componentMapping)?.launcher(
+      componentMapping,
+      viewContainerRef,
+      elementInjector,
+      module
     );
   }
 }

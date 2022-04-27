@@ -138,8 +138,8 @@ describe('PageSlotComponent', () => {
   });
 
   describe('position', () => {
-    it('should return undefined for position', () => {
-      expect(pageSlotComponent.position).toBeUndefined();
+    it('should return empty string for position', () => {
+      expect(pageSlotComponent.position).toEqual('');
     });
 
     it('should return the given position', () => {
@@ -332,7 +332,7 @@ describe('PageSlotComponent', () => {
       fixture.detectChanges();
       pageSlotComponent.getComponentDeferOptions('CMSTestComponent');
       expect(pageSlotService.getComponentDeferOptions).toHaveBeenCalledWith(
-        undefined,
+        '',
         'CMSTestComponent'
       );
     });

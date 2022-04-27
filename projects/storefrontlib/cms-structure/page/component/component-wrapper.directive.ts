@@ -98,7 +98,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
           this.cxComponentWrapper.flexType ?? ''
         )
       )
-      .pipe(
+      ?.pipe(
         filter(isNotUndefined),
         tap(({ elementRef, componentRef }) => {
           this.cmpRef = componentRef;
