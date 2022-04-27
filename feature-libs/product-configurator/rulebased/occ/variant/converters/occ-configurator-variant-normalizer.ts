@@ -119,11 +119,7 @@ export class OccConfiguratorVariantNormalizer
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
-      uiType: this.convertAttributeType(
-        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED,
-        sourceAttribute.retractBlocked,
-        this.hasSourceAttributeConflicts(sourceAttribute)
-      ),
+      uiType: this.convertAttributeType(sourceAttribute),
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput: sourceAttribute.formattedValue,
       maxlength:
@@ -223,12 +219,7 @@ export class OccConfiguratorVariantNormalizer
         this.uiSettingsConfig?.productConfigurator?.addRetractOption ||
         (this.isSourceAttributeTypeReadOnly(sourceAttribute) && isConflicting)
       ) {
-        const attributeType = this.convertAttributeType(
-          sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED,
-          sourceAttribute.retractBlocked,
-          isConflicting
-        );
-
+        const attributeType = this.convertAttributeType(sourceAttribute);
         if (
           attributeType === Configurator.UiType.RADIOBUTTON ||
           attributeType === Configurator.UiType.DROPDOWN
@@ -294,12 +285,10 @@ export class OccConfiguratorVariantNormalizer
   }
 
   convertAttributeType(
-    type: OccConfigurator.UiType,
-    isRetractBlocked: boolean = false,
-    isConflicting: boolean = false
+    sourceAttribute: OccConfigurator.Attribute
   ): Configurator.UiType {
     let uiType: Configurator.UiType;
-    switch (type) {
+    switch (sourceAttribute.type) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
@@ -318,7 +307,8 @@ export class OccConfiguratorVariantNormalizer
       }
       case OccConfigurator.UiType.READ_ONLY: {
         uiType =
-          !isRetractBlocked && isConflicting
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
             ? Configurator.UiType.RADIOBUTTON
             : Configurator.UiType.READ_ONLY;
         break;

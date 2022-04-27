@@ -553,102 +553,96 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   describe('convertAttributeType', () => {
+    let sourceAttribute: OccConfigurator.Attribute = createOccAttribute(
+      'key',
+      'name',
+      OccConfigurator.UiType.NOT_IMPLEMENTED
+    );
+
     it('should return UIType Radio Button for Radio Button occ configurator type', () => {
+      sourceAttribute.type = OccConfigurator.UiType.RADIO_BUTTON;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.RADIO_BUTTON
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.RADIOBUTTON);
     });
 
     it('should convert numeric attribute type correctly', () => {
+      sourceAttribute.type = OccConfigurator.UiType.NUMERIC;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.NUMERIC
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.NUMERIC);
     });
 
     it('should convert read-only attribute type correctly', () => {
+      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.READ_ONLY
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.READ_ONLY);
     });
 
     it("should convert read-only attribute type correctly when isRetractBlocked is set to 'true'", () => {
+      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
+      sourceAttribute.retractBlocked = true;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.READ_ONLY,
-          true
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.READ_ONLY);
     });
 
     it("should return UIType Radio Button attribute type correctly when isConflicting is set to 'true'", () => {
+      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
+      sourceAttribute.retractBlocked = false;
+      sourceAttribute.conflicts = ['conflict1'];
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.READ_ONLY,
-          false,
-          true
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.RADIOBUTTON);
     });
 
     it('should return UIType Drop Down for Drop Down occ configurator type', () => {
+      sourceAttribute.type = OccConfigurator.UiType.DROPDOWN;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.DROPDOWN
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.DROPDOWN);
     });
 
     it('should return UIType Checkbox for Checkbox occ configurator type', () => {
+      sourceAttribute.type = OccConfigurator.UiType.CHECK_BOX_LIST;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.CHECK_BOX_LIST
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.CHECKBOXLIST);
     });
 
-    it('should return UIType Checkbox for Checkbox occ configurator type', () => {
+    it('should return UIType single selection image for single selection image occ configurator type', () => {
+      sourceAttribute.type = OccConfigurator.UiType.SINGLE_SELECTION_IMAGE;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.SINGLE_SELECTION_IMAGE
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.SINGLE_SELECTION_IMAGE);
     });
 
     it('should return UIType String for String occ configurator type', () => {
+      sourceAttribute.type = OccConfigurator.UiType.STRING;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.STRING
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.STRING);
     });
 
     it('should return UIType checkox for checkbox occ configurator type', () => {
+      sourceAttribute.type = OccConfigurator.UiType.CHECK_BOX;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.CHECK_BOX
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.CHECKBOX);
     });
 
     it('should return UIType multi selection image for corresponding occ configurator type', () => {
+      sourceAttribute.type = OccConfigurator.UiType.MULTI_SELECTION_IMAGE;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.MULTI_SELECTION_IMAGE
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.MULTI_SELECTION_IMAGE);
     });
 
     it('should return UIType Not Implemented for unkonwn occ configurator type', () => {
+      sourceAttribute.type = undefined;
       expect(
-        occConfiguratorVariantNormalizer.convertAttributeType(
-          OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT
-        )
+        occConfiguratorVariantNormalizer.convertAttributeType(sourceAttribute)
       ).toBe(Configurator.UiType.NOT_IMPLEMENTED);
     });
   });
