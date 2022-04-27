@@ -357,17 +357,20 @@ export class ProfileTagPushEventsService {
 
   protected cartChangedEvent(): Observable<ProfileTagPushEvent> {
     return merge(
-            this.eventService.get(CartAddEntrySuccessEvent),
-            this.eventService.get(CartUpdateEntrySuccessEvent),
-            this.eventService.get(CartRemoveEntrySuccessEvent)
-            )
-            .pipe(() => this.activeCartFacade.getActive()
-              .pipe(
-                skip(2),
-                map((cart) => new CartSnapshotPushEvent({
-                  cart
-                })))
-            );
+      this.eventService.get(CartAddEntrySuccessEvent),
+      this.eventService.get(CartUpdateEntrySuccessEvent),
+      this.eventService.get(CartRemoveEntrySuccessEvent)
+    ).pipe(() =>
+      this.activeCartFacade.getActive().pipe(
+        skip(2),
+        map(
+          (cart) =>
+            new CartSnapshotPushEvent({
+              cart,
+            })
+        )
+      )
+    );
   }
 
   private getProductPrice(event: CartAddEntrySuccessEvent): Number {

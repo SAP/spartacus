@@ -178,10 +178,7 @@ export class ModifiedCartPushEvent implements ProfileTagPushEvent {
 export class CartSnapshotPushEvent implements ProfileTagPushEvent {
   name = 'CartSnapshot';
   data: any;
-  constructor(data: {
-    cart: Cart;
-  }) {
+  constructor(data: { cart: Cart }) {
     this.data = data;
   }
 }
-
