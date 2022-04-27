@@ -1,4 +1,5 @@
 import * as anonymousConsents from '../../../../helpers/anonymous-consents';
+import { goToCart } from '../../../../helpers/cart';
 import * as checkoutFlowPersistentUser from '../../../../helpers/checkout-as-persistent-user';
 import * as checkoutFlow from '../../../../helpers/checkout-flow';
 import * as loginHelper from '../../../../helpers/login';
@@ -26,7 +27,7 @@ describe('Profile-tag events', () => {
     anonymousConsents.clickAllowAllFromBanner();
   });
   describe('cart events', () => {
-    it('should send a AddedToCart event on adding an item to cart', () => {
+    it('should send AddedToCart and CartSnapshot events on adding an item to cart', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary');
@@ -49,10 +50,22 @@ describe('Profile-tag events', () => {
         expect(addedToCartEvent.data.productPrice).to.eq(8.2);
         expect(addedToCartEvent.data.cartId.length).to.eq(36);
         expect(addedToCartEvent.data.cartCode.length).to.eq(8);
+
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CART_SNAPSHOT
+          )
+        ).to.equal(2);
+        const cartSnapshotEvent = profileTagHelper.getEvent(
+          win,
+          profileTagHelper.EventNames.CART_SNAPSHOT
+        )[1];
+        expect(cartSnapshotEvent.data.cart.entries.length).to.eq(1);
       });
     });
 
-    it('should send a CartModified event on modifying the cart', () => {
+    it('should send CartModified and CartSnapshot events on modifying the cart', () => {
       goToProductPage();
       cy.intercept({
         method: 'GET',
@@ -63,7 +76,7 @@ describe('Profile-tag events', () => {
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
       cy.wait(500);
-      cy.get('cx-cart-item cx-item-counter')
+      cy.get('tr[cx-cart-item-list-row] cx-item-counter')
         .get(`[aria-label="Add one more"]`)
         .first()
         .click();
@@ -87,14 +100,27 @@ describe('Profile-tag events', () => {
         expect(modifiedCart.data.productCategory).to.eq('brand_745');
         expect(modifiedCart.data.cartId.length).to.eq(36);
         expect(modifiedCart.data.cartCode.length).to.eq(8);
+
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CART_SNAPSHOT
+          )
+        ).to.equal(3);
+        const cartSnapshotEvent = profileTagHelper.getEvent(
+          win,
+          profileTagHelper.EventNames.CART_SNAPSHOT
+        )[2];
+        expect(cartSnapshotEvent.data.cart.entries.length).to.eq(1);
+        expect(cartSnapshotEvent.data.cart.entries[0].quantity).to.eq(2);
       });
     });
 
-    it('should send a RemovedFromCart event on removing an item from the cart', () => {
+    it('should send RemovedFromCart and CartSnapshot events on removing an item from the cart', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
-      cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').first().click();
+      cy.get('cx-cart-item-list .cx-remove-btn').first().click();
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -119,6 +145,18 @@ describe('Profile-tag events', () => {
         expect(removedFromCart.data.productCategory).to.eq('brand_745');
         expect(removedFromCart.data.cartId.length).to.eq(36);
         expect(removedFromCart.data.cartCode.length).to.eq(8);
+
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CART_SNAPSHOT
+          )
+        ).to.equal(3);
+        const cartSnapshotEvent = profileTagHelper.getEvent(
+          win,
+          profileTagHelper.EventNames.CART_SNAPSHOT
+        )[2];
+        expect(cartSnapshotEvent.data.cart.entries.length).to.eq(0);
       });
     });
   });
@@ -189,6 +227,22 @@ describe('Profile-tag events', () => {
           profileTagHelper.EventNames.CART_PAGE_VIEWED
         )
       ).to.equal(1);
+    });
+  });
+
+  it('should not send a CartSnapshot event when viewing the cart page', () => {
+    goToCart();
+    cy.location('pathname', { timeout: 10000 }).should(
+      'include',
+      `/electronics-spa/en/USD/cart`
+    );
+    cy.window().should((win) => {
+      expect(
+        profileTagHelper.eventCount(
+          win,
+          profileTagHelper.EventNames.CART_SNAPSHOT
+        )
+      ).to.equal(0);
     });
   });
 
