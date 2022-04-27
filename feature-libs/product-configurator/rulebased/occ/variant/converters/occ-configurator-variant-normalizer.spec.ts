@@ -998,16 +998,22 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   describe('addRetractValue', () => {
+    let values: Configurator.Value[] = [];
+    let sourceAttribute: OccConfigurator.Attribute = createOccAttribute(
+      'key',
+      'name',
+      OccConfigurator.UiType.NOT_IMPLEMENTED
+    );
+
+    afterEach(() => {
+      values = [];
+    });
+
     it("should not add a retract value to the list of values because retractBlocked is set to 'true'", () => {
-      configUISettingsConfig.productConfigurator.addRetractOption = false;
-      const values: Configurator.Value[] = [];
-      let sourceAttribute = createOccAttribute(
-        'key',
-        'name',
-        OccConfigurator.UiType.RADIO_BUTTON
-      );
+      sourceAttribute.type = OccConfigurator.UiType.RADIO_BUTTON;
       sourceAttribute.retractBlocked = true;
 
+      expect(values.length).toEqual(0);
       occConfiguratorVariantNormalizer['addRetractValue'](
         sourceAttribute,
         values
@@ -1016,31 +1022,12 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should not add a retract value to the list of values because the retract mode is not activated', () => {
-      configUISettingsConfig.productConfigurator.addRetractOption = false;
-      const values: Configurator.Value[] = [];
-      const sourceAttribute = createOccAttribute(
-        'key',
-        'name',
-        OccConfigurator.UiType.RADIO_BUTTON
-      );
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        false;
+      sourceAttribute.type = OccConfigurator.UiType.RADIO_BUTTON;
       sourceAttribute.retractBlocked = true;
-      occConfiguratorVariantNormalizer['addRetractValue'](
-        sourceAttribute,
-        values
-      );
+
       expect(values.length).toEqual(0);
-    });
-
-    it("should not add a retract value to the list of values because attribute type is 'NOT_IMPLEMENTED'", () => {
-      configUISettingsConfig.productConfigurator.addRetractOption = true;
-      const values: Configurator.Value[] = [];
-      const sourceAttribute = createOccAttribute(
-        'key',
-        'name',
-        OccConfigurator.UiType.NOT_IMPLEMENTED
-      );
-      sourceAttribute.retractBlocked = false;
-
       occConfiguratorVariantNormalizer['addRetractValue'](
         sourceAttribute,
         values
@@ -1049,15 +1036,12 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it("should not add a retract value to the list of values because attribute type is 'check_box'", () => {
-      configUISettingsConfig.productConfigurator.addRetractOption = true;
-      const values: Configurator.Value[] = [];
-      const sourceAttribute = createOccAttribute(
-        'key',
-        'name',
-        OccConfigurator.UiType.CHECK_BOX
-      );
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
+      sourceAttribute.type = OccConfigurator.UiType.CHECK_BOX;
       sourceAttribute.retractBlocked = false;
 
+      expect(values.length).toEqual(0);
       occConfiguratorVariantNormalizer['addRetractValue'](
         sourceAttribute,
         values
@@ -1066,13 +1050,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should add a retract value for a drop-down list to the list of values', () => {
-      configUISettingsConfig.productConfigurator.addRetractOption = true;
-      const values: Configurator.Value[] = [];
-      const sourceAttribute = createOccAttribute(
-        'key',
-        'name',
-        OccConfigurator.UiType.DROPDOWN
-      );
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
+      sourceAttribute.type = OccConfigurator.UiType.DROPDOWN;
       sourceAttribute.retractBlocked = false;
 
       expect(values.length).toEqual(0);
@@ -1090,13 +1070,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should add a retract value to the list of values for a read-only that is involved in a conflict', () => {
-      configUISettingsConfig.productConfigurator.addRetractOption = false;
-      const values: Configurator.Value[] = [];
-      let sourceAttribute = createOccAttribute(
-        'key',
-        'name',
-        OccConfigurator.UiType.READ_ONLY
-      );
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        false;
+      sourceAttribute.type = OccConfigurator.UiType.READ_ONLY;
       sourceAttribute.conflicts = ['conflict1'];
       sourceAttribute.retractBlocked = false;
 
@@ -1114,8 +1090,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       );
     });
 
-    it("should add a retract value with 'Make a selection' message for a drop-down list to the list of values", () => {
-      configUISettingsConfig.productConfigurator.addRetractOption = true;
+    it("should not add a retract value to the list of values because attribute type is 'NOT_IMPLEMENTED'", () => {
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
       const occValue1: OccConfigurator.Value = createOccValue(
         'key1',
         'langDepName1',
@@ -1132,13 +1109,39 @@ describe('OccConfiguratorVariantNormalizer', () => {
         false
       );
 
-      const values: Configurator.Value[] = [];
-      let sourceAttribute = createOccAttribute(
-        'key',
-        'name',
-        OccConfigurator.UiType.DROPDOWN
-      );
+      sourceAttribute.type = undefined;
+      sourceAttribute.retractBlocked = false;
       sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
+
+      expect(values.length).toEqual(0);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
+      expect(values.length).toEqual(0);
+    });
+
+    it("should add a retract value with 'Make a selection' message for a drop-down list to the list of values", () => {
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        false
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        false
+      );
+      sourceAttribute.type = OccConfigurator.UiType.DROPDOWN;
+      sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
+
       expect(values.length).toEqual(0);
       occConfiguratorVariantNormalizer['addRetractValue'](
         sourceAttribute,
@@ -1155,7 +1158,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it("should add a retract value with 'No option selected' message for a drop-down list to the list of values", () => {
-      configUISettingsConfig.productConfigurator.addRetractOption = true;
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
       const occValue1: OccConfigurator.Value = createOccValue(
         'key1',
         'langDepName1',
@@ -1172,13 +1176,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
         false
       );
 
-      const values: Configurator.Value[] = [];
-      let sourceAttribute = createOccAttribute(
-        'key',
-        'name',
-        OccConfigurator.UiType.DROPDOWN
-      );
+      sourceAttribute.type = OccConfigurator.UiType.DROPDOWN;
       sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
+
       expect(values.length).toEqual(0);
       occConfiguratorVariantNormalizer['addRetractValue'](
         sourceAttribute,
@@ -1195,7 +1195,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it("should add a retract value with 'No option selected' message for a radio buttons list to the list of values", () => {
-      configUISettingsConfig.productConfigurator.addRetractOption = true;
+      (configUISettingsConfig.productConfigurator ??= {}).addRetractOption =
+        true;
       const occValue1: OccConfigurator.Value = createOccValue(
         'key1',
         'langDepName1',
@@ -1212,13 +1213,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
         false
       );
 
-      const values: Configurator.Value[] = [];
-      const sourceAttribute = createOccAttribute(
-        'key',
-        'name',
-        OccConfigurator.UiType.RADIO_BUTTON
-      );
+      sourceAttribute.type = OccConfigurator.UiType.RADIO_BUTTON;
       sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
+
       expect(values.length).toEqual(0);
       occConfiguratorVariantNormalizer['addRetractValue'](
         sourceAttribute,
