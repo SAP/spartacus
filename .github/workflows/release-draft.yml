@@ -1,0 +1,82 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+  # push: to remove above once test is over
+  #   branches:
+  #     - develop
+  workflow_dispatch:
+    inputs:
+      FROM_TAG:
+        description: 'previous release tag version'
+        required: true
+        default: '5.0.0'
+      TO_TAG:
+        description: 'current release tag version'
+        default: 'HEAD'
+
+concurrency: 
+  group: release-notes-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+  
+name: "Publish Release Draft notes"
+jobs:
+  preReleaseDraft:
+    name: Create pre-release draft
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v2
+        with:
+          path: | 
+            node_modules
+            projects/storefrontapp-e2e-cypress/node_modules
+            ~/.cache/Cypress
+          key: nodemodules-${{ github.event.pull_request.base.sha }}
+          restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
+      - name: Install dependencies
+        run: yarn install
+      - name: Get from and to tags
+        id: tags
+        run: |
+          from_tag=$(echo ${{ github.event.inputs.FROM_TAG }})
+          to_tag=$(echo ${{ github.event.inputs.TO_TAG }})
+
+          if [ -z "$from_tag" ]
+          then
+                echo "::set-output name=from_tag::$(git describe --tags $(git rev-list --tags --max-count=1))"
+          else
+                echo "::set-output name=from_tag::$(echo $from_tag)"
+          fi
+
+          if [ -z "$to_tag" ]
+          then
+                echo "::set-output name=to_tag::HEAD"
+          else
+                echo "::set-output name=to_tag::$(echo $to_tag)"
+          fi
+      - name: Generate changelog
+        id: changelog
+        run: | 
+          changelog=$(npx ts-node scripts/changelog.ts --from user-4.0.0 --to ${{ steps.tags.outputs.to_tag }})
+
+          # Remove when support for multiline is available
+          # https://github.com/actions/toolkit/issues/403
+          changelog="${changelog//'%'/'%25'}"
+          changelog="${changelog//$'\n'/'%0A'}"
+          changelog="${changelog//$'\r'/'%0D'}"
+
+          echo "::set-output name=changelog::$(echo $changelog)"
+      - name: Create release draft
+        uses: ./.github/publish-release-draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+          TO_TAG: ${{ steps.tags.outputs.to_tag }}
