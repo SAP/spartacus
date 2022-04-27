@@ -7,13 +7,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 })
 export class PasswordVisibilityComponent {
   inputType: string = 'password';
-  elementRef: HTMLInputElement;
+  inputElement: HTMLInputElement;
 
   constructor() {}
 
   changePasswordVisibility(): void {
     this.inputType = this.inputType === 'password' ? 'text' : 'password';
-    this.elementRef.setAttribute('type', this.inputType);
+    this.inputElement.setAttribute('type', this.inputType);
   }
 
   getPasswordIcon(): string {

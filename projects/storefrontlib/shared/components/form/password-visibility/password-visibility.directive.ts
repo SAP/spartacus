@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  Input,
   AfterViewInit,
   ViewContainerRef,
   ChangeDetectorRef,
@@ -21,20 +20,7 @@ export class PasswordVisibilityDirective implements AfterViewInit {
   inputWrapper: HTMLElement | null;
 
   protected inputType: string = 'password';
-  protected enabled?: boolean;
-
-  /**
-   * Use input when the global config is set to a value but want to override it for
-   * a specific input
-   */
-  @Input() set cxPasswordVisibility(value: boolean | string) {
-    this.enabled =
-      value === ''
-        ? this.config.form?.passwordVisibility
-        : value === 'false'
-        ? false
-        : !!value;
-  }
+  protected enabled = true;
 
   constructor(
     protected winRef: WindowRef,
@@ -56,8 +42,7 @@ export class PasswordVisibilityDirective implements AfterViewInit {
     const component = this.viewContainerRef.createComponent(
       PasswordVisibilityComponent
     );
-
-    component.instance.elementRef = this.elementRef.nativeElement;
+    component.instance.inputElement = this.elementRef.nativeElement;
     this.inputWrapper?.appendChild(component.location.nativeElement);
   }
 
