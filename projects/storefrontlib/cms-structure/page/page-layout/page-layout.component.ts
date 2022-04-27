@@ -12,7 +12,7 @@ export class PageLayoutComponent {
   @Input() set section(value: string) {
     this.section$.next(value);
   }
-  readonly section$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+  readonly section$ = new BehaviorSubject<string | undefined>(undefined);
 
   readonly templateName$: Observable<string> =
     this.pageLayoutService.templateName$;

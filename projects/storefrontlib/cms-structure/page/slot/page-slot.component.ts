@@ -73,7 +73,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    */
   @HostBinding('class.has-components') @Input() hasComponents = false;
 
-  protected position$: BehaviorSubject<string> = new BehaviorSubject(undefined);
+  protected position$ = new BehaviorSubject<string>('');
 
   components: ContentSlotComponentData[];
 
@@ -125,7 +125,9 @@ export class PageSlotComponent implements OnInit, OnDestroy {
 
     // host bindings
     this.pending = slot?.components?.length || 0;
-    this.hasComponents = slot?.components?.length > 0;
+    this.hasComponents = slot?.components
+      ? slot?.components?.length > 0
+      : false;
     if (cls && cls !== this.class) {
       this.class = cls;
     }
@@ -156,7 +158,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * Is triggered when a component is added to the view. This is used to
    * update the pending count
    */
-  isLoaded(loadState: boolean) {
+  isLoaded(loadState: Boolean) {
     if (loadState) {
       this.pending--;
       this.cd.markForCheck();
@@ -174,13 +176,17 @@ export class PageSlotComponent implements OnInit, OnDestroy {
     );
   }
 
-  protected isDistinct(old: ContentSlotData, current: ContentSlotData) {
-    return (
+  protected isDistinct(
+    old: ContentSlotData,
+    current: ContentSlotData
+  ): boolean {
+    return Boolean(
       current.components &&
-      old.components?.length === current.components.length &&
-      !old.components.find(
-        (el, index) => el.uid !== current.components[index].uid
-      )
+        old.components &&
+        old.components.length === current.components.length &&
+        !old.components.find(
+          (el, index) => el.uid !== current.components?.[index].uid
+        )
     );
   }
 
