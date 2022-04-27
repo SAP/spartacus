@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
   
-name: "Publish Release Draft notes"
+name: "Generate release draft notes"
 jobs:
   preReleaseDraft:
     name: Create pre-release draft
