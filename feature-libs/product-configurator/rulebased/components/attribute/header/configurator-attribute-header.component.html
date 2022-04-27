@@ -45,6 +45,11 @@
     >
       {{ getConflictMessageKey() | cxTranslate }}
     </a>
+    <ng-container *ngIf="isNavigationToConflictEnabled(); else withoutLink">
+      <a class="cx-conflict-msg" (click)="navigateToGroup()">
+        {{ getConflictMessageKey() | cxTranslate }}
+      </a>
+    </ng-container>
   </ng-container>
 </div>
 <div
