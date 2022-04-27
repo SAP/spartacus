@@ -14,10 +14,10 @@ import { TogglePasswordVisibilityComponent } from './toggle-password-visibility.
  * toggle while alternate the appearence of the input between dots and plain text.
  */
 @Directive({
-  selector: '[cxPasswordVisibilitySwitcher]',
+  selector: '[cxPasswordVisibilitySwitcher][type="password"]',
 })
 export class TogglePasswordVisibilityDirective implements AfterViewInit {
-  inputWrapper: HTMLElement | null;
+  protected inputWrapper: HTMLElement | null;
 
   constructor(
     protected winRef: WindowRef,
