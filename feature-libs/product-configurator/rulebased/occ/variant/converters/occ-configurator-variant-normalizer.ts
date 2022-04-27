@@ -226,7 +226,6 @@ export class OccConfiguratorVariantNormalizer
         ) {
           const value: Configurator.Value = {
             valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
-            valueDisplay: '',
             selected: this.isRetractValueSelected(sourceAttribute),
           };
 
