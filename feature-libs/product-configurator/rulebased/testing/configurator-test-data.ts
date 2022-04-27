@@ -173,6 +173,15 @@ export const attributeCheckbox: Configurator.Attribute = {
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  priceSummary: {
+    basePrice: { formattedValue: '$123.56', currencyIso: 'USD', value: 123.56 },
+    selectedOptions: { formattedValue: '$500', currencyIso: 'USD', value: 500 },
+    currentTotal: {
+      formattedValue: '$623.56',
+      currencyIso: 'USD',
+      value: 623.56,
+    },
+  },
   groups: [
     {
       id: GROUP_ID_1,
