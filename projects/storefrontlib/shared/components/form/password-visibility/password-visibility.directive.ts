@@ -15,7 +15,7 @@ export class PasswordVisibilityDirective implements AfterViewInit {
   icon: HTMLElement | null;
   button: HTMLElement | null;
 
-  protected passwordType: string = 'password';
+  protected inputType: string = 'password';
   protected showPassword: string;
   protected hidePassword: string;
   protected enabled?: boolean;
@@ -42,6 +42,7 @@ export class PasswordVisibilityDirective implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.enabled) {
+      this.wrapInput();
       this.createToggle();
       this.setAriaLabels();
 
@@ -51,6 +52,19 @@ export class PasswordVisibilityDirective implements AfterViewInit {
 
       this.button?.appendChild(this.icon);
     }
+  }
+
+  protected wrapInput(): void {
+    const input = this.elementRef.nativeElement;
+    const wrapper = this.winRef.document.createElement('div');
+    const parent = this.elementRef.nativeElement.parentNode;
+
+    wrapper.setAttribute('class', 'cx-password');
+
+    // set the wrapper as child (instead of the element)
+    parent.replaceChild(wrapper, input);
+    // set element as child of wrapper
+    wrapper.appendChild(input);
   }
 
   protected createToggle(): void {
@@ -80,9 +94,9 @@ export class PasswordVisibilityDirective implements AfterViewInit {
   }
 
   protected changePasswordVisibility(): void {
-    this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
-    this.elementRef?.nativeElement.setAttribute('type', this.passwordType);
-    if (this.passwordType === 'password') {
+    this.inputType = this.inputType === 'password' ? 'text' : 'password';
+    this.elementRef?.nativeElement.setAttribute('type', this.inputType);
+    if (this.inputType === 'password') {
       this.icon?.setAttribute('class', 'fas fa-eye');
       this.button?.setAttribute('aria-label', this.showPassword);
     } else {
