@@ -87,6 +87,7 @@ export const configurator = {
       suggestionTitle: 'Suggestion {{number}}:',
       suggestionText: 'Change value for "{{ attribute }}"',
       viewConflictDetails: 'Conflict Detected - View Details',
+      conflictDetected: 'Conflict Detected',
       viewConfigurationDetails: 'View In Configuration',
     },
     a11y: {
@@ -173,6 +174,8 @@ export const configurator = {
       configurationPageLink: 'Navigate to configuration  page.',
       overviewPage: 'You are on the overview page.',
       overviewPageLink: 'Navigate to configuration overview page.',
+      navigateToConflict:
+        'Follow link to get more details on conflict for attribute {{ attribute }}.',
       numericIntervalStandard:
         'Enter a value between {{ minValue }} and {{ maxValue }}',
       numericIntervalStandardOpen: '(Endpoints are not included)',
