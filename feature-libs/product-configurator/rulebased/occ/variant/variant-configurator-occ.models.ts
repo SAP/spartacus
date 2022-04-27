@@ -89,6 +89,8 @@ export namespace OccConfigurator {
     negativeAllowed?: boolean;
     conflicts?: string[];
     retractTriggered?: boolean;
+    intervalInDomain?: boolean;
+    retractBlocked?: boolean;
   }
 
   export interface Value {

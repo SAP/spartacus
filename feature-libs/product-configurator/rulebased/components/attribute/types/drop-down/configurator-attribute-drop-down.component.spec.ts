@@ -225,7 +225,8 @@ describe('ConfigAttributeDropDownComponent', () => {
         0,
         undefined,
         undefined,
-        'configurator.a11y.listbox count:' + component.attribute.values.length
+        'configurator.a11y.listbox count:' +
+          (component.attribute.values ? component.attribute.values.length : 0)
       );
     });
 
@@ -252,8 +253,8 @@ describe('ConfigAttributeDropDownComponent', () => {
         'configurator.a11y.selectedValueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          component.attribute.values[1].valueDisplay,
-        component.attribute.values[1].valueDisplay
+          value2.valueDisplay,
+        value2.valueDisplay
       );
     });
 
@@ -282,10 +283,10 @@ describe('ConfigAttributeDropDownComponent', () => {
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          component.attribute.values[0].valuePrice.formattedValue +
+          value1.valuePrice?.formattedValue +
           ' value:' +
-          component.attribute.values[0].valueDisplay,
-        component.attribute.values[0].valueDisplay
+          value1.valueDisplay,
+        value1.valueDisplay
       );
     });
 
@@ -314,10 +315,10 @@ describe('ConfigAttributeDropDownComponent', () => {
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          component.attribute.values[0].valuePrice.formattedValue +
+          value1.valuePrice?.formattedValue +
           ' value:' +
-          component.attribute.values[0].valueDisplay,
-        component.attribute.values[0].valueDisplay
+          value1.valueDisplay,
+        value1.valueDisplay
       );
     });
   });
