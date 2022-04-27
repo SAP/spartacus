@@ -17,15 +17,18 @@ export class PasswordVisibilityComponent {
 
   constructor() {}
 
+  /**
+   * Toggle the visibility of the text of the input field.
+   */
   toggle(): void {
     if (this.inputType === 'password') {
       this.inputType = 'text';
       this.action = 'showPassword';
-      this.icon = this.showIcon;
+      this.icon = this.hideIcon;
     } else {
       this.inputType = 'password';
       this.action = 'hidePassword';
-      this.icon = this.hideIcon;
+      this.icon = this.showIcon;
     }
     this.inputElement.setAttribute('type', this.inputType);
   }
