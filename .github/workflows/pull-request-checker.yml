@@ -6,7 +6,7 @@ concurrency:
   group: pr-checker-${{ github.head_ref || github.run_id }}
   cancel-in-progress: true
 
-name: "Pull Request Checker"
+name: "Pull request checker - Conventions"
 jobs:
   pullRequestChecker:
     name: Pull request checker
