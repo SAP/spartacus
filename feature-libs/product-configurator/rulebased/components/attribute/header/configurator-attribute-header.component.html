@@ -33,9 +33,11 @@
     aria-hidden="true"
   ></cx-icon>
   <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
-    <a class="cx-conflict-msg" (click)="navigateToGroup()">
-      {{ getConflictMessageKey() | cxTranslate }}
-    </a>
+    <ng-container *ngIf="isNavigationToConflictEnabled(); else withoutLink">
+      <a class="cx-conflict-msg" (click)="navigateToGroup()">
+        {{ getConflictMessageKey() | cxTranslate }}
+      </a>
+    </ng-container>
   </ng-container>
 </div>
 <div
@@ -58,4 +60,10 @@
   <a class="cx-conflict-msg" (click)="navigateToGroup()">
     {{ getConflictMessageKey() | cxTranslate }}
   </a>
+</ng-template>
+
+<ng-template #withoutLink>
+  <div class="cx-conflict-msg">
+    {{ getConflictMessageKey() | cxTranslate }}
+  </div>
 </ng-template>
