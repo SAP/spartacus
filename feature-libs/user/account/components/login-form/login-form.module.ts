@@ -15,7 +15,7 @@ import {
 import {
   FormErrorsModule,
   SpinnerModule,
-  PasswordVisibilityModule,
+  TogglePasswordVisibilityModule,
 } from '@spartacus/storefront';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
@@ -30,7 +30,7 @@ import { LoginFormComponent } from './login-form.component';
     I18nModule,
     FormErrorsModule,
     SpinnerModule,
-    PasswordVisibilityModule,
+    TogglePasswordVisibilityModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

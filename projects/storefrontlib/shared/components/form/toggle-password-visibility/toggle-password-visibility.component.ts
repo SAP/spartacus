@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ICON_TYPE } from '../../../../cms-components';
 
 @Component({
-  selector: 'cx-password-visibility',
-  templateUrl: './password-visibility.component.html',
+  selector: 'cx-toggle-password-visibility',
+  templateUrl: './toggle-password-visibility.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PasswordVisibilityComponent {
+export class TogglePasswordVisibilityComponent {
   protected showState = {
     icon: ICON_TYPE.EYE_SLASH,
     inputType: 'text',

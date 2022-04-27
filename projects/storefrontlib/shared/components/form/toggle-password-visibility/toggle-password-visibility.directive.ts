@@ -7,20 +7,17 @@ import {
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { FormConfig } from '../../../config/form-config';
-import { PasswordVisibilityComponent } from './password-visibility.component';
+import { TogglePasswordVisibilityComponent } from './toggle-password-visibility.component';
 
 /**
  * Directive to bind a PasswordVisibilityComponent to a password input field. This
  * toggle while alternate the appearence of the input between dots and plain text.
  */
 @Directive({
-  selector: '[cxPasswordVisibility]',
+  selector: '[cxPasswordVisibilitySwitcher]',
 })
-export class PasswordVisibilityDirective implements AfterViewInit {
+export class TogglePasswordVisibilityDirective implements AfterViewInit {
   inputWrapper: HTMLElement | null;
-
-  protected inputType: string = 'password';
-  protected enabled = true;
 
   constructor(
     protected winRef: WindowRef,
@@ -31,7 +28,7 @@ export class PasswordVisibilityDirective implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    if (this.enabled) {
+    if (this.config.form?.passwordVisibility) {
       this.wrapInput();
       this.insertComponent();
       this.changeDetectorRef.detectChanges();
@@ -40,18 +37,21 @@ export class PasswordVisibilityDirective implements AfterViewInit {
 
   protected insertComponent(): void {
     const component = this.viewContainerRef.createComponent(
-      PasswordVisibilityComponent
+      TogglePasswordVisibilityComponent
     );
     component.instance.inputElement = this.elementRef.nativeElement;
     this.inputWrapper?.appendChild(component.location.nativeElement);
   }
 
+  /**
+   * We need to wrap the input element in a div to be able to position the toggle button in the right place.
+   */
   protected wrapInput(): void {
     const input = this.elementRef.nativeElement;
-    this.inputWrapper = this.winRef.document.createElement('div');
     const parent = this.elementRef.nativeElement.parentNode;
 
-    this.inputWrapper.setAttribute('class', 'cx-password');
+    this.inputWrapper = this.winRef.document.createElement('div');
+    this.inputWrapper.setAttribute('class', 'cx-password-input-wrapper');
 
     // set the wrapper as child (instead of the element)
     parent.replaceChild(this.inputWrapper, input);

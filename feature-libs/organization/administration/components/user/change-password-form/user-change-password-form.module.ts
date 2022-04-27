@@ -7,7 +7,7 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   FormErrorsModule,
   KeyboardFocusModule,
-  PasswordVisibilityModule,
+  TogglePasswordVisibilityModule,
 } from '@spartacus/storefront';
 import { CardModule } from '../../shared/card/card.module';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
@@ -23,7 +23,7 @@ import { UserChangePasswordFormComponent } from './user-change-password-form.com
     FormErrorsModule,
     CardModule,
     KeyboardFocusModule,
-    PasswordVisibilityModule,
+    TogglePasswordVisibilityModule,
   ],
   declarations: [UserChangePasswordFormComponent],
 })

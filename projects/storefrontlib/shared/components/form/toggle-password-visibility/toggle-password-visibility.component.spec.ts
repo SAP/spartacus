@@ -9,7 +9,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
-import { PasswordVisibilityModule } from './password-visibility.module';
+import { TogglePasswordVisibilityModule } from './toggle-password-visibility.module';
 
 const mockFormConfig: FormConfig = {
   form: {
@@ -24,12 +24,12 @@ const mockFormConfig: FormConfig = {
         <input
           type="password"
           formControlName="password"
-          cxPasswordVisibility
+          cxPasswordVisibilitySwitcher
         />
         <input
           type="password"
           formControlName="passwordConfirm"
-          cxPasswordVisibility
+          cxPasswordVisibilitySwitcher
         />
       </form>
     </div>
@@ -46,7 +46,7 @@ class MockWinRef {
   document = window.document;
 }
 
-describe('PasswordVisibilityComponent', () => {
+describe('TogglePasswordVisibilityComponent', () => {
   let component: MockFormComponent;
   let fixture: ComponentFixture<MockFormComponent>;
   let el: DebugElement;
@@ -59,7 +59,7 @@ describe('PasswordVisibilityComponent', () => {
           IconTestingModule,
           FormsModule,
           ReactiveFormsModule,
-          PasswordVisibilityModule,
+          TogglePasswordVisibilityModule,
         ],
         declarations: [MockFormComponent],
         providers: [

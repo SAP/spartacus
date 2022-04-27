@@ -109,7 +109,7 @@
                 [attr.aria-label]="
                   'register.password.placeholder' | cxTranslate
                 "
-                cxPasswordVisibility
+                cxPasswordVisibilitySwitcher
               />
               <cx-form-errors
                 [control]="registerForm.get('password')"
@@ -134,7 +134,7 @@
                 [attr.aria-label]="
                   'register.confirmPassword.placeholder' | cxTranslate
                 "
-                cxPasswordVisibility
+                cxPasswordVisibilitySwitcher
               />
               <cx-form-errors
                 [control]="registerForm.get('passwordconf')"
