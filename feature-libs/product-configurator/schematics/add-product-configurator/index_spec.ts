@@ -151,10 +151,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           );
           expect(module).toMatchSnapshot();
 
-          const wrapperModule = appTree.readContent(
-            productConfiguratorWrapperModulePath
-          );
-          expect(wrapperModule).toMatchSnapshot();
+          expect(
+            appTree.readContent(productConfiguratorWrapperModulePath)
+          ).toBeFalsy();
         });
 
         it('should install the required feature dependencies', async () => {

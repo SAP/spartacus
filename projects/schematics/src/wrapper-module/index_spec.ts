@@ -12,6 +12,7 @@ import { CHECKOUT_BASE_MODULE } from '../shared/lib-configs/checkout-schematics-
 import {
   CLI_CART_BASE_FEATURE,
   CLI_CDC_FEATURE,
+  CLI_CHECKOUT_B2B_FEATURE,
   CLI_CHECKOUT_BASE_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   CLI_DIGITAL_PAYMENTS_FEATURE,
@@ -97,7 +98,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           'ng-add',
           {
             ...defaultOptions,
-            features: [CLI_CHECKOUT_BASE_FEATURE],
+            features: [CLI_CHECKOUT_B2B_FEATURE],
             name: 'schematics-test',
           },
           appTree

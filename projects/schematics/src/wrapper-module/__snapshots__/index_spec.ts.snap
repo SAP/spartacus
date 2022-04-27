@@ -599,13 +599,16 @@ export class CartBaseWrapperModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module One dynamic import in the file should generate appropriate feature module 1`] = `
 "import { NgModule } from '@angular/core';
+import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
+import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
 import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 @NgModule({
     declarations: [],
     imports: [
-        CheckoutRootModule
+        CheckoutRootModule,
+        CheckoutB2BRootModule
     ],
     providers: [provideConfig(<CmsConfig>{
             featureModules: {
@@ -619,6 +622,12 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
                 resources: checkoutTranslations,
                 chunks: checkoutTranslationChunksConfig,
             },
+        }),
+        provideConfig(<I18nConfig>{
+            i18n: {
+                resources: checkoutB2BTranslations,
+                chunks: checkoutB2BTranslationChunksConfig,
+            },
         })
     ]
 })
@@ -629,10 +638,12 @@ export class CheckoutFeatureModule {
 
 exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper-module One dynamic import in the file should generate appropriate feature module 2`] = `
 "import { NgModule } from '@angular/core';
+import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
 import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 @NgModule({
     declarations: [],
-    imports: [CheckoutModule]
+    imports: [CheckoutModule,
+        CheckoutB2BModule]
 })
 export class CheckoutWrapperModule {
 }

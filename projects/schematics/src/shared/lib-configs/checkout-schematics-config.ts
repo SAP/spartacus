@@ -61,9 +61,6 @@ export const CHECKOUT_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
   dependencyManagement: {
     [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
   },
-  wrappers: {
-    [CHECKOUT_BASE_MODULE]: CHECKOUT_BASE_MODULE,
-  },
 };
 
 export const CHECKOUT_B2B_MODULE = 'CheckoutB2BModule';

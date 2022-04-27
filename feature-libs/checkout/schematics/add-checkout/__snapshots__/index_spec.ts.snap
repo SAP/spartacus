@@ -238,7 +238,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),
@@ -417,7 +417,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+          import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
       },
     }
   }),
@@ -430,18 +430,6 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
   ]
 })
 export class CheckoutFeatureModule { }
-"
-`;
-
-exports[`Spartacus Checkout schematics: ng-add Checkout feature base general setup should add the feature using the lazy loading syntax 2`] = `
-"import { NgModule } from '@angular/core';
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-
-@NgModule({
-  declarations: [],
-  imports: [CheckoutModule]
-})
-export class CheckoutWrapperModule { }
 "
 `;
 
@@ -555,7 +543,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),
@@ -955,7 +943,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),

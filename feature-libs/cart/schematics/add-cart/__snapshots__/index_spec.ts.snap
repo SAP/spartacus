@@ -107,7 +107,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),
@@ -725,7 +725,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),
@@ -1005,7 +1005,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),

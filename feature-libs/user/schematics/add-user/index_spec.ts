@@ -198,8 +198,7 @@ describe('Spartacus User schematics: ng-add', () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
 
-        const wrapperModule = appTree.readContent(userWrapperModulePath);
-        expect(wrapperModule).toMatchSnapshot();
+        expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
       });
 
       describe('styling', () => {

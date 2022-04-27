@@ -166,8 +166,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           const module = appTree.readContent(checkoutFeatureModulePath);
           expect(module).toMatchSnapshot();
 
-          const wrapperModule = appTree.readContent(checkoutWrapperModulePath);
-          expect(wrapperModule).toMatchSnapshot();
+          expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
         });
 
         it('should install the required feature dependencies', async () => {

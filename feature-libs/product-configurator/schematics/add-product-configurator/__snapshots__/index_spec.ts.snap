@@ -157,7 +157,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),
@@ -266,7 +266,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+          import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
       },
     }
   }),
@@ -551,7 +551,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),
@@ -660,7 +660,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+          import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
       },
     }
   }),
@@ -926,7 +926,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),
@@ -1035,7 +1035,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+          import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
       },
     }
   }),
@@ -1216,7 +1216,7 @@ import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule
     featureModules: {
       [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
         module: () =>
-          import('./product-configurator-wrapper.module').then((m) => m.ProductConfiguratorWrapperModule),
+          import('@spartacus/product-configurator/rulebased').then((m) => m.RulebasedConfiguratorModule),
       },
     }
   }),
@@ -1229,18 +1229,6 @@ import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule
   ]
 })
 export class ProductConfiguratorFeatureModule { }
-"
-`;
-
-exports[`Spartacus product configurator schematics: ng-add Product config feature VC general setup should add the feature using the lazy loading syntax 2`] = `
-"import { NgModule } from '@angular/core';
-import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
-
-@NgModule({
-  declarations: [],
-  imports: [RulebasedConfiguratorModule]
-})
-export class ProductConfiguratorWrapperModule { }
 "
 `;
 
@@ -1276,7 +1264,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
       },
     }
   }),
@@ -1385,7 +1373,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+          import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
       },
     }
   }),
