@@ -79,8 +79,13 @@ describe('PasswordVisibilityComponent', () => {
     el = fixture.debugElement;
   });
 
-  it('should be created', () => {
+  it('should  password visibility component', () => {
+    fixture.detectChanges();
+    const pwVisibilityComponent = el.nativeElement.querySelector(
+      'cx-password-visibility'
+    );
     expect(component).toBeTruthy();
+    expect(pwVisibilityComponent).toBeTruthy();
   });
 
   it('should have password hidden by default', () => {
