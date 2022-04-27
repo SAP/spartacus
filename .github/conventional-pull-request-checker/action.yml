@@ -1,0 +1,6 @@
+name: 'Pull request checker'
+description: 'Pull request checker to enforce conventional commits'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+

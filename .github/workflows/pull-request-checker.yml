@@ -1,0 +1,19 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+concurrency: 
+  group: pr-checker-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+name: "Pull Request Checker"
+jobs:
+  pullRequestChecker:
+    name: Pull request checker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2    
+      - name: Pull request checker bot
+        uses: ./.github/conventional-pull-request-checker
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
