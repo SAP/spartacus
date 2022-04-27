@@ -23,6 +23,9 @@ export class PasswordVisibilityComponent {
 
   constructor() {}
 
+  /**
+   * Toggle the visibility of the text of the input field.
+   */
   toggle(): void {
     if (this.state === this.hideState) {
       this.state = this.showState;
