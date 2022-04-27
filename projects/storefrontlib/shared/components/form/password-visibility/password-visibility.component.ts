@@ -7,26 +7,28 @@ import { ICON_TYPE } from '../../../../cms-components';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordVisibilityComponent {
-  protected showIcon = ICON_TYPE.EYE;
-  protected hideIcon = ICON_TYPE.EYE_SLASH;
+  protected showState = {
+    icon: ICON_TYPE.EYE,
+    inputType: 'text',
+    ariaLabel: 'passwordVisibility.showPassword',
+  };
+  protected hideState = {
+    icon: ICON_TYPE.EYE_SLASH,
+    inputType: 'password',
+    ariaLabel: 'passwordVisibility.hidePassword',
+  };
 
   inputElement: HTMLInputElement;
-  inputType = 'password';
-  action = 'showPassword';
-  icon = this.showIcon;
+  state = this.showState;
 
   constructor() {}
 
   toggle(): void {
-    if (this.inputType === 'password') {
-      this.inputType = 'text';
-      this.action = 'showPassword';
-      this.icon = this.showIcon;
+    if (this.state === this.hideState) {
+      this.state = this.showState;
     } else {
-      this.inputType = 'password';
-      this.action = 'hidePassword';
-      this.icon = this.hideIcon;
+      this.state = this.hideState;
     }
-    this.inputElement.setAttribute('type', this.inputType);
+    this.inputElement.setAttribute('type', this.state.inputType);
   }
 }
