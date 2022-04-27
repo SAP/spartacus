@@ -7,13 +7,13 @@ import { ICON_TYPE } from '../../../../cms-components';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordVisibilityComponent {
-  inputElement: HTMLInputElement;
-  inputType: string = 'password';
-  icon: string;
-  action: string;
-
   protected showIcon = ICON_TYPE.EYE;
   protected hideIcon = ICON_TYPE.EYE_SLASH;
+
+  inputElement: HTMLInputElement;
+  inputType = 'password';
+  action = 'showPassword';
+  icon = this.showIcon;
 
   constructor() {}
 
