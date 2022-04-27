@@ -40,7 +40,7 @@ export class ConfiguratorOverviewNotificationBannerComponent {
       //In case overview carries number of issues: We take it from there.
       //otherwise configuration's number will be accurate
       if (configuration.overview?.totalNumberOfIssues) {
-        return configuration.overview.numberOfIncompleteCharacteristics
+        return configuration.overview.numberOfIncompleteCharacteristics != null
           ? configuration.overview.numberOfIncompleteCharacteristics
           : configuration.overview.totalNumberOfIssues;
       } else

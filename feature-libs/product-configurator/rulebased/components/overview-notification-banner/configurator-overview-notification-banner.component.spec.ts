@@ -262,6 +262,20 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     );
   });
 
+  it('should count zero issues in case detailed issue numbers are available with only conflicts', () => {
+    let config: Configurator.Configuration = {
+      ...productConfigurationWithDetailedIssuesCountedInOverview,
+    };
+    if (config.overview) {
+      config.overview.numberOfIncompleteCharacteristics = 0;
+    }
+    configurationObs = of(config);
+    initialize(routerData);
+    component.numberOfIssues$.subscribe((numberOfIssues) =>
+      expect(numberOfIssues).toBe(0)
+    );
+  });
+
   it('should count only conflicts as warnings in case detailed issue numbers are available', () => {
     configurationObs = of(
       productConfigurationWithDetailedIssuesCountedInOverview
@@ -273,8 +287,8 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           ?.numberOfConflicts
       )
     );
-    component.ignoreConflicts$.subscribe((numberOfConflicts) =>
-      expect(numberOfConflicts).toBe(true)
+    component.ignoreConflicts$.subscribe((ignoreConflicts) =>
+      expect(ignoreConflicts).toBe(true)
     );
   });
 
@@ -286,8 +300,8 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     component.numberOfConflicts$.subscribe((numberOfConflicts) =>
       expect(numberOfConflicts).toBe(0)
     );
-    component.ignoreConflicts$.subscribe((numberOfConflicts) =>
-      expect(numberOfConflicts).toBe(false)
+    component.ignoreConflicts$.subscribe((ignoreConflicts) =>
+      expect(ignoreConflicts).toBe(false)
     );
   });
 });
