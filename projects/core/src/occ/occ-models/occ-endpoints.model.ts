@@ -530,6 +530,12 @@ export interface OccEndpoints {
    * @member {string}
    */
   orderApprovalDecision?: string | OccEndpoint;
+  /**
+   * Endpoint for B2B user registration
+   *
+   * @member {string}
+   */
+  b2bUserRegistration?: string | OccEndpoint;
 
   // DEPRECATION END
 }
