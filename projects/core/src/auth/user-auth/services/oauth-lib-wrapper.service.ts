@@ -19,7 +19,7 @@ export class OAuthLibWrapperService {
   /**
    * Returns true if the `tryLogin()` call has not completed.
    */
-  loginInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+  loginInProgress$ = new BehaviorSubject(false);
 
   // TODO: Remove platformId dependency in 4.0
   constructor(
@@ -127,7 +127,7 @@ export class OAuthLibWrapperService {
    */
   tryLogin(): Promise<OAuthTryLoginResult> {
     return new Promise((resolve) => {
-      (this.loginInProgress$ as BehaviorSubject<boolean>).next(true);
+      this.loginInProgress$.next(true);
 
       // We use the 'token_received' event to check if we have returned
       // from the auth server.
@@ -152,7 +152,7 @@ export class OAuthLibWrapperService {
         })
         .finally(() => {
           subscription.unsubscribe();
-          (this.loginInProgress$ as BehaviorSubject<boolean>).next(false);
+          this.loginInProgress$.next(false);
         });
     });
   }

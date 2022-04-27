@@ -267,7 +267,7 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should return true while `tryLogin()` is executing', async () => {
-      const inProgress = service.loginInProgress$ as BehaviorSubject<boolean>;
+      const inProgress = service.loginInProgress$;
       const spy = spyOn(inProgress, 'next');
       expect(spy).not.toHaveBeenCalled();
 
