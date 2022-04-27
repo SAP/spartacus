@@ -8,18 +8,18 @@ import { ICON_TYPE } from '../../../../cms-components';
 })
 export class PasswordVisibilityComponent {
   protected showState = {
-    icon: ICON_TYPE.EYE,
+    icon: ICON_TYPE.EYE_SLASH,
     inputType: 'text',
-    ariaLabel: 'passwordVisibility.showPassword',
+    ariaLabel: 'passwordVisibility.hidePassword',
   };
   protected hideState = {
-    icon: ICON_TYPE.EYE_SLASH,
+    icon: ICON_TYPE.EYE,
     inputType: 'password',
-    ariaLabel: 'passwordVisibility.hidePassword',
+    ariaLabel: 'passwordVisibility.showPassword',
   };
 
   inputElement: HTMLInputElement;
-  state = this.showState;
+  state = this.hideState;
 
   constructor() {}
 
