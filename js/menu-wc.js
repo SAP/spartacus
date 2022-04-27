@@ -2129,7 +2129,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ForgotPasswordModule-e78b612a06d7cef2e946ec8a80990d34-1"' :
                                             'id="xs-components-links-module-ForgotPasswordModule-e78b612a06d7cef2e946ec8a80990d34-1"' }>
                                             <li class="link">
-                                                <a href="components/ForgotPasswordComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">ForgotPasswordComponent</a>
+                                                <a href="components/ForgotPasswordComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ForgotPasswordComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -2576,7 +2576,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-LoginModule-4988c23523abc24e8813a4e222fea85a-1"' :
                                             'id="xs-components-links-module-LoginModule-4988c23523abc24e8813a4e222fea85a-1"' }>
                                             <li class="link">
-                                                <a href="components/LoginComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">LoginComponent</a>
+                                                <a href="components/LoginComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >LoginComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -2672,9 +2672,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         </div>
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-MessageModule-64e30f9bfc9d827bd600f45bb2f5ad30"' :
                                             'id="xs-components-links-module-MessageModule-64e30f9bfc9d827bd600f45bb2f5ad30"' }>
-                                            <li class="link">
-                                                <a href="components/MessageComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >MessageComponent</a>
-                                            </li>
                                             <li class="link">
                                                 <a href="components/MessageComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >MessageComponent</a>
                                             </li>
@@ -3780,7 +3777,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-QualtricsModule-bcd975c0cacdf483baedd1fc90162c4a-1"' :
                                             'id="xs-components-links-module-QualtricsModule-bcd975c0cacdf483baedd1fc90162c4a-1"' }>
                                             <li class="link">
-                                                <a href="components/QualtricsComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">QualtricsComponent</a>
+                                                <a href="components/QualtricsComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >QualtricsComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -3817,7 +3814,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-RegisterComponentModule-d0ace611d25b12b48c7c7bfc173f63ba-1"' :
                                             'id="xs-components-links-module-RegisterComponentModule-d0ace611d25b12b48c7c7bfc173f63ba-1"' }>
                                             <li class="link">
-                                                <a href="components/RegisterComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RegisterComponent</a>
+                                                <a href="components/RegisterComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >RegisterComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -5073,7 +5070,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-UpdateEmailModule-65c0860adca617cd64a4f055f361b916-1"' :
                                             'id="xs-components-links-module-UpdateEmailModule-65c0860adca617cd64a4f055f361b916-1"' }>
                                             <li class="link">
-                                                <a href="components/UpdateEmailComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">UpdateEmailComponent</a>
+                                                <a href="components/UpdateEmailComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >UpdateEmailComponent</a>
                                             </li>
                                             <li class="link">
                                                 <a href="components/UpdateEmailFormComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">UpdateEmailFormComponent</a>
@@ -5643,7 +5640,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="components/CustomerSelectionComponent-1.html" data-type="entity-link" >CustomerSelectionComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/MessageComponent.html" data-type="entity-link" >MessageComponent</a>
+                                <a href="components/ForgotPasswordComponent-1.html" data-type="entity-link" class="deprecated-name">ForgotPasswordComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/LoginComponent-1.html" data-type="entity-link" class="deprecated-name">LoginComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/MockSplitViewComponent.html" data-type="entity-link" >MockSplitViewComponent</a>
@@ -5652,10 +5652,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="components/MockViewComponent.html" data-type="entity-link" >MockViewComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/RegisterComponent-1.html" data-type="entity-link" >RegisterComponent</a>
+                                <a href="components/QualtricsComponent-1.html" data-type="entity-link" class="deprecated-name">QualtricsComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/ReplenishmentOrderCancellationComponent.html" data-type="entity-link" >ReplenishmentOrderCancellationComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/UpdateEmailComponent-1.html" data-type="entity-link" class="deprecated-name">UpdateEmailComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/UpdatePasswordComponent-1.html" data-type="entity-link" class="deprecated-name">UpdatePasswordComponent</a>

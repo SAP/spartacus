@@ -18,13 +18,13 @@
 <title>cluster_ConfiguratorAttributeSingleSelectionBundleModule_declarations</title>
 <polygon fill="none" stroke="black" points="1235,-40.8 1235,-92.8 1583,-92.8 1583,-40.8 1235,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorAttributeSingleSelectionBundleModule_exports</title>
-<polygon fill="none" stroke="black" points="371,-170.8 371,-222.8 723,-222.8 723,-170.8 371,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorAttributeSingleSelectionBundleModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 1227,-92.8 1227,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorAttributeSingleSelectionBundleModule_exports</title>
+<polygon fill="none" stroke="black" points="371,-170.8 371,-222.8 723,-222.8 723,-170.8 371,-170.8"/>
 </g>
 <!-- ConfiguratorAttributeSingleSelectionBundleComponent -->
 <g id="node1" class="node">
