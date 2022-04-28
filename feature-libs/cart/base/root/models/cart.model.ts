@@ -193,10 +193,6 @@ export enum CartValidationStatusCode {
   UNRESOLVABLE_ISSUES = 'unresolvableIssues',
 }
 
-export interface AddToCartToastConfig {
-  timeout?: number;
-}
-
 export enum ADDED_TO_CART_FEEDBACK {
   MODAL,
   TOAST,
