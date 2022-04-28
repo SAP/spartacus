@@ -1,1 +1,1 @@
-export * from './index';
+export * from './commerce-quotes-components.module';

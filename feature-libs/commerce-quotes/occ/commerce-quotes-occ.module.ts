@@ -7,4 +7,4 @@ import { defaultOccCommerceQuotesConfig } from './adapters/default-occ-commerce-
   imports: [CommonModule],
   providers: [provideDefaultConfig(defaultOccCommerceQuotesConfig)],
 })
-export class AsmOccModule {}
+export class CommerceQuotesOccModule {}

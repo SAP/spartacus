@@ -60,6 +60,7 @@ import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { CheckoutScheduledReplenishmentFeatureModule } from './features/checkout-scheduled-replenishment-feature.module';
+import { CommerceQuotesFeatureModule } from './features/commerce-quotes-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization-feature.module';
 import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
@@ -210,6 +211,8 @@ if (environment.epdVisualization) {
     VariantsFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ImageZoomFeatureModule,
+
+    CommerceQuotesFeatureModule,
 
     ...featureModules,
   ],

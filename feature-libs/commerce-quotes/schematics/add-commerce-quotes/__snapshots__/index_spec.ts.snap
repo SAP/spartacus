@@ -55,7 +55,7 @@ export class CommerceQuotesFeatureModule { }
 "
 `;
 
-exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature general setup styling should create a proper scss file 1`] = `""`;
+exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/commerce-quotes\\";"`;
 
 exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature general setup styling should update angular.json 1`] = `
 "{
@@ -92,7 +92,7 @@ exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature ge
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
-              \\"src/styles/spartacus/storefinder.scss\\"
+              \\"src/styles/spartacus/commerce-quotes.scss\\"
             ],
             \\"scripts\\": []
           },
@@ -161,7 +161,7 @@ exports[`Spartacus Commerce Quotes schematics: ng-add Commerce Quotes feature ge
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
-              \\"src/styles/spartacus/storefinder.scss\\"
+              \\"src/styles/spartacus/commerce-quotes.scss\\"
             ],
             \\"scripts\\": []
           }

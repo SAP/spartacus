@@ -1,5 +1,4 @@
 /*
- * Public API Surface of cart
+ * Public API Surface of commerce quotes
  */
-
-export {};
+export * from './commerce-quotes.module';

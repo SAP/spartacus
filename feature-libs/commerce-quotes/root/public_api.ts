@@ -1,1 +1,2 @@
-export * from './index';
+export * from './feature-name';
+export * from './commerce-quotes-root.module';
