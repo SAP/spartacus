@@ -494,12 +494,14 @@ function orderInstalledFeatures(options: SpartacusOptions): Rule {
         const analysis = analyzeFeature(spartacusFeaturesModule);
         if (analysis.unrecognized) {
           context.logger.warn(
-            `⚠️ Unrecognized feature found in ${spartacusFeaturesModule.getFilePath()}: ${
+            `Cannot order features in ${spartacusFeaturesModule.getFilePath()}, due to an unrecognized feature: ${
               analysis.unrecognized
-            }.`
+            }`
           );
           context.logger.warn(
-            `Please make sure the order of features in the NgModule's 'imports' array is correct.`
+            `Please make sure to order the features in the NgModule's 'imports' array according to the following feature order:\n${crossFeatureInstallationOrder.join(
+              ', '
+            )}`
           );
           return noop();
         }

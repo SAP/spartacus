@@ -23,6 +23,7 @@ import {
   getModuleConfig,
   orderFeatures,
 } from '../shared/utils/feature-utils';
+import { crossFeatureInstallationOrder } from '../shared/utils/graph-utils';
 import {
   findDynamicImport,
   getDynamicImportCallExpression,
@@ -484,12 +485,14 @@ function orderWrapperFeatures(options: {
         const analysis = analyzeFeature(wrapperModule);
         if (analysis.unrecognized) {
           context.logger.warn(
-            `⚠️ Unrecognized feature found in ${wrapperModule.getFilePath()}: ${
+            `Cannot order features in ${wrapperModule.getFilePath()}, due to an unrecognized feature: ${
               analysis.unrecognized
-            }.`
+            }`
           );
           context.logger.warn(
-            `Please make sure the order of features in the NgModule's 'imports' array is correct.`
+            `Please make sure to order the features in the NgModule's 'imports' array according to the following feature order:\n${crossFeatureInstallationOrder.join(
+              ', '
+            )}`
           );
           return noop();
         }
