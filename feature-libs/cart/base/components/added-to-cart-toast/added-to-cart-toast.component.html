@@ -5,12 +5,7 @@
       aria-live="polite"
       aria-atomic="true"
     >
-      {{
-        toast.quantity > 1
-          ? ('cartToast.entriesAdded'
-            | cxTranslate: { quantity: toast.quantity })
-          : ('cartToast.entryAdded' | cxTranslate: { quantity: toast.quantity })
-      }}
+      {{ 'cartToast.entryAdded' | cxTranslate: { count: toast.quantity } }}
     </div>
     <div class="added-to-cart-toast-content">
       <cx-media

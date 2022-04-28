@@ -77,8 +77,8 @@ export const cart = {
     inProgress: 'Processing',
   },
   cartToast: {
-    entriesAdded: '{{ quantity }} items added',
-    entryAdded: '{{ quantity }} item added',
+    entryAdded_other: '{{ count }} items added',
+    entryAdded: '{{ count }} item added',
     continueShopping: 'Continue Shopping',
     goToCart: 'Go to Cart',
     quantity: 'Qty',
