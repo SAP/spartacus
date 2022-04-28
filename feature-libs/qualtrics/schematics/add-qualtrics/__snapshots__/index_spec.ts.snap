@@ -78,7 +78,12 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/qualtrics-embedded-feedback.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -147,7 +152,12 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/qualtrics-embedded-feedback.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
