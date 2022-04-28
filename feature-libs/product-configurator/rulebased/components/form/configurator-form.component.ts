@@ -68,7 +68,7 @@ export class ConfiguratorFormComponent implements OnInit {
                   routingData.owner
                 );
 
-                //Only check for Incomplete group when there are no conflicts
+                //Only check for Incomplete group when there are no conflicts or conflicts should be skipped
               } else {
                 this.configuratorGroupsService.navigateToFirstIncompleteGroup(
                   routingData.owner
