@@ -14,14 +14,14 @@ import { ComponentContextData } from '../../model/cms-component-context';
   providers: [
     {
       provide: ComponentContextData,
-      useFactory: (compContext: ComponentsContextDirective) => ({
+      useFactory: (compContext: ComponentContextDirective) => ({
         context$: compContext.context,
       }),
-      deps: [forwardRef(() => ComponentsContextDirective)],
+      deps: [forwardRef(() => ComponentContextDirective)],
     },
   ],
 })
-export class ComponentsContextDirective<T = any>
+export class ComponentContextDirective<T = any>
   implements OnDestroy, OnChanges
 {
   /**
