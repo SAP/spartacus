@@ -90,6 +90,7 @@ export namespace OccConfigurator {
     conflicts?: string[];
     retractTriggered?: boolean;
     intervalInDomain?: boolean;
+    retractBlocked?: boolean;
   }
 
   export interface Value {
