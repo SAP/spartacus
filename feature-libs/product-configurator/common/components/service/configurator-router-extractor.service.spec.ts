@@ -165,10 +165,10 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
-    it('should tell from the URL if we need to ignore conflicts while resolving issues of a configuration', (done) => {
+    it('should tell from the URL if we need to skip conflicts while resolving issues of a configuration', (done) => {
       mockRouterState.state.queryParams = {
         resolveIssues: 'true',
-        ignoreConflicts: 'true',
+        skipConflicts: 'true',
       };
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
