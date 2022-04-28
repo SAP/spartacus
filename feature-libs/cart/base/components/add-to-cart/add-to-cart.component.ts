@@ -19,8 +19,8 @@ import {
   Product,
 } from '@spartacus/core';
 import {
-  CmsComponentContextData,
   CmsComponentData,
+  ComponentContextData,
   CurrentProductService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -63,7 +63,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
-    @Optional() protected context?: CmsComponentContextData
+    @Optional() protected context?: ComponentContextData
   ) {}
 
   ngOnInit() {

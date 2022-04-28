@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 
-export abstract class CmsComponentContextData<T = any> {
+export abstract class ComponentContextData<T = any> {
   /**
-   * Provides cms component context as an observable
+   * Provides component context as an observable
    */
   context$: Observable<T>;
 }

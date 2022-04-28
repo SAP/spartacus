@@ -52,7 +52,7 @@
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
           <ng-container
             cxInnerComponentsHost
-            [cxInnerComponentsContext]="{ product: product }"
+            [cxComponentContext]="{ product: product }"
           ></ng-container>
         </ng-template>
       </div>
