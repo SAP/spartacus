@@ -44,7 +44,7 @@ title: Changes to Styles in 5.0
 ## Changes in \_configurator-overview-notification-banner.scss
 - flex box on root level was changed to column direction to support multiple banners placed underneath
 - `.cx-error-notification-banner` and `.cx-conflict-notification-banner` were added with flex direction row for styling the individual banners.
-- `.cx-error-notification-banner` replicates the error banner stale implemented before on root level.
+- `.cx-error-notification-banner` replicates the error banner style implemented before on root level.
 - `.cx-conflict-notification-banner` implements the new conflict banner styling.
 
 ## Changes in styles
