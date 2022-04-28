@@ -54,6 +54,7 @@
   <ng-container
     *ngIf="cartEntry.updateable"
     cxInnerComponentsHost
+    [cxComponentContext]="{ product: cartEntry.product }"
   ></ng-container>
   <ng-template #outOfStock>
     <span class="cx-out-of-stock">
