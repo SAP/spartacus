@@ -39,17 +39,8 @@ export async function prepareRepositoryForApiExtractor(
 
   try {
     await cache.restoreCache(paths, key, []);
-    core.warning('check fs 1');
-    core.warning(key);
-    await exec.exec('ls', ['-al']);
-  } catch {
-    core.warning('dist folder not found in cache');
-    await exec.exec('ls', ['-al']);
-  }
 
-  try {
     // Cache restores files in the same location, so we need to move them manually
-    core.warning('check fs 2');
     await io.cp(BUILD_DIR, `${BASE_BRANCH_DIR}/${BUILD_DIR}`, {
       recursive: true,
       force: false,
@@ -59,7 +50,6 @@ export async function prepareRepositoryForApiExtractor(
     core.warning(
       'dist folder not found as it failed to be restored from cache'
     );
-    await exec.exec('ls', ['-al']);
 
     // If we didn't restore builded libs from cache on the BASE branch, we need to also build base branch
     await exec.exec('yarn', ['--cwd', BASE_BRANCH_DIR]);
