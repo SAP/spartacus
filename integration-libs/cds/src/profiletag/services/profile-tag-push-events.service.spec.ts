@@ -105,8 +105,6 @@ describe('profileTagPushEventsService', () => {
       ],
     });
     profileTagPushEventsService = TestBed.inject(ProfileTagPushEventsService);
-    activeCartBehavior.next({});
-    activeCartBehavior.next({});
   });
 
   it('should be created', () => {

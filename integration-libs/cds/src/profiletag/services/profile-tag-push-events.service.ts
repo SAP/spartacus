@@ -20,10 +20,10 @@ import { merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   distinctUntilKeyChanged,
+  filter,
   map,
   mapTo,
   pairwise,
-  skip,
   startWith,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -362,7 +362,8 @@ export class ProfileTagPushEventsService {
       this.eventService.get(CartRemoveEntrySuccessEvent)
     ).pipe(() =>
       this.activeCartFacade.getActive().pipe(
-        skip(2),
+        distinctUntilChanged(),
+        filter((cart) => cart.code !== undefined),
         map(
           (cart) =>
             new CartSnapshotPushEvent({
