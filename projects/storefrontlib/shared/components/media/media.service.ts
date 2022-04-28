@@ -52,7 +52,7 @@ export class MediaService {
       : this.resolveMedia(mediaContainer as MediaContainer, format);
 
     return {
-      src: this.resolveAbsoluteUrl(mainMedia?.url),
+      src: this.resolveAbsoluteUrl(mainMedia?.url ?? ''),
       alt: alt ?? mainMedia?.altText,
       role: role ?? mainMedia?.role,
       srcset: this.resolveSrcSet(mediaContainer, format),
@@ -125,7 +125,9 @@ export class MediaService {
   /**
    * Returns the media format code with the best size.
    */
-  protected resolveBestFormat(media: MediaContainer | Image): string {
+  protected resolveBestFormat(
+    media: MediaContainer | Image
+  ): string | undefined {
     return this.reversedFormats.find((format) =>
       media.hasOwnProperty(format.code)
     )?.code;
@@ -154,7 +156,7 @@ export class MediaService {
     }
 
     const srcset = formats.reduce((set, format) => {
-      if (!!media[format.code]) {
+      if (media[format.code]) {
         if (set) {
           set += ', ';
         }

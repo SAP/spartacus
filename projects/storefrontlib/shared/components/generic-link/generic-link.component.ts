@@ -65,21 +65,21 @@ export class GenericLinkComponent implements OnChanges {
   /**
    * The part with the path of the local url.
    */
-  get routerUrl(): any[] {
+  get routerUrl(): any[] | undefined {
     return this.routeParts.path;
   }
 
   /**
    * The part with the query params of the local url.
    */
-  get queryParams(): Params {
+  get queryParams(): Params | undefined {
     return this.routeParts.queryParams;
   }
 
   /**
    * The part with the hash fragment of the local url.
    */
-  get fragment(): string {
+  get fragment(): string | undefined {
     return this.routeParts.fragment;
   }
 

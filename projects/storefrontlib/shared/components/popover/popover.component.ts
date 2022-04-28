@@ -13,13 +13,13 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { Subject, Subscription } from 'rxjs';
 import { WindowRef } from '@spartacus/core';
-import { PopoverEvent, PopoverPosition } from './popover.model';
-import { PositioningService } from '../../services/positioning/positioning.service';
-import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
+import { Subject, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
+import { PositioningService } from '../../services/positioning/positioning.service';
+import { PopoverEvent, PopoverPosition } from './popover.model';
 
 @Component({
   selector: 'cx-popover',
@@ -160,11 +160,11 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
   }
 
-  protected isClickedOnPopover(event) {
+  protected isClickedOnPopover(event: any) {
     return this.popoverInstance.location.nativeElement.contains(event.target);
   }
 
-  protected isClickedOnDirective(event) {
+  protected isClickedOnDirective(event: any) {
     return this.triggerElement.nativeElement.contains(event.target);
   }
 
