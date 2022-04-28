@@ -76,10 +76,6 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
                 "bundleName": "epd-visualization"
-              },
-              {
-                "input": "projects/storefrontapp/src/styles/lib-asm.scss",
-                "bundleName": "asm"
               }
             ],
             "stylePreprocessorOptions": {
