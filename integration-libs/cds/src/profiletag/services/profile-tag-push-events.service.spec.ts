@@ -100,8 +100,8 @@ describe('profileTagPushEventsService', () => {
         },
         {
           provide: ActiveCartFacade,
-          useValue: activeCartFacade
-        }
+          useValue: activeCartFacade,
+        },
       ],
     });
     profileTagPushEventsService = TestBed.inject(ProfileTagPushEventsService);
@@ -189,8 +189,11 @@ describe('profileTagPushEventsService', () => {
       eventServiceEvents
         .get(CartAddEntrySuccessEvent)
         .next({ entry: { product: { categories: [{}] } } });
-      activeCartBehavior.next({entries: [], code: 'CustomCart'});
-      activeCartBehavior.next({entries: [{product: {code: 'xyz'}, quantity: 1}], code: 'CustomCart'});
+      activeCartBehavior.next({ entries: [], code: 'CustomCart' });
+      activeCartBehavior.next({
+        entries: [{ product: { code: 'xyz' }, quantity: 1 }],
+        code: 'CustomCart',
+      });
       subscription.unsubscribe();
       expect(timesCalled).toEqual(3);
       expect(calledWith[0].name).toBe('AddedToCart');
