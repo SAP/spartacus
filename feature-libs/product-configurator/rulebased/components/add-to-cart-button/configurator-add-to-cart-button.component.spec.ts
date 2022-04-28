@@ -16,6 +16,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { IntersectionService } from '@spartacus/storefront';
 import { OrderHistoryFacade } from 'feature-libs/order/root';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
@@ -514,6 +515,34 @@ describe('ConfigAddToCartButtonComponent', () => {
         );
         done();
       });
+    });
+  });
+  describe('Accessibility', () => {
+    it("should contain add to cart button element with 'aria-label' attribute that contains prices of the configuration", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        undefined,
+        0,
+        'aria-label',
+        component.getButtonResourceKey(
+          mockRouterData,
+          mockProductConfiguration
+        ) +
+          ' ' +
+          'configurator.a11y.addToCartPrices' +
+          ' ' +
+          'basePrice:' +
+          mockProductConfiguration.priceSummary?.basePrice?.formattedValue +
+          ' ' +
+          'selectedOptions:' +
+          mockProductConfiguration.priceSummary?.selectedOptions
+            ?.formattedValue +
+          ' ' +
+          'totalPrice:' +
+          mockProductConfiguration.priceSummary?.currentTotal?.formattedValue
+      );
     });
   });
 });
