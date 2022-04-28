@@ -47,9 +47,7 @@ export async function prepareRepositoryForApiExtractor(
     });
     await io.rmRF(BUILD_DIR);
 
-    core.info(
-      'successfully restored dist from cache and copied to cloned spartacus repo'
-    );
+    core.info('successfully restored dist from cache');
   } catch {
     core.warning(
       'dist folder not found as it failed to be restored from cache'
