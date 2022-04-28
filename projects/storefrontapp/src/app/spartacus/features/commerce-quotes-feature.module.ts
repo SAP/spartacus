@@ -7,7 +7,7 @@ import { provideConfig } from '@spartacus/core';
 import {
   CommerceQuotesRootModule,
   COMMERCE_QUOTES_FEATURE,
-} from 'feature-libs/commerce-quotes/root';
+} from '@spartacus/commerce-quotes/root';
 
 @NgModule({
   imports: [CommerceQuotesRootModule],

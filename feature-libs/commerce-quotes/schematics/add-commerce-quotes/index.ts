@@ -26,7 +26,7 @@ import {
   COMMERCE_QUOTES_TRANSLATION_CHUNKS_CONFIG,
   SPARTACUS_COMMERCE_QUOTES_ASSETS,
   SPARTACUS_COMMERCE_QUOTES_ROOT,
-  COMMERCE_QUOTES_SCSS_FILE_NAME
+  COMMERCE_QUOTES_SCSS_FILE_NAME,
 } from '../constants';
 
 export function addCommerceQuotesFeatures(
@@ -46,7 +46,9 @@ export function addCommerceQuotesFeatures(
   };
 }
 
-function addCommerceQuotesFeature(options: SpartacusCommerceQuotesOptions): Rule {
+function addCommerceQuotesFeature(
+  options: SpartacusCommerceQuotesOptions
+): Rule {
   return addLibraryFeature(options, {
     folderName: COMMERCE_QUOTES_FOLDER_NAME,
     moduleName: COMMERCE_QUOTES_MODULE_NAME,

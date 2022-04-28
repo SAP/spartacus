@@ -11,7 +11,8 @@ export const defaultOccCommerceQuotesConfig: OccConfig = {
         performActionQuote: '/users/${userId}/quotes/${quoteCode}/action',
         addComment: '/users/${userId}/quotes/${quoteCode}/comments',
         addDicount: '/users/${userId}/quotes/${quoteCode}/discounts',
-        addCartEntryComment: '/users/${userId}/quotes/${quoteCode}/entries/${entryNumber}/comments'
+        addCartEntryComment:
+          '/users/${userId}/quotes/${quoteCode}/entries/${entryNumber}/comments',
       },
     },
   },
