@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" [cxComponentContext]="{ product: product }">
   <div class="col-12 col-md-4">
     <a
       [attr.aria-label]="
@@ -50,10 +50,7 @@
       </div>
       <div class="col-12 col-md-4">
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
-          <ng-container
-            cxInnerComponentsHost
-            [cxComponentContext]="{ product: product }"
-          ></ng-container>
+          <ng-container cxInnerComponentsHost></ng-container>
         </ng-template>
       </div>
     </div>

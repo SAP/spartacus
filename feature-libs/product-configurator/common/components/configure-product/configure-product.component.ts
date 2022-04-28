@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { Product } from '@spartacus/core';
 import {
+  ComponentContextData,
   CurrentProductService,
-  ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -16,8 +16,8 @@ import { ConfiguratorProductScope } from '../../core/model/configurator-product-
 })
 export class ConfigureProductComponent {
   nonConfigurable: Product = { configurable: false };
-  product$: Observable<Product> = (this.productListItemContext
-    ? this.productListItemContext.product$
+  product$: Observable<Product> = (this.context
+    ? this.context.context$.pipe(map((context) => context.product))
     : this.currentProductService
     ? this.currentProductService.getProduct(
         ConfiguratorProductScope.CONFIGURATOR
@@ -32,7 +32,7 @@ export class ConfigureProductComponent {
     CommonConfigurator.OwnerType.PRODUCT;
 
   constructor(
-    @Optional() protected productListItemContext: ProductListItemContext, // when on PLP
+    @Optional() protected context: ComponentContextData, // when on PLP
     @Optional() protected currentProductService: CurrentProductService // when on PDP
   ) {}
 }
