@@ -58,18 +58,8 @@ export class AuthStorageService extends OAuthStorage {
    *
    * @return observable emitting AuthToken
    */
-  getToken$(): Observable<AuthToken> {
+  getToken(): Observable<AuthToken> {
     return this._token$.asObservable();
-  }
-
-  /* Sync API for angular-oauth2-oidc use */
-  /**
-   * Returns complete token (all fields).
-   *
-   * @return AuthToken
-   */
-  getToken(): AuthToken {
-    return this._token;
   }
 
   /**
@@ -90,7 +80,7 @@ export class AuthStorageService extends OAuthStorage {
    * @param key
    */
   getItem(key: string): any {
-    return this.decode(key, this.getToken()?.[key]);
+    return this.decode(key, this._token?.[key]);
   }
 
   /**

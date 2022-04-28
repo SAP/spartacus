@@ -125,7 +125,7 @@ describe('CdcAuthService', () => {
   it('should show warning when CS agent is logged in', () => {
     (<AsmAuthStorageService>authStorageService)['getTokenTarget'] = () =>
       of(TokenTarget.CSAgent);
-    authStorageService['getToken$'] = () =>
+    authStorageService['getToken'] = () =>
       of({ access_token: 'token' } as AuthToken);
     spyOn(userIdService, 'setUserId').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();

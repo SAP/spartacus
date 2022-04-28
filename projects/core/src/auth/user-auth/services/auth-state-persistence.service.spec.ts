@@ -20,7 +20,7 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
-  getToken$() {
+  getToken() {
     return of({} as AuthToken);
   }
   setToken() {}
@@ -131,7 +131,7 @@ describe('AuthStatePersistenceService', () => {
   });
 
   it('should return state from auth state and userId service', (done) => {
-    spyOn(authStorageService, 'getToken$').and.returnValue(
+    spyOn(authStorageService, 'getToken').and.returnValue(
       of({ access_token: 'token', refresh_token: 'refresh_token' } as AuthToken)
     );
     spyOn(authRedirectStorageService, 'getRedirectUrl').and.returnValue(

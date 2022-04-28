@@ -25,7 +25,7 @@ export class TokenRevocationInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const isTokenRevocationRequest = this.isTokenRevocationRequest(request);
-    return this.authStorageService.getToken$().pipe(
+    return this.authStorageService.getToken().pipe(
       take(1),
       switchMap((token) => {
         if (isTokenRevocationRequest) {

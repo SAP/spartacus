@@ -41,11 +41,8 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
-  getToken$() {
-    return getTokenFromStorage.asObservable().pipe(observeOn(queueScheduler));
-  };
   getToken() {
-    return testToken;
+    return getTokenFromStorage.asObservable().pipe(observeOn(queueScheduler));
   }
 }
 
