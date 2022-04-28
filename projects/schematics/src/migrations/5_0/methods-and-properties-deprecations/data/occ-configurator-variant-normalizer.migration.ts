@@ -1,5 +1,5 @@
 import {
-  CONVERT_ATTRIBUTE_TYPE,
+  CONFIGURATOR_CONVERT_ATTRIBUTE_TYPE,
   OCC_CONFIGURATOR_VARIANT_NORMALIZER,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
@@ -12,7 +12,7 @@ export const OCC_CONFIGURATOR_VARIANT_NORMALIZER_MIGRATION: MethodPropertyDeprec
     {
       class: OCC_CONFIGURATOR_VARIANT_NORMALIZER,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-      deprecatedNode: CONVERT_ATTRIBUTE_TYPE,
-      comment: `// ${TODO_SPARTACUS} Method '${CONVERT_ATTRIBUTE_TYPE}' got new parameter 'sourceAttribute' instead of 'type'.`,
+      deprecatedNode: CONFIGURATOR_CONVERT_ATTRIBUTE_TYPE,
+      comment: `// ${TODO_SPARTACUS} Method '${CONFIGURATOR_CONVERT_ATTRIBUTE_TYPE}' got new parameter 'sourceAttribute' instead of 'type'.`,
     },
   ];
