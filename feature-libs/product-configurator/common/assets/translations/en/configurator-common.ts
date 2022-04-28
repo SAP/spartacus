@@ -176,7 +176,8 @@ export const configurator = {
       productDescription: 'Product description',
       configurationPage: 'You are on the configuration page.',
       configurationPageLink: 'Navigate to configuration  page.',
-      overviewPage: 'You are on the overview page.',
+      overviewPage:
+        'You are on the overview page. Check attributes and their selected values with reading mode of your screen reader.',
       overviewPageLink: 'Navigate to configuration overview page.',
       navigateToConflict:
         'Follow link to get more details on conflict for attribute {{ attribute }}.',
