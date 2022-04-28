@@ -3,12 +3,9 @@ import {
   futureStockTranslationChunksConfig,
   futureStockTranslations,
 } from '@spartacus/product/future-stock/assets';
-import {
-  FutureStockRootModule,
-} from '@spartacus/product/future-stock/root';
+import { FutureStockRootModule } from '@spartacus/product/future-stock/root';
 import { provideConfig } from '@spartacus/core';
-// TODO: fix this import
-import { PRODUCT_FUTURE_STOCK_FEATURE } from 'feature-libs/product/future-stock/root/feature-name';
+import { PRODUCT_FUTURE_STOCK_FEATURE } from '@spartacus/product/future-stock/root';
 
 @NgModule({
   imports: [FutureStockRootModule],
