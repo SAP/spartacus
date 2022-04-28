@@ -115,5 +115,10 @@ Do the following steps to keep track of spartacussampledata releases:
     cd scripts/install && ./run.sh install_npm
     ```
 
+    - [ ] Start and open the shell app locally, and do the following manual tests:
+      - [ ] Open the homepage. Make sure it loads correctly and there are no errors in the console
+      - [ ] Search for a product. Make sure search page works
+      - [ ] Register a new user, login and make sure you can checkout
+
 - [ ] Merge release branch (PR from release/*.*.*) to the maintenance branch
 - [ ] Announce the new release on tribe channel
