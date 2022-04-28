@@ -1,6 +1,8 @@
 import { AbstractType, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  ActiveCartFacade,
+  Cart,
   CartAddEntrySuccessEvent,
   CartPageEvent,
   CartRemoveEntrySuccessEvent,
@@ -19,7 +21,7 @@ import {
   PersonalizationContext,
   PersonalizationContextService,
 } from '@spartacus/tracking/personalization/core';
-import { ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 
@@ -30,7 +32,9 @@ let eventServiceEvents: Map<
   ReplaySubject<any>
 > = new Map();
 let personalizationContextService: Partial<PersonalizationContextService>;
-let getPersonalizationContext;
+let getPersonalizationContext: Observable<PersonalizationContext | undefined>;
+let activeCartFacade: Partial<ActiveCartFacade>;
+let activeCartBehavior: ReplaySubject<Cart>;
 
 function setVariables() {
   eventServiceEvents = new Map();
@@ -75,6 +79,10 @@ function setVariables() {
   personalizationContextService = {
     getPersonalizationContext: () => getPersonalizationContext,
   };
+  activeCartBehavior = new ReplaySubject<Cart>();
+  activeCartFacade = {
+    getActive: () => activeCartBehavior,
+  };
 }
 
 describe('profileTagPushEventsService', () => {
@@ -90,9 +98,15 @@ describe('profileTagPushEventsService', () => {
           provide: PersonalizationContextService,
           useValue: personalizationContextService,
         },
+        {
+          provide: ActiveCartFacade,
+          useValue: activeCartFacade
+        }
       ],
     });
     profileTagPushEventsService = TestBed.inject(ProfileTagPushEventsService);
+    activeCartBehavior.next({});
+    activeCartBehavior.next({});
   });
 
   it('should be created', () => {
@@ -158,6 +172,32 @@ describe('profileTagPushEventsService', () => {
       subscription.unsubscribe();
       expect(timesCalled).toEqual(1);
       expect(calledWith.name).toBe('ModifiedCart');
+    });
+
+    it(`Should transform Cart(Add/Remove/Update)EntrySuccessEvents to CartSnapshotEvents`, () => {
+      let timesCalled = 0;
+      let calledWith = [];
+      const subscription = profileTagPushEventsService
+        .getPushEvents()
+        .pipe(
+          tap((item) => {
+            timesCalled++;
+            calledWith.push(item);
+          })
+        )
+        .subscribe();
+      eventServiceEvents
+        .get(CartAddEntrySuccessEvent)
+        .next({ entry: { product: { categories: [{}] } } });
+      activeCartBehavior.next({entries: [], code: 'CustomCart'});
+      activeCartBehavior.next({entries: [{product: {code: 'xyz'}, quantity: 1}], code: 'CustomCart'});
+      subscription.unsubscribe();
+      expect(timesCalled).toEqual(3);
+      expect(calledWith[0].name).toBe('AddedToCart');
+      expect(calledWith[1].name).toBe('CartSnapshot');
+      expect(calledWith[1].data.cart.entries.length).toBe(0);
+      expect(calledWith[2].name).toBe('CartSnapshot');
+      expect(calledWith[2].data.cart.entries.length).toBe(1);
     });
   });
 
