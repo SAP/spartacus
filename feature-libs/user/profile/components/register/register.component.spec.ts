@@ -22,7 +22,7 @@ import {
 import {
   FormErrorsModule,
   NgSelectA11yModule,
-  TogglePasswordVisibilityModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Observable, of, Subject } from 'rxjs';
@@ -129,7 +129,7 @@ describe('RegisterComponent', () => {
           I18nTestingModule,
           FormErrorsModule,
           NgSelectModule,
-          TogglePasswordVisibilityModule,
+          PasswordVisibilityToggleModule,
           NgSelectA11yModule,
         ],
         declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],

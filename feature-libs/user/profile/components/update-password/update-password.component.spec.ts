@@ -10,7 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   FormErrorsModule,
-  TogglePasswordVisibilityModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
@@ -54,7 +54,7 @@ describe('UpdatePasswordComponent', () => {
           FormErrorsModule,
           RouterTestingModule,
           UrlTestingModule,
-          TogglePasswordVisibilityModule,
+          PasswordVisibilityToggleModule,
         ],
         declarations: [UpdatePasswordComponent, MockCxSpinnerComponent],
         providers: [

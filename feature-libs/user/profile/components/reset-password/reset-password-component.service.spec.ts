@@ -9,7 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  TogglePasswordVisibilityModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, of, throwError } from 'rxjs';
@@ -55,7 +55,7 @@ describe('ResetPasswordComponentService', () => {
         ReactiveFormsModule,
         I18nTestingModule,
         FormErrorsModule,
-        TogglePasswordVisibilityModule,
+        PasswordVisibilityToggleModule,
       ],
       providers: [
         ResetPasswordComponentService,

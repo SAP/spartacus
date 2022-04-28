@@ -7,16 +7,16 @@ import {
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { FormConfig } from '../../../config/form-config';
-import { TogglePasswordVisibilityComponent } from './toggle-password-visibility.component';
+import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
 
 /**
- * Directive to bind a TogglePasswordVisibilityComponent to a password input field. This
- * toggle while alternate the appearence of the input between dots and plain text.
+ * Directive to bind a PasswordVisibilityToggleDirective to a password input field. This
+ * toggle while alternate the appearance of the input between dots and plain text.
  */
 @Directive({
-  selector: '[cxPasswordVisibilitySwitcher][type="password"]',
+  selector: '[cxPasswordVisibilitySwitch][type="password"]',
 })
-export class TogglePasswordVisibilityDirective implements AfterViewInit {
+export class PasswordVisibilityToggleDirective implements AfterViewInit {
   protected inputWrapper: HTMLElement | null;
 
   constructor(
@@ -28,7 +28,7 @@ export class TogglePasswordVisibilityDirective implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    if (this.config.form?.togglePasswordVisibility) {
+    if (this.config.form?.passwordVisibilityToggle) {
       this.wrapInput();
       this.insertComponent();
       this.changeDetectorRef.detectChanges();
@@ -37,7 +37,7 @@ export class TogglePasswordVisibilityDirective implements AfterViewInit {
 
   protected insertComponent(): void {
     const component = this.viewContainerRef.createComponent(
-      TogglePasswordVisibilityComponent
+      PasswordVisibilityToggleComponent
     );
     component.instance.inputElement = this.elementRef.nativeElement;
     this.inputWrapper?.appendChild(component.location.nativeElement);

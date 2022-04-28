@@ -1,19 +1,19 @@
-import { TogglePasswordState } from './toggle-password-visibility.model';
+import { PasswordInputState } from './password-input-visibility.model';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ICON_TYPE } from '../../../../cms-components';
 
 @Component({
-  selector: 'cx-toggle-password-visibility',
-  templateUrl: './toggle-password-visibility.component.html',
+  selector: 'cx-password-visibility-toggle',
+  templateUrl: './password-visibility-toggle.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TogglePasswordVisibilityComponent {
-  protected showState: TogglePasswordState = {
+export class PasswordVisibilityToggleComponent {
+  protected showState: PasswordInputState = {
     icon: ICON_TYPE.EYE_SLASH,
     inputType: 'text',
     ariaLabel: 'passwordVisibility.hidePassword',
   };
-  protected hideState: TogglePasswordState = {
+  protected hideState: PasswordInputState = {
     icon: ICON_TYPE.EYE,
     inputType: 'password',
     ariaLabel: 'passwordVisibility.showPassword',

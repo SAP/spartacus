@@ -16,7 +16,7 @@ import {
 import {
   FormErrorsModule,
   SpinnerModule,
-  TogglePasswordVisibilityModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { UpdateEmailComponentService } from './update-email-component.service';
@@ -32,7 +32,7 @@ import { UpdateEmailComponent } from './update-email.component';
     RouterModule,
     I18nModule,
     FormErrorsModule,
-    TogglePasswordVisibilityModule,
+    PasswordVisibilityToggleModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

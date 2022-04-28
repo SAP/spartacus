@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   FormErrorsModule,
-  TogglePasswordVisibilityModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 
@@ -26,7 +26,7 @@ describe('CSAgentLoginFormComponent', () => {
           ReactiveFormsModule,
           I18nTestingModule,
           FormErrorsModule,
-          TogglePasswordVisibilityModule,
+          PasswordVisibilityToggleModule,
         ],
         declarations: [CSAgentLoginFormComponent],
       }).compileComponents();

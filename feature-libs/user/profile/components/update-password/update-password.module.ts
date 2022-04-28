@@ -14,7 +14,7 @@ import {
 import {
   FormErrorsModule,
   SpinnerModule,
-  TogglePasswordVisibilityModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UpdatePasswordComponentService } from './update-password-component.service';
@@ -30,7 +30,7 @@ import { UpdatePasswordComponent } from './update-password.component';
     FormErrorsModule,
     UrlModule,
     RouterModule,
-    TogglePasswordVisibilityModule,
+    PasswordVisibilityToggleModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

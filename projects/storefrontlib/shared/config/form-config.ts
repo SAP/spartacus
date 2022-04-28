@@ -7,7 +7,7 @@ import { Config } from '@spartacus/core';
 })
 export abstract class FormConfig {
   form?: {
-    togglePasswordVisibility: boolean;
+    passwordVisibilityToggle: boolean;
   };
 }
 

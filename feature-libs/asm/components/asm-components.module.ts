@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { I18nModule, provideConfig } from '@spartacus/core';
 import {
   FormErrorsModule,
-  TogglePasswordVisibilityModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
@@ -21,7 +21,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     ReactiveFormsModule,
     I18nModule,
     FormErrorsModule,
-    TogglePasswordVisibilityModule,
+    PasswordVisibilityToggleModule,
   ],
   declarations: [
     AsmMainUiComponent,

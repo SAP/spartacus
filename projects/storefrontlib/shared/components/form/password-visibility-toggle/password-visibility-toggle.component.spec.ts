@@ -9,11 +9,11 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
-import { TogglePasswordVisibilityModule } from './toggle-password-visibility.module';
+import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
 
 const mockFormConfig: FormConfig = {
   form: {
-    togglePasswordVisibility: true,
+    passwordVisibilityToggle: true,
   },
 };
 
@@ -24,12 +24,12 @@ const mockFormConfig: FormConfig = {
         <input
           type="password"
           formControlName="password"
-          cxPasswordVisibilitySwitcher
+          cxPasswordVisibilitySwitch
         />
         <input
           type="password"
           formControlName="passwordConfirm"
-          cxPasswordVisibilitySwitcher
+          cxPasswordVisibilitySwitch
         />
       </form>
     </div>
@@ -46,7 +46,7 @@ class MockWinRef {
   document = window.document;
 }
 
-describe('TogglePasswordVisibilityComponent', () => {
+describe('PasswordVisibilityToggleComponent', () => {
   let component: MockFormComponent;
   let fixture: ComponentFixture<MockFormComponent>;
   let el: DebugElement;
@@ -59,7 +59,7 @@ describe('TogglePasswordVisibilityComponent', () => {
           IconTestingModule,
           FormsModule,
           ReactiveFormsModule,
-          TogglePasswordVisibilityModule,
+          PasswordVisibilityToggleModule,
         ],
         declarations: [MockFormComponent],
         providers: [
@@ -82,7 +82,7 @@ describe('TogglePasswordVisibilityComponent', () => {
   it('should create password visibility component', () => {
     fixture.detectChanges();
     const pwVisibilityComponent = el.nativeElement.querySelector(
-      'cx-toggle-password-visibility'
+      'cx-password-visibility-toggle'
     );
     expect(component).toBeTruthy();
     expect(pwVisibilityComponent).toBeTruthy();

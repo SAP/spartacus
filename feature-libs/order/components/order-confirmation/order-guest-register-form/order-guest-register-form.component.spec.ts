@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  TogglePasswordVisibilityModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
@@ -40,7 +40,7 @@ describe('OrderGuestRegisterFormComponent', () => {
           I18nTestingModule,
           ReactiveFormsModule,
           FormErrorsModule,
-          TogglePasswordVisibilityModule,
+          PasswordVisibilityToggleModule,
         ],
         declarations: [OrderGuestRegisterFormComponent],
         providers: [

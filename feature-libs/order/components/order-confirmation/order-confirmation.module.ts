@@ -12,7 +12,7 @@ import {
   OutletModule,
   PromotionsModule,
   PwaModule,
-  TogglePasswordVisibilityModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
@@ -42,7 +42,7 @@ const orderConfirmationComponents = [
     FormErrorsModule,
     OrderOverviewModule,
     OutletModule,
-    TogglePasswordVisibilityModule,
+    PasswordVisibilityToggleModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
