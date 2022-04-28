@@ -10,7 +10,7 @@ import { FormConfig } from '../../../config/form-config';
 import { TogglePasswordVisibilityComponent } from './toggle-password-visibility.component';
 
 /**
- * Directive to bind a PasswordVisibilityComponent to a password input field. This
+ * Directive to bind a TogglePasswordVisibilityComponent to a password input field. This
  * toggle while alternate the appearence of the input between dots and plain text.
  */
 @Directive({
@@ -28,7 +28,7 @@ export class TogglePasswordVisibilityDirective implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    if (this.config.form?.passwordVisibility) {
+    if (this.config.form?.togglePasswordVisibility) {
       this.wrapInput();
       this.insertComponent();
       this.changeDetectorRef.detectChanges();
@@ -48,7 +48,7 @@ export class TogglePasswordVisibilityDirective implements AfterViewInit {
    */
   protected wrapInput(): void {
     const input = this.elementRef.nativeElement;
-    const parent = this.elementRef.nativeElement.parentNode;
+    const parent = input.parentNode;
 
     this.inputWrapper = this.winRef.document.createElement('div');
     this.inputWrapper.setAttribute('class', 'cx-password-input-wrapper');

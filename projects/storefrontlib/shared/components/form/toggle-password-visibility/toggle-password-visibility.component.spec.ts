@@ -13,7 +13,7 @@ import { TogglePasswordVisibilityModule } from './toggle-password-visibility.mod
 
 const mockFormConfig: FormConfig = {
   form: {
-    passwordVisibility: true,
+    togglePasswordVisibility: true,
   },
 };
 
@@ -79,10 +79,10 @@ describe('TogglePasswordVisibilityComponent', () => {
     el = fixture.debugElement;
   });
 
-  it('should  password visibility component', () => {
+  it('should create password visibility component', () => {
     fixture.detectChanges();
     const pwVisibilityComponent = el.nativeElement.querySelector(
-      'cx-password-visibility'
+      'cx-toggle-password-visibility'
     );
     expect(component).toBeTruthy();
     expect(pwVisibilityComponent).toBeTruthy();

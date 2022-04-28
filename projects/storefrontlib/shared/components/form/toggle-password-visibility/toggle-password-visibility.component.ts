@@ -1,3 +1,4 @@
+import { TogglePasswordState } from './toggle-password-visibility.model';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ICON_TYPE } from '../../../../cms-components';
 
@@ -7,12 +8,12 @@ import { ICON_TYPE } from '../../../../cms-components';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TogglePasswordVisibilityComponent {
-  protected showState = {
+  protected showState: TogglePasswordState = {
     icon: ICON_TYPE.EYE_SLASH,
     inputType: 'text',
     ariaLabel: 'passwordVisibility.hidePassword',
   };
-  protected hideState = {
+  protected hideState: TogglePasswordState = {
     icon: ICON_TYPE.EYE,
     inputType: 'password',
     ariaLabel: 'passwordVisibility.showPassword',
@@ -21,17 +22,12 @@ export class TogglePasswordVisibilityComponent {
   inputElement: HTMLInputElement;
   state = this.hideState;
 
-  constructor() {}
-
   /**
    * Toggle the visibility of the text of the input field.
    */
   toggle(): void {
-    if (this.state === this.hideState) {
-      this.state = this.showState;
-    } else {
-      this.state = this.hideState;
-    }
+    this.state =
+      this.state === this.hideState ? this.showState : this.hideState;
     this.inputElement.setAttribute('type', this.state.inputType);
   }
 }
