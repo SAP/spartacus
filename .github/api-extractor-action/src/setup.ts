@@ -46,6 +46,8 @@ export async function prepareRepositoryForApiExtractor(
       force: false,
     });
     await io.rmRF(BUILD_DIR);
+
+    core.info('successfully restored dist');
   } catch {
     core.warning(
       'dist folder not found as it failed to be restored from cache'
