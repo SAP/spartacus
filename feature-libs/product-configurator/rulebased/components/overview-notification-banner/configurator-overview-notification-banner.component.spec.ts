@@ -304,4 +304,15 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
       expect(skipConflicts).toBe(false)
     );
   });
+
+  it('should count zero warnings as in case overview is not available', () => {
+    configurationObs = of(productConfigurationWithConflicts);
+    initialize(routerData);
+    component.numberOfConflicts$.subscribe((numberOfConflicts) =>
+      expect(numberOfConflicts).toBe(0)
+    );
+    component.skipConflictsOnIssueNavigation$.subscribe((skipConflicts) =>
+      expect(skipConflicts).toBe(false)
+    );
+  });
 });
