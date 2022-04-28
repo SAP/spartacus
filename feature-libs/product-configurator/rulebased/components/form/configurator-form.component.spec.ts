@@ -339,7 +339,7 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(0);
     });
 
-    it('should go to first incomplete group in case the router requires this - has conflicts, but should be ignored', () => {
+    it('should go to first incomplete group in case the router requires this - has conflicts, but should be skipped', () => {
       spyOn(
         configuratorGroupsService,
         'navigateToConflictSolver'
@@ -352,7 +352,7 @@ describe('ConfigurationFormComponent', () => {
         ...mockRouterState,
         state: {
           ...mockRouterState.state,
-          queryParams: { resolveIssues: 'true', ignoreConflicts: 'true' },
+          queryParams: { resolveIssues: 'true', skipConflicts: 'true' },
         },
       });
       hasConfigurationConflictsObservable = of(true);
