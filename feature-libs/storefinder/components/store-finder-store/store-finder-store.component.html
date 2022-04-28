@@ -10,13 +10,11 @@
     <div class="cx-visually-hidden">
       {{ location?.displayName }}
     </div>
-    <div class="row cx-store-actions">
-      <div class="col-md-4 col-sm-6 col-lg-2">
-        <button class="btn btn-block btn-action" (click)="goBack()">
-          <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
-          {{ 'storeFinder.backToList' | cxTranslate }}
-        </button>
-      </div>
+    <div class="cx-store-actions">
+      <button class="btn btn-block btn-action" (click)="goBack()">
+        <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+        {{ 'storeFinder.backToList' | cxTranslate }}
+      </button>
     </div>
     <div class="row">
       <div class="col-12 p-0">

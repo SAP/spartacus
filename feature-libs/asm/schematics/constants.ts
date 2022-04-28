@@ -8,3 +8,4 @@ export const SPARTACUS_ASM_ROOT = `${SPARTACUS_ASM}/root`;
 export const SPARTACUS_ASM_ASSETS = `${SPARTACUS_ASM}/assets`;
 export const ASM_TRANSLATIONS = 'asmTranslations';
 export const ASM_TRANSLATION_CHUNKS_CONFIG = 'asmTranslationChunksConfig';
+export const SCSS_FILE_NAME = 'asm.scss';

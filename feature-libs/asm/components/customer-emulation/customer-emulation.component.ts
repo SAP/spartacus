@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OccAsmAdapter } from '@spartacus/asm/occ';
 import { User, UserService } from '@spartacus/core';
@@ -7,9 +7,7 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
-  styleUrls: ['./customer-emulation.component.scss'],
   providers: [OccAsmAdapter],
-  encapsulation: ViewEncapsulation.None,
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
