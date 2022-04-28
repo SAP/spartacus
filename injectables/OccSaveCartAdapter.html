@@ -340,22 +340,26 @@ export class OccSaveCartAdapter implements SaveCartAdapter {
     });
 
     return !this.occEndpointsService
-      .getUrl(&#x27;saveCart&#x27;, { userId, cartId })
+      .buildUrl(&#x27;saveCart&#x27;, { urlParams: { userId, cartId } })
       .includes(&#x27;saveCartName&#x27;)
       ? this.http
           .patch&lt;Occ.SaveCartResult&gt;(
-            this.occEndpointsService.getUrl(&#x27;saveCart&#x27;, { userId, cartId }),
+            this.occEndpointsService.buildUrl(&#x27;saveCart&#x27;, {
+              urlParams: { userId, cartId },
+            }),
             httpParams,
             { headers }
           )
           .pipe(this.converterService.pipeable(SAVE_CART_NORMALIZER))
       : this.http
           .patch&lt;Occ.SaveCartResult&gt;(
-            this.occEndpointsService.getUrl(&#x27;saveCart&#x27;, {
-              userId,
-              cartId,
-              saveCartName,
-              saveCartDescription,
+            this.occEndpointsService.buildUrl(&#x27;saveCart&#x27;, {
+              urlParams: {
+                userId,
+                cartId,
+                saveCartName,
+                saveCartDescription,
+              },
             }),
             cartId
           )

@@ -272,7 +272,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/cart/add-to-cart/add-to-cart.module.ts</code>
+            <code>projects/storefrontlib/cms-components/cart/add-to-cart/add-to-cart.module.ts</code>
         </p>
 
 
@@ -284,18 +284,6 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/AddToCartComponent.html">AddToCartComponent</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="../components/AddedToCartDialogComponent.html">AddedToCartDialogComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/AddToCartComponent.html">AddToCartComponent</a>
@@ -379,7 +367,7 @@ import {
   ModalModule,
   SpinnerModule,
 } from &#x27;../../../shared/index&#x27;;
-import { PromotionsModule } from &#x27;../../checkout/components/promotions/promotions.module&#x27;;
+import { PromotionsModule } from &#x27;../../misc/promotions/promotions.module&#x27;;
 import { CartSharedModule } from &#x27;./../cart-shared/cart-shared.module&#x27;;
 import { AddToCartComponent } from &#x27;./add-to-cart.component&#x27;;
 import { AddedToCartDialogComponent } from &#x27;./added-to-cart-dialog/added-to-cart-dialog.component&#x27;;
@@ -405,12 +393,14 @@ import { AddedToCartDialogComponent } from &#x27;./added-to-cart-dialog/added-to
       cmsComponents: {
         ProductAddToCartComponent: {
           component: AddToCartComponent,
+          data: {
+            inventoryDisplay: false,
+          },
         },
       },
     }),
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
-  entryComponents: [AddToCartComponent, AddedToCartDialogComponent],
   exports: [AddToCartComponent, AddedToCartDialogComponent],
 })
 export class AddToCartModule {}

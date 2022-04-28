@@ -106,12 +106,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(converter: <a href="../injectables/ConverterService.html" target="_self">ConverterService</a>)</code>
+<code>constructor(converter: <a href="../injectables/ConverterService.html" target="_self">ConverterService</a>, entryPromotionService?: <a href="../injectables/OrderEntryPromotionsService.html" target="_self">OrderEntryPromotionsService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/occ/adapters/cart/converters/occ-cart-normalizer.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/occ/adapters/cart/converters/occ-cart-normalizer.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -137,6 +137,18 @@
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>entryPromotionService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OrderEntryPromotionsService.html" target="_self" >OrderEntryPromotionsService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -174,8 +186,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/converters/occ-cart-normalizer.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/converters/occ-cart-normalizer.ts:18</a></div>
                 </td>
             </tr>
 
@@ -256,8 +268,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/converters/occ-cart-normalizer.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/converters/occ-cart-normalizer.ts:70</a></div>
                 </td>
             </tr>
 
@@ -326,8 +338,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/converters/occ-cart-normalizer.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/converters/occ-cart-normalizer.ts:44</a></div>
                 </td>
             </tr>
 
@@ -402,24 +414,35 @@ import {
   ConverterService,
 } from &#x27;../../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
+import { OrderEntryPromotionsService } from &#x27;./order-entry-promotions-service&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class OccCartNormalizer implements Converter&lt;Occ.Cart, Cart&gt; {
-  constructor(private converter: ConverterService) {}
+  constructor(
+    private converter: ConverterService,
+    private entryPromotionService?: OrderEntryPromotionsService
+  ) {}
 
   convert(source: Occ.Cart, target?: Cart): Cart {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; { ...(source as any) };
-    }
-
-    if (source &amp;&amp; source.entries) {
-      target.entries &#x3D; source.entries.map((entry) &#x3D;&gt; ({
-        ...entry,
-        product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
-      }));
+      target &#x3D; { ...(source as any) } as Cart;
     }
 
     this.removeDuplicatePromotions(source, target);
+
+    if (source.entries) {
+      target.entries &#x3D; source.entries.map((entry) &#x3D;&gt; ({
+        ...entry,
+        product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
+        promotions: this.entryPromotionService
+          ? this.entryPromotionService.getProductPromotion(
+              entry,
+              target?.appliedProductPromotions
+            )
+          : [],
+      }));
+    }
+
     return target;
   }
 

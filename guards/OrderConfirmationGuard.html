@@ -59,7 +59,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>projects/storefrontlib/src/cms-components/order-confirmation/guards/order-confirmation.guard.ts</code>
+                <code>feature-libs/checkout/components/order-confirmation/guards/order-confirmation.guard.ts</code>
             </p>
 
 
@@ -101,12 +101,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutService: <a href="../injectables/CheckoutService.html" target="_self">CheckoutService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, semanticPathService: <a href="../injectables/SemanticPathService.html" target="_self">SemanticPathService</a>)</code>
+<code>constructor(checkoutService: <a href="../injectables/CheckoutFacade.html" target="_self">CheckoutFacade</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, semanticPathService: <a href="../injectables/SemanticPathService.html" target="_self">SemanticPathService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/storefrontlib/src/cms-components/order-confirmation/guards/order-confirmation.guard.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">feature-libs/checkout/components/order-confirmation/guards/order-confirmation.guard.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -127,7 +127,7 @@
                                                         <td>checkoutService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutService.html" target="_self" >CheckoutService</a></code>
+                                                                        <code><a href="../injectables/CheckoutFacade.html" target="_self" >CheckoutFacade</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -193,8 +193,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/order-confirmation/guards/order-confirmation.guard.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">feature-libs/checkout/components/order-confirmation/guards/order-confirmation.guard.ts:18</a></div>
                 </td>
             </tr>
 
@@ -216,19 +216,18 @@
 
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { CanActivate, UrlTree, Router } from &#x27;@angular/router&#x27;;
-
+import { CanActivate, Router, UrlTree } from &#x27;@angular/router&#x27;;
+import { CheckoutFacade } from &#x27;@spartacus/checkout/root&#x27;;
+import { SemanticPathService } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
-
-import { CheckoutService, SemanticPathService } from &#x27;@spartacus/core&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class OrderConfirmationGuard implements CanActivate {
   constructor(
-    private checkoutService: CheckoutService,
+    private checkoutService: CheckoutFacade,
     private router: Router,
     private semanticPathService: SemanticPathService
   ) {}

@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/user/facade/user-cost-center.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/user/facade/user-cost-center.service.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -188,8 +188,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">projects/core/src/user/facade/user-cost-center.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/user/facade/user-cost-center.service.ts:44</a></div>
                 </td>
             </tr>
 
@@ -227,8 +227,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/user/facade/user-cost-center.service.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/core/src/user/facade/user-cost-center.service.ts:63</a></div>
                 </td>
             </tr>
 
@@ -304,8 +304,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/core/src/user/facade/user-cost-center.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/core/src/user/facade/user-cost-center.service.ts:37</a></div>
                 </td>
             </tr>
 
@@ -341,8 +341,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/user/facade/user-cost-center.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/core/src/user/facade/user-cost-center.service.ts:26</a></div>
                 </td>
             </tr>
 
@@ -373,7 +373,6 @@ import { filter, map, observeOn, tap } from &#x27;rxjs/operators&#x27;;
 import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
 import { Address } from &#x27;../../model/address.model&#x27;;
 import { CostCenter } from &#x27;../../model/org-unit.model&#x27;;
-import { OCC_USER_ID_ANONYMOUS } from &#x27;../../occ/utils/occ-constants&#x27;;
 import { StateWithProcess } from &#x27;../../process/store/process-state&#x27;;
 import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
 import { UserActions } from &#x27;../store/actions/index&#x27;;
@@ -393,11 +392,14 @@ export class UserCostCenterService {
    * Load all visible active cost centers for the currently login user
    */
   loadActiveCostCenters(): void {
-    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
-      if (userId &amp;&amp; userId !&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) &#x3D;&gt; {
         this.store.dispatch(new UserActions.LoadActiveCostCenters(userId));
+      },
+      () &#x3D;&gt; {
+        // TODO: for future releases, refactor this part to thrown errors
       }
-    });
+    );
   }
 
   private getCostCentersState(): Observable&lt;LoaderState&lt;CostCenter[]&gt;&gt; {

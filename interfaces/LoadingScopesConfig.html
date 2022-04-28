@@ -78,13 +78,13 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <code>[scope: string]:        <code><a href="../interfaces/LoadingScopeConfig.html" target="_self" >LoadingScopeConfig | undefined</a></code>
+                        <code>[scope: string]:        <code><a href="../injectables/Config.html" target="_self" >LoadingScopeConfig | undefined</a></code>
 </code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/occ/config/loading-scopes-config.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/occ/config/loading-scopes-config.ts:19</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -95,7 +95,10 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export interface LoadingScopeConfig {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Type } from &#x27;@angular/core&#x27;;
+import { CxEvent } from &#x27;../../event/cx-event&#x27;;
+
+export interface LoadingScopeConfig {
   /**
    * Specify scopes that should be included with this scope
    */
@@ -104,6 +107,10 @@
    * Max age for the scope in seconds
    */
   maxAge?: number;
+  /**
+   * Events for which to reload the product.
+   */
+  reloadOn?: Type&lt;CxEvent&gt;[];
 }
 
 export interface LoadingScopesConfig {

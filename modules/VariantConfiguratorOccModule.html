@@ -142,6 +142,7 @@ import { OccConfiguratorVariantAddToCartSerializer } from &#x27;./converters/occ
 import { OccConfiguratorVariantNormalizer } from &#x27;./converters/occ-configurator-variant-normalizer&#x27;;
 import { OccConfiguratorVariantOverviewNormalizer } from &#x27;./converters/occ-configurator-variant-overview-normalizer&#x27;;
 import { OccConfiguratorVariantPriceSummaryNormalizer } from &#x27;./converters/occ-configurator-variant-price-summary-normalizer&#x27;;
+import { OccConfiguratorVariantPriceNormalizer } from &#x27;./converters/occ-configurator-variant-price-normalizer&#x27;;
 import { OccConfiguratorVariantSerializer } from &#x27;./converters/occ-configurator-variant-serializer&#x27;;
 import { OccConfiguratorVariantUpdateCartEntrySerializer } from &#x27;./converters/occ-configurator-variant-update-cart-entry-serializer&#x27;;
 import { defaultOccVariantConfiguratorConfigFactory } from &#x27;./default-occ-configurator-variant-config&#x27;;
@@ -150,6 +151,7 @@ import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
@@ -179,6 +181,11 @@ import {
     {
       provide: VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
       useExisting: OccConfiguratorVariantPriceSummaryNormalizer,
+      multi: true,
+    },
+    {
+      provide: VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
+      useExisting: OccConfiguratorVariantPriceNormalizer,
       multi: true,
     },
     {

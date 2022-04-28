@@ -187,6 +187,10 @@ export abstract class TmsConfig {
    */
   tagManager?: TmsCollectors;
 }
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends TmsConfig {}
+}
 </code></pre>
     </div>
 

@@ -96,6 +96,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Abstract</span>
+                                <a href="#readConfigurationForOrderEntry" >readConfigurationForOrderEntry</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
                                 <a href="#updateConfigurationForCartEntry" >updateConfigurationForCartEntry</a>
                             </li>
                         </ul>
@@ -132,7 +136,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>addToCart(parameters: <a href="../s/Config.html" target="_self">ConfiguratorTextfield.AddToCartParameters</a>)</code>
+                    <code>addToCart(parameters: <a href="../injectables/Config.html" target="_self">ConfiguratorTextfield.AddToCartParameters</a>)</code>
                 </td>
             </tr>
 
@@ -166,7 +170,7 @@ and other attributes part of parameters</p>
                                 <tr>
                                     <td>parameters</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >ConfiguratorTextfield.AddToCartParameters</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >ConfiguratorTextfield.AddToCartParameters</a></code>
                                     </td>
 
                                     <td>
@@ -211,7 +215,7 @@ and other attributes part of parameters</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createConfiguration(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, owner: <a href="../interfaces/Owner.html" target="_self">CommonConfigurator.Owner</a>)</code>
+                    <code>createConfiguration(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, owner: <a href="../injectables/Config.html" target="_self">CommonConfigurator.Owner</a>)</code>
                 </td>
             </tr>
 
@@ -261,7 +265,7 @@ and owner</p>
                                 <tr>
                                     <td>owner</td>
                                     <td>
-                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
                                     </td>
 
                                     <td>
@@ -280,7 +284,7 @@ and owner</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Observable&lt;ConfiguratorTextfield.Configuration&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Observable&lt;ConfiguratorTextfield.Configuration&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -306,7 +310,7 @@ and owner</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>readConfigurationForCartEntry(parameters: <a href="../classes/ReadConfiguration.html" target="_self">CommonConfigurator.ReadConfigurationFromCartEntryParameters</a>)</code>
+                    <code>readConfigurationForCartEntry(parameters: <a href="../injectables/Config.html" target="_self">CommonConfigurator.ReadConfigurationFromCartEntryParameters</a>)</code>
                 </td>
             </tr>
 
@@ -339,7 +343,7 @@ and owner</p>
                                 <tr>
                                     <td>parameters</td>
                                     <td>
-                                                <code><a href="../classes/ReadConfiguration.html" target="_self" >CommonConfigurator.ReadConfigurationFromCartEntryParameters</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.ReadConfigurationFromCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -358,7 +362,85 @@ and owner</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Observable&lt;ConfiguratorTextfield.Configuration&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Observable&lt;ConfiguratorTextfield.Configuration&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>Observable of configurations</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="readConfigurationForOrderEntry"></a>
+                    <span class="name">
+                        <span class="modifier">Abstract</span>
+                        <span ><b>readConfigurationForOrderEntry</b></span>
+                        <a href="#readConfigurationForOrderEntry"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>readConfigurationForOrderEntry(parameters: <a href="../injectables/Config.html" target="_self">CommonConfigurator.ReadConfigurationFromOrderEntryParameters</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/core/connectors/configurator-textfield.adapter.ts:47</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Abstract method to read a configuration for an order entry</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>parameters</td>
+                                    <td>
+                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.ReadConfigurationFromOrderEntryParameters</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>read from order entry parameters object</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Observable&lt;ConfiguratorTextfield.Configuration&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -384,15 +466,15 @@ and owner</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateConfigurationForCartEntry(parameters: <a href="../classes/UpdateCartEntry.html" target="_self">ConfiguratorTextfield.UpdateCartEntryParameters</a>)</code>
+                    <code>updateConfigurationForCartEntry(parameters: <a href="../injectables/Config.html" target="_self">ConfiguratorTextfield.UpdateCartEntryParameters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/core/connectors/configurator-textfield.adapter.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/core/connectors/configurator-textfield.adapter.ts:57</a></div>
                 </td>
             </tr>
 
@@ -417,7 +499,7 @@ and owner</p>
                                 <tr>
                                     <td>parameters</td>
                                     <td>
-                                                <code><a href="../classes/UpdateCartEntry.html" target="_self" >ConfiguratorTextfield.UpdateCartEntryParameters</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >ConfiguratorTextfield.UpdateCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -495,6 +577,16 @@ export abstract class ConfiguratorTextfieldAdapter {
    */
   abstract readConfigurationForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
+  ): Observable&lt;ConfiguratorTextfield.Configuration&gt;;
+
+  /**
+   * Abstract method to read a configuration for an order entry
+   *
+   * @param {CommonConfigurator.ReadConfigurationFromOrderEntryParameters} parameters read from order entry parameters object
+   * @returns {Observable&lt;ConfiguratorTextfield.Configuration&gt;} Observable of configurations
+   */
+  abstract readConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable&lt;ConfiguratorTextfield.Configuration&gt;;
 
   /**

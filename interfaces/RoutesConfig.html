@@ -78,7 +78,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <code>[routeName: string]:        <code><a href="../interfaces/RouteConfig.html" target="_self" >RouteConfig</a></code>
+                        <code>[routeName: string]:        <code><a href="../injectables/Config.html" target="_self" >RouteConfig</a></code>
 </code>
                     </td>
                 </tr>
@@ -136,6 +136,15 @@ export interface RouteConfig {
    * Other values (true, undefined) are ignored.
    */
   protected?: boolean;
+
+  /**
+   * When true, the page is considered as part of the user journey related to authorization (for example:
+   * login, register, forgot password, logout, etc.)
+   *
+   * When user is redirected back after successful login, he won&#x27;t land on any page marked as the auth flow, but on other
+   * previously accessed page.
+   */
+  authFlow?: boolean;
 }
 
 export interface ParamsMapping {

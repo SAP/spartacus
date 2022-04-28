@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/launch-dialog/launch-dialog.module.ts</code>
+            <code>projects/storefrontlib/layout/launch-dialog/launch-dialog.module.ts</code>
         </p>
 
 
@@ -94,8 +94,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/storefrontlib/src/layout/launch-dialog/launch-dialog.module.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/storefrontlib/layout/launch-dialog/launch-dialog.module.ts:37</a></div>
                 </td>
             </tr>
 
@@ -125,6 +125,7 @@ import {
   OutletRenderStrategy,
   RoutingRenderStrategy,
 } from &#x27;./services/index&#x27;;
+import { InlineRootRenderStrategy } from &#x27;./services/inline-root-render.strategy&#x27;;
 
 @NgModule({
   providers: [
@@ -141,6 +142,11 @@ import {
     {
       provide: LaunchRenderStrategy,
       useExisting: RoutingRenderStrategy,
+      multi: true,
+    },
+    {
+      provide: LaunchRenderStrategy,
+      useExisting: InlineRootRenderStrategy,
       multi: true,
     },
   ],

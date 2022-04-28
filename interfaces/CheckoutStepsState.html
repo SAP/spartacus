@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/checkout/store/checkout-state.ts</code>
+            <code>feature-libs/checkout/core/store/checkout-state.ts</code>
         </p>
 
 
@@ -293,14 +293,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Address, AddressValidation } from &#x27;../../model/address.model&#x27;;
-import { CardType, PaymentDetails, PaymentType } from &#x27;../../model/cart.model&#x27;;
-import { DeliveryMode, Order } from &#x27;../../model/order.model&#x27;;
-import {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  Address,
+  CardType,
+  DeliveryMode,
+  Order,
   ORDER_TYPE,
+  PaymentDetails,
+  PaymentType,
   ReplenishmentOrder,
-} from &#x27;../../model/replenishment-order.model&#x27;;
-import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
+  StateUtils,
+} from &#x27;@spartacus/core&#x27;;
 
 export const CHECKOUT_FEATURE &#x3D; &#x27;checkout&#x27;;
 export const CHECKOUT_DETAILS &#x3D; &#x27;[Checkout] Checkout Details&#x27;;
@@ -318,18 +321,14 @@ export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
 }
 
-export interface AddressVerificationState {
-  results: AddressValidation | string;
-}
-
 export interface CardTypesState {
   entities: { [code: string]: CardType };
 }
 
 export interface CheckoutStepsState {
   poNumber: {
-    po: string;
-    costCenter: string;
+    po?: string;
+    costCenter?: string;
   };
   address: Address;
   deliveryMode: {
@@ -342,22 +341,16 @@ export interface CheckoutStepsState {
 
 export interface PaymentTypesState {
   entities: { [code: string]: PaymentType };
-  selected: string;
+  selected?: string;
 }
 
 export interface OrderTypesState {
   selected: ORDER_TYPE;
 }
 
-export interface PaymentTypesState {
-  entities: { [code: string]: PaymentType };
-  selected: string;
-}
-
 export interface CheckoutState {
-  steps: LoaderState&lt;CheckoutStepsState&gt;;
+  steps: StateUtils.LoaderState&lt;CheckoutStepsState&gt;;
   cardTypes: CardTypesState;
-  addressVerification: AddressVerificationState;
   paymentTypes: PaymentTypesState;
   orderType: OrderTypesState;
 }

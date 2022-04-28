@@ -166,7 +166,7 @@ to the search page route.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -283,7 +283,7 @@ to the search page route.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:82</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:83</a></code>
 </div>
                 </td>
             </tr>
@@ -351,8 +351,8 @@ to the search page route.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:50</a></div>
                 </td>
             </tr>
 
@@ -388,8 +388,8 @@ to the search page route.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:72</a></div>
                 </td>
             </tr>
 
@@ -589,7 +589,7 @@ to the search page route.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -696,7 +696,7 @@ to the search page route.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:86</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/core/src/product/services/coupon-search-page-meta.resolver.ts:87</a></div>
                                 </td>
                             </tr>
 
@@ -735,7 +735,8 @@ import { SemanticPathService } from &#x27;../../routing/configurable-routes/url-
 })
 export class CouponSearchPageResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageBreadcrumbResolver {
+  implements PageTitleResolver, PageBreadcrumbResolver
+{
   protected total$: Observable&lt;number&gt; &#x3D; this.productSearchService
     .getResults()
     .pipe(

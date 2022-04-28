@@ -356,8 +356,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-consent.adapter.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-consent.adapter.ts:55</a></div>
                 </td>
             </tr>
 
@@ -442,15 +442,15 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
   ) {}
 
   loadConsents(userId: string): Observable&lt;ConsentTemplate[]&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;consentTemplates&#x27;, { userId });
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;consentTemplates&#x27;, {
+      urlParams: { userId },
+    });
     const headers &#x3D; new HttpHeaders({ &#x27;Cache-Control&#x27;: &#x27;no-cache&#x27; });
-    return this.http
-      .get&lt;Occ.ConsentTemplateList&gt;(url, { headers })
-      .pipe(
-        catchError((error: any) &#x3D;&gt; throwError(error)),
-        map((consentList) &#x3D;&gt; consentList.consentTemplates),
-        this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
-      );
+    return this.http.get&lt;Occ.ConsentTemplateList&gt;(url, { headers }).pipe(
+      catchError((error: any) &#x3D;&gt; throwError(error)),
+      map((consentList) &#x3D;&gt; consentList.consentTemplates),
+      this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
+    );
   }
 
   giveConsent(
@@ -458,7 +458,9 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     consentTemplateId: string,
     consentTemplateVersion: number
   ): Observable&lt;ConsentTemplate&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;consents&#x27;, { userId });
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;consents&#x27;, {
+      urlParams: { userId },
+    });
     const httpParams &#x3D; new HttpParams()
       .set(&#x27;consentTemplateId&#x27;, consentTemplateId)
       .set(&#x27;consentTemplateVersion&#x27;, consentTemplateVersion.toString());
@@ -478,9 +480,8 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     const headers &#x3D; new HttpHeaders({
       &#x27;Cache-Control&#x27;: &#x27;no-cache&#x27;,
     });
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;consentDetail&#x27;, {
-      userId,
-      consentId: consentCode,
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;consentDetail&#x27;, {
+      urlParams: { userId, consentId: consentCode },
     });
 
     return this.http.delete(url, { headers });

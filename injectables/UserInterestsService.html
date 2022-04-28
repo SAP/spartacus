@@ -989,7 +989,7 @@ export class UserInterestsService {
     productCode?: string,
     notificationType?: NotificationType
   ): void {
-    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.takeUserId().subscribe((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.LoadProductInterests({
           userId,
@@ -1048,7 +1048,7 @@ export class UserInterestsService {
     item: ProductInterestEntryRelation,
     singleDelete?: boolean
   ): void {
-    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.takeUserId().subscribe((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.RemoveProductInterest({
           userId,
@@ -1087,7 +1087,7 @@ export class UserInterestsService {
     productCode: string,
     notificationType: NotificationType
   ): void {
-    this.userIdService.invokeWithUserId((userId) &#x3D;&gt; {
+    this.userIdService.takeUserId().subscribe((userId) &#x3D;&gt; {
       this.store.dispatch(
         new UserActions.AddProductInterest({
           userId,

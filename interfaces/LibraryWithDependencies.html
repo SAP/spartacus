@@ -267,7 +267,13 @@ import glob from &#x27;glob&#x27;;
 import postcss from &#x27;postcss-scss&#x27;;
 import semver from &#x27;semver&#x27;;
 import ts from &#x27;typescript&#x27;;
-import { PACKAGE_JSON, SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from &#x27;./const&#x27;;
+import {
+  PACKAGE_JSON,
+  SAPUI5_TYPES,
+  SAP_SCOPE,
+  SPARTACUS_SCHEMATICS,
+  SPARTACUS_SCOPE,
+} from &#x27;./const&#x27;;
 import {
   error,
   Library,
@@ -277,7 +283,6 @@ import {
   reportProgress,
   Repository,
   success,
-  warning,
 } from &#x27;./index&#x27;;
 
 // ------------ Utilities ------------
@@ -382,78 +387,76 @@ export function manageDependencies(
   options: ProgramOptions
 ) {
   const libraries &#x3D; Object.values(repository)
-    .map(
-      (library: Library): LibraryWithDependencies &#x3D;&gt; {
-        const tsImports: LibraryWithDependencies[&#x27;tsImports&#x27;] &#x3D; {};
-        const scssImports: LibraryWithDependencies[&#x27;scssImports&#x27;] &#x3D; {};
+    .map((library: Library): LibraryWithDependencies &#x3D;&gt; {
+      const tsImports: LibraryWithDependencies[&#x27;tsImports&#x27;] &#x3D; {};
+      const scssImports: LibraryWithDependencies[&#x27;scssImports&#x27;] &#x3D; {};
 
-        // Gather data about ts imports
-        const tsFilesPaths &#x3D; glob.sync(&#x60;${library.directory}/**/*.ts&#x60;, {
-          // Ignore assets json translation scripts
-          // TODO: Remove when translation script will be moved to lib builder
-          ignore: [&#x60;projects/assets/generate-translations-*.ts&#x60;],
+      // Gather data about ts imports
+      const tsFilesPaths &#x3D; glob.sync(&#x60;${library.directory}/**/*.ts&#x60;, {
+        // Ignore assets json translation scripts
+        // TODO: Remove when translation script will be moved to lib builder
+        ignore: [&#x60;projects/assets/generate-translations-*.ts&#x60;],
+      });
+
+      tsFilesPaths.forEach((fileName) &#x3D;&gt; {
+        const sourceFile &#x3D; ts.createSourceFile(
+          fileName,
+          readFileSync(fileName).toString(),
+          ts.ScriptTarget.ES2015,
+          true
+        );
+
+        const fileImports &#x3D; getAllImports(sourceFile);
+        fileImports.forEach((val) &#x3D;&gt; {
+          if (tsImports[val]) {
+            tsImports[val].files.add(fileName);
+          } else {
+            tsImports[val] &#x3D; {
+              importPath: val,
+              files: new Set&lt;string&gt;([fileName]),
+              usageIn: {
+                spec: false,
+                lib: false,
+                schematics: false,
+                schematicsSpec: false,
+              },
+            };
+          }
         });
+      });
 
-        tsFilesPaths.forEach((fileName) &#x3D;&gt; {
-          const sourceFile &#x3D; ts.createSourceFile(
-            fileName,
-            readFileSync(fileName).toString(),
-            ts.ScriptTarget.ES2015,
-            true
-          );
+      // Gather data about scss imports
+      const scssFilesPaths &#x3D; glob.sync(&#x60;${library.directory}/**/*.scss&#x60;);
 
-          const fileImports &#x3D; getAllImports(sourceFile);
-          fileImports.forEach((val) &#x3D;&gt; {
-            if (tsImports[val]) {
-              tsImports[val].files.add(fileName);
-            } else {
-              tsImports[val] &#x3D; {
-                importPath: val,
-                files: new Set&lt;string&gt;([fileName]),
-                usageIn: {
-                  spec: false,
-                  lib: false,
-                  schematics: false,
-                  schematicsSpec: false,
-                },
-              };
-            }
-          });
+      scssFilesPaths.forEach((fileName) &#x3D;&gt; {
+        const ast &#x3D; postcss.parse(readFileSync(fileName).toString());
+        const imports &#x3D; new Set&lt;string&gt;();
+        ast.walk((node) &#x3D;&gt; {
+          if (node.type &#x3D;&#x3D;&#x3D; &#x27;atrule&#x27; &amp;&amp; node.name &#x3D;&#x3D;&#x3D; &#x27;import&#x27;) {
+            const path &#x3D; node.params.replace(/[&#x27;&quot;]+/g, &#x27;&#x27;);
+            imports.add(path);
+          }
         });
-
-        // Gather data about scss imports
-        const scssFilesPaths &#x3D; glob.sync(&#x60;${library.directory}/**/*.scss&#x60;);
-
-        scssFilesPaths.forEach((fileName) &#x3D;&gt; {
-          const ast &#x3D; postcss.parse(readFileSync(fileName).toString());
-          const imports &#x3D; new Set&lt;string&gt;();
-          ast.walk((node) &#x3D;&gt; {
-            if (node.type &#x3D;&#x3D;&#x3D; &#x27;atrule&#x27; &amp;&amp; node.name &#x3D;&#x3D;&#x3D; &#x27;import&#x27;) {
-              const path &#x3D; node.params.replace(/[&#x27;&quot;]+/g, &#x27;&#x27;);
-              imports.add(path);
-            }
-          });
-          imports.forEach((val) &#x3D;&gt; {
-            if (scssImports[val]) {
-              scssImports[val].files.add(fileName);
-            } else {
-              scssImports[val] &#x3D; {
-                importPath: val,
-                files: new Set&lt;string&gt;([fileName]),
-              };
-            }
-          });
+        imports.forEach((val) &#x3D;&gt; {
+          if (scssImports[val]) {
+            scssImports[val].files.add(fileName);
+          } else {
+            scssImports[val] &#x3D; {
+              importPath: val,
+              files: new Set&lt;string&gt;([fileName]),
+            };
+          }
         });
+      });
 
-        return {
-          ...library,
-          scssImports,
-          tsImports,
-          externalDependencies: {},
-          externalDependenciesForPackageJson: {},
-        };
-      }
-    )
+      return {
+        ...library,
+        scssImports,
+        tsImports,
+        externalDependencies: {},
+        externalDependenciesForPackageJson: {},
+      };
+    })
     .reduce((acc: Record&lt;string, LibraryWithDependencies&gt;, curr) &#x3D;&gt; {
       acc[curr.name] &#x3D; curr;
       return acc;
@@ -857,6 +860,7 @@ function checkIfWeHaveAllDependenciesInPackageJson(
       Object.values(lib.externalDependencies).forEach((dep) &#x3D;&gt; {
         if (
           !dep.dependency.startsWith(&#x60;${SPARTACUS_SCOPE}/&#x60;) &amp;&amp;
+          dep.dependency !&#x3D;&#x3D; SAP_SCOPE &amp;&amp;
           !Object.keys(allDeps).includes(dep.dependency)
         ) {
           errors.push(
@@ -948,6 +952,8 @@ function addMissingDependenciesToPackageJson(
             !dep.dependency.startsWith(&#x60;${SPARTACUS_SCOPE}/&#x60;)
           ) {
             // Nothing we can do here. First the dependencies must be added to root package.json (previous check).
+          } else if (dep.dependency &#x3D;&#x3D;&#x3D; SAP_SCOPE) {
+            // Work around mismatch between package name (@sapui5/ts-types-esm) and module names (sap/...) for UI5 type definitions
           } else {
             if (typeof packageJson.peerDependencies &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
               packageJson.peerDependencies &#x3D; {};
@@ -962,11 +968,15 @@ function addMissingDependenciesToPackageJson(
             }
           }
         } else {
-          errors.push(
-            &#x60;Missing \&#x60;${chalk.bold(
-              dep.dependency
-            )}\&#x60; dependency that is directly referenced in library.&#x60;
-          );
+          if (dep.dependency &#x3D;&#x3D;&#x3D; SAP_SCOPE) {
+            // Work around mismatch between package name (@sapui5/ts-types-esm) and module names (sap/...) for UI5 type definitions
+          } else {
+            errors.push(
+              &#x60;Missing \&#x60;${chalk.bold(
+                dep.dependency
+              )}\&#x60; dependency that is directly referenced in library.&#x60;
+            );
+          }
         }
       }
     });
@@ -1026,6 +1036,7 @@ function removeNotUsedDependenciesFromPackageJson(
     Object.keys(deps).forEach((dep) &#x3D;&gt; {
       if (
         typeof lib.externalDependenciesForPackageJson[dep] &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27; &amp;&amp;
+        dep !&#x3D;&#x3D; SAPUI5_TYPES &amp;&amp;
         dep !&#x3D;&#x3D; &#x60;tslib&#x60; &amp;&amp;
         ((lib.name &#x3D;&#x3D;&#x3D; SPARTACUS_SCHEMATICS &amp;&amp;
           !externalSchematics.includes(dep)) ||
@@ -1249,12 +1260,11 @@ function updateDependenciesVersions(
   rootPackageJson: PackageJson,
   options: ProgramOptions
 ): void {
-  const rootDeps:
-    | PackageJson[&#x27;dependencies&#x27;]
-    | PackageJson[&#x27;devDependencies&#x27;] &#x3D; {
-    ...rootPackageJson.dependencies,
-    ...rootPackageJson.devDependencies,
-  };
+  const rootDeps: PackageJson[&#x27;dependencies&#x27;] | PackageJson[&#x27;devDependencies&#x27;] &#x3D;
+    {
+      ...rootPackageJson.dependencies,
+      ...rootPackageJson.devDependencies,
+    };
   if (options.fix) {
     reportProgress(
       &#x60;Updating packages versions between libraries and root ${PACKAGE_JSON}&#x60;
@@ -1386,7 +1396,7 @@ function updateDependenciesVersions(
     }
     if (breakingErrors.length &gt; 0) {
       errorsFound &#x3D; true;
-      warning(pathToPackageJson, breakingErrors, [
+      error(pathToPackageJson, breakingErrors, [
         &#x60;All external dependencies should have the same version as in the root \&#x60;${chalk.bold(
           PACKAGE_JSON
         )}\&#x60;.&#x60;,

@@ -14,13 +14,13 @@
 <title>cluster_ConfiguratorOverviewNotificationBannerModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 664,-230.8 664,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorOverviewNotificationBannerModule_exports</title>
-<polygon fill="none" stroke="black" points="56,-170.8 56,-222.8 392,-222.8 392,-170.8 56,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorOverviewNotificationBannerModule_declarations</title>
 <polygon fill="none" stroke="black" points="324,-40.8 324,-92.8 656,-92.8 656,-40.8 324,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorOverviewNotificationBannerModule_exports</title>
+<polygon fill="none" stroke="black" points="56,-170.8 56,-222.8 392,-222.8 392,-170.8 56,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorOverviewNotificationBannerModule_imports</title>

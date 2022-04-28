@@ -81,6 +81,9 @@
                                 <a href="#assembleValuesForMultiSelectAttributes" >assembleValuesForMultiSelectAttributes</a>
                             </li>
                             <li>
+                                <a href="#createGroupId" >createGroupId</a>
+                            </li>
+                            <li>
                                 <a href="#focusFirstAttribute" >focusFirstAttribute</a>
                             </li>
                             <li>
@@ -96,6 +99,9 @@
                             </li>
                             <li>
                                 <a href="#scrollToConfigurationElement" >scrollToConfigurationElement</a>
+                            </li>
+                            <li>
+                                <a href="#setFocus" >setFocus</a>
                             </li>
                         </ul>
                     </td>
@@ -115,7 +121,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(configuratorGroupsService: <a href="../injectables/ConfiguratorGroupsService.html" target="_self">ConfiguratorGroupsService</a>, platformId: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, keyboardFocusService?: <a href="../injectables/KeyboardFocusService.html" target="_self">KeyboardFocusService</a>)</code>
+<code>constructor(configuratorGroupsService: <a href="../injectables/ConfiguratorGroupsService.html" target="_self">ConfiguratorGroupsService</a>, windowRef: <a href="../injectables/WindowRef.html" target="_self">WindowRef</a>, keyboardFocusService: <a href="../injectables/KeyboardFocusService.html" target="_self">KeyboardFocusService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -150,10 +156,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>platformId</td>
+                                                        <td>windowRef</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                                        <code><a href="../injectables/WindowRef.html" target="_self" >WindowRef</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -169,7 +175,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -200,15 +206,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>assembleValuesForMultiSelectAttributes(controlArray: FormControl[], attribute: <a href="../s/Config.html" target="_self">Configurator.Attribute</a>)</code>
+<code>assembleValuesForMultiSelectAttributes(controlArray: FormControl[], attribute: <a href="../injectables/Config.html" target="_self">Configurator.Attribute</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:49</a></div>
                 </td>
             </tr>
 
@@ -251,7 +257,7 @@
                                 <tr>
                                     <td>attribute</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Attribute</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Attribute</a></code>
                                     </td>
 
                                     <td>
@@ -272,12 +278,92 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Value[]</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Value[]</a></code>
 
                     </div>
                     <div class="io-description">
                         <ul>
 <li>list of configurator values</li>
+</ul>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createGroupId"></a>
+                    <span class="name">
+                        <span ><b>createGroupId</b></span>
+                        <a href="#createGroupId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createGroupId(groupId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:151</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Generates a group ID.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>groupId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>group ID</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >string | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <ul>
+<li>generated group ID</li>
 </ul>
 
                     </div>
@@ -305,8 +391,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="116"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:116</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:128</a></div>
                 </td>
             </tr>
 
@@ -337,15 +423,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isCartEntryOrGroupVisited(owner: <a href="../interfaces/Owner.html" target="_self">CommonConfigurator.Owner</a>, groupId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>isCartEntryOrGroupVisited(owner: <a href="../injectables/Config.html" target="_self">CommonConfigurator.Owner</a>, groupId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -372,7 +458,7 @@ This method emits only once and then stops further emissions.</p>
                                 <tr>
                                     <td>owner</td>
                                     <td>
-                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
                                     </td>
 
                                     <td>
@@ -444,8 +530,8 @@ This method emits only once and then stops further emissions.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -524,8 +610,8 @@ This method emits only once and then stops further emissions.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:102</a></div>
                 </td>
             </tr>
 
@@ -601,8 +687,8 @@ This method emits only once and then stops further emissions.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:115</a></div>
                 </td>
             </tr>
 
@@ -658,15 +744,109 @@ This method emits only once and then stops further emissions.</p>
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setFocus"></a>
+                    <span class="name">
+                        <span ><b>setFocus</b></span>
+                        <a href="#setFocus"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setFocus(key?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, group?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts:164</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Persist the keyboard focus state for the given key.
+The focus is stored globally or for the given group.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>key</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>group</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>? - Group</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { isPlatformBrowser } from &#x27;@angular/common&#x27;;
-import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
 import { FormControl } from &#x27;@angular/forms&#x27;;
+import { WindowRef } from &#x27;@spartacus/core&#x27;;
 import { CommonConfigurator } from &#x27;@spartacus/product-configurator/common&#x27;;
 import { KeyboardFocusService } from &#x27;@spartacus/storefront&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
@@ -678,11 +858,10 @@ import { Configurator } from &#x27;../../core/model/configurator.model&#x27;;
   providedIn: &#x27;root&#x27;,
 })
 export class ConfiguratorStorefrontUtilsService {
-  // TODO(#11681): make keyboardFocusService a required dependency and remove deprecated constructor
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    @Inject(PLATFORM_ID) protected platformId: any,
-    protected keyboardFocusService?: KeyboardFocusService
+    protected windowRef: WindowRef,
+    protected keyboardFocusService: KeyboardFocusService
   ) {}
 
   /**
@@ -720,12 +899,23 @@ export class ConfiguratorStorefrontUtilsService {
     const localAssembledValues: Configurator.Value[] &#x3D; [];
 
     for (let i &#x3D; 0; i &lt; controlArray.length; i++) {
-      const localAttributeValue: Configurator.Value &#x3D; {};
-      localAttributeValue.name &#x3D; attribute.values[i].name;
-      localAttributeValue.quantity &#x3D; attribute.values[i].quantity;
-      localAttributeValue.selected &#x3D; controlArray[i].value;
-      localAttributeValue.valueCode &#x3D; attribute.values[i].valueCode;
-      localAssembledValues.push(localAttributeValue);
+      const value &#x3D; attribute.values ? attribute.values[i] : undefined;
+      if (value) {
+        const localAttributeValue: Configurator.Value &#x3D; {
+          valueCode: value.valueCode,
+        };
+        localAttributeValue.name &#x3D; value.name;
+        localAttributeValue.quantity &#x3D; value.quantity;
+        localAttributeValue.selected &#x3D; controlArray[i].value;
+
+        localAssembledValues.push(localAttributeValue);
+      } else {
+        if (isDevMode()) {
+          console.warn(
+            &#x27;ControlArray does not match values, at least one value could not been found&#x27;
+          );
+        }
+      }
     }
     return localAssembledValues;
   }
@@ -738,13 +928,15 @@ export class ConfiguratorStorefrontUtilsService {
    */
   protected isInViewport(element: Element): boolean {
     const bounding &#x3D; element.getBoundingClientRect();
+    const window &#x3D; this.windowRef.nativeWindow;
+    const document &#x3D; this.windowRef.document;
     return (
       bounding.top &gt;&#x3D; 0 &amp;&amp;
       bounding.left &gt;&#x3D; 0 &amp;&amp;
       bounding.bottom &lt;&#x3D;
-        (window.innerHeight || document.documentElement.clientHeight) &amp;&amp;
+        (window?.innerHeight || document?.documentElement.clientHeight) &amp;&amp;
       bounding.right &lt;&#x3D;
-        (window.innerWidth || document.documentElement.clientWidth)
+        (window?.innerWidth || document?.documentElement.clientWidth)
     );
   }
 
@@ -758,7 +950,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (element instanceof HTMLElement) {
       topOffset &#x3D; element.offsetTop;
     }
-    window.scroll(0, topOffset);
+    this.windowRef.nativeWindow?.scroll(0, topOffset);
   }
 
   /**
@@ -767,9 +959,9 @@ export class ConfiguratorStorefrontUtilsService {
    * @param {string} selector - Selector of the HTML element
    */
   scrollToConfigurationElement(selector: string): void {
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.windowRef.isBrowser()) {
       // we don&#x27;t want to run this logic when doing SSR
-      const element &#x3D; document.querySelector(selector);
+      const element &#x3D; this.windowRef.document?.querySelector(selector);
       if (element &amp;&amp; !this.isInViewport(element)) {
         this.scroll(element);
       }
@@ -781,19 +973,43 @@ export class ConfiguratorStorefrontUtilsService {
    */
   focusFirstAttribute(): void {
     if (this.keyboardFocusService) {
-      if (isPlatformBrowser(this.platformId)) {
-        const form: HTMLElement | null &#x3D; document.querySelector(
+      if (this.windowRef.isBrowser()) {
+        const form: HTMLElement | null &#x3D; this.windowRef.document?.querySelector(
           &#x27;cx-configurator-form&#x27;
         );
         if (form) {
-          const focusableElements: HTMLElement[] &#x3D; this.keyboardFocusService.findFocusable(
-            form
-          );
+          const focusableElements: HTMLElement[] &#x3D;
+            this.keyboardFocusService.findFocusable(form);
           if (focusableElements &amp;&amp; focusableElements.length &gt; 0) {
             focusableElements[0].focus();
           }
         }
       }
+    }
+  }
+
+  /**
+   * Generates a group ID.
+   *
+   * @param {string} groupId - group ID
+   * @returns {string | undefined} - generated group ID
+   */
+  createGroupId(groupId?: string): string | undefined {
+    if (groupId) {
+      return groupId + &#x27;-group&#x27;;
+    }
+  }
+
+  /**
+   * Persist the keyboard focus state for the given key.
+   * The focus is stored globally or for the given group.
+   *
+   * @param {string} key - key
+   * @param {string} group? - Group
+   */
+  setFocus(key?: string, group?: string): void {
+    if (key) {
+      this.keyboardFocusService.set(key, group);
     }
   }
 }

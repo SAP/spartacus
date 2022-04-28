@@ -35,7 +35,9 @@
 
 <ol class="breadcrumb">
     <li>Modules</li>
-    <li >UserOccTransitionalModule</li>
+    <li 
+        class="deprecated-name"
+    >UserOccTransitionalModule</li>
 </ol>
 
 
@@ -59,6 +61,12 @@
         </p>
 
 
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 4.2 - use UserOccTransitional_4_2_Module wiith order lib instead
+            </p>
 
 
 
@@ -105,6 +113,9 @@ import { OccUserOrderAdapter } from &#x27;./occ-user-order.adapter&#x27;;
 import { OccUserPaymentAdapter } from &#x27;./occ-user-payment.adapter&#x27;;
 import { OccUserReplenishmentOrderAdapter } from &#x27;./occ-user-replenishment-order.adapter&#x27;;
 
+/**
+ * @deprecated since 4.2 - use UserOccTransitional_4_2_Module wiith order lib instead
+ */
 @NgModule({
   imports: [CommonModule],
   providers: [

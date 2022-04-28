@@ -101,7 +101,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#extractPriceFormulaParameters" >extractPriceFormulaParameters</a>
+                            </li>
+                            <li>
                                 <a href="#extractQuantityParameters" >extractQuantityParameters</a>
+                            </li>
+                            <li>
+                                <a href="#extractValuePriceFormulaParameters" >extractValuePriceFormulaParameters</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -176,12 +182,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(quantityService?: <a href="../injectables/ConfiguratorAttributeQuantityService.html" target="_self">ConfiguratorAttributeQuantityService</a>)</code>
+<code>constructor(quantityService: <a href="../injectables/ConfiguratorAttributeQuantityService.html" target="_self">ConfiguratorAttributeQuantityService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -206,7 +212,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -231,13 +237,13 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Attribute</a></code>
+                        <i>Type : </i>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Attribute</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:16</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -258,7 +264,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:17</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -282,7 +288,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:18</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -299,6 +305,54 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="extractPriceFormulaParameters"></a>
+                    <span class="name">
+                        <span ><b>extractPriceFormulaParameters</b></span>
+                        <a href="#extractPriceFormulaParameters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>extractPriceFormulaParameters()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:109</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Extract corresponding price formula parameters.
+For the multi-selection attribute types only total price of the attribute should be displayed at the attribute level.</p>
+</div>
+
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ConfiguratorPriceComponentOptions</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <ul>
+<li>New price formula</li>
+</ul>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="extractQuantityParameters"></a>
                     <span class="name">
                         <span ><b>extractQuantityParameters</b></span>
@@ -308,15 +362,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>extractQuantityParameters(initialQuantity: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, allowZero?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+<code>extractQuantityParameters(initialQuantity?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, allowZero?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:71</a></div>
                 </td>
             </tr>
 
@@ -345,7 +399,7 @@
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
@@ -380,12 +434,93 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/ConfiguratorAttributeQuantityComponentOptions.html" target="_self" >ConfiguratorAttributeQuantityComponentOptions</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ConfiguratorAttributeQuantityComponentOptions</a></code>
 
                     </div>
                     <div class="io-description">
                         <ul>
 <li>New quantity options</li>
+</ul>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="extractValuePriceFormulaParameters"></a>
+                    <span class="name">
+                        <span ><b>extractValuePriceFormulaParameters</b></span>
+                        <a href="#extractValuePriceFormulaParameters"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>extractValuePriceFormulaParameters(value: <a href="../injectables/Config.html" target="_self">Configurator.Value</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:128</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Extract corresponding value price formula parameters.
+For the multi-selection attribute types the complete price formula should be displayed at the value level.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Value</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Configurator value</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ConfiguratorPriceComponentOptions | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <ul>
+<li>New price formula</li>
 </ul>
 
                     </div>
@@ -415,8 +550,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="91"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:91</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:88</a></div>
                 </td>
             </tr>
 
@@ -482,7 +617,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Attribute</a></code>
+                        <i>Type : </i>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Attribute</a></code>
 
                     </td>
                 </tr>
@@ -497,7 +632,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -522,7 +657,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -557,7 +692,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -591,7 +726,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -620,7 +755,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:30</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -656,7 +791,7 @@ can be derived from the attribute meta data</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:42</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -692,7 +827,7 @@ can be derived from the attribute meta data</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:59</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-multi-selection-base.component.ts:56</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -717,14 +852,15 @@ can be derived from the attribute meta data</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ConfiguratorAttributeBaseComponent } from &#x27;./configurator-attribute-base.component&#x27;;
-import { Directive, EventEmitter, Input, Output } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, EventEmitter, Input, Output } from &#x27;@angular/core&#x27;;
+import { BehaviorSubject } from &#x27;rxjs&#x27;;
+import { map } from &#x27;rxjs/operators&#x27;;
 import { Configurator } from &#x27;../../../../core/model/configurator.model&#x27;;
 import { ConfigFormUpdateEvent } from &#x27;../../../form/configurator-form.event&#x27;;
+import { ConfiguratorPriceComponentOptions } from &#x27;../../../price/configurator-price.component&#x27;;
 import { ConfiguratorAttributeQuantityComponentOptions } from &#x27;../../quantity/configurator-attribute-quantity.component&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
-import { BehaviorSubject } from &#x27;rxjs&#x27;;
 import { ConfiguratorAttributeQuantityService } from &#x27;../../quantity/configurator-attribute-quantity.service&#x27;;
+import { ConfiguratorAttributeBaseComponent } from &#x27;./configurator-attribute-base.component&#x27;;
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -735,10 +871,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   @Input() ownerKey: string;
   @Output() selectionChange &#x3D; new EventEmitter&lt;ConfigFormUpdateEvent&gt;();
 
-  // TODO(#11681): make quantityService a required dependency
-  constructor(
-    protected quantityService?: ConfiguratorAttributeQuantityService
-  ) {
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
 
@@ -750,8 +883,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    */
   get withQuantityOnAttributeLevel(): boolean {
     return (
-      this.quantityService?.withQuantityOnAttributeLevel(this.attribute) ??
-      false
+      this.quantityService.withQuantityOnAttributeLevel(this.attribute) ?? false
     );
   }
 
@@ -763,9 +895,9 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    */
   get withQuantity(): boolean {
     return (
-      this.quantityService?.withQuantity(
-        this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-        this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
+      this.quantityService.withQuantity(
+        this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+        this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
       ) ?? false
     );
   }
@@ -791,7 +923,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(
-    initialQuantity: number,
+    initialQuantity?: number,
     allowZero?: boolean
   ): ConfiguratorAttributeQuantityComponentOptions {
     const disableQuantityActions$ &#x3D; this.loading$.pipe(
@@ -820,6 +952,42 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     };
 
     this.selectionChange.emit(event);
+  }
+
+  /**
+   * Extract corresponding price formula parameters.
+   * For the multi-selection attribute types only total price of the attribute should be displayed at the attribute level.
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
+    return {
+      quantity: 0,
+      price: {
+        value: 0,
+        currencyIso: &#x27;&#x27;,
+      },
+      priceTotal: this.attribute.attributePriceTotal,
+      isLightedUp: true,
+    };
+  }
+
+  /**
+   * Extract corresponding value price formula parameters.
+   * For the multi-selection attribute types the complete price formula should be displayed at the value level.
+   *
+   * @param {Configurator.Value} value - Configurator value
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractValuePriceFormulaParameters(
+    value: Configurator.Value
+  ): ConfiguratorPriceComponentOptions | undefined {
+    return {
+      quantity: value?.quantity,
+      price: value?.valuePrice,
+      priceTotal: value?.valuePriceTotal,
+      isLightedUp: value.selected,
+    };
   }
 }
 </code></pre>

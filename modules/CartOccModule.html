@@ -79,13 +79,15 @@ import { CART_NORMALIZER } from &#x27;../../../cart/connectors/cart/converters&#
 import { CartEntryAdapter } from &#x27;../../../cart/connectors/entry/cart-entry.adapter&#x27;;
 import { SaveCartAdapter } from &#x27;../../../cart/connectors/save-cart/save-cart.adapter&#x27;;
 import { CartVoucherAdapter } from &#x27;../../../cart/connectors/voucher/cart-voucher.adapter&#x27;;
+import { provideDefaultConfig } from &#x27;../../../config/config-providers&#x27;;
 import { OccCartNormalizer } from &#x27;./converters/occ-cart-normalizer&#x27;;
 import { defaultOccCartConfig } from &#x27;./default-occ-cart-config&#x27;;
 import { OccCartEntryAdapter } from &#x27;./occ-cart-entry.adapter&#x27;;
 import { OccCartVoucherAdapter } from &#x27;./occ-cart-voucher.adapter&#x27;;
 import { OccCartAdapter } from &#x27;./occ-cart.adapter&#x27;;
 import { OccSaveCartAdapter } from &#x27;./occ-save-cart.adapter&#x27;;
-import { provideDefaultConfig } from &#x27;../../../config/config-providers&#x27;;
+import { OccCartValidationAdapter } from &#x27;./occ-cart-validation.adapter&#x27;;
+import { CartValidationAdapter } from &#x27;../../../cart/connectors/validation/cart-validation.adapter&#x27;;
 
 @NgModule({
   imports: [CommonModule],
@@ -111,6 +113,10 @@ import { provideDefaultConfig } from &#x27;../../../config/config-providers&#x27
     {
       provide: SaveCartAdapter,
       useClass: OccSaveCartAdapter,
+    },
+    {
+      provide: CartValidationAdapter,
+      useClass: OccCartValidationAdapter,
     },
   ],
 })

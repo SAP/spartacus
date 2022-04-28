@@ -149,6 +149,10 @@ export abstract class StoreFinderConfig {
     radius?: number;
   };
 }
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends StoreFinderConfig {}
+}
 </code></pre>
     </div>
 

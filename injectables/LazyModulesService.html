@@ -248,8 +248,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="209"
-                            class="link-to-prism">projects/core/src/lazy-loading/lazy-modules.service.ts:209</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">projects/core/src/lazy-loading/lazy-modules.service.ts:208</a></div>
                 </td>
             </tr>
 
@@ -326,8 +326,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="234"
-                            class="link-to-prism">projects/core/src/lazy-loading/lazy-modules.service.ts:234</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">projects/core/src/lazy-loading/lazy-modules.service.ts:233</a></div>
                 </td>
             </tr>
 
@@ -438,8 +438,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="216"
-                            class="link-to-prism">projects/core/src/lazy-loading/lazy-modules.service.ts:216</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="215"
+                            class="link-to-prism">projects/core/src/lazy-loading/lazy-modules.service.ts:215</a></div>
                 </td>
             </tr>
 
@@ -615,8 +615,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">projects/core/src/lazy-loading/lazy-modules.service.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="182"
+                            class="link-to-prism">projects/core/src/lazy-loading/lazy-modules.service.ts:182</a></div>
                 </td>
             </tr>
 
@@ -918,9 +918,9 @@ export class LazyModulesService implements OnDestroy {
     protected injector: Injector,
     protected events: EventService
   ) {
-    this.eventSubscription &#x3D; (this.modules$ as ConnectableObservable&lt;
-      NgModuleRef&lt;any&gt;
-    &gt;).connect();
+    this.eventSubscription &#x3D; (
+      this.modules$ as ConnectableObservable&lt;NgModuleRef&lt;any&gt;&gt;
+    ).connect();
   }
 
   /**
@@ -1011,9 +1011,8 @@ export class LazyModulesService implements OnDestroy {
       [],
       InjectFlags.Self
     );
-    const asyncInitPromises: Promise&lt;any&gt;[] &#x3D; this.runModuleInitializerFunctions(
-      moduleInits
-    );
+    const asyncInitPromises: Promise&lt;any&gt;[] &#x3D;
+      this.runModuleInitializerFunctions(moduleInits);
     if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
         catchError((error) &#x3D;&gt; {

@@ -132,7 +132,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Provides dynamically a chunk of the <code>StorefrontConfig</code>.</p>
+                                    <div class="io-description"><p>Provides dynamically a chunk of the <code>Config</code>.</p>
 <div><pre class="line-numbers"><code class="language-none">cy.cxConfig(config)</code></pre></div></div>
                                 </td>
                             </tr>
@@ -143,13 +143,13 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StorefrontConfig } from &#x27;@spartacus/storefront&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Config } from &#x27;@spartacus/core&#x27;;
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Provides dynamically a chunk of the &#x60;StorefrontConfig&#x60;.
+       * Provides dynamically a chunk of the &#x60;Config&#x60;.
        *
        * @memberof Cypress.Chainable
        *
@@ -158,7 +158,7 @@ declare global {
         cy.cxConfig(config)
         &#x60;&#x60;&#x60;
        */
-      cxConfig: (config: StorefrontConfig) &#x3D;&gt; void;
+      cxConfig: (config: Config) &#x3D;&gt; void;
     }
   }
 }

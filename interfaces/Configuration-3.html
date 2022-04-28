@@ -111,7 +111,6 @@
                                         </a>
                                 </li>
                                 <li>
-                                            <span class="modifier">Optional</span>
                                         <a href="#currencyISOCode" 
 >
                                             currencyISOCode
@@ -345,11 +344,6 @@
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
 
 
 
@@ -799,7 +793,7 @@
     errorMessages?: string[];
     conflictMessages?: string[];
     numberOfConflicts?: number;
-    currencyISOCode?: string;
+    currencyISOCode: string;
     currencySign?: string;
     responder?: Cpq.Responder;
     tabs?: Tab[];

@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-details.service.ts</code>
+            <code>feature-libs/order/components/replenishment-order-details/replenishment-order-details.service.ts</code>
         </p>
 
 
@@ -117,12 +117,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, userReplenishmentOrderService: <a href="../injectables/UserReplenishmentOrderService.html" target="_self">UserReplenishmentOrderService</a>)</code>
+<code>constructor(routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, userReplenishmentOrderService: <a href="../injectables/ReplenishmentOrderFacade.html" target="_self">ReplenishmentOrderFacade</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-details.service.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">feature-libs/order/components/replenishment-order-details/replenishment-order-details.service.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -155,7 +155,7 @@
                                                         <td>userReplenishmentOrderService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/UserReplenishmentOrderService.html" target="_self" >UserReplenishmentOrderService</a></code>
+                                                                        <code><a href="../injectables/ReplenishmentOrderFacade.html" target="_self" >ReplenishmentOrderFacade</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -197,8 +197,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-details.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">feature-libs/order/components/replenishment-order-details/replenishment-order-details.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -242,7 +242,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-details.service.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">feature-libs/order/components/replenishment-order-details/replenishment-order-details.service.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -279,7 +279,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-details.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">feature-libs/order/components/replenishment-order-details/replenishment-order-details.service.ts:22</a></div>
                         </td>
                     </tr>
 
@@ -293,11 +293,8 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import {
-  ReplenishmentOrder,
-  RoutingService,
-  UserReplenishmentOrderService,
-} from &#x27;@spartacus/core&#x27;;
+import { ReplenishmentOrder, RoutingService } from &#x27;@spartacus/core&#x27;;
+import { ReplenishmentOrderFacade } from &#x27;@spartacus/order/root&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import {
   distinctUntilChanged,
@@ -331,7 +328,7 @@ export class ReplenishmentOrderDetailsService {
 
   constructor(
     protected routingService: RoutingService,
-    protected userReplenishmentOrderService: UserReplenishmentOrderService
+    protected userReplenishmentOrderService: ReplenishmentOrderFacade
   ) {}
 
   getOrderDetails(): Observable&lt;ReplenishmentOrder&gt; {

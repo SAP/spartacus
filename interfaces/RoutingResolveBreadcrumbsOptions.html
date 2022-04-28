@@ -206,29 +206,28 @@ export class RoutingPageMetaResolver {
    * When there is no page meta resolver configured for the highest parent in the hierarchy,
    * it uses the &#x60;DefaultRoutePageMetaResolver&#x60;.
    */
-  protected readonly routesWithExtras$: Observable&lt;
-    RouteWithExtras[]
-  &gt; &#x3D; this.routes$.pipe(
-    map((routes) &#x3D;&gt;
-      routes.reduce&lt;RouteWithExtras[]&gt;((results, route) &#x3D;&gt; {
-        const parent &#x3D; results.length
-          ? results[results.length - 1]
-          : {
-              route: null,
-              resolver: this.injector.get(DefaultRoutePageMetaResolver),
-              url: &#x27;&#x27;,
-            };
+  protected readonly routesWithExtras$: Observable&lt;RouteWithExtras[]&gt; &#x3D;
+    this.routes$.pipe(
+      map((routes) &#x3D;&gt;
+        routes.reduce&lt;RouteWithExtras[]&gt;((results, route) &#x3D;&gt; {
+          const parent &#x3D; results.length
+            ? results[results.length - 1]
+            : {
+                route: null,
+                resolver: this.injector.get(DefaultRoutePageMetaResolver),
+                url: &#x27;&#x27;,
+              };
 
-        const resolver &#x3D; this.getResolver(route) ?? parent.resolver; // fallback to parent&#x27;s resolver
+          const resolver &#x3D; this.getResolver(route) ?? parent.resolver; // fallback to parent&#x27;s resolver
 
-        const urlPart &#x3D; this.getUrlPart(route);
-        const url &#x3D; parent.url + (urlPart ? &#x60;/${urlPart}&#x60; : &#x27;&#x27;); // don&#x27;t add slash for a route with path &#x27;&#x27;, to avoid double slash ...//...
+          const urlPart &#x3D; this.getUrlPart(route);
+          const url &#x3D; parent.url + (urlPart ? &#x60;/${urlPart}&#x60; : &#x27;&#x27;); // don&#x27;t add slash for a route with path &#x27;&#x27;, to avoid double slash ...//...
 
-        return results.concat({ route, resolver, url });
-      }, [])
-    ),
-    shareReplay({ bufferSize: 1, refCount: true })
-  );
+          return results.concat({ route, resolver, url });
+        }, [])
+      ),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
 
   /**
    * Array of breadcrumbs defined for all the activated routes (from the root route to the leaf route).

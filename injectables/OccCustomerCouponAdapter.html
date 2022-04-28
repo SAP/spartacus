@@ -389,8 +389,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-customer-coupon.adapter.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-customer-coupon.adapter.ts:88</a></div>
                 </td>
             </tr>
 
@@ -426,8 +426,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-customer-coupon.adapter.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-customer-coupon.adapter.ts:55</a></div>
                 </td>
             </tr>
 
@@ -506,8 +506,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-customer-coupon.adapter.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-customer-coupon.adapter.ts:64</a></div>
                 </td>
             </tr>
 
@@ -606,7 +606,9 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
       return of({});
     }
 
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;customerCoupons&#x27;, { userId });
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;customerCoupons&#x27;, {
+      urlParams: { userId },
+    });
 
     let params &#x3D; new HttpParams().set(&#x27;sort&#x27;, sort ? sort : &#x27;startDate:asc&#x27;);
 
@@ -625,9 +627,8 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
   }
 
   turnOffNotification(userId: string, couponCode: string): Observable&lt;{}&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;couponNotification&#x27;, {
-      userId,
-      couponCode,
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;couponNotification&#x27;, {
+      urlParams: { userId, couponCode },
     });
     const headers &#x3D; this.newHttpHeader();
 
@@ -638,9 +639,8 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     userId: string,
     couponCode: string
   ): Observable&lt;CustomerCouponNotification&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;couponNotification&#x27;, {
-      userId,
-      couponCode,
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;couponNotification&#x27;, {
+      urlParams: { userId, couponCode },
     });
     const headers &#x3D; this.newHttpHeader();
 
@@ -651,9 +651,8 @@ export class OccCustomerCouponAdapter implements CustomerCouponAdapter {
     userId: string,
     couponCode: string
   ): Observable&lt;CustomerCoupon2Customer&gt; {
-    const url &#x3D; this.occEndpoints.getUrl(&#x27;claimCoupon&#x27;, {
-      userId,
-      couponCode,
+    const url &#x3D; this.occEndpoints.buildUrl(&#x27;claimCoupon&#x27;, {
+      urlParams: { userId, couponCode },
     });
     const headers &#x3D; this.newHttpHeader();
 

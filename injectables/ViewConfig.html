@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/shared/config/view-config.ts</code>
+            <code>projects/storefrontlib/shared/config/view-config.ts</code>
         </p>
 
 
@@ -120,7 +120,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/storefrontlib/src/shared/config/view-config.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/storefrontlib/shared/config/view-config.ts:9</a></div>
                         </td>
                     </tr>
 
@@ -145,12 +145,17 @@ export abstract class ViewConfig {
     /**
      * Configurations related to the view of the application
      */
+    defaultPageSize?: number;
     infiniteScroll?: {
       active?: boolean;
       productLimit?: number;
       showMoreButton?: boolean;
     };
   };
+}
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends ViewConfig {}
 }
 </code></pre>
     </div>

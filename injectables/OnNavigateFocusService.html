@@ -39,7 +39,9 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >OnNavigateFocusService</li>
+  <li 
+        class="deprecated-name"
+    >OnNavigateFocusService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -57,9 +59,16 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts</code>
+            <code>projects/storefrontlib/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 4.2, refer to spartacus issues (#13762)
+Shared service for keyboard focus features called when the browser navigates.
+            </p>
 
             <p class="comment">
                 <h3>Description</h3>
@@ -133,12 +142,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../injectables/KeyboardFocusConfig.html" target="_self">KeyboardFocusConfig</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, document: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, breakpointService: <a href="../injectables/BreakpointService.html" target="_self">BreakpointService</a>)</code>
+<code>constructor(config: <a href="../injectables/KeyboardFocusConfig.html" target="_self">KeyboardFocusConfig</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, breakpointService: <a href="../injectables/BreakpointService.html" target="_self">BreakpointService</a>, winRef: <a href="../injectables/WindowRef.html" target="_self">WindowRef</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -180,10 +189,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>document</td>
+                                                        <td>breakpointService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                                        <code><a href="../injectables/BreakpointService.html" target="_self" >BreakpointService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -192,10 +201,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>breakpointService</td>
+                                                        <td>winRef</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/BreakpointService.html" target="_self" >BreakpointService</a></code>
+                                                                        <code><a href="../injectables/WindowRef.html" target="_self" >WindowRef</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -237,8 +246,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">projects/storefrontlib/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -276,8 +285,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/storefrontlib/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:28</a></div>
                 </td>
             </tr>
 
@@ -313,8 +322,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">projects/storefrontlib/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:58</a></div>
                 </td>
             </tr>
 
@@ -388,8 +397,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">projects/storefrontlib/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:84</a></div>
                 </td>
             </tr>
 
@@ -469,7 +478,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -496,7 +505,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/layout/a11y/keyboard-focus/on-navigate/on-navigate-focus.service.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -509,9 +518,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DOCUMENT } from &#x27;@angular/common&#x27;;
-import { Inject, Injectable, OnDestroy } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy } from &#x27;@angular/core&#x27;;
 import { NavigationStart, Router } from &#x27;@angular/router&#x27;;
+import { WindowRef } from &#x27;@spartacus/core&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
 import { filter, take } from &#x27;rxjs/operators&#x27;;
 import { BreakpointService } from &#x27;../../../../layout/breakpoint/breakpoint.service&#x27;;
@@ -519,6 +528,7 @@ import { BREAKPOINT } from &#x27;../../../config&#x27;;
 import { KeyboardFocusConfig } from &#x27;../config&#x27;;
 
 /**
+ * @deprecated since 4.2, refer to spartacus issues (#13762)
  * Shared service for keyboard focus features called when the browser navigates.
  */
 @Injectable({
@@ -531,8 +541,8 @@ export class OnNavigateFocusService implements OnDestroy {
   constructor(
     protected config: KeyboardFocusConfig,
     protected router: Router,
-    @Inject(DOCUMENT) protected document: any,
-    protected breakpointService: BreakpointService
+    protected breakpointService: BreakpointService,
+    protected winRef: WindowRef
   ) {}
 
   ngOnDestroy(): void {
@@ -544,6 +554,10 @@ export class OnNavigateFocusService implements OnDestroy {
    * Reads configuration and enables features based on flags set.
    */
   initializeWithConfig(): void {
+    if (!this.winRef.isBrowser()) {
+      return;
+    }
+
     if (this.config?.keyboardFocus?.enableResetFocusOnNavigate) {
       this.setResetFocusOnNavigate(
         this.config.keyboardFocus.enableResetFocusOnNavigate
@@ -573,11 +587,11 @@ export class OnNavigateFocusService implements OnDestroy {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) &#x3D;&gt; {
                 if (enable.includes(breakpoint)) {
-                  this.document.body.focus?.();
+                  this.winRef.document.body.focus();
                 }
               });
           } else if (typeof enable &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27;) {
-            this.document.body.focus?.();
+            this.winRef.document.body.focus();
           }
         });
     }
@@ -599,11 +613,11 @@ export class OnNavigateFocusService implements OnDestroy {
               .pipe(take(1))
               .subscribe((breakpoint: BREAKPOINT) &#x3D;&gt; {
                 if (enable.includes(breakpoint)) {
-                  this.document.body.scrollIntoView?.();
+                  this.winRef.document.body.scrollIntoView();
                 }
               });
           } else if (typeof enable &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27;) {
-            this.document.body.scrollIntoView?.();
+            this.winRef.document.body.scrollIntoView();
           }
         });
     }

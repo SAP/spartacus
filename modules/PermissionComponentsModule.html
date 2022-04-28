@@ -174,7 +174,6 @@ import { PermissionDetailsModule } from &#x27;./details/permission-details.modul
 import { PermissionFormModule } from &#x27;./form/permission-form.module&#x27;;
 import {
   permissionCmsConfig,
-  permissionRoutingConfig,
   permissionTableConfigFactory,
 } from &#x27;./permission.config&#x27;;
 
@@ -185,7 +184,6 @@ import {
     PermissionFormModule,
   ],
   providers: [
-    provideDefaultConfig(permissionRoutingConfig),
     provideDefaultConfig(permissionCmsConfig),
     provideDefaultConfigFactory(permissionTableConfigFactory),
   ],

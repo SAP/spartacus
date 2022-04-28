@@ -185,11 +185,7 @@ import {
   provideDefaultConfigFactory,
 } from &#x27;@spartacus/core&#x27;;
 import { SharedOrganizationModule } from &#x27;../shared/shared-organization.module&#x27;;
-import {
-  budgetCmsConfig,
-  budgetRoutingConfig,
-  budgetTableConfigFactory,
-} from &#x27;./budget.config&#x27;;
+import { budgetCmsConfig, budgetTableConfigFactory } from &#x27;./budget.config&#x27;;
 import { BudgetCostCenterListModule } from &#x27;./cost-centers/budget-cost-center-list.module&#x27;;
 import { BudgetDetailsModule } from &#x27;./details/budget-details.module&#x27;;
 import { BudgetFormModule } from &#x27;./form/budget-form.module&#x27;;
@@ -202,7 +198,6 @@ import { BudgetFormModule } from &#x27;./form/budget-form.module&#x27;;
     BudgetCostCenterListModule,
   ],
   providers: [
-    provideDefaultConfig(budgetRoutingConfig),
     provideDefaultConfig(budgetCmsConfig),
     provideDefaultConfigFactory(budgetTableConfigFactory),
   ],

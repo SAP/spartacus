@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/shared/components/generic-link/generic-link.component.ts</code>
+            <code>projects/storefrontlib/shared/components/generic-link/generic-link.component.ts</code>
         </p>
 
 
@@ -321,7 +321,7 @@ export class GenericLinkComponent implements OnChanges {
   private routeParts: RouteParts &#x3D; {};
 
   @Input() url: string | any[];
-  @Input() target: string;
+  @Input() target: string | null;
   @Input() id: string;
   @Input() class: string;
   @Input() style: string;

@@ -113,7 +113,7 @@ as forRoot() is used internally by ConfigInitializerModule</p>
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >ModuleWithProviders&lt;ConfigValidatorModule&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ModuleWithProviders&lt;ConfigValidatorModule&gt;</a></code>
 
                     </div>
                 </td>
@@ -146,8 +146,8 @@ export function configValidatorFactory(
   const validate &#x3D; () &#x3D;&gt; {
     if (isDevMode()) {
       configInitializer
-        .getStableConfig()
-        .then((config) &#x3D;&gt; validateConfig(config, validators || []));
+        .getStable()
+        .subscribe((config) &#x3D;&gt; validateConfig(config, validators || []));
     }
   };
   return validate;

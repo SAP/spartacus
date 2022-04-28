@@ -89,7 +89,6 @@ import { ORDER_RETURN_REQUEST_NORMALIZER } from &#x27;../../../user/connectors/o
 import { UserOrderAdapter } from &#x27;../../../user/connectors/order/user-order.adapter&#x27;;
 import { UserPaymentAdapter } from &#x27;../../../user/connectors/payment/user-payment.adapter&#x27;;
 import { UserReplenishmentOrderAdapter } from &#x27;../../../user/connectors/replenishment-order&#x27;;
-import { UserAdapter } from &#x27;../../../user/connectors/user/user.adapter&#x27;;
 import { OccCustomerCouponAdapter } from &#x27;../user/occ-customer-coupon.adapter&#x27;;
 import { AnonymousConsentNormalizer } from &#x27;./converters/anonymous-consents-normalizer&#x27;;
 import { OccAddressListNormalizer } from &#x27;./converters/occ-address-list-normalizer&#x27;;
@@ -105,13 +104,11 @@ import { OccUserNotificationPreferenceAdapter } from &#x27;./occ-user-notificati
 import { OccUserOrderAdapter } from &#x27;./occ-user-order.adapter&#x27;;
 import { OccUserPaymentAdapter } from &#x27;./occ-user-payment.adapter&#x27;;
 import { OccUserReplenishmentOrderAdapter } from &#x27;./occ-user-replenishment-order.adapter&#x27;;
-import { OccUserAdapter } from &#x27;./occ-user.adapter&#x27;;
 
 @NgModule({
   imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccUserConfig),
-    { provide: UserAdapter, useClass: OccUserAdapter },
     { provide: UserAddressAdapter, useClass: OccUserAddressAdapter },
     { provide: UserConsentAdapter, useClass: OccUserConsentAdapter },
     {

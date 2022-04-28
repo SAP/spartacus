@@ -1,0 +1,3200 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  VisualViewerComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts</code>
+</p>
+
+
+
+
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../injectables/VisualViewerService.html" target="_self" >VisualViewerService</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>cx-epd-visualization-viewer</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./visual-viewer.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#animationPlayingChange" >animationPlayingChange</a>
+                            </li>
+                            <li>
+                                <a href="#animationPositionChange" >animationPositionChange</a>
+                            </li>
+                            <li>
+                                <a href="#animationTimeChange" >animationTimeChange</a>
+                            </li>
+                            <li>
+                                <a href="#isolateModeEnabledChange" >isolateModeEnabledChange</a>
+                            </li>
+                            <li>
+                                <a href="#NavigationMode" >NavigationMode</a>
+                            </li>
+                            <li>
+                                <a href="#selectedProductCodesChange" >selectedProductCodesChange</a>
+                            </li>
+                            <li>
+                                <a href="#SelectionMode" >SelectionMode</a>
+                            </li>
+                            <li>
+                                <a href="#viewportReadyChange" >viewportReadyChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#activateHomeView" >activateHomeView</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#loadVisualization" >loadVisualization</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#pauseAnimation" >pauseAnimation</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#playAnimation" >playAnimation</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#animationPlaying" >animationPlaying</a>
+                            </li>
+                            <li>
+                                <a href="#animationPosition" >animationPosition</a>
+                            </li>
+                            <li>
+                                <a href="#animationTime" >animationTime</a>
+                            </li>
+                            <li>
+                                <a href="#backgroundBottomColor" >backgroundBottomColor</a>
+                            </li>
+                            <li>
+                                <a href="#backgroundTopColor" >backgroundTopColor</a>
+                            </li>
+                            <li>
+                                <a href="#excludedOpacity" >excludedOpacity</a>
+                            </li>
+                            <li>
+                                <a href="#hotspotSelectionColor" >hotspotSelectionColor</a>
+                            </li>
+                            <li>
+                                <a href="#includedProductCodes" >includedProductCodes</a>
+                            </li>
+                            <li>
+                                <a href="#isolateModeEnabled" >isolateModeEnabled</a>
+                            </li>
+                            <li>
+                                <a href="#navigationMode" >navigationMode</a>
+                            </li>
+                            <li>
+                                <a href="#outlineColor" >outlineColor</a>
+                            </li>
+                            <li>
+                                <a href="#outlineWidth" >outlineWidth</a>
+                            </li>
+                            <li>
+                                <a href="#selectedProductCodes" >selectedProductCodes</a>
+                            </li>
+                            <li>
+                                <a href="#selectionMode" >selectionMode</a>
+                            </li>
+                            <li>
+                                <a href="#showAllHotspotsColor" >showAllHotspotsColor</a>
+                            </li>
+                            <li>
+                                <a href="#showAllHotspotsEnabled" >showAllHotspotsEnabled</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#animationPlayingChange" >animationPlayingChange</a>
+                            </li>
+                            <li>
+                                <a href="#animationPositionChange" >animationPositionChange</a>
+                            </li>
+                            <li>
+                                <a href="#animationTimeChange" >animationTimeChange</a>
+                            </li>
+                            <li>
+                                <a href="#isolateModeEnabledChange" >isolateModeEnabledChange</a>
+                            </li>
+                            <li>
+                                <a href="#selectedProductCodesChange" >selectedProductCodesChange</a>
+                            </li>
+                            <li>
+                                <a href="#viewportReadyChange" >viewportReadyChange</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#backgroundTopColor" >backgroundTopColor</a>
+                                </li>
+                                <li>
+                                    <a href="#backgroundBottomColor" >backgroundBottomColor</a>
+                                </li>
+                                <li>
+                                    <a href="#hotspotSelectionColor" >hotspotSelectionColor</a>
+                                </li>
+                                <li>
+                                    <a href="#showAllHotspotsEnabled" >showAllHotspotsEnabled</a>
+                                </li>
+                                <li>
+                                    <a href="#showAllHotspotsColor" >showAllHotspotsColor</a>
+                                </li>
+                                <li>
+                                    <a href="#outlineColor" >outlineColor</a>
+                                </li>
+                                <li>
+                                    <a href="#outlineWidth" >outlineWidth</a>
+                                </li>
+                                <li>
+                                    <a href="#selectionMode" >selectionMode</a>
+                                </li>
+                                <li>
+                                    <a href="#selectedProductCodes" >selectedProductCodes</a>
+                                </li>
+                                <li>
+                                    <a href="#includedProductCodes" >includedProductCodes</a>
+                                </li>
+                                <li>
+                                    <a href="#excludedOpacity" >excludedOpacity</a>
+                                </li>
+                                <li>
+                                    <a href="#animationTime" >animationTime</a>
+                                </li>
+                                <li>
+                                    <a href="#animationTotalDuration" >animationTotalDuration</a>
+                                </li>
+                                <li>
+                                    <a href="#animationPosition" >animationPosition</a>
+                                </li>
+                                <li>
+                                    <a href="#animationPlaying" >animationPlaying</a>
+                                </li>
+                                <li>
+                                    <a href="#navigationMode" >navigationMode</a>
+                                </li>
+                                <li>
+                                    <a href="#isolateModeEnabled" >isolateModeEnabled</a>
+                                </li>
+                                <li>
+                                    <a href="#is2D" >is2D</a>
+                                </li>
+                                <li>
+                                    <a href="#viewportReady" >viewportReady</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(visualViewerService: <a href="../injectables/VisualViewerService.html" target="_self">VisualViewerService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:19</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>visualViewerService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/VisualViewerService.html" target="_self" >VisualViewerService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationPlaying"></a>
+                        <b>animationPlaying</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="200" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:200</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Gets/sets whether the animation (if there is one) is currently playing.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationPosition"></a>
+                        <b>animationPosition</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="187" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:187</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The animation playback position as a fractional value between 0 (start) and 1 (end).</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationTime"></a>
+                        <b>animationTime</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:167</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The current time position in seconds in the animation (if there is one).</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="backgroundBottomColor"></a>
+                        <b>backgroundBottomColor</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:39</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The bottom colour of the background gradient.
+Can be passed in the CSS color format or as a Spartacus theme color i.e. &#39;--cx-color-background&#39; with the quotes.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="backgroundTopColor"></a>
+                        <b>backgroundTopColor</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:27</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The top colour of the background gradient.
+Can be passed in the CSS color format or as a Spartacus theme color i.e. &#39;--cx-color-background&#39; with the quotes.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="excludedOpacity"></a>
+                        <b>excludedOpacity</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:156</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Gets/sets the opacity to apply to 3D objects that are not in the set specified by the includedProductCodes property</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hotspotSelectionColor"></a>
+                        <b>hotspotSelectionColor</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:51</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The colour applied to selected 2D hotspots in 2D content.
+Can be passed in the CSS color format or as a Spartacus theme color i.e. &#39;--cx-color-primary&#39; with the quotes.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="includedProductCodes"></a>
+                        <b>includedProductCodes</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:145</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Gets/sets which objects should be selectable (in terms of product codes).
+For 3D content:</p>
+<ul>
+<li>objects that are included will be selectable and opaque</li>
+<li>objects that are not included will not be selectable and will have an opacity specified by the excludedOpacity property.</li>
+</ul>
+<p>For 2D content:</p>
+<ul>
+<li>hotspots that are included will be selectable and can be made visible</li>
+<li>hotspots that are not included will not be selectable or visible</li>
+</ul>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isolateModeEnabled"></a>
+                        <b>isolateModeEnabled</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="227" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:227</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Isolate mode allows a single object to be viewed in isolation.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="navigationMode"></a>
+                        <b>navigationMode</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="216" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:216</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Controls the behaviour when a left mouse button drag is initiated in the viewport.
+Turntable: A left mouse drag performs a turntable mode rotation.
+Pan: A left mouse drag pans the camera in the viewport.
+Zoom: A left mouse drag zooms the camera in the viewport in or out</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="outlineColor"></a>
+                        <b>outlineColor</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:86</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The outline colour used to indicate selected objects in 3D content.
+Can be passed in the CSS color format or as a Spartacus theme color i.e. &#39;--cx-color-primary&#39; with the quotes.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="outlineWidth"></a>
+                        <b>outlineWidth</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:97</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The width of the outline (in pixels) used to indicate selected objects in 3D content.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedProductCodes"></a>
+                        <b>selectedProductCodes</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:124</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Gets/sets the selection in terms of product codes.
+Gets the set of product codes applied to the selected scene nodes.
+Sets the selection set based on the set of supplied product codes.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectionMode"></a>
+                        <b>selectionMode</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:111</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The selection mode.
+None - Selection is disabled.
+Exclusive - When selecting objects in the viewport, at most one object can be selected at a time. Clicking/tapping to select a new object will deselect any previously selected objects.
+Sticky - A multiple selection mode in which clicking/tapping on an object that is not part of the current selection will toggle its selection state without modifying the selection state of the currently selected objects.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showAllHotspotsColor"></a>
+                        <b>showAllHotspotsColor</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:74</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The colour used to highlight hotspots in 2D content when the showAllHotspotsEnabled property has a value of true.
+Can be passed in the CSS color format or as a Spartacus theme color i.e. &#39;--cx-color-primary&#39; with the quotes.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showAllHotspotsEnabled"></a>
+                        <b>showAllHotspotsEnabled</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:62</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>When true, all hotspots in 2D content that are included in the includedProductCodes property are highlighted using the colour specified by the showAllHotspotsColor property.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationPlayingChange"></a>
+                        <b>animationPlayingChange</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="207" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:207</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationPositionChange"></a>
+                        <b>animationPositionChange</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:193</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationTimeChange"></a>
+                        <b>animationTimeChange</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:174</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isolateModeEnabledChange"></a>
+                        <b>isolateModeEnabledChange</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="234" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:234</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedProductCodesChange"></a>
+                        <b>selectedProductCodesChange</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:131</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="viewportReadyChange"></a>
+                        <b>viewportReadyChange</b>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="249" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:249</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="activateHomeView"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>activateHomeView</b></span>
+                        <a href="#activateHomeView"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>activateHomeView()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="254"
+                            class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:254</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the user to the initial camera position used when a scene was first loaded.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadVisualization"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>loadVisualization</b></span>
+                        <a href="#loadVisualization"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>loadVisualization(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="277"
+                            class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:277</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Loads the visualization specified by the product code.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>productCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>The product code of the visualization to load.</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/VisualizationLoadInfo.html" target="_self" >Observable&lt;VisualizationLoadInfo&gt;</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>An observable that returns a single VisualizationLoadInfo value.</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="pauseAnimation"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>pauseAnimation</b></span>
+                        <a href="#pauseAnimation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>pauseAnimation()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="268"
+                            class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:268</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Pauses animation playback.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="playAnimation"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span ><b>playAnimation</b></span>
+                        <a href="#playAnimation"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>playAnimation()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="261"
+                            class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:261</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Plays the animation (if one exists).</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animationPlayingChange"></a>
+                    <span class="name">
+                        <span ><b>animationPlayingChange</b></span>
+                        <a href="#animationPlayingChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.visualViewerService.animationPlayingChange</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Output()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="207" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:207</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animationPositionChange"></a>
+                    <span class="name">
+                        <span ><b>animationPositionChange</b></span>
+                        <a href="#animationPositionChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.visualViewerService.animationPositionChange</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Output()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="193" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:193</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="animationTimeChange"></a>
+                    <span class="name">
+                        <span ><b>animationTimeChange</b></span>
+                        <a href="#animationTimeChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.visualViewerService.animationTimeChange</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Output()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="174" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:174</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isolateModeEnabledChange"></a>
+                    <span class="name">
+                        <span ><b>isolateModeEnabledChange</b></span>
+                        <a href="#isolateModeEnabledChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.visualViewerService.isolateModeEnabledChange</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Output()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="234" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:234</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="NavigationMode"></a>
+                    <span class="name">
+                        <span ><b>NavigationMode</b></span>
+                        <a href="#NavigationMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>NavigationMode</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="285" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:285</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="selectedProductCodesChange"></a>
+                    <span class="name">
+                        <span ><b>selectedProductCodesChange</b></span>
+                        <a href="#selectedProductCodesChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.visualViewerService.selectedProductCodesChange</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Output()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="131" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:131</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="SelectionMode"></a>
+                    <span class="name">
+                        <span ><b>SelectionMode</b></span>
+                        <a href="#SelectionMode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>SelectionMode</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="284" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:284</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="viewportReadyChange"></a>
+                    <span class="name">
+                        <span ><b>viewportReadyChange</b></span>
+                        <a href="#viewportReadyChange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.visualViewerService.viewportReadyChange</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Output()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="249" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:249</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="backgroundTopColor"></a>
+                        <span class="name"><b>backgroundTopColor</b><a href="#backgroundTopColor"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>backgroundTopColor()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:30</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>backgroundTopColor(backgroundTopColor: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:27</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The top colour of the background gradient.
+Can be passed in the CSS color format or as a Spartacus theme color i.e. &#39;--cx-color-background&#39; with the quotes.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>backgroundTopColor</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="backgroundBottomColor"></a>
+                        <span class="name"><b>backgroundBottomColor</b><a href="#backgroundBottomColor"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>backgroundBottomColor()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:42</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>backgroundBottomColor(backgroundBottomColor: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:39</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The bottom colour of the background gradient.
+Can be passed in the CSS color format or as a Spartacus theme color i.e. &#39;--cx-color-background&#39; with the quotes.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>backgroundBottomColor</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hotspotSelectionColor"></a>
+                        <span class="name"><b>hotspotSelectionColor</b><a href="#hotspotSelectionColor"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>hotspotSelectionColor()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:54</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>hotspotSelectionColor(hotspotSelectionColor: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:51</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The colour applied to selected 2D hotspots in 2D content.
+Can be passed in the CSS color format or as a Spartacus theme color i.e. &#39;--cx-color-primary&#39; with the quotes.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>hotspotSelectionColor</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showAllHotspotsEnabled"></a>
+                        <span class="name"><b>showAllHotspotsEnabled</b><a href="#showAllHotspotsEnabled"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>showAllHotspotsEnabled()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:65</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>showAllHotspotsEnabled(showAllHotspotsEnabled: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:62</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>When true, all hotspots in 2D content that are included in the includedProductCodes property are highlighted using the colour specified by the showAllHotspotsColor property.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>showAllHotspotsEnabled</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="showAllHotspotsColor"></a>
+                        <span class="name"><b>showAllHotspotsColor</b><a href="#showAllHotspotsColor"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>showAllHotspotsColor()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:77</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>showAllHotspotsColor(showAllHotspotsColor: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:74</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The colour used to highlight hotspots in 2D content when the showAllHotspotsEnabled property has a value of true.
+Can be passed in the CSS color format or as a Spartacus theme color i.e. &#39;--cx-color-primary&#39; with the quotes.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>showAllHotspotsColor</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="outlineColor"></a>
+                        <span class="name"><b>outlineColor</b><a href="#outlineColor"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>outlineColor()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:89</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>outlineColor(outlineColor: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:86</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The outline colour used to indicate selected objects in 3D content.
+Can be passed in the CSS color format or as a Spartacus theme color i.e. &#39;--cx-color-primary&#39; with the quotes.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>outlineColor</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="outlineWidth"></a>
+                        <span class="name"><b>outlineWidth</b><a href="#outlineWidth"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>outlineWidth()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:100</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>outlineWidth(outlineWidth: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:97</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The width of the outline (in pixels) used to indicate selected objects in 3D content.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>outlineWidth</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectionMode"></a>
+                        <span class="name"><b>selectionMode</b><a href="#selectionMode"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>selectionMode()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:114</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>selectionMode(selectionMode: <a href="../undefineds/SelectionMode.html" target="_self">SelectionMode</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="111" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:111</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The selection mode.
+None - Selection is disabled.
+Exclusive - When selecting objects in the viewport, at most one object can be selected at a time. Clicking/tapping to select a new object will deselect any previously selected objects.
+Sticky - A multiple selection mode in which clicking/tapping on an object that is not part of the current selection will toggle its selection state without modifying the selection state of the currently selected objects.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>selectionMode</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="../miscellaneous/enumerations.html#SelectionMode" target="_self" >SelectionMode</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="selectedProductCodes"></a>
+                        <span class="name"><b>selectedProductCodes</b><a href="#selectedProductCodes"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>selectedProductCodes()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:127</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>selectedProductCodes(selectedProductCodes: string[])</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:124</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Gets/sets the selection in terms of product codes.
+Gets the set of product codes applied to the selected scene nodes.
+Sets the selection set based on the set of supplied product codes.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>selectedProductCodes</td>
+                                                    
+                                                            <td>
+                                                                        <code>string[]</code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="includedProductCodes"></a>
+                        <span class="name"><b>includedProductCodes</b><a href="#includedProductCodes"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>includedProductCodes()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:148</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>includedProductCodes(includedProductCodes: string[])</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:145</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Gets/sets which objects should be selectable (in terms of product codes).
+For 3D content:</p>
+<ul>
+<li>objects that are included will be selectable and opaque</li>
+<li>objects that are not included will not be selectable and will have an opacity specified by the excludedOpacity property.</li>
+</ul>
+<p>For 2D content:</p>
+<ul>
+<li>hotspots that are included will be selectable and can be made visible</li>
+<li>hotspots that are not included will not be selectable or visible</li>
+</ul>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>includedProductCodes</td>
+                                                    
+                                                            <td>
+                                                                        <code>string[]</code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="excludedOpacity"></a>
+                        <span class="name"><b>excludedOpacity</b><a href="#excludedOpacity"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>excludedOpacity()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="159" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:159</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>excludedOpacity(excludedOpacity: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="156" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:156</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Gets/sets the opacity to apply to 3D objects that are not in the set specified by the includedProductCodes property</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>excludedOpacity</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationTime"></a>
+                        <span class="name"><b>animationTime</b><a href="#animationTime"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>animationTime()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="170" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:170</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>animationTime(animationTime: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="167" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:167</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The current time position in seconds in the animation (if there is one).</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>animationTime</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationTotalDuration"></a>
+                        <span class="name"><b>animationTotalDuration</b><a href="#animationTotalDuration"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>animationTotalDuration()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="179" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:179</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Gets the total duration of the animation (if there is one). A total duration of 0 indicates that there is no animation that can be played.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationPosition"></a>
+                        <span class="name"><b>animationPosition</b><a href="#animationPosition"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>animationPosition()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="190" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:190</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>animationPosition(animationPosition: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="187" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:187</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>The animation playback position as a fractional value between 0 (start) and 1 (end).</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>animationPosition</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="animationPlaying"></a>
+                        <span class="name"><b>animationPlaying</b><a href="#animationPlaying"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>animationPlaying()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="203" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:203</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>animationPlaying(animationPlaying: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="200" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:200</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Gets/sets whether the animation (if there is one) is currently playing.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>animationPlaying</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="navigationMode"></a>
+                        <span class="name"><b>navigationMode</b><a href="#navigationMode"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>navigationMode()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="219" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:219</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>navigationMode(navigationMode: <a href="../undefineds/NavigationMode.html" target="_self">NavigationMode</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="216" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:216</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Controls the behaviour when a left mouse button drag is initiated in the viewport.
+Turntable: A left mouse drag performs a turntable mode rotation.
+Pan: A left mouse drag pans the camera in the viewport.
+Zoom: A left mouse drag zooms the camera in the viewport in or out</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>navigationMode</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="../miscellaneous/enumerations.html#NavigationMode" target="_self" >NavigationMode</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="isolateModeEnabled"></a>
+                        <span class="name"><b>isolateModeEnabled</b><a href="#isolateModeEnabled"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>isolateModeEnabled()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="230" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:230</a></div>
+                                </td>
+                            </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>isolateModeEnabled(isolateModeEnabled: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="227" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:227</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Isolate mode allows a single object to be viewed in isolation.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                        <td>Type</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>isolateModeEnabled</td>
+                                                    
+                                                            <td>
+                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                                            </td>
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="is2D"></a>
+                        <span class="name"><b>is2D</b><a href="#is2D"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>is2D()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="239" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:239</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Gets whether the viewport is displaying 2D content.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="viewportReady"></a>
+                        <span class="name"><b>viewportReady</b><a href="#viewportReady"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>viewportReady()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="246" class="link-to-prism">integration-libs/epd-visualization/components/visual-viewer/visual-viewer.component.ts:246</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Indicates that a scene has been loaded and the viewport is ready for interaction.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Output,
+} from &#x27;@angular/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { NavigationMode } from &#x27;./models/navigation-mode&#x27;;
+import { SelectionMode } from &#x27;./models/selection-mode&#x27;;
+import { VisualizationLoadInfo } from &#x27;./models/visualization-load-info&#x27;;
+import { VisualViewerService } from &#x27;./visual-viewer.service&#x27;;
+
+@Component({
+  selector: &#x27;cx-epd-visualization-viewer&#x27;,
+  templateUrl: &#x27;./visual-viewer.component.html&#x27;,
+  providers: [VisualViewerService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class VisualViewerComponent {
+  constructor(protected visualViewerService: VisualViewerService) {}
+
+  /**
+   * The top colour of the background gradient.
+   * Can be passed in the CSS color format or as a Spartacus theme color i.e. &#x27;--cx-color-background&#x27; with the quotes.
+   */
+  @Input()
+  set backgroundTopColor(backgroundTopColor: string) {
+    this.visualViewerService.backgroundTopColor &#x3D; backgroundTopColor;
+  }
+  get backgroundTopColor(): string {
+    return this.visualViewerService.backgroundTopColor;
+  }
+
+  /**
+   * The bottom colour of the background gradient.
+   * Can be passed in the CSS color format or as a Spartacus theme color i.e. &#x27;--cx-color-background&#x27; with the quotes.
+   */
+  @Input()
+  set backgroundBottomColor(backgroundBottomColor: string) {
+    this.visualViewerService.backgroundBottomColor &#x3D; backgroundBottomColor;
+  }
+  get backgroundBottomColor(): string {
+    return this.visualViewerService.backgroundBottomColor;
+  }
+
+  /**
+   * The colour applied to selected 2D hotspots in 2D content.
+   * Can be passed in the CSS color format or as a Spartacus theme color i.e. &#x27;--cx-color-primary&#x27; with the quotes.
+   */
+  @Input()
+  set hotspotSelectionColor(hotspotSelectionColor: string) {
+    this.visualViewerService.hotspotSelectionColor &#x3D; hotspotSelectionColor;
+  }
+  get hotspotSelectionColor(): string {
+    return this.visualViewerService.hotspotSelectionColor;
+  }
+
+  /**
+   * When true, all hotspots in 2D content that are included in the includedProductCodes property are highlighted using the colour specified by the showAllHotspotsColor property.
+   */
+  @Input()
+  set showAllHotspotsEnabled(showAllHotspotsEnabled: boolean) {
+    this.visualViewerService.showAllHotspotsEnabled &#x3D; showAllHotspotsEnabled;
+  }
+  get showAllHotspotsEnabled(): boolean {
+    return this.visualViewerService.showAllHotspotsEnabled;
+  }
+
+  /**
+   * The colour used to highlight hotspots in 2D content when the showAllHotspotsEnabled property has a value of true.
+   * Can be passed in the CSS color format or as a Spartacus theme color i.e. &#x27;--cx-color-primary&#x27; with the quotes.
+   */
+  @Input()
+  set showAllHotspotsColor(showAllHotspotsColor: string) {
+    this.visualViewerService.showAllHotspotsColor &#x3D; showAllHotspotsColor;
+  }
+  get showAllHotspotsColor(): string {
+    return this.visualViewerService.showAllHotspotsColor;
+  }
+
+  /**
+   * The outline colour used to indicate selected objects in 3D content.
+   * Can be passed in the CSS color format or as a Spartacus theme color i.e. &#x27;--cx-color-primary&#x27; with the quotes.
+   */
+  @Input()
+  set outlineColor(outlineColor: string) {
+    this.visualViewerService.outlineColor &#x3D; outlineColor;
+  }
+  get outlineColor(): string {
+    return this.visualViewerService.outlineColor;
+  }
+
+  /**
+   * The width of the outline (in pixels) used to indicate selected objects in 3D content.
+   */
+  @Input()
+  set outlineWidth(outlineWidth: number) {
+    this.visualViewerService.outlineWidth &#x3D; outlineWidth;
+  }
+  get outlineWidth(): number {
+    return this.visualViewerService.outlineWidth;
+  }
+
+  /**
+   * The selection mode.
+   * None - Selection is disabled.
+   * Exclusive - When selecting objects in the viewport, at most one object can be selected at a time. Clicking/tapping to select a new object will deselect any previously selected objects.
+   * Sticky - A multiple selection mode in which clicking/tapping on an object that is not part of the current selection will toggle its selection state without modifying the selection state of the currently selected objects.
+   */
+  @Input()
+  set selectionMode(selectionMode: SelectionMode) {
+    this.visualViewerService.selectionMode &#x3D; selectionMode;
+  }
+  get selectionMode(): SelectionMode {
+    return this.visualViewerService.selectionMode;
+  }
+
+  /**
+   * Gets/sets the selection in terms of product codes.
+   * Gets the set of product codes applied to the selected scene nodes.
+   * Sets the selection set based on the set of supplied product codes.
+   */
+  @Input()
+  set selectedProductCodes(selectedProductCodes: string[]) {
+    this.visualViewerService.selectedProductCodes &#x3D; selectedProductCodes;
+  }
+  get selectedProductCodes(): string[] {
+    return this.visualViewerService.selectedProductCodes;
+  }
+  @Output()
+  selectedProductCodesChange &#x3D;
+    this.visualViewerService.selectedProductCodesChange;
+
+  /**
+   * Gets/sets which objects should be selectable (in terms of product codes).
+   * For 3D content:
+   * - objects that are included will be selectable and opaque
+   * - objects that are not included will not be selectable and will have an opacity specified by the excludedOpacity property.
+   *
+   * For 2D content:
+   * - hotspots that are included will be selectable and can be made visible
+   * - hotspots that are not included will not be selectable or visible
+   */
+  @Input()
+  set includedProductCodes(includedProductCodes: string[]) {
+    this.visualViewerService.includedProductCodes &#x3D; includedProductCodes;
+  }
+  get includedProductCodes(): string[] {
+    return this.visualViewerService.includedProductCodes;
+  }
+
+  /**
+   *  Gets/sets the opacity to apply to 3D objects that are not in the set specified by the includedProductCodes property
+   */
+  @Input()
+  set excludedOpacity(excludedOpacity: number) {
+    this.visualViewerService.excludedOpacity &#x3D; excludedOpacity;
+  }
+  get excludedOpacity(): number {
+    return this.visualViewerService.excludedOpacity;
+  }
+
+  /**
+   * The current time position in seconds in the animation (if there is one).
+   */
+  @Input()
+  set animationTime(animationTime: number) {
+    this.visualViewerService.animationTime &#x3D; animationTime;
+  }
+  get animationTime(): number {
+    return this.visualViewerService.animationTime;
+  }
+  @Output()
+  animationTimeChange &#x3D; this.visualViewerService.animationTimeChange;
+
+  /**
+   * Gets the total duration of the animation (if there is one). A total duration of 0 indicates that there is no animation that can be played.
+   */
+  get animationTotalDuration(): number {
+    return this.visualViewerService.animationTotalDuration;
+  }
+
+  /**
+   *  The animation playback position as a fractional value between 0 (start) and 1 (end).
+   */
+  @Input()
+  set animationPosition(animationPosition: number) {
+    this.visualViewerService.animationPosition &#x3D; animationPosition;
+  }
+  get animationPosition(): number {
+    return this.visualViewerService.animationPosition;
+  }
+  @Output() animationPositionChange &#x3D;
+    this.visualViewerService.animationPositionChange;
+
+  /**
+   * Gets/sets whether the animation (if there is one) is currently playing.
+   */
+  @Input()
+  set animationPlaying(animationPlaying: boolean) {
+    this.visualViewerService.animationPlaying &#x3D; animationPlaying;
+  }
+  get animationPlaying(): boolean {
+    return this.visualViewerService.animationPlaying;
+  }
+  @Output()
+  animationPlayingChange &#x3D; this.visualViewerService.animationPlayingChange;
+
+  /**
+   * Controls the behaviour when a left mouse button drag is initiated in the viewport.
+   * Turntable: A left mouse drag performs a turntable mode rotation.
+   * Pan: A left mouse drag pans the camera in the viewport.
+   * Zoom: A left mouse drag zooms the camera in the viewport in or out
+   */
+  @Input()
+  set navigationMode(navigationMode: NavigationMode) {
+    this.visualViewerService.navigationMode &#x3D; navigationMode;
+  }
+  get navigationMode(): NavigationMode {
+    return this.visualViewerService.navigationMode;
+  }
+
+  /**
+   * Isolate mode allows a single object to be viewed in isolation.
+   */
+  @Input()
+  set isolateModeEnabled(isolateModeEnabled: boolean) {
+    this.visualViewerService.isolateModeEnabled &#x3D; isolateModeEnabled;
+  }
+  get isolateModeEnabled(): boolean {
+    return this.visualViewerService.isolateModeEnabled;
+  }
+  @Output()
+  isolateModeEnabledChange &#x3D; this.visualViewerService.isolateModeEnabledChange;
+
+  /**
+   * Gets whether the viewport is displaying 2D content.
+   */
+  get is2D(): boolean {
+    return this.visualViewerService.is2D;
+  }
+
+  /**
+   * Indicates that a scene has been loaded and the viewport is ready for interaction.
+   */
+  get viewportReady(): boolean {
+    return this.visualViewerService.viewportReady;
+  }
+  @Output() viewportReadyChange &#x3D; this.visualViewerService.viewportReadyChange;
+
+  /**
+   * Returns the user to the initial camera position used when a scene was first loaded.
+   */
+  public activateHomeView() {
+    this.visualViewerService.activateHomeView();
+  }
+
+  /**
+   * Plays the animation (if one exists).
+   */
+  public playAnimation(): void {
+    this.visualViewerService.playAnimation();
+  }
+
+  /**
+   * Pauses animation playback.
+   */
+  public pauseAnimation(): void {
+    this.visualViewerService.pauseAnimation();
+  }
+
+  /**
+   * Loads the visualization specified by the product code.
+   * @param productCode The product code of the visualization to load.
+   * @returns An observable that returns a single VisualizationLoadInfo value.
+   */
+  public loadVisualization(
+    productCode: string
+  ): Observable&lt;VisualizationLoadInfo&gt; {
+    return this.visualViewerService.loadVisualization(productCode);
+  }
+
+  // Provide access to enum types in template code
+  SelectionMode &#x3D; SelectionMode;
+  NavigationMode &#x3D; NavigationMode;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;ng-container *ngIf&#x3D;&quot;viewportReady; else loading&quot;&gt;
+  &lt;div class&#x3D;&quot;content-type-symbol&quot; [hidden]&#x3D;&quot;!viewportReady&quot;&gt;
+    &lt;span class&#x3D;&quot;content-type-text&quot;&gt;{{
+      (is2D
+        ? &#x27;epdVisualization.visualViewer.contentType.drawing2D&#x27;
+        : &#x27;epdVisualization.visualViewer.contentType.model3D&#x27;
+      ) | cxTranslate
+    }}&lt;/span&gt;
+  &lt;/div&gt;
+
+  &lt;div class&#x3D;&quot;bottom overlay&quot;&gt;
+    &lt;div [hidden]&#x3D;&quot;!viewportReady&quot; class&#x3D;&quot;toolbar&quot;&gt;
+      &lt;div class&#x3D;&quot;toolbarHBox&quot;&gt;
+        &lt;div class&#x3D;&quot;toolbarButtonsHBox&quot;&gt;
+          &lt;cx-epd-visualization-viewer-toolbar-button
+            class&#x3D;&quot;homeButton&quot;
+            iconLibraryClass&#x3D;&quot;fas&quot;
+            iconClass&#x3D;&quot;fa-home&quot;
+            text&#x3D;&quot;{{
+              &#x27;epdVisualization.visualViewer.toolbar.homeButton.label&#x27;
+                | cxTranslate
+            }}&quot;
+            (click)&#x3D;&quot;activateHomeView()&quot;
+          &gt;&lt;/cx-epd-visualization-viewer-toolbar-button&gt;
+
+          &lt;cx-epd-visualization-viewer-toolbar-button
+            class&#x3D;&quot;turntableButton toolbarItem&quot;
+            iconLibraryClass&#x3D;&quot;fas&quot;
+            iconClass&#x3D;&quot;fa-sync-alt&quot;
+            text&#x3D;&quot;{{
+              &#x27;epdVisualization.visualViewer.toolbar.rotateButton.label&#x27;
+                | cxTranslate
+            }}&quot;
+            [hidden]&#x3D;&quot;is2D&quot;
+            (click)&#x3D;&quot;navigationMode &#x3D; NavigationMode.Turntable&quot;
+            [checked]&#x3D;&quot;navigationMode &#x3D;&#x3D;&#x3D; NavigationMode.Turntable&quot;
+          &gt;&lt;/cx-epd-visualization-viewer-toolbar-button&gt;
+
+          &lt;cx-epd-visualization-viewer-toolbar-button
+            class&#x3D;&quot;panButton toolbarItem&quot;
+            iconLibraryClass&#x3D;&quot;fas&quot;
+            iconClass&#x3D;&quot;fa-arrows-alt&quot;
+            text&#x3D;&quot;{{
+              &#x27;epdVisualization.visualViewer.toolbar.panButton.label&#x27;
+                | cxTranslate
+            }}&quot;
+            (click)&#x3D;&quot;navigationMode &#x3D; NavigationMode.Pan&quot;
+            [checked]&#x3D;&quot;navigationMode &#x3D;&#x3D;&#x3D; NavigationMode.Pan&quot;
+          &gt;&lt;/cx-epd-visualization-viewer-toolbar-button&gt;
+
+          &lt;cx-epd-visualization-viewer-toolbar-button
+            class&#x3D;&quot;zoomButton toolbarItem&quot;
+            iconLibraryClass&#x3D;&quot;fas&quot;
+            iconClass&#x3D;&quot;fa-search&quot;
+            text&#x3D;&quot;{{
+              &#x27;epdVisualization.visualViewer.toolbar.zoomButton.label&#x27;
+                | cxTranslate
+            }}&quot;
+            (click)&#x3D;&quot;navigationMode &#x3D; NavigationMode.Zoom&quot;
+            [checked]&#x3D;&quot;navigationMode &#x3D;&#x3D;&#x3D; NavigationMode.Zoom&quot;
+          &gt;&lt;/cx-epd-visualization-viewer-toolbar-button&gt;
+
+          &lt;cx-epd-visualization-viewer-toolbar-button
+            class&#x3D;&quot;isolateButton toolbarItem&quot;
+            iconLibraryClass&#x3D;&quot;fas&quot;
+            [hidden]&#x3D;&quot;is2D&quot;
+            [disabled]&#x3D;&quot;
+              !isolateModeEnabled &amp;&amp; selectedProductCodes?.length &#x3D;&#x3D;&#x3D; 0
+            &quot;
+            iconClass&#x3D;&quot;fa-compress&quot;
+            text&#x3D;&quot;{{
+              &#x27;epdVisualization.visualViewer.toolbar.isolateButton.label&#x27;
+                | cxTranslate
+            }}&quot;
+            (click)&#x3D;&quot;isolateModeEnabled &#x3D; !isolateModeEnabled&quot;
+            [checked]&#x3D;&quot;isolateModeEnabled&quot;
+          &gt;&lt;/cx-epd-visualization-viewer-toolbar-button&gt;
+
+          &lt;cx-epd-visualization-viewer-toolbar-button
+            class&#x3D;&quot;playPauseButton toolbarItem&quot;
+            iconLibraryClass&#x3D;&quot;fas&quot;
+            iconClass&#x3D;&quot;{{ animationPlaying ? &#x27;fa-pause&#x27; : &#x27;fa-play&#x27; }}&quot;
+            text&#x3D;&quot;{{
+              (animationPlaying
+                ? &#x27;epdVisualization.visualViewer.toolbar.pauseButton.label&#x27;
+                : &#x27;epdVisualization.visualViewer.toolbar.playButton.label&#x27;
+              ) | cxTranslate
+            }}&quot;
+            [hidden]&#x3D;&quot;is2D || animationTotalDuration &lt;&#x3D; 0&quot;
+            [disabled]&#x3D;&quot;isolateModeEnabled&quot;
+            (click)&#x3D;&quot;animationPlaying ? pauseAnimation() : playAnimation()&quot;
+          &gt;&lt;/cx-epd-visualization-viewer-toolbar-button&gt;
+
+          &lt;cx-epd-visualization-viewer-toolbar-button
+            class&#x3D;&quot;showAllHotpotsButton toolbarItem&quot;
+            iconLibraryClass&#x3D;&quot;fas&quot;
+            iconClass&#x3D;&quot;fa-highlighter&quot;
+            text&#x3D;&quot;{{
+              (showAllHotspotsEnabled
+                ? &#x27;epdVisualization.visualViewer.toolbar.hotspotsButton.hide&#x27;
+                : &#x27;epdVisualization.visualViewer.toolbar.hotspotsButton.show&#x27;
+              ) | cxTranslate
+            }}&quot;
+            [checked]&#x3D;&quot;showAllHotspotsEnabled&quot;
+            [hidden]&#x3D;&quot;!is2D&quot;
+            (click)&#x3D;&quot;showAllHotspotsEnabled &#x3D; !showAllHotspotsEnabled&quot;
+          &gt;&lt;/cx-epd-visualization-viewer-toolbar-button&gt;
+        &lt;/div&gt;
+
+        &lt;div [hidden]&#x3D;&quot;is2D || animationTotalDuration &lt;&#x3D; 0&quot;&gt;
+          &lt;cx-epd-visualization-animation-slider
+            [disabled]&#x3D;&quot;isolateModeEnabled&quot;
+            [(value)]&#x3D;&quot;animationPosition&quot;
+            (keydown.enter)&#x3D;&quot;
+              animationPlaying ? pauseAnimation() : playAnimation();
+              $event.preventDefault()
+            &quot;
+            (keydown.space)&#x3D;&quot;
+              animationPlaying ? pauseAnimation() : playAnimation();
+              $event.preventDefault()
+            &quot;
+          &gt;&lt;/cx-epd-visualization-animation-slider&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/ng-container&gt;
+
+&lt;ng-template #loading&gt;
+  &lt;div class&#x3D;&quot;cx-spinner&quot;&gt;
+    &lt;cx-spinner&gt;&lt;/cx-spinner&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><ng-container *ngIf="viewportReady; else loading">  <div class="content-type-symbol" [hidden]="!viewportReady">    <span class="content-type-text">{{      (is2D        ? \'epdVisualization.visualViewer.contentType.drawing2D\'        : \'epdVisualization.visualViewer.contentType.model3D\'      ) | cxTranslate    }}</span>  </div>  <div class="bottom overlay">    <div [hidden]="!viewportReady" class="toolbar">      <div class="toolbarHBox">        <div class="toolbarButtonsHBox">          <cx-epd-visualization-viewer-toolbar-button            class="homeButton"            iconLibraryClass="fas"            iconClass="fa-home"            text="{{              \'epdVisualization.visualViewer.toolbar.homeButton.label\'                | cxTranslate            }}"            (click)="activateHomeView()"          ></cx-epd-visualization-viewer-toolbar-button>          <cx-epd-visualization-viewer-toolbar-button            class="turntableButton toolbarItem"            iconLibraryClass="fas"            iconClass="fa-sync-alt"            text="{{              \'epdVisualization.visualViewer.toolbar.rotateButton.label\'                | cxTranslate            }}"            [hidden]="is2D"            (click)="navigationMode = NavigationMode.Turntable"            [checked]="navigationMode === NavigationMode.Turntable"          ></cx-epd-visualization-viewer-toolbar-button>          <cx-epd-visualization-viewer-toolbar-button            class="panButton toolbarItem"            iconLibraryClass="fas"            iconClass="fa-arrows-alt"            text="{{              \'epdVisualization.visualViewer.toolbar.panButton.label\'                | cxTranslate            }}"            (click)="navigationMode = NavigationMode.Pan"            [checked]="navigationMode === NavigationMode.Pan"          ></cx-epd-visualization-viewer-toolbar-button>          <cx-epd-visualization-viewer-toolbar-button            class="zoomButton toolbarItem"            iconLibraryClass="fas"            iconClass="fa-search"            text="{{              \'epdVisualization.visualViewer.toolbar.zoomButton.label\'                | cxTranslate            }}"            (click)="navigationMode = NavigationMode.Zoom"            [checked]="navigationMode === NavigationMode.Zoom"          ></cx-epd-visualization-viewer-toolbar-button>          <cx-epd-visualization-viewer-toolbar-button            class="isolateButton toolbarItem"            iconLibraryClass="fas"            [hidden]="is2D"            [disabled]="              !isolateModeEnabled && selectedProductCodes?.length === 0            "            iconClass="fa-compress"            text="{{              \'epdVisualization.visualViewer.toolbar.isolateButton.label\'                | cxTranslate            }}"            (click)="isolateModeEnabled = !isolateModeEnabled"            [checked]="isolateModeEnabled"          ></cx-epd-visualization-viewer-toolbar-button>          <cx-epd-visualization-viewer-toolbar-button            class="playPauseButton toolbarItem"            iconLibraryClass="fas"            iconClass="{{ animationPlaying ? \'fa-pause\' : \'fa-play\' }}"            text="{{              (animationPlaying                ? \'epdVisualization.visualViewer.toolbar.pauseButton.label\'                : \'epdVisualization.visualViewer.toolbar.playButton.label\'              ) | cxTranslate            }}"            [hidden]="is2D || animationTotalDuration <= 0"            [disabled]="isolateModeEnabled"            (click)="animationPlaying ? pauseAnimation() : playAnimation()"          ></cx-epd-visualization-viewer-toolbar-button>          <cx-epd-visualization-viewer-toolbar-button            class="showAllHotpotsButton toolbarItem"            iconLibraryClass="fas"            iconClass="fa-highlighter"            text="{{              (showAllHotspotsEnabled                ? \'epdVisualization.visualViewer.toolbar.hotspotsButton.hide\'                : \'epdVisualization.visualViewer.toolbar.hotspotsButton.show\'              ) | cxTranslate            }}"            [checked]="showAllHotspotsEnabled"            [hidden]="!is2D"            (click)="showAllHotspotsEnabled = !showAllHotspotsEnabled"          ></cx-epd-visualization-viewer-toolbar-button>        </div>        <div [hidden]="is2D || animationTotalDuration <= 0">          <cx-epd-visualization-animation-slider            [disabled]="isolateModeEnabled"            [(value)]="animationPosition"            (keydown.enter)="              animationPlaying ? pauseAnimation() : playAnimation();              $event.preventDefault()            "            (keydown.space)="              animationPlaying ? pauseAnimation() : playAnimation();              $event.preventDefault()            "          ></cx-epd-visualization-animation-slider>        </div>      </div>    </div>  </div></ng-container><ng-template #loading>  <div class="cx-spinner">    <cx-spinner></cx-spinner>  </div></ng-template></div>'
+    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'ActiveLinkCellComponent', 'selector': 'cx-org-active-link-cell'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToSavedCartComponent', 'selector': 'cx-add-to-saved-cart'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmountCellComponent', 'selector': 'cx-org-amount-cell'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AssignCellComponent', 'selector': 'cx-org-assign-cell'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'BudgetCostCenterListComponent', 'selector': 'cx-org-budget-cost-center-list'},{'name': 'BudgetDetailsCellComponent', 'selector': 'cx-org-budget-details-cell'},{'name': 'BudgetDetailsComponent', 'selector': 'cx-org-budget-details'},{'name': 'BudgetFormComponent', 'selector': 'cx-org-budget-form'},{'name': 'BulkPricingTableComponent', 'selector': 'cx-bulk-pricing-table'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CardComponent', 'selector': 'cx-org-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartItemValidationWarningComponent', 'selector': 'cx-cart-item-validation-warning'},{'name': 'CartQuickOrderFormComponent', 'selector': 'cx-cart-quick-order-form'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CartValidationWarningsComponent', 'selector': 'cx-cart-validation-warnings'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CellComponent', 'selector': 'cx-org-cell'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'CompactAddToCartComponent', 'selector': 'cx-epd-visualization-compact-add-to-cart'},{'name': 'ConfiguratorAddToCartButtonComponent', 'selector': 'cx-configurator-add-to-cart-button'},{'name': 'ConfiguratorAttributeCheckBoxComponent', 'selector': 'cx-configurator-attribute-checkbox'},{'name': 'ConfiguratorAttributeCheckBoxListComponent', 'selector': 'cx-configurator-attribute-checkbox-list'},{'name': 'ConfiguratorAttributeDropDownComponent', 'selector': 'cx-configurator-attribute-drop-down'},{'name': 'ConfiguratorAttributeFooterComponent', 'selector': 'cx-configurator-attribute-footer'},{'name': 'ConfiguratorAttributeHeaderComponent', 'selector': 'cx-configurator-attribute-header'},{'name': 'ConfiguratorAttributeInputFieldComponent', 'selector': 'cx-configurator-attribute-input-field'},{'name': 'ConfiguratorAttributeMultiSelectionBundleComponent', 'selector': 'cx-configurator-attribute-multi-selection-bundle'},{'name': 'ConfiguratorAttributeMultiSelectionImageComponent', 'selector': 'cx-configurator-attribute-multi-selection-image'},{'name': 'ConfiguratorAttributeNumericInputFieldComponent', 'selector': 'cx-configurator-attribute-numeric-input-field'},{'name': 'ConfiguratorAttributeProductCardComponent', 'selector': 'cx-configurator-attribute-product-card'},{'name': 'ConfiguratorAttributeQuantityComponent', 'selector': 'cx-configurator-attribute-quantity'},{'name': 'ConfiguratorAttributeRadioButtonComponent', 'selector': 'cx-configurator-attribute-radio-button'},{'name': 'ConfiguratorAttributeReadOnlyComponent', 'selector': 'cx-configurator-attribute-read-only'},{'name': 'ConfiguratorAttributeSingleSelectionBundleComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle'},{'name': 'ConfiguratorAttributeSingleSelectionBundleDropdownComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle-dropdown'},{'name': 'ConfiguratorAttributeSingleSelectionImageComponent', 'selector': 'cx-configurator-attribute-single-selection-image'},{'name': 'ConfiguratorCartEntryBundleInfoComponent', 'selector': 'cx-configurator-cart-entry-bundle-info'},{'name': 'ConfiguratorCartEntryInfoComponent', 'selector': 'cx-configurator-cart-entry-info'},{'name': 'ConfiguratorConflictAndErrorMessagesComponent', 'selector': 'cx-configuration-conflict-and-error-messages'},{'name': 'ConfiguratorConflictDescriptionComponent', 'selector': 'cx-configurator-conflict-description'},{'name': 'ConfiguratorConflictSuggestionComponent', 'selector': 'cx-configurator-conflict-suggestion'},{'name': 'ConfiguratorExitButtonComponent', 'selector': 'cx-configurator-exit-button'},{'name': 'ConfiguratorFormComponent', 'selector': 'cx-configurator-form'},{'name': 'ConfiguratorGroupMenuComponent', 'selector': 'cx-configurator-group-menu'},{'name': 'ConfiguratorGroupTitleComponent', 'selector': 'cx-configurator-group-title'},{'name': 'ConfiguratorIssuesNotificationComponent', 'selector': 'cx-configurator-issues-notification'},{'name': 'ConfiguratorOverviewAttributeComponent', 'selector': 'cx-configurator-overview-attribute'},{'name': 'ConfiguratorOverviewBundleAttributeComponent', 'selector': 'cx-configurator-cpq-overview-attribute'},{'name': 'ConfiguratorOverviewFormComponent', 'selector': 'cx-configurator-overview-form'},{'name': 'ConfiguratorOverviewNotificationBannerComponent', 'selector': 'cx-configurator-overview-notification-banner'},{'name': 'ConfiguratorPreviousNextButtonsComponent', 'selector': 'cx-configurator-previous-next-buttons'},{'name': 'ConfiguratorPriceComponent', 'selector': 'cx-configurator-price'},{'name': 'ConfiguratorPriceSummaryComponent', 'selector': 'cx-configurator-price-summary'},{'name': 'ConfiguratorProductTitleComponent', 'selector': 'cx-configurator-product-title'},{'name': 'ConfiguratorShowMoreComponent', 'selector': 'cx-configurator-show-more'},{'name': 'ConfiguratorTabBarComponent', 'selector': 'cx-configurator-tab-bar'},{'name': 'ConfiguratorTextfieldAddToCartButtonComponent', 'selector': 'cx-configurator-textfield-add-to-cart-button'},{'name': 'ConfiguratorTextfieldFormComponent', 'selector': 'cx-configurator-textfield-form'},{'name': 'ConfiguratorTextfieldInputFieldComponent', 'selector': 'cx-configurator-textfield-input-field'},{'name': 'ConfiguratorTextfieldInputFieldReadonlyComponent', 'selector': 'cx-configurator-textfield-input-field-readonly'},{'name': 'ConfiguratorUpdateMessageComponent', 'selector': 'cx-configurator-update-message'},{'name': 'ConfigureCartEntryComponent', 'selector': 'cx-configure-cart-entry'},{'name': 'ConfigureProductComponent', 'selector': 'cx-configure-product'},{'name': 'ConfirmationMessageComponent', 'selector': 'cx-org-confirmation'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterAssignedBudgetListComponent', 'selector': 'cx-org-cost-center-assigned-budget-list'},{'name': 'CostCenterBudgetListComponent', 'selector': 'cx-org-cost-center-budget-list'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CostCenterDetailsCellComponent', 'selector': 'cx-org-cost-center-details-cell'},{'name': 'CostCenterDetailsComponent', 'selector': 'cx-org-cost-center-details'},{'name': 'CostCenterFormComponent', 'selector': 'cx-org-cost-center-form'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DatePickerComponent', 'selector': 'cx-date-picker'},{'name': 'DateRangeCellComponent', 'selector': 'cx-org-date-range-cell'},{'name': 'DeleteItemComponent', 'selector': 'cx-org-delete-item'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DisableInfoComponent', 'selector': 'cx-org-disable-info'},{'name': 'DpPaymentCallbackComponent', 'selector': 'cx-dp-payment-callback'},{'name': 'DpPaymentFormComponent', 'selector': 'cx-dp-payment-form'},{'name': 'DpPaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'ExportOrderEntriesComponent', 'selector': 'cx-export-order-entries'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FileUploadComponent', 'selector': 'cx-file-upload'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormComponent', 'selector': 'cx-org-form'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ImportEntriesDialogComponent', 'selector': 'cx-import-entries-dialog'},{'name': 'ImportEntriesFormComponent', 'selector': 'cx-import-entries-form'},{'name': 'ImportEntriesSummaryComponent', 'selector': 'cx-import-entries-summary'},{'name': 'ImportExportOrderEntriesComponent', 'selector': 'cx-import-export-order-entries'},{'name': 'ImportOrderEntriesComponent', 'selector': 'cx-import-order-entries'},{'name': 'ImportToNewSavedCartFormComponent', 'selector': 'cx-import-to-new-saved-cart-form'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LimitCellComponent', 'selector': 'cx-org-limit-cell'},{'name': 'LinkCellComponent', 'selector': 'cx-org-link-cell'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'ListComponent', 'selector': 'cx-org-list'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MessageComponent', 'selector': 'cx-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MockCardComponent', 'selector': 'cx-org-card'},{'name': 'MockFormComponent', 'selector': 'cx-org-form'},{'name': 'MockIconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'MockSplitViewComponent', 'selector': 'cx-split-view'},{'name': 'MockSubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'MockViewComponent', 'selector': 'cx-view'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationMessageComponent', 'selector': 'cx-org-notification'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderApprovalDetailFormComponent', 'selector': 'cx-order-approval-detail-form'},{'name': 'OrderApprovalListComponent', 'selector': 'cx-order-approval-list'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailPermissionResultsComponent', 'selector': 'cx-order-detail-permission-results'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderOverviewComponent', 'selector': 'cx-order-overview'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PagedListComponent', 'selector': 'cx-epd-visualization-paged-list'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PageTitleComponent', 'selector': 'cx-page-title'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PermissionDetailsCellComponent', 'selector': 'cx-org-permission-details-cell'},{'name': 'PermissionDetailsComponent', 'selector': 'cx-org-permission-details'},{'name': 'PermissionFormComponent', 'selector': 'cx-org-permission-form'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'PopoverComponent', 'selector': 'cx-popover'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductImageZoomDialogComponent', 'selector': 'cx-product-image-zoom-dialog'},{'name': 'ProductImageZoomProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductImageZoomThumbnailsComponent', 'selector': 'cx-product-image-zoom-thumbnails'},{'name': 'ProductImageZoomTriggerComponent', 'selector': 'cx-product-image-zoom-trigger'},{'name': 'ProductImageZoomViewComponent', 'selector': 'cx-product-image-zoom-view'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantColorSelectorComponent', 'selector': 'cx-product-variant-color-selector'},{'name': 'ProductVariantsContainerComponent', 'selector': 'cx-product-variants-container'},{'name': 'ProductVariantSizeSelectorComponent', 'selector': 'cx-product-variant-size-selector'},{'name': 'ProductVariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'ProductVariantStyleSelectorComponent', 'selector': 'cx-product-variant-style-selector'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'ProgressButtonComponent', 'selector': 'cx-progress-button'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsEmbeddedFeedbackComponent', 'selector': 'cx-qualtrics-embedded-feedback'},{'name': 'QuickOrderComponent', 'selector': 'cx-quick-order'},{'name': 'QuickOrderFormComponent', 'selector': 'cx-quick-order-form'},{'name': 'QuickOrderItemComponent', 'selector': 'cx-quick-order-item'},{'name': 'QuickOrderTableComponent', 'selector': 'cx-quick-order-table'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'RolesCellComponent', 'selector': 'cx-org-roles-cell'},{'name': 'SavedCartDetailsActionComponent', 'selector': 'cx-saved-cart-details-action'},{'name': 'SavedCartDetailsItemsComponent', 'selector': 'cx-saved-cart-details-items'},{'name': 'SavedCartDetailsOverviewComponent', 'selector': 'cx-saved-cart-details-overview'},{'name': 'SavedCartFormDialogComponent', 'selector': 'cx-saved-cart-form-dialog'},{'name': 'SavedCartListComponent', 'selector': 'cx-saved-cart-list'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'ScheduleReplenishmentOrderComponent', 'selector': 'cx-schedule-replenishment-order'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StatusCellComponent', 'selector': 'cx-org-status-cell'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TableDataCellComponent', 'selector': 'cx-table-data-cell'},{'name': 'TableHeaderCellComponent', 'selector': 'cx-table-header-cell'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'ToggleLinkCellComponent', 'selector': 'cx-org-toggle-link-cell'},{'name': 'ToggleStatusComponent', 'selector': 'cx-org-toggle-status'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TruncateTextPopoverComponent', 'selector': 'cx-truncate-text-popover'},{'name': 'UnitAddressDetailsComponent', 'selector': 'cx-org-unit-address-details'},{'name': 'UnitAddressFormComponent', 'selector': 'cx-org-unit-address-form'},{'name': 'UnitAddressListComponent', 'selector': 'cx-org-unit-address-list'},{'name': 'UnitApproverListComponent', 'selector': 'cx-org-unit-approver-list'},{'name': 'UnitAssignedApproverListComponent', 'selector': 'cx-org-unit-assigned-approver-list'},{'name': 'UnitCellComponent', 'selector': 'cx-org-unit-cell'},{'name': 'UnitChildCreateComponent', 'selector': 'cx-org-unit-child-create'},{'name': 'UnitChildrenComponent', 'selector': 'cx-org-unit-children'},{'name': 'UnitCostCenterCreateComponent', 'selector': 'cx-org-unit-cost-center-create'},{'name': 'UnitCostCenterListComponent', 'selector': 'cx-org-unit-cost-centers'},{'name': 'UnitDetailsCellComponent', 'selector': 'cx-org-unit-details-cell'},{'name': 'UnitDetailsComponent', 'selector': 'cx-org-unit-details'},{'name': 'UnitFormComponent', 'selector': 'cx-org-unit-form'},{'name': 'UnitListComponent', 'selector': 'cx-org-unit-list'},{'name': 'UnitUserCreateComponent', 'selector': 'cx-org-unit-user-create'},{'name': 'UnitUserListComponent', 'selector': 'cx-org-unit-user-list'},{'name': 'UnitUserRolesCellComponent', 'selector': 'cx-org-unit-user-link-cell'},{'name': 'UnitUserRolesFormComponent', 'selector': 'cx-org-unit-user-roles'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UserApproverListComponent', 'selector': 'cx-org-user-approver-list'},{'name': 'UserAssignedApproverListComponent', 'selector': 'cx-org-user-assigned-approver-list'},{'name': 'UserAssignedPermissionListComponent', 'selector': 'cx-org-user-assigned-permission-list'},{'name': 'UserAssignedUserGroupListComponent', 'selector': 'cx-org-user-assigned-user-group-list'},{'name': 'UserChangePasswordFormComponent', 'selector': 'cx-org-user-change-password-form'},{'name': 'UserDetailsCellComponent', 'selector': 'cx-org-user-details-cell'},{'name': 'UserDetailsComponent', 'selector': 'cx-org-user-details'},{'name': 'UserFormComponent', 'selector': 'cx-org-user-form'},{'name': 'UserGroupAssignedPermissionListComponent', 'selector': 'cx-org-user-group-assigned-permission-list'},{'name': 'UserGroupAssignedUserListComponent', 'selector': 'cx-org-user-group-assigned-user-list'},{'name': 'UserGroupDetailsCellComponent', 'selector': 'cx-org-user-group-details-cell'},{'name': 'UserGroupDetailsComponent', 'selector': 'cx-org-user-group-details'},{'name': 'UserGroupFormComponent', 'selector': 'cx-org-user-group-form'},{'name': 'UserGroupPermissionListComponent', 'selector': 'cx-org-user-group-permission-list'},{'name': 'UserGroupUserListComponent', 'selector': 'cx-org-user-group-user-list'},{'name': 'UserPermissionListComponent', 'selector': 'cx-org-user-permission-list'},{'name': 'UserUserGroupListComponent', 'selector': 'cx-org-user-user-group-list'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'VisualPickingProductFilterComponent', 'selector': 'cx-epd-visualization-product-filter'},{'name': 'VisualPickingProductListComponent', 'selector': 'cx-epd-visualization-product-list'},{'name': 'VisualPickingTabComponent', 'selector': 'cx-epd-visualization-visual-picking-tab'},{'name': 'VisualViewerAnimationSliderComponent', 'selector': 'cx-epd-visualization-animation-slider'},{'name': 'VisualViewerComponent', 'selector': 'cx-epd-visualization-viewer'},{'name': 'VisualViewerToolbarButtonComponent', 'selector': 'cx-epd-visualization-viewer-toolbar-button'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+    var DIRECTIVES = [{'name': 'AbstractStoreItemComponent', 'selector': ''},{'name': 'AddToHomeScreenComponent', 'selector': ''},{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'AutoFocusDirective', 'selector': ''},{'name': 'BaseFocusDirective', 'selector': ''},{'name': 'BaseMessageComponent', 'selector': ''},{'name': 'BlockFocusDirective', 'selector': ''},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'ConfiguratorAttributeMultiSelectionBaseComponent', 'selector': ''},{'name': 'ConfiguratorAttributeSingleSelectionBaseComponent', 'selector': ''},{'name': 'EscapeFocusDirective', 'selector': ''},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'InnerComponentsHostDirective', 'selector': '[cxInnerComponentsHost]'},{'name': 'ItemActiveDirective', 'selector': '[cxOrgItemActive]'},{'name': 'ItemExistsDirective', 'selector': '[cxOrgItemExists]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'LockFocusDirective', 'selector': ''},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'MockKeyboardFocusDirective', 'selector': '[cxFocus]'},{'name': 'ModalDirective', 'selector': '[cxModal]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'PageTemplateDirective', 'selector': '[cxPageTemplateStyle]'},{'name': 'PersistFocusDirective', 'selector': ''},{'name': 'PopoverDirective', 'selector': '[cxPopover]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'},{'name': 'TabFocusDirective', 'selector': ''},{'name': 'TrapFocusDirective', 'selector': ''},{'name': 'VisibleFocusDirective', 'selector': ''}];
+    var ACTUAL_COMPONENT = {'name': 'VisualViewerComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'VisualViewerComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

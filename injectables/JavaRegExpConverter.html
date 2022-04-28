@@ -134,8 +134,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">projects/core/src/util/java-reg-exp-converter/java-reg-exp-converter.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/core/src/util/java-reg-exp-converter/java-reg-exp-converter.ts:33</a></div>
                 </td>
             </tr>
 
@@ -274,7 +274,8 @@ export class JavaRegExpConverter {
    *    2. extracted modifiers, i.e. &#x60;iu&#x60; (or undefined if no modifiers present)
    *    3. the rest of the regexp, i.e. &#x60;PATTERN&#x60;
    */
-  private readonly EXTRACT_JAVA_REGEXP_MODIFIERS: RegExp &#x3D; /^(\(\?([a-z]+)\))?(.*)/;
+  private readonly EXTRACT_JAVA_REGEXP_MODIFIERS: RegExp &#x3D;
+    /^(\(\?([a-z]+)\))?(.*)/;
 
   /**
    * Converts RegExp from Java syntax to Javascript, by recognizing Java regexp modifiers

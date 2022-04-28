@@ -142,8 +142,13 @@ import { Config } from &#x27;../../config/config-tokens&#x27;;
 })
 export abstract class FeaturesConfig {
   features?: {
-    [featureToggle: string]: string | boolean;
+    level?: string;
+    [featureToggle: string]: string | boolean | undefined;
   };
+}
+
+declare module &#x27;../../config/config-tokens&#x27; {
+  interface Config extends FeaturesConfig {}
 }
 </code></pre>
     </div>

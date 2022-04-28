@@ -59,7 +59,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts</code>
+                <code>feature-libs/checkout/components/guards/checkout.guard.ts</code>
             </p>
 
 
@@ -122,7 +122,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">feature-libs/checkout/components/guards/checkout.guard.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -246,7 +246,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/guards/checkout.guard.ts:34</a></div>
+                            class="link-to-prism">feature-libs/checkout/components/guards/checkout.guard.ts:34</a></div>
                 </td>
             </tr>
 
@@ -269,10 +269,10 @@
         <div class="tab-pane fade  tab-source-code" id="c-source">
             <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { CanActivate, Router, UrlTree } from &#x27;@angular/router&#x27;;
+import { CheckoutStepType } from &#x27;@spartacus/checkout/root&#x27;;
 import { ActiveCartService, RoutingConfigService } from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { switchMap } from &#x27;rxjs/operators&#x27;;
-import { CheckoutStepType } from &#x27;../model/checkout-step.model&#x27;;
 import { CheckoutConfigService } from &#x27;../services/checkout-config.service&#x27;;
 import { CheckoutStepService } from &#x27;../services/checkout-step.service&#x27;;
 import { ExpressCheckoutService } from &#x27;../services/express-checkout.service&#x27;;
@@ -295,7 +295,7 @@ export class CheckoutGuard implements CanActivate {
       this.router.parseUrl(
         this.routingConfigService.getRouteConfig(
           this.checkoutStepService.getFirstCheckoutStepRoute()
-        ).paths[0]
+        ).paths?.[0] as string
       )
     );
   }
@@ -307,14 +307,15 @@ export class CheckoutGuard implements CanActivate {
     ) {
       return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
         switchMap((expressCheckoutPossible: boolean) &#x3D;&gt; {
-          return expressCheckoutPossible
+          const reviewOrderRoute &#x3D;
+            this.checkoutStepService.getCheckoutStepRoute(
+              CheckoutStepType.REVIEW_ORDER
+            );
+          return expressCheckoutPossible &amp;&amp; reviewOrderRoute
             ? of(
                 this.router.parseUrl(
-                  this.routingConfigService.getRouteConfig(
-                    this.checkoutStepService.getCheckoutStepRoute(
-                      CheckoutStepType.REVIEW_ORDER
-                    )
-                  ).paths[0]
+                  this.routingConfigService.getRouteConfig(reviewOrderRoute)
+                    .paths?.[0] as string
                 )
               )
             : this.firstStep$;

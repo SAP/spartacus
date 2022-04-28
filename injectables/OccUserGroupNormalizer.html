@@ -103,7 +103,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-user-group-normalizer.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-user-group-normalizer.ts:10</a></div>
                             </td>
                         </tr>
 
@@ -136,8 +136,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-user-group-normalizer.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-user-group-normalizer.ts:13</a></div>
                 </td>
             </tr>
 
@@ -210,7 +210,8 @@ import { UserGroup } from &#x27;@spartacus/organization/administration/core&#x27
   providedIn: &#x27;root&#x27;,
 })
 export class OccUserGroupNormalizer
-  implements Converter&lt;Occ.OrgUnitUserGroup, UserGroup&gt; {
+  implements Converter&lt;Occ.OrgUnitUserGroup, UserGroup&gt;
+{
   constructor() {}
 
   convert(source: Occ.OrgUnitUserGroup, target?: UserGroup): UserGroup {

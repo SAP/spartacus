@@ -56,13 +56,13 @@
 <title>cluster_CheckoutOrchestratorModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 248,-230.8 248,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_CheckoutOrchestratorModule_declarations</title>
-<polygon fill="none" stroke="black" points="18,-40.8 18,-92.8 238,-92.8 238,-40.8 18,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_CheckoutOrchestratorModule_exports</title>
 <polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 240,-222.8 240,-170.8 16,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CheckoutOrchestratorModule_declarations</title>
+<polygon fill="none" stroke="black" points="18,-40.8 18,-92.8 238,-92.8 238,-40.8 18,-40.8"/>
 </g>
 <!-- CheckoutOrchestratorComponent -->
 <g id="node1" class="node">
@@ -124,7 +124,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/checkout/components/checkout-orchestrator/checkout-orchestrator.module.ts</code>
+            <code>feature-libs/checkout/components/components/checkout-orchestrator/checkout-orchestrator.module.ts</code>
         </p>
 
 
@@ -136,15 +136,6 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/CheckoutOrchestratorComponent.html">CheckoutOrchestratorComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/CheckoutOrchestratorComponent.html">CheckoutOrchestratorComponent</a>
@@ -171,16 +162,14 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { CmsConfig, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
-import { defaultCheckoutConfig } from &#x27;../../config/default-checkout-config&#x27;;
+import { CartNotEmptyGuard } from &#x27;../../guards/cart-not-empty.guard&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../guards/checkout-auth.guard&#x27;;
 import { CheckoutGuard } from &#x27;../../guards/checkout.guard&#x27;;
-import { CartNotEmptyGuard } from &#x27;./../../../../cms-components/cart/cart-not-empty.guard&#x27;;
 import { CheckoutOrchestratorComponent } from &#x27;./checkout-orchestrator.component&#x27;;
 
 @NgModule({
   imports: [CommonModule],
   providers: [
-    provideDefaultConfig(defaultCheckoutConfig),
     provideDefaultConfig(&lt;CmsConfig&gt;{
       cmsComponents: {
         CheckoutOrchestrator: {
@@ -191,7 +180,6 @@ import { CheckoutOrchestratorComponent } from &#x27;./checkout-orchestrator.comp
     }),
   ],
   declarations: [CheckoutOrchestratorComponent],
-  entryComponents: [CheckoutOrchestratorComponent],
   exports: [CheckoutOrchestratorComponent],
 })
 export class CheckoutOrchestratorModule {}

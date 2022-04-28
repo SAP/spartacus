@@ -1956,7 +1956,7 @@ export class MultiCartService {
    * @param extraData
    */
   reloadCart(cartId: string, extraData?: { active: boolean }): void {
-    this.userIdService.invokeWithUserId((userId) &#x3D;&gt;
+    this.userIdService.takeUserId().subscribe((userId) &#x3D;&gt;
       this.store.dispatch(
         new CartActions.LoadCart({
           userId,

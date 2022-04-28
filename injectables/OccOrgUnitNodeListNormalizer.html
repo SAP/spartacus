@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="10"
-                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-org-unit-node-list-normalizer.ts:10</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="11"
+                            class="link-to-prism">feature-libs/organization/administration/occ/converters/occ-org-unit-node-list-normalizer.ts:11</a></div>
                 </td>
             </tr>
 
@@ -192,7 +192,8 @@ import { B2BUnitNode } from &#x27;@spartacus/organization/administration/core&#x
   providedIn: &#x27;root&#x27;,
 })
 export class OccOrgUnitNodeListNormalizer
-  implements Converter&lt;Occ.B2BUnitNodeList, B2BUnitNode[]&gt; {
+  implements Converter&lt;Occ.B2BUnitNodeList, B2BUnitNode[]&gt;
+{
   convert(source: Occ.B2BUnitNodeList, target?: B2BUnitNode[]): B2BUnitNode[] {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
       target &#x3D; [...(source.unitNodes as any)];

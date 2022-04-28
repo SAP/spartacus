@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/shared/components/media/media.model.ts</code>
+            <code>projects/storefrontlib/shared/components/media/media.model.ts</code>
         </p>
 
 
@@ -91,7 +91,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/shared/components/media/media.model.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/storefrontlib/shared/components/media/media.model.ts:31</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -121,6 +121,12 @@ export interface Media {
    * also used by web crawlers and screen readers.
    */
   alt?: string;
+
+  /**
+   * Describes the role of an element in programs that can make use of it, such as screen
+   * readers or magnifiers
+   */
+  role?: string;
 }
 
 /**

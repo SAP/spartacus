@@ -251,8 +251,8 @@ by reading the defined <code>data.cxRoute</code> from the Angular Routes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">projects/core/src/routing/store/reducers/router.reducer.ts:106</a></div>
                 </td>
             </tr>
 
@@ -395,9 +395,8 @@ export function reducer(
   }
 }
 
-export const reducerToken: InjectionToken&lt;
-  ActionReducerMap&lt;State&gt;
-&gt; &#x3D; new InjectionToken&lt;ActionReducerMap&lt;State&gt;&gt;(&#x27;RouterReducers&#x27;);
+export const reducerToken: InjectionToken&lt;ActionReducerMap&lt;State&gt;&gt; &#x3D;
+  new InjectionToken&lt;ActionReducerMap&lt;State&gt;&gt;(&#x27;RouterReducers&#x27;);
 
 export const reducerProvider: Provider &#x3D; {
   provide: reducerToken,
@@ -409,10 +408,11 @@ and to reduce the amount of properties to be passed to the reducer.
  */
 @Injectable()
 export class CustomSerializer
-  implements
-    fromNgrxRouter.RouterStateSerializer&lt;ActivatedRouterStateSnapshot&gt; {
+  implements fromNgrxRouter.RouterStateSerializer&lt;ActivatedRouterStateSnapshot&gt;
+{
   serialize(routerState: RouterStateSnapshot): ActivatedRouterStateSnapshot {
-    let state: CmsActivatedRouteSnapshot &#x3D; routerState.root as CmsActivatedRouteSnapshot;
+    let state: CmsActivatedRouteSnapshot &#x3D;
+      routerState.root as CmsActivatedRouteSnapshot;
     let cmsRequired &#x3D; false;
     let context: PageContext;
     let semanticRoute: string;

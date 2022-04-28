@@ -184,7 +184,6 @@ Cypress.Commands.add(&#x27;requireShippingMethodSelected&#x27;, (token, cartId) 
     });
   }
 
-  cy.server();
   getDefaultDeliveryModeCode(token.access_token, cartId).then((code) &#x3D;&gt;
     setShippingMethod(code).then((resp) &#x3D;&gt; cy.wrap(resp))
   );

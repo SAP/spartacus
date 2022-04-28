@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/adapters/checkout/occ-checkout-replenishment-order.adapter.ts</code>
+            <code>feature-libs/checkout/occ/adapters/occ-checkout-replenishment-order.adapter.ts</code>
         </p>
 
 
@@ -77,6 +77,10 @@
                 <tr>
                     <td class="col-md-4">
                         <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getScheduleReplenishmentOrderEndpoint" >getScheduleReplenishmentOrderEndpoint</a>
+                            </li>
                             <li>
                                 <a href="#scheduleReplenishmentOrder" >scheduleReplenishmentOrder</a>
                             </li>
@@ -103,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-replenishment-order.adapter.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-replenishment-order.adapter.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -174,6 +178,100 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getScheduleReplenishmentOrderEndpoint"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getScheduleReplenishmentOrderEndpoint</b></span>
+                        <a href="#getScheduleReplenishmentOrderEndpoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getScheduleReplenishmentOrderEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, termsChecked: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-replenishment-order.adapter.ts:26</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cartId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>termsChecked</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="scheduleReplenishmentOrder"></a>
                     <span class="name">
                         <span ><b>scheduleReplenishmentOrder</b></span>
@@ -190,8 +288,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-replenishment-order.adapter.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-replenishment-order.adapter.ts:39</a></div>
                 </td>
             </tr>
 
@@ -280,29 +378,43 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders, HttpParams } from &#x27;@angular/common/http&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { CheckoutReplenishmentOrderAdapter } from &#x27;../../../checkout/connectors/replenishment-order/checkout-replenishment-order.adapter&#x27;;
 import {
+  CheckoutReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
-  REPLENISHMENT_ORDER_NORMALIZER,
-} from &#x27;../../../checkout/connectors/replenishment-order/converters&#x27;;
+} from &#x27;@spartacus/checkout/core&#x27;;
 import {
+  ConverterService,
+  OccEndpointsService,
   ReplenishmentOrder,
+  REPLENISHMENT_ORDER_NORMALIZER,
   ScheduleReplenishmentForm,
-} from &#x27;../../../model/replenishment-order.model&#x27;;
-import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
-import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
+} from &#x27;@spartacus/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
 
 @Injectable()
 export class OccCheckoutReplenishmentOrderAdapter
-  implements CheckoutReplenishmentOrderAdapter {
+  implements CheckoutReplenishmentOrderAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
+
+  protected getScheduleReplenishmentOrderEndpoint(
+    userId: string,
+    cartId: string,
+    termsChecked: string
+  ) {
+    return this.occEndpoints.buildUrl(&#x27;scheduleReplenishmentOrder&#x27;, {
+      urlParams: {
+        userId,
+      },
+      queryParams: { cartId, termsChecked },
+    });
+  }
 
   scheduleReplenishmentOrder(
     cartId: string,
@@ -317,17 +429,15 @@ export class OccCheckoutReplenishmentOrderAdapter
 
     const headers &#x3D; new HttpHeaders().set(&#x27;Content-Type&#x27;, &#x27;application/json&#x27;);
 
-    const params &#x3D; new HttpParams()
-      .set(&#x27;cartId&#x27;, cartId)
-      .set(&#x27;termsChecked&#x27;, termsChecked.toString());
-
     return this.http
       .post(
-        this.occEndpoints.getUrl(&#x27;scheduleReplenishmentOrder&#x27;, {
+        this.getScheduleReplenishmentOrderEndpoint(
           userId,
-        }),
+          cartId,
+          termsChecked.toString()
+        ),
         scheduleReplenishmentForm,
-        { headers, params }
+        { headers }
       )
       .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER));
   }

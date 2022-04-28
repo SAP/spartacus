@@ -84,7 +84,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/routing/configurable-routes/routes-config.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/core/src/routing/configurable-routes/routes-config.ts:53</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -136,6 +136,15 @@ export interface RouteConfig {
    * Other values (true, undefined) are ignored.
    */
   protected?: boolean;
+
+  /**
+   * When true, the page is considered as part of the user journey related to authorization (for example:
+   * login, register, forgot password, logout, etc.)
+   *
+   * When user is redirected back after successful login, he won&#x27;t land on any page marked as the auth flow, but on other
+   * previously accessed page.
+   */
+  authFlow?: boolean;
 }
 
 export interface ParamsMapping {

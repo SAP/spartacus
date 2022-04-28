@@ -144,10 +144,11 @@ Provides routing, assignment of ng components to CMS components and assignment o
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
-import { CmsConfig, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 import {
   CmsPageGuard,
   HamburgerMenuModule,
+  LayoutConfig,
   PageLayoutComponent,
 } from &#x27;@spartacus/storefront&#x27;;
 import { defaultCpqInteractiveRoutingConfig } from &#x27;./default-cpq-interactive-routing-config&#x27;;
@@ -174,7 +175,7 @@ import { defaultCpqInteractiveRoutingConfig } from &#x27;./default-cpq-interacti
   ],
   providers: [
     provideDefaultConfig(defaultCpqInteractiveRoutingConfig),
-    provideDefaultConfig(&lt;CmsConfig&gt;{
+    provideDefaultConfig(&lt;LayoutConfig&gt;{
       layoutSlots: {
         CpqConfigurationTemplate: {
           header: {

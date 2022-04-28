@@ -14,13 +14,13 @@
 <title>cluster_KeyboardFocusModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 264,-230.8 264,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_KeyboardFocusModule_exports</title>
-<polygon fill="none" stroke="black" points="75,-170.8 75,-222.8 197,-222.8 197,-170.8 75,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_KeyboardFocusModule_declarations</title>
 <polygon fill="none" stroke="black" points="138,-40.8 138,-92.8 256,-92.8 256,-40.8 138,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_KeyboardFocusModule_exports</title>
+<polygon fill="none" stroke="black" points="75,-170.8 75,-222.8 197,-222.8 197,-170.8 75,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_KeyboardFocusModule_imports</title>

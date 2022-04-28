@@ -14,13 +14,13 @@
 <title>cluster_PaginationTestingModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 186,-230.8 186,-32.8 8,-32.8"/>
 </g>
-<g id="clust3" class="cluster">
-<title>cluster_PaginationTestingModule_imports</title>
-<polygon fill="none" stroke="black" points="29,-40.8 29,-92.8 165,-92.8 165,-40.8 29,-40.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_PaginationTestingModule_exports</title>
 <polygon fill="none" stroke="black" points="28,-170.8 28,-222.8 166,-222.8 166,-170.8 28,-170.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_PaginationTestingModule_imports</title>
+<polygon fill="none" stroke="black" points="29,-40.8 29,-92.8 165,-92.8 165,-40.8 29,-40.8"/>
 </g>
 <!-- PaginationModule -->
 <g id="node1" class="node">

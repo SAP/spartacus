@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/checkout/store/effects/payment-types.effect.ts</code>
+            <code>feature-libs/checkout/core/store/effects/payment-types.effect.ts</code>
         </p>
 
 
@@ -106,7 +106,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/core/src/checkout/store/effects/payment-types.effect.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">feature-libs/checkout/core/store/effects/payment-types.effect.ts:68</a></div>
                             </td>
                         </tr>
 
@@ -210,7 +210,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/checkout/store/effects/payment-types.effect.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">feature-libs/checkout/core/store/effects/payment-types.effect.ts:12</a></div>
                         </td>
                     </tr>
 
@@ -280,7 +280,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/checkout/store/effects/payment-types.effect.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">feature-libs/checkout/core/store/effects/payment-types.effect.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -295,10 +295,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
+import { CartActions, normalizeHttpError } from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
-import { CartActions } from &#x27;../../../cart/store/actions/index&#x27;;
-import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { PaymentTypeConnector } from &#x27;../../connectors/payment-type/payment-type.connector&#x27;;
 import { CheckoutActions } from &#x27;../actions/index&#x27;;
 

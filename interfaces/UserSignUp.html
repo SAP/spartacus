@@ -45,7 +45,6 @@
 <ol class="breadcrumb">
   <li>Interfaces</li>
   <li
-        class="deprecated-name"
   >
   UserSignUp</li>
 </ol>
@@ -65,15 +64,9 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/model/misc.model.ts</code>
+            <code>feature-libs/user/profile/root/model/user-profile.model.ts</code>
         </p>
 
-            <p class="comment">
-                <h3 class="deprecated">Deprecated</h3>
-            </p>
-            <p class="comment">
-                moved to user lib
-            </p>
 
 
 
@@ -330,74 +323,24 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Address } from &#x27;./address.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Address, Currency, Language } from &#x27;@spartacus/core&#x27;;
 
-export interface Currency {
-  active?: boolean;
-  isocode?: string;
-  name?: string;
-  symbol?: string;
-}
-
-export interface Time {
-  formattedHour?: string;
-  hour?: number;
-  minute?: number;
-}
-
-export interface GeoPoint {
-  latitude?: number;
-  longitude?: number;
-}
-
-export interface Language {
-  active?: boolean;
-  isocode?: string;
-  name?: string;
-  nativeName?: string;
-}
-
-export interface User {
-  currency?: Currency;
-  customerId?: string;
-  deactivationDate?: Date;
-  defaultAddress?: Address;
-  displayUid?: string;
-  firstName?: string;
-  language?: Language;
-  lastName?: string;
-  name?: string;
-  title?: string;
-  titleCode?: string;
-  uid?: string;
-  roles?: string[];
-}
-
-export interface ListModel {
-  ids: string[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
-}
-
-// TODO(#8875): Do we need it here?
-export interface EntitiesModel&lt;T&gt; {
-  values: T[];
-  pagination?: PaginationModel;
-  sorts?: SortModel[];
-}
-
-export interface PaginationModel {
-  currentPage?: number;
-  pageSize?: number;
-  sort?: string;
-  totalPages?: number;
-  totalResults?: number;
-}
-
-export interface SortModel {
-  code?: string;
-  name?: string;
-  selected?: boolean;
+declare module &#x27;@spartacus/user/account/root&#x27; {
+  export interface User {
+    currency?: Currency;
+    customerId?: string;
+    deactivationDate?: Date;
+    defaultAddress?: Address;
+    displayUid?: string;
+    firstName?: string;
+    language?: Language;
+    lastName?: string;
+    name?: string;
+    title?: string;
+    titleCode?: string;
+    uid?: string;
+    roles?: string[];
+  }
 }
 
 export interface Title {
@@ -405,52 +348,6 @@ export interface Title {
   name?: string;
 }
 
-export interface ErrorModel {
-  message?: string;
-  reason?: string;
-  subject?: string;
-  subjectType?: string;
-  type?: string;
-}
-
-export interface HttpErrorModel {
-  message?: string;
-  status?: number;
-  statusText?: string;
-  url?: string | null;
-  details?: ErrorModel[];
-
-  /**
-   * @deprecated since 2.1
-   */
-  error?: any | null;
-}
-
-export interface BaseStore {
-  currencies?: Currency[];
-  defaultCurrency?: Currency;
-  languages?: Language[];
-  defaultLanguage?: Language;
-}
-
-export interface BaseSite {
-  channel?: string;
-  defaultLanguage?: Language;
-  defaultPreviewCatalogId?: string;
-  defaultPreviewCategoryCode?: string;
-  defaultPreviewProductCode?: string;
-  locale?: string;
-  name?: string;
-  theme?: string;
-  uid?: string;
-  stores?: BaseStore[];
-  urlPatterns?: string[];
-  urlEncodingAttributes?: string[];
-  baseStore?: BaseStore;
-}
-/**
- * @deprecated moved to user lib
- */
 export interface UserSignUp {
   firstName?: string;
   lastName?: string;

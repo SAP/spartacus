@@ -188,7 +188,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/checkout/components/shipping-address/address-form/address-form.module.ts</code>
+            <code>projects/storefrontlib/cms-components/myaccount/address-book/address-form/address-form.module.ts</code>
         </p>
 
 
@@ -204,15 +204,6 @@
                         <li class="list-group-item">
                             <a href="../components/AddressFormComponent.html">AddressFormComponent</a>
                         </li>
-                        <li class="list-group-item">
-                            <a href="../components/SuggestedAddressDialogComponent.html">SuggestedAddressDialogComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/SuggestedAddressDialogComponent.html">SuggestedAddressDialogComponent</a>
                         </li>
@@ -259,10 +250,10 @@ import { FormsModule, ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
 import { NgSelectModule } from &#x27;@ng-select/ng-select&#x27;;
 import { I18nModule } from &#x27;@spartacus/core&#x27;;
-import { IconModule } from &#x27;../../../../misc/icon/index&#x27;;
+import { IconModule } from &#x27;../../../misc/icon/index&#x27;;
 import { AddressFormComponent } from &#x27;./address-form.component&#x27;;
 import { SuggestedAddressDialogComponent } from &#x27;./suggested-addresses-dialog/suggested-addresses-dialog.component&#x27;;
-import { FormErrorsModule } from &#x27;../../../../../shared/index&#x27;;
+import { FormErrorsModule } from &#x27;../../../../shared/index&#x27;;
 
 @NgModule({
   imports: [
@@ -276,7 +267,6 @@ import { FormErrorsModule } from &#x27;../../../../../shared/index&#x27;;
     FormErrorsModule,
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
-  entryComponents: [SuggestedAddressDialogComponent],
   exports: [AddressFormComponent, SuggestedAddressDialogComponent],
 })
 export class AddressFormModule {}

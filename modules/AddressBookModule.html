@@ -192,7 +192,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/myaccount/address-book/address-book.module.ts</code>
+            <code>projects/storefrontlib/cms-components/myaccount/address-book/address-book.module.ts</code>
         </p>
 
 
@@ -204,15 +204,6 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/AddressBookComponent.html">AddressBookComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/AddressBookComponent.html">AddressBookComponent</a>
@@ -274,9 +265,8 @@ import {
 } from &#x27;@spartacus/core&#x27;;
 import { CardModule } from &#x27;../../../shared/components/card/card.module&#x27;;
 import { SpinnerModule } from &#x27;../../../shared/components/spinner/spinner.module&#x27;;
-import { AddressFormModule } from &#x27;../../checkout/components/shipping-address/address-form/address-form.module&#x27;;
 import { AddressBookComponent } from &#x27;./address-book.component&#x27;;
-import { AddressBookComponentService } from &#x27;./address-book.component.service&#x27;;
+import { AddressFormModule } from &#x27;./address-form/address-form.module&#x27;;
 
 @NgModule({
   imports: [
@@ -293,20 +283,12 @@ import { AddressBookComponentService } from &#x27;./address-book.component.servi
       cmsComponents: {
         AccountAddressBookComponent: {
           component: AddressBookComponent,
-          providers: [
-            {
-              provide: AddressBookComponentService,
-              useClass: AddressBookComponentService,
-              deps: [UserAddressService],
-            },
-          ],
           guards: [AuthGuard],
         },
       },
     }),
     UserAddressService,
   ],
-  entryComponents: [AddressBookComponent],
 })
 export class AddressBookModule {}
 </code></pre>

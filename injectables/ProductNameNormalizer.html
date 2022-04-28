@@ -552,7 +552,7 @@ export class ProductNameNormalizer implements Converter&lt;Occ.Product, Product&
   constructor(protected config: OccConfig) {}
 
   convert(source: Occ.Product, target?: Product): Product {
-    target &#x3D; target ?? { ...((source as unknown) as Partial&lt;Product&gt;) };
+    target &#x3D; target ?? { ...(source as unknown as Partial&lt;Product&gt;) };
 
     if (source.name) {
       target.name &#x3D; this.normalize(source.name);

@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/checkout/connectors/payment-type/payment-type.connector.ts</code>
+            <code>feature-libs/checkout/core/connectors/payment-type/payment-type.connector.ts</code>
         </p>
 
 
@@ -106,7 +106,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/core/src/checkout/connectors/payment-type/payment-type.connector.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">feature-libs/checkout/core/connectors/payment-type/payment-type.connector.ts:7</a></div>
                             </td>
                         </tr>
 
@@ -169,8 +169,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">projects/core/src/checkout/connectors/payment-type/payment-type.connector.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">feature-libs/checkout/core/connectors/payment-type/payment-type.connector.ts:10</a></div>
                 </td>
             </tr>
 
@@ -206,8 +206,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/core/src/checkout/connectors/payment-type/payment-type.connector.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">feature-libs/checkout/core/connectors/payment-type/payment-type.connector.ts:14</a></div>
                 </td>
             </tr>
 
@@ -296,14 +296,12 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { PaymentType } from &#x27;@spartacus/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
 import { PaymentTypeAdapter } from &#x27;./payment-type.adapter&#x27;;
-import { PaymentType } from &#x27;../../../model/cart.model&#x27;;
 
-@Injectable({
-  providedIn: &#x27;root&#x27;,
-})
+@Injectable()
 export class PaymentTypeConnector {
   constructor(protected adapter: PaymentTypeAdapter) {}
 

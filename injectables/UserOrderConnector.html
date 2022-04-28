@@ -39,7 +39,9 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li >UserOrderConnector</li>
+  <li 
+        class="deprecated-name"
+    >UserOrderConnector</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,6 +62,12 @@
             <code>projects/core/src/user/connectors/order/user-order.connector.ts</code>
         </p>
 
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 4.2 - use OrderConnector in 
+            </p>
 
 
 
@@ -132,7 +140,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -197,8 +205,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:49</a></div>
                 </td>
             </tr>
 
@@ -291,8 +299,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:85</a></div>
                 </td>
             </tr>
 
@@ -385,8 +393,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:24</a></div>
                 </td>
             </tr>
 
@@ -467,8 +475,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:37</a></div>
                 </td>
             </tr>
 
@@ -561,8 +569,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:28</a></div>
                 </td>
             </tr>
 
@@ -667,8 +675,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:64</a></div>
                 </td>
             </tr>
 
@@ -749,8 +757,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:71</a></div>
                 </td>
             </tr>
 
@@ -855,8 +863,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/core/src/user/connectors/order/user-order.connector.ts:57</a></div>
                 </td>
             </tr>
 
@@ -935,6 +943,9 @@ import {
 } from &#x27;../../../model/order.model&#x27;;
 import { UserOrderAdapter } from &#x27;./user-order.adapter&#x27;;
 
+/**
+ * @deprecated since 4.2 - use OrderConnector in @spartacus/order/core
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })

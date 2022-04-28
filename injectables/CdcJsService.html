@@ -329,8 +329,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="132"
-                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:132</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:131</a></div>
                 </td>
             </tr>
 
@@ -479,8 +479,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:107</a></div>
                 </td>
             </tr>
 
@@ -625,8 +625,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="174"
-                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:174</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="173"
+                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:173</a></div>
                 </td>
             </tr>
 
@@ -662,8 +662,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="147"
+                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:147</a></div>
                 </td>
             </tr>
 
@@ -744,8 +744,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="165"
-                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:165</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="164"
+                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:164</a></div>
                 </td>
             </tr>
 
@@ -816,8 +816,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">integration-libs/cdc/root/service/cdc-js.service.ts:122</a></div>
                 </td>
             </tr>
 
@@ -1039,9 +1039,8 @@ export class CdcJsService implements OnDestroy {
         ])
           .pipe(take(1))
           .subscribe(([baseSite, language]) &#x3D;&gt; {
-            const scriptForBaseSite &#x3D; this.getJavascriptUrlForCurrentSite(
-              baseSite
-            );
+            const scriptForBaseSite &#x3D;
+              this.getJavascriptUrlForCurrentSite(baseSite);
             if (scriptForBaseSite) {
               const javascriptUrl &#x3D; &#x60;${scriptForBaseSite}&amp;lang&#x3D;${language}&#x60;;
               this.scriptLoader.embedScript({

@@ -241,8 +241,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/core/src/i18n/i18n.module.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/core/src/i18n/i18n.module.ts:35</a></div>
                 </td>
             </tr>
 
@@ -269,7 +269,6 @@ import {
   CONFIG_INITIALIZER,
 } from &#x27;../config/config-initializer/config-initializer&#x27;;
 import { provideDefaultConfig } from &#x27;../config/config-providers&#x27;;
-import { FeatureConfigService } from &#x27;../features-config/services/feature-config.service&#x27;;
 import { defaultI18nConfig } from &#x27;./config/default-i18n-config&#x27;;
 import { I18nConfig } from &#x27;./config/i18n-config&#x27;;
 import { I18nConfigInitializer } from &#x27;./config/i18n-config-initializer&#x27;;
@@ -282,13 +281,8 @@ import { CxNumericPipe } from &#x27;./numeric.pipe&#x27;;
 
 export function initI18nConfig(
   configInitializer: I18nConfigInitializer,
-  config: I18nConfig,
-  featureConfigService: FeatureConfigService
+  config: I18nConfig
 ): ConfigInitializer | null {
-  // TODO(#11515): remove it in 4.0
-  if (!featureConfigService.isLevel(&#x27;3.2&#x27;)) {
-    return null;
-  }
   /**
    * If &#x60;fallbackLang&#x60; was already configured statically
    */
@@ -313,7 +307,7 @@ export class I18nModule {
         {
           provide: CONFIG_INITIALIZER,
           useFactory: initI18nConfig,
-          deps: [I18nConfigInitializer, I18nConfig, FeatureConfigService],
+          deps: [I18nConfigInitializer, I18nConfig],
           multi: true,
         },
       ],

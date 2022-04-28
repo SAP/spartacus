@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/user/store/actions/order-return-request.action.ts</code>
+            <code>feature-libs/order/core/store/actions/order-return-request.action.ts</code>
         </p>
 
 
@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/core/src/user/store/actions/order-return-request.action.ts:120</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">feature-libs/order/core/store/actions/order-return-request.action.ts:116</a></div>
                             </td>
                         </tr>
 
@@ -176,7 +176,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">projects/core/src/user/store/actions/order-return-request.action.ts:121</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">feature-libs/order/core/store/actions/order-return-request.action.ts:117</a></div>
                         </td>
                     </tr>
 
@@ -202,7 +202,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/core/src/user/store/actions/order-return-request.action.ts:120</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="116" class="link-to-prism">feature-libs/order/core/store/actions/order-return-request.action.ts:116</a></div>
                         </td>
                     </tr>
 
@@ -222,59 +222,55 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  PROCESS_FEATURE,
   ReturnRequest,
   ReturnRequestEntryInputList,
   ReturnRequestList,
   ReturnRequestModification,
-} from &#x27;../../../model/order.model&#x27;;
+  StateUtils,
+} from &#x27;@spartacus/core&#x27;;
 import {
-  USER_RETURN_REQUESTS,
-  USER_RETURN_REQUEST_DETAILS,
   CANCEL_RETURN_PROCESS_ID,
-} from &#x27;../user-state&#x27;;
-import {
-  LoaderFailAction,
-  LoaderLoadAction,
-  LoaderSuccessAction,
-  LoaderResetAction,
-} from &#x27;../../../state/utils/loader/loader.action&#x27;;
-import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
-import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
+  RETURN_REQUESTS,
+  RETURN_REQUEST_DETAILS,
+} from &#x27;../order-state&#x27;;
 
-export const CREATE_ORDER_RETURN_REQUEST &#x3D; &#x27;[User] Create Order Return Request&#x27;;
+export const CREATE_ORDER_RETURN_REQUEST &#x3D;
+  &#x27;[Order] Create Order Return Request&#x27;;
 export const CREATE_ORDER_RETURN_REQUEST_FAIL &#x3D;
-  &#x27;[User] Create Order Return Request Fail&#x27;;
+  &#x27;[Order] Create Order Return Request Fail&#x27;;
 export const CREATE_ORDER_RETURN_REQUEST_SUCCESS &#x3D;
-  &#x27;[User] Create Order Return Request Success&#x27;;
+  &#x27;[Order] Create Order Return Request Success&#x27;;
 
 export const LOAD_ORDER_RETURN_REQUEST &#x3D;
-  &#x27;[User] Load Order Return Request details&#x27;;
+  &#x27;[Order] Load Order Return Request details&#x27;;
 export const LOAD_ORDER_RETURN_REQUEST_FAIL &#x3D;
-  &#x27;[User] Load Order Return Request details Fail&#x27;;
+  &#x27;[Order] Load Order Return Request details Fail&#x27;;
 export const LOAD_ORDER_RETURN_REQUEST_SUCCESS &#x3D;
-  &#x27;[User] Load Order Return Request details Success&#x27;;
+  &#x27;[Order] Load Order Return Request details Success&#x27;;
 
-export const CANCEL_ORDER_RETURN_REQUEST &#x3D; &#x27;[User] Cancel Order Return Request&#x27;;
+export const CANCEL_ORDER_RETURN_REQUEST &#x3D;
+  &#x27;[Order] Cancel Order Return Request&#x27;;
 export const CANCEL_ORDER_RETURN_REQUEST_FAIL &#x3D;
-  &#x27;[User] Cancel Order Return Request Fail&#x27;;
+  &#x27;[Order] Cancel Order Return Request Fail&#x27;;
 export const CANCEL_ORDER_RETURN_REQUEST_SUCCESS &#x3D;
-  &#x27;[User] Cancel Order Return Request Success&#x27;;
+  &#x27;[Order] Cancel Order Return Request Success&#x27;;
 
 export const LOAD_ORDER_RETURN_REQUEST_LIST &#x3D;
-  &#x27;[User] Load User Order Return Request List&#x27;;
+  &#x27;[Order] Load User Order Return Request List&#x27;;
 export const LOAD_ORDER_RETURN_REQUEST_LIST_FAIL &#x3D;
-  &#x27;[User] Load User Order Return Request List Fail&#x27;;
+  &#x27;[Order] Load User Order Return Request List Fail&#x27;;
 export const LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS &#x3D;
-  &#x27;[User] Load User Order Return Request List Success&#x27;;
+  &#x27;[Order] Load User Order Return Request List Success&#x27;;
 
 export const CLEAR_ORDER_RETURN_REQUEST &#x3D;
-  &#x27;[User] Clear Order Return Request Details&#x27;;
+  &#x27;[Order] Clear Order Return Request Details&#x27;;
 export const CLEAR_ORDER_RETURN_REQUEST_LIST &#x3D;
-  &#x27;[User] Clear Order Return Request List&#x27;;
+  &#x27;[Order] Clear Order Return Request List&#x27;;
 export const RESET_CANCEL_RETURN_PROCESS &#x3D;
-  &#x27;[User] Reset Cancel Return Request Process&#x27;;
+  &#x27;[Order] Reset Cancel Return Request Process&#x27;;
 
-export class CreateOrderReturnRequest extends LoaderLoadAction {
+export class CreateOrderReturnRequest extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; CREATE_ORDER_RETURN_REQUEST;
   constructor(
     public payload: {
@@ -282,25 +278,25 @@ export class CreateOrderReturnRequest extends LoaderLoadAction {
       returnRequestInput: ReturnRequestEntryInputList;
     }
   ) {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(RETURN_REQUEST_DETAILS);
   }
 }
 
-export class CreateOrderReturnRequestFail extends LoaderFailAction {
+export class CreateOrderReturnRequestFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; CREATE_ORDER_RETURN_REQUEST_FAIL;
   constructor(public payload: any) {
-    super(USER_RETURN_REQUEST_DETAILS, payload);
+    super(RETURN_REQUEST_DETAILS, payload);
   }
 }
 
-export class CreateOrderReturnRequestSuccess extends LoaderSuccessAction {
+export class CreateOrderReturnRequestSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; CREATE_ORDER_RETURN_REQUEST_SUCCESS;
   constructor(public payload: ReturnRequest) {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(RETURN_REQUEST_DETAILS);
   }
 }
 
-export class LoadOrderReturnRequest extends LoaderLoadAction {
+export class LoadOrderReturnRequest extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; LOAD_ORDER_RETURN_REQUEST;
   constructor(
     public payload: {
@@ -308,21 +304,21 @@ export class LoadOrderReturnRequest extends LoaderLoadAction {
       returnRequestCode: string;
     }
   ) {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(RETURN_REQUEST_DETAILS);
   }
 }
 
-export class LoadOrderReturnRequestFail extends LoaderFailAction {
+export class LoadOrderReturnRequestFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; LOAD_ORDER_RETURN_REQUEST_FAIL;
   constructor(public payload: any) {
-    super(USER_RETURN_REQUEST_DETAILS, payload);
+    super(RETURN_REQUEST_DETAILS, payload);
   }
 }
 
-export class LoadOrderReturnRequestSuccess extends LoaderSuccessAction {
+export class LoadOrderReturnRequestSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; LOAD_ORDER_RETURN_REQUEST_SUCCESS;
   constructor(public payload: ReturnRequest) {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(RETURN_REQUEST_DETAILS);
   }
 }
 
@@ -353,7 +349,7 @@ export class CancelOrderReturnRequestSuccess extends StateUtils.EntitySuccessAct
   }
 }
 
-export class LoadOrderReturnRequestList extends LoaderLoadAction {
+export class LoadOrderReturnRequestList extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; LOAD_ORDER_RETURN_REQUEST_LIST;
   constructor(
     public payload: {
@@ -363,35 +359,35 @@ export class LoadOrderReturnRequestList extends LoaderLoadAction {
       sort?: string;
     }
   ) {
-    super(USER_RETURN_REQUESTS);
+    super(RETURN_REQUESTS);
   }
 }
 
-export class LoadOrderReturnRequestListFail extends LoaderFailAction {
+export class LoadOrderReturnRequestListFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; LOAD_ORDER_RETURN_REQUEST_LIST_FAIL;
   constructor(public payload: any) {
-    super(USER_RETURN_REQUESTS, payload);
+    super(RETURN_REQUESTS, payload);
   }
 }
 
-export class LoadOrderReturnRequestListSuccess extends LoaderSuccessAction {
+export class LoadOrderReturnRequestListSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; LOAD_ORDER_RETURN_REQUEST_LIST_SUCCESS;
   constructor(public payload: ReturnRequestList) {
-    super(USER_RETURN_REQUESTS);
+    super(RETURN_REQUESTS);
   }
 }
 
-export class ClearOrderReturnRequest extends LoaderResetAction {
+export class ClearOrderReturnRequest extends StateUtils.LoaderResetAction {
   readonly type &#x3D; CLEAR_ORDER_RETURN_REQUEST;
   constructor() {
-    super(USER_RETURN_REQUEST_DETAILS);
+    super(RETURN_REQUEST_DETAILS);
   }
 }
 
-export class ClearOrderReturnRequestList extends LoaderResetAction {
+export class ClearOrderReturnRequestList extends StateUtils.LoaderResetAction {
   readonly type &#x3D; CLEAR_ORDER_RETURN_REQUEST_LIST;
   constructor() {
-    super(USER_RETURN_REQUESTS);
+    super(RETURN_REQUESTS);
   }
 }
 

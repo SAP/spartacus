@@ -188,7 +188,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/myaccount/order/amend-order/amend-order-items/amend-order-items.module.ts</code>
+            <code>feature-libs/order/components/amend-order/amend-order-items/amend-order-items.module.ts</code>
         </p>
 
 
@@ -200,15 +200,6 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/CancelOrReturnItemsComponent.html">CancelOrReturnItemsComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/CancelOrReturnItemsComponent.html">CancelOrReturnItemsComponent</a>
@@ -256,12 +247,12 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
-import { I18nModule, FeaturesConfigModule } from &#x27;@spartacus/core&#x27;;
+import { FeaturesConfigModule, I18nModule } from &#x27;@spartacus/core&#x27;;
 import {
   FormErrorsModule,
   ItemCounterModule,
   MediaModule,
-} from &#x27;../../../../../shared/index&#x27;;
+} from &#x27;@spartacus/storefront&#x27;;
 import { CancelOrReturnItemsComponent } from &#x27;./amend-order-items.component&#x27;;
 
 @NgModule({
@@ -276,7 +267,6 @@ import { CancelOrReturnItemsComponent } from &#x27;./amend-order-items.component
   ],
   declarations: [CancelOrReturnItemsComponent],
   exports: [CancelOrReturnItemsComponent],
-  entryComponents: [CancelOrReturnItemsComponent],
 })
 export class AmendOrderItemsModule {}
 </code></pre>

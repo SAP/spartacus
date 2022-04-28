@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/launch-dialog/services/outlet-render.strategy.ts</code>
+            <code>projects/storefrontlib/layout/launch-dialog/services/outlet-render.strategy.ts</code>
         </p>
 
 
@@ -169,7 +169,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/storefrontlib/src/layout/launch-dialog/services/outlet-render.strategy.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/storefrontlib/layout/launch-dialog/services/outlet-render.strategy.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -498,7 +498,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Component.html" target="_self" >Observable&lt;ComponentRef&lt;any&gt;&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable | void</code>
 
                     </div>
                     <div class="io-description">
@@ -1127,7 +1127,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
   render(
     config: LaunchOutletDialog,
     caller: LAUNCH_CALLER | string
-  ): Observable&lt;ComponentRef&lt;any&gt;&gt; {
+  ): Observable&lt;ComponentRef&lt;any&gt; | undefined&gt; | void {
     if (this.shouldRender(caller, config)) {
       const template &#x3D; this.componentFactoryResolver.resolveComponentFactory(
         config.component
@@ -1153,7 +1153,7 @@ export class OutletRenderStrategy extends LaunchRenderStrategy {
             );
         }),
         tap((component) &#x3D;&gt; {
-          if (config?.dialogType) {
+          if (config?.dialogType &amp;&amp; component) {
             this.applyClasses(component, config?.dialogType);
           }
         })

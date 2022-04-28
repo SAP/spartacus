@@ -35,7 +35,9 @@
 
 <ol class="breadcrumb">
     <li>Modules</li>
-    <li >UserStoreTransitionalModule</li>
+    <li 
+        class="deprecated-name"
+    >UserStoreTransitionalModule</li>
 </ol>
 
 <div class="text-center module-graph-container">
@@ -112,6 +114,12 @@
         </p>
 
 
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 4.2 - use UserStoreTransitional_4_2_Module with order lib instead
+            </p>
 
 
 
@@ -140,11 +148,14 @@ import { RouterModule } from &#x27;@angular/router&#x27;;
 import { EffectsModule } from &#x27;@ngrx/effects&#x27;;
 import { StoreModule } from &#x27;@ngrx/store&#x27;;
 import { StateModule } from &#x27;../../state/state.module&#x27;;
-import { metaReducers, reducerToken } from &#x27;./reducers/index&#x27;;
-import { USER_FEATURE } from &#x27;./user-state&#x27;;
 import { effectsTransitional } from &#x27;./effects/transitional&#x27;;
+import { metaReducers, reducerToken } from &#x27;./reducers/index&#x27;;
 import { reducerTransitionalProvider } from &#x27;./reducers/transitional&#x27;;
+import { USER_FEATURE } from &#x27;./user-state&#x27;;
 
+/**
+ * @deprecated since 4.2 - use UserStoreTransitional_4_2_Module with order lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,

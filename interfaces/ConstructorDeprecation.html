@@ -425,7 +425,7 @@ export interface RenamedSymbol {
   previousNode: string;
   previousImportPath: string;
   newNode?: string;
-  newImportPath: string;
+  newImportPath?: string;
 }
 
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
@@ -461,8 +461,9 @@ export function getAllTsSourceFiles(
 export function getIndexHtmlPath(tree: Tree): string {
   const projectName &#x3D; getDefaultProjectNameFromWorkspace(tree);
   const angularJson &#x3D; getAngularJsonFile(tree);
-  const indexHtml: string &#x3D; (angularJson.projects[projectName]?.architect?.build
-    ?.options as any)?.index;
+  const indexHtml: string &#x3D; (
+    angularJson.projects[projectName]?.architect?.build?.options as any
+  )?.index;
   if (!indexHtml) {
     throw new SchematicsException(&#x27;&quot;index.html&quot; file not found.&#x27;);
   }
@@ -763,6 +764,15 @@ function checkConstructorParameters(
 
       if (constructorParameterType.length !&#x3D;&#x3D; 0) {
         foundClassTypes.push(parameterClassType);
+        /*
+        the break is needed to cope with multiple parameters of one type,
+        e.g. constructor migrations for
+       constructor(
+          protected cartStore: Store&lt;StateWithMultiCart&gt;,
+          protected store: Store&lt;StateWithConfigurator&gt;,
+          protected configuratorUtilsService: ConfiguratorUtilsService
+        ) {}    */
+        break;
       }
     }
   }
@@ -982,7 +992,7 @@ function getParamName(
   }
 
   for (const constructorParameter of constructorParameters) {
-    if (constructorParameter.getText().includes(classType.className)) {
+    if (getClassName(constructorParameter) &#x3D;&#x3D;&#x3D; classType.className) {
       const paramVariableNode &#x3D; constructorParameter
         .getChildren()
         .find((node) &#x3D;&gt; node.kind &#x3D;&#x3D;&#x3D; ts.SyntaxKind.Identifier);
@@ -994,6 +1004,16 @@ function getParamName(
   }
 
   return undefined;
+}
+
+function getClassName(constructorParameter: ts.Node): string | undefined {
+  const identifierNode &#x3D; constructorParameter
+    .getChildren()
+    .find((node) &#x3D;&gt; node.kind &#x3D;&#x3D;&#x3D; ts.SyntaxKind.TypeReference)
+    ?.getChildren()
+    .find((node) &#x3D;&gt; node.kind &#x3D;&#x3D;&#x3D; ts.SyntaxKind.Identifier);
+
+  return identifierNode ? identifierNode.getText() : undefined;
 }
 
 function shouldRemoveImportAndParam(
@@ -1366,27 +1386,28 @@ export function insertCommentAboveIdentifier(
   comment: string,
   identifierType &#x3D; ts.SyntaxKind.Identifier
 ): Change[] {
-  const classNode &#x3D; getSourceNodes(source).find(
-    (node) &#x3D;&gt; node.kind &#x3D;&#x3D;&#x3D; ts.SyntaxKind.ClassDeclaration
-  );
-  if (!classNode) {
-    return [new NoopChange()];
-  }
-
-  const identifierNodes &#x3D; findNodes(classNode, identifierType).filter(
-    (node) &#x3D;&gt; node.getText() &#x3D;&#x3D;&#x3D; identifierName
-  );
-
   const changes: InsertChange[] &#x3D; [];
-  identifierNodes.forEach((n) &#x3D;&gt;
-    changes.push(
-      new InsertChange(
-        sourcePath,
-        getLineStartFromTSFile(source, n.getStart()),
-        &#x60;${comment}&#x60;
+
+  getSourceNodes(source).forEach((node) &#x3D;&gt; {
+    if (node.kind !&#x3D;&#x3D; ts.SyntaxKind.ClassDeclaration) {
+      return;
+    }
+
+    const identifierNodes &#x3D; findNodes(node, identifierType).filter(
+      (node) &#x3D;&gt; node.getText() &#x3D;&#x3D;&#x3D; identifierName
+    );
+
+    identifierNodes.forEach((n) &#x3D;&gt;
+      changes.push(
+        new InsertChange(
+          sourcePath,
+          getLineStartFromTSFile(source, n.getStart()),
+          &#x60;${comment}&#x60;
+        )
       )
-    )
-  );
+    );
+  });
+
   return changes;
 }
 
