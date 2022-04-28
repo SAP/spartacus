@@ -11,6 +11,6 @@ export namespace ConfiguratorRouter {
     displayOnly?: boolean;
     forceReload?: boolean;
     resolveIssues?: boolean;
-    ignoreConflicts?: boolean;
+    skipConflicts?: boolean;
   }
 }

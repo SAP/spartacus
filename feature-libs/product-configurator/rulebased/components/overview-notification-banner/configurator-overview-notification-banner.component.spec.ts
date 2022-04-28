@@ -287,8 +287,8 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
           ?.numberOfConflicts
       )
     );
-    component.ignoreConflicts$.subscribe((ignoreConflicts) =>
-      expect(ignoreConflicts).toBe(true)
+    component.skipConflictsOnIssueNavigation$.subscribe((skipConflicts) =>
+      expect(skipConflicts).toBe(true)
     );
   });
 
@@ -300,8 +300,8 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     component.numberOfConflicts$.subscribe((numberOfConflicts) =>
       expect(numberOfConflicts).toBe(0)
     );
-    component.ignoreConflicts$.subscribe((ignoreConflicts) =>
-      expect(ignoreConflicts).toBe(false)
+    component.skipConflictsOnIssueNavigation$.subscribe((skipConflicts) =>
+      expect(skipConflicts).toBe(false)
     );
   });
 });

@@ -88,7 +88,7 @@ export class OccConfiguratorVariantOverviewNormalizer
       .subscribe((generalText) => (group.groupDescription = generalText));
   }
 
-  setIssueCounters(
+  protected setIssueCounters(
     target: Configurator.Overview,
     source: OccConfigurator.Overview
   ) {

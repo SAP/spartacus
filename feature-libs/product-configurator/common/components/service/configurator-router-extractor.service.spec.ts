@@ -159,7 +159,7 @@ describe('ConfigRouterExtractorService', () => {
         .subscribe((data) => {
           routerData = data;
           expect(routerData.resolveIssues).toBe(true);
-          expect(routerData.ignoreConflicts).toBe(false);
+          expect(routerData.skipConflicts).toBe(false);
         })
         .unsubscribe();
     });
@@ -175,7 +175,7 @@ describe('ConfigRouterExtractorService', () => {
         .subscribe((data) => {
           routerData = data;
           expect(routerData.resolveIssues).toBe(true);
-          expect(routerData.ignoreConflicts).toBe(true);
+          expect(routerData.skipConflicts).toBe(true);
         })
         .unsubscribe();
     });

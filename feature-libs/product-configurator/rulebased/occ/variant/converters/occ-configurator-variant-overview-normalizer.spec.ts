@@ -253,7 +253,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set all issue counters when running on commerce 2205 or later', () => {
     let target: Configurator.Overview = { configId: '123', productCode: 'abc' };
-    occConfiguratorVariantOverviewNormalizer.setIssueCounters(target, overview);
+    occConfiguratorVariantOverviewNormalizer['setIssueCounters'](
+      target,
+      overview
+    );
     expect(target.totalNumberOfIssues).toBe(2);
     expect(target.numberOfIncompleteCharacteristics).toBe(1);
     expect(target.numberOfConflicts).toBe(1);
@@ -266,7 +269,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
       productCode: 'abc',
       totalNumberOfIssues: 2,
     };
-    occConfiguratorVariantOverviewNormalizer.setIssueCounters(target, source);
+    occConfiguratorVariantOverviewNormalizer['setIssueCounters'](
+      target,
+      source
+    );
     expect(target.totalNumberOfIssues).toBe(2);
     expect(target.numberOfIncompleteCharacteristics).toBeUndefined();
     expect(target.numberOfConflicts).toBeUndefined();

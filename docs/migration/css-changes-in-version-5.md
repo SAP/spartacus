@@ -18,6 +18,10 @@ title: Changes to Styles in 5.0
 - `box-shadow` was added and set to ` 0 0 5px var(--cx-color-light)` on `%cx-configurator-add-to-cart-button`
 - `margin-top` was added and set to `0px` on `@include cx-configurator-footer-container()`
 
+## Changes in Configurator Overview Notification Banner Component
+- error banner was converted to a div, so that `cx-error-notification-banner` style could be added.
+- new conflict banner div with with style `cx-conflict-notification-banner` was added.
+
 ## Changes in Configurator Tab Bar Component
 
 - Styling is now applied only if content is not empty. Therefore, the styling is wrapped with an `&:not(:empty) {` expression.
@@ -36,6 +40,12 @@ title: Changes to Styles in 5.0
 
 - `padding-inline-start: 5px;` was removed from `cx-icon`section
 - A new section `a.cx-conflict-msg` has been introduced to style the link that allows for navigating from conflicting attributes to their original group. Its content is `cursor: pointer;`
+
+## Changes in \_configurator-overview-notification-banner.scss
+- flex box on root level was changed to column direction to support multiple banners placed underneath
+- `.cx-error-notification-banner` and `.cx-conflict-notification-banner` were added with flex direction row for styling the individual banners.
+- `.cx-error-notification-banner` replicates the error banner stale implemented before on root level.
+- `.cx-conflict-notification-banner` implements the new conflict banner styling.
 
 ## Changes in styles
 

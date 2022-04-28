@@ -39,10 +39,11 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     map((configuration) => {
       //In case overview carries number of issues: We take it from there.
       //otherwise configuration's number will be accurate
-      if (configuration.overview?.totalNumberOfIssues) {
-        return configuration.overview.numberOfIncompleteCharacteristics != null
-          ? configuration.overview.numberOfIncompleteCharacteristics
-          : configuration.overview.totalNumberOfIssues;
+      let configOv = configuration.overview;
+      if (configOv?.totalNumberOfIssues) {
+        return configOv.numberOfIncompleteCharacteristics !== undefined
+          ? configOv.numberOfIncompleteCharacteristics
+          : configOv.totalNumberOfIssues;
       } else
         return configuration.totalNumberOfIssues
           ? configuration.totalNumberOfIssues
@@ -56,11 +57,12 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     })
   );
 
-  ignoreConflicts$: Observable<boolean> = this.configuration$.pipe(
-    map((configuration) => {
-      return (configuration.overview?.numberOfConflicts ?? 0) > 0;
-    })
-  );
+  skipConflictsOnIssueNavigation$: Observable<boolean> =
+    this.configuration$.pipe(
+      map((configuration) => {
+        return (configuration.overview?.numberOfConflicts ?? 0) > 0;
+      })
+    );
 
   iconTypes = ICON_TYPE;
 
