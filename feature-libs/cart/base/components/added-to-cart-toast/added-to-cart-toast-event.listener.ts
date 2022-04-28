@@ -7,7 +7,7 @@ import {
   ADDED_TO_CART_FEEDBACK,
   CartConfig,
   CartUiEventAddToCart,
-} from '../../root';
+} from '@spartacus/cart/base/root';
 import { AddedToCartToastComponent } from './added-to-cart-toast.component';
 
 @Injectable({

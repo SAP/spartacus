@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { CartToastItem, OrderEntry } from '../../root';
+import { CartToastItem, OrderEntry } from '@spartacus/cart/base/root';
 
 @Injectable({ providedIn: 'root' })
 export class AddedToCartToastComponentService {

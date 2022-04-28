@@ -15,7 +15,7 @@ import {
   CartUiEventAddToCart,
   CART_TOAST_STATE,
   OrderEntry,
-} from '../../root';
+} from '@spartacus/cart/base/root';
 import { AddedToCartToastComponentService } from './added-to-cart-toast-component.service';
 
 @Component({
