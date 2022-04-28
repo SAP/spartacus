@@ -1,5 +1,8 @@
 <!-- Item Start Outlet -->
-<ng-template [cxOutlet]="CartOutlets.LIST_ITEM">
+<ng-template
+  [cxOutlet]="CartOutlets.LIST_ITEM"
+  [cxComponentContext]="{compact, readonly, item, quantityControl, promotionLocation, options}"
+>
   <td role="cell">
     <ng-template
       [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES"

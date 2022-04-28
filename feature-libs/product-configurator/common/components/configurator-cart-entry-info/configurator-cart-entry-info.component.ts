@@ -1,7 +1,9 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { EMPTY, Observable } from 'rxjs';
+import { OrderEntry } from '@spartacus/cart/base/root';
+import { ComponentContextData } from '@spartacus/storefront';
+import { EMPTY, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
@@ -10,22 +12,23 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(
-    @Optional() protected cartItemContext: CartItemContext,
+    @Optional() protected contextData: ComponentContextData,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
-    this.cartItemContext?.item$ ?? EMPTY;
+    this.contextData?.context$.pipe(map((c) => c.item)) ?? EMPTY;
 
   readonly quantityControl$: Observable<FormControl> =
-    this.cartItemContext?.quantityControl$ ?? EMPTY;
+    this.contextData?.context$.pipe(map((c) => c.quantityControl)) ?? EMPTY;
 
   readonly readonly$: Observable<boolean> =
-    this.cartItemContext?.readonly$ ?? EMPTY;
+    this.contextData?.context$.pipe(map((c) => c.readonly)) ?? EMPTY;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
-    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
+    //this.commonConfigUtilsService.isActiveCartContext(this.contextData);
+    of(true);
 
   /**
    * Verifies whether the configuration infos have any entries and the first entry has a status.
