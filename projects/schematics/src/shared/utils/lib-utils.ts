@@ -81,10 +81,14 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
    */
   debug?: boolean;
   /**
-   * Internal options, should not be set by the user.
+   * Internal options.
+   * Should not be set by the user.
    */
   internal?: {
-    dirtyInstallation: boolean;
+    /**
+     * If Spartacus is already installed in the app.
+     */
+    dirtyInstallation?: boolean;
   };
   /**
    * Meta.

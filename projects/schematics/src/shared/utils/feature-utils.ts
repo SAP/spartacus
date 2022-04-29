@@ -136,6 +136,19 @@ interface ModuleAnalysisResult {
    */
   feature?: string;
 }
+/**
+ * Analysis result of wrapper module configuration.
+ */
+interface WrapperAnalysisResult {
+  /**
+   * Marker name.
+   */
+  markerModuleName: string;
+  /**
+   * Options.
+   */
+  wrapperOptions: SpartacusWrapperOptions;
+}
 
 // TODO:#schematics - [at the end] move some of the methods from lib-utils?
 
@@ -171,6 +184,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
     }
 
     const rules: Rule[] = [];
+    const allWrapperSchematics: WrapperAnalysisResult[] = [];
     for (const feature of features) {
       const schematicsConfiguration =
         featureSchematicConfigMapping.get(feature);
@@ -185,7 +199,21 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
         schematicsConfiguration.customConfig?.(options).options ?? options;
 
       rules.push(addLibraryFeature(libraryOptions, schematicsConfiguration));
-      rules.push(handleWrapperModule(libraryOptions, schematicsConfiguration));
+
+      const wrappers = analyzeWrappers(
+        schematicsConfiguration,
+        libraryOptions,
+        allWrapperSchematics
+      );
+      for (const { wrapperOptions } of wrappers) {
+        rules.push(
+          externalSchematic(
+            SPARTACUS_SCHEMATICS,
+            'wrapper-module',
+            wrapperOptions
+          )
+        );
+      }
     }
 
     if (options.internal?.dirtyInstallation) {
@@ -196,21 +224,32 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
   };
 }
 
-function handleWrapperModule<OPTIONS extends LibraryOptions>(
+/**
+ * Analyzes the given schematics configuration for the wrapper modules.
+ * It builds the options for the wrapper schematic run,
+ * including the execution sequence.
+ */
+function analyzeWrappers<OPTIONS extends LibraryOptions>(
+  schematicsConfiguration: FeatureConfig,
   options: OPTIONS,
-  featureConfig: FeatureConfig
-): Rule {
-  if (!featureConfig.wrappers) {
-    return noop();
+  allWrappers: WrapperAnalysisResult[]
+): WrapperAnalysisResult[] {
+  if (!schematicsConfiguration.wrappers) {
+    return [];
   }
 
-  const rules: Rule[] = [];
-  for (const markerModuleName in featureConfig.wrappers) {
-    if (!featureConfig.wrappers.hasOwnProperty(markerModuleName)) {
+  const result: WrapperAnalysisResult[] = [];
+  for (const markerModuleName in schematicsConfiguration.wrappers) {
+    if (!schematicsConfiguration.wrappers.hasOwnProperty(markerModuleName)) {
       continue;
     }
 
-    const featureModuleName = featureConfig.wrappers[markerModuleName];
+    const featureModuleName =
+      schematicsConfiguration.wrappers[markerModuleName];
+    const sequence = calculateWrapperExecutionSequence(
+      allWrappers,
+      markerModuleName
+    );
     const wrapperOptions: SpartacusWrapperOptions = {
       scope: options.scope,
       interactive: options.interactive,
@@ -218,15 +257,70 @@ function handleWrapperModule<OPTIONS extends LibraryOptions>(
       markerModuleName,
       featureModuleName,
       debug: options.debug,
+      internal: {
+        sequence,
+      },
     };
 
-    rules.push(
-      externalSchematic(SPARTACUS_SCHEMATICS, 'wrapper-module', wrapperOptions)
-    );
+    const analysis: WrapperAnalysisResult = {
+      markerModuleName,
+      wrapperOptions,
+    };
+    result.push(analysis);
   }
 
-  return chain(rules);
+  allWrappers.push(...result);
+  return result;
 }
+
+/**
+ * Calculates the execution sequence for the given wrapper module.
+ */
+function calculateWrapperExecutionSequence(
+  allPreviousWrappers: WrapperAnalysisResult[],
+  markerModuleName: string
+): number {
+  let count = 1;
+  for (const collectedWrapper of allPreviousWrappers) {
+    if (collectedWrapper.markerModuleName === markerModuleName) {
+      count++;
+    }
+  }
+
+  return count;
+}
+
+// function handleWrapperModule<OPTIONS extends LibraryOptions>(
+//   options: OPTIONS,
+//   featureConfig: FeatureConfig
+// ): Rule {
+//   if (!featureConfig.wrappers) {
+//     return noop();
+//   }
+
+//   const rules: Rule[] = [];
+//   for (const markerModuleName in featureConfig.wrappers) {
+//     if (!featureConfig.wrappers.hasOwnProperty(markerModuleName)) {
+//       continue;
+//     }
+
+//     const featureModuleName = featureConfig.wrappers[markerModuleName];
+//     const wrapperOptions: SpartacusWrapperOptions = {
+//       scope: options.scope,
+//       interactive: options.interactive,
+//       project: options.project,
+//       markerModuleName,
+//       featureModuleName,
+//       debug: options.debug,
+//     };
+
+//     rules.push(
+//       externalSchematic(SPARTACUS_SCHEMATICS, 'wrapper-module', wrapperOptions)
+//     );
+//   }
+
+//   return chain(rules);
+// }
 
 /**
  * If exists, it returns the spartacus-features.module.ts' source.
@@ -501,7 +595,7 @@ function orderInstalledFeatures(options: SpartacusOptions): Rule {
           context.logger.warn(
             `Please make sure to order the features in the NgModule's 'imports' array according to the following feature order:\n${crossFeatureInstallationOrder.join(
               ', '
-            )}`
+            )}\n\n`
           );
           return noop();
         }

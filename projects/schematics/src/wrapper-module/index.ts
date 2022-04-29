@@ -454,16 +454,15 @@ function updateDynamicImportModuleName(
   );
 }
 
-function orderWrapperFeatures(options: {
-  project: string;
-  markerFeatureModulePath: string;
-  debug?: boolean;
-}): Rule {
+function orderWrapperFeatures(
+  options: SpartacusWrapperOptions,
+  markerFeatureModulePath: string
+): Rule {
   return (tree: Tree, context: SchematicContext) => {
     if (options.debug) {
       context.logger.info(
         formatFeatureStart(
-          options.markerFeatureModulePath,
+          markerFeatureModulePath,
           `ordering features in the wrapper module...`
         )
       );
@@ -476,24 +475,34 @@ function orderWrapperFeatures(options: {
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       for (const wrapperModule of appSourceFiles) {
-        if (
-          !wrapperModule.getFilePath().includes(options.markerFeatureModulePath)
-        ) {
+        if (!wrapperModule.getFilePath().includes(markerFeatureModulePath)) {
           continue;
         }
 
         const analysis = analyzeFeature(wrapperModule);
         if (analysis.unrecognized) {
-          context.logger.warn(
-            `Cannot order features in ${wrapperModule.getFilePath()}, due to an unrecognized feature: ${
-              analysis.unrecognized
-            }`
-          );
-          context.logger.warn(
-            `Please make sure to order the features in the NgModule's 'imports' array according to the following feature order:\n${crossFeatureInstallationOrder.join(
-              ', '
-            )}`
-          );
+          /**
+           * In case when wrapper schematics is ran multiple times,
+           * we want to print logs only for the first run.
+           *
+           * E.g. if adding both `--features=Checkout-Scheduled-Replenishment --features=Digital-Payments`
+           * we will be running the wrapper schematic three times:
+           * - first time for b2b checkout (as scheduled replenishment depends on it)
+           * - second time for scheduled replenishment
+           * - third time for digital payments
+           */
+          if (options.internal?.sequence === 1) {
+            context.logger.warn(
+              `Cannot order features in ${wrapperModule.getFilePath()}, due to an unrecognized feature: ${
+                analysis.unrecognized
+              }`
+            );
+            context.logger.warn(
+              `Please make sure to order the features in the NgModule's 'imports' array according to the following feature order:\n${crossFeatureInstallationOrder.join(
+                ', '
+              )}\n\n`
+            );
+          }
           return noop();
         }
 
@@ -512,7 +521,7 @@ function orderWrapperFeatures(options: {
     if (options.debug) {
       context.logger.info(
         formatFeatureComplete(
-          options.markerFeatureModulePath,
+          markerFeatureModulePath,
           `features ordered in the wrapper module.`
         )
       );
@@ -571,11 +580,7 @@ export function generateWrapperModule(options: SpartacusWrapperOptions): Rule {
         debug: options.debug,
       }),
 
-      orderWrapperFeatures({
-        project: options.project,
-        markerFeatureModulePath,
-        debug: options.debug,
-      }),
+      orderWrapperFeatures(options, markerFeatureModulePath),
     ]);
   };
 }

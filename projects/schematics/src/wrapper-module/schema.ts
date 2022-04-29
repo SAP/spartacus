@@ -19,4 +19,15 @@ export interface Schema extends Partial<ExecutionOptions> {
    * to add to the wrapper module.
    */
   featureModuleName: string;
+  /**
+   * Internal options.
+   * Should not be set by the user.
+   */
+  internal?: {
+    /**
+     * The execution sequence.
+     * Used for ensuring one log message is printed.
+     */
+    sequence?: number;
+  };
 }
