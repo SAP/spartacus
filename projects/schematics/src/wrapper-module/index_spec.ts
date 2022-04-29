@@ -10,12 +10,12 @@ import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { CART_BASE_MODULE } from '../shared/lib-configs/cart-schematics-config';
 import { CHECKOUT_BASE_MODULE } from '../shared/lib-configs/checkout-schematics-config';
 import {
-  CLI_CART_BASE_FEATURE,
-  CLI_CDC_FEATURE,
-  CLI_CHECKOUT_B2B_FEATURE,
-  CLI_CHECKOUT_BASE_FEATURE,
-  CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
+  CART_BASE_FEATURE_NAME,
+  CDC_FEATURE_NAME,
+  CHECKOUT_B2B_FEATURE_NAME,
+  CHECKOUT_BASE_FEATURE_NAME,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+  DIGITAL_PAYMENTS_FEATURE_NAME,
   SPARTACUS_SCHEMATICS,
 } from '../shared/libs-constants';
 import { LibraryOptions } from '../shared/utils/lib-utils';
@@ -98,7 +98,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           'ng-add',
           {
             ...defaultOptions,
-            features: [CLI_CHECKOUT_B2B_FEATURE],
+            features: [CHECKOUT_B2B_FEATURE_NAME],
             name: 'schematics-test',
           },
           appTree
@@ -126,7 +126,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           'ng-add',
           {
             ...defaultOptions,
-            features: [CLI_CART_BASE_FEATURE],
+            features: [CART_BASE_FEATURE_NAME],
             name: 'schematics-test',
           },
           appTree
@@ -163,7 +163,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           'ng-add',
           {
             ...defaultOptions,
-            features: [CLI_CHECKOUT_BASE_FEATURE],
+            features: [CHECKOUT_BASE_FEATURE_NAME],
             name: 'schematics-test',
           },
           appTree
@@ -202,7 +202,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+            features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
           },
           appTree
         )
@@ -230,7 +230,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
           },
           appTree
         )
@@ -262,7 +262,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [CLI_CDC_FEATURE],
+            features: [CDC_FEATURE_NAME],
           },
           appTree
         )
@@ -293,7 +293,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
           },
           appTree
         )
@@ -325,7 +325,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+            features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
           },
           appTree
         )

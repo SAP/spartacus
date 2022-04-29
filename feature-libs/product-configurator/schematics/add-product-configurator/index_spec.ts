@@ -10,13 +10,13 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   cartBaseFeatureModulePath,
   checkoutFeatureModulePath,
-  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   orderFeatureModulePath,
   productConfiguratorFeatureModulePath,
   productConfiguratorWrapperModulePath,
+  PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
+  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
+  PRODUCT_CONFIGURATOR_VC_FEATURE_NAME,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_SCHEMATICS,
@@ -59,17 +59,17 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
   const libraryOptionsOnlyVC: SpartacusProductConfiguratorOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PRODUCT_CONFIGURATOR_VC_FEATURE],
+    features: [PRODUCT_CONFIGURATOR_VC_FEATURE_NAME],
   };
 
   const libraryOptionsOnlyCPQ: SpartacusProductConfiguratorOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE],
+    features: [PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME],
   };
 
   const libraryOptionsOnlyTextfield: SpartacusProductConfiguratorOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE],
+    features: [PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -393,8 +393,8 @@ describe('Spartacus product configurator schematics: ng-add', () => {
               {
                 ...libraryNoFeaturesOptions,
                 features: [
-                  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-                  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+                  PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
+                  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
                 ],
               },
               appTree
@@ -464,8 +464,8 @@ describe('Spartacus product configurator schematics: ng-add', () => {
               {
                 ...libraryNoFeaturesOptions,
                 features: [
-                  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-                  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+                  PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
+                  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
                 ],
                 lazy: false,
               },

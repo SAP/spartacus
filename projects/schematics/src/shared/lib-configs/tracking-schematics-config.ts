@@ -1,8 +1,4 @@
 import {
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
-  CLI_TRACKING_TMS_AEP_FEATURE,
-  CLI_TRACKING_TMS_GTM_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
   SPARTACUS_PERSONALIZATION,
   SPARTACUS_PERSONALIZATION_ROOT,
   SPARTACUS_TMS_AEP,
@@ -10,6 +6,10 @@ import {
   SPARTACUS_TMS_GTM,
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
+  TRACKING_PERSONALIZATION_FEATURE_NAME,
+  TRACKING_TMS_AEP_FEATURE_NAME,
+  TRACKING_TMS_GTM_FEATURE_NAME,
+  USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import { AdditionalFeatureConfiguration } from '../utils/feature-utils';
 import { FeatureConfig, LibraryOptions } from '../utils/lib-utils';
@@ -23,7 +23,7 @@ export const PERSONALIZATION_FEATURE_NAME_CONSTANT = 'PERSONALIZATION_FEATURE';
 
 export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    featureName: CLI_TRACKING_PERSONALIZATION_FEATURE,
+    featureName: TRACKING_PERSONALIZATION_FEATURE_NAME,
     mainScope: SPARTACUS_TRACKING,
     featureScope: SPARTACUS_PERSONALIZATION,
   },
@@ -42,7 +42,7 @@ export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: FeatureConfig = {
     namedImports: [PERSONALIZATION_FEATURE_NAME_CONSTANT],
   },
   dependencyManagement: {
-    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
+    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
   },
 };
 
@@ -53,7 +53,7 @@ export const TMS_GTM_MODULE = 'GtmModule';
 
 export const TRACKING_GTM_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    featureName: CLI_TRACKING_TMS_GTM_FEATURE,
+    featureName: TRACKING_TMS_GTM_FEATURE_NAME,
     mainScope: SPARTACUS_TRACKING,
     featureScope: SPARTACUS_TMS_GTM,
   },
@@ -70,7 +70,7 @@ export const TRACKING_GTM_SCHEMATICS_CONFIG: FeatureConfig = {
   },
   customConfig: buildGtmConfig,
   dependencyManagement: {
-    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
+    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
   },
 };
 function buildGtmConfig(
@@ -105,7 +105,7 @@ export const TMS_AEP_MODULE = 'AepModule';
 
 export const TRACKING_AEP_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    featureName: CLI_TRACKING_TMS_AEP_FEATURE,
+    featureName: TRACKING_TMS_AEP_FEATURE_NAME,
     mainScope: SPARTACUS_TRACKING,
     featureScope: SPARTACUS_TMS_AEP,
   },
@@ -122,7 +122,7 @@ export const TRACKING_AEP_SCHEMATICS_CONFIG: FeatureConfig = {
   },
   customConfig: buildAepConfig,
   dependencyManagement: {
-    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
+    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
   },
 };
 

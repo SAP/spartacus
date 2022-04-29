@@ -9,15 +9,15 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import {
-  CLI_CDC_FEATURE,
-  CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  CDC_FEATURE_NAME,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+  DIGITAL_PAYMENTS_FEATURE_NAME,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
+  TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '../shared/libs-constants';
 import {
   checkoutWrapperModulePath,
@@ -601,7 +601,7 @@ describe('add-spartacus', () => {
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
           },
           appTree
         )
@@ -618,7 +618,7 @@ describe('add-spartacus', () => {
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+            features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
           },
           appTree
         )
@@ -640,7 +640,7 @@ describe('add-spartacus', () => {
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [CLI_CDC_FEATURE],
+            features: [CDC_FEATURE_NAME],
           },
           appTree
         )
@@ -657,7 +657,7 @@ describe('add-spartacus', () => {
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [CLI_TRACKING_PERSONALIZATION_FEATURE],
+            features: [TRACKING_PERSONALIZATION_FEATURE_NAME],
           },
           appTree
         )

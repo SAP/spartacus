@@ -11,8 +11,8 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_EPD_VISUALIZATION_FEATURE,
   epdFeatureModulePath,
+  EPD_VISUALIZATION_FEATURE_NAME,
   SpartacusEpdVisualizationOptions,
   SpartacusOptions,
   SPARTACUS_EPD_VISUALIZATION,
@@ -63,7 +63,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
 
   const visualizationFeatureOptions: SpartacusEpdVisualizationOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_EPD_VISUALIZATION_FEATURE],
+    features: [EPD_VISUALIZATION_FEATURE_NAME],
   };
 
   beforeEach(async () => {

@@ -13,9 +13,9 @@ import {
   cartBaseFeatureModulePath,
   checkoutFeatureModulePath,
   checkoutWrapperModulePath,
-  CLI_CHECKOUT_B2B_FEATURE,
-  CLI_CHECKOUT_BASE_FEATURE,
-  CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
+  CHECKOUT_B2B_FEATURE_NAME,
+  CHECKOUT_BASE_FEATURE_NAME,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
   LibraryOptions as SpartacusCheckoutOptions,
   orderFeatureModulePath,
   SpartacusOptions,
@@ -67,18 +67,18 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
   const checkoutBaseFeatureOptions: SpartacusCheckoutOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CHECKOUT_BASE_FEATURE],
+    features: [CHECKOUT_BASE_FEATURE_NAME],
   };
 
   const checkoutB2BFeatureOptions: SpartacusCheckoutOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CHECKOUT_B2B_FEATURE],
+    features: [CHECKOUT_B2B_FEATURE_NAME],
   };
 
   const checkoutScheduledReplenishmentFeatureOptions: SpartacusCheckoutOptions =
     {
       ...libraryNoFeaturesOptions,
-      features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+      features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
     };
 
   beforeEach(async () => {

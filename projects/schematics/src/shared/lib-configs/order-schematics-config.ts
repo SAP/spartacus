@@ -1,6 +1,6 @@
 import {
-  CLI_CART_BASE_FEATURE,
-  CLI_ORDER_FEATURE,
+  CART_BASE_FEATURE_NAME,
+  ORDER_FEATURE_NAME,
   SPARTACUS_CART,
   SPARTACUS_ORDER,
   SPARTACUS_ORDER_ASSETS,
@@ -20,7 +20,7 @@ export const ORDER_TRANSLATION_CHUNKS_CONFIG = 'orderTranslationChunksConfig';
 
 export const ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    featureName: CLI_ORDER_FEATURE,
+    featureName: ORDER_FEATURE_NAME,
     mainScope: SPARTACUS_ORDER,
   },
   folderName: ORDER_FOLDER_NAME,
@@ -47,6 +47,6 @@ export const ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
     importStyle: SPARTACUS_ORDER,
   },
   dependencyManagement: {
-    [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+    [SPARTACUS_CART]: [CART_BASE_FEATURE_NAME],
   },
 };

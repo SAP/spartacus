@@ -10,14 +10,14 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_USER_ACCOUNT_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
   LibraryOptions as SpartacusUserOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
   userFeatureModulePath,
   userWrapperModulePath,
+  USER_ACCOUNT_FEATURE_NAME,
+  USER_PROFILE_FEATURE_NAME,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -62,12 +62,12 @@ describe('Spartacus User schematics: ng-add', () => {
 
   const accountFeatureOptions: SpartacusUserOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_USER_ACCOUNT_FEATURE],
+    features: [USER_ACCOUNT_FEATURE_NAME],
   };
 
   const profileFeatureOptions: SpartacusUserOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_USER_PROFILE_FEATURE],
+    features: [USER_PROFILE_FEATURE_NAME],
   };
 
   beforeEach(async () => {

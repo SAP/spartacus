@@ -1,6 +1,4 @@
 import {
-  CLI_USER_ACCOUNT_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
   SPARTACUS_USER,
   SPARTACUS_USER_ACCOUNT,
   SPARTACUS_USER_ACCOUNT_ASSETS,
@@ -8,6 +6,8 @@ import {
   SPARTACUS_USER_PROFILE,
   SPARTACUS_USER_PROFILE_ASSETS,
   SPARTACUS_USER_PROFILE_ROOT,
+  USER_ACCOUNT_FEATURE_NAME,
+  USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import { FeatureConfig } from '../utils/lib-utils';
 
@@ -24,7 +24,7 @@ export const USER_ACCOUNT_TRANSLATION_CHUNKS_CONFIG =
 
 export const USER_ACCOUNT_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    featureName: CLI_USER_ACCOUNT_FEATURE,
+    featureName: USER_ACCOUNT_FEATURE_NAME,
     mainScope: SPARTACUS_USER,
     featureScope: SPARTACUS_USER_ACCOUNT,
   },
@@ -62,7 +62,7 @@ export const USER_PROFILE_TRANSLATION_CHUNKS_CONFIG =
 
 export const USER_PROFILE_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    featureName: CLI_USER_PROFILE_FEATURE,
+    featureName: USER_PROFILE_FEATURE_NAME,
     mainScope: SPARTACUS_USER,
     featureScope: SPARTACUS_USER_PROFILE,
   },
@@ -90,6 +90,6 @@ export const USER_PROFILE_SCHEMATICS_CONFIG: FeatureConfig = {
     importStyle: SPARTACUS_USER,
   },
   dependencyManagement: {
-    [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE],
+    [SPARTACUS_USER]: [USER_ACCOUNT_FEATURE_NAME],
   },
 };

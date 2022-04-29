@@ -10,8 +10,8 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_SMARTEDIT_FEATURE,
   smartEditFeatureModulePath,
+  SMARTEDIT_FEATURE_NAME,
   SpartacusOptions,
   SpartacusSmartEditOptions,
   SPARTACUS_SCHEMATICS,
@@ -59,7 +59,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
 
   const smarteditFeatureOptions: SpartacusSmartEditOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_SMARTEDIT_FEATURE],
+    features: [SMARTEDIT_FEATURE_NAME],
   };
 
   beforeEach(async () => {

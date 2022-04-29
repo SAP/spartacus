@@ -11,7 +11,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   asmFeatureModulePath,
-  CLI_ASM_FEATURE,
+  ASM_FEATURE_NAME,
   LibraryOptions as SpartacusAsmOptions,
   SpartacusOptions,
   SPARTACUS_ASM,
@@ -61,7 +61,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
 
   const asmFeatureOptions: SpartacusAsmOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ASM_FEATURE],
+    features: [ASM_FEATURE_NAME],
   };
 
   beforeEach(async () => {

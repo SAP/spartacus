@@ -21,15 +21,15 @@ import {
   ORDER_ROOT_MODULE,
 } from './lib-configs';
 import {
-  CLI_ASM_FEATURE,
-  CLI_CART_BASE_FEATURE,
-  CLI_CDC_FEATURE,
-  CLI_CDS_FEATURE,
-  CLI_CHECKOUT_B2B_FEATURE,
-  CLI_CHECKOUT_BASE_FEATURE,
-  CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
-  CLI_ORDER_FEATURE,
+  ASM_FEATURE_NAME,
+  CART_BASE_FEATURE_NAME,
+  CDC_FEATURE_NAME,
+  CDS_FEATURE_NAME,
+  CHECKOUT_B2B_FEATURE_NAME,
+  CHECKOUT_BASE_FEATURE_NAME,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+  DIGITAL_PAYMENTS_FEATURE_NAME,
+  ORDER_FEATURE_NAME,
   SPARTACUS_ASM,
   SPARTACUS_CDC,
   SPARTACUS_CHECKOUT,
@@ -47,14 +47,14 @@ describe('generateMappings', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().libraryFeatureMapping;
 
-      expect(result.get(SPARTACUS_ASM)).toEqual([CLI_ASM_FEATURE]);
+      expect(result.get(SPARTACUS_ASM)).toEqual([ASM_FEATURE_NAME]);
       expect(result.get(SPARTACUS_CHECKOUT)).toEqual([
-        CLI_CHECKOUT_BASE_FEATURE,
-        CLI_CHECKOUT_B2B_FEATURE,
-        CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
+        CHECKOUT_BASE_FEATURE_NAME,
+        CHECKOUT_B2B_FEATURE_NAME,
+        CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
       ]);
-      expect(result.get(SPARTACUS_ORDER)).toEqual([CLI_ORDER_FEATURE]);
-      expect(result.get(SPARTACUS_CDC)).toEqual([CLI_CDC_FEATURE]);
+      expect(result.get(SPARTACUS_ORDER)).toEqual([ORDER_FEATURE_NAME]);
+      expect(result.get(SPARTACUS_CDC)).toEqual([CDC_FEATURE_NAME]);
     });
   });
 
@@ -62,19 +62,19 @@ describe('generateMappings', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().featureFeatureModuleMapping;
 
-      expect(result.get(CLI_ASM_FEATURE)).toEqual([ASM_MODULE]);
-      expect(result.get(CLI_CART_BASE_FEATURE)).toContain(MINI_CART_MODULE);
-      expect(result.get(CLI_CHECKOUT_BASE_FEATURE)).toEqual([
+      expect(result.get(ASM_FEATURE_NAME)).toEqual([ASM_MODULE]);
+      expect(result.get(CART_BASE_FEATURE_NAME)).toContain(MINI_CART_MODULE);
+      expect(result.get(CHECKOUT_BASE_FEATURE_NAME)).toEqual([
         CHECKOUT_BASE_MODULE,
       ]);
-      expect(result.get(CLI_CHECKOUT_B2B_FEATURE)).toEqual([
+      expect(result.get(CHECKOUT_B2B_FEATURE_NAME)).toEqual([
         CHECKOUT_B2B_MODULE,
       ]);
-      expect(result.get(CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE)).toEqual([
-        CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
-      ]);
-      expect(result.get(CLI_ORDER_FEATURE)).toEqual([ORDER_MODULE]);
-      expect(result.get(CLI_CDC_FEATURE)).toEqual([CDC_MODULE]);
+      expect(result.get(CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME)).toEqual(
+        [CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE]
+      );
+      expect(result.get(ORDER_FEATURE_NAME)).toEqual([ORDER_MODULE]);
+      expect(result.get(CDC_FEATURE_NAME)).toEqual([CDC_MODULE]);
     });
   });
 
@@ -82,23 +82,23 @@ describe('generateMappings', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().featureRootModuleMapping;
 
-      expect(result.get(CLI_ASM_FEATURE)).toEqual([ASM_ROOT_MODULE]);
-      expect(result.get(CLI_CART_BASE_FEATURE)).toContain(
+      expect(result.get(ASM_FEATURE_NAME)).toEqual([ASM_ROOT_MODULE]);
+      expect(result.get(CART_BASE_FEATURE_NAME)).toContain(
         CART_BASE_ROOT_MODULE
       );
-      expect(result.get(CLI_CHECKOUT_BASE_FEATURE)).toEqual([
+      expect(result.get(CHECKOUT_BASE_FEATURE_NAME)).toEqual([
         CHECKOUT_BASE_ROOT_MODULE,
       ]);
-      expect(result.get(CLI_CHECKOUT_B2B_FEATURE)).toEqual([
+      expect(result.get(CHECKOUT_B2B_FEATURE_NAME)).toEqual([
         CHECKOUT_B2B_ROOT_MODULE,
       ]);
-      expect(result.get(CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE)).toEqual([
-        CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
-      ]);
-      expect(result.get(CLI_ORDER_FEATURE)).toEqual([ORDER_ROOT_MODULE]);
-      expect(result.get(CLI_CDC_FEATURE)).toEqual([CDC_ROOT_MODULE]);
-      expect(result.get(CLI_CDS_FEATURE)).toEqual([]);
-      expect(result.get(CLI_DIGITAL_PAYMENTS_FEATURE)).toEqual([]);
+      expect(result.get(CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME)).toEqual(
+        [CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE]
+      );
+      expect(result.get(ORDER_FEATURE_NAME)).toEqual([ORDER_ROOT_MODULE]);
+      expect(result.get(CDC_FEATURE_NAME)).toEqual([CDC_ROOT_MODULE]);
+      expect(result.get(CDS_FEATURE_NAME)).toEqual([]);
+      expect(result.get(DIGITAL_PAYMENTS_FEATURE_NAME)).toEqual([]);
     });
   });
 
@@ -106,14 +106,14 @@ describe('generateMappings', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().featureSchematicConfigMapping;
 
-      expect(result.get(CLI_ASM_FEATURE)).toEqual(ASM_SCHEMATICS_CONFIG);
-      expect(result.get(CLI_CHECKOUT_BASE_FEATURE)).toEqual(
+      expect(result.get(ASM_FEATURE_NAME)).toEqual(ASM_SCHEMATICS_CONFIG);
+      expect(result.get(CHECKOUT_BASE_FEATURE_NAME)).toEqual(
         CHECKOUT_BASE_SCHEMATICS_CONFIG
       );
-      expect(result.get(CLI_CHECKOUT_B2B_FEATURE)).toEqual(
+      expect(result.get(CHECKOUT_B2B_FEATURE_NAME)).toEqual(
         CHECKOUT_B2B_SCHEMATICS_CONFIG
       );
-      expect(result.get(CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE)).toEqual(
+      expect(result.get(CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME)).toEqual(
         CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG
       );
     });
@@ -157,7 +157,7 @@ describe('generateMappings', () => {
   describe('getSchematicsConfigByFeatureOrThrow', () => {
     it('should return the config', () => {
       const config = getSchematicsConfigByFeatureOrThrow(
-        CLI_CHECKOUT_BASE_FEATURE
+        CHECKOUT_BASE_FEATURE_NAME
       );
       expect(config).toBeTruthy();
     });

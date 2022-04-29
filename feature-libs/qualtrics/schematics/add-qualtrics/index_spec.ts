@@ -10,9 +10,9 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_QUALTRICS_FEATURE,
   LibraryOptions as SpartacusQualtricsOptions,
   qualtricsFeatureModulePath,
+  QUALTRICS_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_QUALTRICS,
   SPARTACUS_SCHEMATICS,
@@ -60,7 +60,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
 
   const qualtricsOptions: SpartacusQualtricsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_QUALTRICS_FEATURE],
+    features: [QUALTRICS_FEATURE_NAME],
   };
 
   beforeEach(async () => {

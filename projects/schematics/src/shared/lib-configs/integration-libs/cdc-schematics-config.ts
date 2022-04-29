@@ -1,9 +1,9 @@
 import {
-  CLI_CDC_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
+  CDC_FEATURE_NAME,
   SPARTACUS_CDC,
   SPARTACUS_CDC_ROOT,
   SPARTACUS_USER,
+  USER_PROFILE_FEATURE_NAME,
 } from '../../libs-constants';
 import { FeatureConfig } from '../../utils/lib-utils';
 import { USER_PROFILE_MODULE } from '../user-schematics-config';
@@ -18,7 +18,7 @@ export const CDC_CONFIG = 'CdcConfig';
 
 export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    featureName: CLI_CDC_FEATURE,
+    featureName: CDC_FEATURE_NAME,
     mainScope: SPARTACUS_CDC,
   },
   folderName: CDC_FOLDER_NAME,
@@ -56,7 +56,7 @@ export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
     },
   }),
   dependencyManagement: {
-    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
+    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
   },
   wrappers: {
     [USER_PROFILE_MODULE]: CDC_MODULE,

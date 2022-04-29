@@ -10,13 +10,13 @@ import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { NGRX_STORE } from '../constants';
 import { CART_BASE_MODULE } from '../lib-configs/cart-schematics-config';
 import {
-  CLI_CART_BASE_FEATURE,
-  CLI_USER_ACCOUNT_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
+  CART_BASE_FEATURE_NAME,
   SPARTACUS_CART_BASE,
   SPARTACUS_CHECKOUT,
   SPARTACUS_CORE,
   SPARTACUS_SCHEMATICS,
+  USER_ACCOUNT_FEATURE_NAME,
+  USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import { addFeatures } from './feature-utils';
 import {
@@ -101,9 +101,9 @@ describe('Import utils', () => {
     tree = await schematicRunner
       .callRule(
         addFeatures(BASE_OPTIONS, [
-          CLI_USER_ACCOUNT_FEATURE,
-          CLI_USER_PROFILE_FEATURE,
-          CLI_CART_BASE_FEATURE,
+          USER_ACCOUNT_FEATURE_NAME,
+          USER_PROFILE_FEATURE_NAME,
+          CART_BASE_FEATURE_NAME,
         ]),
         tree
       )

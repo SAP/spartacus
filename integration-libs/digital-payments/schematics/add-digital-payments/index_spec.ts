@@ -13,8 +13,8 @@ import {
   cartBaseFeatureModulePath,
   checkoutFeatureModulePath,
   checkoutWrapperModulePath,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
   digitalPaymentsFeatureModulePath,
+  DIGITAL_PAYMENTS_FEATURE_NAME,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
   orderFeatureModulePath,
   SpartacusOptions,
@@ -65,7 +65,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
 
   const digitalPaymentsFeatureOptions: SpartacusDigitalPaymentsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+    features: [DIGITAL_PAYMENTS_FEATURE_NAME],
   };
 
   beforeEach(async () => {

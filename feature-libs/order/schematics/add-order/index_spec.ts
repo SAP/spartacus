@@ -11,9 +11,9 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   cartBaseFeatureModulePath,
-  CLI_ORDER_FEATURE,
   LibraryOptions as SpartacusOrderOptions,
   orderFeatureModulePath,
+  ORDER_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_ORDER,
   SPARTACUS_SCHEMATICS,
@@ -62,7 +62,7 @@ describe('Spartacus Order schematics: ng-add', () => {
 
   const orderFeatureOptions: SpartacusOrderOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ORDER_FEATURE],
+    features: [ORDER_FEATURE_NAME],
   };
 
   beforeEach(async () => {

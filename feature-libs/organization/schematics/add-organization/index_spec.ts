@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
-  CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   LibraryOptions as SpartacusOrganizationOptions,
   orderFeatureModulePath,
   organizationAdministrationFeatureModulePath,
   organizationOrderApprovalFeatureModulePath,
+  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+  ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_ORGANIZATION,
@@ -65,12 +65,12 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   const administrationFeatureOptions: SpartacusOrganizationOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ORGANIZATION_ADMINISTRATION_FEATURE],
+    features: [ORGANIZATION_ADMINISTRATION_FEATURE_NAME],
   };
 
   const orderApprovalFeatureOptions: SpartacusOrganizationOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE],
+    features: [ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME],
   };
 
   beforeEach(async () => {

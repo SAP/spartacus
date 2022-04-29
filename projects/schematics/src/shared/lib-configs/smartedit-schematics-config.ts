@@ -1,6 +1,6 @@
 import { SMART_EDIT_CONFIG } from '../constants';
 import {
-  CLI_SMARTEDIT_FEATURE,
+  SMARTEDIT_FEATURE_NAME,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_SMARTEDIT_ROOT,
 } from '../libs-constants';
@@ -21,7 +21,7 @@ export const SPARTACUS_SMARTEDIT_ASSETS = 'smartedit/assets';
 
 export const SMARTEDIT_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    featureName: CLI_SMARTEDIT_FEATURE,
+    featureName: SMARTEDIT_FEATURE_NAME,
     mainScope: SPARTACUS_SMARTEDIT,
   },
   folderName: SMARTEDIT_FOLDER_NAME,

@@ -1,9 +1,9 @@
 import { CDS_CONFIG } from '../../constants';
 import {
-  CLI_CDS_FEATURE,
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  CDS_FEATURE_NAME,
   SPARTACUS_CDS,
   SPARTACUS_TRACKING,
+  TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '../../libs-constants';
 import {
   AdditionalFeatureConfiguration,
@@ -25,7 +25,7 @@ export const CDS_MODULE = 'CdsModule';
 
 export const CDS_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    featureName: CLI_CDS_FEATURE,
+    featureName: CDS_FEATURE_NAME,
     mainScope: SPARTACUS_CDS,
   },
   folderName: CDS_FOLDER_NAME,
@@ -37,7 +37,7 @@ export const CDS_SCHEMATICS_CONFIG: FeatureConfig = {
   },
   customConfig: buildCdsConfig,
   dependencyManagement: {
-    [SPARTACUS_TRACKING]: [CLI_TRACKING_PERSONALIZATION_FEATURE],
+    [SPARTACUS_TRACKING]: [TRACKING_PERSONALIZATION_FEATURE_NAME],
   },
 };
 

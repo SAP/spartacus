@@ -10,12 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_STOREFINDER_FEATURE,
   LibraryOptions as SpartacusStorefinderOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_STOREFINDER,
   storeFinderFeatureModulePath,
+  STOREFINDER_FEATURE_NAME,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -60,7 +60,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
 
   const storefinderFeatureOptions: SpartacusStorefinderOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_STOREFINDER_FEATURE],
+    features: [STOREFINDER_FEATURE_NAME],
   };
 
   beforeEach(async () => {

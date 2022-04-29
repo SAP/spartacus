@@ -11,7 +11,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   cdcFeatureModulePath,
-  CLI_CDC_FEATURE,
+  CDC_FEATURE_NAME,
   LibraryOptions as SpartacusCdcOptions,
   SpartacusOptions,
   SPARTACUS_ASM,
@@ -63,7 +63,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
 
   const cdcFeatureOptions: SpartacusCdcOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CDC_FEATURE],
+    features: [CDC_FEATURE_NAME],
   };
 
   beforeEach(async () => {

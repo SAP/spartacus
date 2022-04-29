@@ -11,11 +11,11 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   cartBaseFeatureModulePath,
-  CLI_CART_BASE_FEATURE,
-  CLI_CART_IMPORT_EXPORT_FEATURE,
-  CLI_CART_QUICK_ORDER_FEATURE,
-  CLI_CART_SAVED_CART_FEATURE,
-  CLI_CART_WISHLIST_FEATURE,
+  CART_BASE_FEATURE_NAME,
+  CART_IMPORT_EXPORT_FEATURE_NAME,
+  CART_QUICK_ORDER_FEATURE_NAME,
+  CART_SAVED_CART_FEATURE_NAME,
+  CART_WISHLIST_FEATURE_NAME,
   importExportFeatureModulePath,
   LibraryOptions as SpartacusCartOptions,
   quickOrderFeatureModulePath,
@@ -69,27 +69,27 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   const savedCartFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_SAVED_CART_FEATURE],
+    features: [CART_SAVED_CART_FEATURE_NAME],
   };
 
   const cartBaseFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_BASE_FEATURE],
+    features: [CART_BASE_FEATURE_NAME],
   };
 
   const wishListFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_WISHLIST_FEATURE],
+    features: [CART_WISHLIST_FEATURE_NAME],
   };
 
   const quickOrderFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_QUICK_ORDER_FEATURE],
+    features: [CART_QUICK_ORDER_FEATURE_NAME],
   };
 
   const cartImportExportFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_IMPORT_EXPORT_FEATURE],
+    features: [CART_IMPORT_EXPORT_FEATURE_NAME],
   };
 
   beforeEach(async () => {

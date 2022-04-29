@@ -9,12 +9,12 @@ import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { NGRX_STORE, UTF_8 } from '../constants';
 import {
-  CLI_CDS_FEATURE,
-  CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
-  CLI_USER_ACCOUNT_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
+  CDS_FEATURE_NAME,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+  DIGITAL_PAYMENTS_FEATURE_NAME,
   SPARTACUS_SCHEMATICS,
+  USER_ACCOUNT_FEATURE_NAME,
+  USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import { addFeatures, analyzeFeature, orderFeatures } from './feature-utils';
 import { LibraryOptions } from './lib-utils';
@@ -95,7 +95,7 @@ describe('Feature utils', () => {
     it('should generate feature modules for the given array of features', async () => {
       appTree = await schematicRunner
         .callRule(
-          addFeatures(BASE_OPTIONS, [CLI_USER_ACCOUNT_FEATURE]),
+          addFeatures(BASE_OPTIONS, [USER_ACCOUNT_FEATURE_NAME]),
           appTree
         )
         .toPromise();
@@ -114,7 +114,7 @@ describe('Feature utils', () => {
           {
             ...spartacusDefaultOptions,
             name: 'schematics-test',
-            features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+            features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
           },
           appTree
         )
@@ -138,7 +138,7 @@ describe('Feature utils', () => {
           {
             ...spartacusDefaultOptions,
             name: 'schematics-test',
-            features: [CLI_USER_PROFILE_FEATURE],
+            features: [USER_PROFILE_FEATURE_NAME],
           },
           appTree
         )
@@ -153,8 +153,8 @@ describe('Feature utils', () => {
 
       expect(result.core).toEqual([]);
       expect(result.features?.map((f) => f.feature)).toEqual([
-        CLI_USER_ACCOUNT_FEATURE,
-        CLI_USER_PROFILE_FEATURE,
+        USER_ACCOUNT_FEATURE_NAME,
+        USER_PROFILE_FEATURE_NAME,
       ]);
       expect(result.unrecognized).toEqual(undefined);
     });
@@ -166,7 +166,7 @@ describe('Feature utils', () => {
           {
             ...spartacusDefaultOptions,
             name: 'schematics-test',
-            features: [CLI_CDS_FEATURE],
+            features: [CDS_FEATURE_NAME],
           },
           appTree
         )
@@ -179,7 +179,9 @@ describe('Feature utils', () => {
       const result = analyzeFeature(spartacusCdsModule);
 
       expect(result.core).toEqual([]);
-      expect(result.features?.map((f) => f.feature)).toEqual([CLI_CDS_FEATURE]);
+      expect(result.features?.map((f) => f.feature)).toEqual([
+        CDS_FEATURE_NAME,
+      ]);
       expect(result.unrecognized).toEqual(undefined);
     });
 
@@ -191,7 +193,7 @@ describe('Feature utils', () => {
             {
               ...spartacusDefaultOptions,
               name: 'schematics-test',
-              features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+              features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
             },
             appTree
           )
@@ -227,7 +229,7 @@ describe('Feature utils', () => {
             {
               ...spartacusDefaultOptions,
               name: 'schematics-test',
-              features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+              features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
             },
             appTree
           )
@@ -268,7 +270,7 @@ describe('Feature utils', () => {
               {
                 ...spartacusDefaultOptions,
                 name: 'schematics-test',
-                features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+                features: [DIGITAL_PAYMENTS_FEATURE_NAME],
               },
               appTree
             )
@@ -279,7 +281,7 @@ describe('Feature utils', () => {
               {
                 ...spartacusDefaultOptions,
                 name: 'schematics-test',
-                features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+                features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
               },
               appTree
             )
@@ -308,7 +310,7 @@ describe('Feature utils', () => {
               {
                 ...spartacusDefaultOptions,
                 name: 'schematics-test',
-                features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+                features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
               },
               appTree
             )
@@ -360,7 +362,7 @@ describe('Feature utils', () => {
           {
             ...spartacusDefaultOptions,
             name: 'schematics-test',
-            features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+            features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
           },
           appTree
         )
@@ -371,7 +373,7 @@ describe('Feature utils', () => {
           {
             ...spartacusDefaultOptions,
             name: 'schematics-test',
-            features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
           },
           appTree
         )
@@ -448,7 +450,7 @@ describe('Feature utils', () => {
           {
             ...spartacusDefaultOptions,
             name: 'schematics-test',
-            features: [CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE],
+            features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
           },
           appTree
         )
@@ -459,7 +461,7 @@ describe('Feature utils', () => {
           {
             ...spartacusDefaultOptions,
             name: 'schematics-test',
-            features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
           },
           appTree
         )

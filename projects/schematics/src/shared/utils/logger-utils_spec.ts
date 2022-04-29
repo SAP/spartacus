@@ -8,8 +8,8 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import {
-  CLI_USER_PROFILE_FEATURE,
   SPARTACUS_SCHEMATICS,
+  USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import {
   debugLog,
@@ -43,7 +43,7 @@ describe('Logger utils', () => {
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [CLI_USER_PROFILE_FEATURE],
+    features: [USER_PROFILE_FEATURE_NAME],
     debug: true,
   };
 
