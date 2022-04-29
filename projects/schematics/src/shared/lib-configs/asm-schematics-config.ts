@@ -20,7 +20,7 @@ export const ASM_SCSS_FILE_NAME = 'asm.scss';
 
 export const ASM_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_ASM_FEATURE,
+    featureName: CLI_ASM_FEATURE,
     mainScope: SPARTACUS_ASM,
   },
   folderName: ASM_FOLDER_NAME,

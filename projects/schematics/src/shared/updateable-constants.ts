@@ -193,7 +193,7 @@ function populateFeatureMapping(
   featureConfig: FeatureConfig
 ): void {
   const feature = featureConfig.library.mainScope;
-  const featureName = featureConfig.library.cli;
+  const featureName = featureConfig.library.featureName;
 
   const existingMapping = mapping.get(feature) ?? [];
   // avoid adding duplicates
@@ -208,7 +208,7 @@ function populateFeatureModuleMapping(
   mapping: Map<string, string[]>,
   featureConfig: FeatureConfig
 ): void {
-  const feature = featureConfig.library.cli;
+  const feature = featureConfig.library.featureName;
 
   const existingMapping = mapping.get(feature) ?? [];
   const featureModules = ([] as Module[])
@@ -227,7 +227,7 @@ function populateRootModulesMapping(
   mapping: Map<string, string[]>,
   featureConfig: FeatureConfig
 ): void {
-  const feature = featureConfig.library.cli;
+  const feature = featureConfig.library.featureName;
 
   const existingMapping = mapping.get(feature) ?? [];
   const rooModules = ([] as Module[])
@@ -246,7 +246,7 @@ function populateConfigMapping(
   mapping: Map<string, FeatureConfig>,
   featureConfig: FeatureConfig
 ): void {
-  mapping.set(featureConfig.library.cli, featureConfig);
+  mapping.set(featureConfig.library.featureName, featureConfig);
 }
 
 /**

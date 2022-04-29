@@ -25,7 +25,7 @@ export const CDS_MODULE = 'CdsModule';
 
 export const CDS_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_CDS_FEATURE,
+    featureName: CLI_CDS_FEATURE,
     mainScope: SPARTACUS_CDS,
   },
   folderName: CDS_FOLDER_NAME,

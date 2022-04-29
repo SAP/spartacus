@@ -20,7 +20,7 @@ export const ORDER_TRANSLATION_CHUNKS_CONFIG = 'orderTranslationChunksConfig';
 
 export const ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_ORDER_FEATURE,
+    featureName: CLI_ORDER_FEATURE,
     mainScope: SPARTACUS_ORDER,
   },
   folderName: ORDER_FOLDER_NAME,

@@ -19,7 +19,7 @@ export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
 
 export const STOREFINDER_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_STOREFINDER_FEATURE,
+    featureName: CLI_STOREFINDER_FEATURE,
     mainScope: SPARTACUS_STOREFINDER,
   },
   folderName: STOREFINDER_FOLDER_NAME,

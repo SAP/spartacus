@@ -24,7 +24,7 @@ export const USER_ACCOUNT_TRANSLATION_CHUNKS_CONFIG =
 
 export const USER_ACCOUNT_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_USER_ACCOUNT_FEATURE,
+    featureName: CLI_USER_ACCOUNT_FEATURE,
     mainScope: SPARTACUS_USER,
     featureScope: SPARTACUS_USER_ACCOUNT,
   },
@@ -62,7 +62,7 @@ export const USER_PROFILE_TRANSLATION_CHUNKS_CONFIG =
 
 export const USER_PROFILE_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_USER_PROFILE_FEATURE,
+    featureName: CLI_USER_PROFILE_FEATURE,
     mainScope: SPARTACUS_USER,
     featureScope: SPARTACUS_USER_PROFILE,
   },

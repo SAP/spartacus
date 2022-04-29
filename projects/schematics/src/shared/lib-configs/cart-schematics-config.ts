@@ -45,7 +45,7 @@ export const CART_BASE_TRANSLATION_CHUNKS_CONFIG =
 
 export const CART_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_CART_BASE_FEATURE,
+    featureName: CLI_CART_BASE_FEATURE,
     mainScope: SPARTACUS_CART,
     featureScope: SPARTACUS_CART_BASE,
   },
@@ -102,7 +102,7 @@ export const CART_IMPORT_EXPORT_TRANSLATION_CHUNKS_CONFIG =
 
 export const CART_IMPORT_EXPORT_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_CART_IMPORT_EXPORT_FEATURE,
+    featureName: CLI_CART_IMPORT_EXPORT_FEATURE,
     mainScope: SPARTACUS_CART,
     featureScope: SPARTACUS_CART_IMPORT_EXPORT,
   },
@@ -142,7 +142,7 @@ export const QUICK_ORDER_TRANSLATION_CHUNKS_CONFIG =
 
 export const CART_QUICK_ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_CART_QUICK_ORDER_FEATURE,
+    featureName: CLI_CART_QUICK_ORDER_FEATURE,
     mainScope: SPARTACUS_CART,
     featureScope: SPARTACUS_QUICK_ORDER,
   },
@@ -184,7 +184,7 @@ export const SAVED_CART_TRANSLATION_CHUNKS_CONFIG =
 
 export const CART_SAVED_CART_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_CART_SAVED_CART_FEATURE,
+    featureName: CLI_CART_SAVED_CART_FEATURE,
     mainScope: SPARTACUS_CART,
     featureScope: SPARTACUS_SAVED_CART,
   },
@@ -228,7 +228,7 @@ export const CART_WISHLIST_TRANSLATION_CHUNKS_CONFIG =
 
 export const CART_WISHLIST_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_CART_WISHLIST_FEATURE,
+    featureName: CLI_CART_WISHLIST_FEATURE,
     mainScope: SPARTACUS_CART,
     featureScope: SPARTACUS_CART_WISHLIST,
   },

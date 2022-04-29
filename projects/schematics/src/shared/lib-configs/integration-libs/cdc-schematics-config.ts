@@ -18,7 +18,7 @@ export const CDC_CONFIG = 'CdcConfig';
 
 export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_CDC_FEATURE,
+    featureName: CLI_CDC_FEATURE,
     mainScope: SPARTACUS_CDC,
   },
   folderName: CDC_FOLDER_NAME,

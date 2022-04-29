@@ -29,7 +29,7 @@ export const BULK_PRICING_TRANSLATION_CHUNKS_CONFIG =
 
 export const PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_PRODUCT_BULK_PRICING_FEATURE,
+    featureName: CLI_PRODUCT_BULK_PRICING_FEATURE,
     mainScope: SPARTACUS_PRODUCT,
     featureScope: SPARTACUS_BULK_PRICING,
     b2b: true,
@@ -69,7 +69,7 @@ export const IMAGE_ZOOM_TRANSLATION_CHUNKS_CONFIG =
 
 export const PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
+    featureName: CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
     mainScope: SPARTACUS_PRODUCT,
     featureScope: SPARTACUS_IMAGE_ZOOM,
   },
@@ -108,7 +108,7 @@ export const VARIANTS_TRANSLATION_CHUNKS_CONFIG =
 
 export const PRODUCT_VARIANTS_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_PRODUCT_VARIANTS_FEATURE,
+    featureName: CLI_PRODUCT_VARIANTS_FEATURE,
     mainScope: SPARTACUS_PRODUCT,
     featureScope: SPARTACUS_VARIANTS,
   },

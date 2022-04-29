@@ -70,7 +70,7 @@ describe('Lib utils', () => {
 
   const BASE_FEATURE_CONFIG: FeatureConfig = {
     library: {
-      cli: CLI_FEATURE_NAME,
+      featureName: CLI_FEATURE_NAME,
       mainScope: FEATURE_MODULE_IMPORT_PATH,
     },
     folderName: FEATURE_FOLDER_NAME,
@@ -102,7 +102,7 @@ describe('Lib utils', () => {
 
   const CHECKOUT_FEATURE_CONFIG: FeatureConfig = {
     library: {
-      cli: 'checkout',
+      featureName: 'checkout',
       mainScope: '@spartacus/checkout',
       featureScope: '@spartacus/checkout/base',
     },

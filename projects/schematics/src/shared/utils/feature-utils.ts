@@ -150,8 +150,6 @@ interface WrapperAnalysisResult {
   wrapperOptions: SpartacusWrapperOptions;
 }
 
-// TODO:#schematics - [at the end] move some of the methods from lib-utils?
-
 /**
  * Configures feature modules for the given array of features.
  *

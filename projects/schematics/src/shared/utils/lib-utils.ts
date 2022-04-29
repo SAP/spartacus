@@ -107,8 +107,7 @@ export interface FeatureConfig {
     /**
      * The feature name, e.g. CHECKOUT_BASE_FEATURE
      */
-    // TODO:#schematics - [at the end] - rename to featureName
-    cli: string;
+    featureName: string;
     /**
      * Spartacus library scope, e.g. `@spartacus/checkout`
      */
@@ -222,7 +221,9 @@ export function addLibraryFeature<T extends LibraryOptions>(
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
     if (options.debug) {
-      context.logger.info(formatFeatureStart(config.library.cli, `adding...`));
+      context.logger.info(
+        formatFeatureStart(config.library.featureName, `adding...`)
+      );
     }
 
     const spartacusFeatureModuleExistsInApp = checkAppStructure(
@@ -244,7 +245,7 @@ export function addLibraryFeature<T extends LibraryOptions>(
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
 
       debugLog(
-        formatFeatureComplete(config.library.cli, `added.`),
+        formatFeatureComplete(config.library.featureName, `added.`),
         options.debug
       ),
     ]);

@@ -21,7 +21,7 @@ export const SPARTACUS_SMARTEDIT_ASSETS = 'smartedit/assets';
 
 export const SMARTEDIT_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
-    cli: CLI_SMARTEDIT_FEATURE,
+    featureName: CLI_SMARTEDIT_FEATURE,
     mainScope: SPARTACUS_SMARTEDIT,
   },
   folderName: SMARTEDIT_FOLDER_NAME,
