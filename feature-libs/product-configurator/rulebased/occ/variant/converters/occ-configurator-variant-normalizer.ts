@@ -119,9 +119,7 @@ export class OccConfiguratorVariantNormalizer
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
-      uiType: this.convertAttributeType(
-        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
-      ),
+      uiType: this.convertAttributeType(sourceAttribute),
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput: sourceAttribute.formattedValue,
       maxlength:
@@ -134,6 +132,7 @@ export class OccConfiguratorVariantNormalizer
       hasConflicts: numberOfConflicts > 0,
       images: attributeImages,
       values: attributeValues,
+      intervalInDomain: sourceAttribute.intervalInDomain,
       key: sourceAttribute.key,
     };
 
@@ -186,28 +185,54 @@ export class OccConfiguratorVariantNormalizer
     }
   }
 
+  protected hasSourceAttributeConflicts(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.conflicts
+      ? sourceAttribute.conflicts.length > 0
+      : false;
+  }
+
+  protected isSourceAttributeTypeReadOnly(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.type === OccConfigurator.UiType.READ_ONLY;
+  }
+
+  protected isRetractBlocked(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.retractBlocked
+      ? sourceAttribute.retractBlocked
+      : false;
+  }
+
   protected addRetractValue(
     sourceAttribute: OccConfigurator.Attribute,
     values: Configurator.Value[]
   ) {
-    if (this.uiSettingsConfig?.productConfigurator?.addRetractOption) {
-      const attributeType = this.convertAttributeType(
-        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
-      );
+    const isRetractBlocked = this.isRetractBlocked(sourceAttribute);
+    const isConflicting = this.hasSourceAttributeConflicts(sourceAttribute);
 
+    if (!isRetractBlocked) {
       if (
-        attributeType === Configurator.UiType.RADIOBUTTON ||
-        attributeType === Configurator.UiType.DROPDOWN
+        this.uiSettingsConfig?.productConfigurator?.addRetractOption ||
+        (this.isSourceAttributeTypeReadOnly(sourceAttribute) && isConflicting)
       ) {
-        const value: Configurator.Value = {
-          valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
-          valueDisplay: '',
-          selected: this.isRetractValueSelected(sourceAttribute),
-        };
+        const attributeType = this.convertAttributeType(sourceAttribute);
+        if (
+          attributeType === Configurator.UiType.RADIOBUTTON ||
+          attributeType === Configurator.UiType.DROPDOWN
+        ) {
+          const value: Configurator.Value = {
+            valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
+            selected: this.isRetractValueSelected(sourceAttribute),
+          };
 
-        this.setRetractValueDisplay(attributeType, value);
+          this.setRetractValueDisplay(attributeType, value);
 
-        values.push(value);
+          values.push(value);
+        }
       }
     }
   }
@@ -258,9 +283,11 @@ export class OccConfiguratorVariantNormalizer
     images.push(image);
   }
 
-  convertAttributeType(type: OccConfigurator.UiType): Configurator.UiType {
+  convertAttributeType(
+    sourceAttribute: OccConfigurator.Attribute
+  ): Configurator.UiType {
     let uiType: Configurator.UiType;
-    switch (type) {
+    switch (sourceAttribute.type) {
       case OccConfigurator.UiType.RADIO_BUTTON: {
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
@@ -278,7 +305,11 @@ export class OccConfiguratorVariantNormalizer
         break;
       }
       case OccConfigurator.UiType.READ_ONLY: {
-        uiType = Configurator.UiType.READ_ONLY;
+        uiType =
+          !sourceAttribute.retractBlocked &&
+          this.hasSourceAttributeConflicts(sourceAttribute)
+            ? Configurator.UiType.RADIOBUTTON
+            : Configurator.UiType.READ_ONLY;
         break;
       }
       case OccConfigurator.UiType.CHECK_BOX_LIST: {

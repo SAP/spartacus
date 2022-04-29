@@ -8,6 +8,7 @@ import {
 import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
+  ConfiguratorUISettingsConfig,
 } from '@spartacus/product-configurator/rulebased';
 import {
   IconLoaderService,
@@ -41,7 +42,7 @@ class MockConfigUtilsService {
     return of(isCartEntryOrGroupVisited);
   }
 
-  focusAttribute(): void {}
+  focusValue(): void {}
   scrollToConfigurationElement(): void {}
 }
 
@@ -73,6 +74,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
+  let uiConfig: ConfiguratorUISettingsConfig;
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
@@ -98,6 +100,12 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   let htmlElem: HTMLElement;
 
+  const TestConfiguratorUISettings: ConfiguratorUISettingsConfig = {
+    productConfigurator: {
+      enableNavigationToConflict: false,
+    },
+  };
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -116,6 +124,10 @@ describe('ConfigAttributeHeaderComponent', () => {
           {
             provide: ConfiguratorGroupsService,
             useClass: MockConfiguratorGroupsService,
+          },
+          {
+            provide: ConfiguratorUISettingsConfig,
+            useValue: TestConfiguratorUISettings,
           },
         ],
       })
@@ -152,6 +164,9 @@ describe('ConfigAttributeHeaderComponent', () => {
     );
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
+    uiConfig = TestBed.inject(
+      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
     );
   });
 
@@ -541,8 +556,18 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Get conflict message key', () => {
+    it("should return 'configurator.conflict.conflictDetected' conflict message key", () => {
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
+      fixture.detectChanges();
+      expect(component.getConflictMessageKey()).toEqual(
+        'configurator.conflict.conflictDetected'
+      );
+    });
+
     it("should return 'configurator.conflict.viewConflictDetails' conflict message key", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
       fixture.detectChanges();
       expect(component.getConflictMessageKey()).toEqual(
         'configurator.conflict.viewConflictDetails'
@@ -780,8 +805,10 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
       expect(component['logWarning']).toHaveBeenCalled();
     });
+  });
 
-    it('should call focusAttribute', () => {
+  describe('Focus selected value', () => {
+    it('should call focusValue with attribute', () => {
       const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
       });
@@ -790,7 +817,6 @@ describe('ConfigAttributeHeaderComponent', () => {
       testScheduler.run(() => {
         component.groupType = Configurator.GroupType.CONFLICT_GROUP;
         component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
-
         const configurationLoading = cold('-a-b', {
           a: true,
           b: false,
@@ -800,18 +826,19 @@ describe('ConfigAttributeHeaderComponent', () => {
           'isConfigurationLoading'
         ).and.returnValue(configurationLoading);
 
-        spyOn(configuratorStorefrontUtilsService, 'focusAttribute');
+        spyOn(configuratorStorefrontUtilsService, 'focusValue');
 
         fixture.detectChanges();
-
-        component['focusAttribute'](ConfigurationTestData.GROUP_ID_2);
+        component['focusValue'](component.attribute);
       });
 
       expect(
-        configuratorStorefrontUtilsService.focusAttribute
+        configuratorStorefrontUtilsService.focusValue
       ).toHaveBeenCalledTimes(1);
     });
+  });
 
+  describe('Scroll to configuration element', () => {
     it('should call scrollToConfigurationElement', () => {
       const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
@@ -845,7 +872,9 @@ describe('ConfigAttributeHeaderComponent', () => {
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalledTimes(1);
     });
+  });
 
+  describe('Find conflict group ID', () => {
     it('should not find the conflicting group key when there is no conflict', () => {
       expect(
         component.findConflictGroupId(configWithoutConflicts, currentAttribute)
@@ -856,6 +885,26 @@ describe('ConfigAttributeHeaderComponent', () => {
       expect(
         component.findConflictGroupId(configConflict, currentAttribute)
       ).toBe(ConfigurationTestData.GROUP_ID_CONFLICT_1);
+    });
+  });
+
+  describe('isNavigationToConflictEnabled', () => {
+    it('should return false if productConfigurator setting is not provided', () => {
+      uiConfig.productConfigurator = undefined;
+      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
+    });
+    it('should return false if enableNavigationToConflict setting is not provided', () => {
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict =
+        undefined;
+      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
+    });
+    it('should return true if enableNavigationToConflict setting is true', () => {
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = true;
+      expect(component.isNavigationToConflictEnabled()).toBeTruthy();
+    });
+    it('should return false if enableNavigationToConflict setting is false', () => {
+      (uiConfig.productConfigurator ??= {}).enableNavigationToConflict = false;
+      expect(component.isNavigationToConflictEnabled()).toBeFalsy();
     });
   });
 });

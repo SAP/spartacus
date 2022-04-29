@@ -6,7 +6,6 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
@@ -19,8 +18,6 @@ import { CustomerListComponent } from '../customer-list/customer-list.component'
 @Component({
   selector: 'cx-customer-selection',
   templateUrl: './customer-selection.component.html',
-  styleUrls: ['./customer-selection.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   host: {
     '(document:click)': 'onDocumentClick($event)',
   },
