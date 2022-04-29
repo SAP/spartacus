@@ -3,6 +3,7 @@ import { Product } from '@spartacus/core';
 import {
   ComponentContextData,
   CurrentProductService,
+  ProductContext,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -32,7 +33,7 @@ export class ConfigureProductComponent {
     CommonConfigurator.OwnerType.PRODUCT;
 
   constructor(
-    @Optional() protected context: ComponentContextData, // when on PLP
+    @Optional() protected context: ComponentContextData<ProductContext>, // when on PLP
     @Optional() protected currentProductService: CurrentProductService // when on PDP
   ) {}
 }

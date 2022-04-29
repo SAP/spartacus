@@ -1,7 +1,7 @@
 <!-- Item Start Outlet -->
 <ng-template
   [cxOutlet]="CartOutlets.LIST_ITEM"
-  [cxComponentContext]="{compact, readonly, item, quantityControl, promotionLocation, options}"
+  [cxComponentContext]="{compact, readonly, item, quantityControl, location: promotionLocation, options}"
 >
   <td role="cell">
     <ng-template

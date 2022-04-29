@@ -1,6 +1,6 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { CartItemContextNew, OrderEntry } from '@spartacus/cart/base/root';
 import { ComponentContextData } from '@spartacus/storefront';
 import { EMPTY, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(
-    @Optional() protected contextData: ComponentContextData,
+    @Optional() protected contextData: ComponentContextData<CartItemContextNew>,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
 

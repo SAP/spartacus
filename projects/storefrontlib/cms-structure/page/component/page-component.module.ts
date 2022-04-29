@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ComponentContextDirective } from './component-context.directive';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { ComponentContextDirective } from './context/component-context.directive';
 import { ComponentHandler } from './handlers/component-handler';
 import { DefaultComponentHandler } from './handlers/default-component.handler';
 import { LazyComponentHandler } from './handlers/lazy-component.handler';
