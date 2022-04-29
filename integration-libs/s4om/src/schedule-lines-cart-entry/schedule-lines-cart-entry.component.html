@@ -5,8 +5,8 @@
         <tr *ngFor="let scheduleLine of orderEntry.scheduleLines let i = index" class="cx-configuration-info"
           attr.aria-describedby="{{ getScheduleLineInfoId(i) }}">
           <td> {{ scheduleLine?.confirmedAt | cxDate: 'longDate' }}  &nbsp; </td>
-          <td> {{ 's4omScheduleLines.quantity'| cxTranslate}} &nbsp; </td>
-          <td> scheduleLine?.confirmedQuantity </td>
+          <td> {{ 's4omScheduleLines.quantity' | cxTranslate }} &nbsp; </td>
+          <td> {{ scheduleLine?.confirmedQuantity }} </td>
         </tr>
       </table>
 
