@@ -5,7 +5,7 @@ import {
   SPARTACUS_CDC_ROOT,
   SPARTACUS_USER,
 } from '../../libs-constants';
-import { FeatureConfig, Module } from '../../utils/lib-utils';
+import { FeatureConfig } from '../../utils/lib-utils';
 import { USER_PROFILE_MODULE } from '../user-schematics-config';
 
 export const CDC_FOLDER_NAME = 'cdc';
@@ -16,11 +16,6 @@ export const CDC_ROOT_MODULE = 'CdcRootModule';
 export const CDC_FEATURE_CONSTANT = 'CDC_FEATURE';
 export const CDC_CONFIG = 'CdcConfig';
 
-// TODO:#schematics - cleanup these?
-const CDC_FEATURE_MODULE: Module = {
-  importPath: SPARTACUS_CDC,
-  name: CDC_MODULE,
-};
 export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
     cli: CLI_CDC_FEATURE,
@@ -28,7 +23,10 @@ export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
   },
   folderName: CDC_FOLDER_NAME,
   moduleName: CDC_MODULE_NAME,
-  featureModule: CDC_FEATURE_MODULE,
+  featureModule: {
+    importPath: SPARTACUS_CDC,
+    name: CDC_MODULE,
+  },
   rootModule: {
     importPath: SPARTACUS_CDC_ROOT,
     name: CDC_ROOT_MODULE,

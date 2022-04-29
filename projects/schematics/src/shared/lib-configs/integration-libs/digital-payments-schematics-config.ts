@@ -6,7 +6,7 @@ import {
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_DIGITAL_PAYMENTS_ASSETS,
 } from '../../libs-constants';
-import { FeatureConfig, Module } from '../../utils/lib-utils';
+import { FeatureConfig } from '../../utils/lib-utils';
 import {
   CHECKOUT_BASE_FEATURE_NAME_CONSTANT,
   CHECKOUT_BASE_MODULE,
@@ -19,10 +19,6 @@ export const DIGITAL_PAYMENTS_TRANSLATIONS = 'dpTranslations';
 export const DIGITAL_PAYMENTS_TRANSLATION_CHUNKS_CONFIG =
   'dpTranslationChunksConfig';
 
-const DIGITAL_PAYMENTS_FEATURE_MODULE: Module = {
-  name: DIGITAL_PAYMENTS_MODULE,
-  importPath: SPARTACUS_DIGITAL_PAYMENTS,
-};
 export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: FeatureConfig = {
   library: {
     cli: CLI_DIGITAL_PAYMENTS_FEATURE,
@@ -30,7 +26,10 @@ export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: FeatureConfig = {
   },
   folderName: DIGITAL_PAYMENTS_FOLDER_NAME,
   moduleName: DIGITAL_PAYMENTS_MODULE_NAME,
-  featureModule: DIGITAL_PAYMENTS_FEATURE_MODULE,
+  featureModule: {
+    name: DIGITAL_PAYMENTS_MODULE,
+    importPath: SPARTACUS_DIGITAL_PAYMENTS,
+  },
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
     namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
