@@ -11,11 +11,12 @@ export class FileDownloadService {
    * @param {string} [fileName] The optional parameter for defining filename
    * (including the extension) when saving the file.
    */
-  download(url: string, fileName?: string): void {
+  download(url: string, fileName?: string, inNewTab?: boolean): void {
     const link = document.createElement('a');
 
     link.setAttribute('href', url);
     link.setAttribute('download', `${fileName}`);
+    if (inNewTab) link.setAttribute('target', '_blank');
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
