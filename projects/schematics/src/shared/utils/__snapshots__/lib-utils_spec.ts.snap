@@ -36,7 +36,12 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
             \\"styles\\": [
               \\"src/styles.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -104,7 +109,12 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
             \\"styles\\": [
               \\"src/styles.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -156,7 +166,12 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/xxx.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -230,7 +245,12 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/xxx.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }

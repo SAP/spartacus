@@ -325,7 +325,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -398,7 +403,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -719,7 +729,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -792,7 +807,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -1094,7 +1114,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -1167,7 +1192,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -1432,7 +1462,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -1505,7 +1540,12 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
               \\"src/styles/spartacus/checkout.scss\\",
               \\"src/styles/spartacus/product-configurator.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }

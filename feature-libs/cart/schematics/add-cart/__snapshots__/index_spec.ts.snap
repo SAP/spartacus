@@ -163,7 +163,12 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -233,7 +238,12 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styli
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -337,7 +347,12 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -406,7 +421,12 @@ exports[`Spartacus Cart schematics: ng-add Cart Import Export feature general se
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -511,7 +531,12 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -581,7 +606,12 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -781,7 +811,12 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -851,7 +886,12 @@ exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styl
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -1061,7 +1101,12 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -1131,7 +1176,12 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature general setup styli
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }

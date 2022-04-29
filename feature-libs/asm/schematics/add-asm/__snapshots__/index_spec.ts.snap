@@ -143,7 +143,12 @@ exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling shou
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/asm.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -213,7 +218,12 @@ exports[`Spartacus Asm schematics: ng-add Asm feature general setup styling shou
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/asm.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
