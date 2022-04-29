@@ -38,6 +38,10 @@
                 "bundleName": "styles"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-asm.scss",
+                "bundleName": "asm"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-organization.scss",
                 "bundleName": "organization"
               },

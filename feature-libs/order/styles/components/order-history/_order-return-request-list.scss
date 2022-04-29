@@ -109,6 +109,10 @@
     text-transform: uppercase;
     color: var(--cx-color-secondary);
 
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+
     @include media-breakpoint-down(sm) {
       @include type('8');
       min-width: 110px;
@@ -129,15 +133,20 @@
     margin-bottom: 0;
     align-items: center;
     display: flex;
+    width: 40%;
+
     span {
       margin-inline-end: 0.5rem;
       flex: none;
     }
+
     cx-sorting {
       width: 100%;
     }
+
     @include media-breakpoint-down(sm) {
       padding: 1.25rem;
+      width: 100%;
     }
   }
 
