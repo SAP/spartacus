@@ -42,6 +42,12 @@ export class AutoFocusDirective
   // @Input('cxAutoFocus')
   protected config: AutoFocusConfig;
 
+  /**
+   * Should only autofocus on the first handleFocus call. 
+   * Should not autofocus on proceeding keyboard and mouse events
+  */
+  protected isFirstAutoFocusCall: boolean = true;
+
   constructor(
     protected elementRef: ElementRef,
     protected service: AutoFocusService
@@ -78,7 +84,10 @@ export class AutoFocusDirective
    * focusable child element will be focussed.
    */
   handleFocus(event?: KeyboardEvent) {
-    if (this.shouldAutofocus) {
+    // Dalvir
+    console.log(event?.key)
+    if (this.shouldAutofocus && this.isFirstAutoFocusCall) {
+      this.isFirstAutoFocusCall = false;
       if (!event?.target || event.target === this.host) {
         this.firstFocusable?.focus();
       } else {
