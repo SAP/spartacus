@@ -16,7 +16,7 @@ import {
   featureFeatureModuleMapping,
   getKeyByMappingValueOrThrow,
   getSchematicsConfigByFeatureOrThrow,
-} from '../shared/updateable-constants';
+} from '../shared/schematics-config-mappings';
 import { normalizeObject, removeProperty } from '../shared/utils/config-utils';
 import {
   analyzeFeature,

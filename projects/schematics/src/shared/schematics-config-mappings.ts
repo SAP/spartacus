@@ -1,4 +1,3 @@
-// TODO:#schematics - [at the end] rename the file?
 import { SchematicsException } from '@angular-devkit/schematics';
 import { ASM_SCHEMATICS_CONFIG } from './lib-configs/asm-schematics-config';
 import {

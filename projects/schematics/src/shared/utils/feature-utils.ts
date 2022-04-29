@@ -28,7 +28,7 @@ import {
   featureRootModuleMapping,
   featureSchematicConfigMapping,
   getKeyByMappingValue,
-} from '../updateable-constants';
+} from '../schematics-config-mappings';
 import { crossFeatureInstallationOrder } from './graph-utils';
 import {
   getImportDeclaration,

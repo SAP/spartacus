@@ -1,5 +1,5 @@
 import { SchematicsException } from '@angular-devkit/schematics';
-import { featureSchematicConfigMapping } from '../updateable-constants';
+import { featureSchematicConfigMapping } from '../schematics-config-mappings';
 
 /**
  * Returns the configured dependencies for the given feature.

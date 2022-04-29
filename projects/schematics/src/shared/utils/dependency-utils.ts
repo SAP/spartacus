@@ -3,7 +3,7 @@ import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
 import {
   getKeyByMappingValueOrThrow,
   libraryFeatureMapping,
-} from '../updateable-constants';
+} from '../schematics-config-mappings';
 import {
   calculateCrossFeatureSort,
   calculateCrossLibrarySort,

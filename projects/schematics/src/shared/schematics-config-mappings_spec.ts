@@ -40,9 +40,9 @@ import {
   getKeyByMappingValue,
   getKeyByMappingValueOrThrow,
   getSchematicsConfigByFeatureOrThrow,
-} from './updateable-constants';
+} from './schematics-config-mappings';
 
-describe('generateMappings', () => {
+describe('schematics-config-mappings', () => {
   describe('libraryFeatureMapping', () => {
     it('should generate a correct mapping', () => {
       const result = generateMappings().libraryFeatureMapping;
