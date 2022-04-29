@@ -94,7 +94,12 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/order.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -163,7 +168,12 @@ exports[`Spartacus Order schematics: ng-add Order feature general setup styling 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/order.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }

@@ -131,6 +131,8 @@ export namespace OccConfigurator {
   export interface Overview {
     id: string;
     totalNumberOfIssues?: number;
+    numberOfIncompleteCharacteristics?: number;
+    numberOfConflicts?: number;
     groups?: GroupOverview[];
     pricing?: PriceSummary;
     productCode: string;
