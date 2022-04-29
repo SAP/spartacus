@@ -21,7 +21,6 @@ class MockUserIdService implements Partial<UserIdService> {
   setUserId() {}
 }
 
-const loginInProgress$ = new BehaviorSubject(false);
 const oauthLibEvents = new BehaviorSubject<OAuthEvent>({
   type: 'token_received',
 });
@@ -38,7 +37,9 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
     return Promise.resolve({ result: true, tokenReceived: true });
   }
   events$ = oauthLibEvents;
-  loginInProgress$ = loginInProgress$;
+  isLoginInProgress() {
+    return of(false);
+  }
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -188,8 +189,6 @@ describe('AuthService', () => {
 
   describe('isUserLoggedIn()', () => {
     it('should return true when there is access_token', (done) => {
-      oAuthLibWrapperService.loginInProgress$.next(false);
-
       service
         .isUserLoggedIn()
         .pipe(take(1))
@@ -200,7 +199,6 @@ describe('AuthService', () => {
     });
 
     it('should return false when there is not access_token', (done) => {
-      oAuthLibWrapperService.loginInProgress$.next(false);
       spyOn(authStorageService, 'getToken').and.returnValue(of(undefined));
 
       service
@@ -213,7 +211,9 @@ describe('AuthService', () => {
     });
 
     it('should return false when login is in progress', (done) => {
-      oAuthLibWrapperService.loginInProgress$.next(true);
+      spyOn(oAuthLibWrapperService, 'isLoginInProgress').and.returnValue(
+        of(true)
+      );
 
       service
         .isUserLoggedIn()

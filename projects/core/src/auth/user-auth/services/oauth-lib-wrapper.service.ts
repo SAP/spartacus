@@ -19,7 +19,7 @@ export class OAuthLibWrapperService {
   /**
    * Returns true if the `tryLogin()` call has not completed.
    */
-  loginInProgress$ = new BehaviorSubject(false);
+  protected loginInProgress$ = new BehaviorSubject(false);
 
   // TODO: Remove platformId dependency in 4.0
   constructor(
@@ -155,5 +155,12 @@ export class OAuthLibWrapperService {
           this.loginInProgress$.next(false);
         });
     });
+  }
+
+  /**
+   * Returns true if the `tryLogin()` call has not completed.
+   */
+  isLoginInProgress(): Observable<boolean> {
+    return this.loginInProgress$.asObservable();
   }
 }

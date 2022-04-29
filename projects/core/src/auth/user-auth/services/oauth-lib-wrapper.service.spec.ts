@@ -267,19 +267,11 @@ describe('OAuthLibWrapperService', () => {
     });
 
     it('should return true while `tryLogin()` is executing', async () => {
-      const inProgress = service.loginInProgress$;
-      const spy = spyOn(inProgress, 'next');
-      expect(spy).not.toHaveBeenCalled();
-
-      service.tryLogin();
-      expect(spy).toHaveBeenCalledWith(true);
-      expect(spy).toHaveBeenCalledTimes(1);
-
-      // Let tryLogin() run finally clause
-      await setTimeout(() => {
-        expect(spy).toHaveBeenCalledWith(false);
-        expect(spy).toHaveBeenCalledTimes(2);
-      });
+      const inProgress = service.isLoginInProgress();
+      const results: boolean[] = [];
+      inProgress.subscribe((result) => results.push(result));
+      await service.tryLogin();
+      setTimeout(() => expect(results).toEqual([false, true, false]));
     });
   });
 });

@@ -115,7 +115,7 @@ export class AuthService {
   isUserLoggedIn(): Observable<boolean> {
     return combineLatest([
       this.authStorageService.getToken(),
-      this.oAuthLibWrapperService.loginInProgress$,
+      this.oAuthLibWrapperService.isLoginInProgress(),
     ]).pipe(
       map(([userToken, inProgress]) =>
         Boolean(userToken?.access_token && !inProgress)
