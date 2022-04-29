@@ -215,6 +215,83 @@ function increaseBudgets(): Rule {
   };
 }
 
+function createStylePreprocessorOptions(): Rule {
+  return (tree: Tree): Tree => {
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+    const project = angularJson.projects[projectName];
+    const architect = project.architect;
+
+    // `build` architect section
+    const architectBuild = architect?.build;
+    const buildStylePreprocessorOptions = createStylePreprocessorOptionsArray(
+      (architectBuild?.options as any)?.stylePreprocessorOptions
+    );
+    const buildOptions = {
+      ...architectBuild?.options,
+      stylePreprocessorOptions: buildStylePreprocessorOptions,
+    };
+
+    // `test` architect section
+    const architectTest = architect?.test;
+    const testStylePreprocessorOptions = createStylePreprocessorOptionsArray(
+      (architectBuild?.options as any)?.stylePreprocessorOptions
+    );
+    const testOptions = {
+      ...architectTest?.options,
+      stylePreprocessorOptions: testStylePreprocessorOptions,
+    };
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [projectName]: {
+          ...project,
+          architect: {
+            ...architect,
+            build: {
+              ...architectBuild,
+              options: buildOptions,
+            },
+            test: {
+              ...architectTest,
+              options: testOptions,
+            },
+          },
+        },
+      },
+    };
+
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+    return tree;
+  };
+}
+
+function createStylePreprocessorOptionsArray(angularJsonStylePreprocessorOptions: {
+  includePaths: string[];
+}): { includePaths: string[] } {
+  if (!angularJsonStylePreprocessorOptions) {
+    angularJsonStylePreprocessorOptions = {
+      includePaths: ['node_modules/'],
+    };
+  } else {
+    if (!angularJsonStylePreprocessorOptions.includePaths) {
+      angularJsonStylePreprocessorOptions.includePaths = ['node_modules/'];
+    } else {
+      if (
+        !angularJsonStylePreprocessorOptions.includePaths.includes(
+          'node_modules/'
+        )
+      ) {
+        angularJsonStylePreprocessorOptions.includePaths.push('node_modules/');
+      }
+    }
+  }
+
+  return angularJsonStylePreprocessorOptions;
+}
+
 function prepareDependencies(features: string[]): NodeDependency[] {
   const spartacusDependencies = prepareSpartacusDependencies();
 
@@ -320,6 +397,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
       increaseBudgets(),
+      createStylePreprocessorOptions(),
 
       addFeatures(options, features),
 

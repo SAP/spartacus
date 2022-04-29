@@ -181,7 +181,12 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/organization.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -251,7 +256,12 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
               \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/organization.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -475,7 +485,12 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
               \\"src/styles/spartacus/order.scss\\",
               \\"src/styles/spartacus/organization.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -547,7 +562,12 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
               \\"src/styles/spartacus/order.scss\\",
               \\"src/styles/spartacus/organization.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
