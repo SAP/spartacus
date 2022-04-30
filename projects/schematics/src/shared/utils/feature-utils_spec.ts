@@ -129,6 +129,7 @@ describe('Feature utils', () => {
       expect(result.core?.map((c) => c.print())).toMatchSnapshot();
       expect(result.features?.map((f) => f.feature)).toMatchSnapshot();
       expect(result.unrecognized).toEqual(undefined);
+      expect(result.empty).toEqual([]);
     });
 
     it('should correctly analyze the User feature module', async () => {
@@ -434,11 +435,11 @@ describe('Feature utils', () => {
           "HomePageEventModule",
           "ProductPageEventModule",
           "ExternalRoutesModule.forRoot()",
-          "DigitalPaymentsFeatureModule",
           "UserFeatureModule",
           "CartBaseFeatureModule",
           "OrderFeatureModule",
           "CheckoutFeatureModule",
+          "DigitalPaymentsFeatureModule",
         ]
       `);
     });

@@ -104,7 +104,7 @@ interface FeatureAnalysisResult {
    * These features don't affect the order,
    * and are sorted last.
    */
-  empty?: Expression[];
+  empty?: boolean | Expression[];
   /**
    * Features from Spartacus core libs.
    */
@@ -188,7 +188,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
         featureSchematicConfigMapping.get(feature);
       if (!schematicsConfiguration) {
         throw new SchematicsException(
-          `No feature config found for ${feature}. Please check if you added the schematics config to the projects/schematics/src/shared/updateable-constants.ts`
+          `No feature config found for ${feature}. Please check if you added the schematics config to the projects/schematics/src/shared/schematics-config-mappings.ts`
         );
       }
 
@@ -288,38 +288,6 @@ function calculateWrapperExecutionSequence(
   return count;
 }
 
-// function handleWrapperModule<OPTIONS extends LibraryOptions>(
-//   options: OPTIONS,
-//   featureConfig: FeatureConfig
-// ): Rule {
-//   if (!featureConfig.wrappers) {
-//     return noop();
-//   }
-
-//   const rules: Rule[] = [];
-//   for (const markerModuleName in featureConfig.wrappers) {
-//     if (!featureConfig.wrappers.hasOwnProperty(markerModuleName)) {
-//       continue;
-//     }
-
-//     const featureModuleName = featureConfig.wrappers[markerModuleName];
-//     const wrapperOptions: SpartacusWrapperOptions = {
-//       scope: options.scope,
-//       interactive: options.interactive,
-//       project: options.project,
-//       markerModuleName,
-//       featureModuleName,
-//       debug: options.debug,
-//     };
-
-//     rules.push(
-//       externalSchematic(SPARTACUS_SCHEMATICS, 'wrapper-module', wrapperOptions)
-//     );
-//   }
-
-//   return chain(rules);
-// }
-
 /**
  * If exists, it returns the spartacus-features.module.ts' source.
  * Otherwise, it returns undefined.
@@ -391,6 +359,12 @@ export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
     getModulePropertyInitializer(sourceFile, 'imports', false)?.getElements() ??
     [];
 
+  if (elements.length === 0) {
+    return {
+      empty: true,
+    };
+  }
+
   const empty: Expression[] = [];
   const core: Expression[] = [];
   const features: { element: Expression; feature: string }[] = [];
@@ -421,6 +395,7 @@ export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
   return {
     core,
     features,
+    empty,
   };
 }
 
@@ -457,7 +432,10 @@ function analyzeModule(element: Expression): ModuleAnalysisResult {
       return { unrecognized: featureAnalysis.unrecognized };
     }
 
-    if (featureAnalysis.empty) {
+    const isEmpty = Array.isArray(featureAnalysis.empty)
+      ? featureAnalysis.empty.length !== 0
+      : featureAnalysis.empty;
+    if (isEmpty) {
       return { empty: true };
     }
 
@@ -519,7 +497,7 @@ export function orderFeatures(analysisResult: FeatureAnalysisResult): string[] {
 
   return (analysisResult.core ?? [])
     .concat(features)
-    .concat(analysisResult.empty ?? [])
+    .concat(Array.isArray(analysisResult.empty) ? analysisResult.empty : [])
     .map((element) => element.getText());
 }
 

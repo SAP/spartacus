@@ -206,11 +206,11 @@ import { UserFeatureModule } from './features/user/user-feature.module';
         HomePageEventModule,
         ProductPageEventModule,
         ExternalRoutesModule.forRoot(),
-        DigitalPaymentsFeatureModule,
         UserFeatureModule,
         CartBaseFeatureModule,
         OrderFeatureModule,
-        CheckoutFeatureModule]
+        CheckoutFeatureModule,
+        DigitalPaymentsFeatureModule]
 })
 export class SpartacusFeaturesModule {
 }
@@ -338,11 +338,11 @@ import { UserFeatureModule } from './features/user/user-feature.module';
         HomePageEventModule,
         ProductPageEventModule,
         ExternalRoutesModule.forRoot(),
-        DigitalPaymentsFeatureModule,
         UserFeatureModule,
         CartBaseFeatureModule,
         OrderFeatureModule,
-        CheckoutFeatureModule]
+        CheckoutFeatureModule,
+        DigitalPaymentsFeatureModule]
 })
 export class SpartacusFeaturesModule {
 }
