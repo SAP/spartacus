@@ -48,7 +48,7 @@ export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
         cdc: [
           {
             baseSite: 'electronics-spa',
-            javascriptUrl: '<url-to-cdc-script>',
+            javascriptUrl: 'SCRIPT_URL_PLACEHOLDER',
             sessionExpiration: 3600
           },
         ],
