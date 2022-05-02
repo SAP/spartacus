@@ -100,6 +100,8 @@ export namespace Configurator {
   export interface Overview {
     configId: string;
     totalNumberOfIssues?: number;
+    numberOfIncompleteCharacteristics?: number;
+    numberOfConflicts?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
     productCode: string;

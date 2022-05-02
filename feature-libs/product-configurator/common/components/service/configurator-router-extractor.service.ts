@@ -36,6 +36,8 @@ export class ConfiguratorRouterExtractorService {
           displayOnly: routingData.state.params.displayOnly,
           resolveIssues:
             routingData.state.queryParams?.resolveIssues === 'true',
+          skipConflicts:
+            routingData.state.queryParams?.skipConflicts === 'true',
           forceReload: routingData.state.queryParams?.forceReload === 'true',
           pageType:
             semanticRoute &&
