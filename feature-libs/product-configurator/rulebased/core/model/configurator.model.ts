@@ -178,9 +178,11 @@ export namespace Configurator {
   export enum UiType {
     NOT_IMPLEMENTED = 'not_implemented',
     RADIOBUTTON = 'radioGroup',
+    RADIOBUTTON_ADDITIONAL_INPUT = 'radiobutton_add',
     CHECKBOX = 'checkBox',
     CHECKBOXLIST = 'checkBoxList',
     DROPDOWN = 'dropdown',
+    DROPDOWN_ADDITIONAL_INPUT = 'dropdown_add',
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
     READ_ONLY = 'readonly',

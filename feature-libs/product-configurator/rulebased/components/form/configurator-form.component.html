@@ -29,7 +29,10 @@
         </cx-configurator-attribute-header>
         <!-- Single Selection Radio Button -->
         <cx-configurator-attribute-radio-button
-          *ngIf="attribute.uiType === uiType.RADIOBUTTON"
+          *ngIf="
+            attribute.uiType === uiType.RADIOBUTTON ||
+            attribute.uiType === uiType.RADIOBUTTON_ADDITIONAL_INPUT
+          "
           [attribute]="attribute"
           [ownerKey]="configuration.owner.key"
           (selectionChange)="updateConfiguration($event)"
@@ -62,7 +65,10 @@
 
         <!-- Single Selection Dropdown -->
         <cx-configurator-attribute-drop-down
-          *ngIf="attribute.uiType === uiType.DROPDOWN"
+          *ngIf="
+            attribute.uiType === uiType.DROPDOWN ||
+            attribute.uiType === uiType.DROPDOWN_ADDITIONAL_INPUT
+          "
           [attribute]="attribute"
           [group]="currentGroup.id"
           [ownerKey]="configuration.owner.key"

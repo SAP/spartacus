@@ -292,8 +292,16 @@ export class OccConfiguratorVariantNormalizer
         uiType = Configurator.UiType.RADIOBUTTON;
         break;
       }
+      case OccConfigurator.UiType.RADIO_BUTTON_ADDITIONAL_INPUT: {
+        uiType = Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+        break;
+      }
       case OccConfigurator.UiType.DROPDOWN: {
         uiType = Configurator.UiType.DROPDOWN;
+        break;
+      }
+      case OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT: {
+        uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
         break;
       }
       case OccConfigurator.UiType.STRING: {
