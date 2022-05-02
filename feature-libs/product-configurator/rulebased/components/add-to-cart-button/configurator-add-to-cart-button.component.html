@@ -9,18 +9,7 @@
             | cxTranslate) +
           ' ' +
           ('configurator.a11y.addToCartPrices'
-            | cxTranslate
-              : {
-                  basePrice:
-                    container.configuration?.priceSummary?.basePrice
-                      ?.formattedValue,
-                  selectedOptions:
-                    container.configuration?.priceSummary?.selectedOptions
-                      ?.formattedValue,
-                  totalPrice:
-                    container.configuration?.priceSummary?.currentTotal
-                      ?.formattedValue
-                })
+            | cxTranslate: extractConfigPrices(container.configuration))
         "
       >
         {{

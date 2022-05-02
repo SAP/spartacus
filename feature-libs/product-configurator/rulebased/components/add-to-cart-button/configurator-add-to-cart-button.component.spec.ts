@@ -36,6 +36,9 @@ const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
 
+const mockProductConfigurationWithoutPriceSummary =
+  ConfigurationTestData.productConfigurationWithConflicts;
+
 const navParamsOverview: any = {
   cxRoute: 'configureOverview' + configuratorType,
   params: { ownerType: 'cartEntry', entityKey: CART_ENTRY_KEY },
@@ -518,7 +521,44 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
   describe('Accessibility', () => {
+    it('should return base price, selected option price and total price', () => {
+      let result = {
+        basePrice: '$123.56',
+        selectedOptions: '$500',
+        totalPrice: '$623.56',
+      };
+      expect(component.extractConfigPrices(mockProductConfiguration)).toEqual(
+        result
+      );
+    });
+
+    it('should return undefined in case there is no price summary in the configuration', () => {
+      expect(
+        component.extractConfigPrices(
+          mockProductConfigurationWithoutPriceSummary
+        )
+      ).toBeUndefined;
+    });
+
     it("should contain add to cart button element with 'aria-label' attribute that contains prices of the configuration", () => {
+      let basePrice =
+        mockProductConfiguration.priceSummary?.basePrice?.formattedValue;
+      let selectedOptions =
+        mockProductConfiguration.priceSummary?.selectedOptions?.formattedValue;
+      let totalPrice =
+        mockProductConfiguration.priceSummary?.currentTotal?.formattedValue;
+      let expectedA11YString =
+        'configurator.a11y.addToCartPrices' +
+        ' ' +
+        'basePrice:' +
+        basePrice +
+        ' ' +
+        'selectedOptions:' +
+        selectedOptions +
+        ' ' +
+        'totalPrice:' +
+        totalPrice;
+
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -531,17 +571,7 @@ describe('ConfigAddToCartButtonComponent', () => {
           mockProductConfiguration
         ) +
           ' ' +
-          'configurator.a11y.addToCartPrices' +
-          ' ' +
-          'basePrice:' +
-          mockProductConfiguration.priceSummary?.basePrice?.formattedValue +
-          ' ' +
-          'selectedOptions:' +
-          mockProductConfiguration.priceSummary?.selectedOptions
-            ?.formattedValue +
-          ' ' +
-          'totalPrice:' +
-          mockProductConfiguration.priceSummary?.currentTotal?.formattedValue
+          expectedA11YString
       );
     });
   });
