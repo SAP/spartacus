@@ -28,10 +28,3 @@ export interface UserGroup {
   uid?: string;
 }
 
-export interface CustomerListsPage {
-  currentPage?: number;
-  numberOfPages?: number;
-  pageSize?: number;
-  totalNumber?: number;
-  userGroups?: Array<UserGroup>;
-}

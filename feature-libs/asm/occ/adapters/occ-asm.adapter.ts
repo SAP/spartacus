@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import {
   AsmAdapter,
   AsmConfig,
-  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
+import { CustomerListsPage } from '@spartacus/asm/root';
 import {
   BaseSiteService,
   ConverterService,
@@ -31,7 +31,7 @@ export class OccAsmAdapter implements AsmAdapter {
   ) {
     this.baseSiteService
       .getActive()
-      .subscribe((value) => (this.activeBaseSite = value));
+      .subscribe((value) => (this.activeBaseSite = value)); // TODO: Concurrency issue?
   }
 
   customerLists(): Observable<CustomerListsPage> {

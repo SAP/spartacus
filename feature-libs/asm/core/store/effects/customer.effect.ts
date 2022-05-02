@@ -4,7 +4,8 @@ import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AsmConnector } from '../../connectors/asm.connector';
-import { CustomerListsPage, CustomerSearchPage } from '../../models/asm.models';
+import { CustomerSearchPage } from '../../models/asm.models';
+import { CustomerListsPage } from '@spartacus/asm/root';
 import { AsmActions } from '../actions/index';
 
 @Injectable()

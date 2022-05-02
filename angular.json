@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "feature-libs",
   "projects": {
@@ -80,10 +83,6 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
                 "bundleName": "epd-visualization"
-              },
-              {
-                "input": "projects/storefrontapp/src/styles/lib-asm.scss",
-                "bundleName": "asm"
               }
             ],
             "stylePreprocessorOptions": {

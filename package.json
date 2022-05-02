@@ -66,6 +66,7 @@
     "start:qa": "env-cmd --no-override -e devqa,b2c,$SPA_ENV ng serve",
     "start:qab2b": "env-cmd --no-override -e devqa,b2b,$SPA_ENV ng serve",
     "start:b2b": "env-cmd --no-override -e dev,b2b,$SPA_ENV ng serve",
+    "start:b2c": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng serve",
     "start:prod": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng serve --configuration production",
     "start:pwa": "cd ./dist/storefrontapp/ && http-server --silent --proxy http://localhost:4200? -p 4200",
     "test": "ng test",

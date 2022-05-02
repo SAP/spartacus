@@ -339,6 +339,15 @@
   dependencies:
     tslib "^2.3.0"
 
+"@angular/cdk@~13.3.0":
+  version "13.3.5"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-13.3.5.tgz#b198bcd062d46eb55e9e012cfab8b0a3457d2c23"
+  integrity sha512-fA99fGgybup9ezyB/IzOa9Mk8g8LjejkqikLnC3mAeQ0lROOO7Vf9Rp1v7/ahe2lALTUbA1bzJeXzQYaffkIiA==
+  dependencies:
+    tslib "^2.3.0"
+  optionalDependencies:
+    parse5 "^5.0.0"
+
 "@angular/cli@^13.2.0":
   version "13.2.2"
   resolved "https://registry.yarnpkg.com/@angular/cli/-/cli-13.2.2.tgz#ecb2f22dc34028224cf9de57c84d239903a348ff"
@@ -2391,6 +2400,39 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@fundamental-ngx/core@^0.33.7":
+  version "0.33.7"
+  resolved "https://registry.yarnpkg.com/@fundamental-ngx/core/-/core-0.33.7.tgz#54be1543e25ad236a3b6867c352c6457c8dface4"
+  integrity sha512-wqekGrvncIwUmu7Ak4bTe99klfK/0xtEiDwin5hHgx9/STdbudz2CNuabnj1BpObiinlDsb5kxq2vyXjo+CKDg==
+  dependencies:
+    "@sap-theming/theming-base-content" "11.1.38"
+    fast-deep-equal "3.1.3"
+    focus-trap "6.7.3"
+    fundamental-styles v0.21.0-rc.92
+    lodash-es "4.17.21"
+    tslib "^2.0.0"
+
+"@fundamental-ngx/fn@^0.33.7":
+  version "0.33.7"
+  resolved "https://registry.yarnpkg.com/@fundamental-ngx/fn/-/fn-0.33.7.tgz#65e0fd3122d228afef18b4bf54a56d000eceb8b3"
+  integrity sha512-XDdb/hf6pvJSmEUGI06CBWs7BXgOwzeXwNflOGqVtE8zBMAsYu5M5hGJYHqs7h3Ss/Qy3yl8Fq4ojdZspqotcw==
+  dependencies:
+    "@fundamental-styles/fn" "0.21.0-rc.31"
+    "@sap-theming/theming-base-content" "11.1.38"
+    fast-deep-equal "3.1.3"
+    focus-trap "6.7.3"
+    focus-visible "5.2.0"
+    fundamental-styles v0.21.0-rc.92
+    lodash-es "4.17.21"
+    tslib "^2.0.0"
+
+"@fundamental-styles/fn@0.21.0-rc.31":
+  version "0.21.0-rc.31"
+  resolved "https://registry.yarnpkg.com/@fundamental-styles/fn/-/fn-0.21.0-rc.31.tgz#40fb469b1e46189ba8bf622a47b83c2ad60815c1"
+  integrity sha512-Q88WVp9qd73J1JJphJrBkHfSpB4CcB14fekpKMqRK4NgGgqLHfZiX+JwZivb/tJAaAdwrTqe+mRb+X8hBDYUgw==
+  dependencies:
+    fundamental-styles "0.21.0-rc.31"
+
 "@gar/promisify@^1.0.1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.2.tgz#30aa825f11d438671d585bd44e7fd564535fc210"
@@ -3048,6 +3090,11 @@
     "@types/estree" "0.0.39"
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
+
+"@sap-theming/theming-base-content@11.1.38":
+  version "11.1.38"
+  resolved "https://registry.yarnpkg.com/@sap-theming/theming-base-content/-/theming-base-content-11.1.38.tgz#d0a3c86f41602e4ec74544763931363f145d5649"
+  integrity sha512-ZecV/NzAkqdYs0IMKKtZ9yhjv2DQdJBuwha/cL466R48KPZnvlYW7/v6Q9toJ+p1bxMIY134+UK3i8Z5HWDV4Q==
 
 "@sapui5/ts-types-esm@1.98.0":
   version "1.98.0"
@@ -7392,7 +7439,7 @@ faker@^4.1.0:
   resolved "https://registry.yarnpkg.com/faker/-/faker-4.1.0.tgz#1e45bbbecc6774b3c195fad2835109c6d748cc3f"
   integrity sha1-HkW7vsxndLPBlfrSg1EJxtdIzD8=
 
-fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
+fast-deep-equal@3.1.3, fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
   integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
@@ -7663,6 +7710,18 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.3.tgz#c1283ac9f27b368abc1e36d1ff7b04501a30356b"
   integrity sha512-dVsPA/UwQ8+2uoFe5GHtiBMu48dWLTdsuEd7CKGlZlD78r1TTWBvDuFaFGKCo/ZfEr95Uk56vZoX86OsHkUeIg==
 
+focus-trap@6.7.3:
+  version "6.7.3"
+  resolved "https://registry.yarnpkg.com/focus-trap/-/focus-trap-6.7.3.tgz#b5dc195b49c90001f08a63134471d1e6dd381ddd"
+  integrity sha512-8xCEKndV4KrseGhFKKKmczVA14yx1/hnmFICPOjcFjToxCJYj/NHH43tPc3YE/PLnLRNZoFug0EcWkGQde/miQ==
+  dependencies:
+    tabbable "^5.2.1"
+
+focus-visible@5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/focus-visible/-/focus-visible-5.2.0.tgz#3a9e41fccf587bd25dcc2ef045508284f0a4d6b3"
+  integrity sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==
+
 follow-redirects@^1.0.0, follow-redirects@^1.10.0:
   version "1.14.8"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
@@ -7805,6 +7864,16 @@ functional-red-black-tree@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
+
+fundamental-styles@0.21.0-rc.31:
+  version "0.21.0-rc.31"
+  resolved "https://registry.yarnpkg.com/fundamental-styles/-/fundamental-styles-0.21.0-rc.31.tgz#456f732334b0bdd8957dbdc8ec7f83b3ee49bbda"
+  integrity sha512-TFUkea+YJ+NSh0KgMIawLkU71e2jJMRrH9WiJpPSbzE+4Yx+qTR7C+QjXTvDj9YM6HeHNBx7RVRm9+PEf9G2/w==
+
+fundamental-styles@v0.21.0-rc.92:
+  version "0.21.0-rc.92"
+  resolved "https://registry.yarnpkg.com/fundamental-styles/-/fundamental-styles-0.21.0-rc.92.tgz#60efe7e05ba4b806ada4a07a16da59bf5cd8dfad"
+  integrity sha512-l3BMFvIrIHFNxly4r6O0FvB78vUDLGFJtGN+ZGthhqIXSAVU9BDrKgV0CizDpQAzUywqk/mE95gXZGxALGM2YA==
 
 gauge@^4.0.0:
   version "4.0.0"
@@ -10488,6 +10557,11 @@ locate-path@^6.0.0:
   dependencies:
     p-locate "^5.0.0"
 
+lodash-es@4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.21.tgz#43e626c46e6591b7750beb2b50117390c609e3ee"
+  integrity sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==
+
 lodash._reinterpolate@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/lodash._reinterpolate/-/lodash._reinterpolate-3.0.0.tgz#0ccf2d89166af03b3663c796538b75ac6e114d9d"
@@ -11825,7 +11899,7 @@ parse5-sax-parser@^6.0.1:
   dependencies:
     parse5 "^6.0.1"
 
-parse5@5.1.1:
+parse5@5.1.1, parse5@^5.0.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/parse5/-/parse5-5.1.1.tgz#f68e4e5ba1852ac2cadc00f4555fff6c2abb6178"
   integrity sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==
@@ -14649,6 +14723,11 @@ symbol-tree@^3.2.4:
   version "3.2.4"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.4.tgz#430637d248ba77e078883951fb9aa0eed7c63fa2"
   integrity sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==
+
+tabbable@^5.2.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/tabbable/-/tabbable-5.3.1.tgz#059f2a19b829efce2a0ec05785a47dd3bcd0a25b"
+  integrity sha512-NtO7I7eoAHR+JwwcNsi/PipamtAEebYDnur/k9wM6n238HHy/+1O4+7Zx7e/JaDAbKJPlIFYsfsV/6tPqTOQvg==
 
 table@^6.0.1:
   version "6.0.3"

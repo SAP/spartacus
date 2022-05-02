@@ -8,10 +8,10 @@ import {
 import {
   AsmConfig,
   AsmService,
-  CustomerListsPage,
   CustomerSearchPage,
   UserGroup,
 } from '@spartacus/asm/core';
+import { CustomerListsPage } from '@spartacus/asm/root';
 // import { OccAsmAdapter } from '@spartacus/asm/occ';
 import { User } from '@spartacus/core';
 import {
@@ -81,7 +81,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.asmService.getCustomerLists();
+    // this.asmService.searchCustomerLists();
 
     // this.occAsmAdapter.customerLists().subscribe((result) => {
     //   if (result) {
@@ -89,34 +89,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     //   }
     // });
 
-    // this.customerListsPage$ = this.asmService.getCustomerListsResult();
-    this.customerListsPage$ = of(this.getMockCustomerLists()).pipe(
-      tap((result) => {
-        if (!this.selectedUserGroupId) {
-          this.selectedUserGroupId = result.userGroups?.[0].uid;
-          this.getCustomers();
-        }
-      })
-    );
-    // how to set the first value of this.customerListsPage$ to be selected??
-    // should we change to simple Array?
 
-    // this.customerListsPage$.subscribe((customerLists) => {
-    //   if (customerLists.userGroups) {
-    //     this.userGroups = customerLists.userGroups;
-    //     this.selectedUserGroupId = this.userGroups[0].uid;
-    //     this.getCustomers();
-    //   }
-    // });
-
-    // this.asmService.getCustomerLists3().subscribe((list) => {
-    //   if (list) {
-    //   }
-    //   debugger;
-    // });
-
-    this.asmService
-      .getCustomerLists2()
+    this.customerListsPage$ = this.asmService.getCustomerLists2()
       .pipe(
         filter((queryState) => queryState.loading === false),
         map((queryState) => {
@@ -124,12 +98,23 @@ export class CustomerListComponent implements OnInit, OnDestroy {
             return queryState.data;
           } else {
             // TODO error ?????
+            throw new Error();
           }
         })
-      )
-      .subscribe((customerListPage) => {
-        this.userGroups = customerListPage?.userGroups ?? [];
-      });
+      ).pipe(
+
+    // this.customerListsPage$ = this.asmService.getCustomerLists().pipe(
+    // this.customerListsPage$ = of(this.getMockCustomerLists()).pipe(
+      map(x => x),
+      filter(() => true),
+      // set the first value of this.customerListsPage$ to be selected
+      tap((result) => {
+        if (!this.selectedUserGroupId) {
+          this.selectedUserGroupId = result.userGroups?.[0].uid;
+          this.getCustomers();
+        }
+      })
+    );
   }
 
   ngOnDestroy(): void {}

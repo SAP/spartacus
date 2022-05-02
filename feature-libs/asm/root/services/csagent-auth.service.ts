@@ -70,7 +70,7 @@ export class CsAgentAuthService {
         this.userIdService.setUserId(OCC_USER_ID_ANONYMOUS);
         this.authStorageService.clearEmulatedUserToken();
       }
-    } catch {
+    } catch (err) {
       this.authStorageService.switchTokenTargetToUser();
     }
   }
