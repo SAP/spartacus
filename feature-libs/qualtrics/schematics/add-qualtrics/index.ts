@@ -8,6 +8,7 @@ import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
   analyzeCrossFeatureDependencies,
+  analyzeInstalledFeatures,
   LibraryOptions as SpartacusQualtricsOptions,
   readPackageJson,
   validateSpartacusInstallation,
@@ -24,6 +25,7 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
     );
 
     return chain([
+      analyzeInstalledFeatures(options, features),
       addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);

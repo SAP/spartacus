@@ -8,6 +8,7 @@ import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
   analyzeCrossFeatureDependencies,
+  analyzeInstalledFeatures,
   readPackageJson,
   SpartacusEpdVisualizationOptions,
   validateSpartacusInstallation,
@@ -26,6 +27,7 @@ export function addEpdVisualizationFeature(
     );
 
     return chain([
+      analyzeInstalledFeatures(options, features),
       addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);

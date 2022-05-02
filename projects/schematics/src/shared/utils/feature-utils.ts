@@ -7,6 +7,7 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
+import { NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import {
   CallExpression,
   Expression,
@@ -28,10 +29,15 @@ import {
   featureRootModuleMapping,
   featureSchematicConfigMapping,
   getKeyByMappingValue,
+  getKeyByMappingValueOrThrow,
+  getSchematicsConfigByFeatureOrThrow,
+  libraryFeatureMapping,
 } from '../schematics-config-mappings';
 import { crossFeatureInstallationOrder } from './graph-utils';
 import {
+  findDynamicImport,
   getImportDeclaration,
+  importExists,
   isImportedFrom,
   isImportedFromSpartacusCoreLib,
   isImportedFromSpartacusLibs,
@@ -41,11 +47,13 @@ import {
   addLibraryFeature,
   calculateCrossFeatureSort,
   checkAppStructure,
+  dependencyExists,
   FeatureConfig,
   LibraryOptions,
   Module,
 } from './lib-utils';
 import { getModulePropertyInitializer, Import } from './new-module-utils';
+import { readPackageJson } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 
@@ -592,4 +600,156 @@ function orderInstalledFeatures(options: SpartacusOptions): Rule {
       context.logger.info(`✅ Ordering Spartacus feature modules...`);
     }
   };
+}
+
+/**
+ * TODO:#schematics - test by installing DP
+ * - checkout is statically configured (eagerly) - success
+ * - checkout is lazily configured - success
+ * - checkout is missing - failure
+ * - lib not present in package.json - success
+ * - lib present in package.js - should fail
+ *
+ *
+ * Repeat for checkout b2b (i.e. it is present in a wrapper module)
+ */
+// TODO:#schematics - comment
+// TODO:#schematics - rename?
+export function analyzeInstalledFeatures<OPTIONS extends LibraryOptions>(
+  options: OPTIONS,
+  allFeatures: string[]
+): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    // TODO:#schematics - debug logs
+    const spartacusFeatureModuleExists = checkAppStructure(
+      tree,
+      options.project
+    );
+
+    // fresh installation
+    // TODO:#schematics - use options.internal.?
+    // TODO:#schematics - check if this is properly set when installing though a lib (e.g. run ng add @spa/dp)
+    if (!spartacusFeatureModuleExists) {
+      return noop();
+    }
+
+    const wantedFeatures = options.features ?? [];
+    const dependentFeatures = allFeatures.filter(
+      (feature) => !wantedFeatures.includes(feature)
+    );
+
+    const packageJson = readPackageJson(tree);
+    for (const dependentFeature of dependentFeatures) {
+      const schematicsConfig =
+        getSchematicsConfigByFeatureOrThrow(dependentFeature);
+      const featureModule = findFeatureModule(schematicsConfig, options, tree);
+      if (!!featureModule) {
+        continue;
+      }
+
+      const libraryInstalled = dependencyExists(
+        {
+          name: getKeyByMappingValueOrThrow(
+            libraryFeatureMapping,
+            dependentFeature
+          ),
+          type: NodeDependencyType.Default,
+          version: '*',
+        },
+        packageJson
+      );
+      if (!libraryInstalled) {
+        continue;
+      }
+
+      let wantedFeatureModules: Module[] = [];
+      for (const wantedFeature of wantedFeatures) {
+        wantedFeatureModules = wantedFeatureModules.concat(
+          getSchematicsConfigByFeatureOrThrow(wantedFeature).featureModule
+        );
+      }
+
+      const featureModules = ([] as Module[])
+        .concat(schematicsConfig.featureModule)
+        .map((m) => m.name);
+      let message = `'${wantedFeatureModules.map((m) => m.name).join(',')}' `;
+      message +=
+        wantedFeatureModules.length > 1
+          ? `modules require `
+          : `module requires `;
+      message += `the '${featureModules.join(',')}', but `;
+      message += featureModules.length > 1 ? `they ` : `it `;
+      message += `cannot be found.`;
+      message += `\nPlease make sure to manually configure '${wantedFeatures.join(
+        ','
+      )}' `;
+      message += wantedFeatures.length > 1 ? `features ` : `feature `;
+      message += `by following this guide:\n`;
+      message += `TODO:#schematics - docs link`;
+
+      context.logger.warn(message);
+
+      throw new SchematicsException();
+    }
+  };
+}
+
+function findFeatureModule<OPTIONS extends LibraryOptions>(
+  schematicsConfig: FeatureConfig,
+  options: OPTIONS,
+  tree: Tree
+): SourceFile | undefined {
+  const basePath = process.cwd();
+  const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+
+  for (const tsconfigPath of buildPaths) {
+    const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+    const moduleConfigs = ([] as Module[]).concat(
+      schematicsConfig.featureModule
+    );
+    for (const sourceFile of appSourceFiles) {
+      for (const moduleConfig of moduleConfigs) {
+        if (isStaticallyImported(sourceFile, moduleConfig)) {
+          return sourceFile;
+        }
+
+        if (isDynamicallyImported(sourceFile, moduleConfig)) {
+          return sourceFile;
+        }
+      }
+    }
+  }
+
+  return undefined;
+}
+
+function isStaticallyImported(
+  sourceFile: SourceFile,
+  moduleConfig: Module
+): boolean {
+  if (!importExists(sourceFile, moduleConfig.importPath, moduleConfig.name)) {
+    false;
+  }
+
+  const elements =
+    getModulePropertyInitializer(sourceFile, 'imports', false)?.getElements() ??
+    [];
+  for (const element of elements) {
+    if (element.getText().includes(moduleConfig.name)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function isDynamicallyImported(
+  sourceFile: SourceFile,
+  moduleConfig: Module
+): boolean {
+  return !!findDynamicImport(sourceFile, {
+    moduleSpecifier: moduleConfig.importPath,
+    namedImports: [moduleConfig.name],
+  });
 }

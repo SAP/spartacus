@@ -8,6 +8,7 @@ import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
   analyzeCrossFeatureDependencies,
+  analyzeInstalledFeatures,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
   validateSpartacusInstallation,
@@ -25,11 +26,10 @@ export function addProductConfiguratorFeatures(
       options.features as string[]
     );
 
-    if (true) {
-      return chain([
-        addFeatures(options, features),
-        addPackageJsonDependenciesForLibrary(peerDependencies, options),
-      ]);
-    }
+    return chain([
+      analyzeInstalledFeatures(options, features),
+      addFeatures(options, features),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+    ]);
   };
 }

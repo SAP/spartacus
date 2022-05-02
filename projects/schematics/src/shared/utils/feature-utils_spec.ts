@@ -271,18 +271,10 @@ describe('Feature utils', () => {
               {
                 ...spartacusDefaultOptions,
                 name: 'schematics-test',
-                features: [DIGITAL_PAYMENTS_FEATURE_NAME],
-              },
-              appTree
-            )
-            .toPromise();
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              {
-                ...spartacusDefaultOptions,
-                name: 'schematics-test',
-                features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
+                features: [
+                  CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+                  DIGITAL_PAYMENTS_FEATURE_NAME,
+                ],
               },
               appTree
             )

@@ -601,24 +601,10 @@ describe('add-spartacus', () => {
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
-      expect(
-        appTree.readContent(
-          `/projects/schematics-test/${checkoutWrapperModulePath}`
-        )
-      ).toMatchSnapshot();
-
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
+            features: [
+              CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+              DIGITAL_PAYMENTS_FEATURE_NAME,
+            ],
           },
           appTree
         )

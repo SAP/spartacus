@@ -285,7 +285,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
     });
   });
 
-  describe('DP and Checkout', () => {
+  describe('Checkout and DP', () => {
     it('Should order the imports in the wrapper and Spartacus features modules', async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
@@ -293,62 +293,32 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
           {
             ...defaultOptions,
             name: 'schematics-test',
-            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
+            features: [
+              CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+              DIGITAL_PAYMENTS_FEATURE_NAME,
+            ],
           },
           appTree
         )
         .toPromise();
 
-      let { program } = createProgram(appTree, appTree.root.path, buildPath);
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
-      let spartacusFeaturesModule = program.getSourceFileOrThrow(
+      const spartacusFeaturesModule = program.getSourceFileOrThrow(
         spartacusFeaturesModulePath
       );
-      let checkoutFeatureModule = program.getSourceFileOrThrow(
+      const checkoutFeatureModule = program.getSourceFileOrThrow(
         checkoutFeatureModulePath
       );
-      let checkoutWrapperModule = program.getSourceFileOrThrow(
+      const checkoutWrapperModule = program.getSourceFileOrThrow(
         checkoutWrapperModulePath
       );
-      let dpFeaturesModule = program.getSourceFileOrThrow(
+      const dpFeaturesModule = program.getSourceFileOrThrow(
         digitalPaymentsFeatureModulePath
       );
       expect(spartacusFeaturesModule.print()).toMatchSnapshot();
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
       expect(checkoutWrapperModule.print()).toMatchSnapshot();
-      expect(dpFeaturesModule.print()).toMatchSnapshot();
-
-      // add b2b and repl features after the DP
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
-
-      program = createProgram(appTree, appTree.root.path, buildPath).program;
-
-      spartacusFeaturesModule = program.getSourceFileOrThrow(
-        spartacusFeaturesModulePath
-      );
-      checkoutFeatureModule = program.getSourceFileOrThrow(
-        checkoutFeatureModulePath
-      );
-      checkoutWrapperModule = program.getSourceFileOrThrow(
-        checkoutWrapperModulePath
-      );
-      dpFeaturesModule = program.getSourceFileOrThrow(
-        digitalPaymentsFeatureModulePath
-      );
-      expect(spartacusFeaturesModule.print()).toMatchSnapshot();
-      expect(checkoutFeatureModule.print()).toMatchSnapshot();
-      expect(checkoutWrapperModule.print()).toMatchSnapshot();
-      // since DP feature module doesn't have any markers, it's not recognized as a feature module
       expect(dpFeaturesModule.print()).toMatchSnapshot();
     });
   });

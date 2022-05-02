@@ -128,20 +128,6 @@ export class SpartacusFeaturesModule { }
 
 exports[`add-spartacus when it is a dirty installation should sort the features in the wrapper module 1`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutModule } from \\"@spartacus/checkout/base\\";
-import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
-
-@NgModule({
-  declarations: [],
-  imports: [CheckoutModule,
-    DigitalPaymentsModule]
-})
-export class CheckoutWrapperModule { }
-"
-`;
-
-exports[`add-spartacus when it is a dirty installation should sort the features in the wrapper module 2`] = `
-"import { NgModule } from '@angular/core';
 import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
 import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";

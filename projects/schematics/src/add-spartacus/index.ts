@@ -14,7 +14,10 @@ import {
   analyzeCrossFeatureDependencies,
   analyzeCrossLibraryDependenciesByFeatures,
 } from '../shared/utils/dependency-utils';
-import { addFeatures } from '../shared/utils/feature-utils';
+import {
+  addFeatures,
+  analyzeInstalledFeatures,
+} from '../shared/utils/feature-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -399,11 +402,17 @@ function logDependencyFeatures(
     (feature) => !selectedFeatures.includes(feature)
   );
   if (notSelectedFeatures.length) {
-    context.logger.info(
-      `\n⚙️ Configuring the additional features as the dependencies of ${selectedFeatures.join(
-        ', '
-      )}: ${notSelectedFeatures.join(', ')}\n`
-    );
+    let message = `\n`;
+    if (options.internal?.dirtyInstallation) {
+      message += `🔎 Checking `;
+    } else {
+      message += `⚙️ Configuring `;
+    }
+    message += `the dependent features of ${selectedFeatures.join(
+      ', '
+    )}: ${notSelectedFeatures.join(', ')}\n`;
+
+    context.logger.info(message);
   }
 }
 
@@ -420,8 +429,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       },
     };
 
-    const packageJsonFile = readPackageJson(tree);
-
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
     const dependencies = prepareDependencies(features);
     logDependencyFeatures(options, context, features);
@@ -429,7 +436,10 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     const spartacusRxjsDependency: NodeDependency[] = [
       dependencies.find((dep) => dep.name === RXJS) as NodeDependency,
     ];
+    const packageJsonFile = readPackageJson(tree);
     return chain([
+      analyzeInstalledFeatures(options, features),
+
       setupStoreModules(options),
 
       scaffoldStructure(options),

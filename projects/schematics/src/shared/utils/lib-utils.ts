@@ -99,6 +99,7 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
   options?: LibraryOptions;
 }
 
+// TODO:#schematics - rename to SchematicsConfig
 export interface FeatureConfig {
   /**
    * Library options
