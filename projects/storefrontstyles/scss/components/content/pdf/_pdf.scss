@@ -1,0 +1,23 @@
+%cx-pdf {
+  .pdf-container {
+    padding: 15px;
+    font-size: 0.875 rem;
+    color: var(--cx-color-text);
+
+    cx-icon {
+      margin-left: 10px;
+      background-color: transparent;
+      border: none;
+      text-decoration: none;
+    }
+  }
+  .disabled {
+    cursor: default;
+    text-decoration: none;
+  }
+  .active {
+    cursor: pointer;
+    line-height: 19px;
+    text-decoration: underline;
+  }
+}
