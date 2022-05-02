@@ -83,14 +83,16 @@ export class PaginationBuilder {
     current: number
   ): void {
     const start = this.getStartOfRange(pageCount, current);
-    const max = Math.min(this.config.rangeCount ?? 3, pageCount);
-    Array.from(Array(max)).forEach((_, i) => {
-      pages.push({
-        number: i + start,
-        label: String(i + start + 1),
-        type: PaginationItemType.PAGE,
+    if (this.config.rangeCount !== undefined) {
+      const max = Math.min(this.config.rangeCount, pageCount);
+      Array.from(Array(max)).forEach((_, i) => {
+        pages.push({
+          number: i + start,
+          label: String(i + start + 1),
+          type: PaginationItemType.PAGE,
+        });
       });
-    });
+    }
   }
 
   /**
@@ -109,7 +111,7 @@ export class PaginationBuilder {
     const addFirstGap = () => {
       const firstItemNumber = pages[0].number;
       const gapNumber = this.config.addFirst ? 1 : 0;
-      if (firstItemNumber && firstItemNumber > gapNumber) {
+      if (firstItemNumber !== undefined && firstItemNumber > gapNumber) {
         const isGap =
           !this.config.substituteDotsForSingularPage ||
           firstItemNumber !== gapNumber + 1;
@@ -204,8 +206,8 @@ export class PaginationBuilder {
    * The `PaginationNavigationPosition` allows for 3 flavours:
    *
    * - by default the pagination starts with start and previous and ends with the next and end links
-   * - BEFORE – all navigation links are added in the front of the pagination list
-   * - AFTER – all navigation links are pushed to the end of the pagination list
+   * - BEFORE – all navigation links are added in the front of the pagination list
+   * - AFTER – all navigation links are pushed to the end of the pagination list
    *
    * @param pages The list of page items that is used to amend
    * @param pageCount The total number of pages
@@ -311,17 +313,20 @@ export class PaginationBuilder {
    * @param current The current page number, 0-index based.
    */
   protected getStartOfRange(pageCount: number, current: number): number {
-    const count = this.config.rangeCount ?? 3 - 1;
-    // the least number of pages before and after the current
-    const delta = Math.round(count / 2);
+    if (this.config.rangeCount !== undefined) {
+      const count = this.config.rangeCount - 1;
+      // the least number of pages before and after the current
+      const delta = Math.round(count / 2);
 
-    // ensure that we start with at least the first page
-    const minStart = Math.max(0, current - delta);
-    // ensures that we start with at least 1 and do not pass the last range
-    const maxStart = Math.max(0, pageCount - count - 1);
+      // ensure that we start with at least the first page
+      const minStart = Math.max(0, current - delta);
+      // ensures that we start with at least 1 and do not pass the last range
+      const maxStart = Math.max(0, pageCount - count - 1);
 
-    // ensure that we get at least a full range at the end
-    return Math.min(maxStart, minStart);
+      // ensure that we get at least a full range at the end
+      return Math.min(maxStart, minStart);
+    }
+    return 0;
   }
 
   /**

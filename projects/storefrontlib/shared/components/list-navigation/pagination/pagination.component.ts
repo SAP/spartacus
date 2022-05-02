@@ -113,8 +113,8 @@ export class PaginationComponent {
     );
     if (
       this.queryParam &&
-      item.number &&
-      this.pagination.totalPages &&
+      item.number !== undefined &&
+      this.pagination.totalPages !== undefined &&
       item.number < this.pagination.totalPages &&
       !this.isCurrent(item)
     ) {
