@@ -634,7 +634,9 @@ export function analyzeInstalledFeatures<OPTIONS extends LibraryOptions>(
     // TODO:#schematics - use options.internal.?
     // TODO:#schematics - check if this is properly set when installing though a lib (e.g. run ng add @spa/dp)
     if (!spartacusFeatureModuleExists) {
-      context.logger.info(`✅  Analysis of installed features complete.`);
+      if (options.debug) {
+        context.logger.info(`✅  Analysis of installed features complete.`);
+      }
       return noop();
     }
 

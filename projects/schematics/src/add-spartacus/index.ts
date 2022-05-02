@@ -250,7 +250,7 @@ function increaseBudgets(options: SpartacusOptions): Rule {
 }
 
 function createStylePreprocessorOptions(options: SpartacusOptions): Rule {
-  return (tree: Tree): Tree => {
+  return (tree: Tree, context: SchematicContext): Tree => {
     if (options.debug) {
       context.logger.info(`⌛️ Updating style preprocessor...`);
     }
