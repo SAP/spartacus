@@ -22,6 +22,7 @@
     </div> -->
 
     <div class="input-contaier">
+      <label class="searchTermLabel" for="searchTerm">Customer</label>
       <div class="icon-wrapper">
         <cx-icon
           (click)="showCustomList()"
@@ -33,6 +34,7 @@
         required="true"
         #searchTerm
         type="text"
+        id="searchTerm"
         formControlName="searchTerm"
         placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
       />
@@ -41,7 +43,7 @@
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
   </label>
-  <button type="submit">
+  <button type="submit" [class.active]="selectedCustomer">
     {{ 'asm.customerSearch.submit' | cxTranslate }}
   </button>
 </form>

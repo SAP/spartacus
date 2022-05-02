@@ -26,6 +26,12 @@ export const asm = {
       submit: 'Start Session',
       noMatch: 'No customer found.',
     },
+    assignCart: {
+      cartNumber: 'Cart Number',
+      assignCartToCustomer: 'Assign Cart to Customer',
+      success: 'Cart has been successfully assigned',
+      error: 'Cart failed to be assigned',
+    },
     customerList: {
       tableHeader: {
         name: 'NAME',

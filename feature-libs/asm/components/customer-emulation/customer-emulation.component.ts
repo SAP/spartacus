@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OccAsmAdapter } from '@spartacus/asm/occ';
 import { User, UserService } from '@spartacus/core';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
@@ -12,8 +13,11 @@ import { AsmComponentService } from '../services/asm-component.service';
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
   cartId: FormControl = new FormControl();
+  iconTypes = ICON_TYPE;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
   cartIdExists: boolean;
+  showAssignCartSuccess = false;
+  showAssignCartError = false;
   protected subscription = new Subscription();
 
   constructor(
@@ -48,13 +52,26 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     const cartId = this.cartId.value;
 
     if (customerId) {
-      this.occAsmAdapter.bindCart(cartId, customerId).subscribe();
+      this.occAsmAdapter.bindCart(cartId, customerId).subscribe(
+        () => {
+          this.showAssignCartSuccess = true;
+
+          setTimeout(() => {
+            this.showAssignCartSuccess = false;
+          }, 3000);
+        },
+        () => {
+          this.showAssignCartError = true;
+
+          setTimeout(() => {
+            this.showAssignCartError = false;
+          }, 3000);
+        }
+      );
     }
   }
 
-  cancel() {
-    const cartId = this.cartId.value;
-    this.occAsmAdapter.bindCart(cartId, '').subscribe();
+  clearText() {
     this.cartId.setValue('');
   }
 
