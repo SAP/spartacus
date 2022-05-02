@@ -115,7 +115,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
     });
   });
 
-  describe('Digital-Payments feature', () => {
+  describe('S4OM feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
