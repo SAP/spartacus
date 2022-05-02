@@ -50,14 +50,6 @@ class MockProductImportInfoService {
   getResults = createSpy().and.returnValue(of(mockProductImportInfo));
 }
 
-const mockFailingProductImportInfo = {
-  productCode: 'testProductCode',
-  statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
-};
-class MockFailingProductImportInfoService {
-  getResults = createSpy().and.returnValue(of(mockFailingProductImportInfo));
-}
-
 describe('NewSavedCartOrderEntriesContext that successfully imports products', () => {
   let service: NewSavedCartOrderEntriesContext;
   let multiCartService: MultiCartFacade;
@@ -115,7 +107,17 @@ describe('NewSavedCartOrderEntriesContext that successfully imports products', (
   });
 });
 
-describe('NewSavedCartOrderEntriesContext that does not successfully import products', () => {
+const mockFailingProductImportWithUnknownIdentifier = {
+  productCode: 'testProductCode',
+  statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
+};
+class MockFailingProductImportInfoServiceWithUnknownIdentifier {
+  getResults = createSpy().and.returnValue(
+    of(mockFailingProductImportWithUnknownIdentifier)
+  );
+}
+
+describe('NewSavedCartOrderEntriesContext that does not successfully import products because of an unknown identifier', () => {
   let service: NewSavedCartOrderEntriesContext;
   let multiCartService: MultiCartFacade;
   let savedCartService: SavedCartFacade;
@@ -126,7 +128,75 @@ describe('NewSavedCartOrderEntriesContext that does not successfully import prod
     TestBed.configureTestingModule({
       providers: [
         {
-          useClass: MockFailingProductImportInfoService,
+          useClass: MockFailingProductImportInfoServiceWithUnknownIdentifier,
+          provide: ProductImportInfoService,
+        },
+        { useClass: MockSavedCartService, provide: SavedCartFacade },
+        { useClass: MockMultiCartFacade, provide: MultiCartFacade },
+        { useClass: MockUserIdService, provide: UserIdService },
+      ],
+    });
+    service = TestBed.inject(NewSavedCartOrderEntriesContext);
+    multiCartService = TestBed.inject(MultiCartFacade);
+    savedCartService = TestBed.inject(SavedCartFacade);
+    userIdService = TestBed.inject(UserIdService);
+    productImportInfoService = TestBed.inject(ProductImportInfoService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  describe('addEntries', () => {
+    it('should delete the cart for invalid products', () => {
+      service.addEntries(mockProductData, mockSavedCart).subscribe();
+
+      expect(userIdService.takeUserId).toHaveBeenCalledWith();
+      expect(multiCartService.createCart).toHaveBeenCalledWith({
+        userId: mockUserId,
+        extraData: { active: false },
+      });
+      expect(savedCartService.saveCart).toHaveBeenCalledWith({
+        cartId: mockCartId,
+        saveCartName: mockSavedCart.name,
+        saveCartDescription: mockSavedCart.description,
+      });
+      expect(savedCartService.loadSavedCarts).toHaveBeenCalled();
+      expect(multiCartService.addEntries).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId,
+        mockProductData
+      );
+      expect(productImportInfoService.getResults).toHaveBeenCalledWith(
+        mockCartId
+      );
+      expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(mockCartId);
+    });
+  });
+});
+
+const mockFailingProductImportWithUnknownError = {
+  productCode: 'testProductCode',
+  statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
+};
+class MockFailingProductImportInfoServiceWithUnknownError {
+  getResults = createSpy().and.returnValue(
+    of(mockFailingProductImportWithUnknownError)
+  );
+}
+
+describe('NewSavedCartOrderEntriesContext that does not successfully import products because of an unknown error', () => {
+  let service: NewSavedCartOrderEntriesContext;
+  let multiCartService: MultiCartFacade;
+  let savedCartService: SavedCartFacade;
+  let userIdService: UserIdService;
+  let productImportInfoService: ProductImportInfoService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          useClass: MockFailingProductImportInfoServiceWithUnknownError,
           provide: ProductImportInfoService,
         },
         { useClass: MockSavedCartService, provide: SavedCartFacade },
