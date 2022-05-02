@@ -94,7 +94,12 @@ exports[`Spartacus User schematics: ng-add Account feature general setup styling
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/user.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -163,7 +168,12 @@ exports[`Spartacus User schematics: ng-add Account feature general setup styling
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/user.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -267,7 +277,12 @@ exports[`Spartacus User schematics: ng-add Profile feature general setup styling
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/user.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -336,7 +351,12 @@ exports[`Spartacus User schematics: ng-add Profile feature general setup styling
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/user.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }

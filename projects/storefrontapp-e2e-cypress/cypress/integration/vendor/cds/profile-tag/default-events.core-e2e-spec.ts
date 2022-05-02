@@ -63,7 +63,7 @@ describe('Profile-tag events', () => {
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
       cy.wait(500);
-      cy.get('cx-cart-item cx-item-counter')
+      cy.get('tr[cx-cart-item-list-row] cx-item-counter')
         .get(`[aria-label="Add one more"]`)
         .first()
         .click();
@@ -94,7 +94,7 @@ describe('Profile-tag events', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
-      cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').first().click();
+      cy.get('cx-cart-item-list .cx-remove-btn').first().click();
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(

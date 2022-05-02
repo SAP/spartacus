@@ -71,7 +71,6 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:core:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
     - [ ] `npm run release:assets:with-changelog`
-    - [ ] `npm run release:schematics:with-changelog`
     - [ ] `npm run release:storefront:with-changelog`
     - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
@@ -93,6 +92,8 @@ Do the following steps to keep track of spartacussampledata releases:
       - [ ] For older versions since 2.1.0-next.0 ONLY, publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release
     - [ ] `npm run release:digital-payments:with-changelog` (needed since `4.1.0-next.0`)
     - [ ] `npm run release:epd-visualization:with-changelog` (needed since `4.3.0`)
+    - [ ] Run `yarn generate:deps` and commit to make sure `dependencies.json` gets updated before releasing schematics.
+    - [ ] `npm run release:schematics:with-changelog`
 
 - [ ] Check that the release notes are populated on github (if they are not, update them)
 - [ ] Check tags on npm.
@@ -113,6 +114,11 @@ Do the following steps to keep track of spartacussampledata releases:
     ```bash
     cd scripts/install && ./run.sh install_npm
     ```
+
+    - [ ] Start and open the shell app locally, and do the following manual tests:
+      - [ ] Open the homepage. Make sure it loads correctly and there are no errors in the console
+      - [ ] Search for a product. Make sure search page works
+      - [ ] Register a new user, login and make sure you can checkout
 
 - [ ] Merge release branch (PR from release/*.*.*) to the maintenance branch
 - [ ] Announce the new release on tribe channel
