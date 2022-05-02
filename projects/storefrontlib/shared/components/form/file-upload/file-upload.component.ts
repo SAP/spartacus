@@ -52,7 +52,9 @@ export class FileUploadComponent implements ControlValueAccessor {
   }
 
   get selectedFiles(): File[] | undefined {
-    return Array.from(this.fileInput.nativeElement.files);
+    if (this.fileInput.nativeElement.files) {
+      return Array.from(this.fileInput.nativeElement.files);
+    }
   }
 
   // ControlValueAccessor START

@@ -58,7 +58,7 @@ export class FormErrorsComponent implements DoCheck {
    * Translation params to enrich the error details object.
    */
   @Input()
-  translationParams: { [key: string]: string };
+  translationParams: { [key: string]: string | null };
 
   @Input()
   set control(control: FormControl) {

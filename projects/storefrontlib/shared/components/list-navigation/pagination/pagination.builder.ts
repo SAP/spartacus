@@ -83,7 +83,7 @@ export class PaginationBuilder {
     current: number
   ): void {
     const start = this.getStartOfRange(pageCount, current);
-    const max = Math.min(this.config.rangeCount, pageCount);
+    const max = Math.min(this.config.rangeCount ?? 3, pageCount);
     Array.from(Array(max)).forEach((_, i) => {
       pages.push({
         number: i + start,
@@ -109,7 +109,7 @@ export class PaginationBuilder {
     const addFirstGap = () => {
       const firstItemNumber = pages[0].number;
       const gapNumber = this.config.addFirst ? 1 : 0;
-      if (firstItemNumber > gapNumber) {
+      if (firstItemNumber && firstItemNumber > gapNumber) {
         const isGap =
           !this.config.substituteDotsForSingularPage ||
           firstItemNumber !== gapNumber + 1;
@@ -135,9 +135,10 @@ export class PaginationBuilder {
     };
 
     const addLastGap = () => {
-      const nextPageNumber = pages[pages.length - 1].number + 1;
+      const number = pages[pages.length - 1].number;
+      const nextPageNumber = number ? number + 1 : undefined;
       const last = pageCount - (this.config.addLast ? 2 : 1);
-      if (nextPageNumber <= last) {
+      if (nextPageNumber && nextPageNumber <= last) {
         const isSubstituted =
           this.config.addLast &&
           this.config.substituteDotsForSingularPage &&
@@ -310,7 +311,7 @@ export class PaginationBuilder {
    * @param current The current page number, 0-index based.
    */
   protected getStartOfRange(pageCount: number, current: number): number {
-    const count = this.config.rangeCount - 1;
+    const count = this.config.rangeCount ?? 3 - 1;
     // the least number of pages before and after the current
     const delta = Math.round(count / 2);
 

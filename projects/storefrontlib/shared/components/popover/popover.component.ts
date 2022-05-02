@@ -171,7 +171,7 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
    * Emits close event trigger.
    */
-  close(event: MouseEvent | KeyboardEvent) {
+  close(event: MouseEvent | KeyboardEvent | Event) {
     event.preventDefault();
     if (event instanceof MouseEvent) {
       this.eventSubject.next(PopoverEvent.CLOSE_BUTTON_CLICK);

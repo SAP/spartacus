@@ -77,13 +77,16 @@ export class MediaService {
    * benefits.
    */
   protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
-    if (!this._sortedFormats && this.config?.mediaFormats) {
-      this._sortedFormats = Object.keys(this.config.mediaFormats)
+    const mediaFormats = this.config?.mediaFormats;
+    if (!this._sortedFormats && mediaFormats) {
+      this._sortedFormats = Object.keys(mediaFormats)
         .map((key) => ({
           code: key,
-          size: this.config.mediaFormats[key],
+          size: mediaFormats[key],
         }))
-        .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
+        .sort((a, b) =>
+          a.size.width && b.size.width && a.size.width > b.size.width ? 1 : -1
+        );
     }
     return this._sortedFormats ?? [];
   }
@@ -156,11 +159,12 @@ export class MediaService {
     }
 
     const srcset = formats.reduce((set, format) => {
-      if (media[format.code]) {
+      const image = (media as MediaContainer)[format.code];
+      if (image) {
         if (set) {
           set += ', ';
         }
-        set += `${this.resolveAbsoluteUrl(media[format.code].url)} ${
+        set += `${this.resolveAbsoluteUrl(image.url ?? '')} ${
           format.size.width
         }w`;
       }

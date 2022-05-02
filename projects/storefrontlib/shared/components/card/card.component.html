@@ -80,7 +80,7 @@
     <!-- Actions -->
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
-        <div [ngSwitch]="action.event">
+        <div [ngSwitch]="$any(action).event">
           <button
             type="button"
             *ngSwitchCase="'delete'"
@@ -120,7 +120,7 @@
           </button>
           <a
             *ngSwitchDefault
-            href="{{ action.link }}"
+            href="{{ $any(action).link }}"
             class="link cx-action-link"
           >
             {{ action.name }}

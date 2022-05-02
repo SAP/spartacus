@@ -13,7 +13,7 @@
     </button>
   </div>
   <ng-container *ngIf="isTemplate">
-    <ng-container *ngTemplateOutlet="content"></ng-container>
+    <ng-container *ngTemplateOutlet="$any(content)"></ng-container>
   </ng-container>
   <span *ngIf="!isTemplate">{{ content }}</span>
 </div>
