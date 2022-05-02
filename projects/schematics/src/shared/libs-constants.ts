@@ -136,6 +136,7 @@ export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';
 export const CLI_PRODUCT_BULK_PRICING_FEATURE = 'Bulk-Pricing';
 export const CLI_PRODUCT_IMAGE_ZOOM_FEATURE = 'Image-Zoom';
 export const CLI_PRODUCT_VARIANTS_FEATURE = 'Product-Variants';
+export const CLI_PRODUCT_FUTURE_STOCK_FEATURE = 'Future-Stock';
 
 export const CLI_PRODUCT_CONFIGURATOR_VC_FEATURE = 'VC-Configurator';
 export const CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
@@ -204,6 +205,8 @@ export const IMAGE_ZOOM_MODULE = 'ProductImageZoomModule';
 export const IMAGE_ZOOM_ROOT_MODULE = 'ProductImageZoomRootModule';
 export const VARIANTS_MODULE = 'ProductVariantsModule';
 export const VARIANTS_ROOT_MODULE = 'ProductVariantsRootModule';
+export const FUTURE_STOCK_MODULE = 'ProductFutureStockModule';
+export const FUTURE_STOCK_ROOT_MODULE = 'ProductFutureStockRootModule';
 
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE =
   'TextfieldConfiguratorModule';

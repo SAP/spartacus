@@ -11,9 +11,12 @@ import {
   BULK_PRICING_MODULE,
   BULK_PRICING_ROOT_MODULE,
   CLI_PRODUCT_BULK_PRICING_FEATURE,
+  CLI_PRODUCT_FUTURE_STOCK_FEATURE,
   CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
   CLI_PRODUCT_VARIANTS_FEATURE,
   configureB2bFeatures,
+  FUTURE_STOCK_MODULE,
+  FUTURE_STOCK_ROOT_MODULE,
   IMAGE_ZOOM_MODULE,
   IMAGE_ZOOM_ROOT_MODULE,
   LibraryOptions as SpartacusProductOptions,
@@ -30,15 +33,22 @@ import {
   BULK_PRICING_MODULE_NAME,
   BULK_PRICING_TRANSLATIONS,
   BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
+  FUTURE_STOCK_TRANSLATIONS,
+  FUTURE_STOCK_TRANSLATION_CHUNKS_CONFIG,
   IMAGE_ZOOM_FEATURE_NAME_CONSTANT,
   IMAGE_ZOOM_MODULE_NAME,
   IMAGE_ZOOM_TRANSLATIONS,
   IMAGE_ZOOM_TRANSLATION_CHUNKS_CONFIG,
   PRODUCT_FOLDER_NAME,
+  PRODUCT_FUTURE_STOCK_FEATURE_NAME_CONSTANT,
+  PRODUCT_FUTURE_STOCK_MODULE_NAME,
   PRODUCT_SCSS_FILE_NAME,
   SPARTACUS_BULK_PRICING,
   SPARTACUS_BULK_PRICING_ASSETS,
   SPARTACUS_BULK_PRICING_ROOT,
+  SPARTACUS_FUTURE_STOCK,
+  SPARTACUS_FUTURE_STOCK_ASSETS,
+  SPARTACUS_FUTURE_STOCK_ROOT,
   SPARTACUS_IMAGE_ZOOM,
   SPARTACUS_IMAGE_ZOOM_ASSETS,
   SPARTACUS_IMAGE_ZOOM_ROOT,
@@ -72,6 +82,10 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
 
       shouldAddFeature(CLI_PRODUCT_IMAGE_ZOOM_FEATURE, options.features)
         ? addImageZoom(options)
+        : noop(),
+
+      shouldAddFeature(CLI_PRODUCT_FUTURE_STOCK_FEATURE, options.features)
+        ? addFutureStockFeature(options)
         : noop(),
     ]);
   };
@@ -160,3 +174,33 @@ export function addImageZoom(options: SpartacusProductOptions): Rule {
     },
   });
 }
+
+export function addFutureStockFeature(options: SpartacusProductOptions): Rule {
+  return addLibraryFeature(options, {
+    folderName: PRODUCT_FOLDER_NAME,
+    moduleName: PRODUCT_FUTURE_STOCK_MODULE_NAME,
+    featureModule: {
+      name: FUTURE_STOCK_MODULE,
+      importPath: SPARTACUS_FUTURE_STOCK,
+    },
+    rootModule: {
+      name: FUTURE_STOCK_ROOT_MODULE,
+      importPath: SPARTACUS_FUTURE_STOCK_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_FUTURE_STOCK_ROOT,
+      namedImports: [PRODUCT_FUTURE_STOCK_FEATURE_NAME_CONSTANT],
+    },
+    i18n: {
+      resources: FUTURE_STOCK_TRANSLATIONS,
+      chunks: FUTURE_STOCK_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_FUTURE_STOCK_ASSETS,
+    },
+    styles: {
+      scssFileName: PRODUCT_SCSS_FILE_NAME,
+      importStyle: SPARTACUS_PRODUCT,
+    },
+  });
+}
+
+

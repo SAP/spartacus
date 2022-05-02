@@ -30,3 +30,13 @@ export const SPARTACUS_IMAGE_ZOOM_ASSETS = `${SPARTACUS_IMAGE_ZOOM}/assets`;
 export const IMAGE_ZOOM_TRANSLATIONS = 'productImageZoomTranslations';
 export const IMAGE_ZOOM_TRANSLATION_CHUNKS_CONFIG =
   'productImageZoomTranslationChunksConfig';
+
+export const PRODUCT_FUTURE_STOCK_MODULE_NAME = 'ProductFutureStock';
+export const PRODUCT_FUTURE_STOCK_FEATURE_NAME_CONSTANT =
+  'PRODUCT_FUTURE_STOCK_FEATURE';
+export const SPARTACUS_FUTURE_STOCK = `${SPARTACUS_PRODUCT}/future-stock`;
+export const SPARTACUS_FUTURE_STOCK_ROOT = `${SPARTACUS_FUTURE_STOCK}/root`;
+export const SPARTACUS_FUTURE_STOCK_ASSETS = `${SPARTACUS_FUTURE_STOCK}/assets`;
+export const FUTURE_STOCK_TRANSLATIONS = 'futureStockTranslations';
+export const FUTURE_STOCK_TRANSLATION_CHUNKS_CONFIG =
+  'futureStockTranslationChunksConfig';
