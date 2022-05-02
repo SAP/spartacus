@@ -620,6 +620,10 @@ export function analyzeInstalledFeatures<OPTIONS extends LibraryOptions>(
   allFeatures: string[]
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Analyzing installed features...`);
+    }
+
     // TODO:#schematics - debug logs
     const spartacusFeatureModuleExists = checkAppStructure(
       tree,
@@ -630,6 +634,7 @@ export function analyzeInstalledFeatures<OPTIONS extends LibraryOptions>(
     // TODO:#schematics - use options.internal.?
     // TODO:#schematics - check if this is properly set when installing though a lib (e.g. run ng add @spa/dp)
     if (!spartacusFeatureModuleExists) {
+      context.logger.info(`✅  Analysis of installed features complete.`);
       return noop();
     }
 
@@ -688,8 +693,14 @@ export function analyzeInstalledFeatures<OPTIONS extends LibraryOptions>(
       message += `TODO:#schematics - docs link`;
 
       context.logger.warn(message);
+      // TODO:#schematics - remove
+      console.log(message);
 
       throw new SchematicsException();
+    }
+
+    if (options.debug) {
+      context.logger.info(`✅  Analysis of installed features complete.`);
     }
   };
 }

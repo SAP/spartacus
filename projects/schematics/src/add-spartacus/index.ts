@@ -249,8 +249,12 @@ function increaseBudgets(options: SpartacusOptions): Rule {
   };
 }
 
-function createStylePreprocessorOptions(): Rule {
+function createStylePreprocessorOptions(options: SpartacusOptions): Rule {
   return (tree: Tree): Tree => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Updating style preprocessor...`);
+    }
+
     const { path, workspace: angularJson } = getWorkspace(tree);
     const projectName = getDefaultProjectNameFromWorkspace(tree);
     const project = angularJson.projects[projectName];
@@ -298,6 +302,9 @@ function createStylePreprocessorOptions(): Rule {
     };
 
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+    if (options.debug) {
+      context.logger.info(`✅ Style preprocessor update complete`);
+    }
     return tree;
   };
 }
@@ -456,7 +463,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
 
       increaseBudgets(options),
-      createStylePreprocessorOptions(),
+      createStylePreprocessorOptions(options),
 
       addFeatures(options, features),
 
