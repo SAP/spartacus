@@ -1,17 +1,12 @@
 <ng-container *ngIf="data$ | async as data">
   <div class="pdf-container">
     <span
-      (click)="
-        download(
-          data.pdfFile,
-          data.name || data.pdfFile.altText || 'document.pdf'
-        )
-      "
+      tabindex="0"
+      aria-label="Download PDF file"
+      (click)="!data?.pdfFile?.url || download(data.pdfFile)"
       [ngClass]="data?.pdfFile?.url ? 'active' : 'disabled'"
     >
-      <span class="pdf-text">{{
-        data.name || data.pdfFile.altText || 'document.pdf'
-      }}</span>
+      {{ data?.name || data?.pdfFile?.altText || 'document.pdf' }}
 
       <cx-icon [type]="'PDF_FILE'"></cx-icon>
     </span>

@@ -10,6 +10,7 @@ export class FileDownloadService {
    * @param {string} url URL to file.
    * @param {string} [fileName] The optional parameter for defining filename
    * (including the extension) when saving the file.
+   * @param {boolean} [inNewTab] The optional parameter for targeting download in a new browser tab
    */
   download(url: string, fileName?: string, inNewTab?: boolean): void {
     const link = document.createElement('a');
