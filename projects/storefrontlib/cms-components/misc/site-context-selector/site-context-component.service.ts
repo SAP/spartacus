@@ -84,7 +84,13 @@ export class SiteContextComponentService {
     context?: SiteContextType
   ): Observable<string | undefined> {
     if (context) {
-      return of(context);
+      if (context === SiteContextType.CURRENCY) {
+        return of(CURRENCY_CONTEXT_ID);
+      } else if (context === SiteContextType.LANGUAGE) {
+        return of(LANGUAGE_CONTEXT_ID);
+      } else {
+        return of(context);
+      }
     } else if (this.componentData) {
       return this.componentData.data$.pipe(
         map((data) => data.context),

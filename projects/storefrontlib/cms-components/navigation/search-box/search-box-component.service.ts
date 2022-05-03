@@ -9,7 +9,7 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import {
   SearchBoxProductSelectedEvent,
   SearchBoxSuggestionSelectedEvent,
@@ -74,10 +74,10 @@ export class SearchBoxComponentService {
     ]).pipe(
       map(([productResults, suggestions, message]) => {
         return {
-          products: productResults ? productResults.products : null,
+          products: productResults ? productResults.products : undefined,
           suggestions,
           message,
-        } as SearchResults;
+        };
       }),
       tap((results) =>
         this.toggleBodyClass(HAS_SEARCH_RESULT_CLASS, this.hasResults(results))
@@ -202,7 +202,9 @@ export class SearchBoxComponentService {
    * Whenever there is at least 1 product, we simulate
    * a suggestion to provide easy access to the search result page
    */
-  protected getExactSuggestion(config: SearchBoxConfig): Observable<string> {
+  protected getExactSuggestion(
+    config: SearchBoxConfig
+  ): Observable<string | undefined> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
         return productResult.products && productResult.products.length > 0
@@ -210,8 +212,7 @@ export class SearchBoxComponentService {
               term: productResult.freeTextSearch,
             })
           : of(undefined);
-      }),
-      filter(isNotUndefined)
+      })
     );
   }
 
@@ -219,7 +220,9 @@ export class SearchBoxComponentService {
    * Emits a 'no match' message, in case the product search results and search suggestions are empty.
    * Otherwise it emits null.
    */
-  protected getSearchMessage(config: SearchBoxConfig): Observable<string> {
+  protected getSearchMessage(
+    config: SearchBoxConfig
+  ): Observable<string | undefined> {
     return combineLatest([
       this.getProductResults(config),
       this.getProductSuggestions(config),
@@ -236,8 +239,7 @@ export class SearchBoxComponentService {
         } else {
           return of(undefined);
         }
-      }),
-      filter(isNotUndefined)
+      })
     );
   }
 

@@ -146,18 +146,16 @@ export class ProductListComponentService {
     const pageSize = criteria.pageSize;
     const sort = criteria.sortCode;
 
-    if (criteria.query) {
-      this.productSearchService.search(
-        criteria.query,
-        // TODO: consider dropping this complex passing of cleaned object
-        Object.assign(
-          {},
-          currentPage && { currentPage },
-          pageSize && { pageSize },
-          sort && { sort }
-        )
-      );
-    }
+    this.productSearchService.search(
+      criteria.query,
+      // TODO: consider dropping this complex passing of cleaned object
+      Object.assign(
+        {},
+        currentPage && { currentPage },
+        pageSize && { pageSize },
+        sort && { sort }
+      )
+    );
   }
 
   /**

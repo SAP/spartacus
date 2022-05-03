@@ -183,7 +183,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
     given: boolean;
     template: ConsentTemplate;
   }): void {
-    if (given && template.id && template.version) {
+    if (given && template.id && template.version !== undefined) {
       this.userConsentService.giveConsent(template.id, template.version);
     } else if (template.currentConsent?.code) {
       this.userConsentService.withdrawConsent(template.currentConsent.code);
@@ -297,7 +297,7 @@ export class ConsentManagementComponent implements OnInit, OnDestroy {
       tap((i) => {
         if (i < consentsToGive.length) {
           const consent = consentsToGive[i];
-          if (consent.id && consent.version) {
+          if (consent.id && consent.version !== undefined) {
             this.userConsentService.giveConsent(consent.id, consent.version);
           }
         }
