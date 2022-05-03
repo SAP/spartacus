@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import {
   AsmAdapter,
   AsmConfig,
-  CustomerSearchOptions,
-  CustomerSearchPage,
   CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
-import { CustomerListsPage } from '@spartacus/asm/root';
+import {
+  CustomerSearchOptions,
+  CustomerSearchPage,
+  CustomerListsPage,
+} from '@spartacus/asm/root';
 import {
   BaseSiteService,
   ConverterService,
@@ -77,6 +79,10 @@ export class OccAsmAdapter implements AsmAdapter {
 
     if (typeof options['pageSize'] !== 'undefined') {
       params = params.set('pageSize', '' + options.pageSize);
+    }
+
+    if (typeof options['customerListId'] !== 'undefined') {
+      params = params.set('customerListId', '' + options.customerListId);
     }
 
     const url = this.occEndpointsService.buildUrl(

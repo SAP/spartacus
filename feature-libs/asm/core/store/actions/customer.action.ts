@@ -1,9 +1,9 @@
 import { StateUtils } from '@spartacus/core';
 import {
+  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../../models/asm.models';
-import { CustomerListsPage } from '@spartacus/asm/root';
+} from '@spartacus/asm/root';
 import { CUSTOMER_SEARCH_DATA } from '../asm-state';
 
 export const CUSTOMER_SEARCH = '[Asm] Customer Search';

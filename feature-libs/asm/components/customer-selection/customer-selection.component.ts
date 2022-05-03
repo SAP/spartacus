@@ -8,7 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
+import { AsmConfig, AsmService } from '@spartacus/asm/core';
+import { CustomerSearchPage } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
 import { ICON_TYPE, ModalRef, ModalService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';

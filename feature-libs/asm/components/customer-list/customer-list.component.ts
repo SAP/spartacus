@@ -8,18 +8,16 @@ import {
 import {
   AsmConfig,
   AsmService,
-  CustomerSearchPage,
   UserGroup,
 } from '@spartacus/asm/core';
-import { CustomerListsPage } from '@spartacus/asm/root';
-// import { OccAsmAdapter } from '@spartacus/asm/occ';
+import { CustomerListsPage, CustomerSearchPage } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
 import {
   BreakpointService,
   ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
 class testUserGroup implements UserGroup {
@@ -122,7 +120,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   getCustomers(): void {
     if (this.selectedUserGroupId) {
       // TODO call new search query
-      this.customerSearchPage$ = of(this.getMockCustomerSearchPage());
+      this.customerSearchPage$ = this.asmService.searchCustomers2({customerListId: this.selectedUserGroupId, pageSize: 10});
     }
   }
 

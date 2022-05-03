@@ -6,8 +6,7 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
-import { CustomerSearchPage } from '../../models/asm.models';
-import { CustomerListsPage } from '@spartacus/asm/root';
+import { CustomerListsPage, CustomerSearchPage } from '@spartacus/asm/root';
 import { AsmActions } from '../actions';
 import { AsmState, CUSTOMER_SEARCH_DATA } from '../asm-state';
 import * as fromAsmUiReducer from './asm-ui.reducer';

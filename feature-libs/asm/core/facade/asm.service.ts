@@ -4,10 +4,13 @@ import { QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   AsmUi,
+} from '../models/asm.models';
+import {
+  AsmFacadeService,
+  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '../models/asm.models';
-import { AsmFacadeService, CustomerListsPage } from '@spartacus/asm/root';
+} from '@spartacus/asm/root';
 import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
@@ -23,6 +26,11 @@ export class AsmService {
 
   getCustomerLists2(): Observable<QueryState<CustomerListsPage>> {
     return this.asmFacadeService.getCustomerLists();
+    // return NEVER;
+  }
+
+  searchCustomers2(options?: CustomerSearchOptions): Observable<CustomerSearchPage> {
+    return this.asmFacadeService.getCustomers(options);
     // return NEVER;
   }
 

@@ -1,7 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
-import { CustomerSearchPage } from '../../models/asm.models';
-import { CustomerListsPage } from '@spartacus/asm/root';
+import { CustomerListsPage , CustomerSearchPage} from '@spartacus/asm/root';
 import { AsmState, StateWithAsm } from '../asm-state';
 import { getAsmState } from './feature.selector';
 
