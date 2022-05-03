@@ -106,7 +106,7 @@ export class ProductScrollComponent implements OnDestroy {
       this.model.pagination?.currentPage ===
       (this.model.pagination?.totalPages ?? 0) - 1;
 
-    if (this.productLimit && this.model.products) {
+    if (this.productLimit !== undefined && this.model.products) {
       this.isMaxProducts = Boolean(
         this.productLimit !== 0 &&
           this.model.products.length >= (this.maxProducts ?? 0)
