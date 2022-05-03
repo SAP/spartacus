@@ -94,8 +94,8 @@ export class OccConfiguratorVariantNormalizer
     sourceAttribute: OccConfigurator.Attribute,
     attributeList: Configurator.Attribute[]
   ): void {
-    const numberOfConflicts = sourceAttribute?.conflicts
-      ? sourceAttribute?.conflicts?.length
+    const numberOfConflicts = sourceAttribute.conflicts
+      ? sourceAttribute.conflicts.length
       : 0;
 
     const attributeImages: Configurator.Image[] = [];
