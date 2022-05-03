@@ -2,22 +2,23 @@
   .pdf-container {
     padding: 15px;
     font-size: 0.875 rem;
-    color: var(--cx-color-text);
-
+    a {
+      color: var(--cx-color-text);
+    }
     cx-icon {
       margin-left: 10px;
       background-color: transparent;
       border: none;
       text-decoration: none;
     }
-  }
-  .disabled {
-    cursor: default;
-    text-decoration: none;
-  }
-  .active {
-    cursor: pointer;
-    line-height: 19px;
-    text-decoration: underline;
+    .disabled {
+      pointer-events: none;
+      cursor: default;
+      opacity: 0.6;
+    }
+    .active {
+      line-height: 19px;
+      text-decoration: underline;
+    }
   }
 }
