@@ -33,7 +33,7 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
           data: {
             composition: {
               inner: [
-                'ProductAddToCartComponent',
+                // 'ProductAddToCartComponent',
               ],
             },
           },
