@@ -1,10 +1,4 @@
 <ng-container *ngIf="isCustomerEmulationSessionInProgress$ | async">
-  <!-- <input
-    formcontrolname="customer"
-    type="text"
-    disabled="true"
-    placeholder="{{ customer?.name }}, {{ customer?.uid }}"
-  /> -->
   <div class="customerInfo">
     <label class="name">{{ customer?.name }}</label>
     <label class="uid">{{ customer?.uid }}</label>
