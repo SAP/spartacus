@@ -114,14 +114,18 @@ export class OccConfiguratorVariantNormalizer
         this.convertValue(value, attributeValues)
       );
     }
-
+    const uiType = this.convertAttributeType(sourceAttribute);
     const attribute: Configurator.Attribute = {
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
-      uiType: this.convertAttributeType(sourceAttribute),
+      uiType: uiType,
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
-      userInput: sourceAttribute.formattedValue,
+      userInput:
+        uiType === Configurator.UiType.NUMERIC ||
+        uiType === Configurator.UiType.STRING
+          ? sourceAttribute.formattedValue
+          : undefined,
       maxlength:
         (sourceAttribute.maxlength ?? 0) +
         (sourceAttribute.negativeAllowed ? 1 : 0),

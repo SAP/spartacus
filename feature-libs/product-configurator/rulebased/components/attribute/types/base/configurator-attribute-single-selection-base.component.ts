@@ -61,6 +61,15 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.selectionChange.emit(event);
   }
 
+  onSelectAdditionalValue(event: ConfigFormUpdateEvent): void {
+    this.loading$.next(true);
+
+    event.changedAttribute.selectedSingleValue =
+      event.changedAttribute.userInput;
+
+    this.selectionChange.emit(event);
+  }
+
   onHandleQuantity(quantity: number): void {
     this.loading$.next(true);
 

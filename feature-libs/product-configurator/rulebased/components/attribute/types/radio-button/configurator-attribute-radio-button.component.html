@@ -67,11 +67,22 @@
           >{{ value.valueDisplay }}</label
         >
       </div>
+
       <div class="cx-value-price">
         <cx-configurator-price
           [formula]="extractValuePriceFormulaParameters(value)"
         ></cx-configurator-price>
       </div>
+    </div>
+    <div *ngIf="attribute.uiType === uiType.RADIOBUTTON_ADDITIONAL_INPUT">
+      <!-- TODO evaluate validationType to decide which component to render-->
+      <!-- TODO inject language service, or hand over language to single selecttion component-->
+      <cx-configurator-attribute-numeric-input-field
+        [attribute]="attribute"
+        [ownerKey]="ownerKey"
+        [language]="'en'"
+        (inputChange)="onSelectAdditionalValue($event)"
+      ></cx-configurator-attribute-numeric-input-field>
     </div>
   </div>
 </fieldset>
