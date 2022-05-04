@@ -15,6 +15,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
+
 @Component({
   selector: 'cx-customer-list',
   templateUrl: './customer-list.component.html',
@@ -41,7 +42,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   selectedCustomer: User;
 
-  dataSortDesc = true;
+  dataSortDesc = false;
 
   currentPage = 0;
 
@@ -91,6 +92,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
         customerListId: this.selectedUserGroupId,
         pageSize: this.PAGE_SIZE,
         currentPage: this.currentPage,
+        sort: this.sortName,
       });
     }
   }
