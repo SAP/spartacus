@@ -41,13 +41,7 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
       },
     }),
   ],
-  declarations: [
-    ProductCarouselComponent,
-    ProductCarouselItemComponent
-  ],
-  exports: [
-    ProductCarouselComponent,
-    ProductCarouselItemComponent
-  ],
+  declarations: [ProductCarouselComponent, ProductCarouselItemComponent],
+  exports: [ProductCarouselComponent, ProductCarouselItemComponent],
 })
 export class ProductCarouselModule {}

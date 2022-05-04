@@ -2,7 +2,8 @@ import {
   ChangeDetectionStrategy,
   Directive,
   Injector,
-  Input, Pipe,
+  Input,
+  Pipe,
   PipeTransform,
   SimpleChange,
 } from '@angular/core';
@@ -16,12 +17,16 @@ import {
 import {
   CmsComponentData,
   OutletDirective,
-  OutletModule, PageComponentModule,
+  OutletModule,
+  PageComponentModule,
   ProductListItemContext,
-  ProductListItemContextSource
+  ProductListItemContextSource,
 } from '@spartacus/storefront';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
-import { AddToCartComponent, AddToCartModule } from "@spartacus/cart/base/components/add-to-cart";
+import {
+  AddToCartComponent,
+  AddToCartModule,
+} from '@spartacus/cart/base/components/add-to-cart';
 import { StoreModule } from '@ngrx/store';
 import { BehaviorSubject } from 'rxjs';
 import { By } from '@angular/platform-browser';
@@ -116,8 +121,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
 
   it('should display product formatted price', () => {
     expect(
-      fixture.debugElement.nativeElement.querySelector('.price')
-        .textContent
+      fixture.debugElement.nativeElement.querySelector('.price').textContent
     ).toContain(component.item.price.formattedValue);
   });
 
@@ -178,11 +182,15 @@ describe('ProductCarouselItemComponent in product-carousel with add-to-cart comp
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule, OutletModule, AddToCartModule, PageComponentModule.forRoot(), StoreModule.forRoot({})],
-        declarations: [
-          ProductCarouselItemComponent,
-          MockUrlPipe,
+        imports: [
+          RouterTestingModule,
+          I18nTestingModule,
+          OutletModule,
+          AddToCartModule,
+          PageComponentModule.forRoot(),
+          StoreModule.forRoot({}),
         ],
+        declarations: [ProductCarouselItemComponent, MockUrlPipe],
         providers: [
           {
             provide: RoutingService,
@@ -227,6 +235,8 @@ describe('ProductCarouselItemComponent in product-carousel with add-to-cart comp
   });
 
   it('should render the Add To Cart Button', () => {
-    expect(fixture.debugElement.query(By.directive(AddToCartComponent))).toBeTruthy();
+    expect(
+      fixture.debugElement.query(By.directive(AddToCartComponent))
+    ).toBeTruthy();
   });
 });

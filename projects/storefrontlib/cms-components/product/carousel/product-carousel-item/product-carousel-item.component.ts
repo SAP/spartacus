@@ -1,5 +1,8 @@
-import { Component, Input, OnChanges, SimpleChanges} from '@angular/core';
-import { ProductListItemContext, ProductListItemContextSource } from '../../product-list';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  ProductListItemContext,
+  ProductListItemContextSource,
+} from '../../product-list';
 
 @Component({
   selector: 'cx-product-carousel-item',

@@ -183,7 +183,9 @@ describe('ProductCarouselComponent', () => {
     it(
       'should render product name in template',
       waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('cx-product-carousel-item:first-child h3'));
+        const el = fixture.debugElement.query(
+          By.css('cx-product-carousel-item:first-child h3')
+        );
         expect(el.nativeElement).toBeTruthy();
         expect(el.nativeElement.innerText).toEqual('product 1');
       })
@@ -192,7 +194,9 @@ describe('ProductCarouselComponent', () => {
     it(
       'should render product price in template',
       waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('cx-product-carousel-item:last-child .price'));
+        const el = fixture.debugElement.query(
+          By.css('cx-product-carousel-item:last-child .price')
+        );
         expect(el.nativeElement).toBeTruthy();
         expect(el.nativeElement.innerText).toEqual('$200.00');
       })
@@ -201,7 +205,9 @@ describe('ProductCarouselComponent', () => {
     it(
       'should render product primary image for the first item',
       waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('cx-product-carousel-item:first-child cx-media'));
+        const el = fixture.debugElement.query(
+          By.css('cx-product-carousel-item:first-child cx-media')
+        );
         expect(el.nativeElement).toBeTruthy();
       })
     );
@@ -209,7 +215,9 @@ describe('ProductCarouselComponent', () => {
     it(
       'should render missing product image for the 2nd item as well',
       waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('cx-product-carousel-item:last-child cx-media'));
+        const el = fixture.debugElement.query(
+          By.css('cx-product-carousel-item:last-child cx-media')
+        );
         expect(el.nativeElement).toBeTruthy();
       })
     );
