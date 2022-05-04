@@ -1,16 +1,18 @@
 import { Component, Optional } from '@angular/core';
 import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { TranslationService } from '@spartacus/core';
+import { CxDatePipe, TranslationService } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 
 @Component({
-  selector: 'cx-schedule-lines-cart-entry',
-  templateUrl: './schedule-lines-cart-entry.component.html',
+  selector: 'cx-schedule-lines',
+  templateUrl: './schedule-lines.component.html',
+  providers: [CxDatePipe],
 })
-export class ScheduleLinesCartEntryComponent {
+export class ScheduleLinesComponent {
   constructor(
     @Optional() protected cartItemContext: CartItemContext,
     protected translationService: TranslationService,
+    protected datePipe: CxDatePipe,
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
@@ -32,4 +34,11 @@ export class ScheduleLinesCartEntryComponent {
   getScheduleLineInfoId(index: number): string {
     return 'cx-schedule-line-info-' + index.toString();
   }
+
+  getLongDate(date: Date) {
+    if(!date) {
+      return "";
+    }
+    return this.datePipe.transform(date);
+  } 
 }

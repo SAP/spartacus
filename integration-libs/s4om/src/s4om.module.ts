@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
-import { ScheduleLinesCartEntryModule } from './schedule-lines-cart-entry';
+import { ScheduleLinesModule } from './schedule-lines';
 
 @NgModule({
-  imports: [ScheduleLinesCartEntryModule],
+  declarations: [],
+  imports: [ScheduleLinesModule],
 })
 export class S4omModule {}

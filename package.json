@@ -1,6 +1,6 @@
 {
   "name": "storefrontapp",
-  "version": "0.0.0",
+  "version": "4.1.0",
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "engines": {
@@ -51,7 +51,7 @@
     "e2e:run:ci:cdc": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdc",
     "e2e:run:ci:digital-payments": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:digital-payments",
     "e2e:run:ci:epd-visualization": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:epd-visualization",
-    "e2e:run:ci:s4om": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:s4om",    
+    "e2e:run:ci:s4om": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:s4om",
     "e2e:run:ci:ccv2": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2",
     "e2e:run:ci:ccv2-b2b": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:ccv2-b2b",
     "generate:changelog": "ts-node ./scripts/changelog.ts",

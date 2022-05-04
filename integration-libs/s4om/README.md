@@ -1,24 +1,11 @@
-# S4om
+# S/4 HANA Synchronous Order Management
+
+This library provides S/4 HANA Synchronous Order Management capabilities to Spartacus UI.
+
+
+The features supported are:
+- scheduleLines: Display a table of scheduled delivery dates and product quantity for each item in the B2B Cart using information from S/4 HANA system.
+
 
 This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.0.
 
-## Code scaffolding
-
-Run `ng generate component component-name --project s4om` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project s4om`.
-> Note: Don't forget to add `--project s4om` or else it will be added to the default project in your `angular.json` file. 
-
-## Build
-
-Run `ng build s4om` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Publishing
-
-After building your library with `ng build s4om`, go to the dist folder `cd dist/s4om` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test s4om` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
