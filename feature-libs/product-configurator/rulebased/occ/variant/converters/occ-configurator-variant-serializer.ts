@@ -68,7 +68,7 @@ export class OccConfiguratorVariantSerializer
   protected getRetractedValue(
     attribute: Configurator.Attribute
   ): string | undefined {
-    return attribute.values?.find((value) => value?.selected)?.valueCode;
+    return attribute.values?.find((value) => value.selected)?.valueCode;
   }
 
   protected retractValue(
