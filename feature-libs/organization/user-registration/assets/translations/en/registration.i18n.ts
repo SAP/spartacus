@@ -22,6 +22,7 @@ export const userRegistrationForm = {
       Steve Jackson; Comments: Please create new account for me".`,
     },
   },
+  successMessage: 'Account has been created successfully!',
 };
 
 export const orgUserRegistration = {

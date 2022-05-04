@@ -7,5 +7,5 @@ export const orgUserRegistrationTranslations: TranslationResources = {
 
 export const orgUserRegistrationTranslationChunksConfig: TranslationChunksConfig =
   {
-    registration: ['registrationForm'],
+    orgUserRegistration: ['form'],
   };

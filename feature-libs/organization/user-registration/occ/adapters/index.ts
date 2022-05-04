@@ -1,1 +1,1 @@
-export * from './occ-order-approval.adapter';
+export * from './occ-user-registration.adapter';

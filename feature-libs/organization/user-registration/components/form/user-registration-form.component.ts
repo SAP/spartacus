@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GlobalMessageService } from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Title, UserRegisterFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UserRegistrationFacade } from '../../root/facade/user-registration.facade';
 
 @Component({
   selector: 'cx-user-registration-form',
@@ -25,6 +26,7 @@ export class UserRegistrationFormComponent implements OnInit {
 
   constructor(
     protected userRegisterFacade: UserRegisterFacade,
+    protected orgUserRegistrationFacade: UserRegistrationFacade,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder
   ) {}
@@ -35,9 +37,29 @@ export class UserRegistrationFormComponent implements OnInit {
 
   submitForm(): void {
     if (this.registerForm.valid) {
-      alert('valid');
+      this.register();
     } else {
       this.registerForm.markAllAsTouched();
     }
+  }
+
+  register(): void {
+    this.isLoading$.next(true);
+
+    this.orgUserRegistrationFacade
+      .registerUser(this.registerForm?.value)
+      .subscribe({
+        next: () => {
+          return this.globalMessageService.add(
+            { key: 'orgUserRegistration.form.successMessage' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        },
+        complete: () => {
+          this.registerForm.reset();
+          this.isLoading$.next(false);
+        },
+        error: () => this.isLoading$.next(false),
+      });
   }
 }

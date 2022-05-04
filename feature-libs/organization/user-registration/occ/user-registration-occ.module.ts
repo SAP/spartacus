@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { UserRegistrationAdapter } from '../core/connectors';
 import { OccUserRegistrationAdapter } from './adapters';
-
 import { defaultOccOrgUserRegistrationConfig } from './config/default-occ-organization-config';
 
 @NgModule({

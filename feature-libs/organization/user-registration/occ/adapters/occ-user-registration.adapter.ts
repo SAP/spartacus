@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
   ConverterService,
   InterceptorUtil,
@@ -10,7 +10,10 @@ import {
 
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { UserRegistrationAdapter } from '../../core/connectors';
+import {
+  ORG_USER_REGISTRATION_SERIALIZER,
+  UserRegistrationAdapter,
+} from '../../core/connectors';
 import { OrgUserRegistration } from '../../core/model/user-registration.model';
 
 @Injectable()
@@ -21,17 +24,19 @@ export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
     protected converter: ConverterService
   ) {}
 
-  registerUser(userData: OrgUserRegistration): Observable<any> {
-    const httpParams: HttpParams = new HttpParams().set('userData', true);
-    console.log(userData);
-
+  registerUser(userData: OrgUserRegistration): Observable<OrgUserRegistration> {
+    const url: string = this.getB2bUserRegistrationEndpoint();
     let headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    userData = this.converter.convert(
+      userData,
+      ORG_USER_REGISTRATION_SERIALIZER
+    );
 
     return this.http
-      .post(this.getB2bUserRegistrationEndpoint(), httpParams, { headers })
+      .post<OrgUserRegistration>(url, userData, { headers })
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
