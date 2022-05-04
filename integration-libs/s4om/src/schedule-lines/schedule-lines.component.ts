@@ -12,7 +12,7 @@ export class ScheduleLinesComponent {
   constructor(
     @Optional() protected cartItemContext: CartItemContext,
     protected translationService: TranslationService,
-    protected datePipe: CxDatePipe,
+    protected datePipe: CxDatePipe
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
@@ -36,9 +36,9 @@ export class ScheduleLinesComponent {
   }
 
   getLongDate(date: Date) {
-    if(!date) {
-      return "";
+    if (!date) {
+      return '';
     }
     return this.datePipe.transform(date);
-  } 
+  }
 }

@@ -3,8 +3,8 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
 import { S4omModule } from '@spartacus/s4om';
 import {
   s4omTranslationChunksConfig,
-  s4omTranslations
-} from 'integration-libs/s4om/assets/public_api';
+  s4omTranslations,
+} from '@spartacus/s4om/assets';
 
 @NgModule({
   imports: [S4omModule],

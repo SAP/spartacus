@@ -3,20 +3,22 @@
 import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
-  UnitTestTree
+  UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
-  Style
+  Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_CHECKOUT_BASE_FEATURE, CLI_S4OM_FEATURE, LibraryOptions,
+  CLI_CHECKOUT_BASE_FEATURE,
+  CLI_S4OM_FEATURE,
+  LibraryOptions,
   LibraryOptions as S4OMOptions,
   SpartacusOptions,
   SPARTACUS_CART,
   SPARTACUS_CHECKOUT,
-  SPARTACUS_SCHEMATICS
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';

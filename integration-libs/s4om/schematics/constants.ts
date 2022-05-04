@@ -1,4 +1,4 @@
-import { SPARTACUS_S4OM } from "@spartacus/schematics";
+import { SPARTACUS_S4OM } from '@spartacus/schematics';
 
 export const S4OM_FOLDER_NAME = 's4om';
 export const S4OM_MODULE_NAME = 'S4om';
