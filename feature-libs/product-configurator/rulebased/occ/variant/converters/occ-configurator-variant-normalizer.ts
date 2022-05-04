@@ -138,6 +138,7 @@ export class OccConfiguratorVariantNormalizer
       values: attributeValues,
       intervalInDomain: sourceAttribute.intervalInDomain,
       key: sourceAttribute.key,
+      validationType: sourceAttribute.validationType,
     };
 
     this.setSelectedSingleValue(attribute);

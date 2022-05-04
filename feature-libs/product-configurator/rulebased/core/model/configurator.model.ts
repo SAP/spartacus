@@ -29,6 +29,7 @@ export namespace Configurator {
     attributePriceTotal?: PriceDetails;
     intervalInDomain?: boolean;
     key?: string;
+    validationType?: string;
   }
 
   export interface Value {
@@ -226,5 +227,10 @@ export namespace Configurator {
   export enum AttributeOverviewType {
     GENERAL = 'general',
     BUNDLE = 'bundle',
+  }
+
+  export enum ValidationType {
+    NONE = 'NONE',
+    NUMERIC = 'NUMERIC',
   }
 }

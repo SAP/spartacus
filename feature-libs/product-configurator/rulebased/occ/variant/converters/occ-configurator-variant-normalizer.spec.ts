@@ -49,6 +49,7 @@ const occAttribute: OccConfigurator.Attribute = {
   name: attributeName,
   images: [occImage],
   key: csticKey,
+  validationType: 'NUMERIC',
 };
 const occAttributeWithValues: OccConfigurator.Attribute = {
   name: attributeName,
@@ -416,6 +417,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       );
       expect(attributes.length).toBe(1);
       expect(attributes[0].name).toBe(attributeName);
+      expect(attributes[0].validationType).toBe(
+        Configurator.ValidationType.NUMERIC
+      );
     });
 
     it('should convert attribute key', () => {
