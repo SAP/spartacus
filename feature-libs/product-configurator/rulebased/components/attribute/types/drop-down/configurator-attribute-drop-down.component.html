@@ -70,3 +70,22 @@
     [formula]="extractPriceFormulaParameters()"
   ></cx-configurator-price>
 </div>
+<div *ngIf="isAdditionalValueNumeric">
+  <!-- TODO inject language service, or hand over language to single selecttion component-->
+  <cx-configurator-attribute-numeric-input-field
+    [attribute]="attribute"
+    [ownerKey]="ownerKey"
+    [language]="'en'"
+    (inputChange)="onSelectAdditionalValue($event)"
+  ></cx-configurator-attribute-numeric-input-field>
+</div>
+<div *ngIf="isAdditionalValueAlphaNumeric">
+  <!-- TODO what to do with owner type-->
+  <cx-configurator-attribute-input-field
+    [attribute]="attribute"
+    [ownerType]="'cartEntry'"
+    [ownerKey]="ownerKey"
+    (inputChange)="onSelectAdditionalValue($event)"
+  >
+  </cx-configurator-attribute-input-field>
+</div>
