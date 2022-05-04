@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { QueryState } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import {
-  AsmUi,
-} from '../models/asm.models';
 import {
   AsmFacadeService,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
+import { QueryState } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { AsmUi } from '../models/asm.models';
 import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
@@ -24,22 +22,14 @@ export class AsmService {
     protected asmFacadeService: AsmFacadeService
   ) {}
 
-  getCustomerLists2(): Observable<QueryState<CustomerListsPage>> {
+  getCustomerLists(): Observable<QueryState<CustomerListsPage>> {
     return this.asmFacadeService.getCustomerLists();
-    // return NEVER;
   }
 
-  searchCustomers2(options?: CustomerSearchOptions): Observable<CustomerSearchPage> {
+  searchCustomers(
+    options?: CustomerSearchOptions
+  ): Observable<CustomerSearchPage> {
     return this.asmFacadeService.getCustomers(options);
-    // return NEVER;
-  }
-
-  searchCustomerLists(): void {
-    this.store.dispatch(new AsmActions.CustomerLists());
-  }
-
-  getCustomerLists(): Observable<CustomerListsPage> {
-    return this.store.pipe(select(AsmSelectors.getCustomerListResult));
   }
 
   /**

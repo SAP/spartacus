@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IconModule as FLIconModule } from '@fundamental-ngx/core/icon';
-import { ButtonModule } from '@fundamental-ngx/fn/button';
-import { SelectModule } from '@fundamental-ngx/fn/select';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, provideConfig } from '@spartacus/core';
 import {
@@ -34,9 +31,6 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     NgSelectModule,
     FormsModule,
     PaginationModule,
-    ButtonModule,
-    SelectModule,
-    FLIconModule,
   ],
   declarations: [
     AsmMainUiComponent,

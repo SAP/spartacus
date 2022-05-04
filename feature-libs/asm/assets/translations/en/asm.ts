@@ -4,6 +4,7 @@ export const asm = {
     mainTitle: 'Assisted Service Mode',
     logout: 'Sign Out',
     hideUi: 'Close ASM',
+    customers: 'Customers',
     toggleUi: {
       collapse: 'Hide ASM',
       expand: 'Show ASM',

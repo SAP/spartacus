@@ -12,7 +12,7 @@
         "
       ></ng-template>
       <div class="header-actions">
-        <ng-template *ngTemplateOutlet="sort"></ng-template>
+        <!-- <ng-template *ngTemplateOutlet="sort"></ng-template> -->
         <ng-template *ngTemplateOutlet="noOfCustomers"></ng-template>
         <ng-template *ngTemplateOutlet="pagination"></ng-template>
         <ng-template *ngTemplateOutlet="closeButton"></ng-template>
@@ -36,12 +36,12 @@
                   <th scope="col">
                     {{ 'asm.customerList.tableHeader.phone' | cxTranslate }}
                   </th>
-                  <th scope="col" class="cell-text-center">
+                  <!-- <th scope="col" class="cell-text-center">
                     {{ 'asm.customerList.tableHeader.cart' | cxTranslate }}
                   </th>
                   <th scope="col" class="cell-text-center">
                     {{ 'asm.customerList.tableHeader.order' | cxTranslate }}
-                  </th>
+                  </th> -->
                 </tr>
               </thead>
               <tbody>
@@ -60,27 +60,22 @@
                   </td>
                   <td>{{ customerEntry.uid }}</td>
                   <td>{{ customerEntry?.defaultAddress?.phone }}</td>
-                  <td class="cell-text-center">
-                    <fd-icon
-                      font="SAP-icons"
-                      glyph="cart"
-                      (click)="onClickCart(customerEntry)"
-                    ></fd-icon>
-                    <!-- <cx-icon
+                  <!-- <td class="cell-text-center">
+                    <cx-icon
                       (click)="onClickCart(customerEntry)"
                       class="cell-icon"
                       [class.enabled]="customerEntry?.defaultAddress?.phone"
                       [type]="iconTypes.CART"
-                    ></cx-icon> -->
+                    ></cx-icon>
                   </td>
                   <td class="cell-text-center">
-                    <!-- <cx-icon
+                    <cx-icon
                       (click)="onClickOrder(customerEntry)"
                       class="cell-icon"
                       [class.enabled]="customerEntry"
                       [type]="iconTypes.CLIPBOARD_LIST"
-                    ></cx-icon> -->
-                  </td>
+                    ></cx-icon>
+                  </td> -->
                 </tr>
               </tbody>
             </table>
@@ -132,10 +127,8 @@
 </ng-template>
 
 <ng-template #sort>
-  <button fn-button label="Button"></button>
-
   <div class="table-header-cell sort" (click)="onClickDataSort()">
-    <!-- <cx-icon class="icon-button" [type]="iconTypes.ARROWS_DOWN_UP"></cx-icon> -->
+    <cx-icon class="icon-button" [type]="iconTypes.ARROWS_DOWN_UP"></cx-icon>
     <span *ngIf="dataSortDesc">{{
       'asm.customerList.tableSort.nameSortDesc' | cxTranslate
     }}</span>
@@ -172,14 +165,7 @@
 </ng-template>
 
 <ng-template #groupSelector let-customerListsPage="customerListsPage">
-  <!-- <fn-select placeholder="Select an option" [(value)]="selectedUserGroupId"> -->
-  <!-- <fn-select placeholder="Select an option">
-    <li fn-option *ngFor="let group of testGroups" [value]="group">
-      {{ group.name }}
-    </li>
-  </fn-select> -->
-
-  <select [(ngModel)]="selectedUserGroupId">
+  <!-- <select [(ngModel)]="selectedUserGroupId">
     <option
       [value]="group.uid"
       *ngFor="let group of customerListsPage?.userGroups"
@@ -187,26 +173,20 @@
       {{ group.name }}
     </option>
   </select>
-
+-->
   <ng-select
     name="userGroup"
     class="userGroup"
     [searchable]="false"
     [clearable]="false"
-    (change)="getCustomers()"
+    (change)="fetchCustomers()"
     [tabIndex]="0"
     [(ngModel)]="selectedUserGroupId"
-    autofocus
+    [items]="customerListsPage?.userGroups"
+    bindLabel="name"
+    bindValue="uid"
   >
-    <ng-option
-      *ngFor="let group of customerListsPage?.userGroups; first as first"
-      [value]="group.uid"
-      [selected]="first"
-    >
-      {{ group.name }}
-    </ng-option>
   </ng-select>
-  <!-- [items]="customerListsPage$ | async" -->
 </ng-template>
 
 <ng-template #closeButton>

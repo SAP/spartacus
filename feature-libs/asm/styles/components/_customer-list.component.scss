@@ -1,8 +1,8 @@
-:host {
+%cx-customer-list {
   cx-pagination {
-    ::ng-deep a {
-      width: 28px!important;
-      height: 26px!important;
+    a {
+      width: 28px;
+      height: 26px;
       border: 0;
       font-size: 0.875rem;
     }

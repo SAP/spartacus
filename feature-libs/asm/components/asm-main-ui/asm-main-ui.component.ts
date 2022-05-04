@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
@@ -9,10 +9,12 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
+import { ModalRef, ModalService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
+import { CustomerListComponent } from '../customer-list/customer-list.component';
+import { CustomerSelectionComponent } from '../customer-selection/customer-selection.component';
 import { AsmComponentService } from '../services/asm-component.service';
-
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
@@ -27,6 +29,11 @@ export class AsmMainUiComponent implements OnInit {
 
   protected startingCustomerSession = false;
 
+  protected modalRef: ModalRef;
+
+  @ViewChild(CustomerSelectionComponent)
+  customerSelectionComponent: CustomerSelectionComponent;
+
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
@@ -34,7 +41,8 @@ export class AsmMainUiComponent implements OnInit {
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected asmService: AsmService
+    protected asmService: AsmService,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -103,5 +111,23 @@ export class AsmMainUiComponent implements OnInit {
   hideUi(): void {
     this.disabled = true;
     this.asmComponentService.unload();
+  }
+
+  showCustomList(): void {
+    this.modalRef = this.modalService.open(CustomerListComponent, {
+      centered: true,
+      size: 'mf',
+      // windowClass: 'classTestHak',
+    });
+
+    this.modalRef.result
+      .then((selectedUser) => {
+        if (selectedUser) {
+          this.customerSelectionComponent.selectCustomerFromList(selectedUser);
+        }
+      })
+      .catch(() => {
+        // this  callback is called when modal is closed with Esc key or clicking backdrop
+      });
   }
 }

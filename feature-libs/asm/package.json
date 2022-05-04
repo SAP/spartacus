@@ -22,12 +22,7 @@
     "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "tslib": "^2.3.0",
-    "@angular/cdk": "~13.3.0",
-    "@fundamental-ngx/core": "^0.33.7",
-    "@fundamental-ngx/fn": "^0.33.7",
-    "@sap-theming/theming-base-content": "11.1.38",
-    "fundamental-styles": "v0.21.0-rc.92"
+    "tslib": "^2.3.0"
   },
   "peerDependencies": {
     "@angular-devkit/schematics": "^13.2.0",

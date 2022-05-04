@@ -13,6 +13,13 @@
     </div>
   </div>
   <div class="asm-bar-actions">
+    <div
+      class="customer-list-link"
+      (click)="showCustomList()"
+      *ngIf="customerSupportAgentLoggedIn$ | async"
+    >
+      {{ 'asm.customers' | cxTranslate }}
+    </div>
     <cx-asm-toggle-ui></cx-asm-toggle-ui>
 
     <cx-asm-session-timer

@@ -7,9 +7,9 @@ import {
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
 import {
+  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
-  CustomerListsPage,
 } from '@spartacus/asm/root';
 import {
   BaseSiteService,
@@ -69,9 +69,16 @@ export class OccAsmAdapter implements AsmAdapter {
       true,
       new HttpHeaders()
     );
-    let params: HttpParams = new HttpParams()
-      .set('baseSite', this.activeBaseSite)
-      .set('sort', 'byNameAsc');
+    let params: HttpParams = new HttpParams().set(
+      'baseSite',
+      this.activeBaseSite
+    );
+
+    if (typeof options['sort'] !== 'undefined') {
+      params = params.set('sort', '' + options.sort);
+    } else {
+      params = params.set('sort', 'byNameDesc');
+    }
 
     if (typeof options['query'] !== 'undefined') {
       params = params.set('query', '' + options.query);
@@ -79,6 +86,10 @@ export class OccAsmAdapter implements AsmAdapter {
 
     if (typeof options['pageSize'] !== 'undefined') {
       params = params.set('pageSize', '' + options.pageSize);
+    }
+
+    if (typeof options['currentPage'] !== 'undefined') {
+      params = params.set('currentPage', '' + options.currentPage);
     }
 
     if (typeof options['customerListId'] !== 'undefined') {
