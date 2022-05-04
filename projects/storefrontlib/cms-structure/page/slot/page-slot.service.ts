@@ -8,7 +8,7 @@ import { CmsComponentsService } from '../../services/cms-components.service';
   providedIn: 'root',
 })
 export class PageSlotService {
-  protected prerenderedSlots: (string | null)[];
+  protected prerenderedSlots: (string | null)[] | undefined;
 
   constructor(
     protected cmsComponentsService: CmsComponentsService,
@@ -43,7 +43,7 @@ export class PageSlotService {
    * to avoid unnecessary flickering.
    */
   shouldNotDefer(slot: string): boolean {
-    if (this.prerenderedSlots.includes(slot)) {
+    if (this.prerenderedSlots?.includes(slot)) {
       this.prerenderedSlots.splice(this.prerenderedSlots.indexOf(slot), 1);
       return true;
     }
