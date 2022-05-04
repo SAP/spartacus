@@ -5,9 +5,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
-import { Configurator } from '../../../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
@@ -31,19 +31,5 @@ export class ConfiguratorAttributeDropDownComponent
 
   getSelectedValue(): Configurator.Value | undefined {
     return this.attribute.values?.find((value) => value?.selected);
-  }
-
-  get isAdditionalValueNumeric(): boolean {
-    return (
-      this.attribute.uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT &&
-      this.attribute.validationType === Configurator.ValidationType.NUMERIC
-    );
-  }
-
-  get isAdditionalValueAlphaNumeric(): boolean {
-    return (
-      this.attribute.uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT &&
-      this.attribute.validationType === Configurator.ValidationType.NONE
-    );
   }
 }

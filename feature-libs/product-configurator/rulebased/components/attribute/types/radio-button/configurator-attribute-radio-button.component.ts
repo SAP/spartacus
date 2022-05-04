@@ -23,20 +23,4 @@ export class ConfiguratorAttributeRadioButtonComponent
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
-
-  get isAdditionalValueNumeric(): boolean {
-    return (
-      this.attribute.uiType ===
-        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT &&
-      this.attribute.validationType === Configurator.ValidationType.NUMERIC
-    );
-  }
-
-  get isAdditionalValueAlphaNumeric(): boolean {
-    return (
-      this.attribute.uiType ===
-        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT &&
-      this.attribute.validationType === Configurator.ValidationType.NONE
-    );
-  }
 }

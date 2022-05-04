@@ -164,4 +164,26 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
     return this.attribute.values?.find((value) => value.selected)?.valuePrice;
   }
+
+  protected get isAdditionalValue(): boolean {
+    return (
+      this.attribute.uiType ===
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT ||
+      this.attribute.uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
+    );
+  }
+
+  get isAdditionalValueNumeric(): boolean {
+    return (
+      this.isAdditionalValue &&
+      this.attribute.validationType === Configurator.ValidationType.NUMERIC
+    );
+  }
+
+  get isAdditionalValueAlphaNumeric(): boolean {
+    return (
+      this.isAdditionalValue &&
+      this.attribute.validationType === Configurator.ValidationType.NONE
+    );
+  }
 }
