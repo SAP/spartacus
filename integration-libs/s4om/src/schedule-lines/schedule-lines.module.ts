@@ -7,7 +7,7 @@ import {
   OutletPosition,
   provideOutlet
 } from '@spartacus/storefront';
-import { ScheduleLinesCartEntryComponent } from './schedule-lines-cart-entry.component';
+import { ScheduleLinesComponent } from './schedule-lines.component';
 
 @NgModule({
   imports: [
@@ -16,14 +16,15 @@ import { ScheduleLinesCartEntryComponent } from './schedule-lines-cart-entry.com
     I18nModule,
     IconModule,
   ],
-  declarations: [ScheduleLinesCartEntryComponent],
-
+  
   providers: [
     provideOutlet({
       id: CartOutlets.ITEM_DETAILS,
       position: OutletPosition.AFTER,
-      component: ScheduleLinesCartEntryComponent,
-    }),
+      component: ScheduleLinesComponent,
+    })
   ],
+
+  declarations: [ScheduleLinesComponent],
 })
-export class ScheduleLinesCartEntryModule {}
+export class ScheduleLinesModule {}
