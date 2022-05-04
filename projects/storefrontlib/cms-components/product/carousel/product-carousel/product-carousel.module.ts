@@ -7,7 +7,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { PageComponentModule } from 'projects/storefrontlib/cms-structure';
+import { PageComponentModule } from '../../../../cms-structure';
 import {
   CarouselModule,
   MediaModule,
