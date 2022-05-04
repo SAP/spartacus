@@ -112,7 +112,7 @@ if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
 }
 if (environment.epdVisualization) {
-  featureModules.push(EpdVisualizationFeatureModule); 
+  featureModules.push(EpdVisualizationFeatureModule);
 }
 if (environment.s4om) {
   featureModules.push(S4OMFeatureModule);

@@ -3,27 +3,29 @@ import {
   noop,
   Rule,
   SchematicContext,
-  Tree
+  Tree,
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary, CLI_S4OM_FEATURE, LibraryOptions as S4OMOptions,
+  addPackageJsonDependenciesForLibrary,
+  CLI_S4OM_FEATURE,
+  LibraryOptions as S4OMOptions,
   readPackageJson,
   S4OM_MODULE,
-  shouldAddFeature, SPARTACUS_S4OM,
-  validateSpartacusInstallation
+  shouldAddFeature,
+  SPARTACUS_S4OM,
+  validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
   S4OM_FOLDER_NAME,
   S4OM_MODULE_NAME,
   S4OM_TRANSLATIONS,
-  S4OM_TRANSLATION_CHUNKS_CONFIG, SPARTACUS_S4OM_ASSETS
+  S4OM_TRANSLATION_CHUNKS_CONFIG,
+  SPARTACUS_S4OM_ASSETS,
 } from '../constants';
 
-export function addS4OMFeature(
-  options: S4OMOptions
-): Rule {
+export function addS4OMFeature(options: S4OMOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);

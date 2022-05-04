@@ -1,15 +1,15 @@
-import { Component, Input } from "@angular/core";
-import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
-import { ReactiveFormsModule } from "@angular/forms";
-import { RouterTestingModule } from "@angular/router/testing";
-import { LanguageService } from "@spartacus/core";
-import { CartItemContext, OrderEntry } from "feature-libs/cart/base/root";
-import { CommonConfiguratorTestUtilsService } from "feature-libs/product-configurator/common/testing/common-configurator-test-utils.service";
-import { FeaturesConfigModule } from "projects/core/src/features-config";
-import { I18nTestingModule, TranslationService } from "projects/core/src/i18n";
-import { Observable, of, ReplaySubject } from "rxjs";
-import { take } from "rxjs/operators";
-import { ScheduleLinesComponent } from "./schedule-lines.component";
+import { Component, Input } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { LanguageService } from '@spartacus/core';
+import { CartItemContext, OrderEntry } from 'feature-libs/cart/base/root';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
+import { FeaturesConfigModule } from 'projects/core/src/features-config';
+import { I18nTestingModule, TranslationService } from 'projects/core/src/i18n';
+import { Observable, of, ReplaySubject } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { ScheduleLinesComponent } from './schedule-lines.component';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -60,8 +60,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
             provide: TranslationService,
             useClass: MockTranslationService,
           },
-          { provide: LanguageService, 
-            useClass: MockLanguageService },
+          { provide: LanguageService, useClass: MockLanguageService },
         ],
       }).compileComponents();
     })
@@ -80,9 +79,8 @@ describe('ScheduleLinesCartEntryComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
   it('should expose orderEntry$', (done) => {
-    const orderEntry: OrderEntry = { orderCode: '123', scheduleLines:[] };
+    const orderEntry: OrderEntry = { orderCode: '123', scheduleLines: [] };
     component.orderEntry$.pipe(take(1)).subscribe((value) => {
       expect(value).toBe(orderEntry);
       done();
@@ -90,8 +88,6 @@ describe('ScheduleLinesCartEntryComponent', () => {
 
     mockCartItemContext.item$.next(orderEntry);
   });
-
-  
 
   describe('schedule lines', () => {
     it('should not be displayed if model provides empty array', () => {
@@ -110,11 +106,11 @@ describe('ScheduleLinesCartEntryComponent', () => {
         scheduleLines: [
           {
             confirmedAt: new Date('2022-05-22T00:00:00+0000'),
-            confirmedQuantity: 1
+            confirmedQuantity: 1,
           },
           {
             confirmedAt: new Date('2022-05-10T00:00:00+0000'),
-            confirmedQuantity: 3
+            confirmedQuantity: 3,
           },
         ],
       });
@@ -126,18 +122,14 @@ describe('ScheduleLinesCartEntryComponent', () => {
       );
     });
 
-    
-
-   
-
     describe('Accessibility', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
           scheduleLines: [
             {
               confirmedAt: new Date('2022-05-22T00:00:00+0000'),
-              confirmedQuantity: 1
-            }
+              confirmedQuantity: 1,
+            },
           ],
         });
 
@@ -193,7 +185,7 @@ describe('ScheduleLinesCartEntryComponent', () => {
           'true',
           undefined
         );
-        
+
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,

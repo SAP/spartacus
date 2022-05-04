@@ -2,27 +2,32 @@
   <ng-container *ngIf="hasScheduleLines(orderEntry)">
     <div>
       <table class="cx-code">
-        <tr *ngFor="let scheduleLine of orderEntry.scheduleLines let i = index" class="cx-schedule-line-info"
-          attr.aria-describedby="{{ getScheduleLineInfoId(i) }}">
-          <td
-          id="{{ getScheduleLineInfoId(i) }}"
-          class="cx-visually-hidden"
-          >
-          {{
-            's4omScheduleLines.a11y.scheduleLineEntryInfo'
-              | cxTranslate
-                : {
-                    quantity: scheduleLine.confirmedQuantity,
-                    date:  getLongDate(scheduleLine.confirmedAt)
-                  }
-          }}
+        <tr
+          *ngFor="let scheduleLine of orderEntry.scheduleLines; let i = index"
+          class="cx-schedule-line-info"
+          attr.aria-describedby="{{ getScheduleLineInfoId(i) }}"
+        >
+          <td id="{{ getScheduleLineInfoId(i) }}" class="cx-visually-hidden">
+            {{
+              's4omScheduleLines.a11y.scheduleLineEntryInfo'
+                | cxTranslate
+                  : {
+                      quantity: scheduleLine.confirmedQuantity,
+                      date: getLongDate(scheduleLine.confirmedAt)
+                    }
+            }}
           </td>
-          <td class="cx-value" aria-hidden="true" > {{ scheduleLine?.confirmedAt | cxDate: 'longDate' }}  &nbsp; </td>
-          <td class="cx-label" aria-hidden="true" > {{ 's4omScheduleLines.quantity' | cxTranslate }} &nbsp; </td>
-          <td class="cx-value" aria-hidden="true" > {{ scheduleLine?.confirmedQuantity }} </td>
+          <td class="cx-value" aria-hidden="true">
+            {{ scheduleLine?.confirmedAt | cxDate: 'longDate' }} &nbsp;
+          </td>
+          <td class="cx-label" aria-hidden="true">
+            {{ 's4omScheduleLines.quantity' | cxTranslate }} &nbsp;
+          </td>
+          <td class="cx-value" aria-hidden="true">
+            {{ scheduleLine?.confirmedQuantity }}
+          </td>
         </tr>
       </table>
-
     </div>
   </ng-container>
 </ng-container>
