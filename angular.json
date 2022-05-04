@@ -980,6 +980,43 @@
           }
         }
       }
+    },
+    "commerce-quotes": {
+      "projectType": "library",
+      "root": "feature-libs/commerce-quotes",
+      "sourceRoot": "feature-libs/commerce-quotes",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "feature-libs/commerce-quotes/tsconfig.lib.json",
+            "project": "feature-libs/commerce-quotes/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/commerce-quotes/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/commerce-quotes/test.ts",
+            "tsConfig": "feature-libs/commerce-quotes/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/commerce-quotes/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/commerce-quotes/**/*.ts",
+              "feature-libs/commerce-quotes/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "storefrontapp"

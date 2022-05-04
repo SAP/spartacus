@@ -1,0 +1,44 @@
+{
+  "name": "@spartacus/commerce-quotes",
+  "version": "4.1.0-next.0",
+  "description": "",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "commerce-quotes",
+    "shopping",
+    "shop"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/commerce-quotes",
+  "license": "Apache-2.0",
+  "exports": {
+    ".": {
+      "sass": "./_index.scss"
+    }
+  },
+  "scripts": {
+    "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^13.2.0",
+    "@angular/common": "^13.2.0",
+    "@angular/core": "^13.2.0",
+    "@angular/router": "^13.2.0",
+    "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/storefront": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0-next.0",
+    "bootstrap": "^4.6.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json"
+}
