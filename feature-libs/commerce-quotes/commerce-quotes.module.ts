@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
-import { CommerceQuotesComponentsModule } from './components/commerce-quotes-components.module';
-import { CommerceQuotesCoreModule } from './core/commerce-quotes-core.module';
+import { CommerceQuotesComponentsModule } from '@spartacus/commerce-quotes/components';
+import { CommerceQuotesCoreModule } from '@spartacus/commerce-quotes/core';
+import { CommerceQuotesOccModule } from '@spartacus/commerce-quotes/occ';
 
 @NgModule({
-  imports: [CommerceQuotesCoreModule, CommerceQuotesComponentsModule],
+  imports: [
+    CommerceQuotesComponentsModule,
+    CommerceQuotesCoreModule,
+    CommerceQuotesOccModule,
+  ],
 })
 export class CommerceQuotesModule {}

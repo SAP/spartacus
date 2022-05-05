@@ -35,7 +35,7 @@ declare module '@spartacus/core' {
     /**
      * Apply a discount to an existing quote.
      */
-    addDicount?: string | OccEndpoint;
+    addDiscount?: string | OccEndpoint;
 
     /**
      * Add a comment to a line item of a quote.
