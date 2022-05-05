@@ -96,7 +96,9 @@ describe('PasswordVisibilityToggleComponent', () => {
 
   it('should show password on visibility toggle', () => {
     fixture.detectChanges();
-    const button = el.nativeElement.querySelector('.cx-show-hide-btn');
+    const button = el.nativeElement.querySelector(
+      'cx-password-visibility-toggle > button'
+    );
     expect(button).toBeTruthy();
 
     button.click();
@@ -107,7 +109,9 @@ describe('PasswordVisibilityToggleComponent', () => {
 
   it('should not change visibility for other password inputs', () => {
     fixture.detectChanges();
-    const button = el.nativeElement.querySelector('.cx-show-hide-btn');
+    const button = el.nativeElement.querySelector(
+      'cx-password-visibility-toggle > button'
+    );
     expect(button).toBeTruthy();
 
     button.click();
