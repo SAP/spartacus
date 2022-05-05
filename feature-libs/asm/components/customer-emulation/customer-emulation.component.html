@@ -62,7 +62,7 @@
       {{ 'asm.assignCart.assignCartToCustomer' | cxTranslate }}
     </button>
   </label>
-  <button (click)="logoutCustomer()">
+  <button formControlName="logoutCustomer" (click)="logoutCustomer()">
     {{ 'asm.endSession' | cxTranslate }}
   </button>
 </ng-container>
