@@ -32,6 +32,12 @@ export class AsmService {
     return this.asmFacadeService.getCustomers(options);
   }
 
+  searchCustomers2(
+    options?: CustomerSearchOptions
+  ): Observable<QueryState<CustomerSearchPage>> {
+    return this.asmFacadeService.getCustomers2(options);
+  }
+
   /**
    * Search for customers
    * @param options

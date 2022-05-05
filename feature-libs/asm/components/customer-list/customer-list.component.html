@@ -19,7 +19,7 @@
       ></ng-template>
       <div class="header-actions">
         <!-- <ng-template *ngTemplateOutlet="sort"></ng-template> -->
-        <ng-template *ngTemplateOutlet="noOfCustomers"></ng-template>
+        <!-- <ng-template *ngTemplateOutlet="noOfCustomers"></ng-template> -->
         <ng-template *ngTemplateOutlet="pagination"></ng-template>
       </div>
     </div>
@@ -131,12 +131,33 @@
 </ng-template>
 
 <ng-template #pagination>
-  <cx-pagination
+  <div class="pagination-buttons">
+    currentPage: {{currentPage}}
+    <div>
+      <cx-icon
+        (click)="goToPreviousPage()"
+        class="cell-icon"
+        [class.enabled]="customerEntry"
+        [type]="iconTypes.CARET_LEFT"
+      ></cx-icon>
+      <span>Previous</span>
+    </div>
+    <div>
+      <span>Next</span>
+      <cx-icon
+        (click)="goToNextPage()"
+        class="cell-icon"
+        [class.enabled]="customerEntry"
+        [type]="iconTypes.CARET_RIGHT"
+      ></cx-icon>
+    </div>
+  </div>
+  <!-- <cx-pagination
     *ngIf="customerSearchPage$ | async as customerSearchPage"
     class="pagination"
     [pagination]="customerSearchPage?.pagination"
     (viewPageEvent)="pageChange($event)"
-  ></cx-pagination>
+  ></cx-pagination> -->
 </ng-template>
 
 <ng-template #groupSelector let-customerListsPage="customerListsPage">

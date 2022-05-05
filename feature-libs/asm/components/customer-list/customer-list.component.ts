@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AsmConfig, AsmService, UserGroup } from '@spartacus/asm/core';
-import { CustomerListsPage, CustomerSearchPage } from '@spartacus/asm/root';
+import { CustomerListsPage, CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
 import {
   BreakpointService,
@@ -21,7 +21,7 @@ import { filter, map, tap } from 'rxjs/operators';
   templateUrl: './customer-list.component.html',
 })
 export class CustomerListComponent implements OnInit, OnDestroy {
-  private PAGE_SIZE = 20;
+  private PAGE_SIZE = 10;
   private SORT_NAME_ASC = 'byNameAsc';
   private SORT_NAME_DESC = 'byNameDesc';
 
@@ -88,12 +88,24 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   fetchCustomers(): void {
     if (this.selectedUserGroupId) {
-      this.customerSearchPage$ = this.asmService.searchCustomers({
+      const options: CustomerSearchOptions = {
         customerListId: this.selectedUserGroupId,
         pageSize: this.PAGE_SIZE,
         currentPage: this.currentPage,
         sort: this.sortName,
-      });
+      };
+
+      // this.customerSearchPage$ = this.asmService.searchCustomers(options)
+      this.customerSearchPage$ = this.asmService.searchCustomers2(options).pipe(
+        tap(x => {
+          console.log(x);
+        }),
+        filter(x => !x.loading),
+        map(x => x.data as CustomerSearchPage)
+      )
+      .pipe(
+        /// here
+      )
     }
   }
 
@@ -143,5 +155,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   closeModal(reason?: any): void {
     this.modalService.closeActiveModal(reason);
+  }
+  goToNextPage(): void {
+    this.currentPage ++;
+    this.fetchCustomers();
+  }
+  goToPreviousPage(): void {
+    this.currentPage = this.currentPage === 0 ? 0 : this.currentPage - 1;
+    this.fetchCustomers();
   }
 }

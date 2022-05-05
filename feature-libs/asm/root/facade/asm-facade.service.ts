@@ -13,13 +13,16 @@ import { ASM_FEATURE, CustomerSearchOptions, CustomerSearchPage } from '@spartac
     methods: [
       'getCustomerLists',
       'getCustomers',
+      'getCustomers2',
     ],
   }),
-
 })
 export abstract class AsmFacadeService {
 
   abstract getCustomerLists(): Observable<QueryState<CustomerListsPage>>;
 
   abstract getCustomers(options?: CustomerSearchOptions): Observable<CustomerSearchPage>;
+
+  abstract getCustomers2(options?: CustomerSearchOptions): Observable<QueryState<CustomerSearchPage>>;
+
 }

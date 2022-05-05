@@ -107,6 +107,17 @@ $sapLinkColor: #0070F2;
   .header-actions {
     display: flex;
     align-items: center;
+
+    .pagination-buttons {
+      display: flex;
+      span {
+        padding: 0 10px;
+      }
+      div {
+        cursor: position;
+      }
+    }
+
     .table-header-cell {
       line-height: 40px;
       margin-right: 15px;
@@ -118,4 +129,5 @@ $sapLinkColor: #0070F2;
       }
     }
   }
+
 }

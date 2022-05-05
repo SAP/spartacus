@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { ICON_TYPE, ModalRef, ModalService } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take, tap } from 'rxjs/operators';
 import { CustomerListComponent } from '../customer-list/customer-list.component';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
@@ -48,18 +48,13 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
       .isCustomerSupportAgentLoggedIn()
       .pipe(
+        distinctUntilChanged(),
         tap((loggedIn) => {
-          if (!loggedIn && this.modalRef) {
+          if (!loggedIn) {
             this.closeModal();
           }
         })
       );
-    // .pipe(
-    //   filter((loggedIn) => loggedIn === false),
-    //   tap(() => {
-    //     this.closeModal();
-    //   })
-    // );
 
     this.csAgentTokenLoading$ =
       this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
@@ -80,12 +75,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           uiState.collapsed === undefined ? false : uiState.collapsed
         )
       );
-    // this.subscription.add(
-    //   this.customerSupportAgentLoggedIn$
-    //     .pipe(filter((loggedIn) => loggedIn === false))
-    //     .subscribe(() => this.closeModal())
-    // );
-    //setTimeout(() => this.closeModal(), 10000);
   }
 
   ngOnDestroy(): void {
