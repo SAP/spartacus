@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Product } from '@spartacus/core';
 import {
   ProductListItemContext,
   ProductListItemContextSource,
@@ -16,7 +17,7 @@ import {
   ],
 })
 export class ProductCarouselItemComponent implements OnChanges {
-  @Input() item: any;
+  @Input() item: Product;
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource

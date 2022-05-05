@@ -18,7 +18,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 import { ProductCarouselComponent } from './product-carousel.component';
-import { ProductCarouselItemComponent } from '../product-carousel-item/product-carousel-item.component';
 
 @Component({
   selector: 'cx-carousel',
@@ -34,6 +33,11 @@ class MockCarouselComponent {
   @Input() title: string;
   @Input() template: TemplateRef<any>;
   @Input() items: any[];
+}
+
+@Component({ selector: 'cx-product-carousel-item', template: '' })
+class MockProductCarouselItemComponent {
+  @Input() item: any;
 }
 
 @Pipe({
@@ -114,7 +118,7 @@ describe('ProductCarouselComponent', () => {
         imports: [RouterTestingModule, I18nTestingModule],
         declarations: [
           ProductCarouselComponent,
-          ProductCarouselItemComponent,
+          MockProductCarouselItemComponent,
           MockCarouselComponent,
           MockMediaComponent,
           MockUrlPipe,
@@ -175,50 +179,8 @@ describe('ProductCarouselComponent', () => {
     it(
       'should have 2 rendered templates',
       waitForAsync(() => {
-        const el = fixture.debugElement.queryAll(By.css('a'));
+        const el = fixture.debugElement.queryAll(By.css('cx-product-carousel-item'));
         expect(el.length).toEqual(2);
-      })
-    );
-
-    it(
-      'should render product name in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(
-          By.css('cx-product-carousel-item:first-child h3')
-        );
-        expect(el.nativeElement).toBeTruthy();
-        expect(el.nativeElement.innerText).toEqual('product 1');
-      })
-    );
-
-    it(
-      'should render product price in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(
-          By.css('cx-product-carousel-item:last-child .price')
-        );
-        expect(el.nativeElement).toBeTruthy();
-        expect(el.nativeElement.innerText).toEqual('$200.00');
-      })
-    );
-
-    it(
-      'should render product primary image for the first item',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(
-          By.css('cx-product-carousel-item:first-child cx-media')
-        );
-        expect(el.nativeElement).toBeTruthy();
-      })
-    );
-
-    it(
-      'should render missing product image for the 2nd item as well',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(
-          By.css('cx-product-carousel-item:last-child cx-media')
-        );
-        expect(el.nativeElement).toBeTruthy();
       })
     );
   });

@@ -30,13 +30,6 @@ import { ProductCarouselItemComponent } from '../product-carousel-item/product-c
       cmsComponents: {
         ProductCarouselComponent: {
           component: ProductCarouselComponent,
-          data: {
-            composition: {
-              inner: [
-                // 'ProductAddToCartComponent',
-              ],
-            },
-          },
         },
       },
     }),

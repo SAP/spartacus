@@ -156,6 +156,50 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
     });
     expect(contextSource.product$.next).toHaveBeenCalledWith(mockProduct);
   });
+
+  describe('UI test', () => {
+    it(
+      'should render product name in template',
+      waitForAsync(() => {
+        const el = fixture.debugElement.query(
+          By.css('h3')
+        );
+        expect(el.nativeElement).toBeTruthy();
+        expect(el.nativeElement.innerText).toEqual('Test product');
+      })
+    );
+
+    it(
+      'should render product price in template',
+      waitForAsync(() => {
+        const el = fixture.debugElement.query(
+          By.css('.price')
+        );
+        expect(el.nativeElement).toBeTruthy();
+        expect(el.nativeElement.innerText).toEqual('$100,00');
+      })
+    );
+
+    it(
+      'should render product primary image for the first item',
+      waitForAsync(() => {
+        const el = fixture.debugElement.query(
+          By.css('cx-media')
+        );
+        expect(el.nativeElement).toBeTruthy();
+      })
+    );
+
+    it(
+      'should render missing product image for the 2nd item as well',
+      waitForAsync(() => {
+        const el = fixture.debugElement.query(
+          By.css('cx-media')
+        );
+        expect(el.nativeElement).toBeTruthy();
+      })
+    );
+  });
 });
 
 describe('ProductCarouselItemComponent in product-carousel with add-to-cart component', () => {
