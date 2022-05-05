@@ -11,7 +11,6 @@ import {
 import { combineLatest, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
-  filter,
   map,
   startWith,
   switchMap,
@@ -61,10 +60,9 @@ export class MiniCartComponentService {
     return this.activeCartRequired().pipe(
       switchMap((activeCartRequired) => {
         if (activeCartRequired) {
-          return this.activeCartFacade.getActive().pipe(
-            filter((cart) => !!cart.totalPrice),
-            map((cart) => cart.totalPrice?.formattedValue ?? '')
-          );
+          return this.activeCartFacade
+            .getActive()
+            .pipe(map((cart) => cart.totalPrice?.formattedValue ?? '$0.00'));
         } else {
           return of('');
         }
