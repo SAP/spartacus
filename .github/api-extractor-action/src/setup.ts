@@ -37,15 +37,17 @@ export async function prepareRepositoryForApiExtractor(
   const key = `dist-${baseCommit}`;
   const BUILD_COMMAND = 'build:libs';
 
-  await cache.restoreCache(paths, key, []);
-
   try {
+    await cache.restoreCache(paths, key, []);
+
     // Cache restores files in the same location, so we need to move them manually
     await io.cp(BUILD_DIR, `${BASE_BRANCH_DIR}/${BUILD_DIR}`, {
       recursive: true,
       force: false,
     });
     await io.rmRF(BUILD_DIR);
+
+    core.info('successfully restored dist from cache');
   } catch {
     core.warning(
       'dist folder not found as it failed to be restored from cache'
