@@ -84,8 +84,6 @@ export class AutoFocusDirective
    * focusable child element will be focussed.
    */
   handleFocus(event?: KeyboardEvent) {
-    // Dalvir
-    console.log(event?.key)
     if (this.shouldAutofocus && this.isFirstAutoFocusCall) {
       this.isFirstAutoFocusCall = false;
       if (!event?.target || event.target === this.host) {
