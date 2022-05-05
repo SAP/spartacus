@@ -13,7 +13,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
-} from '../shared/constants';
+} from '../shared/libs-constants';
 import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');

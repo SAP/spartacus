@@ -29,11 +29,12 @@
       <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
     </label>
 
-    <label aria-required="true" [formGroup]="form.get('orgUnit')">
+    <label [formGroup]="form.get('orgUnit')">
       <span class="label-content required">{{
         'orgUserGroup.orgUnit' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"

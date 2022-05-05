@@ -3,11 +3,13 @@ import {
   COMMON_CONFIGURATOR_UTILS_SERVICE,
   CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT,
   CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE,
+  TRANSLATION_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_STOREFRONTLIB,
-  TRANSLATION_SERVICE,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT_MIGRATION: ConstructorDeprecation =

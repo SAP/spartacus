@@ -1,15 +1,10 @@
 import { NgModule } from '@angular/core';
 import {
   CmsConfig,
-  HttpErrorHandler,
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  OrganizationBadRequestHandler,
-  OrganizationConflictHandler,
-} from '@spartacus/organization/administration/core';
 import { defaultBudgetRoutingConfig } from './config/default-budget-routing.config';
 import { defaultCostCenterRoutingConfig } from './config/default-cost-center-routing.config';
 import { defaultOrganizationLayoutConfig } from './config/default-organization-layout.config';
@@ -56,16 +51,6 @@ export function defaultOrganizationAdministrationComponentsConfig(): CmsConfig {
     provideDefaultConfigFactory(
       defaultOrganizationAdministrationComponentsConfig
     ),
-    {
-      provide: HttpErrorHandler,
-      useExisting: OrganizationConflictHandler,
-      multi: true,
-    },
-    {
-      provide: HttpErrorHandler,
-      useExisting: OrganizationBadRequestHandler,
-      multi: true,
-    },
   ],
 })
 export class AdministrationRootModule {}

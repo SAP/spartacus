@@ -2,10 +2,10 @@ import {
   AUTH_SERVICE,
   NGRX_STORE,
   ORDER_RETURN_REQUEST_SERVICE,
-  SPARTACUS_CORE,
   STORE,
   USER_ID_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ORDER_RETURN_REQUEST_SERVICE_MIGRATION: ConstructorDeprecation = {

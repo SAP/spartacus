@@ -27,6 +27,8 @@ export namespace Configurator {
     hasConflicts?: boolean;
     retractTriggered?: boolean;
     attributePriceTotal?: PriceDetails;
+    intervalInDomain?: boolean;
+    key?: string;
   }
 
   export interface Value {
@@ -71,7 +73,7 @@ export namespace Configurator {
     consistent?: boolean;
     complete?: boolean;
     totalNumberOfIssues?: number;
-    productCode?: string;
+    productCode: string;
     groups: Group[];
     flatGroups: Group[];
     priceSupplements?: AttributeSupplement[];
@@ -98,9 +100,11 @@ export namespace Configurator {
   export interface Overview {
     configId: string;
     totalNumberOfIssues?: number;
+    numberOfIncompleteCharacteristics?: number;
+    numberOfConflicts?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
-    productCode?: string;
+    productCode: string;
   }
 
   export interface GroupOverview {

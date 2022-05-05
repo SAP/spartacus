@@ -1,4 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ConfigFactory } from './config-factory';
 import { provideConfig, provideConfigFactory } from './config-providers';
 import { Config } from './config-tokens';
 import { ConfigurationService } from './services/configuration.service';
@@ -32,7 +33,7 @@ export class ConfigModule {
    * @param deps Optional dependencies to factory function
    */
   static withConfigFactory(
-    configFactory: Function,
+    configFactory: ConfigFactory,
     deps?: any[]
   ): ModuleWithProviders<ConfigModule> {
     return {

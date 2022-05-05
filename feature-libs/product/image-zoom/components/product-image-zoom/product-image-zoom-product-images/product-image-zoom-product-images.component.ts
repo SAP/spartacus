@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   CurrentProductService,
   ProductImagesComponent,
 } from '@spartacus/storefront';
+import { Product } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-images',
@@ -13,6 +14,8 @@ import {
 export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {
   expandImage = new BehaviorSubject(false);
   selectedIndex: number | undefined;
+
+  product$: Observable<Product> = this.product$;
 
   constructor(protected currentProductService: CurrentProductService) {
     super(currentProductService);

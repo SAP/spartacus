@@ -270,4 +270,15 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       );
     });
   });
+
+  describe('extractProductCardParameters', () => {
+    it('should be able to cope with unavailable attibute values', () => {
+      component.attribute.values = undefined;
+      const options = component.extractProductCardParameters(
+        { valueCode: 'A' },
+        1
+      );
+      expect(options.itemCount).toBe(0);
+    });
+  });
 });

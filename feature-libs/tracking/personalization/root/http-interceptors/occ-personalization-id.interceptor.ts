@@ -11,13 +11,12 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { PersonalizationConfig } from '../config/personalization-config';
 
-const PERSONALIZATION_ID_KEY = 'personalization-id';
-
 @Injectable({ providedIn: 'root' })
 export class OccPersonalizationIdInterceptor implements HttpInterceptor {
   private personalizationId?: string | null;
   private requestHeader?: string;
   private enabled = false;
+  protected readonly PERSONALIZATION_ID_KEY = 'personalization-id';
 
   constructor(
     private config: PersonalizationConfig,
@@ -38,10 +37,12 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
         this.requestHeader =
           this.config.personalization?.httpHeaderName?.id.toLowerCase();
         this.personalizationId = this.winRef.localStorage?.getItem(
-          PERSONALIZATION_ID_KEY
+          this.PERSONALIZATION_ID_KEY
         );
-      } else if (this.winRef.localStorage?.getItem(PERSONALIZATION_ID_KEY)) {
-        this.winRef.localStorage.removeItem(PERSONALIZATION_ID_KEY);
+      } else if (
+        this.winRef.localStorage?.getItem(this.PERSONALIZATION_ID_KEY)
+      ) {
+        this.winRef.localStorage.removeItem(this.PERSONALIZATION_ID_KEY);
       }
     }
   }
@@ -78,7 +79,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
               this.personalizationId = receivedId;
               if (this.personalizationId) {
                 this.winRef.localStorage?.setItem(
-                  PERSONALIZATION_ID_KEY,
+                  this.PERSONALIZATION_ID_KEY,
                   this.personalizationId
                 );
               }

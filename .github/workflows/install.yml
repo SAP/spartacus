@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - 'release/4.**'
+      - 'epic/**'
       - 'develop'
 name: Installation
 jobs:
@@ -17,7 +18,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: '12'
+          node-version: '16'
       - name: Yarn
         run: yarn install
         env:

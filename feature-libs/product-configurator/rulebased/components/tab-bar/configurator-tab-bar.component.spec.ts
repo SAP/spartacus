@@ -7,9 +7,15 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
+import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -32,6 +38,14 @@ let routerStateObservable: any = null;
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
+  }
+}
+
+let configurationObs: Observable<Configurator.Configuration>;
+
+class MockConfiguratorCommonsService {
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return configurationObs;
   }
 }
 
@@ -60,6 +74,10 @@ describe('ConfigTabBarComponent', () => {
             provide: RoutingService,
             useClass: MockRoutingService,
           },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
+          },
         ],
       })
         .overrideComponent(ConfiguratorTabBarComponent, {
@@ -74,10 +92,23 @@ describe('ConfigTabBarComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
+    configurationObs = of(
+      ConfiguratorTestUtils.createConfiguration(
+        'a',
+        ConfiguratorModelUtils.createInitialOwner()
+      )
+    );
+    component.ghostStyle = false;
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
+  });
+
+  it('should render ghost view if no data is present', () => {
+    configurationObs = NEVER;
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('.cx-ghost-tab-bar').length).toEqual(1);
   });
 
   it('should render 2 navigation links per default', () => {

@@ -24,10 +24,12 @@ import {
   CONFIG_MODULE_CLASS,
   OBSERVABLE_CLASS,
   RXJS,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   UTF_8,
 } from '../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../shared/libs-constants';
 import {
   commitChanges,
   defineProperty,
@@ -376,7 +378,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       flat,
       inlineStyle,
       inlineTemplate,
-      lintFix,
       prefix,
       project,
       selector,
@@ -412,7 +413,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
             routingScope,
             route,
             commonModule,
-            lintFix,
             module: declaringModule,
           })
         : noop(),
@@ -422,7 +422,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         flat,
         inlineStyle,
         inlineTemplate,
-        lintFix,
         module: componentModule,
         name: componentName,
         prefix,

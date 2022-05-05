@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-epd-visualization/index#addEpdVisualizationFeature",
+      "description": "Add and configure the SAP Enterprise Product Development Visualization integration",
+      "schema": "./add-epd-visualization/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add-spartacus-library": {
+      "description": "Install a spartacus library",
+      "factory": "./add-library/index#addSpartacusLibrary",
+      "private": true,
+      "hidden": true
+    },
+    "add": {
+      "factory": "./add-epd-visualization/index#addEpdVisualizationFeature",
+      "description": "Add and configure the SAP Enterprise Product Development Visualization integration",
+      "schema": "./add-epd-visualization/schema.json"
+    }
+  }
+}

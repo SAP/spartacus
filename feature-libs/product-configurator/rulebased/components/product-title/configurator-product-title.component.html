@@ -1,9 +1,9 @@
-<ng-container *ngIf="product$ | async as product">
+<ng-container *ngIf="product$ | async as product; else ghostProductTitle">
   <div class="cx-general-product-info">
     <div class="cx-title">
       <span> {{ product.name }} </span>
     </div>
-    <button (click)="triggerDetails()">
+    <button (click)="triggerDetails()" [attr.aria-expanded]="showMore">
       <ng-container *ngIf="!showMore">
         <div
           class="cx-toggle-details-link-text"
@@ -73,3 +73,6 @@
     </div>
   </div>
 </ng-container>
+<ng-template #ghostProductTitle>
+  <div class="cx-ghost-general-product-info"></div>
+</ng-template>

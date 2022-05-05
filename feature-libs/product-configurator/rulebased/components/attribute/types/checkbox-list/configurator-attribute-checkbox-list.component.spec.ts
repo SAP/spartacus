@@ -46,6 +46,9 @@ class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
+const VALUE_1 = 'val1';
+const VALUE_2 = 'val2';
+
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
@@ -90,8 +93,8 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   }
   let values: Configurator.Value[];
   beforeEach(() => {
-    const value1 = createValue('1', 'val1', true);
-    const value2 = createValue('2', 'val2', false);
+    const value1 = createValue('1', VALUE_1, true);
+    const value2 = createValue('2', VALUE_2, false);
     const value3 = createValue('3', 'val3', true);
     values = [value1, value2, value3];
 
@@ -117,6 +120,13 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should cope with no attribute values in onInit', () => {
+    component.attributeCheckBoxForms = [];
+    component.attribute.values = undefined;
+    component.ngOnInit();
+    expect(component.attributeCheckBoxForms.length).toBe(0);
   });
 
   it('should have 3 entries after init with first and last value filled', () => {
@@ -146,7 +156,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     expect(valueToSelect.checked).toBeFalsy();
   });
 
-  it('should call emit of selectionChange onChangeValueQuantity', () => {
+  it('should deselect value onChangeValueQuantity if quantity is set to zero', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
 
     component.onChangeValueQuantity(0, '1', 0);
@@ -157,13 +167,13 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
           ...component.attribute,
           values: [
             {
-              name: 'val1',
+              name: VALUE_1,
               quantity: undefined,
               selected: false,
               valueCode: '1',
             },
             {
-              name: 'val2',
+              name: VALUE_2,
               quantity: undefined,
               selected: false,
               valueCode: '2',
@@ -180,6 +190,38 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         updateType: Configurator.UpdateType.ATTRIBUTE,
       })
     );
+  });
+
+  it('should call emit of selectionChange onChangeValueQuantity if quantity is set to 1', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onChangeValueQuantity(1, '1', 0);
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          values: [
+            {
+              name: VALUE_1,
+              quantity: 1,
+              selected: true,
+              valueCode: '1',
+            },
+          ],
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.VALUE_QUANTITY,
+      })
+    );
+  });
+
+  it('should not call emit of selectionChange onChangeValueQuantity if value does not exist', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onChangeValueQuantity(1, 'NOT_EXISTING', 0);
+
+    expect(component.selectionChange.emit).toHaveBeenCalledTimes(0);
   });
 
   it('should call onHandleAttributeQuantity of event onChangeQuantity', () => {
@@ -320,7 +362,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         'configurator.a11y.valueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          component.attribute.values[1].valueDisplay
+          VALUE_2
       );
     });
 
@@ -328,10 +370,11 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       let value = component.attribute.values
         ? component.attribute.values[0]
         : undefined;
+      const formattedValue = '$100.00';
       if (value) {
         value.valuePrice = {
           currencyIso: '$',
-          formattedValue: '$100.00',
+          formattedValue: formattedValue,
           value: 100,
         };
       } else {
@@ -349,13 +392,13 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          component.attribute.values[0].valuePrice.formattedValue +
+          formattedValue +
           ' value:' +
-          component.attribute.values[0].valueDisplay
+          VALUE_1
       );
     });
 
-    it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elementsr", () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -363,7 +406,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         'form-check-input',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+        'cx-configurator--label--attributeName'
       );
     });
 
@@ -376,7 +419,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         1,
         'aria-hidden',
         'true',
-        component.attribute.values[1].valueDisplay
+        VALUE_2
       );
     });
   });

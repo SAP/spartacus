@@ -18,6 +18,7 @@
         (click)="toggleWarnings()"
         *ngIf="configuration?.warningMessages?.length > 1"
         class="cx-warning-toggle"
+        [attr.aria-expanded]="showWarnings"
       >
         {{ 'configurator.header.reviewWarnings' | cxTranslate }}
 
@@ -65,6 +66,7 @@
         (click)="toggleErrors()"
         *ngIf="configuration?.errorMessages?.length > 1"
         class="cx-error-toggle"
+        [attr.aria-expanded]="showErrors"
       >
         {{ 'configurator.header.reviewErrors' | cxTranslate }}
         <ng-container *ngIf="!showErrors">

@@ -1,9 +1,9 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
-import { LineItem } from './configurator-cart-entry-bundle-info.model';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { ConfigurationInfo } from '../../core/model/common-configurator.model';
-import { OrderEntry } from '@spartacus/core';
+import { LineItem } from './configurator-cart-entry-bundle-info.model';
+import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
 
 const confInfo1: ConfigurationInfo = {
   configurationLabel: 'name:',
@@ -74,6 +74,10 @@ const productPriceValue1 = '100.00';
 const v2_confInfo_version: ConfigurationInfo = {
   configurationLabel: 'CI#@#VERSION',
   configurationValue: '2',
+};
+const v1_confInfo_version: ConfigurationInfo = {
+  configurationLabel: 'CI#@#VERSION',
+  configurationValue: '1',
 };
 
 const v2_confInfo0_name_novalue: ConfigurationInfo = {
@@ -464,6 +468,21 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItems.length).toBe(2);
       expect(lineItems[0]).toEqual(v2_expectedLineItem0);
       expect(lineItems[1]).toEqual(v2_expectedLineItem1);
+    });
+
+    it('should handle order entries without configuration info', () => {
+      const orderEntry: OrderEntry = {};
+      const lineItems: LineItem[] =
+        configuratorCartEntryBundleInfoService.retrieveLineItems(orderEntry);
+      expect(lineItems.length).toBe(0);
+    });
+    it('should handle unknown version as part of configuration info', () => {
+      const orderEntry: OrderEntry = {
+        configurationInfos: [v1_confInfo_version],
+      };
+      const lineItems: LineItem[] =
+        configuratorCartEntryBundleInfoService.retrieveLineItems(orderEntry);
+      expect(lineItems.length).toBe(0);
     });
   });
 });

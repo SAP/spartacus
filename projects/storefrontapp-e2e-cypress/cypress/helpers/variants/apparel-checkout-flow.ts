@@ -1,4 +1,5 @@
 import { products } from '../../sample-data/apparel-checkout-flow';
+import { addProductToCart as addToCart } from '../applied-promotions';
 import { addCheapProductToCart } from '../checkout-flow';
 
 export const APPAREL_BASESITE = 'apparel-uk-spa';
@@ -42,9 +43,7 @@ export function visitProductWithoutVariantPage() {
 
 export function addMutipleProductWithoutVariantToCart() {
   cy.get('cx-item-counter').findByText('+').click();
-  cy.get('cx-add-to-cart')
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', products[2].name);
   });

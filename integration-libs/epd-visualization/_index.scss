@@ -1,0 +1,33 @@
+@import '~@spartacus/styles/scss/core';
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/_mixins';
+
+@import './styles/index';
+
+$epd-visualization-components-allowlist: cx-epd-visualization-viewer,
+  cx-epd-visualization-viewer-toolbar-button,
+  cx-epd-visualization-visual-picking-tab, cx-epd-visualization-product-filter,
+  cx-epd-visualization-product-list, cx-epd-visualization-animation-slider,
+  cx-epd-visualization-paged-list !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $epd-visualization-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) ==null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $epd-visualization-components-allowlist {
+    @if (index($skipComponentStyles, $selector) ==null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

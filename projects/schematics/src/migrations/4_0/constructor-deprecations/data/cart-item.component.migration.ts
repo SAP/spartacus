@@ -2,8 +2,8 @@ import {
   CART_ITEM_COMPONENT,
   CART_ITEM_CONTEXT_SOURCE,
   PROMOTION_SERVICE,
-  SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_ITEM_COMPONENT_MIGRATION: ConstructorDeprecation = {

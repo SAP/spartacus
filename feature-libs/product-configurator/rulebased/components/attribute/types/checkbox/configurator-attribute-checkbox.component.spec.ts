@@ -137,7 +137,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         'configurator.a11y.valueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          component.attribute.values[0].valueDisplay
+          value1.valueDisplay
       );
     });
 
@@ -149,7 +149,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         'form-check-input',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+        'cx-configurator--label--attributeName'
       );
     });
 
@@ -162,7 +162,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         0,
         'aria-hidden',
         'true',
-        component.attribute.values[0].valueDisplay
+        value1.valueDisplay
       );
     });
   });

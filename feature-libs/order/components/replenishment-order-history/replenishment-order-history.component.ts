@@ -6,13 +6,12 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { RoutingService, TranslationService } from '@spartacus/core';
 import {
   ReplenishmentOrder,
+  ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
-  RoutingService,
-  TranslationService,
-} from '@spartacus/core';
-import { ReplenishmentOrderFacade } from '@spartacus/order/root';
+} from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
@@ -31,7 +30,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   sortType: string;
 
   replenishmentOrders$: Observable<ReplenishmentOrderList | undefined> =
-    this.userReplenishmentOrderService
+    this.replenishmentOrderHistoryFacade
       .getReplenishmentOrderHistoryList(this.PAGE_SIZE)
       .pipe(
         tap((replenishmentOrders: ReplenishmentOrderList | undefined) => {
@@ -42,11 +41,11 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
       );
 
   isLoaded$: Observable<boolean> =
-    this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
+    this.replenishmentOrderHistoryFacade.getReplenishmentOrderHistoryListSuccess();
 
   constructor(
     protected routing: RoutingService,
-    protected userReplenishmentOrderService: ReplenishmentOrderFacade,
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
     protected translation: TranslationService,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
@@ -114,7 +113,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
     sortCode: string;
     currentPage: number;
   }): void {
-    this.userReplenishmentOrderService.loadReplenishmentOrderList(
+    this.replenishmentOrderHistoryFacade.loadReplenishmentOrderList(
       this.PAGE_SIZE,
       event.currentPage,
       event.sortCode
@@ -123,6 +122,6 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.userReplenishmentOrderService.clearReplenishmentOrderList();
+    this.replenishmentOrderHistoryFacade.clearReplenishmentOrderList();
   }
 }

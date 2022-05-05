@@ -206,6 +206,7 @@ describe('ConfigProductTitleComponent', () => {
     changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
+    component.ghostStyle = false;
 
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
@@ -328,6 +329,18 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
+    it("should contain button element with 'aria-expanded' attribute false", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        undefined,
+        undefined,
+        'aria-expanded',
+        'false'
+      );
+    });
+
     it("should contain div element with class name 'cx-toggle-details-link-text' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       component.triggerDetails();
       changeDetectorRef.detectChanges();
@@ -341,6 +354,20 @@ describe('ConfigProductTitleComponent', () => {
         'aria-label',
         'configurator.a11y.showLessProductInfo product:' + product.name,
         'configurator.header.showLess'
+      );
+    });
+
+    it("should contain button element with 'aria-expanded' attribute true", () => {
+      component.triggerDetails();
+      changeDetectorRef.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        undefined,
+        undefined,
+        'aria-expanded',
+        'true'
       );
     });
 

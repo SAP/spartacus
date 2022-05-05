@@ -90,6 +90,7 @@ describe('OccConfiguratorVariantSerializer', () => {
   const targetOccConfiguration: OccConfigurator.Configuration = {
     complete: false,
     configId: '1234-56-7890',
+    rootProduct: 'A',
     groups: [
       {
         configurable: true,

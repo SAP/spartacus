@@ -5,6 +5,7 @@
     "baseUrl": ".",
     "types": ["node"],
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "paths": {
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
@@ -16,6 +17,43 @@
       "@spartacus/asm": ["../../feature-libs/asm/public_api"],
       "@spartacus/asm/occ": ["../../feature-libs/asm/occ/public_api"],
       "@spartacus/asm/root": ["../../feature-libs/asm/root/public_api"],
+      "@spartacus/cart/base/assets": [
+        "../../feature-libs/cart/base/assets/public_api"
+      ],
+      "@spartacus/cart/base/components/add-to-cart": [
+        "../../feature-libs/cart/base/components/add-to-cart/public_api"
+      ],
+      "@spartacus/cart/base/components/mini-cart": [
+        "../../feature-libs/cart/base/components/mini-cart/public_api"
+      ],
+      "@spartacus/cart/base/components": [
+        "../../feature-libs/cart/base/components/public_api"
+      ],
+      "@spartacus/cart/base/core": [
+        "../../feature-libs/cart/base/core/public_api"
+      ],
+      "@spartacus/cart/base": ["../../feature-libs/cart/base/public_api"],
+      "@spartacus/cart/base/occ": [
+        "../../feature-libs/cart/base/occ/public_api"
+      ],
+      "@spartacus/cart/base/root": [
+        "../../feature-libs/cart/base/root/public_api"
+      ],
+      "@spartacus/cart/import-export/assets": [
+        "../../feature-libs/cart/import-export/assets/public_api"
+      ],
+      "@spartacus/cart/import-export/components": [
+        "../../feature-libs/cart/import-export/components/public_api"
+      ],
+      "@spartacus/cart/import-export/core": [
+        "../../feature-libs/cart/import-export/core/public_api"
+      ],
+      "@spartacus/cart/import-export": [
+        "../../feature-libs/cart/import-export/public_api"
+      ],
+      "@spartacus/cart/import-export/root": [
+        "../../feature-libs/cart/import-export/root/public_api"
+      ],
       "@spartacus/cart": ["../../feature-libs/cart/public_api"],
       "@spartacus/cart/quick-order/assets": [
         "../../feature-libs/cart/quick-order/assets/public_api"
@@ -50,34 +88,70 @@
       "@spartacus/cart/saved-cart/root": [
         "../../feature-libs/cart/saved-cart/root/public_api"
       ],
-      "@spartacus/cart/import-export/assets": [
-        "../../feature-libs/cart/import-export/assets/public_api"
+      "@spartacus/cart/wish-list/assets": [
+        "../../feature-libs/cart/wish-list/assets/public_api"
       ],
-      "@spartacus/cart/import-export/components": [
-        "../../feature-libs/cart/import-export/components/public_api"
+      "@spartacus/cart/wish-list/components/add-to-wishlist": [
+        "../../feature-libs/cart/wish-list/components/add-to-wishlist/public_api"
       ],
-      "@spartacus/cart/import-export/core": [
-        "../../feature-libs/cart/import-export/core/public_api"
+      "@spartacus/cart/wish-list/components": [
+        "../../feature-libs/cart/wish-list/components/public_api"
       ],
-      "@spartacus/cart/import-export": [
-        "../../feature-libs/cart/import-export/public_api"
+      "@spartacus/cart/wish-list/core": [
+        "../../feature-libs/cart/wish-list/core/public_api"
       ],
-      "@spartacus/cart/import-export/root": [
-        "../../feature-libs/cart/import-export/root/public_api"
+      "@spartacus/cart/wish-list": [
+        "../../feature-libs/cart/wish-list/public_api"
       ],
-      "@spartacus/checkout/assets": [
-        "../../feature-libs/checkout/assets/public_api"
+      "@spartacus/cart/wish-list/root": [
+        "../../feature-libs/cart/wish-list/root/public_api"
       ],
-      "@spartacus/checkout/components": [
-        "../../feature-libs/checkout/components/public_api"
+      "@spartacus/checkout/b2b/assets": [
+        "../../feature-libs/checkout/b2b/assets/public_api"
       ],
-      "@spartacus/checkout/core": [
-        "../../feature-libs/checkout/core/public_api"
+      "@spartacus/checkout/b2b/components": [
+        "../../feature-libs/checkout/b2b/components/public_api"
+      ],
+      "@spartacus/checkout/b2b/core": [
+        "../../feature-libs/checkout/b2b/core/public_api"
+      ],
+      "@spartacus/checkout/b2b": ["../../feature-libs/checkout/b2b/public_api"],
+      "@spartacus/checkout/b2b/occ": [
+        "../../feature-libs/checkout/b2b/occ/public_api"
+      ],
+      "@spartacus/checkout/b2b/root": [
+        "../../feature-libs/checkout/b2b/root/public_api"
+      ],
+      "@spartacus/checkout/base/assets": [
+        "../../feature-libs/checkout/base/assets/public_api"
+      ],
+      "@spartacus/checkout/base/components": [
+        "../../feature-libs/checkout/base/components/public_api"
+      ],
+      "@spartacus/checkout/base/core": [
+        "../../feature-libs/checkout/base/core/public_api"
+      ],
+      "@spartacus/checkout/base": [
+        "../../feature-libs/checkout/base/public_api"
+      ],
+      "@spartacus/checkout/base/occ": [
+        "../../feature-libs/checkout/base/occ/public_api"
+      ],
+      "@spartacus/checkout/base/root": [
+        "../../feature-libs/checkout/base/root/public_api"
       ],
       "@spartacus/checkout": ["../../feature-libs/checkout/public_api"],
-      "@spartacus/checkout/occ": ["../../feature-libs/checkout/occ/public_api"],
-      "@spartacus/checkout/root": [
-        "../../feature-libs/checkout/root/public_api"
+      "@spartacus/checkout/scheduled-replenishment/assets": [
+        "../../feature-libs/checkout/scheduled-replenishment/assets/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/components": [
+        "../../feature-libs/checkout/scheduled-replenishment/components/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment": [
+        "../../feature-libs/checkout/scheduled-replenishment/public_api"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/root": [
+        "../../feature-libs/checkout/scheduled-replenishment/root/public_api"
       ],
       "@spartacus/order/assets": ["../../feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
@@ -275,12 +349,32 @@
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
       "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
+      "@spartacus/digital-payments/assets": [
+        "../../integration-libs/digital-payments/assets/public_api"
+      ],
       "@spartacus/digital-payments": [
         "../../integration-libs/digital-payments/public_api"
       ],
+      "@spartacus/epd-visualization/components": [
+        "../../integration-libs/epd-visualization/components/public_api"
+      ],
+      "@spartacus/epd-visualization/assets": [
+        "../../integration-libs/epd-visualization/assets/public_api"
+      ],
+      "@spartacus/epd-visualization/root": [
+        "../../integration-libs/epd-visualization/root/public_api"
+      ],
+      "@spartacus/epd-visualization/core": [
+        "../../integration-libs/epd-visualization/core/public_api"
+      ],
+      "@spartacus/epd-visualization/epd-visualization-api": [
+        "../../integration-libs/epd-visualization/epd-visualization-api/public_api"
+      ],
+      "@spartacus/epd-visualization": [
+        "../../integration-libs/epd-visualization/public_api"
+      ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
-      "@spartacus/incubator": ["../../projects/incubator/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/public_api"]
     }
   },

@@ -8,9 +8,11 @@ import {
   OBJECT_TYPE,
   PLATFORM,
   PLATFORM_ID_STRING,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CMS_COMPONENTS_SERVICE_MIGRATION_1: ConstructorDeprecation = {

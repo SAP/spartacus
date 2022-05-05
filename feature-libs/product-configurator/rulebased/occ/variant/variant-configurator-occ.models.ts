@@ -20,7 +20,7 @@ export namespace OccConfigurator {
     consistent?: boolean;
     totalNumberOfIssues?: number;
     groups?: Group[];
-    rootProduct?: string;
+    rootProduct: string;
   }
 
   export interface Prices {
@@ -89,6 +89,8 @@ export namespace OccConfigurator {
     negativeAllowed?: boolean;
     conflicts?: string[];
     retractTriggered?: boolean;
+    intervalInDomain?: boolean;
+    retractBlocked?: boolean;
   }
 
   export interface Value {
@@ -129,9 +131,11 @@ export namespace OccConfigurator {
   export interface Overview {
     id: string;
     totalNumberOfIssues?: number;
+    numberOfIncompleteCharacteristics?: number;
+    numberOfConflicts?: number;
     groups?: GroupOverview[];
     pricing?: PriceSummary;
-    productCode?: string;
+    productCode: string;
   }
 
   export interface GroupOverview {

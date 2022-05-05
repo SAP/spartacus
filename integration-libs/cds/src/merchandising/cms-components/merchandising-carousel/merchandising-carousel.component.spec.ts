@@ -98,12 +98,20 @@ const merchandisingCarouselModelProducts: MerchandisingProduct[] = [
         },
       },
     },
+    stock: {
+      stockLevel: 10,
+      stockLevelStatus: 'inStock',
+    },
   },
   {
     code: '2',
     name: 'product 2',
     price: {
       formattedValue: '200.00',
+    },
+    stock: {
+      stockLevel: 0,
+      stockLevelStatus: 'outOfStock',
     },
   },
 ];
@@ -339,10 +347,11 @@ describe('MerchandisingCarouselComponent', () => {
         const el = fixture.debugElement.queryAll(
           By.css('.data-cx-merchandising-product + a .price')
         );
+
         expect(el[0].nativeElement).toBeTruthy();
         expect(el[0].nativeElement.innerText).toBe('100.00');
-        expect(el[1].nativeElement).toBeTruthy();
-        expect(el[1].nativeElement.innerText).toBe('200.00');
+        expect(el[2].nativeElement).toBeTruthy();
+        expect(el[2].nativeElement.innerText).toBe('200.00');
       })
     );
 
@@ -354,6 +363,20 @@ describe('MerchandisingCarouselComponent', () => {
         );
         expect(el[0].query(By.css('cx-media'))).toBeTruthy();
         expect(el[1].query(By.css('cx-media'))).toBeFalsy();
+      })
+    );
+
+    it(
+      'should render product stock information in template',
+      waitForAsync(() => {
+        const el = fixture.debugElement.queryAll(
+          By.css('.data-cx-merchandising-product + a .price')
+        );
+
+        expect(el[1].nativeElement).toBeTruthy();
+        expect(el[1].nativeElement.innerText).toBe('inStock : 10');
+        expect(el[3].nativeElement).toBeTruthy();
+        expect(el[3].nativeElement.innerText).toBe('outOfStock');
       })
     );
   });

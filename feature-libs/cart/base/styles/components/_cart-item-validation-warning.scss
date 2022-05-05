@@ -1,0 +1,20 @@
+%cx-cart-item-validation-warning {
+  width: 100%;
+
+  cx-icon {
+    font-size: 20px;
+  }
+
+  .alert-icon {
+    margin-inline-end: var(--cx-margin-right, 1rem);
+  }
+
+  .alert {
+    justify-content: flex-start;
+    text-align: var(--cx-text-align, start);
+
+    .close {
+      right: 1.75rem;
+    }
+  }
+}

@@ -1,4 +1,5 @@
 export * from './config/i18n-config';
+export * from './config/i18n-config-initializer';
 export * from './date.pipe';
 export * from './numeric.pipe';
 export { I18nModule } from './i18n.module';

@@ -35,25 +35,23 @@ export class ConfiguratorAttributeCheckBoxListComponent
   ngOnInit(): void {
     const disabled = !this.allowZeroValueQuantity;
 
-    if (this.attribute.values) {
-      for (const value of this.attribute.values) {
-        let attributeCheckBoxForm;
+    for (const value of this.attribute.values ?? []) {
+      let attributeCheckBoxForm;
 
-        if (value.selected) {
-          attributeCheckBoxForm = new FormControl({
-            value: true,
-            disabled: disabled,
-          });
-        } else {
-          attributeCheckBoxForm = new FormControl(false);
-        }
-        this.attributeCheckBoxForms.push(attributeCheckBoxForm);
+      if (value.selected) {
+        attributeCheckBoxForm = new FormControl({
+          value: true,
+          disabled: disabled,
+        });
+      } else {
+        attributeCheckBoxForm = new FormControl(false);
       }
+      this.attributeCheckBoxForms.push(attributeCheckBoxForm);
     }
   }
 
   get allowZeroValueQuantity(): boolean {
-    return this.quantityService.allowZeroValueQuantity(this.attribute) ?? false;
+    return this.quantityService.allowZeroValueQuantity(this.attribute);
   }
 
   onSelect(): void {

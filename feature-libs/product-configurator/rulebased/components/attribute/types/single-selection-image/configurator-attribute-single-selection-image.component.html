@@ -1,7 +1,7 @@
 <div
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   class="cx-row"
-  role="listbox"
+  role="radiogroup"
 >
   <div
     *ngFor="let value of attribute.values"
@@ -22,8 +22,11 @@
       name="{{ createAttributeIdForConfigurator(attribute) }}"
       attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
       [attr.required]="attribute.required"
+      [attr.checked]="
+        attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
+      "
       [attr.aria-checked]="
-        attributeRadioButtonForm.value === value.valueCode ? true : false
+        attributeRadioButtonForm.value === value.valueCode ? 'true' : 'false'
       "
       [attr.aria-label]="
         value.valuePrice && value.valuePrice?.value !== 0
@@ -38,17 +41,10 @@
             | cxTranslate
               : { value: value.valueDisplay, attribute: attribute.label })
       "
-      [attr.aria-describedby]="
-        createAttributeUiKey('label', attribute.name) +
-        ' ' +
-        createAttributeUiKey('attribute-msg', attribute.name)
-      "
-      [attr.checked]="
-        attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
-      "
+      [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
       (click)="onClick(value.valueCode)"
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
-      role="option"
+      role="radio"
     />
     <div class="cx-label-container">
       <label

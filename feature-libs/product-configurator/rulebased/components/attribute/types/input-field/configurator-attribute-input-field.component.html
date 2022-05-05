@@ -3,8 +3,7 @@
     [formControl]="attributeInputForm"
     [required]="attribute.required"
     class="form-control"
-    attr.role="{{ attribute.dataType }}"
-    attr.aria-required="{{ attribute.required }}"
+    attr.required="{{ attribute.required }}"
     maxlength="{{ attribute.maxlength }}"
     [attr.aria-label]="
       attribute.userInput === undefined || attribute.userInput.length === 0
@@ -20,11 +19,7 @@
                 attribute: attribute.label
               })
     "
-    [attr.aria-describedby]="
-      createAttributeUiKey('label', attribute.name) +
-      ' ' +
-      createAttributeUiKey('attribute-msg', attribute.name)
-    "
+    [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
     [cxFocus]="{
       key: createAttributeIdForConfigurator(attribute)
     }"

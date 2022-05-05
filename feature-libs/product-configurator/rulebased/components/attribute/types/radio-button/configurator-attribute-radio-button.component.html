@@ -26,9 +26,6 @@
           name="{{ createAttributeIdForConfigurator(attribute) }}"
           attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
           [cxFocus]="{ key: attribute.name + '-' + value.name }"
-          [attr.aria-checked]="
-            attributeRadioButtonForm.value === value.valueCode ? true : false
-          "
           [attr.aria-label]="
             value.valuePrice && value.valuePrice?.value !== 0
               ? value.valuePriceTotal && value.valuePriceTotal?.value !== 0
@@ -56,9 +53,7 @@
               : null
           "
           [attr.aria-describedby]="
-            createAttributeUiKey('label', attribute.name) +
-            ' ' +
-            createAttributeUiKey('attribute-msg', attribute.name)
+            createAttributeUiKey('label', attribute.name)
           "
           (change)="onSelect(value.valueCode)"
         />

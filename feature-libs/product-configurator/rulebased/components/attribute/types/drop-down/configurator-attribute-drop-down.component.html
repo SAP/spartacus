@@ -20,35 +20,30 @@
     [formControl]="attributeDropDownForm"
     [cxFocus]="{ key: attribute.name }"
     (change)="onSelect(attributeDropDownForm.value)"
-    [attr.aria-describedby]="
-      createAttributeUiKey('label', attribute.name) +
-      ' ' +
-      createAttributeUiKey('attribute-msg', attribute.name)
-    "
+    [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
   >
     <option
       *ngFor="let item of attribute.values"
       [label]="item.valueDisplay"
       [selected]="item.selected"
-      [attr.aria-selected]="item.selected"
       [attr.aria-label]="
         item.valuePrice && item.valuePrice?.value !== 0
           ? item.valuePriceTotal && item.valuePriceTotal?.value !== 0
-            ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+            ? ('configurator.a11y.selectedValueOfAttributeFullWithPrice'
               | cxTranslate
                 : {
                     value: item.valueDisplay,
                     attribute: attribute.label,
                     price: item.valuePriceTotal.formattedValue
                   })
-            : ('configurator.a11y.valueOfAttributeFullWithPrice'
+            : ('configurator.a11y.selectedValueOfAttributeFullWithPrice'
               | cxTranslate
                 : {
                     value: item.valueDisplay,
                     attribute: attribute.label,
                     price: item.valuePrice.formattedValue
                   })
-          : ('configurator.a11y.valueOfAttributeFull'
+          : ('configurator.a11y.selectedValueOfAttributeFull'
             | cxTranslate
               : { value: item.valueDisplay, attribute: attribute.label })
       "

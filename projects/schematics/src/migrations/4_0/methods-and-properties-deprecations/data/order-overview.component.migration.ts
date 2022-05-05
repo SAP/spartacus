@@ -1,9 +1,9 @@
 import {
   GET_ORDER_CURRENT_DATE_CARD_CONTENT,
   ORDER_OVERVIEW_COMPONENT,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/storefrontlib/shared/components/order-overview/order-overview.component.ts

@@ -1,22 +1,22 @@
-import { DpPaymentRequest } from './../../../models/dp-checkout.model';
-import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
-import { DpCheckoutPaymentService } from './../../../facade/dp-checkout-payment.service';
+import { Component } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ActivatedRoute,
+  convertToParamMap,
+  RouterModule,
+} from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
   MockTranslatePipe,
-  PaymentDetails,
 } from '@spartacus/core';
-import {
-  ActivatedRoute,
-  RouterModule,
-  convertToParamMap,
-} from '@angular/router';
-import { StoreModule } from '@ngrx/store';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
 import { Observable, of } from 'rxjs';
-import { Component } from '@angular/core';
+import { DpCheckoutPaymentService } from './../../../facade/dp-checkout-payment.service';
+import { DpLocalStorageService } from './../../../facade/dp-local-storage.service';
+import { DpPaymentRequest } from './../../../models/dp-checkout.model';
+import { DpPaymentCallbackComponent } from './dp-payment-callback.component';
 
 class MockDpCheckoutPaymentService
   implements Partial<DpCheckoutPaymentService>
