@@ -28,13 +28,14 @@ export const asm = {
       noMatch: 'No customer found.',
     },
     customerList: {
+      title: 'Customer List',
       tableHeader: {
-        name: 'NAME',
-        emailOrId: 'EMAIL/ID',
-        phone: 'PHONE',
-        cart: 'CART',
-        order: 'ORDER',
-        view: '360 VIEW',
+        name: 'Customer Name',
+        emailOrId: 'Email/ID',
+        phone: 'Phone',
+        cart: 'Cart',
+        order: 'Order',
+        view: '360 View',
       },
       tableSort: {
         dateSortDesc: 'Date(Desc)',

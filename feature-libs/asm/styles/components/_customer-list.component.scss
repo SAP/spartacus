@@ -1,4 +1,49 @@
+$sapTextColor: #1D2D3E;
+$sapLinkColor: #0070F2;
+
 %cx-customer-list {
+  min-height: 500px;
+  .cx-dialog-header {
+    padding-top: 2rem;
+    padding-inline-end: 1.75rem;
+    padding-bottom: 3rem;
+    padding-inline-start: 1.75rem;
+    border-width: 0;
+    display: flex;
+    .title {
+      font-size: 1.25rem;
+      font-weight: 900;
+    }
+    .close {
+      font-size: 1rem;
+      color: $sapTextColor;
+    }
+  }
+
+  .cx-dialog-sub-header {
+    padding-top: 0;
+    padding-inline-end: 1.75rem;
+    padding-bottom: 0.5rem;
+    padding-inline-start: 1.75rem;
+    border-width: 0;
+    display: flex;
+  }
+  .cx-dialog-body {
+    padding-top: 0;
+  }
+
+  ng-select {
+    .ng-select-container {
+      border: 0!important;
+      .ng-arrow-wrapper {
+        .ng-arrow {
+          border-color: $sapLinkColor transparent transparent!important;
+        }
+      }
+    }
+
+  }
+
   cx-pagination {
     a {
       width: 28px;
@@ -7,9 +52,57 @@
       font-size: 0.875rem;
     }
   }
-  .table-header {
-    background-color: #fafafa;
-    padding: 15px 0;
+
+  table {
+    thead {
+      tr {
+        border-top: 1px solid var(--cx-color-light);
+        height: 44px;
+        th:first-child {
+          width: 60px;
+        }
+        th {
+          color: $sapTextColor!important;
+          text-transform: none!important;
+          font-weight: 700!important;;
+        }
+      }
+    }
+    tbody {
+      td {
+        font-size: 0.875rem;
+        color: $sapTextColor;
+        .cell-icon {
+          cursor: pointer;
+          color: #e3e4e4;
+          &.enabled {
+            color: $sapLinkColor;
+          }
+        }
+      }
+      td:nth-child(1) {
+        div {
+          width: 44px;
+          height: 44px;
+          line-height: 44px;
+          border-radius: 50%;
+          color: #fff;
+          text-align: center;
+          background: #9259cd;
+          text-transform: uppercase;
+        }
+      }
+      td:nth-child(2) {
+        span {
+          cursor: pointer;
+          color: $sapLinkColor;
+        }
+      }
+
+    }
+    th.cell-text-center,td.cell-text-center {
+      text-align: center;
+    }
   }
   .header-actions {
     display: flex;
@@ -24,30 +117,5 @@
         margin: 0 10px;
       }
     }
-  }
-  .cell-name {
-    cursor: pointer;
-    color: #1672b7;
-  }
-  .cell-text-center {
-    text-align: center;
-  }
-  .cell-icon {
-    cursor: pointer;
-    color: #e3e4e4;
-  }
-  .cell-icon.enabled {
-    color: #1672b7;
-  }
-
-  .badge {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 50%;
-    font-size: 12px;
-    color: #fff;
-    text-align: center;
-    background: #9259cd;
   }
 }

@@ -15,10 +15,12 @@
   <div class="asm-bar-actions">
     <div
       class="customer-list-link"
-      (click)="showCustomList()"
       *ngIf="customerSupportAgentLoggedIn$ | async"
     >
-      {{ 'asm.customers' | cxTranslate }}
+      <cx-icon class="cell-icon" [type]="iconTypes.USER_FRIENDS"></cx-icon>
+      <a class="toggleUi" (click)="showCustomList()"
+        ><span>{{ 'asm.customers' | cxTranslate }}</span></a
+      >
     </div>
     <cx-asm-toggle-ui></cx-asm-toggle-ui>
 
@@ -53,7 +55,6 @@
       <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
     </ng-container>
     <ng-template #showCustomerSelection>
-      <!-- <button (click)="showCustomList()">Custom List</button> -->
       <cx-customer-selection
         *ngIf="notCollapsed"
         (submitEvent)="startCustomerEmulationSession($event)"

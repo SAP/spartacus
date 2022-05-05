@@ -42,6 +42,7 @@ export const fontawesomeIconConfig: IconConfig = {
       CLIPBOARD_LIST: 'fas fa-clipboard-list',
       ARROWS_DOWN_UP: 'fas fa-sort',
       ADDRESS_BOOK: 'far fa-address-book',
+      USER_FRIENDS: 'fas fa-user-friends',
     },
     resources: [
       {

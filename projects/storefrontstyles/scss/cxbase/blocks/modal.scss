@@ -39,6 +39,12 @@ $modal-min-width-mf: 95% !important;
   }
 }
 
+.modal.fiori-like {
+  .modal-content {
+    border-radius: 16px;
+  }
+}
+
 .modal-mf {
   max-width: $modal-max-width-mf;
   min-width: $modal-min-width-mf;

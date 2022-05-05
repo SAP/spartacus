@@ -1,8 +1,14 @@
 <div #dialog>
   <!-- Modal Header -->
   <ng-container>
+    <div class="cx-dialog-header modal-header">
+      <div class="title modal-title">
+        {{ 'asm.customerList.title' | cxTranslate }}
+      </div>
+      <ng-template *ngTemplateOutlet="closeButton"></ng-template>
+    </div>
     <div
-      class="cx-dialog-header modal-header"
+      class="cx-dialog-sub-header modal-header"
       *ngIf="customerListsPage$ | async as customerListsPage"
     >
       <ng-template
@@ -15,7 +21,6 @@
         <!-- <ng-template *ngTemplateOutlet="sort"></ng-template> -->
         <ng-template *ngTemplateOutlet="noOfCustomers"></ng-template>
         <ng-template *ngTemplateOutlet="pagination"></ng-template>
-        <ng-template *ngTemplateOutlet="closeButton"></ng-template>
       </div>
     </div>
     <!-- Modal Body -->
@@ -24,7 +29,7 @@
         <div class="cx-dialog-item">
           <div *ngIf="customerSearchPage$ | async as customerSearchPage">
             <table class="table">
-              <thead class="thead-light">
+              <thead>
                 <tr>
                   <th scope="col"></th>
                   <th scope="col" (click)="onClickDataSort()">
@@ -47,16 +52,14 @@
               <tbody>
                 <tr *ngFor="let customerEntry of customerSearchPage.entries">
                   <td>
-                    <div class="badge">
+                    <div>
                       {{ getbadgeText(customerEntry) }}
                     </div>
                   </td>
                   <td>
-                    <span
-                      class="cell-name"
-                      (click)="onClickName(customerEntry)"
-                      >{{ customerEntry.name }}</span
-                    >
+                    <span (click)="onClickName(customerEntry)">{{
+                      customerEntry.name
+                    }}</span>
                   </td>
                   <td>{{ customerEntry.uid }}</td>
                   <td>{{ customerEntry?.defaultAddress?.phone }}</td>
@@ -84,34 +87,6 @@
       </div>
     </div>
   </ng-container>
-
-  <ng-template #loading>
-    <div class="cx-dialog-header modal-header">
-      <div class="cx-dialog-title modal-title">
-        {{ 'addToCart.updatingCart' | cxTranslate }}
-      </div>
-      <button
-        type="button"
-        class="close"
-        [attr.aria-label]="'common.close' | cxTranslate"
-        cxModal="dismiss"
-        cxModalReason="Cross click"
-      >
-        <span aria-hidden="true">
-          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
-        </span>
-      </button>
-    </div>
-    <!-- Modal Body -->
-    <div class="cx-dialog-body modal-body">
-      <div class="cx-dialog-row">
-        <div class="col-sm-12"><cx-spinner></cx-spinner></div>
-      </div>
-    </div>
-  </ng-template>
-
-  <!-- For screen reader purposes (not visual)-->
-  <div class="cx-visually-hidden" aria-live="polite" aria-atomic="true"></div>
 </div>
 
 <ng-template #noOfCustomers>

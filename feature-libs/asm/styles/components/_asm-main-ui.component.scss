@@ -105,6 +105,17 @@
       align-items: center;
       .customer-list-link {
         cursor: pointer;
+        cx-icon {
+          padding-right: 7px;
+          color: #1E3050;
+        }
+        a {
+          color: #0064D9;
+          text-decoration: none;
+        }
+        a:hover{
+          text-decoration: underline;
+        }
       }
     }
   }
