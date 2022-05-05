@@ -337,4 +337,36 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       expect(component.disableQuantityActions).toBe(false);
     });
   });
+
+  describe('IsAdditionalValueNumeric', () => {
+    it('should return true for UI type Radio button additional input and validation type numeric', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      expect(component.isAdditionalValueNumeric).toBe(true);
+    });
+
+    it('should return true for UI type Radio button additional input and validation type  numeric', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      expect(component.isAdditionalValueNumeric).toBe(true);
+    });
+  });
+
+  describe('IsAdditionalValueAlphaNumeric', () => {
+    it('should return true for UI type Radio button additional input and validation type alpha numeric', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+    });
+
+    it('should return true for UI type Dropdown box additional input and validation type alpha numeric', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      expect(component.isAdditionalValueAlphaNumeric).toBe(true);
+    });
+  });
 });
