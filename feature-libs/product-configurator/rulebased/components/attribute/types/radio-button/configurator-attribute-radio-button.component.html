@@ -75,11 +75,10 @@
       </div>
     </div>
     <div *ngIf="isAdditionalValueNumeric">
-      <!-- TODO inject language service, or hand over language to single selecttion component-->
       <cx-configurator-attribute-numeric-input-field
         [attribute]="attribute"
         [ownerKey]="ownerKey"
-        [language]="'en'"
+        [language]="language"
         (inputChange)="onSelectAdditionalValue($event)"
       ></cx-configurator-attribute-numeric-input-field>
     </div>
