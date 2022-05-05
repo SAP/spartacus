@@ -179,7 +179,9 @@ describe('ProductCarouselComponent', () => {
     it(
       'should have 2 rendered templates',
       waitForAsync(() => {
-        const el = fixture.debugElement.queryAll(By.css('cx-product-carousel-item'));
+        const el = fixture.debugElement.queryAll(
+          By.css('cx-product-carousel-item')
+        );
         expect(el.length).toEqual(2);
       })
     );
