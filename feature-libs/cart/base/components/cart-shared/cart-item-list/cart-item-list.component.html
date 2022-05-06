@@ -30,16 +30,27 @@
         *ngIf="getControl(item) | async as control"
         [class.is-changed]="control.get('quantity').disabled"
       >
-        <tr
-          cx-cart-item-list-row
-          role="row"
-          class="cx-item-list-row"
-          [item]="item"
-          [quantityControl]="control.get('quantity')"
-          [readonly]="readonly"
-          [promotionLocation]="promotionLocation"
-          [options]="options"
-        ></tr>
+        <ng-template
+          [cxOutlet]="CartOutlets.LIST_ITEM"
+          [cxOutletContext]="{
+            item: item,
+            readonly: readonly,
+            promotionLocation: promotionLocation,
+            options: options,
+            quantityControl: control.get('quantity')
+          }"
+        >
+          <tr
+            cx-cart-item-list-row
+            role="row"
+            class="cx-item-list-row"
+            [item]="item"
+            [quantityControl]="control.get('quantity')"
+            [readonly]="readonly"
+            [promotionLocation]="promotionLocation"
+            [options]="options"
+          ></tr
+        ></ng-template>
       </ng-container>
     </ng-container>
   </tbody>
