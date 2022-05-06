@@ -7,8 +7,8 @@ import {
 import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeApplication,
   analyzeCrossFeatureDependencies,
-  analyzeInstalledFeatures,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
   validateSpartacusInstallation,
@@ -27,7 +27,7 @@ export function addStorefinderFeatures(
     );
 
     return chain([
-      analyzeInstalledFeatures(options, features),
+      analyzeApplication(options, features),
       addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);

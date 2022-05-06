@@ -33,6 +33,7 @@ import { getB2bConfiguration } from './config-utils';
 import {
   AdditionalFeatureConfiguration,
   AdditionalProviders,
+  getDynamicallyImportedLocalSourceFile,
   getSpartacusFeaturesModule,
 } from './feature-utils';
 import {
@@ -42,9 +43,7 @@ import {
 import {
   collectDynamicImports,
   createImports,
-  getDynamicImportImportPath,
   importExists,
-  isRelative,
 } from './import-utils';
 import {
   debugLog,
@@ -99,7 +98,7 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
   options?: LibraryOptions;
 }
 
-// TODO:#schematics - rename to SchematicsConfig
+// TODO:#schematics - [at the end] rename to SchematicsConfig
 export interface FeatureConfig {
   /**
    * Library options
@@ -428,16 +427,7 @@ function isInWrapperModule(
   dynamicImports: ArrowFunction[]
 ): boolean {
   for (const dynamicImport of dynamicImports) {
-    const importPath = getDynamicImportImportPath(dynamicImport) ?? '';
-    if (!isRelative(importPath)) {
-      continue;
-    }
-
-    const wrapperModuleFileName = `${importPath.split('/').pop()}.ts`;
-    const wrapperModule = dynamicImport
-      .getSourceFile()
-      .getProject()
-      .getSourceFile((s) => s.getFilePath().endsWith(wrapperModuleFileName));
+    const wrapperModule = getDynamicallyImportedLocalSourceFile(dynamicImport);
     if (!wrapperModule) {
       continue;
     }

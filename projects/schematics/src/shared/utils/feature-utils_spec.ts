@@ -10,19 +10,30 @@ import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { NGRX_STORE, UTF_8 } from '../constants';
 import {
   CDS_FEATURE_NAME,
+  CHECKOUT_B2B_FEATURE_NAME,
+  CHECKOUT_BASE_FEATURE_NAME,
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
   DIGITAL_PAYMENTS_FEATURE_NAME,
+  ORDER_FEATURE_NAME,
+  SPARTACUS_CHECKOUT,
   SPARTACUS_SCHEMATICS,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
-import { addFeatures, analyzeFeature, orderFeatures } from './feature-utils';
+import {
+  addFeatures,
+  analyzeFeature,
+  getDynamicallyImportedLocalSourceFile,
+  orderFeatures,
+} from './feature-utils';
+import { collectDynamicImports } from './import-utils';
 import { LibraryOptions } from './lib-utils';
 import { addModuleImport, ensureModuleExists } from './new-module-utils';
 import { createProgram } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
   cdsFeatureModulePath,
+  checkoutFeatureModulePath,
   checkoutWrapperModulePath,
   spartacusFeaturesModulePath,
   userFeatureModulePath,
@@ -107,7 +118,7 @@ describe('Feature utils', () => {
   });
 
   describe('analyzeFeature', () => {
-    it('should correctly analyze the Spartacus feature module', async () => {
+    it(`should correctly analyze the Spartacus feature module`, async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
@@ -128,11 +139,11 @@ describe('Feature utils', () => {
       const result = analyzeFeature(spartacusFeatureModule);
       expect(result.core?.map((c) => c.print())).toMatchSnapshot();
       expect(result.features?.map((f) => f.feature)).toMatchSnapshot();
-      expect(result.unrecognized).toEqual(undefined);
+      expect(result.unrecognized).toEqual([]);
       expect(result.empty).toEqual([]);
     });
 
-    it('should correctly analyze the User feature module', async () => {
+    it(`should correctly analyze the User feature module`, async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
@@ -157,10 +168,10 @@ describe('Feature utils', () => {
         USER_ACCOUNT_FEATURE_NAME,
         USER_PROFILE_FEATURE_NAME,
       ]);
-      expect(result.unrecognized).toEqual(undefined);
+      expect(result.unrecognized).toEqual([]);
     });
 
-    it('should correctly analyze the CDS forRoot() feature module', async () => {
+    it(`should correctly analyze the CDS' forRoot() feature module`, async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
@@ -183,7 +194,7 @@ describe('Feature utils', () => {
       expect(result.features?.map((f) => f.feature)).toEqual([
         CDS_FEATURE_NAME,
       ]);
-      expect(result.unrecognized).toEqual(undefined);
+      expect(result.unrecognized).toEqual([]);
     });
 
     describe(`when an unrecognized module is found in the spartacus features module`, () => {
@@ -218,7 +229,7 @@ describe('Feature utils', () => {
         });
 
         const result = analyzeFeature(spartacusFeatureModule);
-        expect(result.unrecognized).toEqual('StoreModule');
+        expect(result.unrecognized).toEqual(['StoreModule']);
       });
     });
 
@@ -258,7 +269,7 @@ describe('Feature utils', () => {
         );
 
         const result = analyzeFeature(spartacusFeatureModule);
-        expect(result.unrecognized).toEqual('UserFeatureModule');
+        expect(result.unrecognized).toEqual(['UserFeatureModule']);
       });
     });
 
@@ -291,7 +302,7 @@ describe('Feature utils', () => {
           );
 
           const result = analyzeFeature(spartacusFeatureModule);
-          expect(result.unrecognized).toBeFalsy();
+          expect(result.unrecognized).toEqual([]);
         });
       });
 
@@ -341,7 +352,7 @@ describe('Feature utils', () => {
           );
 
           const result = analyzeFeature(spartacusFeatureModule);
-          expect(result.unrecognized).toEqual('XxxModule');
+          expect(result.unrecognized).toEqual(['XxxModule']);
         });
       });
     });
@@ -443,18 +454,10 @@ describe('Feature utils', () => {
           {
             ...spartacusDefaultOptions,
             name: 'schematics-test',
-            features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...spartacusDefaultOptions,
-            name: 'schematics-test',
-            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
+            features: [
+              CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+              DIGITAL_PAYMENTS_FEATURE_NAME,
+            ],
           },
           appTree
         )
@@ -475,6 +478,240 @@ describe('Feature utils', () => {
           "DigitalPaymentsModule",
         ]
       `);
+    });
+  });
+
+  describe('getDynamicallyImportedLocalSourceFile', () => {
+    it('should return falsy if not local import', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [USER_ACCOUNT_FEATURE_NAME],
+          },
+          appTree
+        )
+        .toPromise();
+
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+      const userFeatureModule = program.getSourceFileOrThrow(
+        userFeatureModulePath
+      );
+      const dynamicImport = collectDynamicImports(userFeatureModule)[0];
+
+      const result = getDynamicallyImportedLocalSourceFile(dynamicImport);
+      expect(result).toBeFalsy();
+    });
+
+    it('should return the locally referenced source file', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
+            features: [CHECKOUT_B2B_FEATURE_NAME],
+          },
+          appTree
+        )
+        .toPromise();
+
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+      const checkoutFeatureModule = program.getSourceFileOrThrow(
+        checkoutFeatureModulePath
+      );
+      const dynamicImport = collectDynamicImports(checkoutFeatureModule)[0];
+
+      const result = getDynamicallyImportedLocalSourceFile(dynamicImport);
+      expect(result?.print()).toMatchSnapshot();
+    });
+  });
+
+  describe('analyzeApplication', () => {
+    describe('dependent features check', () => {
+      it('should throw when a feature is not configured during dirty installation', async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [CHECKOUT_BASE_FEATURE_NAME],
+            },
+            appTree
+          )
+          .toPromise();
+        try {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              {
+                ...spartacusDefaultOptions,
+                name: 'schematics-test',
+                features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
+              },
+              appTree
+            )
+            .toPromise();
+        } catch (e) {
+          expect(e).toBeTruthy();
+        }
+      });
+
+      it('should throw when a feature is not configured, but library is present in package.json', async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [ORDER_FEATURE_NAME],
+            },
+            appTree
+          )
+          .toPromise();
+
+        const packageJson = JSON.parse(
+          appTree.read('package.json')?.toString(UTF_8) ?? ''
+        );
+        packageJson.dependencies[SPARTACUS_CHECKOUT] = '9.9.9';
+        appTree.overwrite('package.json', JSON.stringify(packageJson, null, 2));
+
+        try {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              {
+                ...spartacusDefaultOptions,
+                name: 'schematics-test',
+                features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
+              },
+              appTree
+            )
+            .toPromise();
+        } catch (e) {
+          expect(e).toBeTruthy();
+        }
+      });
+
+      it('should succeed when a feature is not configured, but package is missing in package.json during dirty installation', async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [ORDER_FEATURE_NAME],
+            },
+            appTree
+          )
+          .toPromise();
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...spartacusDefaultOptions,
+              name: 'schematics-test',
+              features: [DIGITAL_PAYMENTS_FEATURE_NAME],
+            },
+            appTree
+          )
+          .toPromise();
+
+        const { program } = createProgram(
+          appTree,
+          appTree.root.path,
+          buildPath
+        );
+        const checkoutWrapperModule = program.getSourceFileOrThrow(
+          checkoutWrapperModulePath
+        );
+        const checkoutFeatureModule = program.getSourceFileOrThrow(
+          checkoutFeatureModulePath
+        );
+        expect(checkoutWrapperModule.print()).toMatchSnapshot();
+        expect(checkoutFeatureModule.print()).toMatchSnapshot();
+      });
+
+      describe('when the dependent feature is eagerly configured', () => {
+        it('should succeed', async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              {
+                ...spartacusDefaultOptions,
+                name: 'schematics-test',
+                features: [CHECKOUT_BASE_FEATURE_NAME],
+                lazy: false,
+              },
+              appTree
+            )
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              {
+                ...spartacusDefaultOptions,
+                name: 'schematics-test',
+                features: [DIGITAL_PAYMENTS_FEATURE_NAME],
+              },
+              appTree
+            )
+            .toPromise();
+
+          const { program } = createProgram(
+            appTree,
+            appTree.root.path,
+            buildPath
+          );
+          const checkoutFeatureModule = program.getSourceFileOrThrow(
+            checkoutFeatureModulePath
+          );
+          expect(checkoutFeatureModule.print()).toMatchSnapshot();
+        });
+      });
+      describe('when the dependent feature is lazily configured', () => {
+        it('should succeed', async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              {
+                ...spartacusDefaultOptions,
+                name: 'schematics-test',
+                features: [CHECKOUT_BASE_FEATURE_NAME],
+              },
+              appTree
+            )
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              {
+                ...spartacusDefaultOptions,
+                name: 'schematics-test',
+                features: [DIGITAL_PAYMENTS_FEATURE_NAME],
+              },
+              appTree
+            )
+            .toPromise();
+
+          const { program } = createProgram(
+            appTree,
+            appTree.root.path,
+            buildPath
+          );
+          const checkoutWrapperModule = program.getSourceFileOrThrow(
+            checkoutWrapperModulePath
+          );
+          const checkoutFeatureModule = program.getSourceFileOrThrow(
+            checkoutFeatureModulePath
+          );
+          expect(checkoutWrapperModule.print()).toMatchSnapshot();
+          expect(checkoutFeatureModule.print()).toMatchSnapshot();
+        });
+      });
     });
   });
 });

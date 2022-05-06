@@ -7,8 +7,8 @@ import {
 import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeApplication,
   analyzeCrossFeatureDependencies,
-  analyzeInstalledFeatures,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
   validateSpartacusInstallation,
@@ -25,7 +25,7 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
     );
 
     return chain([
-      analyzeInstalledFeatures(options, features),
+      analyzeApplication(options, features),
       addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);

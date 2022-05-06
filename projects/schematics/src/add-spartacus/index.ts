@@ -14,15 +14,11 @@ import {
   analyzeCrossFeatureDependencies,
   analyzeCrossLibraryDependenciesByFeatures,
 } from '../shared/utils/dependency-utils';
-import {
-  addFeatures,
-  analyzeInstalledFeatures,
-} from '../shared/utils/feature-utils';
+import { addFeatures, analyzeApplication } from '../shared/utils/feature-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
-  checkAppStructure,
   installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
 import { addModuleImport } from '../shared/utils/new-module-utils';
@@ -399,53 +395,17 @@ function updateAppModule(options: SpartacusOptions): Rule {
   };
 }
 
-function logDependencyFeatures(
-  options: SpartacusOptions,
-  context: SchematicContext,
-  features: string[]
-) {
-  const selectedFeatures = options.features ?? [];
-  const notSelectedFeatures = features.filter(
-    (feature) => !selectedFeatures.includes(feature)
-  );
-  if (notSelectedFeatures.length) {
-    let message = `\n`;
-    if (options.internal?.dirtyInstallation) {
-      message += `🔎 Checking `;
-    } else {
-      message += `⚙️ Configuring `;
-    }
-    message += `the dependent features of ${selectedFeatures.join(
-      ', '
-    )}: ${notSelectedFeatures.join(', ')}\n`;
-
-    context.logger.info(message);
-  }
-}
-
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusFeatureModuleExists = checkAppStructure(
-      tree,
-      options.project
-    );
-    options = {
-      ...options,
-      internal: {
-        dirtyInstallation: spartacusFeatureModuleExists,
-      },
-    };
-
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
     const dependencies = prepareDependencies(features);
-    logDependencyFeatures(options, context, features);
 
     const spartacusRxjsDependency: NodeDependency[] = [
       dependencies.find((dep) => dep.name === RXJS) as NodeDependency,
     ];
     const packageJsonFile = readPackageJson(tree);
     return chain([
-      analyzeInstalledFeatures(options, features),
+      analyzeApplication(options, features),
 
       setupStoreModules(options),
 

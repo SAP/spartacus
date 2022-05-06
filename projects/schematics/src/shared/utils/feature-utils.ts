@@ -9,6 +9,7 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import {
+  ArrowFunction,
   CallExpression,
   Expression,
   Identifier,
@@ -35,7 +36,9 @@ import {
 } from '../schematics-config-mappings';
 import { crossFeatureInstallationOrder } from './graph-utils';
 import {
+  collectDynamicImports,
   findDynamicImport,
+  getDynamicImportImportPath,
   getImportDeclaration,
   importExists,
   isImportedFrom,
@@ -56,6 +59,7 @@ import { getModulePropertyInitializer, Import } from './new-module-utils';
 import { readPackageJson } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
+import { spartacusFeaturesModulePath } from './test-utils';
 
 export interface FeatureModuleImports {
   importPath: string;
@@ -106,7 +110,7 @@ interface FeatureAnalysisResult {
   /**
    * Unrecognized features.
    */
-  unrecognized?: string;
+  unrecognized?: string[];
   /**
    * Features which don't have any imports.
    * These features don't affect the order,
@@ -128,9 +132,9 @@ interface FeatureAnalysisResult {
  */
 interface ModuleAnalysisResult {
   /**
-   * Unrecognized feature.
+   * Unrecognized module imports.
    */
-  unrecognized?: string;
+  unrecognized?: string[];
   /**
    * Feature doesn't have any imports.
    */
@@ -168,19 +172,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
   options: OPTIONS,
   features: string[]
 ): Rule {
-  return (tree: Tree, context: SchematicContext): Rule => {
-    const spartacusFeatureModuleExists = checkAppStructure(
-      tree,
-      options.project
-    );
-    options = {
-      ...options,
-      internal: {
-        ...options.internal,
-        dirtyInstallation: spartacusFeatureModuleExists,
-      },
-    };
-
+  return (_tree: Tree, context: SchematicContext): Rule => {
     if (options.debug) {
       let message = `\n******************************\n`;
       message += `Cross feature sorting order:\n`;
@@ -190,13 +182,13 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
     }
 
     const rules: Rule[] = [];
-    const allWrapperSchematics: WrapperAnalysisResult[] = [];
     for (const feature of features) {
       const schematicsConfiguration =
         featureSchematicConfigMapping.get(feature);
       if (!schematicsConfiguration) {
         throw new SchematicsException(
-          `No feature config found for ${feature}. Please check if you added the schematics config to the projects/schematics/src/shared/schematics-config-mappings.ts`
+          `[internal] No feature config found for ${feature}. ` +
+            `Please check if  the schematics config is added to projects/schematics/src/shared/schematics-config-mappings.ts`
         );
       }
 
@@ -206,11 +198,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
 
       rules.push(addLibraryFeature(libraryOptions, schematicsConfiguration));
 
-      const wrappers = analyzeWrappers(
-        schematicsConfiguration,
-        libraryOptions,
-        allWrapperSchematics
-      );
+      const wrappers = analyzeWrappers(schematicsConfiguration, libraryOptions);
       for (const { wrapperOptions } of wrappers) {
         rules.push(
           externalSchematic(
@@ -237,8 +225,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
  */
 function analyzeWrappers<OPTIONS extends LibraryOptions>(
   schematicsConfiguration: FeatureConfig,
-  options: OPTIONS,
-  allWrappers: WrapperAnalysisResult[]
+  options: OPTIONS
 ): WrapperAnalysisResult[] {
   if (!schematicsConfiguration.wrappers) {
     return [];
@@ -252,10 +239,6 @@ function analyzeWrappers<OPTIONS extends LibraryOptions>(
 
     const featureModuleName =
       schematicsConfiguration.wrappers[markerModuleName];
-    const sequence = calculateWrapperExecutionSequence(
-      allWrappers,
-      markerModuleName
-    );
     const wrapperOptions: SpartacusWrapperOptions = {
       scope: options.scope,
       interactive: options.interactive,
@@ -263,9 +246,6 @@ function analyzeWrappers<OPTIONS extends LibraryOptions>(
       markerModuleName,
       featureModuleName,
       debug: options.debug,
-      internal: {
-        sequence,
-      },
     };
 
     const analysis: WrapperAnalysisResult = {
@@ -275,25 +255,7 @@ function analyzeWrappers<OPTIONS extends LibraryOptions>(
     result.push(analysis);
   }
 
-  allWrappers.push(...result);
   return result;
-}
-
-/**
- * Calculates the execution sequence for the given wrapper module.
- */
-function calculateWrapperExecutionSequence(
-  allPreviousWrappers: WrapperAnalysisResult[],
-  markerModuleName: string
-): number {
-  let count = 1;
-  for (const collectedWrapper of allPreviousWrappers) {
-    if (collectedWrapper.markerModuleName === markerModuleName) {
-      count++;
-    }
-  }
-
-  return count;
 }
 
 /**
@@ -376,12 +338,12 @@ export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
   const empty: Expression[] = [];
   const core: Expression[] = [];
   const features: { element: Expression; feature: string }[] = [];
+  const unrecognized: string[] = [];
   for (const element of elements) {
     const analysis = analyzeModule(element);
-    if (analysis.unrecognized) {
-      return {
-        unrecognized: element.print(),
-      };
+    if (analysis.unrecognized?.length) {
+      unrecognized.push(element.print());
+      continue;
     }
 
     if (analysis.empty) {
@@ -404,6 +366,7 @@ export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
     core,
     features,
     empty,
+    unrecognized,
   };
 }
 
@@ -415,28 +378,34 @@ export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
 function analyzeModule(element: Expression): ModuleAnalysisResult {
   const moduleIdentifier = getModuleIdentifier(element);
   if (!moduleIdentifier) {
-    return { unrecognized: element.print() };
+    return { unrecognized: [element.print()] };
   }
 
   const importDeclaration = getImportDeclaration(moduleIdentifier);
   if (!importDeclaration) {
-    return { unrecognized: element.print() };
+    return { unrecognized: [element.print()] };
   }
 
   const importPath = importDeclaration.getModuleSpecifierValue();
   if (!isImportedFromSpartacusLibs(importPath)) {
     if (!isRelative(importPath)) {
-      // an import from a 3rd party lib, or a custom TS path mapping (https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
-      return { unrecognized: element.print() };
+      /**
+       * An import from a 3rd part lib,
+       * e.g. from `@ngrx/store`.
+       *
+       * Or, it could be a custom TS path mapping,
+       * (https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
+       */
+      return { unrecognized: [element.print()] };
     }
 
     const localFeatureModule = importDeclaration.getModuleSpecifierSourceFile();
     if (!localFeatureModule) {
-      return { unrecognized: element.print() };
+      return { unrecognized: [element.print()] };
     }
 
     const featureAnalysis = analyzeFeature(localFeatureModule);
-    if (featureAnalysis.unrecognized) {
+    if (featureAnalysis.unrecognized?.length) {
       return { unrecognized: featureAnalysis.unrecognized };
     }
 
@@ -484,7 +453,7 @@ function analyzeModule(element: Expression): ModuleAnalysisResult {
     return { feature };
   }
 
-  return { unrecognized: element.print() };
+  return { unrecognized: [element.print()] };
 }
 
 /**
@@ -570,17 +539,7 @@ function orderInstalledFeatures(options: SpartacusOptions): Rule {
         }
 
         const analysis = analyzeFeature(spartacusFeaturesModule);
-        if (analysis.unrecognized) {
-          context.logger.warn(
-            `Cannot order features in ${spartacusFeaturesModule.getFilePath()}, due to an unrecognized feature: ${
-              analysis.unrecognized
-            }`
-          );
-          context.logger.warn(
-            `Please make sure to order the features in the NgModule's 'imports' array according to the following feature order:\n${crossFeatureInstallationOrder.join(
-              ', '
-            )}\n\n`
-          );
+        if (analysis.unrecognized?.length) {
           return noop();
         }
 
@@ -603,19 +562,14 @@ function orderInstalledFeatures(options: SpartacusOptions): Rule {
 }
 
 /**
- * TODO:#schematics - test by installing DP
- * - checkout is statically configured (eagerly) - success
- * - checkout is lazily configured - success
- * - checkout is missing - failure
- * - lib not present in package.json - success
- * - lib present in package.js - should fail
+ * Analyzes the customers' application.
+ * It check for presence of Spartacus features,
+ * if they're configured or present in package.json.
  *
- *
- * Repeat for checkout b2b (i.e. it is present in a wrapper module)
+ * It also checks if imports could be ordered in
+ * spartacus-features.module and wrapper modules.
  */
-// TODO:#schematics - comment
-// TODO:#schematics - rename?
-export function analyzeInstalledFeatures<OPTIONS extends LibraryOptions>(
+export function analyzeApplication<OPTIONS extends LibraryOptions>(
   options: OPTIONS,
   allFeatures: string[]
 ): Rule {
@@ -624,81 +578,53 @@ export function analyzeInstalledFeatures<OPTIONS extends LibraryOptions>(
       context.logger.info(`⌛️ Analyzing installed features...`);
     }
 
-    // TODO:#schematics - debug logs
     const spartacusFeatureModuleExists = checkAppStructure(
       tree,
       options.project
     );
+    options.internal = {
+      ...options.internal,
+      dirtyInstallation: spartacusFeatureModuleExists,
+    };
+
+    const dependentFeaturesMessage = createDependentFeaturesLog(
+      options,
+      allFeatures
+    );
+    if (dependentFeaturesMessage) {
+      context.logger.info(dependentFeaturesMessage);
+    }
 
     // fresh installation
-    // TODO:#schematics - use options.internal.?
-    // TODO:#schematics - check if this is properly set when installing though a lib (e.g. run ng add @spa/dp)
-    if (!spartacusFeatureModuleExists) {
+    if (!options.internal?.dirtyInstallation) {
       if (options.debug) {
         context.logger.info(`✅  Analysis of installed features complete.`);
       }
       return noop();
     }
 
-    const wantedFeatures = options.features ?? [];
-    const dependentFeatures = allFeatures.filter(
-      (feature) => !wantedFeatures.includes(feature)
-    );
+    const basePath = process.cwd();
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
     const packageJson = readPackageJson(tree);
-    for (const dependentFeature of dependentFeatures) {
-      const schematicsConfig =
-        getSchematicsConfigByFeatureOrThrow(dependentFeature);
-      const featureModule = findFeatureModule(schematicsConfig, options, tree);
-      if (!!featureModule) {
-        continue;
-      }
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
-      const libraryInstalled = dependencyExists(
-        {
-          name: getKeyByMappingValueOrThrow(
-            libraryFeatureMapping,
-            dependentFeature
-          ),
-          type: NodeDependencyType.Default,
-          version: '*',
-        },
+      const dependentFeaturesMessage = checkDependentFeatures(
+        options,
+        allFeatures,
+        appSourceFiles,
         packageJson
       );
-      if (!libraryInstalled) {
-        continue;
+      if (dependentFeaturesMessage) {
+        context.logger.warn(dependentFeaturesMessage);
+        throw new SchematicsException();
       }
 
-      let wantedFeatureModules: Module[] = [];
-      for (const wantedFeature of wantedFeatures) {
-        wantedFeatureModules = wantedFeatureModules.concat(
-          getSchematicsConfigByFeatureOrThrow(wantedFeature).featureModule
-        );
+      const messages = analyzeInstalledFeatures(appSourceFiles);
+      for (const message of messages) {
+        context.logger.warn(message);
       }
-
-      const featureModules = ([] as Module[])
-        .concat(schematicsConfig.featureModule)
-        .map((m) => m.name);
-      let message = `'${wantedFeatureModules.map((m) => m.name).join(',')}' `;
-      message +=
-        wantedFeatureModules.length > 1
-          ? `modules require `
-          : `module requires `;
-      message += `the '${featureModules.join(',')}', but `;
-      message += featureModules.length > 1 ? `they ` : `it `;
-      message += `cannot be found.`;
-      message += `\nPlease make sure to manually configure '${wantedFeatures.join(
-        ','
-      )}' `;
-      message += wantedFeatures.length > 1 ? `features ` : `feature `;
-      message += `by following this guide:\n`;
-      message += `TODO:#schematics - docs link`;
-
-      context.logger.warn(message);
-      // TODO:#schematics - remove
-      console.log(message);
-
-      throw new SchematicsException();
     }
 
     if (options.debug) {
@@ -707,29 +633,147 @@ export function analyzeInstalledFeatures<OPTIONS extends LibraryOptions>(
   };
 }
 
-function findFeatureModule<OPTIONS extends LibraryOptions>(
-  schematicsConfig: FeatureConfig,
+/**
+ * Analyzes the features in the Spartacus feature module,
+ * and checks if there are unrecognized features.
+ */
+function analyzeInstalledFeatures(appSourceFiles: SourceFile[]): string[] {
+  for (const sourceFile of appSourceFiles) {
+    if (!sourceFile.getFilePath().includes(spartacusFeaturesModulePath)) {
+      continue;
+    }
+
+    const messages: string[] = [];
+
+    const analysis = analyzeFeature(sourceFile);
+    for (const unrecognized of analysis.unrecognized ?? []) {
+      messages.push(
+        generateUnrecognizedFeatureMessage(
+          sourceFile.getFilePath(),
+          unrecognized
+        )
+      );
+    }
+
+    const featureModules = (analysis.features ?? []).map((f) => f.element);
+    const messagesForLocalFeatures =
+      checkLocallyImportedFeatures(featureModules);
+    messages.push(...messagesForLocalFeatures);
+
+    if (messages.length) {
+      const orderMessage =
+        `Please make sure to order the features in the NgModule's 'imports' array ` +
+        `according to the following feature order:\n` +
+        crossFeatureInstallationOrder.join(', ') +
+        `\n\n`;
+      messages.push(orderMessage);
+    }
+    return messages;
+  }
+
+  throw new SchematicsException(`Could not find Spartacus features module.`);
+}
+
+function generateUnrecognizedFeatureMessage(
+  path: string,
+  name: string
+): string {
+  return (
+    `Cannot order features in ${path}, ` +
+    `due to an unrecognized feature: ${name}.`
+  );
+}
+
+/**
+ * Checks the dependent features of the wanted features.
+ * If the dependent features are not properly configured,
+ * it returns a message, and stops the analysis.
+ */
+function checkDependentFeatures<OPTIONS extends LibraryOptions>(
   options: OPTIONS,
-  tree: Tree
-): SourceFile | undefined {
-  const basePath = process.cwd();
-  const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+  allFeatures: string[],
+  appSourceFiles: SourceFile[],
+  packageJson: any
+): string | undefined {
+  const wantedFeatures = options.features ?? [];
+  const dependentFeatures = allFeatures.filter(
+    (feature) => !wantedFeatures.includes(feature)
+  );
 
-  for (const tsconfigPath of buildPaths) {
-    const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+  for (const dependentFeature of dependentFeatures) {
+    const schematicsConfig =
+      getSchematicsConfigByFeatureOrThrow(dependentFeature);
+    const featureModule = findFeatureModule(schematicsConfig, appSourceFiles);
+    if (!!featureModule) {
+      continue;
+    }
 
-    const moduleConfigs = ([] as Module[]).concat(
-      schematicsConfig.featureModule
+    const libraryInstalled = dependencyExists(
+      {
+        name: getKeyByMappingValueOrThrow(
+          libraryFeatureMapping,
+          dependentFeature
+        ),
+        type: NodeDependencyType.Default,
+        version: '*',
+      },
+      packageJson
     );
-    for (const sourceFile of appSourceFiles) {
-      for (const moduleConfig of moduleConfigs) {
-        if (isStaticallyImported(sourceFile, moduleConfig)) {
-          return sourceFile;
-        }
+    /**
+     * if library is not installed, we can safely assume
+     * that the feature is not installed and install it.
+     */
+    if (!libraryInstalled) {
+      continue;
+    }
 
-        if (isDynamicallyImported(sourceFile, moduleConfig)) {
-          return sourceFile;
-        }
+    let wantedFeatureModules: Module[] = [];
+    for (const wantedFeature of wantedFeatures) {
+      wantedFeatureModules = wantedFeatureModules.concat(
+        getSchematicsConfigByFeatureOrThrow(wantedFeature).featureModule
+      );
+    }
+
+    const featureModules = ([] as Module[])
+      .concat(schematicsConfig.featureModule)
+      .map((m) => m.name);
+    let message = `'${wantedFeatureModules.map((m) => m.name).join(',')}' `;
+    message +=
+      wantedFeatureModules.length > 1 ? `modules require ` : `module requires `;
+    message += `the '${featureModules.join(',')}', but `;
+    message += featureModules.length > 1 ? `they ` : `it `;
+    message += `cannot be found.`;
+    message += `\nPlease make sure to manually configure '${wantedFeatures.join(
+      ','
+    )}' `;
+    message += wantedFeatures.length > 1 ? `features ` : `feature `;
+    message += `by following this guide:\n`;
+    message += `TODO:#schematics - docs link`;
+
+    return message;
+  }
+
+  return undefined;
+}
+
+/**
+ * Searches through all the source files,
+ * and looks for the either the static or
+ * dynamic imports of the feature module.
+ */
+function findFeatureModule(
+  schematicsConfig: FeatureConfig,
+  appSourceFiles: SourceFile[]
+): SourceFile | undefined {
+  const moduleConfigs = ([] as Module[]).concat(schematicsConfig.featureModule);
+  for (const sourceFile of appSourceFiles) {
+    for (const moduleConfig of moduleConfigs) {
+      if (isStaticallyImported(sourceFile, moduleConfig)) {
+        return sourceFile;
+      }
+
+      if (isDynamicallyImported(sourceFile, moduleConfig)) {
+        return sourceFile;
       }
     }
   }
@@ -765,4 +809,94 @@ function isDynamicallyImported(
     moduleSpecifier: moduleConfig.importPath,
     namedImports: [moduleConfig.name],
   });
+}
+
+/**
+ * Checks if the local features contain any unrecognized module imports.
+ */
+function checkLocallyImportedFeatures(elements: Expression[]): string[] {
+  const messages: string[] = [];
+  for (const element of elements) {
+    const moduleIdentifier = getModuleIdentifier(element);
+    if (!moduleIdentifier) {
+      return [];
+    }
+
+    const sourceFile =
+      getImportDeclaration(moduleIdentifier)?.getModuleSpecifierSourceFile();
+    if (!sourceFile) {
+      return [];
+    }
+
+    const relativeDynamicImports = collectDynamicImports(sourceFile).filter(
+      (di) => isRelative(getDynamicImportImportPath(di) ?? '')
+    );
+
+    for (const dynamicImport of relativeDynamicImports) {
+      const wrapperSource =
+        getDynamicallyImportedLocalSourceFile(dynamicImport);
+      if (!wrapperSource) {
+        continue;
+      }
+
+      const analysis = analyzeFeature(wrapperSource);
+      if (analysis.unrecognized?.length) {
+        for (const unrecognized of analysis.unrecognized) {
+          messages.push(
+            generateUnrecognizedFeatureMessage(
+              wrapperSource.getFilePath(),
+              unrecognized
+            )
+          );
+        }
+      }
+    }
+  }
+
+  return messages;
+}
+
+/**
+ * Peeks into the given dynamic import,
+ * and returns referenced local source file.
+ */
+export function getDynamicallyImportedLocalSourceFile(
+  dynamicImport: ArrowFunction
+): SourceFile | undefined {
+  const importPath = getDynamicImportImportPath(dynamicImport) ?? '';
+  if (!isRelative(importPath)) {
+    return;
+  }
+
+  const wrapperModuleFileName = `${importPath.split('/').pop()}.ts`;
+  return dynamicImport
+    .getSourceFile()
+    .getProject()
+    .getSourceFile((s) => s.getFilePath().endsWith(wrapperModuleFileName));
+}
+
+function createDependentFeaturesLog(
+  options: SpartacusOptions,
+  features: string[]
+): string | undefined {
+  const selectedFeatures = options.features ?? [];
+  const notSelectedFeatures = features.filter(
+    (feature) => !selectedFeatures.includes(feature)
+  );
+
+  if (!notSelectedFeatures.length) {
+    return;
+  }
+
+  let message = `\n`;
+  if (options.internal?.dirtyInstallation) {
+    message += `🔎 Checking `;
+  } else {
+    message += `⚙️ Configuring `;
+  }
+  message += `the dependent features of ${selectedFeatures.join(
+    ', '
+  )}: ${notSelectedFeatures.join(', ')}\n`;
+
+  return message;
 }

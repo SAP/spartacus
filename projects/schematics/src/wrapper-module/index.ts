@@ -23,7 +23,6 @@ import {
   getModuleConfig,
   orderFeatures,
 } from '../shared/utils/feature-utils';
-import { crossFeatureInstallationOrder } from '../shared/utils/graph-utils';
 import {
   findDynamicImport,
   getDynamicImportCallExpression,
@@ -480,29 +479,7 @@ function orderWrapperFeatures(
         }
 
         const analysis = analyzeFeature(wrapperModule);
-        if (analysis.unrecognized) {
-          /**
-           * In case when wrapper schematics is ran multiple times,
-           * we want to print logs only for the first run.
-           *
-           * E.g. if adding both `--features=Checkout-Scheduled-Replenishment --features=Digital-Payments`
-           * we will be running the wrapper schematic three times:
-           * - first time for b2b checkout (as scheduled replenishment depends on it)
-           * - second time for scheduled replenishment
-           * - third time for digital payments
-           */
-          if (options.internal?.sequence === 1) {
-            context.logger.warn(
-              `Cannot order features in ${wrapperModule.getFilePath()}, due to an unrecognized feature: ${
-                analysis.unrecognized
-              }`
-            );
-            context.logger.warn(
-              `Please make sure to order the features in the NgModule's 'imports' array according to the following feature order:\n${crossFeatureInstallationOrder.join(
-                ', '
-              )}\n\n`
-            );
-          }
+        if (analysis.unrecognized?.length) {
           return noop();
         }
 

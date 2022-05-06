@@ -7,8 +7,8 @@ import {
 import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeApplication,
   analyzeCrossFeatureDependencies,
-  analyzeInstalledFeatures,
   LibraryOptions as SpartacusOrderOptions,
   readPackageJson,
   validateSpartacusInstallation,
@@ -25,7 +25,7 @@ export function addOrderFeatures(options: SpartacusOrderOptions): Rule {
     );
 
     return chain([
-      analyzeInstalledFeatures(options, features),
+      analyzeApplication(options, features),
       addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);

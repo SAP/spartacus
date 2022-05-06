@@ -7,8 +7,8 @@ import {
 import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeApplication,
   analyzeCrossFeatureDependencies,
-  analyzeInstalledFeatures,
   readPackageJson,
   SpartacusSmartEditOptions,
   validateSpartacusInstallation,
@@ -25,7 +25,7 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
     );
 
     return chain([
-      analyzeInstalledFeatures(options, features),
+      analyzeApplication(options, features),
       addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);

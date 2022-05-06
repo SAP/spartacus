@@ -153,14 +153,15 @@ exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper
 "import { NgModule } from '@angular/core';
 import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from \\"@spartacus/core\\";
 import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, PageTitleModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ScrollToTopModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule } from \\"@spartacus/storefront\\";
+import { UserFeatureModule } from './features/user/user-feature.module';
 import { CartBaseFeatureModule } from './features/cart/cart-base-feature.module';
+import { OrderFeatureModule } from './features/order/order-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
-import { OrderFeatureModule } from './features/order/order-feature.module';
-import { UserFeatureModule } from './features/user/user-feature.module';
 @NgModule({
     declarations: [],
-    imports: [AuthModule.forRoot(),
+    imports: [
+        AuthModule.forRoot(),
         LogoutModule,
         LoginRouteModule,
         HamburgerMenuModule,
@@ -210,7 +211,8 @@ import { UserFeatureModule } from './features/user/user-feature.module';
         CartBaseFeatureModule,
         OrderFeatureModule,
         CheckoutFeatureModule,
-        DigitalPaymentsFeatureModule]
+        DigitalPaymentsFeatureModule
+    ]
 })
 export class SpartacusFeaturesModule {
 }
