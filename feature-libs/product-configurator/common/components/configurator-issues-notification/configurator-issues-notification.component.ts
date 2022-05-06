@@ -1,34 +1,66 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { CartItemContextSource } from '@spartacus/cart/base/components';
+import {
+  CartItemComponentOptions,
+  CartItemContext,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
+import { ICON_TYPE, OutletContextData } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+
+interface ItemListContext {
+  readonly: boolean;
+  options: CartItemComponentOptions;
+  item: OrderEntry;
+  quantityControl: FormControl;
+}
 
 @Component({
   selector: 'cx-configurator-issues-notification',
   templateUrl: './configurator-issues-notification.component.html',
+  providers: [
+    CartItemContextSource,
+    { provide: CartItemContext, useExisting: CartItemContextSource },
+  ],
 })
 export class ConfiguratorIssuesNotificationComponent {
   iconTypes = ICON_TYPE;
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    @Optional() protected cartItemContext: CartItemContext
+    @Optional() public outletContext?: OutletContextData<ItemListContext>
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
-    this.cartItemContext?.item$ ?? EMPTY;
+    this.outletContext?.context$.pipe(
+      map((context: ItemListContext) => {
+        console.log(context);
+        return context.item;
+      })
+    ) ?? EMPTY;
 
   readonly quantityControl$: Observable<FormControl> =
-    this.cartItemContext?.quantityControl$ ?? EMPTY;
+    this.outletContext?.context$.pipe(
+      map((context: ItemListContext) => {
+        console.log(context);
+        return context.quantityControl;
+      })
+    ) ?? EMPTY;
 
   readonly readonly$: Observable<boolean> =
-    this.cartItemContext?.readonly$ ?? EMPTY;
+    this.outletContext?.context$.pipe(
+      map((context: ItemListContext) => {
+        console.log(context);
+        return context.readonly;
+      })
+    ) ?? EMPTY;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
-    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
+    this.commonConfigUtilsService.isActiveCartContext(undefined);
 
   /**
    * Verifies whether the item has any issues.

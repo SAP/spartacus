@@ -21,8 +21,8 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
   declarations: [ConfiguratorIssuesNotificationComponent],
   providers: [
     provideOutlet({
-      id: CartOutlets.ITEM_CONFIGURATOR_ISSUES,
-      position: OutletPosition.REPLACE,
+      id: CartOutlets.LIST_ITEM,
+      position: OutletPosition.BEFORE,
       component: ConfiguratorIssuesNotificationComponent,
     }),
   ],

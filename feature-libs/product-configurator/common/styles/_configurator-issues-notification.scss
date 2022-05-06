@@ -3,46 +3,49 @@
   width: 100%;
 
   &:not(:empty) {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
+    display: table-row;
     background-color: rgba(245, 206, 206, 1);
 
-    padding-inline-start: 5px;
-    padding-inline-end: 5px;
-    padding-block-start: 5px;
-    padding-block-end: 5px;
-
-    margin-block-start: 1.25rem;
-    margin-block-end: 1.25rem;
-
-    cx-icon {
-      align-self: flex-start;
-      color: var(--cx-color-danger);
-      font-size: 30px;
-      padding-inline-start: 15px;
-      padding-inline-end: 15px;
+    .issue-notification-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      padding-inline-start: 5px;
+      padding-inline-end: 5px;
       padding-block-start: 5px;
       padding-block-end: 5px;
-    }
 
-    #cx-error-msg {
-      word-break: break-word;
-      padding-inline-end: 15px;
+      margin-block-start: 1.25rem;
+      margin-block-end: 1.25rem;
 
-      @include media-breakpoint-down(sm) {
-        padding-inline-end: 85px;
+      cx-icon {
+        align-self: flex-start;
+        color: var(--cx-color-danger);
+        font-size: 30px;
+        padding-inline-start: 15px;
+        padding-inline-end: 15px;
+        padding-block-start: 5px;
+        padding-block-end: 5px;
       }
 
-      .cx-error-msg-action {
-        button.link {
-          color: var(--cx-color-text);
-          text-decoration: underline;
+      #cx-error-msg {
+        word-break: break-word;
+        padding-inline-end: 15px;
 
-          &:hover {
-            color: var(--cx-color-primary);
-            text-decoration: none;
+        @include media-breakpoint-down(sm) {
+          padding-inline-end: 85px;
+        }
+
+        .cx-error-msg-action {
+          button.link {
+            color: var(--cx-color-text);
+            text-decoration: underline;
+
+            &:hover {
+              color: var(--cx-color-primary);
+              text-decoration: none;
+            }
           }
         }
       }
