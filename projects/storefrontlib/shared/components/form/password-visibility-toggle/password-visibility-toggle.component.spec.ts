@@ -60,8 +60,8 @@ describe('PasswordVisibilityToggleComponent', () => {
   });
 
   it('should display default state', () => {
-    const button = el.nativeElement.querySelector('button');
-    const icon = el.nativeElement.querySelector('button cx-icon');
+    const button: HTMLButtonElement = el.nativeElement.querySelector('button');
+    const icon: HTMLElement = el.nativeElement.querySelector('button cx-icon');
 
     expect(button.getAttribute('aria-label')).toEqual(
       'passwordVisibility.showPassword'
@@ -72,8 +72,8 @@ describe('PasswordVisibilityToggleComponent', () => {
 
   it('should show password on visibility toggle', () => {
     spyOn(component, 'toggle').and.callThrough();
-    const button = el.nativeElement.querySelector('button');
-    const icon = el.nativeElement.querySelector('button cx-icon');
+    const button: HTMLButtonElement = el.nativeElement.querySelector('button');
+    const icon: HTMLElement = el.nativeElement.querySelector('button cx-icon');
 
     button.click();
     fixture.detectChanges();

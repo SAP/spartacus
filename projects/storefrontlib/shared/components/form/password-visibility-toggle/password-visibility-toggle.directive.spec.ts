@@ -81,7 +81,7 @@ describe('PasswordVisibilityToggleDirective', () => {
   });
 
   it('should create password visibility component', () => {
-    const pwVisibilityComponent = el.nativeElement.querySelector(
+    const pwVisibilityComponent: HTMLElement = el.nativeElement.querySelector(
       'cx-password-visibility-toggle'
     );
     expect(component).toBeTruthy();
@@ -96,7 +96,7 @@ describe('PasswordVisibilityToggleDirective', () => {
   });
 
   it('should show password on visibility toggle', () => {
-    const button = el.nativeElement.querySelector(
+    const button: HTMLButtonElement = el.nativeElement.querySelector(
       'input[formControlName="password"][type="password"] + cx-password-visibility-toggle > button'
     );
     expect(button).toBeTruthy();
@@ -119,7 +119,7 @@ describe('PasswordVisibilityToggleDirective', () => {
   });
 
   it('should not change visibility for other password inputs', () => {
-    const button = el.nativeElement.querySelector(
+    const button: HTMLButtonElement = el.nativeElement.querySelector(
       'input[formControlName="password"][type="password"] + cx-password-visibility-toggle > button'
     );
     expect(button).toBeTruthy();
@@ -133,10 +133,10 @@ describe('PasswordVisibilityToggleDirective', () => {
   });
 
   it('should verify that wrapper has been added properly', () => {
-    const wrappers = el.nativeElement.querySelectorAll(
+    const wrappers: HTMLDivElement[] = el.nativeElement.querySelectorAll(
       'div.cx-password-input-wrapper'
     );
-    const form = el.nativeElement.querySelector('form');
+    const form: HTMLFormElement = el.nativeElement.querySelector('form');
 
     expect(wrappers.length).toBe(2);
     wrappers.forEach((wrapper) => {
