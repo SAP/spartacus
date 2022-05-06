@@ -18,8 +18,6 @@
         "
       ></ng-template>
       <div class="header-actions">
-        <!-- <ng-template *ngTemplateOutlet="sort"></ng-template> -->
-        <!-- <ng-template *ngTemplateOutlet="noOfCustomers"></ng-template> -->
         <ng-template *ngTemplateOutlet="pagination"></ng-template>
       </div>
     </div>
@@ -33,7 +31,13 @@
                 <tr>
                   <th scope="col"></th>
                   <th scope="col" (click)="onClickDataSort()">
-                    {{ 'asm.customerList.tableHeader.name' | cxTranslate }}
+                    <sapn>{{
+                      'asm.customerList.tableHeader.name' | cxTranslate
+                    }}</sapn>
+                    <cx-icon
+                      (click)="onClickDataSort()"
+                      [type]="dataSortIconType"
+                    ></cx-icon>
                   </th>
                   <th scope="col">
                     {{ 'asm.customerList.tableHeader.emailOrId' | cxTranslate }}
@@ -41,12 +45,6 @@
                   <th scope="col">
                     {{ 'asm.customerList.tableHeader.phone' | cxTranslate }}
                   </th>
-                  <!-- <th scope="col" class="cell-text-center">
-                    {{ 'asm.customerList.tableHeader.cart' | cxTranslate }}
-                  </th>
-                  <th scope="col" class="cell-text-center">
-                    {{ 'asm.customerList.tableHeader.order' | cxTranslate }}
-                  </th> -->
                 </tr>
               </thead>
               <tbody>
@@ -57,28 +55,12 @@
                     </div>
                   </td>
                   <td>
-                    <span (click)="onClickName(customerEntry)">{{
+                    <a (click)="onClickName(customerEntry)">{{
                       customerEntry.name
-                    }}</span>
+                    }}</a>
                   </td>
                   <td>{{ customerEntry.uid }}</td>
                   <td>{{ customerEntry?.defaultAddress?.phone }}</td>
-                  <!-- <td class="cell-text-center">
-                    <cx-icon
-                      (click)="onClickCart(customerEntry)"
-                      class="cell-icon"
-                      [class.enabled]="customerEntry?.defaultAddress?.phone"
-                      [type]="iconTypes.CART"
-                    ></cx-icon>
-                  </td>
-                  <td class="cell-text-center">
-                    <cx-icon
-                      (click)="onClickOrder(customerEntry)"
-                      class="cell-icon"
-                      [class.enabled]="customerEntry"
-                      [type]="iconTypes.CLIPBOARD_LIST"
-                    ></cx-icon>
-                  </td> -->
                 </tr>
               </tbody>
             </table>
@@ -89,93 +71,39 @@
   </ng-container>
 </div>
 
-<ng-template #noOfCustomers>
-  <div
-    class="table-header-cell"
-    *ngIf="customerSearchPage$ | async as customerSearchPage"
-  >
-    {{
-      'asm.customerList.noOfCustomers'
-        | cxTranslate: { count: customerSearchPage?.entries.length || 0 }
-    }}
-  </div>
-</ng-template>
-
-<ng-template #sort>
-  <div class="table-header-cell sort" (click)="onClickDataSort()">
-    <cx-icon class="icon-button" [type]="iconTypes.ARROWS_DOWN_UP"></cx-icon>
-    <span *ngIf="dataSortDesc">{{
-      'asm.customerList.tableSort.nameSortDesc' | cxTranslate
-    }}</span>
-    <span *ngIf="!dataSortDesc">{{
-      'asm.customerList.tableSort.nameSortAsc' | cxTranslate
-    }}</span>
-    <cx-icon class="icon-button" [type]="dataSortIconType"></cx-icon>
-  </div>
-
-  <!-- <button
-    (click)="showBody = !showBody"
-    [attr.aria-expanded]="showBody"
-    [attr.aria-label]="'common.close' | cxTranslate"
-    aria-hidden="true"
-    class="cx-message-accordion-button link cx-action-link"
-    type="button"
-  >
-    xxxxxx
-    <cx-icon type="CARET_DOWN" class="cx-message-accordion-icon"></cx-icon>
-  </button>
-  <div *ngIf="showBody" class="cx-message-body">
-    <button ngbDropdownItem>Action - 1</button>
-    <button ngbDropdownItem>Another Action</button>
-  </div> -->
-</ng-template>
-
 <ng-template #pagination>
   <div class="pagination-buttons">
-    currentPage: {{currentPage}}
     <div>
-      <cx-icon
-        (click)="goToPreviousPage()"
-        class="cell-icon"
-        [class.enabled]="customerEntry"
-        [type]="iconTypes.CARET_LEFT"
-      ></cx-icon>
-      <span>Previous</span>
+      {{
+        'asm.customerList.page.page' | cxTranslate: { count: currentPage + 1 }
+      }}
     </div>
-    <div>
-      <span>Next</span>
-      <cx-icon
-        (click)="goToNextPage()"
-        class="cell-icon"
-        [class.enabled]="customerEntry"
-        [type]="iconTypes.CARET_RIGHT"
-      ></cx-icon>
-    </div>
+    <button
+      *ngIf="maxPage > 0"
+      (click)="goToPreviousPage()"
+      class="btn btn-link cx-action-link previous"
+      [disabled]="currentPage === 0 || !loaded"
+    >
+      <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon
+      ><span>{{ 'asm.customerList.page.previous' | cxTranslate }}</span>
+    </button>
+    <button
+      *ngIf="maxPage > 0"
+      (click)="goToNextPage()"
+      class="btn btn-link cx-action-link next"
+      [disabled]="currentPage === maxPage || !loaded"
+    >
+      <span>{{ 'asm.customerList.page.next' | cxTranslate }}</span
+      ><cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
+    </button>
   </div>
-  <!-- <cx-pagination
-    *ngIf="customerSearchPage$ | async as customerSearchPage"
-    class="pagination"
-    [pagination]="customerSearchPage?.pagination"
-    (viewPageEvent)="pageChange($event)"
-  ></cx-pagination> -->
 </ng-template>
 
 <ng-template #groupSelector let-customerListsPage="customerListsPage">
-  <!-- <select [(ngModel)]="selectedUserGroupId">
-    <option
-      [value]="group.uid"
-      *ngFor="let group of customerListsPage?.userGroups"
-    >
-      {{ group.name }}
-    </option>
-  </select>
--->
   <ng-select
-    name="userGroup"
-    class="userGroup"
     [searchable]="false"
     [clearable]="false"
-    (change)="fetchCustomers()"
+    (change)="onChangeCustomerGroup()"
     [tabIndex]="0"
     [(ngModel)]="selectedUserGroupId"
     [items]="customerListsPage?.userGroups"

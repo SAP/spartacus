@@ -64,7 +64,12 @@ $sapLinkColor: #0070F2;
         th {
           color: $sapTextColor!important;
           text-transform: none!important;
-          font-weight: 700!important;;
+          font-weight: 700!important;
+          cx-icon {
+            padding-left: 20px;
+            color: $sapLinkColor;
+            cursor: pointer;
+          }
         }
       }
     }
@@ -93,9 +98,9 @@ $sapLinkColor: #0070F2;
         }
       }
       td:nth-child(2) {
-        span {
+        a {
           cursor: pointer;
-          color: $sapLinkColor;
+          color: $sapLinkColor!important;
         }
       }
 
@@ -110,11 +115,21 @@ $sapLinkColor: #0070F2;
 
     .pagination-buttons {
       display: flex;
-      span {
-        padding: 0 10px;
+      align-items: center;
+      .previous {
+        span {
+          padding-left: 10px;
+        }
       }
-      div {
-        cursor: position;
+      .next {
+        span {
+          padding-right: 10px;
+        }
+      }
+      div:first-child {
+        font-size: 0.875rem;
+        color: $sapTextColor;
+        padding-right: 15px;
       }
     }
 
@@ -129,5 +144,4 @@ $sapLinkColor: #0070F2;
       }
     }
   }
-
 }

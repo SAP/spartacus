@@ -43,6 +43,11 @@ export const asm = {
         nameSortDesc: 'Name(Desc)',
         nameSortAsc: 'Name(Asc)',
       },
+      page: {
+        page: 'page {{count}}',
+        previous: 'Previous',
+        next: 'Next',
+      },
       noOfCustomers: '{{count}} Customers',
       noCustomers: 'No customer found.',
     },
