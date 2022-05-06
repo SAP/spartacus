@@ -11,7 +11,7 @@ export const SPARTACUS_STYLES = `@spartacus/styles`;
 export const SPARTACUS_SETUP = `@spartacus/setup`;
 export const SPARTACUS_SETUP_SSR = `@spartacus/setup/ssr`;
 
-export const CORE_SPARTACUS_SCOPES = [
+export const CORE_SPARTACUS_SCOPES: string[] = [
   SPARTACUS_CORE,
   SPARTACUS_ASSETS,
   SPARTACUS_SCHEMATICS,
