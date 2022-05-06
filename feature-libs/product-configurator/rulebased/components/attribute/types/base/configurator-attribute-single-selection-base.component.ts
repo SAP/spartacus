@@ -64,12 +64,13 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   onSelectAdditionalValue(event: ConfigFormUpdateEvent): void {
-    this.loading$.next(true);
+    const userInput = event.changedAttribute.userInput;
 
-    event.changedAttribute.selectedSingleValue =
-      event.changedAttribute.userInput;
-
-    this.selectionChange.emit(event);
+    if (userInput) {
+      this.loading$.next(true);
+      event.changedAttribute.selectedSingleValue = userInput;
+      this.selectionChange.emit(event);
+    }
   }
 
   onHandleQuantity(quantity: number): void {

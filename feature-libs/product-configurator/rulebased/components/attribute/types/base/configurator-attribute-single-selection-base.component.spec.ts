@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfigFormUpdateEvent } from '../../../form';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
 
@@ -100,6 +101,33 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
             groupId: groupId,
           }),
           updateType: Configurator.UpdateType.ATTRIBUTE,
+        })
+      );
+    });
+  });
+
+  describe('onSelectAdditionalValue', () => {
+    const configFormUpdateEvent: ConfigFormUpdateEvent = {
+      ownerKey: ownerKey,
+      changedAttribute: { name: 'Attr' },
+    };
+    it('should not call emit of selectionChange in case no user input is present', () => {
+      spyOn(component.selectionChange, 'emit').and.callThrough();
+      component.onSelectAdditionalValue(configFormUpdateEvent);
+      expect(component.selectionChange.emit).toHaveBeenCalledTimes(0);
+    });
+
+    it('should call emit of selectionChange in case user input is present', () => {
+      configFormUpdateEvent.changedAttribute.userInput = 'userInput';
+      spyOn(component.selectionChange, 'emit').and.callThrough();
+      component.onSelectAdditionalValue(configFormUpdateEvent);
+      expect(component.selectionChange.emit).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          ownerKey: ownerKey,
+          changedAttribute: jasmine.objectContaining({
+            selectedSingleValue:
+              configFormUpdateEvent.changedAttribute.userInput,
+          }),
         })
       );
     });
