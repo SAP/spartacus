@@ -1,15 +1,11 @@
-import { Component, DebugElement } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, WindowRef } from '@spartacus/core';
 import { FormConfig } from '../../../../shared/config/form-config';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
 import { IconTestingModule } from '../../../../cms-components/misc/icon/testing/icon-testing.module';
 import { PasswordVisibilityToggleModule } from './password-visibility-toggle.module';
+import { PasswordVisibilityToggleComponent } from './password-visibility-toggle.component';
 
 const mockFormConfig: FormConfig = {
   form: {
@@ -17,38 +13,14 @@ const mockFormConfig: FormConfig = {
   },
 };
 
-@Component({
-  template: `
-    <div>
-      <form [formGroup]="form">
-        <input
-          type="password"
-          formControlName="password"
-          cxPasswordVisibilitySwitch
-        />
-        <input
-          type="password"
-          formControlName="passwordConfirm"
-          cxPasswordVisibilitySwitch
-        />
-      </form>
-    </div>
-  `,
-})
-class MockFormComponent {
-  form: FormGroup = new FormGroup({
-    password: new FormControl(),
-    passwordConfirm: new FormControl(),
-  });
-}
-
 class MockWinRef {
   document = window.document;
 }
 
 describe('PasswordVisibilityToggleComponent', () => {
-  let component: MockFormComponent;
-  let fixture: ComponentFixture<MockFormComponent>;
+  let component: PasswordVisibilityToggleComponent;
+  let input: HTMLInputElement;
+  let fixture: ComponentFixture<PasswordVisibilityToggleComponent>;
   let el: DebugElement;
 
   beforeEach(
@@ -61,7 +33,7 @@ describe('PasswordVisibilityToggleComponent', () => {
           ReactiveFormsModule,
           PasswordVisibilityToggleModule,
         ],
-        declarations: [MockFormComponent],
+        declarations: [PasswordVisibilityToggleComponent],
         providers: [
           {
             provide: FormConfig,
@@ -74,51 +46,43 @@ describe('PasswordVisibilityToggleComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MockFormComponent);
+    fixture = TestBed.createComponent(PasswordVisibilityToggleComponent);
     component = fixture.componentInstance;
+    input = document.createElement('input');
+    input.type = 'password';
+    component.inputElement = input;
     el = fixture.debugElement;
+    fixture.detectChanges();
   });
 
-  it('should create password visibility component', () => {
-    fixture.detectChanges();
-    const pwVisibilityComponent = el.nativeElement.querySelector(
-      'cx-password-visibility-toggle'
-    );
+  it('should create password visibility toggle component', () => {
     expect(component).toBeTruthy();
-    expect(pwVisibilityComponent).toBeTruthy();
   });
 
-  it('should have password hidden by default', () => {
-    fixture.detectChanges();
-    const input = el.nativeElement.querySelector('input[type="password"]');
-    expect(input).toBeTruthy();
+  it('should display default state', () => {
+    const button = el.nativeElement.querySelector('button');
+    const icon = el.nativeElement.querySelector('button cx-icon');
+
+    expect(button.getAttribute('aria-label')).toEqual(
+      'passwordVisibility.showPassword'
+    );
+    expect(icon.getAttribute('ng-reflect-type')).toEqual('EYE');
+    expect(input.getAttribute('type')).toEqual('password');
   });
 
   it('should show password on visibility toggle', () => {
-    fixture.detectChanges();
-    const button = el.nativeElement.querySelector(
-      'cx-password-visibility-toggle > button'
-    );
-    expect(button).toBeTruthy();
+    spyOn(component, 'toggle').and.callThrough();
+    const button = el.nativeElement.querySelector('button');
+    const icon = el.nativeElement.querySelector('button cx-icon');
 
     button.click();
     fixture.detectChanges();
-    const input = el.nativeElement.querySelector('input[type="text"]');
-    expect(input).toBeTruthy();
-  });
 
-  it('should not change visibility for other password inputs', () => {
-    fixture.detectChanges();
-    const button = el.nativeElement.querySelector(
-      'cx-password-visibility-toggle > button'
+    expect(component.toggle).toHaveBeenCalledWith();
+    expect(button.getAttribute('aria-label')).toEqual(
+      'passwordVisibility.hidePassword'
     );
-    expect(button).toBeTruthy();
-
-    button.click();
-    fixture.detectChanges();
-    const inputNotChanged = el.nativeElement.querySelectorAll(
-      'input[formcontrolname="passwordConfirm"][type="password"]'
-    );
-    expect(inputNotChanged).toBeTruthy();
+    expect(icon.getAttribute('ng-reflect-type')).toEqual('EYE_SLASH');
+    expect(input.getAttribute('type')).toEqual('text');
   });
 });

@@ -1,6 +1,6 @@
-import { PasswordInputState } from './password-input-visibility.model';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ICON_TYPE } from '../../../../cms-components';
+import { PasswordInputState } from './password-input-visibility.model';
 
 @Component({
   selector: 'cx-password-visibility-toggle',
@@ -19,7 +19,9 @@ export class PasswordVisibilityToggleComponent {
     ariaLabel: 'passwordVisibility.showPassword',
   };
 
+  @Input()
   inputElement: HTMLInputElement;
+
   state = this.hideState;
 
   /**
