@@ -136,6 +136,11 @@ describe('PasswordVisibilityToggleDirective', () => {
     const wrappers = el.nativeElement.querySelectorAll(
       'div.cx-password-input-wrapper'
     );
+    const form = el.nativeElement.querySelector('form');
+
+    expect(wrappers.length).toBe(2);
+    expect(wrappers[0].parent).toEqual(form);
+    expect(wrappers[0].children.length).toBe(2);
     expect(wrappers[0].children[0]).toEqual(
       el.nativeElement.querySelector(
         'input[formControlName="password"][type="password"]'
@@ -146,6 +151,8 @@ describe('PasswordVisibilityToggleDirective', () => {
         'input[formControlName="password"][type="password"] + cx-password-visibility-toggle'
       )
     );
+    expect(wrappers[1].parent).toEqual(form);
+    expect(wrappers[1].children.length).toBe(2);
     expect(wrappers[1].children[0]).toEqual(
       el.nativeElement.querySelector(
         'input[formControlName="passwordConfirm"][type="password"]'
