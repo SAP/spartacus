@@ -13,7 +13,7 @@ import {
   SPARTACUS_VARIANTS_ASSETS,
   SPARTACUS_VARIANTS_ROOT,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const PRODUCT_FOLDER_NAME = 'product';
 export const PRODUCT_SCSS_FILE_NAME = 'product.scss';
@@ -27,7 +27,7 @@ export const BULK_PRICING_TRANSLATIONS = 'bulkPricingTranslations';
 export const BULK_PRICING_TRANSLATION_CHUNKS_CONFIG =
   'bulkPricingTranslationChunksConfig';
 
-export const PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG: FeatureConfig = {
+export const PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: PRODUCT_BULK_PRICING_FEATURE_NAME,
     mainScope: SPARTACUS_PRODUCT,
@@ -67,7 +67,7 @@ export const IMAGE_ZOOM_TRANSLATIONS = 'productImageZoomTranslations';
 export const IMAGE_ZOOM_TRANSLATION_CHUNKS_CONFIG =
   'productImageZoomTranslationChunksConfig';
 
-export const PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG: FeatureConfig = {
+export const PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: PRODUCT_IMAGE_ZOOM_FEATURE_NAME,
     mainScope: SPARTACUS_PRODUCT,
@@ -106,7 +106,7 @@ export const VARIANTS_TRANSLATIONS = 'productVariantsTranslations';
 export const VARIANTS_TRANSLATION_CHUNKS_CONFIG =
   'productVariantsTranslationChunksConfig';
 
-export const PRODUCT_VARIANTS_SCHEMATICS_CONFIG: FeatureConfig = {
+export const PRODUCT_VARIANTS_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: PRODUCT_VARIANTS_FEATURE_NAME,
     mainScope: SPARTACUS_PRODUCT,

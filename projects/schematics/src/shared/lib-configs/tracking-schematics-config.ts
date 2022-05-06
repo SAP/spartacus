@@ -12,7 +12,7 @@ import {
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import { AdditionalFeatureConfiguration } from '../utils/feature-utils';
-import { FeatureConfig, LibraryOptions } from '../utils/lib-utils';
+import { LibraryOptions, SchematicConfig } from '../utils/lib-utils';
 
 export const TRACKING_FOLDER_NAME = 'tracking';
 
@@ -21,7 +21,7 @@ export const PERSONALIZATION_ROOT_MODULE = 'PersonalizationRootModule';
 export const PERSONALIZATION_MODULE_NAME = 'Personalization';
 export const PERSONALIZATION_FEATURE_NAME_CONSTANT = 'PERSONALIZATION_FEATURE';
 
-export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: FeatureConfig = {
+export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: TRACKING_PERSONALIZATION_FEATURE_NAME,
     mainScope: SPARTACUS_TRACKING,
@@ -51,7 +51,7 @@ export const TMS_CONFIG = 'TmsConfig';
 export const TMS_BASE_MODULE = 'BaseTmsModule';
 export const TMS_GTM_MODULE = 'GtmModule';
 
-export const TRACKING_GTM_SCHEMATICS_CONFIG: FeatureConfig = {
+export const TRACKING_GTM_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: TRACKING_TMS_GTM_FEATURE_NAME,
     mainScope: SPARTACUS_TRACKING,
@@ -103,7 +103,7 @@ function buildGtmConfig(
 
 export const TMS_AEP_MODULE = 'AepModule';
 
-export const TRACKING_AEP_SCHEMATICS_CONFIG: FeatureConfig = {
+export const TRACKING_AEP_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: TRACKING_TMS_AEP_FEATURE_NAME,
     mainScope: SPARTACUS_TRACKING,

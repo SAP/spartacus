@@ -6,7 +6,7 @@ import {
   SPARTACUS_USER,
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const ASM_FOLDER_NAME = 'asm';
 export const ASM_FEATURE_MODULE_NAME = 'Asm';
@@ -18,7 +18,7 @@ export const ASM_TRANSLATIONS = 'asmTranslations';
 export const ASM_TRANSLATION_CHUNKS_CONFIG = 'asmTranslationChunksConfig';
 export const ASM_SCSS_FILE_NAME = 'asm.scss';
 
-export const ASM_SCHEMATICS_CONFIG: FeatureConfig = {
+export const ASM_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: ASM_FEATURE_NAME,
     mainScope: SPARTACUS_ASM,

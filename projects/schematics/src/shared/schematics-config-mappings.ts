@@ -43,14 +43,14 @@ import {
   USER_ACCOUNT_SCHEMATICS_CONFIG,
   USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
-import { FeatureConfig, Module } from './utils/lib-utils';
+import { Module, SchematicConfig } from './utils/lib-utils';
 
 /**
  * A list of all schematics feature configurations.
  * _Must_ be updated when adding a new schematics
  * library or a feature.
  */
-export const SCHEMATICS_CONFIGS: FeatureConfig[] = [
+export const SCHEMATICS_CONFIGS: SchematicConfig[] = [
   // feature libraries start
   ASM_SCHEMATICS_CONFIG,
 
@@ -166,12 +166,12 @@ export function generateMappings(): {
   libraryFeatureMapping: Map<string, string[]>;
   featureFeatureModuleMapping: Map<string, string[]>;
   featureRootModuleMapping: Map<string, string[]>;
-  featureSchematicConfigMapping: Map<string, FeatureConfig>;
+  featureSchematicConfigMapping: Map<string, SchematicConfig>;
 } {
   const featureMapping: Map<string, string[]> = new Map();
   const featureModuleMapping: Map<string, string[]> = new Map();
   const rootModuleMapping: Map<string, string[]> = new Map();
-  const configMapping: Map<string, FeatureConfig> = new Map();
+  const configMapping: Map<string, SchematicConfig> = new Map();
 
   for (const featureConfig of SCHEMATICS_CONFIGS) {
     populateFeatureMapping(featureMapping, featureConfig);
@@ -190,7 +190,7 @@ export function generateMappings(): {
 
 function populateFeatureMapping(
   mapping: Map<string, string[]>,
-  featureConfig: FeatureConfig
+  featureConfig: SchematicConfig
 ): void {
   const feature = featureConfig.library.mainScope;
   const featureName = featureConfig.library.featureName;
@@ -206,7 +206,7 @@ function populateFeatureMapping(
 
 function populateFeatureModuleMapping(
   mapping: Map<string, string[]>,
-  featureConfig: FeatureConfig
+  featureConfig: SchematicConfig
 ): void {
   const feature = featureConfig.library.featureName;
 
@@ -225,7 +225,7 @@ function populateFeatureModuleMapping(
 
 function populateRootModulesMapping(
   mapping: Map<string, string[]>,
-  featureConfig: FeatureConfig
+  featureConfig: SchematicConfig
 ): void {
   const feature = featureConfig.library.featureName;
 
@@ -243,8 +243,8 @@ function populateRootModulesMapping(
 }
 
 function populateConfigMapping(
-  mapping: Map<string, FeatureConfig>,
-  featureConfig: FeatureConfig
+  mapping: Map<string, SchematicConfig>,
+  featureConfig: SchematicConfig
 ): void {
   mapping.set(featureConfig.library.featureName, featureConfig);
 }
@@ -290,7 +290,7 @@ export function getKeyByMappingValueOrThrow(
  */
 export function getSchematicsConfigByFeatureOrThrow(
   feature: string
-): FeatureConfig {
+): SchematicConfig {
   const featureConfig = featureSchematicConfigMapping.get(feature);
   if (!featureConfig) {
     throw new SchematicsException(

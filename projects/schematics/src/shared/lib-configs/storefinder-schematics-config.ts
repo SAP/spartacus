@@ -4,7 +4,7 @@ import {
   SPARTACUS_STOREFINDER_ROOT,
   STOREFINDER_FEATURE_NAME,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const STOREFINDER_FOLDER_NAME = 'storefinder';
 export const STOREFINDER_MODULE_NAME = 'StoreFinder';
@@ -17,7 +17,7 @@ export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
 export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
   'storeFinderTranslationChunksConfig';
 
-export const STOREFINDER_SCHEMATICS_CONFIG: FeatureConfig = {
+export const STOREFINDER_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: STOREFINDER_FEATURE_NAME,
     mainScope: SPARTACUS_STOREFINDER,

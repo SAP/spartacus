@@ -17,8 +17,8 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
-  FeatureConfig,
   LibraryOptions,
+  SchematicConfig,
   shouldAddFeature,
 } from './lib-utils';
 
@@ -68,7 +68,7 @@ describe('Lib utils', () => {
 
   const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
 
-  const BASE_FEATURE_CONFIG: FeatureConfig = {
+  const BASE_FEATURE_CONFIG: SchematicConfig = {
     library: {
       featureName: CLI_FEATURE_NAME,
       mainScope: FEATURE_MODULE_IMPORT_PATH,
@@ -100,7 +100,7 @@ describe('Lib utils', () => {
     lazy: true,
   };
 
-  const CHECKOUT_FEATURE_CONFIG: FeatureConfig = {
+  const CHECKOUT_FEATURE_CONFIG: SchematicConfig = {
     library: {
       featureName: 'checkout',
       mainScope: '@spartacus/checkout',
@@ -171,7 +171,7 @@ describe('Lib utils', () => {
       expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
     });
     it('should NOT add i18n if the config is not present', async () => {
-      const featureConfig: FeatureConfig = {
+      const featureConfig: SchematicConfig = {
         ...BASE_FEATURE_CONFIG,
         i18n: undefined,
       };
@@ -206,7 +206,7 @@ describe('Lib utils', () => {
     });
     describe('custom config option', () => {
       it('should add the custom config when set', async () => {
-        const featureConfig: FeatureConfig = {
+        const featureConfig: SchematicConfig = {
           ...BASE_FEATURE_CONFIG,
           customConfig: () => ({
             providers: {
@@ -242,7 +242,7 @@ describe('Lib utils', () => {
         // before
         expect(appTree.read('angular.json')?.toString(UTF_8)).toMatchSnapshot();
 
-        const featureConfig: FeatureConfig = {
+        const featureConfig: SchematicConfig = {
           ...BASE_FEATURE_CONFIG,
           assets: {
             input: 'smartedit/assets',

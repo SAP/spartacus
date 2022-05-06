@@ -5,7 +5,7 @@ import {
   SPARTACUS_USER,
   USER_PROFILE_FEATURE_NAME,
 } from '../../libs-constants';
-import { FeatureConfig } from '../../utils/lib-utils';
+import { SchematicConfig } from '../../utils/lib-utils';
 import { USER_PROFILE_MODULE } from '../user-schematics-config';
 
 export const CDC_FOLDER_NAME = 'cdc';
@@ -16,7 +16,7 @@ export const CDC_ROOT_MODULE = 'CdcRootModule';
 export const CDC_FEATURE_CONSTANT = 'CDC_FEATURE';
 export const CDC_CONFIG = 'CdcConfig';
 
-export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
+export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: CDC_FEATURE_NAME,
     mainScope: SPARTACUS_CDC,

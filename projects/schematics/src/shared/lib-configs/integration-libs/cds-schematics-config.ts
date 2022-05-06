@@ -9,7 +9,7 @@ import {
   AdditionalFeatureConfiguration,
   AdditionalProviders,
 } from '../../utils/feature-utils';
-import { FeatureConfig, LibraryOptions } from '../../utils/lib-utils';
+import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
 
 export interface SpartacusCdsOptions extends LibraryOptions {
   tenant?: string;
@@ -23,7 +23,7 @@ export const CDS_MODULE_NAME = 'Cds';
 
 export const CDS_MODULE = 'CdsModule';
 
-export const CDS_SCHEMATICS_CONFIG: FeatureConfig = {
+export const CDS_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: CDS_FEATURE_NAME,
     mainScope: SPARTACUS_CDS,

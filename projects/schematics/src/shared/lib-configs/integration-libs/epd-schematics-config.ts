@@ -6,7 +6,7 @@ import {
   SPARTACUS_EPD_VISUALIZATION_ROOT,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
-import { FeatureConfig, LibraryOptions } from '../../utils/lib-utils';
+import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
 
 export interface SpartacusEpdVisualizationOptions extends LibraryOptions {
   baseUrl?: string;
@@ -24,7 +24,7 @@ export const EPD_VISUALIZATION_TRANSLATIONS = 'epdVisualizationTranslations';
 export const EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG =
   'epdVisualizationTranslationChunksConfig';
 
-export const EPD_SCHEMATICS_CONFIG: FeatureConfig = {
+export const EPD_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: EPD_VISUALIZATION_FEATURE_NAME,
     mainScope: SPARTACUS_EPD_VISUALIZATION,

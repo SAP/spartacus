@@ -51,9 +51,9 @@ import {
   calculateCrossFeatureSort,
   checkAppStructure,
   dependencyExists,
-  FeatureConfig,
   LibraryOptions,
   Module,
+  SchematicConfig,
 } from './lib-utils';
 import { getModulePropertyInitializer, Import } from './new-module-utils';
 import { readPackageJson } from './package-utils';
@@ -224,7 +224,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
  * including the execution sequence.
  */
 function analyzeWrappers<OPTIONS extends LibraryOptions>(
-  schematicsConfiguration: FeatureConfig,
+  schematicsConfiguration: SchematicConfig,
   options: OPTIONS
 ): WrapperAnalysisResult[] {
   if (!schematicsConfiguration.wrappers) {
@@ -485,7 +485,7 @@ export function orderFeatures(analysisResult: FeatureAnalysisResult): string[] {
  */
 export function getModuleConfig(
   featureModuleName: string,
-  featureConfig: FeatureConfig
+  featureConfig: SchematicConfig
 ): Module | undefined {
   const featureModuleConfigs = ([] as Module[]).concat(
     featureConfig.featureModule
@@ -763,7 +763,7 @@ function checkDependentFeatures<OPTIONS extends LibraryOptions>(
  * dynamic imports of the feature module.
  */
 function findFeatureModule(
-  schematicsConfig: FeatureConfig,
+  schematicsConfig: SchematicConfig,
   appSourceFiles: SourceFile[]
 ): SourceFile | undefined {
   const moduleConfigs = ([] as Module[]).concat(schematicsConfig.featureModule);

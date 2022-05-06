@@ -9,7 +9,7 @@ import {
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const USER_FOLDER_NAME = 'user';
 export const USER_SCSS_FILE_NAME = 'user.scss';
@@ -22,7 +22,7 @@ export const USER_ACCOUNT_TRANSLATIONS = 'userAccountTranslations';
 export const USER_ACCOUNT_TRANSLATION_CHUNKS_CONFIG =
   'userAccountTranslationChunksConfig';
 
-export const USER_ACCOUNT_SCHEMATICS_CONFIG: FeatureConfig = {
+export const USER_ACCOUNT_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: USER_ACCOUNT_FEATURE_NAME,
     mainScope: SPARTACUS_USER,
@@ -60,7 +60,7 @@ export const USER_PROFILE_TRANSLATIONS = 'userProfileTranslations';
 export const USER_PROFILE_TRANSLATION_CHUNKS_CONFIG =
   'userProfileTranslationChunksConfig';
 
-export const USER_PROFILE_SCHEMATICS_CONFIG: FeatureConfig = {
+export const USER_PROFILE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: USER_PROFILE_FEATURE_NAME,
     mainScope: SPARTACUS_USER,

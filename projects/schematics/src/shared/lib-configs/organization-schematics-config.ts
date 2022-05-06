@@ -13,7 +13,7 @@ import {
   SPARTACUS_USER,
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const ORGANIZATION_FOLDER_NAME = 'organization';
 export const ORGANIZATION_SCSS_FILE_NAME = 'organization.scss';
@@ -28,7 +28,7 @@ export const ORGANIZATION_TRANSLATIONS = 'organizationTranslations';
 export const ORGANIZATION_TRANSLATION_CHUNKS_CONFIG =
   'organizationTranslationChunksConfig';
 
-export const ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG: FeatureConfig = {
+export const ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
     mainScope: SPARTACUS_ORGANIZATION,
@@ -73,7 +73,7 @@ export const ORDER_APPROVAL_TRANSLATIONS = 'orderApprovalTranslations';
 export const ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG =
   'orderApprovalTranslationChunksConfig';
 
-export const ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG: FeatureConfig = {
+export const ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
     mainScope: SPARTACUS_ORGANIZATION,

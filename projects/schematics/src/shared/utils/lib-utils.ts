@@ -98,8 +98,7 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
   options?: LibraryOptions;
 }
 
-// TODO:#schematics - [at the end] rename to SchematicsConfig
-export interface FeatureConfig {
+export interface SchematicConfig {
   /**
    * Library options
    */
@@ -217,7 +216,7 @@ export function shouldAddFeature(
 
 export function addLibraryFeature<T extends LibraryOptions>(
   options: T,
-  config: FeatureConfig
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
     if (options.debug) {
@@ -272,7 +271,7 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
 
 function handleFeature<T extends LibraryOptions>(
   options: T,
-  config: FeatureConfig
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const rules: Rule[] = [];
@@ -311,7 +310,7 @@ export function createSpartacusWrapperModuleFileName(name: string): string {
 
 function addRootModule<T extends LibraryOptions>(
   options: T,
-  config: FeatureConfig
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree): Tree => {
     if (!config.rootModule) {
@@ -349,7 +348,7 @@ function addRootModule<T extends LibraryOptions>(
 
 function addFeatureModule<T extends LibraryOptions>(
   options: T,
-  config: FeatureConfig
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree) => {
     const basePath = process.cwd();
@@ -444,7 +443,7 @@ function isInWrapperModule(
 
 export function addFeatureTranslations<T extends LibraryOptions>(
   options: T,
-  config: FeatureConfig
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree): Tree => {
     if (!config.i18n) {
@@ -492,7 +491,7 @@ export function addFeatureTranslations<T extends LibraryOptions>(
 
 function addCustomConfig<T extends LibraryOptions>(
   options: T,
-  config: FeatureConfig
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree): Tree => {
     if (!config.customConfig) {
@@ -818,7 +817,7 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
   };
 }
 
-function createModuleFileName(config: FeatureConfig): string {
+function createModuleFileName(config: SchematicConfig): string {
   return `${dasherize(config.moduleName)}-feature.module.ts`;
 }
 

@@ -5,7 +5,7 @@ import {
   SPARTACUS_SMARTEDIT_ROOT,
 } from '../libs-constants';
 import { AdditionalFeatureConfiguration } from '../utils/feature-utils';
-import { FeatureConfig, LibraryOptions } from '../utils/lib-utils';
+import { LibraryOptions, SchematicConfig } from '../utils/lib-utils';
 
 export interface SpartacusSmartEditOptions extends LibraryOptions {
   storefrontPreviewRoute?: string;
@@ -19,7 +19,7 @@ export const SMARTEDIT_ROOT_MODULE = 'SmartEditRootModule';
 export const SMARTEDIT_FEATURE_NAME_CONSTANT = 'SMART_EDIT_FEATURE';
 export const SPARTACUS_SMARTEDIT_ASSETS = 'smartedit/assets';
 
-export const SMARTEDIT_SCHEMATICS_CONFIG: FeatureConfig = {
+export const SMARTEDIT_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: SMARTEDIT_FEATURE_NAME,
     mainScope: SPARTACUS_SMARTEDIT,

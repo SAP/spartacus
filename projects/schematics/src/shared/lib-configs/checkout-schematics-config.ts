@@ -15,7 +15,7 @@ import {
   SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
   SPARTACUS_ORDER,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const CHECKOUT_FOLDER_NAME = 'checkout';
 export const CHECKOUT_SCSS_FILE_NAME = 'checkout.scss';
@@ -28,7 +28,7 @@ export const CHECKOUT_BASE_TRANSLATIONS = 'checkoutTranslations';
 export const CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG =
   'checkoutTranslationChunksConfig';
 
-export const CHECKOUT_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
+export const CHECKOUT_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: CHECKOUT_BASE_FEATURE_NAME,
     mainScope: SPARTACUS_CHECKOUT,
@@ -68,7 +68,7 @@ export const CHECKOUT_B2B_TRANSLATIONS = 'checkoutB2BTranslations';
 export const CHECKOUT_B2B_TRANSLATION_CHUNKS_CONFIG =
   'checkoutB2BTranslationChunksConfig';
 
-export const CHECKOUT_B2B_SCHEMATICS_CONFIG: FeatureConfig = {
+export const CHECKOUT_B2B_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: CHECKOUT_B2B_FEATURE_NAME,
     mainScope: SPARTACUS_CHECKOUT,
@@ -116,7 +116,7 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATIONS =
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATION_CHUNKS_CONFIG =
   'checkoutScheduledReplenishmentTranslationChunksConfig';
 
-export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: FeatureConfig =
+export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: SchematicConfig =
   {
     library: {
       featureName: CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,

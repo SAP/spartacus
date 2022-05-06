@@ -6,7 +6,7 @@ import {
   SPARTACUS_ORDER_ASSETS,
   SPARTACUS_ORDER_ROOT,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const ORDER_FOLDER_NAME = 'order';
 export const ORDER_MODULE_NAME = 'Order';
@@ -18,7 +18,7 @@ export const ORDER_FEATURE_NAME_CONSTANT = 'ORDER_FEATURE';
 export const ORDER_TRANSLATIONS = 'orderTranslations';
 export const ORDER_TRANSLATION_CHUNKS_CONFIG = 'orderTranslationChunksConfig';
 
-export const ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
+export const ORDER_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: ORDER_FEATURE_NAME,
     mainScope: SPARTACUS_ORDER,

@@ -6,7 +6,7 @@ import {
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_DIGITAL_PAYMENTS_ASSETS,
 } from '../../libs-constants';
-import { FeatureConfig } from '../../utils/lib-utils';
+import { SchematicConfig } from '../../utils/lib-utils';
 import {
   CHECKOUT_BASE_FEATURE_NAME_CONSTANT,
   CHECKOUT_BASE_MODULE,
@@ -19,7 +19,7 @@ export const DIGITAL_PAYMENTS_TRANSLATIONS = 'dpTranslations';
 export const DIGITAL_PAYMENTS_TRANSLATION_CHUNKS_CONFIG =
   'dpTranslationChunksConfig';
 
-export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: FeatureConfig = {
+export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
     featureName: DIGITAL_PAYMENTS_FEATURE_NAME,
     mainScope: SPARTACUS_DIGITAL_PAYMENTS,
