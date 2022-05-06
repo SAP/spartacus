@@ -63,7 +63,7 @@ function buildSmartEditConfig(
             'STOREFRONT_PREVIEW_ROUTE_PLACEHOLDER'
           }',
           allowOrigin: '${options.allowOrigin ?? 'ALLOWED_ORIGIN_PLACEHOLDER'}',
-        },\n}`,
+        },}`,
     },
   };
 }
