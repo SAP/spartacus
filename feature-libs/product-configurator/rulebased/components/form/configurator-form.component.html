@@ -36,6 +36,7 @@
             "
             [attribute]="attribute"
             [ownerKey]="configuration.owner.key"
+            [ownerType]="configuration.owner.type"
             [language]="activeLanguage"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-radio-button>
@@ -74,6 +75,7 @@
             [attribute]="attribute"
             [group]="currentGroup.id"
             [ownerKey]="configuration.owner.key"
+            [ownerType]="configuration.owner.type"
             [language]="activeLanguage"
             (selectionChange)="updateConfiguration($event)"
           ></cx-configurator-attribute-drop-down>

@@ -17,6 +17,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() attribute: Configurator.Attribute;
   @Input() ownerKey: string;
   @Input() language: string;
+  @Input() ownerType: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
