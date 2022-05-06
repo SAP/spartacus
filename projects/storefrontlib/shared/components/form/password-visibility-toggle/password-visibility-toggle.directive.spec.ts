@@ -133,8 +133,28 @@ describe('PasswordVisibilityToggleDirective', () => {
   });
 
   it('should verify that wrapper has been added properly', () => {
-    expect(fixture.nativeElement.innerHTML).toContain(
-      `<div><form novalidate="" ng-reflect-form="[object Object]" class="ng-untouched ng-pristine ng-valid"><div class="cx-password-input-wrapper"><input type="password" formcontrolname="password" cxpasswordvisibilityswitch="" ng-reflect-name="password" class="ng-untouched ng-pristine ng-valid"><cx-password-visibility-toggle><button type="button" aria-label="passwordVisibility.showPassword"><span aria-hidden="true"><cx-icon class="cx-icon" ng-reflect-type="EYE"></cx-icon></span></button></cx-password-visibility-toggle></div><!--container--><div class="cx-password-input-wrapper"><input type="password" formcontrolname="passwordConfirm" cxpasswordvisibilityswitch="" ng-reflect-name="passwordConfirm" class="ng-untouched ng-pristine ng-valid"><cx-password-visibility-toggle><button type="button" aria-label="passwordVisibility.showPassword"><span aria-hidden="true"><cx-icon class="cx-icon" ng-reflect-type="EYE"></cx-icon></span></button></cx-password-visibility-toggle></div><!--container--></form></div>`
+    const wrappers = el.nativeElement.querySelectorAll(
+      'div.cx-password-input-wrapper'
+    );
+    expect(wrappers[0].children[0]).toEqual(
+      el.nativeElement.querySelector(
+        'input[formControlName="password"][type="password"]'
+      )
+    );
+    expect(wrappers[0].children[1]).toEqual(
+      el.nativeElement.querySelector(
+        'input[formControlName="password"][type="password"] + cx-password-visibility-toggle'
+      )
+    );
+    expect(wrappers[1].children[0]).toEqual(
+      el.nativeElement.querySelector(
+        'input[formControlName="passwordConfirm"][type="password"]'
+      )
+    );
+    expect(wrappers[1].children[1]).toEqual(
+      el.nativeElement.querySelector(
+        'input[formControlName="passwordConfirm"][type="password"] + cx-password-visibility-toggle'
+      )
     );
   });
 });
