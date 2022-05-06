@@ -34,7 +34,7 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     protected asmComponentService: AsmComponentService,
     protected userService: UserService,
     protected occAsmAdapter: OccAsmAdapter,
-    protected activeCartService: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade
   ) {}
 
   ngOnInit() {
@@ -50,9 +50,9 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
       this.cartIdExists = response.trim().length > 0;
     });
 
-    this.activeCartService.getActive().subscribe((response) => {
-      if (response?.code) {
-        this.cartId.setValue(response.code);
+    this.activeCartFacade.getActiveCartId().subscribe((response) => {
+      if (response) {
+        this.cartId.setValue(response);
       }
     });
   }
