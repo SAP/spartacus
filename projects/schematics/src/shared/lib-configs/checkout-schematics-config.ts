@@ -85,10 +85,6 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: SchematicConfig = {
     name: CHECKOUT_B2B_ROOT_MODULE,
     importPath: SPARTACUS_CHECKOUT_B2B_ROOT,
   },
-  lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
-    namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
-  },
   i18n: {
     resources: CHECKOUT_B2B_TRANSLATIONS,
     chunks: CHECKOUT_B2B_TRANSLATION_CHUNKS_CONFIG,
@@ -133,10 +129,6 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: SchematicConfig
     rootModule: {
       name: CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
       importPath: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
-      namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATIONS,

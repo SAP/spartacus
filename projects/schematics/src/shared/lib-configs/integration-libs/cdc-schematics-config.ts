@@ -32,10 +32,6 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     name: CDC_ROOT_MODULE,
     content: `${CDC_ROOT_MODULE}`,
   },
-  lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_CDC_ROOT,
-    namedImports: [CDC_FEATURE_CONSTANT],
-  },
   customConfig: () => ({
     providers: {
       import: [
