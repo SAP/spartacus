@@ -62,7 +62,7 @@ export class MiniCartComponentService {
         if (activeCartRequired) {
           return this.activeCartFacade
             .getActive()
-            .pipe(map((cart) => cart.totalPrice?.formattedValue ?? '$0.00'));
+            .pipe(map((cart) => cart.totalPrice?.formattedValue ?? ''));
         } else {
           return of('');
         }
