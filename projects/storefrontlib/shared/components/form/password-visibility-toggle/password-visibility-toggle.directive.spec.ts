@@ -139,29 +139,13 @@ describe('PasswordVisibilityToggleDirective', () => {
     const form = el.nativeElement.querySelector('form');
 
     expect(wrappers.length).toBe(2);
-    expect(wrappers[0].parent).toEqual(form);
-    expect(wrappers[0].children.length).toBe(2);
-    expect(wrappers[0].children[0]).toEqual(
-      el.nativeElement.querySelector(
-        'input[formControlName="password"][type="password"]'
-      )
-    );
-    expect(wrappers[0].children[1]).toEqual(
-      el.nativeElement.querySelector(
-        'input[formControlName="password"][type="password"] + cx-password-visibility-toggle'
-      )
-    );
-    expect(wrappers[1].parent).toEqual(form);
-    expect(wrappers[1].children.length).toBe(2);
-    expect(wrappers[1].children[0]).toEqual(
-      el.nativeElement.querySelector(
-        'input[formControlName="passwordConfirm"][type="password"]'
-      )
-    );
-    expect(wrappers[1].children[1]).toEqual(
-      el.nativeElement.querySelector(
-        'input[formControlName="passwordConfirm"][type="password"] + cx-password-visibility-toggle'
-      )
-    );
+    wrappers.forEach((wrapper) => {
+      expect(wrapper.parentNode).toEqual(form);
+      expect(wrapper.children.length).toBe(2);
+      expect(wrapper.children[0].tagName.toLowerCase()).toEqual('input');
+      expect(wrapper.children[1].tagName.toLowerCase()).toEqual(
+        'cx-password-visibility-toggle'
+      );
+    });
   });
 });
