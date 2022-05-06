@@ -574,14 +574,14 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
   allFeatures: string[]
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    if (options.debug) {
-      context.logger.info(`⌛️ Analyzing installed features...`);
-    }
-
     const spartacusFeatureModuleExists = checkAppStructure(
       tree,
       options.project
     );
+    /**
+     * Mutates the options, and sets the internal properties
+     * for later usage in other rules.
+     */
     options.internal = {
       ...options.internal,
       dirtyInstallation: spartacusFeatureModuleExists,
@@ -597,10 +597,11 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
 
     // fresh installation
     if (!options.internal?.dirtyInstallation) {
-      if (options.debug) {
-        context.logger.info(`✅  Analysis of installed features complete.`);
-      }
       return noop();
+    }
+
+    if (options.debug) {
+      context.logger.info(`⌛️ Analyzing installed features...`);
     }
 
     const basePath = process.cwd();
