@@ -145,13 +145,14 @@ export const {
    */
   featureRootModuleMapping,
   /**
-   * Mapping of schematics configurations to the Spartacus library.
+   * Mapping of schematics configurations to the Spartacus features.
    *
    * E.g.:
    *
    * {
    * ...,
-   * '@spartacus/checkout': [baseConfig, b2bConfig, scheduledReplenishmentConfig],
+   * 'Checkout': [CHECKOUT_BASE_SCHEMATICS_CONFIG],
+   * 'Checkout-B2B': [CHECKOUT_B2B_SCHEMATICS_CONFIG],
    * ...
    * }
    */
