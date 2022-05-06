@@ -131,4 +131,10 @@ describe('PasswordVisibilityToggleDirective', () => {
     );
     expect(inputNotChanged).toBeTruthy();
   });
+
+  it('should verify that wrapper has been added properly', () => {
+    expect(fixture.nativeElement.innerHTML).toContain(
+      `<div><form novalidate="" ng-reflect-form="[object Object]" class="ng-untouched ng-pristine ng-valid"><div class="cx-password-input-wrapper"><input type="password" formcontrolname="password" cxpasswordvisibilityswitch="" ng-reflect-name="password" class="ng-untouched ng-pristine ng-valid"><cx-password-visibility-toggle><button type="button" aria-label="passwordVisibility.showPassword"><span aria-hidden="true"><cx-icon class="cx-icon" ng-reflect-type="EYE"></cx-icon></span></button></cx-password-visibility-toggle></div><!--container--><div class="cx-password-input-wrapper"><input type="password" formcontrolname="passwordConfirm" cxpasswordvisibilityswitch="" ng-reflect-name="passwordConfirm" class="ng-untouched ng-pristine ng-valid"><cx-password-visibility-toggle><button type="button" aria-label="passwordVisibility.showPassword"><span aria-hidden="true"><cx-icon class="cx-icon" ng-reflect-type="EYE"></cx-icon></span></button></cx-password-visibility-toggle></div><!--container--></form></div>`
+    );
+  });
 });
