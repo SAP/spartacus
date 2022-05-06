@@ -33,6 +33,14 @@ export function listenForUserDetailsRequest(): string {
   return interceptGet('userDetails', '/users/*');
 }
 
+export function listenForCartBindingRequest(): string {
+  return interceptPost(
+    'cartBinding',
+    '/assistedservicewebservices/bind-cart?*',
+    false
+  );
+}
+
 export function agentLogin(): void {
   const authRequest = listenForAuthenticationRequest();
   cy.get('cx-storefront').within(() => {
@@ -65,8 +73,7 @@ export function startCustomerEmulation(customer): void {
   cy.get('button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias);
-  cy.get('cx-customer-emulation input')
-    .invoke('attr', 'placeholder')
+  cy.get('cx-customer-emulation div.customerInfo label.name')
     .should('contain', customer.fullName);
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('not.exist');
@@ -167,4 +174,12 @@ export function testCustomerEmulation() {
     cy.get('cx-asm-main-ui').should('exist');
     cy.get('cx-asm-main-ui').should('not.be.visible');
   });
+}
+
+export function bindCart() {
+  const bindingRequest = listenForCartBindingRequest();
+  //click button
+  cy.get('[data-cy=assignCart]').click();
+  //make call
+  cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
 }

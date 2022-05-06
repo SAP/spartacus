@@ -58,11 +58,12 @@
       [disabled]="!cartIdExists"
       (click)="assignCartToCustomer()"
       [class.active]="cartIdExists"
+      data-cy="assignCart"
     >
       {{ 'asm.assignCart.assignCartToCustomer' | cxTranslate }}
     </button>
   </label>
-  <button (click)="logoutCustomer()">
+  <button (click)="logoutCustomer()" data-cy="logout">
     {{ 'asm.endSession' | cxTranslate }}
   </button>
 </ng-container>
