@@ -77,7 +77,7 @@ export class OccAsmAdapter implements AsmAdapter {
     if (typeof options['sort'] !== 'undefined') {
       params = params.set('sort', '' + options.sort);
     } else {
-      params = params.set('sort', 'byNameDesc');
+      params = params.set('sort', 'byNameAsc');
     }
 
     if (typeof options['query'] !== 'undefined') {
