@@ -169,10 +169,7 @@ describe('ActiveCartService', () => {
       service
         .takeActive()
         .pipe(take(1))
-        .subscribe((cart) => {
-          console.log('cart', cart);
-          result = cart;
-        });
+        .subscribe((cart) => (result = cart));
 
       isStableMock.next(true);
 
