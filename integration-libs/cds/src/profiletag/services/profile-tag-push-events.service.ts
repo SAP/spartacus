@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  ActiveCartFacade,
   CartAddEntrySuccessEvent,
   CartPageEvent,
   CartRemoveEntrySuccessEvent,
@@ -15,16 +16,15 @@ import {
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
 import { PersonalizationContextService } from '@spartacus/tracking/personalization/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   distinctUntilKeyChanged,
-  filter,
   map,
   mapTo,
   pairwise,
   startWith,
+  switchMapTo,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -360,15 +360,13 @@ export class ProfileTagPushEventsService {
       this.eventService.get(CartAddEntrySuccessEvent),
       this.eventService.get(CartUpdateEntrySuccessEvent),
       this.eventService.get(CartRemoveEntrySuccessEvent)
-    ).pipe(() =>
-      this.activeCartFacade.getActive().pipe(
-        filter((cart) => cart.code !== undefined),
-        map(
-          (cart) =>
-            new CartSnapshotPushEvent({
-              cart,
-            })
-        )
+    ).pipe(
+      switchMapTo(this.activeCartFacade.takeActive()),
+      map(
+        (cart) =>
+          new CartSnapshotPushEvent({
+            cart,
+          })
       )
     );
   }
