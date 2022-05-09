@@ -55,10 +55,10 @@ export class PageSlotService {
    * page slot is prerendered, we would ignore the defer options altogether.
    */
   getComponentDeferOptions(
-    slot: string,
+    slot: string | undefined,
     componentType: string
   ): IntersectionOptions {
-    if (this.shouldNotDefer(slot)) {
+    if (slot && this.shouldNotDefer(slot)) {
       return { deferLoading: DeferLoadingStrategy.INSTANT };
     }
     const deferLoading =

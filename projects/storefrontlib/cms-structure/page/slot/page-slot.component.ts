@@ -14,9 +14,16 @@ import {
   ContentSlotComponentData,
   ContentSlotData,
   DynamicAttributeService,
+  isNotUndefined,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { IntersectionOptions } from '../../../layout/loading/intersection.model';
 import { PageSlotService } from './page-slot.service';
 
@@ -44,10 +51,10 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    */
   @HostBinding('attr.position')
   @Input()
-  set position(value: string) {
+  set position(value: string | undefined) {
     this.position$.next(value);
   }
-  get position(): string {
+  get position(): string | undefined {
     return this.position$.value;
   }
 
@@ -73,11 +80,12 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    */
   @HostBinding('class.has-components') @Input() hasComponents = false;
 
-  protected position$ = new BehaviorSubject<string>('');
+  protected position$ = new BehaviorSubject<string | undefined>(undefined);
 
   components: ContentSlotComponentData[];
 
   protected slot$: Observable<ContentSlotData> = this.position$.pipe(
+    filter(isNotUndefined),
     switchMap((position) => this.cmsService.getContentSlot(position)),
     distinctUntilChanged(this.isDistinct)
   );
