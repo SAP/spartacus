@@ -81,7 +81,7 @@ function setVariables() {
   };
   activeCartBehavior = new ReplaySubject<Cart>();
   activeCartFacade = {
-    getActive: () => activeCartBehavior,
+    takeActive: () => activeCartBehavior,
   };
 }
 
