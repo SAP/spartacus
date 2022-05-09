@@ -14,6 +14,7 @@ import {
   FormErrorsModule,
   SpinnerModule,
   NgSelectA11yModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { RegisterComponent } from './register.component';
 
@@ -28,6 +29,7 @@ import { RegisterComponent } from './register.component';
     FormErrorsModule,
     NgSelectModule,
     NgSelectA11yModule,
+    PasswordVisibilityToggleModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
