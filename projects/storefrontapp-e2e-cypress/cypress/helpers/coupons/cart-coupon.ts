@@ -51,7 +51,6 @@ export function refreshCartAndVerifyIfCouponAdded(
   couponCode: string,
   userType = UserType.LOGGED
 ) {
-  registerCartRefreshRoute(userType);
   verifyRefreshCart(userType).then(({ subTotal, totalDiscounts }) => {
     const subtotal = subTotal.formattedValue;
     const discount = totalDiscounts.formattedValue;
@@ -80,6 +79,8 @@ export function verifyBannerAfterAddingCoupon(couponCode) {
 }
 
 export function applyCoupon(couponCode: string, userType = UserType.LOGGED) {
+  registerCartRefreshRoute(userType);
+
   applyCartCoupon(couponCode);
 
   refreshCartAndVerifyIfCouponAdded(couponCode, userType);
