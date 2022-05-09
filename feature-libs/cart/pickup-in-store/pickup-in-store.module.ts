@@ -16,6 +16,6 @@ import { PickupDeliveryOptionsComponent } from './components/pickup-delivery-opt
     // ImportOrderEntriesModule,
     // ImportExportOrderEntriesModule,
   ],
-  exports: [PickupDeliveryOptionsComponent]
+  exports: [PickupDeliveryOptionsComponent],
 })
 export class PickupInStoreModule {}

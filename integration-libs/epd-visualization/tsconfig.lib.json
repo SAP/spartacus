@@ -14,8 +14,6 @@
     "skipLibCheck": true, // Needed due to @sapui5/ts-types-esm
     "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
       "@spartacus/cart/base/components/add-to-cart": [
         "dist/cart/base/components/add-to-cart"
@@ -38,6 +36,10 @@
       "@spartacus/cart/import-export": ["dist/cart/import-export"],
       "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
       "@spartacus/cart": ["dist/cart"],
+      "@spartacus/cart/pickup-in-store/components": [
+        "dist/cart/pickup-in-store/components"
+      ],
+      "@spartacus/cart/pickup-in-store": ["dist/cart/pickup-in-store"],
       "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
       "@spartacus/cart/quick-order/components": [
         "dist/cart/quick-order/components"
@@ -62,7 +64,9 @@
       ],
       "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
-      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"]
+      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

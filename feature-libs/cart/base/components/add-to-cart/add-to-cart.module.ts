@@ -7,7 +7,13 @@ import { ItemCounterModule } from '@spartacus/storefront';
 import { AddToCartComponent } from './add-to-cart.component';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, I18nModule, ItemCounterModule, PickupInStoreModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    I18nModule,
+    ItemCounterModule,
+    PickupInStoreModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
