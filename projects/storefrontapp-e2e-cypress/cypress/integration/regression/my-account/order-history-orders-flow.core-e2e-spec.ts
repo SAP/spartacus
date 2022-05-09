@@ -15,10 +15,11 @@ describe('Order History with orders', () => {
     afterEach(() => {
       cy.saveLocalStorage();
     });
-
-    orderHistoryTest.checkIfOrderIsDisplayed();
-    orderHistoryTest.checkSortingByCode();
-    orderHistoryTest.checkCorrectDateFormat();
+    it(['order_history', 'smoke'],'Order History', () => {
+      orderHistoryTest.checkIfOrderIsDisplayed();
+      orderHistoryTest.checkSortingByCode();
+      orderHistoryTest.checkCorrectDateFormat();
+    });
   });
 });
 
@@ -28,6 +29,8 @@ describe('Order details page', () => {
       cy.requireLoggedIn();
     });
 
+    it(['order_history', 'smoke'],'Order History Unconsigned Entries', () => {
     orderHistoryTest.checkOrderDetailsUnconsignedEntries();
+    });
   });
 });
