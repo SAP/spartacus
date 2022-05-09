@@ -7,8 +7,7 @@ import {
   FormErrorsModule,
   IconModule,
   ModalModule,
-  PaginationModule,
-  PopoverModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
@@ -26,11 +25,10 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     I18nModule,
     FormErrorsModule,
     IconModule,
-    PopoverModule,
     ModalModule,
     NgSelectModule,
     FormsModule,
-    PaginationModule,
+    SpinnerModule,
   ],
   declarations: [
     AsmMainUiComponent,

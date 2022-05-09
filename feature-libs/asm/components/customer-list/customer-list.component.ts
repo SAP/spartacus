@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AsmService } from '@spartacus/asm/core';
 import {
   CustomerListsPage,
@@ -20,17 +14,12 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
   selector: 'cx-customer-list',
   templateUrl: './customer-list.component.html',
 })
-export class CustomerListComponent implements OnInit, OnDestroy {
+export class CustomerListComponent implements OnInit {
   private PAGE_SIZE = 5;
   private SORT_NAME_ASC = 'byNameAsc';
   private SORT_NAME_DESC = 'byNameDesc';
-  private DEFAULT_PAGE = 0;
-  private DEFAULT_MAX_PAGE = 10;
 
   iconTypes = ICON_TYPE;
-
-  @ViewChild('dialog', { read: ElementRef })
-  dialog: ElementRef;
 
   selectedUserGroupId: string | undefined;
 
@@ -40,15 +29,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
   selectedCustomer: User;
 
-  currentPage = this.DEFAULT_PAGE;
+  currentPage = 0;
 
-  maxPage = this.DEFAULT_MAX_PAGE;
+  maxPage = 0;
 
   loaded = false;
 
   dataSortDesc = false;
-
-  sortName = this.SORT_NAME_ASC;
 
   dataSortIconType: ICON_TYPE = ICON_TYPE.SORT_AMOUNT_DOWN;
 
@@ -84,15 +71,13 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       );
   }
 
-  ngOnDestroy(): void {}
-
   fetchCustomers(): void {
     if (this.selectedUserGroupId) {
       const options: CustomerSearchOptions = {
         customerListId: this.selectedUserGroupId,
         pageSize: this.PAGE_SIZE,
         currentPage: this.currentPage,
-        sort: this.sortName,
+        sort: this.dataSortDesc ? this.SORT_NAME_DESC : this.SORT_NAME_ASC,
       };
 
       this.customerSearchPage$ = of(options)
@@ -105,6 +90,8 @@ export class CustomerListComponent implements OnInit, OnDestroy {
             this.loaded = true;
             if (result.entries.length < this.PAGE_SIZE) {
               this.maxPage = result.pagination?.currentPage || 0;
+            } else {
+              this.maxPage = this.currentPage + 1;
             }
           })
         );
@@ -112,8 +99,7 @@ export class CustomerListComponent implements OnInit, OnDestroy {
   }
 
   onChangeCustomerGroup(): void {
-    this.currentPage = this.DEFAULT_PAGE;
-    this.maxPage = this.DEFAULT_MAX_PAGE;
+    this.currentPage = 0;
     this.fetchCustomers();
   }
 
@@ -124,21 +110,18 @@ export class CustomerListComponent implements OnInit, OnDestroy {
     );
   }
 
-  onClickName(customerEntry: User): void {
+  selectCustomer(customerEntry: User): void {
     if (customerEntry) {
       this.selectedCustomer = customerEntry;
     }
     this.closeModal(customerEntry);
   }
 
-  onClickDataSort(): void {
+  sortByName(): void {
     this.dataSortDesc = !this.dataSortDesc;
     this.dataSortIconType = this.dataSortDesc
       ? ICON_TYPE.SORT_AMOUNT_UP
       : ICON_TYPE.SORT_AMOUNT_DOWN;
-    this.sortName = this.dataSortDesc
-      ? this.SORT_NAME_DESC
-      : this.SORT_NAME_ASC;
     this.fetchCustomers();
   }
 

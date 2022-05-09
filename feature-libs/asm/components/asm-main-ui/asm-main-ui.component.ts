@@ -11,7 +11,13 @@ import {
 } from '@spartacus/core';
 import { ICON_TYPE, ModalRef, ModalService } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { CustomerListComponent } from '../customer-list/customer-list.component';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
@@ -29,7 +35,7 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   protected startingCustomerSession = false;
 
-  protected modalRef: ModalRef;
+  protected modalRef: ModalRef | null;
 
   protected subscription = new Subscription();
 
@@ -126,22 +132,26 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   showCustomList(): void {
-    this.modalRef = this.modalService.open(CustomerListComponent, {
-      centered: true,
-      size: 'mf',
-      windowClass: 'fiori-like',
-    });
-
-    this.modalRef.result
-      .then((selectedUser: User) => {
-        if (selectedUser) {
-          this.startCustomerEmulationSession(selectedUser);
-        }
-      })
-      .catch(() => {
-        // this  callback is called when modal is closed with Esc key or clicking backdrop
+    if (!this.modalRef) {
+      this.modalRef = this.modalService.open(CustomerListComponent, {
+        centered: true,
+        size: 'mf',
+        windowClass: 'fiori-like',
       });
+      this.modalRef.result
+        .then((selectedUser: User) => {
+          if (selectedUser) {
+            this.startCustomerEmulationSession(selectedUser);
+            this.modalRef = null;
+          }
+        })
+        .catch(() => {
+          // this  callback is called when modal is closed with Esc key or clicking backdrop
+          this.modalRef = null;
+        });
+    }
   }
+
   closeModal(): void {
     if (this.modalService.getActiveModal() === this.modalRef) {
       this.modalService.closeActiveModal();

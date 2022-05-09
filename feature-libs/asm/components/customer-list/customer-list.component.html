@@ -25,17 +25,22 @@
     <div class="cx-dialog-body modal-body">
       <div class="cx-dialog-row">
         <div class="cx-dialog-item">
-          <div *ngIf="customerSearchPage$ | async as customerSearchPage">
+          <div
+            *ngIf="
+              customerSearchPage$ | async as customerSearchPage;
+              else spinner
+            "
+          >
             <table class="table">
               <thead>
                 <tr>
                   <th scope="col"></th>
-                  <th scope="col" (click)="onClickDataSort()">
+                  <th scope="col">
                     <sapn>{{
                       'asm.customerList.tableHeader.name' | cxTranslate
                     }}</sapn>
                     <cx-icon
-                      (click)="onClickDataSort()"
+                      (click)="sortByName()"
                       [type]="dataSortIconType"
                     ></cx-icon>
                   </th>
@@ -55,7 +60,7 @@
                     </div>
                   </td>
                   <td>
-                    <a (click)="onClickName(customerEntry)">{{
+                    <a (click)="selectCustomer(customerEntry)">{{
                       customerEntry.name
                     }}</a>
                   </td>
@@ -111,6 +116,9 @@
     bindValue="uid"
   >
   </ng-select>
+</ng-template>
+<ng-template #spinner>
+  <div><cx-spinner></cx-spinner></div>
 </ng-template>
 
 <ng-template #closeButton>
