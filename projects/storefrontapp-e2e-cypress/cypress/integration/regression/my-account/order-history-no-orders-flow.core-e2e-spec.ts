@@ -16,8 +16,10 @@ describe('Order History with no orders', () => {
       verifyGlobalMessageAfterRegistration();
     });
 
-    orderHistoryTest.checkRedirectNotLoggedInUser();
-    orderHistoryTest.checkRedirectLoggedInUser();
-    orderHistoryTest.checkStartShoppingButton();
+    it(['order_history'], 'should validate order history with no orders functionality', () => {
+      orderHistoryTest.checkRedirectNotLoggedInUser();
+      orderHistoryTest.checkRedirectLoggedInUser();
+      orderHistoryTest.checkStartShoppingButton();
+    });
   });
 });

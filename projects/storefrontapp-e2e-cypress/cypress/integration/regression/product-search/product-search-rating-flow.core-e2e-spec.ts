@@ -24,7 +24,7 @@ context('Product search rating flow', () => {
     });
 
     describe('Product search', () => {
-      it('should be able to search and show product rating', () => {
+      it(['product_search'],'should be able to search and show product rating', () => {
         const productName = 'DSC-N1';
 
         createProductQuery(
