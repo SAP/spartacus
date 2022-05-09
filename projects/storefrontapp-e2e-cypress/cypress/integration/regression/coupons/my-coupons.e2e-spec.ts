@@ -12,18 +12,20 @@ viewportContext(['mobile'], () => {
       cy.requireLoggedIn();
     });
 
-    // Core Test. Test in mobile as well.
-    myCoupons.testClaimCustomerCoupon();
+    it(['my_coupons'],'should validate coupons core functionality', () => {
+      // Core Test. Test in mobile as well.
+      myCoupons.testClaimCustomerCoupon();
+    });
   });
 });
 viewportContext(['mobile', 'desktop'], () => {
   describe('My coupons - Anonymous user', () => {
-    it('should redirect to login page', () => {
+    it(['my_coupons'],'should redirect to login page', () => {
       cy.visit('/my-account/coupons');
       cy.location('pathname').should('contain', '/login');
     });
 
-    it('should apply customer coupon that fails for anonymous user', () => {
+    it(['my_coupons'],'should apply customer coupon that fails for anonymous user', () => {
       cartCoupon.applyMyCouponAsAnonymous();
     });
   });
@@ -39,7 +41,7 @@ viewportContext(['mobile', 'desktop'], () => {
     // Core Test
     //myCoupons.testClaimCustomerCoupon();
 
-    it('should claim customer coupon, switch notification button and find products', () => {
+    it(['my_coupons'], 'should claim customer coupon, switch notification button and find products', () => {
       visitHomePage();
       cy.selectUserMenuOption({
         option: 'My Coupons',
@@ -47,11 +49,11 @@ viewportContext(['mobile', 'desktop'], () => {
       myCoupons.verifyMyCoupons();
     });
 
-    it('should list customer coupons and apply in cart', () => {
+    it(['my_coupons'], 'should list customer coupons and apply in cart', () => {
       cartCoupon.verifyOrderPlacingWithCouponAndCustomerCoupon();
     });
 
-    it('should remove customer coupon from cart', () => {
+    it(['my_coupons'], 'should remove customer coupon from cart', () => {
       cartCoupon.verifyCustomerCouponRemoving();
     });
   });
@@ -65,7 +67,7 @@ viewportContext(['mobile', 'desktop'], () => {
       visitHomePage();
     });
 
-    it('should page and sort my coupon list', () => {
+    it(['my_coupons'], 'should page and sort my coupon list', () => {
       cy.selectUserMenuOption({
         option: 'My Coupons',
       });

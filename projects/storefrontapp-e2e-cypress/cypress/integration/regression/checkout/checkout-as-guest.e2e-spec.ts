@@ -17,11 +17,13 @@ context('Checkout as guest', () => {
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
 
-    // Core e2e test.
-    guestCheckout.testCheckoutAsGuest();
+    it(['guest_checkout', 'checkout'],'should validate core guest checkout functionality', () => {
+      // Core e2e test.
+      guestCheckout.testCheckoutAsGuest();
+    });
 
     // Test depends on on core test for guest account creation.
-    it(['guest_checkout'],'should keep products in guest cart and restart checkout', () => {
+    it(['guest_checkout', 'checkout'],'should keep products in guest cart and restart checkout', () => {
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();
 

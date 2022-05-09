@@ -8,7 +8,7 @@ describe('consignment tracking', () => {
       orderDetail.loginUsingUserWithOrder();
     });
 
-    it('should see tracking package button and tracking events when consignment is shipped', () => {
+    it(['consignment'],'should see tracking package button and tracking events when consignment is shipped', () => {
       cy.visit('/my-account/order/100000');
       cy.get('.cx-list').should('have.length', 3);
       cy.get('.cx-list')

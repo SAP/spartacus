@@ -6,7 +6,10 @@ context('Cart Import/Export', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
-    importExport.testImportExportSingleProduct();
-    importExport.testImportExportLargerQuantity();
+    
+    it(['cart_import_export'], 'should validate import export cart core functionality', () => {
+      importExport.testImportExportSingleProduct();
+      importExport.testImportExportLargerQuantity();
+    });
   });
 });

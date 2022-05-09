@@ -22,7 +22,7 @@ context('Checkout back-off test', () => {
       checkoutBackoff.visitCheckoutDeliveryModePage();
     });
 
-    it('should verify back-off mechanism in checkout', () => {
+    it(['checkout'],'should verify back-off mechanism in checkout', () => {
       let retry = 1;
       cy.intercept(
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(

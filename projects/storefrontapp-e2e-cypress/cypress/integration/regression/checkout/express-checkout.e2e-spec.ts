@@ -20,8 +20,10 @@ context('Express checkout', () => {
       cy.saveLocalStorage();
     });
 
-    // Core e2e test. Run in mobile as well.
-    expressCheckout.testExpressCheckout();
+    it(['express_checkout', 'checkout'],'should validate core express checkout functionality', () => {
+      // Core e2e test. Run in mobile as well.
+      expressCheckout.testExpressCheckout();
+    });
 
     // Test depends on core test for setup.
     it(['express_checkout'], 'should redirect to first step if payment method is not set', () => {

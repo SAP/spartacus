@@ -42,7 +42,7 @@ describe('Cart', () => {
 
   viewportContext(['desktop'], () => {
     context('Anonymous user', () => {
-      it('should be unable to add out of stock products to cart', () => {
+      it(['cart'],'should be unable to add out of stock products to cart', () => {
         cart.outOfStock();
       });
 

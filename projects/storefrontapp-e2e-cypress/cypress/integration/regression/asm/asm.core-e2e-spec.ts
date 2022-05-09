@@ -13,6 +13,8 @@ context('Assisted Service Module', () => {
   });
 
   describe('Customer Support Agent - Emulation', () => {
-    asm.testCustomerEmulation();
+    it(['asm'],'should validate customer emulation', () => {
+      asm.testCustomerEmulation();
+    });
   });
 });

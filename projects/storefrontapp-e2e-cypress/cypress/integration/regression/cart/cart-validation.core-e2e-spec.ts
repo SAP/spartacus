@@ -24,7 +24,9 @@ context('Cart validation', () => {
       afterEach(() => {
         cy.saveLocalStorage();
       });
-      cartValidation.testReducedProductStockValidation();
+      it(['cart_validation'], 'should validate cart validation core functionality', () => {
+        cartValidation.testReducedProductStockValidation();
+      });
     });
   });
 });

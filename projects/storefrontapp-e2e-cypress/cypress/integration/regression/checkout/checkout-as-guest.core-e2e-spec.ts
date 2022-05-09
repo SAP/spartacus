@@ -12,6 +12,8 @@ context('Checkout as guest', () => {
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
 
-    guestCheckout.testCheckoutAsGuest();
+    it(['guest_checkout', 'checkout'],'should validate core guest checkout functionality', () => {
+      guestCheckout.testCheckoutAsGuest();
+    });
   });
 });
