@@ -1,5 +1,5 @@
-import { userRegistrationForm } from './registration.i18n';
+import { userRegistration } from './user-registration.i18n';
 
 export const en = {
-  userRegistrationForm,
+  userRegistration,
 };
