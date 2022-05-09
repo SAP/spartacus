@@ -10,7 +10,7 @@ describe('Added to cart modal - Anonymous user', () => {
       cy.visit(`/product/${productId}`);
     });
 
-    it('Should add products to cart', () => {
+    it(['add_to_cart', 'smoke_b2c'],'Should add products to cart', () => {
       cy.visit(`/product/${productId}`);
       cy.get('cx-add-to-cart button[type=submit]').click();
 

@@ -24,7 +24,7 @@ context('Express checkout', () => {
     expressCheckout.testExpressCheckout();
 
     // Test depends on core test for setup.
-    it('should redirect to first step if payment method is not set', () => {
+    it(['express_checkout'], 'should redirect to first step if payment method is not set', () => {
       cy.selectUserMenuOption({
         option: 'Payment Details',
       });

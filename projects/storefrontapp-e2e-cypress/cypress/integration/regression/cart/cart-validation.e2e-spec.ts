@@ -60,7 +60,7 @@ context('Cart validation', () => {
         cy.saveLocalStorage();
       });
 
-      it('should display information about removed product from cart due to out of stock', () => {
+      it(['cart_validation'],'should display information about removed product from cart due to out of stock', () => {
         addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
 
         cartValidation.validateStock(outOfStockResponse);
@@ -81,7 +81,7 @@ context('Cart validation', () => {
         removeItemAndCheckCartEntriesNumber(PRODUCT_2, 0);
       });
 
-      it('should display information about only product in cart being removed due to out of stock', () => {
+      it(['cart_validation'],'should display information about only product in cart being removed due to out of stock', () => {
         addMultipleProductsToCart([PRODUCT_1]);
 
         cartValidation.validateStock(outOfStockResponse);

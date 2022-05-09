@@ -23,18 +23,18 @@ describe('Clear Cart', () => {
         cy.saveLocalStorage();
       });
 
-      it('should add products to the cart', () => {
+      it(['cart'], 'should add products to the cart', () => {
         cart.addProducts();
         cart.verifyCartNotEmpty();
       });
 
-      it('should be able to cancel before clearing the cart', () => {
+      it(['cart'], 'should be able to cancel before clearing the cart', () => {
         cart.goToCart();
         cart.cancelClearCart();
         cart.verifyCartNotEmpty();
       });
 
-      it('should clear cart for anynonymous user', () => {
+      it(['cart'],'should clear cart for anynonymous user', () => {
         cart.goToCart();
         cart.clearActiveCart();
         cart.validateEmptyCart();
@@ -55,13 +55,13 @@ describe('Clear Cart', () => {
         cy.saveLocalStorage();
       });
 
-      it('should add products to the cart', () => {
+      it(['cart'], 'should add products to the cart', () => {
         cart.loginCartUser();
         cart.addProducts();
         cart.verifyCartNotEmpty();
       });
 
-      it('should clear cart for registered user and have new cart Id', () => {
+      it(['cart'],'should clear cart for registered user and have new cart Id', () => {
         cart.goToCart();
         cart.saveCartId();
         cart.clearActiveCart();

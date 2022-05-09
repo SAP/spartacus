@@ -16,7 +16,7 @@ context('Checkout flow', () => {
       });
     });
 
-    it('should perform checkout', () => {
+    it(['checkout', 'smoke_b2c'], 'should perform checkout', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
 
@@ -45,7 +45,7 @@ context('Checkout flow', () => {
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
     });
 
-    it('should search and perform checkout', () => {
+    it(['checkout', 'search', 'smoke_b2c'],'should search and perform checkout', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
       checkout.clickHamburger();
@@ -57,7 +57,7 @@ context('Checkout flow', () => {
       checkout.checkoutFirstDisplayedProduct(user);
     });
 
-    it('should filter with faceting and perform checkout', () => {
+    it(['checkout', 'faceting', 'smoke_b2c'],'should filter with faceting and perform checkout', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
 

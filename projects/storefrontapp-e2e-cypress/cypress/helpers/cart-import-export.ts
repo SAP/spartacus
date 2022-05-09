@@ -359,12 +359,12 @@ export function testImportExportSingleProduct() {
   describe('Single product', () => {
     const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
 
-    it('should export cart', () => {
+    it(['cart_import_export'], 'should export cart', () => {
       addProductToCart(cart.products[1].code);
       exportCart(EXPECTED_CSV);
     });
 
-    it('should import to active cart', () => {
+    it(['cart_import_export'], 'should import to active cart', () => {
       importCartTestFromConfig({
         fileName: 'cart-single',
         context: ImportExportContext.ACTIVE_CART,
@@ -377,7 +377,7 @@ export function testImportExportSingleProduct() {
       });
     });
 
-    it('should import to saved cart', () => {
+    it(['cart_import_export'],'should import to saved cart', () => {
       importCartTestFromConfig({
         fileName: 'cart-single',
         context: ImportExportContext.SAVED_CART,
@@ -403,14 +403,14 @@ export function testImportExportLargerQuantity() {
   describe('Single product with larger quantity', () => {
     const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
 
-    it('should export cart', () => {
+    it(['cart_import_export'], 'should export cart', () => {
       addProductToCart();
       addProductToCart();
       addProductToCart();
       exportCart(EXPECTED_CSV);
     });
 
-    it('should import to active cart', () => {
+    it(['cart_import_export'],'should import to active cart', () => {
       importCartTestFromConfig({
         fileName: 'cart-lg-qty',
         context: ImportExportContext.ACTIVE_CART,
@@ -423,7 +423,7 @@ export function testImportExportLargerQuantity() {
       });
     });
 
-    it('should import to saved cart', () => {
+    it(['cart_import_export'], 'should import to saved cart', () => {
       importCartTestFromConfig({
         fileName: 'cart-lg-qty',
         context: ImportExportContext.SAVED_CART,

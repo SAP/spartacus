@@ -18,14 +18,14 @@ context('Cart Import/Export', () => {
     describe('Multiple products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n3470545,1,EASYSHARE M381,$370.72\r\n`;
 
-      it('should export cart', () => {
+      it(['cart_import_export'], 'should export cart', () => {
         importExport.addProductToCart(cart.products[0].code);
         importExport.addProductToCart(cart.products[1].code);
         importExport.addProductToCart(cart.products[2].code);
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import to active cart', () => {
+      it(['cart_import_export'],'should import to active cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-multiple-products',
           context: ImportExportContext.ACTIVE_CART,
@@ -38,7 +38,7 @@ context('Cart Import/Export', () => {
         });
       });
 
-      it('should import to saved cart', () => {
+      it(['cart_import_export'],'should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-multiple-products',
           context: ImportExportContext.SAVED_CART,
@@ -59,7 +59,7 @@ context('Cart Import/Export', () => {
     describe('Multiple products with varied quantities', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
 
-      it('should export cart', () => {
+      it(['cart_import_export'], 'should export cart', () => {
         importExport.addProductToCart(cart.products[0].code);
         importExport.addProductToCart(cart.products[0].code);
         importExport.addProductToCart(cart.products[1].code);
@@ -68,7 +68,7 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import to active cart', () => {
+      it(['cart_import_export'], 'should import to active cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-multi-product',
           context: ImportExportContext.ACTIVE_CART,
@@ -81,7 +81,7 @@ context('Cart Import/Export', () => {
         });
       });
 
-      it('should import to saved cart', () => {
+      it(['cart_import_export'], 'should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           context: ImportExportContext.SAVED_CART,
           fileName: 'cart-multi-product',
@@ -103,7 +103,7 @@ context('Cart Import/Export', () => {
     describe('Normal products with configurable products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
 
-      it('should export cart', () => {
+      it(['cart_import_export'], 'should export cart', () => {
         importExport.addProductToCart(cart.products[0].code);
         importExport.addProductToCart(cart.products[0].code);
         importExport.addProductToCart(cart.products[0].code);
@@ -113,7 +113,7 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import to active cart', () => {
+      it(['cart_import_export'], 'should import to active cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-normal-product',
           context: ImportExportContext.ACTIVE_CART,
@@ -126,7 +126,7 @@ context('Cart Import/Export', () => {
         });
       });
 
-      it('should import to saved cart', () => {
+      it(['cart_import_export'],'should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-normal-product',
           context: ImportExportContext.SAVED_CART,
@@ -152,13 +152,13 @@ context('Cart Import/Export', () => {
         cy.cxConfig(importExport.nonDefaultImportExportConfig);
       });
 
-      it('should export cart', () => {
+      it(['cart_import_export'], 'should export cart', () => {
         importExport.addProductToCart(cart.products[0].code);
         importExport.addProductToCart(cart.products[1].code);
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import to active cart', () => {
+      it(['cart_import_export'],'should import to active cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-non-default',
           context: ImportExportContext.ACTIVE_CART,
@@ -171,7 +171,7 @@ context('Cart Import/Export', () => {
         });
       });
 
-      it('should import to saved cart', () => {
+      it(['cart_import_export'], 'should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-non-default',
           context: ImportExportContext.SAVED_CART,
@@ -197,12 +197,12 @@ context('Cart Import/Export', () => {
         cy.cxConfig(importExport.configurableProductConfig);
       });
 
-      it('should export cart', () => {
+      it(['cart_import_export'], 'should export cart', () => {
         importExport.addProductToCart(cart.products[0].code);
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import to saved cart', () => {
+      it(['cart_import_export'], 'should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-configurable-products',
           context: ImportExportContext.SAVED_CART,
@@ -221,7 +221,7 @@ context('Cart Import/Export', () => {
     });
 
     describe('Malformed CSVs', () => {
-      it('should NOT import empty csv file', () => {
+      it(['cart_import_export'], 'should NOT import empty csv file', () => {
         const CSV = 'empty.csv';
         cy.writeFile(`cypress/downloads/${CSV}`, '');
         importExport.attemptUpload(`../downloads/${CSV}`);
@@ -231,7 +231,7 @@ context('Cart Import/Export', () => {
         );
       });
 
-      it('should NOT import malformed csv file', () => {
+      it(['cart_import_export'], 'should NOT import malformed csv file', () => {
         const CSV = 'malformed.csv';
         cy.writeFile(`cypress/downloads/${CSV}`, 'I am wrong :(');
         importExport.attemptUpload(`../downloads/${CSV}`);
@@ -241,7 +241,7 @@ context('Cart Import/Export', () => {
         );
       });
 
-      it('should only import remaining stock', () => {
+      it(['cart_import_export'], 'should only import remaining stock', () => {
         const toImport = `Code,Quantity\r\n325234,999\r\n`;
         const CSV = 'limited-quantity.csv';
         cy.writeFile(`cypress/downloads/${CSV}`, toImport);
