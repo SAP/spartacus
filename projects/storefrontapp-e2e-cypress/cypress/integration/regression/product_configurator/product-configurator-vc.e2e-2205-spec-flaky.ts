@@ -34,8 +34,20 @@ const GAMING_CONSOLE_YES = 'GAMING_CONSOLE_YES';
 const GAMING_CONSOLE_NO = 'GAMING_CONSOLE_NO';
 
 context('Product Configuration - 2205', () => {
+  let configUISettings: any;
+
   beforeEach(() => {
+    configUISettings = {
+      productConfigurator: {
+        enableNavigationToConflict: true,
+      },
+    };
+    cy.cxConfig(configUISettings);
     cy.visit('/');
+  });
+
+  afterEach(() => {
+    configUISettings.productConfigurator.enableNavigationToConflict = false;
   });
 
   describe.only('Conflict Solver', () => {
