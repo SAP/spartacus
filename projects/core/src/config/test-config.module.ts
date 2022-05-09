@@ -58,7 +58,7 @@ export class TestConfigModule {
       providers: [
         {
           provide: TEST_CONFIG_COOKIE_NAME,
-          useValue: options && options.cookie,
+          useValue: options?.cookie,
         },
         provideConfigFactory(configFromCookieFactory, [
           TEST_CONFIG_COOKIE_NAME,
