@@ -25,7 +25,7 @@ export class CustomerListComponent implements OnInit {
 
   customerSearchPage$: Observable<CustomerSearchPage | null>;
 
-  customerListsPage$: Observable<CustomerListsPage>;
+  customerListsPage$: Observable<CustomerListsPage | undefined>;
 
   selectedCustomer: User;
 
@@ -50,12 +50,7 @@ export class CustomerListComponent implements OnInit {
       .pipe(
         filter((queryState) => queryState.loading === false),
         map((queryState) => {
-          if (queryState.data) {
-            return queryState.data;
-          } else {
-            // TODO error ?????
-            throw new Error();
-          }
+          return queryState.data;
         })
       )
       .pipe(
@@ -64,7 +59,7 @@ export class CustomerListComponent implements OnInit {
         // set the first value of this.customerListsPage$ to be selected
         tap((result) => {
           if (!this.selectedUserGroupId) {
-            this.selectedUserGroupId = result.userGroups?.[0].uid;
+            this.selectedUserGroupId = result?.userGroups?.[0].uid;
             this.fetchCustomers();
           }
         })
