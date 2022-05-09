@@ -15,7 +15,7 @@ describe('Order History with orders', () => {
     afterEach(() => {
       cy.saveLocalStorage();
     });
-    it(['order_history', 'smoke'],'Order History', () => {
+    it(['order_history', 'smoke_b2c'],'Order History', () => {
       orderHistoryTest.checkIfOrderIsDisplayed();
       orderHistoryTest.checkSortingByCode();
       orderHistoryTest.checkCorrectDateFormat();
@@ -29,7 +29,7 @@ describe('Order details page', () => {
       cy.requireLoggedIn();
     });
 
-    it(['order_history', 'smoke'],'Order History Unconsigned Entries', () => {
+    it(['order_history', 'smoke_b2c'],'Order History Unconsigned Entries', () => {
     orderHistoryTest.checkOrderDetailsUnconsignedEntries();
     });
   });

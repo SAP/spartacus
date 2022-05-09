@@ -33,21 +33,23 @@ describe('Payment Methods', () => {
         cy.restoreLocalStorage();
       });
 
-      // Core test. Repeat in different view port.
-      paymentMethods.testRenderEmptyPaymentDetailsPage();
+      it (['payment_method'],'should validate payment methods core', () =>{
+        // Core test. Repeat in different view port.
+        paymentMethods.testRenderEmptyPaymentDetailsPage();
 
-      // Core test. Repeat in different view port.
-      paymentMethods.testRenderOnePaymentMethod();
+        // Core test. Repeat in different view port.
+        paymentMethods.testRenderOnePaymentMethod();
+      });
 
       // Below tests depend on core tests for setup
-      it('should render page with two payment methods', () => {
+      it(['payment_method'], 'should render page with two payment methods', () => {
         cy.get('cx-mini-cart > a').click({ force: true });
         addPaymentMethod(testPaymentDetail[1]);
         visitPaymentDetailsPage();
         verifyPaymentCard(2);
       });
 
-      it('should set additional payment method as default', () => {
+      it(['payment_method'], 'should set additional payment method as default', () => {
         cy.intercept({
           method: 'GET',
           pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -73,7 +75,7 @@ describe('Payment Methods', () => {
         firstCard.should('contain', `Expires: 03/2126`);
       });
 
-      it('should be able to delete payment method', () => {
+      it(['payment_method'], 'should be able to delete payment method', () => {
         cy.findAllByText('Delete').first().click({ force: true });
 
         // should see confirmation message

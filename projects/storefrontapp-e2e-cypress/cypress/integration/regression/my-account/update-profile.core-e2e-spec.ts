@@ -6,6 +6,8 @@ describe('My Account - Update Profile', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
-    updateProfile.testUpdateProfileLoggedInUser();
+    it(['update_profile'], 'should update profile core functionality', () => {
+      updateProfile.testUpdateProfileLoggedInUser();
+    });
   });
 });

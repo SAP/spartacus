@@ -11,7 +11,7 @@ describe('Payment Methods', () => {
     });
 
     describe('Anonymous user', () => {
-      it('should redirect user to login page', () => {
+      it(['payment_method', 'smoke_b2c'],'should redirect user to login page', () => {
         cy.visit('/my-account/payment-details');
         cy.location('pathname').should('contain', '/login');
       });

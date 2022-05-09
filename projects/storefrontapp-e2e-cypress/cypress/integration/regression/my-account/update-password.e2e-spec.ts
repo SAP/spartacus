@@ -12,8 +12,10 @@ describe('My Account - Update Password', () => {
         win.sessionStorage.clear();
       })
     );
-    // Core e2e test. Repeat in mobile viewport.
-    updatePassword.testUpdatePasswordLoggedInUser();
+    it(['update_password'], 'should validate update password core functionaly', () => {
+      // Core e2e test. Repeat in mobile viewport.
+      updatePassword.testUpdatePasswordLoggedInUser();
+    });
   });
 
   viewportContext(['mobile', 'desktop'], () => {
@@ -24,7 +26,7 @@ describe('My Account - Update Password', () => {
     );
 
     describe('update password test for anonymous user', () => {
-      it('should redirect to login page for anonymous user', () => {
+      it(['update_password'], 'should redirect to login page for anonymous user', () => {
         cy.visit(updatePassword.PAGE_URL_UPDATE_PASSWORD);
         cy.url().should('contain', '/login');
       });
@@ -47,13 +49,13 @@ describe('My Account - Update Password', () => {
         });
       });
 
-      it('should be able to cancel and go back to home', () => {
+      it(['update_password'], 'should be able to cancel and go back to home', () => {
         cy.get('cx-update-password a').click();
         cy.title().should('eq', updatePassword.PAGE_TITLE_HOME);
         alerts.getAlert().should('not.exist');
       });
 
-      it('should display server error if old password is wrong', () => {
+      it(['update_password'], 'should display server error if old password is wrong', () => {
         alerts.getErrorAlert().should('not.exist');
         cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
         cy.get('[formcontrolname="newPassword"]').type(

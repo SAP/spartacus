@@ -14,7 +14,7 @@ describe('My Account - Update Email', () => {
     });
 
     describe('Anonymous user', () => {
-      it('should redirect to login page', () => {
+      it(['update_email'],'should redirect to login page', () => {
         cy.visit(updateEmail.UPDATE_EMAIL_URL);
         cy.location('pathname').should('contain', '/login');
       });
@@ -33,7 +33,7 @@ describe('My Account - Update Email', () => {
         });
       });
 
-      it('should click cancel update email and go back to the homepage', () => {
+      it(['update_email'], 'should click cancel update email and go back to the homepage', () => {
         cy.get('cx-update-email a.btn-secondary').click();
         checkBanner();
 
@@ -44,7 +44,7 @@ describe('My Account - Update Email', () => {
       updateEmail.testUpdateEmailAndLogin();
 
       // Below test depends on core test for setup.
-      it('should not allow login with old email address', () => {
+      it(['update_email'],'should not allow login with old email address', () => {
         signOut();
         cy.visit('/login');
         login(
