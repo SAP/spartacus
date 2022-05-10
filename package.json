@@ -212,7 +212,7 @@
     "semver": "^7.3.5",
     "semver-extra": "^3.0.0",
     "shelljs": "^0.8.5",
-    "stylelint": "^13.7.2",
+    "stylelint": "^13.13.1",
     "stylelint-scss": "^3.18.0",
     "through2": "^3.0.1",
     "ts-jest": "^27.1.3",
