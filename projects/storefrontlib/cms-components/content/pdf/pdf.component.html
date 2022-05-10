@@ -3,7 +3,9 @@
     <a [href]="url" target="_blank">
       {{
         addPdfExtension(
-          data?.name || data?.pdfFile?.altText || ('pdf.document' | cxTranslate)
+          data?.name ||
+            data?.pdfFile?.altText ||
+            ('pdf.defaultName' | cxTranslate)
         )
       }}
       <span aria-hidden="true">
