@@ -37,7 +37,7 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
 }
 
 export function testCheckoutAsGuest() {
-  it('should perform checkout as guest and create a user account', () => {
+  it(['guest_checkout', 'smoke_b2c'], 'should perform checkout as guest and create a user account', () => {
     checkout.goToCheapProductDetailsPage();
     checkout.addCheapProductToCartAndProceedToCheckout();
 

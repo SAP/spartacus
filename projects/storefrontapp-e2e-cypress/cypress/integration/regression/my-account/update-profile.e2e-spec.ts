@@ -9,8 +9,10 @@ describe('My Account - Update Profile', () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    // Core e2e test. Repeat in mobile view.
-    updateProfile.testUpdateProfileLoggedInUser();
+    it(['update_profile'], 'should validate update profile core functionality', () => {
+      // Core e2e test. Repeat in mobile view.
+      updateProfile.testUpdateProfileLoggedInUser();
+    });
   });
   viewportContext(['desktop', 'mobile'], () => {
     before(() => {
@@ -18,7 +20,7 @@ describe('My Account - Update Profile', () => {
     });
 
     describe('update profile test for anonymous user', () => {
-      it('should redirect to login page for anonymous user', () => {
+      it(['update_profile'], 'should redirect to login page for anonymous user', () => {
         cy.visit(updateProfile.UPDATE_PROFILE_URL);
         cy.location('pathname').should('contain', '/login');
       });
@@ -37,7 +39,7 @@ describe('My Account - Update Profile', () => {
         });
       });
 
-      it('should be able to cancel and go back to home', () => {
+      it(['update_profile'],'should be able to cancel and go back to home', () => {
         cy.get('cx-update-profile button').click();
         checkBanner();
 

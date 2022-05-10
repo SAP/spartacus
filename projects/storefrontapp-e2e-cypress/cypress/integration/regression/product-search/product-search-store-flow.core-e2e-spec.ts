@@ -20,7 +20,7 @@ context('Product search store flow', () => {
     });
 
     describe('Product search', () => {
-      it('should be able to search with store filtering', () => {
+      it(['product_search'],'should be able to search with store filtering', () => {
         const category = 'canon';
         cy.onMobile(() => {
           clickSearchIcon();

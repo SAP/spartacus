@@ -10,6 +10,8 @@ viewportContext(['desktop'], () => {
       cy.requireLoggedIn();
     });
 
-    myCoupons.testClaimCustomerCoupon();
+    it(['my_coupons'],'should validate coupons core functionality', () => {
+      myCoupons.testClaimCustomerCoupon();
+    });
   });
 });

@@ -22,7 +22,7 @@ context('Assisted Service Module', () => {
   });
 
   describe('Customer Support Agent - Emulation', () => {
-    it('should test customer emulation', () => {
+    it(['asm'], 'should test customer emulation', () => {
       // storefront should have ASM UI disabled by default
       checkout.visitHomePage();
       cy.get('cx-asm-main-ui').should('not.exist');
@@ -85,7 +85,7 @@ context('Assisted Service Module', () => {
   });
 
   describe('Customer Self Verification', () => {
-    it('checks data changes made by the agent', () => {
+    it(['asm'], 'checks data changes made by the agent', () => {
       cy.log('--> customer sign in');
       cy.visit('/login');
       asm.loginCustomerInStorefront(customer);
@@ -115,7 +115,7 @@ context('Assisted Service Module', () => {
   });
 
   describe('When a customer session and an asm agent session are both active', () => {
-    it('Customer should not be able to login when there is an active CS agent session.', () => {
+    it(['asm'], 'Customer should not be able to login when there is an active CS agent session.', () => {
       const loginPage = checkout.waitForPage('/login', 'getLoginPage');
       cy.visit('/login?asm=true');
       cy.wait(`@${loginPage}`);

@@ -3,19 +3,19 @@ context('Homepage', () => {
     cy.visit('/');
   });
 
-  it('should display title', () => {
+  it(['homepage', 'smoke_b2c'],'should display title', () => {
     cy.title().should('not.be.empty');
   });
 
-  it('should have site logo', () => {
+  it(['homepage', 'smoke_b2c'], 'should have site logo', () => {
     cy.get('cx-page-slot.SiteLogo').should('be.visible');
   });
 
-  it('should have splash banner', () => {
+  it(['homepage', 'smoke_b2c'], 'should have splash banner', () => {
     cy.get('cx-page-slot.Section1 cx-banner');
   });
 
-  it('should have footer with footer navigation and notice', () => {
+  it(['homepage', 'smoke_b2c'],'should have footer with footer navigation and notice', () => {
     cy.get('cx-page-slot.Footer').within(() => {
       cy.get('cx-navigation-ui > nav > ul > li').should('have.length', 3);
       cy.get('cx-navigation-ui > nav > ul > li > span').should(

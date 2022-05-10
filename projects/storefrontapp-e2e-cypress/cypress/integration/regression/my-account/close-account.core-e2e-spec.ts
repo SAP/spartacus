@@ -35,7 +35,7 @@ describe('My Account - Close Account', () => {
         cy.restoreLocalStorage();
       });
 
-      it('should cancel and go back to the homepage', () => {
+      it(['close_account', 'smoke'], 'should cancel and go back to the homepage', () => {
         cy.selectUserMenuOption({
           option: 'Close Account',
         });
@@ -44,7 +44,7 @@ describe('My Account - Close Account', () => {
         cy.location('pathname').should('contain', '/');
       });
 
-      it('should close account', () => {
+      it(['close_account', 'smoke'], 'should close account', () => {
         cy.selectUserMenuOption({
           option: 'Close Account',
         });
@@ -71,7 +71,7 @@ describe('My Account - Close Account', () => {
           .should('contain', 'Account closed with success');
       });
 
-      it('should not login with a closed account credentials', () => {
+      it(['close_account', 'smoke'], 'should not login with a closed account credentials', () => {
         cy.visit('/login');
         login(
           standardUser.registrationData.email,

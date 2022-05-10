@@ -18,7 +18,7 @@ context('Product search product type flow', () => {
     });
 
     describe('Product search', () => {
-      it('should be able to search with specific product type', () => {
+      it(['product_search','smoke_b2c'],'should be able to search with specific product type', () => {
         const category = 'sony';
 
         createProductQuery(

@@ -31,38 +31,38 @@ describe('Image zoom', () => {
       });
     });
 
-    it('should display image zoom trigger', () => {
+    it(['image_zoom'],'should display image zoom trigger', () => {
       cy.get('cx-product-image-zoom-trigger').should('be.visible');
     });
 
-    it('should have correct label text', () => {
+    it(['image_zoom'],'should have correct label text', () => {
       cy.get('cx-product-image-zoom-trigger').should('contain', 'Expand image');
     });
 
-    it('should open modal window with image', () => {
+    it(['image_zoom'],'should open modal window with image', () => {
       cy.get('cx-product-image-zoom-trigger').click();
 
       cy.get('cx-product-image-zoom-dialog').should('be.visible');
     });
 
-    it('main image should be visible', () => {
+    it(['image_zoom'], 'main image should be visible', () => {
       cy.get('cx-product-image-zoom-view').should('be.visible');
       cy.get('cx-media.cx-default-image-zoom').should('be.visible');
     });
 
-    it('clicking on main image should zoom in image', () => {
+    it(['image_zoom'],'clicking on main image should zoom in image', () => {
       cy.get('cx-media.cx-default-image-zoom').click();
 
       cy.get('cx-media.cx-image-zoomed').should('be.visible');
     });
 
-    it('clicking on zoomed image should zoom out image', () => {
+    it(['image_zoom'],'clicking on zoomed image should zoom out image', () => {
       cy.get('cx-media.cx-image-zoomed').click();
 
       cy.get('cx-media.cx-default-image-zoom').should('be.visible');
     });
 
-    it('thumbnails should be visible', () => {
+    it(['image_zoom'],'thumbnails should be visible', () => {
       if (hasGallery) {
         cy.get('cx-product-image-zoom-thumbnails').should('be.visible');
       } else {
@@ -70,7 +70,7 @@ describe('Image zoom', () => {
       }
     });
 
-    it('clicking on thumbnail should open corresponding main image', () => {
+    it(['image_zoom'],'clicking on thumbnail should open corresponding main image', () => {
       if (hasGallery) {
         cy.get('cx-carousel cx-media img')
           .eq(1)
@@ -93,7 +93,7 @@ describe('Image zoom', () => {
       }
     });
 
-    it('clicking on navigation arrow should change main image', () => {
+    it(['image_zoom'],'clicking on navigation arrow should change main image', () => {
       if (hasGallery) {
         cy.get('cx-media.cx-default-image-zoom img')
           .invoke('prop', 'src')

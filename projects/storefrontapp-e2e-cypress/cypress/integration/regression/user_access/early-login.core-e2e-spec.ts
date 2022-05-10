@@ -28,7 +28,7 @@ context('Early login', () => {
       cy.visit('/faq');
     });
 
-    it('should display', () => {
+    it(['login'], 'should display', () => {
       headingContains(FAQ_HEADING);
     });
   });
@@ -40,7 +40,7 @@ context('Early login', () => {
         cy.visit('/faq');
       });
 
-      it('should redirect to login page and redirect back after sign in', () => {
+      it(['login'], 'should redirect to login page and redirect back after sign in', () => {
         cy.url().should('contain', '/login');
 
         login.registerUserFromLoginPage();
@@ -59,7 +59,7 @@ context('Early login', () => {
         cy.visit('/faq');
       });
 
-      it('should display', () => {
+      it(['login'],'should display', () => {
         headingContains(FAQ_HEADING);
       });
     });

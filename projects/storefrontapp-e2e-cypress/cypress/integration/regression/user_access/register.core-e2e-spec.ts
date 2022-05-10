@@ -11,7 +11,7 @@ describe('Register', () => {
       cy.visit('/');
     });
 
-    it('should register and redirect to login page', () => {
+    it(['login', 'smoke_b2c'], 'should register and redirect to login page', () => {
       cy.onMobile(() => {
         clickHamburger();
       });

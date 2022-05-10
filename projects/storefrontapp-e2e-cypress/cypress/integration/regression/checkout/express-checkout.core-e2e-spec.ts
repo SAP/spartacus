@@ -19,6 +19,8 @@ context('Express checkout', () => {
     afterEach(() => {
       cy.saveLocalStorage();
     });
-    expressCheckout.testExpressCheckout();
+    it(['express_checkout', 'checkout'],'should validate core express checkout functionality', () => {
+      expressCheckout.testExpressCheckout();
+    });
   });
 });

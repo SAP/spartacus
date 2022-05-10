@@ -72,7 +72,7 @@ export const orderHistoryTest = {
   },
   // orders flow
   checkIfOrderIsDisplayed() {
-    it('should display placed order in Order History', () => {
+    it(['order_history', 'smoke_b2c'], 'should display placed order in Order History', () => {
       doPlaceOrder().then(() => {
         doPlaceOrder().then((orderData: any) => {
           cy.waitForOrderToBePlacedRequest(
@@ -95,7 +95,7 @@ export const orderHistoryTest = {
     });
   },
   checkSortingByCode() {
-    it('should sort the orders table by given code', () => {
+    it(['order_history', 'smoke_b2c'], 'should sort the orders table by given code', () => {
       cy.intercept('GET', /sort=byOrderNumber/).as('query_order_asc');
       cy.visit('/my-account/orders');
       cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
@@ -110,7 +110,7 @@ export const orderHistoryTest = {
     });
   },
   checkCorrectDateFormat() {
-    it('should show correct date format', () => {
+    it(['order_history', 'smoke_b2c'], 'should show correct date format', () => {
       cy.intercept('GET', /users\/current\/orders/).as('getOrderHistoryPage');
 
       cy.visit('/my-account/orders');
@@ -156,7 +156,7 @@ export const orderHistoryTest = {
     });
   },
   checkOrderDetailsUnconsignedEntries() {
-    it('should display order details page with unconsigned entries', () => {
+    it(['order_history', 'smoke_b2c'], 'should display order details page with unconsigned entries', () => {
       doPlaceOrder().then((orderData: any) => {
         cy.visit(`/my-account/order/${orderData.body.code}`);
         cy.get('.cx-item-list-row .cx-link').should('contain', product.name);

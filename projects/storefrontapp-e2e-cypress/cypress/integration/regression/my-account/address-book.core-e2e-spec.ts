@@ -16,7 +16,7 @@ describe('My Account - Address Book', () => {
     });
 
     describe('address book test for anonymous user', () => {
-      it('should redirect to login page for anonymous user', () => {
+      it(['address_book', 'smoke_b2c'], 'should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/address-book');
         cy.location('pathname').should('contain', '/login');
       });
@@ -36,19 +36,19 @@ describe('My Account - Address Book', () => {
         cy.restoreLocalStorage();
       });
 
-      it('should display a new address form when no address exists', () => {
+      it(['address_book', 'smoke_b2c'], 'should display a new address form when no address exists', () => {
         cy.get('cx-address-form').should('exist');
       });
 
-      it('should create a new address', () => {
+      it(['address_book', 'smoke_b2c'], 'should create a new address', () => {
         fillShippingAddress(newAddress);
       });
 
-      it('should display the newly added address card in the address book', () => {
+      it(['address_book', 'smoke_b2c'], 'should display the newly added address card in the address book', () => {
         verifyNewAddress();
       });
 
-      it('should edit the existing address', () => {
+      it(['address_book', 'smoke_b2c'], 'should edit the existing address', () => {
         cy.get('button').contains('Edit').click();
         cy.get('cx-address-form').within(() => {
           cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
@@ -64,12 +64,12 @@ describe('My Account - Address Book', () => {
         });
       });
 
-      it('should display the edited address card in the address book', () => {
+      it(['address_book', 'smoke_b2c'], 'should display the edited address card in the address book', () => {
         cy.get('cx-card').should('have.length', 1);
         assertAddressForm(editedAddress);
       });
 
-      it('should add a second address', () => {
+      it(['address_book', 'smoke_b2c'],'should add a second address', () => {
         const secondAddress = {
           ...newAddress,
           firstName: 'N',
@@ -80,7 +80,7 @@ describe('My Account - Address Book', () => {
         cy.get('cx-card').should('have.length', 2);
       });
 
-      it('should set the second address as the default one', () => {
+      it(['address_book', 'smoke_b2c'], 'should set the second address as the default one', () => {
         fetchAddressesInterceptor();
         cy.get('button').contains('Set as default').click();
 
@@ -95,7 +95,7 @@ describe('My Account - Address Book', () => {
         firstCard.should('contain', 'N Z');
       });
 
-      it('should delete the existing address', () => {
+      it(['address_book', 'smoke_b2c'], 'should delete the existing address', () => {
         const firstCard = cy.get('cx-card').first();
 
         firstCard.within(() => {

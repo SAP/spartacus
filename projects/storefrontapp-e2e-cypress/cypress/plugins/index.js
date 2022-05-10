@@ -1,6 +1,8 @@
 const cypressTypeScriptPreprocessor = require('./cy-ts-preprocessor');
 const fs = require('fs');
 
+const tagify = require('cypress-tags');
+
 module.exports = (on, config) => {
   on('file:preprocessor', cypressTypeScriptPreprocessor);
 
@@ -22,4 +24,5 @@ module.exports = (on, config) => {
       return null;
     },
   });
+  on('file:preprocessor', tagify(config));
 };

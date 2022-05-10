@@ -55,7 +55,7 @@ export function removeItemAndCheckCartEntriesNumber(
 }
 
 export function testReducedProductStockValidation() {
-  it('should display information about reduced stock for product in cart', () => {
+  it(['cart_validation'], 'should display information about reduced stock for product in cart', () => {
     addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
 
     validateStock(lowStockResponse);

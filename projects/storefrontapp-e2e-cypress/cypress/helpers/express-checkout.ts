@@ -3,7 +3,7 @@ import { getSampleUser } from '../sample-data/checkout-flow';
 import * as checkout from './checkout-flow';
 
 export function testExpressCheckout() {
-  it('should go to first step of checkout when there is no default address/payment', () => {
+  it(['express_checkout'],'should go to first step of checkout when there is no default address/payment', () => {
     let user = getSampleUser();
     Cypress.log({
       name: 'expressCheckoutLog',
@@ -20,7 +20,7 @@ export function testExpressCheckout() {
     cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   });
 
-  it('should skip address and payment checkout steps once address and payment are set', () => {
+  it(['express_checkout'], 'should skip address and payment checkout steps once address and payment are set', () => {
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryMethod();
     checkout.fillPaymentFormWithCheapProduct();
@@ -34,7 +34,7 @@ export function testExpressCheckout() {
     cy.get('.cx-review-card-shipping').should('contain', 'Standard Delivery');
   });
 
-  it('should setup express checkout with another preferred delivery mode', () => {
+  it(['express_checkout'], 'should setup express checkout with another preferred delivery mode', () => {
     cy.cxConfig({
       checkout: {
         express: true,

@@ -15,7 +15,7 @@ describe('Added to cart modal - Anonymous user', () => {
       cy.visit(`/product/${productId}`);
     });
 
-    it('should test item counter on PDP', () => {
+    it(['add_to_cart'],'should test item counter on PDP', () => {
       interceptGet('getProductStock', '/products/*?fields=*stock*');
       cy.wait('@getProductStock').then((xhr) => {
         const stock = xhr.response.body.stock.stockLevel;
@@ -40,7 +40,7 @@ describe('Added to cart modal - Anonymous user', () => {
       });
     });
 
-    it('Should add products to cart', () => {
+    it(['add_to_cart'], 'Should add products to cart', () => {
       cy.visit(`/product/${productId}`);
       cy.get('cx-add-to-cart button[type=submit]').click();
 
@@ -127,7 +127,7 @@ describe('Added to cart modal - Anonymous user', () => {
       });
     });
 
-    it('Should not show cart modal when page is refreshed', () => {
+    it(['add_to_cart'], 'Should not show cart modal when page is refreshed', () => {
       cy.visit(`/product/${productId}`);
 
       cy.get('cx-add-to-cart button[type=submit]').click();

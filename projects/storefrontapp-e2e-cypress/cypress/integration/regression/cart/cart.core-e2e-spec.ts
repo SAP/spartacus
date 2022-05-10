@@ -8,7 +8,7 @@ import { login } from '../../../support/utils/login';
 describe('Cart', () => {
   viewportContext(['mobile'], () => {
     context('Anonymous user', () => {
-      it('should add and remove products', () => {
+      it(['cart', 'smoke_b2c'],'should add and remove products', () => {
         cart.checkBasicCart();
       });
     });
@@ -20,7 +20,7 @@ describe('Cart', () => {
         visitHomePage();
       });
 
-      it('should merge carts when user is authenticated', () => {
+      it(['cart', 'smoke_b2c'],'should merge carts when user is authenticated', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
 
@@ -34,7 +34,7 @@ describe('Cart', () => {
         cart.logOutAndEmptyCart();
       });
 
-      it('should add product and manipulate cart quantity', () => {
+      it(['cart', 'smoke_b2c'], 'should add product and manipulate cart quantity', () => {
         cart.manipulateCartQuantity();
       });
     });
@@ -42,11 +42,11 @@ describe('Cart', () => {
 
   viewportContext(['desktop'], () => {
     context('Anonymous user', () => {
-      it('should be unable to add out of stock products to cart', () => {
+      it(['cart'],'should be unable to add out of stock products to cart', () => {
         cart.outOfStock();
       });
 
-      it('should keep cart on page refresh', () => {
+      it(['cart', 'smoke_b2c'], 'should keep cart on page refresh', () => {
         cart.addProductAsAnonymous();
         cy.reload();
         cart.verifyCartNotEmpty();
@@ -60,7 +60,7 @@ describe('Cart', () => {
         visitHomePage();
       });
 
-      it('should be loaded for authenticated user after "cart not found" error', () => {
+      it(['cart', 'smoke_b2c'], 'should be loaded for authenticated user after "cart not found" error', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
         cart.loginRegisteredUser();
@@ -83,7 +83,7 @@ describe('Cart', () => {
         });
       });
 
-      it('should be loaded after user login', () => {
+      it(['cart', 'smoke_b2c'], 'should be loaded after user login', () => {
         cart.registerCartUser();
         cart.loginCartUser();
         cy.visit(`/product/${cart.products[0].code}`);
@@ -110,7 +110,7 @@ describe('Cart', () => {
       });
 
       // will fail right now, as this is not implemented yet
-      it('should first try to load cart when adding first entry for logged user', () => {
+      it(['cart', 'smoke_b2c'], 'should first try to load cart when adding first entry for logged user', () => {
         cart.loginCartUser();
 
         login(
@@ -183,7 +183,7 @@ describe('Cart', () => {
         cart.validateEmptyCart();
       });
 
-      it('should create new cart when adding first entry for authenticated user without a cart', () => {
+      it(['cart', 'smoke_b2c'], 'should create new cart when adding first entry for authenticated user without a cart', () => {
         cart.loginCartUser();
         login(
           cart.cartUser.registrationData.email,
@@ -233,7 +233,7 @@ describe('Cart', () => {
         cart.validateEmptyCart();
       });
 
-      it('should have different cart on different base sites', () => {
+      it(['cart', 'smoke_b2c'], 'should have different cart on different base sites', () => {
         cy.visit(`/product/${cart.products[0].code}`);
         cart.clickAddToCart();
         cart.checkAddedToCartDialog();

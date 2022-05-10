@@ -12,13 +12,13 @@ describe('Cart Coupon', () => {
         cy.window().then((win) => win.sessionStorage.clear());
         cy.requireLoggedIn();
       });
-      it('should show error message when applied a wrong coupon', () => {
+      it(['coupons'], 'should show error message when applied a wrong coupon', () => {
         cartCoupon.visitProductPage(cartCoupon.productCode1);
         cartCoupon.addProductToCart(cartCoupon.productCode1);
         cartCoupon.applyWrongCoupon();
       });
 
-      it('should apply product category coupon', () => {
+      it(['coupons'], 'should apply product category coupon', () => {
         const stateAuth = getStateAuth();
         cartCoupon.visitProductPage(cartCoupon.productCode2);
         cartCoupon.addProductToCart(cartCoupon.productCode2);
@@ -28,7 +28,7 @@ describe('Cart Coupon', () => {
         });
       });
 
-      it('should apply gift product coupon', () => {
+      it(['coupons'], 'should apply gift product coupon', () => {
         const stateAuth = getStateAuth();
         cartCoupon.visitProductPage(cartCoupon.productCode3);
         cartCoupon.addProductToCart(cartCoupon.productCode3);
@@ -39,7 +39,7 @@ describe('Cart Coupon', () => {
         });
       });
 
-      it('should be able to remove coupon and place order without it', () => {
+      it(['coupons'], 'should be able to remove coupon and place order without it', () => {
         const stateAuth = getStateAuth();
         cartCoupon.visitProductPage(cartCoupon.productCode1);
         cartCoupon.addProductToCart(cartCoupon.productCode1);
@@ -60,7 +60,7 @@ describe('Cart Coupon', () => {
         cart.registerCartUser(cartUser);
       });
 
-      it('should keep cart coupons after signing in', () => {
+      it(['coupons'], 'should keep cart coupons after signing in', () => {
         cartCoupon.visitProductPage(cartCoupon.productCode1);
         cartCoupon.addProductToCart(cartCoupon.productCode1);
         cartCoupon.applyCoupon(
@@ -75,7 +75,7 @@ describe('Cart Coupon', () => {
         });
       });
 
-      it('should merge anonymous cart with coupon and user cart with coupon', () => {
+      it(['coupons'], 'should merge anonymous cart with coupon and user cart with coupon', () => {
         cart.loginCartUser(cartUser).then(() => {
           cartCoupon.visitProductPage(cartCoupon.productCode1);
           cartCoupon.addProductToCart(cartCoupon.productCode1);
@@ -97,7 +97,7 @@ describe('Cart Coupon', () => {
         });
       });
 
-      it('should merge anonymous cart with coupon and user cart without coupon', () => {
+      it(['coupons'], 'should merge anonymous cart with coupon and user cart without coupon', () => {
         cart.loginCartUser(cartUser).then(() => {
           cartCoupon.visitProductPage(cartCoupon.productCode1);
           cartCoupon.addProductToCart(cartCoupon.productCode1);
@@ -134,7 +134,7 @@ describe('Cart Coupon', () => {
         cart.loginCartUser(cartUser);
       });
 
-      it('should keep applied coupons during express checkout', () => {
+      it(['coupons', 'express_checkout'], 'should keep applied coupons during express checkout', () => {
         const stateAuth = getStateAuth();
         cartCoupon.visitProductPage(cartCoupon.productCode1);
         cartCoupon.addProductToCart(cartCoupon.productCode1);
@@ -151,7 +151,7 @@ describe('Cart Coupon', () => {
         cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
       });
 
-      it('should keep applied coupons during quest checkout', () => {
+      it(['coupons', 'guest_checkout'], 'should keep applied coupons during quest checkout', () => {
         cartCoupon.visitProductPage(cartCoupon.productCode1);
         cartCoupon.addProductToCart(cartCoupon.productCode1);
         cartCoupon.applyCouponAndProceedToGuestCheckout(
