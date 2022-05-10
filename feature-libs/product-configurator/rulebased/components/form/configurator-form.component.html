@@ -93,6 +93,7 @@
             *ngIf="attribute.uiType === uiType.NUMERIC"
             [attribute]="attribute"
             [group]="currentGroup.id"
+            [ownerType]="configuration.owner.type"
             [ownerKey]="configuration.owner.key"
             [language]="activeLanguage"
             (inputChange)="updateConfiguration($event)"

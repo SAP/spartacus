@@ -125,6 +125,8 @@ export class OccConfiguratorVariantNormalizer
         uiType === Configurator.UiType.NUMERIC ||
         uiType === Configurator.UiType.STRING
           ? sourceAttribute.formattedValue
+            ? sourceAttribute.formattedValue
+            : ''
           : undefined,
       maxlength:
         (sourceAttribute.maxlength ?? 0) +

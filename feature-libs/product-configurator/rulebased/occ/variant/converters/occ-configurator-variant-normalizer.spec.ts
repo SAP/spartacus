@@ -529,6 +529,35 @@ describe('OccConfiguratorVariantNormalizer', () => {
       );
       expect(attributes[1].hasConflicts).toBe(true);
     });
+
+    it('should set user input to blank string in case formattedValue is not present', () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: attributeName,
+        key: attributeName,
+        type: OccConfigurator.UiType.STRING,
+      };
+      const attributes: Configurator.Attribute[] = [];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      expect(attributes[0].userInput).toBe('');
+    });
+
+    it('should set user input to formattedValue if present', () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: attributeName,
+        key: attributeName,
+        type: OccConfigurator.UiType.STRING,
+        formattedValue: 'Huh',
+      };
+      const attributes: Configurator.Attribute[] = [];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      expect(attributes[0].userInput).toBe(sourceAttribute.formattedValue);
+    });
   });
 
   it('should convert a standard group', () => {

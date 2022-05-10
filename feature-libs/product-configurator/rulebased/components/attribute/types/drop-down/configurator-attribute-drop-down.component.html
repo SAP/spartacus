@@ -75,6 +75,7 @@
   *ngIf="isAdditionalValueNumeric"
   class="cx-configurator-attribute-additional-value"
   [attribute]="attribute"
+  [ownerType]="ownerType"
   [ownerKey]="ownerKey"
   [language]="language"
   (inputChange)="onSelectAdditionalValue($event)"
