@@ -29,7 +29,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-fdescribe('BundleCarouselComponent', () => {
+describe('BundleCarouselComponent', () => {
   let component: BundleCarouselComponent;
   let fixture: ComponentFixture<BundleCarouselComponent>;
   let currentProductService: CurrentProductService;
@@ -60,7 +60,9 @@ fdescribe('BundleCarouselComponent', () => {
     fixture.detectChanges();
     el = fixture.debugElement;
 
+    const header = el.queryAll(By.css('h1'));
     const bundleRows = el.queryAll(By.css('.template-row'));
+    expect(header.length).toEqual(0);
     expect(bundleRows.length).toEqual(0);
   });
 
