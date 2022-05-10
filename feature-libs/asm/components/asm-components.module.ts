@@ -8,6 +8,7 @@ import {
   IconModule,
   ModalModule,
   PopoverModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
@@ -29,6 +30,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     ModalModule,
     NgSelectModule,
     FormsModule,
+    PasswordVisibilityToggleModule,
   ],
   declarations: [
     AsmMainUiComponent,
