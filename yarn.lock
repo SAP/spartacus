@@ -163,6 +163,18 @@
     rxjs "6.6.7"
     source-map "0.7.3"
 
+"@angular-devkit/core@^13.3.4":
+  version "13.3.5"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-13.3.5.tgz#c5f32f4f99b5cad8df9cf3cf4da9c4b1335c1155"
+  integrity sha512-w7vzK4VoYP9rLgxJ2SwEfrkpKybdD+QgQZlsDBzT0C6Ebp7b4gkNcNVFo8EiZvfDl6Yplw2IAP7g7fs3STn0hQ==
+  dependencies:
+    ajv "8.9.0"
+    ajv-formats "2.1.1"
+    fast-json-stable-stringify "2.1.0"
+    magic-string "0.25.7"
+    rxjs "6.6.7"
+    source-map "0.7.3"
+
 "@angular-devkit/schematics@13.3.3", "@angular-devkit/schematics@^13.3.0":
   version "13.3.3"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-13.3.3.tgz#d574897c20a8ede51a4a469250b84421df632929"
@@ -2156,14 +2168,14 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-13.3.3.tgz#dc8471a89092d6f4074543c56a95ae0549f3470e"
   integrity sha512-O6EzafKfFuvI3Ju941u7ANs0mT7YDdChbVRhVECCPWOTm3Klr73js3bnCDzaJlxZNjzlG/KeUu5ghrhbMrHjSw==
 
-"@nguniversal/builders@^13.1.0":
-  version "13.1.0"
-  resolved "https://registry.yarnpkg.com/@nguniversal/builders/-/builders-13.1.0.tgz#41bc36ca79b0af5b95a2577477525c5785453c53"
-  integrity sha512-tG/o04rODUIlMnkW/g9TWt50S6CkX6sCvR+fCS7n7YsLrknnlhj7qMIIEKCiuE+b/7lbfQUe2HepnFEfxLypmw==
+"@nguniversal/builders@^13.1.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@nguniversal/builders/-/builders-13.1.1.tgz#e0571957f443b226833c4b17fdbb3a89d324a5e2"
+  integrity sha512-R73GKHr7KeTIBE/kSudhsN0V1gx+TrnM28RHdzw3eHCz2Q3msGpgdt/79+2EjLcvWjoVHOsD+aFIJ9+sx422yQ==
   dependencies:
     "@angular-devkit/architect" "^0.1303.0"
-    "@angular-devkit/core" "^13.3.0"
-    "@nguniversal/common" "13.1.0"
+    "@angular-devkit/core" "^13.3.4"
+    "@nguniversal/common" "13.1.1"
     browser-sync "^2.26.7"
     express "^4.17.1"
     guess-parser "^0.4.12"
@@ -2173,21 +2185,21 @@
     rxjs "^6.5.5"
     tree-kill "^1.2.2"
 
-"@nguniversal/common@13.1.0":
-  version "13.1.0"
-  resolved "https://registry.yarnpkg.com/@nguniversal/common/-/common-13.1.0.tgz#cceb868982c623898fe7b9c42b0fb366d86af0e5"
-  integrity sha512-bmRwJoEM5LfA4kDRkuVvoOv6NFAOgn2WpolwQlnLNfGTKL/fyNw/JyIvdEphQdjhTTRadehY8MYbr+X97+hyLw==
+"@nguniversal/common@13.1.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@nguniversal/common/-/common-13.1.1.tgz#5f8c144f41a5f867c8d051d2ebfa052f10ac22fd"
+  integrity sha512-DoAPA7+kUz+qMgCTUtRPFcMGY0zz8OSkOTZnxqO5sUYntD6mCEQImHU0WF4ud88j71o0Hv+AISJD1evAAANCdw==
   dependencies:
     critters "0.0.16"
     jsdom "19.0.0"
     tslib "^2.3.0"
 
-"@nguniversal/express-engine@^13.1.0":
-  version "13.1.0"
-  resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-13.1.0.tgz#0687a54346baed3211d03cf4067eb1e241f75e5d"
-  integrity sha512-rA1Dckp23CauMkdi6/B2ifUjqZlHDvPXPfr3+/Tg9iT9CIFQgblruQ02m0bPf8uAsUBQsFtVdrRZyy90K0BALA==
+"@nguniversal/express-engine@^13.1.1":
+  version "13.1.1"
+  resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-13.1.1.tgz#7c84056f73701a9dd8fa08544af73db7f9eb857e"
+  integrity sha512-NdiBP0IRbPrNYEMLy3a6os2mNgRNE84tsMn+mV2uF4wv1JNs3YyoXcucWvhgHdODbDtc6z4CGn8t/6KagRqmvA==
   dependencies:
-    "@nguniversal/common" "13.1.0"
+    "@nguniversal/common" "13.1.1"
     tslib "^2.3.0"
 
 "@nodelib/fs.scandir@2.1.5":
