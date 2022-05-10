@@ -1,6 +1,7 @@
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
+import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
@@ -50,19 +51,14 @@ context('Product Configuration - 2205', () => {
     configUISettings.productConfigurator.enableNavigationToConflict = false;
   });
 
-  describe.only('Conflict Solver', () => {
+  describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
       clickAllowAllFromBanner();
-      cy.intercept({
-        method: 'PATCH',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/ccpconfigurator/*`,
-      }).as('updateConfig');
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
       );
+      configurationVc.registerConfigurationUpdateRoute();
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       cy.wait('@updateConfig');
@@ -105,6 +101,16 @@ context('Product Configuration - 2205', () => {
       configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
       configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
       configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+
+      // Navigate to OV and conflict behaviour
+      configurationOverviewVc.registerConfigurationOvOCC();
+      configurationVc.clickAddToCartBtn();
+      configurationOverviewVc.verifyNotificationBannerOnOP(0, 1); // 0 issues, 1 conflict
+      configurationOverviewVc.clickOnResolveConflictsLinkOnOP();
+      configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
+      configurationVc.checkConflictDescriptionDisplayed(
+        Conflict_msg_gaming_console
+      );
     });
   });
 });
