@@ -35,7 +35,9 @@ export class ProductEventBuilder {
    * these 2 searches must have the same 'freeTextSearch'; and if they are category
    * searches, they must have the same root (in the same category or brand).
    */
-  protected buildFacetChangedEvent(): Observable<FacetChangedEvent> {
+  protected buildFacetChangedEvent(): Observable<
+    FacetChangedEvent | undefined
+  > {
     return this.productSearchService.getResults().pipe(
       pairwise(),
       filter(([prev, curr]) => this.compareSearchResults(prev, curr)),
@@ -90,7 +92,7 @@ export class ProductEventBuilder {
   private getToggledBreadcrumb(
     bc1: Breadcrumb[],
     bc2: Breadcrumb[]
-  ): Breadcrumb {
+  ): Breadcrumb | undefined {
     if (bc1.length - bc2.length === 1) {
       return bc1.find(
         (x) =>

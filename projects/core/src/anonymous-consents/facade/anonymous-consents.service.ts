@@ -62,7 +62,7 @@ export class AnonymousConsentsService {
    * Returns the anonymous consent templates with the given template code.
    * @param templateCode a template code by which to filter anonymous consent templates.
    */
-  getTemplate(templateCode: string): Observable<ConsentTemplate> {
+  getTemplate(templateCode: string): Observable<ConsentTemplate | undefined> {
     return this.store.pipe(
       select(
         AnonymousConsentsSelectors.getAnonymousConsentTemplate(templateCode)
@@ -131,7 +131,7 @@ export class AnonymousConsentsService {
    *
    * @param templateId a template ID by which to filter anonymous consent templates.
    */
-  getConsent(templateId: string): Observable<AnonymousConsent> {
+  getConsent(templateId: string): Observable<AnonymousConsent | undefined> {
     return this.authService.isUserLoggedIn().pipe(
       filter((authenticated) => !authenticated),
       tap(() => this.getTemplates(true)),
@@ -163,7 +163,11 @@ export class AnonymousConsentsService {
   giveAllConsents(): Observable<ConsentTemplate[]> {
     return this.getTemplates(true).pipe(
       tap((templates) =>
-        templates.forEach((template) => this.giveConsent(template.id))
+        templates.forEach((template) => {
+          if (template.id) {
+            this.giveConsent(template.id);
+          }
+        })
       )
     );
   }
@@ -172,8 +176,11 @@ export class AnonymousConsentsService {
    * Returns `true` if the provided `consent` is given.
    * @param consent a consent to test
    */
-  isConsentGiven(consent: AnonymousConsent): boolean {
-    return consent && consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN;
+  isConsentGiven(consent?: AnonymousConsent): boolean {
+    return (
+      (consent && consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN) ??
+      false
+    );
   }
 
   /**
@@ -192,7 +199,11 @@ export class AnonymousConsentsService {
   withdrawAllConsents(): Observable<ConsentTemplate[]> {
     return this.getTemplates(true).pipe(
       tap((templates) =>
-        templates.forEach((template) => this.withdrawConsent(template.id))
+        templates.forEach((template) => {
+          if (template.id) {
+            this.withdrawConsent(template.id);
+          }
+        })
       )
     );
   }

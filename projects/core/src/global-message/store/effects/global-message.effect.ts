@@ -44,16 +44,15 @@ export class GlobalMessageEffect {
                 ObjectComparisonUtils.countOfDeepEqualObjects(text, messages) >
                 1
             ),
-            map(
-              ([text, messages]: [Translatable, Translatable[]]) =>
-                new GlobalMessageActions.RemoveMessage({
-                  type: message.type,
-                  index: ObjectComparisonUtils.indexOfFirstOccurrence(
-                    text,
-                    messages
-                  ),
-                })
-            )
+            map(([text, messages]: [Translatable, Translatable[]]) => {
+              return new GlobalMessageActions.RemoveMessage({
+                type: message.type,
+                index: ObjectComparisonUtils.indexOfFirstOccurrence(
+                  text,
+                  messages
+                ),
+              });
+            })
           )
         )
       )
@@ -67,18 +66,19 @@ export class GlobalMessageEffect {
           ofType(GlobalMessageActions.ADD_MESSAGE),
           pluck('payload'),
           concatMap((message: GlobalMessage) => {
-            const config = this.config.globalMessages[message.type];
+            const config = this.config.globalMessages?.[message.type];
             return this.store.pipe(
               select(
                 GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
               ),
               take(1),
-              filter(
-                (count: number) =>
+              filter((count: number) =>
+                Boolean(
                   ((config && config.timeout !== undefined) ||
                     message.timeout) &&
-                  count &&
-                  count > 0
+                    count &&
+                    count > 0
+                )
               ),
               delay(message.timeout || config.timeout),
               switchMap(() =>

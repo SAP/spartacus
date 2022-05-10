@@ -110,7 +110,7 @@ export class OccEndpointsService {
       const { urlParams, queryParams } = attributes;
 
       if (urlParams) {
-        url = StringTemplate.resolve(url, attributes.urlParams, true);
+        url = StringTemplate.resolve(url, urlParams, true);
       }
 
       if (queryParams) {

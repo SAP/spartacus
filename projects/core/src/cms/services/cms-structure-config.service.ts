@@ -74,11 +74,13 @@ export abstract class CmsStructureConfigService {
   /**
    * returns an observable with the `PageConfig`.
    */
-  protected getPageFromConfig(pageId: string): Observable<CmsPageConfig> {
+  protected getPageFromConfig(
+    pageId: string
+  ): Observable<CmsPageConfig | undefined> {
     return of(
       this.cmsDataConfig.cmsStructure && this.cmsDataConfig.cmsStructure.pages
         ? this.cmsDataConfig.cmsStructure.pages.find((p) => p.pageId === pageId)
-        : null
+        : undefined
     );
   }
 

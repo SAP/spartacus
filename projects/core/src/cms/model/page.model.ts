@@ -73,7 +73,7 @@ export interface PageMeta {
 
 export interface BreadcrumbMeta {
   label: string;
-  link: string;
+  link: string | any[];
 }
 
 export enum PageRobotsMeta {

@@ -1,12 +1,13 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Product } from '../../../model/product.model';
 import { StateUtils } from '../../../state/utils/index';
+import { ScopedLoaderState } from '../../../state/utils/scoped-loader/scoped-loader.state';
 import { ProductsState, StateWithProduct } from '../product-state';
 import { getProductsState } from './feature.selector';
 
 export const getProductState: MemoizedSelector<
   StateWithProduct,
-  StateUtils.EntityLoaderState<Product>
+  StateUtils.EntityState<ScopedLoaderState<Product>>
 > = createSelector(getProductsState, (state: ProductsState) => state.details);
 
 export const getSelectedProductStateFactory = (

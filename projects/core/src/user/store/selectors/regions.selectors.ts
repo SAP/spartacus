@@ -21,7 +21,7 @@ export const getRegionsDataAndLoading: MemoizedSelector<
     loaded: boolean;
     loading: boolean;
     regions: Region[];
-    country: string;
+    country: string | null;
   }
 > = createSelector(
   getRegionsLoaderState,
@@ -33,7 +33,7 @@ export const getRegionsDataAndLoading: MemoizedSelector<
   })
 );
 
-export const getRegionsCountry: MemoizedSelector<StateWithUser, string> =
+export const getRegionsCountry: MemoizedSelector<StateWithUser, string | null> =
   createSelector(
     getRegionsLoaderState,
     (state: LoaderState<RegionsState>) =>

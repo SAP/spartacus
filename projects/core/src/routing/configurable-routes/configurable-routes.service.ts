@@ -137,7 +137,7 @@ export class ConfigurableRoutesService {
   }
 
   protected validateRouteConfig(
-    routeConfig: RouteConfig,
+    routeConfig: RouteConfig | null | undefined,
     routeName: string,
     route: Route
   ) {
@@ -164,7 +164,7 @@ export class ConfigurableRoutesService {
     }
   }
 
-  private warn(...args) {
+  private warn(...args: any[]) {
     if (isDevMode()) {
       console.warn(...args);
     }

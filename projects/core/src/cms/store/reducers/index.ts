@@ -23,7 +23,7 @@ import * as fromNavigation from './navigation-entry-item.reducer';
 import * as fromPageReducer from './page-data.reducer';
 import * as fromPageIndexReducer from './page-index.reducer';
 
-export function getReducers(): ActionReducerMap<CmsState> {
+export function getReducers(): ActionReducerMap<CmsState, any> {
   return {
     page: combineReducers({
       pageData: fromPageReducer.reducer,

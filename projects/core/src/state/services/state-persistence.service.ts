@@ -57,10 +57,12 @@ export class StatePersistenceService {
       context$
         .pipe(
           map((context) => {
-            return readFromStorage(
-              storage,
-              this.generateKeyWithContext(context, key)
-            ) as T | undefined;
+            return storage
+              ? (readFromStorage(
+                  storage,
+                  this.generateKeyWithContext(context, key)
+                ) as T | undefined)
+              : undefined;
           }),
           tap((state) => onRead(state))
         )
@@ -101,10 +103,12 @@ export class StatePersistenceService {
   }): T | undefined {
     const storage = getStorage(storageType, this.winRef);
 
-    return readFromStorage(
-      storage,
-      this.generateKeyWithContext(context, key)
-    ) as T | undefined;
+    if (storage) {
+      return readFromStorage(
+        storage,
+        this.generateKeyWithContext(context, key)
+      ) as T | undefined;
+    }
   }
 
   protected generateKeyWithContext(

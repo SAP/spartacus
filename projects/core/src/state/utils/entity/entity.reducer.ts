@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-
 import { EntityState } from './entity-state';
 import { EntityAction } from './entity.action';
 
@@ -23,9 +22,10 @@ export function entityReducer<T>(
     if (
       action.meta &&
       action.meta.entityType === entityType &&
-      action.meta.entityId !== undefined
+      action.meta.entityId !== undefined &&
+      action.meta.entityId !== null
     ) {
-      ids = [].concat(action.meta.entityId);
+      ids = ([] as string[]).concat(action.meta.entityId);
 
       // remove selected entities
       if (action.meta.entityRemove) {

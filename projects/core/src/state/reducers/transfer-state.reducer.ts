@@ -13,7 +13,7 @@ import { filterKeysByType, getStateSlice } from '../utils/get-state-slice';
 export const CX_KEY: StateKey<string> = makeStateKey<string>('cx-state');
 
 export function getTransferStateReducer(
-  platformId,
+  platformId: Object,
   transferState?: TransferState,
   config?: StateConfig,
   authStatePersistenceService?: AuthStatePersistenceService

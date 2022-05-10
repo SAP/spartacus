@@ -13,11 +13,12 @@ export const getProductReviewsState: MemoizedSelector<
 > = createSelector(getProductsState, (state: ProductsState) => state.reviews);
 
 export const getSelectedProductReviewsFactory = (
-  productCode
+  productCode: string
 ): MemoizedSelector<StateWithProduct, Review[]> => {
   return createSelector(getProductReviewsState, (reviewData) => {
     if (reviewData.productCode === productCode) {
       return reviewData.list;
     }
+    return [];
   });
 };

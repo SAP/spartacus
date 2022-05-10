@@ -140,18 +140,16 @@ export class CmsService {
    * @param position : content slot position
    */
   getContentSlot(position: string): Observable<ContentSlotData> {
-    return this.routingService
-      .getPageContext()
-      .pipe(
-        switchMap((pageContext) =>
-          this.store.pipe(
-            select(
-              CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
-            ),
-            filter(Boolean)
-          )
+    return this.routingService.getPageContext().pipe(
+      switchMap((pageContext) =>
+        this.store.pipe(
+          select(
+            CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
+          ),
+          filter((value) => Boolean(value))
         )
-      );
+      )
+    );
   }
 
   /**
@@ -251,7 +249,7 @@ export class CmsService {
           // we should wait for reload and actual value
           return false;
         }
-        return entity.success || (entity.error && !entity.loading);
+        return Boolean(entity.success || (entity.error && !entity.loading));
       }),
       pluck('success'),
       catchError(() => of(false))
@@ -261,7 +259,10 @@ export class CmsService {
   /**
    * Given pageContext, return the CMS page data
    **/
-  getPage(pageContext: PageContext, forceReload = false): Observable<Page> {
+  getPage(
+    pageContext: PageContext,
+    forceReload = false
+  ): Observable<Page | null> {
     return this.hasPage(pageContext, forceReload).pipe(
       switchMap((hasPage) =>
         hasPage ? this.getPageState(pageContext) : of(null)

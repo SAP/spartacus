@@ -18,7 +18,7 @@ import * as fromAnonymousConsentsBanner from './anonymous-consents-banner.reduce
 import * as fromAnonymousConsentsUpdate from './anonymous-consents-update.reducer';
 import * as fromAnonymousConsents from './anonymous-consents.reducer';
 
-export function getReducers(): ActionReducerMap<AnonymousConsentsState> {
+export function getReducers(): ActionReducerMap<AnonymousConsentsState, any> {
   return {
     templates: loaderReducer<ConsentTemplate[]>(ANONYMOUS_CONSENTS),
     consents: fromAnonymousConsents.reducer,
