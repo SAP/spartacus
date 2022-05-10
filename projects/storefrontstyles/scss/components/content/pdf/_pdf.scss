@@ -1,24 +1,17 @@
 %cx-pdf {
   .pdf-container {
-    padding: 15px;
-    font-size: 0.875 rem;
+    padding: 0.938rem;
+    font-size: var(--cx-font-size, 0.875rem);
     a {
       color: var(--cx-color-text);
+      line-height: 1.1875rem;
+      text-decoration: underline;
     }
     cx-icon {
-      margin-left: 10px;
+      margin-inline-start: 0.625rem;
       background-color: transparent;
       border: none;
       text-decoration: none;
-    }
-    .disabled {
-      pointer-events: none;
-      cursor: default;
-      opacity: 0.6;
-    }
-    .active {
-      line-height: 19px;
-      text-decoration: underline;
     }
   }
 }
