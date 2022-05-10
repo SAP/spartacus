@@ -176,7 +176,7 @@ export interface PaymentDetails {
 }
 
 export interface ScheduleLine {
-  confirmedAt?: Date,
+  confirmedAt?: Date;
   confirmedQuantity?: number;
 }
 
