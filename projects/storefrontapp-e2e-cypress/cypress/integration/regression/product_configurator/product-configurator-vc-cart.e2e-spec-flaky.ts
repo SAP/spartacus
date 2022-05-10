@@ -73,6 +73,7 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
+      const commerceIsAtLeast2205 = false;
       clickAllowAllFromBanner();
       cy.intercept({
         method: 'PATCH',
@@ -132,7 +133,11 @@ context('Product Configuration', () => {
       configurationOverviewVc.registerConfigurationOvOCC();
       configurationVc.clickAddToCartBtn();
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
-      configurationOverviewVc.verifyNotificationBannerOnOP(1);
+      if (commerceIsAtLeast2205) {
+        configurationOverviewVc.verifyNotificationBannerOnOP(1);
+      } else {
+        configurationOverviewVc.verifyNotificationBannerOnOP(0, 1);
+      }
       // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
       configurationOverview.clickContinueToCartBtnOnOP();
       configurationCartVc.verifyNotificationBannerInCart(0, 1);
@@ -141,7 +146,11 @@ context('Product Configuration', () => {
       // Navigate to Overview page and back to configuration via 'Resolve issues' link
       configurationVc.clickAddToCartBtn();
       // Click 'Resolve issues' link in the banner and navigate back to the configuration
-      configurationOverviewVc.clickOnResolveIssuesLinkOnOP();
+      if (commerceIsAtLeast2205) {
+        configurationOverviewVc.clickOnResolveIssuesLinkOnOP(); // pre 2205
+      } else {
+        configurationOverviewVc.clickOnResolveConflictsLinkOnOP(); //post 2205
+      }
       configurationVc.checkConflictDescriptionDisplayed(
         Conflict_msg_gaming_console
       );
