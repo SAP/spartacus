@@ -103,17 +103,17 @@
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      .customer-list-link {
+      .asm-customer-list {
         cursor: pointer;
         cx-icon {
           padding-right: 7px;
           color: #1E3050;
         }
-        a {
+        .asm-customer-list-link {
           color: #0064D9;
           text-decoration: none;
         }
-        a:hover{
+        .asm-customer-list-link:hover{
           text-decoration: underline;
         }
       }

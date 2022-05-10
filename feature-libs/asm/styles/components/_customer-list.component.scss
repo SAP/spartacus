@@ -116,20 +116,20 @@ $sapLinkColor: #0070F2;
     .pagination-buttons {
       display: flex;
       align-items: center;
-      .previous {
+      .btn-previous {
         span {
-          padding-left: 10px;
+          padding-left: 5px;
         }
       }
-      .next {
+      .btn-next {
         span {
-          padding-right: 10px;
+          padding-right: 5px;
         }
       }
       div:first-child {
         font-size: 0.875rem;
         color: $sapTextColor;
-        padding-right: 15px;
+        padding-right: 10px;
       }
     }
 

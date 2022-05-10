@@ -54,17 +54,4 @@ html[dir='rtl'] cx-org-list {
     margin: 0;
   }
 }
-.asm-list-popover {
-  .popover-details {
-    > .property {
-      > label {
-        font-weight: bold;
-        margin-bottom: 0;
-      }
-      margin-bottom: $label-margin-bottom;
-    }
-  }
-  .value {
-    font-size: $font-size-base * 0.75;
-  }
-}
+

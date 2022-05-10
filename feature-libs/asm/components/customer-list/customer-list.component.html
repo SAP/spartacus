@@ -1,10 +1,10 @@
-<div #dialog>
+<div>
   <!-- Modal Header -->
   <ng-container>
     <div class="cx-dialog-header modal-header">
-      <div class="title modal-title">
+      <h2 class="title modal-title">
         {{ 'asm.customerList.title' | cxTranslate }}
-      </div>
+      </h2>
       <ng-template *ngTemplateOutlet="closeButton"></ng-template>
     </div>
     <div
@@ -31,7 +31,7 @@
               else spinner
             "
           >
-            <table class="table">
+            <table role="table" class="table">
               <thead>
                 <tr>
                   <th scope="col"></th>
@@ -39,10 +39,15 @@
                     <sapn>{{
                       'asm.customerList.tableHeader.name' | cxTranslate
                     }}</sapn>
-                    <cx-icon
+                    <button
+                      [attr.aria-label]="
+                        'asm.customerList.tableSort.nameSort' | cxTranslate
+                      "
+                      class="btn btn-link"
                       (click)="sortByName()"
-                      [type]="dataSortIconType"
-                    ></cx-icon>
+                    >
+                      <cx-icon [type]="dataSortIconType"></cx-icon>
+                    </button>
                   </th>
                   <th scope="col">
                     {{ 'asm.customerList.tableHeader.emailOrId' | cxTranslate }}
@@ -86,7 +91,7 @@
     <button
       *ngIf="maxPage > 0"
       (click)="goToPreviousPage()"
-      class="btn btn-link cx-action-link previous"
+      class="btn btn-link cx-action-link btn-previous"
       [disabled]="currentPage === 0 || !loaded"
     >
       <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon
@@ -95,7 +100,7 @@
     <button
       *ngIf="maxPage > 0"
       (click)="goToNextPage()"
-      class="btn btn-link cx-action-link next"
+      class="btn btn-link cx-action-link btn-next"
       [disabled]="currentPage === maxPage || !loaded"
     >
       <span>{{ 'asm.customerList.page.next' | cxTranslate }}</span
@@ -118,7 +123,7 @@
   </ng-select>
 </ng-template>
 <ng-template #spinner>
-  <div><cx-spinner></cx-spinner></div>
+  <cx-spinner></cx-spinner>
 </ng-template>
 
 <ng-template #closeButton>
