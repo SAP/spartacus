@@ -56,11 +56,11 @@ describe('Profile-tag events', () => {
             win,
             profileTagHelper.EventNames.CART_SNAPSHOT
           )
-        ).to.equal(2);
+        ).to.equal(1);
         const cartSnapshotEvent = profileTagHelper.getEvent(
           win,
           profileTagHelper.EventNames.CART_SNAPSHOT
-        )[1];
+        )[0];
         expect(cartSnapshotEvent.data.cart.entries.length).to.eq(1);
       });
     });
@@ -106,11 +106,11 @@ describe('Profile-tag events', () => {
             win,
             profileTagHelper.EventNames.CART_SNAPSHOT
           )
-        ).to.equal(3);
+        ).to.equal(2);
         const cartSnapshotEvent = profileTagHelper.getEvent(
           win,
           profileTagHelper.EventNames.CART_SNAPSHOT
-        )[2];
+        )[1];
         expect(cartSnapshotEvent.data.cart.entries.length).to.eq(1);
         expect(cartSnapshotEvent.data.cart.entries[0].quantity).to.eq(2);
       });
@@ -151,11 +151,11 @@ describe('Profile-tag events', () => {
             win,
             profileTagHelper.EventNames.CART_SNAPSHOT
           )
-        ).to.equal(3);
+        ).to.equal(2);
         const cartSnapshotEvent = profileTagHelper.getEvent(
           win,
           profileTagHelper.EventNames.CART_SNAPSHOT
-        )[2];
+        )[1];
         expect(cartSnapshotEvent.data.cart.entries.length).to.eq(0);
       });
     });

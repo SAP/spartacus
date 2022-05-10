@@ -187,18 +187,15 @@ describe('profileTagPushEventsService', () => {
       eventServiceEvents
         .get(CartAddEntrySuccessEvent)
         .next({ entry: { product: { categories: [{}] } } });
-      activeCartBehavior.next({ entries: [], code: 'CustomCart' });
       activeCartBehavior.next({
         entries: [{ product: { code: 'xyz' }, quantity: 1 }],
         code: 'CustomCart',
       });
       subscription.unsubscribe();
-      expect(timesCalled).toEqual(3);
+      expect(timesCalled).toEqual(2);
       expect(calledWith[0].name).toBe('AddedToCart');
       expect(calledWith[1].name).toBe('CartSnapshot');
-      expect(calledWith[1].data.cart.entries.length).toBe(0);
-      expect(calledWith[2].name).toBe('CartSnapshot');
-      expect(calledWith[2].data.cart.entries.length).toBe(1);
+      expect(calledWith[1].data.cart.entries.length).toBe(1);
     });
   });
 

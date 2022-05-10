@@ -257,9 +257,9 @@ export class ProfileTagPushEventsService {
   }
 
   /**
-   * Listens to CartAddEntrySuccessEvent events, transforms them to AddedToCartPushEvent.
+   * Listens to @CartAddEntrySuccessEvent events, transforms them to @AddedToCartPushEvent .
    *
-   * @returns an observable emitting AddedToCartPushEvent events
+   * @returns an observable emitting @AddedToCartPushEvent events
    * @see CartAddEntrySuccessEvent
    * @see AddedToCartPushEvent
    */
@@ -325,8 +325,8 @@ export class ProfileTagPushEventsService {
   /**
    * Listens to @CartUpdateEntrySuccessEvent events, transforms them to @ModifiedCartPushEvent
    *
-   * @returns an observable emitting @RemovedFromCartPushEvent events
-   * @see CartRemoveEntrySuccessEvent
+   * @returns an observable emitting @ModifiedCartPushEvent events
+   * @see CartUpdateEntrySuccessEvent
    * @see ModifiedCartPushEvent
    */
   protected modifiedCart(): Observable<ProfileTagPushEvent> {
@@ -355,6 +355,16 @@ export class ProfileTagPushEventsService {
     );
   }
 
+  /**
+   * Listens to @CartAddEntrySuccessEvent , @CartUpdateEntrySuccessEvent and @CartRemoveEntrySuccessEvent events,
+   * transforms them to @CartSnapshotPushEvent whenever there is an activity on the cart.
+   *
+   * @returns an observable emitting @CartSnapshotPushEvent events
+   * @see CartAddEntrySuccessEvent
+   * @see CartUpdateEntrySuccessEvent
+   * @see CartRemoveEntrySuccessEvent
+   * @see CartSnapshotPushEvent
+   */
   protected cartChangedEvent(): Observable<ProfileTagPushEvent> {
     return merge(
       this.eventService.get(CartAddEntrySuccessEvent),
@@ -368,7 +378,7 @@ export class ProfileTagPushEventsService {
             cart,
           })
       )
-    );
+      );
   }
 
   private getProductPrice(event: CartAddEntrySuccessEvent): Number {
