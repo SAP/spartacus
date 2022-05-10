@@ -1,4 +1,3 @@
-import { login } from './auth-forms';
 import * as addressBook from '../helpers/address-book';
 import * as asm from '../helpers/asm';
 import * as checkout from '../helpers/checkout-flow';
@@ -6,12 +5,13 @@ import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
 import { getSampleUser } from '../sample-data/checkout-flow';
-import * as loginHelper from './login';
 import {
   interceptDelete,
   interceptGet,
   interceptPost,
 } from '../support/utils/intercept';
+import { login } from './auth-forms';
+import * as loginHelper from './login';
 
 export function listenForAuthenticationRequest(): string {
   return interceptPost(
@@ -73,8 +73,10 @@ export function startCustomerEmulation(customer): void {
   cy.get('button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias);
-  cy.get('cx-customer-emulation div.customerInfo label.name')
-    .should('contain', customer.fullName);
+  cy.get('cx-customer-emulation div.customerInfo label.name').should(
+    'contain',
+    customer.fullName
+  );
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('not.exist');
   cy.get('cx-customer-emulation').should('exist');
@@ -179,7 +181,7 @@ export function testCustomerEmulation() {
 export function bindCart() {
   const bindingRequest = listenForCartBindingRequest();
   //click button
-  cy.get('[data-cy=assignCart]').click();
+  cy.get('[data-cy="assignCart"]').click();
   //make call
   cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
 }
