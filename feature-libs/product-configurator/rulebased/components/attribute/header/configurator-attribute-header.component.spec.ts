@@ -206,6 +206,19 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
+  describe('isWithAdditionalValues', () => {
+    it('should know which attribute types allows for additional values', () => {
+      expect(component['isWithAdditionalValues']).toBe(false);
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component['isWithAdditionalValues']).toBe(true);
+
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component['isWithAdditionalValues']).toBe(true);
+    });
+  });
+
   describe('hasImage', () => {
     it('should return true if image available', () => {
       expect(component.hasImage).toBe(true);
@@ -270,7 +283,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-  describe('Get required message key', () => {
+  describe('getRequiredMessageKey', () => {
     it('should return a single-select message key for radio button attribute type', () => {
       expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
@@ -351,6 +364,14 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.uiType = Configurator.UiType.READ_ONLY;
       expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
+      );
+    });
+
+    it('should return proper key for attribute types with additional values', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component.getRequiredMessageKey()).toContain(
+        'singleSelectAdditionalRequiredMessage'
       );
     });
   });
