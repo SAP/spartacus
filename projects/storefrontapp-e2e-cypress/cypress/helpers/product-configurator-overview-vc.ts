@@ -61,6 +61,7 @@ export function clickOnResolveConflictsLinkOnOP(): void {
  * Verifies whether the issues banner is displayed.
  *
  * @param element - HTML element
+ * @param {'ISSUE' | 'CONFLICT'} kind - check for issues or conflicts
  * @param {number} numberOfIssues - Expected number of conflicts
  */
 export function checkNotificationBannerOnOP(
@@ -68,21 +69,17 @@ export function checkNotificationBannerOnOP(
   kind: 'ISSUE' | 'CONFLICT',
   numberOfIssues?: number
 ): void {
-  const resolveText =
+  const regExString =
     kind === 'ISSUE'
-      ? ' must be resolved before checkout.  Resolve Issues'
-      : ' must be resolved before checkout.  Resolve Conflicts';
+      ? `\\s*${numberOfIssues} issues? must be resolved before checkout.\\s+Resolve Issues\\s*`
+      : `\\s*${numberOfIssues} conflicts? must be resolved before checkout.\\s+Resolve Conflicts\\s*`;
   const styleClass = kind === 'ISSUE' ? '.cx-error-msg' : '.cx-conflict-msg';
   element
     .get(styleClass)
     .first()
     .invoke('text')
     .then((text) => {
-      expect(text).contains(resolveText);
-      if (numberOfIssues > 1) {
-        expect(text).match(/^[0-9]/);
-        expect(text).eq(numberOfIssues.toString());
-      }
+      expect(text).match(new RegExp(regExString));
     });
 }
 
@@ -96,16 +93,19 @@ export function verifyNotificationBannerOnOP(
   numberOfConflicts?: number
 ): void {
   cy.wait('@configure_overview');
-  const element = cy.get('cx-configurator-overview-notification-banner', {
+  let element = cy.get('cx-configurator-overview-notification-banner', {
     timeout: 10000,
   });
   if (numberOfIssues) {
-    this.checkNotificationBannerOnOP(element, numberOfIssues);
+    this.checkNotificationBannerOnOP(element, 'ISSUE', numberOfIssues);
   } else {
     element.should('not.contain.html', 'div.cx-error-msg');
   }
+  element = cy.get('cx-configurator-overview-notification-banner', {
+    timeout: 10000,
+  });
   if (numberOfConflicts) {
-    this.checkNotificationBannerOnOP(element, numberOfConflicts);
+    this.checkNotificationBannerOnOP(element, 'CONFLICT', numberOfConflicts);
   } else {
     element.should('not.contain.html', 'div.cx-conflict-msg');
   }
