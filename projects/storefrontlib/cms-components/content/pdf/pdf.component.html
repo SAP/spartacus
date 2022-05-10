@@ -1,7 +1,11 @@
 <ng-container *ngIf="data$ | async as data">
   <div class="pdf-container">
-    <a [ngClass]="url ? 'active' : 'disabled'" [href]="url" target="_blank">
-      {{ data?.name || data?.pdfFile?.altText || 'document.pdf' }}
+    <a [href]="url" target="_blank">
+      {{
+        addPdfExtension(
+          data?.name || data?.pdfFile?.altText || ('pdf.document' | cxTranslate)
+        )
+      }}
       <span aria-hidden="true">
         <cx-icon [type]="'PDF_FILE'"></cx-icon>
       </span>
