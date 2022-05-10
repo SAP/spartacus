@@ -6,13 +6,15 @@ import { StateUtils } from '@spartacus/core';
 
 export function getReducers(): ActionReducerMap<BundlesState> {
   return {
-    availableEntries: StateUtils.loaderReducer(BUNDLE_DATA, availableEntriesReducer),
+    availableEntries: StateUtils.loaderReducer(
+      BUNDLE_DATA,
+      availableEntriesReducer
+    ),
   };
 }
 
-export const reducerToken: InjectionToken<ActionReducerMap<
-  BundlesState
->> = new InjectionToken<ActionReducerMap<BundlesState>>('BundleReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<BundlesState>> =
+  new InjectionToken<ActionReducerMap<BundlesState>>('BundleReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

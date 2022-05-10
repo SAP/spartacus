@@ -7,8 +7,9 @@ import {
   SearchState,
   SpellingSuggestion,
   StateUtils,
+  PaginationModel,
+  SortModel,
 } from '@spartacus/core';
-import { Pagination, Sort } from 'projects/core/src/model/unused.model';
 import { BundleStarter } from '../../model/bundle.model';
 import { BUNDLE_DATA } from '../bundle-state';
 
@@ -94,9 +95,9 @@ export class GetBundleAllowedProductsSuccess extends StateUtils.LoaderSuccessAct
       facets: Facet[];
       freeTextSearch: string;
       keywordRedirectUrl: string;
-      pagination: Pagination;
+      pagination: PaginationModel;
       products: Product[];
-      sorts: Sort[];
+      sorts: SortModel[];
       spellingSuggestion: SpellingSuggestion[];
       statusCode: string;
       statusMessage: string;

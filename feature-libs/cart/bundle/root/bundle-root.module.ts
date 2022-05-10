@@ -15,4 +15,4 @@ import { defaultBundleLayoutConfig } from './config/default-bundle-layout-config
     }),
   ],
 })
-export class BundleRootModule { }
+export class BundleRootModule {}

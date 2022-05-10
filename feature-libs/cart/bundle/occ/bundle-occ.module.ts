@@ -10,4 +10,4 @@ import { OccBundleAdapter } from './adapters/occ-bundle.adapter';
     { provide: BundleAdapter, useClass: OccBundleAdapter },
   ],
 })
-export class BundleOccModule { }
+export class BundleOccModule {}
