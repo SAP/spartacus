@@ -257,7 +257,7 @@ function updateFeatureModule(options: {
           continue;
         }
 
-        const featureModule = findFeatureModule(wrapperModule);
+        const featureModule = findFeatureModuleByReference(wrapperModule);
         if (!featureModule) {
           continue;
         }
@@ -318,7 +318,9 @@ function updateFeatureModule(options: {
  * Searches for the feature module by looking in ngModule's
  * imports' reference for the given wrapper module.
  */
-function findFeatureModule(wrapperModule: SourceFile): SourceFile | undefined {
+function findFeatureModuleByReference(
+  wrapperModule: SourceFile
+): SourceFile | undefined {
   const referenceSymbols = wrapperModule.getClasses()[0].findReferences();
   for (const referenceSymbol of referenceSymbols) {
     for (const reference of referenceSymbol.getReferences()) {

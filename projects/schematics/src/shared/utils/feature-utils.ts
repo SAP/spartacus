@@ -743,9 +743,9 @@ function checkDependentFeatures<OPTIONS extends LibraryOptions>(
 }
 
 /**
- * Searches through all the source files,
- * and looks for the either the static or
- * dynamic imports of the feature module.
+ * Searches through feature modules,
+ * and looks for either the static or
+ * dynamic imports.
  */
 function findFeatureModule(
   schematicsConfig: SchematicConfig,
