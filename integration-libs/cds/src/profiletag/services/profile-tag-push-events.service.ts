@@ -378,7 +378,7 @@ export class ProfileTagPushEventsService {
             cart,
           })
       )
-      );
+    );
   }
 
   private getProductPrice(event: CartAddEntrySuccessEvent): Number {
