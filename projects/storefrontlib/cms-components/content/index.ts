@@ -12,4 +12,3 @@ export * from './tab-paragraph-container/tab-paragraph-container.component';
 export * from './tab-paragraph-container/tab-paragraph-container.module';
 export * from './video/video.component';
 export * from './video/video.module';
-
