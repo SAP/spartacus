@@ -20,6 +20,10 @@
                 bindLabel="name"
                 bindValue="code"
                 formControlName="titleCode"
+                id="title-select"
+                [cxNgSelectA11y]="{
+                  ariaLabel: 'register.title' | cxTranslate
+                }"
               >
               </ng-select>
             </label>
@@ -102,6 +106,10 @@
                   'register.password.placeholder' | cxTranslate
                 }}"
                 formControlName="password"
+                [attr.aria-label]="
+                  'register.password.placeholder' | cxTranslate
+                "
+                cxPasswordVisibilitySwitch
               />
               <cx-form-errors
                 [control]="registerForm.get('password')"
@@ -123,6 +131,10 @@
                   'register.confirmPassword.placeholder' | cxTranslate
                 }}"
                 formControlName="passwordconf"
+                [attr.aria-label]="
+                  'register.confirmPassword.placeholder' | cxTranslate
+                "
+                cxPasswordVisibilitySwitch
               />
               <cx-form-errors
                 [control]="registerForm.get('passwordconf')"
