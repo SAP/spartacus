@@ -83,9 +83,11 @@ export class ConfiguratorAttributeHeaderComponent
   protected isSingleSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
       case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         return true;

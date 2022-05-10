@@ -192,6 +192,20 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
+  describe('isSingleSelection', () => {
+    it('should know which attribute type represent single selection attributes', () => {
+      expect(component['isSingleSelection']()).toBe(true);
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(component['isSingleSelection']()).toBe(true);
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(component['isSingleSelection']()).toBe(true);
+      component.attribute.uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
+      expect(component['isSingleSelection']()).toBe(false);
+    });
+  });
+
   describe('hasImage', () => {
     it('should return true if image available', () => {
       expect(component.hasImage).toBe(true);

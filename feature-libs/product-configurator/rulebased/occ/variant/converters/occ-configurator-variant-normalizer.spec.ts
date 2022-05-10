@@ -980,6 +980,26 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attributeMSIWOValue.incomplete).toBe(true);
       expect(attributeMSIWithValue.incomplete).toBe(false);
     });
+
+    it('should set incomplete for attribute types with additional value', () => {
+      attributeDDWithValues.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
+      expect(attributeDDWithValues.incomplete).toBe(true);
+    });
+
+    it('should set incomplete for attribute types with additional value, ignoring user input, as that is not sent when retrieving a configuration ', () => {
+      //a previous user input is always be part of the domain after a roundtrip
+      attributeDDWithValues.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      attributeDDWithValues.userInput = 'NeverBeSentFromBackend';
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
+      expect(attributeDDWithValues.incomplete).toBe(true);
+    });
   });
 
   describe('isRetractValueSelected', () => {

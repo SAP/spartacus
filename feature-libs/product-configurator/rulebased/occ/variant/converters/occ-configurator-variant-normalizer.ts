@@ -426,6 +426,8 @@ export class OccConfiguratorVariantNormalizer
 
     switch (attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
+      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
       case Configurator.UiType.DROPDOWN: {
         if (
           !attribute.selectedSingleValue ||
