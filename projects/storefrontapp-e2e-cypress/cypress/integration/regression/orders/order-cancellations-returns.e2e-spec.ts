@@ -14,7 +14,7 @@ describe('Order Cancellations and Returns', () => {
   });
 
   describe('Should display cancel or return buttons in order details page', () => {
-    it('should display cancel button in order details page', () => {
+    it(['orders','order_cancellation'],'should display cancel button in order details page', () => {
       orderCancellationReturn.getStubbedCancellableOrderDetails();
       orderCancellationReturn.visitOrderDetailPage();
 
@@ -27,7 +27,7 @@ describe('Order Cancellations and Returns', () => {
       );
     });
 
-    it('should display return button in order details page', () => {
+    it(['orders', 'order_returns'],'should display return button in order details page', () => {
       orderCancellationReturn.getStubbedReturnableOrderDetails();
       orderCancellationReturn.visitOrderDetailPage();
 
@@ -42,7 +42,7 @@ describe('Order Cancellations and Returns', () => {
   });
 
   describe('Return request list and details', () => {
-    it('should display return request list', () => {
+    it(['orders', 'order_returns'], 'should display return request list', () => {
       orderCancellationReturn.getStubbedReturnRequestList();
       orderCancellationReturn.visitReturnRequestListPage();
       cy.wait('@return_request_list')
@@ -83,7 +83,7 @@ describe('Order Cancellations and Returns', () => {
       );
     });
 
-    it('Should display return request detail page', () => {
+    it(['orders', 'order_returns'],'Should display return request detail page', () => {
       orderCancellationReturn.getStubbedReturnRequestDetails();
       orderCancellationReturn.visitReturnRequestDetailsPage();
 
@@ -119,7 +119,7 @@ describe('Order Cancellations and Returns', () => {
       );
     });
 
-    it('should cancel a return request', () => {
+    it(['orders', 'order_cancellation'],'should cancel a return request', () => {
       orderCancellationReturn.getStubbedReturnRequestDetails();
       orderCancellationReturn.visitReturnRequestDetailsPage();
 

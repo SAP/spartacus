@@ -17,7 +17,7 @@ context('Currency change', () => {
   });
 
   describe('on the product page', () => {
-    it('should change the currency and be persistent in the url ', () => {
+    it(['site_context', 'currency'], 'should change the currency and be persistent in the url ', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         productPath,
         siteContextSelector.CURRENCIES,
@@ -27,7 +27,7 @@ context('Currency change', () => {
       );
     });
 
-    it('should display the chosen currency', () => {
+    it(['site_context', 'currency'], 'should display the chosen currency', () => {
       siteContextSelector.siteContextChange(
         productPath,
         siteContextSelector.CURRENCIES,
@@ -45,7 +45,7 @@ context('Currency change', () => {
     const LOGIN_URL_USD = `/${siteContextSelector.CONTENT_CATALOG}/en/USD/login`;
     const TEST_EMAIL = 'my@email.com';
 
-    it('user input should not be removed on currency change', () => {
+    it(['site_context', 'currency'], 'user input should not be removed on currency change', () => {
       cy.visit(`${LOGIN_URL_USD}`);
       cy.get('input[type="email"]').type(TEST_EMAIL);
       cy.wait('@currencies').its('response.statusCode').should('eq', 200);

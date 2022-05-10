@@ -49,7 +49,7 @@ context('Product Configuration', () => {
   });
 
   describe('Navigate to Product Configuration Page', () => {
-    it('should be able to navigate from the cart', () => {
+    it(['product_configurator'], 'should be able to navigate from the cart', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
@@ -61,7 +61,7 @@ context('Product Configuration', () => {
       configurationCart.clickOnEditConfigurationLink(0);
     });
 
-    it('should be able to navigate from the cart after adding product directly to the cart', () => {
+    it(['product_configurator'], 'should be able to navigate from the cart after adding product directly to the cart', () => {
       clickAllowAllFromBanner();
       configuration.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
@@ -72,7 +72,7 @@ context('Product Configuration', () => {
   });
 
   describe('Conflict Solver', () => {
-    it('should support the conflict solving process', () => {
+    it(['product_configurator'], 'should support the conflict solving process', () => {
       clickAllowAllFromBanner();
       cy.intercept({
         method: 'PATCH',
@@ -165,7 +165,7 @@ context('Product Configuration', () => {
   });
 
   describe('Configuration process', () => {
-    it('should support configuration aspect in product search, cart, checkout and order history', () => {
+    it(['product_configurator'],'should support configuration aspect in product search, cart, checkout and order history', () => {
       configuration.completeOrderProcess(testProductMultiLevel);
     });
   });

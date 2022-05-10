@@ -21,7 +21,7 @@ describe('Wish list', () => {
   });
 
   describe('Anonymous', () => {
-    it('should register and sign in user to add product to wish list', () => {
+    it(['wishlist'],'should register and sign in user to add product to wish list', () => {
       wishList.addToWishListAnonymous(wishList.products[0]);
     });
   });
@@ -33,7 +33,7 @@ describe('Wish list', () => {
       wishList.loginWishListUser();
     });
 
-    it('should add and remove product to wish list from PDP', () => {
+    it(['wishlist'],'should add and remove product to wish list from PDP', () => {
       wishList.visitProduct(wishList.products[0]);
       wishList.addToWishListFromPage();
       wishList.verifyProductInWishListPdp();
@@ -42,7 +42,7 @@ describe('Wish list', () => {
       wishList.removeProductFromPdp();
     });
 
-    it('should persist wish list between sessions', () => {
+    it(['wishlist'],'should persist wish list between sessions', () => {
       wishList.addToWishList(wishList.products[1]);
       wishList.verifyProductInWishList(wishList.products[1]);
       wishList.checkWishListPersisted(wishList.products[1]);
@@ -50,7 +50,7 @@ describe('Wish list', () => {
       wishList.removeProductFromWishListPage(wishList.products[1]);
     });
 
-    it('should add product to cart from wish list', () => {
+    it(['wishlist'],'should add product to cart from wish list', () => {
       wishList.addToWishList(wishList.products[0]);
       wishList.verifyProductInWishList(wishList.products[0]);
       wishList.addProductToCart(wishList.products[0]);
@@ -69,7 +69,7 @@ describe('Wish list', () => {
       wishList.loginWishListUser();
     });
 
-    it('should checkout with product added from wish list', () => {
+    it(['wishlist', 'checkout'],'should checkout with product added from wish list', () => {
       const currentRetry = cy.state('runnable')._currentRetry;
 
       /**

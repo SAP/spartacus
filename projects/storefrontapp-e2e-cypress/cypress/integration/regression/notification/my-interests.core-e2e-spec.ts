@@ -11,11 +11,11 @@ describe('My interests', () => {
         notification.enableNotificationChannel();
       });
 
-      it('should show/remove interest', () => {
+      it(['my_interest'],'should show/remove interest', () => {
         notification.verifyCustomerInterests();
       });
 
-      it('should remove the subscrption in PDP', () => {
+      it(['my_interest'],'should remove the subscrption in PDP', () => {
         notification.verifyRemovingCustomerInterestInPDP();
       });
     });

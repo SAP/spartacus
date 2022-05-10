@@ -14,7 +14,7 @@ describe('Language switch - registration page', () => {
   );
 
   describe('registration page', () => {
-    it('should change language in the url', () => {
+    it(['site_context', 'language'], 'should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         registerPath,
         siteContextSelector.LANGUAGES,
@@ -24,7 +24,7 @@ describe('Language switch - registration page', () => {
       );
     });
 
-    it('should change language in the page', () => {
+    it(['site_context', 'language'], 'should change language in the page', () => {
       siteContextSelector.siteContextChange(
         registerPath,
         siteContextSelector.LANGUAGES,

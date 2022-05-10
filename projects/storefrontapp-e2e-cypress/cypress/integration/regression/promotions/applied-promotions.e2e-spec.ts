@@ -11,7 +11,9 @@ context('Applied promotions', () => {
       cy.requireLoggedIn();
     });
 
-    // Core test. Repeat in mobile.
-    appliedPromotions.testPromotionsForLoggedInUser();
+    it(['promotions'], 'should validate promotions core functionality', () => {
+      // Core test. Repeat in mobile.
+      appliedPromotions.testPromotionsForLoggedInUser();
+    });
   });
 });

@@ -7,7 +7,7 @@ context('Reset Password Page', () => {
     cy.visit('/login/pw/change?token=123');
   });
 
-  it('should not submit an empty form', () => {
+  it(['password', 'smoke_b2c'], 'should not submit an empty form', () => {
     // Submitting an empty form should not procede. Detailed form validation cases are covered by unit tests.
     alerts.getAlert().should('not.exist');
 
@@ -16,7 +16,7 @@ context('Reset Password Page', () => {
     alerts.getAlert().should('not.exist');
   });
 
-  it('should invalid token result in server error', () => {
+  it(['password', 'smoke_b2c'], 'should invalid token result in server error', () => {
     // The form is submitted without a change password token. An error message should appear and the page should not change.
     alerts.getErrorAlert().should('not.exist');
     cy.get('cx-reset-password form').within(() => {
@@ -28,7 +28,7 @@ context('Reset Password Page', () => {
     alerts.getErrorAlert().should('exist');
   });
 
-  it('should react as expected on password change success.', () => {
+  it(['password', 'smoke_b2c'], 'should react as expected on password change success.', () => {
     // We use a mock because the change password token required is only available from a reset password email.
     cy.intercept(
       {

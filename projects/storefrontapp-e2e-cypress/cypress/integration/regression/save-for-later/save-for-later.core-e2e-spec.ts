@@ -8,8 +8,9 @@ context('Save for later', () => {
       cy.visit('/');
     });
 
-    saveForLater.testAnonymousUserSaveForLater();
-
-    saveForLater.testLoggedInUserSaveForLater();
+    it(['saved_carts'],'should validate save for later core functionality', () => {
+      saveForLater.testAnonymousUserSaveForLater();
+      saveForLater.testLoggedInUserSaveForLater();
+    });
   });
 });

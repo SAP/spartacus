@@ -30,7 +30,7 @@ describe('Language switch - checkout page', () => {
   });
 
   describe('checkout page', () => {
-    it('should change language throughout checkout process', () => {
+    it(['site_context', 'language'], 'should change language throughout checkout process', () => {
       // page being already tested in language-address-book
       cy.intercept({
         method: 'PUT',

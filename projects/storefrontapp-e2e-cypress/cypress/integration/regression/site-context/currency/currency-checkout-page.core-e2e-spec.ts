@@ -29,7 +29,7 @@ describe('Currency switch - checkout page', () => {
   });
 
   describe('checkout page', () => {
-    it('should change currency in the shipping address url', () => {
+    it(['site_context', 'currency'],'should change currency in the shipping address url', () => {
       // page being already tested in currency-address-book
       cy.intercept({
         method: 'PUT',
@@ -50,13 +50,13 @@ describe('Currency switch - checkout page', () => {
       siteContextSelector.addressBookNextStep();
     });
 
-    it('should change currency in the checkoutDeliveryPath url', () => {
+    it(['site_context', 'currency'], 'should change currency in the checkoutDeliveryPath url', () => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutDeliveryPath
       );
     });
 
-    it('should change currency in the checkoutDeliveryPath page', () => {
+    it(['site_context', 'currency'], 'should change currency in the checkoutDeliveryPath page', () => {
       cy.get('cx-delivery-mode .cx-delivery-price:first').should(
         'contain',
         '¥'
@@ -64,7 +64,7 @@ describe('Currency switch - checkout page', () => {
       siteContextSelector.deliveryModeNextStep();
     });
 
-    it('should change currency in the checkoutPaymentPath url', () => {
+    it(['site_context', 'currency'], 'should change currency in the checkoutPaymentPath url', () => {
       // page being already tested in currency-payment-details
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutPaymentPath
@@ -73,13 +73,13 @@ describe('Currency switch - checkout page', () => {
       siteContextSelector.paymentDetailsNextStep();
     });
 
-    it('should change currency in the checkoutReviewPath url', () => {
+    it(['site_context', 'currency'], 'should change currency in the checkoutReviewPath url', () => {
       siteContextSelector.assertSiteContextChange(
         siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutReviewPath
       );
     });
 
-    it('should change currency in the checkoutReviewPath page', () => {
+    it(['site_context', 'currency'], 'should change currency in the checkoutReviewPath page', () => {
       cy.get('cx-review-submit .cx-price .cx-value').should('contain', '¥');
     });
   });

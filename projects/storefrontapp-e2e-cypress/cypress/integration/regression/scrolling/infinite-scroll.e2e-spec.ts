@@ -24,7 +24,7 @@ describe('Infinite scroll', () => {
     }).as(infiniteScroll.defaultQuery);
   });
 
-  it("should enable infinite scroll and display 'Show more' button", () => {
+  it(['inifinite_scroll'],"should enable infinite scroll and display 'Show more' button", () => {
     configScroll(true, 0, true);
     cy.visit(infiniteScroll.testUrl);
 
@@ -37,7 +37,7 @@ describe('Infinite scroll', () => {
     });
   });
 
-  it("should enable infinite scroll and display 'Show more' button after 12th product", () => {
+  it(['inifinite_scroll'], "should enable infinite scroll and display 'Show more' button after 12th product", () => {
     configScroll(true, 12, false);
     cy.visit(infiniteScroll.testUrl);
 
@@ -50,7 +50,7 @@ describe('Infinite scroll', () => {
     });
   });
 
-  it('should not display Infinite scroll', () => {
+  it(['inifinite_scroll'], 'should not display Infinite scroll', () => {
     configScroll(false, 0, false);
     cy.visit(infiniteScroll.testUrl);
 

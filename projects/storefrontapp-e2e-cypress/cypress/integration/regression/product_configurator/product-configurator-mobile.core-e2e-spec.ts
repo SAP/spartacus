@@ -14,7 +14,7 @@ const CAMERA_MODE = 'CAMERA_MODE';
 
 viewportContext(['mobile'], () => {
   describe('Group Handling', () => {
-    it('should navigate using the group menu in mobile resolution', () => {
+    it(['product_configurator'],'should navigate using the group menu in mobile resolution', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
       clickAllowAllFromBanner();

@@ -16,7 +16,7 @@ context('Language Switcher', () => {
   });
 
   describe('Product Page', () => {
-    it('switch language should work and language should be persistent in url', () => {
+    it(['site_context', 'language'], 'switch language should work and language should be persistent in url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         productPath,
         siteContextSelector.LANGUAGES,

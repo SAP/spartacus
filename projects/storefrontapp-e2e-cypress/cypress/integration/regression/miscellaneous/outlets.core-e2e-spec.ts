@@ -1,5 +1,5 @@
 context('Outlets', () => {
-  it('should work for templates', () => {
+  it(['outlets'],'should work for templates', () => {
     cy.visit('test/outlet/template');
     cy.get('cx-page-layout.ContentPage1Template').within(
       ($ContentPage1Template) => {
@@ -19,7 +19,7 @@ context('Outlets', () => {
       }
     );
   });
-  it('should work for slots', () => {
+  it(['outlets'],'should work for slots', () => {
     cy.visit('test/outlet/slot');
     cy.get('cx-page-layout.ContentPage1Template').within(() => {
       cy.get('.Section2A').within(($Section2A) => {
@@ -55,7 +55,7 @@ context('Outlets', () => {
     });
   });
 
-  it('should work for components', () => {
+  it(['outlets'],'should work for components', () => {
     cy.visit('test/outlet/component');
     cy.get('cx-page-layout.ContentPage1Template').within(() => {
       cy.get('.Section2A').within(($Section2A) => {

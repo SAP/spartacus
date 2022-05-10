@@ -9,7 +9,7 @@ context('Redirect after auth', () => {
     user = createUser();
   });
 
-  it('should redirect back after the forced login when access token expired and page was refreshed', () => {
+  it(['redirects'],'should redirect back after the forced login when access token expired and page was refreshed', () => {
     cy.requireLoggedIn(user);
     cy.visit('/my-account/update-profile');
     cy.location('pathname').should('contain', '/my-account/update-profile');
@@ -31,7 +31,7 @@ context('Redirect after auth', () => {
     cy.location('pathname').should('contain', '/my-account/update-profile');
   });
 
-  it('should redirect back after the forced login when access token expired and http call was made', () => {
+  it(['redirects'],'should redirect back after the forced login when access token expired and http call was made', () => {
     cy.requireLoggedIn(user);
     cy.visit('/my-account/consents');
     cy.location('pathname').should('contain', '/my-account/consents');
@@ -54,7 +54,7 @@ context('Redirect after auth', () => {
     cy.location('pathname').should('contain', '/my-account/consents');
   });
 
-  it('should not redirect after the login to: /login, /register nor /forgot-password', () => {
+  it(['redirects'],'should not redirect after the login to: /login, /register nor /forgot-password', () => {
     cy.visit(`/my-account/update-profile`);
 
     cy.location('pathname').should('match', /\/login$/);

@@ -50,11 +50,13 @@ context('Apparel - checkout as guest', () => {
       cy.saveLocalStorage();
     });
 
-    // Core e2e test.
-    checkoutVariants.testCheckoutVariantAsGuest();
+    it(['apparel', 'guest_checkout'],'should keep guest cart content and restart checkout', () => {
+      // Core e2e test.
+      checkoutVariants.testCheckoutVariantAsGuest();
+    });
 
     // Below tests depend on core test for setup.
-    it('should keep guest cart content and restart checkout', () => {
+    it(['apparel', 'guest_checkout'],'should keep guest cart content and restart checkout', () => {
       cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage(products[0]);
       checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);

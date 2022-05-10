@@ -14,7 +14,7 @@ describe('Language switch - product-search page', () => {
   );
 
   describe('product-search page', () => {
-    it('should change language in the url', () => {
+    it(['site_context', 'language'],'should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         productSearchPath,
         siteContextSelector.LANGUAGES,
@@ -24,7 +24,7 @@ describe('Language switch - product-search page', () => {
       );
     });
 
-    it('should change language in the page', () => {
+    it(['site_context', 'language'], 'should change language in the page', () => {
       siteContextSelector.siteContextChange(
         productSearchPath,
         siteContextSelector.LANGUAGES,
@@ -38,7 +38,7 @@ describe('Language switch - product-search page', () => {
       );
     });
 
-    it('should change language in the search result', () => {
+    it(['site_context', 'language'], 'should change language in the search result', () => {
       siteContextSelector.siteContextChange(
         productSearchPath,
         siteContextSelector.LANGUAGES,

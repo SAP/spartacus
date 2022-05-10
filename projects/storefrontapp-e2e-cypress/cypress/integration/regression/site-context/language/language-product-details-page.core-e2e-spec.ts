@@ -14,7 +14,7 @@ describe('Language switch - product-details page', () => {
   );
 
   describe('product-details page', () => {
-    it('should change language in the url', () => {
+    it(['site_context', 'language'], 'should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         productDetailsPath,
         siteContextSelector.LANGUAGES,
@@ -24,7 +24,7 @@ describe('Language switch - product-details page', () => {
       );
     });
 
-    it('should change language in the page', () => {
+    it(['site_context', 'language'], 'should change language in the page', () => {
       siteContextSelector.siteContextChange(
         productDetailsPath,
         siteContextSelector.LANGUAGES,
@@ -35,7 +35,7 @@ describe('Language switch - product-details page', () => {
       cy.get('cx-product-summary .summary').should('have.text', deutschName);
     });
 
-    it('should change language in the modal', () => {
+    it(['site_context', 'language'], 'should change language in the modal', () => {
       siteContextSelector.siteContextChange(
         productDetailsPath,
         siteContextSelector.LANGUAGES,

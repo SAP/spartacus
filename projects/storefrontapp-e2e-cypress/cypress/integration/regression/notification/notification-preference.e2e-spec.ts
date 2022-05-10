@@ -28,7 +28,7 @@ describe('Notification preference', () => {
         clearAllStorage();
       });
 
-      it('should redirect to login page for anonymous user', () => {
+      it(['notification'],'should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/notification-preference');
         cy.location('pathname').should('contain', '/login');
       });
@@ -41,7 +41,7 @@ describe('Notification preference', () => {
         cy.visit('/');
       });
 
-      it('should show correct email channel after update email address', () => {
+      it(['notification'],'should show correct email channel after update email address', () => {
         verifyEmailChannel(standardUser.registrationData.email);
         const newEmail = updateEmail();
         verifyEmailChannel(newEmail);

@@ -14,7 +14,7 @@ describe('Currency switch - product-details page', () => {
   );
 
   describe('product-details page', () => {
-    it('should change currency in the url', () => {
+    it(['site_context', 'currency'], 'should change currency in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         productDetailsPath,
         siteContextSelector.CURRENCIES,
@@ -24,7 +24,7 @@ describe('Currency switch - product-details page', () => {
       );
     });
 
-    it('should change currency in the page', () => {
+    it(['site_context', 'currency'], 'should change currency in the page', () => {
       siteContextSelector.siteContextChange(
         productDetailsPath,
         siteContextSelector.CURRENCIES,
@@ -35,7 +35,7 @@ describe('Currency switch - product-details page', () => {
       cy.get('cx-product-summary .price').should('have.text', jpCurrency);
     });
 
-    it('should change currency in the modal', () => {
+    it(['site_context', 'currency'], 'should change currency in the modal', () => {
       siteContextSelector.siteContextChange(
         productDetailsPath,
         siteContextSelector.CURRENCIES,

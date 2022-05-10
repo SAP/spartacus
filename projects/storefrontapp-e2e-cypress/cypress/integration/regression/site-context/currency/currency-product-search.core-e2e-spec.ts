@@ -14,7 +14,7 @@ describe('Currency switch - product-search page', () => {
   );
 
   describe('product-search page', () => {
-    it('should change currency in the url', () => {
+    it(['site_context', 'currency'], 'should change currency in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         productSearchPath,
         siteContextSelector.CURRENCIES,
@@ -24,7 +24,7 @@ describe('Currency switch - product-search page', () => {
       );
     });
 
-    it('should change currency in the page', () => {
+    it(['site_context', 'currency'], 'should change currency in the page', () => {
       siteContextSelector.siteContextChange(
         productSearchPath,
         siteContextSelector.CURRENCIES,
@@ -38,7 +38,7 @@ describe('Currency switch - product-search page', () => {
       );
     });
 
-    it('should change currency in the search result', () => {
+    it(['site_context', 'currency'], 'should change currency in the search result', () => {
       siteContextSelector.siteContextChange(
         productSearchPath,
         siteContextSelector.CURRENCIES,

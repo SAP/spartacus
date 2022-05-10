@@ -16,6 +16,7 @@ describe('Infinite scroll', () => {
       pathname: searchUrlPrefix,
     }).as(infiniteScroll.defaultQuery);
   });
-
-  infiniteScroll.testInfiniteScrollAvoidDisplayShowMoreButton();
+  it(['inifinite_scroll'],"should validate infinite scroll core functionality", () => {
+    infiniteScroll.testInfiniteScrollAvoidDisplayShowMoreButton();
+  });
 });

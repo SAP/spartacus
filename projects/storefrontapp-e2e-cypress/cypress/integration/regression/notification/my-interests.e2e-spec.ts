@@ -13,12 +13,12 @@ describe('My interests', () => {
       });
 
       // Core test. Retest in mobile view.
-      it('should show/remove interest', () => {
+      it(['my_interest'],'should show/remove interest', () => {
         notification.verifyCustomerInterests();
       });
 
       // Core test. Retest in mobile view.
-      it('should remove the subscrption in PDP', () => {
+      it(['my_interest'], 'should remove the subscrption in PDP', () => {
         notification.verifyRemovingCustomerInterestInPDP();
       });
     });
@@ -29,7 +29,7 @@ describe('My interests', () => {
         cy.window().then((win) => win.sessionStorage.clear());
       });
 
-      it('should redirect to login page for anonymous user', () => {
+      it(['my_interest'], 'should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/my-interests');
         cy.location('pathname').should('contain', '/login');
       });
@@ -42,7 +42,7 @@ describe('My interests', () => {
         orderDetail.loginUsingUserWithOrder();
       });
 
-      it('should page and sort', () => {
+      it(['my_interest'], 'should page and sort', () => {
         notification.verifyPagingAndSorting();
       });
     });

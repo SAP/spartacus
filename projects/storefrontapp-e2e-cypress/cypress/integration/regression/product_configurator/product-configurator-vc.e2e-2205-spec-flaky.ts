@@ -39,7 +39,7 @@ context('Product Configuration - 2205', () => {
   });
 
   describe.only('Conflict Solver', () => {
-    it('should support the conflict solving process', () => {
+    it(['product_configurator'],'should support the conflict solving process', () => {
       clickAllowAllFromBanner();
       cy.intercept({
         method: 'PATCH',

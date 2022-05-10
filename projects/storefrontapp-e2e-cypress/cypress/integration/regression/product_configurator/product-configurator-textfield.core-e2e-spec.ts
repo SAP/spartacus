@@ -12,12 +12,12 @@ context('Textfield Configuration', () => {
     cy.visit('/');
   });
   describe('Navigate to Textfield Configuration Page', () => {
-    it('should be able to navigate from the product search result', () => {
+    it(['product_configurator'], 'should be able to navigate from the product search result', () => {
       configuration.searchForProduct(testProduct);
       textfieldConfiguration.clickOnConfigureButton();
     });
 
-    it('should be able to navigate from the product details page', () => {
+    it(['product_configurator'], 'should be able to navigate from the product details page', () => {
       textfieldConfiguration.goToProductDetailsPage(
         electronicsShop,
         testProduct
@@ -25,7 +25,7 @@ context('Textfield Configuration', () => {
       textfieldConfiguration.clickOnConfigureButton();
     });
 
-    it('should be able to navigate from the cart', () => {
+    it(['product_configurator'], 'should be able to navigate from the cart', () => {
       textfieldConfiguration.goToConfigurationPage(
         electronicsShop,
         testProduct
@@ -35,7 +35,7 @@ context('Textfield Configuration', () => {
       textfieldConfiguration.clickOnEditConfigurationLink(0);
     });
 
-    it('should be able to navigate from the cart after adding product directly to the cart', () => {
+    it(['product_configurator'],'should be able to navigate from the cart after adding product directly to the cart', () => {
       textfieldConfiguration.goToProductDetailsPage(
         electronicsShop,
         testProduct
@@ -47,7 +47,7 @@ context('Textfield Configuration', () => {
     });
   });
   describe('Configure Product and add to cart', () => {
-    it('should enter value and add textfield product to cart', () => {
+    it(['product_configurator'],'should enter value and add textfield product to cart', () => {
       textfieldConfiguration.goToConfigurationPage(
         electronicsShop,
         testProduct
@@ -58,7 +58,7 @@ context('Textfield Configuration', () => {
       textfieldConfiguration.addToCartAndVerify(electronicsShop, testProduct);
     });
 
-    it('should be able to update a configured product from the cart', () => {
+    it(['product_configurator'], 'should be able to update a configured product from the cart', () => {
       textfieldConfiguration.goToConfigurationPage(
         electronicsShop,
         testProduct

@@ -56,19 +56,19 @@ context('Product Configuration', () => {
   });
 
   describe('Navigate to Product Configuration Page', () => {
-    it('should be able to navigate from the product search result', () => {
+    it(['product_configurator'],'should be able to navigate from the product search result', () => {
       clickAllowAllFromBanner();
       configuration.searchForProduct(testProduct);
       configurationVc.clickOnConfigureBtnInCatalog();
     });
 
-    it('should be able to navigate from the product details page', () => {
+    it(['product_configurator'],'should be able to navigate from the product details page', () => {
       clickAllowAllFromBanner();
       configurationVc.goToPDPage(electronicsShop, testProduct);
       configurationVc.clickOnConfigureBtnInCatalog();
     });
 
-    it('should be able to navigate from the overview page', () => {
+    it(['product_configurator'],'should be able to navigate from the overview page', () => {
       clickAllowAllFromBanner();
       configurationOverviewVc.goToConfigOverviewPage(
         electronicsShop,
@@ -80,7 +80,7 @@ context('Product Configuration', () => {
   });
 
   describe('Configure Product', () => {
-    it('should support image attribute type - single selection', () => {
+    it(['product_configurator'],'should support image attribute type - single selection', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
@@ -101,7 +101,7 @@ context('Product Configuration', () => {
       );
     });
 
-    it('should keep checkboxes selected after group change', () => {
+    it(['product_configurator'],'should keep checkboxes selected after group change', () => {
       cy.intercept({
         method: 'PATCH',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -121,7 +121,7 @@ context('Product Configuration', () => {
   });
 
   describe('Group Status', () => {
-    it('should set group status for single level product', () => {
+    it(['product_configurator'], 'should set group status for single level product', () => {
       clickAllowAllFromBanner();
       cy.intercept({
         method: 'PATCH',
@@ -177,7 +177,7 @@ context('Product Configuration', () => {
       configurationVc.checkStatusIconNotDisplayed(OPTIONS);
     });
 
-    it('should set group status for multi level product', () => {
+    it(['product_configurator'], 'should set group status for multi level product', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
@@ -244,7 +244,7 @@ context('Product Configuration', () => {
   });
 
   describe('Group Handling', () => {
-    it('should navigate between groups', () => {
+    it(['product_configurator'], 'should navigate between groups', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
@@ -252,7 +252,7 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousBtn(SPECIFICATION);
     });
 
-    it('should check if group buttons are clickable', () => {
+    it(['product_configurator'],'should check if group buttons are clickable', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkNextBtnEnabled();
@@ -266,7 +266,7 @@ context('Product Configuration', () => {
       configuration.checkNextBtnDisabled();
     });
 
-    it('should navigate using the group menu', () => {
+    it(['product_configurator'],'should navigate using the group menu', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
@@ -277,7 +277,7 @@ context('Product Configuration', () => {
       configuration.checkAttributeDisplayed(CAMERA_PIXELS, radioGroup);
     });
 
-    it('should navigate using the previous and next button for multi level product', () => {
+    it(['product_configurator'],'should navigate using the previous and next button for multi level product', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
@@ -288,7 +288,7 @@ context('Product Configuration', () => {
       configuration.clickOnPreviousBtn(PROJECTOR);
     });
 
-    it('should navigate using the group menu for multi level product', () => {
+    it(['product_configurator'],'should navigate using the group menu for multi level product', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
@@ -322,7 +322,7 @@ context('Retract mode for Product Configuration', () => {
   });
 
   describe('Enable retract mode', () => {
-    it('should lead to additional retract value displayed', () => {
+    it(['product_configurator'],'should lead to additional retract value displayed', () => {
       // Verify whether all values are displayed including 'No option selected' / a retract value
       configuration.checkAttrValueDisplayed(
         CAMERA_MODE,
@@ -341,7 +341,7 @@ context('Retract mode for Product Configuration', () => {
   });
 
   describe('Selecting retract mode', () => {
-    it('should de-select the currently selected value', () => {
+    it(['product_configurator'],'should de-select the currently selected value', () => {
       //Select another value and verify whether a corresponding value is selected
       configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
       configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'S');

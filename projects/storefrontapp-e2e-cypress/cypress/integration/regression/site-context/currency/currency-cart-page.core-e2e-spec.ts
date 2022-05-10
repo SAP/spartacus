@@ -36,7 +36,7 @@ context('Currency switch - cart page', () => {
   describe('cart page', () => {
     const baseUrl = `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}`;
 
-    it('should change currency in the url', () => {
+    it(['site_context', 'currency'],'should change currency in the url', () => {
       cy.intercept({
         method: 'GET',
         path: siteContextSelector.CART_REQUEST,
@@ -51,7 +51,7 @@ context('Currency switch - cart page', () => {
       );
     });
 
-    it('should change currency for cart details', () => {
+    it(['site_context', 'currency'],'should change currency for cart details', () => {
       cy.intercept({
         method: 'GET',
         pathname: `${baseUrl}/users/current/carts/${cartId}`,

@@ -23,7 +23,7 @@ describe('Language switch - my-account pages', () => {
     const addressBookPath = siteContextSelector.ADDRESS_BOOK_PATH;
     const deutschName = siteContextSelector.TITLE_DE;
 
-    it('should change language in the url', () => {
+    it(['site_context', 'language'], 'should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         addressBookPath,
         siteContextSelector.LANGUAGES,
@@ -43,7 +43,7 @@ describe('Language switch - my-account pages', () => {
       // TODO: need to add test when there's translations on that page (not the header)
     });
 
-    it('should change language in the edit page', () => {
+    it(['site_context', 'language'], 'should change language in the edit page', () => {
       siteContextSelector.siteContextChange(
         addressBookPath,
         siteContextSelector.LANGUAGES,
@@ -69,7 +69,7 @@ describe('Language switch - my-account pages', () => {
   describe('close account page', () => {
     const closeAccountPath = siteContextSelector.CLOSE_ACCOUNT_PATH;
 
-    it('should change language in the url', () => {
+    it(['site_context', 'language'],'should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         closeAccountPath,
         siteContextSelector.LANGUAGES,
@@ -93,7 +93,7 @@ describe('Language switch - my-account pages', () => {
   describe('consent management page', () => {
     const consentManagementPath = siteContextSelector.CONSENT_MANAGEMENT_PATH;
 
-    it('should change language in the url', () => {
+    it(['site_context', 'language'], 'should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         consentManagementPath,
         siteContextSelector.LANGUAGES,
@@ -117,7 +117,7 @@ describe('Language switch - my-account pages', () => {
   describe('payment-details page', () => {
     const paymentDetailsPath = siteContextSelector.PAYMENT_DETAILS_PATH;
 
-    it('should change language in the url', () => {
+    it(['site_context', 'language'], 'should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         paymentDetailsPath,
         siteContextSelector.LANGUAGES,
@@ -141,7 +141,7 @@ describe('Language switch - my-account pages', () => {
   describe('update-email page', () => {
     const updateEmailPath = siteContextSelector.UPDATE_EMAIL_PATH;
 
-    it('should change language in the url', () => {
+    it(['site_context', 'language'], 'should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         updateEmailPath,
         siteContextSelector.LANGUAGES,
@@ -165,7 +165,7 @@ describe('Language switch - my-account pages', () => {
   describe('update-password page', () => {
     const updatePasswordPath = siteContextSelector.UPDATE_PASSWORD_PATH;
 
-    it('should change language in the url', () => {
+    it(['site_context', 'language'], 'should change language in the url', () => {
       siteContextSelector.verifySiteContextChangeUrl(
         updatePasswordPath,
         siteContextSelector.LANGUAGES,

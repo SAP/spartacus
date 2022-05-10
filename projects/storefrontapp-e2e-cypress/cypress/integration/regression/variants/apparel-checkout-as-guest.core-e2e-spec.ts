@@ -21,6 +21,8 @@ context('Apparel - checkout as guest', () => {
     afterEach(() => {
       cy.saveLocalStorage();
     });
-    checkoutVariants.testCheckoutVariantAsGuest();
+    it(['apparel', 'guest_checkout'],'should validate apparel variants guest checkout functionality', () => {
+      checkoutVariants.testCheckoutVariantAsGuest();
+    });
   });
 });

@@ -7,7 +7,7 @@ context('Forgot Password Page', () => {
     cy.visit('/login/forgot-password');
   });
 
-  it('should request password reset email on submit', () => {
+  it(['password', 'smoke_b2c'],'should request password reset email on submit', () => {
     cy.get('cx-forgot-password form').within(() => {
       cy.get('[formcontrolname="userEmail"]').type(getRandomEmailAddress());
       cy.get('button').click();
@@ -23,7 +23,7 @@ context('Forgot Password Page', () => {
       );
   });
 
-  it('should not submit an invalid form', () => {
+  it(['password', 'smoke_b2c'],'should not submit an invalid form', () => {
     cy.get('cx-forgot-password form').within(() => {
       cy.get('button').click();
     });
@@ -32,7 +32,7 @@ context('Forgot Password Page', () => {
     cy.url().should('match', /\/forgot-password/);
   });
 
-  it('should go back to the login page on cancel.', () => {
+  it(['password', 'smoke_b2c'],'should go back to the login page on cancel.', () => {
     // Click 'Cancel'
     cy.get('cx-forgot-password a').contains('Cancel').click();
     // After requesting a reset password email, we should be taken back to the login page
