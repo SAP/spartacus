@@ -46,7 +46,7 @@ import {
   importExists,
 } from './import-utils';
 import {
-  debugLog,
+  debugLogRule,
   formatFeatureComplete,
   formatFeatureStart,
 } from './logger-utils';
@@ -219,12 +219,6 @@ export function addLibraryFeature<T extends LibraryOptions>(
   config: SchematicConfig
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    if (options.debug) {
-      context.logger.info(
-        formatFeatureStart(config.library.featureName, `adding...`)
-      );
-    }
-
     const spartacusFeatureModuleExistsInApp = checkAppStructure(
       tree,
       options.project
@@ -237,13 +231,18 @@ export function addLibraryFeature<T extends LibraryOptions>(
     }
 
     return chain([
+      debugLogRule(
+        formatFeatureStart(config.library.featureName, `adding...`),
+        options.debug
+      ),
+
       spartacusFeatureModuleExistsInApp ? noop() : scaffoldStructure(options),
 
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
 
-      debugLog(
+      debugLogRule(
         formatFeatureComplete(config.library.featureName, `added.`),
         options.debug
       ),

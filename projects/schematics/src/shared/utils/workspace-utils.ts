@@ -19,7 +19,7 @@ import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_MODULE,
 } from '../libs-constants';
-import { debugLog } from './logger-utils';
+import { debugLogRule } from './logger-utils';
 import { ensureModuleExists } from './new-module-utils';
 
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
@@ -179,12 +179,13 @@ export function validateSpartacusInstallation(packageJson: any): void {
 }
 
 export function scaffoldStructure(options: SpartacusOptions): Rule {
-  return (_tree: Tree, context: SchematicContext) => {
-    if (options.debug) {
-      context.logger.info(`⌛️ Scaffolding Spartacus file structure...`);
-    }
-
+  return (_tree: Tree, _context: SchematicContext) => {
     return chain([
+      debugLogRule(
+        `⌛️ Scaffolding Spartacus file structure...`,
+        options.debug
+      ),
+
       ensureModuleExists({
         name: SPARTACUS_MODULE,
         path: 'app/spartacus',
@@ -204,7 +205,7 @@ export function scaffoldStructure(options: SpartacusOptions): Rule {
         project: options.project,
       }),
 
-      debugLog(`✅ Spartacus file structure scaffolded.`, options.debug),
+      debugLogRule(`✅ Spartacus file structure scaffolded.`, options.debug),
     ]);
   };
 }

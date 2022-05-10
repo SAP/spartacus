@@ -35,7 +35,7 @@ import {
   createSpartacusWrapperModuleFileName,
 } from '../shared/utils/lib-utils';
 import {
-  debugLog,
+  debugLogRule,
   formatFeatureComplete,
   formatFeatureStart,
 } from '../shared/utils/logger-utils';
@@ -126,7 +126,7 @@ function createWrapperModule(options: {
     }
 
     rules.push(
-      debugLog(
+      debugLogRule(
         formatFeatureComplete(
           feature,
           `wrapper module created for ${options.moduleName}.`
@@ -197,7 +197,7 @@ function updateWrapperModule(options: {
     }
 
     rules.push(
-      debugLog(
+      debugLogRule(
         formatFeatureComplete(
           feature,
           `wrapper module updated for ${options.moduleName}.`
@@ -302,7 +302,7 @@ function updateFeatureModule(options: {
     }
 
     rules.push(
-      debugLog(
+      debugLogRule(
         formatFeatureComplete(
           feature,
           `feature module updated for ${options.moduleName}.`

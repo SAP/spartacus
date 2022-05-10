@@ -12,7 +12,7 @@ import {
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import {
-  debugLog,
+  debugLogRule,
   formatFeatureComplete,
   formatFeatureStart,
 } from './logger-utils';
@@ -82,7 +82,7 @@ describe('Logger utils', () => {
 
     it('should NOT log the message if the debug is false', async () => {
       await schematicRunner
-        .callRule(debugLog(`xxx`, false), appTree)
+        .callRule(debugLogRule(`xxx`, false), appTree)
         .toPromise();
       expect(lastLogMessage).not.toEqual(`xxx`);
     });
