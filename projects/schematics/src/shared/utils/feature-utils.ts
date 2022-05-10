@@ -541,7 +541,7 @@ function orderInstalledFeatures(options: SpartacusOptions): Rule {
     }
 
     if (options.debug) {
-      context.logger.info(`✅ Ordering Spartacus feature modules...`);
+      context.logger.info(`✅ Ordering Spartacus feature modules complete.`);
     }
   };
 }
@@ -614,7 +614,7 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
     }
 
     if (options.debug) {
-      context.logger.info(`✅  Analysis of installed features complete.`);
+      context.logger.info(`✅ Analysis of installed features complete.`);
     }
   };
 }
