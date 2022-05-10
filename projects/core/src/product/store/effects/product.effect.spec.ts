@@ -4,6 +4,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { AuthActions } from '../../../auth/user-auth/store/actions';
 import { PageType } from '../../../model/cms.model';
 import { Product } from '../../../model/product.model';
 import { defaultOccProductConfig } from '../../../occ/adapters/product/default-occ-product-config';
@@ -96,6 +97,24 @@ describe('Product Effects', () => {
       expect(
         effects.loadProduct$({ scheduler: getTestScheduler(), debounce: 20 })
       ).toBeObservable(expected);
+    });
+  });
+
+  describe('clearProductPrice$', () => {
+    const loginLogoutAction = ['Login', 'Logout'];
+
+    loginLogoutAction.forEach((actionName) => {
+      it(`should reset product price on ${actionName}`, () => {
+        const action = new AuthActions[actionName]();
+        const clearProductPrice = new ProductActions.ClearProductPrice();
+
+        actions$ = hot('-a', { a: action });
+        const expected = cold('-b', {
+          b: clearProductPrice,
+        });
+
+        expect(effects.clearProductPrice$).toBeObservable(expected);
+      });
     });
   });
 });

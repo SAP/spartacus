@@ -18,6 +18,10 @@ title: Changes to Styles in 5.0
 - `box-shadow` was added and set to ` 0 0 5px var(--cx-color-light)` on `%cx-configurator-add-to-cart-button`
 - `margin-top` was added and set to `0px` on `@include cx-configurator-footer-container()`
 
+## Changes in Configurator Overview Notification Banner Component
+- error banner was converted to a div, so that `cx-error-notification-banner` style could be added.
+- new conflict banner div with with style `cx-conflict-notification-banner` was added.
+
 ## Changes in Configurator Tab Bar Component
 
 - Styling is now applied only if content is not empty. Therefore, the styling is wrapped with an `&:not(:empty) {` expression.
@@ -36,6 +40,12 @@ title: Changes to Styles in 5.0
 
 - `padding-inline-start: 5px;` was removed from `cx-icon`section
 - A new section `a.cx-conflict-msg` has been introduced to style the link that allows for navigating from conflicting attributes to their original group. Its content is `cursor: pointer;`
+
+## Changes in \_configurator-overview-notification-banner.scss
+- flex box on root level was changed to column direction to support multiple banners placed underneath
+- `.cx-error-notification-banner` and `.cx-conflict-notification-banner` were added with flex direction row for styling the individual banners.
+- `.cx-error-notification-banner` replicates the error banner style implemented before on root level.
+- `.cx-conflict-notification-banner` implements the new conflict banner styling.
 
 ## Changes in styles
 
@@ -63,7 +73,7 @@ title: Changes to Styles in 5.0
 
 - `padding-block-end` was deleted on `@mixin cx-configurator-template` to enable floating add to cart button styling.
 
-### BreadcrumbComponent 
+### BreadcrumbComponent (_breadcrumb.scss)
 
 - Style structure changed from `span > a` to `ol > li > a` to account for the changes in template markup.
 - Added `text-transform` and set to `capitalize` for `h1`
@@ -88,7 +98,7 @@ title: Changes to Styles in 5.0
 - `display: none` has been removed from `cx-form-errors`
 - Style structure `&.control-invalid > &.control-dirty, &.control-touched` has ben removed `cx-form-errors`
 
-### AddToCartComponent
+### AddToCartComponent (_add-to-cart.scss)
 
 - Added `position` and set to `absolute` of `quantity.info`
 - Added `transform` and set to `translate(0, -50%)` of `quantity.info`
@@ -152,6 +162,11 @@ title: Changes to Styles in 5.0
 
 - Now it extends styles of `%_return-request-items.scss`.
 - All other styles has been removed.
+
+### LoginComponent (_login.scss)
+
+- Added `padding-top` and set to `4px` for `nav > ul > li > button` part of the `cx-page-slot`
+- Added `padding-bottom` and set to `0` for ``nav > ul > li > button` part of the `cx-page-slot`
 
 ### ConfigureCartEntry (_configure-cart-entry.scss)
 

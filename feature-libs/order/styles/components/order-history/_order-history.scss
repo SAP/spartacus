@@ -12,21 +12,6 @@
     border-top: 1px solid var(--cx-color-light);
     border-bottom: 1px solid var(--cx-color-light);
 
-    thead {
-      border-bottom: 1px solid var(--cx-color-light);
-    }
-
-    tr {
-      width: 100%;
-      border-bottom: 1px solid var(--cx-color-light);
-
-      @include media-breakpoint-down(sm) {
-        &:first-child {
-          padding: 1.25rem 0 0 0;
-        }
-      }
-    }
-
     th {
       padding: 1.5rem 0 1.125rem 0;
       text-align: start;
@@ -116,6 +101,10 @@
   .cx-order-history-label {
     text-transform: uppercase;
     color: var(--cx-color-secondary);
+
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
 
     @include media-breakpoint-down(sm) {
       @include type('8');

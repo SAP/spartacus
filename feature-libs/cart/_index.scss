@@ -1,7 +1,8 @@
 $useLatestStyles: true;
 
 @import '~@spartacus/styles/scss/core';
-@import '~@spartacus/styles/scss/app';
+@import '~@spartacus/styles/scss/cxbase/blocks/modal';
+@import '~@spartacus/styles/scss/misc/table';
 
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';

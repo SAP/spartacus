@@ -10,7 +10,12 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  SpinnerModule,
+  NgSelectA11yModule,
+  PasswordVisibilityToggleModule,
+} from '@spartacus/storefront';
 import { RegisterComponent } from './register.component';
 
 @NgModule({
@@ -23,6 +28,8 @@ import { RegisterComponent } from './register.component';
     SpinnerModule,
     FormErrorsModule,
     NgSelectModule,
+    NgSelectA11yModule,
+    PasswordVisibilityToggleModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
