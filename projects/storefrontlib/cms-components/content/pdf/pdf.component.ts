@@ -24,7 +24,7 @@ export class PDFComponent {
     protected mediaService: MediaService
   ) {}
 
-  protected addPdfExtension(name: string) {
+  addPdfExtension(name: string) {
     if (!name) return '';
     return name.endsWith('.pdf') ? name : `${name}.pdf`;
   }
