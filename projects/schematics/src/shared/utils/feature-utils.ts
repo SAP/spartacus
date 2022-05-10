@@ -65,21 +65,6 @@ export interface FeatureModuleImports {
   importPath: string;
   moduleNode: Expression | Identifier;
 }
-/**
- * Represents the result of the `collectInstalledModules` function,
- * and contains all features imported in the `spartacus-features.module.ts` file.
- */
-export interface SpartacusFeatureModule {
-  /**
-   * All imports in the in SpartacusFeaturesModule,
-   * including their import paths and module nodes.
-   */
-  spartacusFeaturesModuleImports: FeatureModuleImports[];
-  /**
-   * Warnings produced while looking for feature modules.
-   */
-  warnings: string[];
-}
 
 /**
  * Custom schematics configuration providers.
