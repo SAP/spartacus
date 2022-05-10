@@ -418,8 +418,8 @@ function addFeatureModule<T extends LibraryOptions>(
 }
 
 /**
- * Checks if the given feature module is already being
- * imported in any wrapper of the wrapper modules.
+ * Checks if the given feature module is
+ * already imported in a wrapper module.
  */
 function isInWrapperModule(
   featureModule: Module,
