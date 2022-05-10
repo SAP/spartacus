@@ -166,7 +166,7 @@ export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
 export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 /***** File structure end *****/
 
-/***** CLI start *****/
+/***** Feature name start *****/
 export const ASM_FEATURE_NAME = 'ASM';
 
 export const CART_BASE_FEATURE_NAME = 'Cart';
@@ -214,4 +214,4 @@ export const CDS_FEATURE_NAME = 'CDS';
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
-/***** CLI end *****/
+/***** Feature name end *****/
