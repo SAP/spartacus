@@ -5,7 +5,11 @@ import {
   SPARTACUS_USER,
   USER_PROFILE_FEATURE_NAME,
 } from '../../libs-constants';
-import { SchematicConfig } from '../../utils/lib-utils';
+import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
+import {
+  LibraryOptions as SpartacusCdcOptions,
+  SchematicConfig,
+} from '../../utils/lib-utils';
 import { USER_PROFILE_MODULE } from '../user-schematics-config';
 
 export const CDC_FOLDER_NAME = 'cdc';
@@ -32,7 +36,17 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     name: CDC_ROOT_MODULE,
     content: `${CDC_ROOT_MODULE}`,
   },
-  customConfig: () => ({
+  customConfig: buildCdcConfig,
+  dependencyManagement: {
+    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
+  },
+  wrappers: {
+    [USER_PROFILE_MODULE]: CDC_MODULE,
+  },
+};
+
+function buildCdcConfig(): AdditionalFeatureConfiguration<SpartacusCdcOptions> {
+  return {
     providers: {
       import: [
         {
@@ -50,11 +64,5 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
         ],
       }`,
     },
-  }),
-  dependencyManagement: {
-    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
-  },
-  wrappers: {
-    [USER_PROFILE_MODULE]: CDC_MODULE,
-  },
-};
+  };
+}
