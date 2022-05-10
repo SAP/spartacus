@@ -36,6 +36,9 @@
         "dist/cart/pickup-in-store/components"
       ],
       "@spartacus/cart/pickup-in-store": ["dist/cart/pickup-in-store"],
+      "@spartacus/cart/pickup-in-store/root": [
+        "dist/cart/pickup-in-store/root"
+      ],
       "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
       "@spartacus/cart/quick-order/components": [
         "dist/cart/quick-order/components"

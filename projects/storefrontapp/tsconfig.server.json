@@ -61,6 +61,9 @@
       "@spartacus/cart/pickup-in-store": [
         "../../feature-libs/cart/pickup-in-store/public_api"
       ],
+      "@spartacus/cart/pickup-in-store/root": [
+        "../../feature-libs/cart/pickup-in-store/root/public_api"
+      ],
       "@spartacus/cart/quick-order/assets": [
         "../../feature-libs/cart/quick-order/assets/public_api"
       ],

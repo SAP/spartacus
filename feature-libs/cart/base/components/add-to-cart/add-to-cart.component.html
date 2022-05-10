@@ -19,7 +19,7 @@
     </div>
   </div>
 
-  <cx-pickup-delivery-options></cx-pickup-delivery-options>
+  <ng-template [cxOutlet]="CartOutlets.PICKUP_IN_STORE_OPTION"></ng-template>
 
   <button
     *ngIf="hasStock"
