@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { provideOutlet } from '@spartacus/storefront';
-import { CartOutlets } from '@spartacus/cart/base/root';
-import { PickupDeliveryOptionsComponent } from './components/pickup-delivery-options/pickup-delivery-options.component';
+import { PickupInStoreComponentModule } from './components/pick-up-in-store-components.module';
+
 // import {}
 // import {
 //   ExportOrderEntriesModule,
@@ -12,19 +11,15 @@ import { PickupDeliveryOptionsComponent } from './components/pickup-delivery-opt
 
 @NgModule({
   providers: [
-    provideOutlet({
-      id: CartOutlets.PICKUP_IN_STORE_OPTION,
-      // position: OutletPosition.REPLACE,
-      component: PickupDeliveryOptionsComponent,
-    }),
   ],
-  declarations: [PickupDeliveryOptionsComponent],
+  declarations: [],
   imports: [
+    PickupInStoreComponentModule
     // ImportExportCoreModule.forRoot(),
     // ExportOrderEntriesModule,
     // ImportOrderEntriesModule,
     // ImportExportOrderEntriesModule,
   ],
-  exports: [PickupDeliveryOptionsComponent],
+  exports: [],
 })
 export class PickupInStoreModule {}
