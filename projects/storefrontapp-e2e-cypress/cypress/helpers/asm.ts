@@ -1,4 +1,3 @@
-import { login } from './auth-forms';
 import * as addressBook from '../helpers/address-book';
 import * as asm from '../helpers/asm';
 import * as checkout from '../helpers/checkout-flow';
@@ -6,12 +5,13 @@ import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
 import { getSampleUser } from '../sample-data/checkout-flow';
-import * as loginHelper from './login';
 import {
   interceptDelete,
   interceptGet,
   interceptPost,
 } from '../support/utils/intercept';
+import { login } from './auth-forms';
+import * as loginHelper from './login';
 
 export function listenForAuthenticationRequest(): string {
   return interceptPost(
@@ -23,8 +23,16 @@ export function listenForAuthenticationRequest(): string {
 
 export function listenForCustomerSearchRequest(): string {
   return interceptGet(
-    'customerSearch',
+    'customerLists',
     '/assistedservicewebservices/customers/search?*',
+    false
+  );
+}
+
+export function listenForCustomerListsRequest(): string {
+  return interceptGet(
+    'customerSearch',
+    '/assistedservicewebservices/customerlists?*',
     false
   );
 }
@@ -48,6 +56,43 @@ export function agentLogin(): void {
   cy.wait(authRequest);
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
+}
+
+export function asmCustomerLists(): void {
+  const customerListsRequestAlias = asm.listenForCustomerListsRequest();
+  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
+
+  cy.get('cx-asm-main-ui div.asm-customer-list a').click();
+  cy.get('cx-customer-list').should('exist');
+  cy.get('cx-customer-list h2').should('exist');
+
+  cy.wait(customerListsRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-customer-list table th button .fa-sort-amount-down').should(
+    'exist'
+  );
+  cy.get('cx-customer-list table th button .fa-sort-amount-up').should(
+    'not.exist'
+  );
+  cy.get('cx-customer-list table th button').click();
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+  cy.get('cx-customer-list table th button .fa-sort-amount-down').should(
+    'not.exist'
+  );
+  cy.get('cx-customer-list table th button .fa-sort-amount-up').should('exist');
+
+  cy.get('cx-customer-list table').should('exist');
+
+  cy.get('cx-customer-list button.close').click();
+  cy.get('cx-customer-list').should('not.exist');
 }
 
 export function startCustomerEmulation(customer): void {

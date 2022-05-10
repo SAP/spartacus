@@ -2,12 +2,12 @@ import * as addressBook from '../../../helpers/address-book';
 import * as asm from '../../../helpers/asm';
 import { login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
+import { fillShippingAddress } from '../../../helpers/checkout-forms';
+import * as consent from '../../../helpers/consent-management';
 import { getErrorAlert } from '../../../helpers/global-message';
 import * as profile from '../../../helpers/update-profile';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import * as consent from '../../../helpers/consent-management';
-import { fillShippingAddress } from '../../../helpers/checkout-forms';
 
 let customer: any;
 
@@ -111,6 +111,17 @@ context('Assisted Service Module', () => {
       cy.get('input[type="checkbox"]').first().should('be.checked');
 
       checkout.signOutUser();
+    });
+  });
+
+  describe('Customer list', () => {
+    it('should open/close customer list', () => {
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      asm.agentLogin();
+      asm.asmCustomerLists();
     });
   });
 
@@ -218,7 +229,7 @@ function assertCustomerIsSignedIn() {
 }
 
 export function deleteFirstAddress() {
-  
+
   //interceptDelete('deleteAddresses', '/users/?lang=en&curr=USD');
   //interceptGet('fetchAddresses', '/users/?lang=en&curr=USD');
 
