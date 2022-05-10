@@ -477,7 +477,7 @@ export namespace Occ {
     /**
      * @member {Date} [confirmedAt]
      */
-    confirmedAt?: Date,
+    confirmedAt?: Date;
     /**
      * @member {number} [confirmedQuantity]
      */
@@ -1106,7 +1106,7 @@ export namespace Occ {
     /**
      * @member {ScheduleLine[]} [scheduleLines]
      */
-     scheduleLines?: ScheduleLine[];
+    scheduleLines?: ScheduleLine[];
 
     /**
      * @member {string} [site]
