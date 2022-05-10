@@ -16,4 +16,4 @@ import { BUNDLE_FEATURE } from './bundle-state';
   ],
   providers: [reducerProvider],
 })
-export class BundleStoreModule { }
+export class BundleStoreModule {}

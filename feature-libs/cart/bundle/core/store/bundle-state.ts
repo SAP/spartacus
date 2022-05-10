@@ -1,4 +1,4 @@
-import { StateUtils } from "@spartacus/core";
+import { StateUtils } from '@spartacus/core';
 
 export const BUNDLE_FEATURE = 'bundle';
 export const BUNDLE_DATA = '[Bundle] Bundle Data';

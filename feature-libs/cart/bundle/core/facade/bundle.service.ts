@@ -4,7 +4,12 @@ import { BundleActions, BundleSelectors, StateWithBundle } from '../store';
 import { BundleStarter } from '../model/bundle.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { GlobalMessageService, RoutingService, SearchConfig, WindowRef } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  RoutingService,
+  SearchConfig,
+  WindowRef,
+} from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +21,7 @@ export class BundleService {
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
     @Inject(PLATFORM_ID) protected platformId?: any
-  ) { }
+  ) {}
 
   /**
    * Returns boolean observable for store's loading state
@@ -39,20 +44,25 @@ export class BundleService {
     return this.store.pipe(
       select(BundleSelectors.getAvailableEntriesEntities),
       map((data) => {
-        return data.availableEntriesEntities
+        return data.availableEntriesEntities;
       })
     );
   }
 
   /**
- * Returns observable for store's entities
- */
-  getAvailableEntriesEntity(cartId: string, entryGroupNumber: number): Observable<any> {
+   * Returns observable for store's entities
+   */
+  getAvailableEntriesEntity(
+    cartId: string,
+    entryGroupNumber: number
+  ): Observable<any> {
     return this.store.pipe(
       select(BundleSelectors.getAvailableEntriesEntities),
       map((data) => {
-        console.log(data.availableEntriesEntities?.[cartId]?.[entryGroupNumber])
-        return data.availableEntriesEntities?.[cartId]?.[entryGroupNumber]
+        console.log(
+          data.availableEntriesEntities?.[cartId]?.[entryGroupNumber]
+        );
+        return data.availableEntriesEntities?.[cartId]?.[entryGroupNumber];
       })
     );
   }
@@ -98,5 +108,4 @@ export class BundleService {
       })
     );
   }
-
 }

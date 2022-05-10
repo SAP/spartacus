@@ -1,6 +1,10 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
-import { AvailableEntriesState, BundlesState, StateWithBundle } from '../bundle-state';
+import {
+  AvailableEntriesState,
+  BundlesState,
+  StateWithBundle,
+} from '../bundle-state';
 import { getBundleState } from './feature.selector';
 
 export const getAvailableEntriesState: MemoizedSelector<
