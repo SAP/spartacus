@@ -102,7 +102,7 @@ context('Product Configuration - 2205', () => {
       configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
       configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
 
-      // Navigate to OV and conflict behaviour
+      // finally navigate to overview page and check conflict behavior on it
       configurationOverviewVc.registerConfigurationOvOCC();
       configurationVc.clickAddToCartBtn();
       configurationOverviewVc.verifyNotificationBannerOnOP(0, 1); // 0 issues, 1 conflict
