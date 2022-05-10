@@ -3,7 +3,6 @@ import { CartConfigService } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
   Cart,
-  EntryGroup,
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
@@ -21,7 +20,6 @@ import { filter, map, tap } from 'rxjs/operators';
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
-  entryGroups$: Observable<EntryGroup[]>;
   cartLoaded$: Observable<boolean>;
   loggedIn = false;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
@@ -41,10 +39,6 @@ export class CartDetailsComponent implements OnInit {
     this.entries$ = this.activeCartService
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
-
-    this.entryGroups$ = this.activeCartService
-      .getEntryGroups()
-      .pipe(filter((groups) => groups.length > 0));
 
     this.selectiveCartEnabled = this.cartConfig.isSelectiveCartEnabled();
 
@@ -75,20 +69,4 @@ export class CartDetailsComponent implements OnInit {
       this.routingService.go({ cxRoute: 'login' });
     }
   }
-
-  // getBundleAllowedProducts(entryGroupNumber: number) {
-  //   this.cartBundleService.getBundleAllowedProducts(entryGroupNumber);
-  // }
-
-  removeBundle(entryGroupNumber: number) {
-    this.activeCartService.deleteEntryGroup(entryGroupNumber);
-  }
-
-  addProductToBundle(entryGroupNumber: number, product: OrderEntry) {
-    this.activeCartService.addToEntryGroup(entryGroupNumber, product);
-  }
-
-  // getAvailableProducts(entryGroupNumber: number) {
-  //   return this.cartBundleService.getAvailableEntries(entryGroupNumber);
-  // }
 }
