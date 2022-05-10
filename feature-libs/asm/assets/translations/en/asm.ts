@@ -38,10 +38,7 @@ export const asm = {
         view: '360 View',
       },
       tableSort: {
-        dateSortDesc: 'Date(Desc)',
-        dateSortAsc: 'Date(Asc)',
-        nameSortDesc: 'Name(Desc)',
-        nameSortAsc: 'Name(Asc)',
+        nameSort: 'Sort by name',
       },
       page: {
         page: 'page {{count}}',
