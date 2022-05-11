@@ -11,11 +11,11 @@ const CART_EMPTY = Object.freeze({ totalItems: 0 });
 const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
-class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   takeActive = createSpy().and.returnValue(of());
 }
 
-class SemanticPathServiceStub implements Partial<SemanticPathService> {
+class MockSemanticPathService implements Partial<SemanticPathService> {
   get = createSpy().and.returnValue(homepagePath);
 }
 
@@ -28,11 +28,11 @@ describe('CartNotEmptyGuard', () => {
       providers: [
         {
           provide: SemanticPathService,
-          useClass: SemanticPathServiceStub,
+          useClass: MockSemanticPathService,
         },
         {
           provide: ActiveCartFacade,
-          useClass: ActiveCartServiceStub,
+          useClass: MockActiveCartService,
         },
       ],
       imports: [RouterTestingModule],
