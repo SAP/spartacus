@@ -9,7 +9,7 @@ describe('B2B - Order Approval', () => {
   });
 
   describe('Check order approval in Order details page for customer', () => {
-    it('should display order approval details in order details page', () => {
+    it(['approval', 'smoke_b2b'],'should display order approval details in order details page', () => {
       orderApproval.loginB2bUser();
       orderApproval.getStubbedPendingOrderDetails();
 
@@ -27,7 +27,7 @@ describe('B2B - Order Approval', () => {
       cy.restoreLocalStorage();
     });
 
-    it('should display order approval list', () => {
+    it(['approval', 'smoke_b2b'], 'should display order approval list', () => {
       const orderApprovalRow = sampleData.approvalOrderList.orderApprovals[0];
       orderApproval.getStubbedOrderApprovalList();
       orderApproval.visitOrderApprovalListPage();
@@ -48,7 +48,7 @@ describe('B2B - Order Approval', () => {
       );
     });
 
-    it('should approve the order', () => {
+    it(['approval', 'smoke_b2b'], 'should approve the order', () => {
       orderApproval.getStubbedOrderApprovalDetail();
       orderApproval.visitOrderApprovalDetailPage();
       cy.wait('@orderApprovalPending');
@@ -71,7 +71,7 @@ describe('B2B - Order Approval', () => {
       assertPermissionResults(sampleData.approvedOrderDetails.order);
     });
 
-    it('should reject the order', () => {
+    it(['approval', 'smoke_b2b'], 'should reject the order', () => {
       orderApproval.getStubbedOrderApprovalDetail();
       orderApproval.visitOrderApprovalDetailPage();
       cy.wait('@orderApprovalPending');

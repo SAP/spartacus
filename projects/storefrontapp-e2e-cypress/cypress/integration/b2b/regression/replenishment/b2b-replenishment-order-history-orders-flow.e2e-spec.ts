@@ -22,19 +22,19 @@ describe('Replenishment order history', () => {
     cy.saveLocalStorage();
   });
 
-  it('should be able to login as a b2b user', () => {
+  it(['replenishment'], 'should be able to login as a b2b user', () => {
     loginB2bUser();
   });
 
-  it('should be able to view order in replenishment order history', () => {
+  it(['replenishment'], 'should be able to view order in replenishment order history', () => {
     replenishmentHistory.waitForReplenishmentOrders();
   });
 
-  it('should be able to sort ', () => {
+  it(['replenishment'], 'should be able to sort ', () => {
     replenishmentHistory.verifySorting();
   });
 
-  it('should be able to cancel a replenishment', () => {
+  it(['replenishment'], 'should be able to cancel a replenishment', () => {
     replenishmentHistory.cancelReplenishmentInHistory();
   });
 });

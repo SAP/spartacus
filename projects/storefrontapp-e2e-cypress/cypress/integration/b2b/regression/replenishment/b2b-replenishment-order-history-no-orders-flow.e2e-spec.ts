@@ -15,10 +15,12 @@ describe('Order History with no orders', () => {
     Cypress.env('OCC_PREFIX_ORDER_ENDPOINT', ORDER_REQUEST_ENDPOINT);
   });
 
-  orderHistoryTest.checkRedirectNotLoggedInUser(replenishmentOrderHistoryUrl);
-  orderHistoryTest.checkRedirectLoggedInUser(
-    b2bAccountShipToUser,
-    replenishmentOrderHistoryUrl
-  );
-  orderHistoryTest.checkStartShoppingButton();
+  it(['replenishment'], 'should validate b2b replenishment order history no orders flow', () => {
+    orderHistoryTest.checkRedirectNotLoggedInUser(replenishmentOrderHistoryUrl);
+    orderHistoryTest.checkRedirectLoggedInUser(
+      b2bAccountShipToUser,
+      replenishmentOrderHistoryUrl
+    );
+    orderHistoryTest.checkStartShoppingButton();
+  });
 });

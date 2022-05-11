@@ -1,0 +1,39 @@
+
+{
+  "folder": {
+    "path": "spartacus/core-libs/setup/recipes/b2b",
+    "tags": ["smoke_b2b", "b2b"]
+  },
+  "folder": {
+    "path": "spartacus/core-libs/setup/ssr",
+    "tags": ["smoke_b2c", "ssr"]
+  },
+  "folder": {
+    "path": "spartacus/core-libs/setup/ssr",
+    "tags": ["smoke_b2c", "ssr"]
+  },
+  "folder": {
+    "path": "spartacus/feature-libs/asm",
+    "tags": ["smoke_b2c", "asm"]
+  },
+  "folder": {
+    "path": "spartacus/feature-libs/cart",
+    "tags": ["smoke_b2c", "cart"]
+  },
+  "folder": {
+    "path": "spartacus/feature-libs/checkout",
+    "tags": ["smoke_b2c", "checkout", "smoke_b2b", "replenishment"]
+  },
+  "folder": {
+    "path": "spartacus/feature-libs/order",
+    "tags": ["smoke_b2c", "order"]
+  },
+  "folder": {
+    "path": "spartacus/feature-libs/organization",
+    "tags": ["smoke_b2b", "organization"]
+  },
+  "folder": {
+    "path": "spartacus/feature-libs/asm",
+    "tags": ["smoke_b2c", "asm"]
+  }
+}

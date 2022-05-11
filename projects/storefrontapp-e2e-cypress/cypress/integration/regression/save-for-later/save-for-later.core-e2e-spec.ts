@@ -8,7 +8,7 @@ context('Save for later', () => {
       cy.visit('/');
     });
 
-    it(['saved_carts'],'should validate save for later core functionality', () => {
+    it(['save_for_later'],'should validate save for later core functionality', () => {
       saveForLater.testAnonymousUserSaveForLater();
       saveForLater.testLoggedInUserSaveForLater();
     });

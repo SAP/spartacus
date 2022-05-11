@@ -7,7 +7,7 @@ describe('B2B - Bulk Pricing', () => {
   });
 
   describe('Check bulk pricing table', () => {
-    it('should render pricing table for products that contain bulk prices', () => {
+    it(['b2b', 'bulk_pricing'],'should render pricing table for products that contain bulk prices', () => {
       b2bBulkPricing.visitProduct(sampleData.PRODUCT);
 
       const selector = 'cx-bulk-pricing-table .table';
@@ -18,19 +18,19 @@ describe('B2B - Bulk Pricing', () => {
       });
     });
 
-    it('should checkout using the proper bulk price based on quantity', () => {
+    it(['b2b', 'bulk_pricing'],'should checkout using the proper bulk price based on quantity', () => {
       b2bBulkPricing.visitProduct(sampleData.PRODUCT);
 
       b2bBulkPricing.addAndverifyTotal(sampleData.TEST_QUANTITY);
     });
 
-    it('should NOT render pricing table for products that DO NOT contain bulk prices', () => {
+    it(['b2b', 'bulk_pricing'], 'should NOT render pricing table for products that DO NOT contain bulk prices', () => {
       b2bBulkPricing.visitProduct(sampleData.PRODUCT_NO_PRICING);
 
       cy.get('cx-bulk-pricing-table .container').should('not.exist');
     });
 
-    it('should verify lowering the quantity also lowers the discount', () => {
+    it(['b2b', 'bulk_pricing'], 'should verify lowering the quantity also lowers the discount', () => {
       b2bBulkPricing.visitProduct(sampleData.PRODUCT);
 
       b2bBulkPricing.addAndverifyTotal(sampleData.QUANTITY_FOR_25_DISCOUNT);
@@ -40,14 +40,14 @@ describe('B2B - Bulk Pricing', () => {
       b2bBulkPricing.updateAndverifyTotal(sampleData.QUANTITY_FOR_NO_DISCOUNT);
     });
 
-    it('should verify increasing the quantity also increases the discount', () => {
+    it(['b2b', 'bulk_pricing'], 'should verify increasing the quantity also increases the discount', () => {
       b2bBulkPricing.visitProduct(sampleData.PRODUCT);
 
       b2bBulkPricing.addAndverifyTotal(sampleData.QUANTITY_FOR_8_DISCOUNT);
       b2bBulkPricing.updateAndverifyTotal(sampleData.QUANTITY_PLUS_ONE);
     });
 
-    it('should verify checking out a bulk priced item and a regular product', () => {
+    it(['b2b', 'bulk_pricing'], 'should verify checking out a bulk priced item and a regular product', () => {
       b2bBulkPricing.loginB2bUser();
       b2bBulkPricing.visitProduct(sampleData.PRODUCT);
 

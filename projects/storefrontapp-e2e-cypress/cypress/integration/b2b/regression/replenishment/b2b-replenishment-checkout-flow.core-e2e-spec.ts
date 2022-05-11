@@ -27,28 +27,28 @@ context('B2B - Replenishment Checkout flow', () => {
         cy.saveLocalStorage();
       });
 
-      it('should login to b2b user', () => {
+      it(['replenishment', 'smoke_b2b'],'should login to b2b user', () => {
         b2bCheckout.loginB2bUser();
       });
 
-      it('should add a product to cart', () => {
+      it(['replenishment', 'smoke_b2b'], 'should add a product to cart', () => {
         b2bCheckout.addB2bProductToCartAndCheckout();
       });
 
-      it('should select Account payment type', () => {
+      it(['replenishment', 'smoke_b2b'], 'should select Account payment type', () => {
         b2bCheckout.enterPONumber();
         b2bCheckout.selectAccountPayment();
       });
 
-      it('should enter shipping address', () => {
+      it(['replenishment', 'smoke_b2b'], 'should enter shipping address', () => {
         b2bCheckout.selectAccountShippingAddress();
       });
 
-      it('should select delivery mode', () => {
+      it(['replenishment', 'smoke_b2b'], 'should select delivery mode', () => {
         b2bCheckout.selectAccountDeliveryMode();
       });
 
-      it('should review and place order', () => {
+      it(['replenishment', 'smoke_b2b'], 'should review and place order', () => {
         b2bCheckout.reviewB2bReviewOrderPage(
           b2bAccountShipToUser,
           cartWithB2bProduct,
@@ -61,7 +61,7 @@ context('B2B - Replenishment Checkout flow', () => {
         b2bCheckout.placeOrder('/replenishment/confirmation');
       });
 
-      it('should display summary page', () => {
+      it(['replenishment', 'smoke_b2b'], 'should display summary page', () => {
         b2bCheckout.reviewB2bOrderConfirmation(
           b2bAccountShipToUser,
           b2bProduct,

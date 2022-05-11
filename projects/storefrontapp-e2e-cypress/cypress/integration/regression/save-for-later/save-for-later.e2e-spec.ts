@@ -26,7 +26,7 @@ context('Save for later', () => {
         cy.visit('/');
       });
 
-      it(['saved_carts'],'should save for later/move to cart for items', () => {
+      it(['save_for_later'],'should save for later/move to cart for items', () => {
         cy.visit('/cart');
         validateCart(0, 0);
         addProductToCart(products[0]);
@@ -58,7 +58,7 @@ context('Save for later', () => {
         validateCart(2, 0);
       });
 
-      it(['saved_carts'],'should place order and keep save for later', () => {
+      it(['save_for_later'],'should place order and keep save for later', () => {
         const stateAuth = JSON.parse(
           localStorage.getItem('spartacus⚿⚿auth')
         ).token;
@@ -74,7 +74,7 @@ context('Save for later', () => {
       });
 
       // turned off until sampledata with proper promotion will get set up (#11871)
-      xit(['saved_carts'], 'should handle product with free gift in save for later', () => {
+      xit(['save_for_later'], 'should handle product with free gift in save for later', () => {
         addProductToCart(products[0]);
         addProductToCart(products[3]);
         verifyMiniCartQty(3);

@@ -4,7 +4,7 @@ context('Auxiliary Keys', () => {
       loadPageWithComponenents('/');
     });
 
-    it('should open and close menu with space key', () => {
+    it(['accessibility'],'should open and close menu with space key', () => {
       cy.get('cx-category-navigation').within(() => {
         cy.get('cx-navigation-ui')
           .find('li:not(.back)')
@@ -49,7 +49,7 @@ context('Auxiliary Keys', () => {
       loadPageWithComponenents('/');
     });
 
-    it('should open and close menu with space key', () => {
+    it(['accessibility'], 'should open and close menu with space key', () => {
       cy.get('cx-page-layout[section="header"]').within(() => {
         cy.get('cx-navigation-ui.accNavComponent')
           .should('contain.text', 'My Account')

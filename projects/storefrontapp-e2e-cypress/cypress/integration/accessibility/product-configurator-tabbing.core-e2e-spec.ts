@@ -41,7 +41,7 @@ context('Product Configuration', () => {
   });
 
   describe('Product Config Tabbing', () => {
-    it('should allow to navigate with tab key', () => {
+    it(['accessibility'],'should allow to navigate with tab key', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
 
@@ -68,7 +68,7 @@ context('Product Configuration', () => {
   });
 
   describe('Product Config Keep Focus', () => {
-    it('should keep focus after selection', () => {
+    it(['accessibility'], 'should keep focus after selection', () => {
       cy.intercept({
         method: 'PATCH',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(

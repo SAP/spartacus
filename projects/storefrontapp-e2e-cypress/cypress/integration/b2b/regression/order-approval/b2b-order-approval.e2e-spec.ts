@@ -9,7 +9,7 @@ describe('B2B - Order Approval', () => {
   });
 
   describe('Check order approval in Order details page for customer', () => {
-    it('should display order approval details in order details page', () => {
+    it(['approval'],'should display order approval details in order details page', () => {
       orderApproval.loginB2bUser();
       orderApproval.getStubbedPendingOrderDetails();
 
@@ -27,7 +27,7 @@ describe('B2B - Order Approval', () => {
       cy.restoreLocalStorage();
     });
 
-    it('should display order approval list', () => {
+    it(['approval'], 'should display order approval list', () => {
       const orderApprovalRow = sampleData.approvalOrderList.orderApprovals[0];
       orderApproval.getStubbedOrderApprovalList();
       orderApproval.visitOrderApprovalListPage();
@@ -64,7 +64,7 @@ describe('B2B - Order Approval', () => {
       );
     });
 
-    it('Should display approval detail page', () => {
+    it(['approval'], 'Should display approval detail page', () => {
       orderApproval.getStubbedOrderApprovalDetail();
       orderApproval.visitOrderApprovalDetailPage();
 
@@ -79,7 +79,7 @@ describe('B2B - Order Approval', () => {
       );
     });
 
-    it('should approve the order', () => {
+    it(['approval'], 'should approve the order', () => {
       orderApproval.getStubbedOrderApprovalDetail();
       orderApproval.visitOrderApprovalDetailPage();
       cy.wait('@orderApprovalPending');
@@ -102,7 +102,7 @@ describe('B2B - Order Approval', () => {
       assertPermissionResults(sampleData.approvedOrderDetails.order);
     });
 
-    it('should reject the order', () => {
+    it(['approval'],'should reject the order', () => {
       orderApproval.getStubbedOrderApprovalDetail();
       orderApproval.visitOrderApprovalDetailPage();
       cy.wait('@orderApprovalPending');
@@ -134,12 +134,12 @@ describe('B2B - Order Approval', () => {
     const APPROVAL_DETAIL_ROUTE = `/my-account/approval/${sampleData.approvalOrderDetail.code}`;
 
     describe('Anonymous user', () => {
-      it('should NOT be allowed to access Order Approval Dashboard directly', () => {
+      it(['approval'], 'should NOT be allowed to access Order Approval Dashboard directly', () => {
         cy.visit(APPROVAL_DASHBOARD_ROUTE);
         cy.location('pathname').should('contain', '/login');
       });
 
-      it('should NOT be allowed to access Approval Detail directly', () => {
+      it(['approval'], 'should NOT be allowed to access Approval Detail directly', () => {
         cy.visit(APPROVAL_DETAIL_ROUTE);
         cy.location('pathname').should('contain', '/login');
       });
@@ -150,19 +150,19 @@ describe('B2B - Order Approval', () => {
         orderApproval.loginB2bUser();
       });
 
-      it('should NOT display order approval option in menu', () => {
+      it(['approval'], 'should NOT display order approval option in menu', () => {
         cy.visit('/');
         orderApproval.checkApprovalDashboardMenuOptionExistence(false);
         cy.saveLocalStorage();
       });
 
-      it('should NOT be allowed to access Order Approval Dashboard directly', () => {
+      it(['approval'], 'should NOT be allowed to access Order Approval Dashboard directly', () => {
         cy.restoreLocalStorage();
         cy.visit(APPROVAL_DASHBOARD_ROUTE);
         cy.location('pathname').should('equal', HOME_PAGE_ROUTE);
       });
 
-      it('should NOT be allowed to access Approval Detail directly', () => {
+      it(['approval'], 'should NOT be allowed to access Approval Detail directly', () => {
         cy.restoreLocalStorage();
         cy.visit(APPROVAL_DETAIL_ROUTE);
         cy.location('pathname').should('equal', HOME_PAGE_ROUTE);

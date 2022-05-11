@@ -4,7 +4,7 @@ context('Auxiliary Keys', () => {
       loadPageWithComponenents('/');
     });
 
-    it('should open and close menu with space key', () => {
+    it(['accessibility'], 'should open and close menu with space key', () => {
       cy.get('cx-category-navigation').within(() => {
         cy.get('cx-navigation-ui')
           .find('li:not(.back)')
@@ -49,7 +49,7 @@ context('Auxiliary Keys', () => {
       loadPageWithComponenents('/');
     });
 
-    it('should open and close menu with space key', () => {
+    it(['accessibility'], 'should open and close menu with space key', () => {
       cy.get('cx-page-layout[section="header"]').within(() => {
         cy.get('cx-navigation-ui.accNavComponent')
           .should('contain.text', 'My Account')
@@ -87,7 +87,7 @@ context('Auxiliary Keys', () => {
       loadPageWithComponenents('/');
     });
 
-    it('should make search suggestions', () => {
+    it(['accessibility'], 'should make search suggestions', () => {
       cy.intercept({
         method: 'GET',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -99,7 +99,7 @@ context('Auxiliary Keys', () => {
       cy.get('cx-searchbox a').should('have.length', 6);
     });
 
-    it('should navigate through suggestions with ArrowDown key', () => {
+    it(['accessibility'], 'should navigate through suggestions with ArrowDown key', () => {
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
       cy.focused().should('contain.text', 'dsa');
       cy.focused().trigger('keydown', { key: 'ArrowDown' });
@@ -116,7 +116,7 @@ context('Auxiliary Keys', () => {
       cy.focused().should('contain.text', 'dsa');
     });
 
-    it('should navigate through suggestions with ArrowUp key', () => {
+    it(['accessibility'], 'should navigate through suggestions with ArrowUp key', () => {
       cy.focused().should('contain.text', 'dsa');
       cy.focused().trigger('keydown', { key: 'ArrowUp' });
       cy.focused().should('contain.text', 'DSC-');
@@ -132,7 +132,7 @@ context('Auxiliary Keys', () => {
       cy.focused().should('contain.text', 'dsa');
     });
 
-    it('should go to suggested page with Enter key', () => {
+    it(['accessibility'], 'should go to suggested page with Enter key', () => {
       cy.focused().click(); // Simulates enter key
       cy.url().should('include', '/search/dsa');
     });
@@ -140,11 +140,11 @@ context('Auxiliary Keys', () => {
 
   // TODO: Waiting for carousel fix
   xdescribe('Carousel', () => {
-    it('should navigate with ArrowLeft key', () => {});
+    it(['accessibility'],'should navigate with ArrowLeft key', () => {});
 
-    it('should navigate with ArrowRight key', () => {});
+    it(['accessibility'], 'should navigate with ArrowRight key', () => {});
 
-    it('should go to link with Enter key', () => {});
+    it(['accessibility'], 'should go to link with Enter key', () => {});
   });
 
   describe('Skip Links', () => {
@@ -155,7 +155,7 @@ context('Auxiliary Keys', () => {
       cy.focused().should('contain.text', 'Skip to Header');
     });
 
-    it('should navigate with ArrowRight key', () => {
+    it(['accessibility'],'should navigate with ArrowRight key', () => {
       cy.focused().trigger('keydown', { key: 'ArrowRight', force: true });
       cy.focused().should('contain.text', 'Skip to Main Content');
       cy.focused().trigger('keydown', { key: 'ArrowRight', force: true });
@@ -164,7 +164,7 @@ context('Auxiliary Keys', () => {
       cy.focused().should('contain.text', 'Skip to Footer');
     });
 
-    it('should navigate with ArrowLeft key', () => {
+    it(['accessibility'], 'should navigate with ArrowLeft key', () => {
       cy.focused().trigger('keydown', { key: 'ArrowLeft', force: true });
       cy.focused().should('contain.text', 'Skip to Main Content');
       cy.focused().trigger('keydown', { key: 'ArrowLeft', force: true });

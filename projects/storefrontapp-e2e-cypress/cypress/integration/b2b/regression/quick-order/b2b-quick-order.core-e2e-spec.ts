@@ -15,11 +15,11 @@ context('B2B - Quick Order', () => {
         quickOrder.visitQuickOrderPage();
       });
 
-      it('should show result box with max 5 products', () => {
+      it(['quick_order'],'should show result box with max 5 products', () => {
         quickOrder.getQuickOrderResultBox(sampleData.b2bProduct.code);
       });
 
-      it('should add product to the cart', () => {
+      it(['quick_order'], 'should add product to the cart', () => {
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
         quickOrder.addToCart();
         quickOrder.verifyMiniCartQuantity(1);
@@ -29,12 +29,12 @@ context('B2B - Quick Order', () => {
           .should('contain', `Quick order list has been added to the cart`);
       });
 
-      it('should fill the form with random string and get empty results information', () => {
+      it(['quick_order'], 'should fill the form with random string and get empty results information', () => {
         quickOrder.addWrongProductQuery('xxxxxxxxxxxxxxxxxx');
         quickOrder.verifyQuickOrderFormResultsBoxIsEmpty();
       });
 
-      it('should delete entry and after that restore it', () => {
+      it(['quick_order'], 'should delete entry and after that restore it', () => {
         quickOrder.addManyProductsToTheList(sampleData.products);
         quickOrder.removeFirstRow();
         quickOrder.verifyQuickOrderListQuantity(1);
@@ -50,7 +50,7 @@ context('B2B - Quick Order', () => {
         quickOrder.prepareCartWithProduct();
       });
 
-      it('should add product with quick form', () => {
+      it(['quick_order'], 'should add product with quick form', () => {
         quickOrder.addProductToCartWithQuickForm(sampleData.b2bProduct2.code);
         quickOrder.verifyMiniCartQuantity(2);
 
@@ -64,14 +64,14 @@ context('B2B - Quick Order', () => {
     });
 
     describe('Accessibility - keyboarding', () => {
-      it('should conform to tabbing order for quick order page', () => {
+      it(['quick_order'],'should conform to tabbing order for quick order page', () => {
         quickOrder.visitQuickOrderPage();
         quickOrder.addProductToTheList(sampleData.b2bProduct.code);
         quickOrder.verifyQuickOrderListQuantity(1);
         quickOrder.verifyQuickOrderPageTabbingOrder();
       });
 
-      it('should conform to tabbing order for cart page', () => {
+      it(['quick_order'], 'should conform to tabbing order for cart page', () => {
         quickOrder.prepareCartWithProduct();
         quickOrder.verifyCartPageTabbingOrder();
       });
