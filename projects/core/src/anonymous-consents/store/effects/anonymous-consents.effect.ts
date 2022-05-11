@@ -181,13 +181,12 @@ export class AnonymousConsentsEffects {
   > = createEffect(() =>
     this.actions$.pipe(
       ofType<AuthActions.Login>(AuthActions.LOGIN),
-      filter(
-        (action) =>
-          Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-          Boolean(
-            this.anonymousConsentsConfig.anonymousConsents.requiredConsents
-          ) &&
-          Boolean(action)
+      filter((action) =>
+        Boolean(
+          this.anonymousConsentsConfig.anonymousConsents &&
+            this.anonymousConsentsConfig.anonymousConsents.requiredConsents &&
+            action
+        )
       ),
       concatMap(() =>
         this.userConsentService.getConsentsResultSuccess().pipe(
@@ -209,6 +208,7 @@ export class AnonymousConsentsEffects {
             const actions: UserActions.GiveUserConsent[] = [];
             for (const template of templates) {
               if (
+                template.id &&
                 this.userConsentService.isConsentWithdrawn(
                   template.currentConsent
                 ) &&

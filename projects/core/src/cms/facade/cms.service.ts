@@ -140,16 +140,18 @@ export class CmsService {
    * @param position : content slot position
    */
   getContentSlot(position: string): Observable<ContentSlotData> {
-    return this.routingService.getPageContext().pipe(
-      switchMap((pageContext) =>
-        this.store.pipe(
-          select(
-            CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
-          ),
-          filter((value) => Boolean(value))
+    return this.routingService
+      .getPageContext()
+      .pipe(
+        switchMap((pageContext) =>
+          this.store.pipe(
+            select(
+              CmsSelectors.getCurrentSlotSelectorFactory(pageContext, position)
+            ),
+            filter(isNotUndefined)
+          )
         )
-      )
-    );
+      );
   }
 
   /**
