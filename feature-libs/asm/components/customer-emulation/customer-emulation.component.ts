@@ -7,10 +7,10 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OccAsmAdapter } from '@spartacus/asm/occ';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { User, UserService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { ActiveCartFacade } from '../../../../feature-libs/cart/base/root';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-customer-emulation',
