@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../occ-models/occ.models';
-import { Converter } from '../../../../util/converter.service';
 import { Product, ProductReferences } from '../../../../model/product.model';
+import { Converter } from '../../../../util/converter.service';
+import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable()
 export class ProductReferenceNormalizer
@@ -9,7 +9,7 @@ export class ProductReferenceNormalizer
 {
   convert(source: Occ.Product, target?: Product): Product {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Product;
     }
 
     if (source.productReferences) {

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Images } from '../../../../model/image.model';
+import { Product } from '../../../../model/product.model';
+import { Converter } from '../../../../util/converter.service';
 import { OccConfig } from '../../../config/occ-config';
 import { Occ } from '../../../occ-models/occ.models';
-import { Converter } from '../../../../util/converter.service';
-import { Product } from '../../../../model/product.model';
-import { Images } from '../../../../model/image.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
@@ -11,7 +11,7 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
 
   convert(source: Occ.Product, target?: Product): Product {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Product;
     }
     if (source.images) {
       target.images = this.normalize(source.images);

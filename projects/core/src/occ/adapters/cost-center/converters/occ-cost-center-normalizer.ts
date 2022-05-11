@@ -11,7 +11,7 @@ export class OccCostCenterNormalizer
 {
   convert(source: Occ.CostCenter, target?: CostCenter): CostCenter {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as CostCenter;
     }
     target.active = this.normalizeBoolean(source.active);
 
