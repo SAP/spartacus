@@ -196,6 +196,7 @@ export const configurator = {
       numericInfiniteIntervalMaxValue: 'Enter a value less than {{ value }}',
       numericIntervalSingleValue: 'Enter {{ value }}',
       combinedIntervalsText: '{{ combinedInterval }} or {{ newInterval }}',
+      comment: 'test e2e spec tags',
     },
   },
 };

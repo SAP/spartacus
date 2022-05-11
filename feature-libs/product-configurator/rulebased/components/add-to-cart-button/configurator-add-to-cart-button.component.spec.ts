@@ -517,3 +517,5 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
 });
+
+// test e2e spec tags

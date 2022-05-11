@@ -607,3 +607,4 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
     groupsVisited: {},
   },
 };
+// test e2e spec tags
