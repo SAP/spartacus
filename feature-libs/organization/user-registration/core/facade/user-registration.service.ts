@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { Command, CommandService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { UserRegistrationConnector } from '../connectors/user-registration.connector';
-import { OrgUserRegistration } from '../model';
+import { OrganizationUserRegistration } from '../model';
 import { UserRegistrationFacade } from '../../root/facade/user-registration.facade';
 
 @Injectable()
 export class UserRegistrationService implements UserRegistrationFacade {
-  protected registerOrgUserCommand: Command<
+  protected registerOrganizationUserCommand: Command<
     {
-      userData: OrgUserRegistration;
+      userData: OrganizationUserRegistration;
     },
-    OrgUserRegistration
+    OrganizationUserRegistration
   > = this.command.create((payload) =>
     this.userRegistrationConnector.registerUser(payload.userData)
   );
@@ -26,7 +26,9 @@ export class UserRegistrationService implements UserRegistrationFacade {
    *
    * @param userData
    */
-  registerUser(userData: OrgUserRegistration): Observable<OrgUserRegistration> {
-    return this.registerOrgUserCommand.execute({ userData });
+  registerUser(
+    userData: OrganizationUserRegistration
+  ): Observable<OrganizationUserRegistration> {
+    return this.registerOrganizationUserCommand.execute({ userData });
   }
 }

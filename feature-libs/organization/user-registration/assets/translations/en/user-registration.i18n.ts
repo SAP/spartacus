@@ -49,6 +49,9 @@ export const userRegistrationForm = {
       placeholder: `An example data for the message field: "Department: Ground support; Position: Chief safe guard; Report to: Steve Jackson; Comments: Please create new account for me".`,
     },
   },
+  messageToApproverTemplate: `Phone number: {{phoneNumber}},
+  Address: {{addresLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},
+  Message: {{message}}`,
   successFormSubmitMessage:
     'Thank you for registering! A representative will contact you shortly and confirm your access information.',
   formSubmitButtonLabel: 'Send an application',

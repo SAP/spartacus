@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { ORGANIZATION_USER_REGISTRATION_FEATURE } from './feature-name';
 
-export function defaultOrgUserRegistrationComponentsConfig(): CmsConfig {
+export function defaultOrganizationUserRegistrationComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
       [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
-        cmsComponents: ['OrgUserRegistrationComponent'],
+        cmsComponents: ['OrganizationUserRegistrationComponent'],
       },
     },
   };
@@ -16,7 +16,9 @@ export function defaultOrgUserRegistrationComponentsConfig(): CmsConfig {
 
 @NgModule({
   providers: [
-    provideDefaultConfigFactory(defaultOrgUserRegistrationComponentsConfig),
+    provideDefaultConfigFactory(
+      defaultOrganizationUserRegistrationComponentsConfig
+    ),
   ],
 })
 export class UserRegistrationRootModule {}

@@ -1,1 +1,1 @@
-export const ORGANIZATION_USER_REGISTRATION_FEATURE = 'orgUserRegistration';
+export const ORGANIZATION_USER_REGISTRATION_FEATURE = 'organizationUserRegistration';

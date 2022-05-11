@@ -7,6 +7,6 @@ declare module '@spartacus/core' {
      *
      * @member {string}
      */
-    b2bUserRegistration?: string | OccEndpoint;
+    organizationUserRegistration?: string | OccEndpoint;
   }
 }

@@ -3,7 +3,7 @@
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
-        <form (ngSubmit)="submitForm()" [formGroup]="registerForm">
+        <form [formGroup]="registerForm" (ngSubmit)="submitForm()">
           <div class="form-group">
             <label>
               <span class="label-content">{{
@@ -243,7 +243,7 @@
                   'userRegistrationForm.fields.phoneNumber.placeholder'
                     | cxTranslate
                 }}"
-                formControlName="phone"
+                formControlName="phoneNumber"
               />
             </label>
           </div>

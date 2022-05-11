@@ -10,4 +10,4 @@ import { UserRegistrationCoreModule } from './core/user-registration-core.module
     UserRegistrationComponentsModule,
   ],
 })
-export class OrgUserRegistrationModule {}
+export class OrganizationUserRegistrationModule {}

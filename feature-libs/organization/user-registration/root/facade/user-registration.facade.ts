@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { OrgUserRegistration } from '../../core/model';
+import { OrganizationUserRegistration } from '../../core/model';
 import { ORGANIZATION_USER_REGISTRATION_FEATURE } from '../feature-name';
 
 @Injectable({
@@ -17,9 +17,9 @@ export abstract class UserRegistrationFacade {
   /**
    * Register a new organization user.
    *
-   * @param user as OrgUserRegistration
+   * @param user as OrganizationUserRegistration
    */
   abstract registerUser(
-    user: OrgUserRegistration
-  ): Observable<OrgUserRegistration>;
+    user: OrganizationUserRegistration
+  ): Observable<OrganizationUserRegistration>;
 }

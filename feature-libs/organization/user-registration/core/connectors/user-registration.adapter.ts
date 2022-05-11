@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { OrgUserRegistration } from './../model/user-registration.model';
+import { OrganizationUserRegistration } from './../model/user-registration.model';
 
 export abstract class UserRegistrationAdapter {
   /**
@@ -7,6 +7,6 @@ export abstract class UserRegistrationAdapter {
    * Abstract method used to register B2B user
    */
   abstract registerUser(
-    userData: OrgUserRegistration
-  ): Observable<OrgUserRegistration>;
+    userData: OrganizationUserRegistration
+  ): Observable<OrganizationUserRegistration>;
 }

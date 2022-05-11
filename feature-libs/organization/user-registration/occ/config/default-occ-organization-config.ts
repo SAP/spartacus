@@ -1,10 +1,10 @@
 import { OccConfig } from '@spartacus/core';
 
-export const defaultOccOrgUserRegistrationConfig: OccConfig = {
+export const defaultOccOrganizationUserRegistrationConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        b2bUserRegistration: '/orgUsers',
+        organizationUserRegistration: '/orgUsers',
       },
     },
   },

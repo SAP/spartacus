@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
-  orgUserRegistrationTranslationChunksConfig,
-  orgUserRegistrationTranslations,
+  organizationUserRegistrationTranslationChunksConfig,
+  organizationUserRegistrationTranslations,
 } from '@spartacus/organization/user-registration/assets';
 import {
   UserRegistrationRootModule,
@@ -17,17 +17,17 @@ import {
         [ORGANIZATION_USER_REGISTRATION_FEATURE]: {
           module: () =>
             import('@spartacus/organization/user-registration').then(
-              (m) => m.OrgUserRegistrationModule
+              (m) => m.OrganizationUserRegistrationModule
             ),
         },
       },
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: orgUserRegistrationTranslations,
-        chunks: orgUserRegistrationTranslationChunksConfig,
+        resources: organizationUserRegistrationTranslations,
+        chunks: organizationUserRegistrationTranslationChunksConfig,
       },
     }),
   ],
 })
-export class RegistrationFeatureModule {}
+export class OrganizationUserRegistrationFeatureModule {}

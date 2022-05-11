@@ -1,11 +1,11 @@
 import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import { en } from './en/index';
 
-export const orgUserRegistrationTranslations: TranslationResources = {
+export const organizationUserRegistrationTranslations: TranslationResources = {
   en,
 };
 
-export const orgUserRegistrationTranslationChunksConfig: TranslationChunksConfig =
+export const organizationUserRegistrationTranslationChunksConfig: TranslationChunksConfig =
   {
     userRegistration: ['userRegistrationForm'],
   };

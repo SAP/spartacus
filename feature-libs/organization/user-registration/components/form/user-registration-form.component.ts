@@ -1,17 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  Country,
-  Region,
-  GlobalMessageService,
-  GlobalMessageType,
-  UserAddressService,
-} from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
-import { Title, UserRegisterFacade } from '@spartacus/user/profile/root';
+import { FormGroup } from '@angular/forms';
+import { Country, Region } from '@spartacus/core';
+import { Title } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, switchMap } from 'rxjs/operators';
-import { UserRegistrationFacade } from '../../root/facade/user-registration.facade';
+import { switchMap, take } from 'rxjs/operators';
+import { UserRegistrationFormService } from './user-registration-form.service';
 
 @Component({
   selector: 'cx-user-registration-form',
@@ -20,61 +13,47 @@ import { UserRegistrationFacade } from '../../root/facade/user-registration.faca
 })
 export class UserRegistrationFormComponent implements OnInit {
   titles$: Observable<Title[]>;
+
   countries$: Observable<Country[]>;
+
   regions$: Observable<Region[]>;
+
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   isLoading$ = new BehaviorSubject(false);
 
-  registerForm: FormGroup = this.fb.group({
-    titleCode: [null],
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    email: ['', [Validators.required, CustomFormValidators.emailValidator]],
-    country: this.fb.group({
-      isocode: [null],
-    }),
-    line1: [''],
-    line2: [''],
-    town: [''],
-    region: this.fb.group({
-      isocode: [null],
-    }),
-    postalCode: [''],
-    phone: '',
-    message: [''],
-  });
+  registerForm: FormGroup;
+
+  messageContent: string;
 
   constructor(
-    protected userRegisterFacade: UserRegisterFacade,
-    protected userAddressService: UserAddressService,
-    protected orgUserRegistrationFacade: UserRegistrationFacade,
-    protected globalMessageService: GlobalMessageService,
-    protected fb: FormBuilder
+    protected userRegistrationFormService: UserRegistrationFormService
   ) {}
 
   ngOnInit(): void {
-    this.titles$ = this.userRegisterFacade.getTitles();
+    this.registerForm = this.userRegistrationFormService.initializeForm();
 
-    this.countries$ = this.userAddressService.getDeliveryCountries().pipe(
-      tap((countries: Country[]) => {
-        if (Object.keys(countries).length === 0) {
-          this.userAddressService.loadDeliveryCountries();
-        }
-      })
-    );
+    this.titles$ = this.userRegistrationFormService.getTitles();
+
+    this.countries$ = this.userRegistrationFormService.getCountries();
 
     this.regions$ = this.selectedCountry$.pipe(
-      switchMap((country) => this.userAddressService.getRegions(country)),
-      tap((regions: Region[]) => {
-        const regionControl = this.registerForm.get('region.isocode');
-        if (regions && regions.length > 0) {
-          regionControl.enable();
-        } else {
-          regionControl.disable();
-        }
-      })
+      switchMap((country) =>
+        this.userRegistrationFormService.getRegions(country)
+      )
     );
+  }
+
+  countrySelected(country: Country): void {
+    this.registerForm
+      .get('country')
+      ?.get('isocode')
+      ?.setValue(country?.isocode);
+    this.selectedCountry$.next(country?.isocode);
+  }
+
+  regionSelected(region: Region): void {
+    this.registerForm.get('region')?.get('isocode')?.setValue(region?.isocode);
   }
 
   submitForm(): void {
@@ -85,27 +64,23 @@ export class UserRegistrationFormComponent implements OnInit {
     }
   }
 
-  countrySelected(country: Country): void {
-    this.registerForm.get('country')?.get('isocode')?.setValue(country.isocode);
-    this.selectedCountry$.next(country.isocode);
-  }
-
-  regionSelected(region: Region): void {
-    this.registerForm.get('region')?.get('isocode')?.setValue(region.isocode);
-  }
-
   register(): void {
     this.isLoading$.next(true);
 
-    this.orgUserRegistrationFacade
-      .registerUser(this.registerForm?.value)
+    this.userRegistrationFormService
+      .buildMessageContent(this.registerForm)
+      .pipe(take(1))
+      .subscribe((content) => (this.messageContent = content));
+
+    this.userRegistrationFormService
+      .registerUser({
+        firstName: this.registerForm.get('firstName')?.value,
+        lastName: this.registerForm.get('lastName')?.value,
+        email: this.registerForm.get('email')?.value,
+        message: this.messageContent,
+      })
       .subscribe({
-        next: () => {
-          return this.globalMessageService.add(
-            { key: 'userRegistrationForm.successFormSubmitMessage' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        },
+        next: () => this.userRegistrationFormService.displayGlobalMessage(),
         complete: () => {
           this.registerForm.reset();
           this.isLoading$.next(false);

@@ -15,6 +15,7 @@ import {
   NgSelectA11yModule,
 } from '@spartacus/storefront';
 import { UserRegistrationFormComponent } from './user-registration-form.component';
+import { UserRegistrationFormService } from './user-registration-form.service';
 
 @NgModule({
   imports: [
@@ -29,7 +30,7 @@ import { UserRegistrationFormComponent } from './user-registration-form.componen
     NgSelectA11yModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        OrgUserRegistrationComponent: {
+        OrganizationUserRegistrationComponent: {
           component: UserRegistrationFormComponent,
         },
       },
@@ -37,5 +38,6 @@ import { UserRegistrationFormComponent } from './user-registration-form.componen
   ],
   declarations: [UserRegistrationFormComponent],
   exports: [UserRegistrationFormComponent],
+  providers: [UserRegistrationFormService],
 })
 export class UserRegistrationFormModule {}
