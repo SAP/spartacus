@@ -1,97 +1,97 @@
 
 {
   "folder": {
-    "path": "spartacus/core-libs/setup/recipes/b2b",
+    "path": "core-libs/setup/recipes/b2b",
     "tags": ["smoke_b2b", "b2b"]
   },
   "folder": {
-    "path": "spartacus/core-libs/setup/ssr",
+    "path": "core-libs/setup/ssr",
     "tags": ["smoke_b2c", "ssr"]
   },
   "folder": {
-    "path": "spartacus/core-libs/setup/ssr",
+    "path": "core-libs/setup/ssr",
     "tags": ["smoke_b2c", "ssr"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/asm",
+    "path": "feature-libs/asm",
     "tags": ["smoke_b2c", "asm"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/cart",
+    "path": "feature-libs/cart",
     "tags": ["smoke_b2c", "cart"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/checkout",
+    "path": "feature-libs/checkout",
     "tags": ["smoke_b2c", "checkout", "smoke_b2b", "replenishment"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/order",
+    "path": "feature-libs/order",
     "tags": ["smoke_b2c", "order"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/organization",
+    "path": "feature-libs/organization",
     "tags": ["smoke_b2b", "organization"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/product",
+    "path": "feature-libs/product",
     "tags": ["smoke_b2c", ""]
   },
   "folder": {
-    "path": "spartacus/feature-libs/product",
+    "path": "feature-libs/product",
     "tags": ["smoke_b2c", "smoke_b2b", "image_zoom", "bulk_pricing", "variants"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/product-configurator",
+    "path": "feature-libs/product-configurator",
     "tags": ["smoke_b2c", "product_configurator"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/qualtrics",
+    "path": "feature-libs/qualtrics",
     "tags": ["smoke_b2c", "qualtrics"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/smartedit",
+    "path": "feature-libs/smartedit",
     "tags": ["smoke_b2c", "smartedit"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/storefinder",
+    "path": "feature-libs/storefinder",
     "tags": ["smoke_b2c", "store_finder"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/tracking",
+    "path": "feature-libs/tracking",
     "tags": ["smoke_b2c", "smoke_b2b"]
   },
   "folder": {
-    "path": "spartacus/feature-libs/user",
+    "path": "feature-libs/user",
     "tags": ["smoke_b2c", "smoke_b2b", "login"]
   },
   "folder": {
-    "path": "spartacus/integration-libs/cdc",
+    "path": "integration-libs/cdc",
     "tags": ["smoke_b2c", "cdc"]
   },
   "folder": {
-    "path": "spartacus/integration-libs/cds",
+    "path": "integration-libs/cds",
     "tags": ["smoke_b2c", "cds"]
   },
   "folder": {
-    "path": "spartacus/integration-libs/digital-payments",
+    "path": "integration-libs/digital-payments",
     "tags": ["smoke_b2c", "digital_payments"]
   },
   "folder": {
-    "path": "spartacus/integration-libs/epd-visualization",
+    "path": "integration-libs/epd-visualization",
     "tags": ["smoke_b2c", "epd"]
   },
   "folder": {
-    "path": "spartacus/projects/core",
+    "path": "projects/core",
     "tags": ["core"],
     "comments": "TODO. Further refinement required based on impact"
   },
   "folder": {
-    "path": "spartacus/projects/schematics",
+    "path": "projects/schematics",
     "tags": ["core"],
     "comments": "TODO. Further refinement required based on impact"
   },
   "folder": {
-    "path": "spartacus/projects/storefrontapp",
+    "path": "projects/storefrontapp",
     "tags": ["core"],
     "comments": "TODO. Further refinement required based on impact"
   }

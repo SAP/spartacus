@@ -93,9 +93,13 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
-        yarn e2e:run:ci:core"${SUITE}"
+    if [ ! -z "$CONTEXT_TAGS" ]; then
+            yarn e2e:run:tags"${SUITE}"
     else
-        yarn e2e:run:ci"${SUITE}"
+        if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+            yarn e2e:run:ci:core"${SUITE}"
+        else
+            yarn e2e:run:ci"${SUITE}"
+        fi
     fi
 fi
