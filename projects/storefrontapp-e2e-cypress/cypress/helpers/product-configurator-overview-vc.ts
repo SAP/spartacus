@@ -87,6 +87,7 @@ export function checkNotificationBannerOnOP(
  * Verifies whether the issues banner is displayed and the number of issues are accurate.
  *
  * @param {number} numberOfIssues - Expected number of issues
+ * @param {number} numberOfConflicts - Expected number of conflicts
  */
 export function verifyNotificationBannerOnOP(
   numberOfIssues?: number,
