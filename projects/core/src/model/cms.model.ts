@@ -1,3 +1,7 @@
+export interface InnerComponentSelectable {
+  select: string;
+  component: string;
+}
 export interface CmsComponent {
   modifiedTime?: Date;
   name?: string;
@@ -13,6 +17,10 @@ export interface CmsComponent {
      * List of inner component mappings
      */
     inner?: string[];
+    /**
+     * List of inner components which can be selected from outside
+     */
+    innerSelectable?: InnerComponentSelectable[];
   };
 
   /**

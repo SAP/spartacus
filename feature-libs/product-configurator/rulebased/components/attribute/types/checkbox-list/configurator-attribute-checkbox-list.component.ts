@@ -6,6 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { InnerComponentsContext } from '@spartacus/storefront';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
@@ -27,9 +28,10 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
-    protected quantityService: ConfiguratorAttributeQuantityService
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected innerComponentsContext: InnerComponentsContext
   ) {
-    super(quantityService);
+    super(quantityService, innerComponentsContext);
   }
 
   ngOnInit(): void {

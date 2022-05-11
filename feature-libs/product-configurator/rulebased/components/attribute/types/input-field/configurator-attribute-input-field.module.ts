@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { I18nModule } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
@@ -12,6 +12,15 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
     ReactiveFormsModule,
     CommonModule,
     I18nModule,
+  ],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ConfiguratorAttributeInputField: {
+          component: ConfiguratorAttributeInputFieldComponent,
+        },
+      },
+    }),
   ],
   declarations: [ConfiguratorAttributeInputFieldComponent],
   exports: [ConfiguratorAttributeInputFieldComponent],

@@ -4,6 +4,11 @@ import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE } from './feature-name';
 
 const cmsComponents: string[] = [
   'ConfiguratorAttributeRadioButton',
+  'ConfiguratorAttributeDropDown',
+  'ConfiguratorAttributeSingleSelectionImage',
+  'ConfiguratorAttributeCheckBoxList',
+  'ConfiguratorAttributeInputField',
+  'ConfiguratorAttributeNumericInputField',
   'ConfiguratorForm',
   'ConfiguratorOverviewForm',
   'ConfiguratorUpdateMessage',

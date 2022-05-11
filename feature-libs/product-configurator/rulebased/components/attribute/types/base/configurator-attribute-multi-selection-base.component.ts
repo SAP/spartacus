@@ -1,4 +1,5 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import { InnerComponentsContext } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -17,8 +18,13 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected innerComponentsContext: InnerComponentsContext
+  ) {
     super();
+    this.attribute = innerComponentsContext.context.attribute;
+    this.ownerKey = innerComponentsContext.context.configuration.owner.key;
   }
 
   /**

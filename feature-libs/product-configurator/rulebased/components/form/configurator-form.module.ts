@@ -54,9 +54,32 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
           component: ConfiguratorFormComponent,
           data: {
             composition: {
-              inner: [
-                // 'ConfiguratorInnerTest',
-                'ConfiguratorAttributeRadioButton',
+              innerSelectable: [
+                //
+                {
+                  select: 'radioGroup',
+                  component: 'ConfiguratorAttributeRadioButton',
+                },
+                {
+                  select: 'single_selection_image',
+                  component: 'ConfiguratorAttributeSingleSelectionImage',
+                },
+                {
+                  select: 'dropdown',
+                  component: 'ConfiguratorAttributeDropDown',
+                },
+                {
+                  select: 'checkBoxList',
+                  component: 'ConfiguratorAttributeCheckBoxList',
+                },
+                {
+                  select: 'string',
+                  component: 'ConfiguratorAttributeInputField',
+                },
+                {
+                  select: 'numeric',
+                  component: 'ConfiguratorAttributeNumericInputField',
+                },
               ],
             },
           },

@@ -24,9 +24,7 @@ export class ConfiguratorAttributeRadioButtonComponent
     protected innerComponentsContext: InnerComponentsContext,
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {
-    super(quantityService);
-    this.attribute = innerComponentsContext.context.attribute;
-    this.ownerKey = innerComponentsContext.context.configuration.owner.key;
+    super(quantityService, innerComponentsContext);
   }
 
   onSelect(value: string): void {

@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { InnerComponentsContext } from '@spartacus/storefront';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -27,6 +28,12 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
   @Input() ownerKey: string;
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+
+  constructor(protected innerComponentsContext: InnerComponentsContext) {
+    super();
+    this.attribute = innerComponentsContext.context.attribute;
+    this.ownerKey = innerComponentsContext.context.configuration.owner.key;
+  }
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);

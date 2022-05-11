@@ -11,6 +11,7 @@ import {
   CmsComponent,
   DynamicAttributeService,
   EventService,
+  InnerComponentSelectable,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -33,8 +34,13 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
     distinctUntilChanged()
   );
 
+  protected innerComponentsSelectable$ = this.data.data$.pipe(
+    map((data) => data?.composition?.innerSelectable ?? []),
+    distinctUntilChanged()
+  );
+
   protected componentWrappers: any[] = [];
-  protected subscription?: Subscription;
+  protected subscription = new Subscription();
 
   constructor(
     protected data: CmsComponentData<CmsComponent>,
@@ -52,14 +58,31 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.innerComponentsContext.context = this.context;
-    this.subscription = this.innerComponents$.subscribe((x) => {
-      this.renderComponents(x);
-    });
+    this.subscription.add(
+      this.innerComponents$.subscribe((x) => {
+        this.renderComponents(x);
+      })
+    );
+    this.subscription.add(
+      this.innerComponentsSelectable$.subscribe((x) => {
+        this.renderSelectableComponents(x);
+      })
+    );
   }
 
   protected renderComponents(components: string[]) {
     this.clearComponents();
     components.forEach((component) => this.renderComponent(component));
+  }
+
+  protected renderSelectableComponents(components: InnerComponentSelectable[]) {
+    this.clearComponents();
+    components
+      .filter(
+        (component) =>
+          component.select === this.innerComponentsContext.context.select
+      )
+      .forEach((component) => this.renderComponent(component.component));
   }
 
   protected renderComponent(component: string) {

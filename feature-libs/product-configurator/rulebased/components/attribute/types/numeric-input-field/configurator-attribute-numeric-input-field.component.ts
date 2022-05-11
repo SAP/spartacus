@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, InnerComponentsContext } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
@@ -44,9 +44,11 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     protected config: ConfiguratorUISettingsConfig,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected innerComponentsContext: InnerComponentsContext
   ) {
-    super(config);
+    super(config, innerComponentsContext);
+    this.language = innerComponentsContext.context.language;
   }
 
   /**
