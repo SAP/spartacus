@@ -14,11 +14,11 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 import createSpy = jasmine.createSpy;
 
-class AuthServiceStub implements Partial<AuthService> {
+class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn = createSpy().and.returnValue(of());
 }
 
-class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getAssignedUser = createSpy().and.returnValue(of());
   isGuestCart = createSpy().and.returnValue(of(true));
   isStable = createSpy().and.returnValue(of(true));
@@ -61,11 +61,11 @@ describe('CheckoutAuthGuard', () => {
         },
         {
           provide: AuthService,
-          useClass: AuthServiceStub,
+          useClass: MockAuthService,
         },
         {
           provide: ActiveCartFacade,
-          useClass: ActiveCartServiceStub,
+          useClass: MockActiveCartService,
         },
         {
           provide: CheckoutConfigService,
