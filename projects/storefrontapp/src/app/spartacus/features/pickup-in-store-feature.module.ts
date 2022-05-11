@@ -1,9 +1,5 @@
 import { NgModule } from '@angular/core';
 import { provideConfig } from '@spartacus/core';
-// import {
-//   importExportTranslationChunksConfig,
-//   importExportTranslations,
-// } from '@spartacus/cart/import-export/assets';
 import {
   CART_PICKUP_IN_STORE_FEATURE,
   PickupInStoreRootModule,
@@ -21,11 +17,6 @@ import {
             ),
         },
       },
-      // i18n: {
-      //   resources: importExportTranslations,
-      //   chunks: importExportTranslationChunksConfig,
-      //   fallbackLang: 'en',
-      // },
     }),
   ],
 })
