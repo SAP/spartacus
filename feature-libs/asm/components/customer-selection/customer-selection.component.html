@@ -1,44 +1,12 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
   <label>
-    <!-- <div class="input-group">
-      <div>
-        <div class="input-group-prepend">
-          <cx-icon
-            (click)="showCustomList()"
-            class="icon-button text"
-            [type]="iconTypes.EMPTY_HEART"
-          ></cx-icon>
-        </div>
-      </div>
-      <input
-        required="true"
-        #searchTerm
-        type="text"
-        formControlName="searchTerm"
-        placeholder="{{
-          'asm.customerSearch.searchTerm.label' | cxTranslate
-        }}"
-      />
-    </div> -->
-
-    <div class="input-contaier">
-      <label class="searchTermLabel" for="searchTerm">Customer</label>
-      <div class="icon-wrapper">
-        <cx-icon
-          (click)="showCustomList()"
-          class="fa-lg"
-          [type]="iconTypes.ADDRESS_BOOK"
-        ></cx-icon>
-      </div>
-      <input
-        required="true"
-        #searchTerm
-        type="text"
-        id="searchTerm"
-        formControlName="searchTerm"
-        placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
-      />
-    </div>
+    <input
+      required="true"
+      #searchTerm
+      type="text"
+      formControlName="searchTerm"
+      placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+    />
     <cx-form-errors
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
@@ -80,9 +48,3 @@
     <div></div>
   </div>
 </div>
-
-<ng-template #customerList>
-  <div>
-    {{ hakwooTest }}
-  </div>
-</ng-template>

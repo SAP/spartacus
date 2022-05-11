@@ -17,8 +17,6 @@ export const product = {
       label: 'Filter by',
       action: 'Filter by',
     },
-    activeFilter:
-      '{{filter}} filter, clicking on this button will remove the filter',
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',

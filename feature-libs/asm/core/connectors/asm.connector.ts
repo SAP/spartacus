@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
-  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../models/asm.models';
@@ -17,9 +16,5 @@ export class AsmConnector {
     options: CustomerSearchOptions
   ): Observable<CustomerSearchPage> {
     return this.asmAdapter.customerSearch(options);
-  }
-
-  customerLists(): Observable<CustomerListsPage> {
-    return this.asmAdapter.customerLists();
   }
 }

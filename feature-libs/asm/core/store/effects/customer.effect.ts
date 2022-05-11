@@ -4,28 +4,11 @@ import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { AsmConnector } from '../../connectors/asm.connector';
-import { CustomerListsPage, CustomerSearchPage } from '../../models/asm.models';
+import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmActions } from '../actions/index';
 
 @Injectable()
 export class CustomerEffects {
-  customerLists$: Observable<AsmActions.CustomerAction> = createEffect(() =>
-    this.actions$.pipe(
-      ofType(AsmActions.CUSTOMER_LISTS),
-      // map((action: AsmActions.CustomerLists) => action.payload),
-      switchMap(() =>
-        this.asmConnector.customerLists().pipe(
-          map((customerLists: CustomerListsPage) => {
-            return new AsmActions.CustomerListsSuccess(customerLists);
-          }),
-          catchError((error) =>
-            of(new AsmActions.CustomerListsFail(normalizeHttpError(error)))
-          )
-        )
-      )
-    )
-  );
-
   customerSearch$: Observable<AsmActions.CustomerAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(AsmActions.CUSTOMER_SEARCH),
