@@ -1,5 +1,5 @@
 export const pdf = {
   pdf: {
-    defaultName: 'Document',
+    defaultTitle: 'Document',
   },
 };
