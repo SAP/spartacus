@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   Address,
@@ -13,6 +13,7 @@ import {
   Command,
   CommandService,
 } from '../../util/command-query/command.service';
+import { isNotNullable } from '../../util/type-guards';
 import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -138,7 +139,8 @@ export class UserAddressService {
    */
   getCountry(isocode: string): Observable<Country> {
     return this.store.pipe(
-      select(UsersSelectors.countrySelectorFactory(isocode))
+      select(UsersSelectors.countrySelectorFactory(isocode)),
+      filter(isNotNullable)
     );
   }
 

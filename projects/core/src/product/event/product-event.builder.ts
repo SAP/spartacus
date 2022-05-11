@@ -75,14 +75,15 @@ export class ProductEventBuilder {
 
       // for category searches, they must have the same root
       const sameCategoryRoot =
-        curr.breadcrumbs[0]?.facetCode === 'allCategories' &&
-        prev.breadcrumbs[0]?.facetCode === curr.breadcrumbs[0]?.facetCode &&
+        curr.breadcrumbs?.[0]?.facetCode === 'allCategories' &&
+        prev.breadcrumbs?.[0]?.facetCode === curr.breadcrumbs[0]?.facetCode &&
         // same category or brand
         prev.breadcrumbs[0].facetValueCode ===
           curr.breadcrumbs[0].facetValueCode;
 
       return sameFreeTextSearch || sameCategoryRoot;
     }
+    return false;
   }
 
   /**
@@ -90,10 +91,10 @@ export class ProductEventBuilder {
    * only can have one different solr filter term.
    */
   private getToggledBreadcrumb(
-    bc1: Breadcrumb[],
-    bc2: Breadcrumb[]
+    bc1?: Breadcrumb[],
+    bc2?: Breadcrumb[]
   ): Breadcrumb | undefined {
-    if (bc1.length - bc2.length === 1) {
+    if (bc1 && bc2 && bc1.length - bc2.length === 1) {
       return bc1.find(
         (x) =>
           !bc2.find(

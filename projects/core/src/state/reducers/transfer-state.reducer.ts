@@ -33,7 +33,7 @@ export function getTransferStateReducer(
     }
   }
 
-  return (reducer) => reducer;
+  return (reducer: any) => reducer;
 }
 
 export function getServerTransferStateReducer(
@@ -45,8 +45,8 @@ export function getServerTransferStateReducer(
     StateTransferType.TRANSFER_STATE
   );
 
-  return function (reducer) {
-    return function (state, action: any) {
+  return function (reducer: any) {
+    return function (state: any, action: any) {
       const newState = reducer(state, action);
       if (newState) {
         const stateSlice = getStateSlice(transferStateKeys, [], newState);
@@ -68,8 +68,8 @@ export function getBrowserTransferStateReducer(
     StateTransferType.TRANSFER_STATE
   );
 
-  return function (reducer) {
-    return function (state, action: any) {
+  return function (reducer: any) {
+    return function (state: any, action: any) {
       if (action.type === INIT) {
         if (!state) {
           state = reducer(state, action);

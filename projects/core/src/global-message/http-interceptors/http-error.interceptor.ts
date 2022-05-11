@@ -49,7 +49,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
    * return the error handler that matches the `HttpResponseStatus` code.
    * If no handler is available, the UNKNOWN handler is returned.
    */
-  protected getResponseHandler(response: HttpErrorResponse): HttpErrorHandler {
-    return resolveApplicable(getLastValueSync(this.handlers$), [response]);
+  protected getResponseHandler(
+    response: HttpErrorResponse
+  ): HttpErrorHandler | undefined {
+    return resolveApplicable(getLastValueSync(this.handlers$) ?? [], [
+      response,
+    ]);
   }
 }

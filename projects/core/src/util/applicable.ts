@@ -27,7 +27,7 @@ export interface Applicable {
   /**
    * Returns true if applicable can be used to handle specified condition
    */
-  hasMatch?(...params): boolean;
+  hasMatch?(...params: any[]): boolean;
 
   /**
    * Returns priority or score for specified applicable.
@@ -35,7 +35,7 @@ export interface Applicable {
    * If multiple applicables can be applied to specified condition, the one
    * with highest priority or score wins.
    */
-  getPriority?(...params): Priority | number;
+  getPriority?(...params: any[]): Priority | number;
 }
 
 /**

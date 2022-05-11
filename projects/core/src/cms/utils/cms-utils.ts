@@ -13,7 +13,7 @@ export const CURRENT_CONTEXT_KEY = 'current';
  * Otherwise, the page context if fully serialized.
  */
 export function serializePageContext(
-  pageContext: PageContext,
+  pageContext?: PageContext,
   ignoreContentPageId?: boolean
 ): string {
   if (!pageContext) {

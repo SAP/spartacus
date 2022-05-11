@@ -11,6 +11,7 @@ import {
   getProcessLoadingFactory,
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
+import { isNotUndefined } from '../../util/type-guards';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import {
@@ -119,7 +120,7 @@ export class UserConsentService {
           select(UsersSelectors.getConsentByTemplateId(templateId))
         )
       ),
-      filter((template) => Boolean(template)),
+      filter(isNotUndefined),
       map((template) => template.currentConsent)
     );
   }

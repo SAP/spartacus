@@ -127,7 +127,7 @@ export class OccEndpointsService {
 
         let httpParams = new HttpParams(httpParamsOptions);
         Object.keys(queryParams).forEach((key) => {
-          const value = queryParams[key];
+          const value = queryParams[key as keyof object];
           if (value !== undefined) {
             if (value === null) {
               httpParams = httpParams.delete(key);

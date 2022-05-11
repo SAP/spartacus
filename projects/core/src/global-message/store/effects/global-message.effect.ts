@@ -15,6 +15,7 @@ import {
 } from 'rxjs/operators';
 import { Translatable } from '../../../i18n/translatable';
 import { ObjectComparisonUtils } from '../../../util/object-comparison-utils';
+import { isNotUndefined } from '../../../util/type-guards';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import { GlobalMessage } from '../../models/global-message.model';
 import { GlobalMessageActions } from '../actions/index';
@@ -45,14 +46,18 @@ export class GlobalMessageEffect {
                 1
             ),
             map(([text, messages]: [Translatable, Translatable[]]) => {
-              return new GlobalMessageActions.RemoveMessage({
-                type: message.type,
-                index: ObjectComparisonUtils.indexOfFirstOccurrence(
-                  text,
-                  messages
-                ),
-              });
-            })
+              const index = ObjectComparisonUtils.indexOfFirstOccurrence(
+                text,
+                messages
+              );
+              if (index) {
+                return new GlobalMessageActions.RemoveMessage({
+                  type: message.type,
+                  index,
+                });
+              }
+            }),
+            filter(isNotUndefined)
           )
         )
       )
@@ -72,15 +77,13 @@ export class GlobalMessageEffect {
                 GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
               ),
               take(1),
-              filter((count: number) =>
-                Boolean(
+              filter(
+                (count: number) =>
                   ((config && config.timeout !== undefined) ||
-                    message.timeout) &&
-                    count &&
-                    count > 0
-                )
+                    message.timeout !== undefined) &&
+                  count > 0
               ),
-              delay(message.timeout || config.timeout),
+              delay((message.timeout as number) || (config?.timeout as number)),
               switchMap(() =>
                 of(
                   new GlobalMessageActions.RemoveMessage({
