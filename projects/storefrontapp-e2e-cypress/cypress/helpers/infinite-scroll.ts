@@ -1,17 +1,19 @@
 import { PRODUCT_LISTING } from './data-configuration';
 import { clickFacet } from './product-search';
+import { searchUrlPrefix } from './product-search';
 
 const scrollDuration = 5000;
 const defaultNumberOfProducts = 12;
 let defaultProductLimit = 12;
 
-const defaultQueryName = `query_relevance`;
-const defaultQueryAlias = `@${defaultQueryName}`;
-
 const productScrollButtons = 'cx-product-scroll .btn-action';
 
 const doubleButton = 'double';
 const singleButton = 'single';
+
+export const testUrl = '/Open-Catalogue/Components/Power-Supplies/c/816';
+export const defaultQuery = `query_relevance`;
+export const defaultQueryAlias = `@${defaultQuery}`;
 
 export function configScroll(
   active: boolean,
@@ -128,5 +130,46 @@ export function verifyGridResetsList() {
 
   cy.wait('@gridQuery').then(() => {
     assertDefaultNumberOfProducts('grid');
+  });
+}
+
+export function testInfiniteScrollAvoidDisplayShowMoreButton() {
+  it("should enable Infinite scroll and NOT display 'Show more' button", () => {
+    configScroll(true, 0, false);
+    cy.visit(testUrl);
+
+    cy.intercept({
+      method: 'GET',
+      pathname: searchUrlPrefix,
+      query: {
+        fields: '*',
+        query: ':topRated:allCategories:816:brand:brand_5',
+      },
+    }).as('gridQuery');
+
+    cy.intercept({
+      method: 'GET',
+      pathname: searchUrlPrefix,
+      query: {
+        query: ':relevance:allCategories:816',
+        sort: 'topRated',
+        fields: '*',
+      },
+    }).as('sortQuery');
+
+    cy.wait(defaultQueryAlias).then((waitXHR) => {
+      const totalResults = waitXHR.response.body.pagination.totalResults;
+      isPaginationNotVisible();
+
+      backtoTopIsNotVisible();
+      scrollToFooter(totalResults);
+      backToTopIsVisible();
+
+      verifySortingResetsList();
+
+      verifyFilterResetsList();
+
+      verifyGridResetsList();
+    });
   });
 }

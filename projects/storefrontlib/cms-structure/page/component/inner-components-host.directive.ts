@@ -7,9 +7,13 @@ import {
   Renderer2,
   ViewContainerRef,
 } from '@angular/core';
-import { CmsComponent, DynamicAttributeService } from '@spartacus/core';
+import {
+  CmsComponent,
+  DynamicAttributeService,
+  EventService,
+} from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 import { CmsComponentsService } from '../../services/cms-components.service';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
@@ -25,7 +29,8 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   @Input('cxInnerComponentsHost') context: any;
 
   protected innerComponents$ = this.data.data$.pipe(
-    map((data) => data?.composition?.inner ?? [])
+    map((data) => data?.composition?.inner ?? []),
+    distinctUntilChanged()
   );
 
   protected componentWrappers: any[] = [];
@@ -41,7 +46,8 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
     protected cmsInjector: CmsInjectorService,
-    protected innerComponentsContext: InnerComponentsContext
+    protected innerComponentsContext: InnerComponentsContext,
+    protected eventService: EventService
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +70,8 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
       this.dynamicAttributeService,
       this.renderer,
       this.componentHandler,
-      this.cmsInjector
+      this.cmsInjector,
+      this.eventService
     );
     componentWrapper.cxComponentWrapper = { flexType: component, uid: '' };
     componentWrapper.ngOnInit();

@@ -6,9 +6,9 @@ import {
   LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_FAIL_CLASS,
   LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS,
   LOAD_CUSTOMER_SUPPORT_AGENT_TOKEN_SUCCESS_CLASS,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ASM_ACTIONS_MIGRATION: MethodPropertyDeprecation[] = [

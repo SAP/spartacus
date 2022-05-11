@@ -1,9 +1,16 @@
 %cx-configurator-add-to-cart-button {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--cx-color-background);
+  border-top: solid 1px var(--cx-color-light);
+  box-shadow: 0 0 5px var(--cx-color-light);
+
   .cx-add-to-cart-btn-container,
   .cx-display-only-btn-container {
     max-width: 1140px;
-
     @include cx-configurator-footer-container();
+    margin-top: 0px;
 
     button.cx-add-to-cart-btn,
     button.cx-display-only-btn {

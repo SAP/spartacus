@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, zip } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CmsComponent } from '../../../model/cms.model';
-import { OccConfig } from '../../../occ/config/occ-config';
 import { PageContext } from '../../../routing/models/page-context.model';
+import { CmsConfig } from '../../config/cms-config';
 import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
 import { CmsComponentAdapter } from './cms-component.adapter';
 
@@ -14,7 +14,7 @@ export class CmsComponentConnector {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
     protected cmsComponentAdapter: CmsComponentAdapter,
-    protected config: OccConfig
+    protected config: CmsConfig
   ) {}
 
   get<T extends CmsComponent>(
@@ -47,14 +47,31 @@ export class CmsComponentConnector {
         );
 
         if (missingIds.length > 0) {
-          return this.cmsComponentAdapter
-            .findComponentsByIds(missingIds, pageContext)
-            .pipe(
-              map((loadedComponents) => [
-                ...configuredComponents.filter(Boolean),
-                ...loadedComponents,
-              ])
+          const pageSize =
+            this.config.componentsLoading?.pageSize || missingIds.length;
+          const totalPages = Math.ceil(missingIds.length / pageSize);
+          const cmsComponents: Observable<CmsComponent[]>[] = [];
+
+          let currentPage = 0;
+          while (currentPage < totalPages) {
+            cmsComponents.push(
+              this.cmsComponentAdapter.findComponentsByIds(
+                missingIds.slice(
+                  currentPage * pageSize,
+                  (currentPage + 1) * pageSize
+                ),
+                pageContext
+              )
             );
+            currentPage++;
+          }
+          return zip(...cmsComponents).pipe(
+            map((loadedComponents) =>
+              [...configuredComponents.filter(Boolean)].concat(
+                ...loadedComponents
+              )
+            )
+          );
         } else {
           return of(configuredComponents);
         }

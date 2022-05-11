@@ -1,12 +1,14 @@
 import {
-  SPARTACUS_CORE,
-  SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
-  SPARTACUS_USER_PROFILE_ROOT,
   UNIT_ADDRESS_FORM_SERVICE,
   USER_ADDRESS_SERVICE,
   USER_PROFILE_FACADE,
   USER_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
+  SPARTACUS_USER_PROFILE_ROOT,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const UNIT_ADDRESS_FORM_SERVICE_MIGRATION: ConstructorDeprecation = {

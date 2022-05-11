@@ -2,7 +2,11 @@ import { cheapProduct, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import * as checkoutAsPersistentUser from './checkout-as-persistent-user';
 import * as checkout from './checkout-flow';
-import { waitForPage, waitForProductPage } from './checkout-flow';
+import {
+  interceptCheckoutB2CDetailsEndpoint,
+  waitForPage,
+  waitForProductPage,
+} from './checkout-flow';
 import {
   AddressData,
   fillPaymentDetails,
@@ -41,12 +45,12 @@ export const WishListUser = {
   },
 };
 
-function registerWishListUser() {
+export function registerWishListUser() {
   register({ ...WishListUser.registrationData });
   cy.url().should('not.contain', 'register');
 }
 
-function loginWishListUser() {
+export function loginWishListUser() {
   login(
     WishListUser.registrationData.email,
     WishListUser.registrationData.password
@@ -68,11 +72,7 @@ export function waitForGetWishList() {
 }
 
 export function addToWishListAnonymous(product: TestProduct) {
-  const productPage = waitForProductPage(product.code, 'productPage');
-
-  cy.visit(`/product/${product.code}`);
-
-  cy.wait(`@${productPage}`);
+  visitProduct(product);
 
   cy.get('cx-add-to-wishlist .button-add-link').click();
 
@@ -85,6 +85,14 @@ export function addToWishListAnonymous(product: TestProduct) {
   loginWishListUser();
 
   cy.get('cx-product-intro > .code').should('contain', `${product.code}`);
+}
+
+export function visitProduct(product: TestProduct) {
+  const productPage = waitForProductPage(product.code, 'productPage');
+
+  cy.visit(`/product/${product.code}`);
+
+  cy.wait(`@${productPage}`);
 }
 
 export function addToWishListFromPage() {
@@ -104,7 +112,7 @@ export function addToWishList(product: TestProduct) {
 
   waitForGetWishList();
 
-  cy.get('cx-add-to-wishlist .button-add').click();
+  cy.get('cx-add-to-wishlist .button-add').should('not.be.disabled').click();
 
   cy.wait('@get_wish_list');
 }
@@ -123,7 +131,7 @@ export function verifyProductInWishList(product: TestProduct) {
   });
   waitForGetWishList();
   cy.get('cx-wish-list')
-    .contains('cx-wish-list-item', product.name)
+    .contains('.cx-item-list-row', product.name)
     .within(() => {
       cy.get('.cx-code').should('contain', product.code);
     });
@@ -132,7 +140,7 @@ export function verifyProductInWishList(product: TestProduct) {
 export function removeProductFromWishListPage(product: TestProduct) {
   waitForGetWishList();
   getWishListItem(product.name).within(() => {
-    cy.get('.cx-return-button>button').click();
+    cy.get('button.cx-remove-btn').click();
   });
   cy.wait('@get_wish_list');
   getWishListItem(product.name).should('not.exist');
@@ -146,6 +154,13 @@ export function removeProductFromPdp() {
   cy.wait('@get_wish_list');
 
   verifyProductNotInWishListPdp();
+}
+
+export function removeProductFromCart() {
+  cy.get('cx-mini-cart').click();
+  cy.get('.cx-item-list-items').within(() => {
+    cy.findByText(/Remove/i).click();
+  });
 }
 
 export function addProductToCart(product: TestProduct) {
@@ -186,16 +201,23 @@ export function checkWishListPersisted(product: TestProduct) {
 
   verifyProductInWishList(product);
 
-  goToProductPage(product);
+  goToProductPageFromWishList(product);
 
   verifyProductInWishListPdp();
 }
 
-export function goToProductPage(product: TestProduct) {
+export function goToWishList() {
+  cy.selectUserMenuOption({
+    option: 'Wish List',
+  });
+  waitForGetWishList();
+}
+
+export function goToProductPageFromWishList(product: TestProduct) {
   const productPage = waitForProductPage(product.code, 'productPage');
   cy.get('cx-wish-list').should('be.visible');
   cy.get('cx-wish-list')
-    .contains('cx-wish-list-item', product.name)
+    .contains('.cx-item-list-row', product.name)
     .within(() => {
       cy.get('.cx-name>.cx-link').click();
     });
@@ -226,29 +248,44 @@ function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
   cy.location('pathname').should('match', /\/cart$/);
 
   for (const product of checkoutProducts) {
-    cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
+    cy.get('cx-cart-item-list').contains('.cx-item-list-row', product.code);
   }
 }
 
 function proceedToCheckout() {
-  const shippingAddressPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingAddressPage'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddressPage'
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingAddressPage}`)
+  cy.wait(`@${deliveryAddressPage}`)
     .its('response.statusCode')
     .should('eq', 200);
 }
 
 function fillAddressForm(shippingAddressData: AddressData = user) {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  /**
+   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
+   */
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?deliveryModeId=*`,
+  }).as('putDeliveryMode');
+
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
 function fillPaymentForm(
@@ -265,7 +302,7 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
   cy.get('.cx-review-title').should('contain', 'Review');
 
   for (const product of checkoutProducts) {
-    cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
+    cy.get('cx-cart-item-list').contains('.cx-item-list-row', product.code);
   }
 
   cy.findByText('Terms & Conditions')
@@ -291,14 +328,14 @@ function verifyOrderConfirmationPage(checkoutProducts: TestProduct[]) {
   cy.get('h2').should('contain', 'Thank you for your order!');
 
   for (const product of checkoutProducts) {
-    cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
+    cy.get('cx-cart-item-list').contains('.cx-item-list-row', product.code);
   }
 }
 
 function getCartItem(name: string) {
-  return cy.get('cx-cart-item-list').contains('cx-cart-item', name);
+  return cy.get('cx-cart-item-list').contains('.cx-item-list-row', name);
 }
 
 function getWishListItem(name: string) {
-  return cy.get('cx-wish-list').contains('cx-wish-list-item', name);
+  return cy.get('cx-wish-list').contains('.cx-item-list-row', name);
 }

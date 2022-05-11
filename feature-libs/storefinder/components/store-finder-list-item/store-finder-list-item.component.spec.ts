@@ -139,7 +139,7 @@ describe('StoreFinderListItemComponent', () => {
     fixture.detectChanges();
     const encodedName = name.replace(' ', '%20');
     const link = fixture.debugElement
-      .queryAll(By.css('.cx-store-name > a'))
+      .queryAll(By.css('.cx-store-name'))
       .find((el) => el.nativeElement.innerText === displayName).nativeElement;
     expect(link.getAttribute('href')).toEqual(`/${encodedName}`);
     expect(link.getAttribute('ng-reflect-router-link')).toEqual(name);

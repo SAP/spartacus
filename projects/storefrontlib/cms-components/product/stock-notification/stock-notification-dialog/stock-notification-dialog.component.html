@@ -14,6 +14,7 @@
 </div>
 
 <ng-container *ngIf="subscribeSuccess$ | async; else loading">
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <div class="cx-dialog-body modal-body">
     <div class="container">
       <p>
@@ -37,7 +38,7 @@
         }}
         <a
           (click)="close()"
-          [routerLink]="['/my-account/notification-preference']"
+          [routerLink]="{ cxRoute: 'notificationPreference' } | cxUrl"
           class="link-prefs"
         >
           {{
@@ -58,7 +59,7 @@
         }}
         <a
           (click)="close()"
-          [routerLink]="['/my-account/my-interests']"
+          [routerLink]="{ cxRoute: 'myInterests' } | cxUrl"
           class="link-interests"
         >
           {{

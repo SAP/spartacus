@@ -36,7 +36,9 @@ export class ProductCarouselComponent {
   items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
     map((data) => data.productCodes?.trim().split(' ') ?? []),
     map((codes) =>
-      codes.map((code) => this.productService.get(code, this.PRODUCT_SCOPE))
+      codes.map((code) =>
+        this.productService.get(code, [this.PRODUCT_SCOPE, ProductScope.PRICE])
+      )
     )
   );
 

@@ -3,10 +3,10 @@ import {
   AUTH_SERVICE,
   CART_VOUCHER_SERVICE,
   NGRX_STORE,
-  SPARTACUS_CORE,
   STORE,
   USER_ID_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_VOUCHER_SERVICE_MIGRATION: ConstructorDeprecation = {

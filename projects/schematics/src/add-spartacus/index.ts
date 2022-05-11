@@ -8,7 +8,8 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { ANGULAR_HTTP, SPARTACUS_STOREFRONTLIB } from '../shared/constants';
+import { ANGULAR_HTTP, RXJS } from '../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -26,6 +27,7 @@ import {
   prepare3rdPartyDependencies,
   prepareSpartacusDependencies,
   readPackageJson,
+  updatePackageJsonDependencies,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -211,6 +213,83 @@ function increaseBudgets(): Rule {
   };
 }
 
+function createStylePreprocessorOptions(): Rule {
+  return (tree: Tree): Tree => {
+    const { path, workspace: angularJson } = getWorkspace(tree);
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+    const project = angularJson.projects[projectName];
+    const architect = project.architect;
+
+    // `build` architect section
+    const architectBuild = architect?.build;
+    const buildStylePreprocessorOptions = createStylePreprocessorOptionsArray(
+      (architectBuild?.options as any)?.stylePreprocessorOptions
+    );
+    const buildOptions = {
+      ...architectBuild?.options,
+      stylePreprocessorOptions: buildStylePreprocessorOptions,
+    };
+
+    // `test` architect section
+    const architectTest = architect?.test;
+    const testStylePreprocessorOptions = createStylePreprocessorOptionsArray(
+      (architectBuild?.options as any)?.stylePreprocessorOptions
+    );
+    const testOptions = {
+      ...architectTest?.options,
+      stylePreprocessorOptions: testStylePreprocessorOptions,
+    };
+
+    const updatedAngularJson = {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [projectName]: {
+          ...project,
+          architect: {
+            ...architect,
+            build: {
+              ...architectBuild,
+              options: buildOptions,
+            },
+            test: {
+              ...architectTest,
+              options: testOptions,
+            },
+          },
+        },
+      },
+    };
+
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+    return tree;
+  };
+}
+
+function createStylePreprocessorOptionsArray(angularJsonStylePreprocessorOptions: {
+  includePaths: string[];
+}): { includePaths: string[] } {
+  if (!angularJsonStylePreprocessorOptions) {
+    angularJsonStylePreprocessorOptions = {
+      includePaths: ['node_modules/'],
+    };
+  } else {
+    if (!angularJsonStylePreprocessorOptions.includePaths) {
+      angularJsonStylePreprocessorOptions.includePaths = ['node_modules/'];
+    } else {
+      if (
+        !angularJsonStylePreprocessorOptions.includePaths.includes(
+          'node_modules/'
+        )
+      ) {
+        angularJsonStylePreprocessorOptions.includePaths.push('node_modules/');
+      }
+    }
+  }
+
+  return angularJsonStylePreprocessorOptions;
+}
+
 function prepareDependencies(): NodeDependency[] {
   const spartacusDependencies = prepareSpartacusDependencies();
   return spartacusDependencies.concat(prepare3rdPartyDependencies());
@@ -265,6 +344,7 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
     const libraryOptions: LibraryOptions = {
       project: options.project,
       lazy: options.lazy,
+      debug: options.debug,
     };
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       libraryOptions,
@@ -284,9 +364,20 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
+    const packageJsonFile = readPackageJson(tree);
+    const spartacusDependencies = prepareDependencies();
 
+    const spartacusRxjsDependency: NodeDependency[] = [
+      spartacusDependencies.find((dep) => dep.name === RXJS) as NodeDependency,
+    ];
     return chain([
-      addPackageJsonDependencies(prepareDependencies(), readPackageJson(tree)),
+      addPackageJsonDependencies(spartacusDependencies, packageJsonFile),
+
+      /**
+       * Force installing versions of dependencies used by Spartacus.
+       * E.g. ng13 uses rxjs 7, but Spartacus uses rxjs 6.
+       */
+      updatePackageJsonDependencies(spartacusRxjsDependency, packageJsonFile),
 
       setupStoreModules(options.project),
 
@@ -303,6 +394,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
       increaseBudgets(),
+      createStylePreprocessorOptions(),
 
       addSpartacusFeatures(options),
     ])(tree, context);

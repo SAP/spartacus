@@ -1,9 +1,9 @@
 import {
   ORDER_DETAIL_ITEMS_COMPONENT,
   ORDER_PROMOTIONS$,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION: MethodPropertyDeprecation[] =

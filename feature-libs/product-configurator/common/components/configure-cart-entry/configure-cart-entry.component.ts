@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
@@ -90,7 +90,8 @@ export class ConfigureCartEntryComponent {
    * @returns - If there is a 'resolve issues' link, the ID to the element with additional description will be returned.
    */
   getResolveIssuesA11yDescription(): string | undefined {
-    return !this.readOnly && this.msgBanner ? 'cx-error-msg' : undefined;
+    const errorMsgId = 'cx-error-msg-' + this.cartEntry.entryNumber;
+    return !this.readOnly && this.msgBanner ? errorMsgId : undefined;
   }
 
   constructor(

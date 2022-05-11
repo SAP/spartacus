@@ -1,23 +1,32 @@
 %cx-configurator-group-title {
-  display: none;
-
   &:not(:empty) {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-weight: bold;
-    background-color: var(--cx-color-background);
-    border: 1px solid var(--cx-color-light);
-    border-radius: 2px;
-    height: fit-content;
-    padding-inline-start: 15px;
-    padding-inline-end: 15px;
-    padding-block-start: 15px;
-    padding-block-end: 15px;
+    .cx-group-title,
+    .cx-ghost-group-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: fit-content;
+      padding-inline-start: 15px;
+      padding-inline-end: 15px;
+      padding-block-start: 15px;
+      padding-block-end: 15px;
 
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    margin-block-start: 0px;
-    margin-block-end: 15px;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      margin-block-start: 0px;
+      margin-block-end: 15px;
+    }
+
+    .cx-group-title {
+      font-weight: bold;
+      background-color: var(--cx-color-background);
+      border: 1px solid var(--cx-color-light);
+      border-radius: 2px;
+    }
+
+    .cx-ghost-group-title {
+      height: 55px;
+      background-color: var(--cx-color-ghost);
+    }
   }
 }

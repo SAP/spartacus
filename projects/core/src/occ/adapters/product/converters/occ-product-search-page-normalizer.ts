@@ -40,7 +40,7 @@ export class OccProductSearchPageNormalizer
     return target;
   }
 
-  private normalizeFacets(target: ProductSearchPage): void {
+  protected normalizeFacets(target: ProductSearchPage): void {
     this.normalizeFacetValues(target);
     this.normalizeUselessFacets(target);
   }
@@ -54,7 +54,7 @@ export class OccProductSearchPageNormalizer
    * any facet that does not have a count < the total results will be dropped from
    * the facets.
    */
-  private normalizeUselessFacets(target: ProductSearchPage): void {
+  protected normalizeUselessFacets(target: ProductSearchPage): void {
     if (target.facets) {
       target.facets = target.facets.filter((facet) => {
         return (
@@ -81,7 +81,7 @@ export class OccProductSearchPageNormalizer
    * provides all facet values AND topValues, we normalize the data to not bother
    * the UI with this specific feature.
    */
-  private normalizeFacetValues(target: ProductSearchPage): void {
+  protected normalizeFacetValues(target: ProductSearchPage): void {
     if (target.facets) {
       target.facets = target.facets.map((facetSource: Facet) => {
         const { topValues, ...facetTarget } = facetSource;

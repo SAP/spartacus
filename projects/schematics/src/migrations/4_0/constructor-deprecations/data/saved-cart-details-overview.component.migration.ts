@@ -4,12 +4,14 @@ import {
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT,
   SAVED_CART_DETAILS_SERVICE,
   SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
-  SPARTACUS_CART_SAVED_CART_COMPONENTS,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   TRANSLATION_SERVICE,
   VIEW_CONTAINER_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CART_SAVED_CART_COMPONENTS,
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V1: ConstructorDeprecation =

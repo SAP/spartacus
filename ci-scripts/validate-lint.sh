@@ -30,12 +30,42 @@ LOCAL_ENV_LIB_PATH="projects/storefrontlib/public_api"
 TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp/tsconfig.app.prod.json"
 validateTsConfigFile
 
-echo "Validating that no 'fdescribe' occurrences are present in tests..."
-results=$(grep -rl --include "*.spec.ts" fdescribe projects || true)
+echo "Validating that no 'fdescribe(' occurrences are present in tests..."
+results=$(grep -rl --include "*spec.ts" 'fdescribe(' projects feature-libs intergration-libs core-libs || true)
 if [[ -z "$results" ]]; then
-    echo "Success: No 'fdescribe' occurrences detected in tests."
+    echo "Success: No 'fdescribe(' occurrences detected in tests."
 else
-    echo "ERROR: Detected 'fdescribe' occurrence(s) in these files:"
+    echo "ERROR: Detected 'fdescribe(' occurrence(s) in these files:"
+    echo "$results"
+    exit 1
+fi
+
+echo "Validating that no 'decsribe.only(' occurrences are present in tests..."
+results=$(grep -rl --include "*spec.ts" 'decsribe.only(' projects feature-libs intergration-libs core-libs || true)
+if [[ -z "$results" ]]; then
+    echo "Success: No 'decsribe.only(' occurrences detected in tests."
+else
+    echo "ERROR: Detected 'decsribe.only(' occurrence(s) in these files:"
+    echo "$results"
+    exit 1
+fi
+
+echo "Validating that no 'fit(' occurrences are present in tests..."
+results=$(grep -rl --include "*spec.ts" 'fit(' projects feature-libs intergration-libs core-libs || true)
+if [[ -z "$results" ]]; then
+    echo "Success: No 'fit(' occurrences detected in tests."
+else
+    echo "ERROR: Detected 'fit(' occurrence(s) in these files:"
+    echo "$results"
+    exit 1
+fi
+
+echo "Validating that no 'it.only(' occurrences are present in tests..."
+results=$(grep -rl --include "*spec.ts" 'it.only(' projects feature-libs intergration-libs core-libs || true)
+if [[ -z "$results" ]]; then
+    echo "Success: No 'it.only(' occurrences detected in tests."
+else
+    echo "ERROR: Detected 'it.only(' occurrence(s) in these files:"
     echo "$results"
     exit 1
 fi
@@ -53,7 +83,7 @@ fi
 validateStylesLint
 
 echo "Validating code linting"
-ng lint
+node --max_old_space_size=3584 ./node_modules/@angular/cli/bin/ng lint
 
 echo "-----"
 

@@ -25,6 +25,11 @@ export interface Language {
   nativeName?: string;
 }
 
+export interface Principal {
+  name?: string;
+  uid?: string;
+}
+
 export interface User {
   currency?: Currency;
   customerId?: string;

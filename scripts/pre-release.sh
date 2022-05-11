@@ -7,6 +7,7 @@ function cleanup {
     echo '--> Cleaning up spartacus workspace'
     delete_file docs.tar.gz
     delete_file docs.zip
+
     delete_file spartacussampledataaddon.1905.zip
     delete_file spartacussampledataaddon.1905.tar.gz
     delete_file spartacussampledata.2005.zip
@@ -15,6 +16,12 @@ function cleanup {
     delete_file spartacussampledata.2011.tar.gz
     delete_file spartacussampledata.2105.zip
     delete_file spartacussampledata.2105.tar.gz
+
+    delete_file epdvisualizationspartacussampledata.2105.zip
+    delete_file epdvisualizationspartacussampledata.2105.tar.gz
+
+    delete_file epdvisualizationspartacussampledata-visualizations.zip
+    delete_file epdvisualizationspartacussampledata-visualizations.tar.gz
 
     delete_dir coverage
     delete_dir dist
@@ -79,8 +86,42 @@ function zipSamplesAddOn {
     delete_dir spartacussampledata
 }
 
+function zipEpdVisualizationSamplesAddOn {
+    echo "--> Generating EPD Visualization Spartacus sample data addon archives"
+    delete_dir epdvisualizationspartacussampledata
+    git clone https://github.tools.sap/cx-commerce/epdvisualizationspartacussampledata.git
+    cd epdvisualizationspartacussampledata
+
+    git co release/2105/next
+    git archive -o epdvisualizationspartacussampledata.2105.tar.gz HEAD
+    mv epdvisualizationspartacussampledata.2105.tar.gz ../
+    git archive -o epdvisualizationspartacussampledata.2105.zip HEAD
+    mv epdvisualizationspartacussampledata.2105.zip ../
+
+    cd ..
+    delete_dir epdvisualizationspartacussampledata
+}
+
+function zipEpdVisualizationSamplesAddOnVisualizations {
+    echo "--> Generating visualization data archive for EPD Visualization Spartacus sample data addon"
+    delete_dir epdvisualizationspartacussampledata-visualizations
+    git clone https://github.tools.sap/cx-commerce/epdvisualizationspartacussampledata-visualizations.git
+    cd epdvisualizationspartacussampledata-visualizations
+
+    git co main
+    git archive -o epdvisualizationspartacussampledata-visualizations.tar.gz HEAD
+    mv epdvisualizationspartacussampledata-visualizations.tar.gz ../
+    git archive -o epdvisualizationspartacussampledata-visualizations.zip HEAD
+    mv epdvisualizationspartacussampledata-visualizations.zip ../
+
+    cd ..
+    delete_dir epdvisualizationspartacussampledata-visualizations
+}
+
 cleanup
 zipSamplesAddOn
+zipEpdVisualizationSamplesAddOn
+zipEpdVisualizationSamplesAddOnVisualizations
 generate_docs
 build_libs
 

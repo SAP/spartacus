@@ -3,9 +3,9 @@ import {
   RESTORE_SAVED_CART,
   SAVED_CART_FORM_DIALOG_COMPONENT,
   SAVED_CART_LIST_COMPONENT,
-  SPARTACUS_CART_SAVED_CART_COMPONENTS,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CART_SAVED_CART_COMPONENTS } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs/cart/saved-cart/components/list/saved-cart-list.component.ts

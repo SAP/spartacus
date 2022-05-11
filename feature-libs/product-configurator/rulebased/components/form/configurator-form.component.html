@@ -1,4 +1,4 @@
-<ng-container *ngIf="configuration$ | async as configuration">
+<ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
   <ng-container *ngIf="currentGroup$ | async as currentGroup">
     <div id="{{ createGroupId(currentGroup.id) }}" role="tabpanel">
       <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
@@ -134,3 +134,44 @@
     </div>
   </ng-container>
 </ng-container>
+
+<ng-template #ghostForm>
+  <ng-container *ngFor="let number of [0, 1, 2]">
+    <div class="cx-ghost-attribute">
+      <div class="cx-ghost-header">
+        <div class="cx-ghost-title ghost"></div>
+        <div class="cx-ghost-icon ghost"></div>
+      </div>
+      <div class="cx-ghost-body">
+        <div class="cx-ghost-text ghost"></div>
+        <div class="cx-ghost-price ghost"></div>
+      </div>
+    </div>
+
+    <div class="cx-ghost-attribute">
+      <div class="cx-ghost-header">
+        <div class="cx-ghost-title ghost"></div>
+        <div class="cx-ghost-icon ghost"></div>
+        <div class="cx-ghost-description-box">
+          <div class="cx-ghost-description ghost"></div>
+        </div>
+      </div>
+      <div class="cx-ghost-body">
+        <div
+          *ngFor="let number of [0, 1, 2]; let i = index"
+          class="cx-ghost-radiobutton-value"
+        >
+          <div class="cx-ghost-value-label-pair">
+            <div class="cx-ghost-value-icon ghost"></div>
+            <div class="cx-ghost-label ghost"></div>
+          </div>
+          <div class="cx-ghost-value-price ghost">
+            <ng-container *ngIf="i !== 0">
+              <div class="cx-ghost-price"></div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

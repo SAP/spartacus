@@ -47,9 +47,7 @@ export class ConfiguratorBasicEffectService {
             currentGroup.subGroups && currentGroup.subGroups.length > 0
         )
         .flatMap((currentGroup) =>
-          currentGroup.subGroups
-            ? this.getFirstGroupWithAttributesForList(currentGroup.subGroups)
-            : []
+          this.getFirstGroupWithAttributesForList(currentGroup.subGroups)
         )
         .filter((groupId) => groupId) //Filter undefined strings
         .pop();

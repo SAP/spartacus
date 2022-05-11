@@ -39,66 +39,12 @@
 # ================================================
 
 #  Platonn - Krzysztof Platis
-#  marlass - Marcin Lasak
-#  LTiger14 - Louis Pierrestiger
 #  znikola - Nikola Zarić
 #  developpeurweb - Miguel Estrada
 #  psmul - Patryk Smul
 #  plabadie - Patrick Labadie
 #  WeizhengSap - Weizheng Gao
 #  hackergil - Gilberto Alvarado Jimenez
-
-
-# ===========================================================
-#  @SAP/spartacus-global-owners
-# ===========================================================
-#  Used for approving minor changes, large-scale refactorings, and emergency situations.
-#  (secret team to avoid review requests)
-
-
-# ===========================================================
-#  @SAP/spartacus-core-owners
-# ===========================================================
-#  Used for approving changes in core library for non explicitly owned parts and new features
-#
-#   - Platonn
-#   - marlass
-#   - LTiger14
-#   - znikola
-
-
-# ===========================================================
-#  @SAP/spartacus-style-owners
-# ===========================================================
-#  Used for approving changes in style library
-#
-#   - developpeurweb
-#   - LTiger14
-
-
-# ===========================================================
-#  @SAP/spartacus-cart-owners
-# ===========================================================
-#
-#   - Platonn
-#   - marlass
-
-
-# ===========================================================
-#  @SAP/spartacus-routing-owners
-# ===========================================================
-#
-#   - Platonn
-
-
-# ===========================================================
-#  @SAP/spartacus-schematics-owners
-# ===========================================================
-#
-#   - znikola
-#   - marlass
-#   - psmul
-
 
 ######################################################################################################
 #
@@ -112,45 +58,49 @@
 #
 ######################################################################################################
 
-
 # ================================================
-#  NOT ENABLED IN INITIAL PHASE
-#  As we need full ownership coverage first
-#
 #  Default Owners
 # (in case no pattern matches a path in a PR - this should be treated as a bug and result in adding the path to CODEOWNERS)
 # ================================================
 
-# * @SAP/spartacus-global-owners
+# * @SAP/spartacus-codeowners
 
 # ================================================
-#  Spartacus Core
+#  Core
 # ================================================
-/projects/core/src/**                                                  @SAP/spartacus-core-owners @SAP/spartacus-global-owners
+/projects/core/**                                   @SAP/spartacus-codeowners
+/projects/storefrontlib/**                          @SAP/spartacus-codeowners
+/feature-libs/**                                    @SAP/spartacus-codeowners
+/core-libs/**                                       @SAP/spartacus-codeowners
+/ci-scripts/**                                      @SAP/spartacus-codeowners
+/scripts/**                                         @SAP/spartacus-codeowners
+/tools/**                                           @SAP/spartacus-codeowners
+/*                                                  @SAP/spartacus-codeowners
+
 
 # ================================================
-#  Spartacus Styles
+#  Styles
 # ================================================
-/projects/storefrontstyles/src/**                                      @SAP/spartacus-style-owners @SAP/spartacus-global-owners
+/projects/storefrontstyles/**                       @SAP/spartacus-codeowners
 
 # ================================================
-#  Cart Functionality
+#  Cart
 # ================================================
-/projects/core/src/cart/**                                             @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
-/projects/storefrontlib/cms-components/cart/**                         @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
-
-# ================================================
-#  Routing Functionality
-# ================================================
-/projects/core/src/routing/**                                          @SAP/spartacus-routing-owners @SAP/spartacus-global-owners
+/projects/storefrontlib/cms-components/cart/**      @SAP/spartacus-codeowners
 
 # ================================================
 #  Schematics
 # ================================================
-/projects/schematics/src/**                                            @SAP/spartacus-schematics-owners @SAP/spartacus-global-owners
+/projects/schematics/**                             @SAP/spartacus-codeowners
 
 # ================================================
-#  CODEOWNERS Owners owners ...
+#  CODEOWNERS and workflows
 # ================================================
+/.github/**                                         @SAP/spartacus-codeowners
 
-/.github/CODEOWNERS                                                     @SAP/spartacus-global-owners
+######################################################################################################
+
+# ================================================
+#  Product configurator feature and CPQ integration
+# ================================================
+/feature-libs/product-configurator/**               @SAP/spartacus-codeowners @SAP/spartacus-CPQ

@@ -67,7 +67,7 @@ describe('EventService', () => {
     service.register(EventA, of(new EventA(1), new EventA(2)));
     service.register(EventB, of(new EventB(100)));
 
-    const results = [];
+    const results: EventA[] = [];
     sub = service.get(EventA).subscribe((e) => results.push(e));
     expect(results).toEqual([new EventA(1), new EventA(2)]);
   });
@@ -77,7 +77,7 @@ describe('EventService', () => {
     service.register(EventA, of(new EventA(3)));
     service.register(EventA, of(new EventA(4)));
 
-    const results = [];
+    const results: EventA[] = [];
     sub = service.get(EventA).subscribe((e) => results.push(e));
     expect(results).toEqual([
       new EventA(1),
@@ -91,7 +91,7 @@ describe('EventService', () => {
     service.dispatch(new EventA(1)); // dispatch before subscription won't be detected
     service.register(EventA, of(new EventA(2)));
 
-    const results = [];
+    const results: EventA[] = [];
     sub = service.get(EventA).subscribe((e) => results.push(e));
     service.dispatch(new EventA(3));
 
@@ -99,7 +99,7 @@ describe('EventService', () => {
   });
 
   it('should create an event before dispatching', () => {
-    let result: EventA;
+    let result: EventA | undefined;
     sub = service
       .get(EventA)
       .pipe(take(1))
@@ -117,14 +117,14 @@ describe('EventService', () => {
     service.register(EventA, of(new EventA(3), new EventA(4)));
     unregister();
 
-    const results = [];
+    const results: EventA[] = [];
     sub = service.get(EventA).subscribe((e) => results.push(e));
 
     expect(results).toEqual([new EventA(3), new EventA(4)]);
   });
 
   it('should register BehaviorSubject before other sources', () => {
-    const results = [];
+    const results: number[] = [];
     sub = service.get(EventA).subscribe((e) => results.push(e.a));
 
     const behaviorSubject$ = new BehaviorSubject(new EventA(1));
@@ -137,7 +137,7 @@ describe('EventService', () => {
   });
 
   it('should register after the subscription', () => {
-    const results = [];
+    const results: number[] = [];
     sub = service.get(EventA).subscribe((e) => results.push(e.a));
 
     const of1$ = of(new EventA(1));
@@ -154,7 +154,7 @@ describe('EventService', () => {
     service.register(EventA, of1$);
     service.register(EventA, of2$);
 
-    const results = [];
+    const results: number[] = [];
     sub = service.get(EventA).subscribe((e) => results.push(e.a));
 
     expect(results).toEqual([1, 2]);
@@ -164,12 +164,20 @@ describe('EventService', () => {
     const of$ = of(new EventA(1));
     service.register(EventA, of$);
 
-    const results = [];
+    const results: number[] = [];
     sub = service.get(EventA).subscribe((e) => results.push(e.a));
     sub.unsubscribe();
     sub = service.get(EventA).subscribe((e) => results.push(e.a));
 
     expect(results).toEqual([1, 1]);
+  });
+
+  it('should allow for dispatching event after subscription', (done) => {
+    sub = service.get(EventA).subscribe((event) => {
+      expect(event.a).toBe(1);
+      done();
+    });
+    service.dispatch(new EventA(1));
   });
 
   it('should register the parent class', () => {

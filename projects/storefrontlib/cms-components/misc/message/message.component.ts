@@ -13,6 +13,9 @@ export class MessageComponent {
   actionButtonText: string;
 
   @Input()
+  actionButtonMessage: string;
+
+  @Input()
   accordionText: string;
 
   @Input()
@@ -44,16 +47,16 @@ export class MessageComponent {
     };
   }
 
-  get getIconType(): string {
+  get getIconType(): ICON_TYPE {
     switch (this.type) {
-      case GlobalMessageType.MSG_TYPE_CONFIRMATION:
-        return ICON_TYPE.SUCCESS;
       case GlobalMessageType.MSG_TYPE_WARNING:
         return ICON_TYPE.WARNING;
       case GlobalMessageType.MSG_TYPE_ERROR:
         return ICON_TYPE.ERROR;
       case GlobalMessageType.MSG_TYPE_INFO:
         return ICON_TYPE.INFO;
+      default:
+        return ICON_TYPE.SUCCESS;
     }
   }
 }

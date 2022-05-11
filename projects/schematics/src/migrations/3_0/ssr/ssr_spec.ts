@@ -10,7 +10,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_SETUP,
   SPARTACUS_SETUP_SSR,
-} from '../../../shared/constants';
+} from '../../../shared/libs-constants';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v3-ssr-09';

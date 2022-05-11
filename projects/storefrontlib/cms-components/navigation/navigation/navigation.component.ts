@@ -16,6 +16,10 @@ export class NavigationComponent {
     this.componentData.data$
   );
 
+  name$: Observable<string> = this.componentData.data$.pipe(
+    map((d) => d?.navigationNode?.title)
+  );
+
   styleClass$: Observable<string> = this.componentData.data$.pipe(
     map((d) => d?.styleClass)
   );
