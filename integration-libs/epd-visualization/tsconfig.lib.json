@@ -14,6 +14,8 @@
     "skipLibCheck": true, // Needed due to @sapui5/ts-types-esm
     "lib": ["dom", "esnext"],
     "paths": {
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
       "@spartacus/cart/base/components/add-to-cart": [
         "dist/cart/base/components/add-to-cart"
@@ -67,9 +69,7 @@
       ],
       "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
-      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true
