@@ -93,6 +93,8 @@ export const product = {
     selectStyleAndSize: 'Select style and size to check stock',
     removeFromCart: 'Remove Product from Cart',
     closeModal: 'Close Modal',
+    butItAgain: 'Buy It Again',
+    addToCurrentCart: 'Add To Current Cart',
   },
   TabPanelContainer: {
     tabs: {

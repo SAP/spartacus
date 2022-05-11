@@ -19,12 +19,10 @@
     </div>
   </div>
 
-  <button
-    *ngIf="hasStock"
-    class="btn btn-primary btn-block"
-    type="submit"
-    [disabled]="quantity <= 0 || quantity > maxQuantity"
-  >
-    {{ 'addToCart.addToCart' | cxTranslate }}
-  </button>
+  <cx-add-to-cart-link
+    [hasStock]="hasStock"
+    [maxQuantity]="maxQuantity"
+    [quantity]="quantity"
+    [options]="options"
+  ></cx-add-to-cart-link>
 </form>

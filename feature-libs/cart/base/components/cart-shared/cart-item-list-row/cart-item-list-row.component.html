@@ -150,6 +150,14 @@
     >
       {{ 'common.remove' | cxTranslate }}
     </button>
+    <cx-add-to-cart
+      *ngIf="options.isAddToCurrentCart"
+      [productCode]="item.product?.code"
+      [product]="item.product"
+      [showQuantity]="false"
+      [options]="options"
+    >
+    </cx-add-to-cart>
   </td>
 </ng-template>
 <ng-template #total>
@@ -158,5 +166,13 @@
       {{ 'cartItems.total' | cxTranslate }}
     </div>
     <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+    <cx-add-to-cart
+      *ngIf="options.isBuyItAgain"
+      [productCode]="item.product?.code"
+      [product]="item.product"
+      [showQuantity]="false"
+      [options]="options"
+    >
+    </cx-add-to-cart>
   </td>
 </ng-template>

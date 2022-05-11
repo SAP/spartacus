@@ -8,7 +8,8 @@
           cartId: cart.code,
           cartIsLoading: !(cartLoaded$ | async),
           items: cart.entries,
-          promotionLocation: CartLocation.SavedCart
+          promotionLocation: CartLocation.SavedCart,
+          options: { isAddToCurrentCart: true }
         }"
       >
       </ng-template>
