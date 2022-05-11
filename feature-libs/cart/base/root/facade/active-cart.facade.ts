@@ -12,6 +12,7 @@ import { Cart, OrderEntry } from '../models/cart.model';
       feature: CART_BASE_CORE_FEATURE,
       methods: [
         'getActive',
+        'takeActive',
         'getActiveCartId',
         'takeActiveCartId',
         'getEntries',
@@ -37,6 +38,11 @@ export abstract class ActiveCartFacade {
    * Returns active cart
    */
   abstract getActive(): Observable<Cart>;
+
+  /**
+   * Waits for the cart to be stable before returning the active cart.
+   */
+  abstract takeActive(): Observable<Cart>;
 
   /**
    * Returns active cart id
