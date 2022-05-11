@@ -97,19 +97,19 @@ context('CPQ Configuration', () => {
   });
 
   describe('Navigate to Product Configuration Page', () => {
-    it('should be able to navigate from the product search result', () => {
+    it(['cpq'],'should be able to navigate from the product search result', () => {
       configurationCpq.searchForProduct(PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
 
-    it('should be able to navigate from the product details page', () => {
+    it(['cpq'],'should be able to navigate from the product details page', () => {
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
   });
 
   describe('Handling different UI type', () => {
-    it('should support radio button attribute type', () => {
+    it(['cpq'],'should support radio button attribute type', () => {
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configurationCpq.clickOnConfigureBtnInCatalog();
 
@@ -130,7 +130,7 @@ context('CPQ Configuration', () => {
       configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_500);
     });
 
-    it('should support checkbox list attribute type', () => {
+    it(['cpq'], 'should support checkbox list attribute type', () => {
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configurationCpq.clickOnConfigureBtnInCatalog();
 
@@ -160,7 +160,7 @@ context('CPQ Configuration', () => {
       );
     });
 
-    it('should support single select (radio) bundle items', () => {
+    it(['cpq'], 'should support single select (radio) bundle items', () => {
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.checkCurrentGroupActive(GRP_CAM_MAIN);
 
@@ -209,7 +209,7 @@ context('CPQ Configuration', () => {
       );
     });
 
-    it('should support single select (ddlb) bundle items', () => {
+    it(['cpq'], 'should support single select (ddlb) bundle items', () => {
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
       configurationCpq.clickOnGroup(2);
@@ -236,7 +236,7 @@ context('CPQ Configuration', () => {
       configuration.checkValueSelected(DDLB_PROD, ATTR_CAM_INS, VAL_CB_INS_Y2);
     });
 
-    it('should support multi select bundle items', () => {
+    it(['cpq'], 'should support multi select bundle items', () => {
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
 
       configuration.checkAttributeDisplayed(ATTR_CAM_MC, CHKBOX_PROD);
@@ -278,7 +278,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Group Handling', () => {
-    it('should navigate with next and previous buttons', () => {
+    it(['cpq'],'should navigate with next and previous buttons', () => {
       configurationCpq
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
@@ -301,7 +301,7 @@ context('CPQ Configuration', () => {
         });
     });
 
-    it('should navigate via group menu', () => {
+    it(['cpq'],'should navigate via group menu', () => {
       configurationCpq
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
@@ -321,7 +321,7 @@ context('CPQ Configuration', () => {
         });
     });
 
-    it('should display correct attributes', () => {
+    it(['cpq'], 'should display correct attributes', () => {
       configurationCpq
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
@@ -345,7 +345,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Overview Page', () => {
-    it('should display user selections and prices on overview page', () => {
+    it(['cpq'], 'should display user selections and prices on overview page', () => {
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
       configurationCpq.selectProductCard(
         RADGRP,
@@ -469,7 +469,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Configuration Process', () => {
-    it('should support configuration aspect in product search, cart, checkout and order history', () => {
+    it(['cpq'], 'should support configuration aspect in product search, cart, checkout and order history', () => {
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();

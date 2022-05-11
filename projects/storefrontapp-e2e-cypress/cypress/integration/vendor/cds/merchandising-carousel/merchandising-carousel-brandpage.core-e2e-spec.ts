@@ -49,7 +49,7 @@ context('Merchandising Carousel - Brand page', () => {
       testBrandPage();
     });
 
-    it("should update the products' language when the storefront language is changed on a brand page", () => {
+    it(['cds', 'carousel'],"should update the products' language when the storefront language is changed on a brand page", () => {
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
         merchandisingCarousel.englishFilmProductText,
         merchandisingCarousel.japaneseFilmProductText
@@ -69,7 +69,7 @@ context('Merchandising Carousel - Brand page', () => {
       );
     });
 
-    it("should update the products' currency when the storefront currency is changed on a brand page", () => {
+    it(['cds', 'carousel'],"should update the products' currency when the storefront currency is changed on a brand page", () => {
       merchandisingCarousel.verifyFirstCarouselItemPrice(
         merchandisingCarousel.dollarCurrencySymbol
       );
@@ -81,7 +81,7 @@ context('Merchandising Carousel - Brand page', () => {
       );
     });
 
-    it('should request products filtered by additional facets when facets on a brand page are changed', () => {
+    it(['cds', 'carousel'], 'should request products filtered by additional facets when facets on a brand page are changed', () => {
       merchandisingCarousel.applyFacet(
         'Stores',
         merchandisingCarousel.chibaStoreName
@@ -95,7 +95,7 @@ context('Merchandising Carousel - Brand page', () => {
       );
     });
 
-    it('should ignore previous brand page context when navigating back to the homepage', () => {
+    it(['cds', 'carousel'], 'should ignore previous brand page context when navigating back to the homepage', () => {
       merchandisingCarousel.navigateToHomepage();
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
@@ -104,7 +104,7 @@ context('Merchandising Carousel - Brand page', () => {
       );
     });
 
-    it('should render products on a PDP page when a carousel item on a brand page is clicked', () => {
+    it(['cds', 'carousel'], 'should render products on a PDP page when a carousel item on a brand page is clicked', () => {
       merchandisingCarousel.clickOnCarouselItem(
         merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
       );

@@ -14,7 +14,7 @@ import {
 } from '../../../helpers/vendor/digital-payments/user';
 
 describe('checkout using digital-payments', () => {
-  it('checkout using digital-payments', () => {
+  it(['digital_payments'],'checkout using digital-payments', () => {
     cy.visit('/electronics-spa/en/USD/login');
     loginUser(my_user);
     cy.wait(3000);

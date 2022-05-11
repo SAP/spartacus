@@ -26,7 +26,7 @@ describe('Profile-tag events', () => {
     anonymousConsents.clickAllowAllFromBanner();
   });
   describe('cart events', () => {
-    it('should send a AddedToCart event on adding an item to cart', () => {
+    it(['cds', 'events', 'profile-tag'],'should send a AddedToCart event on adding an item to cart', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary');
@@ -52,7 +52,7 @@ describe('Profile-tag events', () => {
       });
     });
 
-    it('should send a CartModified event on modifying the cart', () => {
+    it(['cds', 'events', 'profile-tag'],'should send a CartModified event on modifying the cart', () => {
       goToProductPage();
       cy.intercept({
         method: 'GET',
@@ -90,7 +90,7 @@ describe('Profile-tag events', () => {
       });
     });
 
-    it('should send a RemovedFromCart event on removing an item from the cart', () => {
+    it(['cds', 'events', 'profile-tag'], 'should send a RemovedFromCart event on removing an item from the cart', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
@@ -123,7 +123,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send a product detail page view event when viewing a product', () => {
+  it(['cds', 'events', 'profile-tag'], 'should send a product detail page view event when viewing a product', () => {
     cy.intercept({ method: 'GET', path: `**reviews*` }).as('lastRequest');
     const productSku = 280916;
     const productName = 'Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black';
@@ -153,7 +153,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send a search page view event when viewing a search page', () => {
+  it(['cds', 'events', 'profile-tag'], 'should send a search page view event when viewing a search page', () => {
     createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
     cy.get('cx-searchbox input').type('camera{enter}');
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
@@ -174,7 +174,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send a CartPageViewed event when viewing the cart page', () => {
+  it(['cds', 'events', 'profile-tag'], 'should send a CartPageViewed event when viewing the cart page', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.get('cx-added-to-cart-dialog .btn-primary').click();
@@ -192,7 +192,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send an OrderConfirmation event when viewing the order confirmation page', () => {
+  it(['cds', 'events', 'profile-tag'], 'should send an OrderConfirmation event when viewing the order confirmation page', () => {
     loginHelper.loginAsDefaultUser();
     checkoutFlowPersistentUser.goToProductPageFromCategory();
     checkoutFlowPersistentUser.addProductToCart();
@@ -222,7 +222,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send a Category View event when a Category View occurs', () => {
+  it(['cds', 'events', 'profile-tag'], 'should send a Category View event when a Category View occurs', () => {
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
@@ -253,7 +253,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send 2 Category Views event when going to a Category, going to a different page type, and then back to the same category', () => {
+  it(['cds', 'events', 'profile-tag'], 'should send 2 Category Views event when going to a Category, going to a different page type, and then back to the same category', () => {
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
@@ -292,7 +292,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send 1 Category View event when going to a Category and clicking a facet', () => {
+  it(['cds', 'events', 'profile-tag'], 'should send 1 Category View event when going to a Category and clicking a facet', () => {
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
@@ -322,7 +322,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send a Navigated event when a navigation to product page occurs', () => {
+  it(['cds', 'events', 'profile-tag'], 'should send a Navigated event when a navigation to product page occurs', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
     cy.window().should((win) => {
@@ -332,7 +332,7 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should not send a Navigated event when merchandising banner is clicked', () => {
+  it(['cds', 'events', 'profile-tag'], 'should not send a Navigated event when merchandising banner is clicked', () => {
     const categoryPage = checkoutFlow.waitForCategoryPage('578', 'getCategory');
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
@@ -358,7 +358,7 @@ describe('Consent Changed', () => {
     });
     profileTagHelper.waitForCMSComponents();
   });
-  it('should send a consentGranted = false before accepting consent, and a consentGranted=true after accepting', () => {
+  it(['cds', 'events', 'profile-tag'], 'should send a consentGranted = false before accepting consent, and a consentGranted=true after accepting', () => {
     cy.wait(2000);
     cy.window()
       .should((win) => {
@@ -392,7 +392,7 @@ describe('Consent Changed', () => {
     });
   });
 
-  it('should not send a consentgranted=false event on a page refresh', () => {
+  it(['cds', 'events', 'profile-tag'], 'should not send a consentgranted=false event on a page refresh', () => {
     anonymousConsents.clickAllowAllFromBanner();
     cy.reload();
     cy.window().should((win) => {
@@ -404,7 +404,7 @@ describe('Consent Changed', () => {
       expect(consentAccepted[0].data.granted).to.eq(true);
     });
   });
-  it('should send a HomePageViewed event when viewing the homepage', () => {
+  it(['cds', 'events', 'profile-tag'],'should send a HomePageViewed event when viewing the homepage', () => {
     anonymousConsents.clickAllowAllFromBanner();
     cy.reload();
     profileTagHelper.waitForCMSComponents().then(() => {
@@ -435,14 +435,14 @@ describe('verifying X-Consent-Reference header addition to occ calls', () => {
     productPage = checkoutFlow.waitForProductPage('280916', 'getProductPage');
   });
 
-  it('should not send CR header when consent is not granted initially', () => {
+  it(['cds', 'events', 'profile-tag'], 'should not send CR header when consent is not granted initially', () => {
     cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
     cy.wait(`@${productPage}`)
       .its('request.headers')
       .should('not.have.deep.property', X_CONSENT_REFERENCE_HEADER);
   });
 
-  it('should send CR header when consent is granted and skip it once its revoked', () => {
+  it(['cds', 'events', 'profile-tag'], 'should send CR header when consent is granted and skip it once its revoked', () => {
     // grant consent
     anonymousConsents.clickAllowAllFromBanner();
     profileTagHelper.triggerLoaded();

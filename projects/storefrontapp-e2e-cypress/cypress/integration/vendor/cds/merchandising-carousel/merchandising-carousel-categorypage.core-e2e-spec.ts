@@ -49,7 +49,7 @@ context('Merchandising Carousel - Category page', () => {
       testCategoryPage();
     });
 
-    it("should update the products' language when the storefront language is changed on a category page", () => {
+    it(['cds', 'carousel'], "should update the products' language when the storefront language is changed on a category page", () => {
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
         merchandisingCarousel.englishFilmProductText,
         merchandisingCarousel.japaneseFilmProductText
@@ -69,7 +69,7 @@ context('Merchandising Carousel - Category page', () => {
       );
     });
 
-    it("should update the products' currency when the storefront currency is changed on a category page", () => {
+    it(['cds', 'carousel'], "should update the products' currency when the storefront currency is changed on a category page", () => {
       merchandisingCarousel.verifyFirstCarouselItemPrice(
         merchandisingCarousel.dollarCurrencySymbol
       );
@@ -81,7 +81,7 @@ context('Merchandising Carousel - Category page', () => {
       );
     });
 
-    it('should request products filtered by additional facets when facets on a category page are changed', () => {
+    it(['cds', 'carousel'], 'should request products filtered by additional facets when facets on a category page are changed', () => {
       merchandisingCarousel.applyFacet(
         'Brand',
         merchandisingCarousel.canonBrandName
@@ -95,7 +95,7 @@ context('Merchandising Carousel - Category page', () => {
       );
     });
 
-    it('should ignore previous category page context when navigating back to the homepage', () => {
+    it(['cds', 'carousel'], 'should ignore previous category page context when navigating back to the homepage', () => {
       merchandisingCarousel.navigateToHomepage();
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
@@ -104,7 +104,7 @@ context('Merchandising Carousel - Category page', () => {
       );
     });
 
-    it('should ignore previous category page content when navigating to a different category page', () => {
+    it(['cds', 'carousel'], 'should ignore previous category page content when navigating to a different category page', () => {
       merchandisingCarousel.navigateToCategory(
         merchandisingCarousel.camcordersCategoryName,
         merchandisingCarousel.camcordersCategoryCode
@@ -116,7 +116,7 @@ context('Merchandising Carousel - Category page', () => {
       );
     });
 
-    it('should render products on a PDP page when a carousel item on a category page is clicked', () => {
+    it(['cds', 'carousel'], 'should render products on a PDP page when a carousel item on a category page is clicked', () => {
       merchandisingCarousel.clickOnCarouselItem(
         merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
       );
@@ -135,7 +135,7 @@ context('Merchandising Carousel - Category page', () => {
       );
     });
 
-    it("should update the products' language when the storefront language is changed on a non-product list category page", () => {
+    it(['cds', 'carousel'], "should update the products' language when the storefront language is changed on a non-product list category page", () => {
       merchandisingCarousel.verifyFirstCarouselItemTextContent(
         merchandisingCarousel.englishFilmProductText,
         merchandisingCarousel.japaneseFilmProductText
@@ -155,7 +155,7 @@ context('Merchandising Carousel - Category page', () => {
       );
     });
 
-    it("should update the products' currency when the storefront currency is changed on a non-product list category page", () => {
+    it(['cds', 'carousel'], "should update the products' currency when the storefront currency is changed on a non-product list category page", () => {
       merchandisingCarousel.verifyFirstCarouselItemPrice(
         merchandisingCarousel.dollarCurrencySymbol
       );
@@ -167,7 +167,7 @@ context('Merchandising Carousel - Category page', () => {
       );
     });
 
-    it('should ignore previous non-product list category page context when navigating back to the homepage', () => {
+    it(['cds', 'carousel'], 'should ignore previous non-product list category page context when navigating back to the homepage', () => {
       merchandisingCarousel.navigateToHomepage();
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
@@ -176,7 +176,7 @@ context('Merchandising Carousel - Category page', () => {
       );
     });
 
-    it('should render products on a PDP page when a carousel item on a non-product list category page is clicked', () => {
+    it(['cds', 'carousel'], 'should render products on a PDP page when a carousel item on a non-product list category page is clicked', () => {
       merchandisingCarousel.clickOnCarouselItem(
         merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
       );

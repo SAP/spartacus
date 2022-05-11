@@ -42,7 +42,7 @@ context('Merchandising Carousel - events', () => {
       profileTagHelper.grantConsent();
     });
 
-    it('should send carousel events to the data layer when the carousel is on the homepage', () => {
+    it(['cds', 'carousel'], 'should send carousel events to the data layer when the carousel is on the homepage', () => {
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
         strategyRequestAlias,
         merchandisingCarousel.DEFAULT_LANGUAGE,
@@ -52,7 +52,7 @@ context('Merchandising Carousel - events', () => {
       merchandisingCarousel.waitForCarouselViewEvent();
     });
 
-    it('should send carousel events to the data layer when the carousel is on a category page', () => {
+    it(['cds', 'carousel'], 'should send carousel events to the data layer when the carousel is on a category page', () => {
       merchandisingCarousel.verifyRequestToStrategyService(
         strategyRequestAlias,
         {
@@ -76,7 +76,7 @@ context('Merchandising Carousel - events', () => {
       merchandisingCarousel.waitForCarouselViewEvent();
     });
 
-    it('should send carousel events to the data layer when navigating from one category page to another category page', () => {
+    it(['cds', 'carousel'],'should send carousel events to the data layer when navigating from one category page to another category page', () => {
       merchandisingCarousel.verifyRequestToStrategyService(
         strategyRequestAlias,
         {
@@ -116,7 +116,7 @@ context('Merchandising Carousel - events', () => {
       merchandisingCarousel.waitForCarouselViewEvent();
     });
 
-    it('should send carousel events to the data layer when a carousel item is clicked on', () => {
+    it(['cds', 'carousel'], 'should send carousel events to the data layer when a carousel item is clicked on', () => {
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
         strategyRequestAlias,
         merchandisingCarousel.DEFAULT_LANGUAGE,

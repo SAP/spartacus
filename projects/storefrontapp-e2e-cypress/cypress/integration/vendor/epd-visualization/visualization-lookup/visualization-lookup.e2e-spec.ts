@@ -14,7 +14,7 @@ describe('in Spare Parts Tab', () => {
     });
 
     context('no matching visualizations found', () => {
-      it('viewport should be hidden', () => {
+      it(['epd', 'visualization'],'viewport should be hidden', () => {
         cy.intercept('GET', '**/lookup/visualization**', {
           statusCode: 200,
           body: {
@@ -40,7 +40,7 @@ describe('in Spare Parts Tab', () => {
     });
 
     context('multiple matching visualizations found', () => {
-      it('viewport should be hidden', () => {
+      it(['epd', 'visualization'], 'viewport should be hidden', () => {
         cy.intercept('GET', '**/lookup/visualization**', {
           statusCode: 200,
           body: {
@@ -65,7 +65,7 @@ describe('in Spare Parts Tab', () => {
     });
 
     context('no spare parts found', () => {
-      it('no spare parts indicator should be shown', () => {
+      it(['epd', 'visualization'], 'no spare parts indicator should be shown', () => {
         cy.intercept(
           'GET',
           '**/occ/v2/**/products/**/references**&referenceType=SPAREPART&**',
