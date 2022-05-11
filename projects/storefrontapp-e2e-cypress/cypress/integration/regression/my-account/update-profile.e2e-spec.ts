@@ -9,7 +9,7 @@ describe('My Account - Update Profile', () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    it(['update_profile'], 'should validate update profile core functionality', () => {
+    it(['update_profile', 'my_account'], 'should validate update profile core functionality', () => {
       // Core e2e test. Repeat in mobile view.
       updateProfile.testUpdateProfileLoggedInUser();
     });
@@ -39,7 +39,7 @@ describe('My Account - Update Profile', () => {
         });
       });
 
-      it(['update_profile'],'should be able to cancel and go back to home', () => {
+      it(['update_profile', 'my_account'],'should be able to cancel and go back to home', () => {
         cy.get('cx-update-profile button').click();
         checkBanner();
 

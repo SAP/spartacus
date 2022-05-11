@@ -15,7 +15,7 @@ describe('My Account - Close Account', () => {
     );
 
     describe('Anonymous user', () => {
-      it('should redirect to login page', () => {
+      it(['close_account', 'smoke_b2c','my_account'], 'should redirect to login page', () => {
         cy.visit(CLOSE_ACCOUNT_URL);
         cy.location('pathname').should('contain', '/login');
       });
@@ -35,7 +35,7 @@ describe('My Account - Close Account', () => {
         cy.restoreLocalStorage();
       });
 
-      it(['close_account', 'smoke'], 'should cancel and go back to the homepage', () => {
+      it(['close_account', 'smoke_b2c','my_account'], 'should cancel and go back to the homepage', () => {
         cy.selectUserMenuOption({
           option: 'Close Account',
         });
@@ -44,7 +44,7 @@ describe('My Account - Close Account', () => {
         cy.location('pathname').should('contain', '/');
       });
 
-      it(['close_account', 'smoke'], 'should close account', () => {
+      it(['close_account', 'smoke_b2c'], 'should close account', () => {
         cy.selectUserMenuOption({
           option: 'Close Account',
         });
@@ -71,7 +71,7 @@ describe('My Account - Close Account', () => {
           .should('contain', 'Account closed with success');
       });
 
-      it(['close_account', 'smoke'], 'should not login with a closed account credentials', () => {
+      it(['close_account', 'smoke_b2c'], 'should not login with a closed account credentials', () => {
         cy.visit('/login');
         login(
           standardUser.registrationData.email,

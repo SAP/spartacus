@@ -29,7 +29,7 @@ viewportContext(['mobile', 'desktop'], () => {
         cy.restoreLocalStorage();
       });
 
-      it(['consent_management', 'smoke_b2c'],'should verify consent management functionality', () => {
+      it(['consent_management', 'smoke_b2c','my_account'],'should verify consent management functionality', () => {
         consentManagementTest();
       });
 

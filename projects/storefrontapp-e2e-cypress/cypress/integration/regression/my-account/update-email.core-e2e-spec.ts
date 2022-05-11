@@ -8,7 +8,7 @@ describe('My Account - Update Email', () => {
     });
 
     describe('Anonymous user', () => {
-      it(['update_email', 'smoke_b2c'], 'should redirect to login page', () => {
+      it(['update_email', 'smoke_b2c', 'my_account'], 'should redirect to login page', () => {
         cy.visit(updateEmail.UPDATE_EMAIL_URL);
         cy.location('pathname').should('contain', '/login');
       });
@@ -27,7 +27,7 @@ describe('My Account - Update Email', () => {
         });
       });
 
-      it(['update_email', 'smoke_b2c'], 'should update email and login', () => {
+      it(['update_email', 'smoke_b2c', 'my_account'], 'should update email and login', () => {
         updateEmail.testUpdateEmailAndLogin();
       });
 

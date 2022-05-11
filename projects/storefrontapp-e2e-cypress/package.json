@@ -26,7 +26,10 @@
     "cy:run:ci:epd-visualization": "cypress run --config-file cypress.ci.json --env API_URL=https://api.cp96avkh5f-integrati1-d1-public.model-t.cc.commerce.ondemand.com,BASE_SITE=powertools-epdvisualization-spa --record --key $CYPRESS_KEY --tag \"2105,epd-visualization\" --group EPD_VISUALIZATION --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/epd-visualization/**/*.e2e-spec.ts\"",
     "cy:run:checkout": "CYPRESS_INCLUDE_TAGS=checkout cypress run",
     "cy:run:search": "CYPRESS_INCLUDE_TAGS=search cypress run --spec \"cypress/integration/**/*.core-e2e-spec.ts\"",
-    "cy:run:smoke_b2c": "CYPRESS_INCLUDE_TAGS=smoke_b2c cypress run --spec \"cypress/integration/regression/**/*.core-e2e-spec.ts\""
+    "cy:run:smoke_b2c": "CYPRESS_INCLUDE_TAGS=smoke_b2c cypress run --spec \"cypress/integration/regression/**/*.core-e2e-spec.ts\"",
+    "cy:run:smoke_b2b": "CYPRESS_INCLUDE_TAGS=smoke_b2b cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec \"cypress/integration/b2b/regression/**/*.core-e2e-spec.ts\"",
+    "cy:run:tags" :"CYPRESS_INCLUDE_TAGS=$CONTEXT_TAGS cypress run",
+    "cy:run:b2b:tags": "CYPRESS_INCLUDE_TAGS=$CONTEXT_TAGS cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers"
   },
   "dependencies": {
     "cypress-tags": "0.3.0"

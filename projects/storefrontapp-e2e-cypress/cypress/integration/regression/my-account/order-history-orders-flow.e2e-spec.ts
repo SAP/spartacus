@@ -32,7 +32,7 @@ describe('Order details page', () => {
 
     orderHistoryTest.checkOrderDetailsUnconsignedEntries();
 
-    it('should display order details page with consigned entries', () => {
+    it(['order_history', 'my_account'],'should display order details page with consigned entries', () => {
       doPlaceOrder().then((orderData: any) => {
         cy.waitForOrderToBePlacedRequest(
           undefined,

@@ -8,7 +8,7 @@ describe('My Account - Update Password', () => {
         win.sessionStorage.clear();
       })
     );
-    it (['update_password', 'smoke_b2c'],'', () =>{
+    it (['update_password', 'smoke_b2c', 'my_account'],'', () =>{
       updatePassword.testUpdatePasswordLoggedInUser();
     });
   });

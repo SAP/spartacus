@@ -18,7 +18,7 @@ describe('Payment Methods', () => {
     });
 
     describe('Anonymous user', () => {
-      it('should redirect user to login page', () => {
+      it(['payment_methods', 'my_account'],'should redirect user to login page', () => {
         cy.visit('/my-account/payment-details');
         cy.location('pathname').should('contain', '/login');
       });
@@ -33,7 +33,7 @@ describe('Payment Methods', () => {
         cy.restoreLocalStorage();
       });
 
-      it (['payment_method'],'should validate payment methods core', () =>{
+      it (['payment_method', 'my_account'],'should validate payment methods core', () =>{
         // Core test. Repeat in different view port.
         paymentMethods.testRenderEmptyPaymentDetailsPage();
 
@@ -42,14 +42,14 @@ describe('Payment Methods', () => {
       });
 
       // Below tests depend on core tests for setup
-      it(['payment_method'], 'should render page with two payment methods', () => {
+      it(['payment_method', 'my_account'], 'should render page with two payment methods', () => {
         cy.get('cx-mini-cart > a').click({ force: true });
         addPaymentMethod(testPaymentDetail[1]);
         visitPaymentDetailsPage();
         verifyPaymentCard(2);
       });
 
-      it(['payment_method'], 'should set additional payment method as default', () => {
+      it(['payment_method', 'my_account'], 'should set additional payment method as default', () => {
         cy.intercept({
           method: 'GET',
           pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -75,7 +75,7 @@ describe('Payment Methods', () => {
         firstCard.should('contain', `Expires: 03/2126`);
       });
 
-      it(['payment_method'], 'should be able to delete payment method', () => {
+      it(['payment_method', 'my_account'], 'should be able to delete payment method', () => {
         cy.findAllByText('Delete').first().click({ force: true });
 
         // should see confirmation message
