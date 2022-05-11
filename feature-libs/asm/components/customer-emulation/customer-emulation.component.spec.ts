@@ -9,8 +9,8 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
-import { ActiveCartFacade } from 'feature-libs/cart/base/root';
 import { Observable, of } from 'rxjs';
+import { ActiveCartFacade } from '../../../../feature-libs/cart/base/root';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
 
