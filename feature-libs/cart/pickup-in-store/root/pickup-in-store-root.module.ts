@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import { PickupDeliveryOptionsComponent } from '../components/pickup-delivery-options';
+import { PickupDeliveryOptionsComponent } from '@spartacus/cart/pickup-in-store/components';
+import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 
 @NgModule({
   providers: [
