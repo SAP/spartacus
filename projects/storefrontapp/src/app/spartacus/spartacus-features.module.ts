@@ -10,7 +10,6 @@ import {
   UserOccModule,
 } from '@spartacus/core';
 import {
-  ScrollToTopModule,
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
@@ -45,6 +44,7 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
+  ScrollToTopModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
@@ -56,17 +56,14 @@ import { AdministrationFeatureModule } from './features/administration-feature.m
 import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CartBaseFeatureModule } from './features/cart-base-feature.module';
-import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
-import { CheckoutScheduledReplenishmentFeatureModule } from './features/checkout-scheduled-replenishment-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization-feature.module';
 import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
 import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { OrderFeatureModule } from './features/order-feature.module';
-import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
@@ -89,23 +86,10 @@ if (environment.b2b) {
   );
 }
 
-let CheckoutFeature = CheckoutFeatureModule;
-
-if (environment.b2b) {
-  CheckoutFeature = CheckoutScheduledReplenishmentFeatureModule;
-}
-
-if (environment.cdc) {
-  featureModules.push(CdcFeatureModule);
-}
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
-if (environment.cpq) {
-  featureModules.push(ProductConfiguratorRulebasedCpqFeatureModule);
-} else {
-  featureModules.push(ProductConfiguratorRulebasedFeatureModule);
-}
+
 if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
 }
@@ -195,7 +179,7 @@ if (environment.epdVisualization) {
 
     OrderFeatureModule,
 
-    CheckoutFeature,
+    CheckoutFeatureModule,
 
     TrackingFeatureModule,
 
@@ -208,8 +192,10 @@ if (environment.epdVisualization) {
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
-    ProductConfiguratorTextfieldFeatureModule,
     ImageZoomFeatureModule,
+
+    ProductConfiguratorTextfieldFeatureModule,
+    ProductConfiguratorRulebasedFeatureModule,
 
     ...featureModules,
   ],

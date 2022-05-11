@@ -10,19 +10,23 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_SMARTEDIT_FEATURE,
   smartEditFeatureModulePath,
+  SMARTEDIT_FEATURE_NAME,
   SpartacusOptions,
+  SpartacusSmartEditOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_SMARTEDIT,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
-import { Schema as SpartacusSmartEditOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus SmartEdit schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SMARTEDIT,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -55,7 +59,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
 
   const smarteditFeatureOptions: SpartacusSmartEditOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_SMARTEDIT_FEATURE],
+    features: [SMARTEDIT_FEATURE_NAME],
   };
 
   beforeEach(async () => {

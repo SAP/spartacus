@@ -11,10 +11,11 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   cartBaseFeatureModulePath,
-  CLI_ORDER_FEATURE,
   LibraryOptions as SpartacusOrderOptions,
   orderFeatureModulePath,
+  ORDER_FEATURE_NAME,
   SpartacusOptions,
+  SPARTACUS_ORDER,
   SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -25,7 +26,10 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/order.scss';
 
 describe('Spartacus Order schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_ORDER,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -58,7 +62,7 @@ describe('Spartacus Order schematics: ng-add', () => {
 
   const orderFeatureOptions: SpartacusOrderOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ORDER_FEATURE],
+    features: [ORDER_FEATURE_NAME],
   };
 
   beforeEach(async () => {

@@ -10,12 +10,14 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_USER_ACCOUNT_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
   LibraryOptions as SpartacusUserOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_USER,
   userFeatureModulePath,
+  userWrapperModulePath,
+  USER_ACCOUNT_FEATURE_NAME,
+  USER_PROFILE_FEATURE_NAME,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -24,7 +26,10 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/user.scss';
 
 describe('Spartacus User schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_USER,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -57,12 +62,12 @@ describe('Spartacus User schematics: ng-add', () => {
 
   const accountFeatureOptions: SpartacusUserOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_USER_ACCOUNT_FEATURE],
+    features: [USER_ACCOUNT_FEATURE_NAME],
   };
 
   const profileFeatureOptions: SpartacusUserOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_USER_PROFILE_FEATURE],
+    features: [USER_PROFILE_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -144,6 +149,8 @@ describe('Spartacus User schematics: ng-add', () => {
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
+
+        expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -173,6 +180,8 @@ describe('Spartacus User schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
+
+        expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
       });
     });
   });
@@ -188,6 +197,8 @@ describe('Spartacus User schematics: ng-add', () => {
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
+
+        expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -222,6 +233,8 @@ describe('Spartacus User schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
+
+        expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
       });
     });
   });

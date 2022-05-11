@@ -10,10 +10,11 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_QUALTRICS_FEATURE,
   LibraryOptions as SpartacusQualtricsOptions,
   qualtricsFeatureModulePath,
+  QUALTRICS_FEATURE_NAME,
   SpartacusOptions,
+  SPARTACUS_QUALTRICS,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -23,7 +24,10 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/qualtrics-embedded-feedback.scss';
 
 describe('Spartacus Qualtrics schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_QUALTRICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -56,7 +60,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
 
   const qualtricsOptions: SpartacusQualtricsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_QUALTRICS_FEATURE],
+    features: [QUALTRICS_FEATURE_NAME],
   };
 
   beforeEach(async () => {

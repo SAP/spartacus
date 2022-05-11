@@ -8,6 +8,9 @@ import { findNodes } from '@schematics/angular/utility/ast-utils';
 import ts from 'typescript';
 import { findConstructor } from './file-utils';
 
+export const spartacusFeaturesModulePath =
+  'src/app/spartacus/spartacus-features.module.ts';
+
 export const asmFeatureModulePath =
   'src/app/spartacus/features/asm/asm-feature.module.ts';
 export const cartBaseFeatureModulePath =
@@ -22,6 +25,8 @@ export const savedCartFeatureModulePath =
   'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
 export const checkoutFeatureModulePath =
   'src/app/spartacus/features/checkout/checkout-feature.module.ts';
+export const checkoutWrapperModulePath =
+  'src/app/spartacus/features/checkout/checkout-wrapper.module.ts';
 export const orderFeatureModulePath =
   'src/app/spartacus/features/order/order-feature.module.ts';
 export const organizationAdministrationFeatureModulePath =
@@ -36,6 +41,8 @@ export const productVariantsFeatureModulePath =
   'src/app/spartacus/features/product/product-variants-feature.module.ts';
 export const productConfiguratorFeatureModulePath =
   'src/app/spartacus/features/product-configurator/product-configurator-feature.module.ts';
+export const productConfiguratorWrapperModulePath =
+  'src/app/spartacus/features/product-configurator/product-configurator-wrapper.module.ts';
 export const qualtricsFeatureModulePath =
   'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
 export const smartEditFeatureModulePath =
@@ -48,6 +55,8 @@ export const trackingTagManagementFeatureModulePath =
   'src/app/spartacus/features/tracking/tag-management-feature.module.ts';
 export const userFeatureModulePath =
   'src/app/spartacus/features/user/user-feature.module.ts';
+export const userWrapperModulePath =
+  'src/app/spartacus/features/user/user-wrapper.module.ts';
 
 export const cdcFeatureModulePath =
   'src/app/spartacus/features/cdc/cdc-feature.module.ts';

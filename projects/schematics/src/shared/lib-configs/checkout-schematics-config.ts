@@ -1,8 +1,8 @@
 import {
-  CLI_CHECKOUT_B2B_FEATURE,
-  CLI_CHECKOUT_BASE_FEATURE,
-  CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
-  CLI_ORDER_FEATURE,
+  CHECKOUT_B2B_FEATURE_NAME,
+  CHECKOUT_BASE_FEATURE_NAME,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
+  ORDER_FEATURE_NAME,
   SPARTACUS_CHECKOUT,
   SPARTACUS_CHECKOUT_B2B,
   SPARTACUS_CHECKOUT_B2B_ASSETS,
@@ -15,7 +15,7 @@ import {
   SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
   SPARTACUS_ORDER,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const CHECKOUT_FOLDER_NAME = 'checkout';
 export const CHECKOUT_SCSS_FILE_NAME = 'checkout.scss';
@@ -28,9 +28,9 @@ export const CHECKOUT_BASE_TRANSLATIONS = 'checkoutTranslations';
 export const CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG =
   'checkoutTranslationChunksConfig';
 
-export const CHECKOUT_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
+export const CHECKOUT_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_CHECKOUT_BASE_FEATURE,
+    featureName: CHECKOUT_BASE_FEATURE_NAME,
     mainScope: SPARTACUS_CHECKOUT,
     featureScope: SPARTACUS_CHECKOUT_BASE,
   },
@@ -58,9 +58,8 @@ export const CHECKOUT_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
     importStyle: SPARTACUS_CHECKOUT,
   },
   dependencyManagement: {
-    [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
+    [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
   },
-  recreate: true,
 };
 
 export const CHECKOUT_B2B_MODULE = 'CheckoutB2BModule';
@@ -69,11 +68,12 @@ export const CHECKOUT_B2B_TRANSLATIONS = 'checkoutB2BTranslations';
 export const CHECKOUT_B2B_TRANSLATION_CHUNKS_CONFIG =
   'checkoutB2BTranslationChunksConfig';
 
-export const CHECKOUT_B2B_SCHEMATICS_CONFIG: FeatureConfig = {
+export const CHECKOUT_B2B_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_CHECKOUT_B2B_FEATURE,
+    featureName: CHECKOUT_B2B_FEATURE_NAME,
     mainScope: SPARTACUS_CHECKOUT,
     featureScope: SPARTACUS_CHECKOUT_B2B,
+    b2b: true,
   },
   folderName: CHECKOUT_FOLDER_NAME,
   moduleName: CHECKOUT_BASE_MODULE_NAME,
@@ -85,10 +85,6 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: FeatureConfig = {
     name: CHECKOUT_B2B_ROOT_MODULE,
     importPath: SPARTACUS_CHECKOUT_B2B_ROOT,
   },
-  lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
-    namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
-  },
   i18n: {
     resources: CHECKOUT_B2B_TRANSLATIONS,
     chunks: CHECKOUT_B2B_TRANSLATION_CHUNKS_CONFIG,
@@ -99,11 +95,12 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: FeatureConfig = {
     importStyle: SPARTACUS_CHECKOUT,
   },
   dependencyManagement: {
-    // TODO:#schematics - remove once we have wrapper modules
-    [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
-    [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_BASE_FEATURE],
+    [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
+    [SPARTACUS_CHECKOUT]: [CHECKOUT_BASE_FEATURE_NAME],
   },
-  recreate: true,
+  wrappers: {
+    [CHECKOUT_BASE_MODULE]: CHECKOUT_B2B_MODULE,
+  },
 };
 
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE =
@@ -115,12 +112,13 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATIONS =
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATION_CHUNKS_CONFIG =
   'checkoutScheduledReplenishmentTranslationChunksConfig';
 
-export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: FeatureConfig =
+export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: SchematicConfig =
   {
     library: {
-      cli: CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
+      featureName: CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
       mainScope: SPARTACUS_CHECKOUT,
       featureScope: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT,
+      b2b: true,
     },
     folderName: CHECKOUT_FOLDER_NAME,
     moduleName: CHECKOUT_BASE_MODULE_NAME,
@@ -132,10 +130,6 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: FeatureConfig =
       name: CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
       importPath: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
     },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
-      namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
-    },
     i18n: {
       resources: CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATIONS,
       chunks: CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATION_CHUNKS_CONFIG,
@@ -146,9 +140,10 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: FeatureConfig =
       importStyle: SPARTACUS_CHECKOUT,
     },
     dependencyManagement: {
-      // TODO:#schematics - remove once we have wrapper modules
-      [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
-      [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_B2B_FEATURE],
+      [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
+      [SPARTACUS_CHECKOUT]: [CHECKOUT_B2B_FEATURE_NAME],
     },
-    recreate: true,
+    wrappers: {
+      [CHECKOUT_BASE_MODULE]: CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
+    },
   };

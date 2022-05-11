@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Lib utils addFeatures should generate feature modules for the given array of features 1`] = `
+exports[`Feature utils addFeatures should generate feature modules for the given array of features 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
@@ -31,57 +31,196 @@ export class UserFeatureModule { }
 "
 `;
 
-exports[`Lib utils addFeatures should override the options 1`] = `
+exports[`Feature utils analyzeApplication dependent features check should succeed when a feature is not configured, but package is missing in package.json during dirty installation 1`] = `
 "import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { UserAccountModule } from \\"@spartacus/user/account\\";
-import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
-import { UserAccountRootModule } from \\"@spartacus/user/account/root\\";
-
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
 @NgModule({
-  declarations: [],
-  imports: [
-    UserAccountRootModule,
-    UserAccountModule
-  ],
-  providers: [provideConfig(<I18nConfig>{
-    i18n: {
-      resources: userAccountTranslations,
-      chunks: userAccountTranslationChunksConfig,
-    },
-  })]
+    declarations: [],
+    imports: [CheckoutModule,
+        DigitalPaymentsModule]
 })
-export class UserFeatureModule { }
+export class CheckoutWrapperModule {
+}
 "
 `;
 
-exports[`Lib utils addFeatures should override the schematics config 1`] = `
+exports[`Feature utils analyzeApplication dependent features check should succeed when a feature is not configured, but package is missing in package.json during dirty installation 2`] = `
 "import { NgModule } from '@angular/core';
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
-import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
-
 @NgModule({
-  declarations: [],
-  imports: [
-    UserAccountRootModule
-  ],
-  providers: [provideConfig(<CmsConfig>{
-    featureModules: {
-      [USER_ACCOUNT_FEATURE]: {
-        module: () =>
-          import('@spartacus/user/account').then((m) => m.UserAccountModule),
-      },
-    }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: userAccountTranslations,
-      chunks: userAccountTranslationChunksConfig,
-    },
-  })
-  ]
+    declarations: [],
+    imports: [
+        CheckoutRootModule
+    ],
+    providers: [provideConfig(<CmsConfig>{
+            featureModules: {
+                [CHECKOUT_FEATURE]: {
+                    module: () => import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+                },
+            }
+        }),
+        provideConfig(<I18nConfig>{
+            i18n: {
+                resources: checkoutTranslations,
+                chunks: checkoutTranslationChunksConfig,
+            },
+        })
+    ]
 })
-export class UserFeatureModule { }
+export class CheckoutFeatureModule {
+}
+"
+`;
+
+exports[`Feature utils analyzeApplication dependent features check when the dependent feature is eagerly configured should succeed 1`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CheckoutRootModule,
+        CheckoutModule
+    ],
+    providers: [provideConfig(<I18nConfig>{
+            i18n: {
+                resources: checkoutTranslations,
+                chunks: checkoutTranslationChunksConfig,
+            },
+        }),
+        provideConfig(<CmsConfig>{
+            featureModules: {
+                [CHECKOUT_FEATURE]: {
+                    module: () => import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
+                },
+            }
+        })
+    ]
+})
+export class CheckoutFeatureModule {
+}
+"
+`;
+
+exports[`Feature utils analyzeApplication dependent features check when the dependent feature is lazily configured should succeed 1`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
+@NgModule({
+    declarations: [],
+    imports: [CheckoutModule,
+        DigitalPaymentsModule]
+})
+export class CheckoutWrapperModule {
+}
+"
+`;
+
+exports[`Feature utils analyzeApplication dependent features check when the dependent feature is lazily configured should succeed 2`] = `
+"import { NgModule } from '@angular/core';
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+@NgModule({
+    declarations: [],
+    imports: [
+        CheckoutRootModule
+    ],
+    providers: [provideConfig(<CmsConfig>{
+            featureModules: {
+                [CHECKOUT_FEATURE]: {
+                    module: () => import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
+                },
+            }
+        }),
+        provideConfig(<I18nConfig>{
+            i18n: {
+                resources: checkoutTranslations,
+                chunks: checkoutTranslationChunksConfig,
+            },
+        })
+    ]
+})
+export class CheckoutFeatureModule {
+}
+"
+`;
+
+exports[`Feature utils analyzeFeature should correctly analyze the Spartacus feature module 1`] = `
+Array [
+  "AuthModule.forRoot()",
+  "LogoutModule",
+  "LoginRouteModule",
+  "HamburgerMenuModule",
+  "SiteContextSelectorModule",
+  "LinkModule",
+  "BannerModule",
+  "CmsParagraphModule",
+  "TabParagraphContainerModule",
+  "BannerCarouselModule",
+  "CategoryNavigationModule",
+  "NavigationModule",
+  "FooterNavigationModule",
+  "BreadcrumbModule",
+  "ScrollToTopModule",
+  "PageTitleModule",
+  "UserModule",
+  "UserOccModule",
+  "AddressBookModule",
+  "PaymentMethodsModule",
+  "NotificationPreferenceModule",
+  "MyInterestsModule",
+  "StockNotificationModule",
+  "ConsentManagementModule",
+  "MyCouponsModule",
+  "AnonymousConsentsModule.forRoot()",
+  "AnonymousConsentsDialogModule",
+  "AnonymousConsentManagementBannerModule",
+  "ProductModule.forRoot()",
+  "ProductOccModule",
+  "ProductDetailsPageModule",
+  "ProductListingPageModule",
+  "ProductListModule",
+  "SearchBoxModule",
+  "ProductFacetNavigationModule",
+  "ProductTabsModule",
+  "ProductCarouselModule",
+  "ProductReferencesModule",
+  "ProductImagesModule",
+  "ProductSummaryModule",
+  "ProductIntroModule",
+  "CostCenterOccModule",
+  "NavigationEventModule",
+  "HomePageEventModule",
+  "ProductPageEventModule",
+  "ExternalRoutesModule.forRoot()",
+]
+`;
+
+exports[`Feature utils analyzeFeature should correctly analyze the Spartacus feature module 2`] = `
+Array [
+  "Account",
+  "Cart",
+  "Order",
+  "Checkout",
+]
+`;
+
+exports[`Feature utils getDynamicallyImportedLocalSourceFile should return the locally referenced source file 1`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+@NgModule({
+    declarations: [],
+    imports: [CheckoutModule,
+        CheckoutB2BModule]
+})
+export class CheckoutWrapperModule {
+}
 "
 `;

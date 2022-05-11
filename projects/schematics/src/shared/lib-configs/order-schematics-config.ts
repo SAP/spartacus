@@ -1,12 +1,12 @@
 import {
-  CLI_CART_BASE_FEATURE,
-  CLI_ORDER_FEATURE,
+  CART_BASE_FEATURE_NAME,
+  ORDER_FEATURE_NAME,
   SPARTACUS_CART,
   SPARTACUS_ORDER,
   SPARTACUS_ORDER_ASSETS,
   SPARTACUS_ORDER_ROOT,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const ORDER_FOLDER_NAME = 'order';
 export const ORDER_MODULE_NAME = 'Order';
@@ -18,9 +18,9 @@ export const ORDER_FEATURE_NAME_CONSTANT = 'ORDER_FEATURE';
 export const ORDER_TRANSLATIONS = 'orderTranslations';
 export const ORDER_TRANSLATION_CHUNKS_CONFIG = 'orderTranslationChunksConfig';
 
-export const ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
+export const ORDER_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_ORDER_FEATURE,
+    featureName: ORDER_FEATURE_NAME,
     mainScope: SPARTACUS_ORDER,
   },
   folderName: ORDER_FOLDER_NAME,
@@ -47,6 +47,6 @@ export const ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
     importStyle: SPARTACUS_ORDER,
   },
   dependencyManagement: {
-    [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+    [SPARTACUS_CART]: [CART_BASE_FEATURE_NAME],
   },
 };

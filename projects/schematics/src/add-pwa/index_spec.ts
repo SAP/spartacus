@@ -9,11 +9,15 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import { SPARTACUS_SCHEMATICS } from '../shared/libs-constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus Schematics: add-pwa', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SCHEMATICS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 

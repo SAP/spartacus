@@ -10,15 +10,16 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_PRODUCT_BULK_PRICING_FEATURE,
-  CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
-  CLI_PRODUCT_VARIANTS_FEATURE,
   LibraryOptions as SpartacusProductOptions,
   productBulkPricingFeatureModulePath,
   productImageZoomFeatureModulePath,
   productVariantsFeatureModulePath,
+  PRODUCT_BULK_PRICING_FEATURE_NAME,
+  PRODUCT_IMAGE_ZOOM_FEATURE_NAME,
+  PRODUCT_VARIANTS_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_PRODUCT,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -28,7 +29,10 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/product.scss';
 
 describe('Spartacus Product schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_PRODUCT,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -61,17 +65,17 @@ describe('Spartacus Product schematics: ng-add', () => {
 
   const bulkPricingOptions: SpartacusProductOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PRODUCT_BULK_PRICING_FEATURE],
+    features: [PRODUCT_BULK_PRICING_FEATURE_NAME],
   };
 
   const variantsOptions: SpartacusProductOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PRODUCT_VARIANTS_FEATURE],
+    features: [PRODUCT_VARIANTS_FEATURE_NAME],
   };
 
   const imageZoomOptions: SpartacusProductOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PRODUCT_IMAGE_ZOOM_FEATURE],
+    features: [PRODUCT_IMAGE_ZOOM_FEATURE_NAME],
   };
 
   beforeEach(async () => {

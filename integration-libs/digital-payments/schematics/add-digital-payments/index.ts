@@ -7,6 +7,7 @@ import {
 import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeApplication,
   analyzeCrossFeatureDependencies,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
   readPackageJson,
@@ -26,6 +27,7 @@ export function addDigitalPaymentsFeature(
     );
 
     return chain([
+      analyzeApplication(options, features),
       addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);

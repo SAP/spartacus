@@ -1,7 +1,7 @@
 import {
-  CLI_PRODUCT_BULK_PRICING_FEATURE,
-  CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
-  CLI_PRODUCT_VARIANTS_FEATURE,
+  PRODUCT_BULK_PRICING_FEATURE_NAME,
+  PRODUCT_IMAGE_ZOOM_FEATURE_NAME,
+  PRODUCT_VARIANTS_FEATURE_NAME,
   SPARTACUS_BULK_PRICING,
   SPARTACUS_BULK_PRICING_ASSETS,
   SPARTACUS_BULK_PRICING_ROOT,
@@ -13,7 +13,7 @@ import {
   SPARTACUS_VARIANTS_ASSETS,
   SPARTACUS_VARIANTS_ROOT,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const PRODUCT_FOLDER_NAME = 'product';
 export const PRODUCT_SCSS_FILE_NAME = 'product.scss';
@@ -27,11 +27,12 @@ export const BULK_PRICING_TRANSLATIONS = 'bulkPricingTranslations';
 export const BULK_PRICING_TRANSLATION_CHUNKS_CONFIG =
   'bulkPricingTranslationChunksConfig';
 
-export const PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG: FeatureConfig = {
+export const PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_PRODUCT_BULK_PRICING_FEATURE,
+    featureName: PRODUCT_BULK_PRICING_FEATURE_NAME,
     mainScope: SPARTACUS_PRODUCT,
     featureScope: SPARTACUS_BULK_PRICING,
+    b2b: true,
   },
   folderName: PRODUCT_FOLDER_NAME,
   moduleName: BULK_PRICING_MODULE_NAME,
@@ -66,9 +67,9 @@ export const IMAGE_ZOOM_TRANSLATIONS = 'productImageZoomTranslations';
 export const IMAGE_ZOOM_TRANSLATION_CHUNKS_CONFIG =
   'productImageZoomTranslationChunksConfig';
 
-export const PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG: FeatureConfig = {
+export const PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
+    featureName: PRODUCT_IMAGE_ZOOM_FEATURE_NAME,
     mainScope: SPARTACUS_PRODUCT,
     featureScope: SPARTACUS_IMAGE_ZOOM,
   },
@@ -105,9 +106,9 @@ export const VARIANTS_TRANSLATIONS = 'productVariantsTranslations';
 export const VARIANTS_TRANSLATION_CHUNKS_CONFIG =
   'productVariantsTranslationChunksConfig';
 
-export const PRODUCT_VARIANTS_SCHEMATICS_CONFIG: FeatureConfig = {
+export const PRODUCT_VARIANTS_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_PRODUCT_VARIANTS_FEATURE,
+    featureName: PRODUCT_VARIANTS_FEATURE_NAME,
     mainScope: SPARTACUS_PRODUCT,
     featureScope: SPARTACUS_VARIANTS,
   },

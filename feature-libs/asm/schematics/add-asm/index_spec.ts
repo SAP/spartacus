@@ -11,9 +11,10 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   asmFeatureModulePath,
-  CLI_ASM_FEATURE,
+  ASM_FEATURE_NAME,
   LibraryOptions as SpartacusAsmOptions,
   SpartacusOptions,
+  SPARTACUS_ASM,
   SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -24,7 +25,10 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/asm.scss';
 
 describe('Spartacus Asm schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_ASM,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -57,7 +61,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
 
   const asmFeatureOptions: SpartacusAsmOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ASM_FEATURE],
+    features: [ASM_FEATURE_NAME],
   };
 
   beforeEach(async () => {

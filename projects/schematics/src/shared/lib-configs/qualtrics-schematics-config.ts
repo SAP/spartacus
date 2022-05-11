@@ -1,9 +1,9 @@
 import {
-  CLI_QUALTRICS_FEATURE,
+  QUALTRICS_FEATURE_NAME,
   SPARTACUS_QUALTRICS,
   SPARTACUS_QUALTRICS_ROOT,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { SchematicConfig } from '../utils/lib-utils';
 
 export const QUALTRICS_FOLDER_NAME = 'qualtrics';
 export const QUALTRICS_MODULE_NAME = 'Qualtrics';
@@ -14,9 +14,9 @@ export const QUALTRICS_MODULE = 'QualtricsModule';
 export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
 export const QUALTRICS_FEATURE_NAME_CONSTANT = 'QUALTRICS_FEATURE';
 
-export const QUALTRICS_SCHEMATICS_CONFIG: FeatureConfig = {
+export const QUALTRICS_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_QUALTRICS_FEATURE,
+    featureName: QUALTRICS_FEATURE_NAME,
     mainScope: SPARTACUS_QUALTRICS,
   },
   folderName: QUALTRICS_FOLDER_NAME,

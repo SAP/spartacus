@@ -1,10 +1,16 @@
+import { EPD_VISUALIZATION_CONFIG } from '../../constants';
 import {
-  CLI_EPD_VISUALIZATION_FEATURE,
+  EPD_VISUALIZATION_FEATURE_NAME,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_EPD_VISUALIZATION_ASSETS,
   SPARTACUS_EPD_VISUALIZATION_ROOT,
 } from '../../libs-constants';
-import { FeatureConfig } from '../../utils/lib-utils';
+import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
+import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
+
+export interface SpartacusEpdVisualizationOptions extends LibraryOptions {
+  baseUrl?: string;
+}
 
 export const EPD_VISUALIZATION_FOLDER_NAME = 'epd-visualization';
 export const EPD_VISUALIZATION_MODULE_NAME = 'EpdVisualization';
@@ -18,9 +24,9 @@ export const EPD_VISUALIZATION_TRANSLATIONS = 'epdVisualizationTranslations';
 export const EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG =
   'epdVisualizationTranslationChunksConfig';
 
-export const EPD_SCHEMATICS_CONFIG: FeatureConfig = {
+export const EPD_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_EPD_VISUALIZATION_FEATURE,
+    featureName: EPD_VISUALIZATION_FEATURE_NAME,
     mainScope: SPARTACUS_EPD_VISUALIZATION,
   },
   folderName: EPD_VISUALIZATION_FOLDER_NAME,
@@ -33,6 +39,7 @@ export const EPD_SCHEMATICS_CONFIG: FeatureConfig = {
     name: EPD_VISUALIZATION_ROOT_MODULE,
     importPath: SPARTACUS_EPD_VISUALIZATION_ROOT,
   },
+  customConfig: buildCdsConfig,
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_EPD_VISUALIZATION_ROOT,
     namedImports: [EPD_VISUALIZATION_FEATURE_NAME_CONSTANT],
@@ -47,3 +54,29 @@ export const EPD_SCHEMATICS_CONFIG: FeatureConfig = {
     importStyle: SPARTACUS_EPD_VISUALIZATION,
   },
 };
+
+function buildCdsConfig(
+  options: SpartacusEpdVisualizationOptions
+): AdditionalFeatureConfiguration<SpartacusEpdVisualizationOptions> {
+  return {
+    providers: {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_EPD_VISUALIZATION_ROOT,
+          namedImports: [EPD_VISUALIZATION_CONFIG],
+        },
+      ],
+      content: `<${EPD_VISUALIZATION_CONFIG}>{
+        epdVisualization: {
+          ui5: {
+            bootstrapUrl: "https://sapui5.hana.ondemand.com/1.98.0/resources/sap-ui-core.js"
+          },
+
+          apis: {
+            baseUrl: "${options.baseUrl ?? 'PLACEHOLDER_BASE_URL'}"
+          }
+        }
+      }`,
+    },
+  };
+}

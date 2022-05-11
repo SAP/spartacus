@@ -24,23 +24,14 @@ export class DigitalPaymentsFeatureModule { }
 
 exports[`Spartacus Digital-Payments schematics: ng-add Digital-Payments feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { dpTranslationChunksConfig, dpTranslations } from \\"@spartacus/digital-payments/assets\\";
 
 @NgModule({
   declarations: [],
   imports: [
   ],
-  providers: [provideConfig(<CmsConfig>{
-    featureModules: {
-      [CHECKOUT_FEATURE]: {
-        module: () =>
-          import('@spartacus/digital-payments').then((m) => m.DigitalPaymentsModule),
-      },
-    }
-  }),
-  provideConfig(<I18nConfig>{
+  providers: [provideConfig(<I18nConfig>{
     i18n: {
       resources: dpTranslations,
       chunks: dpTranslationChunksConfig,
@@ -49,6 +40,20 @@ import { dpTranslationChunksConfig, dpTranslations } from \\"@spartacus/digital-
   ]
 })
 export class DigitalPaymentsFeatureModule { }
+"
+`;
+
+exports[`Spartacus Digital-Payments schematics: ng-add Digital-Payments feature general setup should add the feature using the lazy loading syntax 2`] = `
+"import { NgModule } from '@angular/core';
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
+
+@NgModule({
+  declarations: [],
+  imports: [CheckoutModule,
+    DigitalPaymentsModule]
+})
+export class CheckoutWrapperModule { }
 "
 `;
 
@@ -116,10 +121,20 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_BASE_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base').then((m) => m.CartBaseModule),
-      }, [MINI_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [MINI_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
-      }, [ADD_TO_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [ADD_TO_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
       },
@@ -183,7 +198,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
+          import('./checkout-wrapper.module').then((m) => m.CheckoutWrapperModule),
       },
     }
   }),

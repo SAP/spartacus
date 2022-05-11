@@ -7,19 +7,13 @@ import {
 import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeApplication,
   analyzeCrossFeatureDependencies,
-  CLI_EPD_VISUALIZATION_FEATURE,
-  CustomConfig,
-  EPD_SCHEMATICS_CONFIG,
-  EPD_VISUALIZATION_CONFIG,
-  FeatureConfigurationOverrides,
   readPackageJson,
-  shouldAddFeature,
-  SPARTACUS_EPD_VISUALIZATION_ROOT,
+  SpartacusEpdVisualizationOptions,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
-import { Schema as SpartacusEpdVisualizationOptions } from './schema';
 
 export function addEpdVisualizationFeature(
   options: SpartacusEpdVisualizationOptions
@@ -31,47 +25,11 @@ export function addEpdVisualizationFeature(
     const features = analyzeCrossFeatureDependencies(
       options.features as string[]
     );
-    const overrides = buildEpdVisualizationConfig(options);
 
     return chain([
-      addFeatures(options, features, overrides),
+      analyzeApplication(options, features),
+      addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
-  };
-}
-
-function buildEpdVisualizationConfig(
-  options: SpartacusEpdVisualizationOptions
-): Record<string, FeatureConfigurationOverrides> {
-  if (!shouldAddFeature(CLI_EPD_VISUALIZATION_FEATURE, options.features)) {
-    return {};
-  }
-
-  const customConfig: CustomConfig[] = [
-    {
-      import: [
-        {
-          moduleSpecifier: SPARTACUS_EPD_VISUALIZATION_ROOT,
-          namedImports: [EPD_VISUALIZATION_CONFIG],
-        },
-      ],
-      content: `<${EPD_VISUALIZATION_CONFIG}>{
-        epdVisualization: {
-          ui5: {
-            bootstrapUrl: "https://sapui5.hana.ondemand.com/1.98.0/resources/sap-ui-core.js"
-          },
-
-          apis: {
-            baseUrl: "${options.baseUrl}"
-          }
-        }
-      }`,
-    },
-  ];
-
-  return {
-    [CLI_EPD_VISUALIZATION_FEATURE]: {
-      schematics: { ...EPD_SCHEMATICS_CONFIG, customConfig },
-    },
   };
 }

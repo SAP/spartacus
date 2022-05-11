@@ -1,15 +1,18 @@
 import {
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
-  CLI_TRACKING_TMS_AEP_FEATURE,
-  CLI_TRACKING_TMS_GTM_FEATURE,
   SPARTACUS_PERSONALIZATION,
   SPARTACUS_PERSONALIZATION_ROOT,
   SPARTACUS_TMS_AEP,
   SPARTACUS_TMS_CORE,
   SPARTACUS_TMS_GTM,
   SPARTACUS_TRACKING,
+  SPARTACUS_USER,
+  TRACKING_PERSONALIZATION_FEATURE_NAME,
+  TRACKING_TMS_AEP_FEATURE_NAME,
+  TRACKING_TMS_GTM_FEATURE_NAME,
+  USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { AdditionalFeatureConfiguration } from '../utils/feature-utils';
+import { LibraryOptions, SchematicConfig } from '../utils/lib-utils';
 
 export const TRACKING_FOLDER_NAME = 'tracking';
 
@@ -18,9 +21,9 @@ export const PERSONALIZATION_ROOT_MODULE = 'PersonalizationRootModule';
 export const PERSONALIZATION_MODULE_NAME = 'Personalization';
 export const PERSONALIZATION_FEATURE_NAME_CONSTANT = 'PERSONALIZATION_FEATURE';
 
-export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: FeatureConfig = {
+export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_TRACKING_PERSONALIZATION_FEATURE,
+    featureName: TRACKING_PERSONALIZATION_FEATURE_NAME,
     mainScope: SPARTACUS_TRACKING,
     featureScope: SPARTACUS_PERSONALIZATION,
   },
@@ -38,6 +41,9 @@ export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: FeatureConfig = {
     moduleSpecifier: SPARTACUS_PERSONALIZATION_ROOT,
     namedImports: [PERSONALIZATION_FEATURE_NAME_CONSTANT],
   },
+  dependencyManagement: {
+    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
+  },
 };
 
 export const TMS_MODULE_NAME = 'TagManagement';
@@ -45,9 +51,9 @@ export const TMS_CONFIG = 'TmsConfig';
 export const TMS_BASE_MODULE = 'BaseTmsModule';
 export const TMS_GTM_MODULE = 'GtmModule';
 
-export const TRACKING_GTM_SCHEMATICS_CONFIG: FeatureConfig = {
+export const TRACKING_GTM_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_TRACKING_TMS_GTM_FEATURE,
+    featureName: TRACKING_TMS_GTM_FEATURE_NAME,
     mainScope: SPARTACUS_TRACKING,
     featureScope: SPARTACUS_TMS_GTM,
   },
@@ -62,29 +68,44 @@ export const TRACKING_GTM_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_TMS_CORE,
     content: `${TMS_BASE_MODULE}.forRoot()`,
   },
-  customConfig: {
-    import: [
-      {
-        moduleSpecifier: SPARTACUS_TMS_GTM,
-        namedImports: [TMS_GTM_MODULE],
-      },
-      { moduleSpecifier: SPARTACUS_TMS_CORE, namedImports: [TMS_CONFIG] },
-    ],
-    content: `<${TMS_CONFIG}>{
+  customConfig: buildGtmConfig,
+  dependencyManagement: {
+    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
+  },
+};
+function buildGtmConfig(
+  options: LibraryOptions
+): AdditionalFeatureConfiguration {
+  return {
+    providers: {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_TMS_GTM,
+          namedImports: [TMS_GTM_MODULE],
+        },
+        { moduleSpecifier: SPARTACUS_TMS_CORE, namedImports: [TMS_CONFIG] },
+      ],
+      content: `<${TMS_CONFIG}>{
       tagManager: {
         gtm: {
           events: [],
         },
       },
     }`,
-  },
-};
+    },
+    options: {
+      // Just import the feature module
+      ...options,
+      lazy: false,
+    },
+  };
+}
 
 export const TMS_AEP_MODULE = 'AepModule';
 
-export const TRACKING_AEP_SCHEMATICS_CONFIG: FeatureConfig = {
+export const TRACKING_AEP_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_TRACKING_TMS_AEP_FEATURE,
+    featureName: TRACKING_TMS_AEP_FEATURE_NAME,
     mainScope: SPARTACUS_TRACKING,
     featureScope: SPARTACUS_TMS_AEP,
   },
@@ -99,20 +120,36 @@ export const TRACKING_AEP_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_TMS_CORE,
     content: `${TMS_BASE_MODULE}.forRoot()`,
   },
-  customConfig: {
-    import: [
-      {
-        moduleSpecifier: SPARTACUS_TMS_AEP,
-        namedImports: [TMS_AEP_MODULE],
-      },
-      { moduleSpecifier: SPARTACUS_TMS_CORE, namedImports: [TMS_CONFIG] },
-    ],
-    content: `<${TMS_CONFIG}>{
+  customConfig: buildAepConfig,
+  dependencyManagement: {
+    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
+  },
+};
+
+function buildAepConfig(
+  options: LibraryOptions
+): AdditionalFeatureConfiguration {
+  return {
+    providers: {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_TMS_AEP,
+          namedImports: [TMS_AEP_MODULE],
+        },
+        { moduleSpecifier: SPARTACUS_TMS_CORE, namedImports: [TMS_CONFIG] },
+      ],
+      content: `<${TMS_CONFIG}>{
       tagManager: {
         aep: {
           events: [],
         },
       },
     }`,
-  },
-};
+    },
+    options: {
+      // Just import the feature module
+      ...options,
+      lazy: false,
+    },
+  };
+}

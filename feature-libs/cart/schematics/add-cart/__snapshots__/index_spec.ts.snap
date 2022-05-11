@@ -44,10 +44,20 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_BASE_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base').then((m) => m.CartBaseModule),
-      }, [MINI_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [MINI_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
-      }, [ADD_TO_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [ADD_TO_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
       },
@@ -518,6 +528,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
             \\"scripts\\": [],
@@ -592,6 +603,7 @@ exports[`Spartacus Cart schematics: ng-add Quick Order feature general setup sty
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
+              \\"src/styles/spartacus/user.scss\\",
               \\"src/styles/spartacus/cart.scss\\"
             ],
             \\"scripts\\": [],
@@ -680,10 +692,20 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_BASE_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base').then((m) => m.CartBaseModule),
-      }, [MINI_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [MINI_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
-      }, [ADD_TO_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [ADD_TO_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
       },
@@ -921,7 +943,12 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_WISH_LIST_FEATURE]: {
         module: () =>
           import('@spartacus/cart/wish-list').then((m) => m.WishListModule),
-      }, [ADD_TO_WISHLIST_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [ADD_TO_WISHLIST_FEATURE]: {
         module: () =>
           import('@spartacus/cart/wish-list/components/add-to-wishlist').then((m) => m.AddToWishListModule),
       },
@@ -955,10 +982,20 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_BASE_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base').then((m) => m.CartBaseModule),
-      }, [MINI_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [MINI_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
-      }, [ADD_TO_CART_FEATURE]: {
+      },
+    }
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [ADD_TO_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
       },

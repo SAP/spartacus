@@ -1,9 +1,16 @@
+import { SMART_EDIT_CONFIG } from '../constants';
 import {
-  CLI_SMARTEDIT_FEATURE,
+  SMARTEDIT_FEATURE_NAME,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_SMARTEDIT_ROOT,
 } from '../libs-constants';
-import { FeatureConfig } from '../utils/lib-utils';
+import { AdditionalFeatureConfiguration } from '../utils/feature-utils';
+import { LibraryOptions, SchematicConfig } from '../utils/lib-utils';
+
+export interface SpartacusSmartEditOptions extends LibraryOptions {
+  storefrontPreviewRoute?: string;
+  allowOrigin?: string;
+}
 
 export const SMARTEDIT_FOLDER_NAME = 'smartedit';
 export const SMARTEDIT_MODULE_NAME = 'SmartEdit';
@@ -12,9 +19,9 @@ export const SMARTEDIT_ROOT_MODULE = 'SmartEditRootModule';
 export const SMARTEDIT_FEATURE_NAME_CONSTANT = 'SMART_EDIT_FEATURE';
 export const SPARTACUS_SMARTEDIT_ASSETS = 'smartedit/assets';
 
-export const SMARTEDIT_SCHEMATICS_CONFIG: FeatureConfig = {
+export const SMARTEDIT_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {
-    cli: CLI_SMARTEDIT_FEATURE,
+    featureName: SMARTEDIT_FEATURE_NAME,
     mainScope: SPARTACUS_SMARTEDIT,
   },
   folderName: SMARTEDIT_FOLDER_NAME,
@@ -27,6 +34,7 @@ export const SMARTEDIT_SCHEMATICS_CONFIG: FeatureConfig = {
     name: SMARTEDIT_ROOT_MODULE,
     importPath: SPARTACUS_SMARTEDIT_ROOT,
   },
+  customConfig: buildSmartEditConfig,
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_SMARTEDIT_ROOT,
     namedImports: [SMARTEDIT_FEATURE_NAME_CONSTANT],
@@ -36,3 +44,26 @@ export const SMARTEDIT_SCHEMATICS_CONFIG: FeatureConfig = {
     glob: '**/*',
   },
 };
+
+function buildSmartEditConfig(
+  options: SpartacusSmartEditOptions
+): AdditionalFeatureConfiguration {
+  return {
+    providers: {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_SMARTEDIT_ROOT,
+          namedImports: [SMART_EDIT_CONFIG],
+        },
+      ],
+      content: `<${SMART_EDIT_CONFIG}>{
+        smartEdit: {
+          storefrontPreviewRoute: '${
+            options.storefrontPreviewRoute ??
+            'STOREFRONT_PREVIEW_ROUTE_PLACEHOLDER'
+          }',
+          allowOrigin: '${options.allowOrigin ?? 'ALLOWED_ORIGIN_PLACEHOLDER'}',
+        },}`,
+    },
+  };
+}

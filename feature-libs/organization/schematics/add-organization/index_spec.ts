@@ -10,14 +10,15 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
-  CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   LibraryOptions as SpartacusOrganizationOptions,
   orderFeatureModulePath,
   organizationAdministrationFeatureModulePath,
   organizationOrderApprovalFeatureModulePath,
+  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+  ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_ORGANIZATION,
   SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -28,7 +29,10 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const scssFilePath = 'src/styles/spartacus/organization.scss';
 
 describe('Spartacus Organization schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_ORGANIZATION,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -61,12 +65,12 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   const administrationFeatureOptions: SpartacusOrganizationOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ORGANIZATION_ADMINISTRATION_FEATURE],
+    features: [ORGANIZATION_ADMINISTRATION_FEATURE_NAME],
   };
 
   const orderApprovalFeatureOptions: SpartacusOrganizationOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE],
+    features: [ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME],
   };
 
   beforeEach(async () => {

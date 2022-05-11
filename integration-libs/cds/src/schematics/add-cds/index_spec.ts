@@ -11,19 +11,24 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   cdsFeatureModulePath,
-  CLI_CDS_FEATURE,
+  CDS_FEATURE_NAME,
+  SpartacusCdsOptions,
   SpartacusOptions,
+  SPARTACUS_CDS,
   SPARTACUS_SCHEMATICS,
   trackingPersonalizationFeatureModulePath,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../../package.json';
-import { Schema as SpartacusCdsOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus CDS schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_CDS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -58,7 +63,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
 
   const cdsFeatureOptions: SpartacusCdsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CDS_FEATURE],
+    features: [CDS_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -149,30 +154,15 @@ describe('Spartacus CDS schematics: ng-add', () => {
           );
           expect(personalizationFeatureModule).toMatchSnapshot();
         });
-      });
 
-      describe('validation', () => {
-        let firstMessage: string | undefined;
-        beforeEach(async () => {
-          schematicRunner.logger.subscribe((log) => {
-            if (!firstMessage) {
-              firstMessage = log.message;
-            }
-          });
+        it('should install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
 
-          appTree = await schematicRunner
-            .runSchematicAsync(
-              'ng-add',
-              { ...cdsFeatureOptions, profileTagConfigUrl: 'xxx' },
-              appTree
-            )
-            .toPromise();
-        });
-
-        it('show the warning', () => {
-          expect(firstMessage).toEqual(
-            `Profile tag will not be added. Please run the schematic again, and make sure you provide both profile tag options.`
+          const trackingPersonalizationFeatureModule = appTree.readContent(
+            trackingPersonalizationFeatureModulePath
           );
+          expect(trackingPersonalizationFeatureModule).toMatchSnapshot();
         });
       });
     });
@@ -196,6 +186,16 @@ describe('Spartacus CDS schematics: ng-add', () => {
         it('should create the feature module', async () => {
           const module = appTree.readContent(cdsFeatureModulePath);
           expect(module).toMatchSnapshot();
+        });
+
+        it('should install the required feature dependencies', async () => {
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toMatchSnapshot();
+
+          const trackingPersonalizationFeatureModule = appTree.readContent(
+            trackingPersonalizationFeatureModulePath
+          );
+          expect(trackingPersonalizationFeatureModule).toMatchSnapshot();
         });
       });
     });

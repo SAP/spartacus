@@ -1,8 +1,5 @@
 import { Tree } from '@angular-devkit/schematics';
-import {
-  SchematicTestRunner,
-  UnitTestTree,
-} from '@angular-devkit/schematics/testing';
+import { SchematicTestRunner } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
   Style,
@@ -15,20 +12,17 @@ import {
   SPARTACUS_CART,
   SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
-  SPARTACUS_FEATURES_MODULE,
   SPARTACUS_ORDER,
 } from '../libs-constants';
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
-  FeatureConfig,
   LibraryOptions,
-  orderInstalledFeatures,
+  SchematicConfig,
   shouldAddFeature,
 } from './lib-utils';
 
 const xxxFeaturePath = `src/app/spartacus/features/xxx/xxx-feature.module.ts`;
-const spartacusFeaturesPath = `src/app/spartacus/${SPARTACUS_FEATURES_MODULE}.module.ts`;
 
 describe('Lib utils', () => {
   const schematicRunner = new SchematicTestRunner(
@@ -36,7 +30,7 @@ describe('Lib utils', () => {
     path.join(__dirname, '../../collection.json')
   );
 
-  let appTree: UnitTestTree;
+  let appTree: Tree;
 
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
@@ -74,9 +68,9 @@ describe('Lib utils', () => {
 
   const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
 
-  const BASE_FEATURE_CONFIG: FeatureConfig = {
+  const BASE_FEATURE_CONFIG: SchematicConfig = {
     library: {
-      cli: CLI_FEATURE_NAME,
+      featureName: CLI_FEATURE_NAME,
       mainScope: FEATURE_MODULE_IMPORT_PATH,
     },
     folderName: FEATURE_FOLDER_NAME,
@@ -106,27 +100,9 @@ describe('Lib utils', () => {
     lazy: true,
   };
 
-  const DP_FEATURE_CONFIG: FeatureConfig = {
+  const CHECKOUT_FEATURE_CONFIG: SchematicConfig = {
     library: {
-      cli: 'dp',
-      mainScope: '@spartacus/digital-payments',
-    },
-    folderName: 'dp',
-    moduleName: 'DigitalPayments',
-    featureModule: {
-      name: 'DigitalPaymentsModule',
-      importPath: '@spartacus/digital-payments',
-    },
-  };
-  const DP_OPTIONS: LibraryOptions = {
-    project: 'schematics-test',
-    features: ['dp-cli'],
-    lazy: true,
-  };
-
-  const CHECKOUT_FEATURE_CONFIG: FeatureConfig = {
-    library: {
-      cli: 'checkout',
+      featureName: 'checkout',
       mainScope: '@spartacus/checkout',
       featureScope: '@spartacus/checkout/base',
     },
@@ -144,73 +120,6 @@ describe('Lib utils', () => {
   const CHECKOUT_OPTIONS: LibraryOptions = {
     project: 'schematics-test',
     features: ['checkout-base-cli'],
-    lazy: true,
-  };
-
-  const CART_FEATURE_CONFIG: FeatureConfig = {
-    library: {
-      cli: 'cart',
-      mainScope: '@spartacus/cart',
-      featureScope: '@spartacus/cart/base',
-    },
-    folderName: 'cart',
-    moduleName: 'Cart',
-    featureModule: {
-      name: 'CartBaseModule',
-      importPath: '@spartacus/cart/base',
-    },
-    rootModule: {
-      name: 'CartBaseRootModule',
-      importPath: '@spartacus/cart/base/root',
-    },
-  };
-  const CART_OPTIONS: LibraryOptions = {
-    project: 'schematics-test',
-    features: ['cart-cli'],
-    lazy: true,
-  };
-
-  const USER_PROFILE_FEATURE_CONFIG: FeatureConfig = {
-    library: {
-      cli: 'user-profile',
-      mainScope: '@spartacus/user',
-    },
-    folderName: 'user',
-    moduleName: 'UserProfile',
-    featureModule: {
-      name: 'UserProfileModule',
-      importPath: '@spartacus/user',
-    },
-    rootModule: {
-      name: 'UserProfileRootModule',
-      importPath: '@spartacus/user/root',
-    },
-  };
-  const USER_PROFILE_OPTIONS: LibraryOptions = {
-    project: 'schematics-test',
-    features: ['user-profile-cli'],
-    lazy: true,
-  };
-
-  const ORDER_FEATURE_CONFIG: FeatureConfig = {
-    library: {
-      cli: 'order',
-      mainScope: '@spartacus/order',
-    },
-    folderName: 'order',
-    moduleName: 'Order',
-    featureModule: {
-      name: 'OrderModule',
-      importPath: '@spartacus/order',
-    },
-    rootModule: {
-      name: 'OrderRootModule',
-      importPath: '@spartacus/order/root',
-    },
-  };
-  const ORDER_OPTIONS: LibraryOptions = {
-    project: 'schematics-test',
-    features: ['order-cli'],
     lazy: true,
   };
 
@@ -255,33 +164,33 @@ describe('Lib utils', () => {
 
   describe('addLibraryFeature', () => {
     it('should add i18n config in feature module', async () => {
-      const tree = await schematicRunner
+      appTree = await schematicRunner
         .callRule(addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG), appTree)
         .toPromise();
 
-      expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
+      expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
     });
     it('should NOT add i18n if the config is not present', async () => {
-      const featureConfig: FeatureConfig = {
+      const featureConfig: SchematicConfig = {
         ...BASE_FEATURE_CONFIG,
         i18n: undefined,
       };
-      const tree = await schematicRunner
+      appTree = await schematicRunner
         .callRule(addLibraryFeature(BASE_OPTIONS, featureConfig), appTree)
         .toPromise();
 
-      expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
+      expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
     });
     describe('when the lazy loading is configured', () => {
       it('should add it in the lazy loading way', async () => {
-        const tree = await schematicRunner
+        appTree = await schematicRunner
           .callRule(
             addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG),
             appTree
           )
           .toPromise();
 
-        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
+        expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
       });
     });
     describe('when the eager loading is configured', () => {
@@ -290,53 +199,24 @@ describe('Lib utils', () => {
           { ...BASE_OPTIONS, lazy: false },
           BASE_FEATURE_CONFIG
         );
-        const tree = await schematicRunner.callRule(rule, appTree).toPromise();
+        appTree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
-      });
-    });
-    describe('recreate option', () => {
-      it('should remove the feature module and recreate it', async () => {
-        let tree: Tree;
-        tree = await schematicRunner
-          .callRule(
-            addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG),
-            appTree
-          )
-          .toPromise();
-
-        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
-
-        tree = await schematicRunner
-          .callRule(
-            addLibraryFeature(BASE_OPTIONS, {
-              ...BASE_FEATURE_CONFIG,
-              recreate: true,
-              featureModule: {
-                ...BASE_FEATURE_CONFIG.featureModule,
-                // this should change
-                name: 'YyyModule',
-              },
-            }),
-            appTree
-          )
-          .toPromise();
-
-        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
+        expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
       });
     });
     describe('custom config option', () => {
       it('should add the custom config when set', async () => {
-        const featureConfig: FeatureConfig = {
+        const featureConfig: SchematicConfig = {
           ...BASE_FEATURE_CONFIG,
-          customConfig: {
-            import: [
-              {
-                moduleSpecifier: SPARTACUS_CDS,
-                namedImports: [CDS_CONFIG],
-              },
-            ],
-            content: `<${CDS_CONFIG}>{
+          customConfig: () => ({
+            providers: {
+              import: [
+                {
+                  moduleSpecifier: SPARTACUS_CDS,
+                  namedImports: [CDS_CONFIG],
+                },
+              ],
+              content: `<${CDS_CONFIG}>{
               cds: {
                 profileTag: {
                   javascriptUrl:
@@ -347,33 +227,34 @@ describe('Lib utils', () => {
                 },
               },
             }`,
-          },
+            },
+          }),
         };
-        const tree = await schematicRunner
+        appTree = await schematicRunner
           .callRule(addLibraryFeature(BASE_OPTIONS, featureConfig), appTree)
           .toPromise();
 
-        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
+        expect(appTree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
       });
     });
     describe('assets options', () => {
       it('should update angular.json file with assets', async () => {
         // before
-        expect(appTree.readContent('angular.json')).toMatchSnapshot();
+        expect(appTree.read('angular.json')?.toString(UTF_8)).toMatchSnapshot();
 
-        const featureConfig: FeatureConfig = {
+        const featureConfig: SchematicConfig = {
           ...BASE_FEATURE_CONFIG,
           assets: {
             input: 'smartedit/assets',
             glob: '**/*',
           },
         };
-        const tree = await schematicRunner
+        appTree = await schematicRunner
           .callRule(addLibraryFeature(BASE_OPTIONS, featureConfig), appTree)
           .toPromise();
 
         // after
-        expect(tree.read('angular.json')?.toString(UTF_8)).toMatchSnapshot();
+        expect(appTree.read('angular.json')?.toString(UTF_8)).toMatchSnapshot();
       });
     });
     describe('style', () => {
@@ -381,12 +262,10 @@ describe('Lib utils', () => {
         describe('and the scss file does NOT exist', () => {
           it('should add it', async () => {
             const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
-            const tree = await schematicRunner
-              .callRule(rule, appTree)
-              .toPromise();
+            appTree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-            expect(tree.exists(scssFilePath)).toEqual(true);
-            const content = tree.read(scssFilePath)?.toString(UTF_8);
+            expect(appTree.exists(scssFilePath)).toEqual(true);
+            const content = appTree.read(scssFilePath)?.toString(UTF_8);
             expect(content).toEqual(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
           });
         });
@@ -399,12 +278,10 @@ describe('Lib utils', () => {
           });
           it('should NOT append it', async () => {
             const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
-            const tree = await schematicRunner
-              .callRule(rule, appTree)
-              .toPromise();
+            appTree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-            expect(tree.exists(scssFilePath)).toEqual(true);
-            const content = tree.read(scssFilePath)?.toString(UTF_8);
+            expect(appTree.exists(scssFilePath)).toEqual(true);
+            const content = appTree.read(scssFilePath)?.toString(UTF_8);
             expect(content).toEqual(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
           });
         });
@@ -415,12 +292,10 @@ describe('Lib utils', () => {
           });
           it('should append it', async () => {
             const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
-            const tree = await schematicRunner
-              .callRule(rule, appTree)
-              .toPromise();
+            appTree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-            expect(tree.exists(scssFilePath)).toEqual(true);
-            const content = tree.read(scssFilePath)?.toString(UTF_8);
+            expect(appTree.exists(scssFilePath)).toEqual(true);
+            const content = appTree.read(scssFilePath)?.toString(UTF_8);
             expect(content).toEqual(
               `${randomContent}\n@import "${FEATURE_MODULE_IMPORT_PATH}";`
             );
@@ -433,21 +308,17 @@ describe('Lib utils', () => {
             ...BASE_FEATURE_CONFIG,
             styles: undefined,
           });
-          const tree = await schematicRunner
-            .callRule(rule, appTree)
-            .toPromise();
+          appTree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-          expect(tree.exists(scssFilePath)).toEqual(false);
+          expect(appTree.exists(scssFilePath)).toEqual(false);
         });
       });
     });
   });
 
   describe('addPackageJsonDependenciesForLibrary', () => {
-    let tree: Tree;
-
     beforeEach(async () => {
-      tree = await schematicRunner
+      appTree = await schematicRunner
         .callRule(
           addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
           appTree
@@ -468,57 +339,17 @@ describe('Lib utils', () => {
             peerDependencies,
             CHECKOUT_OPTIONS
           ),
-          tree
+          appTree
         )
         .toPromise();
 
       const packageJson = JSON.parse(
-        tree.read('package.json')?.toString(UTF_8) ?? ''
+        appTree.read('package.json')?.toString(UTF_8) ?? ''
       ).dependencies as Record<string, string>;
 
       expect(packageJson[SPARTACUS_ORDER]).toBeTruthy();
       expect(packageJson[SPARTACUS_CART]).toBeTruthy();
       expect(packageJson[SPARTACUS_CHECKOUT]).toBeTruthy();
-    });
-  });
-
-  describe('feature ordering', () => {
-    let tree: Tree;
-    beforeEach(async () => {
-      tree = await schematicRunner
-        .callRule(addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG), appTree)
-        .toPromise();
-      tree = await schematicRunner
-        .callRule(addLibraryFeature(DP_OPTIONS, DP_FEATURE_CONFIG), tree)
-        .toPromise();
-      tree = await schematicRunner
-        .callRule(
-          addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
-          tree
-        )
-        .toPromise();
-      tree = await schematicRunner
-        .callRule(addLibraryFeature(CART_OPTIONS, CART_FEATURE_CONFIG), tree)
-        .toPromise();
-      tree = await schematicRunner
-        .callRule(
-          addLibraryFeature(USER_PROFILE_OPTIONS, USER_PROFILE_FEATURE_CONFIG),
-          tree
-        )
-        .toPromise();
-      tree = await schematicRunner
-        .callRule(addLibraryFeature(ORDER_OPTIONS, ORDER_FEATURE_CONFIG), tree)
-        .toPromise();
-
-      tree = await schematicRunner
-        .callRule(orderInstalledFeatures(spartacusDefaultOptions), tree)
-        .toPromise();
-    });
-
-    it('should appropriately order the feature modules', () => {
-      expect(
-        tree.read(spartacusFeaturesPath)?.toString(UTF_8)
-      ).toMatchSnapshot();
     });
   });
 });

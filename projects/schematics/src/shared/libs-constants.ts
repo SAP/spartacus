@@ -11,7 +11,7 @@ export const SPARTACUS_STYLES = `@spartacus/styles`;
 export const SPARTACUS_SETUP = `@spartacus/setup`;
 export const SPARTACUS_SETUP_SSR = `@spartacus/setup/ssr`;
 
-export const CORE_SPARTACUS_SCOPES = [
+export const CORE_SPARTACUS_SCOPES: string[] = [
   SPARTACUS_CORE,
   SPARTACUS_ASSETS,
   SPARTACUS_SCHEMATICS,
@@ -166,53 +166,52 @@ export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
 export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 /***** File structure end *****/
 
-/***** CLI start *****/
-// TODO:#schematics - [at the end] - instead of CLI_, use the _FEATURE suffix
-export const CLI_ASM_FEATURE = 'ASM';
+/***** Feature name start *****/
+export const ASM_FEATURE_NAME = 'ASM';
 
-export const CLI_CART_BASE_FEATURE = 'Cart';
-export const CLI_CART_IMPORT_EXPORT_FEATURE = 'Import-Export';
-export const CLI_CART_QUICK_ORDER_FEATURE = 'Quick-Order';
-export const CLI_CART_WISHLIST_FEATURE = 'WishList';
-export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
+export const CART_BASE_FEATURE_NAME = 'Cart';
+export const CART_IMPORT_EXPORT_FEATURE_NAME = 'Import-Export';
+export const CART_QUICK_ORDER_FEATURE_NAME = 'Quick-Order';
+export const CART_WISHLIST_FEATURE_NAME = 'WishList';
+export const CART_SAVED_CART_FEATURE_NAME = 'Saved-Cart';
 
-export const CLI_CHECKOUT_BASE_FEATURE = 'Checkout';
-export const CLI_CHECKOUT_B2B_FEATURE = 'Checkout-B2B';
-export const CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE =
+export const CHECKOUT_BASE_FEATURE_NAME = 'Checkout';
+export const CHECKOUT_B2B_FEATURE_NAME = 'Checkout-B2B';
+export const CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME =
   'Checkout-Scheduled-Replenishment';
 
-export const CLI_ORDER_FEATURE = 'Order';
+export const ORDER_FEATURE_NAME = 'Order';
 
-export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
-export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';
+export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';
+export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
 
-export const CLI_PRODUCT_BULK_PRICING_FEATURE = 'Bulk-Pricing';
-export const CLI_PRODUCT_IMAGE_ZOOM_FEATURE = 'Image-Zoom';
-export const CLI_PRODUCT_VARIANTS_FEATURE = 'Product-Variants';
+export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';
+export const PRODUCT_IMAGE_ZOOM_FEATURE_NAME = 'Image-Zoom';
+export const PRODUCT_VARIANTS_FEATURE_NAME = 'Product-Variants';
 
-export const CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME =
   'Textfield-Configurator';
-export const CLI_PRODUCT_CONFIGURATOR_VC_FEATURE = 'VC-Configurator';
-export const CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE = 'CPQ-Configurator';
+export const PRODUCT_CONFIGURATOR_VC_FEATURE_NAME = 'VC-Configurator';
+export const PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME = 'CPQ-Configurator';
 
-export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
+export const QUALTRICS_FEATURE_NAME = 'Qualtrics';
 
-export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
+export const SMARTEDIT_FEATURE_NAME = 'SmartEdit';
 
-export const CLI_STOREFINDER_FEATURE = 'Store-Finder';
+export const STOREFINDER_FEATURE_NAME = 'Store-Finder';
 
-export const CLI_TRACKING_PERSONALIZATION_FEATURE = 'Personalization';
-export const CLI_TRACKING_TMS_GTM_FEATURE = 'TMS-GTM';
-export const CLI_TRACKING_TMS_AEP_FEATURE = 'TMS-AEPL';
+export const TRACKING_PERSONALIZATION_FEATURE_NAME = 'Personalization';
+export const TRACKING_TMS_GTM_FEATURE_NAME = 'TMS-GTM';
+export const TRACKING_TMS_AEP_FEATURE_NAME = 'TMS-AEPL';
 
-export const CLI_USER_ACCOUNT_FEATURE = 'Account';
-export const CLI_USER_PROFILE_FEATURE = 'Profile';
+export const USER_ACCOUNT_FEATURE_NAME = 'Account';
+export const USER_PROFILE_FEATURE_NAME = 'Profile';
 
-export const CLI_CDC_FEATURE = 'CDC';
+export const CDC_FEATURE_NAME = 'CDC';
 
-export const CLI_CDS_FEATURE = 'CDS';
+export const CDS_FEATURE_NAME = 'CDS';
 
-export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
+export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
-export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
-/***** CLI end *****/
+export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
+/***** Feature name end *****/

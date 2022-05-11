@@ -137,23 +137,32 @@ function buildSchematicsAndPublish(buildCmd: string): void {
 }
 
 function testAllSchematics(): void {
-  execSync('yarn --cwd projects/schematics run test --coverage', {
-    stdio: 'inherit',
-  });
-
-  featureLibsFolders.forEach((lib) =>
-    execSync(`yarn --cwd feature-libs/${lib} run test:schematics --coverage`, {
+  try {
+    execSync('yarn --cwd projects/schematics run test --coverage', {
       stdio: 'inherit',
-    })
-  );
-  integrationLibsFolders.forEach((lib) =>
-    execSync(
-      `yarn --cwd integration-libs/${lib} run test:schematics --coverage`,
-      {
-        stdio: 'inherit',
-      }
-    )
-  );
+    });
+
+    featureLibsFolders.forEach((lib) =>
+      execSync(
+        `yarn --cwd feature-libs/${lib} run test:schematics --coverage`,
+        {
+          stdio: 'inherit',
+        }
+      )
+    );
+    integrationLibsFolders.forEach((lib) =>
+      execSync(
+        `yarn --cwd integration-libs/${lib} run test:schematics --coverage`,
+        {
+          stdio: 'inherit',
+        }
+      )
+    );
+  } catch (e) {
+    console.error(e);
+    beforeExit();
+    process.exit();
+  }
 }
 
 async function executeCommand(command: Command): Promise<void> {
@@ -215,16 +224,19 @@ async function program(): Promise<void> {
       executeCommand(response.command);
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
     beforeExit();
     process.exit();
   }
 }
 
-program();
-
 // Handle killing the script
 process.once('SIGINT', function () {
+  beforeExit();
+  process.exit();
+});
+
+process.on('SIGHUP', function () {
   beforeExit();
   process.exit();
 });
@@ -233,3 +245,5 @@ process.once('SIGTERM', function () {
   beforeExit();
   process.exit();
 });
+
+program();

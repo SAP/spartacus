@@ -19,6 +19,8 @@ import {
             ),
         },
       },
+    }),
+    provideConfig({
       i18n: {
         resources: configuratorTranslations,
       },

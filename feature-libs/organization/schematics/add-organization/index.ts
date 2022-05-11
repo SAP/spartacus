@@ -1,6 +1,5 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
@@ -8,13 +7,10 @@ import {
 import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeApplication,
   analyzeCrossFeatureDependencies,
-  CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
-  CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
-  configureB2bFeatures,
   LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
-  shouldAddFeature,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -31,23 +27,9 @@ export function addSpartacusOrganization(
     );
 
     return chain([
+      analyzeApplication(options, features),
       addFeatures(options, features),
-
-      shouldAddB2b(options)
-        ? configureB2bFeatures(options, packageJson)
-        : noop(),
-
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
-}
-
-function shouldAddB2b(options: SpartacusOrganizationOptions): boolean {
-  return (
-    shouldAddFeature(
-      CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
-      options.features
-    ) ||
-    shouldAddFeature(CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE, options.features)
-  );
 }

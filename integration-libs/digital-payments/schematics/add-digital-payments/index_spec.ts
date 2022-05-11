@@ -12,12 +12,14 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   cartBaseFeatureModulePath,
   checkoutFeatureModulePath,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
+  checkoutWrapperModulePath,
   digitalPaymentsFeatureModulePath,
+  DIGITAL_PAYMENTS_FEATURE_NAME,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
   orderFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_CHECKOUT,
+  SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_SCHEMATICS,
   userFeatureModulePath,
 } from '@spartacus/schematics';
@@ -27,7 +29,10 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus Digital-Payments schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_DIGITAL_PAYMENTS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -60,7 +65,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
 
   const digitalPaymentsFeatureOptions: SpartacusDigitalPaymentsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+    features: [DIGITAL_PAYMENTS_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -163,6 +168,9 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(digitalPaymentsFeatureModulePath);
         expect(module).toMatchSnapshot();
+
+        const wrapperModule = appTree.readContent(checkoutWrapperModulePath);
+        expect(wrapperModule).toMatchSnapshot();
       });
     });
 
@@ -180,6 +188,8 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(digitalPaymentsFeatureModulePath);
         expect(module).toMatchSnapshot();
+
+        expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
       });
     });
   });

@@ -10,14 +10,15 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
-  CLI_TRACKING_TMS_AEP_FEATURE,
-  CLI_TRACKING_TMS_GTM_FEATURE,
   LibraryOptions as SpartacusTrackingOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_TRACKING,
   trackingPersonalizationFeatureModulePath,
   trackingTagManagementFeatureModulePath,
+  TRACKING_PERSONALIZATION_FEATURE_NAME,
+  TRACKING_TMS_AEP_FEATURE_NAME,
+  TRACKING_TMS_GTM_FEATURE_NAME,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -25,7 +26,10 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 
 describe('Spartacus Tracking schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_TRACKING,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -58,17 +62,17 @@ describe('Spartacus Tracking schematics: ng-add', () => {
 
   const personalizationFeatureOptions: SpartacusTrackingOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_TRACKING_PERSONALIZATION_FEATURE],
+    features: [TRACKING_PERSONALIZATION_FEATURE_NAME],
   };
 
   const gtmFeatureOptions: SpartacusTrackingOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_TRACKING_TMS_GTM_FEATURE],
+    features: [TRACKING_TMS_GTM_FEATURE_NAME],
   };
 
   const aepFeatureOptions: SpartacusTrackingOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_TRACKING_TMS_AEP_FEATURE],
+    features: [TRACKING_TMS_AEP_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -225,8 +229,8 @@ describe('Spartacus Tracking schematics: ng-add', () => {
             {
               ...libraryNoFeaturesOptions,
               features: [
-                CLI_TRACKING_TMS_GTM_FEATURE,
-                CLI_TRACKING_TMS_AEP_FEATURE,
+                TRACKING_TMS_GTM_FEATURE_NAME,
+                TRACKING_TMS_AEP_FEATURE_NAME,
               ],
             },
             appTree

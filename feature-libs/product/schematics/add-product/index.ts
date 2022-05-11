@@ -1,6 +1,5 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
@@ -8,12 +7,10 @@ import {
 import {
   addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeApplication,
   analyzeCrossFeatureDependencies,
-  CLI_PRODUCT_BULK_PRICING_FEATURE,
-  configureB2bFeatures,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
-  shouldAddFeature,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -28,17 +25,9 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
     );
 
     return chain([
+      analyzeApplication(options, features),
       addFeatures(options, features),
-
-      shouldAddB2b(options)
-        ? configureB2bFeatures(options, packageJson)
-        : noop(),
-
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
-}
-
-function shouldAddB2b(options: SpartacusProductOptions): boolean {
-  return shouldAddFeature(CLI_PRODUCT_BULK_PRICING_FEATURE, options.features);
 }

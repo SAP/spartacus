@@ -1,12 +1,13 @@
-import { crossLibraryInstallationOrder } from '.';
 import collectedDependencies from '../../dependencies.json';
 import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
 import {
   getKeyByMappingValueOrThrow,
   libraryFeatureMapping,
-} from '../updateable-constants';
-import { crossFeatureInstallationOrder } from './graph-utils';
-import { calculateSort } from './lib-utils';
+} from '../schematics-config-mappings';
+import {
+  calculateCrossFeatureSort,
+  calculateCrossLibrarySort,
+} from './lib-utils';
 import { getConfiguredDependencies } from './schematics-config-utils';
 
 /**
@@ -29,7 +30,7 @@ export function analyzeCrossFeatureDependencies(
   }
 
   return result.sort((feature1, feature2) =>
-    calculateSort(feature1, feature2, crossFeatureInstallationOrder)
+    calculateCrossFeatureSort(feature1, feature2)
   );
 }
 
@@ -91,8 +92,8 @@ export function analyzeCrossLibraryDependenciesByLibraries(
   // remove the duplicates
   spartacusPeerDeps = Array.from(new Set<string>(spartacusPeerDeps));
   // order the libraries
-  spartacusPeerDeps = spartacusPeerDeps.sort((featureA, featureB) =>
-    calculateSort(featureA, featureB, crossLibraryInstallationOrder)
+  spartacusPeerDeps = spartacusPeerDeps.sort((libraryA, libraryB) =>
+    calculateCrossLibrarySort(libraryA, libraryB)
   );
 
   return spartacusPeerDeps;
