@@ -1,5 +1,5 @@
 <button
-  *ngIf="hasStock && !options.isBuyItAgain && !options.isAddToCurrentCart"
+  *ngIf="hasStock && !options?.isBuyItAgain && !options?.isAddToCurrentCart"
   class="btn btn-primary btn-block"
   type="submit"
   [disabled]="quantity <= 0 || quantity > maxQuantity"
@@ -8,7 +8,7 @@
 </button>
 
 <button
-  *ngIf="hasStock && (options.isBuyItAgain || options.isAddToCurrentCart)"
+  *ngIf="hasStock && (options?.isBuyItAgain || options?.isAddToCurrentCart)"
   class="link cx-action-link"
   type="submit"
   [disabled]="quantity <= 0 || quantity > maxQuantity"
