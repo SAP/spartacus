@@ -19,16 +19,17 @@ if [ ! -z "$GITHUB_BASE_REF" ]; then
 
 	context_path_ln=`grep -m 1 -rnw $root_path $CONTEXT_FN | cut -f1 -d: || true`
   	if [ ! -z "$context_path_ln" ]; then
-		echo "Directory name is: " $path
-		echo "Root pathname is: " $root_path
-		echo "Match found"
-		echo "Context line number is: " $context_path_ln
-
-		opt='p'
+		#echo "Directory name is: " $path
+		#echo "Root pathname is: " $root_path
+		#echo "Context line number is: " $context_path_ln
+        echo "Match found"
+		
+        opt='p'
 		tags_line=1
 		context_path_ln=$(($context_path_ln+$tags_line))
 		ln_opt="${context_path_ln}${opt}"
-		echo "sed line option: "$ln_opt
+
+		#echo "sed line option: "$ln_opt
 
 		# String manipulation. Extract context tags.
 		tags=`sed -n $ln_opt srctags.json || true`
@@ -37,14 +38,14 @@ if [ ! -z "$GITHUB_BASE_REF" ]; then
 		tags=`echo $tags | sed 's/\"//g' || true`
 
 		if [[ "$CONTEXT_TAGS" == *"$tags"* ]]; then
-			;;
+			echo "Duplicate tags found"
 		else
 			CONTEXT_TAGS+=$tags', '
 		fi
 		echo "Associated tags are:" $tags
 	else
         # Match not found
-        ;;
+        echo "Match not found"
 	fi
     
     case "$file" in
