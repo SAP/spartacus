@@ -316,6 +316,29 @@ describe('AddToCartComponent', () => {
         expect(el.query(By.css('button'))).toBeNull();
       });
 
+      it('should show addToCart button', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+        expect(el.query(By.css('button')).query(By.css('span')).nativeElement.innerText).toEqual('addToCart.addToCart');
+      });
+
+      it('should show addToCurrentCart button if isAddToCurrentCart is true', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.options = { isAddToCurrentCart: true };
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+        expect(el.query(By.css('button')).query(By.css('span')).nativeElement.innerText).toEqual('addToCart.addToCurrentCart');
+      });
+
+      it('should show buyItAgain button if isBuyItAgain is true', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.options = { isBuyItAgain: true };
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+        expect(el.query(By.css('button')).query(By.css('span')).nativeElement.innerText).toEqual('addToCart.buyItAgain');
+      });
+
       it('should show the addToCart button for currentProduct', () => {
         addToCartComponent.productCode = null;
         spyOn(currentProductService, 'getProduct').and.returnValue(

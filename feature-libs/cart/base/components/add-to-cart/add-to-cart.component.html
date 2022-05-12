@@ -19,10 +19,24 @@
     </div>
   </div>
 
-  <cx-add-to-cart-link
-    [hasStock]="hasStock"
-    [maxQuantity]="maxQuantity"
-    [quantity]="quantity"
-    [options]="options"
-  ></cx-add-to-cart-link>
+  <button
+    *ngIf="hasStock"
+    [ngClass]="
+      options?.isBuyItAgain || options?.isAddToCurrentCart
+        ? 'link cx-action-link'
+        : 'btn btn-primary btn-block'
+    "
+    type="submit"
+    [disabled]="quantity <= 0 || quantity > maxQuantity"
+  >
+    <span *ngIf="!options?.isBuyItAgain && !options?.isAddToCurrentCart">
+      {{ 'addToCart.addToCart' | cxTranslate }}
+    </span>
+    <span *ngIf="options?.isAddToCurrentCart">
+      {{ 'addToCart.addToCurrentCart' | cxTranslate }}
+    </span>
+    <span *ngIf="options?.isBuyItAgain">
+      {{ 'addToCart.buyItAgain' | cxTranslate }}
+    </span>
+  </button>
 </form>

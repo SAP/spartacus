@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule, ItemCounterModule } from '@spartacus/storefront';
 import { AddToCartComponent } from './add-to-cart.component';
-import { AddToCartLinkComponent } from './add-to-cart-link/add-to-cart-link.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, I18nModule, ItemCounterModule, IconModule],
@@ -20,7 +19,7 @@ import { AddToCartLinkComponent } from './add-to-cart-link/add-to-cart-link.comp
       },
     }),
   ],
-  declarations: [AddToCartComponent, AddToCartLinkComponent],
+  declarations: [AddToCartComponent],
   exports: [AddToCartComponent],
 })
 export class AddToCartModule { }
