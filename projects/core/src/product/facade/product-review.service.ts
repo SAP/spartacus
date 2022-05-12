@@ -13,7 +13,7 @@ import { ProductSelectors } from '../store/selectors/index';
 export class ProductReviewService {
   constructor(protected store: Store<StateWithProduct>) {}
 
-  getByProductCode(productCode?: string): Observable<Review[]> {
+  getByProductCode(productCode: string | undefined): Observable<Review[]> {
     return this.store.pipe(
       select(ProductSelectors.getSelectedProductReviewsFactory(productCode)),
       tap((reviews) => {
