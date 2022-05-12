@@ -28,7 +28,7 @@ export class UrlMatcherService {
     const matchers = paths.map((path) => this.getFromPath(path));
     const matcher = this.getCombined(matchers);
     if (isDevMode()) {
-      matcher['_paths'] = paths; // property added for easier debugging of routes
+      (<any>matcher)['_paths'] = paths; // property added for easier debugging of routes
     }
     return matcher;
   }

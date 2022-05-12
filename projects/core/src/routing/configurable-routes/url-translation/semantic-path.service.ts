@@ -37,7 +37,7 @@ export class SemanticPathService {
       commands = [commands];
     }
 
-    const result: string[] = [];
+    const result: (string | undefined)[] = [];
     for (const command of commands) {
       if (!this.isRouteCommand(command)) {
         // don't modify segment that is not route command:
@@ -69,7 +69,9 @@ export class SemanticPathService {
     return this.isRouteCommand(commands[0]);
   }
 
-  private generateUrlPart(command: UrlCommandRoute): string[] | null {
+  private generateUrlPart(
+    command: UrlCommandRoute
+  ): (string | undefined)[] | null {
     this.standarizeRouteCommand(command);
 
     if (!command.cxRoute) {
@@ -108,9 +110,9 @@ export class SemanticPathService {
 
   private provideParamsValues(
     path: string,
-    params: object,
-    paramsMapping: ParamsMapping
-  ): string[] {
+    params?: object,
+    paramsMapping?: ParamsMapping
+  ): (string | undefined)[] {
     return this.urlParser.getPrimarySegments(path).map((segment) => {
       if (isParam(segment)) {
         const paramName = getParamName(segment);
@@ -118,7 +120,7 @@ export class SemanticPathService {
           paramName,
           paramsMapping
         );
-        return params[mappedParamName];
+        return params?.[mappedParamName as keyof object];
       }
       return segment;
     });
@@ -126,16 +128,16 @@ export class SemanticPathService {
 
   private findPathWithFillableParams(
     routeConfig: RouteConfig,
-    params: object
-  ): string {
-    const foundPath = routeConfig.paths.find((path) =>
+    params?: object
+  ): string | null {
+    const foundPath = routeConfig.paths?.find((path) =>
       this.getParams(path).every((paramName) => {
         const mappedParamName = this.getMappedParamName(
           paramName,
           routeConfig.paramsMapping
         );
 
-        return params[mappedParamName] !== undefined;
+        return params?.[mappedParamName as keyof object] !== undefined;
       })
     );
 
@@ -152,9 +154,12 @@ export class SemanticPathService {
       .map(getParamName);
   }
 
-  private getMappedParamName(paramName: string, paramsMapping: object): string {
+  private getMappedParamName(
+    paramName: string,
+    paramsMapping?: object
+  ): string {
     if (paramsMapping) {
-      return paramsMapping[paramName] || paramName;
+      return paramsMapping[paramName as keyof object] || paramName;
     }
     return paramName;
   }

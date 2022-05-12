@@ -1,8 +1,7 @@
-import { isNotUndefined } from '';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { filter, pluck } from 'rxjs/operators';
 import { Review } from '../../../model/product.model';
 import {
   PRODUCT_REVIEW_NORMALIZER,
@@ -10,6 +9,8 @@ import {
 } from '../../../product/connectors/reviews/converters';
 import { ProductReviewsAdapter } from '../../../product/connectors/reviews/product-reviews.adapter';
 import { ConverterService } from '../../../util/converter.service';
+import { isNotUndefined } from '../../../util/type-guards';
+import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
@@ -22,9 +23,10 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
 
   load(productCode: string, maxCount?: number): Observable<Review[]> {
     return this.http
-      .get(this.getEndpoint(productCode, maxCount))
+      .get<Occ.Product>(this.getEndpoint(productCode, maxCount))
       .pipe(
         pluck('reviews'),
+        filter(isNotUndefined),
         this.converter.pipeableMany(PRODUCT_REVIEW_NORMALIZER)
       );
   }

@@ -133,9 +133,11 @@ export class RoutingService {
    * Navigating back
    */
   back(): void {
-    const isLastPageInApp = this.winRef.document.referrer.includes(
-      this.winRef.nativeWindow.location.origin
-    );
+    const isLastPageInApp =
+      this.winRef.nativeWindow &&
+      this.winRef.document.referrer.includes(
+        this.winRef.nativeWindow.location.origin
+      );
     if (isLastPageInApp) {
       this.location.back();
       return;

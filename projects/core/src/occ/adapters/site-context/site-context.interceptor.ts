@@ -1,26 +1,25 @@
-import { Injectable } from '@angular/core';
 import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { getContextParameterDefault } from '../../../site-context/config/context-config-utils';
+import { SiteContextConfig } from '../../../site-context/config/site-context-config';
 import { CurrencyService } from '../../../site-context/facade/currency.service';
 import { LanguageService } from '../../../site-context/facade/language.service';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import { SiteContextConfig } from '../../../site-context/config/site-context-config';
-import { getContextParameterDefault } from '../../../site-context/config/context-config-utils';
 import {
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
 } from '../../../site-context/providers/context-ids';
+import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable({ providedIn: 'root' })
 export class SiteContextInterceptor implements HttpInterceptor {
-  activeLang: string;
-  activeCurr: string;
+  activeLang: string | undefined;
+  activeCurr: string | undefined;
 
   constructor(
     private languageService: LanguageService,
@@ -50,7 +49,11 @@ export class SiteContextInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (request.url.includes(this.occEndpoints.getBaseUrl())) {
+    if (
+      this.activeCurr &&
+      this.activeLang &&
+      request.url.includes(this.occEndpoints.getBaseUrl())
+    ) {
       request = request.clone({
         setParams: {
           lang: this.activeLang,
