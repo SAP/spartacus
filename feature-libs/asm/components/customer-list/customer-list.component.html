@@ -18,6 +18,7 @@
         "
       ></ng-template>
       <div class="header-actions">
+        <ng-template *ngTemplateOutlet="sort"></ng-template>
         <ng-template *ngTemplateOutlet="pagination"></ng-template>
       </div>
     </div>
@@ -39,15 +40,6 @@
                     <sapn>{{
                       'asm.customerList.tableHeader.name' | cxTranslate
                     }}</sapn>
-                    <button
-                      [attr.aria-label]="
-                        'asm.customerList.tableSort.nameSort' | cxTranslate
-                      "
-                      class="btn btn-link"
-                      (click)="sortByName()"
-                    >
-                      <cx-icon [type]="dataSortIconType"></cx-icon>
-                    </button>
                   </th>
                   <th scope="col">
                     {{ 'asm.customerList.tableHeader.emailOrId' | cxTranslate }}
@@ -81,6 +73,26 @@
   </ng-container>
 </div>
 
+<ng-template #sort>
+  <div class="sort">
+    <cx-icon [type]="iconTypes.SORT_AMOUNT_DOWN"></cx-icon>
+    <ng-select
+      class="sort-selector"
+      *ngIf="dateSorts"
+      [searchable]="false"
+      [clearable]="false"
+      (change)="fetchCustomers()"
+      [tabIndex]="0"
+      [(ngModel)]="sortCode"
+      [attr.aria-label]="'asm.customerList.tableSort.' + sortCode | cxTranslate"
+    >
+      <ng-option *ngFor="let sort of dateSorts" [value]="sort.code">
+        {{ 'asm.customerList.tableSort.' + sort.code | cxTranslate }}
+      </ng-option>
+    </ng-select>
+  </div>
+</ng-template>
+
 <ng-template #pagination>
   <div class="pagination-buttons">
     <div>
@@ -111,6 +123,7 @@
 
 <ng-template #groupSelector let-customerListsPage="customerListsPage">
   <ng-select
+    class="customer-list-selector"
     [searchable]="false"
     [clearable]="false"
     (change)="onChangeCustomerGroup()"
@@ -119,6 +132,7 @@
     [items]="customerListsPage?.userGroups"
     bindLabel="name"
     bindValue="uid"
+    [attr.aria-label]="getGroupName(customerListsPage, selectedUserGroupId)"
   >
   </ng-select>
 </ng-template>

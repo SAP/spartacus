@@ -132,24 +132,22 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   }
 
   showCustomList(): void {
-    if (!this.modalRef) {
-      this.modalRef = this.modalService.open(CustomerListComponent, {
-        centered: true,
-        size: 'mf',
-        windowClass: 'fiori-like',
-      });
-      this.modalRef.result
-        .then((selectedUser: User) => {
-          if (selectedUser) {
-            this.startCustomerEmulationSession(selectedUser);
-            this.modalRef = null;
-          }
-        })
-        .catch(() => {
-          // this  callback is called when modal is closed with Esc key or clicking backdrop
+    this.modalRef = this.modalService.open(CustomerListComponent, {
+      centered: true,
+      size: 'mf',
+      windowClass: 'fiori-like',
+    });
+    this.modalRef.result
+      .then((selectedUser: User) => {
+        if (selectedUser) {
+          this.startCustomerEmulationSession(selectedUser);
           this.modalRef = null;
-        });
-    }
+        }
+      })
+      .catch(() => {
+        // this  callback is called when modal is closed with Esc key or clicking backdrop
+        this.modalRef = null;
+      });
   }
 
   closeModal(): void {

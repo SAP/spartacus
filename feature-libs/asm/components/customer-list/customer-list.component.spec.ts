@@ -47,6 +47,16 @@ const mockCustomerSearchPage: CustomerSearchPage = {
     totalPages: 1,
     totalResults: 3,
   },
+  sorts: [
+    {
+      code: 'byNameAsc',
+      selected: true,
+    },
+    {
+      code: 'byNameDesc',
+      selected: false,
+    },
+  ],
 };
 
 const mockCustomerListPage: CustomerListsPage = {
@@ -148,33 +158,39 @@ describe('CustomerListComponent', () => {
 
   it('should sort customer list', () => {
     spyOn(asmService, 'searchCustomers').and.callThrough();
-    expect(component.dataSortDesc).toBeFalsy();
+    component.sortCode = 'byNameDesc';
 
-    component.sortByName();
-    expect(component.dataSortDesc).toBeTruthy();
-
-    fixture.detectChanges();
-
+    component.fetchCustomers();
     const options: CustomerSearchOptions = {
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
       pageSize: 5,
       currentPage: 0,
       sort: 'byNameDesc',
     };
+    fixture.detectChanges();
     expect(asmService.searchCustomers).toHaveBeenCalledWith(options);
 
-    component.sortByName();
-    expect(component.dataSortDesc).toBeFalsy();
+    component.sortCode = 'byNameAsc';
 
-    fixture.detectChanges();
-
+    component.fetchCustomers();
     const options2: CustomerSearchOptions = {
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
       pageSize: 5,
       currentPage: 0,
       sort: 'byNameAsc',
     };
+    fixture.detectChanges();
     expect(asmService.searchCustomers).toHaveBeenCalledWith(options2);
+
+    component.sortCode = '';
+    component.fetchCustomers();
+    const options3: CustomerSearchOptions = {
+      customerListId: mockCustomerListPage?.userGroups?.[0].uid,
+      pageSize: 5,
+      currentPage: 0,
+    };
+    fixture.detectChanges();
+    expect(asmService.searchCustomers).toHaveBeenCalledWith(options3);
   });
 
   it('should close modal when select a customer', () => {
@@ -234,5 +250,22 @@ describe('CustomerListComponent', () => {
     component.currentPage = 5;
     component.onChangeCustomerGroup();
     expect(component.currentPage).toBe(0);
+  });
+
+  it('should get user group name', () => {
+    const userGroupName = component.getGroupName(
+      mockCustomerListPage,
+      'instoreCustomers'
+    );
+    expect(userGroupName).toBe('Current In-Store Customers');
+
+    const customerListPage: CustomerListsPage = {
+      userGroups: [],
+    };
+    const userGroupName2 = component.getGroupName(
+      customerListPage,
+      'instoreCustomers'
+    );
+    expect(userGroupName2).toBe('');
   });
 });

@@ -27,30 +27,50 @@ $sapLinkColor: #0070F2;
     padding-inline-start: 1.75rem;
     border-width: 0;
     display: flex;
-  }
-  .cx-dialog-body {
-    padding-top: 0;
-  }
-
-  ng-select {
-    .ng-select-container {
-      border: 0!important;
-      .ng-arrow-wrapper {
-        .ng-arrow {
-          border-color: $sapLinkColor transparent transparent!important;
+    .header-actions {
+      display: flex;
+      align-items: center;
+      .sort {
+        display: flex;
+        align-items: center;
+        padding-right: 15px;
+        ng-select {
+          font-size: 0.875rem;
+        }
+      }
+      .pagination-buttons {
+        display: flex;
+        align-items: center;
+        .btn-previous {
+          span {
+            padding-left: 5px;
+          }
+        }
+        .btn-next {
+          span {
+            padding-right: 5px;
+          }
+        }
+        div:first-child {
+          font-size: 0.875rem;
+          color: $sapTextColor;
+          padding-right: 10px;
+        }
+      }
+      .table-header-cell {
+        line-height: 40px;
+        margin-right: 15px;
+      }
+      .table-header-cell.sort {
+        cursor: pointer;
+        cx-icon {
+          margin: 0 10px;
         }
       }
     }
-
   }
-
-  cx-pagination {
-    a {
-      width: 28px;
-      height: 26px;
-      border: 0;
-      font-size: 0.875rem;
-    }
+  .cx-dialog-body {
+    padding-top: 0;
   }
 
   table {
@@ -109,39 +129,17 @@ $sapLinkColor: #0070F2;
       text-align: center;
     }
   }
-  .header-actions {
-    display: flex;
-    align-items: center;
-
-    .pagination-buttons {
-      display: flex;
-      align-items: center;
-      .btn-previous {
-        span {
-          padding-left: 5px;
+  ng-select {
+    .ng-select-container {
+      border: 0!important;
+      .ng-arrow-wrapper {
+        .ng-arrow {
+          border-color: $sapLinkColor transparent transparent!important;
         }
       }
-      .btn-next {
-        span {
-          padding-right: 5px;
-        }
-      }
-      div:first-child {
-        font-size: 0.875rem;
-        color: $sapTextColor;
-        padding-right: 10px;
-      }
     }
-
-    .table-header-cell {
-      line-height: 40px;
-      margin-right: 15px;
-    }
-    .table-header-cell.sort {
-      cursor: pointer;
-      cx-icon {
-        margin: 0 10px;
-      }
-    }
+  }
+  .ng-select-focused {
+    outline: none !important;
   }
 }

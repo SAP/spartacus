@@ -74,22 +74,39 @@ export function asmCustomerLists(): void {
     .its('response.statusCode')
     .should('eq', 200);
 
-  cy.get('cx-customer-list table th button .fa-sort-amount-down').should(
-    'exist'
-  );
-  cy.get('cx-customer-list table th button .fa-sort-amount-up').should(
-    'not.exist'
-  );
-  cy.get('cx-customer-list table th button').click();
-  cy.wait(customerSearchRequestAlias)
-    .its('response.statusCode')
-    .should('eq', 200);
-  cy.get('cx-customer-list table th button .fa-sort-amount-down').should(
-    'not.exist'
-  );
-  cy.get('cx-customer-list table th button .fa-sort-amount-up').should('exist');
-
   cy.get('cx-customer-list table').should('exist');
+
+  cy.get('cx-customer-list ng-select.sort-selector').then((selects) => {
+    let select = selects[0];
+    cy.wrap(select)
+      .click()
+      .get('ng-dropdown-panel')
+      .get('.ng-option')
+      .eq(1)
+      .then((item) => {
+        cy.wrap(item).click();
+        cy.wait(customerSearchRequestAlias)
+          .its('response.statusCode')
+          .should('eq', 200);
+      });
+  });
+
+  cy.get('cx-customer-list ng-select.customer-list-selector').then(
+    (selects) => {
+      let select = selects[0];
+      cy.wrap(select)
+        .click()
+        .get('ng-dropdown-panel')
+        .get('.ng-option')
+        .eq(1)
+        .then((item) => {
+          cy.wrap(item).click();
+          cy.wait(customerSearchRequestAlias)
+            .its('response.statusCode')
+            .should('eq', 200);
+        });
+    }
+  );
 
   cy.get('cx-customer-list button.close').click();
   cy.get('cx-customer-list').should('not.exist');

@@ -5,7 +5,7 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
-import { User } from '@spartacus/core';
+import { SortModel, User } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -16,8 +16,6 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 })
 export class CustomerListComponent implements OnInit {
   private PAGE_SIZE = 5;
-  private SORT_NAME_ASC = 'byNameAsc';
-  private SORT_NAME_DESC = 'byNameDesc';
 
   iconTypes = ICON_TYPE;
 
@@ -35,9 +33,9 @@ export class CustomerListComponent implements OnInit {
 
   loaded = false;
 
-  dataSortDesc = false;
+  dateSorts: SortModel[] | null;
 
-  dataSortIconType: ICON_TYPE = ICON_TYPE.SORT_AMOUNT_DOWN;
+  sortCode: string | undefined;
 
   constructor(
     protected modalService: ModalService,
@@ -54,12 +52,13 @@ export class CustomerListComponent implements OnInit {
         })
       )
       .pipe(
-        map((x) => x),
+        map((customerListsPage) => customerListsPage),
         filter(() => true),
         // set the first value of this.customerListsPage$ to be selected
         tap((result) => {
           if (!this.selectedUserGroupId) {
             this.selectedUserGroupId = result?.userGroups?.[0].uid;
+            this.dateSorts = null;
             this.fetchCustomers();
           }
         })
@@ -72,9 +71,10 @@ export class CustomerListComponent implements OnInit {
         customerListId: this.selectedUserGroupId,
         pageSize: this.PAGE_SIZE,
         currentPage: this.currentPage,
-        sort: this.dataSortDesc ? this.SORT_NAME_DESC : this.SORT_NAME_ASC,
       };
-
+      if (this.sortCode) {
+        options.sort = this.sortCode;
+      }
       this.customerSearchPage$ = of(options)
         .pipe(
           tap(() => (this.loaded = false)),
@@ -83,6 +83,12 @@ export class CustomerListComponent implements OnInit {
         .pipe(
           tap((result) => {
             this.loaded = true;
+            if (result.sorts) {
+              this.dateSorts = result.sorts;
+              this.sortCode = this.dateSorts.find(
+                (sort) => sort.selected
+              )?.code;
+            }
             if (result.entries.length < this.PAGE_SIZE) {
               this.maxPage = result.pagination?.currentPage || 0;
             } else {
@@ -95,7 +101,15 @@ export class CustomerListComponent implements OnInit {
 
   onChangeCustomerGroup(): void {
     this.currentPage = 0;
+    this.dateSorts = null;
     this.fetchCustomers();
+  }
+
+  getGroupName(customerListsPage: CustomerListsPage, id: string): string {
+    return (
+      customerListsPage?.userGroups?.find((userGroup) => userGroup.uid === id)
+        ?.name || ''
+    );
   }
 
   getbadgeText(customerEntry: User): string {
@@ -112,17 +126,6 @@ export class CustomerListComponent implements OnInit {
     this.closeModal(customerEntry);
   }
 
-  sortByName(): void {
-    this.dataSortDesc = !this.dataSortDesc;
-    this.dataSortIconType = this.dataSortDesc
-      ? ICON_TYPE.SORT_AMOUNT_UP
-      : ICON_TYPE.SORT_AMOUNT_DOWN;
-    this.fetchCustomers();
-  }
-
-  closeModal(reason?: any): void {
-    this.modalService.closeActiveModal(reason);
-  }
   goToNextPage(): void {
     if (this.currentPage >= this.maxPage) {
       this.currentPage = this.maxPage;
@@ -133,6 +136,7 @@ export class CustomerListComponent implements OnInit {
       }
     }
   }
+
   goToPreviousPage(): void {
     if (this.currentPage <= 0) {
       this.currentPage = 0;
@@ -142,5 +146,9 @@ export class CustomerListComponent implements OnInit {
         this.fetchCustomers();
       }
     }
+  }
+
+  private closeModal(reason?: any): void {
+    this.modalService.closeActiveModal(reason);
   }
 }
