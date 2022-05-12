@@ -7,6 +7,7 @@ import { MerchandisingUserContext } from './../model/merchandising-user-context.
 import { CdsMerchandisingProductService } from './cds-merchandising-product.service';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
+import { CdsMerchandisingSearchContextService } from './cds-merchandising-search-context.service';
 import createSpy = jasmine.createSpy;
 
 const CONSENT_REFERENCE = '75b75543-950f-4e53-a36c-ab8737a0974a';
@@ -44,12 +45,18 @@ class UserContextServiceStub {
     return of();
   }
 }
+class SearchContextServiceStub {
+  getSearchPhrase(): Observable<string> {
+    return of();
+  }
+}
 
 describe('CdsMerchandisingProductService', () => {
   let cdsMerchandisingPrductService: CdsMerchandisingProductService;
   let strategyConnector: MerchandisingStrategyConnector;
   let siteContextService: CdsMerchandisingSiteContextService;
   let userContextService: CdsMerchandisingUserContextService;
+  let searchContextService: CdsMerchandisingSearchContextService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -66,6 +73,10 @@ describe('CdsMerchandisingProductService', () => {
           provide: CdsMerchandisingSiteContextService,
           useClass: SiteContextServiceStub,
         },
+        {
+          provide: CdsMerchandisingSearchContextService,
+          useClass: SearchContextServiceStub,
+        },
       ],
     });
     cdsMerchandisingPrductService = TestBed.inject(
@@ -74,6 +85,7 @@ describe('CdsMerchandisingProductService', () => {
     strategyConnector = TestBed.inject(MerchandisingStrategyConnector);
     siteContextService = TestBed.inject(CdsMerchandisingSiteContextService);
     userContextService = TestBed.inject(CdsMerchandisingUserContextService);
+    searchContextService = TestBed.inject(CdsMerchandisingSearchContextService);
   });
 
   it('should be created', () => {
@@ -89,6 +101,7 @@ describe('CdsMerchandisingProductService', () => {
         facets: undefined,
         category: '574',
         pageSize: 10,
+        searchPhrase: undefined,
       },
       headers: {
         consentReference: undefined,
@@ -102,6 +115,9 @@ describe('CdsMerchandisingProductService', () => {
     );
     spyOn(userContextService, 'getUserContext').and.returnValue(
       of(userContext)
+    );
+    spyOn(searchContextService, 'getSearchPhrase').and.returnValue(
+      of(undefined)
     );
 
     let actualStartegyProducts: StrategyProducts;
@@ -127,6 +143,7 @@ describe('CdsMerchandisingProductService', () => {
         facets: undefined,
         category: '574',
         pageSize: 10,
+        searchPhrase: undefined,
       },
       headers: {
         consentReference: `${CONSENT_REFERENCE}`,
@@ -141,6 +158,52 @@ describe('CdsMerchandisingProductService', () => {
     );
     spyOn(userContextService, 'getUserContext').and.returnValue(
       of(userContext)
+    );
+    spyOn(searchContextService, 'getSearchPhrase').and.returnValue(
+      of(undefined)
+    );
+
+    let actualStartegyProducts: StrategyProducts;
+    cdsMerchandisingPrductService
+      .loadProductsForStrategy(STRATEGY_ID, 10)
+      .subscribe((productsForStrategy) => {
+        actualStartegyProducts = productsForStrategy;
+      })
+      .unsubscribe();
+    expect(actualStartegyProducts).toEqual(strategyProducts);
+    expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
+      STRATEGY_ID,
+      strategyRequest
+    );
+  });
+
+  it('loadProductsForStrategy should call connector and pass the seach phrase as a query param', () => {
+    const searchPhrase = 'camera';
+    const strategyRequest = {
+      queryParams: {
+        site: 'electronics-spa',
+        language: 'en',
+        products: undefined,
+        facets: undefined,
+        category: '574',
+        pageSize: 10,
+        searchPhrase: searchPhrase,
+      },
+      headers: {
+        consentReference: undefined,
+      },
+    };
+    const userContext: MerchandisingUserContext = {
+      category: '574',
+    };
+    spyOn(siteContextService, 'getSiteContext').and.returnValue(
+      of(siteContext)
+    );
+    spyOn(userContextService, 'getUserContext').and.returnValue(
+      of(userContext)
+    );
+    spyOn(searchContextService, 'getSearchPhrase').and.returnValue(
+      of(searchPhrase)
     );
 
     let actualStartegyProducts: StrategyProducts;
@@ -166,6 +229,7 @@ describe('CdsMerchandisingProductService', () => {
         facets: undefined,
         category: undefined,
         pageSize: 10,
+        searchPhrase: undefined,
       },
       headers: {
         consentReference: undefined,
@@ -177,6 +241,9 @@ describe('CdsMerchandisingProductService', () => {
     );
     spyOn(userContextService, 'getUserContext').and.returnValue(
       of({ products: ['123456'] })
+    );
+    spyOn(searchContextService, 'getSearchPhrase').and.returnValue(
+      of(undefined)
     );
 
     let actualStrategyProducts: StrategyProducts;
