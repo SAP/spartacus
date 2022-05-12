@@ -1,4 +1,13 @@
 import {
+  ORGANIZATION_USER_REGISTRATION_FEATURE_NAME_CONSTANT,
+  ORGANIZATION_USER_REGISTRATION_MODULE_NAME,
+  SPARTACUS_USER_REGISTRATION,
+  SPARTACUS_USER_REGISTRATION_ASSETS,
+  SPARTACUS_USER_REGISTRATION_ROOT,
+  USER_REGISTRATION_TRANSLATIONS,
+  USER_REGISTRATION_TRANSLATION_CHUNKS_CONFIG,
+} from './../constants';
+import {
   chain,
   noop,
   Rule,
@@ -12,10 +21,13 @@ import {
   ADMINISTRATION_ROOT_MODULE,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
+  CLI_ORGANIZATION_USER_REGISTRATION_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusOrganizationOptions,
   ORDER_APPROVAL_MODULE,
   ORDER_APPROVAL_ROOT_MODULE,
+  ORGANIZATION_USER_REGISTRATION_MODULE,
+  ORGANIZATION_USER_REGISTRATION_ROOT_MODULE,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_ORGANIZATION,
@@ -67,6 +79,16 @@ export function addSpartacusOrganization(
       )
         ? chain([
             addOrderApprovalsFeature(options),
+            configureB2bFeatures(options, packageJson),
+          ])
+        : noop(),
+
+      shouldAddFeature(
+        CLI_ORGANIZATION_USER_REGISTRATION_FEATURE,
+        options.features
+      )
+        ? chain([
+            addUserRegistrationFeature(options),
             configureB2bFeatures(options, packageJson),
           ])
         : noop(),
@@ -122,6 +144,36 @@ function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
       resources: ORDER_APPROVAL_TRANSLATIONS,
       chunks: ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG,
       importPath: SPARTACUS_ORDER_APPROVAL_ASSETS,
+    },
+    styles: {
+      scssFileName: SCSS_FILE_NAME,
+      importStyle: SPARTACUS_ORGANIZATION,
+    },
+  });
+}
+
+function addUserRegistrationFeature(
+  options: SpartacusOrganizationOptions
+): Rule {
+  return addLibraryFeature(options, {
+    folderName: ORGANIZATION_FOLDER_NAME,
+    moduleName: ORGANIZATION_USER_REGISTRATION_MODULE_NAME,
+    featureModule: {
+      name: ORGANIZATION_USER_REGISTRATION_MODULE,
+      importPath: SPARTACUS_USER_REGISTRATION,
+    },
+    rootModule: {
+      name: ORGANIZATION_USER_REGISTRATION_ROOT_MODULE,
+      importPath: SPARTACUS_USER_REGISTRATION_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_USER_REGISTRATION_ROOT,
+      namedImports: [ORGANIZATION_USER_REGISTRATION_FEATURE_NAME_CONSTANT],
+    },
+    i18n: {
+      resources: USER_REGISTRATION_TRANSLATIONS,
+      chunks: USER_REGISTRATION_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_USER_REGISTRATION_ASSETS,
     },
     styles: {
       scssFileName: SCSS_FILE_NAME,
