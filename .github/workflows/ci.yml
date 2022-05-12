@@ -217,6 +217,7 @@ jobs:
     needs: build_conclusion
     name: Slack message for failed develop CI build in Spartacus
     runs-on: ubuntu-latest
+    # if: ${{ github.event_name == 'push' && github.base_ref == 'develop' }}
     steps:
       - uses: actions/checkout@v2
       - name: Send Slack message when build conclusion failed
@@ -224,7 +225,7 @@ jobs:
           echo "test"
           echo "hmm can it be  seen ${{ secrets.GITHUB_TOKEN }}"
           echo "abc ${{ secrets.SLACK_TOKEN }}"
-        if: |
-          needs.build_conclusion.result == 'failure' || 
-          needs.build_conclusion.result == 'cancelled' || 
-          needs.build_conclusion.result == 'skipped'
+        # if: |
+        #   needs.build_conclusion.result == 'failure' || 
+        #   needs.build_conclusion.result == 'cancelled' || 
+        #   needs.build_conclusion.result == 'skipped'
