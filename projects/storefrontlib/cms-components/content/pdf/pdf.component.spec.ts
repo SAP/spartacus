@@ -40,7 +40,7 @@ const mockCmsBannerComponentMedia: CmsBannerComponentMedia = {
   altText: 'test alt text',
   code: 'test code',
   mime: 'test mime',
-  url: 'test url',
+  url: 'testUrl',
 };
 
 const mockComponentData: CmsPDFDocumentComponent = {
@@ -86,8 +86,8 @@ describe('PdfComponent', () => {
     expect(pdfComponent).toBeTruthy();
   });
 
-  describe('Title text', () => {
-    it('should display title with .pdf', () => {
+  describe('title', () => {
+    it('should display title with .pdf extension', () => {
       data$.next({
         ...mockComponentData,
       });
@@ -96,14 +96,14 @@ describe('PdfComponent', () => {
       fixture.detectChanges();
       expect(textElement.textContent).toContain('test title.pdf');
     });
-    it('should display altText with .pdf when title is not defined', () => {
+    it('should display altText with .pdf extension when title is not defined', () => {
       data$.next({ ...mockComponentData, title: undefined });
 
       const textElement = fixture.nativeElement.querySelector('a > span');
       fixture.detectChanges();
       expect(textElement.textContent).toContain('test alt text.pdf');
     });
-    it('should display defaultTitle with .pdf when title and altText are not defined', () => {
+    it('should display defaultTitle with .pdf extension when title and altText are not defined', () => {
       data$.next({
         ...mockComponentData,
         title: undefined,
@@ -114,10 +114,31 @@ describe('PdfComponent', () => {
       fixture.detectChanges();
       expect(textElement.textContent).toContain('Document.pdf');
     });
-    it('should display title when title ends with pdf extension', () => {
+    it('should display title when title ends with .pdf extension', () => {
       data$.next({
         ...mockComponentData,
         title: ' test title.pdf ',
+      });
+
+      const textElement = fixture.nativeElement.querySelector('a > span');
+      fixture.detectChanges();
+      expect(textElement.textContent).toContain('test title.pdf');
+    });
+  });
+  describe('url', () => {
+    it('should set hyperlink with pdfFile url', () => {
+      data$.next({
+        ...mockComponentData,
+      });
+
+      const anchor = fixture.nativeElement.querySelector('a');
+      fixture.detectChanges();
+      expect(anchor.href).toContain('testUrl');
+    });
+    it('should still render and display title when pdfFile url is undefined', () => {
+      data$.next({
+        ...mockComponentData,
+        pdfFile: { ...mockComponentData.pdfFile, url: undefined },
       });
 
       const textElement = fixture.nativeElement.querySelector('a > span');
