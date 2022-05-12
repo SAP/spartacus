@@ -5,27 +5,27 @@ context('Product carousel', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       // Configure ProductCarouselComponent to render Add To Cart buttons for each slide.
-      cy.cxConfig(
-        {
-          cmsComponents: {
-            ProductCarouselComponent: {
-              data: {
-                composition: {
-                  inner: ['ProductAddToCartComponent'],
-                },
+      cy.cxConfig({
+        cmsComponents: {
+          ProductCarouselComponent: {
+            data: {
+              composition: {
+                inner: ['ProductAddToCartComponent'],
               },
             },
           },
-        }
-      );
+        },
+      });
 
-      cy.window().then(win => win.sessionStorage.clear());
+      cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
     });
 
     describe('Add to Cart', () => {
-      it("should add a product to cart", () => {
-        const addToCart = cy.get('cx-product-carousel cx-product-carousel-item cx-add-to-cart').first();
+      it('should add a product to cart', () => {
+        const addToCart = cy
+          .get('cx-product-carousel cx-product-carousel-item cx-add-to-cart')
+          .first();
         addToCart.should('be.visible');
 
         const addToCartButton = addToCart.find('button');
