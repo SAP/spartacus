@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
+import { I18nModule } from '@spartacus/core';
 import { PickupDeliveryOptionsComponent } from './pickup-delivery-options/pickup-delivery-options.component';
 
 @NgModule({
-  providers: [],
+  imports: [I18nModule],
   declarations: [PickupDeliveryOptionsComponent],
   exports: [PickupDeliveryOptionsComponent],
 })

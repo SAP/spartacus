@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import {
+  pickupInStoreTranslationChunksConfig,
+  pickupInStoreTranslations,
+} from '@spartacus/cart/pickup-in-store/assets';
 import {
   CART_PICKUP_IN_STORE_FEATURE,
   PickupInStoreRootModule,
 } from '@spartacus/cart/pickup-in-store/root';
+import { provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [PickupInStoreRootModule],
@@ -16,6 +20,11 @@ import {
               (m) => m.PickupInStoreModule
             ),
         },
+      },
+      i18n: {
+        resources: pickupInStoreTranslations,
+        chunks: pickupInStoreTranslationChunksConfig,
+        fallbackLang: 'en',
       },
     }),
   ],
