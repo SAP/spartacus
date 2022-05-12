@@ -1,4 +1,5 @@
 import * as anonymousConsents from '../../../../helpers/anonymous-consents';
+import { goToCart } from '../../../../helpers/cart';
 import * as checkoutFlowPersistentUser from '../../../../helpers/checkout-as-persistent-user';
 import * as checkoutFlow from '../../../../helpers/checkout-flow';
 import * as loginHelper from '../../../../helpers/login';
@@ -49,6 +50,18 @@ describe('Profile-tag events', () => {
         expect(addedToCartEvent.data.productPrice).to.eq(8.2);
         expect(addedToCartEvent.data.cartId.length).to.eq(36);
         expect(addedToCartEvent.data.cartCode.length).to.eq(8);
+
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CART_SNAPSHOT
+          )
+        ).to.equal(1);
+        const cartSnapshotEvent = profileTagHelper.getEvent(
+          win,
+          profileTagHelper.EventNames.CART_SNAPSHOT
+        )[0];
+        expect(cartSnapshotEvent.data.cart.entries.length).to.eq(1);
       });
     });
 
@@ -87,6 +100,19 @@ describe('Profile-tag events', () => {
         expect(modifiedCart.data.productCategory).to.eq('brand_745');
         expect(modifiedCart.data.cartId.length).to.eq(36);
         expect(modifiedCart.data.cartCode.length).to.eq(8);
+
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CART_SNAPSHOT
+          )
+        ).to.equal(2);
+        const cartSnapshotEvent = profileTagHelper.getEvent(
+          win,
+          profileTagHelper.EventNames.CART_SNAPSHOT
+        )[1];
+        expect(cartSnapshotEvent.data.cart.entries.length).to.eq(1);
+        expect(cartSnapshotEvent.data.cart.entries[0].quantity).to.eq(2);
       });
     });
 
@@ -119,6 +145,18 @@ describe('Profile-tag events', () => {
         expect(removedFromCart.data.productCategory).to.eq('brand_745');
         expect(removedFromCart.data.cartId.length).to.eq(36);
         expect(removedFromCart.data.cartCode.length).to.eq(8);
+
+        expect(
+          profileTagHelper.eventCount(
+            win,
+            profileTagHelper.EventNames.CART_SNAPSHOT
+          )
+        ).to.equal(2);
+        const cartSnapshotEvent = profileTagHelper.getEvent(
+          win,
+          profileTagHelper.EventNames.CART_SNAPSHOT
+        )[1];
+        expect(cartSnapshotEvent.data.cart.entries.length).to.eq(0);
       });
     });
   });
@@ -189,6 +227,22 @@ describe('Profile-tag events', () => {
           profileTagHelper.EventNames.CART_PAGE_VIEWED
         )
       ).to.equal(1);
+    });
+  });
+
+  it('should not send a CartSnapshot event when viewing the cart page', () => {
+    goToCart();
+    cy.location('pathname', { timeout: 10000 }).should(
+      'include',
+      `/electronics-spa/en/USD/cart`
+    );
+    cy.window().should((win) => {
+      expect(
+        profileTagHelper.eventCount(
+          win,
+          profileTagHelper.EventNames.CART_SNAPSHOT
+        )
+      ).to.equal(0);
     });
   });
 
