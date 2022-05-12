@@ -26,14 +26,15 @@ export class CdsMerchandisingProductService {
   constructor(
     strategyConnector: MerchandisingStrategyConnector,
     merchandisingUserContextService: CdsMerchandisingUserContextService,
-    merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+    merchandisingSiteContextService: CdsMerchandisingSiteContextService
   );
 
   constructor(
     protected strategyConnector: MerchandisingStrategyConnector,
     protected merchandisingUserContextService: CdsMerchandisingUserContextService,
     protected merchandisingSiteContextService: CdsMerchandisingSiteContextService,
-    @Optional() protected merchandisingSearchContextService?: CdsMerchandisingSearchContextService
+    @Optional()
+    protected merchandisingSearchContextService?: CdsMerchandisingSearchContextService
   ) {}
 
   loadProductsForStrategy(
@@ -43,7 +44,9 @@ export class CdsMerchandisingProductService {
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
       this.merchandisingUserContextService.getUserContext(),
-      this.merchandisingSearchContextService ? this.merchandisingSearchContextService.getSearchPhrase() : of(undefined),
+      this.merchandisingSearchContextService
+        ? this.merchandisingSearchContextService.getSearchPhrase()
+        : of(undefined),
     ]).pipe(
       debounceTime(0),
       map(

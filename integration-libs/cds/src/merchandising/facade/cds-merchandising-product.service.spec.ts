@@ -59,7 +59,7 @@ describe('CdsMerchandisingProductService', () => {
 
   describe('CdsMerchandisingProductService with SearchContextService', () => {
     let searchContextService: CdsMerchandisingSearchContextService;
-  
+
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
@@ -87,7 +87,9 @@ describe('CdsMerchandisingProductService', () => {
       strategyConnector = TestBed.inject(MerchandisingStrategyConnector);
       siteContextService = TestBed.inject(CdsMerchandisingSiteContextService);
       userContextService = TestBed.inject(CdsMerchandisingUserContextService);
-      searchContextService = TestBed.inject(CdsMerchandisingSearchContextService);
+      searchContextService = TestBed.inject(
+        CdsMerchandisingSearchContextService
+      );
     });
 
     it('should be created', () => {
@@ -264,7 +266,6 @@ describe('CdsMerchandisingProductService', () => {
   });
 
   describe('CdsMerchandisingProductService without SearchContextService', () => {
-  
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
@@ -286,7 +287,11 @@ describe('CdsMerchandisingProductService', () => {
       siteContextService = TestBed.inject(CdsMerchandisingSiteContextService);
       userContextService = TestBed.inject(CdsMerchandisingUserContextService);
       //force to use constructor without optional SearchContextService parameter
-      cdsMerchandisingPrductService = new CdsMerchandisingProductService(strategyConnector, userContextService, siteContextService);
+      cdsMerchandisingPrductService = new CdsMerchandisingProductService(
+        strategyConnector,
+        userContextService,
+        siteContextService
+      );
     });
 
     it('should be created', () => {
@@ -331,5 +336,5 @@ describe('CdsMerchandisingProductService', () => {
         strategyRequest
       );
     });
-  });  
+  });
 });
