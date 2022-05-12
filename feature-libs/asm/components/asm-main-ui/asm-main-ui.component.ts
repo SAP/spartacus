@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
@@ -10,7 +10,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { ICON_TYPE, ModalRef, ModalService } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   map,
@@ -24,7 +24,7 @@ import { AsmComponentService } from '../services/asm-component.service';
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
 })
-export class AsmMainUiComponent implements OnInit, OnDestroy {
+export class AsmMainUiComponent implements OnInit {
   customerSupportAgentLoggedIn$: Observable<boolean>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User | undefined>;
@@ -36,8 +36,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
   protected startingCustomerSession = false;
 
   protected modalRef: ModalRef | null;
-
-  protected subscription = new Subscription();
 
   constructor(
     protected authService: AuthService,
@@ -81,10 +79,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           uiState.collapsed === undefined ? false : uiState.collapsed
         )
       );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 
   protected handleCustomerSessionStartRedirection(): void {
