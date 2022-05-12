@@ -5,6 +5,7 @@
 @import './progress-button/index';
 @import './spinner/index';
 @import './table/table';
+@import './password-visibility-toggle/index';
 
 $misc-components-allowlist: cx-table, cx-icon, cx-spinner, cx-progress-button,
-  cx-card, cx-pagination, cx-popover !default;
+  cx-card, cx-pagination, cx-popover, cx-password-visibility-toggle !default;
