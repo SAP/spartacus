@@ -87,7 +87,7 @@ describe('PdfComponent', () => {
   });
 
   describe('Title text', () => {
-    it("should set 'test title.pdf' when title is defined", () => {
+    it('should display title with .pdf', () => {
       data$.next({
         ...mockComponentData,
       });
@@ -96,14 +96,14 @@ describe('PdfComponent', () => {
       fixture.detectChanges();
       expect(textElement.textContent).toContain('test title.pdf');
     });
-    it('should display pdf altText when title is not defined', () => {
+    it('should display altText with .pdf when title is not defined', () => {
       data$.next({ ...mockComponentData, title: undefined });
 
       const textElement = fixture.nativeElement.querySelector('a > span');
       fixture.detectChanges();
       expect(textElement.textContent).toContain('test alt text.pdf');
     });
-    it("should display 'Document.pdf' when title and altText are not defined", () => {
+    it('should display defaultTitle with .pdf when title and altText are not defined', () => {
       data$.next({
         ...mockComponentData,
         title: undefined,
@@ -114,15 +114,15 @@ describe('PdfComponent', () => {
       fixture.detectChanges();
       expect(textElement.textContent).toContain('Document.pdf');
     });
-    it("should display 'title.pdf' when title already ends with pdf extension", () => {
+    it('should display title when title ends with pdf extension', () => {
       data$.next({
         ...mockComponentData,
-        title: ' title.pdf ',
+        title: ' test title.pdf ',
       });
 
       const textElement = fixture.nativeElement.querySelector('a > span');
       fixture.detectChanges();
-      expect(textElement.textContent).toContain('title.pdf');
+      expect(textElement.textContent).toContain('test title.pdf');
     });
   });
 });
