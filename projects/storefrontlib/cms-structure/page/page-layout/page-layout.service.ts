@@ -76,7 +76,7 @@ export class PageLayoutService implements OnDestroy {
    *
    * The page fold is configurable in the `LayoutConfig` for each page layout.
    */
-  getPageFoldSlot(pageTemplate: string): Observable<string> {
+  getPageFoldSlot(pageTemplate: string): Observable<string | undefined> {
     return this.breakpointService.breakpoint$.pipe(
       map((breakpoint) => {
         if (!this.config.layoutSlots) {
@@ -90,8 +90,7 @@ export class PageLayoutService implements OnDestroy {
           breakpoint
         );
         return config ? config.pageFold : undefined;
-      }),
-      filter(isNotUndefined)
+      })
     );
   }
 
