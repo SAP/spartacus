@@ -153,6 +153,9 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "../../feature-libs/checkout/scheduled-replenishment/root/public_api"
       ],
+      "@spartacus/customer-ticketing": [
+        "../../feature-libs/customer-ticketing/public_api"
+      ],
       "@spartacus/order/assets": ["../../feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "../../feature-libs/order/components/public_api"
@@ -355,14 +358,11 @@
       "@spartacus/digital-payments": [
         "../../integration-libs/digital-payments/public_api"
       ],
-      "@spartacus/epd-visualization/components": [
-        "../../integration-libs/epd-visualization/components/public_api"
-      ],
       "@spartacus/epd-visualization/assets": [
         "../../integration-libs/epd-visualization/assets/public_api"
       ],
-      "@spartacus/epd-visualization/root": [
-        "../../integration-libs/epd-visualization/root/public_api"
+      "@spartacus/epd-visualization/components": [
+        "../../integration-libs/epd-visualization/components/public_api"
       ],
       "@spartacus/epd-visualization/core": [
         "../../integration-libs/epd-visualization/core/public_api"
@@ -372,6 +372,9 @@
       ],
       "@spartacus/epd-visualization": [
         "../../integration-libs/epd-visualization/public_api"
+      ],
+      "@spartacus/epd-visualization/root": [
+        "../../integration-libs/epd-visualization/root/public_api"
       ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],

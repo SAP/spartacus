@@ -97,6 +97,9 @@
     "bootstrap": "^4.6.1",
     "rxjs": "^6.6.0"
   },
+  "@spartacus/customer-ticketing": {
+    "@angular/core": "^13.3.0"
+  },
   "@spartacus/order": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",

@@ -16,7 +16,7 @@
             "customWebpackConfig": {
               "path": "./extra-webpack.config.js"
             },
-            "aot": true,
+            "aot": false,
             "outputPath": "dist/storefrontapp",
             "index": "projects/storefrontapp/src/index.html",
             "main": "projects/storefrontapp/src/main.ts",
@@ -103,7 +103,7 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": true,
+              "aot": false,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -142,7 +142,9 @@
             "polyfills": "projects/storefrontapp/src/polyfills.ts",
             "tsConfig": "projects/storefrontapp/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontapp/karma.conf.js",
-            "styles": ["projects/storefrontapp/src/styles.scss"],
+            "styles": [
+              "projects/storefrontapp/src/styles.scss"
+            ],
             "scripts": [],
             "assets": [
               "projects/storefrontapp/src/favicon.ico",
@@ -154,7 +156,9 @@
                 "output": "assets/"
               }
             ],
-            "codeCoverageExclude": ["dist/**/*"]
+            "codeCoverageExclude": [
+              "dist/**/*"
+            ]
           }
         },
         "lint": {
@@ -209,7 +213,9 @@
           "options": {
             "browserTarget": "storefrontapp:build:production",
             "serverTarget": "storefrontapp:server:production",
-            "routes": ["/"]
+            "routes": [
+              "/"
+            ]
           },
           "configurations": {
             "production": {}
@@ -241,9 +247,13 @@
             "main": "projects/storefrontlib/test.ts",
             "tsConfig": "projects/storefrontlib/tsconfig.spec.json",
             "karmaConfig": "projects/storefrontlib/karma.conf.js",
-            "codeCoverageExclude": ["dist/**/*"],
+            "codeCoverageExclude": [
+              "dist/**/*"
+            ],
             "stylePreprocessorOptions": {
-              "includePaths": ["./projects/storefrontstyles/scss"]
+              "includePaths": [
+                "./projects/storefrontstyles/scss"
+              ]
             }
           }
         },
@@ -340,7 +350,9 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/schematics/**/*.ts"]
+            "lintFilePatterns": [
+              "projects/schematics/**/*.ts"
+            ]
           }
         }
       }
@@ -972,6 +984,41 @@
             "lintFilePatterns": [
               "feature-libs/order/**/*.ts",
               "feature-libs/order/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "customer-ticketing": {
+      "root": "feature-libs/customer-ticketing",
+      "sourceRoot": "feature-libs/customer-ticketing/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.json",
+            "project": "feature-libs/customer-ticketing/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/customer-ticketing/test.ts",
+            "tsConfig": "feature-libs/customer-ticketing/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/customer-ticketing/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "feature-libs/customer-ticketing/tsconfig.lib.json",
+              "feature-libs/customer-ticketing/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
             ]
           }
         }
