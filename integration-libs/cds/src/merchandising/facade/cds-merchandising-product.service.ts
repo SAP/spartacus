@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Injectable, Optional } from '@angular/core';
+import { combineLatest, Observable, of } from 'rxjs';
 import { debounceTime, map, mergeMap } from 'rxjs/operators';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 import { StrategyProducts } from '../model/strategy-products.model';
@@ -14,10 +14,26 @@ import { CdsMerchandisingSearchContextService } from './cds-merchandising-search
 })
 export class CdsMerchandisingProductService {
   constructor(
+    strategyConnector: MerchandisingStrategyConnector,
+    merchandisingUserContextService: CdsMerchandisingUserContextService,
+    merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+    merchandisingSearchContextService?: CdsMerchandisingSearchContextService
+  );
+
+  /**
+   * @deprecated since 4.3.4
+   */
+  constructor(
+    strategyConnector: MerchandisingStrategyConnector,
+    merchandisingUserContextService: CdsMerchandisingUserContextService,
+    merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+  );
+
+  constructor(
     protected strategyConnector: MerchandisingStrategyConnector,
     protected merchandisingUserContextService: CdsMerchandisingUserContextService,
     protected merchandisingSiteContextService: CdsMerchandisingSiteContextService,
-    protected merchandisingSearchContextService: CdsMerchandisingSearchContextService
+    @Optional() protected merchandisingSearchContextService?: CdsMerchandisingSearchContextService
   ) {}
 
   loadProductsForStrategy(
@@ -27,14 +43,14 @@ export class CdsMerchandisingProductService {
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
       this.merchandisingUserContextService.getUserContext(),
-      this.merchandisingSearchContextService.getSearchPhrase(),
+      this.merchandisingSearchContextService ? this.merchandisingSearchContextService.getSearchPhrase() : of(undefined),
     ]).pipe(
       debounceTime(0),
       map(
         ([siteContext, userContext, searchPhrase]: [
           MerchandisingSiteContext,
           MerchandisingUserContext,
-          string
+          string | undefined
         ]) => {
           return {
             queryParams: {
