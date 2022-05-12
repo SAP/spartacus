@@ -54,7 +54,7 @@ export class ConsentManagementFormComponent implements OnInit {
     });
   }
 
-  isRequired(templateId?: string): boolean {
+  isRequired(templateId: string | undefined): boolean {
     return templateId ? this.requiredConsents.includes(templateId) : false;
   }
 }

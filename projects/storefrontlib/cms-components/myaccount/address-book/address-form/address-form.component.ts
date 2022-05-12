@@ -173,7 +173,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  countrySelected(country?: Country): void {
+  countrySelected(country: Country | undefined): void {
     this.addressForm.get('country')?.get('isocode')?.setValue(country?.isocode);
     this.selectedCountry$.next(country?.isocode ?? '');
   }
