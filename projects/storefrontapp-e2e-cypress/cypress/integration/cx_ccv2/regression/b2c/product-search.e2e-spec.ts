@@ -43,7 +43,7 @@ context('Product search', () => {
       });
     });
 
-    describe('Sorting', () => {
+    describe.skip('Sorting', () => {
       before(() => {
         cy.visit('/');
       });
