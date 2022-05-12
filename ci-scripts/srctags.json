@@ -1,14 +1,6 @@
 
 {
   "folder": {
-    "path": "core-libs/setup/recipes/b2b",
-    "tags": ["smoke_b2b", "b2b"]
-  },
-  "folder": {
-    "path": "core-libs/setup/ssr",
-    "tags": ["smoke_b2c", "ssr"]
-  },
-  "folder": {
     "path": "core-libs/setup/ssr",
     "tags": ["smoke_b2c", "ssr"]
   },
