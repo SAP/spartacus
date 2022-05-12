@@ -166,7 +166,7 @@ export class PageSlotComponent implements OnInit, OnDestroy {
    * Is triggered when a component is added to the view. This is used to
    * update the pending count
    */
-  isLoaded(loadState: Boolean) {
+  isLoaded(loadState: boolean) {
     if (loadState) {
       this.pending--;
       this.cd.markForCheck();

@@ -51,7 +51,7 @@ export class OutletDirective<T = any> implements OnDestroy, OnChanges {
    */
   @Input() cxOutletDefer: IntersectionOptions;
 
-  @Output() loaded: EventEmitter<Boolean> = new EventEmitter<Boolean>(true);
+  @Output() loaded: EventEmitter<boolean> = new EventEmitter<boolean>(true);
 
   subscription = new Subscription();
 
