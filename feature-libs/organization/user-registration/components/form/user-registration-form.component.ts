@@ -59,6 +59,7 @@ export class UserRegistrationFormComponent implements OnInit {
   submitForm(): void {
     if (this.registerForm.valid) {
       this.register();
+      // TODO: Redirect customer to login page after successful registration.
     } else {
       this.registerForm.markAllAsTouched();
     }
