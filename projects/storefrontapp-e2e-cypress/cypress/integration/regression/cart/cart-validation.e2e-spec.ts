@@ -94,7 +94,7 @@ context('Cart validation', () => {
           `${PRODUCT_1.name} was removed from the cart due to being out of stock.`
         );
 
-        removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
+        removeItemAndCheckCartEntriesNumber(PRODUCT_1, 0);
       });
     });
   });
