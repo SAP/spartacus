@@ -72,7 +72,6 @@ import { ProductConfiguratorTextfieldFeatureModule } from './features/product-co
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { QuickOrderFeatureModule } from './features/quick-order-feature.module';
 import { S4OMFeatureModule } from './features/s4om-feature.module';
-//import { S4OMFeatureModule } from './features/s4om-feature.module'; //TODO
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
