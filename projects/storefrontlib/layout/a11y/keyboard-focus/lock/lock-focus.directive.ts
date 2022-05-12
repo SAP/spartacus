@@ -129,7 +129,7 @@ export class LockFocusDirective
        * we persist the group key to the children, so that they can taken this
        * into account when they persist their focus state.
        */
-      if (this.group) {
+      if (!!this.group) {
         const group = this.group;
         this.service.findFocusable(this.host).forEach((el) =>
           // we must do this in after view init as

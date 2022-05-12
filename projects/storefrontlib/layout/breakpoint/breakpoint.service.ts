@@ -130,12 +130,14 @@ export class BreakpointService {
    */
   protected resolveBreakpointsFromConfig(): BREAKPOINT[] {
     const sortByScreenSize = (next: BREAKPOINT, prev: BREAKPOINT): number => {
+      const nextMinSize = this.getMinSize(next);
       const maxNext = Math.max(
-        this.getMinSize(next) + 1 || 0,
+        nextMinSize ? nextMinSize + 1 : 0,
         this.getMaxSize(next) || 0
       );
+      const preMinSize = this.getMinSize(prev);
       const maxPrev = Math.max(
-        this.getMinSize(prev) + 1 || 0,
+        preMinSize ? preMinSize + 1 : 0,
         this.getMaxSize(prev) || 0
       );
       return maxNext < maxPrev ? -1 : 0;
@@ -166,8 +168,8 @@ export class BreakpointService {
     }
   }
 
-  protected getMinSize(breakpoint: BREAKPOINT): number {
-    return (this.config[breakpoint] as BreakPoint)?.min ?? 0;
+  protected getMinSize(breakpoint: BREAKPOINT): number | null {
+    return (this.config[breakpoint] as BreakPoint)?.min ?? null;
   }
 
   /**
