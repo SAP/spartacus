@@ -5,12 +5,12 @@ import {
   organizationUserRegistrationTranslations,
 } from '@spartacus/organization/user-registration/assets';
 import {
-  UserRegistrationRootModule,
+  OrganizationUserRegistrationRootModule,
   ORGANIZATION_USER_REGISTRATION_FEATURE,
 } from '@spartacus/organization/user-registration/root';
 
 @NgModule({
-  imports: [UserRegistrationRootModule],
+  imports: [OrganizationUserRegistrationRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {

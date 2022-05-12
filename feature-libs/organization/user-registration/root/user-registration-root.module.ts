@@ -21,4 +21,4 @@ export function defaultOrganizationUserRegistrationComponentsConfig(): CmsConfig
     ),
   ],
 })
-export class UserRegistrationRootModule {}
+export class OrganizationUserRegistrationRootModule {}

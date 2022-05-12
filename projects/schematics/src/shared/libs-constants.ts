@@ -132,6 +132,8 @@ export const CLI_ORDER_FEATURE = 'Order';
 
 export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
 export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';
+export const CLI_ORGANIZATION_USER_REGISTRATION_FEATURE =
+  'Organization-User-Registration';
 
 export const CLI_PRODUCT_BULK_PRICING_FEATURE = 'Bulk-Pricing';
 export const CLI_PRODUCT_IMAGE_ZOOM_FEATURE = 'Image-Zoom';
@@ -197,6 +199,10 @@ export const ADMINISTRATION_MODULE = 'AdministrationModule';
 export const ADMINISTRATION_ROOT_MODULE = 'AdministrationRootModule';
 export const ORDER_APPROVAL_MODULE = 'OrderApprovalModule';
 export const ORDER_APPROVAL_ROOT_MODULE = 'OrderApprovalRootModule';
+export const ORGANIZATION_USER_REGISTRATION_MODULE =
+  'OrganizationUserRegistrationModule';
+export const ORGANIZATION_USER_REGISTRATION_ROOT_MODULE =
+  'OrganizationUserRegistrationRootModule';
 
 export const BULK_PRICING_MODULE = 'BulkPricingModule';
 export const BULK_PRICING_ROOT_MODULE = 'BulkPricingRootModule';
