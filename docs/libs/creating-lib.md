@@ -320,7 +320,7 @@ Also make sure to add the lib to the `switch` statement at the end of the file.
 
 - `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
-- `ci-scripts/unit-tests-sonar.sh`
+- `ci-scripts/unit-tests.sh`
 
 Add the library unit tests with code coverage
 

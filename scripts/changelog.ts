@@ -90,6 +90,7 @@ export default async function run(
     '@spartacus/order': 'feature-libs/order',
     '@spartacus/digital-payments': 'integration-libs/digital-payments',
     '@spartacus/epd-visualization': 'integration-libs/epd-visualization',
+    '@spartacus/customer-ticketing': 'feature-libs/customer-ticketing'
   };
 
   const duplexUtil = through(function (
@@ -366,6 +367,10 @@ if (typeof config.to === 'undefined') {
     case 'epd-visualization':
     case '@spartacus/epd-visualization':
       config.library = '@spartacus/epd-visualization';
+      break;
+    case 'customer-ticketing':
+    case '@spartacus/customer-ticketing':
+      config.library = '@spartacus/customer-ticketing';
       break;
     default:
       config.library = undefined;
