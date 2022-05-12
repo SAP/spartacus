@@ -1,44 +1,31 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="hasScheduleLines(orderEntry)">
-    <div>
-      <table class="cx-code">
-        <tr
-          *ngFor="let scheduleLine of orderEntry.scheduleLines; let i = index"
-          class="cx-schedule-line-info"
-          attr.aria-describedby="{{ getScheduleLineInfoId(i) }}"
-        >
-          <td id="{{ getScheduleLineInfoId(i) }}" class="cx-visually-hidden">
-            {{
-              's4omScheduleLines.a11y.scheduleLineEntryInfo'
-                | cxTranslate
-                  : {
-                      quantity: scheduleLine.confirmedQuantity,
-                      date: getLongDate(scheduleLine.confirmedAt)
-                    }
-            }}
-          </td>
-          <td class="cx-value" aria-hidden="true">
-            {{ scheduleLine?.confirmedAt | cxDate: 'longDate' }} &nbsp;
-          </td>
-          <td class="cx-label" aria-hidden="true">
-            {{ 's4omScheduleLines.quantity' | cxTranslate }} &nbsp;
-          </td>
-          <td class="cx-value" aria-hidden="true">
-            {{ scheduleLine?.confirmedQuantity }}
-          </td>
-        </tr>
-      </table>
-    </div>
+    <table class="cx-code">
+      <tr
+        *ngFor="let scheduleLine of orderEntry.scheduleLines; let i = index"
+        class="cx-schedule-line-info"
+        attr.aria-describedby="{{ getScheduleLineInfoId(i) }}"
+      >
+        <td id="{{ getScheduleLineInfoId(i) }}" class="cx-visually-hidden">
+          {{
+            's4omScheduleLines.a11y.scheduleLineEntryInfo'
+              | cxTranslate
+                : {
+                    quantity: scheduleLine.confirmedQuantity,
+                    date: getLongDate(scheduleLine.confirmedAt)
+                  }
+          }}
+        </td>
+        <td class="cx-value" aria-hidden="true">
+          {{ scheduleLine?.confirmedAt | cxDate: 'longDate' }} &nbsp;
+        </td>
+        <td class="cx-label" aria-hidden="true">
+          {{ 's4omScheduleLines.quantity' | cxTranslate }} &nbsp;
+        </td>
+        <td class="cx-value" aria-hidden="true">
+          {{ scheduleLine?.confirmedQuantity }}
+        </td>
+      </tr>
+    </table>
   </ng-container>
 </ng-container>
-
-<!-- Uncomment to see a sample -->
-<!-- 
-<div>
-  <table class="cx-code">
-    <tr><td>April 19, 2022 &nbsp;</td><td>Quantity:&nbsp;</td><td>12</td></tr>
-    <tr><td>April 27, 2022&nbsp;</td><td>Quantity:&nbsp;</td><td>1</td></tr>
-    <tr><td>April 30, 2022&nbsp;</td><td>Quantity:&nbsp;</td><td>3</td></tr>
-  </table>
-</div> 
--->
