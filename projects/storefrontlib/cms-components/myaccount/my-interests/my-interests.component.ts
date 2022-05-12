@@ -51,7 +51,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   interests$: Observable<ProductInterestSearchResultUI>;
   isRemoveDisabled$: Observable<boolean>;
   getInterestsloading$: Observable<boolean>;
-  sortLabels: Observable<{ [key: string]: string }>;
+  sortLabels: Observable<{ byNameAsc: string; byNameDesc: string }>;
 
   constructor(
     private productInterestService: UserInterestsService,
@@ -94,7 +94,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     this.sortLabels = this.getSortLabels();
   }
 
-  private getSortLabels(): Observable<{ [key: string]: string }> {
+  private getSortLabels(): Observable<{
+    byNameAsc: string;
+    byNameDesc: string;
+  }> {
     return combineLatest([
       this.translationService.translate('myInterests.sorting.byNameAsc'),
       this.translationService.translate('myInterests.sorting.byNameDesc'),

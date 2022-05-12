@@ -62,14 +62,12 @@ export class IconLoaderService {
     iconType: ICON_TYPE | string,
     resourceType: IconResourceType
   ): boolean {
-    return Boolean(
-      this.config?.resources &&
-        !!this.config.resources.find(
-          (res) =>
-            res.types &&
-            res.type === resourceType &&
-            res.types.includes(iconType)
-        )
+    return (
+      this.config?.resources !== undefined &&
+      !!this.config.resources.find(
+        (res) =>
+          res.types && res.type === resourceType && res.types.includes(iconType)
+      )
     );
   }
 

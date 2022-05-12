@@ -54,9 +54,10 @@ export class SiteContextComponentService {
 
   getLabel(context?: SiteContextType): Observable<any> {
     return this.getContext(context).pipe(
-      filter(isNotUndefined),
       map((ctx) => {
-        return LABELS[ctx];
+        if (ctx) {
+          return LABELS[ctx];
+        }
       })
     );
   }
@@ -94,7 +95,6 @@ export class SiteContextComponentService {
     } else if (this.componentData) {
       return this.componentData.data$.pipe(
         map((data) => data.context),
-        filter(isNotUndefined),
         map((ctx) => {
           switch (ctx) {
             case 'LANGUAGE':

@@ -55,7 +55,10 @@ export class NavigationService {
                 this.loadNavigationEntryItems(navigation, true);
               } else {
                 // we should check whether the existing node items are what expected
-                const expectedItems: { superType?: string; id?: string }[] = [];
+                const expectedItems: {
+                  superType: string | undefined;
+                  id: string | undefined;
+                }[] = [];
                 this.loadNavigationEntryItems(navigation, false, expectedItems);
                 const existingItems = Object.keys(items).map(
                   (key) => items[key].uid ?? ''
@@ -88,7 +91,7 @@ export class NavigationService {
   private loadNavigationEntryItems(
     nodeData: CmsNavigationNode,
     root: boolean,
-    itemsList: { superType?: string; id?: string }[] = []
+    itemsList: { superType: string | undefined; id: string | undefined }[] = []
   ): void {
     if (nodeData.entries && nodeData.entries.length > 0) {
       nodeData.entries.forEach((entry) => {

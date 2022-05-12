@@ -5,14 +5,14 @@ import { SiteContextType } from './site-context.model';
   selector: 'cx-language-currency-selector',
   template: `
     <cx-site-context-selector
-      [context]="SiteContextType.LANGUAGE"
+      [context]="siteContextType.LANGUAGE"
     ></cx-site-context-selector>
     <cx-site-context-selector
-      [context]="SiteContextType.CURRENCY"
+      [context]="siteContextType.CURRENCY"
     ></cx-site-context-selector>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LanguageCurrencyComponent {
-  readonly SiteContextType = SiteContextType;
+  readonly siteContextType = SiteContextType;
 }

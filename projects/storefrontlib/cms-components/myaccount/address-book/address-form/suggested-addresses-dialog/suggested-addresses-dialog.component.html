@@ -43,9 +43,7 @@
             [for]="'suggested-addresses--suggested-' + i"
           >
             {{ 'addressSuggestion.suggestedAddress' | cxTranslate }}
-            {{
-              suggestedAddresses && suggestedAddresses.length > 1 ? i + 1 : null
-            }}
+            {{ suggestedAddresses.length > 1 ? i + 1 : null }}
           </label>
           <div class="cx-dialog-suggested">
             {{ suggestedAddress?.firstName }} {{ suggestedAddress?.lastName
