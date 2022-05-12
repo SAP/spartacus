@@ -82,14 +82,6 @@
                 "bundleName": "epd-visualization"
               }
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects",
-                "./projects/storefrontstyles/scss",
-                "./feature-libs",
-                "./integration-libs"
-              ]
-            },
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
             "scripts": []
           },
