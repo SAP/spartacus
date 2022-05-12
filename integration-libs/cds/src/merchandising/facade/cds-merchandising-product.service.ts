@@ -17,6 +17,7 @@ export class CdsMerchandisingProductService {
     strategyConnector: MerchandisingStrategyConnector,
     merchandisingUserContextService: CdsMerchandisingUserContextService,
     merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     merchandisingSearchContextService?: CdsMerchandisingSearchContextService
   );
 
