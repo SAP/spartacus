@@ -116,15 +116,14 @@
       "@spartacus/organization/order-approval/root": [
         "dist/organization/order-approval/root"
       ],
-      "@spartacus/organization/registration/assets": [
-        "dist/organization/registration/assets"
+      "@spartacus/organization/user-registration/assets": [
+        "dist/organization/user-registration/assets"
       ],
-      "@spartacus/organization/registration": [
-        "dist/organization/registration"
+      "@spartacus/organization/user-registration": [
+        "dist/organization/user-registration"
       ],
-      "@spartacus/organization/registration/root": [
-        "dist/organization/registration/root"
-      ],
+      "@spartacus/organization/user-registration/root": [
+        "dist/organization/user-registration/root"
       "@spartacus/product-configurator/common/assets": [
         "dist/product-configurator/common/assets"
       ],

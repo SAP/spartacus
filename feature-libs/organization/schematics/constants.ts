@@ -24,3 +24,15 @@ export const SPARTACUS_ORDER_APPROVAL_ASSETS = `${SPARTACUS_ORDER_APPROVAL}/asse
 export const ORDER_APPROVAL_TRANSLATIONS = 'orderApprovalTranslations';
 export const ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG =
   'orderApprovalTranslationChunksConfig';
+
+export const ORGANIZATION_USER_REGISTRATION_MODULE_NAME =
+  'OrganizationUserRegistration';
+export const ORGANIZATION_USER_REGISTRATION_FEATURE_NAME_CONSTANT =
+  'ORGANIZATION_USER_REGISTRATION_FEATURE';
+export const SPARTACUS_USER_REGISTRATION = `${SPARTACUS_ORGANIZATION}/user-registration`;
+export const SPARTACUS_USER_REGISTRATION_ROOT = `${SPARTACUS_USER_REGISTRATION}/root`;
+export const SPARTACUS_USER_REGISTRATION_ASSETS = `${SPARTACUS_USER_REGISTRATION}/assets`;
+export const USER_REGISTRATION_TRANSLATIONS =
+  'organizationUserRegistrationTranslations';
+export const USER_REGISTRATION_TRANSLATION_CHUNKS_CONFIG =
+  'organizationUserRegistrationTranslationChunksConfig';

@@ -25,10 +25,18 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Administration", "Order-Approval"],
+        "enum": [
+          "Administration",
+          "Order-Approval",
+          "Organization-User-Registration"
+        ],
         "type": "string"
       },
-      "default": ["Administration", "Order-Approval"],
+      "default": [
+        "Administration",
+        "Order-Approval",
+        "Organization-User-Registration"
+      ],
       "x-prompt": {
         "message": "Which Organization features would you like to set up?",
         "type": "list",
@@ -37,7 +45,14 @@
             "value": "Administration",
             "label": "Administration (b2b feature)"
           },
-          { "value": "Order-Approval", "label": "Order Approval (b2b feature)" }
+          {
+            "value": "Order-Approval",
+            "label": "Order Approval (b2b feature)"
+          },
+          {
+            "value": "Organization-User-Registration",
+            "label": "Organization User Registration (b2b feature)"
+          }
         ]
       }
     }

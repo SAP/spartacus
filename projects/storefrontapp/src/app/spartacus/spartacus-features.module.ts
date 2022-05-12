@@ -71,7 +71,7 @@ import { ProductConfiguratorRulebasedFeatureModule } from './features/product-co
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { QuickOrderFeatureModule } from './features/quick-order-feature.module';
-import { RegistrationFeatureModule } from './features/registration-feature.module';
+import { OrganizationUserRegistrationFeatureModule } from './features/registration-feature.module';
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
@@ -87,7 +87,7 @@ if (environment.b2b) {
     AdministrationFeatureModule,
     BulkPricingFeatureModule,
     OrderApprovalFeatureModule,
-    RegistrationFeatureModule
+    OrganizationUserRegistrationFeatureModule
   );
 }
 
