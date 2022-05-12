@@ -45,9 +45,8 @@ export class ProductReviewsComponent {
 
   reviews$: Observable<Review[]> = this.product$.pipe(
     filter(isNotNullable),
-    map((p) => p.code),
+    map((p) => p.code ?? ''),
     distinctUntilChanged(),
-    filter(isNotNullable),
     switchMap((productCode) =>
       this.reviewService.getByProductCode(productCode)
     ),
