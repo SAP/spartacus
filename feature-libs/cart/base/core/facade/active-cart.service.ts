@@ -505,15 +505,11 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * @param entryGroupNumber
    */
   deleteEntryGroup(entryGroupNumber: number) {
-    this.requireLoadedCart().subscribe((cart) => {
-      this.userIdService.takeUserId().subscribe((userId) => {
-        this.multiCartFacade.deleteEntryGroup(
-          getCartIdByUserId(cart, userId),
-          userId,
-          entryGroupNumber
-        );
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) => {
+        this.multiCartFacade.deleteEntryGroup(cartId, userId, entryGroupNumber);
       });
-    });
   }
 
   /**
@@ -521,18 +517,25 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    *
    * @param entryGroupNumber
    * @param entry
+   * @param quantity
    */
-  addToEntryGroup(entryGroupNumber: number, entry: OrderEntry) {
-    this.requireLoadedCart().subscribe((cart) => {
-      this.userIdService.takeUserId().subscribe((userId) => {
+  addToEntryGroup(
+    entryGroupNumber: number,
+    entry: OrderEntry,
+    quantity: number = 1
+  ) {
+    // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
+    this.requireLoadedCart()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cart, userId]) => {
         this.multiCartFacade.addToEntryGroup(
           getCartIdByUserId(cart, userId),
           userId,
           entryGroupNumber,
-          entry
+          entry,
+          quantity
         );
       });
-    });
   }
 
   /**

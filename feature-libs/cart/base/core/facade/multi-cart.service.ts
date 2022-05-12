@@ -390,7 +390,8 @@ export class MultiCartService implements MultiCartFacade {
     cartId: string,
     userId: string,
     entryGroupNumber: number,
-    entry: OrderEntry
+    entry: OrderEntry,
+    quantity: number = 1
   ) {
     this.store.dispatch(
       new CartActions.AddToEntryGroup({
@@ -398,6 +399,7 @@ export class MultiCartService implements MultiCartFacade {
         userId,
         entryGroupNumber,
         entry,
+        quantity,
       })
     );
   }
