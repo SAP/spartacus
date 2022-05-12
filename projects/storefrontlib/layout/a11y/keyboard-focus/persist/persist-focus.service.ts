@@ -26,7 +26,7 @@ export class PersistFocusService extends BaseFocusService {
    * Persist the keyboard focus state for the given key. The focus is stored globally
    * or for the given group.
    */
-  set(key?: string, group?: string | null) {
+  set(key: string | undefined, group?: string | null) {
     if (key) {
       this.focus.set(group || GLOBAL_GROUP, key);
     }

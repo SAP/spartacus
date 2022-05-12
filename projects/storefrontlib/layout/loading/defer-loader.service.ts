@@ -47,7 +47,7 @@ export class DeferLoaderService {
   }
 
   private shouldLoadInstantly(
-    elementLoadingStrategy?: DeferLoadingStrategy
+    elementLoadingStrategy: DeferLoadingStrategy | undefined
   ): boolean {
     return (
       isPlatformServer(this.platformId) ||

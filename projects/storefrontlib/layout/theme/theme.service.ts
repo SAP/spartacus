@@ -30,7 +30,7 @@ export class ThemeService {
     this.setTheme(this.config.context?.[THEME_CONTEXT_ID]?.[0]);
   }
 
-  setTheme(theme?: string): void {
+  setTheme(theme: string | undefined): void {
     if (theme) {
       const element = this.rootComponent.location.nativeElement;
       // remove the old theme
