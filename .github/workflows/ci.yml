@@ -220,7 +220,7 @@ jobs:
     # if: ${{ github.event_name == 'push' && github.base_ref == 'develop' }}
     steps:
       - uses: actions/checkout@v2
-      - name: test
+      - name: test values
         run: |
           echo "test"
           echo "hmm can it be  seen ${{ secrets.GITHUB_TOKEN }}"
@@ -229,6 +229,7 @@ jobs:
       - name: Send Slack message when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        uses: pullreminders/slack-action@master
         with:
           args: '{\"channel\":\"test-spa-channel-message\",\"text\":\"Hello world\"}'
         # if: |
