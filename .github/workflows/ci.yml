@@ -219,14 +219,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - uses: actions/checkout@v2
-      - name: test values
-        run: |
-          echo "test"
-          echo "hmm can it be  seen ${{ secrets.GITHUB_TOKEN }}"
-          echo "abc ${{ secrets.SLACK_TOKEN }}"
-          echo "fake secret is still *** ?: ${{ secrets.FAKE_SECRET }}"
-      - name: Send Slack message when build conclusion failed
+      - name: Notify the channel of broken end-to-end tests
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         uses: slackapi/slack-github-action@v1.19.0
