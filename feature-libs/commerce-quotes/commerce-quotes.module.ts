@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CommerceQuotesComponentsModule } from '@spartacus/commerce-quotes/components';
-import { CommerceQuotesCoreModule } from '@spartacus/commerce-quotes/core';
-import { CommerceQuotesOccModule } from '@spartacus/commerce-quotes/occ';
+import { CommerceQuotesComponentsModule } from './components/commerce-quotes-components.module';
+import { CommerceQuotesCoreModule } from './core/commerce-quotes-core.module';
+import { CommerceQuotesOccModule } from './occ/commerce-quotes-occ.module';
 
 @NgModule({
   imports: [

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CommerceQuotesAdapter } from '@spartacus/commerce-quotes/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { OccCommerceQuotesAdapter } from './adapters/occ-commerce-quotes.adapter';
-import { defaultOccCommerceQuotesConfig } from './config/default-occ-commerce-quotes-config';
+import { CommerceQuotesAdapter } from '../core/connectors';
+import { OccCommerceQuotesAdapter } from './adapters';
+import { defaultOccCommerceQuotesConfig } from './adapters/default-occ-commerce-quotes-config';
 
 @NgModule({
   imports: [CommonModule],
