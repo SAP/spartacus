@@ -4,7 +4,7 @@ set -o pipefail
 
 RUN_E2E=false
 CONTEXT_TAGS=""
-CONTEXT_FN='ci-scripts/srctags.json'
+CONTEXT_FN='srctags.json'
 
 if [ ! -z "$GITHUB_BASE_REF" ]; then
     FILES=`git diff --name-only origin/$GITHUB_BASE_REF`
