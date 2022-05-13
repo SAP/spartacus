@@ -148,7 +148,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/checkout.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -217,7 +222,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setu
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/checkout.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -321,7 +331,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/checkout.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -390,7 +405,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature base general set
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/checkout.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -562,7 +582,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/checkout.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -631,7 +656,12 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/checkout.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }

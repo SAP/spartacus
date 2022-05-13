@@ -90,6 +90,7 @@ export namespace OccConfigurator {
     conflicts?: string[];
     retractTriggered?: boolean;
     intervalInDomain?: boolean;
+    retractBlocked?: boolean;
   }
 
   export interface Value {
@@ -130,6 +131,8 @@ export namespace OccConfigurator {
   export interface Overview {
     id: string;
     totalNumberOfIssues?: number;
+    numberOfIncompleteCharacteristics?: number;
+    numberOfConflicts?: number;
     groups?: GroupOverview[];
     pricing?: PriceSummary;
     productCode: string;

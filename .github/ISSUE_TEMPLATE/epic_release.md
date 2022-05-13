@@ -23,7 +23,7 @@ The following is a checklist for new epics or features acceptance for Spartacus,
 
 ## Audits/reviews
 
-- [ ] Architecture review of the epic (with @tobi-or-not-tobi)
+- [ ] Architecture review of the epic
 - [ ] Security and threat modeling audit/review from the Security team
 - [ ] Accessibility audit/review from the UX team
 
