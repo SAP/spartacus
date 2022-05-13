@@ -255,7 +255,7 @@ jobs:
         uses: slackapi/slack-github-action@v1.19.0
         with:
           channel-id: 'test-spa-channel-message'
-          slack-message: "Hello world from slackapi - raw message: ${{ job.status }}\n${{ github.base_ref }}\n${{ github.event.head_commit.url }}"
+          slack-message: "Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.base_ref }}c\n${{ github.event.head_commit.url }}"
         # if: |
         #   needs.build_conclusion.result == 'failure'
   # slackapi
@@ -280,13 +280,13 @@ jobs:
           channel-id: 'test-spa-channel-message'
           payload: |
             {
-              "text": "Hello world from slackapi - raw message: ${{ job.status }}\n${{ github.base_ref }}\n${{ github.event.head_commit.url }}"
+              "text": "using blocks - Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.base_ref }}c\n${{ github.event.head_commit.url }}"
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                    "text": "real blocks - Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.base_ref }}c\n${{ github.event.head_commit.url }}"
                   }
                 }
               ]
