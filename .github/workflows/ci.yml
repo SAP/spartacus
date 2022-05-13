@@ -263,7 +263,7 @@ jobs:
     needs: build_conclusion
     name: Slack message for failed develop CI build in Spartacus
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && github.ref_name == 'epic/simulate-branch-for-slack-verify-values' }}
+    if: ${{ always() }}
     steps:
       - uses: actions/checkout@v2
       - name: test values
@@ -291,4 +291,5 @@ jobs:
               ]
             }
         if: |
-          needs.build_conclusion.result == 'failure'
+          ${{ github.event_name == 'push' && github.ref_name == 'epic/simulate-branch-for-slack-verify-values' }} && needs.build_conclusion.result == 'failure'
+          
