@@ -16,6 +16,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { IntersectionService } from '@spartacus/storefront';
 import { OrderHistoryFacade } from 'feature-libs/order/root';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
@@ -34,6 +35,9 @@ const configuratorType = ConfiguratorType.VARIANT;
 const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
+
+const mockProductConfigurationWithoutPriceSummary =
+  ConfigurationTestData.productConfigurationWithConflicts;
 
 const navParamsOverview: any = {
   cxRoute: 'configureOverview' + configuratorType,
@@ -514,6 +518,61 @@ describe('ConfigAddToCartButtonComponent', () => {
         );
         done();
       });
+    });
+  });
+  describe('Accessibility', () => {
+    it('should return base price, selected option price and total price', () => {
+      let result = {
+        basePrice: '$123.56',
+        selectedOptions: '$500',
+        totalPrice: '$623.56',
+      };
+      expect(component.extractConfigPrices(mockProductConfiguration)).toEqual(
+        result
+      );
+    });
+
+    it('should return undefined in case there is no price summary in the configuration', () => {
+      expect(
+        component.extractConfigPrices(
+          mockProductConfigurationWithoutPriceSummary
+        )
+      ).toBeUndefined;
+    });
+
+    it("should contain add to cart button element with 'aria-label' attribute that contains prices of the configuration", () => {
+      let basePrice =
+        mockProductConfiguration.priceSummary?.basePrice?.formattedValue;
+      let selectedOptions =
+        mockProductConfiguration.priceSummary?.selectedOptions?.formattedValue;
+      let totalPrice =
+        mockProductConfiguration.priceSummary?.currentTotal?.formattedValue;
+      let expectedA11YString =
+        'configurator.a11y.addToCartPrices' +
+        ' ' +
+        'basePrice:' +
+        basePrice +
+        ' ' +
+        'selectedOptions:' +
+        selectedOptions +
+        ' ' +
+        'totalPrice:' +
+        totalPrice;
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        undefined,
+        0,
+        'aria-label',
+        component.getButtonResourceKey(
+          mockRouterData,
+          mockProductConfiguration
+        ) +
+          ' ' +
+          expectedA11YString
+      );
     });
   });
 });
