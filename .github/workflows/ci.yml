@@ -218,7 +218,7 @@ jobs:
   #   needs: build_conclusion
   #   name: Slack message for failed develop CI build in Spartacus
   #   runs-on: ubuntu-latest
-  #   # if: ${{ github.event_name == 'push' && github.base_ref == 'develop' }}
+  #   # if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
   #   steps:
   #     - uses: actions/checkout@v2
   #     - name: test values
@@ -240,7 +240,7 @@ jobs:
     needs: build_conclusion
     name: Slack message for failed develop CI build in Spartacus
     runs-on: ubuntu-latest
-    # if: ${{ github.event_name == 'push' && github.base_ref == 'develop' }}
+    # if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
     steps:
       - uses: actions/checkout@v2
       - name: test values
@@ -255,7 +255,7 @@ jobs:
         uses: slackapi/slack-github-action@v1.19.0
         with:
           channel-id: 'test-spa-channel-message'
-          slack-message: "Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.base_ref }}c\n${{ github.event.head_commit.url }}"
+          slack-message: "Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.ref_name }}c\n${{ github.event.head_commit.url }}"
         # if: |
         #   needs.build_conclusion.result == 'failure'
   # slackapi
@@ -263,7 +263,7 @@ jobs:
     needs: build_conclusion
     name: Slack message for failed develop CI build in Spartacus
     runs-on: ubuntu-latest
-    # if: ${{ github.event_name == 'push' && github.base_ref == 'develop' }}
+    # if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
     steps:
       - uses: actions/checkout@v2
       - name: test values
@@ -285,7 +285,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "real blocks - Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.base_ref }}c\n${{ github.event.head_commit.url }}"
+                    "text": "real blocks - Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.ref_name }}c\n${{ github.event.head_commit.url }}"
                   }
                 }
               ]
