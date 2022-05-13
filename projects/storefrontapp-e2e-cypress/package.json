@@ -28,8 +28,8 @@
     "cy:run:search": "CYPRESS_INCLUDE_TAGS=search cypress run --spec \"cypress/integration/**/*.core-e2e-spec.ts\"",
     "cy:run:smoke_b2c": "CYPRESS_INCLUDE_TAGS=smoke_b2c cypress run --spec \"cypress/integration/regression/**/*.core-e2e-spec.ts\"",
     "cy:run:smoke_b2b": "CYPRESS_INCLUDE_TAGS=smoke_b2b cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec \"cypress/integration/b2b/regression/**/*.core-e2e-spec.ts\"",
-    "cy:run:tags": "CYPRESS_INCLUDE_TAGS=$CONTEXT_TAGS cypress run",
-    "cy:run:tags:b2b": "CYPRESS_INCLUDE_TAGS=$CONTEXT_TAGS cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers"
+    "cy:run:tags": "CYPRESS_INCLUDE_TAGS=$CONTEXT_TAGS cypress run --config-file cypress.ci.json --record --key $CYPRESS_KEY --tag \"b2c,all\" --parallel --group B2C --spec \"cypress/integration/!(b2b)/**/*e2e-spec.ts\"",
+    "cy:run:tags:b2b": "CYPRESS_INCLUDE_TAGS=$CONTEXT_TAGS cypress run --config-file cypress.ci.json --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers --record --key $CYPRESS_KEY --tag \"b2b,all\" --parallel --group B2B --spec \"cypress/integration/b2b/regression/**/*e2e-spec.ts\""
   },
   "dependencies": {
     "cypress-tags": "0.3.0"
