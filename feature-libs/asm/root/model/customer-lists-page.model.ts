@@ -1,4 +1,4 @@
-import { UserGroup } from "@spartacus/asm/core";
+import { UserGroup } from './user-group.model';
 
 export interface CustomerListsPage {
   currentPage?: number;

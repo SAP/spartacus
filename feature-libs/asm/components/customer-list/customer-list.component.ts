@@ -105,7 +105,10 @@ export class CustomerListComponent implements OnInit {
     this.fetchCustomers();
   }
 
-  getGroupName(customerListsPage: CustomerListsPage, id: string): string {
+  getGroupName(
+    customerListsPage: CustomerListsPage,
+    id: string | undefined
+  ): string {
     return (
       customerListsPage?.userGroups?.find((userGroup) => userGroup.uid === id)
         ?.name || ''

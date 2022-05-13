@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Command, CommandService, CommandStrategy, Query, QueryService, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { AsmConnector } from '../connectors';
-import { CustomerListsPage } from '@spartacus/asm/root';
-import { AsmFacadeService, CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
+import { AsmConnector } from '../connectors/asm.connector';
+import { CustomerListsPage, AsmFacadeService, CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
 
 @Injectable()
 export class AsmQueryService implements AsmFacadeService {

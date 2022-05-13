@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CustomerListsPage } from '@spartacus/asm/root';
-import { ASM_FEATURE, CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
+import { CustomerListsPage } from '../model/customer-lists-page.model';
+import { CustomerSearchOptions } from '../model/customer-search-options.model';
+import { CustomerSearchPage } from '../model/customer-search-page.model';
+import { ASM_FEATURE } from '../feature-name';
 
 @Injectable({
   providedIn: 'root',
