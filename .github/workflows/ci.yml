@@ -276,7 +276,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         uses: slackapi/slack-github-action@v1.19.0
         with:
-          channel-id: 'test-spa-channel-message'
+          channel-id: 'test-spa-private-channel'
           payload: |
             {
               "blocks": [
