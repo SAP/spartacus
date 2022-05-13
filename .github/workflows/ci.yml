@@ -280,7 +280,7 @@ jobs:
           channel-id: 'test-spa-channel-message'
           payload: |
             {
-              "text": "using blocks - Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.base_ref }}c\n${{ github.event.head_commit.url }}"
+              "text": "using blocks - Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.base_ref }}c\n${{ github.event.head_commit.url }}",
               "blocks": [
                 {
                   "type": "section",
