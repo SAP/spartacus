@@ -225,6 +225,7 @@ jobs:
           echo "test"
           echo "hmm can it be  seen ${{ secrets.GITHUB_TOKEN }}"
           echo "abc ${{ secrets.SLACK_TOKEN }}"
+          echo "fake secret is still *** ?: ${{ secrets.FAKE_SECRET }}"
         # if: |
         #   needs.build_conclusion.result == 'failure' || 
         #   needs.build_conclusion.result == 'cancelled' || 
