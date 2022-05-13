@@ -82,6 +82,43 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('not.be.visible');
     });
+
+    it('should checkout as customer', () => {
+      cy.log('--> Agent logging in');
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      asm.agentLogin();
+
+      cy.log('--> Starting customer emulation');
+      asm.startCustomerEmulation(customer);
+
+      cy.log('--> Add product to cart and go to checkout');
+      checkout.goToCheapProductDetailsPage();
+      checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
+
+      cy.log('--> Go through delivery form');
+      cy.get('.cx-checkout-btns')
+        .eq(0)
+        .find('button')
+        .eq(0)
+        .should('contain', 'Add New Address')
+        .click();
+      checkout.fillAddressFormWithCheapProduct();
+
+      cy.log('--> Choose delivery method');
+      checkout.verifyDeliveryMethod();
+
+      cy.log('--> Fill payment form and continue');
+      checkout.fillPaymentForm();
+
+      cy.log('--> Place order');
+      checkout.placeOrderWithCheapProduct();
+
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
+    });
   });
 
   describe('Customer Self Verification', () => {
@@ -218,7 +255,7 @@ function assertCustomerIsSignedIn() {
 }
 
 export function deleteFirstAddress() {
-  
+
   //interceptDelete('deleteAddresses', '/users/?lang=en&curr=USD');
   //interceptGet('fetchAddresses', '/users/?lang=en&curr=USD');
 
