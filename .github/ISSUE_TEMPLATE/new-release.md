@@ -94,6 +94,7 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:epd-visualization:with-changelog` (needed since `4.3.0`)
     - [ ] Run `yarn generate:deps` and commit to make sure `dependencies.json` gets updated before releasing schematics.
     - [ ] `npm run release:schematics:with-changelog`
+    - [ ] `npm run release:customer-ticketing:with-changelog` (needed since `4.3.0`)
 
 - [ ] Check that the release notes are populated on github (if they are not, update them)
 - [ ] Check tags on npm.

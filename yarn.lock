@@ -139,16 +139,6 @@
   optionalDependencies:
     esbuild "0.14.22"
 
-"@angular-devkit/build-ng-packagr@~0.12.0":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@angular-devkit/build-ng-packagr/-/build-ng-packagr-0.12.4.tgz#beb2ea54da439bf58b01271eb0154dfacf07d752"
-  integrity sha512-Uz4P42xtObaRKXLx+k8ha0ZPXcDELPndK0X4yzCynx2GfZhAlLawUhPbBNzSkokEDHkwLQbHbrY/moh0PouDfw==
-  dependencies:
-    "@angular-devkit/architect" "0.12.4"
-    "@angular-devkit/core" "7.2.4"
-    rxjs "6.3.3"
-    semver "5.5.1"
-
 "@angular-devkit/build-webpack@0.1303.3":
   version "0.1303.3"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-webpack/-/build-webpack-0.1303.3.tgz#cfa520749b5c10d1a42fa87c44952f190422f343"

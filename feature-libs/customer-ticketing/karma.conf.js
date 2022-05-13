@@ -19,7 +19,7 @@ module.exports = function (config) {
     coverageReporter: {
       dir: require('path').join(
         __dirname,
-        '../../coverage/customer-ticketing:'
+        '../../coverage/customer-ticketing'
       ),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
       check: {

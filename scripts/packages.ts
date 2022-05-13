@@ -70,6 +70,7 @@ const packageJsonPaths = [
   path.join(__dirname, '..', 'feature-libs', 'customer-ticketing', 'package.json'),
   path.join(__dirname, '..', 'integration-libs', 'digital-payments', 'package.json'),
   path.join(__dirname, '..', 'integration-libs', 'epd-visualization', 'package.json'),
+  path.join(__dirname, '..', 'feature-libs', 'customer-ticketing', 'package.json'),
 ];
 
 // All the supported packages. Go through the packages directory and create a map of

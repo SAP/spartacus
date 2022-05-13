@@ -16,7 +16,7 @@
             "customWebpackConfig": {
               "path": "./extra-webpack.config.js"
             },
-            "aot": false,
+            "aot": true,
             "outputPath": "dist/storefrontapp",
             "index": "projects/storefrontapp/src/index.html",
             "main": "projects/storefrontapp/src/main.ts",
@@ -103,7 +103,7 @@
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
-              "aot": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -990,16 +990,21 @@
       }
     },
     "customer-ticketing": {
-      "root": "feature-libs/customer-ticketing",
-      "sourceRoot": "feature-libs/customer-ticketing/src",
       "projectType": "library",
-      "prefix": "lib",
+      "root": "feature-libs/customer-ticketing",
+      "sourceRoot": "feature-libs/customer-ticketing",
+      "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.json",
             "project": "feature-libs/customer-ticketing/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/user/tsconfig.lib.prod.json"
+            }
           }
         },
         "test": {
