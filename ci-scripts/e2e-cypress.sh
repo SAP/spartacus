@@ -94,8 +94,10 @@ else
     echo "Running Cypress end to end tests"
 
     if [ ! -z "$CONTEXT_TAGS" ]; then
+            echo "Context Tags found. Reducing Qty of Tests to Run"
             yarn e2e:run:tags"${SUITE}"
     else
+            echo "Context Tags not found. Run same qty of tests as before"
         if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
             yarn e2e:run:ci:core"${SUITE}"
         else
