@@ -33,7 +33,7 @@ $sapLinkColor: #0070F2;
       .sort {
         display: flex;
         align-items: center;
-        padding-right: 15px;
+        padding: 0 15px 0 0;
         ng-select {
           font-size: 0.875rem;
         }
@@ -43,23 +43,23 @@ $sapLinkColor: #0070F2;
         align-items: center;
         .btn-previous {
           span {
-            padding-left: 5px;
+            padding: 0 0 0 5px;
           }
         }
         .btn-next {
           span {
-            padding-right: 5px;
+            padding: 0 5px 0 0;
           }
         }
         div:first-child {
           font-size: 0.875rem;
           color: $sapTextColor;
-          padding-right: 10px;
+          padding: 0 10px 0 0;
         }
       }
       .table-header-cell {
         line-height: 40px;
-        margin-right: 15px;
+        margin: 0 15px 0 0;
       }
       .table-header-cell.sort {
         cursor: pointer;
@@ -86,7 +86,7 @@ $sapLinkColor: #0070F2;
           text-transform: none!important;
           font-weight: 700!important;
           cx-icon {
-            padding-left: 20px;
+            padding: 0 0 0 20px;
             color: $sapLinkColor;
             cursor: pointer;
           }
