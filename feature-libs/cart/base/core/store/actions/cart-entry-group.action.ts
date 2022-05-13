@@ -32,6 +32,7 @@ export class AddToEntryGroupSuccess extends StateUtils.EntityProcessesDecrementA
       cartId: string;
       deliveryModeChanged: boolean;
       entry: OrderEntry;
+      entryGroupNumber: number;
       quantity: number;
       quantityAdded: number;
       statusCode: string;
