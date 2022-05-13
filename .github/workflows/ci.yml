@@ -236,34 +236,34 @@ jobs:
   #       # if: |
   #       #   needs.build_conclusion.result == 'failure'
     # slackapi
-  send_slack_message_v2:
-    needs: build_conclusion
-    name: Slack message for failed develop CI build in Spartacus
-    runs-on: ubuntu-latest
-    # if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: test values
-        run: |
-          echo "test"
-          echo "hmm can it be  seen ${{ secrets.GITHUB_TOKEN }}"
-          echo "abc ${{ secrets.SLACK_TOKEN }}"
-          echo "fake secret is still *** ?: ${{ secrets.FAKE_SECRET }}"
-      - name: Send Slack message when build conclusion failed
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
-        uses: slackapi/slack-github-action@v1.19.0
-        with:
-          channel-id: 'test-spa-channel-message'
-          slack-message: "Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.ref_name }}c\n${{ github.event.head_commit.url }}"
-        # if: |
-        #   needs.build_conclusion.result == 'failure'
-  # slackapi
+  # send_slack_message_v2:
+  #   needs: build_conclusion
+  #   name: Slack message for failed develop CI build in Spartacus
+  #   runs-on: ubuntu-latest
+  #   # if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: test values
+  #       run: |
+  #         echo "test"
+  #         echo "hmm can it be  seen ${{ secrets.GITHUB_TOKEN }}"
+  #         echo "abc ${{ secrets.SLACK_TOKEN }}"
+  #         echo "fake secret is still *** ?: ${{ secrets.FAKE_SECRET }}"
+  #     - name: Send Slack message when build conclusion failed
+  #       env:
+  #         SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+  #       uses: slackapi/slack-github-action@v1.19.0
+  #       with:
+  #         channel-id: 'test-spa-channel-message'
+  #         slack-message: "Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.ref_name }}c\n${{ github.event.head_commit.url }}"
+  #       # if: |
+  #       #   needs.build_conclusion.result == 'failure'
+  # # slackapi
   send_slack_message_v2-1:
     needs: build_conclusion
     name: Slack message for failed develop CI build in Spartacus
     runs-on: ubuntu-latest
-    # if: ${{ github.event_name == 'push' && github.ref_name == 'develop' }}
+    if: ${{ github.event_name == 'push' && github.ref_name == 'epic/simulate-branch-for-slack-verify-values' }}
     steps:
       - uses: actions/checkout@v2
       - name: test values
@@ -290,5 +290,5 @@ jobs:
                 }
               ]
             }
-        # if: |
-        #   needs.build_conclusion.result == 'failure'
+        if: |
+          needs.build_conclusion.result == 'failure'
