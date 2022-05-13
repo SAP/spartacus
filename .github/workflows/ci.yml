@@ -32,6 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs: 
       SHOULD_RUN_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_RUN_E2E }}
+      SHOULD_TAG_E2E: ${{ steps.save-e2e-output-result.outputs.SHOULD_TAG_E2E }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -41,6 +42,7 @@ jobs:
         run: |         
           source ci-scripts/validate-e2e-execution.sh
           echo "::set-output name=SHOULD_RUN_E2E::$(echo $RUN_E2E)"
+          echo "::set-output name=SHOULD_TAG_E2E::$(echo $CONTEXT_TAGS)"
   unit_tests_core:
     needs: no_retries
     name: Unit tests for core Spartacus libs
@@ -145,6 +147,7 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
+          CONTEXT_TAGS: ${{ needs.validate_e2e_execution.outputs.SHOULD_TAG_E2E }}
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
@@ -167,6 +170,7 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
+          CONTEXT_TAGS: ${{ needs.validate_e2e_execution.outputs.SHOULD_TAG_E2E }}
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
@@ -192,6 +196,7 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
+          CONTEXT_TAGS: ${{ needs.validate_e2e_execution.outputs.SHOULD_TAG_E2E }}
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
