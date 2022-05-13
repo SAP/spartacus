@@ -245,10 +245,10 @@ jobs:
                       "type": "button",
                       "text": {
                         "type": "plain_text",
-                        "text": "The actual build",
+                        "text": "Failed build",
                         "emoji": true
                       },
-                      "value": "actual_build",
+                      "value": "failed_build",
                       "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                     },
                     {
