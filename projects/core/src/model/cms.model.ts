@@ -189,6 +189,12 @@ export interface CmsAddToCartComponent extends CmsComponent {
   inventoryDisplay?: boolean;
 }
 
+export interface CmsPDFDocumentComponent extends CmsComponent {
+  pdfFile?: CmsBannerComponentMedia;
+  title?: string;
+  height?: number;
+}
+
 export interface CmsVideoComponent extends CmsComponent {
   overlayTitle?: string;
   autoPlay?: string;
