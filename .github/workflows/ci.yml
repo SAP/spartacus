@@ -213,7 +213,30 @@ jobs:
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
-  send_slack_message:
+  # # abinoda
+  # send_slack_message_v1:
+  #   needs: build_conclusion
+  #   name: Slack message for failed develop CI build in Spartacus
+  #   runs-on: ubuntu-latest
+  #   # if: ${{ github.event_name == 'push' && github.base_ref == 'develop' }}
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: test values
+  #       run: |
+  #         echo "test"
+  #         echo "hmm can it be  seen ${{ secrets.GITHUB_TOKEN }}"
+  #         echo "abc ${{ secrets.SLACK_TOKEN }}"
+  #         echo "fake secret is still *** ?: ${{ secrets.FAKE_SECRET }}"
+  #     - name: Send Slack message when build conclusion failed
+  #       env:
+  #         SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+  #       uses: pullreminders/slack-action@master
+  #       with:
+  #         args: '{\"channel\":\"test-spa-channel-message\",\"text\":\"Hello world\"}'
+  #       # if: |
+  #       #   needs.build_conclusion.result == 'failure'
+    # slackapi
+  send_slack_message_v2:
     needs: build_conclusion
     name: Slack message for failed develop CI build in Spartacus
     runs-on: ubuntu-latest
@@ -229,10 +252,44 @@ jobs:
       - name: Send Slack message when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
-        uses: pullreminders/slack-action@master
+        uses: slackapi/slack-github-action@v1.19.0
         with:
-          args: '{\"channel\":\"test-spa-channel-message\",\"text\":\"Hello world\"}'
+          channel-id: 'test-spa-channel-message'
+          slack-message: "Hello world from slackapi - raw message: ${{ job.status }}\n${{ github.base_ref }}\n${{ github.event.head_commit.url }}"
         # if: |
-        #   needs.build_conclusion.result == 'failure' || 
-        #   needs.build_conclusion.result == 'cancelled' || 
-        #   needs.build_conclusion.result == 'skipped'
+        #   needs.build_conclusion.result == 'failure'
+  # slackapi
+  send_slack_message_v2-1:
+    needs: build_conclusion
+    name: Slack message for failed develop CI build in Spartacus
+    runs-on: ubuntu-latest
+    # if: ${{ github.event_name == 'push' && github.base_ref == 'develop' }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: test values
+        run: |
+          echo "test"
+          echo "hmm can it be  seen ${{ secrets.GITHUB_TOKEN }}"
+          echo "abc ${{ secrets.SLACK_TOKEN }}"
+          echo "fake secret is still *** ?: ${{ secrets.FAKE_SECRET }}"
+      - name: Send Slack message when build conclusion failed
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        uses: slackapi/slack-github-action@v1.19.0
+        with:
+          channel-id: 'test-spa-channel-message'
+          payload: |
+            {
+              "text": "Hello world from slackapi - raw message: ${{ job.status }}\n${{ github.base_ref }}\n${{ github.event.head_commit.url }}"
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                  }
+                }
+              ]
+            }
+        # if: |
+        #   needs.build_conclusion.result == 'failure'
