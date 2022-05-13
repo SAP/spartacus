@@ -2,34 +2,34 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { Price, PaginationModel, Principal } from '@spartacus/core';
 
 export interface Quote {
-  allowedActions: string[];
-  cartId: string;
+  allowedActions?: string[];
+  cartId?: string;
   code: string;
-  comments: Comment[];
-  creationTime: Date;
-  description: string;
-  entries: OrderEntry[];
-  expirationTime: Date;
-  name: string;
-  orderDiscounts: Price;
-  previousEstimatedTotal: Price;
-  productDiscounts: Price;
-  quoteDiscounts: Price;
-  state: string;
-  subTotalWithDiscounts: Price;
-  threshold: number;
-  totalItems: number;
-  totalPrice: Price;
-  totalPriceWithTax: Price;
-  updatedTime: Date;
-  version: number;
+  comments?: Comment[];
+  creationTime?: Date;
+  description?: string;
+  entries?: OrderEntry[];
+  expirationTime?: Date;
+  name?: string;
+  orderDiscounts?: Price;
+  previousEstimatedTotal?: Price;
+  productDiscounts?: Price;
+  quoteDiscounts?: Price;
+  state?: string;
+  subTotalWithDiscounts?: Price;
+  threshold?: number;
+  totalItems?: number;
+  totalPrice?: Price;
+  totalPriceWithTax?: Price;
+  updatedTime?: Date;
+  version?: number;
 }
 
 export interface Comment {
-  author: Principal;
-  creationDate: Date;
-  fromCustomer: boolean;
-  text: string;
+  author?: Principal;
+  creationDate?: Date;
+  fromCustomer?: boolean;
+  text?: string;
 }
 
 export interface QuoteAction {
@@ -48,11 +48,11 @@ export interface QuoteList {
 
 export interface QuoteMetadata {
   description: string;
-  expirationTime: Date;
+  expirationTime?: Date;
   name: string;
 }
 
 export interface QuoteStarter {
-  cartId: string;
-  quoteCode: string;
+  cartId?: string;
+  quoteCode?: string;
 }

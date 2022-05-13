@@ -4,8 +4,6 @@ import {
   OccEndpointsService,
   ConverterService,
   normalizeHttpError,
-  backOff,
-  isJaloError,
 } from '@spartacus/core';
 import {
   CommerceQuotesAdapter,
@@ -38,7 +36,6 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
   getQuotes(userId: string): Observable<QuoteList> {
     return this.http.get<QuoteList>(this.getQuotesEndpoint(userId)).pipe(
       catchError((error) => throwError(normalizeHttpError(error))),
-      backOff({ shouldRetry: isJaloError }),
       this.converter.pipeable(QUOTE_LIST_NORMALIZER)
     );
   }
@@ -59,7 +56,6 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
       .post<Quote>(this.getCreateQuoteEndpoint(userId), quoteStarter)
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(QUOTE_NORMALIZER)
       );
   }
@@ -75,7 +71,6 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
       .get<QuoteList>(this.getQuoteEndpoint(userId, quoteCode))
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
-        backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(QUOTE_NORMALIZER)
       );
   }
@@ -98,10 +93,7 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
 
     return this.http
       .patch<Quote>(this.getEditQuoteEndpoint(userId, quoteCode), quoteMetadata)
-      .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
-        backOff({ shouldRetry: isJaloError })
-      );
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   protected getEditQuoteEndpoint(userId: string, quoteCode: string): string {
@@ -122,10 +114,7 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
         this.getPerformActionQuoteEndpoint(userId, quoteCode),
         quoteAction
       )
-      .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
-        backOff({ shouldRetry: isJaloError })
-      );
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   protected getPerformActionQuoteEndpoint(
@@ -152,10 +141,7 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
         this.getAddCommentEndpoint(userId, quoteCode),
         quoteComment
       )
-      .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
-        backOff({ shouldRetry: isJaloError })
-      );
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   protected getAddCommentEndpoint(userId: string, quoteCode: string): string {
@@ -179,10 +165,7 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
         this.getAddDiscountEndpoint(userId, quoteCode),
         quoteDiscount
       )
-      .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
-        backOff({ shouldRetry: isJaloError })
-      );
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   protected getAddDiscountEndpoint(userId: string, quoteCode: string): string {
@@ -204,10 +187,7 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
         this.getAddCartEntryCommentEndpoint(userId, quoteCode, entryNumber),
         comment
       )
-      .pipe(
-        catchError((error) => throwError(normalizeHttpError(error))),
-        backOff({ shouldRetry: isJaloError })
-      );
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   protected getAddCartEntryCommentEndpoint(
