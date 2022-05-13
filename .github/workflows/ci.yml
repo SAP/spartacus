@@ -272,6 +272,7 @@ jobs:
           echo "hmm can it be  seen ${{ secrets.GITHUB_TOKEN }}"
           echo "abc ${{ secrets.SLACK_TOKEN }}"
           echo "fake secret is still *** ?: ${{ secrets.FAKE_SECRET }}"
+          echo "test - it should skip the job entirely since it's not from the push event, but a pull request"
       - name: Send Slack message when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
