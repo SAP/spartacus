@@ -8,7 +8,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  PasswordVisibilityToggleModule,
+} from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
 import { UpdatePasswordComponentService } from './update-password-component.service';
@@ -51,6 +54,7 @@ describe('UpdatePasswordComponent', () => {
           FormErrorsModule,
           RouterTestingModule,
           UrlTestingModule,
+          PasswordVisibilityToggleModule,
         ],
         declarations: [UpdatePasswordComponent, MockCxSpinnerComponent],
         providers: [
@@ -85,7 +89,7 @@ describe('UpdatePasswordComponent', () => {
       component.form.disable();
       fixture.detectChanges();
       const submitBtn: HTMLButtonElement = el.query(
-        By.css('button')
+        By.css('button.btn-primary')
       ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
@@ -101,7 +105,7 @@ describe('UpdatePasswordComponent', () => {
     it('should enable the submit button', () => {
       component.form.enable();
       fixture.detectChanges();
-      const submitBtn = el.query(By.css('button'));
+      const submitBtn = el.query(By.css('button.btn-primary'));
       expect(submitBtn.nativeElement.disabled).toBeFalsy();
     });
 
