@@ -232,7 +232,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":fire: :fireduck: :fire: \n\n Hello Tribe! \n *Our e2es in develop are failing*. Please take a look at the problem! Help keep our CI in develop green! \n\n :fire: :fireduck: :fire:"
+                    "text": ":nuclear-bomb: :fireduck: **Broken build in develop**"
                   }
                 },
                 {
@@ -245,11 +245,11 @@ jobs:
                       "type": "button",
                       "text": {
                         "type": "plain_text",
-                        "text": "Build history",
+                        "text": "The actual build",
                         "emoji": true
                       },
-                      "value": "buid_history",
-                      "url": "https://github.com/SAP/spartacus/actions/workflows/ci.yml?query=branch%3Adevelop"
+                      "value": "actual_build",
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                     },
                     {
                       "type": "button",
@@ -260,6 +260,16 @@ jobs:
                       },
                       "value": "recent_merged_commit",
                       "url": "${{ github.event.head_commit.url }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Build history",
+                        "emoji": true
+                      },
+                      "value": "buid_history",
+                      "url": "https://github.com/SAP/spartacus/actions/workflows/ci.yml?query=branch%3Adevelop"
                     }
                   ]
                 }
