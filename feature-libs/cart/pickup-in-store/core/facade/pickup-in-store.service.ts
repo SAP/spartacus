@@ -3,5 +3,7 @@ import { PickupInStoreFacade } from '@spartacus/cart/pickup-in-store/root';
 
 @Injectable()
 export class PickupInStoreService implements PickupInStoreFacade {
-  getStore(): void {}
+  getStore(): void {
+    console.log('facade test passed');
+  }
 }

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { facadeProviders } from './facades/facade-providers';
+import { facadeProviders } from './facade/facade-providers';
 
 @NgModule({
   providers: [...facadeProviders],
