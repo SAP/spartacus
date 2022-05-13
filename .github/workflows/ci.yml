@@ -284,7 +284,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": ":nuclear-bomb: :fireduck: :this-is-fine-1: Broken build in develop"
+                    "text": ":nuclear-bomb: :fireduck: Broken build in develop"
                   }
                 },
                 {
@@ -297,11 +297,11 @@ jobs:
                       "type": "button",
                       "text": {
                         "type": "plain_text",
-                        "text": "Build history",
+                        "text": "The actual build",
                         "emoji": true
                       },
-                      "value": "buid_history",
-                      "url": "https://github.com/SAP/spartacus/actions/workflows/ci.yml?query=branch%3Adevelop"
+                      "value": "actual_build",
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                     },
                     {
                       "type": "button",
@@ -312,7 +312,17 @@ jobs:
                       },
                       "value": "recent_merged_commit",
                       "url": "${{ github.event.head_commit.url }}"
-                    }
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Build history",
+                        "emoji": true
+                      },
+                      "value": "buid_history",
+                      "url": "https://github.com/SAP/spartacus/actions/workflows/ci.yml?query=branch%3Adevelop"
+                    },
                   ]
                 }
               ]
