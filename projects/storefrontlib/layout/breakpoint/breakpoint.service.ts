@@ -61,7 +61,7 @@ export class BreakpointService {
    * Returns the _maximum_ size for the breakpoint, given by the `LayoutConfig.breakpoints`
    * configuration.
    */
-  getSize(breakpoint: BREAKPOINT): number {
+  getSize(breakpoint: BREAKPOINT): number | null {
     return (
       this.getMaxSize(breakpoint) ??
       // if there's no direct max value or explicit max value
@@ -184,8 +184,10 @@ export class BreakpointService {
    */
   protected getBreakpoint(windowWidth: number): BREAKPOINT {
     return (
-      this.breakpoints.find((br) => windowWidth < this.getSize(br)) ??
-      this.breakpoints?.[this.breakpoints.length - 1]
+      this.breakpoints.find((br) => {
+        const size = this.getSize(br);
+        return size !== null && windowWidth < size;
+      }) ?? this.breakpoints?.[this.breakpoints.length - 1]
     );
   }
 
