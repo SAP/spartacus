@@ -9,6 +9,7 @@ import * as configurationVc from '../../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
+const testProduct = 'CONF_CAMERA_SL';
 
 // UI types
 const radioGroup = 'radioGroup';
@@ -30,6 +31,9 @@ const SUBWOOFER = 'Subwoofer';
 // List of attributes
 const PROJECTOR_TYPE = 'PROJECTOR_TYPE';
 const GAMING_CONSOLE = 'GAMING_CONSOLE';
+const CAMERA_DISPLAY = 'CAMERA_DISPLAY';
+const CAMERA_MODE = 'CAMERA_MODE';
+const CAMERA_FORMAT_PICTURES = 'CAMERA_FORMAT_PICTURES';
 
 // List of attribute values
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
@@ -170,6 +174,26 @@ context('Product Configuration', () => {
       // Click 'Continue to cart' and verify whether there is a resolve issues banner in the cart entry list
       configurationOverview.clickContinueToCartBtnOnOP();
       configurationCartVc.verifyNotificationBannerInCart(0);
+    });
+
+    it('should support the issue solving process', () => {
+      clickAllowAllFromBanner();
+      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+
+      configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
+      configurationOverviewVc.registerConfigurationOvOCC();
+      configurationVc.clickAddToCartBtn();
+      configurationOverviewVc.verifyNotificationBannerOnOP(2, 0);
+
+      configurationOverviewVc.clickOnResolveIssuesLinkOnOP();
+      configuration.selectAttribute(CAMERA_FORMAT_PICTURES, radioGroup, 'JPEG');
+      configurationVc.clickAddToCartBtn();
+      configurationOverviewVc.verifyNotificationBannerOnOP(1, 0);
+
+      configurationOverviewVc.clickOnResolveIssuesLinkOnOP();
+      configuration.selectAttribute(CAMERA_DISPLAY, radioGroup, 'P5');
+      configurationVc.clickAddToCartBtn();
+      configurationOverviewVc.verifyNotificationBannerOnOP(0, 0);
     });
   });
 

@@ -298,28 +298,6 @@ context('Product Configuration', () => {
       configuration.checkAttributeDisplayed(SPEAKER_TYPE_FRONT, radioGroup);
     });
   });
-
-  describe('Conflict Solver', () => {
-    it('should support the issue solving process', () => {
-      clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-
-      configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
-      configurationOverviewVc.registerConfigurationOvOCC();
-      configurationVc.clickAddToCartBtn();
-      configurationOverviewVc.verifyNotificationBannerOnOP(2, 0);
-
-      configurationOverviewVc.clickOnResolveIssuesLinkOnOP();
-      configuration.selectAttribute(CAMERA_FORMAT_PICTURES, radioGroup, 'JPEG');
-      configurationVc.clickAddToCartBtn();
-      configurationOverviewVc.verifyNotificationBannerOnOP(1, 0);
-
-      configurationOverviewVc.clickOnResolveIssuesLinkOnOP();
-      configuration.selectAttribute(CAMERA_DISPLAY, radioGroup, 'P5');
-      configurationVc.clickAddToCartBtn();
-      configurationOverviewVc.verifyNotificationBannerOnOP(0, 0);
-    });
-  });
 });
 
 context('Retract mode for Product Configuration', () => {
