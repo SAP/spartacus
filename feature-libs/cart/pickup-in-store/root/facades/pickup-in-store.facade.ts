@@ -8,7 +8,7 @@ import { CART_PICKUP_IN_STORE_FEATURE } from '../feature-name';
     facadeFactory({
       facade: PickupInStoreFacade,
       feature: CART_PICKUP_IN_STORE_FEATURE,
-      methods: [],
+      methods: ['getStore'],
       async: true,
     }),
 })
