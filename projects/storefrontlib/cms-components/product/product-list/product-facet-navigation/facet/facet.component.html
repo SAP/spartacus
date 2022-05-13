@@ -21,7 +21,7 @@
       class="value"
       [class.selected]="value.selected"
       [cxFocus]="{ key: value.name }"
-      (keydown.space)="openLink($event)"
+      (keydown.space)="openLink($any($event))"
       [attr.role]="facet.multiSelect ? 'checkbox' : null"
       [attr.aria-checked]="facet.multiSelect ? value.selected : null"
       attr.aria-label="{{
@@ -47,7 +47,7 @@
         class="value"
         [class.selected]="value.selected"
         [cxFocus]="{ key: value.name }"
-        (keydown.space)="openLink($event)"
+        (keydown.space)="openLink($any($event))"
       >
         <span
           >{{ value.name }}<span class="count">{{ value.count }}</span></span

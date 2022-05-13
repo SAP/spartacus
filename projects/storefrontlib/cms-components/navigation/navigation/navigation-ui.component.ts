@@ -142,7 +142,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     });
   }
 
-  toggleOpen(event: UIEvent | Event): void {
+  toggleOpen(event: UIEvent): void {
     if (event.type === 'keydown') {
       event.preventDefault();
     }

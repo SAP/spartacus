@@ -3,7 +3,6 @@ import {
   CmsNavigationComponent,
   CmsNavigationNode,
   CmsService,
-  isNotNullable,
   SemanticPathService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -75,8 +74,7 @@ export class NavigationService {
               }
             }),
             filter(Boolean),
-            map((items) => this.populateNavigationNode(navigation, items)),
-            filter(isNotNullable)
+            map((items) => this.populateNavigationNode(navigation, items) ?? {})
           );
       })
     );

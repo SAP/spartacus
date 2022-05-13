@@ -76,7 +76,7 @@ export class FacetComponent {
     return this.values?.first?.nativeElement.offsetParent !== null;
   }
 
-  openLink(event: KeyboardEvent | Event) {
+  openLink(event: KeyboardEvent) {
     (event.target as HTMLElement).click();
     event.preventDefault();
   }

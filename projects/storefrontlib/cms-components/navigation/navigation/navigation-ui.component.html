@@ -49,9 +49,9 @@
           [attr.aria-haspopup]="true"
           [attr.aria-expanded]="false"
           [attr.aria-label]="node.title"
-          (click)="toggleOpen($event)"
+          (click)="toggleOpen($any($event))"
           (mouseenter)="onMouseEnter($event)"
-          (keydown.space)="toggleOpen($event)"
+          (keydown.space)="toggleOpen($any($event))"
           (keydown.esc)="back()"
         >
           <ng-container *ngIf="!node.url">
