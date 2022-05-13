@@ -265,7 +265,6 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - uses: actions/checkout@v2
       - name: test values
         run: |
           echo "test"
@@ -285,8 +284,36 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "real blocks - Hello world from slackapi - raw message: a${{ needs.build_conclusion.result }}b\n${{ github.ref_name }}c\n${{ github.event.head_commit.url }}"
+                    "text": ":fire: :fire: : fire: Hello Tribe! \n *Our e2es in develop are failing*. Please take a look at the issue!"
                   }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Build history",
+                        "emoji": true
+                      },
+                      "value": "buid_history",
+                      "url": "https://github.com/SAP/spartacus/actions/workflows/ci.yml?query=branch%3Adevelop"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "What was committed?",
+                        "emoji": true
+                      },
+                      "value": "recent_merged_commit",
+                      "url": "${{ github.event.head_commit.url }}"
+                    }
+                  ]
                 }
               ]
             }
