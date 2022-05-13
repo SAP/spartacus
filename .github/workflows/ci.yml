@@ -232,8 +232,36 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "some text that I will have to put \n result: ${{ needs.build_conclusion.result }} \n branch: ${{ github.base_ref }} \n the commit url: ${{ github.event.head_commit.url }}"
+                    "text": ":fire: :fireduck: :fire: \n\n Hello Tribe! \n *Our e2es in develop are failing*. Please take a look at the problem! Help keep our CI in develop green! \n\n :fire: :fireduck: :fire:"
                   }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Build history",
+                        "emoji": true
+                      },
+                      "value": "buid_history",
+                      "url": "https://github.com/SAP/spartacus/actions/workflows/ci.yml?query=branch%3Adevelop"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "What was committed?",
+                        "emoji": true
+                      },
+                      "value": "recent_merged_commit",
+                      "url": "${{ github.event.head_commit.url }}"
+                    }
+                  ]
                 }
               ]
             }
