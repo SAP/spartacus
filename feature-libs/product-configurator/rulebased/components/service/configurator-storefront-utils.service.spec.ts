@@ -1,5 +1,5 @@
-import { Type } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { WindowRef } from '@spartacus/core';
 import {
@@ -11,6 +11,7 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
+import { By } from '@angular/platform-browser';
 
 let isGroupVisited: Observable<boolean> = of(false);
 
@@ -25,8 +26,50 @@ class MockKeyboardFocusService {
   set() {}
 }
 
+function createElement(id: string): HTMLElement {
+  const element = document.createElement('label');
+  element.id = id;
+  return element;
+}
+
+function createNode(name: string): HTMLElement {
+  const element = document.createElement(name);
+  return element;
+}
+
+function createFocusedElements(
+  attribute: string,
+  amountOfAttributes: number,
+  amountOfValues: number
+): HTMLElement[] {
+  const focusedElements: HTMLElement[] = [];
+  for (let i = 1; i <= amountOfAttributes; i++) {
+    let attrId = attribute + '_' + i;
+    for (let j = 1; j <= amountOfValues; j++) {
+      let valueId = 'value_' + j;
+      const value = createElement(attrId + '--' + valueId);
+      focusedElements.push(value);
+    }
+  }
+  return focusedElements;
+}
+
+@Component({
+  selector: 'cx-configurator',
+  template: `
+    <cx-configurator-form>
+      <label id="ATTR_1--value_1">value_1</label>
+      <label id="ATTR_1--value_2">value_2</label>
+      <label id="ATTR_1--value_3">value_3</label>
+    </cx-configurator-form>
+  `,
+})
+class MockComponent {}
+
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
+  let fixture: ComponentFixture<MockComponent>;
+  let focusedElements: any;
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
     'testProduct'
@@ -37,6 +80,7 @@ describe('ConfigUtilsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      declarations: [MockComponent],
       providers: [
         {
           provide: ConfiguratorGroupsService,
@@ -47,8 +91,10 @@ describe('ConfigUtilsService', () => {
           useClass: MockKeyboardFocusService,
         },
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     });
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
+    fixture = TestBed.createComponent(MockComponent);
     windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
     keyboardFocusService = TestBed.inject(
       KeyboardFocusService as Type<KeyboardFocusService>
@@ -166,29 +212,6 @@ describe('ConfigUtilsService', () => {
   });
 
   describe('Focused elements', () => {
-    function createElement(id: string): HTMLElement {
-      const element = document.createElement('attribute');
-      element.id = id;
-      return element;
-    }
-
-    function createFocusedElements(
-      attribute: string,
-      amountOfAttributes: number,
-      amountOfValues: number
-    ): HTMLElement[] {
-      const focusedElements: HTMLElement[] = [];
-      for (let i = 1; i <= amountOfAttributes; i++) {
-        let attrId = attribute + '_' + i;
-        for (let j = 1; j <= amountOfValues; j++) {
-          let valueId = 'value_' + j;
-          const value = createElement(attrId + '--' + valueId);
-          focusedElements.push(value);
-        }
-      }
-      return focusedElements;
-    }
-
     describe('focusFirstAttribute', () => {
       it('should delegate to keyboard focus service', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
@@ -232,59 +255,140 @@ describe('ConfigUtilsService', () => {
       });
     });
 
-    describe('focusAttribute', () => {
-      it('should delegate to keyboard focus service', () => {
-        spyOn(windowRef, 'isBrowser').and.returnValue(true);
-        const focusedElements = createFocusedElements('ATTR', 2, 3);
+    describe('focusValue', () => {
+      function createValue(name: string, isSelected: boolean) {
+        const value: Configurator.Value = {
+          valueCode: name,
+          valueDisplay: name,
+          name: name,
+          selected: isSelected,
+        };
+        return value;
+      }
+
+      function spyFocusForFocusedElements(focusedElements) {
+        focusedElements.forEach((focusedElement) => {
+          spyOn(focusedElement, 'focus').and.callThrough();
+        });
+      }
+
+      let attribute: Configurator.Attribute = {
+        name: 'ATTR_1',
+        uiType: Configurator.UiType.RADIOBUTTON,
+        values: [],
+      };
+
+      beforeEach(() => {
+        focusedElements = fixture.debugElement
+          .queryAll(By.css('label'))
+          .map((el) => el.nativeNode);
+
         document.querySelector = jasmine
           .createSpy('HTML Element')
           .and.returnValue(focusedElements);
+      });
+
+      it('should not set focus because attribute does not contain any values', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        spyFocusForFocusedElements(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
           focusedElements
         );
-        classUnderTest.focusAttribute('ATTR_2');
+
+        classUnderTest.focusValue(attribute);
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+
+        expect(focusedElements[0].focus).toHaveBeenCalled();
+        expect(focusedElements[1].focus).not.toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
       });
 
-      it('should not delegate to keyboard focus service because form is not defined', () => {
+      it('should set focus because attribute contains selected value', () => {
         spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        spyFocusForFocusedElements(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+
+        const value1 = createValue('value_1', false);
+        const value2 = createValue('value_2', true);
+        const value3 = createValue('value_3', false);
+        attribute.values = [value1, value2, value3];
+
+        classUnderTest.focusValue(attribute);
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+        expect(focusedElements[0].focus).not.toHaveBeenCalled();
+        expect(focusedElements[1].focus).toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
+      });
+
+      it('should set focus because on conflict description', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        focusedElements = [
+          createNode('cx-configurator-conflict-description'),
+        ].concat(focusedElements);
+        spyFocusForFocusedElements(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+
+        const value1 = createValue('value_1', false);
+        const value2 = createValue('value_2', true);
+        const value3 = createValue('value_3', false);
+        attribute.values = [value1, value2, value3];
+
+        classUnderTest.focusValue(attribute);
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+        expect(focusedElements[0].focus).toHaveBeenCalled();
+        expect(focusedElements[1].focus).not.toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
+        expect(focusedElements[3].focus).not.toHaveBeenCalled();
+      });
+
+      it('should not set focus because no focused element is found', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        spyFocusForFocusedElements(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+        attribute.name = 'NO_ATTR_2';
+
+        classUnderTest.focusValue(attribute);
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+        expect(focusedElements[0].focus).not.toHaveBeenCalled();
+        expect(focusedElements[1].focus).not.toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
+      });
+
+      it('should not set focus because form is not defined', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        spyFocusForFocusedElements(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
         document.querySelector = jasmine
           .createSpy('HTML Element')
           .and.returnValue(undefined);
-        spyOn(keyboardFocusService, 'findFocusable').and.callThrough();
-        classUnderTest.focusAttribute('ATTR_2');
+
+        classUnderTest.focusValue(attribute);
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+        expect(focusedElements[0].focus).not.toHaveBeenCalled();
+        expect(focusedElements[1].focus).not.toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
       });
 
-      it('should delegate to keyboard focus service but no focused element is found', () => {
-        spyOn(windowRef, 'isBrowser').and.returnValue(true);
-        const focusedElements = createFocusedElements('ATTR', 2, 3);
-        document.querySelector = jasmine
-          .createSpy('HTML Element')
-          .and.returnValue(focusedElements);
+      it('should not set focus because browser context is not defined', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(false);
+        spyFocusForFocusedElements(focusedElements);
         spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
           focusedElements
         );
-        classUnderTest.focusAttribute('NO_ATTR_2');
-        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
-      });
 
-      it('should not delegate to keyboard focus service', () => {
-        spyOn(windowRef, 'isBrowser').and.returnValue(false);
-        spyOn(keyboardFocusService, 'findFocusable').and.callThrough();
-        classUnderTest.focusAttribute('ATTR_2');
+        classUnderTest.focusValue(attribute);
         expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
-      });
-
-      it('should not delegate to keyboard focus service if there are no focused elements in form', () => {
-        spyOn(windowRef, 'isBrowser').and.returnValue(true);
-        const theElement = document.createElement('elementMock');
-        document.querySelector = jasmine
-          .createSpy('HTML Element')
-          .and.returnValue(theElement);
-        spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
-        classUnderTest.focusAttribute('ATTR_2');
-        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+        expect(focusedElements[0].focus).not.toHaveBeenCalled();
+        expect(focusedElements[1].focus).not.toHaveBeenCalled();
+        expect(focusedElements[2].focus).not.toHaveBeenCalled();
       });
     });
   });
