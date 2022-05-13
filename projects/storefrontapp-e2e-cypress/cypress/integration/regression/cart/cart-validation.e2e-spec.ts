@@ -60,42 +60,50 @@ context('Cart validation', () => {
         cy.saveLocalStorage();
       });
 
-      it(['cart_validation'],'should display information about removed product from cart due to out of stock', () => {
-        addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
+      it(
+        ['cart_validation'],
+        'should display information about removed product from cart due to out of stock',
+        () => {
+          addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
 
-        cartValidation.validateStock(outOfStockResponse);
+          cartValidation.validateStock(outOfStockResponse);
 
-        cy.findByText(/proceed to checkout/i).click();
-        cy.wait(`@validate`);
+          cy.findByText(/proceed to checkout/i).click();
+          cy.wait(`@validate`);
 
-        cartValidation.checkProductAvailabilityMessage();
+          cartValidation.checkProductAvailabilityMessage();
 
-        cy.get('cx-cart-details')
-          .contains('cx-cart-validation-warnings span', PRODUCT_1.name)
-          .should(
+          cy.get('cx-cart-details')
+            .contains('cx-cart-validation-warnings span', PRODUCT_1.name)
+            .should(
+              'contain',
+              `has been removed from the cart due to insufficient stock.`
+            );
+
+          removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
+          removeItemAndCheckCartEntriesNumber(PRODUCT_2, 0);
+        }
+      );
+
+      it(
+        ['cart_validation'],
+        'should display information about only product in cart being removed due to out of stock',
+        () => {
+          addMultipleProductsToCart([PRODUCT_1]);
+
+          cartValidation.validateStock(outOfStockResponse);
+
+          cy.findByText(/proceed to checkout/i).click();
+          cy.wait(`@validate`);
+
+          cy.get('cx-global-message').should(
             'contain',
-            `has been removed from the cart due to insufficient stock.`
+            `${PRODUCT_1.name} was removed from the cart due to being out of stock.`
           );
 
-        removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
-        removeItemAndCheckCartEntriesNumber(PRODUCT_2, 0);
-      });
-
-      it(['cart_validation'],'should display information about only product in cart being removed due to out of stock', () => {
-        addMultipleProductsToCart([PRODUCT_1]);
-
-        cartValidation.validateStock(outOfStockResponse);
-
-        cy.findByText(/proceed to checkout/i).click();
-        cy.wait(`@validate`);
-
-        cy.get('cx-global-message').should(
-          'contain',
-          `${PRODUCT_1.name} was removed from the cart due to being out of stock.`
-        );
-
-        removeItemAndCheckCartEntriesNumber(PRODUCT_1, 0);
-      });
+          removeItemAndCheckCartEntriesNumber(PRODUCT_1, 0);
+        }
+      );
     });
   });
 });

@@ -42,91 +42,107 @@ context('Merchandising Carousel - events', () => {
       profileTagHelper.grantConsent();
     });
 
-    it(['cds', 'carousel'], 'should send carousel events to the data layer when the carousel is on the homepage', () => {
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
-        strategyRequestAlias,
-        merchandisingCarousel.DEFAULT_LANGUAGE,
-        merchandisingCarousel.requestContainsConsentReference
-      );
+    it(
+      ['cds', 'carousel'],
+      'should send carousel events to the data layer when the carousel is on the homepage',
+      () => {
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
+          strategyRequestAlias,
+          merchandisingCarousel.DEFAULT_LANGUAGE,
+          merchandisingCarousel.requestContainsConsentReference
+        );
 
-      merchandisingCarousel.waitForCarouselViewEvent();
-    });
+        merchandisingCarousel.waitForCarouselViewEvent();
+      }
+    );
 
-    it(['cds', 'carousel'], 'should send carousel events to the data layer when the carousel is on a category page', () => {
-      merchandisingCarousel.verifyRequestToStrategyService(
-        strategyRequestAlias,
-        {
-          containsConsentReference:
-            merchandisingCarousel.requestContainsConsentReference,
-        }
-      );
+    it(
+      ['cds', 'carousel'],
+      'should send carousel events to the data layer when the carousel is on a category page',
+      () => {
+        merchandisingCarousel.verifyRequestToStrategyService(
+          strategyRequestAlias,
+          {
+            containsConsentReference:
+              merchandisingCarousel.requestContainsConsentReference,
+          }
+        );
 
-      merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.filmCamerasCategoryName,
-        merchandisingCarousel.filmCamerasCategoryCode
-      );
+        merchandisingCarousel.navigateToCategory(
+          merchandisingCarousel.filmCamerasCategoryName,
+          merchandisingCarousel.filmCamerasCategoryCode
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
-        strategyRequestAlias,
-        merchandisingCarousel.filmCamerasCategoryCode,
-        merchandisingCarousel.DEFAULT_LANGUAGE,
-        undefined,
-        merchandisingCarousel.requestContainsConsentReference
-      );
-      merchandisingCarousel.waitForCarouselViewEvent();
-    });
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
+          strategyRequestAlias,
+          merchandisingCarousel.filmCamerasCategoryCode,
+          merchandisingCarousel.DEFAULT_LANGUAGE,
+          undefined,
+          merchandisingCarousel.requestContainsConsentReference
+        );
+        merchandisingCarousel.waitForCarouselViewEvent();
+      }
+    );
 
-    it(['cds', 'carousel'],'should send carousel events to the data layer when navigating from one category page to another category page', () => {
-      merchandisingCarousel.verifyRequestToStrategyService(
-        strategyRequestAlias,
-        {
-          containsConsentReference:
-            merchandisingCarousel.requestContainsConsentReference,
-        }
-      );
+    it(
+      ['cds', 'carousel'],
+      'should send carousel events to the data layer when navigating from one category page to another category page',
+      () => {
+        merchandisingCarousel.verifyRequestToStrategyService(
+          strategyRequestAlias,
+          {
+            containsConsentReference:
+              merchandisingCarousel.requestContainsConsentReference,
+          }
+        );
 
-      merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.filmCamerasCategoryName,
-        merchandisingCarousel.filmCamerasCategoryCode
-      );
+        merchandisingCarousel.navigateToCategory(
+          merchandisingCarousel.filmCamerasCategoryName,
+          merchandisingCarousel.filmCamerasCategoryCode
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
-        strategyRequestAlias,
-        merchandisingCarousel.filmCamerasCategoryCode,
-        merchandisingCarousel.DEFAULT_LANGUAGE,
-        undefined,
-        merchandisingCarousel.requestContainsConsentReference
-      );
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
+          strategyRequestAlias,
+          merchandisingCarousel.filmCamerasCategoryCode,
+          merchandisingCarousel.DEFAULT_LANGUAGE,
+          undefined,
+          merchandisingCarousel.requestContainsConsentReference
+        );
 
-      merchandisingCarousel.waitForCarouselViewEvent();
+        merchandisingCarousel.waitForCarouselViewEvent();
 
-      merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.camcordersCategoryName,
-        merchandisingCarousel.camcordersCategoryCode
-      );
+        merchandisingCarousel.navigateToCategory(
+          merchandisingCarousel.camcordersCategoryName,
+          merchandisingCarousel.camcordersCategoryCode
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
-        strategyRequestAlias,
-        merchandisingCarousel.camcordersCategoryCode,
-        merchandisingCarousel.DEFAULT_LANGUAGE,
-        undefined,
-        merchandisingCarousel.requestContainsConsentReference
-      );
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
+          strategyRequestAlias,
+          merchandisingCarousel.camcordersCategoryCode,
+          merchandisingCarousel.DEFAULT_LANGUAGE,
+          undefined,
+          merchandisingCarousel.requestContainsConsentReference
+        );
 
-      merchandisingCarousel.waitForCarouselViewEvent();
-    });
+        merchandisingCarousel.waitForCarouselViewEvent();
+      }
+    );
 
-    it(['cds', 'carousel'], 'should send carousel events to the data layer when a carousel item is clicked on', () => {
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
-        strategyRequestAlias,
-        merchandisingCarousel.DEFAULT_LANGUAGE,
-        merchandisingCarousel.requestContainsConsentReference
-      );
+    it(
+      ['cds', 'carousel'],
+      'should send carousel events to the data layer when a carousel item is clicked on',
+      () => {
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
+          strategyRequestAlias,
+          merchandisingCarousel.DEFAULT_LANGUAGE,
+          merchandisingCarousel.requestContainsConsentReference
+        );
 
-      merchandisingCarousel.clickOnCarouselItem(
-        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id,
-        merchandisingCarousel.checkForCarouselClickEvent
-      );
-    });
+        merchandisingCarousel.clickOnCarouselItem(
+          merchandisingCarousel.STRATEGY_RESPONSE.products[0].id,
+          merchandisingCarousel.checkForCarouselClickEvent
+        );
+      }
+    );
   });
 });

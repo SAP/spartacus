@@ -14,37 +14,52 @@ describe('Language switch - product-details page', () => {
   );
 
   describe('product-details page', () => {
-    it(['site_context', 'language'], 'should change language in the url', () => {
-      siteContextSelector.verifySiteContextChangeUrl(
-        productDetailsPath,
-        siteContextSelector.LANGUAGES,
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + productDetailsPath
-      );
-    });
+    it(
+      ['site_context', 'language'],
+      'should change language in the url',
+      () => {
+        siteContextSelector.verifySiteContextChangeUrl(
+          productDetailsPath,
+          siteContextSelector.LANGUAGES,
+          siteContextSelector.LANGUAGE_DE,
+          siteContextSelector.LANGUAGE_LABEL,
+          siteContextSelector.FULL_BASE_URL_DE_USD + productDetailsPath
+        );
+      }
+    );
 
-    it(['site_context', 'language'], 'should change language in the page', () => {
-      siteContextSelector.siteContextChange(
-        productDetailsPath,
-        siteContextSelector.LANGUAGES,
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
-      );
+    it(
+      ['site_context', 'language'],
+      'should change language in the page',
+      () => {
+        siteContextSelector.siteContextChange(
+          productDetailsPath,
+          siteContextSelector.LANGUAGES,
+          siteContextSelector.LANGUAGE_DE,
+          siteContextSelector.LANGUAGE_LABEL
+        );
 
-      cy.get('cx-product-summary .summary').should('have.text', deutschName);
-    });
+        cy.get('cx-product-summary .summary').should('have.text', deutschName);
+      }
+    );
 
-    it(['site_context', 'language'], 'should change language in the modal', () => {
-      siteContextSelector.siteContextChange(
-        productDetailsPath,
-        siteContextSelector.LANGUAGES,
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
-      );
+    it(
+      ['site_context', 'language'],
+      'should change language in the modal',
+      () => {
+        siteContextSelector.siteContextChange(
+          productDetailsPath,
+          siteContextSelector.LANGUAGES,
+          siteContextSelector.LANGUAGE_DE,
+          siteContextSelector.LANGUAGE_LABEL
+        );
 
-      cy.get('cx-add-to-cart button.btn-primary').click();
-      cy.get('cx-added-to-cart-dialog .cx-link').should('contain', deutschName);
-    });
+        cy.get('cx-add-to-cart button.btn-primary').click();
+        cy.get('cx-added-to-cart-dialog .cx-link').should(
+          'contain',
+          deutschName
+        );
+      }
+    );
   });
 });

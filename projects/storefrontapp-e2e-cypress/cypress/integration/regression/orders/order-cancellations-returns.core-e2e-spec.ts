@@ -10,10 +10,18 @@ describe('Order Cancellations and Returns', () => {
     cy.restoreLocalStorage();
   });
 
-  it(['orders', 'order_cancellation'],'should validate order cancellation functionality', () => {
-    orderCancellationReturn.testCancelOrder();
-  });
-  it(['orders', 'order_returns'],'should validate order return functionality', () => {
-    orderCancellationReturn.testReturnOrder();
-  });
+  it(
+    ['orders', 'order_cancellation'],
+    'should validate order cancellation functionality',
+    () => {
+      orderCancellationReturn.testCancelOrder();
+    }
+  );
+  it(
+    ['orders', 'order_returns'],
+    'should validate order return functionality',
+    () => {
+      orderCancellationReturn.testReturnOrder();
+    }
+  );
 });

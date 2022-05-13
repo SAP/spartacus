@@ -12,10 +12,14 @@ describe('My Account - Update Password', () => {
         win.sessionStorage.clear();
       })
     );
-    it(['update_password', 'my_account'], 'should validate update password core functionaly', () => {
-      // Core e2e test. Repeat in mobile viewport.
-      updatePassword.testUpdatePasswordLoggedInUser();
-    });
+    it(
+      ['update_password', 'my_account'],
+      'should validate update password core functionaly',
+      () => {
+        // Core e2e test. Repeat in mobile viewport.
+        updatePassword.testUpdatePasswordLoggedInUser();
+      }
+    );
   });
 
   viewportContext(['mobile', 'desktop'], () => {
@@ -26,10 +30,14 @@ describe('My Account - Update Password', () => {
     );
 
     describe('update password test for anonymous user', () => {
-      it(['update_password', 'my_account'], 'should redirect to login page for anonymous user', () => {
-        cy.visit(updatePassword.PAGE_URL_UPDATE_PASSWORD);
-        cy.url().should('contain', '/login');
-      });
+      it(
+        ['update_password', 'my_account'],
+        'should redirect to login page for anonymous user',
+        () => {
+          cy.visit(updatePassword.PAGE_URL_UPDATE_PASSWORD);
+          cy.url().should('contain', '/login');
+        }
+      );
     });
 
     describe('update password test for logged in user', () => {
@@ -49,25 +57,33 @@ describe('My Account - Update Password', () => {
         });
       });
 
-      it(['update_password', 'my_account', 'my_account'], 'should be able to cancel and go back to home', () => {
-        cy.get('cx-update-password a').click();
-        cy.title().should('eq', updatePassword.PAGE_TITLE_HOME);
-        alerts.getAlert().should('not.exist');
-      });
+      it(
+        ['update_password', 'my_account', 'my_account'],
+        'should be able to cancel and go back to home',
+        () => {
+          cy.get('cx-update-password a').click();
+          cy.title().should('eq', updatePassword.PAGE_TITLE_HOME);
+          alerts.getAlert().should('not.exist');
+        }
+      );
 
-      it(['update_password', 'my_account'], 'should display server error if old password is wrong', () => {
-        alerts.getErrorAlert().should('not.exist');
-        cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
-        cy.get('[formcontrolname="newPassword"]').type(
-          updatePassword.newPassword
-        );
-        cy.get('[formcontrolname="newPasswordConfirm"]').type(
-          updatePassword.newPassword
-        );
-        cy.get('cx-update-password button.btn-primary').click();
-        cy.url().should('contain', updatePassword.PAGE_URL_UPDATE_PASSWORD);
-        alerts.getErrorAlert().should('exist');
-      });
+      it(
+        ['update_password', 'my_account'],
+        'should display server error if old password is wrong',
+        () => {
+          alerts.getErrorAlert().should('not.exist');
+          cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
+          cy.get('[formcontrolname="newPassword"]').type(
+            updatePassword.newPassword
+          );
+          cy.get('[formcontrolname="newPasswordConfirm"]').type(
+            updatePassword.newPassword
+          );
+          cy.get('cx-update-password button.btn-primary').click();
+          cy.url().should('contain', updatePassword.PAGE_URL_UPDATE_PASSWORD);
+          alerts.getErrorAlert().should('exist');
+        }
+      );
 
       afterEach(() => {
         cy.saveLocalStorage();

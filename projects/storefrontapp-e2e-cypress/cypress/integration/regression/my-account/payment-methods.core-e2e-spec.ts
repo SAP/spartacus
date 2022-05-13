@@ -11,10 +11,14 @@ describe('Payment Methods', () => {
     });
 
     describe('Anonymous user', () => {
-      it(['payment_method', 'smoke_b2c', 'my_account'],'should redirect user to login page', () => {
-        cy.visit('/my-account/payment-details');
-        cy.location('pathname').should('contain', '/login');
-      });
+      it(
+        ['payment_method', 'smoke_b2c', 'my_account'],
+        'should redirect user to login page',
+        () => {
+          cy.visit('/my-account/payment-details');
+          cy.location('pathname').should('contain', '/login');
+        }
+      );
     });
 
     describe('Authenticated user', () => {

@@ -30,25 +30,41 @@ context('B2B - Credit Card Checkout flow', () => {
     b2bCheckout.addB2bProductToCartAndCheckout();
   });
 
-  it(['smoke_b2b', 'checkout_b2b'],'should select Credit Card payment type', () => {
-    b2bCheckout.enterPONumber();
-    b2bCheckout.selectCreditCardPayment();
-  });
+  it(
+    ['smoke_b2b', 'checkout_b2b'],
+    'should select Credit Card payment type',
+    () => {
+      b2bCheckout.enterPONumber();
+      b2bCheckout.selectCreditCardPayment();
+    }
+  );
 
-  it(['smoke_b2b', 'checkout_b2b'], 'should check total in order summary', () => {
-    checkout.checkSummaryAmount(cartWithB2bProduct);
-  });
+  it(
+    ['smoke_b2b', 'checkout_b2b'],
+    'should check total in order summary',
+    () => {
+      checkout.checkSummaryAmount(cartWithB2bProduct);
+    }
+  );
 
-  it(['smoke_b2b', 'checkout_b2b'], 'should prevent navigation to payment method if shipping address form is empty', () => {
-    checkout.proceedWithEmptyShippingAdressForm();
-  });
+  it(
+    ['smoke_b2b', 'checkout_b2b'],
+    'should prevent navigation to payment method if shipping address form is empty',
+    () => {
+      checkout.proceedWithEmptyShippingAdressForm();
+    }
+  );
 
-  it(['smoke_b2b', 'checkout_b2b'], 'should prevent navigation to payment method if shipping address for has errors', () => {
-    checkout.proceedWithIncorrectShippingAddressForm({
-      ...user,
-      firstName: '',
-    });
-  });
+  it(
+    ['smoke_b2b', 'checkout_b2b'],
+    'should prevent navigation to payment method if shipping address for has errors',
+    () => {
+      checkout.proceedWithIncorrectShippingAddressForm({
+        ...user,
+        firstName: '',
+      });
+    }
+  );
 
   it(['smoke_b2b', 'checkout_b2b'], 'should enter shipping address', () => {
     checkout.fillAddressFormWithCheapProduct({ firstName: user.firstName });
@@ -58,18 +74,26 @@ context('B2B - Credit Card Checkout flow', () => {
     checkout.verifyDeliveryMethod();
   });
 
-  it(['smoke_b2b', 'checkout_b2b'],'should prevent navigation to review order if payment form is empty', () => {
-    checkout.proceedWithEmptyPaymentForm();
-  });
+  it(
+    ['smoke_b2b', 'checkout_b2b'],
+    'should prevent navigation to review order if payment form is empty',
+    () => {
+      checkout.proceedWithEmptyPaymentForm();
+    }
+  );
 
-  it(['smoke_b2b', 'checkout_b2b'], 'should prevent navigation to review order if payment form has errors', () => {
-    checkout.proceedWithIncorrectPaymentForm({
-      ...user,
-      payment: { ...user.payment, number: '' },
-    });
-  });
+  it(
+    ['smoke_b2b', 'checkout_b2b'],
+    'should prevent navigation to review order if payment form has errors',
+    () => {
+      checkout.proceedWithIncorrectPaymentForm({
+        ...user,
+        payment: { ...user.payment, number: '' },
+      });
+    }
+  );
 
-  it(['smoke_b2b', 'checkout_b2b'],'should enter payment method', () => {
+  it(['smoke_b2b', 'checkout_b2b'], 'should enter payment method', () => {
     checkout.fillPaymentFormWithCheapProduct(
       { payment: { number: user.payment.number } },
       undefined

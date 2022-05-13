@@ -27,7 +27,7 @@ context('B2B - Replenishment Checkout flow', () => {
         cy.saveLocalStorage();
       });
 
-      it(['replenishment', 'smoke_b2b'],'should login to b2b user', () => {
+      it(['replenishment', 'smoke_b2b'], 'should login to b2b user', () => {
         b2bCheckout.loginB2bUser();
       });
 
@@ -35,31 +35,43 @@ context('B2B - Replenishment Checkout flow', () => {
         b2bCheckout.addB2bProductToCartAndCheckout();
       });
 
-      it(['replenishment', 'smoke_b2b'], 'should select Account payment type', () => {
-        b2bCheckout.enterPONumber();
-        b2bCheckout.selectAccountPayment();
-      });
+      it(
+        ['replenishment', 'smoke_b2b'],
+        'should select Account payment type',
+        () => {
+          b2bCheckout.enterPONumber();
+          b2bCheckout.selectAccountPayment();
+        }
+      );
 
-      it(['replenishment', 'smoke_b2b'], 'should enter shipping address', () => {
-        b2bCheckout.selectAccountShippingAddress();
-      });
+      it(
+        ['replenishment', 'smoke_b2b'],
+        'should enter shipping address',
+        () => {
+          b2bCheckout.selectAccountShippingAddress();
+        }
+      );
 
       it(['replenishment', 'smoke_b2b'], 'should select delivery mode', () => {
         b2bCheckout.selectAccountDeliveryMode();
       });
 
-      it(['replenishment', 'smoke_b2b'], 'should review and place order', () => {
-        b2bCheckout.reviewB2bReviewOrderPage(
-          b2bAccountShipToUser,
-          cartWithB2bProduct,
-          true,
-          order_type.SCHEDULE_REPLENISHMENT
-        );
+      it(
+        ['replenishment', 'smoke_b2b'],
+        'should review and place order',
+        () => {
+          b2bCheckout.reviewB2bReviewOrderPage(
+            b2bAccountShipToUser,
+            cartWithB2bProduct,
+            true,
+            order_type.SCHEDULE_REPLENISHMENT
+          );
 
-        b2bCheckout.completeReplenishmentForm(replenishment);
+          b2bCheckout.completeReplenishmentForm(replenishment);
 
-        b2bCheckout.placeOrder('/replenishment/confirmation');
-      });
+          b2bCheckout.placeOrder('/replenishment/confirmation');
+        }
+      );
 
       it(['replenishment', 'smoke_b2b'], 'should display summary page', () => {
         b2bCheckout.reviewB2bOrderConfirmation(

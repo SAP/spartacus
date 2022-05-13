@@ -9,13 +9,17 @@ context('Cart Import/Export', () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    it(['cart_import_export'], 'should validate import export cart core functionality', () => {
-      // Core test. Repeat in mobile viewport.
-      importExport.testImportExportSingleProduct();
+    it(
+      ['cart_import_export'],
+      'should validate import export cart core functionality',
+      () => {
+        // Core test. Repeat in mobile viewport.
+        importExport.testImportExportSingleProduct();
 
-      // Core test. Repeat in mobile viewport.
-      importExport.testImportExportLargerQuantity();
-    });
+        // Core test. Repeat in mobile viewport.
+        importExport.testImportExportLargerQuantity();
+      }
+    );
     describe('Multiple products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n3470545,1,EASYSHARE M381,$370.72\r\n`;
 
@@ -26,7 +30,7 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it(['cart_import_export'],'should import to active cart', () => {
+      it(['cart_import_export'], 'should import to active cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-multiple-products',
           context: ImportExportContext.ACTIVE_CART,
@@ -39,7 +43,7 @@ context('Cart Import/Export', () => {
         });
       });
 
-      it(['cart_import_export'],'should import to saved cart', () => {
+      it(['cart_import_export'], 'should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-multiple-products',
           context: ImportExportContext.SAVED_CART,
@@ -127,7 +131,7 @@ context('Cart Import/Export', () => {
         });
       });
 
-      it(['cart_import_export'],'should import to saved cart', () => {
+      it(['cart_import_export'], 'should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-normal-product',
           context: ImportExportContext.SAVED_CART,
@@ -159,7 +163,7 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it(['cart_import_export'],'should import to active cart', () => {
+      it(['cart_import_export'], 'should import to active cart', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-non-default',
           context: ImportExportContext.ACTIVE_CART,

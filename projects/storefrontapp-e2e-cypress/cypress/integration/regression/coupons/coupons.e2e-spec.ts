@@ -12,11 +12,15 @@ describe('Cart Coupon', () => {
         cy.window().then((win) => win.sessionStorage.clear());
         cy.requireLoggedIn();
       });
-      it(['coupons'], 'should show error message when applied a wrong coupon', () => {
-        cartCoupon.visitProductPage(cartCoupon.productCode1);
-        cartCoupon.addProductToCart(cartCoupon.productCode1);
-        cartCoupon.applyWrongCoupon();
-      });
+      it(
+        ['coupons'],
+        'should show error message when applied a wrong coupon',
+        () => {
+          cartCoupon.visitProductPage(cartCoupon.productCode1);
+          cartCoupon.addProductToCart(cartCoupon.productCode1);
+          cartCoupon.applyWrongCoupon();
+        }
+      );
 
       it(['coupons'], 'should apply product category coupon', () => {
         const stateAuth = getStateAuth();
@@ -39,17 +43,21 @@ describe('Cart Coupon', () => {
         });
       });
 
-      it(['coupons'], 'should be able to remove coupon and place order without it', () => {
-        const stateAuth = getStateAuth();
-        cartCoupon.visitProductPage(cartCoupon.productCode1);
-        cartCoupon.addProductToCart(cartCoupon.productCode1);
-        cartCoupon.applyCoupon(cartCoupon.couponForCart);
-        cartCoupon.removeCoupon(cartCoupon.couponForCart);
+      it(
+        ['coupons'],
+        'should be able to remove coupon and place order without it',
+        () => {
+          const stateAuth = getStateAuth();
+          cartCoupon.visitProductPage(cartCoupon.productCode1);
+          cartCoupon.addProductToCart(cartCoupon.productCode1);
+          cartCoupon.applyCoupon(cartCoupon.couponForCart);
+          cartCoupon.removeCoupon(cartCoupon.couponForCart);
 
-        cartCoupon.goThroughCheckout(stateAuth.token).then(() => {
-          cartCoupon.verifyCouponInReviewOrder();
-        });
-      });
+          cartCoupon.goThroughCheckout(stateAuth.token).then(() => {
+            cartCoupon.verifyCouponInReviewOrder();
+          });
+        }
+      );
     });
 
     describe('Anonymous And Logged User', () => {
@@ -75,48 +83,56 @@ describe('Cart Coupon', () => {
         });
       });
 
-      it(['coupons'], 'should merge anonymous cart with coupon and user cart with coupon', () => {
-        cart.loginCartUser(cartUser).then(() => {
-          cartCoupon.visitProductPage(cartCoupon.productCode1);
-          cartCoupon.addProductToCart(cartCoupon.productCode1);
-          cartCoupon.applyCoupon(cartCoupon.couponForCart);
-        });
-        signOut().then(() => {
-          cartCoupon.visitProductPage(cartCoupon.productCode2);
-          cartCoupon.addProductToCart(cartCoupon.productCode2);
-          cartCoupon.applyCoupon(
-            cartCoupon.couponForProduct,
-            cartCoupon.UserType.ANONYMOUS
-          );
-        });
-        cart.loginCartUser(cartUser).then(() => {
-          const stateAuth = getStateAuth();
-          cartCoupon.goThroughCheckout(stateAuth.token).then(() => {
-            cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);
+      it(
+        ['coupons'],
+        'should merge anonymous cart with coupon and user cart with coupon',
+        () => {
+          cart.loginCartUser(cartUser).then(() => {
+            cartCoupon.visitProductPage(cartCoupon.productCode1);
+            cartCoupon.addProductToCart(cartCoupon.productCode1);
+            cartCoupon.applyCoupon(cartCoupon.couponForCart);
           });
-        });
-      });
+          signOut().then(() => {
+            cartCoupon.visitProductPage(cartCoupon.productCode2);
+            cartCoupon.addProductToCart(cartCoupon.productCode2);
+            cartCoupon.applyCoupon(
+              cartCoupon.couponForProduct,
+              cartCoupon.UserType.ANONYMOUS
+            );
+          });
+          cart.loginCartUser(cartUser).then(() => {
+            const stateAuth = getStateAuth();
+            cartCoupon.goThroughCheckout(stateAuth.token).then(() => {
+              cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);
+            });
+          });
+        }
+      );
 
-      it(['coupons'], 'should merge anonymous cart with coupon and user cart without coupon', () => {
-        cart.loginCartUser(cartUser).then(() => {
-          cartCoupon.visitProductPage(cartCoupon.productCode1);
-          cartCoupon.addProductToCart(cartCoupon.productCode1);
-        });
-        signOut().then(() => {
-          cartCoupon.visitProductPage(cartCoupon.productCode2);
-          cartCoupon.addProductToCart(cartCoupon.productCode2);
-          cartCoupon.applyCoupon(
-            cartCoupon.couponForCart,
-            cartCoupon.UserType.ANONYMOUS
-          );
-        });
-        cart.loginCartUser(cartUser).then(() => {
-          const stateAuth = getStateAuth();
-          cartCoupon.goThroughCheckout(stateAuth.token).then(() => {
-            cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);
+      it(
+        ['coupons'],
+        'should merge anonymous cart with coupon and user cart without coupon',
+        () => {
+          cart.loginCartUser(cartUser).then(() => {
+            cartCoupon.visitProductPage(cartCoupon.productCode1);
+            cartCoupon.addProductToCart(cartCoupon.productCode1);
           });
-        });
-      });
+          signOut().then(() => {
+            cartCoupon.visitProductPage(cartCoupon.productCode2);
+            cartCoupon.addProductToCart(cartCoupon.productCode2);
+            cartCoupon.applyCoupon(
+              cartCoupon.couponForCart,
+              cartCoupon.UserType.ANONYMOUS
+            );
+          });
+          cart.loginCartUser(cartUser).then(() => {
+            const stateAuth = getStateAuth();
+            cartCoupon.goThroughCheckout(stateAuth.token).then(() => {
+              cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);
+            });
+          });
+        }
+      );
     });
 
     describe('Express Checkout', () => {
@@ -134,15 +150,19 @@ describe('Cart Coupon', () => {
         cart.loginCartUser(cartUser);
       });
 
-      it(['coupons', 'express_checkout'], 'should keep applied coupons during express checkout', () => {
-        const stateAuth = getStateAuth();
-        cartCoupon.visitProductPage(cartCoupon.productCode1);
-        cartCoupon.addProductToCart(cartCoupon.productCode1);
-        cartCoupon.applyCoupon(cartCoupon.couponForCart);
-        cartCoupon.goThroughCheckout(stateAuth.token).then(() => {
-          cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);
-        });
-      });
+      it(
+        ['coupons', 'express_checkout'],
+        'should keep applied coupons during express checkout',
+        () => {
+          const stateAuth = getStateAuth();
+          cartCoupon.visitProductPage(cartCoupon.productCode1);
+          cartCoupon.addProductToCart(cartCoupon.productCode1);
+          cartCoupon.applyCoupon(cartCoupon.couponForCart);
+          cartCoupon.goThroughCheckout(stateAuth.token).then(() => {
+            cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);
+          });
+        }
+      );
     });
 
     describe('Guest Checkout', () => {
@@ -151,16 +171,20 @@ describe('Cart Coupon', () => {
         cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
       });
 
-      it(['coupons', 'guest_checkout'], 'should keep applied coupons during quest checkout', () => {
-        cartCoupon.visitProductPage(cartCoupon.productCode1);
-        cartCoupon.addProductToCart(cartCoupon.productCode1);
-        cartCoupon.applyCouponAndProceedToGuestCheckout(
-          cartCoupon.couponForCart
-        );
-        cartCoupon.goThroughGuestCheckout().then(() => {
-          cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);
-        });
-      });
+      it(
+        ['coupons', 'guest_checkout'],
+        'should keep applied coupons during quest checkout',
+        () => {
+          cartCoupon.visitProductPage(cartCoupon.productCode1);
+          cartCoupon.addProductToCart(cartCoupon.productCode1);
+          cartCoupon.applyCouponAndProceedToGuestCheckout(
+            cartCoupon.couponForCart
+          );
+          cartCoupon.goThroughGuestCheckout().then(() => {
+            cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);
+          });
+        }
+      );
     });
   });
 });

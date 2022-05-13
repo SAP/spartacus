@@ -41,7 +41,7 @@ context('Product Configuration', () => {
   });
 
   describe('Product Config Tabbing', () => {
-    it(['accessibility'],'should allow to navigate with tab key', () => {
+    it(['accessibility'], 'should allow to navigate with tab key', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
 

@@ -14,10 +14,14 @@ describe('My Account - Update Email', () => {
     });
 
     describe('Anonymous user', () => {
-      it(['update_email', 'my_account'],'should redirect to login page', () => {
-        cy.visit(updateEmail.UPDATE_EMAIL_URL);
-        cy.location('pathname').should('contain', '/login');
-      });
+      it(
+        ['update_email', 'my_account'],
+        'should redirect to login page',
+        () => {
+          cy.visit(updateEmail.UPDATE_EMAIL_URL);
+          cy.location('pathname').should('contain', '/login');
+        }
+      );
     });
 
     describe('Logged in user', () => {
@@ -33,26 +37,34 @@ describe('My Account - Update Email', () => {
         });
       });
 
-      it(['update_email', 'my_account'], 'should click cancel update email and go back to the homepage', () => {
-        cy.get('cx-update-email a.btn-secondary').click();
-        checkBanner();
+      it(
+        ['update_email', 'my_account'],
+        'should click cancel update email and go back to the homepage',
+        () => {
+          cy.get('cx-update-email a.btn-secondary').click();
+          checkBanner();
 
-        cy.location('pathname').should('contain', '/');
-      });
+          cy.location('pathname').should('contain', '/');
+        }
+      );
 
       // Core e2e test. Check with different view port.
       updateEmail.testUpdateEmailAndLogin();
 
       // Below test depends on core test for setup.
-      it(['update_email', 'my_account'],'should not allow login with old email address', () => {
-        signOut();
-        cy.visit('/login');
-        login(
-          standardUser.registrationData.email,
-          standardUser.registrationData.password
-        );
-        alerts.getErrorAlert().should('contain', 'Bad credentials');
-      });
+      it(
+        ['update_email', 'my_account'],
+        'should not allow login with old email address',
+        () => {
+          signOut();
+          cy.visit('/login');
+          login(
+            standardUser.registrationData.email,
+            standardUser.registrationData.password
+          );
+          alerts.getErrorAlert().should('contain', 'Bad credentials');
+        }
+      );
 
       afterEach(() => {
         cy.saveLocalStorage();

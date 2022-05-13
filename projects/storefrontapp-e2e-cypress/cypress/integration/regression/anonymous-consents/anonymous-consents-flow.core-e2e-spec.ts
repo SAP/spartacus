@@ -11,7 +11,7 @@ context('Anonymous consents flow', () => {
     });
 
     describe('As an anonymous user', () => {
-      it(['consents'],'should validate anonymous consents', () => {
+      it(['consents'], 'should validate anonymous consents', () => {
         aConsents.testAcceptAnonymousConsents();
       });
     });

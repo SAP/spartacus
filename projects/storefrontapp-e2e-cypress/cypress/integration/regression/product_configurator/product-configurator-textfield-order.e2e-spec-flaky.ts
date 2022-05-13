@@ -13,8 +13,12 @@ context('Textfield Configuration', () => {
   });
 
   describe('Configuration process', () => {
-    it(['product_configurator'], 'should support configuration aspect in product search, cart, checkout and order history', () => {
-      configuration.completeOrderProcess(testProduct);
-    });
+    it(
+      ['product_configurator'],
+      'should support configuration aspect in product search, cart, checkout and order history',
+      () => {
+        configuration.completeOrderProcess(testProduct);
+      }
+    );
   });
 });

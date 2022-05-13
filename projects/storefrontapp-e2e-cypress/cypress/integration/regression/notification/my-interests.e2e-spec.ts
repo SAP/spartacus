@@ -13,7 +13,7 @@ describe('My interests', () => {
       });
 
       // Core test. Retest in mobile view.
-      it(['my_interest'],'should show/remove interest', () => {
+      it(['my_interest'], 'should show/remove interest', () => {
         notification.verifyCustomerInterests();
       });
 
@@ -29,10 +29,14 @@ describe('My interests', () => {
         cy.window().then((win) => win.sessionStorage.clear());
       });
 
-      it(['my_interest'], 'should redirect to login page for anonymous user', () => {
-        cy.visit('/my-account/my-interests');
-        cy.location('pathname').should('contain', '/login');
-      });
+      it(
+        ['my_interest'],
+        'should redirect to login page for anonymous user',
+        () => {
+          cy.visit('/my-account/my-interests');
+          cy.location('pathname').should('contain', '/login');
+        }
+      );
     });
 
     describe('Customer with interests', () => {

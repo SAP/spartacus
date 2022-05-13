@@ -8,14 +8,18 @@ describe('Login', () => {
       login.registerUserFromLoginPage();
     });
 
-    it(['login','smoke_b2c'], 'should login and logout successfully with correct credentials', () => {
-      login.loginUser();
+    it(
+      ['login', 'smoke_b2c'],
+      'should login and logout successfully with correct credentials',
+      () => {
+        login.loginUser();
 
-      const tokenRevocationRequestAlias =
-        login.listenForTokenRevocationRequest();
-      login.signOutUser();
-      cy.wait(tokenRevocationRequestAlias);
-    });
+        const tokenRevocationRequestAlias =
+          login.listenForTokenRevocationRequest();
+        login.signOutUser();
+        cy.wait(tokenRevocationRequestAlias);
+      }
+    );
 
     it(['login', 'smoke_b2c'], 'login should fail if password is wrong', () => {
       cy.visit('/login');

@@ -49,124 +49,144 @@ context('Product Configuration', () => {
   });
 
   describe('Navigate to Product Configuration Page', () => {
-    it(['product_configurator'], 'should be able to navigate from the cart', () => {
-      clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(
-        electronicsShop,
-        testProductMultiLevel
-      );
-      configurationVc.clickAddToCartBtn();
-      configurationVc.goToCart(electronicsShop);
-      //We assume only one product is in the cart
-      configurationCart.clickOnEditConfigurationLink(0);
-    });
+    it(
+      ['product_configurator'],
+      'should be able to navigate from the cart',
+      () => {
+        clickAllowAllFromBanner();
+        configurationVc.goToConfigurationPage(
+          electronicsShop,
+          testProductMultiLevel
+        );
+        configurationVc.clickAddToCartBtn();
+        configurationVc.goToCart(electronicsShop);
+        //We assume only one product is in the cart
+        configurationCart.clickOnEditConfigurationLink(0);
+      }
+    );
 
-    it(['product_configurator'], 'should be able to navigate from the cart after adding product directly to the cart', () => {
-      clickAllowAllFromBanner();
-      configuration.searchForProduct(testProductMultiLevel);
-      configuration.clickOnAddToCartBtnOnPD();
-      configuration.clickOnViewCartBtnOnPD();
-      cart.verifyCartNotEmpty();
-      configurationCart.clickOnEditConfigurationLink(0);
-    });
+    it(
+      ['product_configurator'],
+      'should be able to navigate from the cart after adding product directly to the cart',
+      () => {
+        clickAllowAllFromBanner();
+        configuration.searchForProduct(testProductMultiLevel);
+        configuration.clickOnAddToCartBtnOnPD();
+        configuration.clickOnViewCartBtnOnPD();
+        cart.verifyCartNotEmpty();
+        configurationCart.clickOnEditConfigurationLink(0);
+      }
+    );
   });
 
   describe('Conflict Solver', () => {
-    it(['product_configurator'], 'should support the conflict solving process', () => {
-      clickAllowAllFromBanner();
-      cy.intercept({
-        method: 'PATCH',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/ccpconfigurator/*`,
-      }).as('updateConfig');
-      configurationVc.goToConfigurationPage(
-        electronicsShop,
-        testProductMultiLevel
-      );
-      configuration.clickOnNextBtn(PROJECTOR);
-      configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
-      cy.wait('@updateConfig');
-      configuration.clickOnPreviousBtn(GENERAL);
-      configurationVc.clickOnGroup(3);
+    it(
+      ['product_configurator'],
+      'should support the conflict solving process',
+      () => {
+        clickAllowAllFromBanner();
+        cy.intercept({
+          method: 'PATCH',
+          path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+            'BASE_SITE'
+          )}/ccpconfigurator/*`,
+        }).as('updateConfig');
+        configurationVc.goToConfigurationPage(
+          electronicsShop,
+          testProductMultiLevel
+        );
+        configuration.clickOnNextBtn(PROJECTOR);
+        configuration.selectAttribute(
+          PROJECTOR_TYPE,
+          radioGroup,
+          PROJECTOR_LCD
+        );
+        cy.wait('@updateConfig');
+        configuration.clickOnPreviousBtn(GENERAL);
+        configurationVc.clickOnGroup(3);
 
-      configurationVc.selectConflictingValue(
-        GAMING_CONSOLE,
-        radioGroup,
-        GAMING_CONSOLE_YES,
-        1
-      );
-      cy.wait('@updateConfig');
-      configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
-      configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
-      configurationVc.deselectConflictingValue(
-        GAMING_CONSOLE,
-        radioGroup,
-        GAMING_CONSOLE_NO
-      );
-      cy.wait('@updateConfig');
-      configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
-      configurationVc.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
-      configurationVc.selectConflictingValue(
-        GAMING_CONSOLE,
-        radioGroup,
-        GAMING_CONSOLE_YES,
-        1
-      );
-      cy.wait('@updateConfig');
-      configuration.clickOnPreviousBtn(SUBWOOFER);
-      configuration.clickOnPreviousBtn(REAR_SPEAKER);
-      configuration.clickOnPreviousBtn(CENTER_SPEAKER);
-      configuration.clickOnPreviousBtn(FRONT_SPEAKERS);
-      configuration.clickOnPreviousBtn(PROJECTOR_SCREEN);
-      configuration.clickOnPreviousBtn(PROJECTOR);
-      configurationVc.checkConflictDetectedMsgDisplayed(PROJECTOR_TYPE);
-      configuration.clickOnPreviousBtn(GENERAL);
-      configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
-      configurationVc.checkConflictDescriptionDisplayed(
-        Conflict_msg_gaming_console
-      );
-      configuration.clickOnNextBtn(GENERAL);
-      configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
-      configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
-      configurationOverviewVc.registerConfigurationOvOCC();
-      configurationVc.clickAddToCartBtn();
-      // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
-      configurationOverviewVc.verifyNotificationBannerOnOP(1);
-      // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
-      configurationOverview.clickContinueToCartBtnOnOP();
-      configurationCartVc.verifyNotificationBannerInCart(0, 1);
-      // Navigate back to the configuration page
-      configurationCart.clickOnEditConfigurationLink(0);
-      // Navigate to Overview page and back to configuration via 'Resolve issues' link
-      configurationVc.clickAddToCartBtn();
-      // Click 'Resolve issues' link in the banner and navigate back to the configuration
-      configurationOverviewVc.clickOnResolveIssuesLinkOnOP();
-      configurationVc.checkConflictDescriptionDisplayed(
-        Conflict_msg_gaming_console
-      );
-      // Navigate back to the configuration page via clicking on 'View in Configuration' link and deselect conflicting value
-      configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
-      configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
-      configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
-      configurationVc.deselectConflictingValue(
-        GAMING_CONSOLE,
-        radioGroup,
-        GAMING_CONSOLE_NO
-      );
-      //Click 'Add to cart' and verify whether the resolve issues banner is not displayed anymore
-      configurationOverviewVc.registerConfigurationOvOCC();
-      configurationVc.clickAddToCartBtn();
-      configurationOverviewVc.verifyNotificationBannerOnOP();
-      // Click 'Continue to cart' and verify whether there is a resolve issues banner in the cart entry list
-      configurationOverview.clickContinueToCartBtnOnOP();
-      configurationCartVc.verifyNotificationBannerInCart(0);
-    });
+        configurationVc.selectConflictingValue(
+          GAMING_CONSOLE,
+          radioGroup,
+          GAMING_CONSOLE_YES,
+          1
+        );
+        cy.wait('@updateConfig');
+        configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
+        configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
+        configurationVc.deselectConflictingValue(
+          GAMING_CONSOLE,
+          radioGroup,
+          GAMING_CONSOLE_NO
+        );
+        cy.wait('@updateConfig');
+        configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
+        configurationVc.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
+        configurationVc.selectConflictingValue(
+          GAMING_CONSOLE,
+          radioGroup,
+          GAMING_CONSOLE_YES,
+          1
+        );
+        cy.wait('@updateConfig');
+        configuration.clickOnPreviousBtn(SUBWOOFER);
+        configuration.clickOnPreviousBtn(REAR_SPEAKER);
+        configuration.clickOnPreviousBtn(CENTER_SPEAKER);
+        configuration.clickOnPreviousBtn(FRONT_SPEAKERS);
+        configuration.clickOnPreviousBtn(PROJECTOR_SCREEN);
+        configuration.clickOnPreviousBtn(PROJECTOR);
+        configurationVc.checkConflictDetectedMsgDisplayed(PROJECTOR_TYPE);
+        configuration.clickOnPreviousBtn(GENERAL);
+        configuration.clickOnPreviousBtn(CONFLICT_FOR_GAMING_CONSOLE);
+        configurationVc.checkConflictDescriptionDisplayed(
+          Conflict_msg_gaming_console
+        );
+        configuration.clickOnNextBtn(GENERAL);
+        configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
+        configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
+        configurationOverviewVc.registerConfigurationOvOCC();
+        configurationVc.clickAddToCartBtn();
+        // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
+        configurationOverviewVc.verifyNotificationBannerOnOP(1);
+        // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
+        configurationOverview.clickContinueToCartBtnOnOP();
+        configurationCartVc.verifyNotificationBannerInCart(0, 1);
+        // Navigate back to the configuration page
+        configurationCart.clickOnEditConfigurationLink(0);
+        // Navigate to Overview page and back to configuration via 'Resolve issues' link
+        configurationVc.clickAddToCartBtn();
+        // Click 'Resolve issues' link in the banner and navigate back to the configuration
+        configurationOverviewVc.clickOnResolveIssuesLinkOnOP();
+        configurationVc.checkConflictDescriptionDisplayed(
+          Conflict_msg_gaming_console
+        );
+        // Navigate back to the configuration page via clicking on 'View in Configuration' link and deselect conflicting value
+        configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
+        configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+        configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
+        configurationVc.deselectConflictingValue(
+          GAMING_CONSOLE,
+          radioGroup,
+          GAMING_CONSOLE_NO
+        );
+        //Click 'Add to cart' and verify whether the resolve issues banner is not displayed anymore
+        configurationOverviewVc.registerConfigurationOvOCC();
+        configurationVc.clickAddToCartBtn();
+        configurationOverviewVc.verifyNotificationBannerOnOP();
+        // Click 'Continue to cart' and verify whether there is a resolve issues banner in the cart entry list
+        configurationOverview.clickContinueToCartBtnOnOP();
+        configurationCartVc.verifyNotificationBannerInCart(0);
+      }
+    );
   });
 
   describe('Configuration process', () => {
-    it(['product_configurator'],'should support configuration aspect in product search, cart, checkout and order history', () => {
-      configuration.completeOrderProcess(testProductMultiLevel);
-    });
+    it(
+      ['product_configurator'],
+      'should support configuration aspect in product search, cart, checkout and order history',
+      () => {
+        configuration.completeOrderProcess(testProductMultiLevel);
+      }
+    );
   });
 });

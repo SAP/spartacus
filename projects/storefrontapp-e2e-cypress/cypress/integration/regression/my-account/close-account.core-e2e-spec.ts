@@ -15,10 +15,14 @@ describe('My Account - Close Account', () => {
     );
 
     describe('Anonymous user', () => {
-      it(['close_account', 'smoke_b2c','my_account'], 'should redirect to login page', () => {
-        cy.visit(CLOSE_ACCOUNT_URL);
-        cy.location('pathname').should('contain', '/login');
-      });
+      it(
+        ['close_account', 'smoke_b2c', 'my_account'],
+        'should redirect to login page',
+        () => {
+          cy.visit(CLOSE_ACCOUNT_URL);
+          cy.location('pathname').should('contain', '/login');
+        }
+      );
     });
 
     describe('Logged in user', () => {
@@ -35,14 +39,18 @@ describe('My Account - Close Account', () => {
         cy.restoreLocalStorage();
       });
 
-      it(['close_account', 'smoke_b2c','my_account'], 'should cancel and go back to the homepage', () => {
-        cy.selectUserMenuOption({
-          option: 'Close Account',
-        });
+      it(
+        ['close_account', 'smoke_b2c', 'my_account'],
+        'should cancel and go back to the homepage',
+        () => {
+          cy.selectUserMenuOption({
+            option: 'Close Account',
+          });
 
-        cy.get('cx-close-account a').click({ force: true });
-        cy.location('pathname').should('contain', '/');
-      });
+          cy.get('cx-close-account a').click({ force: true });
+          cy.location('pathname').should('contain', '/');
+        }
+      );
 
       it(['close_account', 'smoke_b2c'], 'should close account', () => {
         cy.selectUserMenuOption({
@@ -71,16 +79,20 @@ describe('My Account - Close Account', () => {
           .should('contain', 'Account closed with success');
       });
 
-      it(['close_account', 'smoke_b2c'], 'should not login with a closed account credentials', () => {
-        cy.visit('/login');
-        login(
-          standardUser.registrationData.email,
-          standardUser.registrationData.password
-        );
+      it(
+        ['close_account', 'smoke_b2c'],
+        'should not login with a closed account credentials',
+        () => {
+          cy.visit('/login');
+          login(
+            standardUser.registrationData.email,
+            standardUser.registrationData.password
+          );
 
-        cy.location('pathname').should('contain', '/login');
-        alerts.getErrorAlert().should('contain', 'User is disabled');
-      });
+          cy.location('pathname').should('contain', '/login');
+          alerts.getErrorAlert().should('contain', 'User is disabled');
+        }
+      );
 
       afterEach(() => {
         cy.saveLocalStorage();

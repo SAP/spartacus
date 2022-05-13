@@ -19,13 +19,21 @@ context('B2B - Saved Cart', () => {
           cy.location('pathname').should('contain', '/login');
         });
 
-        it(['saved_cart'],'should redirect to login page when clicking "Saved Cart"', () => {
-          savedCart.clickSavedCartButtonsFromCartPage(0);
-        });
+        it(
+          ['saved_cart'],
+          'should redirect to login page when clicking "Saved Cart"',
+          () => {
+            savedCart.clickSavedCartButtonsFromCartPage(0);
+          }
+        );
 
-        it(['saved_cart'], 'should redirect to login page when clicking "Save Cart For Later"', () => {
-          savedCart.clickSavedCartButtonsFromCartPage(1);
-        });
+        it(
+          ['saved_cart'],
+          'should redirect to login page when clicking "Save Cart For Later"',
+          () => {
+            savedCart.clickSavedCartButtonsFromCartPage(1);
+          }
+        );
       });
 
       describe('Logged in user', () => {
@@ -35,14 +43,25 @@ context('B2B - Saved Cart', () => {
           savedCart.visitCartPage();
         });
 
-        it(['saved_cart'], 'should be able to visit the saved cart listing page', () => {
-          savedCart.clickSavedCartButtonsFromCartPage(0);
-          cy.location('pathname').should('contain', '/my-account/saved-carts');
-        });
+        it(
+          ['saved_cart'],
+          'should be able to visit the saved cart listing page',
+          () => {
+            savedCart.clickSavedCartButtonsFromCartPage(0);
+            cy.location('pathname').should(
+              'contain',
+              '/my-account/saved-carts'
+            );
+          }
+        );
 
-        it(['saved_cart'], 'should be able to save the active cart and view it in the listing page', () => {
-          savedCart.saveActiveCart();
-        });
+        it(
+          ['saved_cart'],
+          'should be able to save the active cart and view it in the listing page',
+          () => {
+            savedCart.saveActiveCart();
+          }
+        );
       });
     });
   });

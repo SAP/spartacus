@@ -40,13 +40,17 @@ context('Early login', () => {
         cy.visit('/faq');
       });
 
-      it(['login'], 'should redirect to login page and redirect back after sign in', () => {
-        cy.url().should('contain', '/login');
+      it(
+        ['login'],
+        'should redirect to login page and redirect back after sign in',
+        () => {
+          cy.url().should('contain', '/login');
 
-        login.registerUserFromLoginPage();
-        login.loginUser();
-        headingContains(FAQ_HEADING);
-      });
+          login.registerUserFromLoginPage();
+          login.loginUser();
+          headingContains(FAQ_HEADING);
+        }
+      );
     });
 
     context('for authorized user', () => {
@@ -59,7 +63,7 @@ context('Early login', () => {
         cy.visit('/faq');
       });
 
-      it(['login'],'should display', () => {
+      it(['login'], 'should display', () => {
         headingContains(FAQ_HEADING);
       });
     });

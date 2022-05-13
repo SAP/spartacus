@@ -8,7 +8,7 @@ import { login } from '../../../support/utils/login';
 describe('Cart', () => {
   viewportContext(['mobile'], () => {
     context('Anonymous user', () => {
-      it(['cart', 'smoke_b2c'],'should add and remove products', () => {
+      it(['cart', 'smoke_b2c'], 'should add and remove products', () => {
         cart.checkBasicCart();
       });
     });
@@ -20,31 +20,43 @@ describe('Cart', () => {
         visitHomePage();
       });
 
-      it(['cart', 'smoke_b2c'],'should merge carts when user is authenticated', () => {
-        cart.registerCreateCartRoute();
-        cart.registerSaveCartRoute();
+      it(
+        ['cart', 'smoke_b2c'],
+        'should merge carts when user is authenticated',
+        () => {
+          cart.registerCreateCartRoute();
+          cart.registerSaveCartRoute();
 
-        cart.addProductWhenLoggedIn(false);
+          cart.addProductWhenLoggedIn(false);
 
-        clickHamburger();
+          clickHamburger();
 
-        cart.logOutAndNavigateToEmptyCart();
-        cart.addProductAsAnonymous();
-        cart.verifyMergedCartWhenLoggedIn();
-        cart.logOutAndEmptyCart();
-      });
+          cart.logOutAndNavigateToEmptyCart();
+          cart.addProductAsAnonymous();
+          cart.verifyMergedCartWhenLoggedIn();
+          cart.logOutAndEmptyCart();
+        }
+      );
 
-      it(['cart', 'smoke_b2c'], 'should add product and manipulate cart quantity', () => {
-        cart.manipulateCartQuantity();
-      });
+      it(
+        ['cart', 'smoke_b2c'],
+        'should add product and manipulate cart quantity',
+        () => {
+          cart.manipulateCartQuantity();
+        }
+      );
     });
   });
 
   viewportContext(['desktop'], () => {
     context('Anonymous user', () => {
-      it(['cart'],'should be unable to add out of stock products to cart', () => {
-        cart.outOfStock();
-      });
+      it(
+        ['cart'],
+        'should be unable to add out of stock products to cart',
+        () => {
+          cart.outOfStock();
+        }
+      );
 
       it(['cart', 'smoke_b2c'], 'should keep cart on page refresh', () => {
         cart.addProductAsAnonymous();
@@ -60,28 +72,32 @@ describe('Cart', () => {
         visitHomePage();
       });
 
-      it(['cart', 'smoke_b2c'], 'should be loaded for authenticated user after "cart not found" error', () => {
-        cart.registerCreateCartRoute();
-        cart.registerSaveCartRoute();
-        cart.loginRegisteredUser();
-        cart.addProductWhenLoggedIn(false);
-        cy.window().then((window) => {
-          const storage = JSON.parse(
-            window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
-          );
-          const cartCode = storage.active;
-          storage.active = 'incorrect-code';
-          window.localStorage.setItem(
-            'spartacus⚿electronics-spa⚿cart',
-            JSON.stringify(storage)
-          );
-          cy.visit('/cart');
-          alerts.getErrorAlert().should('contain', 'Cart not found');
-          cy.get('.cart-details-wrapper .cx-total').contains(
-            `Cart #${cartCode}`
-          );
-        });
-      });
+      it(
+        ['cart', 'smoke_b2c'],
+        'should be loaded for authenticated user after "cart not found" error',
+        () => {
+          cart.registerCreateCartRoute();
+          cart.registerSaveCartRoute();
+          cart.loginRegisteredUser();
+          cart.addProductWhenLoggedIn(false);
+          cy.window().then((window) => {
+            const storage = JSON.parse(
+              window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+            );
+            const cartCode = storage.active;
+            storage.active = 'incorrect-code';
+            window.localStorage.setItem(
+              'spartacus⚿electronics-spa⚿cart',
+              JSON.stringify(storage)
+            );
+            cy.visit('/cart');
+            alerts.getErrorAlert().should('contain', 'Cart not found');
+            cy.get('.cart-details-wrapper .cx-total').contains(
+              `Cart #${cartCode}`
+            );
+          });
+        }
+      );
 
       it(['cart', 'smoke_b2c'], 'should be loaded after user login', () => {
         cart.registerCartUser();
@@ -110,154 +126,166 @@ describe('Cart', () => {
       });
 
       // will fail right now, as this is not implemented yet
-      it(['cart', 'smoke_b2c'], 'should first try to load cart when adding first entry for logged user', () => {
-        cart.loginCartUser();
+      it(
+        ['cart', 'smoke_b2c'],
+        'should first try to load cart when adding first entry for logged user',
+        () => {
+          cart.loginCartUser();
 
-        login(
-          cart.cartUser.registrationData.email,
-          cart.cartUser.registrationData.password,
-          false
-        ).then((res) => {
-          expect(res.status).to.eq(200);
-          // remove cart
-          cy.request({
-            method: 'DELETE',
-            url: `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
-            )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
-            headers: {
-              Authorization: `bearer ${res.body.access_token}`,
-            },
-          }).then((response) => {
-            expect(response.status).to.eq(200);
-          });
-        });
-        cy.visit(`/product/${cart.products[0].code}`);
-        cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
-        login(
-          cart.cartUser.registrationData.email,
-          cart.cartUser.registrationData.password,
-          false
-        ).then((res) => {
-          cy.request({
-            // create cart
-            method: 'POST',
-            url: `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
-            )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
-            headers: {
-              Authorization: `bearer ${res.body.access_token}`,
-            },
-          }).then((response) => {
-            // add entry to cart
-            return cy.request({
-              method: 'POST',
+          login(
+            cart.cartUser.registrationData.email,
+            cart.cartUser.registrationData.password,
+            false
+          ).then((res) => {
+            expect(res.status).to.eq(200);
+            // remove cart
+            cy.request({
+              method: 'DELETE',
               url: `${Cypress.env('API_URL')}/${Cypress.env(
                 'OCC_PREFIX'
-              )}/${Cypress.env('BASE_SITE')}/users/current/carts/${
-                response.body.code
-              }/entries`,
+              )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
               headers: {
                 Authorization: `bearer ${res.body.access_token}`,
               },
-              body: {
-                product: { code: cart.products[1].code, qty: 1 },
-              },
+            }).then((response) => {
+              expect(response.status).to.eq(200);
             });
           });
-        });
-
-        cart.clickAddToCart();
-        cart.checkAddedToCartDialog(2);
-        cy.visit('/cart');
-        cart.checkProductInCart(cart.products[0]);
-        cart.checkProductInCart(cart.products[1]);
-
-        cart.registerCartRefreshRoute();
-
-        cart.removeCartItem(cart.products[0]);
-
-        cy.wait('@refresh_cart');
-
-        cart.removeCartItem(cart.products[1]);
-        cart.validateEmptyCart();
-      });
-
-      it(['cart', 'smoke_b2c'], 'should create new cart when adding first entry for authenticated user without a cart', () => {
-        cart.loginCartUser();
-        login(
-          cart.cartUser.registrationData.email,
-          cart.cartUser.registrationData.password,
-          false
-        ).then((res) => {
-          expect(res.status).to.eq(200);
-          cy.log('Removing current Cart for the test case');
-          cy.request({
-            method: 'DELETE',
-            url: `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
-            )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
-            headers: {
-              Authorization: `bearer ${res.body.access_token}`,
-            },
-          }).then((response) => {
-            expect(response.status).to.eq(200);
+          cy.visit(`/product/${cart.products[0].code}`);
+          cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
+          login(
+            cart.cartUser.registrationData.email,
+            cart.cartUser.registrationData.password,
+            false
+          ).then((res) => {
+            cy.request({
+              // create cart
+              method: 'POST',
+              url: `${Cypress.env('API_URL')}/${Cypress.env(
+                'OCC_PREFIX'
+              )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
+              headers: {
+                Authorization: `bearer ${res.body.access_token}`,
+              },
+            }).then((response) => {
+              // add entry to cart
+              return cy.request({
+                method: 'POST',
+                url: `${Cypress.env('API_URL')}/${Cypress.env(
+                  'OCC_PREFIX'
+                )}/${Cypress.env('BASE_SITE')}/users/current/carts/${
+                  response.body.code
+                }/entries`,
+                headers: {
+                  Authorization: `bearer ${res.body.access_token}`,
+                },
+                body: {
+                  product: { code: cart.products[1].code, qty: 1 },
+                },
+              });
+            });
           });
-        });
-        cy.visit(`/product/${cart.products[0].code}`);
-        cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
-        cy.intercept({
-          method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/current/carts`,
-        }).as('cart');
-        cart.clickAddToCart();
-        cart.checkAddedToCartDialog();
-        cy.visit('/cart');
-        cart.checkProductInCart(cart.products[0]);
 
-        // cleanup
-        cy.intercept({
-          method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/current/carts/*`,
-          query: {
-            lang: 'en',
-            curr: 'USD',
-            fields: '*',
-          },
-        }).as('refresh_cart');
-        cart.removeCartItem(cart.products[0]);
-        cart.validateEmptyCart();
-      });
+          cart.clickAddToCart();
+          cart.checkAddedToCartDialog(2);
+          cy.visit('/cart');
+          cart.checkProductInCart(cart.products[0]);
+          cart.checkProductInCart(cart.products[1]);
 
-      it(['cart', 'smoke_b2c'], 'should have different cart on different base sites', () => {
-        cy.visit(`/product/${cart.products[0].code}`);
-        cart.clickAddToCart();
-        cart.checkAddedToCartDialog();
-        cart.closeAddedToCartDialog();
+          cart.registerCartRefreshRoute();
 
-        const apparelProduct = {
-          code: '300310300',
-          name: 'Wallet Dakine Agent Leather Wallet brown',
-          price: 33.96,
-        };
+          cart.removeCartItem(cart.products[0]);
 
-        cy.visit(`/apparel-uk-spa/en/GBP/product/${apparelProduct.code}`);
-        cart.clickAddToCart();
-        cart.checkAddedToCartDialog();
-        cart.closeAddedToCartDialog();
+          cy.wait('@refresh_cart');
 
-        cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/cart`);
-        cart.checkProductInCart(cart.products[0]);
-        cy.get('cx-global-message .alert-danger').should('not.exist');
+          cart.removeCartItem(cart.products[1]);
+          cart.validateEmptyCart();
+        }
+      );
 
-        cy.visit(`/apparel-uk-spa/en/GBP/cart`);
-        cart.checkProductInCart(apparelProduct, 1, 'GBP');
-        cy.get('cx-global-message .alert-danger').should('not.exist');
-      });
+      it(
+        ['cart', 'smoke_b2c'],
+        'should create new cart when adding first entry for authenticated user without a cart',
+        () => {
+          cart.loginCartUser();
+          login(
+            cart.cartUser.registrationData.email,
+            cart.cartUser.registrationData.password,
+            false
+          ).then((res) => {
+            expect(res.status).to.eq(200);
+            cy.log('Removing current Cart for the test case');
+            cy.request({
+              method: 'DELETE',
+              url: `${Cypress.env('API_URL')}/${Cypress.env(
+                'OCC_PREFIX'
+              )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
+              headers: {
+                Authorization: `bearer ${res.body.access_token}`,
+              },
+            }).then((response) => {
+              expect(response.status).to.eq(200);
+            });
+          });
+          cy.visit(`/product/${cart.products[0].code}`);
+          cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
+          cy.intercept({
+            method: 'GET',
+            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+              'BASE_SITE'
+            )}/users/current/carts`,
+          }).as('cart');
+          cart.clickAddToCart();
+          cart.checkAddedToCartDialog();
+          cy.visit('/cart');
+          cart.checkProductInCart(cart.products[0]);
+
+          // cleanup
+          cy.intercept({
+            method: 'GET',
+            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+              'BASE_SITE'
+            )}/users/current/carts/*`,
+            query: {
+              lang: 'en',
+              curr: 'USD',
+              fields: '*',
+            },
+          }).as('refresh_cart');
+          cart.removeCartItem(cart.products[0]);
+          cart.validateEmptyCart();
+        }
+      );
+
+      it(
+        ['cart', 'smoke_b2c'],
+        'should have different cart on different base sites',
+        () => {
+          cy.visit(`/product/${cart.products[0].code}`);
+          cart.clickAddToCart();
+          cart.checkAddedToCartDialog();
+          cart.closeAddedToCartDialog();
+
+          const apparelProduct = {
+            code: '300310300',
+            name: 'Wallet Dakine Agent Leather Wallet brown',
+            price: 33.96,
+          };
+
+          cy.visit(`/apparel-uk-spa/en/GBP/product/${apparelProduct.code}`);
+          cart.clickAddToCart();
+          cart.checkAddedToCartDialog();
+          cart.closeAddedToCartDialog();
+
+          cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/cart`);
+          cart.checkProductInCart(cart.products[0]);
+          cy.get('cx-global-message .alert-danger').should('not.exist');
+
+          cy.visit(`/apparel-uk-spa/en/GBP/cart`);
+          cart.checkProductInCart(apparelProduct, 1, 'GBP');
+          cy.get('cx-global-message .alert-danger').should('not.exist');
+        }
+      );
     });
   });
 });

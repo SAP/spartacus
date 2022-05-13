@@ -156,13 +156,21 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   });
 
   context('Login page', () => {
-    it(['accessibility'], 'should allow to navigate with tab key (empty form)', () => {
-      loginTabbingOrder(config.login);
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (empty form)',
+      () => {
+        loginTabbingOrder(config.login);
+      }
+    );
 
-    it(['accessibility'], 'should allow to navigate with tab key (filled out form)', () => {
-      loginTabbingOrder(config.login, true);
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (filled out form)',
+      () => {
+        loginTabbingOrder(config.login, true);
+      }
+    );
   });
 
   context('Register page', () => {
@@ -178,23 +186,39 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   });
 
   context('Product List', () => {
-    it(['accessibility'], 'should allow to navigate with tab key (desktop - list view)', () => {
-      productListTabbingOrderDesktop(config.productListDesktop);
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (desktop - list view)',
+      () => {
+        productListTabbingOrderDesktop(config.productListDesktop);
+      }
+    );
 
-    it(['accessibility'], 'should allow to navigate with tab key (desktop - grid view)', () => {
-      toggleProductView(); // switch to grid view
-      productListTabbingOrderDesktop(config.productListDesktop);
-      toggleProductView(); // reset to default (list view)
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (desktop - grid view)',
+      () => {
+        toggleProductView(); // switch to grid view
+        productListTabbingOrderDesktop(config.productListDesktop);
+        toggleProductView(); // reset to default (list view)
+      }
+    );
 
-    it(['accessibility'], 'should allow to navigate with tab key (mobile)', () => {
-      productListTabbingOrderMobile(config.productListMobile);
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (mobile)',
+      () => {
+        productListTabbingOrderMobile(config.productListMobile);
+      }
+    );
 
-    it(['accessibility'], 'should allow to navigate with tab key (mobile filters)', () => {
-      productListTabbingOrderMobileFilters(config.productListMobileFilters);
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (mobile filters)',
+      () => {
+        productListTabbingOrderMobileFilters(config.productListMobileFilters);
+      }
+    );
   });
 
   context.skip('Product Page', () => {
@@ -210,7 +234,7 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   });
 
   context('Add to cart', () => {
-    it(['accessibility'],'should allow to navigate with tab key', () => {
+    it(['accessibility'], 'should allow to navigate with tab key', () => {
       addToCartTabbingOrder(config.addToCart);
     });
   });
@@ -254,9 +278,13 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
   });
 
   context('Stock Notification', () => {
-    it(['accessibility'], 'should allow to navigate with tab key (not login)', () => {
-      stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (not login)',
+      () => {
+        stockNotificationNotLoginTabbingOrder(config.stockNotificationNotLogin);
+      }
+    );
   });
 
   // TODO: Fix helpers and renable
@@ -289,7 +317,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   });
 
   context('Header - Desktop (logged in)', () => {
-    it(['accessibility'],'should allow to navigate with tab key', () => {
+    it(['accessibility'], 'should allow to navigate with tab key', () => {
       headerTabbingOrder(config.headerDesktopLoggedIn, false, true);
     });
   });
@@ -324,15 +352,23 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
 
     context('Shipping address', () => {
-      it(['accessibility'], 'should allow to navigate with tab key (add address)', () => {
-        checkoutShippingAddressNewTabbingOrder(config.shippingAddressNew);
-      });
+      it(
+        ['accessibility'],
+        'should allow to navigate with tab key (add address)',
+        () => {
+          checkoutShippingAddressNewTabbingOrder(config.shippingAddressNew);
+        }
+      );
 
-      it(['accessibility'],'should allow to navigate with tab key (choose existing)', () => {
-        checkoutShippingAddressExistingTabbingOrder(
-          config.shippingAddressExisting
-        );
-      });
+      it(
+        ['accessibility'],
+        'should allow to navigate with tab key (choose existing)',
+        () => {
+          checkoutShippingAddressExistingTabbingOrder(
+            config.shippingAddressExisting
+          );
+        }
+      );
     });
 
     context('Delivery mode', () => {
@@ -342,13 +378,23 @@ describe('Tabbing order - tests do require user to be logged in', () => {
     });
 
     context('Payment details', () => {
-      it(['accessibility'], 'should allow to navigate with tab key (card)', () => {
-        checkoutPaymentDetailsTabbingOrder(config.paymentDetailsCard);
-      });
+      it(
+        ['accessibility'],
+        'should allow to navigate with tab key (card)',
+        () => {
+          checkoutPaymentDetailsTabbingOrder(config.paymentDetailsCard);
+        }
+      );
 
-      it(['accessibility'],'should allow to navigate with tab key (billing address)', () => {
-        checkoutBillingAddressTabbingOrder(config.paymentDetailsBillingAddress);
-      });
+      it(
+        ['accessibility'],
+        'should allow to navigate with tab key (billing address)',
+        () => {
+          checkoutBillingAddressTabbingOrder(
+            config.paymentDetailsBillingAddress
+          );
+        }
+      );
     });
 
     context('Review order', () => {
@@ -359,15 +405,23 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   });
 
   context('Order History', () => {
-    it(['accessibility'], 'should allow to navigate with tab key (no orders)', () => {
-      orderHistoryNoOrdersTabbingOrder(config.orderHistoryNoOrders);
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (no orders)',
+      () => {
+        orderHistoryNoOrdersTabbingOrder(config.orderHistoryNoOrders);
+      }
+    );
 
-    it(['accessibility'], 'should allow to navigate with tab key (with orders)', () => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.requireLoggedIn();
-      orderHistoryWithOrdersTabbingOrder();
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (with orders)',
+      () => {
+        cy.window().then((win) => win.sessionStorage.clear());
+        cy.requireLoggedIn();
+        orderHistoryWithOrdersTabbingOrder();
+      }
+    );
   });
 
   context('Notification preference', () => {
@@ -383,7 +437,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   });
 
   context('Personal details', () => {
-    it(['accessibility'],'should allow to navigate with tab key', () => {
+    it(['accessibility'], 'should allow to navigate with tab key', () => {
       personalDetailsTabbingOrder(config.personalDetails);
     });
   });
@@ -407,14 +461,22 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   });
 
   context('Address Book (Form)', () => {
-    it(['accessibility'], 'should allow to navigate with tab key (Directory)', () => {
-      setupForAddressBookTests();
-      addressBookDirectoryTabbingOrder();
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (Directory)',
+      () => {
+        setupForAddressBookTests();
+        addressBookDirectoryTabbingOrder();
+      }
+    );
 
-    it(['accessibility'], 'should allow to navigate with tab key (Form)', () => {
-      addressBookFormTabbingOrder(config.addressBookForm);
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (Form)',
+      () => {
+        addressBookFormTabbingOrder(config.addressBookForm);
+      }
+    );
   });
 
   context('Payment Details', () => {
@@ -436,7 +498,7 @@ describe('Tabbing order - tests do require user to be logged in', () => {
   });
 
   context('Save for later', () => {
-    it(['accessibility'],'should allow to navigate with tab key', () => {
+    it(['accessibility'], 'should allow to navigate with tab key', () => {
       saveForLaterTabbingOrder(config.saveForLater);
     });
   });
@@ -452,39 +514,59 @@ describe('Tabbing order - tests do require user to be logged in', () => {
       checkoutCouponsTabbingOrder(config.coupons);
     });
 
-    it(['accessibility'],'should allow to navigate with tab key (applied coupons)', () => {
-      checkoutAppliedCouponsTabbingOrder(config.appliedCoupons);
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (applied coupons)',
+      () => {
+        checkoutAppliedCouponsTabbingOrder(config.appliedCoupons);
+      }
+    );
   });
 
   context.skip('My-coupons', () => {
-    it(['accessibility'],'should allow to navigate with tab key', () => {
+    it(['accessibility'], 'should allow to navigate with tab key', () => {
       checkoutMyCouponsTabbingOrder(config.myCoupons);
     });
   });
 
   context('Stock Notification', () => {
-    it(['accessibility'], 'should allow to navigate with tab key (notification preference NOT allowed)', () => {
-      stockNotificationTabbingOrderNotificationsNotAllowed(
-        config.stockNotificationPreferenceNotAllowed
-      );
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (notification preference NOT allowed)',
+      () => {
+        stockNotificationTabbingOrderNotificationsNotAllowed(
+          config.stockNotificationPreferenceNotAllowed
+        );
+      }
+    );
 
-    it(['accessibility'], 'should allow to navigate with tab key (notification preference allowed)', () => {
-      stockNotificationTabbingOrderNotificationsAllowed(
-        config.stockNotificationPreferenceAllowed
-      );
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key (notification preference allowed)',
+      () => {
+        stockNotificationTabbingOrderNotificationsAllowed(
+          config.stockNotificationPreferenceAllowed
+        );
+      }
+    );
 
-    it.skip(['accessibility'],'should allow to navigate with tab key (dialog)', () => {
-      stockNotificationDialogTabbingOrder(config.stockNotificationDialog);
-    });
+    it.skip(
+      ['accessibility'],
+      'should allow to navigate with tab key (dialog)',
+      () => {
+        stockNotificationDialogTabbingOrder(config.stockNotificationDialog);
+      }
+    );
 
-    it.skip(['accessibility'],'should allow to navigate with tab key (product subscribed)', () => {
-      stockNotificationTabbingOrderProductSubscribed(
-        config.stockNotificationSubscribed
-      );
-    });
+    it.skip(
+      ['accessibility'],
+      'should allow to navigate with tab key (product subscribed)',
+      () => {
+        stockNotificationTabbingOrderProductSubscribed(
+          config.stockNotificationSubscribed
+        );
+      }
+    );
   });
 
   context('Consignment Tracking', () => {
@@ -492,8 +574,12 @@ describe('Tabbing order - tests do require user to be logged in', () => {
       consignmentTrackingTabbingOrder(config.consignmentTracking);
     });
 
-    it(['accessibility'], 'should allow to navigate with tab key(tracking events)', () => {
-      consignmentTrackingEventsTabbingOrder(config.consignmentTrackingEvents);
-    });
+    it(
+      ['accessibility'],
+      'should allow to navigate with tab key(tracking events)',
+      () => {
+        consignmentTrackingEventsTabbingOrder(config.consignmentTrackingEvents);
+      }
+    );
   });
 });

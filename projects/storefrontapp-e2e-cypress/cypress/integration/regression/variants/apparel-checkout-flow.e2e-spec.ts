@@ -18,8 +18,12 @@ context('Apparel - checkout flow', () => {
     beforeEach(() => {
       configureProductWithVariants();
     });
-    it(['apparel', 'checkout'],'should keep guest cart content and restart checkout', () => {
-      checkoutVariants.testCheckoutRegisteredUser();
-    });
+    it(
+      ['apparel', 'checkout'],
+      'should keep guest cart content and restart checkout',
+      () => {
+        checkoutVariants.testCheckoutRegisteredUser();
+      }
+    );
   });
 });

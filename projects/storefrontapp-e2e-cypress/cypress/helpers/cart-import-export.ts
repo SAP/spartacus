@@ -377,7 +377,7 @@ export function testImportExportSingleProduct() {
       });
     });
 
-    it(['cart_import_export'],'should import to saved cart', () => {
+    it(['cart_import_export'], 'should import to saved cart', () => {
       importCartTestFromConfig({
         fileName: 'cart-single',
         context: ImportExportContext.SAVED_CART,
@@ -410,7 +410,7 @@ export function testImportExportLargerQuantity() {
       exportCart(EXPECTED_CSV);
     });
 
-    it(['cart_import_export'],'should import to active cart', () => {
+    it(['cart_import_export'], 'should import to active cart', () => {
       importCartTestFromConfig({
         fileName: 'cart-lg-qty',
         context: ImportExportContext.ACTIVE_CART,

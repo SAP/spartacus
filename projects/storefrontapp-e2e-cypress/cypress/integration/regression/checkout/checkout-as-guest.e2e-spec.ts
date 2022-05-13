@@ -17,51 +17,59 @@ context('Checkout as guest', () => {
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
 
-    it(['guest_checkout', 'checkout'],'should validate core guest checkout functionality', () => {
-      // Core e2e test.
-      guestCheckout.testCheckoutAsGuest();
-    });
+    it(
+      ['guest_checkout', 'checkout'],
+      'should validate core guest checkout functionality',
+      () => {
+        // Core e2e test.
+        guestCheckout.testCheckoutAsGuest();
+      }
+    );
 
     // Test depends on on core test for guest account creation.
-    it(['guest_checkout', 'checkout'],'should keep products in guest cart and restart checkout', () => {
-      checkout.goToCheapProductDetailsPage();
-      checkout.addCheapProductToCartAndProceedToCheckout();
+    it(
+      ['guest_checkout', 'checkout'],
+      'should keep products in guest cart and restart checkout',
+      () => {
+        checkout.goToCheapProductDetailsPage();
+        checkout.addCheapProductToCartAndProceedToCheckout();
 
-      guestCheckout.loginAsGuest(guestCheckout.guestUser);
+        guestCheckout.loginAsGuest(guestCheckout.guestUser);
 
-      checkout.fillAddressFormWithCheapProduct();
+        checkout.fillAddressFormWithCheapProduct();
 
-      const deliveryAddressPage = waitForPage(
-        '/checkout/delivery-address',
-        'getDeliveryPage'
-      );
+        const deliveryAddressPage = waitForPage(
+          '/checkout/delivery-address',
+          'getDeliveryPage'
+        );
 
-      checkout.clickHamburger();
+        checkout.clickHamburger();
 
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.findByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+        const loginPage = waitForPage('/login', 'getLoginPage');
+        cy.findByText(/Sign in \/ Register/i).click();
+        cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
-      login(guestCheckout.guestUser.email, guestCheckout.guestUser.password);
-      cy.wait(`@${deliveryAddressPage}`)
-        .its('response.statusCode')
-        .should('eq', 200);
+        login(guestCheckout.guestUser.email, guestCheckout.guestUser.password);
+        cy.wait(`@${deliveryAddressPage}`)
+          .its('response.statusCode')
+          .should('eq', 200);
 
-      cy.get('cx-login div.cx-login-greet').should('exist');
-      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+        cy.get('cx-login div.cx-login-greet').should('exist');
+        cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
 
-      cy.get('cx-mini-cart .count').contains('1');
+        cy.get('cx-mini-cart .count').contains('1');
 
-      const cartPage = waitForPage('/cart', 'getCartPage');
-      cy.get('cx-mini-cart').click();
-      cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+        const cartPage = waitForPage('/cart', 'getCartPage');
+        cy.get('cx-mini-cart').click();
+        cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
-      cy.get('cx-cart-item-list')
-        .contains('tr[cx-cart-item-list-row]', cheapProduct.code)
-        .within(() => {
-          cy.get('cx-item-counter input').should('have.value', '1');
-        });
-      loginHelper.signOutUser();
-    });
+        cy.get('cx-cart-item-list')
+          .contains('tr[cx-cart-item-list-row]', cheapProduct.code)
+          .within(() => {
+            cy.get('cx-item-counter input').should('have.value', '1');
+          });
+        loginHelper.signOutUser();
+      }
+    );
   });
 });

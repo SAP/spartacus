@@ -20,22 +20,30 @@ context('Express checkout', () => {
       cy.saveLocalStorage();
     });
 
-    it(['express_checkout', 'checkout'],'should validate core express checkout functionality', () => {
-      // Core e2e test. Run in mobile as well.
-      expressCheckout.testExpressCheckout();
-    });
+    it(
+      ['express_checkout', 'checkout'],
+      'should validate core express checkout functionality',
+      () => {
+        // Core e2e test. Run in mobile as well.
+        expressCheckout.testExpressCheckout();
+      }
+    );
 
     // Test depends on core test for setup.
-    it(['express_checkout'], 'should redirect to first step if payment method is not set', () => {
-      cy.selectUserMenuOption({
-        option: 'Payment Details',
-      });
-      cy.findAllByText('Delete').first().click({ force: true });
-      cy.get('.btn-primary').click({ force: true });
+    it(
+      ['express_checkout'],
+      'should redirect to first step if payment method is not set',
+      () => {
+        cy.selectUserMenuOption({
+          option: 'Payment Details',
+        });
+        cy.findAllByText('Delete').first().click({ force: true });
+        cy.get('.btn-primary').click({ force: true });
 
-      cy.get('cx-mini-cart').click();
-      cy.findByText(/proceed to checkout/i).click();
-      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
-    });
+        cy.get('cx-mini-cart').click();
+        cy.findByText(/proceed to checkout/i).click();
+        cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+      }
+    );
   });
 });

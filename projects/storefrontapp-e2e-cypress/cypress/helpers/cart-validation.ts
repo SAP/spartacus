@@ -55,25 +55,29 @@ export function removeItemAndCheckCartEntriesNumber(
 }
 
 export function testReducedProductStockValidation() {
-  it(['cart_validation'], 'should display information about reduced stock for product in cart', () => {
-    addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
+  it(
+    ['cart_validation'],
+    'should display information about reduced stock for product in cart',
+    () => {
+      addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
 
-    validateStock(lowStockResponse);
+      validateStock(lowStockResponse);
 
-    cy.findByText(/proceed to checkout/i).click();
-    cy.wait(`@validate`);
+      cy.findByText(/proceed to checkout/i).click();
+      cy.wait(`@validate`);
 
-    checkProductAvailabilityMessage();
+      checkProductAvailabilityMessage();
 
-    cy.get('cx-cart-item-list cx-cart-item-validation-warning div').should(
-      'have.length',
-      2
-    );
+      cy.get('cx-cart-item-list cx-cart-item-validation-warning div').should(
+        'have.length',
+        2
+      );
 
-    checkReducedQuantity(PRODUCT_1);
-    checkReducedQuantity(PRODUCT_2);
+      checkReducedQuantity(PRODUCT_1);
+      checkReducedQuantity(PRODUCT_2);
 
-    removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
-    removeItemAndCheckCartEntriesNumber(PRODUCT_2, 0);
-  });
+      removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
+      removeItemAndCheckCartEntriesNumber(PRODUCT_2, 0);
+    }
+  );
 }

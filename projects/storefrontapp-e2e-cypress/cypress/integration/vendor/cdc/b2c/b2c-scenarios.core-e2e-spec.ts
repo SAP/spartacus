@@ -10,7 +10,7 @@ describe('CDC', () => {
       cy.visit('/cdc/login');
     });
 
-    it(['cdc'],'should register and redirect to home page', () => {
+    it(['cdc'], 'should register and redirect to home page', () => {
       cdc.registerUser();
       cdc.verifyLoginOrRegistrationSuccess();
     });
@@ -21,7 +21,7 @@ describe('CDC', () => {
       cy.visit('/cdc/login');
     });
 
-    it(['cdc'],'should login and redirect to home page', () => {
+    it(['cdc'], 'should login and redirect to home page', () => {
       cdc.login();
       cdc.verifyLoginOrRegistrationSuccess();
     });
@@ -32,7 +32,7 @@ describe('CDC', () => {
       cdc.login();
     });
 
-    it(['cdc'],'should update profile', () => {
+    it(['cdc'], 'should update profile', () => {
       cy.selectUserMenuOption({
         option: 'Profile Details',
       });

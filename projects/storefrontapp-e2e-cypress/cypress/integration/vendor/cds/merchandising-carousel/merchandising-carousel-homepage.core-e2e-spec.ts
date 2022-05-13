@@ -40,46 +40,61 @@ context('Merchandising Carousel - Home page', () => {
       testHomePage();
     });
 
-    it(['cds', 'carousel'], "should update the products' language when the storefront language is changed on the homepage", () => {
-      merchandisingCarousel.verifyFirstCarouselItemTextContent(
-        merchandisingCarousel.englishFilmProductText,
-        merchandisingCarousel.japaneseFilmProductText
-      );
+    it(
+      ['cds', 'carousel'],
+      "should update the products' language when the storefront language is changed on the homepage",
+      () => {
+        merchandisingCarousel.verifyFirstCarouselItemTextContent(
+          merchandisingCarousel.englishFilmProductText,
+          merchandisingCarousel.japaneseFilmProductText
+        );
 
-      switchSiteContext(merchandisingCarousel.japaneseLanguage, LANGUAGE_LABEL);
+        switchSiteContext(
+          merchandisingCarousel.japaneseLanguage,
+          LANGUAGE_LABEL
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
-        strategyRequestAlias,
-        merchandisingCarousel.japaneseLanguage
-      );
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
+          strategyRequestAlias,
+          merchandisingCarousel.japaneseLanguage
+        );
 
-      merchandisingCarousel.verifyFirstCarouselItemTextContent(
-        merchandisingCarousel.japaneseFilmProductText,
-        merchandisingCarousel.englishFilmProductText
-      );
-    });
+        merchandisingCarousel.verifyFirstCarouselItemTextContent(
+          merchandisingCarousel.japaneseFilmProductText,
+          merchandisingCarousel.englishFilmProductText
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], "should update the products' currency when the storefront currency is changed on the homepage", () => {
-      merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.dollarCurrencySymbol
-      );
+    it(
+      ['cds', 'carousel'],
+      "should update the products' currency when the storefront currency is changed on the homepage",
+      () => {
+        merchandisingCarousel.verifyFirstCarouselItemPrice(
+          merchandisingCarousel.dollarCurrencySymbol
+        );
 
-      switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
+        switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
 
-      merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.yenCurrencySymbol
-      );
-    });
+        merchandisingCarousel.verifyFirstCarouselItemPrice(
+          merchandisingCarousel.yenCurrencySymbol
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], 'should render products on a PDP page when a carousel item on the homepage is clicked', () => {
-      merchandisingCarousel.clickOnCarouselItem(
-        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
-      );
+    it(
+      ['cds', 'carousel'],
+      'should render products on a PDP page when a carousel item on the homepage is clicked',
+      () => {
+        merchandisingCarousel.clickOnCarouselItem(
+          merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
-        strategyRequestAlias,
-        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
-      );
-    });
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
+          strategyRequestAlias,
+          merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
+        );
+      }
+    );
   });
 });

@@ -5,8 +5,12 @@ context('Store finder', () => {
     cy.visit('/store-finder');
   });
 
-  it(['store_finder'], 'switch language should work and language should be persistent in url', () => {
-    storeFinder.testAllowViewAllStores();
-    storeFinder.testAllowViewStoreDetails();
-  });
+  it(
+    ['store_finder'],
+    'switch language should work and language should be persistent in url',
+    () => {
+      storeFinder.testAllowViewAllStores();
+      storeFinder.testAllowViewStoreDetails();
+    }
+  );
 });

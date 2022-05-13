@@ -30,50 +30,54 @@ describe('Language switch - checkout page', () => {
   });
 
   describe('checkout page', () => {
-    it(['site_context', 'language'], 'should change language throughout checkout process', () => {
-      // page being already tested in language-address-book
-      cy.intercept({
-        method: 'PUT',
-        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/current/carts/*/addresses/delivery`,
-      }).as('setAddress');
-      cy.visit(checkoutShippingPath);
-      cy.wait('@setAddress');
-      siteContextSelector.verifySiteContextChangeUrl(
-        null,
-        siteContextSelector.LANGUAGES,
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutShippingPath
-      );
+    it(
+      ['site_context', 'language'],
+      'should change language throughout checkout process',
+      () => {
+        // page being already tested in language-address-book
+        cy.intercept({
+          method: 'PUT',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+            'BASE_SITE'
+          )}/users/current/carts/*/addresses/delivery`,
+        }).as('setAddress');
+        cy.visit(checkoutShippingPath);
+        cy.wait('@setAddress');
+        siteContextSelector.verifySiteContextChangeUrl(
+          null,
+          siteContextSelector.LANGUAGES,
+          siteContextSelector.LANGUAGE_DE,
+          siteContextSelector.LANGUAGE_LABEL,
+          siteContextSelector.FULL_BASE_URL_DE_USD + checkoutShippingPath
+        );
 
-      siteContextSelector.addressBookNextStep();
+        siteContextSelector.addressBookNextStep();
 
-      siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutDeliveryPath
-      );
+        siteContextSelector.assertSiteContextChange(
+          siteContextSelector.FULL_BASE_URL_DE_USD + checkoutDeliveryPath
+        );
 
-      cy.get('cx-delivery-mode .cx-delivery-mode:first').should(
-        'have.text',
-        'Standard-Lieferung'
-      );
+        cy.get('cx-delivery-mode .cx-delivery-mode:first').should(
+          'have.text',
+          'Standard-Lieferung'
+        );
 
-      siteContextSelector.deliveryModeNextStep();
+        siteContextSelector.deliveryModeNextStep();
 
-      // page being already tested in language-payment-details
+        // page being already tested in language-payment-details
 
-      siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutPaymentPath
-      );
+        siteContextSelector.assertSiteContextChange(
+          siteContextSelector.FULL_BASE_URL_DE_USD + checkoutPaymentPath
+        );
 
-      siteContextSelector.paymentDetailsNextStep();
+        siteContextSelector.paymentDetailsNextStep();
 
-      siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_DE_USD + checkoutReviewPath
-      );
+        siteContextSelector.assertSiteContextChange(
+          siteContextSelector.FULL_BASE_URL_DE_USD + checkoutReviewPath
+        );
 
-      cy.get('cx-review-submit .cx-link').should('contain', deutschName);
-    });
+        cy.get('cx-review-submit .cx-link').should('contain', deutschName);
+      }
+    );
   });
 });

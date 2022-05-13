@@ -15,8 +15,12 @@ describe('Language switch - my-account pages', () => {
     siteContextSelector.TITLES
   );
 
-  it(['site_context', 'language'], 'should validate language switch functionality in my account pages', () => {
-    siteContextSelector.testLangSwitchOrderPage();
-    siteContextSelector.testPersonalDetailsPage();
-  });
+  it(
+    ['site_context', 'language'],
+    'should validate language switch functionality in my account pages',
+    () => {
+      siteContextSelector.testLangSwitchOrderPage();
+      siteContextSelector.testPersonalDetailsPage();
+    }
+  );
 });

@@ -12,7 +12,7 @@ viewportContext(['mobile'], () => {
       cy.requireLoggedIn();
     });
 
-    it(['my_coupons'],'should validate coupons core functionality', () => {
+    it(['my_coupons'], 'should validate coupons core functionality', () => {
       // Core Test. Test in mobile as well.
       myCoupons.testClaimCustomerCoupon();
     });
@@ -20,14 +20,18 @@ viewportContext(['mobile'], () => {
 });
 viewportContext(['mobile', 'desktop'], () => {
   describe('My coupons - Anonymous user', () => {
-    it(['my_coupons'],'should redirect to login page', () => {
+    it(['my_coupons'], 'should redirect to login page', () => {
       cy.visit('/my-account/coupons');
       cy.location('pathname').should('contain', '/login');
     });
 
-    it(['my_coupons'],'should apply customer coupon that fails for anonymous user', () => {
-      cartCoupon.applyMyCouponAsAnonymous();
-    });
+    it(
+      ['my_coupons'],
+      'should apply customer coupon that fails for anonymous user',
+      () => {
+        cartCoupon.applyMyCouponAsAnonymous();
+      }
+    );
   });
 
   describe('My coupons - Authenticated user', () => {
@@ -41,13 +45,17 @@ viewportContext(['mobile', 'desktop'], () => {
     // Core Test
     //myCoupons.testClaimCustomerCoupon();
 
-    it(['my_coupons'], 'should claim customer coupon, switch notification button and find products', () => {
-      visitHomePage();
-      cy.selectUserMenuOption({
-        option: 'My Coupons',
-      });
-      myCoupons.verifyMyCoupons();
-    });
+    it(
+      ['my_coupons'],
+      'should claim customer coupon, switch notification button and find products',
+      () => {
+        visitHomePage();
+        cy.selectUserMenuOption({
+          option: 'My Coupons',
+        });
+        myCoupons.verifyMyCoupons();
+      }
+    );
 
     it(['my_coupons'], 'should list customer coupons and apply in cart', () => {
       cartCoupon.verifyOrderPlacingWithCouponAndCustomerCoupon();

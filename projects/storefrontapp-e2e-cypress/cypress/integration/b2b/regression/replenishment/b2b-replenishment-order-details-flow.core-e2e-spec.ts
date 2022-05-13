@@ -14,8 +14,12 @@ describe('Replenishment order details', () => {
     Cypress.env('OCC_PREFIX_ORDER_ENDPOINT', ORDER_REQUEST_ENDPOINT);
   });
 
-  it(['replenishment'], 'should login and cancel a replenishment order details', () => {
-    loginB2bUser();
-    replenishmentDetails.cancelReplenishmentDetails();
-  });
+  it(
+    ['replenishment'],
+    'should login and cancel a replenishment order details',
+    () => {
+      loginB2bUser();
+      replenishmentDetails.cancelReplenishmentDetails();
+    }
+  );
 });

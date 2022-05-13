@@ -27,16 +27,24 @@ context(`${formats.mobile.width + 1}p resolution - Product details`, () => {
   describe('Electronics', () => {
     before(productDetails.configureDefaultProduct);
 
-    it(['product_details', 'smoke_b2c'],'should validate product details functionality', () =>{
-      productDetails.productDetailsTest();
-    });
+    it(
+      ['product_details', 'smoke_b2c'],
+      'should validate product details functionality',
+      () => {
+        productDetails.productDetailsTest();
+      }
+    );
   });
 
   describe('Apparel', () => {
     before(productDetails.configureApparelProduct);
 
-    it(['product_details', ],'should validate product details functionality', () =>{
-    productDetails.apparelProductDetailsTest();
-    });
+    it(
+      ['product_details'],
+      'should validate product details functionality',
+      () => {
+        productDetails.apparelProductDetailsTest();
+      }
+    );
   });
 });

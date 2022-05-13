@@ -14,29 +14,37 @@ describe('Language switch - registration page', () => {
   );
 
   describe('registration page', () => {
-    it(['site_context', 'language'], 'should change language in the url', () => {
-      siteContextSelector.verifySiteContextChangeUrl(
-        registerPath,
-        siteContextSelector.LANGUAGES,
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + registerPath
-      );
-    });
+    it(
+      ['site_context', 'language'],
+      'should change language in the url',
+      () => {
+        siteContextSelector.verifySiteContextChangeUrl(
+          registerPath,
+          siteContextSelector.LANGUAGES,
+          siteContextSelector.LANGUAGE_DE,
+          siteContextSelector.LANGUAGE_LABEL,
+          siteContextSelector.FULL_BASE_URL_DE_USD + registerPath
+        );
+      }
+    );
 
-    it(['site_context', 'language'], 'should change language in the page', () => {
-      siteContextSelector.siteContextChange(
-        registerPath,
-        siteContextSelector.LANGUAGES,
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
-      );
+    it(
+      ['site_context', 'language'],
+      'should change language in the page',
+      () => {
+        siteContextSelector.siteContextChange(
+          registerPath,
+          siteContextSelector.LANGUAGES,
+          siteContextSelector.LANGUAGE_DE,
+          siteContextSelector.LANGUAGE_LABEL
+        );
 
-      cy.get('[formcontrolname="titleCode"]').ngSelect(deutschName);
-      cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
-        'have.text',
-        deutschName
-      );
-    });
+        cy.get('[formcontrolname="titleCode"]').ngSelect(deutschName);
+        cy.get('[formcontrolname="titleCode"] .ng-value-label').should(
+          'have.text',
+          deutschName
+        );
+      }
+    );
   });
 });

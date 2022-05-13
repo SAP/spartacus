@@ -14,19 +14,23 @@ const CAMERA_MODE = 'CAMERA_MODE';
 
 viewportContext(['mobile'], () => {
   describe('Group Handling', () => {
-    it(['product_configurator'],'should navigate using the group menu in mobile resolution', () => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
-      clickAllowAllFromBanner();
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-      configuration.checkHamburgerDisplayed();
-      configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
+    it(
+      ['product_configurator'],
+      'should navigate using the group menu in mobile resolution',
+      () => {
+        cy.window().then((win) => win.sessionStorage.clear());
+        cy.visit('/');
+        clickAllowAllFromBanner();
+        configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+        configuration.checkHamburgerDisplayed();
+        configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
 
-      configuration.clickHamburger();
-      configuration.checkGroupMenuDisplayed();
+        configuration.clickHamburger();
+        configuration.checkGroupMenuDisplayed();
 
-      configurationVc.clickOnGroup(2);
-      configuration.checkAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
-    });
+        configurationVc.clickOnGroup(2);
+        configuration.checkAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
+      }
+    );
   });
 });

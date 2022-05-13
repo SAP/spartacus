@@ -19,7 +19,7 @@ describe('SSR', () => {
       .and('eq', 'application/ld+json');
   }
 
-  it(['ssr'],'should render homepage', () => {
+  it(['ssr'], 'should render homepage', () => {
     cy.visit('/');
 
     seoChecks();

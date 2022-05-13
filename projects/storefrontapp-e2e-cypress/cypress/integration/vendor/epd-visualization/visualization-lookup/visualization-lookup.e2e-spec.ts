@@ -14,7 +14,7 @@ describe('in Spare Parts Tab', () => {
     });
 
     context('no matching visualizations found', () => {
-      it(['epd', 'visualization'],'viewport should be hidden', () => {
+      it(['epd', 'visualization'], 'viewport should be hidden', () => {
         cy.intercept('GET', '**/lookup/visualization**', {
           statusCode: 200,
           body: {
@@ -65,33 +65,37 @@ describe('in Spare Parts Tab', () => {
     });
 
     context('no spare parts found', () => {
-      it(['epd', 'visualization'], 'no spare parts indicator should be shown', () => {
-        cy.intercept(
-          'GET',
-          '**/occ/v2/**/products/**/references**&referenceType=SPAREPART&**',
-          {
-            statusCode: 200,
-            body: {
-              references: [],
-            },
-          }
-        ).as('getProductReferences');
+      it(
+        ['epd', 'visualization'],
+        'no spare parts indicator should be shown',
+        () => {
+          cy.intercept(
+            'GET',
+            '**/occ/v2/**/products/**/references**&referenceType=SPAREPART&**',
+            {
+              statusCode: 200,
+              body: {
+                references: [],
+              },
+            }
+          ).as('getProductReferences');
 
-        cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');
-        cy.wait(`@productPage`);
-        cy.wait(`@getProductReferences`);
-        cy.get('cx-tab-paragraph-container button')
-          .contains('Spare Parts')
-          .click();
-        cy.get(
-          'cx-epd-visualization-visual-picking-tab .no-product-references'
-        ).should('be.visible');
-        cy.get('cx-epd-visualization-product-list').should('be.hidden');
-        cy.get('cx-epd-visualization-product-filter').should('be.hidden');
-        cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should(
-          'be.hidden'
-        );
-      });
+          cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');
+          cy.wait(`@productPage`);
+          cy.wait(`@getProductReferences`);
+          cy.get('cx-tab-paragraph-container button')
+            .contains('Spare Parts')
+            .click();
+          cy.get(
+            'cx-epd-visualization-visual-picking-tab .no-product-references'
+          ).should('be.visible');
+          cy.get('cx-epd-visualization-product-list').should('be.hidden');
+          cy.get('cx-epd-visualization-product-filter').should('be.hidden');
+          cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should(
+            'be.hidden'
+          );
+        }
+      );
     });
   });
 });

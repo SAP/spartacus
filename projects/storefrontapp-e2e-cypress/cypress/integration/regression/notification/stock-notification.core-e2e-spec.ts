@@ -9,9 +9,13 @@ describe('My interests', () => {
         clearAllStorage();
         cy.visit('/');
       });
-      it(['stock_notification'],'should login first when guest want to subscribe notification', () => {
-        notification.verifyStockNotificationAsGuest();
-      });
+      it(
+        ['stock_notification'],
+        'should login first when guest want to subscribe notification',
+        () => {
+          notification.verifyStockNotificationAsGuest();
+        }
+      );
     });
 
     describe('Stock Notification for Customer', () => {
@@ -21,12 +25,20 @@ describe('My interests', () => {
         cy.visit('/');
       });
 
-      it(['stock_notification'],'should navigate to notification preference page through product detail page', () => {
-        notification.verifyStockNotificationWithoutChannel();
-      });
-      it(['stock_notification'],'should subscribe/unsubscribe notification', () => {
-        notification.verifyStockNotification();
-      });
+      it(
+        ['stock_notification'],
+        'should navigate to notification preference page through product detail page',
+        () => {
+          notification.verifyStockNotificationWithoutChannel();
+        }
+      );
+      it(
+        ['stock_notification'],
+        'should subscribe/unsubscribe notification',
+        () => {
+          notification.verifyStockNotification();
+        }
+      );
     });
   });
 });

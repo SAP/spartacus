@@ -15,7 +15,7 @@ context('B2B - Quick Order', () => {
         quickOrder.visitQuickOrderPage();
       });
 
-      it(['quick_order'],'should show result box with max 5 products', () => {
+      it(['quick_order'], 'should show result box with max 5 products', () => {
         quickOrder.getQuickOrderResultBox(sampleData.b2bProduct.code);
       });
 
@@ -29,20 +29,28 @@ context('B2B - Quick Order', () => {
           .should('contain', `Quick order list has been added to the cart`);
       });
 
-      it(['quick_order'], 'should fill the form with random string and get empty results information', () => {
-        quickOrder.addWrongProductQuery('xxxxxxxxxxxxxxxxxx');
-        quickOrder.verifyQuickOrderFormResultsBoxIsEmpty();
-      });
+      it(
+        ['quick_order'],
+        'should fill the form with random string and get empty results information',
+        () => {
+          quickOrder.addWrongProductQuery('xxxxxxxxxxxxxxxxxx');
+          quickOrder.verifyQuickOrderFormResultsBoxIsEmpty();
+        }
+      );
 
-      it(['quick_order'], 'should delete entry and after that restore it', () => {
-        quickOrder.addManyProductsToTheList(sampleData.products);
-        quickOrder.removeFirstRow();
-        quickOrder.verifyQuickOrderListQuantity(1);
-        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
-        quickOrder.restoreDeletedEntry();
-        quickOrder.verifyQuickOrderListQuantity(2);
-        quickOrder.verifyQuickOrderPageDoNotShowEntryDeletionMessages();
-      });
+      it(
+        ['quick_order'],
+        'should delete entry and after that restore it',
+        () => {
+          quickOrder.addManyProductsToTheList(sampleData.products);
+          quickOrder.removeFirstRow();
+          quickOrder.verifyQuickOrderListQuantity(1);
+          quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
+          quickOrder.restoreDeletedEntry();
+          quickOrder.verifyQuickOrderListQuantity(2);
+          quickOrder.verifyQuickOrderPageDoNotShowEntryDeletionMessages();
+        }
+      );
     });
 
     describe('Cart Page', () => {
@@ -64,17 +72,25 @@ context('B2B - Quick Order', () => {
     });
 
     describe('Accessibility - keyboarding', () => {
-      it(['quick_order'],'should conform to tabbing order for quick order page', () => {
-        quickOrder.visitQuickOrderPage();
-        quickOrder.addProductToTheList(sampleData.b2bProduct.code);
-        quickOrder.verifyQuickOrderListQuantity(1);
-        quickOrder.verifyQuickOrderPageTabbingOrder();
-      });
+      it(
+        ['quick_order'],
+        'should conform to tabbing order for quick order page',
+        () => {
+          quickOrder.visitQuickOrderPage();
+          quickOrder.addProductToTheList(sampleData.b2bProduct.code);
+          quickOrder.verifyQuickOrderListQuantity(1);
+          quickOrder.verifyQuickOrderPageTabbingOrder();
+        }
+      );
 
-      it(['quick_order'], 'should conform to tabbing order for cart page', () => {
-        quickOrder.prepareCartWithProduct();
-        quickOrder.verifyCartPageTabbingOrder();
-      });
+      it(
+        ['quick_order'],
+        'should conform to tabbing order for cart page',
+        () => {
+          quickOrder.prepareCartWithProduct();
+          quickOrder.verifyCartPageTabbingOrder();
+        }
+      );
     });
   });
 });

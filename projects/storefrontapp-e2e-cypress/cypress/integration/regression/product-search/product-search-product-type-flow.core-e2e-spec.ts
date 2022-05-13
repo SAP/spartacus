@@ -18,126 +18,133 @@ context('Product search product type flow', () => {
     });
 
     describe('Product search', () => {
-      it(['product_search','smoke_b2c'],'should be able to search with specific product type', () => {
-        const category = 'sony';
+      it(
+        ['product_search', 'smoke_b2c'],
+        'should be able to search with specific product type',
+        () => {
+          const category = 'sony';
 
-        createProductQuery(
-          QUERY_ALIAS.SONY,
-          category,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE
-        );
-        createProductFacetQuery('brand', category, QUERY_ALIAS.BRAND_PAGE);
-        createProductQuery(
-          QUERY_ALIAS.SONY_CLEAR_FACET,
-          `${category}:relevance`,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE
-        );
-        createProductFacetQuery(
-          'price',
-          category,
-          QUERY_ALIAS.PRICE_DSC_FILTER
-        );
-        createProductFacetQuery(
-          'category',
-          category,
-          QUERY_ALIAS.CATEGORY_FILTER
-        );
-        createProductFacetQuery('Colour', category, QUERY_ALIAS.COLOR_FILTER);
+          createProductQuery(
+            QUERY_ALIAS.SONY,
+            category,
+            PRODUCT_LISTING.PRODUCTS_PER_PAGE
+          );
+          createProductFacetQuery('brand', category, QUERY_ALIAS.BRAND_PAGE);
+          createProductQuery(
+            QUERY_ALIAS.SONY_CLEAR_FACET,
+            `${category}:relevance`,
+            PRODUCT_LISTING.PRODUCTS_PER_PAGE
+          );
+          createProductFacetQuery(
+            'price',
+            category,
+            QUERY_ALIAS.PRICE_DSC_FILTER
+          );
+          createProductFacetQuery(
+            'category',
+            category,
+            QUERY_ALIAS.CATEGORY_FILTER
+          );
+          createProductFacetQuery('Colour', category, QUERY_ALIAS.COLOR_FILTER);
 
-        clickSearchIcon();
+          clickSearchIcon();
 
-        cy.get(
-          'cx-searchbox input[aria-label="Enter product name or SKU"]'
-        ).type(`${category}{enter}`);
+          cy.get(
+            'cx-searchbox input[aria-label="Enter product name or SKU"]'
+          ).type(`${category}{enter}`);
 
-        cy.wait(`@${QUERY_ALIAS.SONY}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          cy.wait(`@${QUERY_ALIAS.SONY}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
+          assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
 
-        // Filter by brand
-        clickFacet('Brand');
+          // Filter by brand
+          clickFacet('Brand');
 
-        cy.wait(`@${QUERY_ALIAS.BRAND_PAGE}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          cy.wait(`@${QUERY_ALIAS.BRAND_PAGE}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        assertNumberOfProducts(`@${QUERY_ALIAS.BRAND_PAGE}`, `"${category}"`);
+          assertNumberOfProducts(`@${QUERY_ALIAS.BRAND_PAGE}`, `"${category}"`);
 
-        clearSelectedFacet();
+          clearSelectedFacet();
 
-        cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
+          assertNumberOfProducts(`@${QUERY_ALIAS.SONY}`, `"${category}"`);
 
-        // Filter by price
-        clickFacet('Price');
+          // Filter by price
+          clickFacet('Price');
 
-        cy.wait(`@${QUERY_ALIAS.PRICE_DSC_FILTER}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          cy.wait(`@${QUERY_ALIAS.PRICE_DSC_FILTER}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        assertNumberOfProducts(
-          `@${QUERY_ALIAS.PRICE_DSC_FILTER}`,
-          `"${category}"`
-        );
+          assertNumberOfProducts(
+            `@${QUERY_ALIAS.PRICE_DSC_FILTER}`,
+            `"${category}"`
+          );
 
-        clearSelectedFacet();
+          clearSelectedFacet();
 
-        cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        assertNumberOfProducts(
-          `@${QUERY_ALIAS.SONY_CLEAR_FACET}`,
-          `"${category}"`
-        );
+          assertNumberOfProducts(
+            `@${QUERY_ALIAS.SONY_CLEAR_FACET}`,
+            `"${category}"`
+          );
 
-        // Filter by category
-        clickFacet('Category');
+          // Filter by category
+          clickFacet('Category');
 
-        cy.wait(`@${QUERY_ALIAS.CATEGORY_FILTER}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          cy.wait(`@${QUERY_ALIAS.CATEGORY_FILTER}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        assertNumberOfProducts(
-          `@${QUERY_ALIAS.CATEGORY_FILTER}`,
-          `"${category}"`
-        );
+          assertNumberOfProducts(
+            `@${QUERY_ALIAS.CATEGORY_FILTER}`,
+            `"${category}"`
+          );
 
-        clearSelectedFacet();
+          clearSelectedFacet();
 
-        cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        assertNumberOfProducts(
-          `@${QUERY_ALIAS.SONY_CLEAR_FACET}`,
-          `"${category}"`
-        );
+          assertNumberOfProducts(
+            `@${QUERY_ALIAS.SONY_CLEAR_FACET}`,
+            `"${category}"`
+          );
 
-        clickFacet('Color');
+          clickFacet('Color');
 
-        cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          cy.wait(`@${QUERY_ALIAS.COLOR_FILTER}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        assertNumberOfProducts(`@${QUERY_ALIAS.COLOR_FILTER}`, `"${category}"`);
+          assertNumberOfProducts(
+            `@${QUERY_ALIAS.COLOR_FILTER}`,
+            `"${category}"`
+          );
 
-        clearSelectedFacet();
+          clearSelectedFacet();
 
-        cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          cy.wait(`@${QUERY_ALIAS.SONY_CLEAR_FACET}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        assertNumberOfProducts(
-          `@${QUERY_ALIAS.SONY_CLEAR_FACET}`,
-          `"${category}"`
-        );
-      });
+          assertNumberOfProducts(
+            `@${QUERY_ALIAS.SONY_CLEAR_FACET}`,
+            `"${category}"`
+          );
+        }
+      );
     });
   });
 });

@@ -29,58 +29,82 @@ describe('Currency switch - checkout page', () => {
   });
 
   describe('checkout page', () => {
-    it(['site_context', 'currency'],'should change currency in the shipping address url', () => {
-      // page being already tested in currency-address-book
-      cy.intercept({
-        method: 'PUT',
-        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/current/carts/*/addresses/delivery`,
-      }).as('setAddress');
-      cy.visit(checkoutShippingPath);
-      cy.wait('@setAddress');
-      siteContextSelector.verifySiteContextChangeUrl(
-        null,
-        siteContextSelector.CURRENCIES,
-        siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL,
-        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutShippingPath
-      );
+    it(
+      ['site_context', 'currency'],
+      'should change currency in the shipping address url',
+      () => {
+        // page being already tested in currency-address-book
+        cy.intercept({
+          method: 'PUT',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+            'BASE_SITE'
+          )}/users/current/carts/*/addresses/delivery`,
+        }).as('setAddress');
+        cy.visit(checkoutShippingPath);
+        cy.wait('@setAddress');
+        siteContextSelector.verifySiteContextChangeUrl(
+          null,
+          siteContextSelector.CURRENCIES,
+          siteContextSelector.CURRENCY_JPY,
+          siteContextSelector.CURRENCY_LABEL,
+          siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutShippingPath
+        );
 
-      siteContextSelector.addressBookNextStep();
-    });
+        siteContextSelector.addressBookNextStep();
+      }
+    );
 
-    it(['site_context', 'currency'], 'should change currency in the checkoutDeliveryPath url', () => {
-      siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutDeliveryPath
-      );
-    });
+    it(
+      ['site_context', 'currency'],
+      'should change currency in the checkoutDeliveryPath url',
+      () => {
+        siteContextSelector.assertSiteContextChange(
+          siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutDeliveryPath
+        );
+      }
+    );
 
-    it(['site_context', 'currency'], 'should change currency in the checkoutDeliveryPath page', () => {
-      cy.get('cx-delivery-mode .cx-delivery-price:first').should(
-        'contain',
-        '¥'
-      );
-      siteContextSelector.deliveryModeNextStep();
-    });
+    it(
+      ['site_context', 'currency'],
+      'should change currency in the checkoutDeliveryPath page',
+      () => {
+        cy.get('cx-delivery-mode .cx-delivery-price:first').should(
+          'contain',
+          '¥'
+        );
+        siteContextSelector.deliveryModeNextStep();
+      }
+    );
 
-    it(['site_context', 'currency'], 'should change currency in the checkoutPaymentPath url', () => {
-      // page being already tested in currency-payment-details
-      siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutPaymentPath
-      );
+    it(
+      ['site_context', 'currency'],
+      'should change currency in the checkoutPaymentPath url',
+      () => {
+        // page being already tested in currency-payment-details
+        siteContextSelector.assertSiteContextChange(
+          siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutPaymentPath
+        );
 
-      siteContextSelector.paymentDetailsNextStep();
-    });
+        siteContextSelector.paymentDetailsNextStep();
+      }
+    );
 
-    it(['site_context', 'currency'], 'should change currency in the checkoutReviewPath url', () => {
-      siteContextSelector.assertSiteContextChange(
-        siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutReviewPath
-      );
-    });
+    it(
+      ['site_context', 'currency'],
+      'should change currency in the checkoutReviewPath url',
+      () => {
+        siteContextSelector.assertSiteContextChange(
+          siteContextSelector.FULL_BASE_URL_EN_JPY + checkoutReviewPath
+        );
+      }
+    );
 
-    it(['site_context', 'currency'], 'should change currency in the checkoutReviewPath page', () => {
-      cy.get('cx-review-submit .cx-price .cx-value').should('contain', '¥');
-    });
+    it(
+      ['site_context', 'currency'],
+      'should change currency in the checkoutReviewPath page',
+      () => {
+        cy.get('cx-review-submit .cx-price .cx-value').should('contain', '¥');
+      }
+    );
   });
 });

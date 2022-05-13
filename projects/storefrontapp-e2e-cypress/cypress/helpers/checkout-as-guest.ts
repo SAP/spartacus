@@ -37,51 +37,55 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
 }
 
 export function testCheckoutAsGuest() {
-  it(['guest_checkout', 'smoke_b2c'], 'should perform checkout as guest and create a user account', () => {
-    checkout.goToCheapProductDetailsPage();
-    checkout.addCheapProductToCartAndProceedToCheckout();
+  it(
+    ['guest_checkout', 'smoke_b2c'],
+    'should perform checkout as guest and create a user account',
+    () => {
+      checkout.goToCheapProductDetailsPage();
+      checkout.addCheapProductToCartAndProceedToCheckout();
 
-    cy.get('.register').findByText(/Guest Checkout/i);
+      cy.get('.register').findByText(/Guest Checkout/i);
 
-    loginAsGuest(guestUser);
+      loginAsGuest(guestUser);
 
-    checkout.fillAddressFormWithCheapProduct();
-    checkout.verifyDeliveryMethod();
-    checkout.fillPaymentFormWithCheapProduct();
-    checkout.placeOrderWithCheapProduct();
-    checkout.verifyOrderConfirmationPageWithCheapProduct();
+      checkout.fillAddressFormWithCheapProduct();
+      checkout.verifyDeliveryMethod();
+      checkout.fillPaymentFormWithCheapProduct();
+      checkout.placeOrderWithCheapProduct();
+      checkout.verifyOrderConfirmationPageWithCheapProduct();
 
-    createAccountFromGuest(guestUser.password);
+      createAccountFromGuest(guestUser.password);
 
-    cy.selectUserMenuOption({
-      option: 'Address Book',
-    });
+      cy.selectUserMenuOption({
+        option: 'Address Book',
+      });
 
-    assertAddressForm(
-      {
-        firstName: guestUser.firstName,
-        lastName: guestUser.lastName,
-        phone: '',
-        address: guestUser.address,
-      },
-      'US-CA'
-    );
+      assertAddressForm(
+        {
+          firstName: guestUser.firstName,
+          lastName: guestUser.lastName,
+          phone: '',
+          address: guestUser.address,
+        },
+        'US-CA'
+      );
 
-    cy.selectUserMenuOption({
-      option: 'Payment Details',
-    });
+      cy.selectUserMenuOption({
+        option: 'Payment Details',
+      });
 
-    cy.get('.cx-payment .cx-body').then(() => {
-      cy.get('cx-card').should('exist');
-    });
+      cy.get('.cx-payment .cx-body').then(() => {
+        cy.get('cx-card').should('exist');
+      });
 
-    cy.selectUserMenuOption({
-      option: 'Personal Details',
-    });
+      cy.selectUserMenuOption({
+        option: 'Personal Details',
+      });
 
-    validateUpdateProfileForm('Mr.', guestUser.firstName, guestUser.lastName);
-    checkout.signOut();
-  });
+      validateUpdateProfileForm('Mr.', guestUser.firstName, guestUser.lastName);
+      checkout.signOut();
+    }
+  );
 }
 
 export function createAccountFromGuest(password: string) {

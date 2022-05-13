@@ -26,9 +26,13 @@ describe('Replenishment order history', () => {
     loginB2bUser();
   });
 
-  it(['replenishment'], 'should be able to view order in replenishment order history', () => {
-    replenishmentHistory.waitForReplenishmentOrders();
-  });
+  it(
+    ['replenishment'],
+    'should be able to view order in replenishment order history',
+    () => {
+      replenishmentHistory.waitForReplenishmentOrders();
+    }
+  );
 
   it(['replenishment'], 'should be able to sort ', () => {
     replenishmentHistory.verifySorting();

@@ -115,18 +115,22 @@ context('Assisted Service Module', () => {
   });
 
   describe('When a customer session and an asm agent session are both active', () => {
-    it(['asm'], 'Customer should not be able to login when there is an active CS agent session.', () => {
-      const loginPage = checkout.waitForPage('/login', 'getLoginPage');
-      cy.visit('/login?asm=true');
-      cy.wait(`@${loginPage}`);
+    it(
+      ['asm'],
+      'Customer should not be able to login when there is an active CS agent session.',
+      () => {
+        const loginPage = checkout.waitForPage('/login', 'getLoginPage');
+        cy.visit('/login?asm=true');
+        cy.wait(`@${loginPage}`);
 
-      asm.agentLogin();
-      login(customer.email, customer.password);
-      getErrorAlert().should(
-        'contain',
-        'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.'
-      );
-    });
+        asm.agentLogin();
+        login(customer.email, customer.password);
+        getErrorAlert().should(
+          'contain',
+          'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.'
+        );
+      }
+    );
 
     // TODO(#9445): Add e2e test for this scenario
     it.skip('agent login when user is logged in should start this user emulation', () => {});

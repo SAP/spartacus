@@ -16,10 +16,14 @@ describe('My Account - Address Book', () => {
     });
 
     describe('address book test for anonymous user', () => {
-      it(['address_book', 'smoke_b2c', 'my_account'], 'should redirect to login page for anonymous user', () => {
-        cy.visit('/my-account/address-book');
-        cy.location('pathname').should('contain', '/login');
-      });
+      it(
+        ['address_book', 'smoke_b2c', 'my_account'],
+        'should redirect to login page for anonymous user',
+        () => {
+          cy.visit('/my-account/address-book');
+          cy.location('pathname').should('contain', '/login');
+        }
+      );
     });
 
     describe('address book test for logged in user', () => {
@@ -36,109 +40,149 @@ describe('My Account - Address Book', () => {
         cy.restoreLocalStorage();
       });
 
-      it(['address_book', 'smoke_b2c','my_account'], 'should display a new address form when no address exists', () => {
-        cy.get('cx-address-form').should('exist');
-      });
+      it(
+        ['address_book', 'smoke_b2c', 'my_account'],
+        'should display a new address form when no address exists',
+        () => {
+          cy.get('cx-address-form').should('exist');
+        }
+      );
 
-      it(['address_book', 'smoke_b2c','my_account'], 'should create a new address', () => {
-        fillShippingAddress(newAddress);
-      });
+      it(
+        ['address_book', 'smoke_b2c', 'my_account'],
+        'should create a new address',
+        () => {
+          fillShippingAddress(newAddress);
+        }
+      );
 
-      it(['address_book', 'smoke_b2c','my_account'], 'should display the newly added address card in the address book', () => {
-        verifyNewAddress();
-      });
+      it(
+        ['address_book', 'smoke_b2c', 'my_account'],
+        'should display the newly added address card in the address book',
+        () => {
+          verifyNewAddress();
+        }
+      );
 
-      it(['address_book', 'smoke_b2c','my_account'], 'should edit the existing address', () => {
-        cy.get('button').contains('Edit').click();
-        cy.get('cx-address-form').within(() => {
-          cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
-          cy.get('[formcontrolname="firstName"]')
-            .clear()
-            .type(editedAddress.firstName);
-          cy.get('[formcontrolname="lastName"]')
-            .clear()
-            .type(editedAddress.lastName);
-          cy.get('[formcontrolname="phone"]').clear().type(editedAddress.phone);
+      it(
+        ['address_book', 'smoke_b2c', 'my_account'],
+        'should edit the existing address',
+        () => {
+          cy.get('button').contains('Edit').click();
+          cy.get('cx-address-form').within(() => {
+            cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
+            cy.get('[formcontrolname="firstName"]')
+              .clear()
+              .type(editedAddress.firstName);
+            cy.get('[formcontrolname="lastName"]')
+              .clear()
+              .type(editedAddress.lastName);
+            cy.get('[formcontrolname="phone"]')
+              .clear()
+              .type(editedAddress.phone);
 
-          cy.get('button.btn-primary').click();
-        });
-      });
+            cy.get('button.btn-primary').click();
+          });
+        }
+      );
 
-      it(['address_book', 'smoke_b2c','my_account'], 'should display the edited address card in the address book', () => {
-        cy.get('cx-card').should('have.length', 1);
-        assertAddressForm(editedAddress);
-      });
+      it(
+        ['address_book', 'smoke_b2c', 'my_account'],
+        'should display the edited address card in the address book',
+        () => {
+          cy.get('cx-card').should('have.length', 1);
+          assertAddressForm(editedAddress);
+        }
+      );
 
-      it(['address_book', 'smoke_b2c','my_account'],'should add a second address', () => {
-        const secondAddress = {
-          ...newAddress,
-          firstName: 'N',
-          lastName: 'Z',
-        };
-        cy.get('button').contains(' Add new address ').click({ force: true });
-        fillShippingAddress(secondAddress);
-        cy.get('cx-card').should('have.length', 2);
-      });
+      it(
+        ['address_book', 'smoke_b2c', 'my_account'],
+        'should add a second address',
+        () => {
+          const secondAddress = {
+            ...newAddress,
+            firstName: 'N',
+            lastName: 'Z',
+          };
+          cy.get('button').contains(' Add new address ').click({ force: true });
+          fillShippingAddress(secondAddress);
+          cy.get('cx-card').should('have.length', 2);
+        }
+      );
 
-      it(['address_book', 'smoke_b2c','my_account'], 'should set the second address as the default one', () => {
-        fetchAddressesInterceptor();
-        cy.get('button').contains('Set as default').click();
+      it(
+        ['address_book', 'smoke_b2c', 'my_account'],
+        'should set the second address as the default one',
+        () => {
+          fetchAddressesInterceptor();
+          cy.get('button').contains('Set as default').click();
 
-        cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
-        alerts
-          .getSuccessAlert()
-          .contains(
-            `Address ${newAddress.address.line1} was successfully set as default`
+          cy.wait('@fetchAddresses')
+            .its('response.statusCode')
+            .should('eq', 200);
+          alerts
+            .getSuccessAlert()
+            .contains(
+              `Address ${newAddress.address.line1} was successfully set as default`
+            );
+          const firstCard = cy.get('cx-card').first();
+          firstCard.should('contain', '✓ DEFAULT');
+          firstCard.should('contain', 'N Z');
+        }
+      );
+
+      it(
+        ['address_book', 'smoke_b2c', 'my_account'],
+        'should delete the existing address',
+        () => {
+          const firstCard = cy.get('cx-card').first();
+
+          firstCard.within(() => {
+            cy.get('button').contains('Delete').click();
+          });
+
+          cy.get('.cx-card-delete-msg').should(
+            'contain',
+            'Are you sure you want to delete this address?'
           );
-        const firstCard = cy.get('cx-card').first();
-        firstCard.should('contain', '✓ DEFAULT');
-        firstCard.should('contain', 'N Z');
-      });
 
-      it(['address_book', 'smoke_b2c','my_account'], 'should delete the existing address', () => {
-        const firstCard = cy.get('cx-card').first();
+          // click cancel
+          cy.get('.btn-secondary').should('contain', 'Cancel');
+          cy.get('.btn-secondary').click();
+          cy.get('.cx-card-delete-msg').should('not.exist');
 
-        firstCard.within(() => {
-          cy.get('button').contains('Delete').click();
-        });
+          // click delete
+          cy.intercept({
+            method: 'DELETE',
+            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+              'BASE_SITE'
+            )}/users/*/addresses/*`,
+            query: {
+              lang: 'en',
+              curr: 'USD',
+            },
+          }).as('deleteAddress');
+          fetchAddressesInterceptor();
 
-        cy.get('.cx-card-delete-msg').should(
-          'contain',
-          'Are you sure you want to delete this address?'
-        );
+          const card = cy.get('cx-card').first();
+          card.contains('Delete').click();
+          cy.get('.cx-card-delete button.btn-primary').click();
+          cy.wait('@deleteAddress')
+            .its('response.statusCode')
+            .should('eq', 200);
+          cy.wait('@fetchAddresses')
+            .its('response.statusCode')
+            .should('eq', 200);
+          alerts.getSuccessAlert().contains('Address deleted successfully!');
 
-        // click cancel
-        cy.get('.btn-secondary').should('contain', 'Cancel');
-        cy.get('.btn-secondary').click();
-        cy.get('.cx-card-delete-msg').should('not.exist');
+          cy.get('cx-card').should('have.length', 1);
 
-        // click delete
-        cy.intercept({
-          method: 'DELETE',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/*/addresses/*`,
-          query: {
-            lang: 'en',
-            curr: 'USD',
-          },
-        }).as('deleteAddress');
-        fetchAddressesInterceptor();
-
-        const card = cy.get('cx-card').first();
-        card.contains('Delete').click();
-        cy.get('.cx-card-delete button.btn-primary').click();
-        cy.wait('@deleteAddress').its('response.statusCode').should('eq', 200);
-        cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
-        alerts.getSuccessAlert().contains('Address deleted successfully!');
-
-        cy.get('cx-card').should('have.length', 1);
-
-        // verify remaining address is now the default one
-        const defaultCard = cy.get('cx-card').first();
-        defaultCard.should('contain', '✓ DEFAULT');
-        defaultCard.should('contain', 'Baz Qux');
-      });
+          // verify remaining address is now the default one
+          const defaultCard = cy.get('cx-card').first();
+          defaultCard.should('contain', '✓ DEFAULT');
+          defaultCard.should('contain', 'Baz Qux');
+        }
+      );
 
       afterEach(() => {
         cy.saveLocalStorage();

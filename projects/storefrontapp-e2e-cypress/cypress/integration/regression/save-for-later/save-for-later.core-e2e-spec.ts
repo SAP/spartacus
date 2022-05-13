@@ -8,9 +8,13 @@ context('Save for later', () => {
       cy.visit('/');
     });
 
-    it(['save_for_later'],'should validate save for later core functionality', () => {
-      saveForLater.testAnonymousUserSaveForLater();
-      saveForLater.testLoggedInUserSaveForLater();
-    });
+    it(
+      ['save_for_later'],
+      'should validate save for later core functionality',
+      () => {
+        saveForLater.testAnonymousUserSaveForLater();
+        saveForLater.testLoggedInUserSaveForLater();
+      }
+    );
   });
 });

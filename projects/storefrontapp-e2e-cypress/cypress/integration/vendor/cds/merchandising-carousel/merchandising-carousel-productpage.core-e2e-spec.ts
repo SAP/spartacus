@@ -43,56 +43,75 @@ context('Merchandising Carousel - Product page', () => {
       testPDPPage(merchandisingCarousel.STRATEGY_RESPONSE.products[0].id);
     });
 
-    it(['cds', 'carousel'], "should update the products' language when the storefront language is changed on a PDP page", () => {
-      merchandisingCarousel.verifyFirstCarouselItemTextContent(
-        merchandisingCarousel.englishFilmProductText,
-        merchandisingCarousel.japaneseFilmProductText
-      );
+    it(
+      ['cds', 'carousel'],
+      "should update the products' language when the storefront language is changed on a PDP page",
+      () => {
+        merchandisingCarousel.verifyFirstCarouselItemTextContent(
+          merchandisingCarousel.englishFilmProductText,
+          merchandisingCarousel.japaneseFilmProductText
+        );
 
-      switchSiteContext(merchandisingCarousel.japaneseLanguage, LANGUAGE_LABEL);
+        switchSiteContext(
+          merchandisingCarousel.japaneseLanguage,
+          LANGUAGE_LABEL
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
-        strategyRequestAlias,
-        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id,
-        merchandisingCarousel.japaneseLanguage
-      );
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
+          strategyRequestAlias,
+          merchandisingCarousel.STRATEGY_RESPONSE.products[0].id,
+          merchandisingCarousel.japaneseLanguage
+        );
 
-      merchandisingCarousel.verifyFirstCarouselItemTextContent(
-        merchandisingCarousel.japaneseFilmProductText,
-        merchandisingCarousel.englishFilmProductText
-      );
-    });
+        merchandisingCarousel.verifyFirstCarouselItemTextContent(
+          merchandisingCarousel.japaneseFilmProductText,
+          merchandisingCarousel.englishFilmProductText
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], "should update the products' currency when the storefront currency is changed on a PDP page", () => {
-      merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.dollarCurrencySymbol
-      );
+    it(
+      ['cds', 'carousel'],
+      "should update the products' currency when the storefront currency is changed on a PDP page",
+      () => {
+        merchandisingCarousel.verifyFirstCarouselItemPrice(
+          merchandisingCarousel.dollarCurrencySymbol
+        );
 
-      switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
+        switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
 
-      merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.yenCurrencySymbol
-      );
-    });
+        merchandisingCarousel.verifyFirstCarouselItemPrice(
+          merchandisingCarousel.yenCurrencySymbol
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], 'should ignore previous PDP page context when navigating back to the homepage', () => {
-      merchandisingCarousel.navigateToHomepage();
+    it(
+      ['cds', 'carousel'],
+      'should ignore previous PDP page context when navigating back to the homepage',
+      () => {
+        merchandisingCarousel.navigateToHomepage();
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
-        strategyRequestAlias,
-        merchandisingCarousel.DEFAULT_LANGUAGE
-      );
-    });
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
+          strategyRequestAlias,
+          merchandisingCarousel.DEFAULT_LANGUAGE
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], 'should render products on a PDP page when a carousel item on a PDP page is clicked', () => {
-      merchandisingCarousel.clickOnCarouselItem(
-        merchandisingCarousel.STRATEGY_RESPONSE.products[1].id
-      );
+    it(
+      ['cds', 'carousel'],
+      'should render products on a PDP page when a carousel item on a PDP page is clicked',
+      () => {
+        merchandisingCarousel.clickOnCarouselItem(
+          merchandisingCarousel.STRATEGY_RESPONSE.products[1].id
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
-        strategyRequestAlias,
-        merchandisingCarousel.STRATEGY_RESPONSE.products[1].id
-      );
-    });
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
+          strategyRequestAlias,
+          merchandisingCarousel.STRATEGY_RESPONSE.products[1].id
+        );
+      }
+    );
   });
 });

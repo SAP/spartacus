@@ -9,13 +9,17 @@ describe('B2B - Order Approval', () => {
   });
 
   describe('Check order approval in Order details page for customer', () => {
-    it(['approval', 'smoke_b2b'],'should display order approval details in order details page', () => {
-      orderApproval.loginB2bUser();
-      orderApproval.getStubbedPendingOrderDetails();
+    it(
+      ['approval', 'smoke_b2b'],
+      'should display order approval details in order details page',
+      () => {
+        orderApproval.loginB2bUser();
+        orderApproval.getStubbedPendingOrderDetails();
 
-      cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
-      assertPermissionResults(sampleData.pendingOrder);
-    });
+        cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
+        assertPermissionResults(sampleData.pendingOrder);
+      }
+    );
   });
 
   describe('Order approval list and details for order approver', () => {

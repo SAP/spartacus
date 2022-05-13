@@ -45,28 +45,36 @@ context('Checkout flow', () => {
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
     });
 
-    it(['checkout', 'search', 'smoke_b2c'],'should search and perform checkout', () => {
-      const user = getSampleUser();
-      checkout.visitHomePage();
-      checkout.clickHamburger();
-      checkout.registerUser(false, user);
-      cy.onMobile(() => {
-        clickSearchIcon();
-      });
-      searchForProduct(product.name);
-      checkout.checkoutFirstDisplayedProduct(user);
-    });
+    it(
+      ['checkout', 'search', 'smoke_b2c'],
+      'should search and perform checkout',
+      () => {
+        const user = getSampleUser();
+        checkout.visitHomePage();
+        checkout.clickHamburger();
+        checkout.registerUser(false, user);
+        cy.onMobile(() => {
+          clickSearchIcon();
+        });
+        searchForProduct(product.name);
+        checkout.checkoutFirstDisplayedProduct(user);
+      }
+    );
 
-    it(['checkout', 'faceting', 'smoke_b2c'],'should filter with faceting and perform checkout', () => {
-      const user = getSampleUser();
-      checkout.visitHomePage();
+    it(
+      ['checkout', 'faceting', 'smoke_b2c'],
+      'should filter with faceting and perform checkout',
+      () => {
+        const user = getSampleUser();
+        checkout.visitHomePage();
 
-      checkout.clickHamburger();
+        checkout.clickHamburger();
 
-      checkout.registerUser(false, user);
-      searchResult();
-      filterUsingFacetFiltering();
-      checkout.checkoutFirstDisplayedProduct(user);
-    });
+        checkout.registerUser(false, user);
+        searchResult();
+        filterUsingFacetFiltering();
+        checkout.checkoutFirstDisplayedProduct(user);
+      }
+    );
   });
 });

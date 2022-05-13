@@ -8,7 +8,7 @@ import { login } from '../../../support/utils/login';
 describe('Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
     context('Anonymous user', () => {
-      it(['cart'],'should add and remove products', () => {
+      it(['cart'], 'should add and remove products', () => {
         cart.checkBasicCart();
       });
     });
@@ -19,7 +19,7 @@ describe('Cart', () => {
         cart.loginRegisteredUser();
         visitHomePage();
       });
-      it(['cart'],'should merge carts when user is authenticated', () => {
+      it(['cart'], 'should merge carts when user is authenticated', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
 
@@ -41,11 +41,15 @@ describe('Cart', () => {
 
   viewportContext(['desktop'], () => {
     context('Anonymous user', () => {
-      it(['cart'], 'should be unable to add out of stock products to cart', () => {
-        cart.outOfStock();
-      });
+      it(
+        ['cart'],
+        'should be unable to add out of stock products to cart',
+        () => {
+          cart.outOfStock();
+        }
+      );
 
-      it(['cart'],'should keep cart on page refresh', () => {
+      it(['cart'], 'should keep cart on page refresh', () => {
         cart.addProductAsAnonymous();
         cy.reload();
         cart.verifyCartNotEmpty();
@@ -59,28 +63,32 @@ describe('Cart', () => {
         visitHomePage();
       });
 
-      it(['cart'], 'should be loaded for authenticated user after "cart not found" error', () => {
-        cart.registerCreateCartRoute();
-        cart.registerSaveCartRoute();
-        cart.loginRegisteredUser();
-        cart.addProductWhenLoggedIn(false);
-        cy.window().then((window) => {
-          const storage = JSON.parse(
-            window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
-          );
-          const cartCode = storage.active;
-          storage.active = 'incorrect-code';
-          window.localStorage.setItem(
-            'spartacus⚿electronics-spa⚿cart',
-            JSON.stringify(storage)
-          );
-          cy.visit('/cart');
-          alerts.getErrorAlert().should('contain', 'Cart not found');
-          cy.get('.cart-details-wrapper .cx-total').contains(
-            `Cart #${cartCode}`
-          );
-        });
-      });
+      it(
+        ['cart'],
+        'should be loaded for authenticated user after "cart not found" error',
+        () => {
+          cart.registerCreateCartRoute();
+          cart.registerSaveCartRoute();
+          cart.loginRegisteredUser();
+          cart.addProductWhenLoggedIn(false);
+          cy.window().then((window) => {
+            const storage = JSON.parse(
+              window.localStorage.getItem('spartacus⚿electronics-spa⚿cart')
+            );
+            const cartCode = storage.active;
+            storage.active = 'incorrect-code';
+            window.localStorage.setItem(
+              'spartacus⚿electronics-spa⚿cart',
+              JSON.stringify(storage)
+            );
+            cy.visit('/cart');
+            alerts.getErrorAlert().should('contain', 'Cart not found');
+            cy.get('.cart-details-wrapper .cx-total').contains(
+              `Cart #${cartCode}`
+            );
+          });
+        }
+      );
 
       it(['cart'], 'should be loaded after user login', () => {
         cart.registerCartUser();
@@ -109,130 +117,138 @@ describe('Cart', () => {
       });
 
       // will fail right now, as this is not implemented yet
-      it(['cart'], 'should first try to load cart when adding first entry for logged user', () => {
-        cart.loginCartUser();
+      it(
+        ['cart'],
+        'should first try to load cart when adding first entry for logged user',
+        () => {
+          cart.loginCartUser();
 
-        login(
-          cart.cartUser.registrationData.email,
-          cart.cartUser.registrationData.password,
-          false
-        ).then((res) => {
-          expect(res.status).to.eq(200);
-          // remove cart
-          cy.request({
-            method: 'DELETE',
-            url: `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
-            )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
-            headers: {
-              Authorization: `bearer ${res.body.access_token}`,
-            },
-          }).then((response) => {
-            expect(response.status).to.eq(200);
-          });
-        });
-        cy.visit(`/product/${cart.products[0].code}`);
-        cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
-        login(
-          cart.cartUser.registrationData.email,
-          cart.cartUser.registrationData.password,
-          false
-        ).then((res) => {
-          cy.request({
-            // create cart
-            method: 'POST',
-            url: `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
-            )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
-            headers: {
-              Authorization: `bearer ${res.body.access_token}`,
-            },
-          }).then((response) => {
-            // add entry to cart
-            return cy.request({
-              method: 'POST',
+          login(
+            cart.cartUser.registrationData.email,
+            cart.cartUser.registrationData.password,
+            false
+          ).then((res) => {
+            expect(res.status).to.eq(200);
+            // remove cart
+            cy.request({
+              method: 'DELETE',
               url: `${Cypress.env('API_URL')}/${Cypress.env(
                 'OCC_PREFIX'
-              )}/${Cypress.env('BASE_SITE')}/users/current/carts/${
-                response.body.code
-              }/entries`,
+              )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
               headers: {
                 Authorization: `bearer ${res.body.access_token}`,
               },
-              body: {
-                product: { code: cart.products[1].code, qty: 1 },
-              },
+            }).then((response) => {
+              expect(response.status).to.eq(200);
             });
           });
-        });
-
-        cart.clickAddToCart();
-        cart.checkAddedToCartDialog(2);
-        cy.visit('/cart');
-        cart.checkProductInCart(cart.products[0]);
-        cart.checkProductInCart(cart.products[1]);
-
-        cart.registerCartRefreshRoute();
-
-        cart.removeCartItem(cart.products[0]);
-
-        cy.wait('@refresh_cart');
-
-        cart.removeCartItem(cart.products[1]);
-        cart.validateEmptyCart();
-      });
-
-      it(['cart'], 'should create new cart when adding first entry for authenticated user without a cart', () => {
-        cart.loginCartUser();
-        login(
-          cart.cartUser.registrationData.email,
-          cart.cartUser.registrationData.password,
-          false
-        ).then((res) => {
-          expect(res.status).to.eq(200);
-          cy.log('Removing current Cart for the test case');
-          cy.request({
-            method: 'DELETE',
-            url: `${Cypress.env('API_URL')}/${Cypress.env(
-              'OCC_PREFIX'
-            )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
-            headers: {
-              Authorization: `bearer ${res.body.access_token}`,
-            },
-          }).then((response) => {
-            expect(response.status).to.eq(200);
+          cy.visit(`/product/${cart.products[0].code}`);
+          cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
+          login(
+            cart.cartUser.registrationData.email,
+            cart.cartUser.registrationData.password,
+            false
+          ).then((res) => {
+            cy.request({
+              // create cart
+              method: 'POST',
+              url: `${Cypress.env('API_URL')}/${Cypress.env(
+                'OCC_PREFIX'
+              )}/${Cypress.env('BASE_SITE')}/users/current/carts`,
+              headers: {
+                Authorization: `bearer ${res.body.access_token}`,
+              },
+            }).then((response) => {
+              // add entry to cart
+              return cy.request({
+                method: 'POST',
+                url: `${Cypress.env('API_URL')}/${Cypress.env(
+                  'OCC_PREFIX'
+                )}/${Cypress.env('BASE_SITE')}/users/current/carts/${
+                  response.body.code
+                }/entries`,
+                headers: {
+                  Authorization: `bearer ${res.body.access_token}`,
+                },
+                body: {
+                  product: { code: cart.products[1].code, qty: 1 },
+                },
+              });
+            });
           });
-        });
-        cy.visit(`/product/${cart.products[0].code}`);
-        cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
-        cy.intercept({
-          method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/current/carts`,
-        }).as('cart');
-        cart.clickAddToCart();
-        cart.checkAddedToCartDialog();
-        cy.visit('/cart');
-        cart.checkProductInCart(cart.products[0]);
 
-        // cleanup
-        cy.intercept({
-          method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/current/carts/*`,
-          query: {
-            lang: 'en',
-            curr: 'USD',
-            fields: '*',
-          },
-        }).as('refresh_cart');
-        cart.removeCartItem(cart.products[0]);
-        cart.validateEmptyCart();
-      });
+          cart.clickAddToCart();
+          cart.checkAddedToCartDialog(2);
+          cy.visit('/cart');
+          cart.checkProductInCart(cart.products[0]);
+          cart.checkProductInCart(cart.products[1]);
 
-      it(['cart'],'should use existing cart when adding new entries', () => {
+          cart.registerCartRefreshRoute();
+
+          cart.removeCartItem(cart.products[0]);
+
+          cy.wait('@refresh_cart');
+
+          cart.removeCartItem(cart.products[1]);
+          cart.validateEmptyCart();
+        }
+      );
+
+      it(
+        ['cart'],
+        'should create new cart when adding first entry for authenticated user without a cart',
+        () => {
+          cart.loginCartUser();
+          login(
+            cart.cartUser.registrationData.email,
+            cart.cartUser.registrationData.password,
+            false
+          ).then((res) => {
+            expect(res.status).to.eq(200);
+            cy.log('Removing current Cart for the test case');
+            cy.request({
+              method: 'DELETE',
+              url: `${Cypress.env('API_URL')}/${Cypress.env(
+                'OCC_PREFIX'
+              )}/${Cypress.env('BASE_SITE')}/users/current/carts/current`,
+              headers: {
+                Authorization: `bearer ${res.body.access_token}`,
+              },
+            }).then((response) => {
+              expect(response.status).to.eq(200);
+            });
+          });
+          cy.visit(`/product/${cart.products[0].code}`);
+          cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
+          cy.intercept({
+            method: 'GET',
+            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+              'BASE_SITE'
+            )}/users/current/carts`,
+          }).as('cart');
+          cart.clickAddToCart();
+          cart.checkAddedToCartDialog();
+          cy.visit('/cart');
+          cart.checkProductInCart(cart.products[0]);
+
+          // cleanup
+          cy.intercept({
+            method: 'GET',
+            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+              'BASE_SITE'
+            )}/users/current/carts/*`,
+            query: {
+              lang: 'en',
+              curr: 'USD',
+              fields: '*',
+            },
+          }).as('refresh_cart');
+          cart.removeCartItem(cart.products[0]);
+          cart.validateEmptyCart();
+        }
+      );
+
+      it(['cart'], 'should use existing cart when adding new entries', () => {
         cy.visit(`/product/${cart.products[0].code}`);
         cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
         cart.clickAddToCart();

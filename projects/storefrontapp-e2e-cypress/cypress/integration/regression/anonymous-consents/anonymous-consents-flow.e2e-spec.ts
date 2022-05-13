@@ -15,8 +15,8 @@ context('Anonymous consents flow', () => {
       });
     });
     describe('As an anonymous user', () => {
-      it(['consents'],'should validate accept anonymous consents', () => {
-      anonymousConsents.testAcceptAnonymousConsents();
+      it(['consents'], 'should validate accept anonymous consents', () => {
+        anonymousConsents.testAcceptAnonymousConsents();
       });
     });
   });
@@ -30,22 +30,30 @@ context('Anonymous consents flow', () => {
     });
 
     describe('Registering a user', () => {
-      it(['consents'],'should validate give registration consent functionality', () => {
-      anonymousConsents.giveRegistrationConsentTest();
-      });
+      it(
+        ['consents'],
+        'should validate give registration consent functionality',
+        () => {
+          anonymousConsents.giveRegistrationConsentTest();
+        }
+      );
     });
 
     describe('As a registered user', () => {
       before(() => {
         cy.visit('/');
       });
-      it(['consents'],'should validate moving from anonymous to registered user', () => {
-        anonymousConsents.movingFromAnonymousToRegisteredUser();
-      });
+      it(
+        ['consents'],
+        'should validate moving from anonymous to registered user',
+        () => {
+          anonymousConsents.movingFromAnonymousToRegisteredUser();
+        }
+      );
     });
 
     describe('As a logged in user', () => {
-      it(['consents'],'should validate consents as logged in user', () => {
+      it(['consents'], 'should validate consents as logged in user', () => {
         anonymousConsents.testAsLoggedInUser();
       });
     });
@@ -57,7 +65,7 @@ context('Anonymous consents flow', () => {
 
       stub(LANGUAGE_REQUEST, LANGUAGES);
 
-      it(['consents'],'should validate change consents language', () => {
+      it(['consents'], 'should validate change consents language', () => {
         anonymousConsents.changeLanguageTest();
       });
     });

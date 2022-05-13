@@ -21,7 +21,7 @@ context('B2B - Account Checkout flow', () => {
     cy.saveLocalStorage();
   });
 
-  it(['smoke_b2b', 'checkout_b2b'],'should login to b2b user', () => {
+  it(['smoke_b2b', 'checkout_b2b'], 'should login to b2b user', () => {
     b2bCheckout.loginB2bUser();
   });
 
@@ -29,10 +29,14 @@ context('B2B - Account Checkout flow', () => {
     b2bCheckout.addB2bProductToCartAndCheckout();
   });
 
-  it(['smoke_b2b', 'checkout_b2b'], 'should select Account payment type', () => {
-    b2bCheckout.enterPONumber();
-    b2bCheckout.selectAccountPayment();
-  });
+  it(
+    ['smoke_b2b', 'checkout_b2b'],
+    'should select Account payment type',
+    () => {
+      b2bCheckout.enterPONumber();
+      b2bCheckout.selectAccountPayment();
+    }
+  );
 
   it(['smoke_b2b', 'checkout_b2b'], 'should enter shipping address', () => {
     b2bCheckout.selectAccountShippingAddress();

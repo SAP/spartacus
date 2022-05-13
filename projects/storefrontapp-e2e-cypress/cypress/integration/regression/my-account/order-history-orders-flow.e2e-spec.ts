@@ -32,29 +32,33 @@ describe('Order details page', () => {
 
     orderHistoryTest.checkOrderDetailsUnconsignedEntries();
 
-    it(['order_history', 'my_account'],'should display order details page with consigned entries', () => {
-      doPlaceOrder().then((orderData: any) => {
-        cy.waitForOrderToBePlacedRequest(
-          undefined,
-          undefined,
-          orderData.body.code
-        );
-        cy.visit('/my-account/orders');
-        cy.get('.cx-order-history-code > .cx-order-history-value')
-          .then((el) => {
-            const orderNumber = el.text().match(/\d+/)[0];
-            waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
-            return cy.wrap(el);
-          })
-          .first()
-          .click();
-        cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
-        cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
-        cy.get('.cx-summary-total > .cx-summary-amount').should(
-          'contain',
-          orderData.body.totalPrice.formattedValue
-        );
-      });
-    });
+    it(
+      ['order_history', 'my_account'],
+      'should display order details page with consigned entries',
+      () => {
+        doPlaceOrder().then((orderData: any) => {
+          cy.waitForOrderToBePlacedRequest(
+            undefined,
+            undefined,
+            orderData.body.code
+          );
+          cy.visit('/my-account/orders');
+          cy.get('.cx-order-history-code > .cx-order-history-value')
+            .then((el) => {
+              const orderNumber = el.text().match(/\d+/)[0];
+              waitForOrderWithConsignmentToBePlacedRequest(orderNumber);
+              return cy.wrap(el);
+            })
+            .first()
+            .click();
+          cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
+          cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
+          cy.get('.cx-summary-total > .cx-summary-amount').should(
+            'contain',
+            orderData.body.totalPrice.formattedValue
+          );
+        });
+      }
+    );
   });
 });

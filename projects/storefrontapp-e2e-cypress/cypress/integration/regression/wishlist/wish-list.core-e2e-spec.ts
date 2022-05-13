@@ -21,9 +21,13 @@ describe('Wish list', () => {
   });
 
   describe('Anonymous', () => {
-    it(['wishlist'],'should register and sign in user to add product to wish list', () => {
-      wishList.addToWishListAnonymous(wishList.products[0]);
-    });
+    it(
+      ['wishlist'],
+      'should register and sign in user to add product to wish list',
+      () => {
+        wishList.addToWishListAnonymous(wishList.products[0]);
+      }
+    );
   });
 
   describe('Logged in', () => {
@@ -33,16 +37,20 @@ describe('Wish list', () => {
       wishList.loginWishListUser();
     });
 
-    it(['wishlist'],'should add and remove product to wish list from PDP', () => {
-      wishList.visitProduct(wishList.products[0]);
-      wishList.addToWishListFromPage();
-      wishList.verifyProductInWishListPdp();
-      wishList.verifyProductInWishList(wishList.products[0]);
-      wishList.goToProductPageFromWishList(wishList.products[0]);
-      wishList.removeProductFromPdp();
-    });
+    it(
+      ['wishlist'],
+      'should add and remove product to wish list from PDP',
+      () => {
+        wishList.visitProduct(wishList.products[0]);
+        wishList.addToWishListFromPage();
+        wishList.verifyProductInWishListPdp();
+        wishList.verifyProductInWishList(wishList.products[0]);
+        wishList.goToProductPageFromWishList(wishList.products[0]);
+        wishList.removeProductFromPdp();
+      }
+    );
 
-    it(['wishlist'],'should persist wish list between sessions', () => {
+    it(['wishlist'], 'should persist wish list between sessions', () => {
       wishList.addToWishList(wishList.products[1]);
       wishList.verifyProductInWishList(wishList.products[1]);
       wishList.checkWishListPersisted(wishList.products[1]);
@@ -50,7 +58,7 @@ describe('Wish list', () => {
       wishList.removeProductFromWishListPage(wishList.products[1]);
     });
 
-    it(['wishlist'],'should add product to cart from wish list', () => {
+    it(['wishlist'], 'should add product to cart from wish list', () => {
       wishList.addToWishList(wishList.products[0]);
       wishList.verifyProductInWishList(wishList.products[0]);
       wishList.addProductToCart(wishList.products[0]);
@@ -69,40 +77,44 @@ describe('Wish list', () => {
       wishList.loginWishListUser();
     });
 
-    it(['wishlist', 'checkout'],'should checkout with product added from wish list', () => {
-      const currentRetry = cy.state('runnable')._currentRetry;
+    it(
+      ['wishlist', 'checkout'],
+      'should checkout with product added from wish list',
+      () => {
+        const currentRetry = cy.state('runnable')._currentRetry;
 
-      /**
-       * This test case performs a checkout. Checkout will occasioanlly (rare)
-       * freeze on a checkout step (Shipping -> Delivery -> Payment -> Review).
-       * If this occurs, spec will time out and restart from beginning. In this case
-       * we do not try to add products to wish list as they will still be in wish list
-       * from failed attempt.
-       */
-      if (currentRetry === 0) {
-        wishList.addToWishList(wishList.products[0]);
-        wishList.addToWishList(wishList.products[1]);
+        /**
+         * This test case performs a checkout. Checkout will occasioanlly (rare)
+         * freeze on a checkout step (Shipping -> Delivery -> Payment -> Review).
+         * If this occurs, spec will time out and restart from beginning. In this case
+         * we do not try to add products to wish list as they will still be in wish list
+         * from failed attempt.
+         */
+        if (currentRetry === 0) {
+          wishList.addToWishList(wishList.products[0]);
+          wishList.addToWishList(wishList.products[1]);
+        }
+
+        wishList.verifyProductInWishList(wishList.products[0]);
+        wishList.verifyProductInWishList(wishList.products[1]);
+
+        /**
+         * Same as previously explained, only try to add products to cart on first attempt.
+         */
+        if (currentRetry === 0) {
+          wishList.addProductToCart(wishList.products[0]);
+          wishList.addProductToCart(wishList.products[1]);
+        }
+
+        wishList.checkoutFromWishList([
+          wishList.products[0],
+          wishList.products[1],
+        ]);
+
+        wishList.goToWishList();
+        wishList.removeProductFromWishListPage(wishList.products[0]);
+        wishList.removeProductFromWishListPage(wishList.products[1]);
       }
-
-      wishList.verifyProductInWishList(wishList.products[0]);
-      wishList.verifyProductInWishList(wishList.products[1]);
-
-      /**
-       * Same as previously explained, only try to add products to cart on first attempt.
-       */
-      if (currentRetry === 0) {
-        wishList.addProductToCart(wishList.products[0]);
-        wishList.addProductToCart(wishList.products[1]);
-      }
-
-      wishList.checkoutFromWishList([
-        wishList.products[0],
-        wishList.products[1],
-      ]);
-
-      wishList.goToWishList();
-      wishList.removeProductFromWishListPage(wishList.products[0]);
-      wishList.removeProductFromWishListPage(wishList.products[1]);
-    });
+    );
   });
 });

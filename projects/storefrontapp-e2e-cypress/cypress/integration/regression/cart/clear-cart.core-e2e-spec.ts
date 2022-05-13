@@ -34,7 +34,7 @@ describe('Clear Cart', () => {
         cart.verifyCartNotEmpty();
       });
 
-      it(['cart'],'should clear cart for anynonymous user', () => {
+      it(['cart'], 'should clear cart for anynonymous user', () => {
         cart.goToCart();
         cart.clearActiveCart();
         cart.validateEmptyCart();
@@ -61,17 +61,21 @@ describe('Clear Cart', () => {
         cart.verifyCartNotEmpty();
       });
 
-      it(['cart'],'should clear cart for registered user and have new cart Id', () => {
-        cart.goToCart();
-        cart.saveCartId();
-        cart.clearActiveCart();
-        alerts
-          .getSuccessAlert()
-          .should('contain', `Active cart cleared successfully.`);
-        cart.validateEmptyCart();
-        cart.verifyCartIdAfterClearCart();
-        signOutUser();
-      });
+      it(
+        ['cart'],
+        'should clear cart for registered user and have new cart Id',
+        () => {
+          cart.goToCart();
+          cart.saveCartId();
+          cart.clearActiveCart();
+          alerts
+            .getSuccessAlert()
+            .should('contain', `Active cart cleared successfully.`);
+          cart.validateEmptyCart();
+          cart.verifyCartIdAfterClearCart();
+          signOutUser();
+        }
+      );
     });
   });
 });

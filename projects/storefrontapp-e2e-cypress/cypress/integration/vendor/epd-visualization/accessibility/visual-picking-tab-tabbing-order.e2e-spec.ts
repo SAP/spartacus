@@ -7,8 +7,12 @@ context("Tabbing order - tests don't require user to be logged in", () => {
   describe('Spare Parts Tab', () => {
     before(configureDefaultProduct);
 
-    it(['epd', 'visualization'],'should allow to navigate with tab key', () => {
-      verifyTabbingOrder();
-    });
+    it(
+      ['epd', 'visualization'],
+      'should allow to navigate with tab key',
+      () => {
+        verifyTabbingOrder();
+      }
+    );
   });
 });

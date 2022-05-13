@@ -10,9 +10,13 @@ describe('Notification preference', () => {
         registerAndLogin();
         cy.visit('/');
       });
-      it(['notification'], 'should validate notification preference functionality', () => {
-        testEnableDisableNotification();
-      });
+      it(
+        ['notification'],
+        'should validate notification preference functionality',
+        () => {
+          testEnableDisableNotification();
+        }
+      );
     });
   });
 });

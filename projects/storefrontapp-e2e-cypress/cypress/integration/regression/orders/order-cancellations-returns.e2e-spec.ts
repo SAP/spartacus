@@ -14,148 +14,168 @@ describe('Order Cancellations and Returns', () => {
   });
 
   describe('Should display cancel or return buttons in order details page', () => {
-    it(['orders','order_cancellation'],'should display cancel button in order details page', () => {
-      orderCancellationReturn.getStubbedCancellableOrderDetails();
-      orderCancellationReturn.visitOrderDetailPage();
+    it(
+      ['orders', 'order_cancellation'],
+      'should display cancel button in order details page',
+      () => {
+        orderCancellationReturn.getStubbedCancellableOrderDetails();
+        orderCancellationReturn.visitOrderDetailPage();
 
-      assertActionButtons('Cancel Items');
+        assertActionButtons('Cancel Items');
 
-      // Accessibility
-      verifyTabbingOrder(
-        'cx-order-details-actions',
-        config.orderDetailsCancelAction
-      );
-    });
+        // Accessibility
+        verifyTabbingOrder(
+          'cx-order-details-actions',
+          config.orderDetailsCancelAction
+        );
+      }
+    );
 
-    it(['orders', 'order_returns'],'should display return button in order details page', () => {
-      orderCancellationReturn.getStubbedReturnableOrderDetails();
-      orderCancellationReturn.visitOrderDetailPage();
+    it(
+      ['orders', 'order_returns'],
+      'should display return button in order details page',
+      () => {
+        orderCancellationReturn.getStubbedReturnableOrderDetails();
+        orderCancellationReturn.visitOrderDetailPage();
 
-      assertActionButtons('Request a Return');
+        assertActionButtons('Request a Return');
 
-      // Accessibility
-      verifyTabbingOrder(
-        'cx-order-details-actions',
-        config.orderDetailsReturnAction
-      );
-    });
+        // Accessibility
+        verifyTabbingOrder(
+          'cx-order-details-actions',
+          config.orderDetailsReturnAction
+        );
+      }
+    );
   });
 
   describe('Return request list and details', () => {
-    it(['orders', 'order_returns'], 'should display return request list', () => {
-      orderCancellationReturn.getStubbedReturnRequestList();
-      orderCancellationReturn.visitReturnRequestListPage();
-      cy.wait('@return_request_list')
-        .its('response.statusCode')
-        .should('eq', 200);
+    it(
+      ['orders', 'order_returns'],
+      'should display return request list',
+      () => {
+        orderCancellationReturn.getStubbedReturnRequestList();
+        orderCancellationReturn.visitReturnRequestListPage();
+        cy.wait('@return_request_list')
+          .its('response.statusCode')
+          .should('eq', 200);
 
-      cy.get('cx-tab-paragraph-container button').eq(1).click();
+        cy.get('cx-tab-paragraph-container button').eq(1).click();
 
-      const returnRequest = sampleData.returnRequestList.returnRequests[0];
-      cy.get('cx-order-return-request-list a.cx-order-history-value')
-        .eq(0)
-        .should('contain', returnRequest.rma);
-      cy.get('cx-order-return-request-list a.cx-order-history-value')
-        .eq(1)
-        .should('contain', returnRequest.order.code);
-      cy.get('cx-order-return-request-list .cx-order-history-placed').should(
-        'contain',
-        sampleData.REQUEST_CREATE_TIME
-      );
-      cy.get('cx-order-return-request-list .cx-order-history-status').should(
-        'contain',
-        sampleData.REQUEST_STATUS_PENDING
-      );
+        const returnRequest = sampleData.returnRequestList.returnRequests[0];
+        cy.get('cx-order-return-request-list a.cx-order-history-value')
+          .eq(0)
+          .should('contain', returnRequest.rma);
+        cy.get('cx-order-return-request-list a.cx-order-history-value')
+          .eq(1)
+          .should('contain', returnRequest.order.code);
+        cy.get('cx-order-return-request-list .cx-order-history-placed').should(
+          'contain',
+          sampleData.REQUEST_CREATE_TIME
+        );
+        cy.get('cx-order-return-request-list .cx-order-history-status').should(
+          'contain',
+          sampleData.REQUEST_STATUS_PENDING
+        );
 
-      // test the sort dropdown
-      cy.get('.top cx-sorting .ng-select').ngSelect('Return Number');
-      cy.wait('@return_request_list')
-        .its('response.statusCode')
-        .should('eq', 200);
-      cy.get('@return_request_list')
-        .its('request.url')
-        .should('contain', 'sort=byRMA');
+        // test the sort dropdown
+        cy.get('.top cx-sorting .ng-select').ngSelect('Return Number');
+        cy.wait('@return_request_list')
+          .its('response.statusCode')
+          .should('eq', 200);
+        cy.get('@return_request_list')
+          .its('request.url')
+          .should('contain', 'sort=byRMA');
 
-      // accessibility
-      verifyTabbingOrder(
-        'cx-order-return-request-list',
-        config.returnRequestList
-      );
-    });
+        // accessibility
+        verifyTabbingOrder(
+          'cx-order-return-request-list',
+          config.returnRequestList
+        );
+      }
+    );
 
-    it(['orders', 'order_returns'],'Should display return request detail page', () => {
-      orderCancellationReturn.getStubbedReturnRequestDetails();
-      orderCancellationReturn.visitReturnRequestDetailsPage();
+    it(
+      ['orders', 'order_returns'],
+      'Should display return request detail page',
+      () => {
+        orderCancellationReturn.getStubbedReturnRequestDetails();
+        orderCancellationReturn.visitReturnRequestDetailsPage();
 
-      // assert buttons
-      cy.get('cx-return-request-overview .btn-action').should(
-        'contain',
-        'Back'
-      );
-      cy.get('cx-return-request-overview .btn-primary').should(
-        'contain',
-        'Cancel Return Request'
-      );
+        // assert buttons
+        cy.get('cx-return-request-overview .btn-action').should(
+          'contain',
+          'Back'
+        );
+        cy.get('cx-return-request-overview .btn-primary').should(
+          'contain',
+          'Cancel Return Request'
+        );
 
-      // assert return request overview
-      assertReturnRequestOverview(0, 'Return Request #', sampleData.RMA);
-      assertReturnRequestOverview(1, 'For Order #', sampleData.ORDER_CODE);
-      assertReturnRequestOverview(
-        2,
-        'Return status',
-        sampleData.REQUEST_STATUS_PENDING
-      );
+        // assert return request overview
+        assertReturnRequestOverview(0, 'Return Request #', sampleData.RMA);
+        assertReturnRequestOverview(1, 'For Order #', sampleData.ORDER_CODE);
+        assertReturnRequestOverview(
+          2,
+          'Return status',
+          sampleData.REQUEST_STATUS_PENDING
+        );
 
-      // assert returned items
-      assertReturnedItems(sampleData.returnRequestDetails);
+        // assert returned items
+        assertReturnedItems(sampleData.returnRequestDetails);
 
-      // assert return totals
-      assertReturnTotals(sampleData.returnRequestDetails);
+        // assert return totals
+        assertReturnTotals(sampleData.returnRequestDetails);
 
-      // accessibility
-      verifyTabbingOrder(
-        'cx-page-layout.AccountPageTemplate',
-        config.returnRequestDetails
-      );
-    });
+        // accessibility
+        verifyTabbingOrder(
+          'cx-page-layout.AccountPageTemplate',
+          config.returnRequestDetails
+        );
+      }
+    );
 
-    it(['orders', 'order_cancellation'],'should cancel a return request', () => {
-      orderCancellationReturn.getStubbedReturnRequestDetails();
-      orderCancellationReturn.visitReturnRequestDetailsPage();
+    it(
+      ['orders', 'order_cancellation'],
+      'should cancel a return request',
+      () => {
+        orderCancellationReturn.getStubbedReturnRequestDetails();
+        orderCancellationReturn.visitReturnRequestDetailsPage();
 
-      orderCancellationReturn.cancelReturnRequest();
-      cy.get('cx-return-request-overview .btn-primary').click();
+        orderCancellationReturn.cancelReturnRequest();
+        cy.get('cx-return-request-overview .btn-primary').click();
 
-      cy.get('cx-global-message').should(
-        'contain',
-        `Your return request (${sampleData.RMA}) was cancelled`
-      );
-      cy.get('cx-breadcrumb').should('contain', 'Order History');
+        cy.get('cx-global-message').should(
+          'contain',
+          `Your return request (${sampleData.RMA}) was cancelled`
+        );
+        cy.get('cx-breadcrumb').should('contain', 'Order History');
 
-      // after cancelling one return request, go to list page to check the request status
-      orderCancellationReturn.getStubbedReturnRequestListAfterCancel();
-      cy.wait('@return_request_list_after_cancel')
-        .its('response.statusCode')
-        .should('eq', 200);
+        // after cancelling one return request, go to list page to check the request status
+        orderCancellationReturn.getStubbedReturnRequestListAfterCancel();
+        cy.wait('@return_request_list_after_cancel')
+          .its('response.statusCode')
+          .should('eq', 200);
 
-      cy.get('cx-tab-paragraph-container button').eq(1).click();
-      cy.get('cx-order-return-request-list .cx-order-history-status').should(
-        'contain',
-        sampleData.REQUEST_STATUS_CANCELLING
-      );
+        cy.get('cx-tab-paragraph-container button').eq(1).click();
+        cy.get('cx-order-return-request-list .cx-order-history-status').should(
+          'contain',
+          sampleData.REQUEST_STATUS_CANCELLING
+        );
 
-      // go to detail page to check the status and button
-      orderCancellationReturn.getStubbedReturnRequestDetailsAfterCancel();
-      cy.get('cx-order-return-request-list a.cx-order-history-value')
-        .eq(0)
-        .click();
-      assertReturnRequestOverview(
-        2,
-        'Return status',
-        sampleData.REQUEST_STATUS_CANCELLING
-      );
-      cy.get('cx-return-request-overview .btn-primary').should('not.exist');
-    });
+        // go to detail page to check the status and button
+        orderCancellationReturn.getStubbedReturnRequestDetailsAfterCancel();
+        cy.get('cx-order-return-request-list a.cx-order-history-value')
+          .eq(0)
+          .click();
+        assertReturnRequestOverview(
+          2,
+          'Return status',
+          sampleData.REQUEST_STATUS_CANCELLING
+        );
+        cy.get('cx-return-request-overview .btn-primary').should('not.exist');
+      }
+    );
   });
 
   function assertActionButtons(btnText: string) {

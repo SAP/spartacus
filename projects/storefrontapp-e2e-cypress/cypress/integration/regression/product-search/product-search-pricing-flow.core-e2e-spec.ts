@@ -16,43 +16,47 @@ context('Product search pricing flow', () => {
     });
 
     describe('Product search', () => {
-      it(['product_search'],'should be able to search product and sort by price', () => {
-        const categoryId = '576';
-        const category = 'Digital Compacts';
-        createProductQuery(
-          QUERY_ALIAS.FIRST_PAGE,
-          `:relevance:allCategories:${categoryId}`,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `1`
-        );
-        createProductSortQuery('price-asc', QUERY_ALIAS.PRICE_ASC_FILTER);
+      it(
+        ['product_search'],
+        'should be able to search product and sort by price',
+        () => {
+          const categoryId = '576';
+          const category = 'Digital Compacts';
+          createProductQuery(
+            QUERY_ALIAS.FIRST_PAGE,
+            `:relevance:allCategories:${categoryId}`,
+            PRODUCT_LISTING.PRODUCTS_PER_PAGE,
+            `1`
+          );
+          createProductSortQuery('price-asc', QUERY_ALIAS.PRICE_ASC_FILTER);
 
-        createProductQuery(
-          QUERY_ALIAS.CATEGORY_PAGE,
-          `:relevance:allCategories:${categoryId}`,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE
-        );
+          createProductQuery(
+            QUERY_ALIAS.CATEGORY_PAGE,
+            `:relevance:allCategories:${categoryId}`,
+            PRODUCT_LISTING.PRODUCTS_PER_PAGE
+          );
 
-        // Click on a Category
-        cy.get('header').within(() => {
-          cy.get('cx-navigation-ui')
-            .contains('Digital Cameras')
-            .click({ force: true });
-          cy.get('.childs cx-generic-link')
-            .contains('Compact Cameras')
-            .click({ force: true });
-        });
+          // Click on a Category
+          cy.get('header').within(() => {
+            cy.get('cx-navigation-ui')
+              .contains('Digital Cameras')
+              .click({ force: true });
+            cy.get('.childs cx-generic-link')
+              .contains('Compact Cameras')
+              .click({ force: true });
+          });
 
-        cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`);
+          cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`);
 
-        assertNumberOfProducts(`@${QUERY_ALIAS.CATEGORY_PAGE}`, category);
+          assertNumberOfProducts(`@${QUERY_ALIAS.CATEGORY_PAGE}`, category);
 
-        verifyProductSearch(
-          QUERY_ALIAS.FIRST_PAGE,
-          QUERY_ALIAS.PRICE_ASC_FILTER,
-          PRODUCT_LISTING.SORTING_TYPES.BY_PRICE_ASC
-        );
-      });
+          verifyProductSearch(
+            QUERY_ALIAS.FIRST_PAGE,
+            QUERY_ALIAS.PRICE_ASC_FILTER,
+            PRODUCT_LISTING.SORTING_TYPES.BY_PRICE_ASC
+          );
+        }
+      );
     });
   });
 });

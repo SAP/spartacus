@@ -72,100 +72,118 @@ export const orderHistoryTest = {
   },
   // orders flow
   checkIfOrderIsDisplayed() {
-    it(['order_history', 'smoke_b2c'], 'should display placed order in Order History', () => {
-      doPlaceOrder().then(() => {
+    it(
+      ['order_history', 'smoke_b2c'],
+      'should display placed order in Order History',
+      () => {
+        doPlaceOrder().then(() => {
+          doPlaceOrder().then((orderData: any) => {
+            cy.waitForOrderToBePlacedRequest(
+              undefined,
+              undefined,
+              orderData.body.code
+            );
+            cy.visit('/my-account/orders');
+            cy.get('cx-order-history h2').should('contain', 'Order history');
+            cy.get('.cx-order-history-code > .cx-order-history-value').should(
+              'contain',
+              orderData.body.code
+            );
+            cy.get('.cx-order-history-total > .cx-order-history-value').should(
+              'contain',
+              orderData.body.totalPrice.formattedValue
+            );
+          });
+        });
+      }
+    );
+  },
+  checkSortingByCode() {
+    it(
+      ['order_history', 'smoke_b2c'],
+      'should sort the orders table by given code',
+      () => {
+        cy.intercept('GET', /sort=byOrderNumber/).as('query_order_asc');
+        cy.visit('/my-account/orders');
+        cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
+        cy.wait('@query_order_asc')
+          .its('response.statusCode')
+          .should('eq', 200);
+        cy.get('.cx-order-history-code > .cx-order-history-value').then(
+          ($orders) => {
+            expect(parseInt($orders[0].textContent, 10)).to.be.lessThan(
+              parseInt($orders[1].textContent, 10)
+            );
+          }
+        );
+      }
+    );
+  },
+  checkCorrectDateFormat() {
+    it(
+      ['order_history', 'smoke_b2c'],
+      'should show correct date format',
+      () => {
+        cy.intercept('GET', /users\/current\/orders/).as('getOrderHistoryPage');
+
+        cy.visit('/my-account/orders');
+
+        // to compare two dates (EN and DE) we have to compare day numbers
+        // EN: "June 15, 2019"
+        // DE: "15. Juni, 2019"
+
+        const getDayNumber = (element: any) =>
+          element.text().replace(',', '').replace('.', '').split(' ');
+        let dayNumberEN: string;
+
+        cy.wait('@getOrderHistoryPage')
+          .its('response.statusCode')
+          .should('eq', 200);
+
+        cy.onMobile(() => {
+          clickHamburger();
+        });
+        switchLanguage('en');
+
+        cy.get('.cx-order-history-placed > .cx-order-history-value')
+          .first()
+          .then((element) => {
+            dayNumberEN = getDayNumber(element)[1];
+          });
+
+        cy.onMobile(() => {
+          clickHamburger();
+        });
+        switchLanguage('de');
+
+        cy.get('.cx-order-history-placed > .cx-order-history-value')
+          .first()
+          .then((element) => {
+            expect(getDayNumber(element)[0]).to.eq(dayNumberEN);
+          });
+
+        cy.onMobile(() => {
+          clickHamburger();
+        });
+        switchLanguage('en'); // switch language back
+      }
+    );
+  },
+  checkOrderDetailsUnconsignedEntries() {
+    it(
+      ['order_history', 'smoke_b2c'],
+      'should display order details page with unconsigned entries',
+      () => {
         doPlaceOrder().then((orderData: any) => {
-          cy.waitForOrderToBePlacedRequest(
-            undefined,
-            undefined,
-            orderData.body.code
-          );
-          cy.visit('/my-account/orders');
-          cy.get('cx-order-history h2').should('contain', 'Order history');
-          cy.get('.cx-order-history-code > .cx-order-history-value').should(
-            'contain',
-            orderData.body.code
-          );
-          cy.get('.cx-order-history-total > .cx-order-history-value').should(
+          cy.visit(`/my-account/order/${orderData.body.code}`);
+          cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
+          cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
+          cy.get('.cx-summary-total > .cx-summary-amount').should(
             'contain',
             orderData.body.totalPrice.formattedValue
           );
         });
-      });
-    });
-  },
-  checkSortingByCode() {
-    it(['order_history', 'smoke_b2c'], 'should sort the orders table by given code', () => {
-      cy.intercept('GET', /sort=byOrderNumber/).as('query_order_asc');
-      cy.visit('/my-account/orders');
-      cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
-      cy.wait('@query_order_asc').its('response.statusCode').should('eq', 200);
-      cy.get('.cx-order-history-code > .cx-order-history-value').then(
-        ($orders) => {
-          expect(parseInt($orders[0].textContent, 10)).to.be.lessThan(
-            parseInt($orders[1].textContent, 10)
-          );
-        }
-      );
-    });
-  },
-  checkCorrectDateFormat() {
-    it(['order_history', 'smoke_b2c'], 'should show correct date format', () => {
-      cy.intercept('GET', /users\/current\/orders/).as('getOrderHistoryPage');
-
-      cy.visit('/my-account/orders');
-
-      // to compare two dates (EN and DE) we have to compare day numbers
-      // EN: "June 15, 2019"
-      // DE: "15. Juni, 2019"
-
-      const getDayNumber = (element: any) =>
-        element.text().replace(',', '').replace('.', '').split(' ');
-      let dayNumberEN: string;
-
-      cy.wait('@getOrderHistoryPage')
-        .its('response.statusCode')
-        .should('eq', 200);
-
-      cy.onMobile(() => {
-        clickHamburger();
-      });
-      switchLanguage('en');
-
-      cy.get('.cx-order-history-placed > .cx-order-history-value')
-        .first()
-        .then((element) => {
-          dayNumberEN = getDayNumber(element)[1];
-        });
-
-      cy.onMobile(() => {
-        clickHamburger();
-      });
-      switchLanguage('de');
-
-      cy.get('.cx-order-history-placed > .cx-order-history-value')
-        .first()
-        .then((element) => {
-          expect(getDayNumber(element)[0]).to.eq(dayNumberEN);
-        });
-
-      cy.onMobile(() => {
-        clickHamburger();
-      });
-      switchLanguage('en'); // switch language back
-    });
-  },
-  checkOrderDetailsUnconsignedEntries() {
-    it(['order_history', 'smoke_b2c'], 'should display order details page with unconsigned entries', () => {
-      doPlaceOrder().then((orderData: any) => {
-        cy.visit(`/my-account/order/${orderData.body.code}`);
-        cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
-        cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
-        cy.get('.cx-summary-total > .cx-summary-amount').should(
-          'contain',
-          orderData.body.totalPrice.formattedValue
-        );
-      });
-    });
+      }
+    );
   },
 };

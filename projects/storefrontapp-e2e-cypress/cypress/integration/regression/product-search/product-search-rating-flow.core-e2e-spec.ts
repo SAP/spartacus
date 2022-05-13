@@ -24,80 +24,86 @@ context('Product search rating flow', () => {
     });
 
     describe('Product search', () => {
-      it(['product_search'],'should be able to search and show product rating', () => {
-        const productName = 'DSC-N1';
+      it(
+        ['product_search'],
+        'should be able to search and show product rating',
+        () => {
+          const productName = 'DSC-N1';
 
-        createProductQuery(
-          QUERY_ALIAS.FIRST_PAGE,
-          productName,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `1`
-        );
-        createProductQuery(
-          QUERY_ALIAS.DSC_N1,
-          productName,
-          PRODUCT_LISTING.PRODUCTS_PER_PAGE
-        );
-        createProductSortQuery('topRated', QUERY_ALIAS.TOP_RATED_FILTER);
+          createProductQuery(
+            QUERY_ALIAS.FIRST_PAGE,
+            productName,
+            PRODUCT_LISTING.PRODUCTS_PER_PAGE,
+            `1`
+          );
+          createProductQuery(
+            QUERY_ALIAS.DSC_N1,
+            productName,
+            PRODUCT_LISTING.PRODUCTS_PER_PAGE
+          );
+          createProductSortQuery('topRated', QUERY_ALIAS.TOP_RATED_FILTER);
 
-        clickSearchIcon();
+          clickSearchIcon();
 
-        cy.get('cx-searchbox input').type(`${productName}{enter}`);
+          cy.get('cx-searchbox input').type(`${productName}{enter}`);
 
-        cy.wait(`@${QUERY_ALIAS.DSC_N1}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          cy.wait(`@${QUERY_ALIAS.DSC_N1}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        assertNumberOfProducts(`@${QUERY_ALIAS.DSC_N1}`, `"${productName}"`);
+          assertNumberOfProducts(`@${QUERY_ALIAS.DSC_N1}`, `"${productName}"`);
 
-        verifyProductSearch(
-          QUERY_ALIAS.FIRST_PAGE,
-          QUERY_ALIAS.TOP_RATED_FILTER,
-          PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
-        );
+          verifyProductSearch(
+            QUERY_ALIAS.FIRST_PAGE,
+            QUERY_ALIAS.TOP_RATED_FILTER,
+            PRODUCT_LISTING.SORTING_TYPES.BY_TOP_RATED
+          );
 
-        // Navigate to previous page
-        previousPage();
-        cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+          // Navigate to previous page
+          previousPage();
+          cy.wait(`@${QUERY_ALIAS.TOP_RATED_FILTER}`)
+            .its('response.statusCode')
+            .should('eq', 200);
 
-        // active paginated number
-        cy.get(pageLinkSelector).should('contain', `1`);
+          // active paginated number
+          cy.get(pageLinkSelector).should('contain', `1`);
 
-        assertFirstProduct();
+          assertFirstProduct();
 
-        // Filter by category
-        cy.intercept({ method: 'GET', path: `${searchUrlPrefix}?fields=*` }).as(
-          'facets'
-        );
-        clickFacet('Category');
+          // Filter by category
+          cy.intercept({
+            method: 'GET',
+            path: `${searchUrlPrefix}?fields=*`,
+          }).as('facets');
+          clickFacet('Category');
 
-        cy.wait(`@facets`).its('response.statusCode').should('eq', 200);
+          cy.wait(`@facets`).its('response.statusCode').should('eq', 200);
 
-        assertNumberOfProducts(`@facets`, `"${productName}"`);
+          assertNumberOfProducts(`@facets`, `"${productName}"`);
 
-        assertFirstProduct();
+          assertFirstProduct();
 
-        clearSelectedFacet();
+          clearSelectedFacet();
 
-        cy.intercept({ method: 'GET', path: `${searchUrlPrefix}?fields=*` }).as(
-          'facets'
-        );
+          cy.intercept({
+            method: 'GET',
+            path: `${searchUrlPrefix}?fields=*`,
+          }).as('facets');
 
-        cy.wait(`@facets`).its('response.statusCode').should('eq', 200);
+          cy.wait(`@facets`).its('response.statusCode').should('eq', 200);
 
-        assertNumberOfProducts(`@facets`, `"${productName}"`);
+          assertNumberOfProducts(`@facets`, `"${productName}"`);
 
-        // Select product and read all the tabs on product details page
-        const tabsHeaderList = 'cx-tab-paragraph-container > div > button';
+          // Select product and read all the tabs on product details page
+          const tabsHeaderList = 'cx-tab-paragraph-container > div > button';
 
-        cy.get('cx-product-list-item:first .cx-product-name').click();
-        cy.get(tabsHeaderList).eq(0).should('contain', 'Product Details');
-        cy.get(tabsHeaderList).eq(1).should('contain', 'Specs');
-        cy.get(tabsHeaderList).eq(2).should('contain', 'Reviews');
-        cy.get(tabsHeaderList).eq(3).should('contain', 'Shipping');
-      });
+          cy.get('cx-product-list-item:first .cx-product-name').click();
+          cy.get(tabsHeaderList).eq(0).should('contain', 'Product Details');
+          cy.get(tabsHeaderList).eq(1).should('contain', 'Specs');
+          cy.get(tabsHeaderList).eq(2).should('contain', 'Reviews');
+          cy.get(tabsHeaderList).eq(3).should('contain', 'Shipping');
+        }
+      );
     });
   });
 });

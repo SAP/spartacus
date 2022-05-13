@@ -49,83 +49,110 @@ context('Merchandising Carousel - Category page', () => {
       testCategoryPage();
     });
 
-    it(['cds', 'carousel'], "should update the products' language when the storefront language is changed on a category page", () => {
-      merchandisingCarousel.verifyFirstCarouselItemTextContent(
-        merchandisingCarousel.englishFilmProductText,
-        merchandisingCarousel.japaneseFilmProductText
-      );
+    it(
+      ['cds', 'carousel'],
+      "should update the products' language when the storefront language is changed on a category page",
+      () => {
+        merchandisingCarousel.verifyFirstCarouselItemTextContent(
+          merchandisingCarousel.englishFilmProductText,
+          merchandisingCarousel.japaneseFilmProductText
+        );
 
-      switchSiteContext(merchandisingCarousel.japaneseLanguage, LANGUAGE_LABEL);
+        switchSiteContext(
+          merchandisingCarousel.japaneseLanguage,
+          LANGUAGE_LABEL
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
-        strategyRequestAlias,
-        merchandisingCarousel.filmCamerasCategoryCode,
-        merchandisingCarousel.japaneseLanguage
-      );
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
+          strategyRequestAlias,
+          merchandisingCarousel.filmCamerasCategoryCode,
+          merchandisingCarousel.japaneseLanguage
+        );
 
-      merchandisingCarousel.verifyFirstCarouselItemTextContent(
-        merchandisingCarousel.japaneseFilmProductText,
-        merchandisingCarousel.englishFilmProductText
-      );
-    });
+        merchandisingCarousel.verifyFirstCarouselItemTextContent(
+          merchandisingCarousel.japaneseFilmProductText,
+          merchandisingCarousel.englishFilmProductText
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], "should update the products' currency when the storefront currency is changed on a category page", () => {
-      merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.dollarCurrencySymbol
-      );
+    it(
+      ['cds', 'carousel'],
+      "should update the products' currency when the storefront currency is changed on a category page",
+      () => {
+        merchandisingCarousel.verifyFirstCarouselItemPrice(
+          merchandisingCarousel.dollarCurrencySymbol
+        );
 
-      switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
+        switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
 
-      merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.yenCurrencySymbol
-      );
-    });
+        merchandisingCarousel.verifyFirstCarouselItemPrice(
+          merchandisingCarousel.yenCurrencySymbol
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], 'should request products filtered by additional facets when facets on a category page are changed', () => {
-      merchandisingCarousel.applyFacet(
-        'Brand',
-        merchandisingCarousel.canonBrandName
-      );
+    it(
+      ['cds', 'carousel'],
+      'should request products filtered by additional facets when facets on a category page are changed',
+      () => {
+        merchandisingCarousel.applyFacet(
+          'Brand',
+          merchandisingCarousel.canonBrandName
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
-        strategyRequestAlias,
-        merchandisingCarousel.filmCamerasCategoryCode,
-        merchandisingCarousel.DEFAULT_LANGUAGE,
-        [`brand:${merchandisingCarousel.canonBrandCode}`]
-      );
-    });
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
+          strategyRequestAlias,
+          merchandisingCarousel.filmCamerasCategoryCode,
+          merchandisingCarousel.DEFAULT_LANGUAGE,
+          [`brand:${merchandisingCarousel.canonBrandCode}`]
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], 'should ignore previous category page context when navigating back to the homepage', () => {
-      merchandisingCarousel.navigateToHomepage();
+    it(
+      ['cds', 'carousel'],
+      'should ignore previous category page context when navigating back to the homepage',
+      () => {
+        merchandisingCarousel.navigateToHomepage();
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
-        strategyRequestAlias,
-        merchandisingCarousel.DEFAULT_LANGUAGE
-      );
-    });
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
+          strategyRequestAlias,
+          merchandisingCarousel.DEFAULT_LANGUAGE
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], 'should ignore previous category page content when navigating to a different category page', () => {
-      merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.camcordersCategoryName,
-        merchandisingCarousel.camcordersCategoryCode
-      );
+    it(
+      ['cds', 'carousel'],
+      'should ignore previous category page content when navigating to a different category page',
+      () => {
+        merchandisingCarousel.navigateToCategory(
+          merchandisingCarousel.camcordersCategoryName,
+          merchandisingCarousel.camcordersCategoryCode
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
-        strategyRequestAlias,
-        merchandisingCarousel.camcordersCategoryCode
-      );
-    });
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
+          strategyRequestAlias,
+          merchandisingCarousel.camcordersCategoryCode
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], 'should render products on a PDP page when a carousel item on a category page is clicked', () => {
-      merchandisingCarousel.clickOnCarouselItem(
-        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
-      );
+    it(
+      ['cds', 'carousel'],
+      'should render products on a PDP page when a carousel item on a category page is clicked',
+      () => {
+        merchandisingCarousel.clickOnCarouselItem(
+          merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
-        strategyRequestAlias,
-        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
-      );
-    });
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
+          strategyRequestAlias,
+          merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
+        );
+      }
+    );
   });
   describe('without consent granted - special category page', () => {
     beforeEach(() => {
@@ -135,56 +162,75 @@ context('Merchandising Carousel - Category page', () => {
       );
     });
 
-    it(['cds', 'carousel'], "should update the products' language when the storefront language is changed on a non-product list category page", () => {
-      merchandisingCarousel.verifyFirstCarouselItemTextContent(
-        merchandisingCarousel.englishFilmProductText,
-        merchandisingCarousel.japaneseFilmProductText
-      );
+    it(
+      ['cds', 'carousel'],
+      "should update the products' language when the storefront language is changed on a non-product list category page",
+      () => {
+        merchandisingCarousel.verifyFirstCarouselItemTextContent(
+          merchandisingCarousel.englishFilmProductText,
+          merchandisingCarousel.japaneseFilmProductText
+        );
 
-      switchSiteContext(merchandisingCarousel.japaneseLanguage, LANGUAGE_LABEL);
+        switchSiteContext(
+          merchandisingCarousel.japaneseLanguage,
+          LANGUAGE_LABEL
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
-        strategyRequestAlias,
-        merchandisingCarousel.slrCategoryCode,
-        merchandisingCarousel.japaneseLanguage
-      );
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
+          strategyRequestAlias,
+          merchandisingCarousel.slrCategoryCode,
+          merchandisingCarousel.japaneseLanguage
+        );
 
-      merchandisingCarousel.verifyFirstCarouselItemTextContent(
-        merchandisingCarousel.japaneseFilmProductText,
-        merchandisingCarousel.englishFilmProductText
-      );
-    });
+        merchandisingCarousel.verifyFirstCarouselItemTextContent(
+          merchandisingCarousel.japaneseFilmProductText,
+          merchandisingCarousel.englishFilmProductText
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], "should update the products' currency when the storefront currency is changed on a non-product list category page", () => {
-      merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.dollarCurrencySymbol
-      );
+    it(
+      ['cds', 'carousel'],
+      "should update the products' currency when the storefront currency is changed on a non-product list category page",
+      () => {
+        merchandisingCarousel.verifyFirstCarouselItemPrice(
+          merchandisingCarousel.dollarCurrencySymbol
+        );
 
-      switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
+        switchSiteContext(CURRENCY_JPY, CURRENCY_LABEL);
 
-      merchandisingCarousel.verifyFirstCarouselItemPrice(
-        merchandisingCarousel.yenCurrencySymbol
-      );
-    });
+        merchandisingCarousel.verifyFirstCarouselItemPrice(
+          merchandisingCarousel.yenCurrencySymbol
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], 'should ignore previous non-product list category page context when navigating back to the homepage', () => {
-      merchandisingCarousel.navigateToHomepage();
+    it(
+      ['cds', 'carousel'],
+      'should ignore previous non-product list category page context when navigating back to the homepage',
+      () => {
+        merchandisingCarousel.navigateToHomepage();
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
-        strategyRequestAlias,
-        merchandisingCarousel.DEFAULT_LANGUAGE
-      );
-    });
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnHomePage(
+          strategyRequestAlias,
+          merchandisingCarousel.DEFAULT_LANGUAGE
+        );
+      }
+    );
 
-    it(['cds', 'carousel'], 'should render products on a PDP page when a carousel item on a non-product list category page is clicked', () => {
-      merchandisingCarousel.clickOnCarouselItem(
-        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
-      );
+    it(
+      ['cds', 'carousel'],
+      'should render products on a PDP page when a carousel item on a non-product list category page is clicked',
+      () => {
+        merchandisingCarousel.clickOnCarouselItem(
+          merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
+        );
 
-      merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
-        strategyRequestAlias,
-        merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
-      );
-    });
+        merchandisingCarousel.verifyMerchandisingCarouselRendersOnPDPPage(
+          strategyRequestAlias,
+          merchandisingCarousel.STRATEGY_RESPONSE.products[0].id
+        );
+      }
+    );
   });
 });

@@ -14,40 +14,52 @@ describe('Language switch - product-search page', () => {
   );
 
   describe('product-search page', () => {
-    it(['site_context', 'language'],'should change language in the url', () => {
-      siteContextSelector.verifySiteContextChangeUrl(
-        productSearchPath,
-        siteContextSelector.LANGUAGES,
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL,
-        siteContextSelector.FULL_BASE_URL_DE_USD + productSearchPath
-      );
-    });
+    it(
+      ['site_context', 'language'],
+      'should change language in the url',
+      () => {
+        siteContextSelector.verifySiteContextChangeUrl(
+          productSearchPath,
+          siteContextSelector.LANGUAGES,
+          siteContextSelector.LANGUAGE_DE,
+          siteContextSelector.LANGUAGE_LABEL,
+          siteContextSelector.FULL_BASE_URL_DE_USD + productSearchPath
+        );
+      }
+    );
 
-    it(['site_context', 'language'], 'should change language in the page', () => {
-      siteContextSelector.siteContextChange(
-        productSearchPath,
-        siteContextSelector.LANGUAGES,
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
-      );
+    it(
+      ['site_context', 'language'],
+      'should change language in the page',
+      () => {
+        siteContextSelector.siteContextChange(
+          productSearchPath,
+          siteContextSelector.LANGUAGES,
+          siteContextSelector.LANGUAGE_DE,
+          siteContextSelector.LANGUAGE_LABEL
+        );
 
-      cy.get('cx-product-list-item .cx-product-name').should(
-        'contain',
-        deutschName
-      );
-    });
+        cy.get('cx-product-list-item .cx-product-name').should(
+          'contain',
+          deutschName
+        );
+      }
+    );
 
-    it(['site_context', 'language'], 'should change language in the search result', () => {
-      siteContextSelector.siteContextChange(
-        productSearchPath,
-        siteContextSelector.LANGUAGES,
-        siteContextSelector.LANGUAGE_DE,
-        siteContextSelector.LANGUAGE_LABEL
-      );
+    it(
+      ['site_context', 'language'],
+      'should change language in the search result',
+      () => {
+        siteContextSelector.siteContextChange(
+          productSearchPath,
+          siteContextSelector.LANGUAGES,
+          siteContextSelector.LANGUAGE_DE,
+          siteContextSelector.LANGUAGE_LABEL
+        );
 
-      cy.get('cx-searchbox input').type('fun');
-      cy.get('cx-searchbox .products .name').should('contain', deutschName);
-    });
+        cy.get('cx-searchbox input').type('fun');
+        cy.get('cx-searchbox .products .name').should('contain', deutschName);
+      }
+    );
   });
 });

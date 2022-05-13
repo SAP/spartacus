@@ -12,9 +12,13 @@ context('Group Skipping - Not Logged In', () => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
-  it(['accessibility'],'should validate group skipping config anonymous user', () => {
-    verifyGroupSkippingFromConfig(groupSkippingConfigNotLoggedIn);
-  });
+  it(
+    ['accessibility'],
+    'should validate group skipping config anonymous user',
+    () => {
+      verifyGroupSkippingFromConfig(groupSkippingConfigNotLoggedIn);
+    }
+  );
 });
 
 context('Group Skipping - My Account', () => {
@@ -29,9 +33,13 @@ context('Group Skipping - My Account', () => {
   afterEach(() => {
     cy.saveLocalStorage();
   });
-  it(['accessibility'],'should validate group skipping config my account', () => {
-    verifyGroupSkippingFromConfig(groupSkippingConfigMyAccount);
-  });
+  it(
+    ['accessibility'],
+    'should validate group skipping config my account',
+    () => {
+      verifyGroupSkippingFromConfig(groupSkippingConfigMyAccount);
+    }
+  );
 });
 
 context('Group Skipping - Checkout', () => {
@@ -69,7 +77,11 @@ context('Group Skipping - Checkout', () => {
     cy.saveLocalStorage();
   });
 
-  it(['accessibility'],'should validate group skipping config checkout', () => {
-    verifyGroupSkippingFromConfig(groupSkippingConfigCheckout);
-  });
+  it(
+    ['accessibility'],
+    'should validate group skipping config checkout',
+    () => {
+      verifyGroupSkippingFromConfig(groupSkippingConfigCheckout);
+    }
+  );
 });

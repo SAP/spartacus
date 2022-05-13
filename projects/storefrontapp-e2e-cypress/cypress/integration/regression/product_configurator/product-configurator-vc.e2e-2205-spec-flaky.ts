@@ -39,60 +39,68 @@ context('Product Configuration - 2205', () => {
   });
 
   describe.only('Conflict Solver', () => {
-    it(['product_configurator'],'should support the conflict solving process', () => {
-      clickAllowAllFromBanner();
-      cy.intercept({
-        method: 'PATCH',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/ccpconfigurator/*`,
-      }).as('updateConfig');
-      configurationVc.goToConfigurationPage(
-        electronicsShop,
-        testProductMultiLevel
-      );
-      configuration.clickOnNextBtn(PROJECTOR);
-      configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
-      cy.wait('@updateConfig');
-      configuration.clickOnPreviousBtn(GENERAL);
-      configurationVc.clickOnGroup(3);
+    it(
+      ['product_configurator'],
+      'should support the conflict solving process',
+      () => {
+        clickAllowAllFromBanner();
+        cy.intercept({
+          method: 'PATCH',
+          path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+            'BASE_SITE'
+          )}/ccpconfigurator/*`,
+        }).as('updateConfig');
+        configurationVc.goToConfigurationPage(
+          electronicsShop,
+          testProductMultiLevel
+        );
+        configuration.clickOnNextBtn(PROJECTOR);
+        configuration.selectAttribute(
+          PROJECTOR_TYPE,
+          radioGroup,
+          PROJECTOR_LCD
+        );
+        cy.wait('@updateConfig');
+        configuration.clickOnPreviousBtn(GENERAL);
+        configurationVc.clickOnGroup(3);
 
-      configurationVc.selectConflictingValue(
-        GAMING_CONSOLE,
-        radioGroup,
-        GAMING_CONSOLE_YES,
-        1
-      );
-      cy.wait('@updateConfig');
-      configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
-      configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
-      configurationVc.deselectConflictingValue(
-        GAMING_CONSOLE,
-        radioGroup,
-        GAMING_CONSOLE_NO
-      );
-      cy.wait('@updateConfig');
-      configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
-      configurationVc.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
-      configurationVc.selectConflictingValue(
-        GAMING_CONSOLE,
-        radioGroup,
-        GAMING_CONSOLE_YES,
-        1
-      );
-      cy.wait('@updateConfig');
+        configurationVc.selectConflictingValue(
+          GAMING_CONSOLE,
+          radioGroup,
+          GAMING_CONSOLE_YES,
+          1
+        );
+        cy.wait('@updateConfig');
+        configurationVc.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
+        configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
+        configurationVc.deselectConflictingValue(
+          GAMING_CONSOLE,
+          radioGroup,
+          GAMING_CONSOLE_NO
+        );
+        cy.wait('@updateConfig');
+        configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
+        configurationVc.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
+        configurationVc.selectConflictingValue(
+          GAMING_CONSOLE,
+          radioGroup,
+          GAMING_CONSOLE_YES,
+          1
+        );
+        cy.wait('@updateConfig');
 
-      // Navigate to a conflict group via clicking on 'Conflict Detected' link
-      configurationVc.clickOnConflictDetected(GAMING_CONSOLE);
-      configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
-      configurationVc.checkConflictDescriptionDisplayed(
-        Conflict_msg_gaming_console
-      );
+        // Navigate to a conflict group via clicking on 'Conflict Detected' link
+        configurationVc.clickOnConflictDetected(GAMING_CONSOLE);
+        configuration.checkCurrentGroupActive(CONFLICT_FOR_GAMING_CONSOLE);
+        configurationVc.checkConflictDescriptionDisplayed(
+          Conflict_msg_gaming_console
+        );
 
-      // Navigate to a group that contains an attribute which is involved in a conflict via clicking on 'View in Configuration' link
-      configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
-      configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
-      configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
-    });
+        // Navigate to a group that contains an attribute which is involved in a conflict via clicking on 'View in Configuration' link
+        configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
+        configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
+        configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+      }
+    );
   });
 });

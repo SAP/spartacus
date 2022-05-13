@@ -11,24 +11,28 @@ describe('Register', () => {
       cy.visit('/');
     });
 
-    it(['login', 'smoke_b2c', 'register'], 'should register and redirect to login page', () => {
-      cy.onMobile(() => {
-        clickHamburger();
-      });
-      cy.findByText(/Sign in \/ Register/i).click();
-      cy.get('cx-login-register').findByText('Register').click();
-      register(user);
-      registerHelpers.verifyGlobalMessageAfterRegistration();
-      const termsLink = `/${Cypress.env(
-        'BASE_SITE'
-      )}/en/USD/terms-and-conditions`;
-      cy.visit('/login/register');
-      cy.findByText('Terms & Conditions')
-        .should('have.attr', 'target', '_blank')
-        .should('have.attr', 'href', termsLink);
-      // We use visit here, as the blank would open it in new tab
-      cy.visit(termsLink);
-      cy.get('.title_holder h2').should('contain', 'Terms and Conditions');
-    });
+    it(
+      ['login', 'smoke_b2c', 'register'],
+      'should register and redirect to login page',
+      () => {
+        cy.onMobile(() => {
+          clickHamburger();
+        });
+        cy.findByText(/Sign in \/ Register/i).click();
+        cy.get('cx-login-register').findByText('Register').click();
+        register(user);
+        registerHelpers.verifyGlobalMessageAfterRegistration();
+        const termsLink = `/${Cypress.env(
+          'BASE_SITE'
+        )}/en/USD/terms-and-conditions`;
+        cy.visit('/login/register');
+        cy.findByText('Terms & Conditions')
+          .should('have.attr', 'target', '_blank')
+          .should('have.attr', 'href', termsLink);
+        // We use visit here, as the blank would open it in new tab
+        cy.visit(termsLink);
+        cy.get('.title_holder h2').should('contain', 'Terms and Conditions');
+      }
+    );
   });
 });

@@ -28,10 +28,14 @@ describe('Notification preference', () => {
         clearAllStorage();
       });
 
-      it(['notification'],'should redirect to login page for anonymous user', () => {
-        cy.visit('/my-account/notification-preference');
-        cy.location('pathname').should('contain', '/login');
-      });
+      it(
+        ['notification'],
+        'should redirect to login page for anonymous user',
+        () => {
+          cy.visit('/my-account/notification-preference');
+          cy.location('pathname').should('contain', '/login');
+        }
+      );
     });
 
     describe('Logged in user', () => {
@@ -41,11 +45,15 @@ describe('Notification preference', () => {
         cy.visit('/');
       });
 
-      it(['notification'],'should show correct email channel after update email address', () => {
-        verifyEmailChannel(standardUser.registrationData.email);
-        const newEmail = updateEmail();
-        verifyEmailChannel(newEmail);
-      });
+      it(
+        ['notification'],
+        'should show correct email channel after update email address',
+        () => {
+          verifyEmailChannel(standardUser.registrationData.email);
+          const newEmail = updateEmail();
+          verifyEmailChannel(newEmail);
+        }
+      );
     });
   });
 });

@@ -99,38 +99,46 @@ context('Auxiliary Keys', () => {
       cy.get('cx-searchbox a').should('have.length', 6);
     });
 
-    it(['accessibility'], 'should navigate through suggestions with ArrowDown key', () => {
-      cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'dsa');
-      cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-');
-      cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-');
-      cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-');
-      cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-');
-      cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'DSC-');
-      cy.focused().trigger('keydown', { key: 'ArrowDown' });
-      cy.focused().should('contain.text', 'dsa');
-    });
+    it(
+      ['accessibility'],
+      'should navigate through suggestions with ArrowDown key',
+      () => {
+        cy.focused().trigger('keydown', { key: 'ArrowDown' });
+        cy.focused().should('contain.text', 'dsa');
+        cy.focused().trigger('keydown', { key: 'ArrowDown' });
+        cy.focused().should('contain.text', 'DSC-');
+        cy.focused().trigger('keydown', { key: 'ArrowDown' });
+        cy.focused().should('contain.text', 'DSC-');
+        cy.focused().trigger('keydown', { key: 'ArrowDown' });
+        cy.focused().should('contain.text', 'DSC-');
+        cy.focused().trigger('keydown', { key: 'ArrowDown' });
+        cy.focused().should('contain.text', 'DSC-');
+        cy.focused().trigger('keydown', { key: 'ArrowDown' });
+        cy.focused().should('contain.text', 'DSC-');
+        cy.focused().trigger('keydown', { key: 'ArrowDown' });
+        cy.focused().should('contain.text', 'dsa');
+      }
+    );
 
-    it(['accessibility'], 'should navigate through suggestions with ArrowUp key', () => {
-      cy.focused().should('contain.text', 'dsa');
-      cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-');
-      cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-');
-      cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-');
-      cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-');
-      cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'DSC-');
-      cy.focused().trigger('keydown', { key: 'ArrowUp' });
-      cy.focused().should('contain.text', 'dsa');
-    });
+    it(
+      ['accessibility'],
+      'should navigate through suggestions with ArrowUp key',
+      () => {
+        cy.focused().should('contain.text', 'dsa');
+        cy.focused().trigger('keydown', { key: 'ArrowUp' });
+        cy.focused().should('contain.text', 'DSC-');
+        cy.focused().trigger('keydown', { key: 'ArrowUp' });
+        cy.focused().should('contain.text', 'DSC-');
+        cy.focused().trigger('keydown', { key: 'ArrowUp' });
+        cy.focused().should('contain.text', 'DSC-');
+        cy.focused().trigger('keydown', { key: 'ArrowUp' });
+        cy.focused().should('contain.text', 'DSC-');
+        cy.focused().trigger('keydown', { key: 'ArrowUp' });
+        cy.focused().should('contain.text', 'DSC-');
+        cy.focused().trigger('keydown', { key: 'ArrowUp' });
+        cy.focused().should('contain.text', 'dsa');
+      }
+    );
 
     it(['accessibility'], 'should go to suggested page with Enter key', () => {
       cy.focused().click(); // Simulates enter key
@@ -140,7 +148,7 @@ context('Auxiliary Keys', () => {
 
   // TODO: Waiting for carousel fix
   xdescribe('Carousel', () => {
-    it(['accessibility'],'should navigate with ArrowLeft key', () => {});
+    it(['accessibility'], 'should navigate with ArrowLeft key', () => {});
 
     it(['accessibility'], 'should navigate with ArrowRight key', () => {});
 
@@ -155,7 +163,7 @@ context('Auxiliary Keys', () => {
       cy.focused().should('contain.text', 'Skip to Header');
     });
 
-    it(['accessibility'],'should navigate with ArrowRight key', () => {
+    it(['accessibility'], 'should navigate with ArrowRight key', () => {
       cy.focused().trigger('keydown', { key: 'ArrowRight', force: true });
       cy.focused().should('contain.text', 'Skip to Main Content');
       cy.focused().trigger('keydown', { key: 'ArrowRight', force: true });

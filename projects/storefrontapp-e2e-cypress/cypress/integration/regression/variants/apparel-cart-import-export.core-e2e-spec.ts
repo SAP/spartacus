@@ -20,8 +20,12 @@ context('Apparel - Cart Import/Export', () => {
         },
       });
     });
-    it(['apparel', 'cart_import'],'should keep guest cart content and restart checkout', () => {
-      importExport.testImportExportWithApparelProducts();
-    });
+    it(
+      ['apparel', 'cart_import'],
+      'should keep guest cart content and restart checkout',
+      () => {
+        importExport.testImportExportWithApparelProducts();
+      }
+    );
   });
 });

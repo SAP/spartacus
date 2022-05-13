@@ -57,13 +57,23 @@ context('B2B - Saved Cart', () => {
         cy.location('pathname').should('contain', '/login');
       });
 
-      it(['saved_cart'], 'should redirect to login page when trying to visit the saved cart "listing" page through url', () => {
-        cy.visit(`/my-account/saved-carts`);
-      });
+      it(
+        ['saved_cart'],
+        'should redirect to login page when trying to visit the saved cart "listing" page through url',
+        () => {
+          cy.visit(`/my-account/saved-carts`);
+        }
+      );
 
-      it(['saved_cart'], 'should redirect to login page when trying to visit the saved cart "details" page through url', () => {
-        cy.visit(`/my-account/saved-cart/${sampleData.MOCK_ACTIVE_CART_CODE}`);
-      });
+      it(
+        ['saved_cart'],
+        'should redirect to login page when trying to visit the saved cart "details" page through url',
+        () => {
+          cy.visit(
+            `/my-account/saved-cart/${sampleData.MOCK_ACTIVE_CART_CODE}`
+          );
+        }
+      );
     });
 
     describe('Cart page', () => {
@@ -76,13 +86,21 @@ context('B2B - Saved Cart', () => {
           cy.location('pathname').should('contain', '/login');
         });
 
-        it(['saved_cart'], 'should redirect to login page when clicking "Saved Cart"', () => {
-          savedCart.clickSavedCartButtonsFromCartPage(0);
-        });
+        it(
+          ['saved_cart'],
+          'should redirect to login page when clicking "Saved Cart"',
+          () => {
+            savedCart.clickSavedCartButtonsFromCartPage(0);
+          }
+        );
 
-        it(['saved_cart'], 'should redirect to login page when clicking "Save Cart For Later"', () => {
-          savedCart.clickSavedCartButtonsFromCartPage(1);
-        });
+        it(
+          ['saved_cart'],
+          'should redirect to login page when clicking "Save Cart For Later"',
+          () => {
+            savedCart.clickSavedCartButtonsFromCartPage(1);
+          }
+        );
       });
 
       describe('Logged in user', () => {
@@ -92,14 +110,25 @@ context('B2B - Saved Cart', () => {
           savedCart.visitCartPage();
         });
 
-        it(['saved_cart'], 'should be able to visit the saved cart listing page', () => {
-          savedCart.clickSavedCartButtonsFromCartPage(0);
-          cy.location('pathname').should('contain', '/my-account/saved-carts');
-        });
+        it(
+          ['saved_cart'],
+          'should be able to visit the saved cart listing page',
+          () => {
+            savedCart.clickSavedCartButtonsFromCartPage(0);
+            cy.location('pathname').should(
+              'contain',
+              '/my-account/saved-carts'
+            );
+          }
+        );
 
-        it(['saved_cart'], 'should be able to save the active cart and view it in the listing page', () => {
-          savedCart.saveActiveCart();
-        });
+        it(
+          ['saved_cart'],
+          'should be able to save the active cart and view it in the listing page',
+          () => {
+            savedCart.saveActiveCart();
+          }
+        );
       });
     });
 
@@ -108,48 +137,64 @@ context('B2B - Saved Cart', () => {
         savedCart.loginB2bUser();
       });
 
-      it(['saved_cart'], 'should make cart active and not swap cart when active cart is empty', () => {
-        savedCart.restoreCart(
-          sampleData.products[1],
-          sampleData.savedActiveCartForm[2],
-          true
-        );
-      });
+      it(
+        ['saved_cart'],
+        'should make cart active and not swap cart when active cart is empty',
+        () => {
+          savedCart.restoreCart(
+            sampleData.products[1],
+            sampleData.savedActiveCartForm[2],
+            true
+          );
+        }
+      );
 
-      it(['saved_cart'], 'should make cart active and not swap cart when active cart is empty, and clone saved cart with new cart name', () => {
-        savedCart.restoreCart(
-          sampleData.products[1],
-          sampleData.savedActiveCartForm[2],
-          true,
-          { isCloneCartActive: true, cloneName: 'newClonedName' }
-        );
-      });
+      it(
+        ['saved_cart'],
+        'should make cart active and not swap cart when active cart is empty, and clone saved cart with new cart name',
+        () => {
+          savedCart.restoreCart(
+            sampleData.products[1],
+            sampleData.savedActiveCartForm[2],
+            true,
+            { isCloneCartActive: true, cloneName: 'newClonedName' }
+          );
+        }
+      );
 
-      it(['saved_cart'], 'should make cart active and swap cart when active cart has entries', () => {
-        savedCart.waitForCartPageData(sampleData.products[2]);
-        savedCart.visitCartPage();
+      it(
+        ['saved_cart'],
+        'should make cart active and swap cart when active cart has entries',
+        () => {
+          savedCart.waitForCartPageData(sampleData.products[2]);
+          savedCart.visitCartPage();
 
-        savedCart.verifyCartDetails(sampleData.savedCarts.carts[1]);
+          savedCart.verifyCartDetails(sampleData.savedCarts.carts[1]);
 
-        savedCart.restoreCart(
-          sampleData.products[1],
-          sampleData.savedActiveCartForm[2]
-        );
-      });
+          savedCart.restoreCart(
+            sampleData.products[1],
+            sampleData.savedActiveCartForm[2]
+          );
+        }
+      );
 
-      it(['saved_cart'], 'should make cart active and swap cart when active cart has entries, and clone saved cart', () => {
-        savedCart.waitForCartPageData(sampleData.products[2]);
-        savedCart.visitCartPage();
+      it(
+        ['saved_cart'],
+        'should make cart active and swap cart when active cart has entries, and clone saved cart',
+        () => {
+          savedCart.waitForCartPageData(sampleData.products[2]);
+          savedCart.visitCartPage();
 
-        savedCart.verifyCartDetails(sampleData.savedCarts.carts[1]);
+          savedCart.verifyCartDetails(sampleData.savedCarts.carts[1]);
 
-        savedCart.restoreCart(
-          sampleData.products[1],
-          sampleData.savedActiveCartForm[2],
-          false,
-          { isCloneCartActive: true }
-        );
-      });
+          savedCart.restoreCart(
+            sampleData.products[1],
+            sampleData.savedActiveCartForm[2],
+            false,
+            { isCloneCartActive: true }
+          );
+        }
+      );
     });
 
     describe('Saved Cart Details Page', () => {
@@ -157,27 +202,39 @@ context('B2B - Saved Cart', () => {
         savedCart.loginB2bUser();
       });
 
-      it(['saved_cart'], 'should update saved cart name and description, and delete it from the modal', () => {
-        savedCart.updateSavedCartAndDelete(
-          sampleData.products[1],
-          sampleData.savedActiveCartForm[3]
-        );
-      });
+      it(
+        ['saved_cart'],
+        'should update saved cart name and description, and delete it from the modal',
+        () => {
+          savedCart.updateSavedCartAndDelete(
+            sampleData.products[1],
+            sampleData.savedActiveCartForm[3]
+          );
+        }
+      );
 
-      it(['saved_cart'], 'should update saved cart name and description, and delete it from 0 entries', () => {
-        savedCart.updateSavedCartAndDelete(
-          sampleData.products[1],
-          sampleData.savedActiveCartForm[0],
-          true
-        );
-      });
+      it(
+        ['saved_cart'],
+        'should update saved cart name and description, and delete it from 0 entries',
+        () => {
+          savedCart.updateSavedCartAndDelete(
+            sampleData.products[1],
+            sampleData.savedActiveCartForm[0],
+            true
+          );
+        }
+      );
 
-      it(['saved_cart'], 'should update saved cart name and description, and restore it', () => {
-        savedCart.updateSavedCartAndRestore(
-          sampleData.products[1],
-          sampleData.savedActiveCartForm[0]
-        );
-      });
+      it(
+        ['saved_cart'],
+        'should update saved cart name and description, and restore it',
+        () => {
+          savedCart.updateSavedCartAndRestore(
+            sampleData.products[1],
+            sampleData.savedActiveCartForm[0]
+          );
+        }
+      );
     });
   });
 });

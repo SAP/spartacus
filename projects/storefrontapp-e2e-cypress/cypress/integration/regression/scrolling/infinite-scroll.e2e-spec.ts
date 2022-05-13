@@ -24,31 +24,39 @@ describe('Infinite scroll', () => {
     }).as(infiniteScroll.defaultQuery);
   });
 
-  it(['inifinite_scroll'],"should enable infinite scroll and display 'Show more' button", () => {
-    configScroll(true, 0, true);
-    cy.visit(infiniteScroll.testUrl);
+  it(
+    ['inifinite_scroll'],
+    "should enable infinite scroll and display 'Show more' button",
+    () => {
+      configScroll(true, 0, true);
+      cy.visit(infiniteScroll.testUrl);
 
-    cy.wait(infiniteScroll.defaultQueryAlias).then((waitXHR) => {
-      const totalResults = waitXHR.response.body.pagination.totalResults;
+      cy.wait(infiniteScroll.defaultQueryAlias).then((waitXHR) => {
+        const totalResults = waitXHR.response.body.pagination.totalResults;
 
-      isPaginationNotVisible();
-      scrollToFooter(totalResults, true);
-      backToTopIsVisible(true);
-    });
-  });
+        isPaginationNotVisible();
+        scrollToFooter(totalResults, true);
+        backToTopIsVisible(true);
+      });
+    }
+  );
 
-  it(['inifinite_scroll'], "should enable infinite scroll and display 'Show more' button after 12th product", () => {
-    configScroll(true, 12, false);
-    cy.visit(infiniteScroll.testUrl);
+  it(
+    ['inifinite_scroll'],
+    "should enable infinite scroll and display 'Show more' button after 12th product",
+    () => {
+      configScroll(true, 12, false);
+      cy.visit(infiniteScroll.testUrl);
 
-    cy.wait(infiniteScroll.defaultQueryAlias).then((waitXHR) => {
-      const totalResults = waitXHR.response.body.pagination.totalResults;
-      isPaginationNotVisible();
-      backToTopIsVisible();
-      scrollToFooter(totalResults, true, 12);
-      backToTopIsVisible(true);
-    });
-  });
+      cy.wait(infiniteScroll.defaultQueryAlias).then((waitXHR) => {
+        const totalResults = waitXHR.response.body.pagination.totalResults;
+        isPaginationNotVisible();
+        backToTopIsVisible();
+        scrollToFooter(totalResults, true, 12);
+        backToTopIsVisible(true);
+      });
+    }
+  );
 
   it(['inifinite_scroll'], 'should not display Infinite scroll', () => {
     configScroll(false, 0, false);

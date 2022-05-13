@@ -16,40 +16,51 @@ context('Reset Password Page', () => {
     alerts.getAlert().should('not.exist');
   });
 
-  it(['password', 'smoke_b2c'], 'should invalid token result in server error', () => {
-    // The form is submitted without a change password token. An error message should appear and the page should not change.
-    alerts.getErrorAlert().should('not.exist');
-    cy.get('cx-reset-password form').within(() => {
-      cy.get('[formcontrolname="password"]').type('N3wPassword!');
-      cy.get('[formcontrolname="passwordConfirm"]').type('N3wPassword!');
-      cy.get('button.btn-primary').click();
-    });
-    cy.url().should('match', /\/login\/pw\/change\?token\=123$/);
-    alerts.getErrorAlert().should('exist');
-  });
+  it(
+    ['password', 'smoke_b2c'],
+    'should invalid token result in server error',
+    () => {
+      // The form is submitted without a change password token. An error message should appear and the page should not change.
+      alerts.getErrorAlert().should('not.exist');
+      cy.get('cx-reset-password form').within(() => {
+        cy.get('[formcontrolname="password"]').type('N3wPassword!');
+        cy.get('[formcontrolname="passwordConfirm"]').type('N3wPassword!');
+        cy.get('button.btn-primary').click();
+      });
+      cy.url().should('match', /\/login\/pw\/change\?token\=123$/);
+      alerts.getErrorAlert().should('exist');
+    }
+  );
 
-  it(['password', 'smoke_b2c'], 'should react as expected on password change success.', () => {
-    // We use a mock because the change password token required is only available from a reset password email.
-    cy.intercept(
-      {
-        method: 'POST',
-        url: '**/resetpassword*',
-      },
-      {
-        body: {},
-        statusCode: 202,
-      }
-    ).as('postResetPassword');
-    alerts.getSuccessAlert().should('not.exist');
+  it(
+    ['password', 'smoke_b2c'],
+    'should react as expected on password change success.',
+    () => {
+      // We use a mock because the change password token required is only available from a reset password email.
+      cy.intercept(
+        {
+          method: 'POST',
+          url: '**/resetpassword*',
+        },
+        {
+          body: {},
+          statusCode: 202,
+        }
+      ).as('postResetPassword');
+      alerts.getSuccessAlert().should('not.exist');
 
-    cy.get('cx-reset-password form').within(() => {
-      cy.get('[formcontrolname="password"]').type('N3wPassword!');
-      cy.get('[formcontrolname="passwordConfirm"]').type('N3wPassword!');
-      cy.get('button.btn-primary').click();
-    });
-    cy.url().should('match', /\/login$/);
-    alerts
-      .getSuccessAlert()
-      .should('contain', 'Success! You can now login using your new password.');
-  });
+      cy.get('cx-reset-password form').within(() => {
+        cy.get('[formcontrolname="password"]').type('N3wPassword!');
+        cy.get('[formcontrolname="passwordConfirm"]').type('N3wPassword!');
+        cy.get('button.btn-primary').click();
+      });
+      cy.url().should('match', /\/login$/);
+      alerts
+        .getSuccessAlert()
+        .should(
+          'contain',
+          'Success! You can now login using your new password.'
+        );
+    }
+  );
 });

@@ -56,9 +56,13 @@ context('Qualtrics integration', () => {
 
       cy.window().then((win) => win.dispatchEvent(new Event('qsi_js_loaded')));
     });
-    it(['qualtrics'],'should call the QSI API load() and run() functions', () => {
-      expect(loadSpy).to.have.been.called;
-      expect(runSpy).to.have.been.called;
-    });
+    it(
+      ['qualtrics'],
+      'should call the QSI API load() and run() functions',
+      () => {
+        expect(loadSpy).to.have.been.called;
+        expect(runSpy).to.have.been.called;
+      }
+    );
   });
 });

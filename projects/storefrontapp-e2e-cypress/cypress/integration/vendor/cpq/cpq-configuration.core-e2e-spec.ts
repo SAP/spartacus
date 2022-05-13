@@ -97,19 +97,27 @@ context('CPQ Configuration', () => {
   });
 
   describe('Navigate to Product Configuration Page', () => {
-    it(['cpq'],'should be able to navigate from the product search result', () => {
-      configurationCpq.searchForProduct(PROD_CODE_CAM);
-      configurationCpq.clickOnConfigureBtnInCatalog();
-    });
+    it(
+      ['cpq'],
+      'should be able to navigate from the product search result',
+      () => {
+        configurationCpq.searchForProduct(PROD_CODE_CAM);
+        configurationCpq.clickOnConfigureBtnInCatalog();
+      }
+    );
 
-    it(['cpq'],'should be able to navigate from the product details page', () => {
-      configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
-      configurationCpq.clickOnConfigureBtnInCatalog();
-    });
+    it(
+      ['cpq'],
+      'should be able to navigate from the product details page',
+      () => {
+        configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
+        configurationCpq.clickOnConfigureBtnInCatalog();
+      }
+    );
   });
 
   describe('Handling different UI type', () => {
-    it(['cpq'],'should support radio button attribute type', () => {
+    it(['cpq'], 'should support radio button attribute type', () => {
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configurationCpq.clickOnConfigureBtnInCatalog();
 
@@ -278,7 +286,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Group Handling', () => {
-    it(['cpq'],'should navigate with next and previous buttons', () => {
+    it(['cpq'], 'should navigate with next and previous buttons', () => {
       configurationCpq
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
@@ -301,7 +309,7 @@ context('CPQ Configuration', () => {
         });
     });
 
-    it(['cpq'],'should navigate via group menu', () => {
+    it(['cpq'], 'should navigate via group menu', () => {
       configurationCpq
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
@@ -345,152 +353,181 @@ context('CPQ Configuration', () => {
   });
 
   describe('Overview Page', () => {
-    it(['cpq'], 'should display user selections and prices on overview page', () => {
-      configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
-      configurationCpq.selectProductCard(
-        RADGRP,
-        ATTR_CAM_BODY,
-        VAL_CAM_BODY_D850
-      );
-      configurationCpq.checkPrice(
-        RADGRP_PROD,
-        '$1,500.00',
-        ATTR_CAM_BODY,
-        VAL_CAM_BODY_D850
-      );
+    it(
+      ['cpq'],
+      'should display user selections and prices on overview page',
+      () => {
+        configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
+        configurationCpq.selectProductCard(
+          RADGRP,
+          ATTR_CAM_BODY,
+          VAL_CAM_BODY_D850
+        );
+        configurationCpq.checkPrice(
+          RADGRP_PROD,
+          '$1,500.00',
+          ATTR_CAM_BODY,
+          VAL_CAM_BODY_D850
+        );
 
-      configurationCpq.checkPrice(
-        CHKBOX_PROD,
-        '1x($100.00) + $100.00',
-        ATTR_CAM_MC,
-        VAL_CAM_MC_128
-      );
-      configurationCpq.setQuantity(CHKBOX_PROD, 2, ATTR_CAM_MC, VAL_CAM_MC_128);
-      configurationCpq.checkPrice(
-        CHKBOX_PROD,
-        '2x($100.00) + $200.00',
-        ATTR_CAM_MC,
-        VAL_CAM_MC_128
-      );
+        configurationCpq.checkPrice(
+          CHKBOX_PROD,
+          '1x($100.00) + $100.00',
+          ATTR_CAM_MC,
+          VAL_CAM_MC_128
+        );
+        configurationCpq.setQuantity(
+          CHKBOX_PROD,
+          2,
+          ATTR_CAM_MC,
+          VAL_CAM_MC_128
+        );
+        configurationCpq.checkPrice(
+          CHKBOX_PROD,
+          '2x($100.00) + $200.00',
+          ATTR_CAM_MC,
+          VAL_CAM_MC_128
+        );
 
-      configurationCpq.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_SI);
-      configurationCpq.selectProductCard(CHKBOX, ATTR_CAM_LEN, VAL_CAM_LEN_NI);
-      configurationCpq.checkPrice(
-        CHKBOX_PROD,
-        '$800.00',
-        ATTR_CAM_LEN,
-        VAL_CAM_LEN_SI
-      );
-      configurationCpq.checkPrice(
-        CHKBOX_PROD,
-        '$700.00',
-        ATTR_CAM_LEN,
-        VAL_CAM_LEN_NI
-      );
+        configurationCpq.selectProductCard(
+          CHKBOX,
+          ATTR_CAM_LEN,
+          VAL_CAM_LEN_SI
+        );
+        configurationCpq.selectProductCard(
+          CHKBOX,
+          ATTR_CAM_LEN,
+          VAL_CAM_LEN_NI
+        );
+        configurationCpq.checkPrice(
+          CHKBOX_PROD,
+          '$800.00',
+          ATTR_CAM_LEN,
+          VAL_CAM_LEN_SI
+        );
+        configurationCpq.checkPrice(
+          CHKBOX_PROD,
+          '$700.00',
+          ATTR_CAM_LEN,
+          VAL_CAM_LEN_NI
+        );
 
-      configuration.clickOnNextBtn(GRP_CAM_ACC);
-      configurationCpq.deSelectProductCard(
-        RADGRP,
-        ATTR_CAM_BAG,
-        VAL_CAM_BAG_LP
-      );
+        configuration.clickOnNextBtn(GRP_CAM_ACC);
+        configurationCpq.deSelectProductCard(
+          RADGRP,
+          ATTR_CAM_BAG,
+          VAL_CAM_BAG_LP
+        );
 
-      configuration.clickOnNextBtn(GRP_CAM_IAW);
-      configurationCpq.selectAttributeAndWait(
-        ATTR_CAM_PROF,
-        RADGRP,
-        VAL_CAM_PROF_Y
-      );
-      //wait for this option to disappear
-      configuration.checkAttrValueNotDisplayed(
-        ATTR_CAM_INS,
-        DDLB_PROD,
-        VAL_CB_INS_Y2
-      );
+        configuration.clickOnNextBtn(GRP_CAM_IAW);
+        configurationCpq.selectAttributeAndWait(
+          ATTR_CAM_PROF,
+          RADGRP,
+          VAL_CAM_PROF_Y
+        );
+        //wait for this option to disappear
+        configuration.checkAttrValueNotDisplayed(
+          ATTR_CAM_INS,
+          DDLB_PROD,
+          VAL_CB_INS_Y2
+        );
 
-      configurationCpq.selectProductCard(DDLB, ATTR_CAM_INS, VAL_CB_INS_P4);
-      configurationCpq.checkPrice(
-        DDLB_PROD,
-        '$600.00',
-        ATTR_CAM_INS,
-        VAL_CB_INS_P4
-      );
-      configuration.navigateToOverviewPage();
+        configurationCpq.selectProductCard(DDLB, ATTR_CAM_INS, VAL_CB_INS_P4);
+        configurationCpq.checkPrice(
+          DDLB_PROD,
+          '$600.00',
+          ATTR_CAM_INS,
+          VAL_CB_INS_P4
+        );
+        configuration.navigateToOverviewPage();
 
-      configurationOverview.checkConfigOverviewPageDisplayed();
-      configurationOverviewCpq.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
-      configurationOverviewCpq.checkGroupHeaderNotDisplayed(GRP_CAM_ACC);
-      configurationOverviewCpq.checkGroupHeaderDisplayed(GRP_CAM_IAW, 1);
+        configurationOverview.checkConfigOverviewPageDisplayed();
+        configurationOverviewCpq.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
+        configurationOverviewCpq.checkGroupHeaderNotDisplayed(GRP_CAM_ACC);
+        configurationOverviewCpq.checkGroupHeaderDisplayed(GRP_CAM_IAW, 1);
 
-      type ovContentType = {
-        name?: string;
-        value: string;
-        type: 'product' | 'simple';
-        price?: string;
-      };
-      const ovContent: ovContentType[] = [
-        {
-          name: 'Camera Body',
-          value: 'Nikon D850',
-          type: 'product',
-          price: '+ $1,500.00',
-        },
-        {
-          name: 'Memory Card',
-          value: 'SanDisk Extreme Pro',
-          type: 'product',
-          price: '2x($100.00) + $200.00',
-        },
-        {
-          name: 'Lenses',
-          value: 'Sigma 85mm F1.4 DG HS',
-          type: 'product',
-          price: '+ $800.00',
-        },
-        { value: 'Nikon AF-P DX NIKKOR', type: 'product', price: '+ $700.00' },
-        {
-          name: 'professional photographer?',
-          value: 'yes',
-          type: 'simple',
-        },
-        {
-          name: 'Insurance',
-          value: 'Pro 4 years',
-          type: 'product',
-          price: '+ $600.00',
-        },
-      ];
-      ovContent.forEach((line, idx) => {
-        configurationOverviewCpq.checkAttrDisplayed(line.name, line.value, idx);
-        configurationOverviewCpq.checkAttrPriceDisplayed(line.price, idx);
-        configurationOverviewCpq.checkAttrType(line.type, idx);
-      });
-    });
+        type ovContentType = {
+          name?: string;
+          value: string;
+          type: 'product' | 'simple';
+          price?: string;
+        };
+        const ovContent: ovContentType[] = [
+          {
+            name: 'Camera Body',
+            value: 'Nikon D850',
+            type: 'product',
+            price: '+ $1,500.00',
+          },
+          {
+            name: 'Memory Card',
+            value: 'SanDisk Extreme Pro',
+            type: 'product',
+            price: '2x($100.00) + $200.00',
+          },
+          {
+            name: 'Lenses',
+            value: 'Sigma 85mm F1.4 DG HS',
+            type: 'product',
+            price: '+ $800.00',
+          },
+          {
+            value: 'Nikon AF-P DX NIKKOR',
+            type: 'product',
+            price: '+ $700.00',
+          },
+          {
+            name: 'professional photographer?',
+            value: 'yes',
+            type: 'simple',
+          },
+          {
+            name: 'Insurance',
+            value: 'Pro 4 years',
+            type: 'product',
+            price: '+ $600.00',
+          },
+        ];
+        ovContent.forEach((line, idx) => {
+          configurationOverviewCpq.checkAttrDisplayed(
+            line.name,
+            line.value,
+            idx
+          );
+          configurationOverviewCpq.checkAttrPriceDisplayed(line.price, idx);
+          configurationOverviewCpq.checkAttrType(line.type, idx);
+        });
+      }
+    );
   });
 
   describe('Configuration Process', () => {
-    it(['cpq'], 'should support configuration aspect in product search, cart, checkout and order history', () => {
-      configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
-      configuration.clickOnAddToCartBtnOnPD();
-      configuration.clickOnViewCartBtnOnPD();
+    it(
+      ['cpq'],
+      'should support configuration aspect in product search, cart, checkout and order history',
+      () => {
+        configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
+        configuration.clickOnAddToCartBtnOnPD();
+        configuration.clickOnViewCartBtnOnPD();
 
-      cy.get('cx-mini-cart .count').then((elem) => {
-        const numberOfCartItems = Number(elem.text());
-        cy.log('numberOfCartItems = ' + numberOfCartItems);
-        editConfigurationFromCartEntry(numberOfCartItems);
-        // Checkout
-        configurationCartCpq.clickOnProceedToCheckoutBtnInCart();
-        configurationCartCpq.checkoutB2B();
-        // Order historyorderHistory();
-        configurationCartCpq.selectOrderByOrderNumberAlias(POWERTOOLS);
-        configurationOverviewCpq.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
-        configurationOverviewCpq.checkAttrDisplayed(
-          'Camera Body',
-          'Canon EOS 80D',
-          0
-        );
-      });
-    });
+        cy.get('cx-mini-cart .count').then((elem) => {
+          const numberOfCartItems = Number(elem.text());
+          cy.log('numberOfCartItems = ' + numberOfCartItems);
+          editConfigurationFromCartEntry(numberOfCartItems);
+          // Checkout
+          configurationCartCpq.clickOnProceedToCheckoutBtnInCart();
+          configurationCartCpq.checkoutB2B();
+          // Order historyorderHistory();
+          configurationCartCpq.selectOrderByOrderNumberAlias(POWERTOOLS);
+          configurationOverviewCpq.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
+          configurationOverviewCpq.checkAttrDisplayed(
+            'Camera Body',
+            'Canon EOS 80D',
+            0
+          );
+        });
+      }
+    );
   });
 
   function editConfigurationFromCartEntry(numberOfCartItems: number) {

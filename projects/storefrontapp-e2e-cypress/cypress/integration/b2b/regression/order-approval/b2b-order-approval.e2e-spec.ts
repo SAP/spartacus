@@ -9,13 +9,17 @@ describe('B2B - Order Approval', () => {
   });
 
   describe('Check order approval in Order details page for customer', () => {
-    it(['approval'],'should display order approval details in order details page', () => {
-      orderApproval.loginB2bUser();
-      orderApproval.getStubbedPendingOrderDetails();
+    it(
+      ['approval'],
+      'should display order approval details in order details page',
+      () => {
+        orderApproval.loginB2bUser();
+        orderApproval.getStubbedPendingOrderDetails();
 
-      cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
-      assertPermissionResults(sampleData.pendingOrder);
-    });
+        cy.visit(`/my-account/order/${sampleData.ORDER_CODE}`);
+        assertPermissionResults(sampleData.pendingOrder);
+      }
+    );
   });
 
   describe('Order approval list and details for order approver', () => {
@@ -102,7 +106,7 @@ describe('B2B - Order Approval', () => {
       assertPermissionResults(sampleData.approvedOrderDetails.order);
     });
 
-    it(['approval'],'should reject the order', () => {
+    it(['approval'], 'should reject the order', () => {
       orderApproval.getStubbedOrderApprovalDetail();
       orderApproval.visitOrderApprovalDetailPage();
       cy.wait('@orderApprovalPending');
@@ -134,15 +138,23 @@ describe('B2B - Order Approval', () => {
     const APPROVAL_DETAIL_ROUTE = `/my-account/approval/${sampleData.approvalOrderDetail.code}`;
 
     describe('Anonymous user', () => {
-      it(['approval'], 'should NOT be allowed to access Order Approval Dashboard directly', () => {
-        cy.visit(APPROVAL_DASHBOARD_ROUTE);
-        cy.location('pathname').should('contain', '/login');
-      });
+      it(
+        ['approval'],
+        'should NOT be allowed to access Order Approval Dashboard directly',
+        () => {
+          cy.visit(APPROVAL_DASHBOARD_ROUTE);
+          cy.location('pathname').should('contain', '/login');
+        }
+      );
 
-      it(['approval'], 'should NOT be allowed to access Approval Detail directly', () => {
-        cy.visit(APPROVAL_DETAIL_ROUTE);
-        cy.location('pathname').should('contain', '/login');
-      });
+      it(
+        ['approval'],
+        'should NOT be allowed to access Approval Detail directly',
+        () => {
+          cy.visit(APPROVAL_DETAIL_ROUTE);
+          cy.location('pathname').should('contain', '/login');
+        }
+      );
     });
 
     describe('Unauthorized user (regular)', () => {
@@ -150,23 +162,35 @@ describe('B2B - Order Approval', () => {
         orderApproval.loginB2bUser();
       });
 
-      it(['approval'], 'should NOT display order approval option in menu', () => {
-        cy.visit('/');
-        orderApproval.checkApprovalDashboardMenuOptionExistence(false);
-        cy.saveLocalStorage();
-      });
+      it(
+        ['approval'],
+        'should NOT display order approval option in menu',
+        () => {
+          cy.visit('/');
+          orderApproval.checkApprovalDashboardMenuOptionExistence(false);
+          cy.saveLocalStorage();
+        }
+      );
 
-      it(['approval'], 'should NOT be allowed to access Order Approval Dashboard directly', () => {
-        cy.restoreLocalStorage();
-        cy.visit(APPROVAL_DASHBOARD_ROUTE);
-        cy.location('pathname').should('equal', HOME_PAGE_ROUTE);
-      });
+      it(
+        ['approval'],
+        'should NOT be allowed to access Order Approval Dashboard directly',
+        () => {
+          cy.restoreLocalStorage();
+          cy.visit(APPROVAL_DASHBOARD_ROUTE);
+          cy.location('pathname').should('equal', HOME_PAGE_ROUTE);
+        }
+      );
 
-      it(['approval'], 'should NOT be allowed to access Approval Detail directly', () => {
-        cy.restoreLocalStorage();
-        cy.visit(APPROVAL_DETAIL_ROUTE);
-        cy.location('pathname').should('equal', HOME_PAGE_ROUTE);
-      });
+      it(
+        ['approval'],
+        'should NOT be allowed to access Approval Detail directly',
+        () => {
+          cy.restoreLocalStorage();
+          cy.visit(APPROVAL_DETAIL_ROUTE);
+          cy.location('pathname').should('equal', HOME_PAGE_ROUTE);
+        }
+      );
     });
   });
 });

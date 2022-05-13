@@ -14,40 +14,52 @@ describe('Currency switch - product-details page', () => {
   );
 
   describe('product-details page', () => {
-    it(['site_context', 'currency'], 'should change currency in the url', () => {
-      siteContextSelector.verifySiteContextChangeUrl(
-        productDetailsPath,
-        siteContextSelector.CURRENCIES,
-        siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL,
-        siteContextSelector.FULL_BASE_URL_EN_JPY + productDetailsPath
-      );
-    });
+    it(
+      ['site_context', 'currency'],
+      'should change currency in the url',
+      () => {
+        siteContextSelector.verifySiteContextChangeUrl(
+          productDetailsPath,
+          siteContextSelector.CURRENCIES,
+          siteContextSelector.CURRENCY_JPY,
+          siteContextSelector.CURRENCY_LABEL,
+          siteContextSelector.FULL_BASE_URL_EN_JPY + productDetailsPath
+        );
+      }
+    );
 
-    it(['site_context', 'currency'], 'should change currency in the page', () => {
-      siteContextSelector.siteContextChange(
-        productDetailsPath,
-        siteContextSelector.CURRENCIES,
-        siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL
-      );
+    it(
+      ['site_context', 'currency'],
+      'should change currency in the page',
+      () => {
+        siteContextSelector.siteContextChange(
+          productDetailsPath,
+          siteContextSelector.CURRENCIES,
+          siteContextSelector.CURRENCY_JPY,
+          siteContextSelector.CURRENCY_LABEL
+        );
 
-      cy.get('cx-product-summary .price').should('have.text', jpCurrency);
-    });
+        cy.get('cx-product-summary .price').should('have.text', jpCurrency);
+      }
+    );
 
-    it(['site_context', 'currency'], 'should change currency in the modal', () => {
-      siteContextSelector.siteContextChange(
-        productDetailsPath,
-        siteContextSelector.CURRENCIES,
-        siteContextSelector.CURRENCY_JPY,
-        siteContextSelector.CURRENCY_LABEL
-      );
+    it(
+      ['site_context', 'currency'],
+      'should change currency in the modal',
+      () => {
+        siteContextSelector.siteContextChange(
+          productDetailsPath,
+          siteContextSelector.CURRENCIES,
+          siteContextSelector.CURRENCY_JPY,
+          siteContextSelector.CURRENCY_LABEL
+        );
 
-      cy.get('cx-add-to-cart button.btn-primary').click();
-      cy.get('cx-added-to-cart-dialog .cx-price .cx-value').should(
-        'have.text',
-        jpCurrency
-      );
-    });
+        cy.get('cx-add-to-cart button.btn-primary').click();
+        cy.get('cx-added-to-cart-dialog .cx-price .cx-value').should(
+          'have.text',
+          jpCurrency
+        );
+      }
+    );
   });
 });

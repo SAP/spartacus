@@ -9,10 +9,14 @@ describe('My Account - Update Profile', () => {
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
-    it(['update_profile', 'my_account'], 'should validate update profile core functionality', () => {
-      // Core e2e test. Repeat in mobile view.
-      updateProfile.testUpdateProfileLoggedInUser();
-    });
+    it(
+      ['update_profile', 'my_account'],
+      'should validate update profile core functionality',
+      () => {
+        // Core e2e test. Repeat in mobile view.
+        updateProfile.testUpdateProfileLoggedInUser();
+      }
+    );
   });
   viewportContext(['desktop', 'mobile'], () => {
     before(() => {
@@ -20,10 +24,14 @@ describe('My Account - Update Profile', () => {
     });
 
     describe('update profile test for anonymous user', () => {
-      it(['update_profile'], 'should redirect to login page for anonymous user', () => {
-        cy.visit(updateProfile.UPDATE_PROFILE_URL);
-        cy.location('pathname').should('contain', '/login');
-      });
+      it(
+        ['update_profile'],
+        'should redirect to login page for anonymous user',
+        () => {
+          cy.visit(updateProfile.UPDATE_PROFILE_URL);
+          cy.location('pathname').should('contain', '/login');
+        }
+      );
     });
 
     describe('update profile test for logged in user', () => {
@@ -39,12 +47,16 @@ describe('My Account - Update Profile', () => {
         });
       });
 
-      it(['update_profile', 'my_account'],'should be able to cancel and go back to home', () => {
-        cy.get('cx-update-profile button').click();
-        checkBanner();
+      it(
+        ['update_profile', 'my_account'],
+        'should be able to cancel and go back to home',
+        () => {
+          cy.get('cx-update-profile button').click();
+          checkBanner();
 
-        cy.location('pathname').should('contain', '/');
-      });
+          cy.location('pathname').should('contain', '/');
+        }
+      );
 
       afterEach(() => {
         cy.saveLocalStorage();
