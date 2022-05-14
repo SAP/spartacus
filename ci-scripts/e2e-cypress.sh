@@ -95,6 +95,7 @@ else
 
     if [ ! -z "$CONTEXT_TAGS" ]; then
             echo "Context Tags found. Reducing Qty of Tests to Run"
+            echo "Context tags : " $CONTEXT_TAGS
             yarn e2e:run:tags"${SUITE}"
     else
             echo "Context Tags not found. Run same qty of tests as before"
