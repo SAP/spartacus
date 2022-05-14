@@ -36,6 +36,9 @@ if [ ! -z "$GITHUB_BASE_REF" ]; then
 		tags=`echo $tags | sed 's/^.//;s/.$//' || true`
 		tags=`echo $tags | sed 's/\"//g' || true`
 
+		#remove last comma
+		tags=`echo $tags | sed 's/,$//g' || true`
+		
 		if [[ "$CONTEXT_TAGS" == *"$tags"* ]]; then
 			echo "Duplicate tags found"
 		else
