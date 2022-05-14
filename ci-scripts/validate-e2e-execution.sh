@@ -39,7 +39,7 @@ if [ ! -z "$GITHUB_BASE_REF" ]; then
 		if [[ "$CONTEXT_TAGS" == *"$tags"* ]]; then
 			echo "Duplicate tags found"
 		else
-			CONTEXT_TAGS+=$tags', '
+			CONTEXT_TAGS+=$tags','
 		fi
 		echo "Associated tags are:" $tags
 	else
