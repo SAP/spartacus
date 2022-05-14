@@ -35,9 +35,6 @@ if [ ! -z "$GITHUB_BASE_REF" ]; then
 		tags=`echo $tags | sed 's/^.\{,8\}//' || true`
 		tags=`echo $tags | sed 's/^.//;s/.$//' || true`
 		tags=`echo $tags | sed 's/\"//g' || true`
-
-		#remove last comma
-		tags=`echo $tags | sed 's/,$//g' || true`
 		
 		if [[ "$CONTEXT_TAGS" == *"$tags"* ]]; then
 			echo "Duplicate tags found"
@@ -60,4 +57,7 @@ if [ ! -z "$GITHUB_BASE_REF" ]; then
         esac
     done
 fi
+
+#remove last comma
+CONTEXT_TAGS=`echo $CONTEXT_TAGS | sed 's/,$//g' || true`
 echo "Tags to pass to cypress: " "$CONTEXT_TAGS"
