@@ -93,7 +93,7 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    if [ ! -z "$CONTEXT_TAGS" ]; then
+   if [ ! -z "$CONTEXT_TAGS" ]; then
             echo "Context Tags found. Reducing Qty of Tests to Run"
             echo "Context tags : " $CONTEXT_TAGS
             yarn e2e:run:tags"${SUITE}"
