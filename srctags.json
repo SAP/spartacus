@@ -1,64 +1,63 @@
-
 {
   "folder": {
     "path": "core-libs/setup/ssr",
-    "tags": ["smoke_b2c", "ssr"]
+    "tags": ["smoke_b2c,ssr"]
   },
   "folder": {
     "path": "feature-libs/asm",
-    "tags": ["smoke_b2c", "asm"]
+    "tags": ["smoke_b2c,asm"]
   },
   "folder": {
     "path": "feature-libs/cart",
-    "tags": ["smoke_b2c", "cart"]
+    "tags": ["smoke_b2c,cart"]
   },
   "folder": {
     "path": "feature-libs/checkout",
-    "tags": ["smoke_b2c", "checkout", "smoke_b2b", "replenishment"]
+    "tags": ["smoke_b2c,checkout,smoke_b2b,replenishment"]
   },
   "folder": {
     "path": "feature-libs/order",
-    "tags": ["smoke_b2c", "order"]
+    "tags": ["smoke_b2c,order"]
   },
   "folder": {
     "path": "feature-libs/organization",
-    "tags": ["smoke_b2b", "organization"]
+    "tags": ["smoke_b2b,organization"]
   },
   "folder": {
     "path": "feature-libs/product",
-    "tags": ["smoke_b2c", ""]
+    "tags": ["smoke_b2c"]
   },
   "folder": {
     "path": "feature-libs/product",
-    "tags": ["smoke_b2c", "smoke_b2b", "image_zoom", "bulk_pricing", "variants"]
+    "tags": ["smoke_b2c,smoke_b2b,image_zoom,bulk_pricing,variants"]
   },
   "folder": {
     "path": "feature-libs/product-configurator",
-    "tags": ["smoke_b2c", "product_configurator"]
+    "tags": ["smoke_b2c,product_configurator"]
   },
   "folder": {
     "path": "feature-libs/qualtrics",
-    "tags": ["smoke_b2c", "qualtrics"]
+    "tags": ["smoke_b2c,qualtrics"]
   },
   "folder": {
     "path": "feature-libs/smartedit",
-    "tags": ["smoke_b2c", "smartedit"]
+    "tags": ["smoke_b2c,smartedit"]
   },
   "folder": {
     "path": "feature-libs/storefinder",
-    "tags": ["smoke_b2c", "store_finder"]
+    "tags": ["smoke_b2c,store_finder"]
   },
   "folder": {
     "path": "feature-libs/tracking",
-    "tags": ["smoke_b2c", "smoke_b2b"]
+    "tags": ["smoke_b2c,smoke_b2b"]
   },
   "folder": {
     "path": "feature-libs/user",
-    "tags": ["smoke_b2c", "smoke_b2b", "login"]
+    "tags": ["smoke_b2c,smoke_b2b,login"]
   },
   "folder": {
     "path": "integration-libs/cdc",
-    "tags": ["smoke_b2c", "cdc"]
+    "tags": ["smoke_b2c,cdc"]
   },
   "folder": {
     "path": "integration-libs/cds",
@@ -66,11 +65,11 @@
   },
   "folder": {
     "path": "integration-libs/digital-payments",
-    "tags": ["smoke_b2c", "digital_payments"]
+    "tags": ["smoke_b2c,digital_payments"]
   },
   "folder": {
     "path": "integration-libs/epd-visualization",
-    "tags": ["smoke_b2c", "epd"]
+    "tags": ["smoke_b2c,epd"]
   },
   "folder": {
     "path": "projects/core",
@@ -87,11 +86,4 @@
     "tags": ["core"],
     "comments": "TODO. Further refinement required based on impact"
   }
-
-
-  
-
-
 }
-
-
