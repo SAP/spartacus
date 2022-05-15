@@ -280,7 +280,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         uses: slackapi/slack-github-action@v1.19.0
         with:
-          channel-id: 'test-spa--privatechannel'
+          channel-id: 'test-spa--private-channel'
           payload: |
             {
               "blocks": [
@@ -331,6 +331,8 @@ jobs:
                 }
               ]
             }
-        if: |
-          ${{ github.event_name == 'push' && github.ref_name == 'epic/simulate-branch-for-slack-verify-values' && needs.build_conclusion.result == 'failure' }}
+        if: | 
+          needs.build_conclusion.result == 'failure' &&
+          github.event_name == 'push' && 
+          github.ref_name == 'epic/simulate-branch-for-slack-verify-values'
           
