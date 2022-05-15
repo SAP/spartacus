@@ -274,12 +274,13 @@ jobs:
           echo "${{ github.event_name == 'push' }}"
           echo "${{ github.ref_name == 'epic/simulate-branch-for-slack-verify-values' }}"
           echo "${{ needs.build_conclusion.result == 'failure' }}"
+          echo "why ${{ github.event_name == 'push' && github.ref_name == 'epic/simulate-branch-for-slack-verify-values' && needs.build_conclusion.result == 'failure' }}"
       - name: Send Slack message when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         uses: slackapi/slack-github-action@v1.19.0
         with:
-          channel-id: 'test-spa-channel-message'
+          channel-id: 'test-spa--privatechannel'
           payload: |
             {
               "blocks": [
