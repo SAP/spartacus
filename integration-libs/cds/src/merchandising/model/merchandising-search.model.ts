@@ -1,7 +1,7 @@
 /**
  * Contains specific route parameters for the product listing page.
  */
-export interface ProductListRouteParams {
+export interface ProductListRouteParams { // PR15712
   /**
    * The query parameter which used to query the backend API.
    */

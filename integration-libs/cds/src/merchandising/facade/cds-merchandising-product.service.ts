@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Injectable, Optional } from '@angular/core'; // PR15712
+import { combineLatest, Observable, of } from 'rxjs';
 import { debounceTime, map, mergeMap } from 'rxjs/operators';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 import { StrategyProducts } from '../model/strategy-products.model';
@@ -7,17 +7,35 @@ import { MerchandisingStrategyConnector } from './../connectors/strategy/merchan
 import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
-import { CdsMerchandisingSearchContextService } from './cds-merchandising-search-context.service';
+import { CdsMerchandisingSearchContextService } from './cds-merchandising-search-context.service'; // PR15712
 
 @Injectable({
   providedIn: 'root',
 })
 export class CdsMerchandisingProductService {
+  constructor( // PR15712
+    strategyConnector: MerchandisingStrategyConnector,
+    merchandisingUserContextService: CdsMerchandisingUserContextService,
+    merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    merchandisingSearchContextService?: CdsMerchandisingSearchContextService
+  );
+
+  /**
+   * @deprecated since 4.3.4
+   */
+  constructor(
+    strategyConnector: MerchandisingStrategyConnector,
+    merchandisingUserContextService: CdsMerchandisingUserContextService,
+    merchandisingSiteContextService: CdsMerchandisingSiteContextService
+  );
+
   constructor(
     protected strategyConnector: MerchandisingStrategyConnector,
     protected merchandisingUserContextService: CdsMerchandisingUserContextService,
     protected merchandisingSiteContextService: CdsMerchandisingSiteContextService,
-    protected merchandisingSearchContextService: CdsMerchandisingSearchContextService
+    @Optional()
+    protected merchandisingSearchContextService?: CdsMerchandisingSearchContextService
   ) {}
 
   loadProductsForStrategy(
@@ -27,14 +45,16 @@ export class CdsMerchandisingProductService {
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
       this.merchandisingUserContextService.getUserContext(),
-      this.merchandisingSearchContextService.getSearchPhrase(),
+      this.merchandisingSearchContextService
+        ? this.merchandisingSearchContextService.getSearchPhrase()
+        : of(undefined),
     ]).pipe(
       debounceTime(0),
       map(
-        ([siteContext, userContext, searchPhrase]: [
+        ([siteContext, userContext, searchPhrase]: [ // PR15712
           MerchandisingSiteContext,
           MerchandisingUserContext,
-          string
+          string | undefined
         ]) => {
           return {
             queryParams: {
