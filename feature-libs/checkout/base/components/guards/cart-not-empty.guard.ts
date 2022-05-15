@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';  //PR 15726
+import { Injectable } from '@angular/core'; //PR 15726
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { SemanticPathService } from '@spartacus/core';
