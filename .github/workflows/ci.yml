@@ -271,9 +271,9 @@ jobs:
           echo "hmm can it be  seen ${{ secrets.GITHUB_TOKEN }}"
           echo "abc ${{ secrets.SLACK_TOKEN }}"
           echo "fake secret is still *** ?: ${{ secrets.FAKE_SECRET }}"
-          echo "${{ github.event_name == 'push'"}}
-          echo "${{ github.ref_name == 'epic/simulate-branch-for-slack-verify-values' }} 
-          echo "${{ needs.build_conclusion.result == 'failure'" }}
+          echo "${{ github.event_name == 'push' }}"
+          echo "${{ github.ref_name == 'epic/simulate-branch-for-slack-verify-values' }}"
+          echo "${{ needs.build_conclusion.result == 'failure' }}"
       - name: Send Slack message when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
