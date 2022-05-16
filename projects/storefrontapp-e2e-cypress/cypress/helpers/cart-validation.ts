@@ -44,7 +44,7 @@ export function addMultipleProductsToCart(products) {
 
 export function removeItemAndCheckCartEntriesNumber(
   product,
-  expectedCartLength = 0
+  expectedCartLength
 ) {
   removeCartItem(product);
   cy.wait('@refresh_cart');

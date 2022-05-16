@@ -62,7 +62,7 @@ describe('My Account - Update Password', () => {
         cy.get('[formcontrolname="newPasswordConfirm"]').type(
           updatePassword.newPassword
         );
-        cy.get('cx-update-password button').click();
+        cy.get('cx-update-password button.btn-primary').click();
         cy.url().should('contain', updatePassword.PAGE_URL_UPDATE_PASSWORD);
         alerts.getErrorAlert().should('exist');
       });

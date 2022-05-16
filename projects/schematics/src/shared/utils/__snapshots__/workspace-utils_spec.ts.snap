@@ -48,6 +48,11 @@ Object {
         "outputPath": "dist/schematics-test",
         "polyfills": "src/polyfills.ts",
         "scripts": Array [],
+        "stylePreprocessorOptions": Object {
+          "includePaths": Array [
+            "node_modules/",
+          ],
+        },
         "styles": Array [
           "src/styles.scss",
         ],
@@ -84,6 +89,11 @@ Object {
         "main": "src/test.ts",
         "polyfills": "src/polyfills.ts",
         "scripts": Array [],
+        "stylePreprocessorOptions": Object {
+          "includePaths": Array [
+            "node_modules/",
+          ],
+        },
         "styles": Array [
           "src/styles.scss",
         ],
@@ -153,6 +163,11 @@ Object {
       "outputPath": "dist/schematics-test",
       "polyfills": "src/polyfills.ts",
       "scripts": Array [],
+      "stylePreprocessorOptions": Object {
+        "includePaths": Array [
+          "node_modules/",
+        ],
+      },
       "styles": Array [
         "src/styles.scss",
       ],
@@ -189,6 +204,11 @@ Object {
       "main": "src/test.ts",
       "polyfills": "src/polyfills.ts",
       "scripts": Array [],
+      "stylePreprocessorOptions": Object {
+        "includePaths": Array [
+          "node_modules/",
+        ],
+      },
       "styles": Array [
         "src/styles.scss",
       ],

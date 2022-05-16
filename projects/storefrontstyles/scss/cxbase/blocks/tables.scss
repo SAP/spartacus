@@ -4,6 +4,8 @@
   width: 100%;
 
   thead {
+    border-bottom: 1px solid var(--cx-color-light);
+
     th {
       border-bottom: 0 none;
       border-top: none;
@@ -13,6 +15,18 @@
       color: theme-color('secondary');
     }
   }
+
+  tr {
+    width: 100%;
+    border-bottom: 1px solid var(--cx-color-light);
+
+    @include media-breakpoint-down(sm) {
+      &:first-child {
+        padding: 1.25rem 0 0 0;
+      }
+    }
+  }
+
   td {
     vertical-align: middle;
   }
