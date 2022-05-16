@@ -1,4 +1,3 @@
-// import { HttpClient } from "@angular/common/http";
 import {
   HttpTestingController,
   HttpClientTestingModule,
@@ -54,7 +53,6 @@ const MockOccModuleConfig: OccConfig = {
 
 describe(`OccCheckoutDeliveryModesAdapter`, () => {
   let service: OccCommerceQuotesAdapter;
-  // let httpClient: HttpClient;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -67,7 +65,6 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
       ],
     });
     service = TestBed.inject(OccCommerceQuotesAdapter);
-    // httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 
