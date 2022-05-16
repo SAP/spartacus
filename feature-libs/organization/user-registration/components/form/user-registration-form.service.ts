@@ -11,17 +11,18 @@ import {
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Title, UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { OrganizationUserRegistration } from '../../core/model';
 import { UserRegistrationFacade } from '../../root/facade/user-registration.facade';
 @Injectable({
   providedIn: 'root',
 })
 export class UserRegistrationFormService {
+  protected form: FormGroup = this.buildForm();
   /*
    * Initializes form structure for registration.
    */
-  initializeForm() {
+  buildForm() {
     return this.formBuilder.group({
       titleCode: [null],
       firstName: ['', Validators.required],
@@ -40,6 +41,10 @@ export class UserRegistrationFormService {
       phoneNumber: '',
       message: [''],
     });
+  }
+
+  getForm(): FormGroup {
+    return this.form;
   }
 
   /**
@@ -63,19 +68,33 @@ export class UserRegistrationFormService {
   }
 
   /**
-   * Gets all regions list for specific country iso code.
+   * Gets all regions list for specific selected country.
    */
-  getRegions(countryIsoCode: string): Observable<Region[]> {
-    return this.userAddressService.getRegions(countryIsoCode);
-  }
+  getRegions(): Observable<Region[]> {
+    let selectedCountryCode = this.form.get('country.isocode').value;
+    let newCountryCode: string;
 
-  /**
-   * Register new org user.
-   */
-  registerUser(
-    userData: OrganizationUserRegistration
-  ): Observable<OrganizationUserRegistration> {
-    return this.organizationUserRegistrationFacade.registerUser(userData);
+    return this.getForm()
+      .get('country.isocode')
+      .valueChanges.pipe(
+        filter((countryIsoCode) => Boolean(countryIsoCode)),
+        switchMap((countryIsoCode) => {
+          newCountryCode = countryIsoCode;
+          return this.userAddressService.getRegions(countryIsoCode);
+        }),
+        tap((regions: Region[]) => {
+          const regionControl = this.form.get('region.isocode');
+          if (!regions || regions.length === 0) {
+            regionControl.disable();
+          } else {
+            regionControl.enable();
+          }
+          if (selectedCountryCode && newCountryCode !== selectedCountryCode) {
+            regionControl.reset();
+          }
+          selectedCountryCode = newCountryCode;
+        })
+      );
   }
 
   /**
@@ -104,6 +123,24 @@ export class UserRegistrationFormService {
     return this.globalMessageService.add(
       { key: 'userRegistrationForm.successFormSubmitMessage' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  }
+
+  /**
+   * Registers new organization user.
+   */
+  registerUser(form: FormGroup): Observable<OrganizationUserRegistration> {
+    return this.buildMessageContent(form).pipe(
+      take(1),
+      switchMap((message: string) =>
+        this.organizationUserRegistrationFacade.registerUser({
+          firstName: form.get('firstName')?.value,
+          lastName: form.get('lastName')?.value,
+          email: form.get('email')?.value,
+          message,
+        })
+      ),
+      tap(() => this.displayGlobalMessage())
     );
   }
 

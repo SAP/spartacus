@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { Country, Region } from '@spartacus/core';
 import { Title } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
 import { UserRegistrationFormService } from './user-registration-form.service';
 
 @Component({
@@ -18,8 +17,6 @@ export class UserRegistrationFormComponent implements OnInit {
 
   regions$: Observable<Region[]>;
 
-  selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-
   isLoading$ = new BehaviorSubject(false);
 
   registerForm: FormGroup;
@@ -31,62 +28,27 @@ export class UserRegistrationFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.registerForm = this.userRegistrationFormService.initializeForm();
-
+    this.registerForm = this.userRegistrationFormService.getForm();
     this.titles$ = this.userRegistrationFormService.getTitles();
-
     this.countries$ = this.userRegistrationFormService.getCountries();
-
-    this.regions$ = this.selectedCountry$.pipe(
-      switchMap((country) =>
-        this.userRegistrationFormService.getRegions(country)
-      )
-    );
+    this.regions$ = this.userRegistrationFormService.getRegions();
   }
 
-  countrySelected(country: Country): void {
-    this.registerForm
-      .get('country')
-      ?.get('isocode')
-      ?.setValue(country?.isocode);
-    this.selectedCountry$.next(country?.isocode);
-  }
-
-  regionSelected(region: Region): void {
-    this.registerForm.get('region')?.get('isocode')?.setValue(region?.isocode);
-  }
-
-  submitForm(): void {
+  submit(): void {
     if (this.registerForm.valid) {
-      this.register();
-      // TODO: Redirect customer to login page after successful registration.
+      this.isLoading$.next(true);
+
+      this.userRegistrationFormService
+        .registerUser(this.registerForm)
+        .subscribe({
+          complete: () => {
+            this.registerForm.reset();
+            this.isLoading$.next(false);
+          },
+          error: () => this.isLoading$.next(false),
+        });
     } else {
       this.registerForm.markAllAsTouched();
     }
-  }
-
-  register(): void {
-    this.isLoading$.next(true);
-
-    this.userRegistrationFormService
-      .buildMessageContent(this.registerForm)
-      .pipe(take(1))
-      .subscribe((content) => (this.messageContent = content));
-
-    this.userRegistrationFormService
-      .registerUser({
-        firstName: this.registerForm.get('firstName')?.value,
-        lastName: this.registerForm.get('lastName')?.value,
-        email: this.registerForm.get('email')?.value,
-        message: this.messageContent,
-      })
-      .subscribe({
-        next: () => this.userRegistrationFormService.displayGlobalMessage(),
-        complete: () => {
-          this.registerForm.reset();
-          this.isLoading$.next(false);
-        },
-        error: () => this.isLoading$.next(false),
-      });
   }
 }
