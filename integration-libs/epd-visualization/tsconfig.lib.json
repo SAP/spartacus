@@ -26,6 +26,9 @@
       "@spartacus/cart/base": ["dist/cart/base"],
       "@spartacus/cart/base/occ": ["dist/cart/base/occ"],
       "@spartacus/cart/base/root": ["dist/cart/base/root"],
+      "@spartacus/cart/bundle/components/bundle-carousel": [
+        "dist/cart/bundle/components/bundle-carousel"
+      ],
       "@spartacus/cart/bundle/core": ["dist/cart/bundle/core"],
       "@spartacus/cart/bundle": ["dist/cart/bundle"],
       "@spartacus/cart/bundle/root": ["dist/cart/bundle/root"],
