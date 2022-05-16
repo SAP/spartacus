@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
+  AuthConfigService,
   Country,
   GlobalMessageService,
   GlobalMessageType,
+  OAuthFlow,
   Region,
+  RoutingService,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
@@ -22,7 +25,7 @@ export class UserRegistrationFormService {
   /*
    * Initializes form structure for registration.
    */
-  buildForm() {
+  protected buildForm() {
     return this.formBuilder.group({
       titleCode: [null],
       firstName: ['', Validators.required],
@@ -43,6 +46,9 @@ export class UserRegistrationFormService {
     });
   }
 
+  /*
+   * Gets form structure for registration.
+   */
   getForm(): FormGroup {
     return this.form;
   }
@@ -100,7 +106,7 @@ export class UserRegistrationFormService {
   /**
    * Takes form values and builds custom message content.
    */
-  buildMessageContent(form: FormGroup): Observable<string> {
+  protected buildMessageContent(form: FormGroup): Observable<string> {
     return this.translationService.translate(
       'userRegistrationForm.messageToApproverTemplate',
       {
@@ -119,11 +125,25 @@ export class UserRegistrationFormService {
   /**
    * Displays confirmation global message.
    */
-  displayGlobalMessage(): void {
+  protected displayGlobalMessage(): void {
     return this.globalMessageService.add(
       { key: 'userRegistrationForm.successFormSubmitMessage' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
+  }
+
+  /**
+   * Redirects the user back to the login page.
+   *
+   * This only happens in case of the `ResourceOwnerPasswordFlow` OAuth flow.
+   */
+  protected redirectToLogin() {
+    if (
+      this.authConfigService.getOAuthFlow() ===
+      OAuthFlow.ResourceOwnerPasswordFlow
+    ) {
+      this.routingService.go({ cxRoute: 'login' });
+    }
   }
 
   /**
@@ -140,7 +160,11 @@ export class UserRegistrationFormService {
           message,
         })
       ),
-      tap(() => this.displayGlobalMessage())
+      tap(() => {
+        this.displayGlobalMessage();
+        this.redirectToLogin();
+        form.reset();
+      })
     );
   }
 
@@ -150,6 +174,8 @@ export class UserRegistrationFormService {
     protected organizationUserRegistrationFacade: UserRegistrationFacade,
     protected translationService: TranslationService,
     protected globalMessageService: GlobalMessageService,
+    protected authConfigService: AuthConfigService,
+    protected routingService: RoutingService,
     protected formBuilder: FormBuilder
   ) {}
 }

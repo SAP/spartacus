@@ -21,8 +21,6 @@ export class UserRegistrationFormComponent implements OnInit {
 
   registerForm: FormGroup;
 
-  messageContent: string;
-
   constructor(
     protected userRegistrationFormService: UserRegistrationFormService
   ) {}
@@ -41,10 +39,7 @@ export class UserRegistrationFormComponent implements OnInit {
       this.userRegistrationFormService
         .registerUser(this.registerForm)
         .subscribe({
-          complete: () => {
-            this.registerForm.reset();
-            this.isLoading$.next(false);
-          },
+          complete: () => this.isLoading$.next(false),
           error: () => this.isLoading$.next(false),
         });
     } else {

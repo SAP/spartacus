@@ -168,33 +168,31 @@
     </label>
 
     <ng-container *ngIf="regions$ | async as regions" formGroupName="region">
-      <ng-container *ngIf="regions.length !== 0">
-        <label>
-          <span class="label-content">{{
-            'userRegistrationForm.fields.state.label' | cxTranslate
-          }}</span>
-          <ng-select
-            class="region-select"
-            formControlName="isocode"
-            [searchable]="true"
-            [clearable]="false"
-            [items]="regions"
-            bindLabel="name"
-            bindValue="isocode"
-            placeholder="{{
-              'userRegistrationForm.fields.state.placeholder' | cxTranslate
-            }}"
-            id="region-select"
-            [cxNgSelectA11y]="{
-              ariaLabel: 'userRegistrationForm.fields.state.label' | cxTranslate
-            }"
-          >
-          </ng-select>
-          <cx-form-errors
-            [control]="registerForm.get('region.isocode')"
-          ></cx-form-errors>
-        </label>
-      </ng-container>
+      <label *ngIf="regions.length !== 0">
+        <span class="label-content">{{
+          'userRegistrationForm.fields.state.label' | cxTranslate
+        }}</span>
+        <ng-select
+          class="region-select"
+          formControlName="isocode"
+          [searchable]="true"
+          [clearable]="false"
+          [items]="regions"
+          bindLabel="name"
+          bindValue="isocode"
+          placeholder="{{
+            'userRegistrationForm.fields.state.placeholder' | cxTranslate
+          }}"
+          id="region-select"
+          [cxNgSelectA11y]="{
+            ariaLabel: 'userRegistrationForm.fields.state.label' | cxTranslate
+          }"
+        >
+        </ng-select>
+        <cx-form-errors
+          [control]="registerForm.get('region.isocode')"
+        ></cx-form-errors>
+      </label>
     </ng-container>
 
     <label>
