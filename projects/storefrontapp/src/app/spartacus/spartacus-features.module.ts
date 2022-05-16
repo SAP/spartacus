@@ -33,6 +33,7 @@ import {
   NotificationPreferenceModule,
   PageTitleModule,
   PaymentMethodsModule,
+  PDFModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
@@ -117,6 +118,7 @@ if (environment.epdVisualization) {
     FooterNavigationModule,
     PageTitleModule,
     BreadcrumbModule,
+    PDFModule,
     ScrollToTopModule,
     VideoModule,
 
