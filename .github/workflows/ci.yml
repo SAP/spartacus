@@ -272,6 +272,7 @@ jobs:
           echo "abc ${{ secrets.SLACK_TOKEN }}"
           echo "fake secret is still *** ?: ${{ secrets.FAKE_SECRET }}"
           echo "${{ github.event_name == 'push' }}"
+          echo "${{ github.ref_name }}"
           echo "${{ github.ref_name == 'epic/simulate-branch-for-slack-verify-values' }}"
           echo "${{ needs.build_conclusion.result == 'failure' }}"
           echo "why ${{ github.event_name == 'push' && github.ref_name == 'epic/simulate-branch-for-slack-verify-values' && needs.build_conclusion.result == 'failure' }}"
@@ -334,5 +335,5 @@ jobs:
         if: | 
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' && 
-          github.ref_name == 'epic/simulate-branch-for-slack-verify-values'
+          github.ref_name == 'develop'
           
