@@ -1,7 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommerceQuotesConnector } from './connectors/commerce-quotes.connector';
 
 @NgModule({
-  imports: [CommonModule],
+  providers: [CommerceQuotesConnector],
 })
 export class CommerceQuotesCoreModule {}
