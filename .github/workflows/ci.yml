@@ -219,7 +219,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
-      - name: Notify the channel of broken end-to-end tests
+      - name: Notify the slack channel of when build conclusion failed
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
         uses: slackapi/slack-github-action@v1.19.0
@@ -275,6 +275,8 @@ jobs:
                 }
               ]
             }
-        if: |
-          ${{ github.event_name == 'push' && github.ref_name == 'develop' }} && needs.build_conclusion.result == 'failure'
+        if: | 
+          needs.build_conclusion.result == 'failure' &&
+          github.event_name == 'push' && 
+          github.ref_name == 'develop'
         
