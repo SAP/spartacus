@@ -46,7 +46,7 @@ export const asm = {
         byOrderDateDesc: 'Order date (Desc)',
       },
       page: {
-        page: 'page {{count}}',
+        page: 'Page {{count}}',
         previous: 'Previous',
         next: 'Next',
       },

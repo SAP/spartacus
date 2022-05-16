@@ -41,6 +41,18 @@ $sapLinkColor: #0070F2;
       .pagination-buttons {
         display: flex;
         align-items: center;
+        cx-icon {
+          color: $sapLinkColor;
+        }
+        cx-icon.previous {
+          padding: 0 10px 0 0;
+        }
+        cx-icon.next {
+          padding: 0 0 0 10px;
+        }
+        button {
+          text-decoration: none;
+        }
         .btn-previous {
           span {
             padding: 0 0 0 5px;

@@ -106,7 +106,7 @@
       class="btn btn-link cx-action-link btn-previous"
       [disabled]="currentPage === 0 || !loaded"
     >
-      <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon
+      <cx-icon class="previous" [type]="iconTypes.CARET_LEFT"></cx-icon
       ><span>{{ 'asm.customerList.page.previous' | cxTranslate }}</span>
     </button>
     <button
@@ -116,7 +116,7 @@
       [disabled]="currentPage === maxPage || !loaded"
     >
       <span>{{ 'asm.customerList.page.next' | cxTranslate }}</span
-      ><cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
+      ><cx-icon class="next" [type]="iconTypes.CARET_RIGHT"></cx-icon>
     </button>
   </div>
 </ng-template>
