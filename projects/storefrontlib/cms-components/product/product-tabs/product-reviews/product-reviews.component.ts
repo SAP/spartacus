@@ -105,9 +105,7 @@ export class ProductReviewsComponent {
       alias: reviewFormControls.reviewerName.value,
     };
 
-    if (product.code) {
-      this.reviewService.add(product.code, review);
-    }
+    this.reviewService.add(product.code ?? '', review);
 
     this.isWritingReview = false;
     this.resetReviewForm();

@@ -111,13 +111,11 @@ export class PaymentMethodsComponent implements OnInit {
   }
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
-    if (paymentMethod.id) {
-      this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
-      this.globalMessageService?.add(
-        { key: 'paymentMessages.setAsDefaultSuccessfully' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    }
+    this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id ?? '');
+    this.globalMessageService?.add(
+      { key: 'paymentMessages.setAsDefaultSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   getCardIcon(code: string): string {
