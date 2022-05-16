@@ -1,3 +1,4 @@
+import { PaginationModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   QuoteList,
@@ -14,8 +15,12 @@ export abstract class CommerceQuotesAdapter {
    * Abstract method used to list of quotes for user
    *
    * @param userId
+   * @param pagination
    */
-  abstract getQuotes(userId: string): Observable<QuoteList>;
+  abstract getQuotes(
+    userId: string,
+    pagination: PaginationModel
+  ): Observable<QuoteList>;
 
   /**
    * Abstract method used to request / create a quote

@@ -4,6 +4,7 @@ import {
   OccEndpointsService,
   ConverterService,
   normalizeHttpError,
+  PaginationModel,
 } from '@spartacus/core';
 import {
   CommerceQuotesAdapter,
@@ -33,16 +34,36 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
     protected converter: ConverterService
   ) {}
 
-  getQuotes(userId: string): Observable<QuoteList> {
-    return this.http.get<QuoteList>(this.getQuotesEndpoint(userId)).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
-      this.converter.pipeable(QUOTE_LIST_NORMALIZER)
-    );
+  getQuotes(
+    userId: string,
+    pagination: PaginationModel
+  ): Observable<QuoteList> {
+    const params: { [key: string]: string } = {};
+    if (pagination.pageSize) {
+      params['pageSize'] = pagination.pageSize.toString();
+    }
+    if (pagination.currentPage) {
+      params['currentPage'] = pagination.currentPage.toString();
+    }
+    if (pagination.sort) {
+      params['sort'] = pagination.sort.toString();
+    }
+
+    return this.http
+      .get<QuoteList>(this.getQuotesEndpoint(userId), params)
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(QUOTE_LIST_NORMALIZER)
+      );
   }
 
-  protected getQuotesEndpoint(userId: string): string {
+  protected getQuotesEndpoint(
+    userId: string,
+    params?: PaginationModel
+  ): string {
     return this.occEndpoints.buildUrl('getQuotes', {
       urlParams: { userId },
+      queryParams: params,
     });
   }
 

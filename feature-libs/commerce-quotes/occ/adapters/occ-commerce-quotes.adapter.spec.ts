@@ -30,6 +30,32 @@ const mockQuote: Quote = {
   cartId: cartId,
   code: '333333',
 };
+const pagination = {
+  currentPage: 1,
+  pageSize: 20,
+  sort: 'byName',
+};
+const mockQuoteStarter: QuoteStarter = {
+  cartId,
+};
+const mockQuoteMetadata: QuoteMetadata = {
+  description: 'test',
+  name: 'Test1',
+};
+const mockQuoteAction: QuoteAction = {
+  action: 'SUBMIT',
+};
+const mockQuoteComment: Comment = {
+  text: 'test',
+};
+const mockQuoteDiscount: QuoteDiscount = {
+  discountRate: 12,
+  discountType: 'FIXED',
+};
+const mockQuoteEntryComment: Comment = {
+  text: 'test',
+};
+const productEntryNumber = '1';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -87,7 +113,7 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
     };
 
     service
-      .getQuotes(userId)
+      .getQuotes(userId, pagination)
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual(mockQuoteList);
@@ -105,10 +131,6 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
   });
 
   it('createQuote should create quote based on provided cartId', (done) => {
-    const mockQuoteStarter: QuoteStarter = {
-      cartId,
-    };
-
     service
       .createQuote(userId, mockQuoteStarter)
       .pipe(take(1))
@@ -154,11 +176,6 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
   });
 
   it('editQuote should editQuote quote', (done) => {
-    const mockQuoteMetadata: QuoteMetadata = {
-      description: 'test',
-      name: 'Test1',
-    };
-
     service
       .editQuote(userId, mockQuote.code, mockQuoteMetadata)
       .pipe(take(1))
@@ -184,10 +201,6 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
   });
 
   it('performActionQuote should send action to be performed for quote', (done) => {
-    const mockQuoteAction: QuoteAction = {
-      action: 'SUBMIT',
-    };
-
     service
       .performActionQuote(userId, mockQuote.code, mockQuoteAction)
       .pipe(take(1))
@@ -213,10 +226,6 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
   });
 
   it('addComment should add comment to quote', (done) => {
-    const mockQuoteComment: Comment = {
-      text: 'test',
-    };
-
     service
       .addComment(userId, mockQuote.code, mockQuoteComment)
       .pipe(take(1))
@@ -242,11 +251,6 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
   });
 
   it('addDiscount should add discount to quote', (done) => {
-    const mockQuoteDiscount: QuoteDiscount = {
-      discountRate: 12,
-      discountType: 'FIXED',
-    };
-
     service
       .addDiscount(userId, mockQuote.code, mockQuoteDiscount)
       .pipe(take(1))
@@ -272,11 +276,6 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
   });
 
   it('addCartEntryComment should add comment to product entry in quote cart', (done) => {
-    const mockQuoteEntryComment: Comment = {
-      text: 'test',
-    };
-    const productEntryNumber = '1';
-
     service
       .addCartEntryComment(
         userId,

@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { PaginationModel } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {
@@ -12,9 +13,24 @@ import { CommerceQuotesConnector } from './commerce-quotes.connector';
 
 import createSpy = jasmine.createSpy;
 
+const userId = 'user1';
+const cartId = 'cart1';
+const quoteCode = 'quote1';
+const quoteEntryNumber = 'entryNumber1';
+const pagination = {
+  currentPage: 1,
+  pageSize: 20,
+  sort: 'byName',
+};
+const comment = {
+  author: { uid: userId, name: 'test' },
+  text: 'text',
+};
+
 class MockCommerceQuotesAdapter implements Partial<CommerceQuotesAdapter> {
   getQuotes = createSpy('CommerceQuotesAdapter.getQuotes').and.callFake(
-    (userId: string) => of(`getQuotes-${userId}`)
+    (userId: string, pagination: PaginationModel) =>
+      of(`getQuotes-${userId}-${pagination}`)
   );
   createQuote = createSpy('CommerceQuotesAdapter.createQuote').and.callFake(
     (userId: string, quoteStarter: QuoteStarter) =>
@@ -77,32 +93,32 @@ describe('CommerceQuotesConnector', () => {
   it('getQuotes should call adapter', () => {
     let result;
     service
-      .getQuotes('user1')
+      .getQuotes(userId, pagination)
       .pipe(take(1))
       .subscribe((res) => (result = res));
-    expect(result).toBe('getQuotes-user1');
-    expect(adapter.getQuotes).toHaveBeenCalledWith('user1');
+    expect(result).toBe(`getQuotes-${userId}-${pagination.toString()}`);
+    expect(adapter.getQuotes).toHaveBeenCalledWith(userId, pagination);
   });
 
   it('createQuote should call adapter', () => {
     let result;
-    const quoteStarter = { cartId: 'cart1', quoteCode: 'quote1' };
+    const quoteStarter = { cartId, quoteCode };
     service
-      .createQuote('user1', quoteStarter)
+      .createQuote(userId, quoteStarter)
       .pipe(take(1))
       .subscribe((res) => (result = res));
-    expect(result).toBe(`createQuote-user1-${quoteStarter.toString()}`);
-    expect(adapter.createQuote).toHaveBeenCalledWith('user1', quoteStarter);
+    expect(result).toBe(`createQuote-${userId}-${quoteStarter.toString()}`);
+    expect(adapter.createQuote).toHaveBeenCalledWith(userId, quoteStarter);
   });
 
   it('getQuote should call adapter', () => {
     let result;
     service
-      .getQuote('user1', 'quoteCode1')
+      .getQuote(userId, quoteCode)
       .pipe(take(1))
       .subscribe((res) => (result = res));
-    expect(result).toBe(`getQuote-user1-quoteCode1`);
-    expect(adapter.getQuote).toHaveBeenCalledWith('user1', 'quoteCode1');
+    expect(result).toBe(`getQuote-${userId}-${quoteCode}`);
+    expect(adapter.getQuote).toHaveBeenCalledWith(userId, quoteCode);
   });
 
   it('editQuote should call adapter', () => {
@@ -113,15 +129,15 @@ describe('CommerceQuotesConnector', () => {
       name: 'test1',
     };
     service
-      .editQuote('user1', 'quoteCode1', quoteMetadata)
+      .editQuote(userId, quoteCode, quoteMetadata)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `editQuote-user1-quoteCode1-${quoteMetadata.toString()}`
+      `editQuote-${userId}-${quoteCode}-${quoteMetadata.toString()}`
     );
     expect(adapter.editQuote).toHaveBeenCalledWith(
-      'user1',
-      'quoteCode1',
+      userId,
+      quoteCode,
       quoteMetadata
     );
   });
@@ -130,35 +146,29 @@ describe('CommerceQuotesConnector', () => {
     let result;
     const action = { action: 'TEST' };
     service
-      .performActionQuote('user1', 'quoteCode1', action)
+      .performActionQuote(userId, quoteCode, action)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `performActionQuote-user1-quoteCode1-${action.toString()}`
+      `performActionQuote-${userId}-${quoteCode}-${action.toString()}`
     );
     expect(adapter.performActionQuote).toHaveBeenCalledWith(
-      'user1',
-      'quoteCode1',
+      userId,
+      quoteCode,
       action
     );
   });
 
   it('addComment should call adapter', () => {
     let result;
-    const comment = {
-      author: { uid: 'user1', name: 'test' },
-      text: 'text',
-    };
     service
-      .addComment('user1', 'quoteCode1', comment)
+      .addComment(userId, quoteCode, comment)
       .pipe(take(1))
       .subscribe((res) => (result = res));
-    expect(result).toBe(`addComment-user1-quoteCode1-${comment.toString()}`);
-    expect(adapter.addComment).toHaveBeenCalledWith(
-      'user1',
-      'quoteCode1',
-      comment
+    expect(result).toBe(
+      `addComment-${userId}-${quoteCode}-${comment.toString()}`
     );
+    expect(adapter.addComment).toHaveBeenCalledWith(userId, quoteCode, comment);
   });
 
   it('addDiscount should call adapter', () => {
@@ -168,33 +178,31 @@ describe('CommerceQuotesConnector', () => {
       discountType: 'FIXED',
     };
     service
-      .addDiscount('user1', 'quoteCode1', discount)
+      .addDiscount(userId, quoteCode, discount)
       .pipe(take(1))
       .subscribe((res) => (result = res));
-    expect(result).toBe(`addDiscount-user1-quoteCode1-${discount.toString()}`);
+    expect(result).toBe(
+      `addDiscount-${userId}-${quoteCode}-${discount.toString()}`
+    );
     expect(adapter.addDiscount).toHaveBeenCalledWith(
-      'user1',
-      'quoteCode1',
+      userId,
+      quoteCode,
       discount
     );
   });
 
   it('addCartEntryComment should call adapter', () => {
     let result;
-    const comment = {
-      author: { uid: 'user1', name: 'test' },
-      text: 'text',
-    };
     service
-      .addCartEntryComment('user1', 'quoteCode1', 'entryNumber1', comment)
+      .addCartEntryComment(userId, quoteCode, quoteEntryNumber, comment)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `addCartEntryComment-user1-quoteCode1-entryNumber1-${comment.toString()}`
+      `addCartEntryComment-${userId}-${quoteCode}-${quoteEntryNumber}-${comment.toString()}`
     );
     expect(adapter.addCartEntryComment).toHaveBeenCalledWith(
-      'user1',
-      'quoteCode1',
+      userId,
+      quoteCode,
       'entryNumber1',
       comment
     );

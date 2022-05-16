@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { PaginationModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   Quote,
@@ -15,8 +16,11 @@ import { CommerceQuotesAdapter } from './commerce-quotes.adapter';
 export class CommerceQuotesConnector {
   constructor(protected adapter: CommerceQuotesAdapter) {}
 
-  public getQuotes(userId: string): Observable<QuoteList> {
-    return this.adapter.getQuotes(userId);
+  public getQuotes(
+    userId: string,
+    pagination: PaginationModel
+  ): Observable<QuoteList> {
+    return this.adapter.getQuotes(userId, pagination);
   }
 
   public createQuote(
