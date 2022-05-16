@@ -230,7 +230,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // Focus on next item in results list
-  focusNextChild(event: UIEvent | Event) {
+  focusNextChild(event: UIEvent) {
     this.open();
     event.preventDefault(); // Negate normal keyscroll
     const [results, focusedIndex] = [
