@@ -98,7 +98,6 @@
     "release:product-configurator:with-changelog": "cd feature-libs/product-configurator && release-it && cd ../..",
     "release:qualtrics:with-changelog": "cd feature-libs/qualtrics && release-it && cd ../..",
     "release:tracking:with-changelog": "cd feature-libs/tracking && release-it && cd ../..",
-    "release:customer-ticketing:with-changelog": "cd feature-libs/customer-ticketing && release-it && cd ../..",
     "prerender:cds": "cross-env SPARTACUS_CDS=true ng run storefrontapp:prerender",
     "publish:docs": "gh-pages -d documentation -m \"Compodocs updates\"",
     "test:cds:lib": "ng test cds --code-coverage",
