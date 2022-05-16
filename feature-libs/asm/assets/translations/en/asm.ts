@@ -31,7 +31,7 @@ export const asm = {
       title: 'Customer List',
       tableHeader: {
         name: 'Customer Name',
-        emailOrId: 'Email/ID',
+        emailOrId: 'Email',
         phone: 'Phone',
         cart: 'Cart',
         order: 'Order',
