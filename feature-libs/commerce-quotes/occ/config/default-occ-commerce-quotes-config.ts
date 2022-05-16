@@ -4,15 +4,15 @@ export const defaultOccCommerceQuotesConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        getQuotes: '/users/${userId}/quotes',
-        createQuote: '/users/${userId}/quotes',
-        getQuote: '/users/${userId}/quotes/${quoteCode}',
-        editQuote: '/users/${userId}/quotes/${quoteCode}',
-        performActionQuote: '/users/${userId}/quotes/${quoteCode}/action',
-        addComment: '/users/${userId}/quotes/${quoteCode}/comments',
-        addDiscount: '/users/${userId}/quotes/${quoteCode}/discounts',
+        getQuotes: 'users/${userId}/quotes',
+        createQuote: 'users/${userId}/quotes',
+        getQuote: 'users/${userId}/quotes/${quoteCode}',
+        editQuote: 'users/${userId}/quotes/${quoteCode}',
+        performActionQuote: 'users/${userId}/quotes/${quoteCode}/action',
+        addComment: 'users/${userId}/quotes/${quoteCode}/comments',
+        addDiscount: 'users/${userId}/quotes/${quoteCode}/discounts',
         addCartEntryComment:
-          '/users/${userId}/quotes/${quoteCode}/entries/${entryNumber}/comments',
+          'users/${userId}/quotes/${quoteCode}/entries/${entryNumber}/comments',
       },
     },
   },

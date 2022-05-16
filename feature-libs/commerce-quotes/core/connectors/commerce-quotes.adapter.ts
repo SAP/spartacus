@@ -7,7 +7,7 @@ import {
   QuoteAction,
   Comment,
   QuoteDiscount,
-} from '../model/commerce-quotes.model';
+} from './../model/commerce-quotes.model';
 
 export abstract class CommerceQuotesAdapter {
   /**
