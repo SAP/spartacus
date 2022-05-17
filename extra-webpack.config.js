@@ -49,6 +49,7 @@ module.exports = {
         __dirname,
         'integration-libs/epd-visualization'
       ),
+      '@spartacus/pickup-in-store': path.join(__dirname, 'feature-libs/pickup-in-store'),
     },
   },
 };

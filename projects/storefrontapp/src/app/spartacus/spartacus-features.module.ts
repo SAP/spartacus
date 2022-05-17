@@ -209,6 +209,8 @@ if (environment.epdVisualization) {
 
     SmartEditFeatureModule,
 
+    // TODO add feature module
+
     VariantsFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ImageZoomFeatureModule,

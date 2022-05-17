@@ -45,7 +45,8 @@
           "TMS-GTM",
           "TMS-AEPL",
           "Account",
-          "Profile"
+          "Profile",
+          "Pickup-In-Store"
         ],
         "type": "string"
       },

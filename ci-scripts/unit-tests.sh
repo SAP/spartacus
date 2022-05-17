@@ -112,6 +112,18 @@ echo "Running schematics unit tests and code coverage for tracking library"
 exec 5>&1
 output=$(yarn --cwd feature-libs/tracking run test:schematics --coverage=true | tee /dev/fd/5)
 
+echo "Running unit tests and code coverage for pickup-in-store library"
+exec 5>&1
+output=$(ng test pickup-in-store --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+echo "Running schematics unit tests and code coverage for pickup-in-store library"
+exec 5>&1
+output=$(yarn --cwd feature-libs/pickup-in-store run test:schematics --coverage=true | tee /dev/fd/5)
+
 echo "Running unit tests and code coverage for schematics library"
 exec 5>&1
 output=$(yarn --cwd projects/schematics run test --runInBand --coverage=true | tee /dev/fd/5)

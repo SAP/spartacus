@@ -129,6 +129,7 @@
       "@spartacus/organization/order-approval/root": [
         "../../dist/organization/order-approval/root"
       ],
+      "@spartacus/pickup-in-store": ["../../dist/pickup-in-store"],
       "@spartacus/product-configurator/common/assets": [
         "../../dist/product-configurator/common/assets"
       ],

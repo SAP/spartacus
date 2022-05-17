@@ -92,6 +92,7 @@ Do the following steps to keep track of spartacussampledata releases:
       - [ ] For older versions since 2.1.0-next.0 ONLY, publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release
     - [ ] `npm run release:digital-payments:with-changelog` (needed since `4.1.0-next.0`)
     - [ ] `npm run release:epd-visualization:with-changelog` (needed since `4.3.0`)
+    - [ ] `npm run release:pickup-in-store:with-changelog` (needed since `6.0.0`)
     - [ ] Run `yarn generate:deps` and commit to make sure `dependencies.json` gets updated before releasing schematics.
     - [ ] `npm run release:schematics:with-changelog`
 

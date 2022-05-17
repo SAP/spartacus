@@ -1,0 +1,36 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "pickup-in-store-${version}",
+    "commitMessage": "Bumping pickup-in-store version to ${version}",
+    "tagAnnotation": "Bumping pickup-in-store version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/pickup-in-store"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:pickup-in-store"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/pickup-in-store@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib pickup-in-store --to pickup-in-store-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/schematics",
+            "peerDependencies.@spartacus/styles"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -976,6 +976,43 @@
           }
         }
       }
+    },
+    "pickup-in-store": {
+      "projectType": "library",
+      "root": "feature-libs/pickup-in-store",
+      "sourceRoot": "feature-libs/pickup-in-store",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "./tools/build-lib:augmented-types",
+          "options": {
+            "tsConfig": "feature-libs/pickup-in-store/tsconfig.lib.json",
+            "project": "feature-libs/pickup-in-store/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/pickup-in-store/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/pickup-in-store/test.ts",
+            "tsConfig": "feature-libs/pickup-in-store/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/pickup-in-store/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/pickup-in-store/**/*.ts",
+              "feature-libs/pickup-in-store/**/*.html"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "storefrontapp"
