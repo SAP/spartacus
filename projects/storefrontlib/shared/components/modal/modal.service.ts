@@ -45,7 +45,7 @@ export class ModalService {
   }
 
   dismissActiveModal(reason?: any): void {
-    const modal: ModalRef | null = this.getActiveModal();
+    const modal = this.getActiveModal();
 
     if (modal) {
       modal.dismiss(reason);
@@ -53,7 +53,7 @@ export class ModalService {
   }
 
   closeActiveModal(reason?: any): void {
-    const modal: ModalRef | null = this.getActiveModal();
+    const modal = this.getActiveModal();
 
     if (modal) {
       modal.close(reason);

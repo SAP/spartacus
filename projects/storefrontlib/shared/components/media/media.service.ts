@@ -160,7 +160,7 @@ export class MediaService {
 
     const srcset = formats.reduce((set, format) => {
       const image = (media as MediaContainer)[format.code];
-      if (image) {
+      if (!!image) {
         if (set) {
           set += ', ';
         }

@@ -138,8 +138,7 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
   private isRequiredConsent(template: ConsentTemplate): boolean {
     return Boolean(
       template.id &&
-        this.config.anonymousConsents &&
-        this.config.anonymousConsents.requiredConsents &&
+        this.config.anonymousConsents?.requiredConsents &&
         this.config.anonymousConsents.requiredConsents.includes(template.id)
     );
   }

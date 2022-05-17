@@ -79,9 +79,9 @@ export class TableService {
     type: string,
     breakpoint: BREAKPOINT,
     defaultStructure?: ResponsiveTableConfiguration
-  ): TableStructureConfiguration | undefined {
+  ): TableStructureConfiguration | null {
     if (!this.config.table?.[type]) {
-      return undefined;
+      return null;
     }
 
     const relevant = this.findRelevantBreakpoints(breakpoint);

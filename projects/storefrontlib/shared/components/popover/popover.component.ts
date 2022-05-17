@@ -160,11 +160,11 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.eventSubject.next(PopoverEvent.ESCAPE_KEYDOWN);
   }
 
-  protected isClickedOnPopover(event: any) {
+  protected isClickedOnPopover(event: MouseEvent) {
     return this.popoverInstance.location.nativeElement.contains(event.target);
   }
 
-  protected isClickedOnDirective(event: any) {
+  protected isClickedOnDirective(event: MouseEvent) {
     return this.triggerElement.nativeElement.contains(event.target);
   }
 

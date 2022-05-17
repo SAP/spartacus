@@ -83,7 +83,7 @@ export class PaginationBuilder {
     current: number
   ): void {
     const start = this.getStartOfRange(pageCount, current);
-    if (this.config.rangeCount !== undefined) {
+    if (this.config.rangeCount !== undefined && start !== null) {
       const max = Math.min(this.config.rangeCount, pageCount);
       Array.from(Array(max)).forEach((_, i) => {
         pages.push({
@@ -137,8 +137,8 @@ export class PaginationBuilder {
     };
 
     const addLastGap = () => {
-      const number = pages[pages.length - 1].number;
-      const nextPageNumber = number ? number + 1 : undefined;
+      const pageNumber = pages[pages.length - 1].number;
+      const nextPageNumber = pageNumber ? pageNumber + 1 : undefined;
       const last = pageCount - (this.config.addLast ? 2 : 1);
       if (nextPageNumber && nextPageNumber <= last) {
         const isSubstituted =
@@ -312,7 +312,7 @@ export class PaginationBuilder {
    * @param pageCount The total number of pages.
    * @param current The current page number, 0-index based.
    */
-  protected getStartOfRange(pageCount: number, current: number): number {
+  protected getStartOfRange(pageCount: number, current: number): number | null {
     if (this.config.rangeCount !== undefined) {
       const count = this.config.rangeCount - 1;
       // the least number of pages before and after the current
@@ -326,7 +326,7 @@ export class PaginationBuilder {
       // ensure that we get at least a full range at the end
       return Math.min(maxStart, minStart);
     }
-    return 0;
+    return null;
   }
 
   /**

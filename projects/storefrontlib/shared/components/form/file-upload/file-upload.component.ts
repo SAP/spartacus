@@ -55,6 +55,7 @@ export class FileUploadComponent implements ControlValueAccessor {
     if (this.fileInput.nativeElement.files) {
       return Array.from(this.fileInput.nativeElement.files);
     }
+    return undefined;
   }
 
   // ControlValueAccessor START

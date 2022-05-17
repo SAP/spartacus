@@ -17,7 +17,7 @@ export class SplitViewService {
 
   protected splitViewCount = 1;
 
-  protected _views$: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  protected _views$ = new BehaviorSubject<SplitViewState[]>([]);
 
   /**
    * Adds a view to the list of views. The view is initialized with the `SplitViewState`

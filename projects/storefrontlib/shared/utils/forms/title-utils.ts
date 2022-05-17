@@ -9,7 +9,7 @@ export const titleScores: { [code: string]: number } = {
   rev: 6,
 };
 
-export function sortTitles(title1: Title, title2: Title) {
+export function sortTitles(title1: Title, title2: Title): number {
   if (title1.code && title2.code) {
     if (!titleScores[title1.code] || !titleScores[title2.code]) {
       return 1;
