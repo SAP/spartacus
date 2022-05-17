@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PickupInStoreFacade } from '@spartacus/cart/pickup-in-store/root';
+import { PickupInStoreFacade } from '../../facade/pickup-in-store.facade';
 
 @Component({
   selector: 'cx-pickup-delivery-options',
