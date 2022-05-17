@@ -44,6 +44,7 @@ export const fontawesomeIconConfig: IconConfig = {
       USER_FRIENDS: 'fas fa-user-friends',
       SORT_AMOUNT_DOWN: 'fas fa-sort-amount-down',
       SORT_AMOUNT_UP: 'fas fa-sort-amount-up',
+      PDF_FILE: 'fas fa-file-pdf',
       EYE: 'fas fa-eye',
       EYE_SLASH: 'fas fa-eye-slash',
     },
