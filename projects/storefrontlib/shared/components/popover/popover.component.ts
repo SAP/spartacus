@@ -82,11 +82,6 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   displayCloseButton?: boolean;
 
   /**
-   * Flag which indicates if passed content is a TemplateRef or string.
-   */
-  isTemplate: boolean;
-
-  /**
    * After popover component is initialized position needs to be changing dynamically
    * in case if any viewport changes happened.
    */
@@ -213,8 +208,6 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.isTemplate = this.content instanceof TemplateRef;
-
     if (!this.customClass) this.customClass = 'cx-popover';
     if (!this.position) this.position = 'top';
     if (this.autoPositioning === undefined) this.autoPositioning = true;
@@ -234,6 +227,13 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.positionOnScroll) {
       this.triggerScrollEvent();
     }
+  }
+
+  /**
+   * indicates if passed content is a TemplateRef or string.
+   */
+  isTemplate(content: string | TemplateRef<any>): content is TemplateRef<any> {
+    return content instanceof TemplateRef;
   }
 
   ngAfterViewChecked(): void {

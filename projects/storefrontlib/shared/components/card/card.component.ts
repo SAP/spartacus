@@ -94,6 +94,10 @@ export class CardComponent implements OnInit {
     this.editCard.emit(4);
   }
 
+  isCardAction(action: CardAction | CardLinkAction): action is CardAction {
+    return (action as CardAction).event !== undefined;
+  }
+
   constructor() {}
 
   ngOnInit() {}

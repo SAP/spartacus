@@ -80,7 +80,7 @@
     <!-- Actions -->
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
-        <div [ngSwitch]="$any(action).event">
+        <div *ngIf="isCardAction(action)" [ngSwitch]="action.event">
           <button
             type="button"
             *ngSwitchCase="'delete'"
