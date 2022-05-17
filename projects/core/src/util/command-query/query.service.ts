@@ -15,7 +15,6 @@ import {
   distinctUntilChanged,
   pluck,
   share,
-  switchMap,
   switchMapTo,
   takeUntil,
   tap,
@@ -44,15 +43,15 @@ export class QueryService implements OnDestroy {
 
   constructor(protected eventService: EventService) {}
 
-  create<T, P extends unknown[] = void[]>(
-    loaderFactory: (...params: P) => Observable<T>,
+  create<T>(
+    loaderFactory: () => Observable<T>,
     options?: {
       /** Reloads the query, while preserving the `data` until the new data is loaded */
       reloadOn?: QueryNotifier[];
       /** Resets the query to the initial state */
       resetOn?: QueryNotifier[];
     }
-  ): Query<T, P> {
+  ): Query<T> {
     const initialState: QueryState<T> = {
       data: undefined,
       error: false,
@@ -60,7 +59,6 @@ export class QueryService implements OnDestroy {
     };
 
     const state$ = new BehaviorSubject<QueryState<T>>(initialState);
-    const params$ = new BehaviorSubject<P>([] as unknown[] as P);
 
     // if the query will be unsubscribed from while the data is being loaded, we will end up with the loading flag set to true
     // we want to retry this load on next subscription
@@ -70,9 +68,7 @@ export class QueryService implements OnDestroy {
       onSubscribeLoad$, // we need to evaluate onSubscribeLoad$ before other triggers in order to avoid other triggers changing state$ value
       ...(options?.reloadOn ?? []),
       ...(options?.resetOn ?? []),
-    ]).pipe(
-      switchMapTo(params$)
-    );
+    ]);
 
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
     const reloadTrigger$ = this.getTriggersStream(options?.reloadOn ?? []);
@@ -83,7 +79,7 @@ export class QueryService implements OnDestroy {
           state$.next({ ...state$.value, loading: true });
         }
       }),
-      switchMap(p => loaderFactory(...p).pipe(takeUntil(resetTrigger$))),
+      switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
       tap((data) => {
         state$.next({ loading: false, error: false, data });
       }),
@@ -127,10 +123,7 @@ export class QueryService implements OnDestroy {
 
     const data$ = query$.pipe(pluck('data'), distinctUntilChanged());
 
-    return {
-      get: (...p: P) => {params$.next(p); return data$; },
-      getState: (...p: P) => {params$.next(p); return query$; }
-    };
+    return { get: () => data$, getState: () => query$ };
   }
 
   protected getTriggersStream(triggers: QueryNotifier[]): Observable<unknown> {
