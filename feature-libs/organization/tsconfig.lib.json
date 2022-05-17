@@ -61,9 +61,6 @@
       "@spartacus/cart/pickup-in-store/assets": [
         "dist/cart/pickup-in-store/assets"
       ],
-      "@spartacus/cart/pickup-in-store/components": [
-        "dist/cart/pickup-in-store/components"
-      ],
       "@spartacus/cart/pickup-in-store/core": [
         "dist/cart/pickup-in-store/core"
       ],

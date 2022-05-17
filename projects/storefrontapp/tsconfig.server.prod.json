@@ -40,9 +40,6 @@
       "@spartacus/cart/pickup-in-store/assets": [
         "../../dist/cart/pickup-in-store/assets"
       ],
-      "@spartacus/cart/pickup-in-store/components": [
-        "../../dist/cart/pickup-in-store/components"
-      ],
       "@spartacus/cart/pickup-in-store/core": [
         "../../dist/cart/pickup-in-store/core"
       ],
@@ -254,14 +251,11 @@
         "../../dist/digital-payments/assets"
       ],
       "@spartacus/digital-payments": ["../../dist/digital-payments"],
-      "@spartacus/epd-visualization/components": [
-        "../../dist/epd-visualization/components"
-      ],
       "@spartacus/epd-visualization/assets": [
         "../../dist/epd-visualization/assets"
       ],
-      "@spartacus/epd-visualization/root": [
-        "../../dist/epd-visualization/root"
+      "@spartacus/epd-visualization/components": [
+        "../../dist/epd-visualization/components"
       ],
       "@spartacus/epd-visualization/core": [
         "../../dist/epd-visualization/core"
@@ -270,6 +264,9 @@
         "../../dist/epd-visualization/epd-visualization-api"
       ],
       "@spartacus/epd-visualization": ["../../dist/epd-visualization"],
+      "@spartacus/epd-visualization/root": [
+        "../../dist/epd-visualization/root"
+      ],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"]
