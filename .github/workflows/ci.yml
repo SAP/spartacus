@@ -136,6 +136,11 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
+      - name: test
+        run: |
+          echo "b2c attempt ${{ github.run_attempt }}"
+          echo "test id ${{ github.run_id }}"
+          echo "abc number ${{ github.run_number }}"
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
@@ -158,6 +163,11 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
+      - name: test
+        run: |
+          echo "ssr ${{ github.run_attempt }}"
+          echo "test id ${{ github.run_id }}"
+          echo "abc number ${{ github.run_number }}"
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
@@ -183,6 +193,11 @@ jobs:
         containers: [1, 2]
     if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
+      - name: test
+        run: |
+          echo "b2b attempt ${{ github.run_attempt }}"
+          echo "test id ${{ github.run_id }}"
+          echo "abc number ${{ github.run_number }}"
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
