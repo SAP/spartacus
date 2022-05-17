@@ -8,6 +8,7 @@ import {
   CmsConfig,
   I18nModule,
   UrlModule,
+  NotAuthGuard,
 } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -32,6 +33,7 @@ import { UserRegistrationFormService } from './user-registration-form.service';
       cmsComponents: {
         OrganizationUserRegistrationComponent: {
           component: UserRegistrationFormComponent,
+          guards: [NotAuthGuard],
         },
       },
     }),
