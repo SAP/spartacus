@@ -18,15 +18,10 @@ concurrency:
 name: Spartacus build pipeline
 jobs:
   no_retries: 
-    name: Verify retries
+    name: Verify re-run of all jobs
     runs-on: ubuntu-latest
     steps:
-      - name: test
-        run: |
-          echo "hello attempt ${{ github.run_attempt }}"
-          echo "test id ${{ github.run_id }}"
-          echo "abc number ${{ github.run_number }}"
-      - name: Forcefully fail build if retried
+      - name: Forcefully fail build if jobs are all retried
         uses: actions/github-script@v5
         with:
           script: |
@@ -136,11 +131,12 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - name: test
-        run: |
-          echo "b2c attempt ${{ github.run_attempt }}"
-          echo "test id ${{ github.run_id }}"
-          echo "abc number ${{ github.run_number }}"
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
@@ -163,11 +159,12 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - name: test
-        run: |
-          echo "ssr ${{ github.run_attempt }}"
-          echo "test id ${{ github.run_id }}"
-          echo "abc number ${{ github.run_number }}"
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
@@ -193,11 +190,12 @@ jobs:
         containers: [1, 2]
     if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
-      - name: test
-        run: |
-          echo "b2b attempt ${{ github.run_attempt }}"
-          echo "test id ${{ github.run_id }}"
-          echo "abc number ${{ github.run_number }}"
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
