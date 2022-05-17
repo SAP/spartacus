@@ -25,7 +25,7 @@ const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
   providedIn: 'root',
 })
 export class MerchandisingCarouselComponentService {
-  protected readonly PRODUCT_SCOPE = 'list';
+  protected readonly PRODUCT_SCOPE = 'details';
 
   constructor(
     protected cdsMerchandisingProductService: CdsMerchandisingProductService,
