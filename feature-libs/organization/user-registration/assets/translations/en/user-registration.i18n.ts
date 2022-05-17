@@ -54,7 +54,7 @@ export const userRegistrationForm = {
   Message: {{message}}`,
   successFormSubmitMessage:
     'Thank you for registering! A representative will contact you shortly and confirm your access information.',
-  formSubmitButtonLabel: 'Send an application',
+  formSubmitButtonLabel: 'Register',
   goToLoginButtonLabel: 'Already registered? Go to Sign in',
 };
 
