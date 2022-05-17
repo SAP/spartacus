@@ -39,6 +39,18 @@ const mockProductConfiguration = ConfigurationTestData.productConfiguration;
 const mockProductConfigurationWithoutPriceSummary =
   ConfigurationTestData.productConfigurationWithConflicts;
 
+const mockProductConfigurationWithoutBasePrice =
+  ConfigurationTestData.productConfigurationWithoutBasePrice;
+
+const mockProductConfigurationWithoutSelectedOptions =
+  ConfigurationTestData.productConfigurationWithoutSelectedOptions;
+
+const mockProductConfigurationWithoutTotalPrice =
+  ConfigurationTestData.mockProductConfigurationWithoutTotalPrice;
+
+const mockProductConfigurationWithPriceSummaryButNoPrices =
+  ConfigurationTestData.mockProductConfigurationWithPriceSummaryButNoPrices;
+
 const navParamsOverview: any = {
   cxRoute: 'configureOverview' + configuratorType,
   params: { ownerType: 'cartEntry', entityKey: CART_ENTRY_KEY },
@@ -532,12 +544,76 @@ describe('ConfigAddToCartButtonComponent', () => {
       );
     });
 
-    it('should return undefined in case there is no price summary in the configuration', () => {
+    it('should return "0" in case there is no price summary in the configuration', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '0',
+        totalPrice: '0',
+      };
       expect(
         component.extractConfigPrices(
           mockProductConfigurationWithoutPriceSummary
         )
-      ).toBeUndefined;
+      ).toEqual(result);
+    });
+
+    it('should return "0" for basePrice in case basePrice is undefined', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '$500',
+        totalPrice: '$623.56',
+      };
+      expect(
+        component.extractConfigPrices(mockProductConfigurationWithoutBasePrice)
+      ).toEqual(result);
+    });
+
+    it('should return "0" for basePrice in case basePrice is undefined', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '$500',
+        totalPrice: '$623.56',
+      };
+      expect(
+        component.extractConfigPrices(mockProductConfigurationWithoutBasePrice)
+      ).toEqual(result);
+    });
+
+    it('should return "0" for selectedOption in case selectedOption is undefined', () => {
+      let result = {
+        basePrice: '$123.56',
+        selectedOptions: '0',
+        totalPrice: '$623.56',
+      };
+      expect(
+        component.extractConfigPrices(
+          mockProductConfigurationWithoutSelectedOptions
+        )
+      ).toEqual(result);
+    });
+
+    it('should return "0" for totalPrice in case totalPrice  is undefined', () => {
+      let result = {
+        basePrice: '$123.56',
+        selectedOptions: '$500',
+        totalPrice: '0',
+      };
+      expect(
+        component.extractConfigPrices(mockProductConfigurationWithoutTotalPrice)
+      ).toEqual(result);
+    });
+
+    it('should return "0" for prices in case they are not available', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '0',
+        totalPrice: '0',
+      };
+      expect(
+        component.extractConfigPrices(
+          mockProductConfigurationWithPriceSummaryButNoPrices
+        )
+      ).toEqual(result);
     });
 
     it("should contain add to cart button element with 'aria-label' attribute that contains prices of the configuration", () => {
@@ -548,17 +624,8 @@ describe('ConfigAddToCartButtonComponent', () => {
       let totalPrice =
         mockProductConfiguration.priceSummary?.currentTotal?.formattedValue;
       let expectedA11YString =
-        'configurator.a11y.addToCartPrices' +
-        ' ' +
-        'basePrice:' +
-        basePrice +
-        ' ' +
-        'selectedOptions:' +
-        selectedOptions +
-        ' ' +
-        'totalPrice:' +
-        totalPrice;
-
+        `configurator.a11y.addToCartPrices basePrice:${basePrice}` +
+        ` selectedOptions:${selectedOptions} totalPrice:${totalPrice}`;
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

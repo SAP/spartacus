@@ -279,14 +279,74 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   extractConfigPrices(configuration: Configurator.Configuration) {
-    let priceSummary = configuration?.priceSummary;
-    if (priceSummary) {
+    let priceSummary = configuration.priceSummary;
+    let basePrice = priceSummary?.basePrice?.formattedValue;
+    let selectedOptions = priceSummary?.selectedOptions?.formattedValue;
+    let totalPrice = priceSummary?.currentTotal?.formattedValue;
+    if (
+      priceSummary &&
+      (!basePrice || basePrice === '-') &&
+      (!selectedOptions || selectedOptions === '-') &&
+      (!totalPrice || totalPrice === '-')
+    ) {
       return {
-        basePrice: priceSummary?.basePrice?.formattedValue,
-        selectedOptions: priceSummary?.selectedOptions?.formattedValue,
-        totalPrice: priceSummary?.currentTotal?.formattedValue,
+        basePrice: '0',
+        selectedOptions: '0',
+        totalPrice: '0',
       };
     }
+    if (
+      priceSummary &&
+      (basePrice === '-' || !basePrice) &&
+      selectedOptions &&
+      totalPrice
+    ) {
+      return {
+        basePrice: '0',
+        selectedOptions: selectedOptions,
+        totalPrice: totalPrice,
+      };
+    }
+    if (
+      priceSummary &&
+      basePrice &&
+      (selectedOptions === '-' || !selectedOptions) &&
+      totalPrice
+    ) {
+      return {
+        basePrice: basePrice,
+        selectedOptions: '0',
+        totalPrice: totalPrice,
+      };
+    }
+    if (
+      priceSummary &&
+      basePrice &&
+      selectedOptions &&
+      (totalPrice === '-' || !totalPrice)
+    ) {
+      return {
+        basePrice: basePrice,
+        selectedOptions: selectedOptions,
+        totalPrice: '0',
+      };
+    }
+    if (!priceSummary) {
+      return {
+        basePrice: '0',
+        selectedOptions: '0',
+        totalPrice: '0',
+      };
+    }
+
+    if (priceSummary && basePrice && selectedOptions && totalPrice) {
+      return {
+        basePrice: basePrice,
+        selectedOptions: selectedOptions,
+        totalPrice: totalPrice,
+      };
+    }
+    return undefined;
   }
 
   protected makeAddToCartButtonSticky(): void {
