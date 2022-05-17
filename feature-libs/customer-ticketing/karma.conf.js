@@ -17,10 +17,7 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'dots'],
     coverageReporter: {
-      dir: require('path').join(
-        __dirname,
-        '../../coverage/customer-ticketing'
-      ),
+      dir: require('path').join(__dirname, '../../coverage/customer-ticketing'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
       check: {
         global: {
