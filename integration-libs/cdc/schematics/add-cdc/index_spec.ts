@@ -122,12 +122,60 @@ describe('Spartacus CDC schematics: ng-add', () => {
   });
 
   describe('CDC feature', () => {
+    describe('warning for missing jsSDKUrl', () => {
+      let firstMessage: string | undefined;
+      beforeEach(async () => {
+        schematicRunner.logger.subscribe((log) => {
+          if (!firstMessage) {
+            firstMessage = log.message;
+          }
+        });
+
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...cdcFeatureOptions},
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('show the warning', () => {
+        expect(firstMessage).toEqual(
+          `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the jsSDKUrl.`
+        );
+      });
+
+    });
+
+    describe('validation of jsSDKUrl', () => {
+      beforeEach(async () => {
+
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...cdcFeatureOptions, jsSDKUrl: '<dc>.gigya.com/<api-key>' },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should set the given javascriptUrl', () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toContain<string>(
+          `<dc>.gigya.com/<api-key>`
+        );
+      });
+
+    });
+
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', cdcFeatureOptions, appTree)
           .toPromise();
       });
+
 
       it('should install necessary Spartacus libraries', () => {
         const packageJson = JSON.parse(appTree.readContent('package.json'));
@@ -197,7 +245,10 @@ describe('Spartacus CDC schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...cdcFeatureOptions, lazy: false },
+            {
+              ...cdcFeatureOptions,
+              lazy: false,
+            },
             appTree
           )
           .toPromise();

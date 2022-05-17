@@ -12,13 +12,13 @@ import {
   CDC_ROOT_MODULE,
   CLI_CDC_FEATURE,
   CLI_USER_PROFILE_FEATURE,
-  LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CDC,
   SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { Schema as SpartacusCdcOptions } from './schema';
 import { peerDependencies } from '../../package.json';
 import {
   CDC_CONFIG,
@@ -37,13 +37,21 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_CDC_FEATURE, options.features)
-        ? addCdc(options)
+        ? addCdc(options, _context)
         : noop(),
     ]);
   };
 }
 
-function addCdc(options: SpartacusCdcOptions): Rule {
+function addCdc(options: SpartacusCdcOptions, context: SchematicContext): Rule {
+  if (!options.jsSDKUrl) {
+    context.logger.warn(
+      `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the jsSDKUrl.`
+    );
+  }
+
+  let jsSDKUrl = options.jsSDKUrl? options.jsSDKUrl: "<url-to-cdc-script>";
+
   return addLibraryFeature(options, {
     folderName: CDC_FOLDER_NAME,
     moduleName: CDC_MODULE_NAME,
@@ -70,9 +78,9 @@ function addCdc(options: SpartacusCdcOptions): Rule {
       content: `<${CDC_CONFIG}>{
           cdc: [
             {
-              baseSite: 'electronics-spa',
-              javascriptUrl: '<url-to-cdc-script>',
-              sessionExpiration: 3600
+              baseSite: '${options.baseSite}',
+              javascriptUrl: '${jsSDKUrl}',
+              sessionExpiration: ${options.sessionExpiration}
             },
           ],
         }`,
