@@ -66,7 +66,7 @@ describe('SavedCartDetailsActionComponent', () => {
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.SAVED_CART,
       component.element,
-      component['vcr'],
+      component['rr'],
       {
         cart: mockSavedCart,
         layoutOption: SavedCartFormType.DELETE,

@@ -42,7 +42,7 @@ export function addB2bProductToCartAndCheckout() {
   const getPaymentTypes = interceptPaymentTypesEndpoint();
 
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
-  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 400);
 
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);
