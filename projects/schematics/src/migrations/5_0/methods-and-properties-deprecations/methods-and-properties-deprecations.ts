@@ -6,11 +6,12 @@ import { CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_MIGRATION } from './data/config
 import { CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT_MIGRATION } from './data/configurator-attribute-multi-selection-bundle.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT_MIGRATION } from './data/configurator-attribute-single-selection-bundle.component.migration';
 import { CONFIGURATOR_COMMONS_SERVICE_MIGRATION } from './data/configurator-commons-service.migration';
+import { CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION } from './data/configurator-storefront-utils.service.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
+import { OCC_CONFIGURATOR_VARIANT_NORMALIZER_MIGRATION } from './data/occ-configurator-variant-normalizer.migration';
 import { PROGRESS_BUTTON_COMPONENT_MIGRATION } from './data/progress-button.component.migration';
 import { QUICK_ORDER_SERVICE_MIGRATION } from './data/quick-order.service.migration';
 import { SAVED_CART_EVENT_BUILDER_MIGRATION } from './data/saved-cart-event.builder.migration';
-import { OCC_CONFIGURATOR_VARIANT_NORMALIZER_MIGRATION } from './data/occ-configurator-variant-normalizer.migration';
 
 export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation[] =
   [
@@ -24,6 +25,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     ...NAVIGATION_UI_COMPONENT_MIGRATION,
     ...PROGRESS_BUTTON_COMPONENT_MIGRATION,
     ...SAVED_CART_EVENT_BUILDER_MIGRATION,
+    ...CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION,
   ];
 
 export function migrate(): Rule {
