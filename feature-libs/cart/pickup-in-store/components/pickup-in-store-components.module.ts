@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-
-import { PickupDeliveryOptionsModule } from './pickup-delivery-options/pickup-delivery-options.module';
+import { PickupDeliveryOptionsModule } from '@spartacus/cart/pickup-in-store/components';
 
 @NgModule({
   imports: [PickupDeliveryOptionsModule],
