@@ -1,4 +1,4 @@
 /**
  * Public API surface of pickup-in-store
  */
-export {};
+export * from './pickup-in-store.module';

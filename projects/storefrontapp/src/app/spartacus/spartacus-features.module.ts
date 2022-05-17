@@ -67,6 +67,7 @@ import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
 import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { OrderFeatureModule } from './features/order-feature.module';
+import { PickupInStoreFeatureModule } from './features/pickup-in-store-feature.module';
 import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
@@ -209,7 +210,7 @@ if (environment.epdVisualization) {
 
     SmartEditFeatureModule,
 
-    // TODO add feature module
+    PickupInStoreFeatureModule,
 
     VariantsFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
