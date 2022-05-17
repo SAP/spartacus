@@ -211,7 +211,7 @@ export class QueryService implements OnDestroy {
     const toSerialize =
       typeof transferStateFn === 'boolean' ? state : transferStateFn(state);
 
-    // TODO:#feature/CXSPA-403 - error handling?
+    // TODO:#feature/CXSPA-403 - error handling for JSON.stringify?
     // TODO:#feature/CXSPA-403 - get the previous state, and deep merge it with the new one
     this.transferState.set(CX_QUERY_STATE, JSON.stringify(toSerialize));
   }
