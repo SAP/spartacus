@@ -2,21 +2,21 @@
   "git": {
     "requireCleanWorkingDir": true,
     "requireUpstream": false,
-    "tagName": "customer-ticketing:-${version}",
-    "commitMessage": "Bumping customer-ticketing: version to ${version}",
-    "tagAnnotation": "Bumping customer-ticketing: version to ${version}"
+    "tagName": "customer-ticketing-${version}",
+    "commitMessage": "Bumping customer-ticketing version to ${version}",
+    "tagAnnotation": "Bumping customer-ticketing version to ${version}"
   },
   "npm": {
-    "publishPath": "./../../dist/customer-ticketing:"
+    "publishPath": "./../../dist/customer-ticketing"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build customer-ticketing: --configuration production"
+    "after:version:bump": "cd ../.. && ng build customer-ticketing --configuration production"
   },
   "github": {
     "release": true,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
-    "releaseName": "@spartacus/customer-ticketing:@${version}",
-    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib customer-ticketing: --to customer-ticketing:-${version}"
+    "releaseName": "@spartacus/customer-ticketing@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib customer-ticketing --to customer-ticketing-${version}"
   },
   "plugins": {
     "../../scripts/release-it/bumper.js": {
