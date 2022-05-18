@@ -32,24 +32,6 @@ export const asm = {
       success: 'Cart has been successfully assigned',
       error: 'Cart failed to be assigned',
     },
-    customerList: {
-      tableHeader: {
-        name: 'NAME',
-        emailOrId: 'EMAIL/ID',
-        phone: 'PHONE',
-        cart: 'CART',
-        order: 'ORDER',
-        view: '360 VIEW',
-      },
-      tableSort: {
-        dateSortDesc: 'Date(Desc)',
-        dateSortAsc: 'Date(Asc)',
-        nameSortDesc: 'Name(Desc)',
-        nameSortAsc: 'Name(Asc)',
-      },
-      noOfCustomers: '{{count}} Customers',
-      noCustomers: 'No customer found.',
-    },
 
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',

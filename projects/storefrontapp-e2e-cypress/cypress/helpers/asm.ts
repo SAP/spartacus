@@ -181,7 +181,7 @@ export function testCustomerEmulation() {
 export function bindCart() {
   const bindingRequest = listenForCartBindingRequest();
   //click button
-  cy.get('[data-cy="assignCart"]').click();
+  cy.get('.assignCartToCustomer').click();
   //make call
   cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
 }
