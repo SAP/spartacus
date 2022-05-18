@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "lib": ["es2018", "dom"],
+    "declaration": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "strict": false,
+    "target": "es6",
+    "types": ["jest", "node"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "paths": {
+      "@spartacus/schematics": ["../../projects/schematics/index"]
+    }
+  },
+  "include": ["schematics/**/*.ts"],
+  "exclude": ["schematics/*/files/**/*", "schematics/**/*_spec.ts"]
+}
