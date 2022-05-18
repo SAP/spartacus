@@ -106,7 +106,7 @@ export interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;
   isBuyItAgain?: boolean;
-  isAddToCurrentCart?: boolean;
+  isaddToActiveCart?: boolean;
 }
 
 export interface OrderEntry {

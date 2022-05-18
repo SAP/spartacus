@@ -22,18 +22,18 @@
   <button
     *ngIf="hasStock"
     [ngClass]="
-      options?.isBuyItAgain || options?.isAddToCurrentCart
+      options?.isBuyItAgain || options?.isaddToActiveCart
         ? 'link cx-action-link'
         : 'btn btn-primary btn-block'
     "
     type="submit"
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
-    <span *ngIf="!options?.isBuyItAgain && !options?.isAddToCurrentCart">
+    <span *ngIf="!options?.isBuyItAgain && !options?.isaddToActiveCart">
       {{ 'addToCart.addToCart' | cxTranslate }}
     </span>
-    <span *ngIf="options?.isAddToCurrentCart">
-      {{ 'addToCart.addToCurrentCart' | cxTranslate }}
+    <span *ngIf="options?.isaddToActiveCart">
+      {{ 'addToCart.addToActiveCart' | cxTranslate }}
     </span>
     <span *ngIf="options?.isBuyItAgain">
       {{ 'addToCart.buyItAgain' | cxTranslate }}

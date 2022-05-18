@@ -141,6 +141,14 @@
       ></ng-container>
     </ng-container>
 
+    <cx-add-to-cart
+      *ngIf="options.isaddToActiveCart"
+      [productCode]="item.product?.code"
+      [product]="item.product"
+      [showQuantity]="false"
+      [options]="options"
+    >
+    </cx-add-to-cart>
     <button
       (click)="removeItem()"
       [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
@@ -150,14 +158,6 @@
     >
       {{ 'common.remove' | cxTranslate }}
     </button>
-    <cx-add-to-cart
-      *ngIf="options.isAddToCurrentCart"
-      [productCode]="item.product?.code"
-      [product]="item.product"
-      [showQuantity]="false"
-      [options]="options"
-    >
-    </cx-add-to-cart>
   </td>
 </ng-template>
 <ng-template #total>

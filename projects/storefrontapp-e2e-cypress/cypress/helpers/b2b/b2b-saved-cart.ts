@@ -533,7 +533,7 @@ export function updateSavedCartAndDelete(
 export function updateSavedCartAndRestore(
   product: SampleProduct,
   savedCartForm: any,
-  addToCurrentCart: boolean
+  addToActiveCart: boolean
 ) {
   cy.window()
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
@@ -593,12 +593,14 @@ export function updateSavedCartAndRestore(
 
         alerts.getSuccessAlert().should('contain', `Cart Edited Successfully`);
 
-        if (addToCurrentCart) {
+        if (addToActiveCart) {
           cy.intercept(
             'POST',
             `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
               'BASE_SITE'
-            )}/orgUsers/*/carts/*/entries?*lang=en&curr=USD`
+            )}/${Cypress.env(
+              'OCC_PREFIX_USER_ENDPOINT'
+            )}/*/carts/*/entries?*lang=en&curr=USD`
           ).as('add_to_cart');
 
           cy.intercept(

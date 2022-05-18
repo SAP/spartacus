@@ -320,7 +320,10 @@ describe('AddToCartComponent', () => {
         addToCartComponent.productCode = productCode;
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
-        expect(el.query(By.css('button')).query(By.css('span')).nativeElement.innerText).toEqual('addToCart.addToCart');
+        expect(
+          el.query(By.css('button')).query(By.css('span')).nativeElement
+            .innerText
+        ).toEqual('addToCart.addToCart');
       });
 
       it('should show addToCurrentCart button if isAddToCurrentCart is true', () => {
@@ -328,7 +331,10 @@ describe('AddToCartComponent', () => {
         addToCartComponent.options = { isAddToCurrentCart: true };
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
-        expect(el.query(By.css('button')).query(By.css('span')).nativeElement.innerText).toEqual('addToCart.addToCurrentCart');
+        expect(
+          el.query(By.css('button')).query(By.css('span')).nativeElement
+            .innerText
+        ).toEqual('addToCart.addToCurrentCart');
       });
 
       it('should show buyItAgain button if isBuyItAgain is true', () => {
@@ -336,7 +342,10 @@ describe('AddToCartComponent', () => {
         addToCartComponent.options = { isBuyItAgain: true };
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
-        expect(el.query(By.css('button')).query(By.css('span')).nativeElement.innerText).toEqual('addToCart.buyItAgain');
+        expect(
+          el.query(By.css('button')).query(By.css('span')).nativeElement
+            .innerText
+        ).toEqual('addToCart.buyItAgain');
       });
 
       it('should show the addToCart button for currentProduct', () => {

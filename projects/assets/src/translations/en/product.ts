@@ -94,7 +94,7 @@ export const product = {
     removeFromCart: 'Remove Product from Cart',
     closeModal: 'Close Modal',
     buyItAgain: 'Buy It Again',
-    addToCurrentCart: 'Add To Current Cart',
+    addToActiveCart: 'Add To Active Cart',
   },
   TabPanelContainer: {
     tabs: {

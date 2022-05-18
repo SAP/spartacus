@@ -49,7 +49,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     isSaveForLater: false,
     optionalBtn: null,
     isBuyItAgain: false,
-    isAddToCurrentCart: false,
+    isaddToActiveCart: false,
   };
 
   @Input() cartId: string;
