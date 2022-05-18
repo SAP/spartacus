@@ -38,9 +38,9 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
     entryGroupNumber: number,
     entry: OrderEntry
   ): Observable<CartModification> {
-    const toAdd = JSON.stringify({
+    const toAdd = {
       product: entry,
-    });
+    };
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
