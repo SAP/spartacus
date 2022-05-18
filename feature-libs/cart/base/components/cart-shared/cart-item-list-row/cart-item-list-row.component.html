@@ -115,16 +115,7 @@
       </ng-template>
     </td>
   </ng-container>
-  <!-- Availability -->
-  <td
-    role="cell"
-    *ngIf="isProductOutOfStock(item.product)"
-    class="cx-availability"
-  >
-    {{ 'addToCart.outOfStock' | cxTranslate }}
-  </td>
 
-  <!-- Actions -->
   <td
     role="cell"
     *ngIf="(!readonly || options.isSaveForLater) && item.updateable"
@@ -140,6 +131,15 @@
         "
       ></ng-container>
     </ng-container>
+
+    <!-- Availability -->
+    <span
+      role="cell"
+      *ngIf="isProductOutOfStock(item.product)"
+      class="cx-availability"
+    >
+      {{ 'addToCart.outOfStock' | cxTranslate }}
+    </span>
 
     <cx-add-to-cart
       *ngIf="options.isaddToActiveCart"

@@ -326,7 +326,7 @@ describe('AddToCartComponent', () => {
         ).toEqual('addToCart.addToCart');
       });
 
-      it('should show addToCurrentCart button if isAddToActiveCart is true', () => {
+      it('should show addToActiveCart button if isAddToActiveCart is true', () => {
         addToCartComponent.productCode = productCode;
         addToCartComponent.options = { isaddToActiveCart: true };
         addToCartComponent.ngOnInit();
@@ -334,7 +334,7 @@ describe('AddToCartComponent', () => {
         expect(
           el.query(By.css('button')).query(By.css('span')).nativeElement
             .innerText
-        ).toEqual('addToCart.addToCurrentCart');
+        ).toEqual('addToCart.addToActiveCart');
       });
 
       it('should show buyItAgain button if isBuyItAgain is true', () => {
