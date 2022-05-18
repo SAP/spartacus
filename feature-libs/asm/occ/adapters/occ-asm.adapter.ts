@@ -78,7 +78,7 @@ export class OccAsmAdapter implements AsmAdapter {
       .set('customerId', customerId);
 
     const url = this.occEndpointsService.buildUrl(
-      'assistedservicewebservices/bind-cart',
+      'asmBindCart',
       {},
       {
         baseSite: false,
