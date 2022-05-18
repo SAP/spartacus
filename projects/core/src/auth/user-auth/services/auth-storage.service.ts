@@ -26,7 +26,9 @@ export class AuthStorageService extends OAuthStorage {
     'nonce',
   ];
 
-  protected _token$: Observable<AuthToken> = new BehaviorSubject<AuthToken>(
+  protected _token: AuthToken = {} as AuthToken;
+
+  protected _token$: BehaviorSubject<AuthToken> = new BehaviorSubject<AuthToken>(
     {} as AuthToken
   );
 
@@ -57,7 +59,7 @@ export class AuthStorageService extends OAuthStorage {
    * @return observable emitting AuthToken
    */
   getToken(): Observable<AuthToken> {
-    return this._token$;
+    return this._token$.asObservable();
   }
 
   /**
@@ -66,7 +68,8 @@ export class AuthStorageService extends OAuthStorage {
    * @param token
    */
   setToken(token: AuthToken): void {
-    (this._token$ as BehaviorSubject<AuthToken>).next(token);
+    this._token = token;
+    this._token$.next(token);
   }
 
   /* Sync API for OAuth lib use */
@@ -77,11 +80,7 @@ export class AuthStorageService extends OAuthStorage {
    * @param key
    */
   getItem(key: string): any {
-    let token;
-    this.getToken()
-      .subscribe((currentToken) => (token = currentToken))
-      .unsubscribe();
-    return this.decode(key, token?.[key]);
+    return this.decode(key, this._token?.[key]);
   }
 
   /**
@@ -90,9 +89,9 @@ export class AuthStorageService extends OAuthStorage {
    * @param key
    */
   removeItem(key: string): void {
-    const val = { ...(this._token$ as BehaviorSubject<AuthToken>).value };
+    const val = {...this._token$.value};
     delete val[key];
-    (this._token$ as BehaviorSubject<AuthToken>).next({
+    this.setToken({
       ...val,
     });
   }
@@ -101,11 +100,12 @@ export class AuthStorageService extends OAuthStorage {
    * Sets parameter of the token (eg. access_token)
    *
    * @param key
+   * @param data
    */
   setItem(key: string, data: any): void {
     if (key) {
-      (this._token$ as BehaviorSubject<AuthToken>).next({
-        ...(this._token$ as BehaviorSubject<AuthToken>).value,
+      this.setToken({
+        ...this._token$.value,
         [key]: this.encode(key, data),
       });
     }
