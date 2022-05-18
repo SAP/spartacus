@@ -10,7 +10,6 @@ import {
   UserOccModule,
 } from '@spartacus/core';
 import {
-  ScrollToTopModule,
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
@@ -34,6 +33,7 @@ import {
   NotificationPreferenceModule,
   PageTitleModule,
   PaymentMethodsModule,
+  PDFModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
@@ -45,6 +45,7 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
+  ScrollToTopModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
@@ -135,6 +136,7 @@ if (environment.epdVisualization) {
     FooterNavigationModule,
     PageTitleModule,
     BreadcrumbModule,
+    PDFModule,
     ScrollToTopModule,
     VideoModule,
 

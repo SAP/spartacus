@@ -39,6 +39,9 @@ export const fontawesomeIconConfig: IconConfig = {
       SORT_DOWN: 'fas fa-sort-down',
       SORT: 'fas fa-sort',
       EXPAND_ARROWS: 'fas fa-expand',
+      PDF_FILE: 'fas fa-file-pdf',
+      EYE: 'fas fa-eye',
+      EYE_SLASH: 'fas fa-eye-slash',
     },
     resources: [
       {
