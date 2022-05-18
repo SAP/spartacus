@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
+import { BUNDLE_FEATURE } from '../core/store';
 import { defaultBundleLayoutConfig } from './config/default-bundle-layout-config';
-import { BUNDLE_CAROUSEL_FEATURE } from './feature-name';
 
 @NgModule({
   declarations: [],
@@ -9,7 +9,7 @@ import { BUNDLE_CAROUSEL_FEATURE } from './feature-name';
     provideDefaultConfig(defaultBundleLayoutConfig),
     provideDefaultConfig({
       featureModules: {
-        [BUNDLE_CAROUSEL_FEATURE]: {
+        [BUNDLE_FEATURE]: {
           cmsComponents: ['BundleCarouselComponent'],
         },
       },

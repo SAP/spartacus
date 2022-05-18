@@ -1,4 +1,4 @@
-import { OrderEntry } from '@spartacus/cart/base/root';
+import { EntryGroup, OrderEntry } from '@spartacus/cart/base/root';
 import {
   Breadcrumb,
   Facet,
@@ -44,6 +44,7 @@ export class StartBundleSuccess extends StateUtils.LoaderSuccessAction {
       cartId: string;
       deliveryModeChanged: boolean;
       entry: OrderEntry;
+      entryGroups: EntryGroup[];
       quantity: number;
       quantityAdded: number;
       statusCode: string;

@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
-import {
-  BundleRootModule,
-  BUNDLE_CAROUSEL_FEATURE,
-} from '@spartacus/cart/bundle/root';
+import { BUNDLE_FEATURE } from '@spartacus/cart/bundle/core';
+import { BundleRootModule } from '@spartacus/cart/bundle/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
@@ -10,17 +8,9 @@ import { provideConfig } from '@spartacus/core';
   providers: [
     provideConfig({
       featureModules: {
-        bundle: {
+        [BUNDLE_FEATURE]: {
           module: () =>
-            import('feature-libs/cart/bundle/public_api').then(
-              (m) => m.BundleModule
-            ),
-        },
-        [BUNDLE_CAROUSEL_FEATURE]: {
-          module: () =>
-            import('feature-libs/cart/bundle/components/bundle-carousel').then(
-              (m) => m.BundleCarouselModule
-            ),
+            import('@spartacus/cart/bundle').then((m) => m.BundleModule),
         },
       },
     }),
