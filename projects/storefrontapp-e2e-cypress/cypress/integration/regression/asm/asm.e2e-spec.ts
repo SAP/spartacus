@@ -97,9 +97,8 @@ context('Assisted Service Module', () => {
       cy.get('cx-cart-details')
         .get('h2.cx-total')
         .then(($cartId) => {
-          let cartId: string;
           const text = $cartId.text();
-          cartId = text.replace('Cart #', '').trim();
+          assignedCartId = text.replace('Cart #', '').trim();
 
           cy.log('--> Agent logging in');
           checkout.visitHomePage('asm=true');
@@ -110,12 +109,10 @@ context('Assisted Service Module', () => {
           cy.log('--> Starting customer emulation');
           asm.startCustomerEmulation(customer);
 
-          assignedCartId = cartId;
-
           cy.log('--> Enter users cart number');
           cy.get(
             'cx-customer-emulation input[formcontrolname="cartNumber"]'
-          ).type(cartId);
+          ).type(assignedCartId);
         });
 
       cy.log('--> Agent binding cart');
