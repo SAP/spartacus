@@ -12,7 +12,7 @@ import {
   ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
@@ -171,20 +171,12 @@ export class CustomerListComponent implements OnInit {
   }
 
   private getBreakpoint(): Observable<BREAKPOINT> {
-    return combineLatest([
-      this.breakpointService.isUp(BREAKPOINT.md),
-      this.breakpointService.isDown(BREAKPOINT.xs),
-    ]).pipe(
-      map(([desktop, mobile]) => {
-        if (desktop) {
-          return BREAKPOINT.md;
-        } else {
-          if (mobile) {
-            return BREAKPOINT.xs;
-          } else {
-            return BREAKPOINT.sm;
-          }
+    return this.breakpointService.breakpoint$.pipe(
+      map((breakpoint) => {
+        if (breakpoint === BREAKPOINT.lg || breakpoint === BREAKPOINT.xl) {
+          breakpoint = BREAKPOINT.md;
         }
+        return breakpoint;
       })
     );
   }

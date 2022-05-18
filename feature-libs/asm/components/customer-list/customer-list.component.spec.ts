@@ -116,11 +116,8 @@ class MockModalService {
 }
 
 class MockBreakpointService {
-  isUp(_breakpoint: BREAKPOINT) {
-    return of(false);
-  }
-  isDown(_breakpoint: BREAKPOINT) {
-    return of(true);
+  get breakpoint$(): Observable<BREAKPOINT> {
+    return of(BREAKPOINT.md);
   }
 }
 
@@ -156,17 +153,21 @@ describe('CustomerListComponent', () => {
       spyOn(asmService, 'getCustomerSearchResultsLoading').and.returnValue(
         of(true)
       );
+      breakpointService = TestBed.inject(BreakpointService);
     })
   );
 
   beforeEach(() => {
-    breakpointService = TestBed.inject(BreakpointService);
-    spyOn(breakpointService, 'isDown').and.returnValue(
-      new BehaviorSubject(true)
+    spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
+      new BehaviorSubject(BREAKPOINT.md)
     );
-    spyOn(breakpointService, 'isUp').and.returnValue(
-      new BehaviorSubject(false)
-    );
+    // spyOn(breakpointService, 'isDown').and.returnValue(
+    //   new BehaviorSubject(true)
+    // );
+    // spyOn(breakpointService, 'isUp').and.returnValue(
+    //   new BehaviorSubject(false)
+    // );
+    // spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(of(BREAKPOINT.xs));
 
     fixture = TestBed.createComponent(CustomerListComponent);
     component = fixture.componentInstance;
@@ -317,11 +318,8 @@ describe('CustomerListComponent', () => {
   });
 
   it('should add mobile class', () => {
-    (breakpointService.isDown(BREAKPOINT.xs) as BehaviorSubject<boolean>).next(
-      true
-    );
-    (breakpointService.isUp(BREAKPOINT.xs) as BehaviorSubject<boolean>).next(
-      false
+    (breakpointService.breakpoint$ as BehaviorSubject<BREAKPOINT>).next(
+      BREAKPOINT.xs
     );
 
     fixture.detectChanges();
@@ -331,12 +329,9 @@ describe('CustomerListComponent', () => {
     ).toEqual(1);
   });
 
-  it('should not add mobile class', () => {
-    (breakpointService.isDown(BREAKPOINT.xs) as BehaviorSubject<boolean>).next(
-      false
-    );
-    (breakpointService.isUp(BREAKPOINT.xs) as BehaviorSubject<boolean>).next(
-      true
+  it('should add mobile class', () => {
+    (breakpointService.breakpoint$ as BehaviorSubject<BREAKPOINT>).next(
+      BREAKPOINT.lg
     );
 
     fixture.detectChanges();
