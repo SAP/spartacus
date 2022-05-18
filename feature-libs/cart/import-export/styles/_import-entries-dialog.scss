@@ -1,5 +1,4 @@
 cx-import-entries-dialog {
-  user-select: text;
   background-color: rgba(0, 0, 0, 0.5);
   .cx-import-entries-dialog {
     @extend .modal-dialog;
@@ -23,7 +22,6 @@ cx-import-entries-dialog {
 
       cx-import-entries-form,
       cx-import-to-new-saved-cart-form {
-        pointer-events: none;
         @extend .modal-body;
 
         background-color: var(--cx-color-inverse);
