@@ -326,9 +326,9 @@ describe('AddToCartComponent', () => {
         ).toEqual('addToCart.addToCart');
       });
 
-      it('should show addToCurrentCart button if isAddToCurrentCart is true', () => {
+      it('should show addToCurrentCart button if isAddToActiveCart is true', () => {
         addToCartComponent.productCode = productCode;
-        addToCartComponent.options = { isAddToCurrentCart: true };
+        addToCartComponent.options = { isaddToActiveCart: true };
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
         expect(

@@ -29,13 +29,22 @@
     type="submit"
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
-    <span *ngIf="!options?.isBuyItAgain && !options?.isaddToActiveCart">
+    <span
+      *ngIf="!options?.isBuyItAgain && !options?.isaddToActiveCart"
+      attr.aria-label="{{ 'addToCart.addToCart' | cxTranslate }}"
+    >
       {{ 'addToCart.addToCart' | cxTranslate }}
     </span>
-    <span *ngIf="options?.isaddToActiveCart">
+    <span
+      *ngIf="options?.isaddToActiveCart"
+      attr.aria-label="{{ 'addToCart.addToActiveCart' | cxTranslate }}"
+    >
       {{ 'addToCart.addToActiveCart' | cxTranslate }}
     </span>
-    <span *ngIf="options?.isBuyItAgain">
+    <span
+      *ngIf="options?.isBuyItAgain"
+      attr.aria-label="{{ 'addToCart.buyItAgain' | cxTranslate }}"
+    >
       {{ 'addToCart.buyItAgain' | cxTranslate }}
     </span>
   </button>
