@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
 import {
   CustomerListsPage,
@@ -7,8 +8,12 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { I18nTestingModule, QueryState, User } from '@spartacus/core';
-import { ModalService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import {
+  BREAKPOINT,
+  BreakpointService,
+  ModalService,
+} from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CustomerListComponent } from './customer-list.component';
 
 const mockCustomer: User = {
@@ -110,11 +115,21 @@ class MockModalService {
   }
 }
 
+class MockBreakpointService {
+  isUp(_breakpoint: BREAKPOINT) {
+    return of(false);
+  }
+  isDown(_breakpoint: BREAKPOINT) {
+    return of(true);
+  }
+}
+
 describe('CustomerListComponent', () => {
   let component: CustomerListComponent;
   let fixture: ComponentFixture<CustomerListComponent>;
   let mockModalService: MockModalService;
   let asmService: AsmService;
+  let breakpointService: BreakpointService;
 
   beforeEach(
     waitForAsync(() => {
@@ -126,6 +141,10 @@ describe('CustomerListComponent', () => {
           {
             provide: ModalService,
             useClass: MockModalService,
+          },
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
           },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
@@ -141,6 +160,14 @@ describe('CustomerListComponent', () => {
   );
 
   beforeEach(() => {
+    breakpointService = TestBed.inject(BreakpointService);
+    spyOn(breakpointService, 'isDown').and.returnValue(
+      new BehaviorSubject(true)
+    );
+    spyOn(breakpointService, 'isUp').and.returnValue(
+      new BehaviorSubject(false)
+    );
+
     fixture = TestBed.createComponent(CustomerListComponent);
     component = fixture.componentInstance;
 
@@ -244,6 +271,26 @@ describe('CustomerListComponent', () => {
   it('should get correct badge Text', () => {
     const badgeText = component.getbadgeText(mockCustomer);
     expect(badgeText).toBe('FL');
+
+    const badgeText2 = component.getbadgeText({
+      displayUid: 'Display Uid',
+      firstName: '',
+      lastName: 'Last',
+      name: 'First Last',
+      uid: 'customer@test.com',
+      customerId: '123456',
+    });
+    expect(badgeText2).toBe('L');
+
+    const badgeText3 = component.getbadgeText({
+      displayUid: 'Display Uid',
+      firstName: 'First',
+      lastName: '',
+      name: 'First Last',
+      uid: 'customer@test.com',
+      customerId: '123456',
+    });
+    expect(badgeText3).toBe('F');
   });
 
   it('should set current page to zero when group changed', () => {
@@ -267,5 +314,35 @@ describe('CustomerListComponent', () => {
       'instoreCustomers'
     );
     expect(userGroupName2).toBe('');
+  });
+
+  it('should add mobile class', () => {
+    (breakpointService.isDown(BREAKPOINT.xs) as BehaviorSubject<boolean>).next(
+      true
+    );
+    (breakpointService.isUp(BREAKPOINT.xs) as BehaviorSubject<boolean>).next(
+      false
+    );
+
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.queryAll(By.css('.header-actions.mobile')).length
+    ).toEqual(1);
+  });
+
+  it('should not add mobile class', () => {
+    (breakpointService.isDown(BREAKPOINT.xs) as BehaviorSubject<boolean>).next(
+      false
+    );
+    (breakpointService.isUp(BREAKPOINT.xs) as BehaviorSubject<boolean>).next(
+      true
+    );
+
+    fixture.detectChanges();
+
+    expect(
+      fixture.debugElement.queryAll(By.css('.header-actions.mobile')).length
+    ).toEqual(0);
   });
 });

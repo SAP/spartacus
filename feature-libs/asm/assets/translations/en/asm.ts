@@ -30,7 +30,8 @@ export const asm = {
     customerList: {
       title: 'Customer List',
       tableHeader: {
-        name: 'Customer Name',
+        customer: 'Customer',
+        name: 'Name',
         emailOrId: 'Email',
         phone: 'Phone',
         cart: 'Cart',

@@ -1,5 +1,6 @@
 $sapTextColor: #1D2D3E;
 $sapLinkColor: #0070F2;
+$sapContent_LabelColor: #6a6d70;
 
 %cx-customer-list {
   min-height: 500px;
@@ -29,12 +30,12 @@ $sapLinkColor: #0070F2;
     display: flex;
     .header-actions {
       display: flex;
-      align-items: center;
       .sort {
         display: flex;
         align-items: center;
         padding: 0 15px 0 0;
         cx-icon {
+          padding: 0 0 0 10px;
           color: #747881;
         }
         ng-select {
@@ -69,7 +70,7 @@ $sapLinkColor: #0070F2;
         div:first-child {
           font-size: 0.875rem;
           color: $sapTextColor;
-          padding: 0 10px 0 0;
+          padding: 0 10px 0 10px;
         }
       }
       .table-header-cell {
@@ -83,12 +84,22 @@ $sapLinkColor: #0070F2;
         }
       }
     }
-  }
-  .cx-dialog-body {
-    padding-top: 0;
+    .header-actions.mobile {
+      flex-direction: column;
+    }
   }
 
-  table {
+  .cx-dialog-sub-header.tablet-mobile {
+    flex-direction: column;
+  }
+
+  .cx-dialog-body {
+    padding-top: 0;
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+  }
+
+  .table {
     thead {
       tr {
         border-top: 1px solid var(--cx-color-light);
@@ -100,11 +111,6 @@ $sapLinkColor: #0070F2;
           color: $sapTextColor!important;
           text-transform: none!important;
           font-weight: 700!important;
-          cx-icon {
-            padding: 0 0 0 20px;
-            color: $sapLinkColor;
-            cursor: pointer;
-          }
         }
       }
     }
@@ -112,11 +118,15 @@ $sapLinkColor: #0070F2;
       td {
         font-size: 0.875rem;
         color: $sapTextColor;
-        .cell-icon {
-          cursor: pointer;
-          color: #e3e4e4;
-          &.enabled {
-            color: $sapLinkColor;
+        .header-text {
+          color: $sapContent_LabelColor;
+          font-weight: 400;
+        }
+        div {
+          display: flex;
+          flex-direction: column;
+          div {
+            padding: 5px 0 0 0;
           }
         }
       }

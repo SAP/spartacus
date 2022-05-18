@@ -6,8 +6,13 @@ import {
   CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { SortModel, User } from '@spartacus/core';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import {
+  BREAKPOINT,
+  BreakpointService,
+  ICON_TYPE,
+  ModalService,
+} from '@spartacus/storefront';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
@@ -18,6 +23,8 @@ export class CustomerListComponent implements OnInit {
   private PAGE_SIZE = 5;
 
   iconTypes = ICON_TYPE;
+
+  BREAKPOINT = BREAKPOINT;
 
   selectedUserGroupId: string | undefined;
 
@@ -37,9 +44,12 @@ export class CustomerListComponent implements OnInit {
 
   sortCode: string | undefined;
 
+  breakpoint = this.getBreakpoint();
+
   constructor(
     protected modalService: ModalService,
-    protected asmService: AsmService
+    protected asmService: AsmService,
+    protected breakpointService: BreakpointService
   ) {}
 
   ngOnInit(): void {
@@ -149,6 +159,34 @@ export class CustomerListComponent implements OnInit {
         this.fetchCustomers();
       }
     }
+  }
+  isDeskTop(): Observable<boolean> {
+    return this.breakpointService.isUp(BREAKPOINT.md);
+  }
+  isTablet(): Observable<boolean> {
+    return this.breakpointService.isDown(BREAKPOINT.sm);
+  }
+  isMobile(): Observable<boolean> {
+    return this.breakpointService.isDown(BREAKPOINT.xs);
+  }
+
+  private getBreakpoint(): Observable<BREAKPOINT> {
+    return combineLatest([
+      this.breakpointService.isUp(BREAKPOINT.md),
+      this.breakpointService.isDown(BREAKPOINT.xs),
+    ]).pipe(
+      map(([desktop, mobile]) => {
+        if (desktop) {
+          return BREAKPOINT.md;
+        } else {
+          if (mobile) {
+            return BREAKPOINT.xs;
+          } else {
+            return BREAKPOINT.sm;
+          }
+        }
+      })
+    );
   }
 
   private closeModal(reason?: any): void {
