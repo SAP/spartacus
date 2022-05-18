@@ -1052,6 +1052,7 @@ export const CONFIGURATOR_API_IS_ATTRIBUTE_GROUP = 'isAttributeGroup';
 export const CONFIGURATOR_API_GET_CONFLICT_MESSAGE_KEY =
   'getConflictMessageKey';
 export const CONFIGURATOR_CONVERT_ATTRIBUTE_TYPE = 'convertAttributeType';
+export const CONFIGURATOR_IS_IN_VIEWPORT = 'isInViewport';
 
 /***** APIs end *****/
 
