@@ -51,7 +51,10 @@ export class ProductEventBuilder {
             name: toggled.facetName,
             valueCode: toggled.facetValueCode,
             valueName: toggled.facetValueName,
-            selected: curr.breadcrumbs.length > prev.breadcrumbs.length,
+            selected:
+              curr.breadcrumbs &&
+              prev.breadcrumbs &&
+              curr.breadcrumbs.length > prev.breadcrumbs.length,
           });
         }
       })

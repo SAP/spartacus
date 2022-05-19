@@ -28,7 +28,7 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
    * - images.GALLERY[0].thumnail.url
    */
   normalize(source: Occ.Image[]): Images {
-    const images = {};
+    const images: Images = {};
     if (source) {
       for (const image of source) {
         const isList = image.hasOwnProperty('galleryIndex');
@@ -48,7 +48,7 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
         }
 
         const targetImage = { ...image };
-        targetImage.url = this.normalizeImageUrl(targetImage.url);
+        targetImage.url = this.normalizeImageUrl(targetImage.url ?? '');
         imageContainer[image.format] = targetImage;
       }
     }
@@ -66,8 +66,8 @@ export class ProductImageNormalizer implements Converter<Occ.Product, Product> {
       return url;
     }
     return (
-      (this.config.backend.media.baseUrl ||
-        this.config.backend.occ.baseUrl ||
+      (this.config.backend?.media?.baseUrl ||
+        this.config.backend?.occ?.baseUrl ||
         '') + url
     );
   }

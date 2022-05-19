@@ -26,14 +26,16 @@ export class ProductReferenceNormalizer
    * - product.references.SIMILAR[0].code
    */
   protected normalize(source: Occ.ProductReference[]): ProductReferences {
-    const references = {};
+    const references: any = {};
 
     if (source) {
       for (const reference of source) {
-        if (!references.hasOwnProperty(reference.referenceType)) {
-          references[reference.referenceType] = [];
+        if (reference.referenceType) {
+          if (!references.hasOwnProperty(reference.referenceType)) {
+            references[reference.referenceType] = [];
+          }
+          references[reference.referenceType].push(reference);
         }
-        references[reference.referenceType].push(reference);
       }
     }
     return references;

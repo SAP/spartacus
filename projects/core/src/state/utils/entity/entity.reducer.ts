@@ -9,9 +9,9 @@ export const initialEntityState: EntityState<any> = { entities: {} };
  *
  * Utilizes entityId meta field to target entity by id in actions
  */
-export function entityReducer<T>(
+export function entityReducer<T, V extends Action = Action>(
   entityType: string,
-  reducer: (state: T, action: Action) => T
+  reducer: (state: T, action: Action | V) => T
 ) {
   return (
     state: EntityState<T> = initialEntityState,

@@ -86,7 +86,9 @@ export class OccProductSearchPageNormalizer
       target.facets = target.facets.map((facetSource: Facet) => {
         const { topValues, ...facetTarget } = facetSource;
         facetTarget.topValueCount =
-          topValues?.length > 0 ? topValues.length : this.DEFAULT_TOP_VALUES;
+          topValues && topValues.length > 0
+            ? topValues.length
+            : this.DEFAULT_TOP_VALUES;
         return facetTarget;
       });
     }
