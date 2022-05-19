@@ -43,7 +43,7 @@ export const componentsLoaderStateSelectorFactory = (
 export const componentsContextExistsSelectorFactory = (
   uid: string,
   context: string
-): MemoizedSelector<StateWithCms, boolean | undefined> => {
+): MemoizedSelector<StateWithCms, boolean> => {
   return createSelector(
     componentsLoaderStateSelectorFactory(uid, context),
     (loaderState) => StateUtils.loaderValueSelector(loaderState)

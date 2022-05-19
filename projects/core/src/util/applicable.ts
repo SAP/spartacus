@@ -68,7 +68,7 @@ export function resolveApplicable<T extends Applicable>(
   }
 
   let lastPriority = -Infinity;
-  return matchedApplicables.reduce((acc, curr) => {
+  return matchedApplicables.reduce((acc: T | undefined, curr: T) => {
     const currPriority = curr.getPriority
       ? curr.getPriority(...priorityParams)
       : Priority.NORMAL;
