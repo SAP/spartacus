@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { Product } from '@spartacus/core';
 import {
   ProductListItemContext,
@@ -15,6 +21,7 @@ import {
       useExisting: ProductListItemContextSource,
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselItemComponent implements OnChanges {
   @Input() item: Product;
