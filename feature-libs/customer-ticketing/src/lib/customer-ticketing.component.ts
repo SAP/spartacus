@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'lib-customer-ticketing',
+  selector: 'cx-customer-ticketing',
   template: ` <p>customer-ticketing works!</p> `,
   styles: [],
 })
