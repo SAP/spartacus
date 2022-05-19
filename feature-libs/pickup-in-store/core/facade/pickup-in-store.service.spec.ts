@@ -18,6 +18,12 @@ describe('PickupInStoreService', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(service).toBeDefined();
+  });
+
+  it('getStore', () => {
+    spyOn(service, 'getStore').and.callThrough();
+    service.getStore();
+    expect(service.getStore).toHaveBeenCalled();
   });
 });

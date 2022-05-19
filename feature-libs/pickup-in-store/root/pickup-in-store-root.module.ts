@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfigFactory } from '@spartacus/core';
+import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { PickupDeliveryOptionsComponent } from './components/pickup-delivery-options/pickup-delivery-options.component';
 import { PickupInStoreComponentsModule } from './components/pickup-in-store-components.module';
@@ -9,13 +9,12 @@ import {
 } from './feature-name';
 import { PickupInStoreOutlets } from './models/pickup-in-store.model';
 
-export function defaultPickupInStoreComponentsConfig() {
-  const config = {
+export function defaultPickupInStoreComponentsConfig(): CmsConfig {
+  return {
     featureModules: {
       [PICKUP_IN_STORE_CORE_FEATURE]: PICKUP_IN_STORE_FEATURE,
     },
   };
-  return config;
 }
 
 @NgModule({
