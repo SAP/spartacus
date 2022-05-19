@@ -26,7 +26,7 @@
       "uniqueItems": true,
       "default": ["CDC"]
     },
-    "jsSDKUrl": {
+    "javascriptUrl": {
       "type": "string",
       "description": "Location of the CDC Java Script SDK in Customer Data Cloud",
       "x-prompt": "[CDC] What is the CDC JS SDK URL?"
@@ -34,13 +34,13 @@
     "baseSite": {
       "type": "string",
       "description": "Name of the Spartcus base site",
-      "x-prompt": "[CDC] What is the base site? (optional)",
+      "x-prompt": "[CDC] What is the base site?",
       "default": "electronics-spa"
     },
     "sessionExpiration": {
       "type": "number",
       "description": "Session Expiration time in seconds",
-      "x-prompt": "[CDC] What is the CDC Session expiration time (in seconds)? (optional)",
+      "x-prompt": "[CDC] What is the CDC Session expiration time (in seconds)?",
       "default": 3600
     }
   },

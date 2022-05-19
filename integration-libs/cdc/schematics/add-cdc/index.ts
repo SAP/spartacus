@@ -29,7 +29,7 @@ import {
 } from '../constants';
 
 export function addCdcFeature(options: SpartacusCdcOptions): Rule {
-  return (tree: Tree, _context: SchematicContext): Rule => {
+  return (tree: Tree, context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -37,20 +37,20 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_CDC_FEATURE, options.features)
-        ? addCdc(options, _context)
+        ? addCdc(options, context)
         : noop(),
     ]);
   };
 }
 
 function addCdc(options: SpartacusCdcOptions, context: SchematicContext): Rule {
-  if (!options.jsSDKUrl) {
+  if (!options.javascriptUrl) {
     context.logger.warn(
-      `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the jsSDKUrl.`
+      `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the javascriptUrl.`
     );
   }
 
-  let jsSDKUrl = options.jsSDKUrl? options.jsSDKUrl: "<url-to-cdc-script>";
+  const JS_SDK_URL_PLACEHOLDER = '<url-to-cdc-script>';
 
   return addLibraryFeature(options, {
     folderName: CDC_FOLDER_NAME,
@@ -79,7 +79,9 @@ function addCdc(options: SpartacusCdcOptions, context: SchematicContext): Rule {
           cdc: [
             {
               baseSite: '${options.baseSite}',
-              javascriptUrl: '${jsSDKUrl}',
+              javascriptUrl: '${
+                options.javascriptUrl ?? JS_SDK_URL_PLACEHOLDER
+              }',
               sessionExpiration: ${options.sessionExpiration}
             },
           ],

@@ -132,29 +132,23 @@ describe('Spartacus CDC schematics: ng-add', () => {
         });
 
         appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...cdcFeatureOptions},
-            appTree
-          )
+          .runSchematicAsync('ng-add', { ...cdcFeatureOptions }, appTree)
           .toPromise();
       });
 
       it('show the warning', () => {
         expect(firstMessage).toEqual(
-          `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the jsSDKUrl.`
+          `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the javascriptUrl.`
         );
       });
-
     });
 
     describe('validation of jsSDKUrl', () => {
       beforeEach(async () => {
-
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...cdcFeatureOptions, jsSDKUrl: '<dc>.gigya.com/<api-key>' },
+            { ...cdcFeatureOptions, javascriptUrl: '<dc>.gigya.com/<api-key>' },
             appTree
           )
           .toPromise();
@@ -162,11 +156,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
 
       it('should set the given javascriptUrl', () => {
         const module = appTree.readContent(featureModulePath);
-        expect(module).toContain<string>(
-          `<dc>.gigya.com/<api-key>`
-        );
+        expect(module).toContain<string>(`<dc>.gigya.com/<api-key>`);
       });
-
     });
 
     describe('general setup', () => {
@@ -175,7 +166,6 @@ describe('Spartacus CDC schematics: ng-add', () => {
           .runSchematicAsync('ng-add', cdcFeatureOptions, appTree)
           .toPromise();
       });
-
 
       it('should install necessary Spartacus libraries', () => {
         const packageJson = JSON.parse(appTree.readContent('package.json'));
