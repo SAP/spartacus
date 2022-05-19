@@ -164,6 +164,11 @@ export class UserRegistrationFormService {
           firstName: form.get('firstName')?.value,
           lastName: form.get('lastName')?.value,
           email: form.get('email')?.value,
+          /*
+           * Removing all extra spaces from a string
+           * in case potential user does not provide
+           * all address details.
+           */
           message: message.replace(/\s+/g, ' '),
         })
       ),
