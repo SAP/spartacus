@@ -13,10 +13,13 @@ import {
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Title, UserRegisterFacade } from '@spartacus/user/profile/root';
+import {
+  OrganizationUserRegistration,
+  UserRegistrationFacade,
+} from '@spartacus/organization/user-registration/root';
 import { Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { OrganizationUserRegistration } from '../../core/model';
-import { UserRegistrationFacade } from '../../root/facade/user-registration.facade';
+
 @Injectable({
   providedIn: 'root',
 })

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { OrganizationUserRegistration } from '../../core/model';
+import { OrganizationUserRegistration } from '../model/user-registration.model';
 import { ORGANIZATION_USER_REGISTRATION_FEATURE } from '../feature-name';
 
 @Injectable({

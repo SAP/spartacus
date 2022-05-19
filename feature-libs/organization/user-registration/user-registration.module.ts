@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
-import { UserRegistrationComponentsModule } from './components/user-registration-components.module';
-import { UserRegistrationOccModule } from './occ/user-registration-occ.module';
-import { UserRegistrationCoreModule } from './core/user-registration-core.module';
+import { UserRegistrationComponentsModule } from '@spartacus/organization/user-registration/components';
+import { UserRegistrationCoreModule } from '@spartacus/organization/user-registration/core';
+import { UserRegistrationOccModule } from '@spartacus/organization/user-registration/occ';
 
 @NgModule({
   imports: [
     UserRegistrationCoreModule.forRoot(),
-    UserRegistrationOccModule,
     UserRegistrationComponentsModule,
+    UserRegistrationOccModule,
   ],
 })
 export class OrganizationUserRegistrationModule {}
