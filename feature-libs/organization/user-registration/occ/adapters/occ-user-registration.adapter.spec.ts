@@ -57,7 +57,7 @@ const userData: OrganizationUserRegistration = {
   message: 'Please register my account',
 };
 
-fdescribe('OccUserRegistrationAdapter', () => {
+describe('OccUserRegistrationAdapter', () => {
   let occUserRegistrationAdapter: OccUserRegistrationAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
