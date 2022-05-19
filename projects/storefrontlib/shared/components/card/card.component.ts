@@ -98,6 +98,12 @@ export class CardComponent implements OnInit {
     return (action as CardAction).event !== undefined;
   }
 
+  isCardLinkAction(
+    action: CardAction | CardLinkAction
+  ): action is CardLinkAction {
+    return (action as CardLinkAction).link !== undefined;
+  }
+
   constructor() {}
 
   ngOnInit() {}
