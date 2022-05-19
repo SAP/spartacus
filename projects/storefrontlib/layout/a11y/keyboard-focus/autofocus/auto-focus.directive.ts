@@ -43,9 +43,9 @@ export class AutoFocusDirective
   protected config: AutoFocusConfig;
 
   /**
-   * Should only autofocus on the first handleFocus call. 
+   * Should only autofocus on the first handleFocus call.
    * Should not autofocus on proceeding keyboard and mouse events
-  */
+   */
   protected isFirstAutoFocusCall: boolean = true;
 
   constructor(
