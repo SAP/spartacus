@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, provideConfig } from '@spartacus/core';
 import {
   FormErrorsModule,
+  IconModule,
+  ModalModule,
   PasswordVisibilityToggleModule,
+  PopoverModule,
 } from '@spartacus/storefront';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
@@ -22,6 +26,11 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     I18nModule,
     FormErrorsModule,
     PasswordVisibilityToggleModule,
+    IconModule,
+    PopoverModule,
+    ModalModule,
+    NgSelectModule,
+    FormsModule,
   ],
   declarations: [
     AsmMainUiComponent,

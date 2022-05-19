@@ -1,13 +1,14 @@
 import * as addressBook from '../../../helpers/address-book';
 import * as asm from '../../../helpers/asm';
 import { login } from '../../../helpers/auth-forms';
+import * as cart from '../../../helpers/cart';
 import * as checkout from '../../../helpers/checkout-flow';
+import { fillShippingAddress } from '../../../helpers/checkout-forms';
+import * as consent from '../../../helpers/consent-management';
 import { getErrorAlert } from '../../../helpers/global-message';
 import * as profile from '../../../helpers/update-profile';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import * as consent from '../../../helpers/consent-management';
-import { fillShippingAddress } from '../../../helpers/checkout-forms';
 
 let customer: any;
 
@@ -58,7 +59,7 @@ context('Assisted Service Module', () => {
       consent.giveConsent();
 
       cy.log('--> Stop customer emulation');
-      cy.get('cx-customer-emulation button').click();
+      cy.get('cx-customer-emulation [data-cy=logout]').click();
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('exist');
 
@@ -71,7 +72,65 @@ context('Assisted Service Module', () => {
       cy.log(
         '--> Stop customer emulation using the end session button in the ASM UI'
       );
-      cy.get('cx-customer-emulation button').click();
+      cy.get('cx-customer-emulation [data-cy=logout]').click();
+      cy.get('cx-customer-emulation').should('not.exist');
+      cy.get('cx-customer-selection').should('exist');
+
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
+
+      cy.get('button[title="Close ASM"]').click();
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('not.be.visible');
+    });
+
+    it('agent should be able to bind anonymous cart to customer', () => {
+      let assignedCartId: string;
+      checkout.visitHomePage();
+      cy.get('cx-asm-main-ui').should('not.exist');
+
+      cy.log('--> Add to cart as an anonymous user');
+      cart.addProductAsAnonymous();
+
+      cy.log('--> Retrieve cart id');
+      cart.goToCart();
+      cy.get('cx-cart-details')
+        .get('h2.cx-total')
+        .then(($cartId) => {
+          const text = $cartId.text();
+          assignedCartId = text.replace('Cart #', '').trim();
+
+          cy.log('--> Agent logging in');
+          checkout.visitHomePage('asm=true');
+          cy.get('cx-asm-main-ui').should('exist');
+          cy.get('cx-asm-main-ui').should('be.visible');
+          asm.agentLogin();
+
+          cy.log('--> Starting customer emulation');
+          asm.startCustomerEmulation(customer);
+
+          cy.log('--> Enter users cart number');
+          cy.get(
+            'cx-customer-emulation input[formcontrolname="cartNumber"]'
+          ).type(assignedCartId);
+        });
+
+      cy.log('--> Agent binding cart');
+      asm.bindCart();
+
+      cy.log('--> Retrieve cart id');
+      cart.goToCart();
+
+      cy.get('cx-cart-details')
+        .get('h2.cx-total')
+        .then(($cartId) => {
+          expect($cartId.text()).to.contain(`Cart #${assignedCartId}`);
+        });
+
+      cy.log(
+        '--> Stop customer emulation using the end session button in the ASM UI'
+      );
+      cy.get('cx-customer-emulation [data-cy=logout]').click();
       cy.get('cx-customer-emulation').should('not.exist');
       cy.get('cx-customer-selection').should('exist');
 
@@ -218,7 +277,7 @@ function assertCustomerIsSignedIn() {
 }
 
 export function deleteFirstAddress() {
-  
+
   //interceptDelete('deleteAddresses', '/users/?lang=en&curr=USD');
   //interceptGet('fetchAddresses', '/users/?lang=en&curr=USD');
 

@@ -5,6 +5,7 @@ export const defaultOccAsmConfig: OccConfig = {
     occ: {
       endpoints: {
         asmCustomerSearch: '/assistedservicewebservices/customers/search',
+        asmBindCart: '/assistedservicewebservices/bind-cart',
       },
     },
   },

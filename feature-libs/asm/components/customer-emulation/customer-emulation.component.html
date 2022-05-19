@@ -1,11 +1,72 @@
 <ng-container *ngIf="isCustomerEmulationSessionInProgress$ | async">
-  <input
-    formcontrolname="customer"
-    type="text"
-    disabled="true"
-    placeholder="{{ customer?.name }}, {{ customer?.uid }}"
-  />
-  <button (click)="logoutCustomer()">
+  <div class="customerInfo">
+    <label class="name">{{ customer?.name }}</label>
+    <label class="uid">{{ customer?.uid }}</label>
+  </div>
+  <label for="cartNumber"
+    >{{ 'asm.assignCart.cartNumber' | cxTranslate }}
+    <div
+      role="search"
+      aria-label="Assign a cart id to customer"
+      class="assignCart"
+      [class.active]="cartIdExists"
+      (click)="cartIdElement.focus()"
+    >
+      <input
+        autocomplete="off"
+        placeholder=""
+        #cartIdElement
+        formcontrolname="cartNumber"
+        [formControl]="cartId"
+        (keydown.enter)="assignCartToCustomer()"
+        aria-label="Enter cart id"
+      />
+      <button
+        class="reset"
+        aria-label="Reset"
+        [class.visible]="cartIdExists"
+        (click)="clearText()"
+      >
+        <cx-icon
+          class="cx-icon fas fa-times-circle"
+          ng-reflect-type="RESET"
+        ></cx-icon>
+      </button>
+      <div role="presentation" class="search-icon">
+        <cx-icon
+          class="cx-icon fas fa-search"
+          ng-reflect-type="SEARCH"
+        ></cx-icon>
+      </div>
+      <label class="message success" [class.show]="showAssignCartSuccess">
+        <cx-icon
+          class="cx-icon fas fa-check-circle"
+          ng-reflect-type="SUCCESS"
+        ></cx-icon>
+        {{ 'asm.assignCart.success' | cxTranslate }}</label
+      >
+      <label class="message error" [class.show]="showAssignCartError">
+        <cx-icon
+          class="cx-icon fas fa-exclamation-circle"
+          ng-reflect-type="ERROR"
+        ></cx-icon>
+        {{ 'asm.assignCart.error' | cxTranslate }}</label
+      >
+    </div>
+    <button
+      class="assignCartToCustomer"
+      [disabled]="!cartIdExists"
+      (click)="assignCartToCustomer()"
+      [class.active]="cartIdExists"
+    >
+      {{ 'asm.assignCart.assignCartToCustomer' | cxTranslate }}
+    </button>
+  </label>
+  <button
+    formcontrolname="logoutCustomer"
+    (click)="logoutCustomer()"
+    data-cy="logout"
+  >
     {{ 'asm.endSession' | cxTranslate }}
   </button>
 </ng-container>
