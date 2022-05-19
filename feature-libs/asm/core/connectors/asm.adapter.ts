@@ -1,3 +1,4 @@
+import { BindCartOptions } from 'feature-libs/asm/root';
 import { Observable } from 'rxjs';
 import {
   CustomerSearchOptions,
@@ -12,5 +13,5 @@ export abstract class AsmAdapter {
     options: CustomerSearchOptions
   ): Observable<CustomerSearchPage>;
 
-  abstract bindCart(cartId: string, customerId: string): Observable<unknown>;
+  abstract bindCart(options: BindCartOptions): Observable<unknown>;
 }

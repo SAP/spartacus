@@ -14,6 +14,7 @@ import {
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
+import { BindCartOptions } from 'feature-libs/asm/root';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -66,7 +67,7 @@ export class OccAsmAdapter implements AsmAdapter {
       .pipe(this.converterService.pipeable(CUSTOMER_SEARCH_PAGE_NORMALIZER));
   }
 
-  bindCart(cartId: string, customerId: string): Observable<void> {
+  bindCart({ cartId, customerId }: BindCartOptions): Observable<void> {
     const headers = InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,

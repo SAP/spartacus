@@ -70,7 +70,7 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     const cartId = this.cartId.value;
 
     if (customerId) {
-      this.occAsmAdapter.bindCart(cartId, customerId).subscribe(
+      this.occAsmAdapter.bindCart({ cartId, customerId }).subscribe(
         () => {
           this.showAssignCartSuccess = true;
 
