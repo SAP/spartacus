@@ -157,6 +157,7 @@ export class UserRegistrationFormService {
       take(1),
       switchMap((message: string) =>
         this.organizationUserRegistrationFacade.registerUser({
+          titleCode: form.get('titleCode')?.value,
           firstName: form.get('firstName')?.value,
           lastName: form.get('lastName')?.value,
           email: form.get('email')?.value,
