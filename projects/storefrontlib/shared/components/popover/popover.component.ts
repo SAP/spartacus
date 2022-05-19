@@ -236,6 +236,10 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     return content instanceof TemplateRef;
   }
 
+  isString(content: string | TemplateRef<any>): content is string {
+    return !(content instanceof TemplateRef);
+  }
+
   ngAfterViewChecked(): void {
     this.positionPopover();
   }

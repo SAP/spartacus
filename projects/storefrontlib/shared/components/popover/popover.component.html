@@ -15,5 +15,5 @@
   <ng-container *ngIf="isTemplate(content)">
     <ng-container *ngTemplateOutlet="content"></ng-container>
   </ng-container>
-  <span *ngIf="!isTemplate">{{ content }}</span>
+  <span *ngIf="isString(content)">{{ content }}</span>
 </div>
