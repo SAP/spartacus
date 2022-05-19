@@ -164,7 +164,7 @@ export class UserRegistrationFormService {
           firstName: form.get('firstName')?.value,
           lastName: form.get('lastName')?.value,
           email: form.get('email')?.value,
-          message: message.trim(),
+          message: message.replace(/\s+/g, ' '),
         })
       ),
       tap(() => {

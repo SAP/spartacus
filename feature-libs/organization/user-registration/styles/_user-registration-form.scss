@@ -3,9 +3,15 @@
 
 .cx-organization-user-register-button {
   a {
-    @extend .btn, .btn-block, .btn-secondary;
+    @extend .btn-block, .btn-secondary, .btn;
+  }
+}
+.santorini .cx-organization-user-register-button {
+  a {
+    @extend .btn-block, .btn-secondary, .btn;
     font-size: var(--cx-font-size, 1rem);
     font-weight: var(--cx-font-weight-semi);
+    line-height: var(--cx-line-height, 1.2222222222);
   }
 }
 
