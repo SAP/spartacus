@@ -38,7 +38,7 @@ export function setupSpartacusModule(options: SpartacusOptions): Rule {
     }
 
     if (options.debug) {
-      context.logger.info(`✅ Spartacus module setup complete`);
+      context.logger.info(`✅ Spartacus module setup complete.`);
     }
     return tree;
   };

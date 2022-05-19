@@ -150,10 +150,8 @@ export function createImports(
 }
 
 /**
- * Searches through the given module's imports.
- * It first checks the import paths, and if
- * it finds the match, it continues to check if
- * the named imports is contained in the given config.
+ * Searches through the given module's imports
+ * for the given import path and import name.
  */
 export function importExists(
   sourceFile: SourceFile,

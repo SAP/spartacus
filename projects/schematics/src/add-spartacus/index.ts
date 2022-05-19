@@ -112,7 +112,7 @@ function installStyles(options: SpartacusOptions): Rule {
     tree.commitUpdate(recorder);
 
     if (options.debug) {
-      context.logger.info(`✅ Style installation complete`);
+      context.logger.info(`✅ Style installation complete.`);
     }
   };
 }
@@ -153,7 +153,7 @@ function updateMainComponent(
     host.commitUpdate(recorder);
 
     if (options.debug) {
-      context.logger.info(`✅ Main component update complete`);
+      context.logger.info(`✅ Main component update complete.`);
     }
     return host;
   };
@@ -239,7 +239,7 @@ function increaseBudgets(options: SpartacusOptions): Rule {
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
 
     if (options.debug) {
-      context.logger.info(`✅ Budget increase complete`);
+      context.logger.info(`✅ Budget increase complete.`);
     }
     return tree;
   };
@@ -299,7 +299,7 @@ function createStylePreprocessorOptions(options: SpartacusOptions): Rule {
 
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
     if (options.debug) {
-      context.logger.info(`✅ Style preprocessor update complete`);
+      context.logger.info(`✅ Style preprocessor update complete.`);
     }
     return tree;
   };
@@ -389,7 +389,7 @@ function updateAppModule(options: SpartacusOptions): Rule {
     }
 
     if (options.debug) {
-      context.logger.info(`✅ AppModule update complete`);
+      context.logger.info(`✅ AppModule update complete.`);
     }
     return tree;
   };
