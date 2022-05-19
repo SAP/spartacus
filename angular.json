@@ -1003,7 +1003,7 @@
           },
           "configurations": {
             "production": {
-              "tsConfig": "feature-libs/user/tsconfig.lib.prod.json"
+              "tsConfig": "feature-libs/customer-ticketing/tsconfig.lib.prod.json"
             }
           }
         },
@@ -1016,14 +1016,11 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "feature-libs/customer-ticketing/tsconfig.lib.json",
-              "feature-libs/customer-ticketing/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "feature-libs/customer-ticketing/**/*.ts",
+              "feature-libs/customer-ticketing/**/*.html"
             ]
           }
         }
