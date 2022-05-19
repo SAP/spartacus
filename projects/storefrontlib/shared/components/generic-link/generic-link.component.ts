@@ -11,7 +11,7 @@ interface RouteParts {
   queryParams?: Params;
 
   /** Hash fragment */
-  fragment?: string;
+  fragment?: string | null;
 }
 
 /**
@@ -65,22 +65,22 @@ export class GenericLinkComponent implements OnChanges {
   /**
    * The part with the path of the local url.
    */
-  get routerUrl(): any[] {
+  get routerUrl(): string[] | undefined {
     return this.routeParts.path;
   }
 
   /**
    * The part with the query params of the local url.
    */
-  get queryParams(): Params {
+  get queryParams(): Params | undefined {
     return this.routeParts.queryParams;
   }
 
   /**
    * The part with the hash fragment of the local url.
    */
-  get fragment(): string {
-    return this.routeParts.fragment;
+  get fragment(): string | undefined {
+    return this.routeParts.fragment ?? undefined;
   }
 
   /**
@@ -103,10 +103,10 @@ export class GenericLinkComponent implements OnChanges {
    */
   protected splitUrl(url: string = ''): RouteParts {
     const { queryParams, fragment } = this.router.parseUrl(url);
-    const [, path] = url.match(this.URL_SPLIT);
+    const [, path] = url.match(this.URL_SPLIT) ?? [, ''];
 
     // wrap path in an array, to have the Angular-like path format
-    return { path: [path], queryParams, fragment };
+    return { path: [path ?? ''], queryParams, fragment };
   }
 
   /**

@@ -19,7 +19,7 @@ export class ConsentManagementFormComponent implements OnInit {
   requiredConsents: string[] = [];
 
   @Input()
-  consent: AnonymousConsent;
+  consent: AnonymousConsent | null;
 
   @Output()
   consentChanged = new EventEmitter<{
