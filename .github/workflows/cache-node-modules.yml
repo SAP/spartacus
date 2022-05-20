@@ -31,5 +31,4 @@ jobs:
           path: | 
             node_modules
             projects/storefrontapp-e2e-cypress/node_modules
-            ~/.cache/Cypress
           key: nodemodules-${{ github.sha }}
