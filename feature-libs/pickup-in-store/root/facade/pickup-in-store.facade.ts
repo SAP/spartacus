@@ -1,3 +1,8 @@
+/* -----
+@Todo - Remove this after adding adding functionalities which will improve code coverage for functions
+------*/
+/*istanbul ignore file*/
+
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
