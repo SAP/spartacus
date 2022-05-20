@@ -3,6 +3,7 @@ on:
     branches:
       - develop
       - epic/**
+      - chore/**
       - release/**
       - integration-libs/**
   pull_request:
