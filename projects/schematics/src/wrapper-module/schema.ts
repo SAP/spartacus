@@ -19,4 +19,14 @@ export interface Schema extends Partial<ExecutionOptions> {
    * to add to the wrapper module.
    */
   featureModuleName: string;
+  /**
+   * Internal options.
+   * Should not be set by the user.
+   */
+  internal?: {
+    /**
+     * Path of the wrapper module.
+     */
+    wrapperModulePath?: string;
+  };
 }

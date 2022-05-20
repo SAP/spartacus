@@ -689,7 +689,10 @@ function checkDependentFeatures<OPTIONS extends LibraryOptions>(
   for (const dependentFeature of dependentFeatures) {
     const schematicsConfig =
       getSchematicsConfigByFeatureOrThrow(dependentFeature);
-    const featureModule = findFeatureModule(schematicsConfig, appSourceFiles);
+    const featureModule = findFeatureModule(
+      schematicsConfig.featureModule,
+      appSourceFiles
+    );
     if (!!featureModule) {
       continue;
     }
@@ -747,11 +750,11 @@ function checkDependentFeatures<OPTIONS extends LibraryOptions>(
  * and looks for either the static or
  * dynamic imports.
  */
-function findFeatureModule(
-  schematicsConfig: SchematicConfig,
+export function findFeatureModule(
+  moduleConfig: Module | Module[],
   appSourceFiles: SourceFile[]
 ): SourceFile | undefined {
-  const moduleConfigs = ([] as Module[]).concat(schematicsConfig.featureModule);
+  const moduleConfigs = ([] as Module[]).concat(moduleConfig);
   for (const sourceFile of appSourceFiles) {
     for (const moduleConfig of moduleConfigs) {
       if (isStaticallyImported(sourceFile, moduleConfig)) {
@@ -779,7 +782,9 @@ function isStaticallyImported(
     getModulePropertyInitializer(sourceFile, 'imports', false)?.getElements() ??
     [];
   for (const element of elements) {
-    if (element.getText().includes(moduleConfig.name)) {
+    const moduleName = element.getText().split('.').pop() ?? '';
+
+    if (moduleName === moduleConfig.name) {
       return true;
     }
   }

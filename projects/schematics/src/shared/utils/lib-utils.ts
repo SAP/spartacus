@@ -15,7 +15,6 @@ import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { ArrowFunction } from 'ts-morph';
 import {
   CMS_CONFIG,
   I18N_CONFIG,
@@ -33,18 +32,14 @@ import { getB2bConfiguration } from './config-utils';
 import {
   AdditionalFeatureConfiguration,
   AdditionalProviders,
-  getDynamicallyImportedLocalSourceFile,
+  findFeatureModule,
   getSpartacusFeaturesModule,
 } from './feature-utils';
 import {
   crossFeatureInstallationOrder,
   crossLibraryInstallationOrder,
 } from './graph-utils';
-import {
-  collectDynamicImports,
-  createImports,
-  importExists,
-} from './import-utils';
+import { createImports } from './import-utils';
 import {
   debugLogRule,
   formatFeatureComplete,
@@ -362,12 +357,12 @@ function addFeatureModule<T extends LibraryOptions>(
           continue;
         }
 
-        const dynamicImports = collectDynamicImports(sourceFile);
         const configFeatures = ([] as Module[]).concat(config.featureModule);
         for (let i = 0; i < configFeatures.length; i++) {
           const featureModule = configFeatures[i];
 
-          if (isInWrapperModule(featureModule, dynamicImports)) {
+          // if it's already in a wrapper module
+          if (findFeatureModule(featureModule, appSourceFiles)) {
             break;
           }
 
@@ -414,30 +409,6 @@ function addFeatureModule<T extends LibraryOptions>(
     }
     return tree;
   };
-}
-
-/**
- * Checks if the given feature module is
- * already imported in a wrapper module.
- */
-function isInWrapperModule(
-  featureModule: Module,
-  dynamicImports: ArrowFunction[]
-): boolean {
-  for (const dynamicImport of dynamicImports) {
-    const wrapperModule = getDynamicallyImportedLocalSourceFile(dynamicImport);
-    if (!wrapperModule) {
-      continue;
-    }
-
-    if (
-      importExists(wrapperModule, featureModule.importPath, featureModule.name)
-    ) {
-      return true;
-    }
-  }
-
-  return false;
 }
 
 export function addFeatureTranslations<T extends LibraryOptions>(

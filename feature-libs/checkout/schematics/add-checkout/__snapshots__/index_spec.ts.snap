@@ -12,12 +12,10 @@ import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
-  imports: [
-    CheckoutRootModule,
+  imports: [CheckoutRootModule,
     CheckoutModule,
     CheckoutB2BRootModule,
-    CheckoutB2BModule
-  ],
+    CheckoutB2BModule],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
       resources: checkoutTranslations,
@@ -718,14 +716,12 @@ import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
-  imports: [
-    CheckoutRootModule,
+  imports: [CheckoutRootModule,
     CheckoutModule,
     CheckoutB2BRootModule,
     CheckoutB2BModule,
     CheckoutScheduledReplenishmentRootModule,
-    CheckoutScheduledReplenishmentModule
-  ],
+    CheckoutScheduledReplenishmentModule],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
       resources: checkoutTranslations,

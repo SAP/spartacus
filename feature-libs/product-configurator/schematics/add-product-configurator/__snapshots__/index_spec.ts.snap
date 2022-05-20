@@ -12,8 +12,7 @@ import { TextfieldConfiguratorRootModule } from \\"@spartacus/product-configurat
 
 @NgModule({
   declarations: [],
-  imports: [
-    RulebasedConfiguratorRootModule,
+  imports: [RulebasedConfiguratorRootModule,
     RulebasedConfiguratorModule,
     CpqConfiguratorRootModule,
     RulebasedCpqConfiguratorModule,
@@ -428,12 +427,10 @@ import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \\"@s
 
 @NgModule({
   declarations: [],
-  imports: [
-    RulebasedConfiguratorRootModule,
+  imports: [RulebasedConfiguratorRootModule,
     RulebasedConfiguratorModule,
     CpqConfiguratorRootModule,
-    RulebasedCpqConfiguratorModule
-  ],
+    RulebasedCpqConfiguratorModule],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
       resources: configuratorTranslations,

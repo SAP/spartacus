@@ -6,6 +6,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { SyntaxKind } from 'ts-morph';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { CART_BASE_MODULE } from '../shared/lib-configs/cart-schematics-config';
 import { CHECKOUT_BASE_MODULE } from '../shared/lib-configs/checkout-schematics-config';
@@ -16,10 +17,13 @@ import {
   CHECKOUT_BASE_FEATURE_NAME,
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
   DIGITAL_PAYMENTS_FEATURE_NAME,
+  SPARTACUS_CHECKOUT_BASE,
   SPARTACUS_SCHEMATICS,
 } from '../shared/libs-constants';
+import { findDynamicImport } from '../shared/utils/import-utils';
 import { LibraryOptions } from '../shared/utils/lib-utils';
-import { createProgram } from '../shared/utils/program';
+import { addModuleImport, Import } from '../shared/utils/new-module-utils';
+import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
   cartBaseFeatureModulePath,
@@ -32,6 +36,7 @@ import {
   userWrapperModulePath,
 } from '../shared/utils/test-utils';
 import { Schema as SpartacusWrapperOptions } from '../wrapper-module/schema';
+import { cleanupConfig } from './index';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
@@ -320,6 +325,76 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
       expect(checkoutWrapperModule.print()).toMatchSnapshot();
       expect(dpFeaturesModule.print()).toMatchSnapshot();
+    });
+  });
+
+  describe('wrapper module already exists', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...defaultOptions,
+            name: 'schematics-test',
+            features: [CHECKOUT_BASE_FEATURE_NAME],
+          },
+          appTree
+        )
+        .toPromise();
+
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+
+      const spartacusFeaturesModule = program.getSourceFileOrThrow(
+        spartacusFeaturesModulePath
+      );
+      const checkoutImport: Import = {
+        moduleSpecifier: SPARTACUS_CHECKOUT_BASE,
+        namedImports: [CHECKOUT_BASE_MODULE],
+      };
+      // import CheckoutModule statically, making the spartacus-features module a wrapper module
+      addModuleImport(spartacusFeaturesModule, {
+        import: checkoutImport,
+        content: CHECKOUT_BASE_MODULE,
+      });
+      saveAndFormat(spartacusFeaturesModule);
+
+      const checkoutFeatureModule = program.getSourceFileOrThrow(
+        checkoutFeatureModulePath
+      );
+      const spartacusProvider = findDynamicImport(
+        checkoutFeatureModule,
+        checkoutImport
+      )?.getFirstAncestorByKindOrThrow(SyntaxKind.CallExpression);
+      if (!spartacusProvider) {
+        throw new Error('Could not find the spartacus provider');
+      }
+      // remove the dynamic import
+      cleanupConfig(spartacusProvider);
+      saveAndFormat(checkoutFeatureModule);
+
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...defaultOptions,
+            name: 'schematics-test',
+            features: [DIGITAL_PAYMENTS_FEATURE_NAME],
+          },
+          appTree
+        )
+        .toPromise();
+    });
+
+    it('should append the feature module after it, and not add a dynamic import to the feature module', () => {
+      const { program } = createProgram(appTree, appTree.root.path, buildPath);
+      const spartacusFeaturesModule = program.getSourceFileOrThrow(
+        spartacusFeaturesModulePath
+      );
+      const checkoutFeatureModule = program.getSourceFileOrThrow(
+        checkoutFeatureModulePath
+      );
+      expect(spartacusFeaturesModule.print()).toMatchSnapshot();
+      expect(checkoutFeatureModule.print()).toMatchSnapshot();
     });
   });
 });

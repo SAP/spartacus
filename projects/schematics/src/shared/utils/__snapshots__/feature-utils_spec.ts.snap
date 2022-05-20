@@ -79,28 +79,20 @@ exports[`Feature utils analyzeApplication dependent features check when the depe
 "import { NgModule } from '@angular/core';
 import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
 @NgModule({
     declarations: [],
-    imports: [
-        CheckoutRootModule,
-        CheckoutModule
-    ],
+    imports: [CheckoutRootModule,
+        CheckoutModule,
+        DigitalPaymentsModule],
     providers: [provideConfig(<I18nConfig>{
             i18n: {
                 resources: checkoutTranslations,
                 chunks: checkoutTranslationChunksConfig,
             },
-        }),
-        provideConfig(<CmsConfig>{
-            featureModules: {
-                [CHECKOUT_FEATURE]: {
-                    module: () => import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
-                },
-            }
-        })
-    ]
+        })]
 })
 export class CheckoutFeatureModule {
 }
