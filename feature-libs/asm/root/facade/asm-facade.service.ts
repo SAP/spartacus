@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ASM_FEATURE } from '../feature-name';
-import { BindCartOptions } from '../model';
+import { BindCartOptions } from '../model/bind-cart.model';
 
 @Injectable({
   providedIn: 'root',
