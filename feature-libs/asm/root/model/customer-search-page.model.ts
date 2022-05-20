@@ -5,4 +5,3 @@ export interface CustomerSearchPage {
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
-

@@ -1,5 +1,5 @@
-$sapTextColor: #1D2D3E;
-$sapLinkColor: #0070F2;
+$sapTextColor: #1d2d3e;
+$sapLinkColor: #0070f2;
 $sapContent_LabelColor: #6a6d70;
 
 %cx-customer-list {
@@ -108,9 +108,9 @@ $sapContent_LabelColor: #6a6d70;
           width: 60px;
         }
         th {
-          color: $sapTextColor!important;
-          text-transform: none!important;
-          font-weight: 700!important;
+          color: $sapTextColor !important;
+          text-transform: none !important;
+          font-weight: 700 !important;
         }
       }
     }
@@ -145,21 +145,21 @@ $sapContent_LabelColor: #6a6d70;
       td:nth-child(2) {
         a {
           cursor: pointer;
-          color: $sapLinkColor!important;
+          color: $sapLinkColor !important;
         }
       }
-
     }
-    th.cell-text-center,td.cell-text-center {
+    th.cell-text-center,
+    td.cell-text-center {
       text-align: center;
     }
   }
   ng-select {
     .ng-select-container {
-      border: 0!important;
+      border: 0 !important;
       .ng-arrow-wrapper {
         .ng-arrow {
-          border-color: $sapLinkColor transparent transparent!important;
+          border-color: $sapLinkColor transparent transparent !important;
         }
       }
     }

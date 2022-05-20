@@ -6,7 +6,7 @@ import { defaultOccAsmConfig } from './adapters/default-occ-asm-config';
 import { OccAsmAdapter } from './adapters/occ-asm.adapter';
 
 @NgModule({
-  imports: [CommonModule],// TODO: Why is CommonModule imported?
+  imports: [CommonModule], // TODO: Why is CommonModule imported?
   providers: [
     provideDefaultConfig(defaultOccAsmConfig),
     {

@@ -7,5 +7,5 @@ export const facadeProviders: Provider[] = [
   {
     provide: AsmFacadeService,
     useExisting: AsmQueryService,
-  }
+  },
 ];
