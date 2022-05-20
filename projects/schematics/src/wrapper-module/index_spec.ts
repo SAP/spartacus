@@ -393,6 +393,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       const checkoutFeatureModule = program.getSourceFileOrThrow(
         checkoutFeatureModulePath
       );
+      expect(program.getSourceFile(checkoutWrapperModulePath)).toBeFalsy();
       expect(spartacusFeaturesModule.print()).toMatchSnapshot();
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
     });
