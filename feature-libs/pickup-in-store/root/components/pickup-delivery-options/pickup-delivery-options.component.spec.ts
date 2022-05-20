@@ -1,4 +1,3 @@
-// import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
@@ -12,7 +11,6 @@ class MockPickupInStoreFacade implements PickupInStoreFacade {
 describe('PickupDeliveryOptionsComponent', () => {
   let component: PickupDeliveryOptionsComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionsComponent>;
-  // let el: DebugElement;
 
   let service: PickupInStoreFacade;
 
@@ -33,7 +31,6 @@ describe('PickupDeliveryOptionsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PickupDeliveryOptionsComponent);
     component = fixture.componentInstance;
-    // el = fixture.debugElement;
     service = TestBed.inject(PickupInStoreFacade);
 
     fixture.detectChanges();

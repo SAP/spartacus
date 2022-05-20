@@ -114,7 +114,7 @@ output=$(yarn --cwd feature-libs/tracking run test:schematics --coverage=true | 
 
 echo "Running unit tests and code coverage for pickup-in-store library"
 exec 5>&1
-output=$(ng test pickup-in-store --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+output=$(ng test pickup-in-store --source-map --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
 coverage=$(echo $output | grep -i "does not meet global threshold" || true)
 if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
