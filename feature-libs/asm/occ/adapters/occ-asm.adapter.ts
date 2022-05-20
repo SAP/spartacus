@@ -7,6 +7,7 @@ import {
   CustomerSearchPage,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
+import { BindCartOptions } from '@spartacus/asm/root';
 import {
   BaseSiteService,
   ConverterService,
@@ -14,7 +15,6 @@ import {
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
-import { BindCartOptions } from 'feature-libs/asm/root';
 import { Observable } from 'rxjs';
 
 @Injectable()

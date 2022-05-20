@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AsmFacadeService } from '@spartacus/asm/root';
+import { AsmFacadeService, BindCartOptions } from '@spartacus/asm/root';
 import { Command, CommandService } from '@spartacus/core';
-import { BindCartOptions } from 'feature-libs/asm/root';
 import { Observable } from 'rxjs';
 import { AsmConnector } from '../connectors/asm.connector';
 

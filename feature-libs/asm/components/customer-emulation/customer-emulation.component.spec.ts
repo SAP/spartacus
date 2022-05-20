@@ -3,13 +3,13 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { OccAsmAdapter } from '@spartacus/asm/occ';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   BaseSiteService,
   I18nTestingModule,
   User,
   UserService,
 } from '@spartacus/core';
-import { ActiveCartFacade } from 'feature-libs/cart/base/root';
 import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';

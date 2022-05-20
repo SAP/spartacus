@@ -7,9 +7,14 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OccAsmAdapter } from '@spartacus/asm/occ';
-import { User, UserService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  User,
+  UserService,
+} from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { ActiveCartFacade } from 'feature-libs/cart/base/root';
 import { Observable, Subscription } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 
@@ -35,7 +40,8 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     protected asmComponentService: AsmComponentService,
     protected userService: UserService,
     protected occAsmAdapter: OccAsmAdapter,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit() {
@@ -72,18 +78,19 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     if (customerId) {
       this.occAsmAdapter.bindCart({ cartId, customerId }).subscribe(
         () => {
-          this.showAssignCartSuccess = true;
+          this.globalMessageService.add(
+            { key: 'asm.assignCart.success' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
 
-          setTimeout(() => {
-            this.showAssignCartSuccess = false;
-            this.submitEvent.emit({ customerId: customerId });
-          }, 3000);
+          this.activeCartFacade.getActive();
+          this.submitEvent.emit({ customerId: customerId });
         },
         () => {
-          this.showAssignCartError = true;
-          setTimeout(() => {
-            this.showAssignCartError = false;
-          }, 3000);
+          this.globalMessageService.add(
+            { key: 'asm.assignCart.error' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
         }
       );
     }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BindCartOptions } from 'feature-libs/asm/root';
+import { BindCartOptions } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 import {
   CustomerSearchOptions,
