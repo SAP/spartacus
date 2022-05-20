@@ -32,6 +32,10 @@ export enum PageType {
   CATALOG_PAGE = 'CatalogPage',
 }
 
+export interface CmsComponentWithChildren extends CmsComponent {
+  children?: string;
+}
+
 export interface CmsLinkComponent extends CmsComponent {
   url?: string;
   container?: boolean;
