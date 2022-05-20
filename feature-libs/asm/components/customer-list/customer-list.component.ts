@@ -44,13 +44,15 @@ export class CustomerListComponent implements OnInit {
 
   sortCode: string | undefined;
 
-  breakpoint = this.getBreakpoint();
+  breakpoint$: Observable<BREAKPOINT>;
 
   constructor(
     protected modalService: ModalService,
     protected asmService: AsmService,
     protected breakpointService: BreakpointService
-  ) {}
+  ) {
+    this.breakpoint$ = this.getBreakpoint();
+  }
 
   ngOnInit(): void {
     this.customerListsPage$ = this.asmService
@@ -159,15 +161,6 @@ export class CustomerListComponent implements OnInit {
         this.fetchCustomers();
       }
     }
-  }
-  isDeskTop(): Observable<boolean> {
-    return this.breakpointService.isUp(BREAKPOINT.md);
-  }
-  isTablet(): Observable<boolean> {
-    return this.breakpointService.isDown(BREAKPOINT.sm);
-  }
-  isMobile(): Observable<boolean> {
-    return this.breakpointService.isDown(BREAKPOINT.xs);
   }
 
   private getBreakpoint(): Observable<BREAKPOINT> {

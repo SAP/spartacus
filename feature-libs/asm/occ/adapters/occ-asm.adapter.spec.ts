@@ -6,9 +6,14 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   AsmConfig,
+  CUSTOMER_LISTS_NORMALIZER,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
-import { CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
+import {
+  CustomerListsPage,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '@spartacus/asm/root';
 import {
   BaseOccUrlProperties,
   BaseSiteService,
@@ -40,6 +45,23 @@ const mockUser: User = {
 const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
 } as CustomerSearchPage;
+
+const mockCustomerListPage: CustomerListsPage = {
+  userGroups: [
+    {
+      name: 'Current In-Store Customers',
+      uid: 'instoreCustomers',
+    },
+    {
+      name: 'Pick-Up In-Store Customers',
+      uid: 'bopisCustomers',
+    },
+    {
+      name: 'My Recent Customer Sessions',
+      uid: 'myRecentCustomerSessions',
+    },
+  ],
+};
 
 const baseSite = 'test-site';
 const defaultSort = 'byNameAsc';
@@ -86,6 +108,79 @@ describe('OccAsmAdapter', () => {
 
   it('should be created', () => {
     expect(occAsmAdapter).toBeTruthy();
+  });
+
+  it('should perform a customer lists', () => {
+    let result: CustomerListsPage = mockCustomerListPage;
+
+    occAsmAdapter.customerLists().subscribe((data) => {
+      result = data;
+    });
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'GET';
+    });
+
+    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(mockCustomerListPage);
+    expect(result).toEqual(mockCustomerListPage);
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CUSTOMER_LISTS_NORMALIZER
+    );
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'asmCustomerLists',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
+    );
+  });
+
+  it('should perform a customer search with customerListId', () => {
+    let result: CustomerSearchPage = mockCustomerSearchPage;
+    const searchQuery = 'user@test.com';
+    const pageSize = 10;
+    const currentPage = 1;
+    const sort = 'byNameAsc';
+    const customerListId = mockCustomerListPage?.userGroups?.[0].uid;
+    const searchOptions: CustomerSearchOptions = {
+      query: searchQuery,
+      customerListId,
+      pageSize,
+      currentPage,
+      sort,
+    };
+    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
+      result = data;
+    });
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'GET';
+    });
+
+    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
+    expect(mockReq.request.params.get('sort')).toBe(sort);
+    expect(mockReq.request.params.get('query')).toBe(searchQuery);
+    expect(mockReq.request.params.get('customerListId')).toBe(customerListId);
+    expect(mockReq.request.params.get('pageSize')).toBe(pageSize + '');
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(mockCustomerSearchPage);
+    expect(result).toEqual(mockCustomerSearchPage);
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CUSTOMER_SEARCH_PAGE_NORMALIZER
+    );
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'asmCustomerSearch',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
+    );
   });
 
   it('should perform a customer search with all params', () => {

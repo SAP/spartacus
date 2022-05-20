@@ -1,4 +1,9 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import {
+  Component,
+  CUSTOM_ELEMENTS_SCHEMA,
+  Input,
+  NO_ERRORS_SCHEMA,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmService } from '@spartacus/asm/core';
@@ -11,6 +16,7 @@ import { I18nTestingModule, QueryState, User } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
+  ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -80,7 +86,13 @@ const mockCustomerListPage: CustomerListsPage = {
     },
   ],
 };
-
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
 class MockAsmService {
   getCustomerLists(): Observable<QueryState<CustomerListsPage>> {
     return of({
@@ -132,7 +144,7 @@ describe('CustomerListComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [CustomerListComponent],
+        declarations: [CustomerListComponent, MockCxIconComponent],
         providers: [
           { provide: AsmService, useClass: MockAsmService },
           {
@@ -161,13 +173,6 @@ describe('CustomerListComponent', () => {
     spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(
       new BehaviorSubject(BREAKPOINT.md)
     );
-    // spyOn(breakpointService, 'isDown').and.returnValue(
-    //   new BehaviorSubject(true)
-    // );
-    // spyOn(breakpointService, 'isUp').and.returnValue(
-    //   new BehaviorSubject(false)
-    // );
-    // spyOnProperty(breakpointService, 'breakpoint$').and.returnValue(of(BREAKPOINT.xs));
 
     fixture = TestBed.createComponent(CustomerListComponent);
     component = fixture.componentInstance;

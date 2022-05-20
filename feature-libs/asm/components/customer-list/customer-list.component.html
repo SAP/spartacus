@@ -9,7 +9,7 @@
     </div>
     <div
       class="cx-dialog-sub-header modal-header"
-      [class.tablet-mobile]="(breakpoint | async) !== BREAKPOINT.md"
+      [class.tablet-mobile]="(breakpoint$ | async) !== BREAKPOINT.md"
       *ngIf="customerListsPage$ | async as customerListsPage"
     >
       <ng-template
@@ -20,7 +20,7 @@
       ></ng-template>
       <div
         class="header-actions"
-        [class.mobile]="(breakpoint | async) === BREAKPOINT.xs"
+        [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
       >
         <ng-template *ngTemplateOutlet="sort"></ng-template>
         <ng-template *ngTemplateOutlet="pagination"></ng-template>
@@ -37,7 +37,7 @@
             "
           >
             <table role="table" class="table">
-              <thead *ngIf="(breakpoint | async) === BREAKPOINT.md">
+              <thead *ngIf="(breakpoint$ | async) === BREAKPOINT.md">
                 <tr>
                   <th scope="col"></th>
                   <th scope="col">
@@ -62,7 +62,7 @@
                     <div>
                       <span
                         class="header-text"
-                        *ngIf="(breakpoint | async) !== BREAKPOINT.md"
+                        *ngIf="(breakpoint$ | async) !== BREAKPOINT.md"
                         >{{
                           'asm.customerList.tableHeader.name' | cxTranslate
                         }}</span
@@ -71,7 +71,7 @@
                         customerEntry.name
                       }}</a>
 
-                      <div *ngIf="(breakpoint | async) !== BREAKPOINT.md">
+                      <div *ngIf="(breakpoint$ | async) !== BREAKPOINT.md">
                         <span class="header-text">
                           {{
                             'asm.customerList.tableHeader.phone' | cxTranslate
@@ -80,7 +80,7 @@
                         <span>{{ customerEntry?.defaultAddress?.phone }}</span>
                       </div>
 
-                      <div *ngIf="(breakpoint | async) === BREAKPOINT.xs">
+                      <div *ngIf="(breakpoint$ | async) === BREAKPOINT.xs">
                         <span class="header-text">
                           {{
                             'asm.customerList.tableHeader.emailOrId'
@@ -92,13 +92,13 @@
                     </div>
                   </td>
                   <td
-                    [class.align-top]="(breakpoint | async) === BREAKPOINT.sm"
-                    *ngIf="(breakpoint | async) !== BREAKPOINT.xs"
+                    [class.align-top]="(breakpoint$ | async) === BREAKPOINT.sm"
+                    *ngIf="(breakpoint$ | async) !== BREAKPOINT.xs"
                   >
                     <div>
                       <span
                         class="header-text"
-                        *ngIf="(breakpoint | async) !== BREAKPOINT.md"
+                        *ngIf="(breakpoint$ | async) !== BREAKPOINT.md"
                         >{{
                           'asm.customerList.tableHeader.emailOrId' | cxTranslate
                         }}</span
@@ -106,7 +106,7 @@
                       <span>{{ customerEntry.uid }}</span>
                     </div>
                   </td>
-                  <td *ngIf="(breakpoint | async) === BREAKPOINT.md">
+                  <td *ngIf="(breakpoint$ | async) === BREAKPOINT.md">
                     {{ customerEntry?.defaultAddress?.phone }}
                   </td>
                 </tr>
