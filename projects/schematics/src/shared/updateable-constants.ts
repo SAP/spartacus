@@ -236,7 +236,10 @@ export const packageFeatureConfigMapping: Record<string, string[]> = {
     USER_PROFILE_MODULE,
     USER_PROFILE_ROOT_MODULE,
   ],
-  [SPARTACUS_PICKUP_IN_STORE]: [PICKUP_IN_STORE_MODULE, PICKUP_IN_STORE_ROOT_MODULE],
+  [SPARTACUS_PICKUP_IN_STORE]: [
+    PICKUP_IN_STORE_MODULE,
+    PICKUP_IN_STORE_ROOT_MODULE,
+  ],
   /** Feature libs end */
 
   /** Integration libs start */
