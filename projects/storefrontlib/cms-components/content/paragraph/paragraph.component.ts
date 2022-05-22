@@ -22,7 +22,7 @@ export class ParagraphComponent {
       // Use router for internal link navigation
       if (href?.indexOf('/') === 0) {
         event.preventDefault();
-        this.router.navigate([`/${href}`]);
+        this.router.navigateByUrl(href);
       }
     }
   }
