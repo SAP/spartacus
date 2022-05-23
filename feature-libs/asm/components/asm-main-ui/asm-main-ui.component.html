@@ -43,10 +43,7 @@
     *ngIf="customerSupportAgentLoggedIn$ | async; else showLoginForm"
   >
     <ng-container *ngIf="customer$ | async; else showCustomerSelection">
-      <cx-customer-emulation
-        *ngIf="notCollapsed"
-        (submitEvent)="startCustomerEmulationSession($event)"
-      ></cx-customer-emulation>
+      <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection

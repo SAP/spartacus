@@ -1,12 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OccAsmAdapter } from '@spartacus/asm/occ';
+import { AsmFacadeService } from '@spartacus/asm/root';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
@@ -17,11 +11,9 @@ import {
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
-
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
-  providers: [OccAsmAdapter],
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
@@ -33,15 +25,12 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   showAssignCartError = false;
   protected subscription = new Subscription();
 
-  @Output()
-  submitEvent = new EventEmitter<{ customerId?: string }>();
-
   constructor(
     protected asmComponentService: AsmComponentService,
     protected userService: UserService,
-    protected occAsmAdapter: OccAsmAdapter,
     protected activeCartFacade: ActiveCartFacade,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected asmFacadeService: AsmFacadeService
   ) {}
 
   ngOnInit() {
@@ -76,15 +65,14 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     const cartId = this.cartId.value;
 
     if (customerId) {
-      this.occAsmAdapter.bindCart({ cartId, customerId }).subscribe(
+      this.asmFacadeService.bindCart({ cartId, customerId }).subscribe(
         () => {
           this.globalMessageService.add(
             { key: 'asm.assignCart.success' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
 
-          this.activeCartFacade.getActive();
-          this.submitEvent.emit({ customerId: customerId });
+          this.activeCartFacade.reloadActiveCart();
         },
         () => {
           this.globalMessageService.add(
