@@ -15,7 +15,8 @@
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/cart/base/root": ["dist/cart/base/root"],
     },
     "strict": true
   },
