@@ -1,7 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
-import { User } from '@spartacus/core';
+import {
+  AsmFacadeService,
+  CustomerListsPage,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '@spartacus/asm/root';
+import { QueryState, User } from '@spartacus/core';
+import { NEVER, of } from 'rxjs';
 import { AsmUi } from '../models/asm.models';
 import { AsmActions } from '../store/actions/index';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
@@ -21,9 +27,19 @@ const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
 };
 
+class MockAsmFacadeService implements Partial<AsmFacadeService> {
+  getCustomerLists() {
+    return NEVER;
+  }
+  getCustomers() {
+    return NEVER;
+  }
+}
+
 describe('AsmService', () => {
   let service: AsmService;
   let store: Store<AsmState>;
+  let asmFacadeService: AsmFacadeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,11 +47,15 @@ describe('AsmService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
-      providers: [AsmService],
+      providers: [
+        AsmService,
+        { provide: AsmFacadeService, useClass: MockAsmFacadeService },
+      ],
     });
 
     service = TestBed.inject(AsmService);
     store = TestBed.inject(Store);
+    asmFacadeService = TestBed.inject(AsmFacadeService);
   });
 
   it('should be created', () => {
@@ -100,5 +120,36 @@ describe('AsmService', () => {
       .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(asmUi);
+  });
+
+  it('should get the customer lists', () => {
+    let actual: QueryState<CustomerListsPage> | undefined;
+    const expected: QueryState<CustomerListsPage> = {
+      data: { userGroups: [] },
+      error: false,
+      loading: false,
+    };
+    spyOn(asmFacadeService, 'getCustomerLists').and.returnValue(of(expected));
+
+    service.getCustomerLists().subscribe((result) => (actual = result));
+
+    expect(actual).toEqual(expected);
+    expect(asmFacadeService.getCustomerLists).toHaveBeenCalled();
+  });
+
+  it('should retrieve customers', () => {
+    let actual: CustomerSearchPage | undefined;
+    const expected: CustomerSearchPage = {
+      entries: [],
+    };
+    spyOn(asmFacadeService, 'getCustomers').and.returnValue(of(expected));
+    const input: CustomerSearchOptions = {
+      customerListId: 'mock-list-uid',
+    };
+
+    service.searchCustomers(input).subscribe((result) => (actual = result));
+
+    expect(actual).toEqual(expected);
+    expect(asmFacadeService.getCustomers).toHaveBeenCalledWith(input);
   });
 });
