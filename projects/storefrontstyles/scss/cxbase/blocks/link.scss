@@ -13,6 +13,7 @@ a {
 
   @include media-breakpoint-down(sm) {
     min-height: 48px;
+    min-width: 48px;
     display: block;
   }
 }
