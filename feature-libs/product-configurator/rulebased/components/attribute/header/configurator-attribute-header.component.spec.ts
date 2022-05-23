@@ -42,7 +42,7 @@ class MockConfigUtilsService {
     return of(isCartEntryOrGroupVisited);
   }
 
-  focusAttribute(): void {}
+  focusValue(): void {}
   scrollToConfigurationElement(): void {}
 }
 
@@ -805,8 +805,10 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
       expect(component['logWarning']).toHaveBeenCalled();
     });
+  });
 
-    it('should call focusAttribute', () => {
+  describe('Focus selected value', () => {
+    it('should call focusValue with attribute', () => {
       const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
       });
@@ -815,7 +817,6 @@ describe('ConfigAttributeHeaderComponent', () => {
       testScheduler.run(() => {
         component.groupType = Configurator.GroupType.CONFLICT_GROUP;
         component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
-
         const configurationLoading = cold('-a-b', {
           a: true,
           b: false,
@@ -825,18 +826,19 @@ describe('ConfigAttributeHeaderComponent', () => {
           'isConfigurationLoading'
         ).and.returnValue(configurationLoading);
 
-        spyOn(configuratorStorefrontUtilsService, 'focusAttribute');
+        spyOn(configuratorStorefrontUtilsService, 'focusValue');
 
         fixture.detectChanges();
-
-        component['focusAttribute'](ConfigurationTestData.GROUP_ID_2);
+        component['focusValue'](component.attribute);
       });
 
       expect(
-        configuratorStorefrontUtilsService.focusAttribute
+        configuratorStorefrontUtilsService.focusValue
       ).toHaveBeenCalledTimes(1);
     });
+  });
 
+  describe('Scroll to configuration element', () => {
     it('should call scrollToConfigurationElement', () => {
       const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
@@ -870,7 +872,9 @@ describe('ConfigAttributeHeaderComponent', () => {
         configuratorStorefrontUtilsService.scrollToConfigurationElement
       ).toHaveBeenCalledTimes(1);
     });
+  });
 
+  describe('Find conflict group ID', () => {
     it('should not find the conflicting group key when there is no conflict', () => {
       expect(
         component.findConflictGroupId(configWithoutConflicts, currentAttribute)
