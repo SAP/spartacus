@@ -18,6 +18,10 @@ describe('Spartacus Schematics: add-pwa', () => {
     SPARTACUS_SCHEMATICS,
     collectionPath
   );
+  schematicRunner.registerCollection(
+    '@angular/pwa',
+    '../../node_modules/@angular/pwa/collection.json'
+  );
 
   let appTree: UnitTestTree;
 
@@ -61,18 +65,49 @@ describe('Spartacus Schematics: add-pwa', () => {
   });
 
   it('Add PWA/ServiceWorker support for your project', async () => {
-    const tree = await schematicRunner
+    appTree = await schematicRunner
       .runSchematicAsync('add-pwa', defaultOptions, appTree)
       .toPromise();
-    const packageJson = tree.readContent('/package.json');
+    const packageJson = appTree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
     expect(depPackageList.includes('@angular/service-worker')).toBe(true);
     expect(
-      tree.files.includes('/projects/schematics-test/src/manifest.webmanifest')
+      appTree.files.includes(
+        '/projects/schematics-test/src/manifest.webmanifest'
+      )
     ).toBe(true);
     expect(
-      tree.files.includes(
+      appTree.files.includes(
+        '/projects/schematics-test/src/assets/icons/icon-96x96.png'
+      )
+    ).toBe(true);
+  });
+
+  it('should remove the existing SW setup and add Spartacus PWA support', async () => {
+    appTree = await schematicRunner
+      .runExternalSchematicAsync(
+        '@angular/pwa',
+        'ng-add',
+        { project: 'schematics-test' },
+        appTree
+      )
+      .toPromise();
+    appTree = await schematicRunner
+      .runSchematicAsync('add-pwa', defaultOptions, appTree)
+      .toPromise();
+
+    const packageJson = appTree.readContent('/package.json');
+    const packageObj = JSON.parse(packageJson);
+    const depPackageList = Object.keys(packageObj.dependencies);
+    expect(depPackageList.includes('@angular/service-worker')).toBe(true);
+    expect(
+      appTree.files.includes(
+        '/projects/schematics-test/src/manifest.webmanifest'
+      )
+    ).toBe(true);
+    expect(
+      appTree.files.includes(
         '/projects/schematics-test/src/assets/icons/icon-96x96.png'
       )
     ).toBe(true);

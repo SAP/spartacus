@@ -376,8 +376,10 @@ function checkDependentFeatures<OPTIONS extends LibraryOptions>(
       packageJson
     );
     /**
-     * if library is not installed, we can safely assume
-     * that the feature is not installed and install it.
+     * if library is not installed, we can assume
+     * the feature is not installed. Therefore, we can
+     * safely proceed the analysis, and eventually
+     * install if all other requirements are met.
      */
     if (!libraryInstalled) {
       continue;
