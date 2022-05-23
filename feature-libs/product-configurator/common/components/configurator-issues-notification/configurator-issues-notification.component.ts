@@ -21,6 +21,7 @@ interface ItemListContext {
 @Component({
   selector: 'cx-configurator-issues-notification',
   templateUrl: './configurator-issues-notification.component.html',
+  host: { role: 'row' },
   providers: [
     CartItemContextSource,
     { provide: CartItemContext, useExisting: CartItemContextSource },
