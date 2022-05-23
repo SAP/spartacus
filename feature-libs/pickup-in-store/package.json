@@ -27,10 +27,10 @@
   "peerDependencies": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/core": "^13.3.0",
+    "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
-    "@spartacus/storefront": "4.1.0-next.0",
-    "@spartacus/cart": "4.1.0-next.0"
+    "@spartacus/storefront": "4.1.0-next.0"
   },
   "publishConfig": {
     "access": "public"
