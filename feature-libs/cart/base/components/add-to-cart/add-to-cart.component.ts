@@ -58,7 +58,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
-  readonly AddToCartContainerOutlet = CartOutlets.ADD_TO_CART_CONTAINER;
+  readonly AddToCartDeliveryOptionsOutlet =
+    CartOutlets.ADD_TO_CART_DELIVERY_OPTION;
 
   constructor(
     protected currentProductService: CurrentProductService,

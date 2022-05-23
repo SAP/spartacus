@@ -22,7 +22,7 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
   providers: [
     provideDefaultConfigFactory(defaultPickupInStoreComponentsConfig),
     provideOutlet({
-      id: CartOutlets.ADD_TO_CART_CONTAINER,
+      id: CartOutlets.ADD_TO_CART_DELIVERY_OPTION,
       position: OutletPosition.REPLACE,
       component: PickupDeliveryOptionsComponent,
     }),
