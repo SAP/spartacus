@@ -283,70 +283,21 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     let basePrice = priceSummary?.basePrice?.formattedValue;
     let selectedOptions = priceSummary?.selectedOptions?.formattedValue;
     let totalPrice = priceSummary?.currentTotal?.formattedValue;
-    if (
-      priceSummary &&
-      (!basePrice || basePrice === '-') &&
-      (!selectedOptions || selectedOptions === '-') &&
-      (!totalPrice || totalPrice === '-')
-    ) {
-      return {
-        basePrice: '0',
-        selectedOptions: '0',
-        totalPrice: '0',
-      };
+    let prices = {
+      basePrice: basePrice,
+      selectedOptions: selectedOptions,
+      totalPrice: totalPrice,
+    };
+    if (!basePrice || basePrice === '-') {
+      prices.basePrice = '0';
     }
-    if (
-      priceSummary &&
-      (basePrice === '-' || !basePrice) &&
-      selectedOptions &&
-      totalPrice
-    ) {
-      return {
-        basePrice: '0',
-        selectedOptions: selectedOptions,
-        totalPrice: totalPrice,
-      };
+    if (!selectedOptions || selectedOptions === '-') {
+      prices.selectedOptions = '0';
     }
-    if (
-      priceSummary &&
-      basePrice &&
-      (selectedOptions === '-' || !selectedOptions) &&
-      totalPrice
-    ) {
-      return {
-        basePrice: basePrice,
-        selectedOptions: '0',
-        totalPrice: totalPrice,
-      };
+    if (!totalPrice || totalPrice === '-') {
+      prices.totalPrice = '0';
     }
-    if (
-      priceSummary &&
-      basePrice &&
-      selectedOptions &&
-      (totalPrice === '-' || !totalPrice)
-    ) {
-      return {
-        basePrice: basePrice,
-        selectedOptions: selectedOptions,
-        totalPrice: '0',
-      };
-    }
-    if (!priceSummary) {
-      return {
-        basePrice: '0',
-        selectedOptions: '0',
-        totalPrice: '0',
-      };
-    }
-
-    if (priceSummary && basePrice && selectedOptions && totalPrice) {
-      return {
-        basePrice: basePrice,
-        selectedOptions: selectedOptions,
-        totalPrice: totalPrice,
-      };
-    }
-    return undefined;
+    return prices;
   }
 
   protected makeAddToCartButtonSticky(): void {
