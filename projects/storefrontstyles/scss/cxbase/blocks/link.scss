@@ -10,6 +10,11 @@ a {
     cursor: var(--cx-cursor, not-allowed !important);
     opacity: 0.8;
   }
+
+  @include media-breakpoint-down(sm) {
+    min-height: 48px;
+    display: block;
+  }
 }
 
 .cx-action-link {
