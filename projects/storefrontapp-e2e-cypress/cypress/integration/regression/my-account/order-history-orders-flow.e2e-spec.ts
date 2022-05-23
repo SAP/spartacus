@@ -62,7 +62,6 @@ describe('Order details page', () => {
     });
 
     it('should add product to cart from order details page', () => {
-      // element.should('contain', 'Buy It Again');
       cy.get('.cx-item-list-row .cx-action-link').should(
         'contain',
         'Buy It Again'
