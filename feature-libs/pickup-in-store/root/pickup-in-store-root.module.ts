@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { PickupDeliveryOptionsComponent } from './components/pickup-delivery-options/pickup-delivery-options.component';
@@ -7,7 +8,6 @@ import {
   PICKUP_IN_STORE_CORE_FEATURE,
   PICKUP_IN_STORE_FEATURE,
 } from './feature-name';
-import { PickupInStoreOutlets } from './models/pickup-in-store.model';
 
 export function defaultPickupInStoreComponentsConfig(): CmsConfig {
   return {
@@ -22,7 +22,7 @@ export function defaultPickupInStoreComponentsConfig(): CmsConfig {
   providers: [
     provideDefaultConfigFactory(defaultPickupInStoreComponentsConfig),
     provideOutlet({
-      id: PickupInStoreOutlets.PICKUP_OPTION,
+      id: CartOutlets.ADD_TO_CART_CONTAINER,
       position: OutletPosition.REPLACE,
       component: PickupDeliveryOptionsComponent,
     }),

@@ -10,6 +10,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
+  CartOutlets,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import {
@@ -56,6 +57,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   addToCartForm = new FormGroup({
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
+
+  readonly AddToCartContainerOutlet = CartOutlets.ADD_TO_CART_CONTAINER;
 
   constructor(
     protected currentProductService: CurrentProductService,
