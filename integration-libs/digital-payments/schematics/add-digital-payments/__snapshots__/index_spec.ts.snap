@@ -50,8 +50,10 @@ import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
 
 @NgModule({
   declarations: [],
-  imports: [CheckoutModule,
-    DigitalPaymentsModule]
+  imports: [
+    CheckoutModule,
+    DigitalPaymentsModule
+  ]
 })
 export class CheckoutWrapperModule { }
 "

@@ -12,10 +12,12 @@ import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
-  imports: [CheckoutRootModule,
+  imports: [
+    CheckoutRootModule,
     CheckoutModule,
     CheckoutB2BRootModule,
-    CheckoutB2BModule],
+    CheckoutB2BModule
+  ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
       resources: checkoutTranslations,
@@ -119,8 +121,10 @@ import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 
 @NgModule({
   declarations: [],
-  imports: [CheckoutModule,
-    CheckoutB2BModule]
+  imports: [
+    CheckoutModule,
+    CheckoutB2BModule
+  ]
 })
 export class CheckoutWrapperModule { }
 "
@@ -716,12 +720,14 @@ import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
-  imports: [CheckoutRootModule,
+  imports: [
+    CheckoutRootModule,
     CheckoutModule,
     CheckoutB2BRootModule,
     CheckoutB2BModule,
     CheckoutScheduledReplenishmentRootModule,
-    CheckoutScheduledReplenishmentModule],
+    CheckoutScheduledReplenishmentModule
+  ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
       resources: checkoutTranslations,
@@ -841,9 +847,11 @@ import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/sche
 
 @NgModule({
   declarations: [],
-  imports: [CheckoutModule,
+  imports: [
+    CheckoutModule,
     CheckoutB2BModule,
-    CheckoutScheduledReplenishmentModule]
+    CheckoutScheduledReplenishmentModule
+  ]
 })
 export class CheckoutWrapperModule { }
 "

@@ -12,7 +12,8 @@ import { TextfieldConfiguratorRootModule } from \\"@spartacus/product-configurat
 
 @NgModule({
   declarations: [],
-  imports: [RulebasedConfiguratorRootModule,
+  imports: [
+    RulebasedConfiguratorRootModule,
     RulebasedConfiguratorModule,
     CpqConfiguratorRootModule,
     RulebasedCpqConfiguratorModule,
@@ -117,8 +118,10 @@ import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurato
 
 @NgModule({
   declarations: [],
-  imports: [RulebasedConfiguratorModule,
-    RulebasedCpqConfiguratorModule]
+  imports: [
+    RulebasedConfiguratorModule,
+    RulebasedCpqConfiguratorModule
+  ]
 })
 export class ProductConfiguratorWrapperModule { }
 "
@@ -427,10 +430,12 @@ import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \\"@s
 
 @NgModule({
   declarations: [],
-  imports: [RulebasedConfiguratorRootModule,
+  imports: [
+    RulebasedConfiguratorRootModule,
     RulebasedConfiguratorModule,
     CpqConfiguratorRootModule,
-    RulebasedCpqConfiguratorModule],
+    RulebasedCpqConfiguratorModule
+  ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
       resources: configuratorTranslations,
@@ -519,8 +524,10 @@ import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurato
 
 @NgModule({
   declarations: [],
-  imports: [RulebasedConfiguratorModule,
-    RulebasedCpqConfiguratorModule]
+  imports: [
+    RulebasedConfiguratorModule,
+    RulebasedCpqConfiguratorModule
+  ]
 })
 export class ProductConfiguratorWrapperModule { }
 "

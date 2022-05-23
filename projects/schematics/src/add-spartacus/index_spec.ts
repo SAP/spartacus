@@ -9,20 +9,13 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import {
-  CDC_FEATURE_NAME,
-  CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
-  DIGITAL_PAYMENTS_FEATURE_NAME,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
-  TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '../shared/libs-constants';
-import {
-  checkoutWrapperModulePath,
-  spartacusFeaturesModulePath,
-} from '../shared/utils/test-utils';
+import { spartacusFeaturesModulePath } from '../shared/utils/test-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -587,72 +580,6 @@ describe('add-spartacus', () => {
         configurationModule.match(/\.\.\.defaultCmsContentProviders/gm)
           ?.length ?? -1;
       expect(nonProvideConfigOccurrences).toBe(1);
-    });
-  });
-
-  describe('when it is a dirty installation', () => {
-    it('should sort the features in the wrapper module', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-        .toPromise();
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [
-              CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
-              DIGITAL_PAYMENTS_FEATURE_NAME,
-            ],
-          },
-          appTree
-        )
-        .toPromise();
-      expect(
-        appTree.readContent(
-          `/projects/schematics-test/${checkoutWrapperModulePath}`
-        )
-      ).toMatchSnapshot();
-    });
-
-    it('should sort the features in the spartacus-feature.module', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
-        .toPromise();
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [CDC_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
-      expect(
-        appTree.readContent(
-          `/projects/schematics-test/${spartacusFeaturesModulePath}`
-        )
-      ).toMatchSnapshot();
-
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [TRACKING_PERSONALIZATION_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
-      expect(
-        appTree.readContent(
-          `/projects/schematics-test/${spartacusFeaturesModulePath}`
-        )
-      ).toMatchSnapshot();
     });
   });
 });

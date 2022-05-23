@@ -6,8 +6,10 @@ import { CdcModule } from \\"@spartacus/cdc\\";
 import { UserProfileModule } from \\"@spartacus/user/profile\\";
 @NgModule({
     declarations: [],
-    imports: [UserProfileModule,
-        CdcModule]
+    imports: [
+        UserProfileModule,
+        CdcModule
+    ]
 })
 export class UserWrapperModule {
 }
@@ -140,9 +142,11 @@ import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/scheduled-replenishment\\";
 @NgModule({
     declarations: [],
-    imports: [CheckoutModule,
+    imports: [
+        CheckoutModule,
         CheckoutB2BModule,
-        CheckoutScheduledReplenishmentModule]
+        CheckoutScheduledReplenishmentModule
+    ]
 })
 export class CheckoutWrapperModule {
 }
@@ -275,10 +279,12 @@ import { CheckoutScheduledReplenishmentModule } from \\"@spartacus/checkout/sche
 import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
 @NgModule({
     declarations: [],
-    imports: [CheckoutModule,
+    imports: [
+        CheckoutModule,
         CheckoutB2BModule,
         CheckoutScheduledReplenishmentModule,
-        DigitalPaymentsModule]
+        DigitalPaymentsModule
+    ]
 })
 export class CheckoutWrapperModule {
 }
@@ -311,8 +317,10 @@ import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
 @NgModule({
     declarations: [],
-    imports: [CheckoutModule,
-        DigitalPaymentsModule]
+    imports: [
+        CheckoutModule,
+        DigitalPaymentsModule
+    ]
 })
 export class CheckoutWrapperModule {
 }
@@ -404,7 +412,9 @@ exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper
 import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 @NgModule({
     declarations: [],
-    imports: [CheckoutModule]
+    imports: [
+        CheckoutModule
+    ]
 })
 export class CheckoutWrapperModule {
 }
@@ -460,7 +470,9 @@ exports[`Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrapper
 import { CartBaseModule } from \\"@spartacus/cart/base\\";
 @NgModule({
     declarations: [],
-    imports: [CartBaseModule]
+    imports: [
+        CartBaseModule
+    ]
 })
 export class CartBaseWrapperModule {
 }
@@ -512,8 +524,10 @@ import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
 import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 @NgModule({
     declarations: [],
-    imports: [CheckoutModule,
-        CheckoutB2BModule]
+    imports: [
+        CheckoutModule,
+        CheckoutB2BModule
+    ]
 })
 export class CheckoutWrapperModule {
 }
@@ -533,7 +547,8 @@ import { OrderFeatureModule } from './features/order/order-feature.module';
 import { UserFeatureModule } from './features/user/user-feature.module';
 @NgModule({
     declarations: [],
-    imports: [AuthModule.forRoot(),
+    imports: [
+        AuthModule.forRoot(),
         LogoutModule,
         LoginRouteModule,
         HamburgerMenuModule,
@@ -584,8 +599,9 @@ import { UserFeatureModule } from './features/user/user-feature.module';
         OrderFeatureModule,
         CheckoutFeatureModule,
         CheckoutModule,
-        DigitalPaymentsModule,
-        DigitalPaymentsFeatureModule]
+        DigitalPaymentsFeatureModule,
+        DigitalPaymentsModule
+    ]
 })
 export class SpartacusFeaturesModule {
 }

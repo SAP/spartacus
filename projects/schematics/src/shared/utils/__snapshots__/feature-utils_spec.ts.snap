@@ -37,8 +37,10 @@ import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
 @NgModule({
     declarations: [],
-    imports: [CheckoutModule,
-        DigitalPaymentsModule]
+    imports: [
+        CheckoutModule,
+        DigitalPaymentsModule
+    ]
 })
 export class CheckoutWrapperModule {
 }
@@ -84,9 +86,11 @@ import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
 @NgModule({
     declarations: [],
-    imports: [CheckoutRootModule,
+    imports: [
+        CheckoutRootModule,
         CheckoutModule,
-        DigitalPaymentsModule],
+        DigitalPaymentsModule
+    ],
     providers: [provideConfig(<I18nConfig>{
             i18n: {
                 resources: checkoutTranslations,
@@ -105,8 +109,10 @@ import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 import { DigitalPaymentsModule } from \\"@spartacus/digital-payments\\";
 @NgModule({
     declarations: [],
-    imports: [CheckoutModule,
-        DigitalPaymentsModule]
+    imports: [
+        CheckoutModule,
+        DigitalPaymentsModule
+    ]
 })
 export class CheckoutWrapperModule {
 }
@@ -143,74 +149,16 @@ export class CheckoutFeatureModule {
 "
 `;
 
-exports[`Feature utils analyzeFeature should correctly analyze the Spartacus feature module 1`] = `
-Array [
-  "AuthModule.forRoot()",
-  "LogoutModule",
-  "LoginRouteModule",
-  "HamburgerMenuModule",
-  "SiteContextSelectorModule",
-  "LinkModule",
-  "BannerModule",
-  "CmsParagraphModule",
-  "TabParagraphContainerModule",
-  "BannerCarouselModule",
-  "CategoryNavigationModule",
-  "NavigationModule",
-  "FooterNavigationModule",
-  "BreadcrumbModule",
-  "ScrollToTopModule",
-  "PageTitleModule",
-  "UserModule",
-  "UserOccModule",
-  "AddressBookModule",
-  "PaymentMethodsModule",
-  "NotificationPreferenceModule",
-  "MyInterestsModule",
-  "StockNotificationModule",
-  "ConsentManagementModule",
-  "MyCouponsModule",
-  "AnonymousConsentsModule.forRoot()",
-  "AnonymousConsentsDialogModule",
-  "AnonymousConsentManagementBannerModule",
-  "ProductModule.forRoot()",
-  "ProductOccModule",
-  "ProductDetailsPageModule",
-  "ProductListingPageModule",
-  "ProductListModule",
-  "SearchBoxModule",
-  "ProductFacetNavigationModule",
-  "ProductTabsModule",
-  "ProductCarouselModule",
-  "ProductReferencesModule",
-  "ProductImagesModule",
-  "ProductSummaryModule",
-  "ProductIntroModule",
-  "CostCenterOccModule",
-  "NavigationEventModule",
-  "HomePageEventModule",
-  "ProductPageEventModule",
-  "ExternalRoutesModule.forRoot()",
-]
-`;
-
-exports[`Feature utils analyzeFeature should correctly analyze the Spartacus feature module 2`] = `
-Array [
-  "Account",
-  "Cart",
-  "Order",
-  "Checkout",
-]
-`;
-
 exports[`Feature utils getDynamicallyImportedLocalSourceFile should return the locally referenced source file 1`] = `
 "import { NgModule } from '@angular/core';
 import { CheckoutB2BModule } from \\"@spartacus/checkout/b2b\\";
 import { CheckoutModule } from \\"@spartacus/checkout/base\\";
 @NgModule({
     declarations: [],
-    imports: [CheckoutModule,
-        CheckoutB2BModule]
+    imports: [
+        CheckoutModule,
+        CheckoutB2BModule
+    ]
 })
 export class CheckoutWrapperModule {
 }

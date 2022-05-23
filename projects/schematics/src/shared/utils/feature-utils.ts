@@ -26,29 +26,21 @@ import {
   SPARTACUS_SCHEMATICS,
 } from '../libs-constants';
 import {
-  featureFeatureModuleMapping,
-  featureRootModuleMapping,
   featureSchematicConfigMapping,
-  getKeyByMappingValue,
   getKeyByMappingValueOrThrow,
   getSchematicsConfigByFeatureOrThrow,
   libraryFeatureMapping,
 } from '../schematics-config-mappings';
 import { crossFeatureInstallationOrder } from './graph-utils';
 import {
-  collectDynamicImports,
   findDynamicImport,
   getDynamicImportImportPath,
-  getImportDeclaration,
   importExists,
   isImportedFrom,
-  isImportedFromSpartacusCoreLib,
-  isImportedFromSpartacusLibs,
   isRelative,
 } from './import-utils';
 import {
   addLibraryFeature,
-  calculateCrossFeatureSort,
   checkAppStructure,
   dependencyExists,
   LibraryOptions,
@@ -57,9 +49,8 @@ import {
 } from './lib-utils';
 import { getModulePropertyInitializer, Import } from './new-module-utils';
 import { readPackageJson } from './package-utils';
-import { createProgram, saveAndFormat } from './program';
+import { createProgram } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
-import { spartacusFeaturesModulePath } from './test-utils';
 
 export interface FeatureModuleImports {
   importPath: string;
@@ -88,51 +79,6 @@ export interface AdditionalFeatureConfiguration<T = LibraryOptions> {
   options?: T;
 }
 
-/**
- * Analysis result of feature modules.
- */
-interface FeatureAnalysisResult {
-  /**
-   * Unrecognized features.
-   */
-  unrecognized?: string[];
-  /**
-   * Features which don't have any imports.
-   * These features don't affect the order,
-   * and are sorted last.
-   */
-  empty?: boolean | Expression[];
-  /**
-   * Features from Spartacus core libs.
-   */
-  core?: Expression[];
-  /**
-   * Spartacus features.
-   */
-  features?: { element: Expression; feature: string }[];
-}
-
-/**
- * Analysis result of ng-modules.
- */
-interface ModuleAnalysisResult {
-  /**
-   * Unrecognized module imports.
-   */
-  unrecognized?: string[];
-  /**
-   * Feature doesn't have any imports.
-   */
-  empty?: boolean;
-  /**
-   * Feature is from Spartacus core libs.
-   */
-  core?: boolean;
-  /**
-   * Spartacus feature.
-   */
-  feature?: string;
-}
 /**
  * Analysis result of wrapper module configuration.
  */
@@ -193,10 +139,6 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
           )
         );
       }
-    }
-
-    if (options.internal?.dirtyInstallation) {
-      rules.push(orderInstalledFeatures(options));
     }
 
     return chain(rules);
@@ -307,163 +249,6 @@ function getSpartacusFeaturesNgModuleDecorator(
 }
 
 /**
- * Analyzes the given module and returns the analysis result.
- */
-export function analyzeFeature(sourceFile: SourceFile): FeatureAnalysisResult {
-  const elements =
-    getModulePropertyInitializer(sourceFile, 'imports', false)?.getElements() ??
-    [];
-
-  if (elements.length === 0) {
-    return {
-      empty: true,
-    };
-  }
-
-  const empty: Expression[] = [];
-  const core: Expression[] = [];
-  const features: { element: Expression; feature: string }[] = [];
-  const unrecognized: string[] = [];
-  for (const element of elements) {
-    const analysis = analyzeModule(element);
-    if (analysis.unrecognized?.length) {
-      unrecognized.push(element.print());
-      continue;
-    }
-
-    if (analysis.empty) {
-      empty.push(element);
-      continue;
-    }
-
-    if (analysis.core) {
-      core.push(element);
-      continue;
-    }
-
-    if (analysis.feature) {
-      features.push({ element, feature: analysis.feature });
-      continue;
-    }
-  }
-
-  return {
-    core,
-    features,
-    empty,
-    unrecognized,
-  };
-}
-
-/**
- * Analyzes the given ngModule, by checking its
- * imports and peeking into the referenced module
- * in case of a relative import.
- */
-function analyzeModule(element: Expression): ModuleAnalysisResult {
-  const moduleIdentifier = getModuleIdentifier(element);
-  if (!moduleIdentifier) {
-    return { unrecognized: [element.print()] };
-  }
-
-  const importDeclaration = getImportDeclaration(moduleIdentifier);
-  if (!importDeclaration) {
-    return { unrecognized: [element.print()] };
-  }
-
-  const importPath = importDeclaration.getModuleSpecifierValue();
-  if (!isImportedFromSpartacusLibs(importPath)) {
-    if (!isRelative(importPath)) {
-      /**
-       * An import from a 3rd part lib,
-       * e.g. from `@ngrx/store`.
-       *
-       * Or, it could be a custom TS path mapping,
-       * (https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping)
-       */
-      return { unrecognized: [element.print()] };
-    }
-
-    const localFeatureModule = importDeclaration.getModuleSpecifierSourceFile();
-    if (!localFeatureModule) {
-      return { unrecognized: [element.print()] };
-    }
-
-    const featureAnalysis = analyzeFeature(localFeatureModule);
-    if (featureAnalysis.unrecognized?.length) {
-      return { unrecognized: featureAnalysis.unrecognized };
-    }
-
-    const isEmpty = Array.isArray(featureAnalysis.empty)
-      ? featureAnalysis.empty.length !== 0
-      : featureAnalysis.empty;
-    if (isEmpty) {
-      return { empty: true };
-    }
-
-    // the feature-module doesn't affect anything, so we can treat is a "core" feature
-    if (!featureAnalysis.features || featureAnalysis.features.length === 0) {
-      return { core: true };
-    }
-
-    const features = featureAnalysis.features.sort((feature1, feature2) =>
-      calculateCrossFeatureSort(feature1.feature, feature2.feature)
-    );
-    /**
-     * the first ordered feature is used as the
-     * label for the whole feature module.
-     * The reason is: imagine for example the UserFeatureModule,
-     * which has both Profile and Account features in it.
-     * To be on the safe side, we label the
-     * feature module as the first feature, in cases there
-     * are some custom feature modules which enhance it.
-     */
-    const feature = features[0].feature;
-    return { feature };
-  }
-
-  if (isImportedFromSpartacusCoreLib(importPath)) {
-    return { core: true };
-  }
-
-  const feature =
-    // try to recognize the feature by feature modules
-    getKeyByMappingValue(
-      featureFeatureModuleMapping,
-      moduleIdentifier.getText()
-    ) ??
-    // try to recognize the feature by root feature modules
-    getKeyByMappingValue(featureRootModuleMapping, moduleIdentifier.getText());
-  if (feature) {
-    return { feature };
-  }
-
-  return { unrecognized: [element.print()] };
-}
-
-/**
- * Orders the given ng-imports by the cross-feature installation order.
- * First, the core features are ordered,
- * followed by the spartacus features.
- * Lastly, the empty features are ordered.
- */
-export function orderFeatures(analysisResult: FeatureAnalysisResult): string[] {
-  const features = (analysisResult.features ?? [])
-    .sort((featureAnalysis1, featureAnalysis2) =>
-      calculateCrossFeatureSort(
-        featureAnalysis1.feature,
-        featureAnalysis2.feature
-      )
-    )
-    .map((analysis) => analysis.element);
-
-  return (analysisResult.core ?? [])
-    .concat(features)
-    .concat(Array.isArray(analysisResult.empty) ? analysisResult.empty : [])
-    .map((element) => element.getText());
-}
-
-/**
  * For the given feature module name,
  * returns the module configuration part
  * of the given schematics feature config
@@ -482,68 +267,6 @@ export function getModuleConfig(
   }
 
   return undefined;
-}
-
-function getModuleIdentifier(element: Node): Identifier | undefined {
-  if (Node.isIdentifier(element)) {
-    return element;
-  }
-
-  if (Node.isCallExpression(element)) {
-    const propertyAccessExpression = element.getFirstChild();
-    if (Node.isPropertyAccessExpression(propertyAccessExpression)) {
-      const firstIdentifier = propertyAccessExpression.getFirstChild();
-      if (Node.isIdentifier(firstIdentifier)) {
-        return firstIdentifier;
-      }
-    }
-  }
-
-  return undefined;
-}
-
-function orderInstalledFeatures(options: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    if (options.debug) {
-      context.logger.info(`⌛️ Ordering Spartacus feature modules...`);
-    }
-
-    const basePath = process.cwd();
-    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
-
-    for (const tsconfigPath of buildPaths) {
-      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-
-      for (const spartacusFeaturesModule of appSourceFiles) {
-        if (
-          !spartacusFeaturesModule
-            .getFilePath()
-            .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
-        ) {
-          continue;
-        }
-
-        const analysis = analyzeFeature(spartacusFeaturesModule);
-        if (analysis.unrecognized?.length) {
-          return noop();
-        }
-
-        const ordered = orderFeatures(analysis);
-        getModulePropertyInitializer(
-          spartacusFeaturesModule,
-          'imports',
-          false
-        )?.replaceWithText(`[${ordered.join(',\n')}]`);
-
-        saveAndFormat(spartacusFeaturesModule);
-        break;
-      }
-    }
-
-    if (options.debug) {
-      context.logger.info(`✅ Ordering Spartacus feature modules complete.`);
-    }
-  };
 }
 
 /**
@@ -606,68 +329,12 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
         context.logger.warn(dependentFeaturesMessage);
         throw new SchematicsException();
       }
-
-      const messages = analyzeInstalledFeatures(appSourceFiles);
-      for (const message of messages) {
-        context.logger.warn(message);
-      }
     }
 
     if (options.debug) {
       context.logger.info(`✅ Analysis of installed features complete.`);
     }
   };
-}
-
-/**
- * Analyzes the features in the Spartacus feature module,
- * and checks if there are unrecognized features.
- */
-function analyzeInstalledFeatures(appSourceFiles: SourceFile[]): string[] {
-  for (const sourceFile of appSourceFiles) {
-    if (!sourceFile.getFilePath().includes(spartacusFeaturesModulePath)) {
-      continue;
-    }
-
-    const messages: string[] = [];
-
-    const analysis = analyzeFeature(sourceFile);
-    for (const unrecognized of analysis.unrecognized ?? []) {
-      messages.push(
-        generateUnrecognizedFeatureMessage(
-          sourceFile.getFilePath(),
-          unrecognized
-        )
-      );
-    }
-
-    const featureModules = (analysis.features ?? []).map((f) => f.element);
-    const messagesForLocalFeatures =
-      checkLocallyImportedFeatures(featureModules);
-    messages.push(...messagesForLocalFeatures);
-
-    if (messages.length) {
-      const orderMessage =
-        `Please make sure to order the features in the NgModule's 'imports' array ` +
-        `according to the following feature order:\n` +
-        crossFeatureInstallationOrder.join(', ') +
-        `\n\n`;
-      messages.push(orderMessage);
-    }
-    return messages;
-  }
-
-  throw new SchematicsException(`Could not find Spartacus features module.`);
-}
-
-function generateUnrecognizedFeatureMessage(
-  path: string,
-  name: string
-): string {
-  return (
-    `Cannot order features in ${path}, ` +
-    `due to an unrecognized feature: ${name}.`
-  );
 }
 
 /**
@@ -800,51 +467,6 @@ function isDynamicallyImported(
     moduleSpecifier: moduleConfig.importPath,
     namedImports: [moduleConfig.name],
   });
-}
-
-/**
- * Checks if the local features contain any unrecognized module imports.
- */
-function checkLocallyImportedFeatures(elements: Expression[]): string[] {
-  const messages: string[] = [];
-  for (const element of elements) {
-    const moduleIdentifier = getModuleIdentifier(element);
-    if (!moduleIdentifier) {
-      return [];
-    }
-
-    const sourceFile =
-      getImportDeclaration(moduleIdentifier)?.getModuleSpecifierSourceFile();
-    if (!sourceFile) {
-      return [];
-    }
-
-    const relativeDynamicImports = collectDynamicImports(sourceFile).filter(
-      (di) => isRelative(getDynamicImportImportPath(di) ?? '')
-    );
-
-    for (const dynamicImport of relativeDynamicImports) {
-      const wrapperSource =
-        getDynamicallyImportedLocalSourceFile(dynamicImport);
-      if (!wrapperSource) {
-        continue;
-      }
-
-      const analysis = analyzeFeature(wrapperSource);
-      if (analysis.unrecognized?.length) {
-        for (const unrecognized of analysis.unrecognized) {
-          messages.push(
-            generateUnrecognizedFeatureMessage(
-              wrapperSource.getFilePath(),
-              unrecognized
-            )
-          );
-        }
-      }
-    }
-  }
-
-  return messages;
 }
 
 /**

@@ -13,10 +13,8 @@ import {
 } from '../shared/schematics-config-mappings';
 import { normalizeObject, removeProperty } from '../shared/utils/config-utils';
 import {
-  analyzeFeature,
   findFeatureModule,
   getModuleConfig,
-  orderFeatures,
 } from '../shared/utils/feature-utils';
 import {
   findDynamicImport,
@@ -492,57 +490,6 @@ function updateDynamicImportModuleName(
   );
 }
 
-function orderWrapperFeatures(options: SpartacusWrapperOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const wrapperModulePath = options.internal?.wrapperModulePath ?? '';
-    if (options.debug) {
-      context.logger.info(
-        formatFeatureStart(
-          wrapperModulePath,
-          `ordering features in the wrapper module...`
-        )
-      );
-    }
-
-    const basePath = process.cwd();
-    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
-
-    for (const tsconfigPath of buildPaths) {
-      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-
-      for (const wrapperModule of appSourceFiles) {
-        if (!wrapperModule.getFilePath().includes(wrapperModulePath)) {
-          continue;
-        }
-
-        const analysis = analyzeFeature(wrapperModule);
-        if (analysis.unrecognized?.length) {
-          return noop();
-        }
-
-        const ordered = orderFeatures(analysis);
-        getModulePropertyInitializer(
-          wrapperModule,
-          'imports',
-          false
-        )?.replaceWithText(`[${ordered.join(',\n')}]`);
-
-        saveAndFormat(wrapperModule);
-        break;
-      }
-    }
-
-    if (options.debug) {
-      context.logger.info(
-        formatFeatureComplete(
-          wrapperModulePath,
-          `features ordered in the wrapper module.`
-        )
-      );
-    }
-  };
-}
-
 /**
  * Generates wrapper modules for the given
  * Spartacus feature module.
@@ -559,8 +506,6 @@ export function generateWrapperModule(options: SpartacusWrapperOptions): Rule {
 
       updateFeatureModule(options),
       removeLibraryDynamicImport(options),
-
-      orderWrapperFeatures(options),
     ]);
   };
 }

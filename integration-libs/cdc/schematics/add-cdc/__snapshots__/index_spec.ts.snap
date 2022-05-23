@@ -58,8 +58,10 @@ import { UserProfileModule } from \\"@spartacus/user/profile\\";
 
 @NgModule({
   declarations: [],
-  imports: [UserProfileModule,
-    CdcModule]
+  imports: [
+    UserProfileModule,
+    CdcModule
+  ]
 })
 export class UserWrapperModule { }
 "
