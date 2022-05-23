@@ -150,6 +150,7 @@
       class="add-to-cart"
     >
     </cx-add-to-cart>
+
     <button
       (click)="removeItem()"
       [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
@@ -160,13 +161,8 @@
       {{ 'common.remove' | cxTranslate }}
     </button>
   </td>
-</ng-template>
-<ng-template #total>
-  <td role="cell" *ngIf="item.totalPrice" class="cx-total">
-    <div class="cx-mobile-header">
-      {{ 'cartItems.total' | cxTranslate }}
-    </div>
-    <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+
+  <td role="cell">
     <cx-add-to-cart
       *ngIf="options.isBuyItAgain"
       [productCode]="item.product?.code"
@@ -176,5 +172,13 @@
       class="add-to-cart"
     >
     </cx-add-to-cart>
+  </td>
+</ng-template>
+<ng-template #total>
+  <td role="cell" *ngIf="item.totalPrice" class="cx-total">
+    <div class="cx-mobile-header">
+      {{ 'cartItems.total' | cxTranslate }}
+    </div>
+    <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
   </td>
 </ng-template>
