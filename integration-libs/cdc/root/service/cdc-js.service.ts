@@ -239,12 +239,6 @@ export class CdcJsService implements OnDestroy {
           },
           GlobalMessageType.MSG_TYPE_ERROR
         );
-      } else if (response.status === 'OK') {
-        this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-        this.globalMessageService.add(
-          { key: 'register.loginSuccessful' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
       }
     }
   }
