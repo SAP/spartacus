@@ -2,6 +2,7 @@ import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
@@ -17,8 +18,13 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    attributeComponentContext: ConfiguratorAttributeCompositionContext
+  ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.ownerKey = attributeComponentContext.configuration.owner.key;
   }
 
   /**

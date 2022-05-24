@@ -1,8 +1,11 @@
 export * from './add-to-cart-button/index';
 export * from './attribute/index';
+export * from './composition/index';
 export * from './config/index';
+export * from './configurator-conflict-and-error-messages/index';
 export * from './conflict-description/index';
 export * from './conflict-suggestion/index';
+export * from './exit-button/index';
 export * from './form/index';
 export * from './group-menu/index';
 export * from './group-title/index';
@@ -19,5 +22,3 @@ export * from './service/index';
 export * from './show-more/index';
 export * from './tab-bar/index';
 export * from './update-message/index';
-export * from './configurator-conflict-and-error-messages/index';
-export * from './exit-button/index';

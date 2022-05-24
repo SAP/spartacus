@@ -12,6 +12,7 @@ import { TranslationService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
+import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import {
@@ -44,9 +45,10 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     protected config: ConfiguratorUISettingsConfig,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
   ) {
-    super(config);
+    super(config, attributeComponentContext);
   }
 
   /**

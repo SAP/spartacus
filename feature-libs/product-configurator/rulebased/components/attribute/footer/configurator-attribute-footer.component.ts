@@ -9,6 +9,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
@@ -25,8 +26,14 @@ export class ConfiguratorAttributeFooterComponent
   @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;
 
-  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {
+  constructor(
+    protected configUtils: ConfiguratorStorefrontUtilsService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+  ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.owner = attributeComponentContext.configuration.owner;
+    this.groupId = attributeComponentContext.group.id;
   }
 
   iconType = ICON_TYPE;

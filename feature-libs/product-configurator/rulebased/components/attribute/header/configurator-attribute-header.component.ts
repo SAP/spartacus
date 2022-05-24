@@ -14,6 +14,7 @@ import {
   ConfiguratorGroupsService,
 } from '../../../core';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
@@ -39,9 +40,16 @@ export class ConfiguratorAttributeHeaderComponent
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorUiSettings: ConfiguratorUISettingsConfig
+    protected configuratorUiSettings: ConfiguratorUISettingsConfig,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
   ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.owner = attributeComponentContext.configuration.owner;
+    this.groupId = attributeComponentContext.group.id;
+    this.groupType =
+      attributeComponentContext.group.groupType ??
+      Configurator.GroupType.ATTRIBUTE_GROUP;
   }
   ngOnInit(): void {
     /**

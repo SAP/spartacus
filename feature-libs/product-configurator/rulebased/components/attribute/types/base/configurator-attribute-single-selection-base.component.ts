@@ -2,7 +2,9 @@ import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../../../core/facade/configurator-commons.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
@@ -18,8 +20,15 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext,
+    protected configuratorCommonsService: ConfiguratorCommonsService
+  ) {
     super();
+
+    this.attribute = attributeComponentContext.attribute;
+    this.ownerKey = attributeComponentContext.configuration.owner.key;
   }
 
   /**
@@ -49,16 +58,24 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   onSelect(value: string): void {
     this.loading$.next(true);
 
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
+    // const event: ConfigFormUpdateEvent = {
+    //   changedAttribute: {
+    //     ...this.attribute,
+    //     selectedSingleValue: value,
+    //   },
+    //   ownerKey: this.ownerKey,
+    //   updateType: Configurator.UpdateType.ATTRIBUTE,
+    // };
+
+    //this.selectionChange.emit(event);
+    this.configuratorCommonsService.updateConfiguration(
+      this.ownerKey,
+      {
         ...this.attribute,
         selectedSingleValue: value,
       },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-
-    this.selectionChange.emit(event);
+      Configurator.UpdateType.ATTRIBUTE
+    );
   }
 
   onHandleQuantity(quantity: number): void {

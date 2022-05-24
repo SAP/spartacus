@@ -100,4 +100,8 @@ export class ConfiguratorFormComponent implements OnInit {
   createGroupId(groupId?: string): string | undefined {
     return this.configUtils.createGroupId(groupId);
   }
+
+  getComponentKey(attribute: Configurator.Attribute): string {
+    return 'AttributeType_' + attribute.uiType;
+  }
 }

@@ -12,6 +12,7 @@ import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeCompositionContext } from '../../../composition/configurator-attribute-composition.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -41,8 +42,14 @@ export class ConfiguratorAttributeInputFieldComponent
    */
   protected readonly FALLBACK_DEBOUNCE_TIME = 500;
 
-  constructor(protected config: ConfiguratorUISettingsConfig) {
+  constructor(
+    protected config: ConfiguratorUISettingsConfig,
+    protected attributeComponentContext: ConfiguratorAttributeCompositionContext
+  ) {
     super();
+    this.attribute = attributeComponentContext.attribute;
+    this.ownerKey = attributeComponentContext.configuration.owner.key;
+    this.ownerType = attributeComponentContext.configuration.owner.type;
   }
 
   ngOnInit() {
