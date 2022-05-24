@@ -33,7 +33,6 @@
           *ngIf="isNewCartForm(context); else reducedForm"
           [type]="context.type"
           (submitEvent)="importProducts(context, $event)"
-          tabindex="0"
         ></cx-import-to-new-saved-cart-form>
         <ng-template #reducedForm>
           <cx-import-entries-form
