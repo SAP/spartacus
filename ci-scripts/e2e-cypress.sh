@@ -55,7 +55,7 @@ if [ "$SUITE" == ":ccv2-b2b" ]; then
 fi
 
 echo '-----'
-echo "Building Spartacus libraries"
+echo "Building Spartacus libraries "
 
 yarn install
 
