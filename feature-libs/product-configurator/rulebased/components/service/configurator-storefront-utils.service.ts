@@ -75,26 +75,6 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
-   * Verifies whether the HTML element is in the viewport.
-   *
-   * @param {Element} element - HTML element
-   * @return {boolean} Returns 'true' if the HTML element is in the viewport, otherwise 'false'
-   */
-  protected isInViewport(element: Element): boolean {
-    const bounding = element.getBoundingClientRect();
-    const window = this.windowRef.nativeWindow;
-    const document = this.windowRef.document;
-    return (
-      bounding.top >= 0 &&
-      bounding.left >= 0 &&
-      bounding.bottom <=
-        (window?.innerHeight || document?.documentElement.clientHeight) &&
-      bounding.right <=
-        (window?.innerWidth || document?.documentElement.clientWidth)
-    );
-  }
-
-  /**
    * Scrolls to the corresponding HTML element.
    *
    * @param {Element | HTMLElement} element - HTML element
@@ -116,7 +96,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (this.windowRef.isBrowser()) {
       // we don't want to run this logic when doing SSR
       const element = this.getElement(selector);
-      if (element && !this.isInViewport(element)) {
+      if (element) {
         this.scroll(element);
       }
     }
