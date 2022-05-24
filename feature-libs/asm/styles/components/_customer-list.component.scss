@@ -129,6 +129,14 @@ $sapContent_LabelColor: #6a6d70;
             padding: 5px 0 0 0;
           }
         }
+        .btn-cell {
+          text-decoration: none;
+          color: $sapLinkColor;
+          padding: 0;
+          border: 0;
+          height: 1.15rem;
+          width: fit-content;
+        }
       }
       td:nth-child(1) {
         div {

@@ -67,10 +67,12 @@
                           'asm.customerList.tableHeader.name' | cxTranslate
                         }}</span
                       >
-                      <a (click)="selectCustomer(customerEntry)">{{
-                        customerEntry.name
-                      }}</a>
-
+                      <button
+                        (click)="selectCustomer(customerEntry)"
+                        class="btn btn-link cx-action-link btn-cell"
+                      >
+                        <span>{{ customerEntry.name }}</span>
+                      </button>
                       <div *ngIf="(breakpoint$ | async) !== BREAKPOINT.md">
                         <span class="header-text">
                           {{
