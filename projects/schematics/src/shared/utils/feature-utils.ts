@@ -353,65 +353,81 @@ function checkDependentFeatures<OPTIONS extends LibraryOptions>(
     (feature) => !wantedFeatures.includes(feature)
   );
 
-  for (const dependentFeature of dependentFeatures) {
-    const schematicsConfig =
-      getSchematicsConfigByFeatureOrThrow(dependentFeature);
-    const featureModule = findFeatureModule(
-      schematicsConfig.featureModule,
-      appSourceFiles
-    );
-    if (!!featureModule) {
-      continue;
-    }
-
-    const libraryInstalled = dependencyExists(
-      {
-        name: getKeyByMappingValueOrThrow(
-          libraryFeatureMapping,
-          dependentFeature
-        ),
-        type: NodeDependencyType.Default,
-        version: '*',
-      },
-      packageJson
-    );
-    /**
-     * if library is not installed, we can assume
-     * the feature is not installed. Therefore, we can
-     * safely proceed the analysis, and eventually
-     * install if all other requirements are met.
-     */
-    if (!libraryInstalled) {
-      continue;
-    }
-
-    let wantedFeatureModules: Module[] = [];
-    for (const wantedFeature of wantedFeatures) {
-      wantedFeatureModules = wantedFeatureModules.concat(
-        getSchematicsConfigByFeatureOrThrow(wantedFeature).featureModule
+  for (const wantedFeature of wantedFeatures) {
+    for (const dependentFeature of dependentFeatures) {
+      const libraryInstalled = dependencyExists(
+        {
+          name: getKeyByMappingValueOrThrow(
+            libraryFeatureMapping,
+            dependentFeature
+          ),
+          type: NodeDependencyType.Default,
+          version: '*',
+        },
+        packageJson
       );
+      /**
+       * If the library is not installed, we can assume
+       * the feature is not installed. Therefore, we can
+       * skip the analysis, as we will eventually be able
+       * to safely install the missing feature.
+       */
+      if (!libraryInstalled) {
+        continue;
+      }
+
+      const dependentSchematicsConfig =
+        getSchematicsConfigByFeatureOrThrow(dependentFeature);
+      const dependentFeatureModulesConfig = ([] as Module[]).concat(
+        dependentSchematicsConfig.featureModule
+      );
+
+      for (const dependentFeatureModuleConfig of dependentFeatureModulesConfig) {
+        const featureModule = findFeatureModule(
+          dependentFeatureModuleConfig,
+          appSourceFiles
+        );
+        if (!!featureModule) {
+          continue;
+        }
+
+        const wantedFeatureSchematicsConfig =
+          getSchematicsConfigByFeatureOrThrow(wantedFeature);
+        if (!wantedFeatureSchematicsConfig.wrappers) {
+          return buildMissingFeatureMessage(wantedFeature, dependentFeature);
+        }
+
+        const wantedFeatureModule =
+          wantedFeatureSchematicsConfig.wrappers[
+            dependentFeatureModuleConfig.name
+          ];
+        if (!wantedFeatureModule) {
+          return buildMissingFeatureMessage(wantedFeature, dependentFeature);
+        }
+
+        let message = `Cannot find '${dependentFeatureModuleConfig.name}'`;
+        message += `, therefore cannot install '${wantedFeature}' feature.`;
+        message += `\n`;
+        message += `To manually install '${wantedFeature}' feature, `;
+        message += `please make sure the '${dependentFeatureModuleConfig.name}' from '${dependentFeatureModuleConfig.importPath}' is installed, and then `;
+        message += `import '${wantedFeatureModule}' after it.`;
+
+        return message;
+      }
     }
-
-    const featureModules = ([] as Module[])
-      .concat(schematicsConfig.featureModule)
-      .map((m) => m.name);
-    let message = `'${wantedFeatureModules.map((m) => m.name).join(',')}' `;
-    message +=
-      wantedFeatureModules.length > 1 ? `modules require ` : `module requires `;
-    message += `the '${featureModules.join(',')}', but `;
-    message += featureModules.length > 1 ? `they ` : `it `;
-    message += `cannot be found.`;
-    message += `\nPlease make sure to manually configure '${wantedFeatures.join(
-      ','
-    )}' `;
-    message += wantedFeatures.length > 1 ? `features ` : `feature `;
-    message += `by following this guide:\n`;
-    message += `TODO:#schematics - docs link`;
-
-    return message;
   }
 
   return undefined;
+}
+
+function buildMissingFeatureMessage(
+  wantedFeature: string,
+  dependentFeature: string
+): string {
+  let message = `The installer cannot continue as '${wantedFeature}' requires '${dependentFeature}' feature to be installed.`;
+  message += `\n`;
+  message += `Please run 'ng add @spartacus/schematics --features=${dependentFeature}'.`;
+  return message;
 }
 
 /**
