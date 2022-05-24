@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -6,7 +6,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import { ICON_TYPE, ModalService } from '@spartacus/storefront';
+import { DialogComponent, FocusConfig, ICON_TYPE, LaunchDialogService, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   filter,
@@ -22,7 +22,7 @@ import {
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
-export class AddedToCartDialogComponent {
+export class AddedToCartDialogComponent extends DialogComponent{
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry | undefined>;
@@ -33,6 +33,12 @@ export class AddedToCartDialogComponent {
 
   quantity = 0;
   modalIsOpen = false;
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'button.btn-action',
+    focusOnEscape: false,
+  };
 
   @ViewChild('dialog', { read: ElementRef })
   dialog: ElementRef;
@@ -41,10 +47,21 @@ export class AddedToCartDialogComponent {
 
   protected quantityControl$: Observable<FormControl>;
 
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    // Close on click outside the dialog window
+      super.handleClick(event);
+  }
+
   constructor(
     protected modalService: ModalService,
-    protected activeCartFacade: ActiveCartFacade
-  ) {}
+    protected activeCartFacade: ActiveCartFacade,
+    protected launchDialogService: LaunchDialogService,
+    protected el: ElementRef
+  ) {
+    super(launchDialogService, el);
+  }
+  
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
    * but also updates the entry in case of a changed value.

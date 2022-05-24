@@ -472,6 +472,8 @@ export const CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT =
   'ConfiguratorAttributeProductCardComponent';
 export const CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT =
   'ConfiguratorOverviewBundleAttributeComponent';
+export const OCC_CONFIGURATOR_VARIANT_NORMALIZER =
+  'OccConfiguratorVariantNormalizer';
 export const DIRECTION_SERVICE = 'DirectionService';
 export const QUICK_ORDER_SERVICE = 'QuickOrderService';
 
@@ -1050,6 +1052,8 @@ export const EXTRACT_PRODUCT_CARD_PARAMETERS = 'extractProductCardParameters';
 export const CONFIGURATOR_API_IS_ATTRIBUTE_GROUP = 'isAttributeGroup';
 export const CONFIGURATOR_API_GET_CONFLICT_MESSAGE_KEY =
   'getConflictMessageKey';
+export const CONFIGURATOR_CONVERT_ATTRIBUTE_TYPE = 'convertAttributeType';
+export const CONFIGURATOR_IS_IN_VIEWPORT = 'isInViewport';
 
 /***** APIs end *****/
 
@@ -1068,5 +1072,6 @@ export const CSS_V4_DOCS_URL =
 export const CSS_V5_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-5/';
 
+export const BANNER_COMPONENT = 'BannerComponent';
 export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';
 export const GENERIC_LINK_COMPONENT_SERVICE = 'GenericLinkComponentService';

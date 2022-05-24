@@ -17,6 +17,7 @@ export class ConfiguratorStorefrontUtilsService {
     protected windowRef: WindowRef,
     protected keyboardFocusService: KeyboardFocusService
   ) {}
+
   /**
    * Does the configuration belong to a cart entry, or has the group been visited already?
    * In both cases we need to render indications for mandatory attributes.
@@ -74,26 +75,6 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
-   * Verifies whether the HTML element is in the viewport.
-   *
-   * @param {Element} element - HTML element
-   * @return {boolean} Returns 'true' if the HTML element is in the viewport, otherwise 'false'
-   */
-  protected isInViewport(element: Element): boolean {
-    const bounding = element.getBoundingClientRect();
-    const window = this.windowRef.nativeWindow;
-    const document = this.windowRef.document;
-    return (
-      bounding.top >= 0 &&
-      bounding.left >= 0 &&
-      bounding.bottom <=
-        (window?.innerHeight || document?.documentElement.clientHeight) &&
-      bounding.right <=
-        (window?.innerWidth || document?.documentElement.clientWidth)
-    );
-  }
-
-  /**
    * Scrolls to the corresponding HTML element.
    *
    * @param {Element | HTMLElement} element - HTML element
@@ -115,7 +96,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (this.windowRef.isBrowser()) {
       // we don't want to run this logic when doing SSR
       const element = this.getElement(selector);
-      if (element && !this.isInViewport(element)) {
+      if (element) {
         this.scroll(element);
       }
     }
@@ -138,12 +119,58 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
+  protected getFocusableElementById(
+    focusableElements: HTMLElement[],
+    id?: string
+  ): HTMLElement | undefined {
+    return focusableElements.find((focusableElement) => {
+      if (id) {
+        if (
+          focusableElement.nodeName.toLocaleLowerCase().indexOf(id) !== -1 ||
+          focusableElement.id.indexOf(id) !== -1
+        ) {
+          return focusableElement;
+        }
+      }
+    });
+  }
+
+  protected getFocusableConflictDescription(
+    focusableElements: HTMLElement[]
+  ): HTMLElement | undefined {
+    return this.getFocusableElementById(
+      focusableElements,
+      'cx-configurator-conflict-description'
+    );
+  }
+
+  protected getFocusableElementByValueUiKey(
+    focusableElements: HTMLElement[],
+    valueUiKey?: string
+  ): HTMLElement | undefined {
+    return this.getFocusableElementById(focusableElements, valueUiKey);
+  }
+
+  protected getFocusableElementByAttributeId(
+    focusableElements: HTMLElement[],
+    attributeName: string
+  ): HTMLElement | undefined {
+    return this.getFocusableElementById(focusableElements, attributeName);
+  }
+
+  protected createAttributeValueUiKey(
+    attributeId: string,
+    valueId: string
+  ): string {
+    return attributeId + '--' + valueId;
+  }
+
   /**
-   * Find an attribute by its name in the form and focus it.
+   * Focus a value in the form.
    *
-   * @param {string} name - Attribute name
+   * @param {Configurator.Attribute} attribute - Attribute
    */
-  focusAttribute(name: string): void {
+  focusValue(attribute: Configurator.Attribute): void {
     if (!this.windowRef.isBrowser()) {
       return;
     }
@@ -152,13 +179,29 @@ export class ConfiguratorStorefrontUtilsService {
       const focusableElements: HTMLElement[] =
         this.keyboardFocusService.findFocusable(form);
       if (focusableElements.length > 0) {
-        const foundFocusableElement = focusableElements.find(
-          (focusableElement) => {
-            if (focusableElement.id.indexOf(name) !== -1) {
-              return focusableElement;
-            }
+        let foundFocusableElement =
+          this.getFocusableConflictDescription(focusableElements);
+        if (!foundFocusableElement) {
+          const selectedValue = attribute.values?.find(
+            (value) => value.selected
+          );
+          if (selectedValue) {
+            const valueUiKey = this.createAttributeValueUiKey(
+              attribute.name,
+              selectedValue.valueCode
+            );
+            foundFocusableElement = this.getFocusableElementByValueUiKey(
+              focusableElements,
+              valueUiKey
+            );
           }
-        );
+          if (!foundFocusableElement) {
+            foundFocusableElement = this.getFocusableElementByAttributeId(
+              focusableElements,
+              attribute.name
+            );
+          }
+        }
         if (foundFocusableElement) {
           foundFocusableElement.focus();
         }

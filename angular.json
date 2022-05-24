@@ -38,6 +38,10 @@
                 "bundleName": "styles"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-asm.scss",
+                "bundleName": "asm"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-organization.scss",
                 "bundleName": "organization"
               },
@@ -78,14 +82,6 @@
                 "bundleName": "epd-visualization"
               }
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "./projects",
-                "./projects/storefrontstyles/scss",
-                "./feature-libs",
-                "./integration-libs"
-              ]
-            },
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
             "scripts": []
           },
