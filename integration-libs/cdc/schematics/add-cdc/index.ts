@@ -10,13 +10,13 @@ import {
   addPackageJsonDependenciesForLibrary,
   CLI_CDC_FEATURE,
   CLI_USER_PROFILE_FEATURE,
-  LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CDC,
   SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { Schema as SpartacusCdcOptions } from './schema';
 import { peerDependencies } from '../../package.json';
 import {
   CDC_CONFIG,
@@ -29,7 +29,7 @@ import {
 } from '../constants';
 
 export function addCdcFeature(options: SpartacusCdcOptions): Rule {
-  return (tree: Tree, _context: SchematicContext): Rule => {
+  return (tree: Tree, context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -37,13 +37,19 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_CDC_FEATURE, options.features)
-        ? addCdc(options)
+        ? addCdc(options, context)
         : noop(),
     ]);
   };
 }
 
-function addCdc(options: SpartacusCdcOptions): Rule {
+function addCdc(options: SpartacusCdcOptions, context: SchematicContext): Rule {
+  if (!options.javascriptUrl) {
+    context.logger.warn(
+      `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the javascriptUrl.`
+    );
+  }
+
   return addLibraryFeature(options, {
     folderName: CDC_FOLDER_NAME,
     moduleName: CDC_MODULE_NAME,
@@ -70,9 +76,11 @@ function addCdc(options: SpartacusCdcOptions): Rule {
       content: `<${CDC_CONFIG}>{
           cdc: [
             {
-              baseSite: 'electronics-spa',
-              javascriptUrl: '<url-to-cdc-script>',
-              sessionExpiration: 3600
+              baseSite: '${options.baseSite}',
+              javascriptUrl: '${
+                options.javascriptUrl || 'JS_SDK_URL_PLACEHOLDER'
+              }',
+              sessionExpiration: ${options.sessionExpiration}
             },
           ],
         }`,
