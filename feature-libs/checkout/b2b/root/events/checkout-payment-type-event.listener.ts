@@ -14,10 +14,10 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(protected eventService: EventService) {
-    this.onSetPaymentType();
+    this.onPaymentTypeSet();
   }
 
-  protected onSetPaymentType(): void {
+  protected onPaymentTypeSet(): void {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutPaymentTypeSetEvent)

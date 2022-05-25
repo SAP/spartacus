@@ -14,10 +14,10 @@ export class CheckoutCostCenterEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(protected eventService: EventService) {
-    this.onSetCostCenter();
+    this.onCostCenterSet();
   }
 
-  protected onSetCostCenter(): void {
+  protected onCostCenterSet(): void {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutCostCenterSetEvent)
