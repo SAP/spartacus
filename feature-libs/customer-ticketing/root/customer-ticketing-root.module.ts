@@ -1,9 +1,5 @@
 import { NgModule } from '@angular/core';
-import {
+import {} from '@spartacus/core';
 
-} from '@spartacus/core';
-
-@NgModule({
-
-})
+@NgModule({})
 export class CustomerTicketingRootModule {}

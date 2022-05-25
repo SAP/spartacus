@@ -5,6 +5,7 @@ export const customerTicketingTranslations: TranslationResources = {
   en,
 };
 
-export const customerTicketingTranslationChunksConfig: TranslationChunksConfig = {
-  customerTicketing: ['customerTicketing'],
-};
+export const customerTicketingTranslationChunksConfig: TranslationChunksConfig =
+  {
+    customerTicketing: ['customerTicketing'],
+  };

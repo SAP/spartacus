@@ -29,7 +29,9 @@ import {
   CUSTOMER_TICKETING_SCSS_FILE_NAME,
 } from '../constants';
 
-export function addCustomerTicketingFeatures(options: SpartacusCustomerTicketingOptions): Rule {
+export function addCustomerTicketingFeatures(
+  options: SpartacusCustomerTicketingOptions
+): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
@@ -44,7 +46,9 @@ export function addCustomerTicketingFeatures(options: SpartacusCustomerTicketing
   };
 }
 
-function addCustomerTicketingFeature(options: SpartacusCustomerTicketingOptions): Rule {
+function addCustomerTicketingFeature(
+  options: SpartacusCustomerTicketingOptions
+): Rule {
   return addLibraryFeature(options, {
     folderName: CUSTOMER_TICKETING_FOLDER_NAME,
     moduleName: CUSTOMER_TICKETING_MODULE_NAME,

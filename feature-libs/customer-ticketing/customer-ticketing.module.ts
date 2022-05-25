@@ -4,6 +4,10 @@ import { CustomerTicketingCoreModule } from '@spartacus/customer-ticketing/core'
 import { CustomerTicketingOccModule } from '@spartacus/customer-ticketing/occ';
 
 @NgModule({
-  imports: [CustomerTicketingComponentsModule, CustomerTicketingCoreModule, CustomerTicketingOccModule],
+  imports: [
+    CustomerTicketingComponentsModule,
+    CustomerTicketingCoreModule,
+    CustomerTicketingOccModule,
+  ],
 })
 export class CustomerTicketingModule {}

@@ -95,7 +95,6 @@
       "@spartacus/checkout/scheduled-replenishment/root": [
         "../../dist/checkout/scheduled-replenishment/root"
       ],
-      "@spartacus/customer-ticketing": ["../../dist/customer-ticketing"],
       "@spartacus/customer-ticketing/assets": [
         "../../dist/customer-ticketing/assets"
       ],
@@ -104,6 +103,10 @@
       ],
       "@spartacus/customer-ticketing/core": [
         "../../dist/customer-ticketing/core"
+      ],
+      "@spartacus/customer-ticketing": ["../../dist/customer-ticketing"],
+      "@spartacus/customer-ticketing/occ": [
+        "../../dist/customer-ticketing/occ"
       ],
       "@spartacus/customer-ticketing/root": [
         "../../dist/customer-ticketing/root"

@@ -3,7 +3,10 @@ import {
   customerTicketingTranslationChunksConfig,
   customerTicketingTranslations,
 } from '@spartacus/customer-ticketing/assets';
-import { CustomerTicketingRootModule, CUSTOMER_TICKETING_FEATURE } from '@spartacus/customer-ticketing/root';
+import {
+  CustomerTicketingRootModule,
+  CUSTOMER_TICKETING_FEATURE,
+} from '@spartacus/customer-ticketing/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
@@ -12,7 +15,10 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
     provideConfig(<CmsConfig>{
       featureModules: {
         [CUSTOMER_TICKETING_FEATURE]: {
-          module: () => import('@spartacus/customer-ticketing').then((m) => m.CustomerTicketingModule),
+          module: () =>
+            import('@spartacus/customer-ticketing').then(
+              (m) => m.CustomerTicketingModule
+            ),
         },
       },
     }),
