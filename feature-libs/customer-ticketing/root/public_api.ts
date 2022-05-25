@@ -1,2 +1,2 @@
-export * from './asm-root.module';
+export * from './customer-ticketing-root.module';
 export * from './feature-name';
