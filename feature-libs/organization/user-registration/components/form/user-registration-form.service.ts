@@ -50,7 +50,7 @@ export class UserRegistrationFormService {
         isocode: [null],
       }),
       postalCode: [''],
-      phoneNumber: '',
+      phoneNumber: [''],
       message: [''],
     });
   }
