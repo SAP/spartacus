@@ -1,2 +1,13 @@
-<p>{{ 'deliveryOptions.delivery' | cxTranslate }}</p>
-<p>{{ 'deliveryOptions.pickup' | cxTranslate }}</p>
+<input type="radio" id="delivery" name="deliveryOption" checked />
+<label for="delivery">
+  {{ 'deliveryOptions.delivery' | cxTranslate }}
+</label>
+<input
+  type="radio"
+  id="pickInStore"
+  name="deliveryOption"
+  (click)="openDialog()"
+/>
+<label for="delivery">
+  <p>{{ 'deliveryOptions.pickup' | cxTranslate }}</p>
+</label>
