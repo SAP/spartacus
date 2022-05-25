@@ -8,11 +8,11 @@ export abstract class CheckoutCostCenterEvent extends CheckoutEvent {}
 /**
  * Fired when the cost center has been set.
  */
-export class CostCenterSetEvent extends CheckoutCostCenterEvent {
+export class CheckoutSetCostCenterEvent extends CheckoutCostCenterEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CostCenterSetEvent';
+  static readonly type = 'CheckoutSetCostCenterEvent';
 
   /**
    * Cost center code

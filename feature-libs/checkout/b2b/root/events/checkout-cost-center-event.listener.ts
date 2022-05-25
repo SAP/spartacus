@@ -5,7 +5,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CostCenterSetEvent } from './checkout-b2b.events';
+import { CheckoutSetCostCenterEvent } from '.';
 
 @Injectable({
   providedIn: 'root',
@@ -14,13 +14,13 @@ export class CheckoutCostCenterEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(protected eventService: EventService) {
-    this.onCostCenterChange();
+    this.onSetCostCenter();
   }
 
-  protected onCostCenterChange(): void {
+  protected onSetCostCenter(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CostCenterSetEvent)
+        .get(CheckoutSetCostCenterEvent)
         .subscribe(({ cartId, userId }) => {
           this.eventService.dispatch(
             { cartId, userId },
