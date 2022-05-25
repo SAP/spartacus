@@ -98,12 +98,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(strategyConnector: <a href="../injectables/MerchandisingStrategyConnector.html" target="_self">MerchandisingStrategyConnector</a>, merchandisingUserContextService: <a href="../injectables/CdsMerchandisingUserContextService.html" target="_self">CdsMerchandisingUserContextService</a>, merchandisingSiteContextService: <a href="../injectables/CdsMerchandisingSiteContextService.html" target="_self">CdsMerchandisingSiteContextService</a>)</code>
+<code>constructor(strategyConnector: <a href="../injectables/MerchandisingStrategyConnector.html" target="_self">MerchandisingStrategyConnector</a>, merchandisingUserContextService: <a href="../injectables/CdsMerchandisingUserContextService.html" target="_self">CdsMerchandisingUserContextService</a>, merchandisingSiteContextService: <a href="../injectables/CdsMerchandisingSiteContextService.html" target="_self">CdsMerchandisingSiteContextService</a>, merchandisingSearchContextService?: <a href="../injectables/CdsMerchandisingSearchContextService.html" target="_self">CdsMerchandisingSearchContextService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">integration-libs/cds/src/merchandising/facade/cds-merchandising-product.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">integration-libs/cds/src/merchandising/facade/cds-merchandising-product.service.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -156,6 +156,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>merchandisingSearchContextService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/CdsMerchandisingSearchContextService.html" target="_self" >CdsMerchandisingSearchContextService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -190,8 +202,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">integration-libs/cds/src/merchandising/facade/cds-merchandising-product.service.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">integration-libs/cds/src/merchandising/facade/cds-merchandising-product.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -256,8 +268,8 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { combineLatest, Observable } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Optional } from &#x27;@angular/core&#x27;;
+import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
 import { debounceTime, map, mergeMap } from &#x27;rxjs/operators&#x27;;
 import { MerchandisingUserContext } from &#x27;../model/merchandising-user-context.model&#x27;;
 import { StrategyProducts } from &#x27;../model/strategy-products.model&#x27;;
@@ -265,15 +277,35 @@ import { MerchandisingStrategyConnector } from &#x27;./../connectors/strategy/me
 import { MerchandisingSiteContext } from &#x27;./../model/merchandising-site-context.model&#x27;;
 import { CdsMerchandisingSiteContextService } from &#x27;./cds-merchandising-site-context.service&#x27;;
 import { CdsMerchandisingUserContextService } from &#x27;./cds-merchandising-user-context.service&#x27;;
+import { CdsMerchandisingSearchContextService } from &#x27;./cds-merchandising-search-context.service&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class CdsMerchandisingProductService {
   constructor(
+    strategyConnector: MerchandisingStrategyConnector,
+    merchandisingUserContextService: CdsMerchandisingUserContextService,
+    merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    merchandisingSearchContextService?: CdsMerchandisingSearchContextService
+  );
+
+  /**
+   * @deprecated since 4.3.4
+   */
+  constructor(
+    strategyConnector: MerchandisingStrategyConnector,
+    merchandisingUserContextService: CdsMerchandisingUserContextService,
+    merchandisingSiteContextService: CdsMerchandisingSiteContextService
+  );
+
+  constructor(
     protected strategyConnector: MerchandisingStrategyConnector,
     protected merchandisingUserContextService: CdsMerchandisingUserContextService,
-    protected merchandisingSiteContextService: CdsMerchandisingSiteContextService
+    protected merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+    @Optional()
+    protected merchandisingSearchContextService?: CdsMerchandisingSearchContextService
   ) {}
 
   loadProductsForStrategy(
@@ -283,12 +315,16 @@ export class CdsMerchandisingProductService {
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
       this.merchandisingUserContextService.getUserContext(),
+      this.merchandisingSearchContextService
+        ? this.merchandisingSearchContextService.getSearchPhrase()
+        : of(undefined),
     ]).pipe(
       debounceTime(0),
       map(
-        ([siteContext, userContext]: [
+        ([siteContext, userContext, searchPhrase]: [
           MerchandisingSiteContext,
-          MerchandisingUserContext
+          MerchandisingUserContext,
+          string | undefined
         ]) &#x3D;&gt; {
           return {
             queryParams: {
@@ -297,6 +333,7 @@ export class CdsMerchandisingProductService {
               facets: userContext.facets,
               category: userContext.category,
               pageSize: numberToDisplay,
+              searchPhrase: searchPhrase,
             },
             headers: {
               consentReference: userContext.consentReference,

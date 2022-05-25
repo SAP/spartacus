@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/product-configurator/textfield/occ/occ-configurator-textfield-endpoints.model.ts</code>
+            <code>feature-libs/storefinder/occ/model/occ-storefinder-endpoints.model.ts</code>
         </p>
 
 
@@ -84,9 +84,23 @@
                             <ul class="index-list">
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#readTextfieldConfigurationForOrderEntry" 
+                                        <a href="#store" 
 >
-                                            readTextfieldConfigurationForOrderEntry
+                                            store
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#stores" 
+>
+                                            stores
+                                        </a>
+                                </li>
+                                <li>
+                                            <span class="modifier">Optional</span>
+                                        <a href="#storescounts" 
+>
+                                            storescounts
                                         </a>
                                 </li>
                             </ul>
@@ -104,9 +118,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="readTextfieldConfigurationForOrderEntry"></a>
-                                        <span class="name "><b>readTextfieldConfigurationForOrderEntry</b>
-                                            <a href="#readTextfieldConfigurationForOrderEntry">
+                                        <a name="store"></a>
+                                        <span class="name "><b>store</b>
+                                            <a href="#store">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -114,7 +128,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>readTextfieldConfigurationForOrderEntry:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
+                                        <code>store:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -136,6 +150,100 @@
 
 
 
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Get a store location</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="stores"></a>
+                                        <span class="name "><b>stores</b>
+                                            <a href="#stores">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>stores:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Get a list of store locations</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="storescounts"></a>
+                                        <span class="name "><b>storescounts</b>
+                                            <a href="#storescounts">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>storescounts:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Gets a store location count per country and regions</p>
+</div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
             </section>
@@ -144,9 +252,27 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OccEndpoint } from &#x27;@spartacus/core&#x27;;
+
 declare module &#x27;@spartacus/core&#x27; {
   interface OccEndpoints {
-    readTextfieldConfigurationForOrderEntry?: string | OccEndpoint;
+    /**
+     * Get a store location
+     *
+     * @member {string} [page]
+     */
+    store?: string | OccEndpoint;
+    /**
+     * Get a list of store locations
+     *
+     * @member {string} [page]
+     */
+    stores?: string | OccEndpoint;
+    /**
+     * Gets a store location count per country and regions
+     *
+     * @member {string} [page]
+     */
+    storescounts?: string | OccEndpoint;
   }
 }
 </code></pre>

@@ -18,13 +18,13 @@
 <title>cluster_ProductVariantStyleIconsModule_imports</title>
 <polygon fill="none" stroke="black" points="266,-40.8 266,-92.8 464,-92.8 464,-40.8 266,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ProductVariantStyleIconsModule_exports</title>
-<polygon fill="none" stroke="black" points="190,-170.8 190,-222.8 436,-222.8 436,-170.8 190,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_ProductVariantStyleIconsModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 258,-92.8 258,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ProductVariantStyleIconsModule_exports</title>
+<polygon fill="none" stroke="black" points="190,-170.8 190,-222.8 436,-222.8 436,-170.8 190,-170.8"/>
 </g>
 <!-- ProductVariantStyleIconsComponent -->
 <g id="node1" class="node">

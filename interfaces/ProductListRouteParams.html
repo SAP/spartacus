@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/cms-components/product/product-list/container/product-list.model.ts</code>
+            <code>integration-libs/cds/src/merchandising/model/merchandising-search.model.ts</code>
         </p>
 
 
@@ -275,32 +275,6 @@ query the backend API.</p>
    * query the backend API.
    */
   brandCode?: string;
-}
-
-/**
- * Contains search related data for querying the backend API.
- */
-export interface SearchCriteria {
-  /**
-   * Contains the search text that is used to query the backend API.
-   */
-  query?: string;
-
-  /**
-   * The current page of the search result.
-   */
-  currentPage?: number;
-
-  /**
-   * The number of items in the search results.
-   */
-  pageSize?: number;
-
-  /**
-   * The sort code that is used to sort the items in the search result.
-   */
-  // TODO: Should we change it it &#x60;sort&#x60;?
-  sortCode?: string;
 }
 </code></pre>
     </div>

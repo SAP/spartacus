@@ -14,6 +14,10 @@
 <title>cluster_ConfiguratorProductTitleModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 754,-230.8 754,-32.8 8,-32.8"/>
 </g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorProductTitleModule_exports</title>
+<polygon fill="none" stroke="black" points="306,-170.8 306,-222.8 550,-222.8 550,-170.8 306,-170.8"/>
+</g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorProductTitleModule_imports</title>
 <polygon fill="none" stroke="black" points="264,-40.8 264,-92.8 746,-92.8 746,-40.8 264,-40.8"/>
@@ -21,10 +25,6 @@
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorProductTitleModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 256,-92.8 256,-40.8 16,-40.8"/>
-</g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorProductTitleModule_exports</title>
-<polygon fill="none" stroke="black" points="306,-170.8 306,-222.8 550,-222.8 550,-170.8 306,-170.8"/>
 </g>
 <!-- ConfiguratorProductTitleComponent -->
 <g id="node1" class="node">

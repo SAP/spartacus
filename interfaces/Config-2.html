@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/smartedit/root/config/smart-edit-config.ts</code>
+            <code>integration-libs/cds/src/config/cds-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/SmartEditConfig.html" target="_self" >SmartEditConfig</a></code>
+                        <code><a href="../injectables/CdsConfig.html" target="_self" >CdsConfig</a></code>
             </p>
 
 
@@ -85,20 +85,27 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
+import { CdsEndpoints } from &#x27;../cds-models/cds-endpoints.model&#x27;;
+import { MerchandisingConfig } from &#x27;./merchandising.config&#x27;;
+import { ProfileTagConfig } from &#x27;./profile-tag.config&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class SmartEditConfig {
-  smartEdit?: {
-    storefrontPreviewRoute?: string;
-    allowOrigin?: string;
+export abstract class CdsConfig {
+  cds?: {
+    tenant?: string;
+    baseUrl?: string;
+    consentTemplateId?: string;
+    endpoints?: CdsEndpoints;
+    merchandising?: MerchandisingConfig;
+    profileTag?: ProfileTagConfig;
   };
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends SmartEditConfig {}
+  interface Config extends CdsConfig {}
 }
 </code></pre>
     </div>
