@@ -80,6 +80,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
                 "bundleName": "epd-visualization"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-customer-ticketing.scss",
+                "bundleName": "customer-ticketing"
               }
             ],
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",

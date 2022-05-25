@@ -190,6 +190,10 @@
           {
             "value": "Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Customer-Ticketing",
+            "label": "Customer Ticketing"
           }
         ]
       }

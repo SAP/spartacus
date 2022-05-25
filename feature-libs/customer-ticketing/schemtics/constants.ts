@@ -8,4 +8,4 @@ export const SPARTACUS_CUSTOMER_TICKETING_ROOT = `${SPARTACUS_CUSTOMER_TICKETING
 export const SPARTACUS_CUSTOMER_TICKETING_ASSETS = `${SPARTACUS_CUSTOMER_TICKETING}/assets`;
 export const CUSTOMER_TICKETING_TRANSLATIONS = 'customerTicketingTranslations';
 export const CUSTOMER_TICKETING_TRANSLATION_CHUNKS_CONFIG = 'customerTicketingTranslationChunksConfig';
-export const SCSS_FILE_NAME = 'customer-ticketing.scss';
+export const CUSTOMER_TICKETING_SCSS_FILE_NAME = 'customer-ticketing.scss';

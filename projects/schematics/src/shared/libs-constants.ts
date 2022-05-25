@@ -104,6 +104,7 @@ export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_DIGITAL_PAYMENTS = '@spartacus/digital-payments';
 
 export const SPARTACUS_EPD_VISUALIZATION = '@spartacus/epd-visualization';
+export const SPARTACUS_CUSTOMER_TICKETING = '@spartacus/customer-ticketing';
 /***** Scopes end *****/
 
 /***** File structure start *****/
@@ -159,6 +160,7 @@ export const CLI_CDC_FEATURE = 'CDC';
 export const CLI_CDS_FEATURE = 'CDS';
 export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
 export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
+export const CLI_CUSTOMER_TICKETING_FEATURE = 'Customer-Ticketing';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
@@ -247,4 +249,6 @@ export const DIGITAL_PAYMENTS_MODULE = 'DigitalPaymentsModule';
 
 export const EPD_VISUALIZATION_MODULE = 'EpdVisualizationModule';
 export const EPD_VISUALIZATION_ROOT_MODULE = 'EpdVisualizationRootModule';
+export const CUSTOMER_TICKETING_MODULE = 'CustomerTicketingModule';
+export const CUSTOMER_TICKETING_ROOT_MODULE = 'CustomerTicketingRootModule';
 /***** Feature libs configuration end *****/

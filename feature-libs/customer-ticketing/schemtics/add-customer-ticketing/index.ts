@@ -26,7 +26,7 @@ import {
   CUSTOMER_TICKETING_TRANSLATION_CHUNKS_CONFIG,
   SPARTACUS_CUSTOMER_TICKETING_ASSETS,
   SPARTACUS_CUSTOMER_TICKETING_ROOT,
-  SCSS_FILE_NAME,
+  CUSTOMER_TICKETING_SCSS_FILE_NAME,
 } from '../constants';
 
 export function addCustomerTicketingFeatures(options: SpartacusCustomerTicketingOptions): Rule {
@@ -61,7 +61,7 @@ function addCustomerTicketingFeature(options: SpartacusCustomerTicketingOptions)
       namedImports: [CUSTOMER_TICKETING_FEATURE_NAME_CONSTANT],
     },
     styles: {
-      scssFileName: SCSS_FILE_NAME,
+      scssFileName: CUSTOMER_TICKETING_SCSS_FILE_NAME,
       importStyle: SPARTACUS_CUSTOMER_TICKETING,
     },
     i18n: {

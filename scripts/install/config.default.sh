@@ -36,6 +36,7 @@ SPARTACUS_PROJECTS=(
         "feature-libs/order"
         "feature-libs/user"
         "feature-libs/tracking"
+        "feature-libs/customer-ticketing"
         )
 
 SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"

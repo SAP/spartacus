@@ -116,6 +116,10 @@ echo "Running unit tests and code coverage for schematics library"
 exec 5>&1
 output=$(yarn --cwd projects/schematics run test --runInBand --coverage=true | tee /dev/fd/5)
 
+echo "Running schematics unit tests and code coverage for customer-ticketing"
+exec 5>&1
+output=$(yarn --cwd feature-libs/customer-ticketing run test:schematics --coverage=true | tee /dev/fd/5)
+
 echo "Running unit tests and code coverage for customer-ticketing"
 exec 5>&1
 output=$(ng test customer-ticketing --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
