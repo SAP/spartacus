@@ -136,10 +136,43 @@ describe('Spartacus CDC schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('show the warning', () => {
+      it('should show the warning', () => {
         expect(firstMessage).toEqual(
           `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the javascriptUrl.`
         );
+      });
+
+      it('should set the default JS_SDK_URL_PLACEHOLDER', () => {
+        expect(module).toMatchSnapshot();
+      });
+    });
+
+    describe('warning for blank jsSDKUrl', () => {
+      let firstMessage: string | undefined;
+      beforeEach(async () => {
+        schematicRunner.logger.subscribe((log) => {
+          if (!firstMessage) {
+            firstMessage = log.message;
+          }
+        });
+
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...cdcFeatureOptions, javascriptUrl: '' },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should show the warning', () => {
+        expect(firstMessage).toEqual(
+          `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the javascriptUrl.`
+        );
+      });
+
+      it('should set the default JS_SDK_URL_PLACEHOLDER', () => {
+        expect(module).toMatchSnapshot();
       });
     });
 
@@ -156,7 +189,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
 
       it('should set the given javascriptUrl', () => {
         const module = appTree.readContent(featureModulePath);
-        expect(module).toContain<string>(`<dc>.gigya.com/<api-key>`);
+        expect(module).toMatchSnapshot();
       });
     });
 

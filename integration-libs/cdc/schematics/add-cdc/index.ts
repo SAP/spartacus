@@ -50,8 +50,6 @@ function addCdc(options: SpartacusCdcOptions, context: SchematicContext): Rule {
     );
   }
 
-  const JS_SDK_URL_PLACEHOLDER = '<url-to-cdc-script>';
-
   return addLibraryFeature(options, {
     folderName: CDC_FOLDER_NAME,
     moduleName: CDC_MODULE_NAME,
@@ -80,7 +78,7 @@ function addCdc(options: SpartacusCdcOptions, context: SchematicContext): Rule {
             {
               baseSite: '${options.baseSite}',
               javascriptUrl: '${
-                options.javascriptUrl ?? JS_SDK_URL_PLACEHOLDER
+                options.javascriptUrl || 'JS_SDK_URL_PLACEHOLDER'
               }',
               sessionExpiration: ${options.sessionExpiration}
             },
