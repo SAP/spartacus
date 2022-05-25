@@ -20,9 +20,9 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(protected eventService: EventService) {
-    this.onSetDeliveryMode();
-    this.onClearDeliveryMode();
-    this.onClearDeliveryModeError();
+    this.onDeliveryModeSet();
+    this.onDeliveryModeCleared();
+    this.onDeliveryModeClearedError();
 
     // no query yet
     this.onDeliveryModeReset();
@@ -56,7 +56,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
 
   // new
 
-  protected onSetDeliveryMode() {
+  protected onDeliveryModeSet() {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutDeliveryModeSetEvent)
@@ -79,7 +79,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     );
   }
 
-  protected onClearDeliveryMode(): void {
+  protected onDeliveryModeCleared(): void {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutDeliveryModeClearedEvent)
@@ -102,7 +102,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     );
   }
 
-  protected onClearDeliveryModeError(): void {
+  protected onDeliveryModeClearedError(): void {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutDeliveryModeClearedErrorEvent)
