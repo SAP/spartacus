@@ -39,7 +39,9 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     // new 'single events' to discuss
     this.onCreateDeliveryAddress();
     this.onSetDeliveryAddress();
+    this.onClearDeliveryAddress();
 
+    // keep?
     this.onUserAddressChange();
   }
 
