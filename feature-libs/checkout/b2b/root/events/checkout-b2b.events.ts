@@ -28,11 +28,11 @@ export abstract class CheckoutPaymentTypeEvent extends CheckoutEvent {}
 /**
  * Fired when the payment type has been set
  */
-export class PaymentTypeSetEvent extends CheckoutPaymentTypeEvent {
+export class CheckoutSetPaymentTypeEvent extends CheckoutPaymentTypeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'PaymentTypeSetEvent';
+  static readonly type = 'CheckoutSetPaymentTypeEvent';
 
   /**
    * Payment type code

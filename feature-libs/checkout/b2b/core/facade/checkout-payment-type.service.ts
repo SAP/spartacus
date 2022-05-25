@@ -3,7 +3,7 @@ import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
-  PaymentTypeSetEvent,
+  CheckoutSetPaymentTypeEvent,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
@@ -69,7 +69,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
                     paymentTypeCode,
                     purchaseOrderNumber,
                   },
-                  PaymentTypeSetEvent
+                  CheckoutSetPaymentTypeEvent
                 )
               )
             )

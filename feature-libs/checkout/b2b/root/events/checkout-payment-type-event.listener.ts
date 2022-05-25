@@ -5,7 +5,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { PaymentTypeSetEvent } from './checkout-b2b.events';
+import { CheckoutSetPaymentTypeEvent } from '.';
 
 @Injectable({
   providedIn: 'root',
@@ -14,13 +14,13 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(protected eventService: EventService) {
-    this.onPaymentTypeChange();
+    this.onSetPaymentType();
   }
 
-  protected onPaymentTypeChange(): void {
+  protected onSetPaymentType(): void {
     this.subscriptions.add(
       this.eventService
-        .get(PaymentTypeSetEvent)
+        .get(CheckoutSetPaymentTypeEvent)
         .subscribe(({ userId, cartId }) => {
           this.eventService.dispatch(
             { userId, cartId },
