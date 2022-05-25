@@ -5,12 +5,12 @@ import {
   SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
 import {
-  CheckoutDeliveryAddressClearedEvent,
-  CheckoutDeliveryAddressSetEvent,
+  CheckoutClearDeliveryAddressEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
+  CheckoutSetDeliveryAddressEvent,
 } from '@spartacus/checkout/base/root';
 import { EventService, LoginEvent, LogoutEvent } from '@spartacus/core';
 import {
@@ -52,10 +52,10 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
   protected registerOrderTypeEventListers(): void {
     this.subscriptions.add(
       merge(
-        this.eventService.get(CheckoutDeliveryAddressSetEvent),
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent),
-        this.eventService.get(CheckoutDeliveryAddressClearedEvent),
+        this.eventService.get(CheckoutSetDeliveryAddressEvent),
+        this.eventService.get(CheckoutClearDeliveryAddressEvent),
         this.eventService.get(CheckoutDeliveryModeSetEvent),
         this.eventService.get(CheckoutDeliveryModeClearedEvent),
         this.eventService.get(SaveCartSuccessEvent),

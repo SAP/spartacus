@@ -30,59 +30,6 @@ export abstract class CheckoutEvent extends CxEvent {
 }
 
 /**
- * An abstract event for all the delivery address related events.
- */
-export abstract class CheckoutDeliveryAddressEvent extends CheckoutEvent {}
-
-/**
- * Fired when the user sets a delivery address during checkout.
- */
-export class CheckoutDeliveryAddressSetEvent extends CheckoutDeliveryAddressEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutDeliveryAddressSetEvent';
-  /**
-   * The address.
-   */
-  address: Address;
-}
-
-/**
- * Fired when the delivery address have been created.
- */
-export class CheckoutDeliveryAddressCreatedEvent extends CheckoutDeliveryAddressEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutDeliveryAddressCreatedEvent';
-  /**
-   * The address.
-   */
-  address: Address;
-}
-
-/**
- * Fired when the delivery address has to be cleared.
- */
-export class CheckoutClearDeliveryAddressEvent extends CheckoutDeliveryAddressEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutClearDeliveryAddressEvent';
-}
-
-/**
- * Fired when the delivery address was cleared.
- */
-export class CheckoutDeliveryAddressClearedEvent extends CheckoutDeliveryAddressEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutDeliveryAddressClearedEvent';
-}
-
-/**
  * An abstract event for all the delivery mode related events.
  */
 export abstract class CheckoutDeliveryModeEvent extends CheckoutEvent {}
@@ -162,4 +109,49 @@ export class CheckoutPaymentDetailsCreatedEvent extends CheckoutPaymentDetailsEv
    * Payment details
    */
   paymentDetails: PaymentDetails;
+}
+
+// new events to discuss for delivery address
+
+/**
+ * An abstract event for all the delivery address related events.
+ */
+export abstract class CheckoutDeliveryAddressEvent extends CheckoutEvent {}
+
+/**
+ * Fired when the delivery address is create cleared.
+ */
+export class CheckoutCreateDeliveryAddressEvent extends CheckoutDeliveryAddressEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutCreateDeliveryAddressEvent';
+  /**
+   * The address.
+   */
+  address: Address;
+}
+
+/**
+ * Fired when the user sets a delivery address during checkout.
+ */
+export class CheckoutSetDeliveryAddressEvent extends CheckoutDeliveryAddressEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutSetDeliveryAddressEvent';
+  /**
+   * The address.
+   */
+  address: Address;
+}
+
+/**
+ * Fired when the delivery address has to be cleared.
+ */
+export class CheckoutClearDeliveryAddressEvent extends CheckoutDeliveryAddressEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutClearDeliveryAddressEvent';
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  CheckoutDeliveryAddressClearedEvent,
-  CheckoutDeliveryAddressCreatedEvent,
+  CheckoutClearDeliveryAddressEvent,
+  CheckoutCreateDeliveryAddressEvent,
   CheckoutDeliveryAddressFacade,
-  CheckoutDeliveryAddressSetEvent,
   CheckoutQueryFacade,
+  CheckoutSetDeliveryAddressEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
@@ -13,7 +13,6 @@ import {
   CommandService,
   CommandStrategy,
   EventService,
-  LoadUserAddressesEvent,
   OCC_USER_ID_ANONYMOUS,
   QueryState,
   UserIdService,
@@ -34,14 +33,6 @@ export class CheckoutDeliveryAddressService
             return this.checkoutDeliveryAddressConnector
               .createAddress(userId, cartId, payload)
               .pipe(
-                tap(() => {
-                  if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    this.eventService.dispatch(
-                      { userId },
-                      LoadUserAddressesEvent
-                    );
-                  }
-                }),
                 map((address) => {
                   address.titleCode = payload.titleCode;
                   if (payload.region?.isocodeShort) {
@@ -54,12 +45,8 @@ export class CheckoutDeliveryAddressService
                 }),
                 tap((address) =>
                   this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      address,
-                    },
-                    CheckoutDeliveryAddressCreatedEvent
+                    { userId, cartId, address },
+                    CheckoutCreateDeliveryAddressEvent
                   )
                 )
               );
@@ -89,7 +76,7 @@ export class CheckoutDeliveryAddressService
                       cartId,
                       address,
                     },
-                    CheckoutDeliveryAddressSetEvent
+                    CheckoutSetDeliveryAddressEvent
                   );
                 })
               );
@@ -114,7 +101,7 @@ export class CheckoutDeliveryAddressService
                       userId,
                       cartId,
                     },
-                    CheckoutDeliveryAddressClearedEvent
+                    CheckoutClearDeliveryAddressEvent
                   );
                 })
               )

@@ -5,6 +5,8 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  LoadUserAddressesEvent,
+  OCC_USER_ID_ANONYMOUS,
   UpdateUserAddressEvent,
   UserAddressEvent,
 } from '@spartacus/core';
@@ -13,11 +15,10 @@ import { filter, map, switchMap } from 'rxjs/operators';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import {
   CheckoutClearDeliveryAddressEvent,
-  CheckoutDeliveryAddressClearedEvent,
-  CheckoutDeliveryAddressCreatedEvent,
-  CheckoutDeliveryAddressSetEvent,
+  CheckoutCreateDeliveryAddressEvent,
   CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
+  CheckoutSetDeliveryAddressEvent,
 } from './checkout.events';
 
 /**
@@ -35,8 +36,11 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected activeCartFacade: ActiveCartFacade
   ) {
+    // new 'single events' to discuss
+    this.onCreateDeliveryAddress();
+    this.onSetDeliveryAddress();
+
     this.onUserAddressChange();
-    this.onDeliveryAddressChange();
   }
 
   /**
@@ -70,14 +74,18 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     );
   }
 
-  /**
-   * Registers listeners on the Delivery address set event
-   */
-  protected onDeliveryAddressChange(): void {
+  // new way?
+
+  protected onCreateDeliveryAddress(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutDeliveryAddressCreatedEvent)
-        .subscribe(({ userId, cartId }) => {
+        .get(CheckoutCreateDeliveryAddressEvent)
+        .subscribe(({ cartId, userId }) => {
+          if (userId !== OCC_USER_ID_ANONYMOUS) {
+            this.eventService.dispatch({ userId }, LoadUserAddressesEvent);
+          }
+
+          // from the created event. no need for transitive event right?
           this.globalMessageService.add(
             { key: 'addressForm.userAddressAddSuccess' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -91,9 +99,12 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
           this.eventService.dispatch({}, CheckoutResetQueryEvent);
         })
     );
+  }
+
+  protected onSetDeliveryAddress(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutDeliveryAddressSetEvent)
+        .get(CheckoutSetDeliveryAddressEvent)
         .subscribe(({ userId, cartId }) => {
           this.eventService.dispatch(
             { userId, cartId },
@@ -103,20 +114,14 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
           this.eventService.dispatch({}, CheckoutResetQueryEvent);
         })
     );
+  }
 
-    this.subscriptions.add(
-      this.eventService
-        .get(CheckoutDeliveryAddressClearedEvent)
-        .subscribe(() =>
-          this.eventService.dispatch({}, CheckoutResetQueryEvent)
-        )
-    );
-
+  protected onClearDeliveryAddress(): void {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutClearDeliveryAddressEvent)
         .subscribe(() =>
-          this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress()
+          this.eventService.dispatch({}, CheckoutResetQueryEvent)
         )
     );
   }
