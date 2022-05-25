@@ -97,11 +97,11 @@ export abstract class CheckoutDeliveryModeEvent extends CheckoutEvent {}
 /**
  * Fired when the delivery mode was set.
  */
-export class CheckoutSetDeliveryModeEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutDeliveryModeSetEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutSetDeliveryModeEvent';
+  static readonly type = 'CheckoutDeliveryModeSetEvent';
   /**
    * Delivery mode code.
    */
@@ -111,21 +111,21 @@ export class CheckoutSetDeliveryModeEvent extends CheckoutDeliveryModeEvent {
 /**
  * Fired when the delivery mode has been cleared.
  */
-export class CheckoutClearDeliveryModeEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutDeliveryModeClearedEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutClearDeliveryModeEvent';
+  static readonly type = 'CheckoutDeliveryModeClearedEvent';
 }
 
 /**
  * Fired when the delivery mode has been cleared.
  */
-export class CheckoutClearDeliveryModeErrorEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutDeliveryModeClearedErrorEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutClearDeliveryModeErrorEvent';
+  static readonly type = 'CheckoutDeliveryModeClearedErrorEvent';
 }
 
 /**

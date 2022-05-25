@@ -3,11 +3,11 @@ import { LoadCartEvent } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import {
-  CheckoutClearDeliveryModeErrorEvent,
-  CheckoutClearDeliveryModeEvent,
+  CheckoutDeliveryModeClearedErrorEvent,
+  CheckoutDeliveryModeClearedEvent,
+  CheckoutDeliveryModeSetEvent,
   CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
-  CheckoutSetDeliveryModeEvent,
 } from './checkout.events';
 
 /**
@@ -59,7 +59,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
   protected onSetDeliveryMode() {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutSetDeliveryModeEvent)
+        .get(CheckoutDeliveryModeSetEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
           this.eventService.dispatch({}, CheckoutResetQueryEvent);
 
@@ -82,7 +82,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
   protected onClearDeliveryMode(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutClearDeliveryModeEvent)
+        .get(CheckoutDeliveryModeClearedEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
           this.eventService.dispatch({}, CheckoutResetQueryEvent);
 
@@ -105,7 +105,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
   protected onClearDeliveryModeError(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutClearDeliveryModeErrorEvent)
+        .get(CheckoutDeliveryModeClearedErrorEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
           this.eventService.dispatch(
             {

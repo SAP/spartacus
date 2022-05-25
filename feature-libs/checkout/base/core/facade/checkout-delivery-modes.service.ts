@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import {
-  CheckoutClearDeliveryModeErrorEvent,
-  CheckoutClearDeliveryModeEvent,
+  CheckoutDeliveryModeClearedErrorEvent,
+  CheckoutDeliveryModeClearedEvent,
+  CheckoutDeliveryModeSetEvent,
   CheckoutDeliveryModesFacade,
   CheckoutQueryFacade,
   CheckoutReloadDeliveryModesEvent,
   CheckoutResetDeliveryModesEvent,
-  CheckoutSetDeliveryModeEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
@@ -92,7 +92,7 @@ export class CheckoutDeliveryModesService
                 tap(() => {
                   this.eventService.dispatch(
                     { userId, cartId, cartCode: cartId, deliveryModeCode },
-                    CheckoutSetDeliveryModeEvent
+                    CheckoutDeliveryModeSetEvent
                   );
                 })
               )
@@ -118,7 +118,7 @@ export class CheckoutDeliveryModesService
                       cartId,
                       cartCode: cartId,
                     },
-                    CheckoutClearDeliveryModeEvent
+                    CheckoutDeliveryModeClearedEvent
                   );
                 }),
                 catchError((error) => {
@@ -128,7 +128,7 @@ export class CheckoutDeliveryModesService
                       cartId,
                       cartCode: cartId,
                     },
-                    CheckoutClearDeliveryModeErrorEvent
+                    CheckoutDeliveryModeClearedErrorEvent
                   );
 
                   return throwError(error);
