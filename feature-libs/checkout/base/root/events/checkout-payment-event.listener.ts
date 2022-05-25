@@ -8,9 +8,9 @@ import {
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import {
-  CheckoutCreatePaymentDetailsEvent,
+  CheckoutPaymentDetailsCreatedEvent,
+  CheckoutPaymentDetailsSetEvent,
   CheckoutResetQueryEvent,
-  CheckoutSetPaymentDetailsEvent,
 } from './checkout.events';
 
 /**
@@ -26,14 +26,14 @@ export class CheckoutPaymentEventListener implements OnDestroy {
     protected eventService: EventService,
     protected globalMessageService: GlobalMessageService
   ) {
-    this.onCreatePayment();
-    this.onSetPayment();
+    this.onPaymentCreated();
+    this.onPaymentSet();
   }
 
-  protected onCreatePayment(): void {
+  protected onPaymentCreated(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutCreatePaymentDetailsEvent)
+        .get(CheckoutPaymentDetailsCreatedEvent)
         .subscribe(({ userId }) => {
           if (userId !== OCC_USER_ID_ANONYMOUS) {
             this.eventService.dispatch({ userId }, LoadUserPaymentMethodsEvent);
@@ -49,9 +49,9 @@ export class CheckoutPaymentEventListener implements OnDestroy {
     );
   }
 
-  protected onSetPayment(): void {
+  protected onPaymentSet(): void {
     this.subscriptions.add(
-      this.eventService.get(CheckoutSetPaymentDetailsEvent).subscribe(() => {
+      this.eventService.get(CheckoutPaymentDetailsSetEvent).subscribe(() => {
         this.eventService.dispatch({}, CheckoutResetQueryEvent);
       })
     );

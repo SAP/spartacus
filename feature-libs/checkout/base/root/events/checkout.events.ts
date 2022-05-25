@@ -156,11 +156,11 @@ export abstract class CheckoutPaymentDetailsEvent extends CheckoutEvent {}
 /**
  * Fired when the payment details have been created.
  */
-export class CheckoutCreatePaymentDetailsEvent extends CheckoutPaymentDetailsEvent {
+export class CheckoutPaymentDetailsCreatedEvent extends CheckoutPaymentDetailsEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutCreatePaymentDetailsEvent';
+  static readonly type = 'CheckoutPaymentDetailsCreatedEvent';
   /**
    * Payment details
    */
@@ -170,11 +170,11 @@ export class CheckoutCreatePaymentDetailsEvent extends CheckoutPaymentDetailsEve
 /**
  * Fired when the payment details have been set.
  */
-export class CheckoutSetPaymentDetailsEvent extends CheckoutPaymentDetailsEvent {
+export class CheckoutPaymentDetailsSetEvent extends CheckoutPaymentDetailsEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutSetPaymentDetailsEvent';
+  static readonly type = 'CheckoutPaymentDetailsSetEvent';
   /**
    * Payment details id
    */

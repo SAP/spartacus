@@ -5,10 +5,10 @@ import {
   PaymentDetails,
 } from '@spartacus/cart/base/root';
 import {
-  CheckoutCreatePaymentDetailsEvent,
+  CheckoutPaymentDetailsCreatedEvent,
+  CheckoutPaymentDetailsSetEvent,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
-  CheckoutSetPaymentDetailsEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
@@ -54,7 +54,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                 tap((response) =>
                   this.eventService.dispatch(
                     { userId, cartId, paymentDetails: response },
-                    CheckoutCreatePaymentDetailsEvent
+                    CheckoutPaymentDetailsCreatedEvent
                   )
                 )
               )
@@ -85,7 +85,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                       cartId,
                       paymentDetailsId,
                     },
-                    CheckoutSetPaymentDetailsEvent
+                    CheckoutPaymentDetailsSetEvent
                   )
                 )
               );
