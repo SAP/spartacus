@@ -59,10 +59,10 @@ function buildSmartEditConfig(
       content: `<${SMART_EDIT_CONFIG}>{
         smartEdit: {
           storefrontPreviewRoute: '${
-            options.storefrontPreviewRoute ??
+            options.storefrontPreviewRoute ||
             'STOREFRONT_PREVIEW_ROUTE_PLACEHOLDER'
           }',
-          allowOrigin: '${options.allowOrigin ?? 'ALLOWED_ORIGIN_PLACEHOLDER'}',
+          allowOrigin: '${options.allowOrigin || 'ALLOWED_ORIGIN_PLACEHOLDER'}',
         },}`,
     },
   };

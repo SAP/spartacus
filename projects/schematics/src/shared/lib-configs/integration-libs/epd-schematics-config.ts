@@ -73,7 +73,7 @@ function buildCdsConfig(
           },
 
           apis: {
-            baseUrl: "${options.baseUrl ?? 'PLACEHOLDER_BASE_URL'}"
+            baseUrl: "${options.baseUrl || 'PLACEHOLDER_BASE_URL'}"
           }
         }
       }`,

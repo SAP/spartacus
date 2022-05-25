@@ -54,8 +54,8 @@ function buildCdsConfig(
       ],
       content: `<${CDS_CONFIG}>{
       cds: {
-        tenant: '${options.tenant ?? 'TENANT_PLACEHOLDER'}',
-        baseUrl: '${options.baseUrl ?? 'BASE_URL_PLACEHOLDER'}',
+        tenant: '${options.tenant || 'TENANT_PLACEHOLDER'}',
+        baseUrl: '${options.baseUrl || 'BASE_URL_PLACEHOLDER'}',
         endpoints: {
           strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
         },
@@ -79,12 +79,12 @@ function buildCdsConfig(
             profileTag: {
               javascriptUrl:
                 '${
-                  options.profileTagLoadUrl ??
+                  options.profileTagLoadUrl ||
                   'PROFILE_TAG_LOAD_URL_PLACEHOLDER'
                 }',
               configUrl:
                 '${
-                  options.profileTagConfigUrl ??
+                  options.profileTagConfigUrl ||
                   'PROFILE_TAG_CONFIG_URL_PLACEHOLDER'
                 }',
               allowInsecureCookies: true,
