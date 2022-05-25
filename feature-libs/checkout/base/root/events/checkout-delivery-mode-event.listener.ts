@@ -3,10 +3,11 @@ import { LoadCartEvent } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import {
-  CheckoutDeliveryModeClearedEvent,
-  CheckoutDeliveryModeSetEvent,
+  CheckoutClearDeliveryModeErrorEvent,
+  CheckoutClearDeliveryModeEvent,
   CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
+  CheckoutSetDeliveryModeEvent,
 } from './checkout.events';
 
 /**
@@ -19,28 +20,12 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(protected eventService: EventService) {
-    this.onDeliveryModeChange();
-    this.onDeliveryModeReset();
-  }
+    this.onSetDeliveryMode();
+    this.onClearDeliveryMode();
+    this.onClearDeliveryModeError();
 
-  /**
-   * Registers listeners for the delivery mode events.
-   */
-  protected onDeliveryModeChange(): void {
-    this.subscriptions.add(
-      this.eventService
-        .get(CheckoutDeliveryModeSetEvent)
-        .subscribe(() =>
-          this.eventService.dispatch({}, CheckoutResetQueryEvent)
-        )
-    );
-    this.subscriptions.add(
-      this.eventService
-        .get(CheckoutDeliveryModeClearedEvent)
-        .subscribe(() =>
-          this.eventService.dispatch({}, CheckoutResetQueryEvent)
-        )
-    );
+    // no query yet
+    this.onDeliveryModeReset();
   }
 
   /**
@@ -66,6 +51,75 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
             LoadCartEvent
           )
         )
+    );
+  }
+
+  // new
+
+  protected onSetDeliveryMode() {
+    this.subscriptions.add(
+      this.eventService
+        .get(CheckoutSetDeliveryModeEvent)
+        .subscribe(({ userId, cartId, cartCode }) => {
+          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+
+          this.eventService.dispatch(
+            {
+              userId,
+              cartId,
+              /**
+               * As we know the cart is not anonymous (precondition checked),
+               * we can safely use the cartId, which is actually the cart.code.
+               */
+              cartCode,
+            },
+            LoadCartEvent
+          );
+        })
+    );
+  }
+
+  protected onClearDeliveryMode(): void {
+    this.subscriptions.add(
+      this.eventService
+        .get(CheckoutClearDeliveryModeEvent)
+        .subscribe(({ userId, cartId, cartCode }) => {
+          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+
+          this.eventService.dispatch(
+            {
+              userId,
+              cartId,
+              /**
+               * As we know the cart is not anonymous (precondition checked),
+               * we can safely use the cartId, which is actually the cart.code.
+               */
+              cartCode,
+            },
+            LoadCartEvent
+          );
+        })
+    );
+  }
+
+  protected onClearDeliveryModeError(): void {
+    this.subscriptions.add(
+      this.eventService
+        .get(CheckoutClearDeliveryModeErrorEvent)
+        .subscribe(({ userId, cartId, cartCode }) => {
+          this.eventService.dispatch(
+            {
+              userId,
+              cartId,
+              /**
+               * As we know the cart is not anonymous (precondition checked),
+               * we can safely use the cartId, which is actually the cart.code.
+               */
+              cartCode,
+            },
+            LoadCartEvent
+          );
+        })
     );
   }
 

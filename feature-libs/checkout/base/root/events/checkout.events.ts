@@ -26,13 +26,21 @@ export class CheckoutResetQueryEvent extends CxEvent {
  */
 export abstract class CheckoutEvent extends CxEvent {
   userId?: string;
+  /**
+   * Usually set via `getCartIdByUserId()` util method,
+   * It is an abstraction over the different properties
+   * used for anonymous and logged-in users' carts:
+   * - `code` for logged-in users
+   * - `guid` for anonymous users
+   */
   cartId?: string;
+  /**
+   * All carts have the `code` property assigned to them,
+   * regardless of whether they are anonymous or logged-in.
+   * In case of logged-in users, the `cartCode` and `cartId` are the same.
+   */
+  cartCode?: string;
 }
-
-/**
- * An abstract event for all the delivery mode related events.
- */
-export abstract class CheckoutDeliveryModeEvent extends CheckoutEvent {}
 
 /**
  * Emit this event to force delivery modes reload
@@ -52,30 +60,6 @@ export class CheckoutResetDeliveryModesEvent extends CheckoutDeliveryModeEvent {
    * Event's type
    */
   static readonly type = 'CheckoutResetDeliveryModesEvent';
-}
-
-/**
- * Fired when the delivery mode was set.
- */
-export class CheckoutDeliveryModeSetEvent extends CheckoutDeliveryModeEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutDeliveryModeSetEvent';
-  /**
-   * Delivery mode code.
-   */
-  deliveryModeCode: string;
-}
-
-/**
- * Fired when the delivery mode has been cleared.
- */
-export class CheckoutDeliveryModeClearedEvent extends CheckoutDeliveryModeEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutDeliveryModeClearedEvent';
 }
 
 /**
@@ -154,4 +138,45 @@ export class CheckoutClearDeliveryAddressEvent extends CheckoutDeliveryAddressEv
    * Event's type
    */
   static readonly type = 'CheckoutClearDeliveryAddressEvent';
+}
+
+// -----
+
+/**
+ * An abstract event for all the delivery mode related events.
+ */
+export abstract class CheckoutDeliveryModeEvent extends CheckoutEvent {}
+
+/**
+ * Fired when the delivery mode was set.
+ */
+export class CheckoutSetDeliveryModeEvent extends CheckoutDeliveryModeEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutSetDeliveryModeEvent';
+  /**
+   * Delivery mode code.
+   */
+  deliveryModeCode: string;
+}
+
+/**
+ * Fired when the delivery mode has been cleared.
+ */
+export class CheckoutClearDeliveryModeEvent extends CheckoutDeliveryModeEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutClearDeliveryModeEvent';
+}
+
+/**
+ * Fired when the delivery mode has been cleared.
+ */
+export class CheckoutClearDeliveryModeErrorEvent extends CheckoutDeliveryModeEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutClearDeliveryModeErrorEvent';
 }

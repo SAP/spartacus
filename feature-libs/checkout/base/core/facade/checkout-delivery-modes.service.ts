@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import {
-  ActiveCartFacade,
-  DeliveryMode,
-  LoadCartEvent,
-} from '@spartacus/cart/base/root';
-import {
-  CheckoutDeliveryModeClearedEvent,
-  CheckoutDeliveryModeSetEvent,
+  CheckoutClearDeliveryModeErrorEvent,
+  CheckoutClearDeliveryModeEvent,
   CheckoutDeliveryModesFacade,
   CheckoutQueryFacade,
   CheckoutReloadDeliveryModesEvent,
   CheckoutResetDeliveryModesEvent,
+  CheckoutSetDeliveryModeEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
@@ -94,24 +91,8 @@ export class CheckoutDeliveryModesService
               .pipe(
                 tap(() => {
                   this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      deliveryModeCode,
-                    },
-                    CheckoutDeliveryModeSetEvent
-                  );
-                  this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
-                      cartCode: cartId,
-                    },
-                    LoadCartEvent
+                    { userId, cartId, cartCode: cartId, deliveryModeCode },
+                    CheckoutSetDeliveryModeEvent
                   );
                 })
               )
@@ -135,20 +116,9 @@ export class CheckoutDeliveryModesService
                     {
                       userId,
                       cartId,
-                    },
-                    CheckoutDeliveryModeClearedEvent
-                  );
-                  this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
                       cartCode: cartId,
                     },
-                    LoadCartEvent
+                    CheckoutClearDeliveryModeEvent
                   );
                 }),
                 catchError((error) => {
@@ -156,14 +126,11 @@ export class CheckoutDeliveryModesService
                     {
                       userId,
                       cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
                       cartCode: cartId,
                     },
-                    LoadCartEvent
+                    CheckoutClearDeliveryModeErrorEvent
                   );
+
                   return throwError(error);
                 })
               )
