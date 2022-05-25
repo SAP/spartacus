@@ -3,12 +3,14 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  LoadUserPaymentMethodsEvent,
+  OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import {
-  CheckoutPaymentDetailsCreatedEvent,
-  CheckoutPaymentDetailsSetEvent,
+  CheckoutCreatePaymentDetailsEvent,
   CheckoutResetQueryEvent,
+  CheckoutSetPaymentDetailsEvent,
 } from './checkout.events';
 
 /**
@@ -24,17 +26,20 @@ export class CheckoutPaymentEventListener implements OnDestroy {
     protected eventService: EventService,
     protected globalMessageService: GlobalMessageService
   ) {
-    this.onPaymentChange();
+    this.onCreatePayment();
+    this.onSetPayment();
   }
 
-  /**
-   * Registers events for the payment change events.
-   */
-  protected onPaymentChange(): void {
+  protected onCreatePayment(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutPaymentDetailsCreatedEvent)
-        .subscribe(() => {
+        .get(CheckoutCreatePaymentDetailsEvent)
+        .subscribe(({ userId }) => {
+          if (userId !== OCC_USER_ID_ANONYMOUS) {
+            this.eventService.dispatch({ userId }, LoadUserPaymentMethodsEvent);
+          }
+
+          // from the created event. no need for transitive event right?
           this.globalMessageService.add(
             { key: 'paymentForm.paymentAddedSuccessfully' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -42,8 +47,11 @@ export class CheckoutPaymentEventListener implements OnDestroy {
           this.eventService.dispatch({}, CheckoutResetQueryEvent);
         })
     );
+  }
+
+  protected onSetPayment(): void {
     this.subscriptions.add(
-      this.eventService.get(CheckoutPaymentDetailsSetEvent).subscribe(() => {
+      this.eventService.get(CheckoutSetPaymentDetailsEvent).subscribe(() => {
         this.eventService.dispatch({}, CheckoutResetQueryEvent);
       })
     );

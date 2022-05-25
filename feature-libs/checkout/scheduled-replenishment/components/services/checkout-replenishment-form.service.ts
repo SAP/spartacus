@@ -7,10 +7,10 @@ import {
 import {
   CheckoutClearDeliveryAddressEvent,
   CheckoutClearDeliveryModeEvent,
-  CheckoutPaymentDetailsCreatedEvent,
-  CheckoutPaymentDetailsSetEvent,
+  CheckoutCreatePaymentDetailsEvent,
   CheckoutSetDeliveryAddressEvent,
   CheckoutSetDeliveryModeEvent,
+  CheckoutSetPaymentDetailsEvent,
 } from '@spartacus/checkout/base/root';
 import { EventService, LoginEvent, LogoutEvent } from '@spartacus/core';
 import {
@@ -52,16 +52,16 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
   protected registerOrderTypeEventListers(): void {
     this.subscriptions.add(
       merge(
-        this.eventService.get(LogoutEvent),
-        this.eventService.get(LoginEvent),
         this.eventService.get(CheckoutSetDeliveryAddressEvent),
         this.eventService.get(CheckoutClearDeliveryAddressEvent),
         this.eventService.get(CheckoutSetDeliveryModeEvent),
         this.eventService.get(CheckoutClearDeliveryModeEvent),
+        this.eventService.get(CheckoutCreatePaymentDetailsEvent),
+        this.eventService.get(CheckoutSetPaymentDetailsEvent),
+        this.eventService.get(LogoutEvent),
+        this.eventService.get(LoginEvent),
         this.eventService.get(SaveCartSuccessEvent),
         this.eventService.get(RestoreSavedCartSuccessEvent),
-        this.eventService.get(CheckoutPaymentDetailsCreatedEvent),
-        this.eventService.get(CheckoutPaymentDetailsSetEvent),
         this.eventService.get(MergeCartSuccessEvent)
       ).subscribe(() => {
         (this.orderType$ as BehaviorSubject<ORDER_TYPE>).next(

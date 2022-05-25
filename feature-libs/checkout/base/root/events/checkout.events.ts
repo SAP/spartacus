@@ -42,39 +42,6 @@ export abstract class CheckoutEvent extends CxEvent {
   cartCode?: string;
 }
 
-/**
- * An abstract event for all the payment details related events.
- */
-export abstract class CheckoutPaymentDetailsEvent extends CheckoutEvent {}
-
-/**
- * Fired when the payment details have been set.
- */
-export class CheckoutPaymentDetailsSetEvent extends CheckoutPaymentDetailsEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutPaymentDetailsSetEvent';
-  /**
-   * Payment details id
-   */
-  paymentDetailsId: string;
-}
-
-/**
- * Fired when the payment details have been created.
- */
-export class CheckoutPaymentDetailsCreatedEvent extends CheckoutPaymentDetailsEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutPaymentDetailsCreatedEvent';
-  /**
-   * Payment details
-   */
-  paymentDetails: PaymentDetails;
-}
-
 // new events to discuss for delivery address
 
 /**
@@ -179,4 +146,37 @@ export class CheckoutResetDeliveryModesEvent extends CheckoutDeliveryModeEvent {
    * Event's type
    */
   static readonly type = 'CheckoutResetDeliveryModesEvent';
+}
+
+/**
+ * An abstract event for all the payment details related events.
+ */
+export abstract class CheckoutPaymentDetailsEvent extends CheckoutEvent {}
+
+/**
+ * Fired when the payment details have been created.
+ */
+export class CheckoutCreatePaymentDetailsEvent extends CheckoutPaymentDetailsEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutCreatePaymentDetailsEvent';
+  /**
+   * Payment details
+   */
+  paymentDetails: PaymentDetails;
+}
+
+/**
+ * Fired when the payment details have been set.
+ */
+export class CheckoutSetPaymentDetailsEvent extends CheckoutPaymentDetailsEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutSetPaymentDetailsEvent';
+  /**
+   * Payment details id
+   */
+  paymentDetailsId: string;
 }

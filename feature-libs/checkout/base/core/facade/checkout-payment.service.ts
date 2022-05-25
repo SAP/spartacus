@@ -5,10 +5,10 @@ import {
   PaymentDetails,
 } from '@spartacus/cart/base/root';
 import {
-  CheckoutPaymentDetailsCreatedEvent,
-  CheckoutPaymentDetailsSetEvent,
+  CheckoutCreatePaymentDetailsEvent,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
+  CheckoutSetPaymentDetailsEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
@@ -17,7 +17,6 @@ import {
   CurrencySetEvent,
   EventService,
   LanguageSetEvent,
-  LoadUserPaymentMethodsEvent,
   OCC_USER_ID_ANONYMOUS,
   Query,
   QueryNotifier,
@@ -52,22 +51,12 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
             this.checkoutPaymentConnector
               .createPaymentDetails(userId, cartId, paymentDetails)
               .pipe(
-                tap((response) => {
+                tap((response) =>
                   this.eventService.dispatch(
-                    {
-                      userId,
-                      cartId,
-                      paymentDetails: response,
-                    },
-                    CheckoutPaymentDetailsCreatedEvent
-                  );
-                  if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    this.eventService.dispatch(
-                      { userId },
-                      LoadUserPaymentMethodsEvent
-                    );
-                  }
-                })
+                    { userId, cartId, paymentDetails: response },
+                    CheckoutCreatePaymentDetailsEvent
+                  )
+                )
               )
           )
         ),
@@ -96,7 +85,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                       cartId,
                       paymentDetailsId,
                     },
-                    CheckoutPaymentDetailsSetEvent
+                    CheckoutSetPaymentDetailsEvent
                   )
                 )
               );
