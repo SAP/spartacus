@@ -43,26 +43,6 @@ export abstract class CheckoutEvent extends CxEvent {
 }
 
 /**
- * Emit this event to force delivery modes reload
- */
-export class CheckoutReloadDeliveryModesEvent extends CheckoutDeliveryModeEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutReloadDeliveryModesEvent';
-}
-
-/**
- * Emit this event to force delivery modes reset
- */
-export class CheckoutResetDeliveryModesEvent extends CheckoutDeliveryModeEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutResetDeliveryModesEvent';
-}
-
-/**
  * An abstract event for all the payment details related events.
  */
 export abstract class CheckoutPaymentDetailsEvent extends CheckoutEvent {}
@@ -179,4 +159,24 @@ export class CheckoutClearDeliveryModeErrorEvent extends CheckoutDeliveryModeEve
    * Event's type
    */
   static readonly type = 'CheckoutClearDeliveryModeErrorEvent';
+}
+
+/**
+ * Emit this event to force delivery modes reload
+ */
+export class CheckoutReloadDeliveryModesEvent extends CheckoutDeliveryModeEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutReloadDeliveryModesEvent';
+}
+
+/**
+ * Emit this event to force delivery modes reset
+ */
+export class CheckoutResetDeliveryModesEvent extends CheckoutDeliveryModeEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutResetDeliveryModesEvent';
 }
