@@ -8,11 +8,11 @@ export abstract class CheckoutCostCenterEvent extends CheckoutEvent {}
 /**
  * Fired when the cost center has been set.
  */
-export class CheckoutSetCostCenterEvent extends CheckoutCostCenterEvent {
+export class CheckoutCostCenterSetEvent extends CheckoutCostCenterEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutSetCostCenterEvent';
+  static readonly type = 'CheckoutCostCenterSetEvent';
 
   /**
    * Cost center code
@@ -28,11 +28,11 @@ export abstract class CheckoutPaymentTypeEvent extends CheckoutEvent {}
 /**
  * Fired when the payment type has been set
  */
-export class CheckoutSetPaymentTypeEvent extends CheckoutPaymentTypeEvent {
+export class CheckoutPaymentTypeSetEvent extends CheckoutPaymentTypeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutSetPaymentTypeEvent';
+  static readonly type = 'CheckoutPaymentTypeSetEvent';
 
   /**
    * Payment type code
