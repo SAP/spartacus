@@ -37,7 +37,7 @@ class MockTranslationService implements Partial<TranslationService> {
   }
 }
 
-fdescribe('UserRegistrationFormService', () => {
+describe('UserRegistrationFormService', () => {
   let service: UserRegistrationFormService;
   let userAddressService: UserAddressService;
   let userRegisterFacade: UserRegisterFacade;
