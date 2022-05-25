@@ -90,6 +90,7 @@ export default async function run(
     '@spartacus/order': 'feature-libs/order',
     '@spartacus/digital-payments': 'integration-libs/digital-payments',
     '@spartacus/epd-visualization': 'integration-libs/epd-visualization',
+    '@spartacus/pickup-in-store': 'feature-libs/pickup-in-store',
   };
 
   const duplexUtil = through(function (

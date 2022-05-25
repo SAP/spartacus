@@ -54,6 +54,7 @@
       "@spartacus/tracking",
       "@spartacus/cart",
       "@spartacus/order",
+      "@spartacus/pickup-in-store",
       "@spartacus/digital-payments",
       "@spartacus/epd-visualization",
       "@spartacus/setup"
