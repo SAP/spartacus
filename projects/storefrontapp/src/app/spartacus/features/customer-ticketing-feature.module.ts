@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {
   customerTicketingTranslationChunksConfig,
   customerTicketingTranslations,
-} from '@spartacus/customerTicketing/assets';
+} from '@spartacus/customer-ticketing/assets';
 import { CustomerTicketingRootModule, CUSTOMER_TICKETING_FEATURE } from '@spartacus/customer-ticketing/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 
