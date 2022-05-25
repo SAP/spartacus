@@ -6,9 +6,10 @@ import { I18nModule, provideConfig } from '@spartacus/core';
 import {
   FormErrorsModule,
   IconModule,
+  KeyboardFocusModule,
   ModalModule,
-  SpinnerModule,
   PasswordVisibilityToggleModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
@@ -31,6 +32,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     FormsModule,
     SpinnerModule,
     PasswordVisibilityToggleModule,
+    KeyboardFocusModule,
   ],
   declarations: [
     AsmMainUiComponent,

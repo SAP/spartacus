@@ -1,6 +1,7 @@
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
+  Directive,
   Input,
   NO_ERRORS_SCHEMA,
 } from '@angular/core';
@@ -16,6 +17,7 @@ import { I18nTestingModule, QueryState, User } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
+  FocusConfig,
   ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
@@ -132,6 +134,12 @@ class MockBreakpointService {
     return of(BREAKPOINT.md);
   }
 }
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockKeyboadFocusDirective {
+  @Input('cxFocus') config: FocusConfig = {};
+}
 
 describe('CustomerListComponent', () => {
   let component: CustomerListComponent;
@@ -144,7 +152,11 @@ describe('CustomerListComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [CustomerListComponent, MockCxIconComponent],
+        declarations: [
+          CustomerListComponent,
+          MockCxIconComponent,
+          MockKeyboadFocusDirective,
+        ],
         providers: [
           { provide: AsmService, useClass: MockAsmService },
           {

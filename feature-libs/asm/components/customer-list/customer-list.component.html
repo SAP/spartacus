@@ -1,4 +1,8 @@
-<div>
+<div
+  class="asm-customer-list"
+  [cxFocus]="focusConfig"
+  (esc)="closeModal('Escape clicked')"
+>
   <!-- Modal Header -->
   <ng-container>
     <div class="cx-dialog-header modal-header">

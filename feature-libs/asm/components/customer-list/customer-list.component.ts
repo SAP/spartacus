@@ -9,6 +9,7 @@ import { SortModel, User } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
+  FocusConfig,
   ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
@@ -21,6 +22,13 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 })
 export class CustomerListComponent implements OnInit {
   private PAGE_SIZE = 5;
+
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'customer-list-selector',
+    focusOnEscape: true,
+  };
 
   iconTypes = ICON_TYPE;
 
@@ -163,6 +171,10 @@ export class CustomerListComponent implements OnInit {
     }
   }
 
+  closeModal(reason?: any): void {
+    this.modalService.closeActiveModal(reason);
+  }
+
   private getBreakpoint(): Observable<BREAKPOINT> {
     return this.breakpointService.breakpoint$.pipe(
       map((breakpoint) => {
@@ -172,9 +184,5 @@ export class CustomerListComponent implements OnInit {
         return breakpoint;
       })
     );
-  }
-
-  private closeModal(reason?: any): void {
-    this.modalService.closeActiveModal(reason);
   }
 }
