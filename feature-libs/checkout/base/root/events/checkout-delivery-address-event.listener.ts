@@ -14,11 +14,11 @@ import { Subscription } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import {
-  CheckoutClearDeliveryAddressEvent,
-  CheckoutCreateDeliveryAddressEvent,
+  CheckoutDeliveryAddressClearedEvent,
+  CheckoutDeliveryAddressCreatedEvent,
+  CheckoutDeliveryAddressSetEvent,
   CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
-  CheckoutSetDeliveryAddressEvent,
 } from './checkout.events';
 
 /**
@@ -37,9 +37,9 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     protected activeCartFacade: ActiveCartFacade
   ) {
     // new 'single events' to discuss
-    this.onCreateDeliveryAddress();
-    this.onSetDeliveryAddress();
-    this.onClearDeliveryAddress();
+    this.onDeliveryAddressCreated();
+    this.onDeliveryAddressSet();
+    this.onDeliveryAddressCleared();
 
     // keep?
     this.onUserAddressChange();
@@ -78,10 +78,10 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
 
   // new way?
 
-  protected onCreateDeliveryAddress(): void {
+  protected onDeliveryAddressCreated(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutCreateDeliveryAddressEvent)
+        .get(CheckoutDeliveryAddressCreatedEvent)
         .subscribe(({ cartId, userId }) => {
           if (userId !== OCC_USER_ID_ANONYMOUS) {
             this.eventService.dispatch({ userId }, LoadUserAddressesEvent);
@@ -103,10 +103,10 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     );
   }
 
-  protected onSetDeliveryAddress(): void {
+  protected onDeliveryAddressSet(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutSetDeliveryAddressEvent)
+        .get(CheckoutDeliveryAddressSetEvent)
         .subscribe(({ userId, cartId }) => {
           this.eventService.dispatch(
             { userId, cartId },
@@ -118,10 +118,10 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     );
   }
 
-  protected onClearDeliveryAddress(): void {
+  protected onDeliveryAddressCleared(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutClearDeliveryAddressEvent)
+        .get(CheckoutDeliveryAddressClearedEvent)
         .subscribe(() =>
           this.eventService.dispatch({}, CheckoutResetQueryEvent)
         )

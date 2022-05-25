@@ -52,11 +52,11 @@ export abstract class CheckoutDeliveryAddressEvent extends CheckoutEvent {}
 /**
  * Fired when the delivery address is create cleared.
  */
-export class CheckoutCreateDeliveryAddressEvent extends CheckoutDeliveryAddressEvent {
+export class CheckoutDeliveryAddressCreatedEvent extends CheckoutDeliveryAddressEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutCreateDeliveryAddressEvent';
+  static readonly type = 'CheckoutDeliveryAddressCreatedEvent';
   /**
    * The address.
    */
@@ -66,11 +66,11 @@ export class CheckoutCreateDeliveryAddressEvent extends CheckoutDeliveryAddressE
 /**
  * Fired when the user sets a delivery address during checkout.
  */
-export class CheckoutSetDeliveryAddressEvent extends CheckoutDeliveryAddressEvent {
+export class CheckoutDeliveryAddressSetEvent extends CheckoutDeliveryAddressEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutSetDeliveryAddressEvent';
+  static readonly type = 'CheckoutDeliveryAddressSetEvent';
   /**
    * The address.
    */
@@ -80,11 +80,11 @@ export class CheckoutSetDeliveryAddressEvent extends CheckoutDeliveryAddressEven
 /**
  * Fired when the delivery address has to be cleared.
  */
-export class CheckoutClearDeliveryAddressEvent extends CheckoutDeliveryAddressEvent {
+export class CheckoutDeliveryAddressClearedEvent extends CheckoutDeliveryAddressEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutClearDeliveryAddressEvent';
+  static readonly type = 'CheckoutDeliveryAddressClearedEvent';
 }
 
 // -----

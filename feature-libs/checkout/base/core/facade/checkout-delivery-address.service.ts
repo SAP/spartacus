@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  CheckoutClearDeliveryAddressEvent,
-  CheckoutCreateDeliveryAddressEvent,
+  CheckoutDeliveryAddressClearedEvent,
+  CheckoutDeliveryAddressCreatedEvent,
   CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryAddressSetEvent,
   CheckoutQueryFacade,
-  CheckoutSetDeliveryAddressEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
@@ -46,7 +46,7 @@ export class CheckoutDeliveryAddressService
                 tap((address) =>
                   this.eventService.dispatch(
                     { userId, cartId, address },
-                    CheckoutCreateDeliveryAddressEvent
+                    CheckoutDeliveryAddressCreatedEvent
                   )
                 )
               );
@@ -76,7 +76,7 @@ export class CheckoutDeliveryAddressService
                       cartId,
                       address,
                     },
-                    CheckoutSetDeliveryAddressEvent
+                    CheckoutDeliveryAddressSetEvent
                   );
                 })
               );
@@ -101,7 +101,7 @@ export class CheckoutDeliveryAddressService
                       userId,
                       cartId,
                     },
-                    CheckoutClearDeliveryAddressEvent
+                    CheckoutDeliveryAddressClearedEvent
                   );
                 })
               )
