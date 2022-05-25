@@ -1,3 +1,111 @@
-.cx-pickup-delivery-options-dialog {
-  background-color: white;
+cx-delivery-pickup-options-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-delivery-pickup-options-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+
+    .cx-delivery-pickup-options-dialog-container {
+      @extend .modal-content;
+
+      .cx-delivery-pickup-options-dialog-header {
+        .cx-delivery-pickup-options-dialog-title {
+          font-size: var(--cx-font-size, 1.375rem);
+          font-weight: var(--cx-font-weight-semi);
+          line-height: var(--cx-line-height, 1.2222222222);
+        }
+      }
+
+      cx-delivery-pickup-options-dialog-form {
+        @extend .modal-body;
+        .cx-delivery-pickup-options-dialog-subtitle {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+        }
+        .cx-delivery-pickup-options-dialog-row {
+          margin-bottom: 1.5rem;
+
+          .cx-saved-cart-values-container {
+            display: flex;
+
+            @include media-breakpoint-up(sm) {
+              padding-inline-start: 3rem;
+            }
+
+            .cx-saved-cart-label {
+              min-width: 140px;
+            }
+
+            .cx-saved-cart-value {
+              font-weight: bold;
+              word-break: break-word;
+            }
+          }
+
+          .cx-delivery-pickup-options-dialog-label {
+            font-weight: bold;
+          }
+
+          .cx-delivery-pickup-options-dialog-label-optional {
+            font-weight: normal;
+          }
+
+          .cx-delivery-pickup-options-dialog-input-hint {
+            font-size: 0.75rem;
+            font-style: italic;
+            text-align: end;
+          }
+        }
+      }
+
+      .cx-delivery-pickup-options-dialog-footer {
+        display: flex;
+
+        button {
+          flex: 0 0 calc(50% - 0.5rem);
+
+          &:first-child {
+            margin-inline-end: 0.5rem;
+          }
+
+          &:last-child {
+            margin-inline-start: 0.5rem;
+          }
+
+          &:focus {
+            @include visible-focus();
+          }
+        }
+      }
+
+      cx-delivery-pickup-options-dialog-summary {
+        @extend .modal-body;
+
+        cx-icon {
+          padding-inline-end: 5px;
+
+          &.success {
+            color: var(--cx-color-success);
+          }
+          &.warning {
+            color: var(--cx-color-warning);
+          }
+          &.error {
+            color: var(--cx-color-danger);
+          }
+        }
+
+        .cx-delivery-pickup-options-dialog-summary-footer {
+          display: flex;
+          justify-content: center;
+          button {
+            flex: 0 0 calc(50% - 0.5rem);
+            &:focus {
+              @include visible-focus();
+            }
+          }
+        }
+      }
+    }
+  }
 }

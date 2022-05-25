@@ -1,13 +1,19 @@
-<input type="radio" id="delivery" name="deliveryOption" checked />
-<label for="delivery">
-  {{ 'deliveryOptions.delivery' | cxTranslate }}
-</label>
-<input
-  type="radio"
-  id="pickInStore"
-  name="deliveryOption"
-  (click)="openDialog()"
-/>
-<label for="delivery">
-  <p>{{ 'deliveryOptions.pickup' | cxTranslate }}</p>
-</label>
+<section>
+  <div class="form-check">
+    <input type="radio" id="delivery" name="deliveryOption" checked />
+    <label for="delivery">
+      {{ 'deliveryOptions.delivery' | cxTranslate }}
+    </label>
+  </div>
+  <div class="form-check">
+    <input
+      type="radio"
+      id="pickInStore"
+      name="deliveryOption"
+      (click)="openDialog()"
+    />
+    <label for="pickInStore">
+      <p>{{ 'deliveryOptions.pickup' | cxTranslate }}</p>
+    </label>
+  </div>
+</section>

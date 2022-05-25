@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-pickup-delivery-option-dialog',
+  selector: 'cx-delivery-pickup-options-dialog',
   templateUrl: './pickup-delivery-option-dialog.component.html',
 })
 export class PickupDeliveryOptionDialogComponent implements OnInit {

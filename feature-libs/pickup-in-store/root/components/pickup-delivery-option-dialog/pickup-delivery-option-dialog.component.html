@@ -1,4 +1,4 @@
-<ng-container>
+<!-- <ng-container>
   <div class="cx-pickup-delivery-options-dialog">
     <div class="cx-pickup-delivery-options-dialog-container">
       <div
@@ -20,6 +20,33 @@
       modal body
 
       {{ dialogData }}
+    </div>
+  </div>
+</ng-container> -->
+
+
+<ng-container>
+  <div class="cx-delivery-pickup-options-dialog">
+    <div class="cx-delivery-pickup-options-dialog-container">
+      <!-- Modal Header -->
+      <div
+        class="modal-header cx-delivery-pickup-options-dialog-container-header"
+      >
+        modal header
+
+        <button
+          (click)="close('Close Pick A Store Dialog')"
+          class="cx-delivery-pickup-options-dialog-container-close close"
+          type="button"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+     <p>{{dialogData}}</p>
     </div>
   </div>
 </ng-container>
