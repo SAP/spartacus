@@ -142,7 +142,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
         );
       });
 
-      it('should set the default JS_SDK_URL_PLACEHOLDER', () => {
+      it('should set the default JS_SDK_URL_PLACEHOLDER', async () => {
+        const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
@@ -171,7 +172,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
         );
       });
 
-      it('should set the default JS_SDK_URL_PLACEHOLDER', () => {
+      it('should set the default JS_SDK_URL_PLACEHOLDER', async () => {
+        const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
@@ -187,7 +189,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should set the given javascriptUrl', () => {
+      it('should set the given javascriptUrl', async () => {
         const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
       });
