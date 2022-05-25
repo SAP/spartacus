@@ -2,8 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { OccAsmAdapter } from '@spartacus/asm/occ';
+import { AsmFacadeService } from '@spartacus/asm/root';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   BaseSiteService,
   I18nTestingModule,
@@ -39,12 +40,23 @@ class MockAsmComponentService {
   }
 }
 
+class MockSavedCartService {
+  restoreSavedCart(cartId: string): void {}
+}
+
+class MockAsmQueryService {
+  bindCart(cartId: string, customerId: string): Observable<unknown> {
+    return of(null);
+  }
+}
+
 describe('CustomerEmulationComponent', () => {
   let component: CustomerEmulationComponent;
   let fixture: ComponentFixture<CustomerEmulationComponent>;
   let userService: UserService;
   let asmComponentService: AsmComponentService;
-  let occAsmAdapter: OccAsmAdapter;
+  let asmFacadeService: AsmFacadeService;
+  let savedCartService: SavedCartFacade;
   let activeCartFacade: ActiveCartFacade;
   let el: DebugElement;
 
@@ -57,8 +69,9 @@ describe('CustomerEmulationComponent', () => {
           { provide: UserService, useClass: MockUserService },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
           { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          OccAsmAdapter,
+          { provide: AsmFacadeService, useClass: MockAsmQueryService },
           { provide: BaseSiteService, useClass: MockBaseSiteService },
+          { provide: SavedCartFacade, useClass: MockSavedCartService },
         ],
       }).compileComponents();
     })
@@ -70,7 +83,8 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
     userService = TestBed.inject(UserService);
     asmComponentService = TestBed.inject(AsmComponentService);
-    occAsmAdapter = TestBed.inject(OccAsmAdapter);
+    asmFacadeService = TestBed.inject(AsmFacadeService);
+    savedCartService = TestBed.inject(SavedCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
     el = fixture.debugElement;
   });
@@ -122,7 +136,7 @@ describe('CustomerEmulationComponent', () => {
     );
     spyOn(userService, 'get').and.returnValue(of(testUser));
 
-    spyOn(occAsmAdapter, 'bindCart').and.returnValue(of());
+    spyOn(asmFacadeService, 'bindCart').and.returnValue(of());
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(
       of(prevActiveCartId)
     );

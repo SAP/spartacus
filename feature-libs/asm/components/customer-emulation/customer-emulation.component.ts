@@ -1,7 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AsmFacadeService } from '@spartacus/asm/root';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -25,12 +32,16 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   showAssignCartError = false;
   protected subscription = new Subscription();
 
+  @Output()
+  submitEvent = new EventEmitter<{ customerId?: string }>();
+
   constructor(
     protected asmComponentService: AsmComponentService,
     protected userService: UserService,
     protected activeCartFacade: ActiveCartFacade,
     protected globalMessageService: GlobalMessageService,
-    protected asmFacadeService: AsmFacadeService
+    protected asmFacadeService: AsmFacadeService,
+    protected savedCartService: SavedCartFacade
   ) {}
 
   ngOnInit() {
@@ -42,15 +53,19 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     this.isCustomerEmulationSessionInProgress$ =
       this.asmComponentService.isCustomerEmulationSessionInProgress();
 
-    this.cartId.valueChanges.subscribe((response: string) => {
-      this.cartIdExists = response.trim().length > 0;
-    });
+    this.subscription.add(
+      this.cartId.valueChanges.subscribe((response: string) => {
+        this.cartIdExists = response.trim().length > 0;
+      })
+    );
 
-    this.activeCartFacade.getActiveCartId().subscribe((response) => {
-      if (response) {
-        this.cartId.setValue(response);
-      }
-    });
+    this.subscription.add(
+      this.activeCartFacade.getActiveCartId().subscribe((response) => {
+        if (response) {
+          this.cartId.setValue(response);
+        }
+      })
+    );
   }
 
   logoutCustomer() {
@@ -65,21 +80,23 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     const cartId = this.cartId.value;
 
     if (customerId) {
-      this.asmFacadeService.bindCart({ cartId, customerId }).subscribe(
-        () => {
-          this.globalMessageService.add(
-            { key: 'asm.assignCart.success' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
+      this.subscription.add(
+        this.asmFacadeService.bindCart({ cartId, customerId }).subscribe(
+          () => {
+            this.globalMessageService.add(
+              { key: 'asm.assignCart.success' },
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            );
 
-          this.activeCartFacade.reloadActiveCart();
-        },
-        () => {
-          this.globalMessageService.add(
-            { key: 'asm.assignCart.error' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        }
+            this.savedCartService.restoreSavedCart(cartId);
+          },
+          () => {
+            this.globalMessageService.add(
+              { key: 'asm.assignCart.error' },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+          }
+        )
       );
     }
   }
