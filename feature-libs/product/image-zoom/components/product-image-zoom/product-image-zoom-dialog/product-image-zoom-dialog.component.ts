@@ -2,13 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
   Input,
 } from '@angular/core';
 import {
   FocusConfig,
   ICON_TYPE,
   LaunchDialogService,
+  DialogComponent,
 } from '@spartacus/storefront';
 
 @Component({
@@ -16,7 +16,7 @@ import {
   templateUrl: 'product-image-zoom-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductImageZoomDialogComponent {
+export class ProductImageZoomDialogComponent extends DialogComponent {
   iconType = ICON_TYPE;
 
   focusConfig: FocusConfig = {
@@ -28,20 +28,10 @@ export class ProductImageZoomDialogComponent {
 
   @Input() galleryIndex: number;
 
-  @HostListener('click', ['$event'])
-  handleClick(event: UIEvent): void {
-    // Close on click outside the dialog window
-    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.close('Cross click');
-    }
-  }
-
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
-  ) {}
-
-  close(reason = ''): void {
-    this.launchDialogService.closeDialog(reason);
+  ) {
+    super(launchDialogService, el);
   }
 }

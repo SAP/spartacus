@@ -62,11 +62,5 @@ describe('ProductImageZoomDialogComponent', () => {
         'cross clicked'
       );
     });
-    it('should call close dialog without the close reason', () => {
-      spyOn(launchDialogService, 'closeDialog').and.callThrough();
-
-      component.close();
-      expect(launchDialogService.closeDialog).toHaveBeenCalledWith('');
-    });
   });
 });

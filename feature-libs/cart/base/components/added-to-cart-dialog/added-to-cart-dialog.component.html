@@ -1,4 +1,4 @@
-<div #dialog>
+<div #dialog [cxFocus]="focusConfig" (esc)="close('Escape clicked')">
   <!-- Modal Header -->
   <ng-container *ngIf="(loaded$ | async) || modalIsOpen; else loading">
     <div class="cx-dialog-header modal-header">
@@ -71,7 +71,8 @@
               cxModal="dismiss"
               cxModalReason="View Cart click"
               class="btn btn-primary"
-              autofocus
+              (esc)="dismissModal('ESC pressed')"
+              [cxFocus]="{ autofocus: true }"
               >{{ 'addToCart.viewCart' | cxTranslate }}</a
             >
             <a

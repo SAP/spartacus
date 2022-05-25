@@ -2,7 +2,6 @@ import {
   Component,
   ElementRef,
   HostBinding,
-  HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -17,12 +16,16 @@ import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/index';
 import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
+import { DialogComponent } from '../../../shared/components/dialog';
 
 @Component({
   selector: 'cx-anonymous-consent-dialog',
   templateUrl: './anonymous-consent-dialog.component.html',
 })
-export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
+export class AnonymousConsentDialogComponent
+  extends DialogComponent
+  implements OnInit, OnDestroy
+{
   @HostBinding('attr.role') role = 'dialog';
   @HostBinding('attr.aria-modal') modal = true;
 
@@ -43,20 +46,13 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     focusOnEscape: true,
   };
 
-  @HostListener('click', ['$event'])
-  handleClick(event: UIEvent): void {
-    // Close on click outside the dialog window
-    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.close('Cross click');
-    }
-  }
-
   constructor(
     protected config: AnonymousConsentsConfig,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected el: ElementRef,
     protected launchDialogService: LaunchDialogService
   ) {
+    super(launchDialogService, el);
     if (Boolean(this.config.anonymousConsents)) {
       this.showLegalDescription =
         this.config.anonymousConsents.showLegalDescriptionInDialog;
@@ -70,10 +66,6 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     this.templates$ = this.anonymousConsentsService.getTemplates();
     this.consents$ = this.anonymousConsentsService.getConsents();
     this.loading$ = this.anonymousConsentsService.getLoadTemplatesLoading();
-  }
-
-  close(reason?: any): void {
-    this.launchDialogService.closeDialog(reason);
   }
 
   rejectAll(): void {

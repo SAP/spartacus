@@ -2,13 +2,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  HostListener,
   OnDestroy,
   OnInit,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
-import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  LaunchDialogService,
+  DialogComponent,
+} from '@spartacus/storefront';
 import { combineLatest, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
 
@@ -18,6 +21,7 @@ import { startWith } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReplenishmentOrderCancellationDialogComponent
+  extends DialogComponent
   implements OnInit, OnDestroy
 {
   private subscription = new Subscription();
@@ -31,20 +35,14 @@ export class ReplenishmentOrderCancellationDialogComponent
     focusOnEscape: true,
   };
 
-  @HostListener('click', ['$event'])
-  handleClick(event: UIEvent): void {
-    // Close on click outside the dialog window
-    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.close('Cross click');
-    }
-  }
-
   constructor(
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
     protected globalMessageService: GlobalMessageService,
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
-  ) {}
+  ) {
+    super(launchDialogService, el);
+  }
 
   ngOnInit(): void {
     this.subscription.add(
@@ -83,10 +81,6 @@ export class ReplenishmentOrderCancellationDialogComponent
       );
     }
     this.replenishmentOrderHistoryFacade.clearCancelReplenishmentOrderProcessState();
-  }
-
-  close(reason: string): void {
-    this.launchDialogService.closeDialog(reason);
   }
 
   cancelReplenishment(): void {

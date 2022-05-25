@@ -1,7 +1,8 @@
 <div
-  [cxFocus]="focusConfig"
-  (esc)="close('Escape clicked')"
+  *ngIf="summary$ | async as summary"
+  (esc)="!summary.loading && close('Escape clicked')"
   class="cx-import-entries-dialog"
+  [cxFocus]="focusConfig"
 >
   <div class="cx-import-entries-container">
     <!-- Modal Header -->
@@ -17,7 +18,7 @@
         [attr.aria-label]="'importEntriesDialog.close' | cxTranslate"
         class="cx-import-entries-close close"
         type="button"
-        [disabled]="(summary$ | async)?.loading"
+        [disabled]="summary.loading"
       >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
@@ -43,7 +44,8 @@
 
       <ng-template #importSummary>
         <cx-import-entries-summary
-          [summary]="summary$ | async"
+          [cxFocus]="focusConfig"
+          [summary]="summary"
           [type]="context.type"
           (closeEvent)="close('Close Import Products Dialog')"
         ></cx-import-entries-summary>
