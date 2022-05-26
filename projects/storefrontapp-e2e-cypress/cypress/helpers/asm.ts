@@ -58,13 +58,19 @@ export function agentLogin(): void {
   cy.get('cx-customer-selection').should('exist');
 }
 
-export function asmCustomerLists(): void {
-  const customerListsRequestAlias = asm.listenForCustomerListsRequest();
-  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
-
+export function asmOpenCustomerList(): void {
   cy.get('cx-asm-main-ui div.asm-customer-list a').click();
   cy.get('cx-customer-list').should('exist');
   cy.get('cx-customer-list h2').should('exist');
+}
+
+export function asmCustomerLists(): void {
+  const customerListsRequestAlias = asm.listenForCustomerListsRequest();
+  const customerSearchRequestAlias = asm.listenForCustomerSearchRequest();
+  const userDetailsRequestAlias = listenForUserDetailsRequest();
+
+  cy.log('--> Starting customer list');
+  asm.asmOpenCustomerList();
 
   cy.wait(customerListsRequestAlias)
     .its('response.statusCode')
@@ -76,6 +82,23 @@ export function asmCustomerLists(): void {
 
   cy.get('cx-customer-list table').should('exist');
 
+  cy.log('--> checking customer list pagination');
+  cy.get('cx-customer-list .btn-previous').should('be.disabled');
+  cy.get('cx-customer-list .btn-next').then((button) => {
+    cy.wrap(button).click();
+    cy.wait(customerSearchRequestAlias)
+      .its('response.statusCode')
+      .should('eq', 200);
+  });
+  cy.get('cx-customer-list .btn-previous').should('not.be.disabled');
+  cy.get('cx-customer-list .btn-previous').then((button) => {
+    cy.wrap(button).click();
+    cy.wait(customerSearchRequestAlias)
+      .its('response.statusCode')
+      .should('eq', 200);
+  });
+
+  cy.log('--> checking customer list sorting');
   cy.get('cx-customer-list ng-select.sort-selector').then((selects) => {
     let select = selects[0];
     cy.wrap(select)
@@ -90,7 +113,7 @@ export function asmCustomerLists(): void {
           .should('eq', 200);
       });
   });
-
+  cy.log('--> checking customer list group');
   cy.get('cx-customer-list ng-select.customer-list-selector').then(
     (selects) => {
       let select = selects[0];
@@ -110,6 +133,29 @@ export function asmCustomerLists(): void {
 
   cy.get('cx-customer-list button.close').click();
   cy.get('cx-customer-list').should('not.exist');
+
+  asm.asmOpenCustomerList();
+
+  cy.log('--> start emulation');
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
+
+  cy.get('cx-customer-list')
+    .find('.btn-cell')
+    .then(($rows) => {
+      expect($rows.length).to.eq(5);
+      cy.wrap($rows[0]).click();
+      cy.get('cx-customer-list').should('not.exist');
+    });
+  cy.wait(userDetailsRequestAlias);
+  cy.get('cx-customer-emulation input')
+    .invoke('attr', 'placeholder')
+    .should('not.be.empty');
+  cy.get('cx-customer-emulation').should('exist');
+
+  cy.get('cx-customer-emulation button').click();
+  cy.get('cx-customer-selection').should('exist');
 }
 
 export function startCustomerEmulation(customer): void {

@@ -114,17 +114,6 @@ context('Assisted Service Module', () => {
     });
   });
 
-  describe('Customer list', () => {
-    it('should open/close customer list', () => {
-      checkout.visitHomePage('asm=true');
-      cy.get('cx-asm-main-ui').should('exist');
-      cy.get('cx-asm-main-ui').should('be.visible');
-
-      asm.agentLogin();
-      asm.asmCustomerLists();
-    });
-  });
-
   describe('When a customer session and an asm agent session are both active', () => {
     it('Customer should not be able to login when there is an active CS agent session.', () => {
       const loginPage = checkout.waitForPage('/login', 'getLoginPage');
@@ -144,6 +133,18 @@ context('Assisted Service Module', () => {
 
     // TODO(#9445): Add e2e test for this scenario
     it.skip('agent logout when user was logged and emulated should restore the session', () => {});
+  });
+
+  describe('Customer list', () => {
+    it('checking custom list features', () => {
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      asm.agentLogin();
+      asm.asmCustomerLists();
+      asm.agentSignOut();
+    });
   });
 });
 
