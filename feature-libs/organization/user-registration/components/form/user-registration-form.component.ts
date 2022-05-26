@@ -26,7 +26,7 @@ export class UserRegistrationFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.registerForm = this.userRegistrationFormService.getForm();
+    this.registerForm = this.userRegistrationFormService.form;
     this.titles$ = this.userRegistrationFormService.getTitles();
     this.countries$ = this.userRegistrationFormService.getCountries();
     this.regions$ = this.userRegistrationFormService.getRegions();

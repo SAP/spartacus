@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Command, CommandService } from '@spartacus/core';
+import {
+  UserRegistrationFacade,
+  OrganizationUserRegistration,
+} from '@spartacus/organization/user-registration/root';
 import { Observable } from 'rxjs';
 import { UserRegistrationConnector } from '../connectors/user-registration.connector';
-import { OrganizationUserRegistration } from '../model';
-import { UserRegistrationFacade } from '../../root/facade/user-registration.facade';
 
 @Injectable()
 export class UserRegistrationService implements UserRegistrationFacade {

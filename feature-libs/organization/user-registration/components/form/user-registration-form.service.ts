@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   AuthConfigService,
   Country,
@@ -13,15 +18,19 @@ import {
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Title, UserRegisterFacade } from '@spartacus/user/profile/root';
+import {
+  OrganizationUserRegistration,
+  UserRegistrationFacade,
+} from '@spartacus/organization/user-registration/root';
 import { Observable } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { OrganizationUserRegistration } from '../../core/model';
-import { UserRegistrationFacade } from '../../root/facade/user-registration.facade';
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserRegistrationFormService {
-  protected form: FormGroup = this.buildForm();
+  private _form: FormGroup = this.buildForm();
+
   /*
    * Initializes form structure for registration.
    */
@@ -41,7 +50,7 @@ export class UserRegistrationFormService {
         isocode: [null],
       }),
       postalCode: [''],
-      phoneNumber: '',
+      phoneNumber: [''],
       message: [''],
     });
   }
@@ -49,8 +58,22 @@ export class UserRegistrationFormService {
   /*
    * Gets form structure for registration.
    */
-  getForm(): FormGroup {
-    return this.form;
+  public get form(): FormGroup {
+    return this._form;
+  }
+
+  /*
+   * Gets form control for country isocode.
+   */
+  public get countryControl(): FormControl {
+    return this.form.get('country.isocode') as FormControl;
+  }
+
+  /*
+   *  Gets form control for region isocode.
+   */
+  public get regionControl(): FormControl {
+    return this.form.get('region.isocode') as FormControl;
   }
 
   /**
@@ -77,30 +100,13 @@ export class UserRegistrationFormService {
    * Gets all regions list for specific selected country.
    */
   getRegions(): Observable<Region[]> {
-    let selectedCountryCode = this.form.get('country.isocode').value;
-    let newCountryCode: string;
-
-    return this.getForm()
-      .get('country.isocode')
-      .valueChanges.pipe(
-        filter((countryIsoCode) => Boolean(countryIsoCode)),
-        switchMap((countryIsoCode) => {
-          newCountryCode = countryIsoCode;
-          return this.userAddressService.getRegions(countryIsoCode);
-        }),
-        tap((regions: Region[]) => {
-          const regionControl = this.form.get('region.isocode');
-          if (!regions || regions.length === 0) {
-            regionControl.disable();
-          } else {
-            regionControl.enable();
-          }
-          if (selectedCountryCode && newCountryCode !== selectedCountryCode) {
-            regionControl.reset();
-          }
-          selectedCountryCode = newCountryCode;
-        })
-      );
+    return this.countryControl.valueChanges.pipe(
+      filter((countryIsoCode) => Boolean(countryIsoCode)),
+      switchMap((countryIsoCode) => {
+        this.regionControl.reset();
+        return this.userAddressService.getRegions(countryIsoCode);
+      })
+    );
   }
 
   /**
@@ -154,10 +160,16 @@ export class UserRegistrationFormService {
       take(1),
       switchMap((message: string) =>
         this.organizationUserRegistrationFacade.registerUser({
+          titleCode: form.get('titleCode')?.value,
           firstName: form.get('firstName')?.value,
           lastName: form.get('lastName')?.value,
           email: form.get('email')?.value,
-          message,
+          /*
+           * Removing all extra spaces from a string
+           * in case potential user does not provide
+           * all address details.
+           */
+          message: message.replace(/\s+/g, ' '),
         })
       ),
       tap(() => {

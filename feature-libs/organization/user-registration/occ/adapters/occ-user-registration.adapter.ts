@@ -7,14 +7,13 @@ import {
   OccEndpointsService,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import {
   ORGANIZATION_USER_REGISTRATION_SERIALIZER,
   UserRegistrationAdapter,
-} from '../../core/connectors';
-import { OrganizationUserRegistration } from '../../core/model/user-registration.model';
+} from '@spartacus/organization/user-registration/core';
+import { OrganizationUserRegistration } from '@spartacus/organization/user-registration/root';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccUserRegistrationAdapter implements UserRegistrationAdapter {

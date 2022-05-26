@@ -132,8 +132,17 @@
       "@spartacus/organization/user-registration/assets": [
         "../../dist/organization/user-registration/assets"
       ],
+      "@spartacus/organization/user-registration/components": [
+        "../../dist/organization/user-registration/components"
+      ],
+      "@spartacus/organization/user-registration/core": [
+        "../../dist/organization/user-registration/core"
+      ],
       "@spartacus/organization/user-registration": [
         "../../dist/organization/user-registration"
+      ],
+      "@spartacus/organization/user-registration/occ": [
+        "../../dist/organization/user-registration/occ"
       ],
       "@spartacus/organization/user-registration/root": [
         "../../dist/organization/user-registration/root"
@@ -250,14 +259,11 @@
         "../../dist/digital-payments/assets"
       ],
       "@spartacus/digital-payments": ["../../dist/digital-payments"],
-      "@spartacus/epd-visualization/components": [
-        "../../dist/epd-visualization/components"
-      ],
       "@spartacus/epd-visualization/assets": [
         "../../dist/epd-visualization/assets"
       ],
-      "@spartacus/epd-visualization/root": [
-        "../../dist/epd-visualization/root"
+      "@spartacus/epd-visualization/components": [
+        "../../dist/epd-visualization/components"
       ],
       "@spartacus/epd-visualization/core": [
         "../../dist/epd-visualization/core"
@@ -266,6 +272,9 @@
         "../../dist/epd-visualization/epd-visualization-api"
       ],
       "@spartacus/epd-visualization": ["../../dist/epd-visualization"],
+      "@spartacus/epd-visualization/root": [
+        "../../dist/epd-visualization/root"
+      ],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"]

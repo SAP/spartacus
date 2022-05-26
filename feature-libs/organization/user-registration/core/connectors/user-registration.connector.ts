@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { OrganizationUserRegistration } from '../model';
+import { OrganizationUserRegistration } from '@spartacus/organization/user-registration/root';
 import { UserRegistrationAdapter } from './user-registration.adapter';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { OrganizationUserRegistration } from './../model/user-registration.model';
+import { OrganizationUserRegistration } from '@spartacus/organization/user-registration/root';
 
 export abstract class UserRegistrationAdapter {
   /**

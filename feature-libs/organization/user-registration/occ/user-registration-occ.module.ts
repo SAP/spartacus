@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { UserRegistrationAdapter } from '../core/connectors';
+import { UserRegistrationAdapter } from '@spartacus/organization/user-registration/core';
 import { OccUserRegistrationAdapter } from './adapters';
 import { defaultOccOrganizationUserRegistrationConfig } from './config/default-occ-organization-config';
 

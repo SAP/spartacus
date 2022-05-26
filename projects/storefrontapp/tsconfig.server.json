@@ -192,8 +192,17 @@
       "@spartacus/organization/user-registration/assets": [
         "../../feature-libs/organization/user-registration/assets/public_api"
       ],
+      "@spartacus/organization/user-registration/components": [
+        "../../feature-libs/organization/user-registration/components/public_api"
+      ],
+      "@spartacus/organization/user-registration/core": [
+        "../../feature-libs/organization/user-registration/core/public_api"
+      ],
       "@spartacus/organization/user-registration": [
         "../../feature-libs/organization/user-registration/public_api"
+      ],
+      "@spartacus/organization/user-registration/occ": [
+        "../../feature-libs/organization/user-registration/occ/public_api"
       ],
       "@spartacus/organization/user-registration/root": [
         "../../feature-libs/organization/user-registration/root/public_api"
@@ -364,14 +373,11 @@
       "@spartacus/digital-payments": [
         "../../integration-libs/digital-payments/public_api"
       ],
-      "@spartacus/epd-visualization/components": [
-        "../../integration-libs/epd-visualization/components/public_api"
-      ],
       "@spartacus/epd-visualization/assets": [
         "../../integration-libs/epd-visualization/assets/public_api"
       ],
-      "@spartacus/epd-visualization/root": [
-        "../../integration-libs/epd-visualization/root/public_api"
+      "@spartacus/epd-visualization/components": [
+        "../../integration-libs/epd-visualization/components/public_api"
       ],
       "@spartacus/epd-visualization/core": [
         "../../integration-libs/epd-visualization/core/public_api"
@@ -381,6 +387,9 @@
       ],
       "@spartacus/epd-visualization": [
         "../../integration-libs/epd-visualization/public_api"
+      ],
+      "@spartacus/epd-visualization/root": [
+        "../../integration-libs/epd-visualization/root/public_api"
       ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
