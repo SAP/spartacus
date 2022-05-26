@@ -1,9 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { RemoveCartEvent } from '@spartacus/cart/base/root';
-import { CheckoutResetQueryEvent } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
 import { Subscription } from 'rxjs';
+import { CheckoutResetQueryEvent } from './checkout.events';
 
 @Injectable({
   providedIn: 'root',
