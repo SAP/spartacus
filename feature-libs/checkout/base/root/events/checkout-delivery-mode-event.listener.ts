@@ -24,7 +24,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     this.onDeliveryModeCleared();
     this.onDeliveryModeClearedError();
 
-    // no query yet
+    //TODO: Brian no query yet
     this.onDeliveryModeReset();
   }
 
@@ -53,8 +53,6 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
         )
     );
   }
-
-  // new
 
   protected onDeliveryModeSet() {
     this.subscriptions.add(

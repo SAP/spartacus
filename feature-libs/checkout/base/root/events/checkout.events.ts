@@ -42,8 +42,6 @@ export abstract class CheckoutEvent extends CxEvent {
   cartCode?: string;
 }
 
-// new events to discuss for delivery address
-
 /**
  * An abstract event for all the delivery address related events.
  */
@@ -86,8 +84,6 @@ export class CheckoutDeliveryAddressClearedEvent extends CheckoutDeliveryAddress
    */
   static readonly type = 'CheckoutDeliveryAddressClearedEvent';
 }
-
-// -----
 
 /**
  * An abstract event for all the delivery mode related events.
