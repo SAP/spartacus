@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { ProductViewComponent, ViewModes } from './product-view.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
+import { ProductViewComponent, ViewModes } from './product-view.component';
 
 @Component({
   selector: 'cx-icon',
@@ -40,7 +40,6 @@ describe('ProductViewComponent in product-list', () => {
   it('should emit grid (default) sort event', () => {
     spyOn(component.modeChange, 'emit');
     component.changeMode();
-    expect(component.modeChange.emit).toHaveBeenCalledWith('grid');
     expect(component.modeChange.emit).toHaveBeenCalledWith(ViewModes.Grid);
   });
 

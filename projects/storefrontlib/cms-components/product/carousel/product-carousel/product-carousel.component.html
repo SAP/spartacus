@@ -1,9 +1,10 @@
 <cx-carousel
+  *ngIf="items$ | async as items"
   role="region"
   [attr.aria-label]="
     'productCarousel.carouselLabel' | cxTranslate: { title: title$ | async }
   "
-  [items]="items$ | async"
+  [items]="items"
   [title]="title$ | async"
   [template]="carouselItem"
   itemWidth="285px"
