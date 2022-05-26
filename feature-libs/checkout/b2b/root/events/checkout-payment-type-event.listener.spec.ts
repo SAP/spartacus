@@ -5,7 +5,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
-import { PaymentTypeSetEvent } from './checkout-b2b.events';
+import { CheckoutPaymentTypeSetEvent } from './checkout-b2b.events';
 import { CheckoutPaymentTypeEventListener } from './checkout-payment-type-event.listener';
 import createSpy = jasmine.createSpy;
 
@@ -36,10 +36,10 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
     eventService = TestBed.inject(EventService);
   });
 
-  describe(`onPaymentTypeChange`, () => {
-    it(`should dispatch CheckoutResetDeliveryModesEvent`, () => {
+  describe(`onPaymentTypeSet`, () => {
+    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
       mockEventStream$.next(
-        createFrom(PaymentTypeSetEvent, {
+        createFrom(CheckoutPaymentTypeSetEvent, {
           userId: mockUserId,
           cartId: mockCartId,
           paymentTypeCode: 'test-type-code',
@@ -52,8 +52,8 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
       );
     });
 
-    it(`should dispatch CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new PaymentTypeSetEvent());
+    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutResetQueryEvent`, () => {
+      mockEventStream$.next(new CheckoutPaymentTypeSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},

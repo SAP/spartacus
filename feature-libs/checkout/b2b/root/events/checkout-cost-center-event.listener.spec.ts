@@ -5,7 +5,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
-import { CostCenterSetEvent } from './checkout-b2b.events';
+import { CheckoutCostCenterSetEvent } from './checkout-b2b.events';
 import { CheckoutCostCenterEventListener } from './checkout-cost-center-event.listener';
 import createSpy = jasmine.createSpy;
 
@@ -36,10 +36,10 @@ describe(`CheckoutCostCenterEventListener`, () => {
     eventService = TestBed.inject(EventService);
   });
 
-  describe(`onCostCenterChange`, () => {
-    it(`should dispatch CheckoutResetDeliveryModesEvent`, () => {
+  describe(`onCostCenterSet`, () => {
+    it(`CheckoutCostCenterSetEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
       mockEventStream$.next(
-        createFrom(CostCenterSetEvent, {
+        createFrom(CheckoutCostCenterSetEvent, {
           userId: mockUserId,
           cartId: mockCartId,
           code: 'test-cost-center',
@@ -52,8 +52,8 @@ describe(`CheckoutCostCenterEventListener`, () => {
       );
     });
 
-    it(`should dispatch CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new CostCenterSetEvent());
+    it(`CheckoutCostCenterSetEvent should dispatch CheckoutResetQueryEvent`, () => {
+      mockEventStream$.next(new CheckoutCostCenterSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},

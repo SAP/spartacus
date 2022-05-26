@@ -12,8 +12,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   EventService,
-  LoadUserPaymentMethodsEvent,
-  OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
@@ -74,7 +72,6 @@ describe(`CheckoutPaymentService`, () => {
   let connector: CheckoutPaymentConnector;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
-  let userIdService: UserIdService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -95,7 +92,6 @@ describe(`CheckoutPaymentService`, () => {
     connector = TestBed.inject(CheckoutPaymentConnector);
     checkoutQuery = TestBed.inject(CheckoutQueryFacade);
     eventService = TestBed.inject(EventService);
-    userIdService = TestBed.inject(UserIdService);
   });
 
   it(`should inject CheckoutPaymentService`, inject(
@@ -208,28 +204,6 @@ describe(`CheckoutPaymentService`, () => {
           paymentDetails: mockPaymentInfo,
         },
         CheckoutPaymentDetailsCreatedEvent
-      );
-    });
-
-    it(`should dispatch LoadUserPaymentMethodsEvent`, () => {
-      service.createPaymentDetails(mockPaymentInfo);
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId },
-        LoadUserPaymentMethodsEvent
-      );
-    });
-
-    it(`should NOT dispatch LoadUserPaymentMethodsEvent when the user is anonymous`, () => {
-      userIdService.takeUserId = createSpy().and.returnValue(
-        of(OCC_USER_ID_ANONYMOUS)
-      );
-
-      service.createPaymentDetails(mockPaymentInfo);
-
-      expect(eventService.dispatch).not.toHaveBeenCalledWith(
-        { userId: mockUserId },
-        LoadUserPaymentMethodsEvent
       );
     });
   });

@@ -1,9 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
+  createFrom,
   CxEvent,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  LoadUserPaymentMethodsEvent,
+  OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CheckoutPaymentEventListener } from './checkout-payment-event.listener';
@@ -13,6 +17,11 @@ import {
   CheckoutResetQueryEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
+
+const mockPaymentInfo: PaymentDetails = {
+  id: 'mockPaymentId',
+};
+const mockUserId = 'test-user-id';
 
 const mockEventStream$ = new Subject<CxEvent>();
 
@@ -49,9 +58,19 @@ describe(`CheckoutPaymentEventListener`, () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
-  describe(`onPaymentChange`, () => {
-    it(`should dispatch CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new CheckoutPaymentDetailsCreatedEvent());
+  describe(`onPaymentCreated`, () => {
+    it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutResetQueryEvent and LoadUserPaymentMethodsEvent when user is NOT anonymous`, () => {
+      mockEventStream$.next(
+        createFrom(CheckoutPaymentDetailsCreatedEvent, {
+          userId: mockUserId,
+          paymentDetails: mockPaymentInfo,
+        })
+      );
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId },
+        LoadUserPaymentMethodsEvent
+      );
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
@@ -59,6 +78,36 @@ describe(`CheckoutPaymentEventListener`, () => {
       );
     });
 
+    it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutResetQueryEvent and LoadUserPaymentMethodsEvent when user is anonymous`, () => {
+      mockEventStream$.next(
+        createFrom(CheckoutPaymentDetailsCreatedEvent, {
+          userId: OCC_USER_ID_ANONYMOUS,
+          paymentDetails: mockPaymentInfo,
+        })
+      );
+
+      expect(eventService.dispatch).not.toHaveBeenCalledWith(
+        { userId: OCC_USER_ID_ANONYMOUS },
+        LoadUserPaymentMethodsEvent
+      );
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutResetQueryEvent
+      );
+    });
+
+    it(`CheckoutPaymentDetailsCreatedEvent should add a global message`, () => {
+      mockEventStream$.next(new CheckoutPaymentDetailsCreatedEvent());
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'paymentForm.paymentAddedSuccessfully' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+  });
+
+  describe(`onPaymentSet`, () => {
     it(`CheckoutPaymentDetailsSetEvent should dispatch CheckoutResetQueryEvent`, () => {
       mockEventStream$.next(new CheckoutPaymentDetailsSetEvent());
 
@@ -66,17 +115,6 @@ describe(`CheckoutPaymentEventListener`, () => {
         {},
         CheckoutResetQueryEvent
       );
-    });
-
-    describe(`global message`, () => {
-      it(`CheckoutPaymentDetailsCreatedEvent should add a global message`, () => {
-        mockEventStream$.next(new CheckoutPaymentDetailsCreatedEvent());
-
-        expect(globalMessageService.add).toHaveBeenCalledWith(
-          { key: 'paymentForm.paymentAddedSuccessfully' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-      });
     });
   });
 });

@@ -6,13 +6,14 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  LoadUserAddressesEvent,
+  OCC_USER_ID_ANONYMOUS,
   UpdateUserAddressEvent,
 } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import { CheckoutDeliveryAddressEventListener } from './checkout-delivery-address-event.listener';
 import {
-  CheckoutClearDeliveryAddressEvent,
   CheckoutDeliveryAddressClearedEvent,
   CheckoutDeliveryAddressCreatedEvent,
   CheckoutDeliveryAddressSetEvent,
@@ -44,6 +45,8 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
 }
+
+// TODO: Brian rework unit test for granular assertions instead ofall in one
 
 describe(`CheckoutDeliveryAddressEventListener`, () => {
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
@@ -120,7 +123,67 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
     });
   });
 
-  describe(`onDeliveryAddressChange`, () => {
+  describe(`onDeliveryAddressCreated`, () => {
+    it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetDeliveryModesEvent, CheckoutResetQueryEvent, and LoadUserAddressesEvent when user is NOT anonymous`, () => {
+      mockEventStream$.next(
+        createFrom(CheckoutDeliveryAddressCreatedEvent, {
+          userId: mockUserId,
+          cartId: mockCartId,
+          address: {},
+        })
+      );
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId },
+        LoadUserAddressesEvent
+      );
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'addressForm.userAddressAddSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId },
+        CheckoutResetDeliveryModesEvent
+      );
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutResetQueryEvent
+      );
+    });
+
+    it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetDeliveryModesEvent, CheckoutResetQueryEvent, and LoadUserAddressesEvent when user is anonymous`, () => {
+      mockEventStream$.next(
+        createFrom(CheckoutDeliveryAddressCreatedEvent, {
+          userId: OCC_USER_ID_ANONYMOUS,
+          cartId: mockCartId,
+          address: {},
+        })
+      );
+
+      expect(eventService.dispatch).not.toHaveBeenCalledWith(
+        { userId: OCC_USER_ID_ANONYMOUS },
+        LoadUserAddressesEvent
+      );
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'addressForm.userAddressAddSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: OCC_USER_ID_ANONYMOUS, cartId: mockCartId },
+        CheckoutResetDeliveryModesEvent
+      );
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutResetQueryEvent
+      );
+    });
+  });
+
+  describe(`onDeliveryAddressSet`, () => {
     it(`CheckoutDeliveryAddressSetEvent should dispatch CheckoutResetDeliveryModesEvent and CheckoutResetQueryEvent`, () => {
       mockEventStream$.next(
         createFrom(CheckoutDeliveryAddressSetEvent, {
@@ -139,7 +202,9 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
         CheckoutResetQueryEvent
       );
     });
+  });
 
+  describe(`onDeliveryAddressCleared`, () => {
     it(`CheckoutDeliveryAddressClearedEvent should dispatch CheckoutResetQueryEvent`, () => {
       mockEventStream$.next(new CheckoutDeliveryAddressClearedEvent());
 
@@ -147,40 +212,6 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
         {},
         CheckoutResetQueryEvent
       );
-    });
-
-    it(`CheckoutClearDeliveryAddressEvent should call clearCheckoutDeliveryAddress()`, () => {
-      mockEventStream$.next(new CheckoutClearDeliveryAddressEvent());
-
-      expect(
-        checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
-      ).toHaveBeenCalled();
-    });
-
-    describe(`global message`, () => {
-      it(`CheckoutDeliveryAddressCreatedEvent should add a global message`, () => {
-        mockEventStream$.next(
-          createFrom(CheckoutDeliveryAddressCreatedEvent, {
-            userId: mockUserId,
-            cartId: mockCartId,
-            address: {},
-          })
-        );
-
-        expect(globalMessageService.add).toHaveBeenCalledWith(
-          { key: 'addressForm.userAddressAddSuccess' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-
-        expect(eventService.dispatch).toHaveBeenCalledWith(
-          { userId: mockUserId, cartId: mockCartId },
-          CheckoutResetDeliveryModesEvent
-        );
-        expect(eventService.dispatch).toHaveBeenCalledWith(
-          {},
-          CheckoutResetQueryEvent
-        );
-      });
     });
   });
 });

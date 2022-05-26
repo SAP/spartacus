@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
@@ -74,15 +74,6 @@ describe(`OrderService`, () => {
         mockUserId,
         mockCartId,
         termsChecked
-      );
-    });
-
-    it(`should dispatch RemoveCartEvent`, () => {
-      service.placeOrder(termsChecked);
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        RemoveCartEvent
       );
     });
 
