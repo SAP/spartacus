@@ -129,6 +129,7 @@ describe(`ScheduledReplenishmentOrderService`, () => {
         {
           userId: mockUserId,
           cartId: mockCartId,
+          cartCode: mockCartId,
           replenishmentOrder: mockReplenishmentOrder,
         },
         ReplenishmentOrderScheduledEvent

@@ -84,6 +84,7 @@ describe(`OrderService`, () => {
         {
           userId: mockUserId,
           cartId: mockCartId,
+          cartCode: mockCartId,
           order: mockOrder,
         },
         OrderPlacedEvent
