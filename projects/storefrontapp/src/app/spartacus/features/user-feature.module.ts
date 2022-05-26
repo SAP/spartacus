@@ -40,8 +40,8 @@ import {
       featureModules: {
         [USER_PROFILE_FEATURE]: {
           module: () =>
-            import('./user-profile-wrapper.module').then(
-              (m) => m.UserProfileWrapperModule
+            import('./profile-wrapper.module').then(
+              (m) => m.ProfileWrapperModule
             ),
         },
       },

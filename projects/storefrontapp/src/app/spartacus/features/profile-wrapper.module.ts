@@ -13,4 +13,4 @@ if (environment.cdc) {
   declarations: [],
   imports: [UserProfileModule, ...extensions],
 })
-export class UserProfileWrapperModule {}
+export class ProfileWrapperModule {}
