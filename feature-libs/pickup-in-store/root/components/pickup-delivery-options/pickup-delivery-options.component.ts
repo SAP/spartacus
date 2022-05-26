@@ -35,7 +35,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.PICKUP_IN_STORE,
       this.element,
       this.vcr,
-      { msg: 'sample data passed into modal window' }
+      { msg: 'London' }
     );
 
     if (dialog) {

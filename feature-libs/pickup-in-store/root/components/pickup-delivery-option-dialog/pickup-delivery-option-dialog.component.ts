@@ -8,12 +8,12 @@ import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 export class PickupDeliveryOptionDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
   /*--@Todo :- Change it to actual Data when implementing the other story --*/
-  dialogData: string;
+  location: string;
   constructor(protected launchDialogService: LaunchDialogService) {}
 
   ngOnInit() {
     this.launchDialogService.data$.subscribe(
-      (data) => (this.dialogData = data.msg)
+      (data) => (this.location = data.msg)
     );
   }
 
