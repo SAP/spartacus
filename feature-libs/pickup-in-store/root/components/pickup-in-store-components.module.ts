@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
-import { PickupDeliveryOptionsModule } from '../components';
+import {
+  PickupDeliveryOptionsDialogModule,
+  PickupDeliveryOptionsModule,
+} from '../components';
 
 @NgModule({
-  imports: [PickupDeliveryOptionsModule],
-  exports: [PickupDeliveryOptionsModule],
+  imports: [PickupDeliveryOptionsModule, PickupDeliveryOptionsDialogModule],
+  exports: [PickupDeliveryOptionsModule, PickupDeliveryOptionsDialogModule],
 })
 export class PickupInStoreComponentsModule {}
