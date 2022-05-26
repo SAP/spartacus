@@ -74,8 +74,8 @@ import { provideConfig } from \\"@spartacus/core\\";
     providers: [provideConfig(<CdcConfig>{
             cdc: [
                 {
-                    baseSite: 'electronics-spa',
-                    javascriptUrl: 'SCRIPT_URL_PLACEHOLDER',
+                    baseSite: 'BASE_SITE_PLACEHOLDER',
+                    javascriptUrl: 'JS_SDK_URL_PLACEHOLDER',
                     sessionExpiration: 3600
                 },
             ],

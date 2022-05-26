@@ -124,6 +124,23 @@ describe('Spartacus CDC schematics: ng-add', () => {
   });
 
   describe('CDC feature', () => {
+    describe('validation of jsSDKUrl', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...cdcFeatureOptions, javascriptUrl: '<dc>.gigya.com/<api-key>' },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should set the given javascriptUrl', async () => {
+        const featureModule = appTree.readContent(cdcFeatureModulePath);
+        expect(featureModule).toMatchSnapshot();
+      });
+    });
+
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
@@ -162,8 +179,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(cdcFeatureModulePath);
-        expect(module).toMatchSnapshot();
+        const featureModule = appTree.readContent(cdcFeatureModulePath);
+        expect(featureModule).toMatchSnapshot();
 
         const wrapperModule = appTree.readContent(userWrapperModulePath);
         expect(wrapperModule).toMatchSnapshot();
@@ -182,8 +199,8 @@ describe('Spartacus CDC schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(cdcFeatureModulePath);
-        expect(module).toMatchSnapshot();
+        const featureModule = appTree.readContent(cdcFeatureModulePath);
+        expect(featureModule).toMatchSnapshot();
 
         expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
       });

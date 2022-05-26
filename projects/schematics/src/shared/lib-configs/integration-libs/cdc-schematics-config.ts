@@ -6,11 +6,14 @@ import {
   USER_PROFILE_FEATURE_NAME,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
-import {
-  LibraryOptions as SpartacusCdcOptions,
-  SchematicConfig,
-} from '../../utils/lib-utils';
+import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
 import { USER_PROFILE_MODULE } from '../user-schematics-config';
+
+export interface SpartacusCdcOptions extends LibraryOptions {
+  baseSite?: string;
+  javascriptUrl?: string;
+  sessionExpiration?: number;
+}
 
 export const CDC_FOLDER_NAME = 'cdc';
 export const CDC_MODULE_NAME = 'Cdc';
@@ -45,7 +48,9 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
   },
 };
 
-function buildCdcConfig(): AdditionalFeatureConfiguration<SpartacusCdcOptions> {
+function buildCdcConfig(
+  options: SpartacusCdcOptions
+): AdditionalFeatureConfiguration<SpartacusCdcOptions> {
   return {
     providers: {
       import: [
@@ -57,9 +62,11 @@ function buildCdcConfig(): AdditionalFeatureConfiguration<SpartacusCdcOptions> {
       content: `<${CDC_CONFIG}>{
         cdc: [
           {
-            baseSite: 'electronics-spa',
-            javascriptUrl: 'SCRIPT_URL_PLACEHOLDER',
-            sessionExpiration: 3600
+            baseSite: '${options.baseSite || 'BASE_SITE_PLACEHOLDER'}',
+            javascriptUrl: '${
+              options.javascriptUrl || 'JS_SDK_URL_PLACEHOLDER'
+            }',
+            sessionExpiration: ${options.sessionExpiration || 3600}
           },
         ],
       }`,
