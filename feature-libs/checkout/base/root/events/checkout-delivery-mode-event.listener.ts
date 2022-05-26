@@ -3,7 +3,6 @@ import { LoadCartEvent } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import {
-  CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutResetDeliveryModesEvent,
@@ -22,36 +21,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
   constructor(protected eventService: EventService) {
     this.onDeliveryModeSet();
     this.onDeliveryModeCleared();
-    this.onDeliveryModeClearedError();
-
-    //TODO: Brian no query yet
     this.onDeliveryModeReset();
-  }
-
-  /**
-   * Registers listeners for the delivery mode clear event.
-   * This is needed for when `CheckoutResetDeliveryModesEvent` is dispatched
-   * as we need to update the user's cart when the delivery mode is cleared from the backend checkout details.
-   */
-  protected onDeliveryModeReset(): void {
-    this.subscriptions.add(
-      this.eventService
-        .get(CheckoutResetDeliveryModesEvent)
-        .subscribe(({ userId, cartId }) =>
-          this.eventService.dispatch(
-            {
-              userId,
-              cartId,
-              /**
-               * As we know the cart is not anonymous (precondition checked),
-               * we can safely use the cartId, which is actually the cart.code.
-               */
-              cartCode: cartId,
-            },
-            LoadCartEvent
-          )
-        )
-    );
   }
 
   protected onDeliveryModeSet() {
@@ -100,11 +70,16 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     );
   }
 
-  protected onDeliveryModeClearedError(): void {
+  /**
+   * Registers listeners for the delivery mode clear event.
+   * This is needed for when `CheckoutResetDeliveryModesEvent` is dispatched
+   * as we need to update the user's cart when the delivery mode is cleared from the backend checkout details.
+   */
+  protected onDeliveryModeReset(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutDeliveryModeClearedErrorEvent)
-        .subscribe(({ userId, cartId, cartCode }) => {
+        .get(CheckoutResetDeliveryModesEvent)
+        .subscribe(({ userId, cartId }) =>
           this.eventService.dispatch(
             {
               userId,
@@ -113,11 +88,11 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
                * As we know the cart is not anonymous (precondition checked),
                * we can safely use the cartId, which is actually the cart.code.
                */
-              cartCode,
+              cartCode: cartId,
             },
             LoadCartEvent
-          );
-        })
+          )
+        )
     );
   }
 

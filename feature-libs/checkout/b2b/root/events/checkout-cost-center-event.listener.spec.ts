@@ -37,7 +37,7 @@ describe(`CheckoutCostCenterEventListener`, () => {
   });
 
   describe(`onCostCenterSet`, () => {
-    it(`CheckoutCostCenterSetEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
+    beforeEach(() => {
       mockEventStream$.next(
         createFrom(CheckoutCostCenterSetEvent, {
           userId: mockUserId,
@@ -45,7 +45,9 @@ describe(`CheckoutCostCenterEventListener`, () => {
           code: 'test-cost-center',
         })
       );
+    });
 
+    it(`CheckoutCostCenterSetEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
         CheckoutResetDeliveryModesEvent
@@ -53,8 +55,6 @@ describe(`CheckoutCostCenterEventListener`, () => {
     });
 
     it(`CheckoutCostCenterSetEvent should dispatch CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new CheckoutCostCenterSetEvent());
-
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetQueryEvent

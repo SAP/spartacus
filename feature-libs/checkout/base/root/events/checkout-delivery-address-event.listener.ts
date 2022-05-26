@@ -36,12 +36,10 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected activeCartFacade: ActiveCartFacade
   ) {
-    // TODO: Brian new 'single events' to discuss
     this.onDeliveryAddressCreated();
     this.onDeliveryAddressSet();
     this.onDeliveryAddressCleared();
 
-    // TODO:Brian?
     this.onUserAddressChange();
   }
 
@@ -85,7 +83,6 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
             this.eventService.dispatch({ userId }, LoadUserAddressesEvent);
           }
 
-          //TODO: Brian from the created event. no need for transitive event right?
           this.globalMessageService.add(
             { key: 'addressForm.userAddressAddSuccess' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION

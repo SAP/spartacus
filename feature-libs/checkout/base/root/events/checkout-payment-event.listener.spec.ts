@@ -59,51 +59,61 @@ describe(`CheckoutPaymentEventListener`, () => {
   });
 
   describe(`onPaymentCreated`, () => {
-    it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutResetQueryEvent and LoadUserPaymentMethodsEvent when user is NOT anonymous`, () => {
-      mockEventStream$.next(
-        createFrom(CheckoutPaymentDetailsCreatedEvent, {
-          userId: mockUserId,
-          paymentDetails: mockPaymentInfo,
-        })
-      );
+    describe(`when user is NOT anonymous`, () => {
+      beforeEach(() => {
+        mockEventStream$.next(
+          createFrom(CheckoutPaymentDetailsCreatedEvent, {
+            userId: mockUserId,
+            paymentDetails: mockPaymentInfo,
+          })
+        );
+      });
 
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId },
-        LoadUserPaymentMethodsEvent
-      );
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutResetQueryEvent `, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          CheckoutResetQueryEvent
+        );
+      });
 
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetQueryEvent
-      );
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch LoadUserPaymentMethodsEvent`, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          { userId: mockUserId },
+          LoadUserPaymentMethodsEvent
+        );
+      });
     });
 
-    it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutResetQueryEvent and LoadUserPaymentMethodsEvent when user is anonymous`, () => {
-      mockEventStream$.next(
-        createFrom(CheckoutPaymentDetailsCreatedEvent, {
-          userId: OCC_USER_ID_ANONYMOUS,
-          paymentDetails: mockPaymentInfo,
-        })
-      );
+    describe(`when user is anonymous`, () => {
+      beforeEach(() => {
+        mockEventStream$.next(
+          createFrom(CheckoutPaymentDetailsCreatedEvent, {
+            userId: OCC_USER_ID_ANONYMOUS,
+            paymentDetails: mockPaymentInfo,
+          })
+        );
+      });
 
-      expect(eventService.dispatch).not.toHaveBeenCalledWith(
-        { userId: OCC_USER_ID_ANONYMOUS },
-        LoadUserPaymentMethodsEvent
-      );
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutResetQueryEvent `, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          CheckoutResetQueryEvent
+        );
+      });
 
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetQueryEvent
-      );
-    });
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch LoadUserPaymentMethodsEvent`, () => {
+        expect(eventService.dispatch).not.toHaveBeenCalledWith(
+          { userId: OCC_USER_ID_ANONYMOUS },
+          LoadUserPaymentMethodsEvent
+        );
+      });
 
-    it(`CheckoutPaymentDetailsCreatedEvent should add a global message`, () => {
-      mockEventStream$.next(new CheckoutPaymentDetailsCreatedEvent());
-
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'paymentForm.paymentAddedSuccessfully' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+      it(`CheckoutPaymentDetailsCreatedEvent should add a global message`, () => {
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'paymentForm.paymentAddedSuccessfully' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
     });
   });
 

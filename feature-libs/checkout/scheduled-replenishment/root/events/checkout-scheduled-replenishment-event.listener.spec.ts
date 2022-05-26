@@ -41,7 +41,7 @@ describe(`CheckoutScheduledReplenishmentEventListener`, () => {
   });
 
   describe(`onReplenishmentOrder`, () => {
-    it(`ReplenishmentOrderScheduledEvent should dispatch RemoveCartEvent`, () => {
+    beforeEach(() => {
       mockEventStream$.next(
         createFrom(ReplenishmentOrderScheduledEvent, {
           userId: mockUserId,
@@ -50,7 +50,9 @@ describe(`CheckoutScheduledReplenishmentEventListener`, () => {
           replenishmentOrder: mockReplenishmentOrder,
         })
       );
+    });
 
+    it(`ReplenishmentOrderScheduledEvent should dispatch RemoveCartEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
         RemoveCartEvent
@@ -58,8 +60,6 @@ describe(`CheckoutScheduledReplenishmentEventListener`, () => {
     });
 
     it(`ReplenishmentOrderScheduledEvent should dispatch CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new ReplenishmentOrderScheduledEvent());
-
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetQueryEvent

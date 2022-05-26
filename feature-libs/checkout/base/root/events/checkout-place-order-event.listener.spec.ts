@@ -40,7 +40,7 @@ describe(`CheckoutPlaceOrderEventListener`, () => {
   });
 
   describe(`onOrderPlaced`, () => {
-    it(`OrderPlacedEvent should dispatch CheckoutResetQueryEvent`, () => {
+    beforeEach(() => {
       mockEventStream$.next(
         createFrom(OrderPlacedEvent, {
           userId: mockUserId,
@@ -49,11 +49,16 @@ describe(`CheckoutPlaceOrderEventListener`, () => {
           order: mockOrder,
         })
       );
+    });
 
+    it(`OrderPlacedEvent should dispatch CheckoutResetQueryEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetQueryEvent
       );
+    });
+
+    it(`OrderPlacedEvent should dispatch RemoveCartEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
         RemoveCartEvent

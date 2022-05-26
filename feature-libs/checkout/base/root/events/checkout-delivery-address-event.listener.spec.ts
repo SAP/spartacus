@@ -46,8 +46,6 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
 }
 
-// TODO: Brian rework unit test for granular assertions instead ofall in one
-
 describe(`CheckoutDeliveryAddressEventListener`, () => {
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let eventService: EventService;
@@ -86,7 +84,7 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
   });
 
   describe(`onUserAddressChange`, () => {
-    it(`UpdateUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch CheckoutResetDeliveryModesEvent`, () => {
+    beforeEach(() => {
       mockEventStream$.next(
         createFrom(UpdateUserAddressEvent, {
           userId: mockUserId,
@@ -94,10 +92,15 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
           addressId: 'test-address-id',
         })
       );
+    });
 
+    it(`UpdateUserAddressEvent should call clearCheckoutDeliveryAddress()`, () => {
       expect(
         checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
       ).toHaveBeenCalled();
+    });
+
+    it(`UpdateUserAddressEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { cartId: mockCartId, userId: mockUserId },
         CheckoutResetDeliveryModesEvent
@@ -105,17 +108,12 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
     });
 
     it(`DeleteUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(
-        createFrom(UpdateUserAddressEvent, {
-          userId: mockUserId,
-          address: {},
-          addressId: 'test-address-id',
-        })
-      );
-
       expect(
         checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
       ).toHaveBeenCalled();
+    });
+
+    it(`DeleteUserAddressEvent dispatch CheckoutResetDeliveryModesEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { cartId: mockCartId, userId: mockUserId },
         CheckoutResetDeliveryModesEvent
@@ -124,67 +122,89 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
   });
 
   describe(`onDeliveryAddressCreated`, () => {
-    it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetDeliveryModesEvent, CheckoutResetQueryEvent, and LoadUserAddressesEvent when user is NOT anonymous`, () => {
-      mockEventStream$.next(
-        createFrom(CheckoutDeliveryAddressCreatedEvent, {
-          userId: mockUserId,
-          cartId: mockCartId,
-          address: {},
-        })
-      );
+    describe(`when user is NOT anonymous`, () => {
+      beforeEach(() => {
+        mockEventStream$.next(
+          createFrom(CheckoutDeliveryAddressCreatedEvent, {
+            userId: mockUserId,
+            cartId: mockCartId,
+            address: {},
+          })
+        );
+      });
 
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId },
-        LoadUserAddressesEvent
-      );
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          { userId: mockUserId, cartId: mockCartId },
+          CheckoutResetDeliveryModesEvent
+        );
+      });
 
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'addressForm.userAddressAddSuccess' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetQueryEvent`, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          CheckoutResetQueryEvent
+        );
+      });
 
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId, cartId: mockCartId },
-        CheckoutResetDeliveryModesEvent
-      );
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetQueryEvent
-      );
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch LoadUserAddressesEvent`, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          { userId: mockUserId },
+          LoadUserAddressesEvent
+        );
+      });
+
+      it(`CheckoutDeliveryAddressCreatedEvent should add a global message`, () => {
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'addressForm.userAddressAddSuccess' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
     });
 
-    it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetDeliveryModesEvent, CheckoutResetQueryEvent, and LoadUserAddressesEvent when user is anonymous`, () => {
-      mockEventStream$.next(
-        createFrom(CheckoutDeliveryAddressCreatedEvent, {
-          userId: OCC_USER_ID_ANONYMOUS,
-          cartId: mockCartId,
-          address: {},
-        })
-      );
+    describe(`when user is anonymous`, () => {
+      beforeEach(() => {
+        mockEventStream$.next(
+          createFrom(CheckoutDeliveryAddressCreatedEvent, {
+            userId: OCC_USER_ID_ANONYMOUS,
+            cartId: mockCartId,
+            address: {},
+          })
+        );
+      });
 
-      expect(eventService.dispatch).not.toHaveBeenCalledWith(
-        { userId: OCC_USER_ID_ANONYMOUS },
-        LoadUserAddressesEvent
-      );
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          { userId: OCC_USER_ID_ANONYMOUS, cartId: mockCartId },
+          CheckoutResetDeliveryModesEvent
+        );
+      });
 
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'addressForm.userAddressAddSuccess' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetQueryEvent`, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          CheckoutResetQueryEvent
+        );
+      });
 
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: OCC_USER_ID_ANONYMOUS, cartId: mockCartId },
-        CheckoutResetDeliveryModesEvent
-      );
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetQueryEvent
-      );
+      it(`CheckoutDeliveryAddressCreatedEvent should NOT dispatch LoadUserAddressesEvent`, () => {
+        expect(eventService.dispatch).not.toHaveBeenCalledWith(
+          { userId: OCC_USER_ID_ANONYMOUS },
+          LoadUserAddressesEvent
+        );
+      });
+
+      it(`CheckoutDeliveryAddressCreatedEvent should add a global message`, () => {
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'addressForm.userAddressAddSuccess' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
     });
   });
 
   describe(`onDeliveryAddressSet`, () => {
-    it(`CheckoutDeliveryAddressSetEvent should dispatch CheckoutResetDeliveryModesEvent and CheckoutResetQueryEvent`, () => {
+    beforeEach(() => {
       mockEventStream$.next(
         createFrom(CheckoutDeliveryAddressSetEvent, {
           userId: mockUserId,
@@ -192,11 +212,16 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
           address: {},
         })
       );
+    });
 
+    it(`CheckoutDeliveryAddressSetEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
         CheckoutResetDeliveryModesEvent
       );
+    });
+
+    it(`CheckoutDeliveryAddressSetEvent should dispatch  CheckoutResetQueryEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetQueryEvent

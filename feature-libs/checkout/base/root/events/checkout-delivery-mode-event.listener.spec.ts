@@ -4,7 +4,6 @@ import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CheckoutDeliveryModeEventListener } from './checkout-delivery-mode-event.listener';
 import {
-  CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutResetDeliveryModesEvent,
@@ -43,7 +42,7 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
   });
 
   describe(`onDeliveryModeSet`, () => {
-    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutResetQueryEvent()`, () => {
+    beforeEach(() => {
       mockEventStream$.next(
         createFrom(CheckoutDeliveryModeSetEvent, {
           userId: mockUserId,
@@ -52,11 +51,16 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
           deliveryModeCode: mockDeliveryModeCode,
         })
       );
+    });
 
+    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutResetQueryEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetQueryEvent
       );
+    });
+
+    it(`CheckoutDeliveryModeSetEvent should dispatch LoadCartEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
         LoadCartEvent
@@ -65,7 +69,7 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
   });
 
   describe(`onDeliveryModeCleared`, () => {
-    it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutResetQueryEvent()`, () => {
+    beforeEach(() => {
       mockEventStream$.next(
         createFrom(CheckoutDeliveryModeClearedEvent, {
           userId: mockUserId,
@@ -73,28 +77,16 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
           cartCode: mockCartId,
         })
       );
+    });
 
+    it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutResetQueryEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetQueryEvent
       );
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        LoadCartEvent
-      );
     });
-  });
 
-  describe(`onDeliveryModeClearedError`, () => {
-    it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutResetQueryEvent()`, () => {
-      mockEventStream$.next(
-        createFrom(CheckoutDeliveryModeClearedErrorEvent, {
-          userId: mockUserId,
-          cartId: mockCartId,
-          cartCode: mockCartId,
-        })
-      );
-
+    it(`CheckoutDeliveryModeClearedEvent should dispatch LoadCartEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
         LoadCartEvent

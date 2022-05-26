@@ -37,7 +37,7 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
   });
 
   describe(`onPaymentTypeSet`, () => {
-    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
+    beforeEach(() => {
       mockEventStream$.next(
         createFrom(CheckoutPaymentTypeSetEvent, {
           userId: mockUserId,
@@ -45,7 +45,9 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
           paymentTypeCode: 'test-type-code',
         })
       );
+    });
 
+    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
         CheckoutResetDeliveryModesEvent
@@ -53,8 +55,6 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
     });
 
     it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new CheckoutPaymentTypeSetEvent());
-
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetQueryEvent

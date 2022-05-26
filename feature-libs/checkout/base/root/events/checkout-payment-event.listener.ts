@@ -39,7 +39,6 @@ export class CheckoutPaymentEventListener implements OnDestroy {
             this.eventService.dispatch({ userId }, LoadUserPaymentMethodsEvent);
           }
 
-          //TODO: Brian from the created event. no need for transitive event right?
           this.globalMessageService.add(
             { key: 'paymentForm.paymentAddedSuccessfully' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION

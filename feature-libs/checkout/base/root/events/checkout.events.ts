@@ -115,16 +115,6 @@ export class CheckoutDeliveryModeClearedEvent extends CheckoutDeliveryModeEvent 
 }
 
 /**
- * Fired when the delivery mode has been cleared.
- */
-export class CheckoutDeliveryModeClearedErrorEvent extends CheckoutDeliveryModeEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutDeliveryModeClearedErrorEvent';
-}
-
-/**
  * Emit this event to force delivery modes reload
  */
 export class CheckoutReloadDeliveryModesEvent extends CheckoutDeliveryModeEvent {
