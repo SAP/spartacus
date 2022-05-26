@@ -1,15 +1,17 @@
 <ng-container>
-  <div class="cx-delivery-pickup-options-dialog">
+  <div class="cx-delivery-pickup-options-dialog"
+>
     <div class="cx-delivery-pickup-options-dialog-container">
       <!-- Modal Header -->
       <div
         class="modal-header cx-delivery-pickup-options-dialog-container-header"
       >
-        modal header
+        {{'pickUpInStoreDialog.modalHeader' | cxTranslate}}
 
         <button
           (click)="close('Close Pick A Store Dialog')"
           class="cx-delivery-pickup-options-dialog-container-close close"
+          [attr.aria-label]="'pickUpInStoreDialog.close' | cxTranslate"
           type="button"
         >
           <span aria-hidden="true">
