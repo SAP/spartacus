@@ -409,8 +409,11 @@ function checkDependentFeatures<OPTIONS extends LibraryOptions>(
         message += `, therefore cannot install '${wantedFeature}' feature.`;
         message += `\n`;
         message += `To manually install '${wantedFeature}' feature, `;
-        message += `please make sure the '${dependentFeatureModuleConfig.name}' from '${dependentFeatureModuleConfig.importPath}' is installed, and then `;
-        message += `import '${wantedFeatureModule}' after it.`;
+        message += `please make sure the '${dependentFeatureModuleConfig.name}' from '${dependentFeatureModuleConfig.importPath}' is imported, and then `;
+        message += `import '${wantedFeatureModule}' from '${getFeatureModuleImportPath(
+          wantedFeatureSchematicsConfig,
+          wantedFeatureModule
+        )}' after it.`;
 
         return message;
       }
@@ -428,6 +431,22 @@ function buildMissingFeatureMessage(
   message += `\n`;
   message += `Please run 'ng add @spartacus/schematics --features=${dependentFeature}'.`;
   return message;
+}
+
+function getFeatureModuleImportPath(
+  schematicConfig: SchematicConfig,
+  featureModule: string
+): string | undefined {
+  const featureModuleConfigs = ([] as Module[]).concat(
+    schematicConfig.featureModule
+  );
+  for (const featureModuleConfig of featureModuleConfigs) {
+    if (featureModuleConfig.name === featureModule) {
+      return featureModuleConfig.importPath;
+    }
+  }
+
+  return undefined;
 }
 
 /**
