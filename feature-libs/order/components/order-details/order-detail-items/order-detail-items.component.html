@@ -56,7 +56,7 @@
               : order.entries,
             readonly: true,
             promotionLocation: promotionLocation,
-            options: { isBuyItAgain: true }
+            options: { isBuyItAgain: enableAddToCart$ | async }
           }"
         >
         </ng-template>

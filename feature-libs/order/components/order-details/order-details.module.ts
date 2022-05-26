@@ -55,6 +55,9 @@ const moduleComponents = [
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,
+          data: {
+            enableAddToCart: true,
+          },
         },
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,

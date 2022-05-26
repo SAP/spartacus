@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { Consignment, Order } from '@spartacus/order/root';
+import { CmsOrderDetailItemsComponent } from '@spartacus/core';
+import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
@@ -14,7 +16,10 @@ import {
   templateUrl: './order-detail-items.component.html',
 })
 export class OrderDetailItemsComponent implements OnInit {
-  constructor(protected orderDetailsService: OrderDetailsService) {}
+  constructor(
+    protected orderDetailsService: OrderDetailsService,
+    protected component: CmsComponentData<CmsOrderDetailItemsComponent>
+  ) {}
 
   readonly CartOutlets = CartOutlets;
 
@@ -23,6 +28,9 @@ export class OrderDetailItemsComponent implements OnInit {
   others$: Observable<Consignment[] | undefined>;
   completed$: Observable<Consignment[] | undefined>;
   cancel$: Observable<Consignment[] | undefined>;
+  enableAddToCart$: Observable<boolean | undefined> = this.component.data$.pipe(
+    map((data) => data.enableAddToCart)
+  );
 
   ngOnInit() {
     this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
