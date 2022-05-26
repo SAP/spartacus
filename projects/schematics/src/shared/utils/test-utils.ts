@@ -15,6 +15,8 @@ export const asmFeatureModulePath =
   'src/app/spartacus/features/asm/asm-feature.module.ts';
 export const cartBaseFeatureModulePath =
   'src/app/spartacus/features/cart/cart-base-feature.module.ts';
+export const cartWrapperModulePath =
+  'src/app/spartacus/features/cart/cart-wrapper.module.ts';
 export const importExportFeatureModulePath =
   'src/app/spartacus/features/cart/cart-import-export-feature.module.ts';
 export const quickOrderFeatureModulePath =
@@ -41,8 +43,8 @@ export const productVariantsFeatureModulePath =
   'src/app/spartacus/features/product/product-variants-feature.module.ts';
 export const productConfiguratorFeatureModulePath =
   'src/app/spartacus/features/product-configurator/product-configurator-feature.module.ts';
-export const productConfiguratorWrapperModulePath =
-  'src/app/spartacus/features/product-configurator/product-configurator-wrapper.module.ts';
+export const productConfiguratorVCWrapperModulePath =
+  'src/app/spartacus/features/product-configurator/vc-configurator-wrapper.module.ts';
 export const qualtricsFeatureModulePath =
   'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
 export const smartEditFeatureModulePath =
@@ -55,8 +57,8 @@ export const trackingTagManagementFeatureModulePath =
   'src/app/spartacus/features/tracking/tag-management-feature.module.ts';
 export const userFeatureModulePath =
   'src/app/spartacus/features/user/user-feature.module.ts';
-export const userWrapperModulePath =
-  'src/app/spartacus/features/user/user-wrapper.module.ts';
+export const userProfileWrapperModulePath =
+  'src/app/spartacus/features/user/profile-wrapper.module.ts';
 
 export const cdcFeatureModulePath =
   'src/app/spartacus/features/cdc/cdc-feature.module.ts';

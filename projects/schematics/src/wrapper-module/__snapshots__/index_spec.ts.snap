@@ -11,7 +11,7 @@ import { UserProfileModule } from \\"@spartacus/user/profile\\";
         CdcModule
     ]
 })
-export class UserWrapperModule {
+export class ProfileWrapperModule {
 }
 "
 `;
@@ -45,7 +45,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
         provideConfig(<CmsConfig>{
             featureModules: {
                 [USER_PROFILE_FEATURE]: {
-                    module: () => import('./user-wrapper.module').then((m) => m.UserWrapperModule),
+                    module: () => import('./profile-wrapper.module').then((m) => m.ProfileWrapperModule),
                 },
             }
         }),
@@ -434,7 +434,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     providers: [provideConfig(<CmsConfig>{
             featureModules: {
                 [CART_BASE_FEATURE]: {
-                    module: () => import('./cart-base-wrapper.module').then((m) => m.CartBaseWrapperModule),
+                    module: () => import('./cart-wrapper.module').then((m) => m.CartWrapperModule),
                 },
             }
         }),
@@ -474,7 +474,7 @@ import { CartBaseModule } from \\"@spartacus/cart/base\\";
         CartBaseModule
     ]
 })
-export class CartBaseWrapperModule {
+export class CartWrapperModule {
 }
 "
 `;

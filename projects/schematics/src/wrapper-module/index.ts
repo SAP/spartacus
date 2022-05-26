@@ -56,7 +56,7 @@ function checkWrapperModuleExists(options: SpartacusWrapperOptions): Rule {
       context.logger.info(
         formatFeatureStart(
           feature,
-          `checking the wrapper module path for ${options.markerModuleName}...`
+          `checking the wrapper module path for ${options.markerModuleName} ...`
         )
       );
     }
@@ -91,7 +91,7 @@ function checkWrapperModuleExists(options: SpartacusWrapperOptions): Rule {
                 feature,
                 `found '${
                   options.markerModuleName
-                }' in the existing wrapper module: ${sourceFile.getFilePath()}.`
+                }' in the existing wrapper module: ${sourceFile.getFilePath()} .`
               )
             );
           }
@@ -133,7 +133,7 @@ function createWrapperModule(options: SpartacusWrapperOptions): Rule {
       context.logger.info(
         formatFeatureStart(
           feature,
-          `creating wrapper module for ${options.markerModuleName}...`
+          `creating wrapper module for ${options.markerModuleName} ...`
         )
       );
     }
@@ -147,7 +147,9 @@ function createWrapperModule(options: SpartacusWrapperOptions): Rule {
     }
 
     const path = createSpartacusFeatureFolderPath(featureConfig.folderName);
-    const name = createSpartacusWrapperModuleFileName(featureConfig.moduleName);
+    const name = createSpartacusWrapperModuleFileName(
+      featureConfig.library.featureName
+    );
     const wrapperModulePath = `${path}/${name}`;
     /**
      * Mutates the options by setting
@@ -192,7 +194,7 @@ function createWrapperModule(options: SpartacusWrapperOptions): Rule {
       debugLogRule(
         formatFeatureComplete(
           feature,
-          `wrapper module created for ${options.markerModuleName} in ${path}.`
+          `wrapper module created for ${options.markerModuleName} in ${wrapperModulePath} .`
         ),
         options.debug
       )
@@ -227,7 +229,7 @@ function updateWrapperModule(
       context.logger.info(
         formatFeatureStart(
           feature,
-          `importing the '${moduleName}' to the wrapper module ${wrapperModulePath}`
+          `importing the '${moduleName}' to the wrapper module ${wrapperModulePath} ...`
         )
       );
     }
@@ -258,7 +260,7 @@ function updateWrapperModule(
       debugLogRule(
         formatFeatureComplete(
           feature,
-          `imported the '${moduleName}' to the wrapper module ${options.internal?.wrapperModulePath}.`
+          `imported the '${moduleName}' to the wrapper module ${options.internal?.wrapperModulePath} .`
         ),
         options.debug
       )
@@ -268,7 +270,12 @@ function updateWrapperModule(
 }
 
 /**
- * Updates the feature module to point to the wrapper module.
+ * Changes the dynamic import to point to the wrapper module.
+ * E.g. instead of:
+ * `import('@spartacus/user/profile').then((m) => m.UserProfileModule),`
+ * it will be changed to:
+ * `import('./profile-wrapper.module').then((m) => m.ProfileWrapperModule),`
+ *
  * It also removes the temporary static import to the wrapper
  * module from the ngModule's array.
  */
@@ -285,7 +292,7 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
       context.logger.info(
         formatFeatureStart(
           feature,
-          `updating feature module for '${options.markerModuleName}'...`
+          `updating feature module for '${options.markerModuleName}' ...`
         )
       );
     }
@@ -362,7 +369,7 @@ function updateFeatureModule(options: SpartacusWrapperOptions): Rule {
       debugLogRule(
         formatFeatureComplete(
           feature,
-          `feature module updated for '${options.markerModuleName}'.`
+          `feature module updated for '${options.markerModuleName}' .`
         ),
         options.debug
       )
@@ -401,7 +408,7 @@ function removeLibraryDynamicImport(options: SpartacusWrapperOptions): Rule {
       context.logger.info(
         formatFeatureStart(
           feature,
-          `removing dynamic import in '${featureModulePath}' for '${options.featureModuleName}'...`
+          `removing dynamic import in '${featureModulePath}' for '${options.featureModuleName}' ...`
         )
       );
     }
@@ -433,7 +440,7 @@ function removeLibraryDynamicImport(options: SpartacusWrapperOptions): Rule {
       context.logger.info(
         formatFeatureComplete(
           feature,
-          `dynamic import removed in '${featureModulePath}' for '${options.featureModuleName}'.`
+          `dynamic import removed in '${featureModulePath}' for '${options.featureModuleName}' .`
         )
       );
     }
@@ -501,11 +508,11 @@ export function generateWrapperModule(options: SpartacusWrapperOptions): Rule {
 
       createWrapperModule(options),
 
-      updateWrapperModule(options, options.markerModuleName),
-      updateWrapperModule(options, options.featureModuleName),
-
       updateFeatureModule(options),
       removeLibraryDynamicImport(options),
+
+      updateWrapperModule(options, options.markerModuleName),
+      updateWrapperModule(options, options.featureModuleName),
     ]);
   };
 }

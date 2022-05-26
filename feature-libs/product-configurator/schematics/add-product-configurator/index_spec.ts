@@ -13,7 +13,7 @@ import {
   LibraryOptions as SpartacusProductConfiguratorOptions,
   orderFeatureModulePath,
   productConfiguratorFeatureModulePath,
-  productConfiguratorWrapperModulePath,
+  productConfiguratorVCWrapperModulePath,
   PRODUCT_CONFIGURATOR_CPQ_FEATURE_NAME,
   PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
   PRODUCT_CONFIGURATOR_VC_FEATURE_NAME,
@@ -152,7 +152,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorWrapperModulePath)
+            appTree.readContent(productConfiguratorVCWrapperModulePath)
           ).toBeFalsy();
         });
 
@@ -207,7 +207,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorWrapperModulePath)
+            appTree.readContent(productConfiguratorVCWrapperModulePath)
           ).toBeFalsy();
         });
       });
@@ -228,7 +228,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(module).toMatchSnapshot();
 
           const wrapperModule = appTree.readContent(
-            productConfiguratorWrapperModulePath
+            productConfiguratorVCWrapperModulePath
           );
           expect(wrapperModule).toMatchSnapshot();
         });
@@ -293,7 +293,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorWrapperModulePath)
+            appTree.readContent(productConfiguratorVCWrapperModulePath)
           ).toBeFalsy();
         });
       });
@@ -314,7 +314,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorWrapperModulePath)
+            appTree.readContent(productConfiguratorVCWrapperModulePath)
           ).toBeFalsy();
         });
 
@@ -378,7 +378,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorWrapperModulePath)
+            appTree.readContent(productConfiguratorVCWrapperModulePath)
           ).toBeFalsy();
         });
       });
@@ -409,7 +409,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(module).toMatchSnapshot();
 
           const wrapperModule = appTree.readContent(
-            productConfiguratorWrapperModulePath
+            productConfiguratorVCWrapperModulePath
           );
           expect(wrapperModule).toMatchSnapshot();
         });
@@ -481,7 +481,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(module).toMatchSnapshot();
 
           expect(
-            appTree.readContent(productConfiguratorWrapperModulePath)
+            appTree.readContent(productConfiguratorVCWrapperModulePath)
           ).toBeFalsy();
         });
       });

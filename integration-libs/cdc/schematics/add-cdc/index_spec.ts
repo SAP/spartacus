@@ -19,7 +19,7 @@ import {
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
   userFeatureModulePath,
-  userWrapperModulePath,
+  userProfileWrapperModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
@@ -182,7 +182,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
         const featureModule = appTree.readContent(cdcFeatureModulePath);
         expect(featureModule).toMatchSnapshot();
 
-        const wrapperModule = appTree.readContent(userWrapperModulePath);
+        const wrapperModule = appTree.readContent(userProfileWrapperModulePath);
         expect(wrapperModule).toMatchSnapshot();
       });
     });
@@ -202,7 +202,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
         const featureModule = appTree.readContent(cdcFeatureModulePath);
         expect(featureModule).toMatchSnapshot();
 
-        expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
+        expect(appTree.readContent(userProfileWrapperModulePath)).toBeFalsy();
       });
     });
   });

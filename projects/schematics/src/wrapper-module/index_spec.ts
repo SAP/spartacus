@@ -27,13 +27,14 @@ import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
   cartBaseFeatureModulePath,
+  cartWrapperModulePath,
   cdcFeatureModulePath,
   checkoutFeatureModulePath,
   checkoutWrapperModulePath,
   digitalPaymentsFeatureModulePath,
   spartacusFeaturesModulePath,
   userFeatureModulePath,
-  userWrapperModulePath,
+  userProfileWrapperModulePath,
 } from '../shared/utils/test-utils';
 import { Schema as SpartacusWrapperOptions } from '../wrapper-module/schema';
 import { cleanupConfig } from './index';
@@ -152,7 +153,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
         cartBaseFeatureModulePath
       );
       const cartWrapperModule = program.getSourceFileOrThrow(
-        'src/app/spartacus/features/cart/cart-base-wrapper.module.ts'
+        cartWrapperModulePath
       );
 
       expect(cartFeatureModule.print()).toMatchSnapshot();
@@ -275,8 +276,8 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
 
       const { program } = createProgram(appTree, appTree.root.path, buildPath);
 
-      const userWrapperModule = program.getSourceFileOrThrow(
-        userWrapperModulePath
+      const userProfileWrapperModule = program.getSourceFileOrThrow(
+        userProfileWrapperModulePath
       );
       const userFeatureModule = program.getSourceFileOrThrow(
         userFeatureModulePath
@@ -284,7 +285,7 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       const cdcFeaturesModule =
         program.getSourceFileOrThrow(cdcFeatureModulePath);
 
-      expect(userWrapperModule.print()).toMatchSnapshot();
+      expect(userProfileWrapperModule.print()).toMatchSnapshot();
       expect(userFeatureModule.print()).toMatchSnapshot();
       expect(cdcFeaturesModule.print()).toMatchSnapshot();
     });
