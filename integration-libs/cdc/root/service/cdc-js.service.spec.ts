@@ -312,14 +312,14 @@ describe('CdcJsService', () => {
       service.loginUserWithoutScreenSet('uid', 'password', null);
       expect(
         winRef.nativeWindow['gigya'].accounts.initRegistration
-      ).not.toBeCalled();
+      ).not.toHaveBeenCalled();
     });
     it('should call register', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'initRegistration');
       service.loginUserWithoutScreenSet('uid', 'password', { key: 'value' });
       expect(
         winRef.nativeWindow['gigya'].accounts.initRegistration
-      ).toBeCalled();
+      ).toHaveBeenCalled();
     });
   });
 
@@ -335,7 +335,7 @@ describe('CdcJsService', () => {
         },
         { regToken: 'TOKEN' }
       );
-      expect(winRef.nativeWindow['gigya'].accounts.register).toBeCalledWith({
+      expect(winRef.nativeWindow['gigya'].accounts.register).toHaveBeenCalledWith({
         email: 'uid',
         password: 'password',
         profile: {
@@ -351,7 +351,7 @@ describe('CdcJsService', () => {
     it('should not do anything', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'register');
       service.onInitRegistrationHandler({}, null);
-      expect(winRef.nativeWindow['gigya'].accounts.register).not.toBeCalled();
+      expect(winRef.nativeWindow['gigya'].accounts.register).not.toHaveBeenCalled();
     });
   });
 
@@ -360,7 +360,7 @@ describe('CdcJsService', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'login');
       service.loginUserWithoutScreenSet('uid', 'password', { key: 'value' });
 
-      expect(winRef.nativeWindow['gigya'].accounts.login).toBeCalledWith({
+      expect(winRef.nativeWindow['gigya'].accounts.login).toHaveBeenCalledWith({
         loginID: 'uid',
         password: 'password',
         callback: jasmine.any(Function),

@@ -10,7 +10,6 @@ import {
 } from '@spartacus/user/profile/root';
 import { Provider } from '@angular/core';
 import { CDCUserRegisterService } from 'integration-libs/cdc/core/auth/services/user-authentication/cdc-user-register.service';
-import { environment } from 'projects/storefrontapp/src/environments/environment';
 
 export const facadeProviders: Provider[] = [
   UserEmailService,
@@ -32,6 +31,6 @@ export const facadeProviders: Provider[] = [
   },
   {
     provide: UserRegisterFacade,
-    useExisting: environment.cdc? CDCUserRegisterService: UserRegisterService,
+    useExisting: UserRegisterService,
   },
 ];

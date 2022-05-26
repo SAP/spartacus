@@ -32,7 +32,7 @@ class MockUserProfileService implements Partial<UserProfileService> {
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
   register = createSpy().and.callFake((user) => of(user));
-  registerGuest = createSpy().and.callFake((uid, _password) => of(user));
+  registerGuest = createSpy().and.callFake((uid, _password) => of({ uid }));
 }
 
 class MockAuthService implements Partial<AuthService> {

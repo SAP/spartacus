@@ -26,6 +26,9 @@ export class CDCUserRegisterService implements UserRegisterFacade {
     this.command.create(
       ({ user }) =>
         new Observable<User>((userRegistered) => {
+          console.log(
+            'Registering user through CDC Gigya SDK'
+          );
           if (user.firstName && user.lastName && user.uid && user.password) {
             this.cdcJSService.registerUserWithoutScreenSet(user);
           }

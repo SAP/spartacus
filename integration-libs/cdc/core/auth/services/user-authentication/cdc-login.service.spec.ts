@@ -91,16 +91,16 @@ describe('CdcLoginComponentService', () => {
         password,
         true
       );
+    });
 
-      it('should happen without CDC', () => {
-        TestBed.overrideProvider(CdcJsService, {
-          useValue: MockCDCJsServiceWithoutCDC,
-        });
-        spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
-          history: { state: { newUid: 'test.user@shop.com' } },
-        });
-        expect(loginFormService.login).toBeCalled();
+    it('should happen without CDC', () => {
+      TestBed.overrideProvider(CdcJsService, {
+        useValue: MockCDCJsServiceWithoutCDC,
       });
+      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
+        history: { state: { newUid: 'test.user@shop.com' } },
+      });
+      expect(loginFormService.login).toHaveBeenCalled();
     });
   });
 });
