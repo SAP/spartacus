@@ -17,7 +17,7 @@ import { PickupInStoreFacade } from '../../facade/pickup-in-store.facade';
 })
 export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   @ViewChild('open') element: ElementRef;
-  private subscription = new Subscription();
+  subscription = new Subscription();
 
   constructor(
     protected pickupInStoreFacade: PickupInStoreFacade,
@@ -28,7 +28,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
     this.pickupInStoreFacade.getStore();
   }
   ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
   }
   openDialog(): void {
     const dialog = this.launchDialogService.openDialog(
