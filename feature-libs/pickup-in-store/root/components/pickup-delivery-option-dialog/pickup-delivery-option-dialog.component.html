@@ -20,8 +20,16 @@
       </div>
 
       <!-- Modal Body -->
-      <section class="cx-delivery-pickup-options-dialog-container-body modal-body">
-        <p>{{ 'pickUpInStoreDialog.msg' | cxTranslate: { productCode, location } }}</p>
+      <section
+        class="cx-delivery-pickup-options-dialog-container-body modal-body"
+      >
+        <p>
+          {{
+            'pickUpInStoreDialog.msg'
+              | cxTranslate
+                : { productCode: this.productCode, location: this.location }
+          }}
+        </p>
       </section>
     </div>
   </div>
