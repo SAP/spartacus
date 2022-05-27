@@ -1,8 +1,13 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { AddToCartContainerContext } from '@spartacus/cart/base/components/add-to-cart';
 import { I18nTestingModule } from '@spartacus/core';
 import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+  OutletContextData,
+} from '@spartacus/storefront';
 import { of, Subscription } from 'rxjs';
 import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.component';
 
@@ -23,13 +28,16 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   }
 }
 
+const contextData: AddToCartContainerContext = { productCode: 'test' };
+const context$ = of(contextData);
+
 describe('PickupDeliveryOptionsComponent', () => {
   let component: PickupDeliveryOptionsComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionsComponent>;
   let launchDialogService: LaunchDialogService;
   let service: PickupInStoreFacade;
 
-  beforeEach(() => {
+  const configureTestingModule = () =>
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
@@ -44,11 +52,9 @@ describe('PickupDeliveryOptionsComponent', () => {
         },
       ],
       declarations: [PickupDeliveryOptionsComponent],
-    }).compileComponents();
-    launchDialogService = TestBed.inject(LaunchDialogService);
-  });
+    });
 
-  beforeEach(() => {
+  const stubServiceAndCreateComponent = () => {
     fixture = TestBed.createComponent(PickupDeliveryOptionsComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(PickupInStoreFacade);
@@ -57,25 +63,55 @@ describe('PickupDeliveryOptionsComponent', () => {
     spyOn(launchDialogService, 'openDialog').and.stub();
 
     fixture.detectChanges();
-  });
-  it('should create and call getStore', () => {
-    expect(component).toBeDefined();
-    expect(service.getStore).toHaveBeenCalled();
-  });
-  it('should trigger and open dialog', () => {
-    component.openDialog();
-    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
-      LAUNCH_CALLER.PICKUP_IN_STORE,
-      component.element,
-      component['vcr'],
-      { msg: 'London', productCode: undefined }
-    );
+  };
+
+  describe('without outletContext', () => {
+    beforeEach(() => {
+      configureTestingModule().compileComponents();
+      stubServiceAndCreateComponent();
+    });
+
+    it('should create and call getStore', () => {
+      expect(component).toBeDefined();
+      expect(service.getStore).toHaveBeenCalled();
+    });
+
+    it('should trigger and open dialog', () => {
+      component.openDialog();
+      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.PICKUP_IN_STORE,
+        component.element,
+        component['vcr'],
+        { msg: 'London', productCode: undefined }
+      );
+    });
+
+    it('should unsubscribe from any subscriptions when destroyed', () => {
+      component.subscription = new Subscription();
+      spyOn(component.subscription, 'unsubscribe');
+      component.ngOnDestroy();
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
+    });
   });
 
-  it('should unsubscribe from any subscriptions when destroyed', () => {
-    component.subscription = new Subscription();
-    spyOn(component.subscription, 'unsubscribe');
-    component.ngOnDestroy();
-    expect(component.subscription.unsubscribe).toHaveBeenCalled();
+  describe('with outletContext', () => {
+    beforeEach(() => {
+      configureTestingModule()
+        .overrideProvider(OutletContextData, {
+          useValue: { context$ },
+        })
+        .compileComponents();
+      stubServiceAndCreateComponent();
+    });
+
+    it('should trigger and open dialog', () => {
+      component.openDialog();
+      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.PICKUP_IN_STORE,
+        component.element,
+        component['vcr'],
+        { msg: 'London', productCode: contextData.productCode }
+      );
+    });
   });
 });
