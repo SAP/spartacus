@@ -24,7 +24,7 @@ export class ProductReferencesComponent {
   ) {}
 
   protected get componentData$(): Observable<CmsProductReferencesComponent> {
-    return this.cmsComponentData.data$.pipe(filter(Boolean));
+    return this.cmsComponentData.data$.pipe(filter((data) => Boolean(data)));
   }
 
   /**
@@ -33,7 +33,7 @@ export class ProductReferencesComponent {
   protected get productCode$(): Observable<string> {
     return this.currentProductService.getProduct().pipe(
       filter(isNotNullable),
-      map((product) => product.code),
+      map((product) => product.code ?? ''),
       tap((_) => this.productReferenceService.cleanReferences())
     );
   }
@@ -41,7 +41,7 @@ export class ProductReferencesComponent {
   /**
    * Returns an Observable String for the title
    */
-  get title$(): Observable<string> {
+  get title$(): Observable<string | undefined> {
     return this.componentData$.pipe(map((data) => data?.title));
   }
 
@@ -50,18 +50,19 @@ export class ProductReferencesComponent {
    * the component UI could consider to lazy load the UI components when they're
    * in the viewpoint.
    */
-  items$: Observable<Observable<Product>[]> = this.productCode$.pipe(
-    withLatestFrom(this.componentData$),
-    tap(([productCode, data]) =>
-      this.productReferenceService.loadProductReferences(
-        productCode,
-        data?.productReferenceTypes
+  items$: Observable<Observable<Product | undefined>[]> =
+    this.productCode$.pipe(
+      withLatestFrom(this.componentData$),
+      tap(([productCode, data]) =>
+        this.productReferenceService.loadProductReferences(
+          productCode,
+          data.productReferenceTypes
+        )
+      ),
+      switchMap(([productCode, data]) =>
+        this.getProductReferences(productCode, data.productReferenceTypes ?? '')
       )
-    ),
-    switchMap(([productCode, data]) =>
-      this.getProductReferences(productCode, data?.productReferenceTypes)
-    )
-  );
+    );
 
   /**
    * Returns an observable for product references
@@ -69,11 +70,11 @@ export class ProductReferencesComponent {
   private getProductReferences(
     code: string,
     referenceType: string
-  ): Observable<Observable<Product>[]> {
+  ): Observable<Observable<Product | undefined>[]> {
     return this.productReferenceService
       .getProductReferences(code, referenceType)
       .pipe(
-        filter(Boolean),
+        filter((references) => Boolean(references)),
         map((references: ProductReference[]) =>
           references.map((reference) => of(reference.target))
         )
