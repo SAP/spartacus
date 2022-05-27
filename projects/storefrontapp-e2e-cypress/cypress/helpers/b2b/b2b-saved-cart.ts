@@ -605,11 +605,7 @@ export function updateSavedCartAndRestore(
 
           const cartPageHandler = navigateToCartPage()
 
-          cy.get(
-            'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-action-link'
-          )
-            .then((element) => element.get(1))
-            .click();
+          selectFirstItemInTheCart()
 
           cy.wait('@add_to_cart');
 
