@@ -603,12 +603,7 @@ export function updateSavedCartAndRestore(
             )}/*/carts/*/entries?*lang=en&curr=USD`
           ).as('add_to_cart');
 
-          cy.intercept(
-            'GET',
-            `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-              'BASE_SITE'
-            )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
-          ).as('cart_page');
+          const cartPageHandler = navigateToCartPage()
 
           cy.get(
             'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-action-link'
