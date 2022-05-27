@@ -3,10 +3,16 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
+  Optional,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { AddToCartContainerContext } from '@spartacus/cart/base/components/add-to-cart';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+  OutletContextData,
+} from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PickupInStoreFacade } from '../../facade/pickup-in-store.facade';
@@ -19,23 +25,32 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   @ViewChild('open') element: ElementRef;
   subscription = new Subscription();
 
+  private productCode: string;
+
   constructor(
     protected pickupInStoreFacade: PickupInStoreFacade,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
+    @Optional() protected outlet?: OutletContextData<AddToCartContainerContext>
   ) {}
+
   ngOnInit() {
     this.pickupInStoreFacade.getStore();
+    this.outlet?.context$.subscribe(
+      ({ productCode }) => (this.productCode = productCode)
+    );
   }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
+
   openDialog(): void {
     const dialog = this.launchDialogService.openDialog(
       LAUNCH_CALLER.PICKUP_IN_STORE,
       this.element,
       this.vcr,
-      { msg: 'London' }
+      { msg: 'London', productCode: this.productCode }
     );
 
     if (dialog) {

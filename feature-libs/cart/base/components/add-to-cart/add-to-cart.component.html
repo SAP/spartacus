@@ -19,7 +19,10 @@
     </div>
   </div>
 
-  <ng-template [cxOutlet]="CartOutlets.ADD_TO_CART_CONTAINER"></ng-template>
+  <ng-template
+    [cxOutlet]="CartOutlets.ADD_TO_CART_CONTAINER"
+    [cxOutletContext]="{ productCode }"
+  ></ng-template>
 
   <button
     *ngIf="hasStock"

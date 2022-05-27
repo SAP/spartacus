@@ -18,7 +18,11 @@
           </span>
         </button>
       </div>
-      {{ 'pickUpInStoreDialog.msg' | cxTranslate: { Location: location } }}
+
+      <!-- Modal Body -->
+      <section class="cx-delivery-pickup-options-dialog-container-body modal-body">
+        <p>{{ 'pickUpInStoreDialog.msg' | cxTranslate: { productCode, location } }}</p>
+      </section>
     </div>
   </div>
 </ng-container>

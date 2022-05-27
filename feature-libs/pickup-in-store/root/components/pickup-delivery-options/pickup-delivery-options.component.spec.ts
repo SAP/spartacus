@@ -68,7 +68,7 @@ describe('PickupDeliveryOptionsComponent', () => {
       LAUNCH_CALLER.PICKUP_IN_STORE,
       component.element,
       component['vcr'],
-      { msg: 'London' }
+      { msg: 'London', productCode: undefined }
     );
   });
 
