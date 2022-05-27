@@ -27,6 +27,7 @@ import { MyInterestsComponent } from './my-interests.component';
     SpinnerModule,
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
