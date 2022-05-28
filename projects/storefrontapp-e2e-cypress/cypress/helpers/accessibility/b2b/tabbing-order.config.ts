@@ -267,10 +267,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
-    {
-      value: 'Buy It Again',
-      type: TabbingOrderTypes.LINK,
-    },
   ],
   orderApprovalForm: [
     {
@@ -293,10 +289,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
-    {
-      value: 'Buy It Again',
-      type: TabbingOrderTypes.LINK,
-    },
   ],
   orderRejectionForm: [
     {
@@ -317,10 +309,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Angle Grinder RT-AG 115',
-      type: TabbingOrderTypes.LINK,
-    },
-    {
-      value: 'Buy It Again',
       type: TabbingOrderTypes.LINK,
     },
   ],

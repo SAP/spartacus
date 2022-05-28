@@ -88,14 +88,13 @@ describe('Order details page', () => {
         cy.get('.cx-dialog-buttons>.btn-primary').click();
       });
 
-      cy.wait(200);
+      cy.wait('@cart_page');
 
-      cy.get('cx-cart-item-list')
-        .contains('.cx-item-list-row', name)
-        .within(() => {
-          cy.get('.cx-code').should('contain', product.code);
-          cy.get('cx-item-counter input').should('have.value', '1');
-        });
+      cy.get('cx-cart-item-list .cx-item-list-row').within(() => {
+        cy.get('.cx-name').should('contain', name);
+        cy.get('.cx-code').should('contain', product.code);
+        cy.get('cx-item-counter input').should('have.value', '1');
+      });
     });
   });
 });
