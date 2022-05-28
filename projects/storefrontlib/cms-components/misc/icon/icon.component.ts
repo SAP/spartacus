@@ -56,7 +56,7 @@ export class IconComponent {
   /**
    * the icon provides an html fragment that is used to add SVG or text based icons.
    */
-  icon: SafeHtml;
+  icon: SafeHtml | undefined;
 
   /**
    * The `flip-at-rtl` class is added to the DOM for the style layer to flip the icon in RTL direction.

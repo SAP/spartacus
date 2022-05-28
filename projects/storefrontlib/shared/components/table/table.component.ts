@@ -12,6 +12,7 @@ import {
   TableDataOutletContext,
   TableHeaderOutletContext,
   TableLayout,
+  TableOptions,
   TableStructure,
 } from './table.model';
 
@@ -162,18 +163,18 @@ export class TableComponent<T> {
   /**
    * Helper method to return the deeply nested orientation configuration.
    */
-  private get layout() {
+  private get layout(): TableLayout | undefined {
     return this.structure?.options?.layout;
   }
 
   /**
    * Helper method to return the deeply nested type.
    */
-  private get type() {
+  private get type(): string {
     return this.structure?.type;
   }
 
-  private get options() {
+  private get options(): TableOptions | undefined {
     return this.structure?.options;
   }
 }
