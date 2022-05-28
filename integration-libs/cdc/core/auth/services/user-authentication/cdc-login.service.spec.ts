@@ -30,20 +30,25 @@ class MockGlobalMessageService {
   remove = createSpy().and.stub();
 }
 
-class MockCDCJsServiceWithCDC implements Partial<CdcJsService> {
-  didLoad = createSpy().and.returnValue(of(true));
-  registerUserWithoutScreenSet = createSpy().and.callFake((user) => of(user));
+class MockCDCJsService implements Partial<CdcJsService> {
+  didLoad = createSpy().and.stub();
+  registerUserWithoutScreenSet = createSpy().and.callFake((user: any) => of(user));
+  loginUserWithoutScreenSet = createSpy();
 }
 
-class MockCDCJsServiceWithoutCDC implements Partial<CdcJsService> {
-  didLoad = createSpy().and.returnValue(of(false));
+// class MockCDCJsServiceWithoutCDC implements Partial<CdcJsService> {
+//   didLoad = createSpy().and.returnValue(of(false));
+// }
+
+class MockLoginFormComponentService implements Partial<LoginFormComponentService> {
+  login = createSpy();
 }
 
 describe('CdcLoginComponentService', () => {
   let cdcLoginService: CdcLoginComponentService;
   let loginFormService: LoginFormComponentService;
   let cdcJsService: CdcJsService;
-  let winRef: WindowRef;
+  // let winRef: WindowRef;
 
   beforeEach(
     waitForAsync(() => {
@@ -60,7 +65,11 @@ describe('CdcLoginComponentService', () => {
           { provide: WindowRef, useClass: MockWinRef },
           { provide: AuthService, useClass: MockAuthService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          { provide: CdcJsService, useClass: MockCDCJsServiceWithCDC },
+          { provide: CdcJsService, useClass: MockCDCJsService },
+          {
+            provide: LoginFormComponentService,
+            useClass: MockLoginFormComponentService,
+          },
         ],
       }).compileComponents();
     })
@@ -69,7 +78,8 @@ describe('CdcLoginComponentService', () => {
   beforeEach(() => {
     cdcLoginService = TestBed.inject(CdcLoginComponentService);
     cdcJsService = TestBed.inject(CdcJsService);
-    winRef = TestBed.inject(WindowRef);
+    loginFormService = TestBed.inject(LoginFormComponentService);
+    //winRef = TestBed.inject(WindowRef);
   });
 
   it('should create service', () => {
@@ -93,13 +103,9 @@ describe('CdcLoginComponentService', () => {
       );
     });
 
-    it('should happen without CDC', () => {
-      TestBed.overrideProvider(CdcJsService, {
-        useValue: MockCDCJsServiceWithoutCDC,
-      });
-      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
-        history: { state: { newUid: 'test.user@shop.com' } },
-      });
+    fit('should happen without CDC', () => {
+      //spyOn(cdcJsService, 'didLoad').and.returnValue(of(false));
+      spyOn(loginFormService, 'login');
       expect(loginFormService.login).toHaveBeenCalled();
     });
   });

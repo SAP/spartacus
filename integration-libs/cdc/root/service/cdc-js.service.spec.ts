@@ -75,6 +75,9 @@ class MockSubscription {
 const gigya = {
   accounts: {
     addEventHandlers: () => {},
+    register: () => {},
+    initRegistration: () => {},
+    login: () => {},
   },
 };
 
@@ -84,12 +87,9 @@ const mockedWindowRef = {
   },
 };
 
-class MockGlobalMessageService {
-  add = createSpy();
-  remove = createSpy();
-  get() {
-    return of();
-  }
+const mockedGlobalMessageService =  {
+  add: () => {},
+  remove: () => {},
 }
 
 describe('CdcJsService', () => {
@@ -115,7 +115,7 @@ describe('CdcJsService', () => {
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: Subscription, useValue: MockSubscription },
         { provide: AuthService, useClass: MockAuthService },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: GlobalMessageService, useValue: mockedGlobalMessageService },
       ],
     });
 
@@ -127,6 +127,7 @@ describe('CdcJsService', () => {
     cdcAuth = TestBed.inject(CdcAuthFacade);
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should create', () => {
@@ -309,14 +310,14 @@ describe('CdcJsService', () => {
   describe('registerUserWithoutScreenSet', () => {
     it('should not call register', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'initRegistration');
-      service.loginUserWithoutScreenSet('uid', 'password', null);
+      service.registerUserWithoutScreenSet({});
       expect(
         winRef.nativeWindow['gigya'].accounts.initRegistration
       ).not.toHaveBeenCalled();
     });
     it('should call register', () => {
       spyOn(winRef.nativeWindow['gigya'].accounts, 'initRegistration');
-      service.loginUserWithoutScreenSet('uid', 'password', { key: 'value' });
+      service.registerUserWithoutScreenSet({uid: 'uid', password: 'password'});
       expect(
         winRef.nativeWindow['gigya'].accounts.initRegistration
       ).toHaveBeenCalled();
@@ -340,7 +341,7 @@ describe('CdcJsService', () => {
         password: 'password',
         profile: {
           firstName: 'fname',
-          lastName: 'lanme',
+          lastName: 'lname',
         },
         regToken: 'TOKEN',
         ignoreInterruptions: true,
@@ -378,26 +379,41 @@ describe('CdcJsService', () => {
   });
 
   describe('handleLoginResponse', () => {
-    it('should not do anything with no response', () => {
+    it('should not show anything with no response', () => {
+      spyOn(globalMessageService, "remove");
+      spyOn(globalMessageService, "add");
       service.handleLoginResponse(null);
       expect(globalMessageService.add).not.toHaveBeenCalled();
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
 
-    it('should show success', () => {
+    it('should not show error messages on success', () => {
+      spyOn(globalMessageService, "remove");
+      spyOn(globalMessageService, "add");
       service.handleLoginResponse({
         status: 'OK',
       });
-      expect(globalMessageService.remove).toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'register.loginSuccessful' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
 
-    it('should not show error', () => {
+    it('should show error', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service.handleLoginResponse({
+        status: 'FAIL',
+        statusMessage: 'Error',
+      });
       expect(globalMessageService.remove).not.toHaveBeenCalled();
-      expect(globalMessageService.add).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          params: {
+            errorMessage: 'Error',
+          },
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 

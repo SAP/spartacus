@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-    AuthService,
-    Command,
-    CommandService,
-    UserActions,
-    WindowRef
+  AuthService,
+  Command,
+  CommandService,
+  UserActions,
+  WindowRef
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import {
-    Title,
-    UserRegisterFacade,
-    UserSignUp
+  Title, UserRegisterFacade, UserSignUp
 } from '@spartacus/user/profile/root';
 import {
-    UserProfileConnector, UserProfileService
+  UserProfileConnector, UserProfileService
 } from 'feature-libs/user/profile/core';
 import { CdcJsService } from 'integration-libs/cdc/root';
 import { Observable } from 'rxjs';
@@ -77,7 +75,8 @@ export class CDCUserRegisterService implements UserRegisterFacade {
     protected store: Store,
     protected winRef: WindowRef,
     protected cdcJSService: CdcJsService
-  ) {}
+  ) {
+  }
 
   /**
    * Register a new user.

@@ -31,8 +31,8 @@ class MockUserProfileService implements Partial<UserProfileService> {
 }
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
-  register = createSpy().and.callFake((user) => of(user));
-  registerGuest = createSpy().and.callFake((uid, _password) => of({ uid }));
+  register = createSpy().and.callFake((user: any) => of(user));
+  registerGuest = createSpy().and.callFake((uid: string, _password: string) => of({ uid }));
 }
 
 class MockAuthService implements Partial<AuthService> {
@@ -41,7 +41,7 @@ class MockAuthService implements Partial<AuthService> {
 
 class MockCDCJsServiceWithCDC implements Partial<CdcJsService> {
   didLoad = createSpy().and.returnValue(of(true));
-  registerUserWithoutScreenSet = createSpy().and.callFake((user) => of(user));
+  registerUserWithoutScreenSet = createSpy().and.callFake((user: any) => of(user));
 }
 
 class MockCDCJsServiceWithoutCDC implements Partial<CdcJsService> {

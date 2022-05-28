@@ -2,7 +2,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
   CmsConfig,
   ConfigInitializerService,
-  provideDefaultConfigFactory,
+  provideDefaultConfigFactory
 } from '@spartacus/core';
 import { LogoutGuard } from '@spartacus/storefront';
 import { tap } from 'rxjs/operators';

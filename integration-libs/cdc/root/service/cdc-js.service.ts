@@ -165,13 +165,15 @@ export class CdcJsService implements OnDestroy {
    * @param password
    */
   registerUserWithoutScreenSet(user: UserSignUp) {
-    (this.winRef.nativeWindow as { [key: string]: any })?.[
-      'gigya'
-    ]?.accounts?.initRegistration({
-      callback: (response: any) => {
-        this.zone.run(() => this.onInitRegistrationHandler(user, response));
-      },
-    });
+    if (user.uid && user.password) {
+      (this.winRef.nativeWindow as { [key: string]: any })?.[
+        'gigya'
+      ]?.accounts?.initRegistration({
+        callback: (response: any) => {
+          this.zone.run(() => this.onInitRegistrationHandler(user, response));
+        },
+      });
+    }
   }
 
   /**
@@ -180,7 +182,7 @@ export class CdcJsService implements OnDestroy {
    * @param response
    */
   onInitRegistrationHandler(user: UserSignUp, response: any) {
-    if (response && response.regToken && user.uid) {
+    if (response && response.regToken && user.uid && user.password) {
       (this.winRef.nativeWindow as { [key: string]: any })?.[
         'gigya'
       ]?.accounts?.register({

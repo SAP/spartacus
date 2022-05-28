@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CdcConfig, CdcJsService, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
 import { AuthService, CmsConfig, GlobalMessageService, NotAuthGuard, provideConfig, WindowRef } from '@spartacus/core';
 import { LoginFormComponent, LoginFormComponentService } from '@spartacus/user/account/components';
+import { USER_PROFILE_FEATURE } from 'feature-libs/user/profile/root';
 import { CdcLoginComponentService } from 'integration-libs/cdc/core/auth/services/user-authentication/cdc-login.service';
 
 @NgModule({
@@ -30,6 +31,14 @@ import { CdcLoginComponentService } from 'integration-libs/cdc/core/auth/service
       },
     }),
     provideConfig(<CmsConfig>{
+      featureModules: {
+        [USER_PROFILE_FEATURE]: {
+          module: () =>
+            import('@spartacus/cdc/core').then((m) => m.CDCUserProfileModule),
+        },
+      },
+    }),
+    provideConfig(<CmsConfig>{
       cmsComponents: {
         ReturningCustomerLoginComponent: {
           component: LoginFormComponent,
@@ -43,7 +52,7 @@ import { CdcLoginComponentService } from 'integration-libs/cdc/core/auth/service
           ],
         },
       },
-    })
+    }),
   ],
 })
 export class CdcFeatureModule {}
