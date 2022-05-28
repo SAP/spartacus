@@ -56,7 +56,10 @@
               : order.entries,
             readonly: true,
             promotionLocation: promotionLocation,
-            options: { isBuyItAgain: enableAddToCart$ | async }
+            options: {
+              isBuyItAgain: enableAddToCart$ | async,
+              optionalBtn: addToCartBtn
+            }
           }"
         >
         </ng-template>
@@ -64,3 +67,14 @@
     </div>
   </ng-container>
 </ng-container>
+
+<ng-template let-ctx #addToCartBtn>
+  <cx-add-to-cart
+    [productCode]="ctx.item.product?.code"
+    [product]="ctx.item.product"
+    [showQuantity]="false"
+    [options]="ctx.options"
+    class="add-to-cart"
+  >
+  </cx-add-to-cart>
+</ng-template>
