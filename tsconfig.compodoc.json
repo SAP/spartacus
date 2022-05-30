@@ -194,17 +194,11 @@
       "@spartacus/customer-ticketing/assets": [
         "feature-libs/customer-ticketing/assets/public_api"
       ],
-      "@spartacus/customer-ticketing/components": [
-        "feature-libs/customer-ticketing/components/public_api"
-      ],
       "@spartacus/customer-ticketing/core": [
         "feature-libs/customer-ticketing/core/public_api"
       ],
       "@spartacus/customer-ticketing": [
         "feature-libs/customer-ticketing/public_api"
-      ],
-      "@spartacus/customer-ticketing/occ": [
-        "feature-libs/customer-ticketing/occ/public_api"
       ],
       "@spartacus/customer-ticketing/root": [
         "feature-libs/customer-ticketing/root/public_api"
