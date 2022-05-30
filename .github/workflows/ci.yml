@@ -19,10 +19,10 @@ concurrency:
 name: Spartacus build pipeline
 jobs:
   no_retries: 
-    name: Verify retries
+    name: Verify re-run of all jobs
     runs-on: ubuntu-latest
     steps:
-      - name: Forcefully fail build if retried
+      - name: Forcefully fail build if jobs are all retried
         uses: actions/github-script@v5
         with:
           script: |
@@ -87,6 +87,12 @@ jobs:
       matrix:
         containers: [1, 2, 3, 4, 5]
     steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Run e2es
         env: 
@@ -98,6 +104,12 @@ jobs:
     name: E2E tests for SSR B2C
     runs-on: ubuntu-latest
     steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Run e2es
         run: |
@@ -110,6 +122,12 @@ jobs:
       matrix:
         containers: [1, 2]
     steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Run e2es
         env:
@@ -145,11 +163,11 @@ jobs:
           script: |
             core.setFailed('Build failed')
         if: |
-          needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' || needs.no_retries.result == 'skipped' ||
-          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' || needs.unit_tests_core.result == 'skipped' ||
-          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' || needs.unit_tests_libs.result == 'skipped' ||
-          needs.linting.result == 'failure' || needs.linting.result == 'cancelled' || needs.linting.result == 'skipped' ||
-          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' || needs.b2c_e2e_tests.result == 'skipped' ||
-          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || needs.b2c_ssr_e2e_tests.result == 'skipped' || 
-          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' || needs.b2b_e2e_tests.result == 'skipped' || 
-          needs.lighthouse.result == 'failure' || needs.lighthouse.result == 'cancelled' || needs.lighthouse.result == 'skipped'
+          needs.no_retries.result == 'failure' || needs.no_retries.result == 'cancelled' ||
+          needs.unit_tests_core.result == 'failure' || needs.unit_tests_core.result == 'cancelled' || 
+          needs.unit_tests_libs.result == 'failure' || needs.unit_tests_libs.result == 'cancelled' || 
+          needs.linting.result == 'failure' || needs.linting.result == 'cancelled' || 
+          needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
+          needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
+          needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled' ||
+          needs.lighthouse.result == 'failure' || needs.lighthouse.result == 'cancelled'
