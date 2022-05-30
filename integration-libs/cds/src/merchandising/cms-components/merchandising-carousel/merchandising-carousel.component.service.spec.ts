@@ -89,7 +89,7 @@ const mockCarouselId =
 const mockMerchandisingCarouselModel: MerchandisingCarouselModel = {
   id: mockCarouselId,
   title: mockComponentData.title,
-  items$: [of(mockProducts['1']), of(mockProducts['2'])],
+  items$: of([of(mockProducts['1']), of(mockProducts['2'])]),
   productIds: ['1', '2'],
   metadata: {
     id: 'mock-carousel-id',
@@ -231,9 +231,11 @@ describe('MerchandisingCarouselComponentService', () => {
           actualModelId = model.id;
           actualProductIds = model.productIds;
           actualCarouselMetadata = model.metadata;
-          model.items$.forEach((observableProduct) =>
-            observableProduct.subscribe((product) =>
-              actualCarouselProducts.push(product)
+          model.items$.subscribe((items) =>
+            items.forEach((observableProduct) =>
+              observableProduct.subscribe((product) =>
+                actualCarouselProducts.push(product)
+              )
             )
           );
         });

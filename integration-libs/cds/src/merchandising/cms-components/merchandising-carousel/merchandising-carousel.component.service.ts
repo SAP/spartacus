@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProductService } from '@spartacus/core';
-import { combineLatest, EMPTY, Observable, of } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { combineLatest, EMPTY, from, Observable, of } from 'rxjs';
+import { filter, map, mergeAll, take, tap, toArray } from 'rxjs/operators';
 import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
 import { CdsConfig } from '../../../config/index';
 import { ProfileTagEventService } from '../../../profiletag/index';
@@ -60,8 +60,25 @@ export class MerchandisingCarouselComponentService {
           strategyProducts,
           componentData
         );
-        const items$ =
-          this.mapStrategyProductsToCarouselItems(strategyProducts);
+
+        let items$: Observable<Observable<MerchandisingProduct>[]>;
+        if (componentData.filterOutOfStockProducts === 'true') {
+          const numberOfItemsToTake = strategyProducts.products?.length * 2; //for each product there is metadata object
+          items$ = from(
+            this.mapStrategyProductsToCarouselItems(strategyProducts)
+          ).pipe(
+            mergeAll(),
+            take(numberOfItemsToTake),
+            filter((elem) => elem.stock?.stockLevel > 0),
+            map((elem) => of(elem)),
+            toArray()
+          );
+        } else {
+          items$ = of(
+            this.mapStrategyProductsToCarouselItems(strategyProducts)
+          );
+        }
+
         const productIds =
           this.mapStrategyProductsToProductIds(strategyProducts);
         const id = this.getMerchandisingCarouselModelId(

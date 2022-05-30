@@ -120,8 +120,10 @@ const merchandisingCarouselModelMetadata: MerchandisingMetadata = {
 };
 const merchandisingCarouselModel: MerchandisingCarouselModel = {
   id: 'testCarouselId',
-  items$: merchandisingCarouselModelProducts.map((merchandisingProduct) =>
-    of(merchandisingProduct)
+  items$: of(
+    merchandisingCarouselModelProducts.map((merchandisingProduct) =>
+      of(merchandisingProduct)
+    )
   ),
   productIds: ['1', '2'],
   metadata: merchandisingCarouselModelMetadata,
@@ -252,9 +254,11 @@ describe('MerchandisingCarouselComponent', () => {
       component.merchandisingCarouselModel$.subscribe(
         (merchandisingProducts) => {
           actualCarouselMetadata = merchandisingProducts.metadata;
-          merchandisingProducts.items$.forEach((observableProduct) =>
-            observableProduct.subscribe((product) =>
-              actualCarouselProducts.push(product)
+          merchandisingProducts.items$.subscribe((items) =>
+            items.forEach((observableProduct) =>
+              observableProduct.subscribe((product) =>
+                actualCarouselProducts.push(product)
+              )
             )
           );
         }
@@ -271,26 +275,28 @@ describe('MerchandisingCarouselComponent', () => {
   it(
     'should have 2 items',
     waitForAsync(() => {
-      let items: Observable<Product>[];
+      let items: Observable<Observable<Product>[]>;
       component.merchandisingCarouselModel$.subscribe(
         (actualMerchandisingCarouselModel) =>
           (items = actualMerchandisingCarouselModel.items$)
       );
-      expect(items.length).toBe(2);
+      items.subscribe((itemsList) => expect(itemsList.length).toBe(2));
     })
   );
 
   it(
     'should have product code 111 in first product',
     waitForAsync(() => {
-      let items: Observable<Product>[];
+      let items: Observable<Observable<Product>[]>;
       component.merchandisingCarouselModel$.subscribe(
         (actualMerchandisingCarouselModel) =>
           (items = actualMerchandisingCarouselModel.items$)
       );
-      let product: Product;
-      items[0].subscribe((p) => (product = p));
-      expect(product).toEqual(merchandisingCarouselModelProducts[0]);
+      items.subscribe((itemsList) => {
+        let product: Product;
+        itemsList[0].subscribe((p) => (product = p));
+        expect(product).toEqual(merchandisingCarouselModelProducts[0]);
+      });
     })
   );
 
