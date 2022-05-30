@@ -1,5 +1,9 @@
-import { should } from 'chai';
-import { doPlaceOrder, orderHistoryTest } from '../../../helpers/order-history';
+import {
+  doPlaceOrder,
+  orderHistoryTest,
+  interceptAddToCartEndpoint,
+  interceptCartPageEndpoint,
+} from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
@@ -62,33 +66,24 @@ describe('Order details page', () => {
     });
 
     it('should add product to cart from order details page', () => {
+      const addToCartAlias = interceptAddToCartEndpoint();
+
+      const cartPageAlias = interceptCartPageEndpoint();
+
       cy.get('.cx-item-list-row .cx-action-link').should(
         'contain',
         'Buy It Again'
       );
-      cy.intercept(
-        'POST',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/${Cypress.env(
-          'OCC_PREFIX_USER_ENDPOINT'
-        )}/*/carts/*/entries?*lang=en&curr=USD`
-      ).as('add_to_cart');
-
-      cy.intercept(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
-      ).as('cart_page');
 
       cy.get('.cx-item-list-row .cx-action-link').click();
 
-      cy.wait('@add_to_cart');
+      cy.wait(addToCartAlias);
 
       cy.get('cx-added-to-cart-dialog').within(() => {
         cy.get('.cx-dialog-buttons>.btn-primary').click();
       });
 
-      cy.wait('@cart_page');
+      cy.wait(cartPageAlias);
 
       cy.get('cx-cart-item-list .cx-item-list-row').within(() => {
         cy.get('.cx-name').should('contain', name);

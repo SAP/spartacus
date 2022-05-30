@@ -9,6 +9,8 @@ import { checkBanner, clickHamburger } from './homepage';
 import { switchLanguage } from './language';
 
 const orderHistoryLink = '/my-account/orders';
+export const CART_PAGE_ALIAS = 'cartPage';
+export const ADD_TO_CART_ENDPOINT_ALIAS = 'addEntry';
 
 export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
@@ -27,6 +29,28 @@ export function doPlaceOrder(productData?: any) {
 
       return cy.requirePlacedOrder(stateAuth, cartId);
     });
+}
+
+export function interceptCartPageEndpoint() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+  ).as(CART_PAGE_ALIAS);
+
+  return CART_PAGE_ALIAS;
+}
+
+export function interceptAddToCartEndpoint() {
+  cy.intercept(
+    'POST',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/orgUsers/*/carts/*/entries*`
+  ).as(ADD_TO_CART_ENDPOINT_ALIAS);
+
+  return ADD_TO_CART_ENDPOINT_ALIAS;
 }
 
 export const orderHistoryTest = {

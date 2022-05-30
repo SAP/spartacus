@@ -22,7 +22,7 @@
   <button
     *ngIf="hasStock"
     [ngClass]="
-      options?.isBuyItAgain || options?.isaddToActiveCart
+      options?.isBuyItAgain || options?.isAddToActiveCart
         ? 'link cx-action-link'
         : 'btn btn-primary btn-block'
     "
@@ -30,13 +30,13 @@
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
     <span
-      *ngIf="!options?.isBuyItAgain && !options?.isaddToActiveCart"
+      *ngIf="!options?.isBuyItAgain && !options?.isAddToActiveCart"
       attr.aria-label="{{ 'addToCart.addToCart' | cxTranslate }}"
     >
       {{ 'addToCart.addToCart' | cxTranslate }}
     </span>
     <span
-      *ngIf="options?.isaddToActiveCart"
+      *ngIf="options?.isAddToActiveCart"
       attr.aria-label="{{ 'addToCart.addToActiveCart' | cxTranslate }}"
     >
       {{ 'addToCart.addToActiveCart' | cxTranslate }}

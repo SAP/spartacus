@@ -31,7 +31,7 @@ export class CartItemComponent implements OnChanges {
     isSaveForLater: false,
     optionalBtn: null,
     isBuyItAgain: false,
-    isaddToActiveCart: false,
+    isAddToActiveCart: false,
   };
 
   iconTypes = ICON_TYPE;

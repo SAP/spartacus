@@ -168,6 +168,14 @@ describe('AddToCartComponent', () => {
     fixture.detectChanges();
   }
 
+  function getTextFromButton(): string {
+    return getButton().query(By.css('span')).nativeElement.innerText;
+  }
+
+  function getButton(): DebugElement {
+    return el.query(By.css('button'));
+  }
+
   describe('without ProductListItemContext', () => {
     beforeEach(() => {
       configureTestingModule();
@@ -320,21 +328,17 @@ describe('AddToCartComponent', () => {
         addToCartComponent.productCode = productCode;
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
-        expect(
-          el.query(By.css('button')).query(By.css('span')).nativeElement
-            .innerText
-        ).toEqual('addToCart.addToCart');
+
+        expect(getTextFromButton()).toEqual('addToCart.addToCart');
       });
 
       it('should show addToActiveCart button if isAddToActiveCart is true', () => {
         addToCartComponent.productCode = productCode;
-        addToCartComponent.options = { isaddToActiveCart: true };
+        addToCartComponent.options = { isAddToActiveCart: true };
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
-        expect(
-          el.query(By.css('button')).query(By.css('span')).nativeElement
-            .innerText
-        ).toEqual('addToCart.addToActiveCart');
+
+        expect(getTextFromButton()).toEqual('addToCart.addToActiveCart');
       });
 
       it('should show buyItAgain button if isBuyItAgain is true', () => {
@@ -342,10 +346,18 @@ describe('AddToCartComponent', () => {
         addToCartComponent.options = { isBuyItAgain: true };
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
-        expect(
-          el.query(By.css('button')).query(By.css('span')).nativeElement
-            .innerText
-        ).toEqual('addToCart.buyItAgain');
+
+        expect(getTextFromButton()).toEqual('addToCart.buyItAgain');
+      });
+
+      it('should not show any button if the product is not in stock', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.options = { isAddToActiveCart: true };
+        addToCartComponent.ngOnInit();
+        addToCartComponent.hasStock = false;
+        fixture.detectChanges();
+
+        expect(getButton()).toBeFalsy();
       });
 
       it('should show the addToCart button for currentProduct', () => {
@@ -357,7 +369,6 @@ describe('AddToCartComponent', () => {
         fixture.detectChanges();
         expect(el.query(By.css('button')).nativeElement).toBeDefined();
       });
-
       it('should hide the addToCart button for currentProduct', () => {
         addToCartComponent.productCode = null;
         spyOn(currentProductService, 'getProduct').and.returnValue(
