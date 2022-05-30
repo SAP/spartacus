@@ -1,7 +1,7 @@
 import { Injectable, Optional } from '@angular/core';
 import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import {
-  ActiveCartFacade,
+  ActiveCartService,
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
@@ -80,24 +80,24 @@ export class ProfileTagPushEventsService {
 
   // TODO: Remove deprecated constructors
   constructor(
-    protected eventService: EventService,
-    protected personalizationContextService: PersonalizationContextService,
+    eventService: EventService,
+    personalizationContextService: PersonalizationContextService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    activeCartFacade?: ActiveCartFacade
+    activeCartService?: ActiveCartService
   );
 
   /**
    * @deprecated since 4.3
    */
   constructor(
-    protected eventService: EventService,
-    protected personalizationContextService: PersonalizationContextService
+    eventService: EventService,
+    personalizationContextService: PersonalizationContextService
   );
 
   constructor(
     protected eventService: EventService,
     protected personalizationContextService: PersonalizationContextService,
-    @Optional() protected activeCartFacade?: ActiveCartFacade
+    @Optional() protected activeCartService?: ActiveCartService
   ) {}
 
   /**
@@ -388,7 +388,7 @@ export class ProfileTagPushEventsService {
       this.eventService.get(CartUpdateEntrySuccessEvent),
       this.eventService.get(CartRemoveEntrySuccessEvent)
     ).pipe(
-      switchMapTo(this.activeCartFacade.takeActive()),
+      switchMapTo(this.activeCartService.takeActive()),
       map(
         (cart) =>
           new CartSnapshotPushEvent({

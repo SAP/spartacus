@@ -2,7 +2,7 @@ import { AbstractType, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import {
-  ActiveCartFacade,
+  ActiveCartService,
   Cart,
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
@@ -34,7 +34,7 @@ let eventServiceEvents: Map<
 > = new Map();
 let personalizationContextService: Partial<PersonalizationContextService>;
 let getPersonalizationContext: Observable<PersonalizationContext | undefined>;
-let activeCartFacade: Partial<ActiveCartFacade>;
+let activeCartService: Partial<ActiveCartService>;
 let activeCartBehavior: ReplaySubject<Cart>;
 
 function setVariables() {
@@ -81,7 +81,7 @@ function setVariables() {
     getPersonalizationContext: () => getPersonalizationContext,
   };
   activeCartBehavior = new ReplaySubject<Cart>();
-  activeCartFacade = {
+  activeCartService = {
     takeActive: () => activeCartBehavior,
   };
 }
@@ -100,8 +100,8 @@ describe('profileTagPushEventsService', () => {
           useValue: personalizationContextService,
         },
         {
-          provide: ActiveCartFacade,
-          useValue: activeCartFacade,
+          provide: ActiveCartService,
+          useValue: activeCartService,
         },
       ],
     });
