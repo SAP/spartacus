@@ -15,7 +15,7 @@ import {
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
   userFeatureModulePath,
-  userWrapperModulePath,
+  userProfileWrapperModulePath,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
 } from '@spartacus/schematics';
@@ -150,7 +150,7 @@ describe('Spartacus User schematics: ng-add', () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
 
-        expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
+        expect(appTree.readContent(userProfileWrapperModulePath)).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -181,7 +181,7 @@ describe('Spartacus User schematics: ng-add', () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
 
-        expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
+        expect(appTree.readContent(userProfileWrapperModulePath)).toBeFalsy();
       });
     });
   });
@@ -198,7 +198,7 @@ describe('Spartacus User schematics: ng-add', () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
 
-        expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
+        expect(appTree.readContent(userProfileWrapperModulePath)).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -234,7 +234,7 @@ describe('Spartacus User schematics: ng-add', () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
 
-        expect(appTree.readContent(userWrapperModulePath)).toBeFalsy();
+        expect(appTree.readContent(userProfileWrapperModulePath)).toBeFalsy();
       });
     });
   });

@@ -21,8 +21,8 @@ if (environment.cpq) {
       featureModules: {
         [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
           module: () =>
-            import('./vc-configurator-wrapper.module').then(
-              (m) => m.VcConfiguratorWrapperModule
+            import('./rulebased-configurator-wrapper.module').then(
+              (m) => m.RulebasedConfiguratorWrapperModule
             ),
         },
       },

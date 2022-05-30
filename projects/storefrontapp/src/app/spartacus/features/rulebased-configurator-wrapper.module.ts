@@ -12,4 +12,4 @@ if (environment.cpq) {
 @NgModule({
   imports: [RulebasedConfiguratorModule, ...extensions],
 })
-export class VcConfiguratorWrapperModule {}
+export class RulebasedConfiguratorWrapperModule {}

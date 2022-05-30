@@ -117,7 +117,10 @@ function checkWrapperModuleExists(options: SpartacusWrapperOptions): Rule {
  */
 function createWrapperModule(options: SpartacusWrapperOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    // checks if the wrapper module already exists
+    /**
+     * if the wrapper module path is set, it means
+     * the wrapper module already exists.
+     */
     if (options.internal?.wrapperModulePath) {
       return noop();
     }
@@ -147,9 +150,7 @@ function createWrapperModule(options: SpartacusWrapperOptions): Rule {
     }
 
     const path = createSpartacusFeatureFolderPath(featureConfig.folderName);
-    const name = createSpartacusWrapperModuleFileName(
-      featureConfig.library.featureName
-    );
+    const name = createSpartacusWrapperModuleFileName(options.markerModuleName);
     const wrapperModulePath = `${path}/${name}`;
     /**
      * Mutates the options by setting
@@ -182,7 +183,7 @@ function createWrapperModule(options: SpartacusWrapperOptions): Rule {
            * The import will be removed in updateFeatureModule().
            *
            * This is a workaround for a weird behavior of the ts-morph library,
-           * which does not "see" the newly created module if it is not
+           * which does not "see" the newly created TS file if it is not
            * referenced anywhere.
            */
           module: featureModule.getBaseNameWithoutExtension(),

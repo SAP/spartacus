@@ -299,7 +299,8 @@ export function createSpartacusFeatureFileName(name: string): string {
 }
 
 export function createSpartacusWrapperModuleFileName(name: string): string {
-  return `${dasherize(name)}-wrapper`;
+  const normalizedName = name.replace('module', '').replace('Module', '');
+  return `${dasherize(normalizedName)}-wrapper`;
 }
 
 function addRootModule<T extends LibraryOptions>(

@@ -87,7 +87,7 @@ import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule
     featureModules: {
       [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
         module: () =>
-          import('./vc-configurator-wrapper.module').then((m) => m.VcConfiguratorWrapperModule),
+          import('./rulebased-configurator-wrapper.module').then((m) => m.RulebasedConfiguratorWrapperModule),
       },
     }
   }),
@@ -123,7 +123,7 @@ import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurato
     RulebasedCpqConfiguratorModule
   ]
 })
-export class VcConfiguratorWrapperModule { }
+export class RulebasedConfiguratorWrapperModule { }
 "
 `;
 
@@ -501,7 +501,7 @@ import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, Rule
     featureModules: {
       [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
         module: () =>
-          import('./vc-configurator-wrapper.module').then((m) => m.VcConfiguratorWrapperModule),
+          import('./rulebased-configurator-wrapper.module').then((m) => m.RulebasedConfiguratorWrapperModule),
       },
     }
   }),
@@ -529,7 +529,7 @@ import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurato
     RulebasedCpqConfiguratorModule
   ]
 })
-export class VcConfiguratorWrapperModule { }
+export class RulebasedConfiguratorWrapperModule { }
 "
 `;
 

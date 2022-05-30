@@ -63,7 +63,7 @@ import { UserProfileModule } from \\"@spartacus/user/profile\\";
     CdcModule
   ]
 })
-export class ProfileWrapperModule { }
+export class UserProfileWrapperModule { }
 "
 `;
 
@@ -99,7 +99,7 @@ import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/p
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         module: () =>
-          import('./profile-wrapper.module').then((m) => m.ProfileWrapperModule),
+          import('./user-profile-wrapper.module').then((m) => m.UserProfileWrapperModule),
       },
     }
   }),
