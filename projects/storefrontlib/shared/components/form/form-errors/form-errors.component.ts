@@ -8,7 +8,7 @@ import {
   KeyValueDiffer,
   KeyValueDiffers,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormControl } from '@angular/forms';
 import { isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -33,7 +33,7 @@ export class FormErrorsComponent implements DoCheck {
     protected keyValueDiffers: KeyValueDiffers
   ) {}
 
-  _control: FormControl;
+  _control: FormControl | AbstractControl;
 
   /**
    * @deprecated since 4.1 - use `errorsDetails$` instead, which contains not only
@@ -58,10 +58,14 @@ export class FormErrorsComponent implements DoCheck {
    * Translation params to enrich the error details object.
    */
   @Input()
-  translationParams: { [key: string]: string };
+  translationParams: { [key: string]: string | null };
 
   @Input()
-  set control(control: FormControl) {
+  set control(control: AbstractControl | FormControl | null) {
+    if (!control) {
+      return;
+    }
+
     this._control = control;
 
     this.differ = this.keyValueDiffers.find(this.control).create();
@@ -79,7 +83,7 @@ export class FormErrorsComponent implements DoCheck {
     );
   }
 
-  get control(): FormControl {
+  get control(): FormControl | AbstractControl {
     return this._control;
   }
 

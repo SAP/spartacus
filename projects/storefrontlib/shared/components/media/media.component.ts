@@ -64,7 +64,7 @@ export class MediaComponent implements OnChanges {
    * The media contains the info for the UI to create the image. This media
    * object might contain more info once other media types (i.e. video) is supported.
    */
-  media: Media;
+  media: Media | undefined;
 
   /**
    * The `cx-media` component has an `is-initialized` class as long as the

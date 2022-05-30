@@ -122,6 +122,79 @@ describe('Spartacus CDC schematics: ng-add', () => {
   });
 
   describe('CDC feature', () => {
+    describe('warning for missing jsSDKUrl', () => {
+      let firstMessage: string | undefined;
+      beforeEach(async () => {
+        schematicRunner.logger.subscribe((log) => {
+          if (!firstMessage) {
+            firstMessage = log.message;
+          }
+        });
+
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', { ...cdcFeatureOptions }, appTree)
+          .toPromise();
+      });
+
+      it('should show the warning', () => {
+        expect(firstMessage).toEqual(
+          `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the javascriptUrl.`
+        );
+      });
+
+      it('should set the default JS_SDK_URL_PLACEHOLDER', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+
+    describe('warning for blank jsSDKUrl', () => {
+      let firstMessage: string | undefined;
+      beforeEach(async () => {
+        schematicRunner.logger.subscribe((log) => {
+          if (!firstMessage) {
+            firstMessage = log.message;
+          }
+        });
+
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...cdcFeatureOptions, javascriptUrl: '' },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should show the warning', () => {
+        expect(firstMessage).toEqual(
+          `CDC JS SDK URL is not provided. Please run the schematic again, or make sure you update the javascriptUrl.`
+        );
+      });
+
+      it('should set the default JS_SDK_URL_PLACEHOLDER', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+
+    describe('validation of jsSDKUrl', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...cdcFeatureOptions, javascriptUrl: '<dc>.gigya.com/<api-key>' },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should set the given javascriptUrl', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner

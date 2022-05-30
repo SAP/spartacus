@@ -176,6 +176,7 @@ export interface CmsNavigationComponent extends CmsComponent {
   notice?: string;
   showLanguageCurrency?: string;
   navigationNode?: CmsNavigationNode;
+  resetMenuOnClose?: boolean;
 }
 
 export interface CmsProductFacetNavigationComponent extends CmsComponent {
@@ -187,6 +188,12 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
 
 export interface CmsAddToCartComponent extends CmsComponent {
   inventoryDisplay?: boolean;
+}
+
+export interface CmsPDFDocumentComponent extends CmsComponent {
+  pdfFile?: CmsBannerComponentMedia;
+  title?: string;
+  height?: number;
 }
 
 export interface CmsVideoComponent extends CmsComponent {
