@@ -18,13 +18,13 @@ export class ProductCarouselComponent {
   protected readonly PRODUCT_SCOPE = ProductScope.LIST;
 
   private componentData$: Observable<model> = this.componentData.data$.pipe(
-    filter(Boolean)
+    filter((data) => Boolean(data))
   );
 
   /**
    * returns an Observable string for the title.
    */
-  title$: Observable<string> = this.componentData$.pipe(
+  title$: Observable<string | undefined> = this.componentData$.pipe(
     map((data) => data.title)
   );
 
