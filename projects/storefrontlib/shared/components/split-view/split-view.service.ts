@@ -17,7 +17,7 @@ export class SplitViewService {
 
   protected splitViewCount = 1;
 
-  protected _views$: BehaviorSubject<any[]> = new BehaviorSubject([]);
+  protected _views$ = new BehaviorSubject<SplitViewState[]>([]);
 
   /**
    * Adds a view to the list of views. The view is initialized with the `SplitViewState`
@@ -129,7 +129,7 @@ export class SplitViewService {
    */
   protected updateState(position?: number, hide?: boolean) {
     const views = [...this.views];
-    if (hide !== undefined && views[position]) {
+    if (hide !== undefined && position && views[position]) {
       views[position].hidden = hide;
     }
     let lastVisible =
