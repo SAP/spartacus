@@ -489,4 +489,26 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
     },
   ],
+  userRegistrationForm: [
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.NG_SELECT },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.FORM_FIELD },
+    { type: TabbingOrderTypes.TEXT_AREA },
+    {
+      value: 'Register',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Already registered? Go to Sign in',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
 };
