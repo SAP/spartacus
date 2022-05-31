@@ -8,7 +8,7 @@ import {
   QuoteList,
   QuoteMetadata,
   QuoteStarter,
-} from '../model/commerce-quotes.model';
+} from '@spartacus/commerce-quotes/root';
 
 export const QUOTE_LIST_NORMALIZER = new InjectionToken<
   Converter<any, QuoteList>

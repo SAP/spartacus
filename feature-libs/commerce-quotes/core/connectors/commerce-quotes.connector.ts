@@ -9,7 +9,7 @@ import {
   QuoteMetadata,
   QuoteStarter,
   Comment,
-} from '../model/commerce-quotes.model';
+} from '@spartacus/commerce-quotes/root';
 import { CommerceQuotesAdapter } from './commerce-quotes.adapter';
 
 @Injectable()

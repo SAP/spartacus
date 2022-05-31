@@ -15,16 +15,18 @@ import {
   QUOTE_METADATA_SERIALIZER,
   QUOTE_NORMALIZER,
   QUOTE_STARTER_SERIALIZER,
-  QuoteList,
-  QuoteStarter,
-  Quote,
-  QuoteMetadata,
-  QuoteAction,
-  Comment,
-  QuoteDiscount,
 } from '@spartacus/commerce-quotes/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import {
+  Quote,
+  QuoteList,
+  QuoteStarter,
+  QuoteMetadata,
+  QuoteAction,
+  QuoteDiscount,
+  Comment,
+} from '@spartacus/commerce-quotes/root';
 
 @Injectable()
 export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {

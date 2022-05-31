@@ -5,11 +5,11 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { CommerceQuotesFacade } from 'feature-libs/commerce-quotes/root/facade/commerce-quotes.facade';
+import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { CommerceQuotesConnector } from '../connectors';
-import { QuoteList } from '../model';
+import { CommerceQuotesConnector } from '../connectors/commerce-quotes.connector';
+import { QuoteList } from '@spartacus/commerce-quotes/root';
 
 @Injectable()
 export class CommerceQuotesService implements CommerceQuotesFacade {
