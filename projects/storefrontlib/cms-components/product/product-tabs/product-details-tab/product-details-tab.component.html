@@ -1,15 +1,15 @@
 <ng-container *ngIf="product$ | async as product">
   <div class="container" [innerHTML]="product?.description"></div>
 </ng-container>
-<ng-container *ngIf="children$ | async as children">
+<!-- <ng-container *ngIf="children$ | async as children">
   <ng-container *ngFor="let child of children">
     <ng-container *ngIf="child">
       <div>test.pdf</div>
-      <!-- <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
+       <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
         <div class="container">
           <ng-container [cxComponentWrapper]="child"></ng-container>
         </div>
-      </ng-template> -->
+      </ng-template> 
     </ng-container>
   </ng-container>
-</ng-container>
+</ng-container> -->

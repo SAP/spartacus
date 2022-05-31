@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CmsService, Product } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 // import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../../current-product.service';
@@ -13,10 +13,10 @@ export class ProductDetailsTabComponent implements OnInit {
   product$: Observable<Product | null>;
 
   constructor(
-    protected currentProductService: CurrentProductService,
-    //  protected component: CmsComponentData<CmsComponentWithChildren>,
-    protected cmsService: CmsService
-  ) {}
+    protected currentProductService: CurrentProductService
+  ) //  protected component: CmsComponentData<CmsComponentWithChildren>,
+  //  protected cmsService: CmsService
+  {}
   children$: Observable<any[]> = of([]);
 
   // this.component.data$.pipe(
