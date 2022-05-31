@@ -7,7 +7,7 @@ import {
   QuoteDiscount,
   QuoteMetadata,
   QuoteStarter,
-} from '../model/commerce-quotes.model';
+} from '@spartacus/commerce-quotes/root';
 import { CommerceQuotesAdapter } from './commerce-quotes.adapter';
 import { CommerceQuotesConnector } from './commerce-quotes.connector';
 

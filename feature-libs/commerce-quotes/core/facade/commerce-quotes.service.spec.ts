@@ -1,4 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { Quote, QuoteList } from '@spartacus/commerce-quotes/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
@@ -11,7 +12,6 @@ import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommerceQuotesConnector } from '../connectors';
 import { CommerceQuotesListReloadQueryEvent } from '../events/commerce-quotes-list.events';
-import { Quote, QuoteList } from '../model';
 import { CommerceQuotesService } from './commerce-quotes.service';
 import createSpy = jasmine.createSpy;
 

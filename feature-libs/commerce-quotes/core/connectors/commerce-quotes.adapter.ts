@@ -8,7 +8,7 @@ import {
   QuoteAction,
   Comment,
   QuoteDiscount,
-} from './../model/commerce-quotes.model';
+} from '@spartacus/commerce-quotes/root';
 
 export abstract class CommerceQuotesAdapter {
   /**

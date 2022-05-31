@@ -8,11 +8,11 @@ import {
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
 import { CommerceQuotesFacade } from 'feature-libs/commerce-quotes/root/facade/commerce-quotes.facade';
+import { QuoteList } from 'feature-libs/commerce-quotes/root/model/commerce-quotes.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
 import { CommerceQuotesConnector } from '../connectors';
 import { CommerceQuotesListReloadQueryEvent } from '../events/commerce-quotes-list.events';
-import { QuoteList } from '../model';
 
 @Injectable()
 export class CommerceQuotesService implements CommerceQuotesFacade {

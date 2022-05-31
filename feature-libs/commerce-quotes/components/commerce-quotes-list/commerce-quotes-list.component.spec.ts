@@ -19,7 +19,7 @@ import {
 import { CommerceQuotesFacade } from 'feature-libs/commerce-quotes/root/facade/commerce-quotes.facade';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Quote, QuoteList } from '../../core/model';
+import { Quote, QuoteList } from '@spartacus/commerce-quotes/root';
 import { CommerceQuotesListComponent } from './commerce-quotes-list.component';
 import createSpy = jasmine.createSpy;
 

@@ -4,21 +4,23 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
-  QuoteList,
   QUOTE_LIST_NORMALIZER,
-  Quote,
   QUOTE_NORMALIZER,
   QUOTE_STARTER_SERIALIZER,
-  Comment,
   QUOTE_METADATA_SERIALIZER,
   QUOTE_ACTION_SERIALIZER,
-  QuoteStarter,
-  QuoteMetadata,
-  QuoteAction,
   QUOTE_COMMENT_SERIALIZER,
-  QuoteDiscount,
   QUOTE_DISCOUNT_SERIALIZER,
 } from '@spartacus/commerce-quotes/core';
+import {
+  Quote,
+  QuoteAction,
+  QuoteDiscount,
+  QuoteList,
+  QuoteMetadata,
+  QuoteStarter,
+  Comment,
+} from '@spartacus/commerce-quotes/root';
 import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { OccCommerceQuotesAdapter } from './occ-commerce-quotes.adapter';

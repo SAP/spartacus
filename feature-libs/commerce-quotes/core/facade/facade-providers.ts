@@ -1,5 +1,5 @@
 import { Provider } from '@angular/core';
-import { CommerceQuotesFacade } from '../../root/facade/commerce-quotes.facade';
+import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
 import { CommerceQuotesService } from './commerce-quotes.service';
 
 export const facadeProviders: Provider[] = [
@@ -8,4 +8,5 @@ export const facadeProviders: Provider[] = [
     provide: CommerceQuotesFacade,
     useExisting: CommerceQuotesService,
   },
+  CommerceQuotesService,
 ];
