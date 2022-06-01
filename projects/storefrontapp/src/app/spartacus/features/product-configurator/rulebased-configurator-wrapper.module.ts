@@ -1,7 +1,7 @@
 import { NgModule, Type } from '@angular/core';
 import { RulebasedConfiguratorModule } from '@spartacus/product-configurator/rulebased';
 import { RulebasedCpqConfiguratorModule } from '@spartacus/product-configurator/rulebased/cpq';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];
 

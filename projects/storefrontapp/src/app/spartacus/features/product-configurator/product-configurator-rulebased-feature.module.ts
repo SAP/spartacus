@@ -6,7 +6,7 @@ import {
   PRODUCT_CONFIGURATOR_RULEBASED_FEATURE,
   RulebasedConfiguratorRootModule,
 } from '@spartacus/product-configurator/rulebased/root';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];
 

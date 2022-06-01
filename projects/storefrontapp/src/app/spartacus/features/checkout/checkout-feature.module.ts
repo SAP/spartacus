@@ -18,7 +18,7 @@ import {
 } from '@spartacus/checkout/scheduled-replenishment/assets';
 import { CheckoutScheduledReplenishmentRootModule } from '@spartacus/checkout/scheduled-replenishment/root';
 import { provideConfig } from '@spartacus/core';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 const extensionModules: Type<any>[] = [];
 const extensionProviders: Provider[] = [];

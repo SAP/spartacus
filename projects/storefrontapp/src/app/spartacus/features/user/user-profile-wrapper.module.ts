@@ -1,7 +1,7 @@
 import { NgModule, Type } from '@angular/core';
 import { CdcModule } from '@spartacus/cdc';
 import { UserProfileModule } from '@spartacus/user/profile';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];
 

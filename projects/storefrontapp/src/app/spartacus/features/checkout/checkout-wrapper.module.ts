@@ -3,7 +3,7 @@ import { CheckoutB2BModule } from '@spartacus/checkout/b2b';
 import { CheckoutModule } from '@spartacus/checkout/base';
 import { CheckoutScheduledReplenishmentModule } from '@spartacus/checkout/scheduled-replenishment';
 import { DigitalPaymentsModule } from '@spartacus/digital-payments';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 const extensions: Type<any>[] = [];
 
