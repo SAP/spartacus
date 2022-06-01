@@ -16,7 +16,6 @@ import {
   UserService,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { AsmService } from 'feature-libs/asm/core';
 import { Observable, Subscription } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
@@ -42,8 +41,7 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     protected activeCartFacade: ActiveCartFacade,
     protected globalMessageService: GlobalMessageService,
     protected asmFacadeService: AsmFacadeService,
-    protected multiCartFacade: MultiCartFacade,
-    protected asmService: AsmService
+    protected multiCartFacade: MultiCartFacade
   ) {}
 
   ngOnInit() {
