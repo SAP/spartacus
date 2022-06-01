@@ -1,4 +1,5 @@
 /*
  * Public API Surface of s4om
  */
-export * from './src/s4om.module';
+export * from './s4om.module';
+export * from './models/index';

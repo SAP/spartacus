@@ -1,8 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ScheduleLinesModule } from './schedule-lines';
 
 @NgModule({
   declarations: [],
-  imports: [ScheduleLinesModule],
+  imports: [CommonModule, ScheduleLinesModule],
 })
-export class S4omModule {}
+export class S4omComponentsModule {}
