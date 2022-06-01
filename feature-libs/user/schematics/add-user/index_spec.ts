@@ -137,7 +137,7 @@ describe('Spartacus User schematics: ng-add', () => {
     });
   });
 
-  describe('Account feature', () => {
+  describe('User-Account feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
@@ -181,7 +181,7 @@ describe('Spartacus User schematics: ng-add', () => {
     });
   });
 
-  describe('Profile feature', () => {
+  describe('User Profile feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner

@@ -204,8 +204,8 @@ export const TRACKING_PERSONALIZATION_FEATURE_NAME = 'Personalization';
 export const TRACKING_TMS_GTM_FEATURE_NAME = 'TMS-GTM';
 export const TRACKING_TMS_AEP_FEATURE_NAME = 'TMS-AEPL';
 
-export const USER_ACCOUNT_FEATURE_NAME = 'Account';
-export const USER_PROFILE_FEATURE_NAME = 'Profile';
+export const USER_ACCOUNT_FEATURE_NAME = 'User-Account';
+export const USER_PROFILE_FEATURE_NAME = 'User-Profile';
 
 export const CDC_FEATURE_NAME = 'CDC';
 

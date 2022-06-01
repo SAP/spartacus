@@ -145,8 +145,8 @@ describe('Graph utils', () => {
     it('should generate the correct installation order', () => {
       expect(crossFeatureInstallationOrder).toMatchInlineSnapshot(`
         Array [
-          "Account",
-          "Profile",
+          "User-Account",
+          "User-Profile",
           "Cart",
           "Saved-Cart",
           "WishList",

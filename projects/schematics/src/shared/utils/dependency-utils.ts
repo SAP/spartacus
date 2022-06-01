@@ -16,7 +16,7 @@ import { getConfiguredDependencies } from './schematics-config-utils';
  *
  * E.g. when installing Digital Payments feature,
  * the following features will also be configured:
- * Account, Profile, Cart, Order, Checkout
+ * User-Account, User-Profile, Cart, Order, Checkout
  *
  * Returns the ordered list, according to the graph.
  */
