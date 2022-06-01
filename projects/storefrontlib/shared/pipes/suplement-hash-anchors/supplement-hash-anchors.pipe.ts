@@ -17,7 +17,7 @@ export class SupplementHashAnchorsPipe implements PipeTransform {
   constructor(protected renderer: Renderer2, protected winRef: WindowRef) {}
 
   protected getPath(anchorId: string): string {
-    const currentUrlWithoutFragment = this.winRef.location.href.replace(
+    const currentUrlWithoutFragment = this.winRef.location.href?.replace(
       /#.*$/,
       ''
     );
@@ -27,7 +27,8 @@ export class SupplementHashAnchorsPipe implements PipeTransform {
   public transform(html: string): string {
     const template = this.renderer.createElement('template');
     template.innerHTML = html.trim();
-    const linkNodes: NodeList = template.content.querySelectorAll('a');
+    const linkNodes: NodeListOf<HTMLAnchorElement> =
+      template.content.querySelectorAll('a');
 
     Array.from(linkNodes).forEach((link: HTMLAnchorElement) => {
       const href = link.getAttribute('href');

@@ -20,6 +20,7 @@ import { NotificationPreferenceComponent } from './notification-preference.compo
     I18nModule,
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,

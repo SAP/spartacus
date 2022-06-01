@@ -7,8 +7,8 @@ import { IconLoaderService } from '../icon-loader.service';
   template: `{{ type || cxIcon }}`,
 })
 export class MockIconComponent {
-  @Input() cxIcon;
-  @Input() type;
+  @Input() cxIcon: any;
+  @Input() type: any;
 }
 
 const mockComponents = [MockIconComponent];

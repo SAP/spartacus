@@ -64,7 +64,7 @@ export class TableRendererService {
   protected getHeaderRenderer(
     structure: TableStructure,
     field: string
-  ): Type<any> {
+  ): Type<any> | undefined {
     return (
       structure.options?.cells?.[field]?.headerComponent ||
       structure.options?.headerComponent ||
@@ -78,7 +78,7 @@ export class TableRendererService {
   protected getDataRenderer(
     structure: TableStructure,
     field: string
-  ): Type<any> {
+  ): Type<any> | undefined {
     return (
       structure.options?.cells?.[field]?.dataComponent ||
       structure.options?.dataComponent ||
@@ -101,7 +101,7 @@ export class TableRendererService {
    */
   getHeaderOutletContext(
     type: string,
-    options: TableOptions,
+    options: TableOptions | undefined,
     i18nRoot: string,
     field: string
   ): TableHeaderOutletContext {
@@ -128,7 +128,7 @@ export class TableRendererService {
    */
   getDataOutletContext(
     type: string,
-    options: TableOptions,
+    options: TableOptions | undefined,
     i18nRoot: string,
     field: string,
     data: any

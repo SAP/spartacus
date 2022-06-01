@@ -9,7 +9,7 @@ import { CurrentProductService } from '../../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetailsTabComponent implements OnInit {
-  product$: Observable<Product>;
+  product$: Observable<Product | null>;
 
   constructor(protected currentProductService: CurrentProductService) {}
 
