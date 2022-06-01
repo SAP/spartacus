@@ -89,7 +89,7 @@ export const USER_PROFILE_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: USER_SCSS_FILE_NAME,
     importStyle: SPARTACUS_USER,
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_USER]: [USER_ACCOUNT_FEATURE_NAME],
   },
 };

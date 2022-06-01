@@ -86,7 +86,7 @@ export const CART_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
   },
 };
@@ -169,7 +169,7 @@ export const CART_QUICK_ORDER_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_CART]: [CART_BASE_FEATURE_NAME],
   },
 };
@@ -211,7 +211,7 @@ export const CART_SAVED_CART_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_CART]: [CART_BASE_FEATURE_NAME],
   },
 };
@@ -264,7 +264,7 @@ export const CART_WISHLIST_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_CART]: [CART_BASE_FEATURE_NAME],
   },
 };

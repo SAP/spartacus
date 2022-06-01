@@ -31,7 +31,7 @@ export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: SchematicConfig = {
     chunks: DIGITAL_PAYMENTS_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_DIGITAL_PAYMENTS_ASSETS,
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_CHECKOUT]: [CHECKOUT_BASE_FEATURE_NAME],
   },
   wrappers: {

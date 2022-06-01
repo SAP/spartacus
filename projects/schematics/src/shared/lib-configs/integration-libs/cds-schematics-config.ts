@@ -36,7 +36,7 @@ export const CDS_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${CDS_MODULE}.forRoot()`,
   },
   customConfig: buildCdsConfig,
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_TRACKING]: [TRACKING_PERSONALIZATION_FEATURE_NAME],
   },
 };

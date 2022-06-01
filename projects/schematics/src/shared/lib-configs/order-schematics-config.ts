@@ -46,7 +46,7 @@ export const ORDER_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: ORDER_SCSS_FILE_NAME,
     importStyle: SPARTACUS_ORDER,
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_CART]: [CART_BASE_FEATURE_NAME],
   },
 };

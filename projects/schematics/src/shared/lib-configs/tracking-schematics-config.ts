@@ -41,7 +41,7 @@ export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: SchematicConfig = {
     moduleSpecifier: SPARTACUS_PERSONALIZATION_ROOT,
     namedImports: [PERSONALIZATION_FEATURE_NAME_CONSTANT],
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
   },
 };
@@ -69,7 +69,7 @@ export const TRACKING_GTM_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${TMS_BASE_MODULE}.forRoot()`,
   },
   customConfig: buildGtmConfig,
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
   },
 };
@@ -121,7 +121,7 @@ export const TRACKING_AEP_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${TMS_BASE_MODULE}.forRoot()`,
   },
   customConfig: buildAepConfig,
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
   },
 };

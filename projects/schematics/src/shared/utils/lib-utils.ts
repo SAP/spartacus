@@ -159,7 +159,7 @@ export interface SchematicConfig {
    * Contains the feature dependencies.
    * The key is a Spartacus scope, while the value is an array of its features.
    */
-  dependencyManagement?: Record<string, string[]>;
+  dependencyFeatures?: Record<string, string[]>;
   /**
    * Configuration for generating the wrapper modules.
    *

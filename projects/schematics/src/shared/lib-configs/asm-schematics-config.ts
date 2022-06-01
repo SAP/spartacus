@@ -46,7 +46,7 @@ export const ASM_SCHEMATICS_CONFIG: SchematicConfig = {
     chunks: ASM_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_ASM_ASSETS,
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
   },
 };

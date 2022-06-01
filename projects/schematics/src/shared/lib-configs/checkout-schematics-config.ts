@@ -57,7 +57,7 @@ export const CHECKOUT_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: CHECKOUT_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CHECKOUT,
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
   },
 };
@@ -94,7 +94,7 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: CHECKOUT_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CHECKOUT,
   },
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
     [SPARTACUS_CHECKOUT]: [CHECKOUT_BASE_FEATURE_NAME],
   },
@@ -139,7 +139,7 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: SchematicConfig
       scssFileName: CHECKOUT_SCSS_FILE_NAME,
       importStyle: SPARTACUS_CHECKOUT,
     },
-    dependencyManagement: {
+    dependencyFeatures: {
       [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
       [SPARTACUS_CHECKOUT]: [CHECKOUT_B2B_FEATURE_NAME],
     },

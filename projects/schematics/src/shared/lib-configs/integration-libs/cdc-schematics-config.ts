@@ -43,7 +43,7 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${CDC_ROOT_MODULE}`,
   },
   customConfig: buildCdcConfig,
-  dependencyManagement: {
+  dependencyFeatures: {
     [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
   },
 };
