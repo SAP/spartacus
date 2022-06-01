@@ -15,7 +15,7 @@ import { LaunchRenderStrategy } from './launch-render.strategy';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
-  private _dialogClose = new BehaviorSubject<string>(undefined);
+  private _dialogClose = new BehaviorSubject<string | undefined>(undefined);
   private _dataSubject = new BehaviorSubject<any>(undefined);
 
   get data$(): Observable<any> {
@@ -52,7 +52,7 @@ export class LaunchDialogService {
         tap(([comp]) => {
           openElement?.nativeElement.focus();
           this.clear(caller);
-          comp.destroy();
+          comp?.destroy();
         }),
         map(([comp]) => comp)
       );
@@ -120,7 +120,7 @@ export class LaunchDialogService {
     }
   }
 
-  get dialogClose(): Observable<string> {
+  get dialogClose(): Observable<string | undefined> {
     return this._dialogClose.asObservable();
   }
 
@@ -147,7 +147,9 @@ export class LaunchDialogService {
    *
    * @param config Configuration for launch
    */
-  protected getStrategy(config: LaunchOptions): LaunchRenderStrategy {
+  protected getStrategy(
+    config: LaunchOptions
+  ): LaunchRenderStrategy | undefined {
     return resolveApplicable(this.renderStrategies, [config]);
   }
 }

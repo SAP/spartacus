@@ -52,7 +52,7 @@ export class CardComponent implements OnInit {
   isDefault = false;
 
   @Input()
-  content: Card;
+  content: Card | null;
 
   @Input()
   fitToContainer = false;
@@ -92,6 +92,16 @@ export class CardComponent implements OnInit {
 
   edit(): void {
     this.editCard.emit(4);
+  }
+
+  isCardAction(action: CardAction | CardLinkAction): action is CardAction {
+    return (action as CardAction).event !== undefined;
+  }
+
+  isCardLinkAction(
+    action: CardAction | CardLinkAction
+  ): action is CardLinkAction {
+    return (action as CardLinkAction).link !== undefined;
   }
 
   constructor() {}
