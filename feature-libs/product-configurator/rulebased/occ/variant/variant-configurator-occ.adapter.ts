@@ -39,24 +39,34 @@ export class VariantConfiguratorOccAdapter
   }
 
   createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
-    return this.http
-      .get<OccConfigurator.Configuration>(
-        this.occEndpointsService.buildUrl('createVariantConfiguration', {
-          urlParams: { productCode },
-        })
-      )
-      .pipe(
-        this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
-        map((resultConfiguration) => {
-          return {
-            ...resultConfiguration,
-            owner: owner,
-          };
-        })
-      );
+    return (
+      configIdTemplate
+        ? this.http.get<OccConfigurator.Configuration>(
+            this.occEndpointsService.buildUrl(
+              'createVariantConfigurationTemplate',
+              {
+                urlParams: { productCode, configIdTemplate },
+              }
+            )
+          )
+        : this.http.get<OccConfigurator.Configuration>(
+            this.occEndpointsService.buildUrl('createVariantConfiguration', {
+              urlParams: { productCode },
+            })
+          )
+    ).pipe(
+      this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: owner,
+        };
+      })
+    );
   }
 
   readConfiguration(

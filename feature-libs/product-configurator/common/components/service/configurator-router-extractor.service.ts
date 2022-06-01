@@ -34,6 +34,7 @@ export class ConfiguratorRouterExtractorService {
           isOwnerCartEntry:
             owner.type === CommonConfigurator.OwnerType.CART_ENTRY,
           displayOnly: routingData.state.params.displayOnly,
+          configIdTemplate: routingData.state.queryParams?.configIdTemplate,
           resolveIssues:
             routingData.state.queryParams?.resolveIssues === 'true',
           skipConflicts:

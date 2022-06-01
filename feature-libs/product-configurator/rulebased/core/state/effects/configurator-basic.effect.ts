@@ -36,7 +36,10 @@ export class ConfiguratorBasicEffects {
       ofType(ConfiguratorActions.CREATE_CONFIGURATION),
       mergeMap((action: ConfiguratorActions.CreateConfiguration) => {
         return this.configuratorCommonsConnector
-          .createConfiguration(action.payload)
+          .createConfiguration(
+            action.payload.owner,
+            action.payload.configIdTemplate
+          )
           .pipe(
             switchMap((configuration: Configurator.Configuration) => {
               const currentGroup =
@@ -58,7 +61,7 @@ export class ConfiguratorBasicEffects {
             }),
             catchError((error) => [
               new ConfiguratorActions.CreateConfigurationFail({
-                ownerKey: action.payload.key,
+                ownerKey: action.payload.owner.key,
                 error: normalizeHttpError(error),
               }),
             ])

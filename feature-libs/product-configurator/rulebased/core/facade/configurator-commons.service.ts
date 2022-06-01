@@ -86,11 +86,12 @@ export class ConfiguratorCommonsService {
    * @returns {Observable<Configurator.Configuration>}
    */
   getOrCreateConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
     switch (owner.type) {
       case CommonConfigurator.OwnerType.PRODUCT: {
-        return this.getOrCreateConfigurationForProduct(owner);
+        return this.getOrCreateConfigurationForProduct(owner, configIdTemplate);
       }
       case CommonConfigurator.OwnerType.CART_ENTRY: {
         return this.configuratorCartService.readConfigurationForCartEntry(
@@ -214,7 +215,8 @@ export class ConfiguratorCommonsService {
   }
 
   protected getOrCreateConfigurationForProduct(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    configIdTemplate?: string
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(
@@ -232,7 +234,10 @@ export class ConfiguratorCommonsService {
           configurationState.error !== true
         ) {
           this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(owner)
+            new ConfiguratorActions.CreateConfiguration({
+              owner,
+              configIdTemplate,
+            })
           );
         }
       }),
