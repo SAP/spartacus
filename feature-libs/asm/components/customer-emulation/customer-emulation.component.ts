@@ -7,15 +7,16 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { AsmFacadeService } from '@spartacus/asm/root';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  OCC_CART_ID_CURRENT,
   User,
   UserService,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
+import { AsmService } from 'feature-libs/asm/core';
 import { Observable, Subscription } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
@@ -41,7 +42,8 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     protected activeCartFacade: ActiveCartFacade,
     protected globalMessageService: GlobalMessageService,
     protected asmFacadeService: AsmFacadeService,
-    protected savedCartService: SavedCartFacade
+    protected multiCartFacade: MultiCartFacade,
+    protected asmService: AsmService
   ) {}
 
   ngOnInit() {
@@ -88,7 +90,10 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
 
-            this.savedCartService.restoreSavedCart(cartId);
+            this.multiCartFacade.loadCart({
+              cartId: OCC_CART_ID_CURRENT,
+              userId: customerId,
+            });
           },
           () => {
             this.globalMessageService.add(

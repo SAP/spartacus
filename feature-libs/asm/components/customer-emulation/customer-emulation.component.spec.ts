@@ -3,8 +3,7 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { AsmFacadeService } from '@spartacus/asm/root';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   BaseSiteService,
   I18nTestingModule,
@@ -40,8 +39,8 @@ class MockAsmComponentService {
   }
 }
 
-class MockSavedCartService {
-  restoreSavedCart(cartId: string): void {}
+class MockMultiCartFacade {
+  loadCart(cartId: string, userId: string): void {}
 }
 
 class MockAsmQueryService {
@@ -56,7 +55,7 @@ describe('CustomerEmulationComponent', () => {
   let userService: UserService;
   let asmComponentService: AsmComponentService;
   let asmFacadeService: AsmFacadeService;
-  let savedCartService: SavedCartFacade;
+  let multiCartFacade: MultiCartFacade;
   let activeCartFacade: ActiveCartFacade;
   let el: DebugElement;
 
@@ -71,7 +70,7 @@ describe('CustomerEmulationComponent', () => {
           { provide: ActiveCartFacade, useClass: MockActiveCartService },
           { provide: AsmFacadeService, useClass: MockAsmQueryService },
           { provide: BaseSiteService, useClass: MockBaseSiteService },
-          { provide: SavedCartFacade, useClass: MockSavedCartService },
+          { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         ],
       }).compileComponents();
     })
@@ -84,7 +83,7 @@ describe('CustomerEmulationComponent', () => {
     userService = TestBed.inject(UserService);
     asmComponentService = TestBed.inject(AsmComponentService);
     asmFacadeService = TestBed.inject(AsmFacadeService);
-    savedCartService = TestBed.inject(SavedCartFacade);
+    multiCartFacade = TestBed.inject(MultiCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
     el = fixture.debugElement;
   });
