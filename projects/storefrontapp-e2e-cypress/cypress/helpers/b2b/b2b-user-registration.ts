@@ -11,6 +11,13 @@ export const ORGANIZATION_USER_REGISTER_BUTTON_SELECTOR =
 export const ORGANIZATION_USER_REGISTER_FORM_COMPONENT_SELECTOR =
   'cx-user-registration-form';
 
+export const enum ORGANIZATION_USER_REGISTRATION_RESULT_ALERT {
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+
+const form = ORGANIZATION_USER_REGISTER_FORM_COMPONENT_SELECTOR;
+
 export function navigateToOrganizationUserRegisterPage() {
   cy.onMobile(() => {
     clickHamburger();
@@ -21,10 +28,8 @@ export function navigateToOrganizationUserRegisterPage() {
 
 export function fillOrganizationUserRegistrationForm(
   { titleCode, firstName, lastName, email, address, phone }: SampleUser,
-  message: string
+  message?: string
 ) {
-  const form = ORGANIZATION_USER_REGISTER_FORM_COMPONENT_SELECTOR;
-
   cy.get(form).should('be.visible');
   cy.get(form).within(() => {
     cy.get('[formcontrolname="titleCode"]').ngSelect(titleCode);
@@ -42,28 +47,42 @@ export function fillOrganizationUserRegistrationForm(
     }
 
     cy.get('[formcontrolname="phoneNumber"]').type(phone);
-    cy.get('[formcontrolname="message"]').type(message);
+
+    if (message) {
+      cy.get('[formcontrolname="message"]').type(message);
+    }
   });
 }
 
-export function submitOrganizationUserRegistrationForm() {
-  const form = ORGANIZATION_USER_REGISTER_FORM_COMPONENT_SELECTOR;
+/**
+ * Method submits prefiled form and by default waits till registration request will be completed.
+ *
+ * @param {boolean} [wiatForRequestCompletion=true]
+ * specifies if cypress should wait till registration request be completed.
+ */
+export function submitOrganizationUserRegistrationForm(
+  wiatForRequestCompletion: boolean = true
+) {
   interceptPost('registerOrganizationUser', '*/orgUsers*');
 
   cy.get(form).within(() => {
     cy.get('button[type=submit]').click();
   });
 
-  cy.wait('@registerOrganizationUser');
+  if (wiatForRequestCompletion) {
+    cy.wait('@registerOrganizationUser');
+  }
 }
 
-export function verifyGlobalMessageAfterRegistration() {
-  const alert = alerts.getSuccessAlert();
+export function verifyGlobalMessageAfterRegistration(message: string) {
+  cy.get('body').within(() => {
+    const alert = alerts.getAlert();
 
-  alert.should(
-    'contain',
-    'Thank you for registering! A representative will contact you shortly and confirm your access information.'
-  );
+    alert.should('contain', message);
+  });
+}
+
+export function verifyRedirectionToLoginPage() {
   cy.location().should((location) => {
     expect(location.pathname).to.match(/\/login$/);
   });
@@ -74,4 +93,28 @@ export function verifyTabbingOrder() {
     'cx-page-layout.AccountPageTemplate',
     config.userRegistrationForm
   );
+}
+
+export function verifyFormErrors() {
+  const requiredFieldMessage = 'This field is required';
+  const notValidEmailMessage = 'This is not a valid email format';
+
+  cy.get(form).within(() => {
+    cy.get('[formcontrolname="firstName"] + cx-form-errors').contains(
+      requiredFieldMessage
+    );
+    cy.get('[formcontrolname="lastName"] + cx-form-errors').contains(
+      requiredFieldMessage
+    );
+    cy.get('[formcontrolname="email"] + cx-form-errors').contains(
+      requiredFieldMessage
+    );
+
+    cy.get('[formcontrolname="email"] + cx-form-errors').within(() => {
+      cy.get('p').contains(requiredFieldMessage);
+      cy.get('p+p').contains(notValidEmailMessage);
+    });
+
+    cy.get('cx-form-errors p').should('have.length', 4);
+  });
 }
