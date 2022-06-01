@@ -11,7 +11,7 @@ export const getComponentsState: MemoizedSelector<
 
 export const componentsContextSelectorFactory = (
   uid: string
-): MemoizedSelector<StateWithCms, ComponentsContext> => {
+): MemoizedSelector<StateWithCms, ComponentsContext | undefined> => {
   return createSelector(getComponentsState, (componentsState) =>
     StateUtils.entitySelector(componentsState, uid)
   );

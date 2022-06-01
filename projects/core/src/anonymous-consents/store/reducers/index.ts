@@ -45,12 +45,13 @@ export function clearAnonymousConsentTemplates(
 ): ActionReducer<AnonymousConsentsState, Action> {
   return function (state, action) {
     if (
-      action.type === AuthActions.LOGOUT ||
-      action.type === SiteContextActions.LANGUAGE_CHANGE
+      state !== undefined &&
+      (action.type === AuthActions.LOGOUT ||
+        action.type === SiteContextActions.LANGUAGE_CHANGE)
     ) {
       state = {
         ...state,
-        templates: undefined,
+        templates: {},
       };
     }
     return reducer(state, action);

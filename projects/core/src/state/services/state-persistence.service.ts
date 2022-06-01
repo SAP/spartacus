@@ -69,15 +69,17 @@ export class StatePersistenceService {
         .subscribe()
     );
 
-    subscriptions.add(
-      state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
-        persistToStorage(
-          this.generateKeyWithContext(context, key),
-          state,
-          storage
-        );
-      })
-    );
+    if (storage) {
+      subscriptions.add(
+        state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
+          persistToStorage(
+            this.generateKeyWithContext(context, key),
+            state,
+            storage
+          );
+        })
+      );
+    }
 
     return subscriptions;
   }

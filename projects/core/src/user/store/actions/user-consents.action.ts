@@ -59,8 +59,8 @@ export class GiveUserConsent extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       userId: string;
-      consentTemplateId: string;
-      consentTemplateVersion: number;
+      consentTemplateId: string | undefined;
+      consentTemplateVersion: number | undefined;
     }
   ) {
     super(PROCESS_FEATURE, GIVE_CONSENT_PROCESS_ID);

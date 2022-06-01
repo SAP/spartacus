@@ -1,11 +1,11 @@
 import { CmsActions } from '../actions/index';
 
-export const initialState = undefined;
+export const initialState: string = '';
 
 export function reducer(
   entityType: string
 ): (
-  state: string,
+  state: string | undefined,
   action:
     | CmsActions.LoadCmsPageDataSuccess
     | CmsActions.LoadCmsPageDataFail

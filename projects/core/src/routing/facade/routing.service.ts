@@ -54,7 +54,7 @@ export class RoutingService {
   /**
    * Get the next `PageContext` from the state
    */
-  getNextPageContext(): Observable<PageContext> {
+  getNextPageContext(): Observable<PageContext | undefined> {
     return this.store.pipe(select(RoutingSelector.getNextPageContext));
   }
 

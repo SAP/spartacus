@@ -148,10 +148,11 @@ export abstract class CmsStructureConfigService {
         pageStructure.page.slots[position] = {};
 
         for (const component of this.getComponentsByPosition(slots, position)) {
-          if (!pageStructure.page.slots[position].components) {
-            pageStructure.page.slots[position].components = [];
+          let slotComponents = pageStructure.page.slots[position].components;
+          if (!slotComponents) {
+            slotComponents = [];
           }
-          pageStructure.page.slots[position].components.push({
+          slotComponents.push({
             uid: component.uid,
             flexType: component.flexType,
             typeCode: component.typeCode,
@@ -174,7 +175,7 @@ export abstract class CmsStructureConfigService {
   ): ContentSlotComponentData[] {
     const components = [];
     if (slots[position] && slots[position].componentIds) {
-      for (const componentId of slots[position].componentIds) {
+      for (const componentId of slots[position].componentIds ?? []) {
         if (
           this.cmsDataConfig.cmsStructure &&
           this.cmsDataConfig.cmsStructure.components

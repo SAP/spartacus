@@ -13,7 +13,7 @@ export class OccCostCenterNormalizer
     if (target === undefined) {
       target = { ...(source as any) } as CostCenter;
     }
-    target.active = this.normalizeBoolean(source.active);
+    target.active = this.normalizeBoolean(!!source.active);
 
     return target;
   }

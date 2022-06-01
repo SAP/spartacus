@@ -64,7 +64,8 @@ export class OccProductSearchPageNormalizer
             facet.values &&
             facet.values.find((value) => {
               return (
-                value.selected || value.count < target.pagination.totalResults
+                value.selected ||
+                (value.count ?? 0) < (target.pagination?.totalResults ?? 0)
               );
             }))
         );

@@ -20,7 +20,9 @@ export function reducer(
 
     case fromActions.SUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
       const updatedCustomerCoupon = action.payload.coupon;
-      const customerCoupons = new Array<CustomerCoupon>(state.coupons.length);
+      const customerCoupons = new Array<CustomerCoupon>(
+        state.coupons?.length ?? 0
+      );
       state.coupons?.forEach((customerCoupon: CustomerCoupon, index) =>
         updatedCustomerCoupon &&
         customerCoupon.couponId === updatedCustomerCoupon.couponId
@@ -32,7 +34,9 @@ export function reducer(
 
     case fromActions.UNSUBSCRIBE_CUSTOMER_COUPON_SUCCESS: {
       const updatedCouponCode = action.payload;
-      const customerCoupons = new Array<CustomerCoupon>(state.coupons.length);
+      const customerCoupons = new Array<CustomerCoupon>(
+        state.coupons?.length ?? 0
+      );
       state.coupons?.forEach((customerCoupon: CustomerCoupon, index) =>
         customerCoupon.couponId === updatedCouponCode
           ? (customerCoupons[index] = {

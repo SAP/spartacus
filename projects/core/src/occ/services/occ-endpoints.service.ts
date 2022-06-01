@@ -157,7 +157,8 @@ export class OccEndpointsService {
       return undefined;
     }
 
-    const endpointConfig = endpointsConfig[endpoint];
+    const endpointConfig: any =
+      endpointsConfig[endpoint as keyof typeof endpointsConfig];
 
     if (scope) {
       if (scope === DEFAULT_SCOPE && typeof endpointConfig === 'string') {
@@ -175,11 +176,12 @@ export class OccEndpointsService {
   private getEndpointForScope(endpoint: string, scope?: string): string {
     const endpointsConfig = this.config.backend?.occ?.endpoints;
 
-    if (!Boolean(endpointsConfig)) {
+    if (!endpointsConfig) {
       return '';
     }
 
-    const endpointConfig = endpointsConfig[endpoint];
+    const endpointConfig: any =
+      endpointsConfig[endpoint as keyof typeof endpointsConfig];
 
     if (scope) {
       if (endpointConfig?.[scope]) {

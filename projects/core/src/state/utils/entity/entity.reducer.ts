@@ -33,14 +33,17 @@ export function entityReducer<T, V extends Action = Action>(
           return initialEntityState;
         } else {
           let removed = false;
-          const newEntities = Object.keys(state.entities).reduce((acc, cur) => {
-            if (ids.includes(cur)) {
-              removed = true;
-            } else {
-              acc[cur] = state.entities[cur];
-            }
-            return acc;
-          }, {});
+          const newEntities = Object.keys(state.entities).reduce(
+            (acc: any, cur) => {
+              if (ids.includes(cur)) {
+                removed = true;
+              } else {
+                acc[cur] = state.entities[cur];
+              }
+              return acc;
+            },
+            {}
+          );
 
           return removed ? { entities: newEntities } : state;
         }

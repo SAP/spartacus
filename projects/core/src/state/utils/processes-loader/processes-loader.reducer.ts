@@ -13,7 +13,7 @@ export const initialProcessesState: ProcessesLoaderState<any> = {
  */
 export function processesLoaderReducer<T>(
   entityType: string,
-  reducer?: (state: T, action: Action) => T
+  reducer?: (state: T | undefined, action: Action) => T
 ): (
   state: ProcessesLoaderState<T>,
   action: ProcessesLoaderAction

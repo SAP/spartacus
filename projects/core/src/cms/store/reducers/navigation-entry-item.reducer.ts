@@ -1,7 +1,7 @@
 import { NodeItem } from '../../model/node-item.model';
 import { CmsActions } from '../actions/index';
 
-export const initialState: NodeItem = undefined;
+export const initialState: NodeItem = {};
 
 export function reducer(
   state = initialState,
