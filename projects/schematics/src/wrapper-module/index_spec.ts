@@ -12,7 +12,6 @@ import { CART_BASE_MODULE } from '../shared/lib-configs/cart-schematics-config';
 import { CHECKOUT_BASE_MODULE } from '../shared/lib-configs/checkout-schematics-config';
 import {
   CART_BASE_FEATURE_NAME,
-  CDC_FEATURE_NAME,
   CHECKOUT_B2B_FEATURE_NAME,
   CHECKOUT_BASE_FEATURE_NAME,
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
@@ -28,13 +27,10 @@ import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths'
 import {
   cartBaseFeatureModulePath,
   cartWrapperModulePath,
-  cdcFeatureModulePath,
   checkoutFeatureModulePath,
   checkoutWrapperModulePath,
   digitalPaymentsFeatureModulePath,
   spartacusFeaturesModulePath,
-  userFeatureModulePath,
-  userProfileWrapperModulePath,
 } from '../shared/utils/test-utils';
 import { Schema as SpartacusWrapperOptions } from '../wrapper-module/schema';
 import { cleanupConfig } from './index';
@@ -257,37 +253,6 @@ describe('Spartacus Wrapper Module Schematics: ng g @spartacus/schematics:wrappe
       expect(checkoutWrapperModule.print()).toMatchSnapshot();
       expect(checkoutFeatureModule.print()).toMatchSnapshot();
       expect(dpFeaturesModule.print()).toMatchSnapshot();
-    });
-  });
-
-  describe('CDC', () => {
-    it('should create the User wrapper module and import User Profile and CDC', async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          {
-            ...defaultOptions,
-            name: 'schematics-test',
-            features: [CDC_FEATURE_NAME],
-          },
-          appTree
-        )
-        .toPromise();
-
-      const { program } = createProgram(appTree, appTree.root.path, buildPath);
-
-      const userProfileWrapperModule = program.getSourceFileOrThrow(
-        userProfileWrapperModulePath
-      );
-      const userFeatureModule = program.getSourceFileOrThrow(
-        userFeatureModulePath
-      );
-      const cdcFeaturesModule =
-        program.getSourceFileOrThrow(cdcFeatureModulePath);
-
-      expect(userProfileWrapperModule.print()).toMatchSnapshot();
-      expect(userFeatureModule.print()).toMatchSnapshot();
-      expect(cdcFeaturesModule.print()).toMatchSnapshot();
     });
   });
 

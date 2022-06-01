@@ -40,9 +40,7 @@ import {
       featureModules: {
         [USER_PROFILE_FEATURE]: {
           module: () =>
-            import('./user-profile-wrapper.module').then(
-              (m) => m.UserProfileWrapperModule
-            ),
+            import('@spartacus/user/profile').then((m) => m.UserProfileModule),
         },
       },
     }),

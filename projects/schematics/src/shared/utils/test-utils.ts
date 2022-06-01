@@ -57,8 +57,6 @@ export const trackingTagManagementFeatureModulePath =
   'src/app/spartacus/features/tracking/tag-management-feature.module.ts';
 export const userFeatureModulePath =
   'src/app/spartacus/features/user/user-feature.module.ts';
-export const userProfileWrapperModulePath =
-  'src/app/spartacus/features/user/user-profile-wrapper.module.ts';
 
 export const cdcFeatureModulePath =
   'src/app/spartacus/features/cdc/cdc-feature.module.ts';

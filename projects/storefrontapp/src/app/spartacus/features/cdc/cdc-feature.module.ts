@@ -1,10 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CdcConfig, CdcRootModule } from '@spartacus/cdc/root';
+import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [CdcRootModule],
   providers: [
+    provideConfig({
+      featureModules: {
+        [CDC_FEATURE]: {
+          module: () => import('@spartacus/cdc').then((m) => m.CdcModule),
+        },
+      },
+    }),
     provideConfig(<CdcConfig>{
       cdc: [
         {

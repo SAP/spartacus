@@ -7,7 +7,6 @@ import {
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
 import { LibraryOptions, SchematicConfig } from '../../utils/lib-utils';
-import { USER_PROFILE_MODULE } from '../user-schematics-config';
 
 export interface SpartacusCdcOptions extends LibraryOptions {
   baseSite?: string;
@@ -34,6 +33,10 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     importPath: SPARTACUS_CDC,
     name: CDC_MODULE,
   },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_CDC_ROOT,
+    namedImports: [CDC_FEATURE_CONSTANT],
+  },
   rootModule: {
     importPath: SPARTACUS_CDC_ROOT,
     name: CDC_ROOT_MODULE,
@@ -42,9 +45,6 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
   customConfig: buildCdcConfig,
   dependencyManagement: {
     [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
-  },
-  wrappers: {
-    [USER_PROFILE_MODULE]: CDC_MODULE,
   },
 };
 

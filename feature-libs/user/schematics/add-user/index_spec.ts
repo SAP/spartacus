@@ -15,7 +15,6 @@ import {
   SPARTACUS_SCHEMATICS,
   SPARTACUS_USER,
   userFeatureModulePath,
-  userProfileWrapperModulePath,
   USER_ACCOUNT_FEATURE_NAME,
   USER_PROFILE_FEATURE_NAME,
 } from '@spartacus/schematics';
@@ -149,8 +148,6 @@ describe('Spartacus User schematics: ng-add', () => {
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
-
-        expect(appTree.readContent(userProfileWrapperModulePath)).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -180,8 +177,6 @@ describe('Spartacus User schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
-
-        expect(appTree.readContent(userProfileWrapperModulePath)).toBeFalsy();
       });
     });
   });
@@ -197,8 +192,6 @@ describe('Spartacus User schematics: ng-add', () => {
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
-
-        expect(appTree.readContent(userProfileWrapperModulePath)).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -233,8 +226,6 @@ describe('Spartacus User schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
-
-        expect(appTree.readContent(userProfileWrapperModulePath)).toBeFalsy();
       });
     });
   });
