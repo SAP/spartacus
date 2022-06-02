@@ -18,7 +18,7 @@ export class ProfileTagLifecycleService {
 
   consentChanged(): Observable<ConsentChangedPushEvent> {
     return this.consentService
-      .getConsent(this.config.cds.consentTemplateId)
+      .getConsent(this.config.cds?.consentTemplateId ?? '')
       .pipe(
         filter(isNotUndefined),
         map((profileConsent) => {
