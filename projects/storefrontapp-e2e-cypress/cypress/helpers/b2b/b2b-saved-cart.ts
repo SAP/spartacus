@@ -6,6 +6,7 @@ import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-ord
 import { addProductToCart as addToCart } from '../applied-promotions';
 import { waitForPage, waitForProductPage } from '../checkout-flow';
 import { loginB2bUser as login } from './b2b-checkout';
+import { interceptAddToCartEndpoint } from './b2b-quick-order';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -13,6 +14,7 @@ export const RESTORE_SAVED_CART_ENDPOINT_ALIAS = 'restoreCart';
 export const GET_SAVED_CART_ENDPOINT_ALIAS = 'getSavedCart';
 export const CLONE_SAVED_CART_ENDPOINT_ALIAS = 'cloneSavedCart';
 export const DELETE_CART_ENDPOINT_ALIAS = 'deleteCart';
+export const CART_PAGE_ALIAS = 'cartPage';
 
 export function verifyCartPageTabbingOrder() {
   addProductToCart(sampleData.products[0], 1);
@@ -119,6 +121,21 @@ export function interceptCloneSavedCartEndpoint(cartCode: string) {
   ).as(CLONE_SAVED_CART_ENDPOINT_ALIAS);
 
   return CLONE_SAVED_CART_ENDPOINT_ALIAS;
+}
+
+export function interceptCartPageEndpoint() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+  ).as(CART_PAGE_ALIAS);
+
+  return CART_PAGE_ALIAS;
+}
+
+export function clickOn(position: any): void {
+  cy.get(position).click();
 }
 
 export function visitCartPage() {
@@ -350,29 +367,23 @@ export function restoreSavedCart(cart: any) {
 }
 
 export function AddToActiveCart(cart: any, product: SampleProduct) {
-  cy.intercept(
-    'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/${Cypress.env(
-      'OCC_PREFIX_USER_ENDPOINT'
-    )}/*/carts/*/entries?*lang=en&curr=USD`
-  ).as('add_to_cart');
+  const addToCartAlias = interceptAddToCartEndpoint();
 
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
-  ).as('cart_page');
+  const cartPageAlias = interceptCartPageEndpoint();
 
-  // const cartPageHandler = navigateToCartPage()
-  // selectFirstItemInTheCart()
-  cy.wait('@add_to_cart');
+  cy.get(
+    'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-action-link'
+  )
+    .first()
+    .click();
+
+  cy.wait(`@${addToCartAlias}`);
 
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-dialog-buttons>.btn-primary').click();
+    clickOn('.cx-dialog-buttons>.btn-primary');
   });
 
-  cy.wait('@cart_page');
+  cy.wait(`@${cartPageAlias}`);
 
   getCartItem(product.name).within(() => {
     cy.get('.cx-code').should('contain', product.code);
@@ -575,7 +586,7 @@ export function updateSavedCartAndDelete(
           cy.get(
             'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-action-link'
           )
-            .first()
+            .then((element) => element.get(1))
             .click();
         } else {
           cy.get('cx-saved-cart-details-action .btn-action').click();
