@@ -48,7 +48,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     CardType[]
   >(() => this.checkoutPaymentConnector.getCardTypes(), {
     reloadOn: this.getCardTypesReloadTriggers(),
-    resetOn: this.getCardTypesReloadTriggers(),
+    resetOn: this.getCardTypesResetTriggers(),
   });
 
   protected createPaymentMethodCommand: Command<PaymentDetails, unknown> =
