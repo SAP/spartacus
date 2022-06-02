@@ -13,7 +13,7 @@ export class OccCostCenterNormalizer
     if (target === undefined) {
       target = { ...(source as any) } as CostCenter;
     }
-    target.active = this.normalizeBoolean(!!source.active);
+    target.active = this.normalizeBoolean(source.active);
 
     return target;
   }
@@ -22,7 +22,10 @@ export class OccCostCenterNormalizer
    * Returns the boolean value for a string property that is supposed
    * to be of type boolean.
    */
-  protected normalizeBoolean(property: string | boolean): boolean {
+  protected normalizeBoolean(property: string | boolean | undefined): boolean {
+    if (property === undefined) {
+      return false;
+    }
     return typeof property === 'string' ? property === 'true' : property;
   }
 }
