@@ -33,22 +33,22 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   /**
    * Returns the reload triggers for the cardTypes query
    */
-  protected getCardTypesReloadTriggers(): QueryNotifier[] {
+  protected getCardTypesQueryReloadTriggers(): QueryNotifier[] {
     return [CheckoutReloadPaymentCardTypesEvent];
   }
 
   /**
    * Returns the reset triggers for the cardTypes query
    */
-  protected getCardTypesResetTriggers(): QueryNotifier[] {
+  protected getCardTypesQueryResetTriggers(): QueryNotifier[] {
     return [CheckoutResetPaymentCardTypesEvent];
   }
 
   protected cardTypesQuery: Query<CardType[]> = this.queryService.create<
     CardType[]
   >(() => this.checkoutPaymentConnector.getCardTypes(), {
-    reloadOn: this.getCardTypesReloadTriggers(),
-    resetOn: this.getCardTypesResetTriggers(),
+    reloadOn: this.getCardTypesQueryReloadTriggers(),
+    resetOn: this.getCardTypesQueryResetTriggers(),
   });
 
   protected createPaymentMethodCommand: Command<PaymentDetails, unknown> =

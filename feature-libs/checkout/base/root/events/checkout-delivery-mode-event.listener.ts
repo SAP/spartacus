@@ -32,8 +32,8 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     this.onDeliveryModeClearedError();
     this.onDeliveryModeReset();
 
-    this.onGetSupportedDeliveryModesReload();
-    this.onGetSupportedDeliveryModesReset();
+    this.onGetSupportedDeliveryModesQueryReload();
+    this.onGetSupportedDeliveryModesQueryReset();
   }
 
   protected onDeliveryModeSet() {
@@ -131,7 +131,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     );
   }
 
-  protected onGetSupportedDeliveryModesReload(): void {
+  protected onGetSupportedDeliveryModesQueryReload(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
@@ -142,7 +142,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     );
   }
 
-  protected onGetSupportedDeliveryModesReset(): void {
+  protected onGetSupportedDeliveryModesQueryReset(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LogoutEvent),

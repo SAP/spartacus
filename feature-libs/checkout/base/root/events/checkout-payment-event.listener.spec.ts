@@ -131,7 +131,7 @@ describe(`CheckoutPaymentEventListener`, () => {
     });
   });
 
-  describe(`onGetCardTypesReloadReload`, () => {
+  describe(`onGetCardTypesQueryReload`, () => {
     it(`LanguageSetEvent should dispatch CheckoutReloadPaymentCardTypesEvent()`, () => {
       mockEventStream$.next(new LanguageSetEvent());
 

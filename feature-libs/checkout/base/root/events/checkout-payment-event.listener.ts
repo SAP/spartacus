@@ -32,7 +32,7 @@ export class CheckoutPaymentEventListener implements OnDestroy {
     this.onPaymentCreated();
     this.onPaymentSet();
 
-    this.onGetCardTypesReloadReload();
+    this.onGetCardTypesQueryReload();
   }
 
   protected onPaymentCreated(): void {
@@ -61,7 +61,7 @@ export class CheckoutPaymentEventListener implements OnDestroy {
     );
   }
 
-  protected onGetCardTypesReloadReload(): void {
+  protected onGetCardTypesQueryReload(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),

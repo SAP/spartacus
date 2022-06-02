@@ -137,7 +137,7 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
     });
   });
 
-  describe(`onGetSupportedDeliveryModesReload`, () => {
+  describe(`onGetSupportedDeliveryModesQueryReload`, () => {
     it(`LanguageSetEvent should dispatch CheckoutReloadDeliveryModesEvent()`, () => {
       mockEventStream$.next(new LanguageSetEvent());
 
@@ -157,7 +157,7 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
     });
   });
 
-  describe(`onGetSupportedDeliveryModesReset`, () => {
+  describe(`onGetSupportedDeliveryModesQueryReset`, () => {
     it(`LogoutEvent should dispatch CheckoutResetDeliveryModesEvent()`, () => {
       mockEventStream$.next(new LogoutEvent());
 

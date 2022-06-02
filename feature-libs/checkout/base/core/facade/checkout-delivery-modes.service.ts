@@ -32,7 +32,7 @@ export class CheckoutDeliveryModesService
   /**
    * Returns the reload triggers for the supportedDeliveryModes query
    */
-  protected getSupportedDeliveryModesReloadTriggers(): QueryNotifier[] {
+  protected getSupportedDeliveryModesQueryReloadTriggers(): QueryNotifier[] {
     return [CheckoutReloadDeliveryModesEvent];
   }
   /**
@@ -54,7 +54,7 @@ export class CheckoutDeliveryModesService
           )
         ),
       {
-        reloadOn: this.getSupportedDeliveryModesReloadTriggers(),
+        reloadOn: this.getSupportedDeliveryModesQueryReloadTriggers(),
         resetOn: this.getSupportedDeliveryModesQueryResetTriggers(),
       }
     );
