@@ -13,11 +13,7 @@ import {
   Command,
   CommandService,
   CommandStrategy,
-  CurrencySetEvent,
   EventService,
-  LanguageSetEvent,
-  LoginEvent,
-  LogoutEvent,
   OCC_USER_ID_ANONYMOUS,
   Query,
   QueryNotifier,
@@ -37,31 +33,13 @@ export class CheckoutDeliveryModesService
    * Returns the reload triggers for the supportedDeliveryModes query
    */
   protected getSupportedDeliveryModesReloadTriggers(): QueryNotifier[] {
-    return [
-      CheckoutReloadDeliveryModesEvent,
-      ...this.getSupportedDeliveryModesQueryReloadSiteContextTriggers(),
-    ];
-  }
-  /**
-   * Returns the site-context reload triggers for the supportedDeliveryModes query
-   */
-  protected getSupportedDeliveryModesQueryReloadSiteContextTriggers(): QueryNotifier[] {
-    return [LanguageSetEvent, CurrencySetEvent];
+    return [CheckoutReloadDeliveryModesEvent];
   }
   /**
    * Return the reset triggers for the supportedDeliveryModes query
    */
   protected getSupportedDeliveryModesQueryResetTriggers(): QueryNotifier[] {
-    return [
-      CheckoutResetDeliveryModesEvent,
-      ...this.getSupportedDeliveryModesQueryResetAuthTriggers(),
-    ];
-  }
-  /**
-   * Returns the auth reset triggers for the supportedDeliveryModes query
-   */
-  protected getSupportedDeliveryModesQueryResetAuthTriggers(): QueryNotifier[] {
-    return [LogoutEvent, LoginEvent];
+    return [CheckoutResetDeliveryModesEvent];
   }
 
   protected supportedDeliveryModesQuery: Query<DeliveryMode[]> =

@@ -1,12 +1,21 @@
 import { TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, LoadCartEvent } from '@spartacus/cart/base/root';
-import { createFrom, CxEvent, EventService } from '@spartacus/core';
+import {
+  createFrom,
+  CurrencySetEvent,
+  CxEvent,
+  EventService,
+  LanguageSetEvent,
+  LoginEvent,
+  LogoutEvent,
+} from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CheckoutDeliveryModeEventListener } from './checkout-delivery-mode-event.listener';
 import {
   CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
+  CheckoutReloadDeliveryModesEvent,
   CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
 } from './checkout.events';
@@ -124,6 +133,46 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
         LoadCartEvent
+      );
+    });
+  });
+
+  describe(`onGetSupportedDeliveryModesReload`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutReloadDeliveryModesEvent()`, () => {
+      mockEventStream$.next(new LanguageSetEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutReloadDeliveryModesEvent
+      );
+    });
+
+    it(`LanguageSetEvent should dispatch CheckoutReloadDeliveryModesEvent()`, () => {
+      mockEventStream$.next(new CurrencySetEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutReloadDeliveryModesEvent
+      );
+    });
+  });
+
+  describe(`onGetSupportedDeliveryModesReset`, () => {
+    it(`LogoutEvent should dispatch CheckoutResetDeliveryModesEvent()`, () => {
+      mockEventStream$.next(new LogoutEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutResetDeliveryModesEvent
+      );
+    });
+
+    it(`LoginEvent should dispatch CheckoutResetDeliveryModesEvent()`, () => {
+      mockEventStream$.next(new LoginEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutResetDeliveryModesEvent
       );
     });
   });

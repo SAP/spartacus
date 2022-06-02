@@ -1,11 +1,18 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { LoadCartEvent } from '@spartacus/cart/base/root';
-import { EventService } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import {
+  CurrencySetEvent,
+  EventService,
+  LanguageSetEvent,
+  LoginEvent,
+  LogoutEvent,
+} from '@spartacus/core';
+import { merge, Subscription } from 'rxjs';
 import {
   CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
+  CheckoutReloadDeliveryModesEvent,
   CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
 } from './checkout.events';
@@ -24,6 +31,9 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     this.onDeliveryModeCleared();
     this.onDeliveryModeClearedError();
     this.onDeliveryModeReset();
+
+    this.onGetSupportedDeliveryModesReload();
+    this.onGetSupportedDeliveryModesReset();
   }
 
   protected onDeliveryModeSet() {
@@ -118,6 +128,28 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
             LoadCartEvent
           )
         )
+    );
+  }
+
+  protected onGetSupportedDeliveryModesReload(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LanguageSetEvent),
+        this.eventService.get(CurrencySetEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch({}, CheckoutReloadDeliveryModesEvent);
+      })
+    );
+  }
+
+  protected onGetSupportedDeliveryModesReset(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LogoutEvent),
+        this.eventService.get(LoginEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
+      })
     );
   }
 
