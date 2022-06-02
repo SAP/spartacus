@@ -2,10 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
   createFrom,
+  CurrencySetEvent,
   CxEvent,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  LanguageSetEvent,
   LoadUserPaymentMethodsEvent,
   OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
@@ -14,6 +16,7 @@ import { CheckoutPaymentEventListener } from './checkout-payment-event.listener'
 import {
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
+  CheckoutReloadPaymentCardTypesEvent,
   CheckoutResetQueryEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
@@ -124,6 +127,26 @@ describe(`CheckoutPaymentEventListener`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetQueryEvent
+      );
+    });
+  });
+
+  describe(`onGetCardTypesReloadReload`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutReloadPaymentCardTypesEvent()`, () => {
+      mockEventStream$.next(new LanguageSetEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutReloadPaymentCardTypesEvent
+      );
+    });
+
+    it(`LanguageSetEvent should dispatch CheckoutReloadPaymentCardTypesEvent()`, () => {
+      mockEventStream$.next(new CurrencySetEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutReloadPaymentCardTypesEvent
       );
     });
   });

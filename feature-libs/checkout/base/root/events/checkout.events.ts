@@ -176,3 +176,23 @@ export class CheckoutPaymentDetailsSetEvent extends CheckoutPaymentDetailsEvent 
    */
   paymentDetailsId: string;
 }
+
+/**
+ * Emit this event to force payment card types reload
+ */
+export class CheckoutReloadPaymentCardTypesEvent extends CheckoutPaymentDetailsEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutReloadPaymentCardTypesEvent';
+}
+
+/**
+ * Emit this event to force payment card types reset
+ */
+export class CheckoutResetPaymentCardTypesEvent extends CheckoutPaymentDetailsEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutResetPaymentCardTypesEvent';
+}

@@ -9,14 +9,14 @@ import {
   CheckoutPaymentDetailsSetEvent,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
+  CheckoutReloadPaymentCardTypesEvent,
+  CheckoutResetPaymentCardTypesEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
   CommandService,
   CommandStrategy,
-  CurrencySetEvent,
   EventService,
-  LanguageSetEvent,
   OCC_USER_ID_ANONYMOUS,
   Query,
   QueryNotifier,
@@ -34,13 +34,21 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
    * Returns the reload triggers for the cardTypes query
    */
   protected getCardTypesReloadTriggers(): QueryNotifier[] {
-    return [LanguageSetEvent, CurrencySetEvent];
+    return [CheckoutReloadPaymentCardTypesEvent];
+  }
+
+  /**
+   * Returns the reset triggers for the cardTypes query
+   */
+  protected getCardTypesResetTriggers(): QueryNotifier[] {
+    return [CheckoutResetPaymentCardTypesEvent];
   }
 
   protected cardTypesQuery: Query<CardType[]> = this.queryService.create<
     CardType[]
   >(() => this.checkoutPaymentConnector.getCardTypes(), {
     reloadOn: this.getCardTypesReloadTriggers(),
+    resetOn: this.getCardTypesReloadTriggers(),
   });
 
   protected createPaymentMethodCommand: Command<PaymentDetails, unknown> =

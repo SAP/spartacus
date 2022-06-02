@@ -1,15 +1,18 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
+  CurrencySetEvent,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  LanguageSetEvent,
   LoadUserPaymentMethodsEvent,
   OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { merge, Subscription } from 'rxjs';
 import {
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
+  CheckoutReloadPaymentCardTypesEvent,
   CheckoutResetQueryEvent,
 } from './checkout.events';
 
@@ -28,6 +31,8 @@ export class CheckoutPaymentEventListener implements OnDestroy {
   ) {
     this.onPaymentCreated();
     this.onPaymentSet();
+
+    this.onGetCardTypesReloadReload();
   }
 
   protected onPaymentCreated(): void {
@@ -52,6 +57,17 @@ export class CheckoutPaymentEventListener implements OnDestroy {
     this.subscriptions.add(
       this.eventService.get(CheckoutPaymentDetailsSetEvent).subscribe(() => {
         this.eventService.dispatch({}, CheckoutResetQueryEvent);
+      })
+    );
+  }
+
+  protected onGetCardTypesReloadReload(): void {
+    this.subscriptions.add(
+      merge(
+        this.eventService.get(LanguageSetEvent),
+        this.eventService.get(CurrencySetEvent)
+      ).subscribe(() => {
+        this.eventService.dispatch({}, CheckoutReloadPaymentCardTypesEvent);
       })
     );
   }
