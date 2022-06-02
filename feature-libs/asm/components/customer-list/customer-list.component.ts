@@ -56,6 +56,8 @@ export class CustomerListComponent implements OnInit {
 
   breakpoint$: Observable<BREAKPOINT>;
 
+  customerListConfig = this.asmConfig?.asm?.customerList;
+
   constructor(
     protected modalService: ModalService,
     protected asmService: AsmService,

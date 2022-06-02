@@ -46,11 +46,11 @@
                   <th
                     scope="col"
                     class="avatar-cell"
-                    *ngIf="asmConfig?.asm?.customerList?.showAvatar"
+                    *ngIf="customerListConfig?.showAvatar"
                   ></th>
                   <th
                     scope="col"
-                    *ngFor="let column of asmConfig?.asm?.customerList?.columns"
+                    *ngFor="let column of customerListConfig?.columns"
                   >
                     <span *ngIf="column.headerLocalizationKey">{{
                       column.headerLocalizationKey | cxTranslate
@@ -61,7 +61,7 @@
               <tbody>
                 <tr *ngFor="let customerEntry of customerSearchPage?.entries">
                   <td
-                    *ngIf="asmConfig?.asm?.customerList?.showAvatar"
+                    *ngIf="customerListConfig?.showAvatar"
                     class="avatar-cell"
                   >
                     <div class="avatar">
@@ -70,11 +70,7 @@
                   </td>
                   <!-- multi columns if desktop -->
                   <ng-container *ngIf="(breakpoint$ | async) === BREAKPOINT.md">
-                    <td
-                      *ngFor="
-                        let column of asmConfig?.asm?.customerList?.columns
-                      "
-                    >
+                    <td *ngFor="let column of customerListConfig?.columns">
                       <ng-template
                         *ngTemplateOutlet="
                           cell;
@@ -92,7 +88,7 @@
                     <td class="multi-cell">
                       <ng-container
                         *ngFor="
-                          let column of asmConfig?.asm?.customerList?.columns;
+                          let column of customerListConfig?.columns;
                           let even = even
                         "
                       >
@@ -113,7 +109,7 @@
                     <td class="multi-cell">
                       <ng-container
                         *ngFor="
-                          let column of asmConfig?.asm?.customerList?.columns;
+                          let column of customerListConfig?.columns;
                           let odd = odd
                         "
                       >
@@ -138,9 +134,7 @@
                     *ngIf="(breakpoint$ | async) === BREAKPOINT.xs"
                   >
                     <ng-container
-                      *ngFor="
-                        let column of asmConfig?.asm?.customerList?.columns
-                      "
+                      *ngFor="let column of customerListConfig?.columns"
                     >
                       <ng-template
                         *ngTemplateOutlet="
