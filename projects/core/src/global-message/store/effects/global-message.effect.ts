@@ -50,7 +50,7 @@ export class GlobalMessageEffect {
                 text,
                 messages
               );
-              if (index) {
+              if (index !== undefined) {
                 return new GlobalMessageActions.RemoveMessage({
                   type: message.type,
                   index,

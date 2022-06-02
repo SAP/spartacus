@@ -17,7 +17,7 @@ export const initialLoaderState: LoaderState<any> = {
  */
 export function loaderReducer<T, V extends Action = Action>(
   entityType: string,
-  reducer?: (state: T | undefined, action: Action | V) => T
+  reducer?: (state: T | undefined, action: Action | V) => T | undefined
 ): (state: LoaderState<T> | undefined, action: LoaderAction) => LoaderState<T> {
   return (
     state: LoaderState<T> = initialLoaderState,

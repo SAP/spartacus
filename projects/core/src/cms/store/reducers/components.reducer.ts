@@ -11,7 +11,7 @@ export const initialState: ComponentsContext = {
 function componentExistsReducer<T>(
   state: boolean | undefined,
   action: CmsActions.CmsComponentAction<T>
-): boolean {
+): boolean | undefined {
   switch (action.type) {
     case CmsActions.LOAD_CMS_COMPONENT_FAIL:
       return false;
@@ -20,7 +20,7 @@ function componentExistsReducer<T>(
     case CmsActions.LOAD_CMS_COMPONENT_SUCCESS:
       return true;
   }
-  return !!state;
+  return state;
 }
 
 export function reducer<T>(

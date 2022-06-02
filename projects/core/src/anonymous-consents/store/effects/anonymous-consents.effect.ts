@@ -213,7 +213,6 @@ export class AnonymousConsentsEffects {
             const actions: UserActions.GiveUserConsent[] = [];
             for (const template of templates) {
               if (
-                template.currentConsent &&
                 this.userConsentService.isConsentWithdrawn(
                   template.currentConsent
                 ) &&

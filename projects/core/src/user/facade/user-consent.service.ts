@@ -145,9 +145,9 @@ export class UserConsentService {
    *
    * @param consent to check
    */
-  isConsentWithdrawn(consent: Consent): boolean {
+  isConsentWithdrawn(consent: Consent | undefined): boolean {
     if (Boolean(consent)) {
-      return Boolean(consent.consentWithdrawnDate);
+      return Boolean(consent?.consentWithdrawnDate);
     }
     return true;
   }

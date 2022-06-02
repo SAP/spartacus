@@ -58,7 +58,7 @@ export class OccFieldsService {
         groupedByUrls[urlPart] = {};
       }
       model.fields = fields ? parseFields(fields) : {};
-      if (model.scopedData.scope) {
+      if (model.scopedData.scope !== undefined) {
         groupedByUrls[urlPart][model.scopedData.scope] = model;
       }
     }

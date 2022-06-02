@@ -17,15 +17,16 @@ export function entityReducer<T, V extends Action = Action>(
     state: EntityState<T> = initialEntityState,
     action: EntityAction
   ): EntityState<T> => {
-    let ids: string[];
+    let ids: string[] = [];
     let partitionPayload = false;
     if (
       action.meta &&
       action.meta.entityType === entityType &&
-      action.meta.entityId !== undefined &&
-      action.meta.entityId !== null
+      action.meta.entityId !== undefined
     ) {
-      ids = ([] as string[]).concat(action.meta.entityId);
+      if (action.meta.entityId !== null) {
+        ids = ([] as string[]).concat(action.meta.entityId);
+      }
 
       // remove selected entities
       if (action.meta.entityRemove) {
