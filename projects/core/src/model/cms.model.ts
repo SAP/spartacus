@@ -25,6 +25,10 @@ export interface CmsComponent {
   styleClasses?: string;
 }
 
+export interface CmsComponentWithChildren extends CmsComponent {
+  children?: string;
+}
+
 export enum PageType {
   CONTENT_PAGE = 'ContentPage',
   PRODUCT_PAGE = 'ProductPage',
