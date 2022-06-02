@@ -14,11 +14,11 @@ export const getProductReviewsState: MemoizedSelector<
 
 export const getSelectedProductReviewsFactory = (
   productCode: string
-): MemoizedSelector<StateWithProduct, Review[]> => {
+): MemoizedSelector<StateWithProduct, Review[] | undefined> => {
   return createSelector(getProductReviewsState, (reviewData) => {
     if (reviewData.productCode === productCode) {
       return reviewData.list;
     }
-    return [];
+    return undefined;
   });
 };
