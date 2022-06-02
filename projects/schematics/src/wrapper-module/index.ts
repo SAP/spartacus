@@ -20,7 +20,7 @@ import {
   findDynamicImport,
   getDynamicImportCallExpression,
   getDynamicImportPropertyAccess,
-  importExists,
+  staticImportExists,
 } from '../shared/utils/import-utils';
 import {
   createSpartacusFeatureFileName,
@@ -78,7 +78,11 @@ function checkWrapperModuleExists(options: SpartacusWrapperOptions): Rule {
       for (const sourceFile of appSourceFiles) {
         // check if the wrapper module already exists
         if (
-          importExists(sourceFile, moduleConfig.importPath, moduleConfig.name)
+          staticImportExists(
+            sourceFile,
+            moduleConfig.importPath,
+            moduleConfig.name
+          )
         ) {
           options.internal = {
             ...options.internal,
@@ -95,7 +99,7 @@ function checkWrapperModuleExists(options: SpartacusWrapperOptions): Rule {
               )
             );
           }
-          return;
+          return noop();
         }
       }
     }
@@ -196,72 +200,6 @@ function createWrapperModule(options: SpartacusWrapperOptions): Rule {
         formatFeatureComplete(
           feature,
           `wrapper module created for ${options.markerModuleName} in ${wrapperModulePath} .`
-        ),
-        options.debug
-      )
-    );
-    return chain(rules);
-  };
-}
-
-/**
- * Statically imports the given module.
- */
-function updateWrapperModule(
-  options: SpartacusWrapperOptions,
-  moduleName: string
-): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const basePath = process.cwd();
-    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
-
-    const feature = getKeyByMappingValueOrThrow(
-      featureFeatureModuleMapping,
-      moduleName
-    );
-    const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
-    const featureModuleConfig = getModuleConfig(moduleName, featureConfig);
-    if (!featureModuleConfig) {
-      return noop();
-    }
-
-    const wrapperModulePath = options.internal?.wrapperModulePath ?? '';
-    if (options.debug) {
-      context.logger.info(
-        formatFeatureStart(
-          feature,
-          `importing the '${moduleName}' to the wrapper module ${wrapperModulePath} ...`
-        )
-      );
-    }
-
-    const rules: Rule[] = [];
-    for (const tsconfigPath of buildPaths) {
-      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-
-      for (const wrapperModule of appSourceFiles) {
-        if (!wrapperModule.getFilePath().includes(wrapperModulePath)) {
-          continue;
-        }
-
-        addModuleImport(wrapperModule, {
-          import: {
-            moduleSpecifier: featureModuleConfig.importPath,
-            namedImports: [featureModuleConfig.name],
-          },
-          content: featureModuleConfig.name,
-        });
-
-        saveAndFormat(wrapperModule);
-        break;
-      }
-    }
-
-    rules.push(
-      debugLogRule(
-        formatFeatureComplete(
-          feature,
-          `imported the '${moduleName}' to the wrapper module ${options.internal?.wrapperModulePath} .`
         ),
         options.debug
       )
@@ -496,6 +434,72 @@ function updateDynamicImportModuleName(
   getDynamicImportPropertyAccess(dynamicImport)?.replaceWithText(
     `m.${wrapperModuleName}`
   );
+}
+
+/**
+ * Statically imports the given module.
+ */
+function updateWrapperModule(
+  options: SpartacusWrapperOptions,
+  moduleName: string
+): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const basePath = process.cwd();
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+
+    const feature = getKeyByMappingValueOrThrow(
+      featureFeatureModuleMapping,
+      moduleName
+    );
+    const featureConfig = getSchematicsConfigByFeatureOrThrow(feature);
+    const featureModuleConfig = getModuleConfig(moduleName, featureConfig);
+    if (!featureModuleConfig) {
+      return noop();
+    }
+
+    const wrapperModulePath = options.internal?.wrapperModulePath ?? '';
+    if (options.debug) {
+      context.logger.info(
+        formatFeatureStart(
+          feature,
+          `importing the '${moduleName}' to the wrapper module ${wrapperModulePath} ...`
+        )
+      );
+    }
+
+    const rules: Rule[] = [];
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const wrapperModule of appSourceFiles) {
+        if (!wrapperModule.getFilePath().includes(wrapperModulePath)) {
+          continue;
+        }
+
+        addModuleImport(wrapperModule, {
+          import: {
+            moduleSpecifier: featureModuleConfig.importPath,
+            namedImports: [featureModuleConfig.name],
+          },
+          content: featureModuleConfig.name,
+        });
+
+        saveAndFormat(wrapperModule);
+        break;
+      }
+    }
+
+    rules.push(
+      debugLogRule(
+        formatFeatureComplete(
+          feature,
+          `imported the '${moduleName}' to the wrapper module ${options.internal?.wrapperModulePath} .`
+        ),
+        options.debug
+      )
+    );
+    return chain(rules);
+  };
 }
 
 /**

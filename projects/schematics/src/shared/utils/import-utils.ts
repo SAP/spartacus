@@ -153,7 +153,7 @@ export function createImports(
  * Searches through the given module's imports
  * for the given import path and import name.
  */
-export function importExists(
+export function staticImportExists(
   sourceFile: SourceFile,
   importPathToFind: string,
   moduleNameToFind: string

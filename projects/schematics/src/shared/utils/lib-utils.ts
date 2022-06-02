@@ -166,7 +166,7 @@ export interface SchematicConfig {
    * The key is the feature module name for which to search for
    * in either the feature module or the wrapper module.
    *
-   * The values is the feature module name which should be added
+   * The value is the feature module name which should be added
    * to the wrapper module.
    */
   wrappers?: Record<string, string>;

@@ -26,10 +26,10 @@ import {
   getDynamicImportCallExpression,
   getDynamicImportImportPath,
   getDynamicImportPropertyAccess,
-  importExists,
   isImportedFromSpartacusCoreLib,
   isImportedFromSpartacusLibs,
   isRelative,
+  staticImportExists,
 } from './import-utils';
 import { LibraryOptions } from './lib-utils';
 import { createProgram } from './program';
@@ -217,7 +217,7 @@ describe('Import utils', () => {
         cartBaseFeatureModulePath
       );
 
-      const result = importExists(
+      const result = staticImportExists(
         cartFeatureModule,
         SPARTACUS_CORE,
         'I18nConfig'
