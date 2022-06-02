@@ -26,6 +26,26 @@ export class CheckoutCostCenterSetEvent extends CheckoutCostCenterEvent {
 export abstract class CheckoutPaymentTypeEvent extends CheckoutEvent {}
 
 /**
+ * Emit this event to force payment types reload
+ */
+export class CheckoutReloadPaymentTypesEvent extends CheckoutPaymentTypeEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutReloadPaymentTypesEvent';
+}
+
+/**
+ * Emit this event to force payment types reset
+ */
+export class CheckoutResetPaymentTypesEvent extends CheckoutPaymentTypeEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CheckoutResetPaymentTypesEvent';
+}
+
+/**
  * Fired when the payment type has been set
  */
 export class CheckoutPaymentTypeSetEvent extends CheckoutPaymentTypeEvent {

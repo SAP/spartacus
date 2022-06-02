@@ -4,17 +4,15 @@ import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
   CheckoutPaymentTypeSetEvent,
+  CheckoutReloadPaymentTypesEvent,
+  CheckoutResetPaymentTypesEvent,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
   Command,
   CommandService,
   CommandStrategy,
-  CurrencySetEvent,
   EventService,
-  LanguageSetEvent,
-  LoginEvent,
-  LogoutEvent,
   OCC_USER_ID_ANONYMOUS,
   Query,
   QueryNotifier,
@@ -29,10 +27,10 @@ import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-typ
 @Injectable()
 export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   protected getPaymentTypesQueryReloadEvents(): QueryNotifier[] {
-    return [LanguageSetEvent, CurrencySetEvent];
+    return [CheckoutReloadPaymentTypesEvent];
   }
   protected getPaymentTypesQueryResetEvents(): QueryNotifier[] {
-    return [LogoutEvent, LoginEvent];
+    return [CheckoutResetPaymentTypesEvent];
   }
 
   protected paymentTypesQuery: Query<PaymentType[]> = this.queryService.create(
