@@ -1,3 +1,5 @@
+import { CustomerListColumnActionType } from '@spartacus/asm/root';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { AsmConfig } from './asm-config';
 
 export const defaultAsmConfig: AsmConfig = {
@@ -7,6 +9,39 @@ export const defaultAsmConfig: AsmConfig = {
     },
     customerSearch: {
       maxResults: 20,
+    },
+    customerList: {
+      pageSize: 5,
+      showAvatar: true,
+      columns: [
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.customer',
+          renderer: (customer) => {
+            return customer.name ?? '';
+          },
+          actionType: CustomerListColumnActionType.START_SESSION,
+        },
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.email',
+          renderer: (customer) => {
+            return customer.uid ?? '';
+          },
+        },
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.phone',
+          renderer: (customer) => {
+            return customer?.defaultAddress?.phone ?? '';
+          },
+        },
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.order',
+          icon: {
+            symbol: ICON_TYPE.ORDER,
+            captionLocalizationKey: 'asm.customerList.tableHeader.order',
+          },
+          actionType: CustomerListColumnActionType.ORDER_HISTORY,
+        },
+      ],
     },
   },
 };

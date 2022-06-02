@@ -134,15 +134,16 @@ export function asmCustomerLists(): void {
   cy.get('cx-customer-list button.close').click();
   cy.get('cx-customer-list').should('not.exist');
 
+  cy.log('--> start emulation by click name');
   asm.asmOpenCustomerList();
 
-  cy.log('--> start emulation');
   cy.wait(customerSearchRequestAlias)
     .its('response.statusCode')
     .should('eq', 200);
 
   cy.get('cx-customer-list')
     .find('.btn-cell')
+    .not('[aria-label="Order"]')
     .then(($rows) => {
       expect($rows.length).to.eq(5);
       cy.wrap($rows[0]).click();
@@ -154,8 +155,17 @@ export function asmCustomerLists(): void {
     .should('not.be.empty');
   cy.get('cx-customer-emulation').should('exist');
 
-  cy.get('cx-customer-emulation button').click();
-  cy.get('cx-customer-selection').should('exist');
+  cy.log('--> start emulation by click order');
+  asm.asmOpenCustomerList();
+  cy.get('cx-customer-list')
+    .find('.btn-cell')
+    .filter('[aria-label="Order"]')
+    .then(($rows) => {
+      expect($rows.length).to.eq(5);
+      cy.wrap($rows[0]).click();
+      cy.get('cx-customer-list').should('not.exist');
+      cy.get('cx-order-history').should('exist');
+    });
 }
 
 export function startCustomerEmulation(customer): void {

@@ -7,8 +7,9 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmService } from '@spartacus/asm/core';
+import { AsmConfig, AsmService } from '@spartacus/asm/core';
 import {
+  CustomerListColumnActionType,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -23,6 +24,50 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CustomerListComponent } from './customer-list.component';
+
+const MockAsmConfig: AsmConfig = {
+  asm: {
+    agentSessionTimer: {
+      startingDelayInSeconds: 600,
+    },
+    customerSearch: {
+      maxResults: 20,
+    },
+    customerList: {
+      pageSize: 5,
+      showAvatar: true,
+      columns: [
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.customer',
+          renderer: (customer) => {
+            return customer.name ?? '';
+          },
+          actionType: CustomerListColumnActionType.START_SESSION,
+        },
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.email',
+          renderer: (customer) => {
+            return customer.uid ?? '';
+          },
+        },
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.phone',
+          renderer: (customer) => {
+            return customer?.defaultAddress?.phone ?? '';
+          },
+        },
+        {
+          headerLocalizationKey: 'asm.customerList.tableHeader.order',
+          icon: {
+            symbol: ICON_TYPE.ORDER,
+            captionLocalizationKey: 'asm.customerList.tableHeader.order',
+          },
+          actionType: CustomerListColumnActionType.ORDER_HISTORY,
+        },
+      ],
+    },
+  },
+};
 
 const mockCustomer: User = {
   displayUid: 'Display Uid',
@@ -147,6 +192,7 @@ describe('CustomerListComponent', () => {
   let mockModalService: MockModalService;
   let asmService: AsmService;
   let breakpointService: BreakpointService;
+  let config: AsmConfig;
 
   beforeEach(
     waitForAsync(() => {
@@ -167,11 +213,13 @@ describe('CustomerListComponent', () => {
             provide: BreakpointService,
             useClass: MockBreakpointService,
           },
+          { provide: AsmConfig, useValue: MockAsmConfig },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       }).compileComponents();
       asmService = TestBed.inject(AsmService);
       mockModalService = TestBed.inject(ModalService);
+      config = TestBed.inject(AsmConfig);
 
       spyOn(mockModalService, 'closeActiveModal').and.callThrough();
       spyOn(asmService, 'getCustomerSearchResultsLoading').and.returnValue(
@@ -203,12 +251,31 @@ describe('CustomerListComponent', () => {
 
   it('should sort customer list', () => {
     spyOn(asmService, 'searchCustomers').and.callThrough();
+
+    if (config.asm?.customerList?.pageSize) {
+      config.asm.customerList.pageSize = undefined;
+    }
+    component.sortCode = 'byNameAsc';
+
+    component.fetchCustomers();
+
+    fixture.detectChanges();
+    expect(asmService.searchCustomers).toHaveBeenCalledWith({
+      customerListId: mockCustomerListPage?.userGroups?.[0].uid,
+      pageSize: 5,
+      currentPage: 0,
+      sort: 'byNameAsc',
+    });
+
+    if (config.asm?.customerList) {
+      config.asm.customerList.pageSize = 7;
+    }
     component.sortCode = 'byNameDesc';
 
     component.fetchCustomers();
     const options: CustomerSearchOptions = {
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
-      pageSize: 5,
+      pageSize: 7,
       currentPage: 0,
       sort: 'byNameDesc',
     };
@@ -220,7 +287,7 @@ describe('CustomerListComponent', () => {
     component.fetchCustomers();
     const options2: CustomerSearchOptions = {
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
-      pageSize: 5,
+      pageSize: 7,
       currentPage: 0,
       sort: 'byNameAsc',
     };
@@ -231,7 +298,7 @@ describe('CustomerListComponent', () => {
     component.fetchCustomers();
     const options3: CustomerSearchOptions = {
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
-      pageSize: 5,
+      pageSize: 7,
       currentPage: 0,
     };
     fixture.detectChanges();
@@ -239,10 +306,14 @@ describe('CustomerListComponent', () => {
   });
 
   it('should close modal when select a customer', () => {
-    component.selectCustomer(mockCustomer);
-    expect(mockModalService.closeActiveModal).toHaveBeenCalledWith(
-      mockCustomer
+    component.startColumnAction(
+      mockCustomer,
+      CustomerListColumnActionType.START_SESSION
     );
+    expect(mockModalService.closeActiveModal).toHaveBeenCalledWith({
+      selectedUser: mockCustomer,
+      actionType: 'START_SESSION',
+    });
   });
 
   it('should go to next page', () => {
@@ -259,7 +330,7 @@ describe('CustomerListComponent', () => {
 
     const options: CustomerSearchOptions = {
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
-      pageSize: 5,
+      pageSize: config.asm?.customerList?.pageSize,
       currentPage: 3,
       sort: 'byNameAsc',
     };
@@ -279,7 +350,7 @@ describe('CustomerListComponent', () => {
 
     const options: CustomerSearchOptions = {
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
-      pageSize: 5,
+      pageSize: config.asm?.customerList?.pageSize,
       currentPage: 0,
       sort: 'byNameAsc',
     };

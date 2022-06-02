@@ -1,6 +1,9 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
-import { CsAgentAuthService } from '@spartacus/asm/root';
+import {
+  CsAgentAuthService,
+  CustomerListColumnActionType,
+} from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,
@@ -19,6 +22,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CustomerListComponent } from '../customer-list/customer-list.component';
+import { CustomerListActionEvent } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-asm-main-ui',
@@ -132,11 +136,14 @@ export class AsmMainUiComponent implements OnInit {
       windowClass: 'fiori-like',
     });
     this.modalRef.result
-      .then((selectedUser: User) => {
+      .then(({ selectedUser, actionType }: CustomerListActionEvent) => {
         if (selectedUser) {
           this.startCustomerEmulationSession(selectedUser);
-          this.modalRef = null;
+          if (actionType === CustomerListColumnActionType.ORDER_HISTORY) {
+            this.routingService.go({ cxRoute: 'orders' });
+          }
         }
+        this.modalRef = null;
       })
       .catch(() => {
         // this  callback is called when modal is closed with Esc key or clicking backdrop

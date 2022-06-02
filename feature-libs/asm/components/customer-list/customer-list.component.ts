@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AsmService } from '@spartacus/asm/core';
+import { AsmConfig, AsmService } from '@spartacus/asm/core';
 import {
+  CustomerListColumnActionType,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -15,6 +16,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { CustomerListActionEvent } from './customer-list.model';
 
 @Component({
   selector: 'cx-customer-list',
@@ -57,7 +59,8 @@ export class CustomerListComponent implements OnInit {
   constructor(
     protected modalService: ModalService,
     protected asmService: AsmService,
-    protected breakpointService: BreakpointService
+    protected breakpointService: BreakpointService,
+    protected asmConfig: AsmConfig
   ) {
     this.breakpoint$ = this.getBreakpoint();
   }
@@ -86,10 +89,12 @@ export class CustomerListComponent implements OnInit {
   }
 
   fetchCustomers(): void {
+    const pageSize =
+      this.asmConfig.asm?.customerList?.pageSize ?? this.PAGE_SIZE;
     if (this.selectedUserGroupId) {
       const options: CustomerSearchOptions = {
         customerListId: this.selectedUserGroupId,
-        pageSize: this.PAGE_SIZE,
+        pageSize: pageSize,
         currentPage: this.currentPage,
       };
       if (this.sortCode) {
@@ -109,7 +114,7 @@ export class CustomerListComponent implements OnInit {
                 (sort) => sort.selected
               )?.code;
             }
-            if (result.entries.length < this.PAGE_SIZE) {
+            if (result.entries.length < pageSize) {
               this.maxPage = result.pagination?.currentPage || 0;
             } else {
               this.maxPage = this.currentPage + 1;
@@ -142,11 +147,16 @@ export class CustomerListComponent implements OnInit {
     );
   }
 
-  selectCustomer(customerEntry: User): void {
-    if (customerEntry) {
-      this.selectedCustomer = customerEntry;
-    }
-    this.closeModal(customerEntry);
+  startColumnAction(
+    customerEntry: User,
+    action: CustomerListColumnActionType
+  ): void {
+    this.selectedCustomer = customerEntry;
+    let closeValue: CustomerListActionEvent = {
+      actionType: action,
+      selectedUser: customerEntry,
+    };
+    this.closeModal(closeValue);
   }
 
   goToNextPage(): void {

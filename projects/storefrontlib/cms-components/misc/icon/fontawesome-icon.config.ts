@@ -47,6 +47,7 @@ export const fontawesomeIconConfig: IconConfig = {
       PDF_FILE: 'fas fa-file-pdf',
       EYE: 'fas fa-eye',
       EYE_SLASH: 'fas fa-eye-slash',
+      ORDER: 'fas fa-clipboard-list',
     },
     resources: [
       {

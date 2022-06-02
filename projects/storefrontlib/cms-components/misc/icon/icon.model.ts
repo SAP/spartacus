@@ -46,6 +46,7 @@ export enum ICON_TYPE {
   SORT_AMOUNT_UP = 'SORT_AMOUNT_UP',
   EYE = 'EYE',
   EYE_SLASH = 'EYE_SLASH',
+  ORDER = 'ORDER',
 }
 
 @Injectable({

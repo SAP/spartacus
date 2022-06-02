@@ -56,6 +56,7 @@ $sapContent_LabelColor: #6a6d70;
         }
         button {
           text-decoration: none;
+          color: $sapLinkColor;
         }
         .btn-previous {
           span {
@@ -104,9 +105,6 @@ $sapContent_LabelColor: #6a6d70;
       tr {
         border-top: 1px solid var(--cx-color-light);
         height: 44px;
-        th:first-child {
-          width: 60px;
-        }
         th {
           color: $sapTextColor !important;
           text-transform: none !important;
@@ -122,45 +120,66 @@ $sapContent_LabelColor: #6a6d70;
           color: $sapContent_LabelColor;
           font-weight: 400;
         }
-        div {
-          display: flex;
-          flex-direction: column;
-          div {
-            padding: 5px 0 0 0;
-          }
-        }
-        .btn-cell {
-          text-decoration: none;
-          color: $sapLinkColor;
-          padding: 0;
-          border: 0;
-          height: 1.15rem;
-          width: fit-content;
-        }
-      }
-      td:nth-child(1) {
-        div {
-          width: 44px;
-          height: 44px;
-          line-height: 44px;
-          border-radius: 50%;
-          color: #fff;
-          text-align: center;
-          background: #9259cd;
-          text-transform: uppercase;
-        }
-      }
-      td:nth-child(2) {
-        a {
-          cursor: pointer;
-          color: $sapLinkColor !important;
-        }
       }
     }
     th.cell-text-center,
     td.cell-text-center {
       text-align: center;
     }
+  }
+
+  .btn-cell {
+    text-decoration: none;
+    color: $sapLinkColor;
+    padding: 0;
+    border: 0;
+    height: 1.15rem;
+    width: fit-content;
+  }
+  .avatar-cell {
+    width: 60px;
+    .avatar {
+      width: 44px;
+      height: 44px;
+      line-height: 44px;
+      border-radius: 50%;
+      color: #fff;
+      text-align: center;
+      background: #9259cd;
+      text-transform: uppercase;
+      margin: 0 10px 0 0;
+    }
+  }
+
+  .cell-container {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 5px 0;
+  }
+
+  .action-color {
+    color: $sapLinkColor;
+  }
+
+  .multi-cell {
+    vertical-align: top;
+    .cell-container {
+      flex-direction: column;
+      align-items: flex-start;
+      button {
+        min-width: 0;
+      }
+      cx-icon {
+        align-self: flex-start;
+      }
+    }
+  }
+
+  .empty-state {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0 0 0;
   }
   ng-select {
     .ng-select-container {

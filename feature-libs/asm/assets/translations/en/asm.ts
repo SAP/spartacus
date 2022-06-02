@@ -32,7 +32,7 @@ export const asm = {
       tableHeader: {
         customer: 'Customer',
         name: 'Name',
-        emailOrId: 'Email',
+        email: 'Email',
         phone: 'Phone',
         cart: 'Cart',
         order: 'Order',
@@ -52,7 +52,7 @@ export const asm = {
         next: 'Next',
       },
       noOfCustomers: '{{count}} Customers',
-      noCustomers: 'No customer found.',
+      noCustomers: 'There are currently no customers in this customer list.',
     },
 
     csagentTokenExpired: 'Your customer support agent session is expired.',
