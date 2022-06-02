@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import {
+  CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutDeliveryModesFacade,
@@ -127,7 +128,7 @@ export class CheckoutDeliveryModesService
                       cartId,
                       cartCode: cartId,
                     },
-                    CheckoutResetDeliveryModesEvent
+                    CheckoutDeliveryModeClearedErrorEvent
                   );
 
                   return throwError(error);

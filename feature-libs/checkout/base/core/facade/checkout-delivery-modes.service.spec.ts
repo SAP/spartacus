@@ -1,10 +1,10 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import {
+  CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutQueryFacade,
-  CheckoutResetDeliveryModesEvent,
   CheckoutState,
 } from '@spartacus/checkout/base/root';
 import {
@@ -232,7 +232,7 @@ describe(`CheckoutDeliveryModesService`, () => {
       );
     });
 
-    it(`should dispatch CheckoutResetDeliveryModesEvent event on error`, () => {
+    it(`should dispatch CheckoutDeliveryModeClearedErrorEvent event on error`, () => {
       connector.clearCheckoutDeliveryMode = createSpy().and.returnValue(
         throwError('err')
       );
@@ -241,7 +241,7 @@ describe(`CheckoutDeliveryModesService`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
-        CheckoutResetDeliveryModesEvent
+        CheckoutDeliveryModeClearedErrorEvent
       );
     });
   });

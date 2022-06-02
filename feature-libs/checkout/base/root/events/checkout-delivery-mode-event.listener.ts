@@ -3,6 +3,7 @@ import { LoadCartEvent } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import {
+  CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutResetDeliveryModesEvent,
@@ -21,6 +22,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
   constructor(protected eventService: EventService) {
     this.onDeliveryModeSet();
     this.onDeliveryModeCleared();
+    this.onDeliveryModeClearedError();
     this.onDeliveryModeReset();
   }
 
@@ -51,6 +53,29 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     this.subscriptions.add(
       this.eventService
         .get(CheckoutDeliveryModeClearedEvent)
+        .subscribe(({ userId, cartId, cartCode }) => {
+          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+
+          this.eventService.dispatch(
+            {
+              userId,
+              cartId,
+              /**
+               * As we know the cart is not anonymous (precondition checked),
+               * we can safely use the cartId, which is actually the cart.code.
+               */
+              cartCode,
+            },
+            LoadCartEvent
+          );
+        })
+    );
+  }
+
+  protected onDeliveryModeClearedError(): void {
+    this.subscriptions.add(
+      this.eventService
+        .get(CheckoutDeliveryModeClearedErrorEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
           this.eventService.dispatch({}, CheckoutResetQueryEvent);
 

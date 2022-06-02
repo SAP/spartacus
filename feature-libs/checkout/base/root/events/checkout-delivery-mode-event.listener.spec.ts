@@ -4,6 +4,7 @@ import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CheckoutDeliveryModeEventListener } from './checkout-delivery-mode-event.listener';
 import {
+  CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutResetDeliveryModesEvent,
@@ -87,6 +88,23 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
     });
 
     it(`CheckoutDeliveryModeClearedEvent should dispatch LoadCartEvent`, () => {
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        LoadCartEvent
+      );
+    });
+  });
+
+  describe(`onDeliveryModeClearedError`, () => {
+    it(`CheckoutDeliveryModeClearedErrorEvent should dispatch LoadCartEvent()`, () => {
+      mockEventStream$.next(
+        createFrom(CheckoutDeliveryModeClearedErrorEvent, {
+          userId: mockUserId,
+          cartId: mockCartId,
+          cartCode: mockCartId,
+        })
+      );
+
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
         LoadCartEvent
