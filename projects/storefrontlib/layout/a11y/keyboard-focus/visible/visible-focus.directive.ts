@@ -41,7 +41,7 @@ export class VisibleFocusDirective extends BaseFocusDirective {
   /**
    * Indicates whether the configurations setup to disable visual focus.
    */
-  protected get shouldFocusVisible(): boolean {
+  protected get shouldFocusVisible(): boolean | undefined {
     return this.config?.disableMouseFocus;
   }
 

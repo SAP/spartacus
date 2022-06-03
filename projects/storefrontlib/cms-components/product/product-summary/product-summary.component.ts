@@ -12,7 +12,7 @@ import { ProductDetailOutlets } from '../product-outlets.model';
 export class ProductSummaryComponent {
   outlets = ProductDetailOutlets;
 
-  product$: Observable<Product> = this.currentProductService.getProduct([
+  product$: Observable<Product | null> = this.currentProductService.getProduct([
     ProductScope.DETAILS,
     ProductScope.PRICE,
   ]);
