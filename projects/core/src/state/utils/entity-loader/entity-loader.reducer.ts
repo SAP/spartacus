@@ -10,7 +10,7 @@ import { EntityLoaderAction } from './entity-loader.action';
  */
 export function entityLoaderReducer<T, V extends LoaderAction = LoaderAction>(
   entityType: string,
-  reducer?: (state: T | undefined, action: V | LoaderAction) => T
+  reducer?: (state: T | undefined, action: V | LoaderAction) => T | undefined
 ): (
   state: EntityLoaderState<T> | undefined,
   action: EntityLoaderAction
