@@ -9,6 +9,7 @@ import {
   addPackageJsonDependenciesForLibrary,
   analyzeApplication,
   analyzeCrossFeatureDependencies,
+  finalizeInstallation,
   readPackageJson,
   SpartacusEpdVisualizationOptions,
   validateSpartacusInstallation,
@@ -28,8 +29,11 @@ export function addEpdVisualizationFeature(
 
     return chain([
       analyzeApplication(options, features),
+
       addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
+      finalizeInstallation(options, features),
     ]);
   };
 }

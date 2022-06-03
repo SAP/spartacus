@@ -142,13 +142,6 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
       }
     }
 
-    if (options.internal?.dirtyInstallation) {
-      let message = `⚠️ Detected Spartacus installation. Please make sure the following `;
-      message += `features are installed, configured and sorted in the correct order:\n`;
-      message += features.join(', ');
-      rules.push((_, context) => context.logger.info(message));
-    }
-
     return chain(rules);
   };
 }

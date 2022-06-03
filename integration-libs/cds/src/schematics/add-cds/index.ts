@@ -9,6 +9,7 @@ import {
   addPackageJsonDependenciesForLibrary,
   analyzeApplication,
   analyzeCrossFeatureDependencies,
+  finalizeInstallation,
   readPackageJson,
   SpartacusCdsOptions,
   validateSpartacusInstallation,
@@ -26,8 +27,11 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
 
     return chain([
       analyzeApplication(options, features),
+
       addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
+      finalizeInstallation(options, features),
     ]);
   };
 }

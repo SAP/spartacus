@@ -9,6 +9,7 @@ import {
   addPackageJsonDependenciesForLibrary,
   analyzeApplication,
   analyzeCrossFeatureDependencies,
+  finalizeInstallation,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
   validateSpartacusInstallation,
@@ -26,8 +27,11 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
 
     return chain([
       analyzeApplication(options, features),
+
       addFeatures(options, features),
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
+      finalizeInstallation(options, features),
     ]);
   };
 }

@@ -837,3 +837,21 @@ function calculateSortInternal(
    */
   return (indexA > -1 ? indexA : Infinity) - (indexB > -1 ? indexB : Infinity);
 }
+
+/**
+ * Performs the final steps of the installation,
+ * before Angular schematics mechanism takes over.
+ */
+export function finalizeInstallation<OPTIONS extends LibraryOptions>(
+  options: OPTIONS,
+  features: string[]
+): Rule {
+  return (_tree: Tree, context: SchematicContext) => {
+    if (options.internal?.dirtyInstallation) {
+      let message = `🚨 Detected Spartacus installation. Please make sure the following `;
+      message += `features are installed, configured and sorted in the correct order:\n`;
+      message += features.join(', ');
+      context.logger.warn(message);
+    }
+  };
+}

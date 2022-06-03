@@ -19,6 +19,7 @@ import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
+  finalizeInstallation,
   installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
 import { addModuleImport } from '../shared/utils/new-module-utils';
@@ -439,6 +440,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         updatePackageJsonDependencies(spartacusRxjsDependency, packageJsonFile),
         installPackageJsonDependencies(),
       ]),
+
+      finalizeInstallation(options, features),
     ])(tree, context);
   };
 }
