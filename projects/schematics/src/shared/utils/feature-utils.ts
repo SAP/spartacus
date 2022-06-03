@@ -7,7 +7,6 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import {
   ArrowFunction,
   CallExpression,
@@ -30,7 +29,6 @@ import {
   featureSchematicConfigMapping,
   getKeyByMappingValueOrThrow,
   getSchematicsConfigByFeatureOrThrow,
-  libraryFeatureMapping,
 } from '../schematics-config-mappings';
 import { crossFeatureInstallationOrder } from './graph-utils';
 import {
@@ -43,13 +41,11 @@ import {
 import {
   addLibraryFeature,
   checkAppStructure,
-  dependencyExists,
   LibraryOptions,
   Module,
   SchematicConfig,
 } from './lib-utils';
 import { getModulePropertyInitializer, Import } from './new-module-utils';
-import { readPackageJson } from './package-utils';
 import { createProgram } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 
@@ -309,7 +305,6 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
       context.logger.info(`⌛️ Analyzing application...`);
     }
 
-    const packageJson = readPackageJson(tree);
     for (const targetFeature of options.features ?? []) {
       const targetFeatureConfig =
         getSchematicsConfigByFeatureOrThrow(targetFeature);
@@ -323,16 +318,6 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
           featureFeatureModuleMapping,
           wrapperOptions.markerModuleName
         );
-
-        /**
-         * If the library is not installed, we can assume
-         * the feature is not installed. Therefore, we can
-         * skip the further analysis, as we will eventually
-         * be able to safely install the missing feature.
-         */
-        if (!isLibraryInstalled(markerFeature, packageJson)) {
-          continue;
-        }
 
         const markerFeatureConfig =
           getSchematicsConfigByFeatureOrThrow(markerFeature);
@@ -376,21 +361,6 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
       context.logger.info(`✅  Application analysis complete.`);
     }
   };
-}
-
-function isLibraryInstalled(targetFeature: string, packageJson: any): boolean {
-  const targetFeatureLibrary = getKeyByMappingValueOrThrow(
-    libraryFeatureMapping,
-    targetFeature
-  );
-  return dependencyExists(
-    {
-      name: targetFeatureLibrary,
-      type: NodeDependencyType.Default,
-      version: '*',
-    },
-    packageJson
-  );
 }
 
 function markerModuleExists<OPTIONS extends LibraryOptions>(
