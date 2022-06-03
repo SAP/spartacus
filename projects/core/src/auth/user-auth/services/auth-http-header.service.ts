@@ -187,7 +187,7 @@ export class AuthHttpHeaderService implements OnDestroy {
   public handleExpiredAccessToken(
     request: HttpRequest<any>,
     next: HttpHandler,
-    initialToken?: AuthToken
+    initialToken: AuthToken | undefined
   ): Observable<HttpEvent<AuthToken>> {
     return this.getValidToken(initialToken).pipe(
       switchMap((token) =>
@@ -250,7 +250,7 @@ export class AuthHttpHeaderService implements OnDestroy {
    * It will attempt to refresh it if the current one expired; emits after the new one is retrieved.
    */
   protected getValidToken(
-    requestToken?: AuthToken
+    requestToken: AuthToken | undefined
   ): Observable<AuthToken | undefined> {
     return defer(() => {
       // flag to only refresh token only on first emission

@@ -26,10 +26,9 @@ export class AuthGuard implements CanActivate {
       map((isLoggedIn) => {
         if (!isLoggedIn) {
           this.authRedirectService.saveCurrentNavigationUrl();
-          const path = this.semanticPathService.get('login');
-          if (path) {
-            return this.router.parseUrl(path);
-          }
+          return this.router.parseUrl(
+            this.semanticPathService.get('login') ?? ''
+          );
         }
         return isLoggedIn;
       })

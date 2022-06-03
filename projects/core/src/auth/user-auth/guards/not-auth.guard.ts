@@ -28,10 +28,9 @@ export class NotAuthGuard implements CanActivate {
     return this.authService.isUserLoggedIn().pipe(
       map((isLoggedIn) => {
         if (isLoggedIn) {
-          const path = this.semanticPathService.get('home');
-          if (path) {
-            return this.router.parseUrl(path);
-          }
+          return this.router.parseUrl(
+            this.semanticPathService.get('home') ?? ''
+          );
         }
         return !isLoggedIn;
       })

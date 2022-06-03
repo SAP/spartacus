@@ -17,7 +17,7 @@ import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { Category, Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
-import { isNotUndefined } from '../../util';
+import { isNotUndefined } from '../../util/type-guards';
 import { ProductService } from '../facade/product.service';
 import { ProductScope } from '../model/product-scope';
 

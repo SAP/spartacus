@@ -176,7 +176,7 @@ export class AnonymousConsentsService {
    * Returns `true` if the provided `consent` is given.
    * @param consent a consent to test
    */
-  isConsentGiven(consent?: AnonymousConsent): boolean {
+  isConsentGiven(consent: AnonymousConsent | undefined): boolean {
     return (
       (consent && consent.consentState === ANONYMOUS_CONSENT_STATUS.GIVEN) ??
       false
