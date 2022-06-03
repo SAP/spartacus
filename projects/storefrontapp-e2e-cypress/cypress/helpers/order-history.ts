@@ -10,7 +10,7 @@ import { switchLanguage } from './language';
 
 const orderHistoryLink = '/my-account/orders';
 export const CART_PAGE_ALIAS = 'cartPage';
-export const ADD_TO_CART_ENDPOINT_ALIAS = 'addEntry';
+export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 
 export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
@@ -52,6 +52,17 @@ export function clickOnActionLink() {
 
 export function waitForResponse(alias: string) {
   cy.wait(`@${alias}`);
+}
+
+export function interceptAddToCartEndpoint() {
+  cy.intercept(
+    'POST',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+      'OCC_PREFIX_USER_ENDPOINT'
+    )}/*/carts/*/entries*`
+  ).as(ADD_TO_CART_ENDPOINT_ALIAS);
+
+  return ADD_TO_CART_ENDPOINT_ALIAS;
 }
 
 export const orderHistoryTest = {

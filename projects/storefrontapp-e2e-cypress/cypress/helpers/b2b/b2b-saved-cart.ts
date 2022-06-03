@@ -5,9 +5,12 @@ import { SampleProduct } from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { addProductToCart as addToCart } from '../applied-promotions';
 import { waitForPage, waitForProductPage } from '../checkout-flow';
-import { interceptCartPageEndpoint, waitForResponse } from '../order-history';
+import {
+  interceptAddToCartEndpoint,
+  interceptCartPageEndpoint,
+  waitForResponse,
+} from '../order-history';
 import { loginB2bUser as login } from './b2b-checkout';
-import { interceptAddToCartEndpoint } from './b2b-quick-order';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -323,7 +326,7 @@ export function clickOnRestoreButton() {
 }
 
 export function waitForSuccessfulServerResponse(alias: string) {
-  cy.wait(alias).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 function verifySuccessfullAlertMessage(message: string) {

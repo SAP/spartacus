@@ -1,4 +1,3 @@
-import { interceptAddToCartEndpoint } from '../../../helpers/b2b/b2b-quick-order';
 import {
   clickOnPrimaryDialogButton,
   verifyProductIsDisplayed,
@@ -10,6 +9,7 @@ import {
   verifyActionLinkHasText,
   clickOnActionLink,
   waitForResponse,
+  interceptAddToCartEndpoint,
 } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { product } from '../../../sample-data/checkout-flow';
@@ -87,7 +87,7 @@ describe('Order details page', () => {
 
       waitForResponse(cartPageAlias);
 
-      verifyProductIsDisplayed(name, product.code);
+      verifyProductIsDisplayed(product.name, product.code);
     });
   });
 });
