@@ -14,6 +14,19 @@ import { Injectable } from '@angular/core';
     }),
 })
 export abstract class CommerceQuotesFacade {
+
+  /**
+   * Set Qoery List current page
+   * @param page number
+   */
+  abstract setCurrentPage(page: number): void;
+
+  /**
+   * Set Query List orting key
+   * @param sort string
+   */
+  abstract setSort(sort: string): void;
+
   /**
    * Returns the query list state.
    */

@@ -1,0 +1,23 @@
+@import './commerce-quotes-list';
+
+$commerce-quotes-components-allowlist: cx-commerce-quotes-list !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $commerce-quotes-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $commerce-quotes-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}

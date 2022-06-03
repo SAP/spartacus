@@ -35,6 +35,11 @@ const pagination = {
   pageSize: 20,
   sort: 'byName',
 };
+const mockQuoteList: QuoteList = {
+  pagination,
+  sorts: [{ code: 'byDate' }],
+  quotes: [mockQuote],
+};
 const mockQuoteStarter: QuoteStarter = {
   cartId,
 };
@@ -77,7 +82,7 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe(`OccCheckoutDeliveryModesAdapter`, () => {
+describe(`OccCommerceQuotesAdapter`, () => {
   let service: OccCommerceQuotesAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
@@ -104,14 +109,6 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
   });
 
   it('getQuotes should return users quotes list', (done) => {
-    const mockQuoteList: QuoteList = {
-      pagination: {
-        currentPage: 1,
-        pageSize: 20,
-      },
-      quotes: [mockQuote],
-    };
-
     service
       .getQuotes(userId, pagination)
       .pipe(take(1))
@@ -121,7 +118,11 @@ describe(`OccCheckoutDeliveryModesAdapter`, () => {
       });
 
     const mockReq = httpMock.expectOne((req) => {
-      return req.method === 'GET' && req.url === `/users/${userId}/quotes`;
+      return (
+        req.method === 'GET' &&
+        req.url ===
+          `/users/${userId}/quotes?pageSize=${pagination.pageSize}&currentPage=${pagination.currentPage}&sort=${pagination.sort}`
+      );
     });
 
     expect(mockReq.cancelled).toBeFalsy();

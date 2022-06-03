@@ -50,7 +50,7 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
     }
 
     return this.http
-      .get<QuoteList>(this.getQuotesEndpoint(userId), params)
+      .get<QuoteList>(this.getQuotesEndpoint(userId, params))
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
         this.converter.pipeable(QUOTE_LIST_NORMALIZER)

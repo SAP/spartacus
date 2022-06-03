@@ -1,0 +1,128 @@
+<ng-container *ngIf="quotesState$ | async as quotesState">
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <div>
+    <h3 id="header">{{ 'commerceQuotesList.header' | cxTranslate }}</h3>
+  </div>
+  <ng-container *ngIf="quotesState.data">
+    <ng-container
+      *ngIf="quotesState.data.quotes.length > 0; else emptyQuoteList"
+    >
+      <div class="cx-commerce-quotes-list-sort top">
+        <label class="cx-commerce-quotes-list-form-group form-group"
+          ><span>
+            {{ 'commerceQuotesList.sortBy' | cxTranslate }}
+          </span>
+          <cx-sorting
+            [sortOptions]="sorts"
+            [sortLabels]="getSortLabels() | async"
+            (sortListEvent)="changeSortCode($event)"
+            [selectedOption]="quotesState.data.pagination.sort"
+            placeholder="{{ 'commerceQuotesList.sortBy' | cxTranslate }}"
+            [ariaLabel]="'commerceQuotesList.sortOrders' | cxTranslate"
+            ariaControls="commerce-quotes-list"
+          ></cx-sorting>
+        </label>
+        <div *ngIf="quotesState.data?.pagination.totalPages > 1">
+          <cx-pagination
+            [pagination]="quotesState.data.pagination"
+            (viewPageEvent)="changePage($event)"
+          ></cx-pagination>
+        </div>
+      </div>
+      <table id="commerce-quotes-list" role="table">
+        <thead>
+          <tr role="row">
+            <th scope="col">
+              {{ 'commerceQuotesList.quoteName' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'commerceQuotesList.quoteId' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'commerceQuotesList.quoteStatus' | cxTranslate }}
+            </th>
+            <th scope="col">
+              {{ 'commerceQuotesList.quoteUpdated' | cxTranslate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let quote of quotesState.data.quotes">
+            <td class="cx-commerce-quotes-list-quote-name">
+              <div class="cx-mobile-header">
+                {{ 'commerceQuotesList.quoteName' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'quoteDetails',
+                    params: { quoteId: quote?.code }
+                  } | cxUrl
+                "
+              >
+                {{ quote?.name }}</a
+              >
+            </td>
+            <td>
+              <div class="cx-mobile-header">
+                {{ 'commerceQuotesList.quoteId' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'quoteDetails',
+                    params: { quoteId: quote?.code }
+                  } | cxUrl
+                "
+                >{{ quote?.code }}</a
+              >
+            </td>
+            <td>
+              <div class="cx-mobile-header">
+                {{ 'commerceQuotesList.quoteStatus' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'quoteDetails',
+                    params: { quoteId: quote?.code }
+                  } | cxUrl
+                "
+                >{{ 'commerceQuotesStates.' + quote?.state | cxTranslate }}
+              </a>
+            </td>
+            <td>
+              <div class="cx-mobile-header">
+                {{ 'commerceQuotesList.quoteUpdated' | cxTranslate }}
+              </div>
+              <a
+                [routerLink]="
+                  {
+                    cxRoute: 'quoteDetails',
+                    params: { quoteId: quote?.code }
+                  } | cxUrl
+                "
+              >
+                {{ quote?.updatedTime | cxDate }}</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="cx-commerce-quotes-list-sort bottom">
+        <div *ngIf="quotesState.data?.pagination.totalPages > 1">
+          <cx-pagination
+            [pagination]="quotesState.data.pagination"
+            (viewPageEvent)="changePage($event)"
+          ></cx-pagination>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #emptyQuoteList>
+  <div class="cx-commerce-quotes-list-empty">
+    {{ 'commerceQuotesList.empty' | cxTranslate }}
+  </div>
+</ng-template>

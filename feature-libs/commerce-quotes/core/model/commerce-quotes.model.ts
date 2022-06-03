@@ -1,5 +1,5 @@
 import { OrderEntry } from '@spartacus/cart/base/root';
-import { Price, PaginationModel, Principal } from '@spartacus/core';
+import { PaginationModel, Price, Principal, SortModel } from '@spartacus/core';
 
 export interface Quote {
   allowedActions?: string[];
@@ -43,6 +43,7 @@ export interface QuoteDiscount {
 
 export interface QuoteList {
   pagination: PaginationModel;
+  sorts?: SortModel[];
   quotes: Quote[];
 }
 
