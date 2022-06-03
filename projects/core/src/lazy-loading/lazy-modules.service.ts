@@ -20,7 +20,6 @@ import {
 import {
   catchError,
   concatMap,
-  filter,
   map,
   observeOn,
   publishReplay,
@@ -31,7 +30,6 @@ import {
 import { EventService } from '../event/event.service';
 import { CombinedInjector } from '../util/combined-injector';
 import { createFrom } from '../util/create-from';
-import { isNotUndefined } from '../util/type-guards';
 import { ModuleInitializedEvent } from './events/module-initialized-event';
 import { MODULE_INITIALIZER } from './tokens';
 
@@ -123,9 +121,8 @@ export class LazyModulesService implements OnDestroy {
           this.dependencyModules.set(module, moduleRef);
         }
 
-        return this.dependencyModules.get(module);
+        return this.dependencyModules.get(module) as NgModuleRef<any>;
       }),
-      filter(isNotUndefined),
       concatMap((moduleRef) => this.runModuleInitializersForModule(moduleRef)),
       tap((moduleRef) =>
         this.events.dispatch(
