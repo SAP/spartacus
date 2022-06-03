@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
+  CommerceQuotesFacade,
+  CommerceQuotesListReloadQueryEvent,
+  QuoteList,
+} from '@spartacus/commerce-quotes/root';
+import {
   EventService,
   Query,
   QueryService,
@@ -7,12 +12,9 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
-import { CommerceQuotesFacade } from 'feature-libs/commerce-quotes/root/facade/commerce-quotes.facade';
-import { QuoteList } from 'feature-libs/commerce-quotes/root/model/commerce-quotes.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
 import { CommerceQuotesConnector } from '../connectors';
-import { CommerceQuotesListReloadQueryEvent } from '../events/commerce-quotes-list.events';
 
 @Injectable()
 export class CommerceQuotesService implements CommerceQuotesFacade {

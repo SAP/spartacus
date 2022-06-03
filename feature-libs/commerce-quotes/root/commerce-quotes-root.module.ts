@@ -6,7 +6,7 @@ import {
   RoutingConfig,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { CommerceQuotesEventModule } from '../core/events/commerce-quotes-event.module';
+import { CommerceQuotesEventModule } from './events/commerce-quotes-event.module';
 import { COMMERCE_QUOTES_FEATURE } from './feature-name';
 
 export function defaultCommerceQuotesComponentsConfig() {

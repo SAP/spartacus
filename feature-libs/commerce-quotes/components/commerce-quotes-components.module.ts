@@ -22,8 +22,8 @@ import { CommerceQuotesListComponent } from './commerce-quotes-list/commerce-quo
   providers: [
     provideDefaultConfig(<ViewConfig>{
       view: {
-        defaultPageSize: 5
-      }
+        defaultPageSize: 5,
+      },
     }),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

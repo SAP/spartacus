@@ -14,7 +14,6 @@ import { QuoteList } from '../model/commerce-quotes.model';
     }),
 })
 export abstract class CommerceQuotesFacade {
-
   /**
    * Set Qoery List current page
    * @param page number
