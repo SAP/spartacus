@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
-import { tap } from 'rxjs/operators';
+import { delay, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { provideDefaultConfig } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
@@ -24,10 +24,13 @@ export function checkOAuthParamsInUrl(
     configInit
       .getStable()
       .pipe(
+        delay(5000), // SPIKE TODO REMOVE - simulate slow auth checking
         tap(() => {
+          // <--- TODO: to fix the bug, replace `tap` with `switchMap` here
           // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
           authService.checkOAuthParamsInUrl();
-        })
+        }),
+        tap(() => console.log('resolved checkOAuthParamsInUrl()')) // TODO SAVE
       )
       .toPromise();
 

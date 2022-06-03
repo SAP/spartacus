@@ -10,6 +10,7 @@ import { OnNavigateService } from './on-navigate.service';
       anchorScrolling: 'enabled',
       relativeLinkResolution: 'corrected',
       initialNavigation: 'enabled',
+      enableTracing: true,
     }),
   ],
   providers: [

@@ -2,7 +2,7 @@ import { AuthConfig } from './auth-config';
 
 export const defaultAuthConfig: AuthConfig = {
   authentication: {
-    client_id: 'mobile_android',
+    client_id: 'client4kyma',
     client_secret: 'secret',
     tokenEndpoint: '/oauth/token',
     revokeEndpoint: '/oauth/revoke',
@@ -15,6 +15,7 @@ export const defaultAuthConfig: AuthConfig = {
       disablePKCE: true,
       oidc: false,
       clearHashAfterLogin: false,
+      responseType: 'code', //'token', // 'code`
     },
   },
 };

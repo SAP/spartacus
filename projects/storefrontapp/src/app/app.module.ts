@@ -60,7 +60,11 @@ if (!environment.production) {
     provideConfig(<RoutingConfig>{
       // custom routing configuration for e2e testing
       routing: {
+        protected: true,
         routes: {
+          home: {
+            protected: false,
+          },
           product: {
             paths: ['product/:productCode/:name', 'product/:productCode'],
             paramsMapping: { name: 'slug' },
