@@ -5,7 +5,9 @@ import { SampleProduct } from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { addProductToCart as addToCart } from '../applied-promotions';
 import { waitForPage, waitForProductPage } from '../checkout-flow';
+import { interceptCartPageEndpoint, waitForResponse } from '../order-history';
 import { loginB2bUser as login } from './b2b-checkout';
+import { interceptAddToCartEndpoint } from './b2b-quick-order';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -13,6 +15,7 @@ export const RESTORE_SAVED_CART_ENDPOINT_ALIAS = 'restoreCart';
 export const GET_SAVED_CART_ENDPOINT_ALIAS = 'getSavedCart';
 export const CLONE_SAVED_CART_ENDPOINT_ALIAS = 'cloneSavedCart';
 export const DELETE_CART_ENDPOINT_ALIAS = 'deleteCart';
+export const CART_PAGE_ALIAS = 'cartPage';
 
 export function verifyCartPageTabbingOrder() {
   addProductToCart(sampleData.products[0], 1);
@@ -119,6 +122,10 @@ export function interceptCloneSavedCartEndpoint(cartCode: string) {
   ).as(CLONE_SAVED_CART_ENDPOINT_ALIAS);
 
   return CLONE_SAVED_CART_ENDPOINT_ALIAS;
+}
+
+export function clickOn(position: any): void {
+  cy.get(position).click();
 }
 
 export function visitCartPage() {
@@ -305,35 +312,54 @@ export function getCartItem(name: string) {
   return cy.get('cx-cart-item-list').contains('.cx-item-list-row', name);
 }
 
+export function clickOnSubmitButton() {
+  cy.get('cx-saved-cart-details-action .btn-primary').click();
+}
+
+export function clickOnRestoreButton() {
+  cy.get('cx-saved-cart-form-dialog').within(() => {
+    cy.get('button[aria-label="Restore"]').click();
+  });
+}
+
+export function waitForSuccessfulServerResponse(alias: string) {
+  cy.wait(alias).its('response.statusCode').should('eq', 200);
+}
+
+function verifySuccessfullAlertMessage(message: string) {
+  alerts.getSuccessAlert().should('contain', message);
+}
+
+export function verifyNotSavedCartListMessage() {
+  cy.get('cx-saved-cart-list .cx-saved-cart-list-no-saved-carts').should(
+    'contain',
+    'No Saved Carts Found'
+  );
+}
+
+export function verifySavedCartCodeIsDisplayed(code) {
+  cy.get('.cart-details-wrapper .cx-total').should('contain', `Cart #${code}`);
+}
+
 export function restoreSavedCart(cart: any) {
   const restoreSavedCartAlias = interceptRestoreSavedCartEndpoint(cart.code);
   const getAllSavedCartAlias = interceptGetAllSavedCartEndpoint();
 
-  cy.get('cx-saved-cart-details-action .btn-primary').click();
+  clickOnSubmitButton();
 
-  cy.get('cx-saved-cart-form-dialog').within(() => {
-    cy.get('button[aria-label="Restore"]').click();
-  });
+  clickOnRestoreButton();
 
-  cy.wait(`@${restoreSavedCartAlias}`)
-    .its('response.statusCode')
-    .should('eq', 200);
+  waitForSuccessfulServerResponse(restoreSavedCartAlias);
 
-  alerts
-    .getSuccessAlert()
-    .should(
-      'contain',
-      `Existing cart is activated by ${cart.code} successfully`
-    );
+  verifySuccessfullAlertMessage(
+    `Existing cart is activated by ${cart.code} successfully`
+  );
 
   cy.wait(`@${getAllSavedCartAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
 
-  cy.get('cx-saved-cart-list .cx-saved-cart-list-no-saved-carts').should(
-    'contain',
-    'No Saved Carts Found'
-  );
+  verifyNotSavedCartListMessage();
 
   // assert that restored cart became active cart
   verifyMiniCartQuantity(1);
@@ -341,43 +367,46 @@ export function restoreSavedCart(cart: any) {
   // assert that it is now in the cart page
   visitCartPage();
 
-  cy.get('.cart-details-wrapper .cx-total').should(
-    'contain',
-    `Cart #${cart.code}`
-  );
+  verifySavedCartCodeIsDisplayed(cart.code);
 
   verifyCartDetails(cart);
 }
 
-export function AddToActiveCart(cart: any, product: SampleProduct) {
-  cy.intercept(
-    'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/${Cypress.env(
-      'OCC_PREFIX_USER_ENDPOINT'
-    )}/*/carts/*/entries?*lang=en&curr=USD`
-  ).as('add_to_cart');
+export function clickOnFirstLinkInCart() {
+  cy.get(
+    'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-action-link'
+  )
+    .first()
+    .click();
+}
 
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
-  ).as('cart_page');
-
-  // const cartPageHandler = navigateToCartPage()
-  // selectFirstItemInTheCart()
-  cy.wait('@add_to_cart');
-
+export function clickOnPrimaryDialogButton() {
   cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.get('.cx-dialog-buttons>.btn-primary').click();
+    clickOn('.cx-dialog-buttons>.btn-primary');
   });
+}
 
-  cy.wait('@cart_page');
-
-  getCartItem(product.name).within(() => {
-    cy.get('.cx-code').should('contain', product.code);
+export function verifyProductIsDisplayed(name: string, code: string) {
+  getCartItem(name).within(() => {
+    cy.get('.cx-code').should('contain', code);
     cy.get('cx-item-counter input').should('have.value', '1');
   });
+}
+
+export function verifyAddToCart(cart: any, product: SampleProduct) {
+  const addToCartAlias = interceptAddToCartEndpoint();
+
+  const cartPageAlias = interceptCartPageEndpoint();
+
+  clickOnFirstLinkInCart();
+
+  waitForResponse(addToCartAlias);
+
+  clickOnPrimaryDialogButton();
+
+  waitForResponse(cartPageAlias);
+
+  verifyProductIsDisplayed(product.name, product.code);
 
   verifyCartDetails(cart);
 }
@@ -575,7 +604,7 @@ export function updateSavedCartAndDelete(
           cy.get(
             'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-action-link'
           )
-            .first()
+            .then((element) => element.get(1))
             .click();
         } else {
           cy.get('cx-saved-cart-details-action .btn-action').click();
@@ -675,7 +704,7 @@ export function updateSavedCartAndRestore(
         alerts.getSuccessAlert().should('contain', `Cart Edited Successfully`);
 
         if (addToActiveCart) {
-          AddToActiveCart(cart, product);
+          verifyAddToCart(cart, product);
         } else {
           // restore saved cart
           restoreSavedCart(cart);
