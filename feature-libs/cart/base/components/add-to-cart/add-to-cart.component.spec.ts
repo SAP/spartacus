@@ -332,27 +332,28 @@ describe('AddToCartComponent', () => {
         expect(getTextFromButton()).toEqual('addToCart.addToCart');
       });
 
-      it('should show addToActiveCart button if isAddToActiveCart is true', () => {
+      it('should use the provided string for add to cart button', () => {
+        const addToCartString$: Observable<string> = of('add to active cart');
+
         addToCartComponent.productCode = productCode;
-        addToCartComponent.options = { isAddToActiveCart: true };
+        addToCartComponent.options = { addToCartString: addToCartString$ };
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
 
-        expect(getTextFromButton()).toEqual('addToCart.addToActiveCart');
+        expect(getTextFromButton()).toEqual('add to active cart');
       });
 
-      it('should show buyItAgain button if isBuyItAgain is true', () => {
+      it('should display add to cart if the string is not provided', () => {
         addToCartComponent.productCode = productCode;
-        addToCartComponent.options = { isBuyItAgain: true };
+        addToCartComponent.options = { addToCartString: undefined };
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
 
-        expect(getTextFromButton()).toEqual('addToCart.buyItAgain');
+        expect(getTextFromButton()).toEqual('addToCart.addToCart');
       });
 
       it('should not show any button if the product is not in stock', () => {
         addToCartComponent.productCode = productCode;
-        addToCartComponent.options = { isAddToActiveCart: true };
         addToCartComponent.ngOnInit();
         addToCartComponent.hasStock = false;
         fixture.detectChanges();
