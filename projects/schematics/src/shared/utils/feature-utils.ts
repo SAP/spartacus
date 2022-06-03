@@ -350,8 +350,8 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
         message += `'${wrapperOptions.markerModuleName}' from '${markerModuleConfig.importPath}', `;
         message += `but could not find '${wrapperOptions.markerModuleName}'.`;
         message += `\n`;
-        message += `Please make sure the '${targetFeature}' is installed by running:\n`;
-        message += `> ng add @spartacus/schematics --features=${targetFeature}`;
+        message += `Please make sure the '${markerFeature}' is installed by running:\n`;
+        message += `> ng add @spartacus/schematics --features=${markerFeature}`;
 
         throw new SchematicsException(message);
       }
