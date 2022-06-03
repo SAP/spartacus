@@ -26,6 +26,7 @@ import {
   SPARTACUS_SCHEMATICS,
 } from '../libs-constants';
 import {
+  featureFeatureModuleMapping,
   featureSchematicConfigMapping,
   getKeyByMappingValueOrThrow,
   getSchematicsConfigByFeatureOrThrow,
@@ -35,9 +36,9 @@ import { crossFeatureInstallationOrder } from './graph-utils';
 import {
   findDynamicImport,
   getDynamicImportImportPath,
-  importExists,
   isImportedFrom,
   isRelative,
+  staticImportExists,
 } from './import-utils';
 import {
   addLibraryFeature,
@@ -106,7 +107,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
   return (_tree: Tree, context: SchematicContext): Rule => {
     if (options.debug) {
       let message = `\n******************************\n`;
-      message += `Cross feature sorting order:\n`;
+      message += `Cross feature graph:\n`;
       message += crossFeatureInstallationOrder.join(', ');
       message += `\n******************************\n`;
       context.logger.info(message);
@@ -118,7 +119,7 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
         featureSchematicConfigMapping.get(feature);
       if (!schematicsConfiguration) {
         throw new SchematicsException(
-          `[internal] No feature config found for ${feature}. ` +
+          `[Internal] No feature config found for ${feature}. ` +
             `Please check if  the schematics config is added to projects/schematics/src/shared/schematics-config-mappings.ts`
         );
       }
@@ -139,6 +140,13 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
           )
         );
       }
+    }
+
+    if (options.internal?.dirtyInstallation) {
+      let message = `⚠️ Detected Spartacus installation. Please make sure the following `;
+      message += `features are installed, configured and sorted in the correct order:\n`;
+      message += features.join(', ');
+      rules.push((_, context) => context.logger.info(message));
     }
 
     return chain(rules);
@@ -271,11 +279,8 @@ export function getModuleConfig(
 
 /**
  * Analyzes the customers' application.
- * It check for presence of Spartacus features,
- * if they're configured or present in package.json.
- *
- * It also checks if imports could be ordered in
- * spartacus-features.module and wrapper modules.
+ * It checks for presence of Spartacus features and
+ * whether they're configured or present in package.json.
  */
 export function analyzeApplication<OPTIONS extends LibraryOptions>(
   options: OPTIONS,
@@ -295,158 +300,121 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
       dirtyInstallation: spartacusFeatureModuleExists,
     };
 
-    const dependentFeaturesMessage = createDependentFeaturesLog(
-      options,
-      allFeatures
-    );
-    if (dependentFeaturesMessage) {
-      context.logger.info(dependentFeaturesMessage);
-    }
+    if (!options.internal.dirtyInstallation) {
+      const dependentFeaturesMessage = createDependentFeaturesLog(
+        options,
+        allFeatures
+      );
+      if (dependentFeaturesMessage) {
+        context.logger.info(dependentFeaturesMessage);
+      }
 
-    // fresh installation
-    if (!options.internal?.dirtyInstallation) {
       return noop();
     }
 
     if (options.debug) {
-      context.logger.info(`⌛️ Analyzing installed features...`);
+      context.logger.info(`⌛️ Analyzing application...`);
     }
 
-    const basePath = process.cwd();
-    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
-
     const packageJson = readPackageJson(tree);
-    for (const tsconfigPath of buildPaths) {
-      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+    for (const targetFeature of options.features ?? []) {
+      const targetFeatureConfig =
+        getSchematicsConfigByFeatureOrThrow(targetFeature);
+      if (!targetFeatureConfig.wrappers) {
+        continue;
+      }
 
-      const dependentFeaturesMessage = checkDependentFeatures(
-        options,
-        allFeatures,
-        appSourceFiles,
-        packageJson
-      );
-      if (dependentFeaturesMessage) {
-        context.logger.warn(dependentFeaturesMessage);
-        throw new SchematicsException();
+      const wrappers = analyzeWrappers(targetFeatureConfig, options);
+      for (const { wrapperOptions } of wrappers) {
+        const markerFeature = getKeyByMappingValueOrThrow(
+          featureFeatureModuleMapping,
+          wrapperOptions.markerModuleName
+        );
+
+        /**
+         * If the library is not installed, we can assume
+         * the feature is not installed. Therefore, we can
+         * skip the further analysis, as we will eventually
+         * be able to safely install the missing feature.
+         */
+        if (!isLibraryInstalled(markerFeature, packageJson)) {
+          continue;
+        }
+
+        const markerFeatureConfig =
+          getSchematicsConfigByFeatureOrThrow(markerFeature);
+        const markerModuleConfig = getModuleConfig(
+          wrapperOptions.markerModuleName,
+          markerFeatureConfig
+        );
+        if (!markerModuleConfig) {
+          continue;
+        }
+
+        if (markerModuleExists(options, tree, markerModuleConfig)) {
+          continue;
+        }
+
+        const targetModuleName = wrapperOptions.featureModuleName;
+        const targetFeature = getKeyByMappingValueOrThrow(
+          featureFeatureModuleMapping,
+          targetModuleName
+        );
+        const targetFeatureConfig =
+          getSchematicsConfigByFeatureOrThrow(targetFeature);
+        const targetModuleConfig = getModuleConfig(
+          targetModuleName,
+          targetFeatureConfig
+        );
+
+        let message = `Attempted to append '${targetModuleName}' module `;
+        message += `from '${targetModuleConfig?.importPath}' after the `;
+        message += `'${wrapperOptions.markerModuleName}' from '${markerModuleConfig.importPath}', `;
+        message += `but could not find '${wrapperOptions.markerModuleName}'.`;
+        message += `\n`;
+        message += `Please make sure the '${targetFeature}' is installed by running:\n`;
+        message += `> ng add @spartacus/schematics --features=${targetFeature}`;
+
+        throw new SchematicsException(message);
       }
     }
 
     if (options.debug) {
-      context.logger.info(`✅ Analysis of installed features complete.`);
+      context.logger.info(`✅  Application analysis complete.`);
     }
   };
 }
 
-/**
- * Checks the dependent features of the wanted features.
- * If the dependent features are not properly configured,
- * it returns a message, and stops the analysis.
- */
-function checkDependentFeatures<OPTIONS extends LibraryOptions>(
+function isLibraryInstalled(targetFeature: string, packageJson: any): boolean {
+  const targetFeatureLibrary = getKeyByMappingValueOrThrow(
+    libraryFeatureMapping,
+    targetFeature
+  );
+  return dependencyExists(
+    {
+      name: targetFeatureLibrary,
+      type: NodeDependencyType.Default,
+      version: '*',
+    },
+    packageJson
+  );
+}
+
+function markerModuleExists<OPTIONS extends LibraryOptions>(
   options: OPTIONS,
-  allFeatures: string[],
-  appSourceFiles: SourceFile[],
-  packageJson: any
-): string | undefined {
-  const wantedFeatures = options.features ?? [];
-  const dependentFeatures = allFeatures.filter(
-    (feature) => !wantedFeatures.includes(feature)
-  );
-
-  for (const wantedFeature of wantedFeatures) {
-    for (const dependentFeature of dependentFeatures) {
-      const libraryInstalled = dependencyExists(
-        {
-          name: getKeyByMappingValueOrThrow(
-            libraryFeatureMapping,
-            dependentFeature
-          ),
-          type: NodeDependencyType.Default,
-          version: '*',
-        },
-        packageJson
-      );
-      /**
-       * If the library is not installed, we can assume
-       * the feature is not installed. Therefore, we can
-       * skip the analysis, as we will eventually be able
-       * to safely install the missing feature.
-       */
-      if (!libraryInstalled) {
-        continue;
-      }
-
-      const dependentSchematicsConfig =
-        getSchematicsConfigByFeatureOrThrow(dependentFeature);
-      const dependentFeatureModulesConfig = ([] as Module[]).concat(
-        dependentSchematicsConfig.featureModule
-      );
-
-      for (const dependentFeatureModuleConfig of dependentFeatureModulesConfig) {
-        const featureModule = findFeatureModule(
-          dependentFeatureModuleConfig,
-          appSourceFiles
-        );
-        if (!!featureModule) {
-          continue;
-        }
-
-        const wantedFeatureSchematicsConfig =
-          getSchematicsConfigByFeatureOrThrow(wantedFeature);
-        if (!wantedFeatureSchematicsConfig.wrappers) {
-          return buildMissingFeatureMessage(wantedFeature, dependentFeature);
-        }
-
-        const wantedFeatureModule =
-          wantedFeatureSchematicsConfig.wrappers[
-            dependentFeatureModuleConfig.name
-          ];
-        if (!wantedFeatureModule) {
-          return buildMissingFeatureMessage(wantedFeature, dependentFeature);
-        }
-
-        let message = `Cannot find '${dependentFeatureModuleConfig.name}'`;
-        message += `, therefore cannot install '${wantedFeature}' feature.`;
-        message += `\n`;
-        message += `To manually install '${wantedFeature}' feature, `;
-        message += `please make sure the '${dependentFeatureModuleConfig.name}' from '${dependentFeatureModuleConfig.importPath}' is imported, and then `;
-        message += `import '${wantedFeatureModule}' from '${getFeatureModuleImportPath(
-          wantedFeatureSchematicsConfig,
-          wantedFeatureModule
-        )}' after it.`;
-
-        return message;
-      }
+  tree: Tree,
+  markerModuleConfig: Module
+): boolean {
+  const basePath = process.cwd();
+  const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+  for (const tsconfigPath of buildPaths) {
+    const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+    if (findFeatureModule(markerModuleConfig, appSourceFiles)) {
+      return true;
     }
   }
 
-  return undefined;
-}
-
-function buildMissingFeatureMessage(
-  wantedFeature: string,
-  dependentFeature: string
-): string {
-  let message = `The installer cannot continue as '${wantedFeature}' requires '${dependentFeature}' feature to be installed.`;
-  message += `\n`;
-  message += `Please run 'ng add @spartacus/schematics --features=${dependentFeature}'.`;
-  return message;
-}
-
-function getFeatureModuleImportPath(
-  schematicConfig: SchematicConfig,
-  featureModule: string
-): string | undefined {
-  const featureModuleConfigs = ([] as Module[]).concat(
-    schematicConfig.featureModule
-  );
-  for (const featureModuleConfig of featureModuleConfigs) {
-    if (featureModuleConfig.name === featureModule) {
-      return featureModuleConfig.importPath;
-    }
-  }
-
-  return undefined;
+  return false;
 }
 
 /**
@@ -478,7 +446,9 @@ function isStaticallyImported(
   sourceFile: SourceFile,
   moduleConfig: Module
 ): boolean {
-  if (!importExists(sourceFile, moduleConfig.importPath, moduleConfig.name)) {
+  if (
+    !staticImportExists(sourceFile, moduleConfig.importPath, moduleConfig.name)
+  ) {
     false;
   }
 
@@ -538,15 +508,7 @@ function createDependentFeaturesLog(
     return;
   }
 
-  let message = `\n`;
-  if (options.internal?.dirtyInstallation) {
-    message += `🔎 Checking `;
-  } else {
-    message += `⚙️ Configuring `;
-  }
-  message += `the dependent features of ${selectedFeatures.join(
+  return `\n⚙️ Configuring the dependent features of ${selectedFeatures.join(
     ', '
   )}: ${notSelectedFeatures.join(', ')}\n`;
-
-  return message;
 }
