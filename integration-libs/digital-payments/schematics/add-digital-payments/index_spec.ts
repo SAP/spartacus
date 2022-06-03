@@ -13,6 +13,7 @@ import {
   cartBaseFeatureModulePath,
   checkoutFeatureModulePath,
   checkoutWrapperModulePath,
+  CHECKOUT_BASE_FEATURE_NAME,
   digitalPaymentsFeatureModulePath,
   DIGITAL_PAYMENTS_FEATURE_NAME,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
@@ -61,6 +62,11 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
     project: 'schematics-test',
     lazy: true,
     features: [],
+  };
+
+  const checkoutFeatureOptions: SpartacusDigitalPaymentsOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CHECKOUT_BASE_FEATURE_NAME],
   };
 
   const digitalPaymentsFeatureOptions: SpartacusDigitalPaymentsOptions = {
@@ -125,6 +131,9 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
+          .runSchematicAsync('ng-add', checkoutFeatureOptions, appTree)
+          .toPromise();
+        appTree = await schematicRunner
           .runSchematicAsync('ng-add', digitalPaymentsFeatureOptions, appTree)
           .toPromise();
       });
@@ -176,6 +185,13 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
 
     describe('eager loading', () => {
       beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...checkoutFeatureOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',

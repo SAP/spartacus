@@ -217,6 +217,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
+            .runSchematicAsync('ng-add', libraryOptionsOnlyVC, appTree)
+            .toPromise();
+          appTree = await schematicRunner
             .runSchematicAsync('ng-add', libraryOptionsOnlyCPQ, appTree)
             .toPromise();
         });
@@ -277,6 +280,13 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...libraryOptionsOnlyVC, lazy: false },
+              appTree
+            )
+            .toPromise();
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
@@ -388,6 +398,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
+            .runSchematicAsync('ng-add', libraryOptionsOnlyVC, appTree)
+            .toPromise();
+          appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
               {
@@ -458,6 +471,13 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...libraryOptionsOnlyVC, lazy: false },
+              appTree
+            )
+            .toPromise();
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',

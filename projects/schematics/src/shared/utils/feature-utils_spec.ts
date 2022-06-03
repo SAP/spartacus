@@ -141,6 +141,17 @@ describe('Feature utils', () => {
           {
             ...spartacusDefaultOptions,
             name: 'schematics-test',
+            features: [CHECKOUT_BASE_FEATURE_NAME],
+          },
+          appTree
+        )
+        .toPromise();
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          {
+            ...spartacusDefaultOptions,
+            name: 'schematics-test',
             features: [CHECKOUT_B2B_FEATURE_NAME],
           },
           appTree
@@ -223,45 +234,6 @@ describe('Feature utils', () => {
         } catch (e) {
           expect(e).toBeTruthy();
         }
-      });
-
-      it('should succeed when a feature is not configured, but package is missing in package.json during dirty installation', async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...spartacusDefaultOptions,
-              name: 'schematics-test',
-              features: [ORDER_FEATURE_NAME],
-            },
-            appTree
-          )
-          .toPromise();
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...spartacusDefaultOptions,
-              name: 'schematics-test',
-              features: [DIGITAL_PAYMENTS_FEATURE_NAME],
-            },
-            appTree
-          )
-          .toPromise();
-
-        const { program } = createProgram(
-          appTree,
-          appTree.root.path,
-          buildPath
-        );
-        const checkoutWrapperModule = program.getSourceFileOrThrow(
-          checkoutWrapperModulePath
-        );
-        const checkoutFeatureModule = program.getSourceFileOrThrow(
-          checkoutFeatureModulePath
-        );
-        expect(checkoutWrapperModule.print()).toMatchSnapshot();
-        expect(checkoutFeatureModule.print()).toMatchSnapshot();
       });
 
       describe('when the dependent feature is eagerly configured', () => {

@@ -221,6 +221,9 @@ describe('Spartacus Checkout schematics: ng-add', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
+            .runSchematicAsync('ng-add', checkoutBaseFeatureOptions, appTree)
+            .toPromise();
+          appTree = await schematicRunner
             .runSchematicAsync('ng-add', checkoutB2BFeatureOptions, appTree)
             .toPromise();
         });
@@ -275,6 +278,13 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
+              { ...checkoutBaseFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
               { ...checkoutB2BFeatureOptions, lazy: false },
               appTree
             )
@@ -293,6 +303,12 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     describe('scheduled replenishment', () => {
       describe('general setup', () => {
         beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', checkoutBaseFeatureOptions, appTree)
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', checkoutB2BFeatureOptions, appTree)
+            .toPromise();
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
@@ -349,6 +365,20 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
       describe('eager loading', () => {
         beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutBaseFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutB2BFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
