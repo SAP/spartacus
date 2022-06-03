@@ -59,7 +59,8 @@ export abstract class OrderHistoryFacade {
    * Returns order history list
    */
   abstract getOrderHistoryList(
-    pageSize: number
+    pageSize: number,
+    filters: Map<string, string>
   ): Observable<OrderHistoryList | undefined>;
 
   /**

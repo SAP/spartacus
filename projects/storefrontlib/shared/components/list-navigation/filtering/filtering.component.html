@@ -1,0 +1,19 @@
+<ng-select
+  [searchable]="false"
+  [clearable]="false"
+  placeholder="{{ placeholder }}"
+  (change)="filterList($event)"
+  [ngModel]="selectedOption"
+  [cxNgSelectA11y]="{
+    ariaLabel: ariaLabel || ('productList.filterResults' | cxTranslate),
+    ariaControls: ariaControls
+  }"
+>
+  <ng-option *ngFor="let filter of filterOptions" [value]="filter.code">{{
+    filter.name
+      ? filter.name
+      : filterLabels && filter.code
+      ? filterLabels[filter.code]
+      : ''
+  }}</ng-option>
+</ng-select>

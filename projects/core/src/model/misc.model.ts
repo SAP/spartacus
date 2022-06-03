@@ -50,6 +50,7 @@ export interface ListModel {
   ids: string[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
+  filters?: FilterModel[];
 }
 
 // TODO(#8875): Do we need it here?
@@ -68,6 +69,13 @@ export interface PaginationModel {
 }
 
 export interface SortModel {
+  code?: string;
+  name?: string;
+  selected?: boolean;
+}
+
+export interface FilterModel {
+  // TODO adapt according to the soon-to-be provided UX suggestions
   code?: string;
   name?: string;
   selected?: boolean;

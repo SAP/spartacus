@@ -15,6 +15,7 @@ export class LoadUserOrders extends StateUtils.LoaderLoadAction {
       pageSize?: number;
       currentPage?: number;
       sort?: string;
+      filters?: Map<string, string>;
       replenishmentOrderCode?: string;
     }
   ) {

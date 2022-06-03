@@ -62,7 +62,8 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * Returns order history list
    */
   getOrderHistoryList(
-    pageSize: number
+    pageSize: number,
+    filters: Map<string, string> = new Map()
   ): Observable<OrderHistoryList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrdersState),
@@ -72,7 +73,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
           orderListState.success ||
           orderListState.error;
         if (!attemptedLoad) {
-          this.loadOrderList(pageSize);
+          this.loadOrderList(pageSize, undefined, undefined, filters);
         }
       }),
       map((orderListState) => orderListState.value)
@@ -91,8 +92,14 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
+   * @param filters filter
    */
-  loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
+  loadOrderList(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string,
+    filters?: Map<string, string>
+  ): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
         let replenishmentOrderCode: string | undefined;
@@ -112,6 +119,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
             pageSize,
             currentPage,
             sort,
+            filters,
             replenishmentOrderCode,
           })
         );

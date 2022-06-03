@@ -28,9 +28,10 @@ export class OrderHistoryComponent implements OnDestroy {
 
   private PAGE_SIZE = 5;
   sortType: string;
+  filters: Map<string, string> = new Map(); // {"name": 'Jim', ...}, FILTERING BEFORE PAGINATION
 
   orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
-    .getOrderHistoryList(this.PAGE_SIZE)
+    .getOrderHistoryList(this.PAGE_SIZE, this.filters)
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
         if (orders?.pagination?.sort) {
