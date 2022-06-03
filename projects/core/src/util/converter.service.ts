@@ -45,7 +45,7 @@ export class ConverterService implements OnDestroy {
 
   private getConverters<S, T>(
     injectionToken: InjectionToken<Converter<S, T>>
-  ): Converter<S, T>[] {
+  ): Converter<S, T>[] | undefined {
     if (!this.converters.has(injectionToken)) {
       const converters = getLastValueSync(
         this.unifiedInjector.getMulti(injectionToken)
@@ -55,7 +55,7 @@ export class ConverterService implements OnDestroy {
       }
     }
 
-    return this.converters.get(injectionToken) as Converter<S, T>[];
+    return this.converters.get(injectionToken);
   }
 
   /**
@@ -125,7 +125,7 @@ export class ConverterService implements OnDestroy {
     source: S,
     injectionToken: InjectionToken<Converter<S, T>>
   ): T {
-    return this.getConverters(injectionToken).reduce((target, converter) => {
+    return this.getConverters(injectionToken)?.reduce((target, converter) => {
       return converter.convert(source, target);
     }, undefined as any);
   }

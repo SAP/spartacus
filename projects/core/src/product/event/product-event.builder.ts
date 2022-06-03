@@ -94,8 +94,8 @@ export class ProductEventBuilder {
    * only can have one different solr filter term.
    */
   private getToggledBreadcrumb(
-    bc1?: Breadcrumb[],
-    bc2?: Breadcrumb[]
+    bc1: Breadcrumb[] | undefined,
+    bc2: Breadcrumb[] | undefined
   ): Breadcrumb | undefined {
     if (bc1 && bc2 && bc1.length - bc2.length === 1) {
       return bc1.find(

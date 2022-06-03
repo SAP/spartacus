@@ -1,13 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, pluck } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { CmsComponentAdapter } from '../../../cms/connectors/component/cms-component.adapter';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsComponent, PageType } from '../../../model/cms.model';
 import { PageContext } from '../../../routing';
 import { ConverterService } from '../../../util/converter.service';
-import { isNotUndefined } from '../../../util/type-guards';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
@@ -58,7 +57,7 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
       )
       .pipe(
         pluck('component'),
-        filter(isNotUndefined),
+        map((compts) => compts ?? []),
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
   }

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, pluck } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing';
-import { isNotUndefined } from '../../../util/type-guards';
 import { Occ } from '../../occ-models/occ.models';
 import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 
@@ -47,7 +46,7 @@ export class LegacyOccCmsComponentAdapter extends OccCmsComponentAdapter {
       )
       .pipe(
         pluck('component'),
-        filter(isNotUndefined),
+        map((compts) => compts ?? []),
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
   }
