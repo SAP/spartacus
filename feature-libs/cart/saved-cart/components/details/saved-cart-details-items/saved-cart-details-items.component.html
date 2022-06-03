@@ -9,7 +9,10 @@
           cartIsLoading: !(cartLoaded$ | async),
           items: cart.entries,
           promotionLocation: CartLocation.SavedCart,
-          options: { isAddToActiveCart: true }
+          options: {
+            isAddToActiveCart: true,
+            optionalBtn: addToCartBtn
+          }
         }"
       >
       </ng-template>
@@ -20,4 +23,14 @@
   <div class="cx-spinner">
     <cx-spinner></cx-spinner>
   </div>
+</ng-template>
+
+<ng-template let-ctx #addToCartBtn>
+  <cx-add-to-cart
+    [productCode]="ctx.item.product?.code"
+    [product]="ctx.item.product"
+    [showQuantity]="false"
+    [options]="ctx.options"
+  >
+  </cx-add-to-cart>
 </ng-template>

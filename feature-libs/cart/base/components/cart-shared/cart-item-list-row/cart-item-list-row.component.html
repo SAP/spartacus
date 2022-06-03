@@ -118,7 +118,10 @@
 
   <td
     role="cell"
-    *ngIf="(!readonly || options.isSaveForLater) && item.updateable"
+    *ngIf="
+      (!readonly || options.isSaveForLater || options.isAddToActiveCart) &&
+      item.updateable
+    "
     class="cx-actions"
   >
     <ng-container *ngIf="!isProductOutOfStock(item.product)">
@@ -126,7 +129,11 @@
         *ngTemplateOutlet="
           options.optionalBtn;
           context: {
-            $implicit: { loading: quantityControl.disabled, item: item }
+            $implicit: {
+              loading: quantityControl.disabled,
+              item: item,
+              options: options
+            }
           }
         "
       ></ng-container>
@@ -141,16 +148,6 @@
       {{ 'addToCart.outOfStock' | cxTranslate }}
     </span>
 
-    <cx-add-to-cart
-      *ngIf="options.isAddToActiveCart"
-      [productCode]="item.product?.code"
-      [product]="item.product"
-      [showQuantity]="false"
-      [options]="options"
-      class="add-to-cart"
-    >
-    </cx-add-to-cart>
-
     <button
       (click)="removeItem()"
       [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
@@ -162,16 +159,18 @@
     </button>
   </td>
 
-  <td role="cell">
-    <cx-add-to-cart
-      *ngIf="options.isBuyItAgain"
-      [productCode]="item.product?.code"
-      [product]="item.product"
-      [showQuantity]="false"
-      [options]="options"
-      class="add-to-cart"
-    >
-    </cx-add-to-cart>
+  <td *ngIf="options.isBuyItAgain && !isProductOutOfStock(item.product)">
+    <ng-container
+      *ngTemplateOutlet="
+        options.optionalBtn;
+        context: {
+          $implicit: {
+            item: item,
+            options: options
+          }
+        }
+      "
+    ></ng-container>
   </td>
 </ng-template>
 <ng-template #total>
