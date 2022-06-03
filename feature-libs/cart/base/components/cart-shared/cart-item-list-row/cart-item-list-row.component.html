@@ -118,59 +118,45 @@
 
   <td
     role="cell"
-    *ngIf="
-      (!readonly || options.isSaveForLater || options.isAddToActiveCart) &&
-      item.updateable
-    "
+    *ngIf="(!readonly || options.displayAddToCart) && item.updateable"
     class="cx-actions"
   >
-    <ng-container *ngIf="!isProductOutOfStock(item.product)">
-      <ng-container
-        *ngTemplateOutlet="
-          options.optionalBtn;
-          context: {
-            $implicit: {
-              loading: quantityControl.disabled,
-              item: item,
-              options: options
+    <div class="action-buttons">
+      <ng-container *ngIf="!isProductOutOfStock(item.product)">
+        <ng-container
+          *ngTemplateOutlet="
+            options.optionalBtn;
+            context: {
+              $implicit: {
+                loading: quantityControl.disabled,
+                item: item,
+                options: options
+              }
             }
-          }
-        "
-      ></ng-container>
-    </ng-container>
+          "
+        ></ng-container>
+      </ng-container>
 
-    <!-- Availability -->
-    <span
-      role="cell"
-      *ngIf="isProductOutOfStock(item.product)"
-      class="cx-availability"
-    >
-      {{ 'addToCart.outOfStock' | cxTranslate }}
-    </span>
+      <!-- Availability -->
+      <span
+        role="cell"
+        *ngIf="isProductOutOfStock(item.product)"
+        class="cx-availability"
+      >
+        {{ 'addToCart.outOfStock' | cxTranslate }}
+      </span>
 
-    <button
-      (click)="removeItem()"
-      [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
-      [disabled]="quantityControl.disabled"
-      attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
-      class="link cx-action-link cx-remove-btn"
-    >
-      {{ 'common.remove' | cxTranslate }}
-    </button>
-  </td>
-
-  <td *ngIf="options.isBuyItAgain && !isProductOutOfStock(item.product)">
-    <ng-container
-      *ngTemplateOutlet="
-        options.optionalBtn;
-        context: {
-          $implicit: {
-            item: item,
-            options: options
-          }
-        }
-      "
-    ></ng-container>
+      <button
+        *ngIf="!readonly"
+        (click)="removeItem()"
+        [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
+        [disabled]="quantityControl.disabled"
+        attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
+        class="link cx-action-link cx-remove-btn"
+      >
+        {{ 'common.remove' | cxTranslate }}
+      </button>
+    </div>
   </td>
 </ng-template>
 <ng-template #total>

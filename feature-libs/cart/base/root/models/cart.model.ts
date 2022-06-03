@@ -8,6 +8,7 @@ import {
   Product,
   Promotion,
 } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 export interface PromotionResult {
   consumedEntries?: PromotionOrderEntryConsumed[];
@@ -105,8 +106,8 @@ export interface CartModification {
 export interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;
-  isBuyItAgain?: boolean;
-  isAddToActiveCart?: boolean;
+  displayAddToCart?: boolean;
+  addToCartString?: Observable<string>;
 }
 
 export interface OrderEntry {

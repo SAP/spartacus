@@ -48,8 +48,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
-    isBuyItAgain: false,
-    isAddToActiveCart: false,
+    displayAddToCart: false,
   };
 
   @Input() cartId: string;

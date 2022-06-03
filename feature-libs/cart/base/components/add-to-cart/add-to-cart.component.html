@@ -22,7 +22,7 @@
   <button
     *ngIf="hasStock"
     [ngClass]="
-      options?.isBuyItAgain || options?.isAddToActiveCart
+      options?.displayAddToCart
         ? 'link cx-action-link'
         : 'btn btn-primary btn-block'
     "
@@ -30,22 +30,15 @@
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
     <span
-      *ngIf="!options?.isBuyItAgain && !options?.isAddToActiveCart"
-      attr.aria-label="{{ 'addToCart.addToCart' | cxTranslate }}"
+      attr.aria-label="{{
+        (options?.addToCartString | async) ??
+          ('addToCart.addToCart' | cxTranslate)
+      }}"
     >
-      {{ 'addToCart.addToCart' | cxTranslate }}
-    </span>
-    <span
-      *ngIf="options?.isAddToActiveCart"
-      attr.aria-label="{{ 'addToCart.addToActiveCart' | cxTranslate }}"
-    >
-      {{ 'addToCart.addToActiveCart' | cxTranslate }}
-    </span>
-    <span
-      *ngIf="options?.isBuyItAgain"
-      attr.aria-label="{{ 'addToCart.buyItAgain' | cxTranslate }}"
-    >
-      {{ 'addToCart.buyItAgain' | cxTranslate }}
+      {{
+        (options?.addToCartString | async) ??
+          ('addToCart.addToCart' | cxTranslate)
+      }}
     </span>
   </button>
 </form>

@@ -23,7 +23,11 @@
         items: consignment.entries,
         readonly: true,
         promotionLocation: promotionLocation,
-        options: { isBuyItAgain: true, optionalBtn: addToCartBtn }
+        options: {
+          displayAddToCart: enableAddToCart$ | async,
+          addToCartString: buyItAgainTranslation$,
+          optionalBtn: addToCartBtn
+        }
       }"
     >
     </ng-template>

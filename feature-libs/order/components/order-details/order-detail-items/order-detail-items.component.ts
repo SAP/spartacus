@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { Consignment, Order } from '@spartacus/order/root';
-import { CmsOrderDetailItemsComponent } from '@spartacus/core';
+import {
+  CmsOrderDetailItemsComponent,
+  TranslationService,
+} from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -18,7 +21,8 @@ import {
 export class OrderDetailItemsComponent implements OnInit {
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected component: CmsComponentData<CmsOrderDetailItemsComponent>
+    protected component: CmsComponentData<CmsOrderDetailItemsComponent>,
+    protected translation: TranslationService
   ) {}
 
   readonly CartOutlets = CartOutlets;
@@ -28,6 +32,7 @@ export class OrderDetailItemsComponent implements OnInit {
   others$: Observable<Consignment[] | undefined>;
   completed$: Observable<Consignment[] | undefined>;
   cancel$: Observable<Consignment[] | undefined>;
+  buyItAgainTranslation$: Observable<string>;
   enableAddToCart$: Observable<boolean | undefined> = this.component.data$.pipe(
     map((data) => data.enableAddToCart)
   );
@@ -36,6 +41,9 @@ export class OrderDetailItemsComponent implements OnInit {
     this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
     this.completed$ = this.getExactStatus(completedValues);
     this.cancel$ = this.getExactStatus(cancelledValues);
+    this.buyItAgainTranslation$ = this.translation.translate(
+      'addToCart.buyItAgain'
+    );
   }
 
   private getExactStatus(
