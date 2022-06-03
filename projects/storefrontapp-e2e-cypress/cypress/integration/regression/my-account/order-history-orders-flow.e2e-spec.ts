@@ -1,8 +1,15 @@
+import { interceptAddToCartEndpoint } from '../../../helpers/b2b/b2b-quick-order';
+import {
+  clickOnPrimaryDialogButton,
+  verifyProductIsDisplayed,
+} from '../../../helpers/b2b/b2b-saved-cart';
 import {
   doPlaceOrder,
   orderHistoryTest,
-  interceptAddToCartEndpoint,
   interceptCartPageEndpoint,
+  verifyActionLinkHasText,
+  clickOnActionLink,
+  waitForResponse,
 } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { product } from '../../../sample-data/checkout-flow';
@@ -70,26 +77,17 @@ describe('Order details page', () => {
 
       const cartPageAlias = interceptCartPageEndpoint();
 
-      cy.get('.cx-item-list-row .cx-action-link').should(
-        'contain',
-        'Buy It Again'
-      );
+      verifyActionLinkHasText('Buy It Again');
 
-      cy.get('.cx-item-list-row .cx-action-link').click();
+      clickOnActionLink();
 
-      cy.wait(addToCartAlias);
+      waitForResponse(addToCartAlias);
 
-      cy.get('cx-added-to-cart-dialog').within(() => {
-        cy.get('.cx-dialog-buttons>.btn-primary').click();
-      });
+      clickOnPrimaryDialogButton();
 
-      cy.wait(cartPageAlias);
+      waitForResponse(cartPageAlias);
 
-      cy.get('cx-cart-item-list .cx-item-list-row').within(() => {
-        cy.get('.cx-name').should('contain', name);
-        cy.get('.cx-code').should('contain', product.code);
-        cy.get('cx-item-counter input').should('have.value', '1');
-      });
+      verifyProductIsDisplayed(name, product.code);
     });
   });
 });

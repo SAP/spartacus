@@ -5,6 +5,7 @@ import { SampleProduct } from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { addProductToCart as addToCart } from '../applied-promotions';
 import { waitForPage, waitForProductPage } from '../checkout-flow';
+import { interceptCartPageEndpoint, waitForResponse } from '../order-history';
 import { loginB2bUser as login } from './b2b-checkout';
 import { interceptAddToCartEndpoint } from './b2b-quick-order';
 
@@ -121,17 +122,6 @@ export function interceptCloneSavedCartEndpoint(cartCode: string) {
   ).as(CLONE_SAVED_CART_ENDPOINT_ALIAS);
 
   return CLONE_SAVED_CART_ENDPOINT_ALIAS;
-}
-
-export function interceptCartPageEndpoint() {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
-  ).as(CART_PAGE_ALIAS);
-
-  return CART_PAGE_ALIAS;
 }
 
 export function clickOn(position: any): void {
@@ -322,35 +312,54 @@ export function getCartItem(name: string) {
   return cy.get('cx-cart-item-list').contains('.cx-item-list-row', name);
 }
 
+export function clickOnSubmitButton() {
+  cy.get('cx-saved-cart-details-action .btn-primary').click();
+}
+
+export function clickOnRestoreButton() {
+  cy.get('cx-saved-cart-form-dialog').within(() => {
+    cy.get('button[aria-label="Restore"]').click();
+  });
+}
+
+export function waitForSuccessfulServerResponse(alias: string) {
+  cy.wait(alias).its('response.statusCode').should('eq', 200);
+}
+
+function verifySuccessfullAlertMessage(message: string) {
+  alerts.getSuccessAlert().should('contain', message);
+}
+
+export function verifyNotSavedCartListMessage() {
+  cy.get('cx-saved-cart-list .cx-saved-cart-list-no-saved-carts').should(
+    'contain',
+    'No Saved Carts Found'
+  );
+}
+
+export function verifySavedCartCodeIsDisplayed(code) {
+  cy.get('.cart-details-wrapper .cx-total').should('contain', `Cart #${code}`);
+}
+
 export function restoreSavedCart(cart: any) {
   const restoreSavedCartAlias = interceptRestoreSavedCartEndpoint(cart.code);
   const getAllSavedCartAlias = interceptGetAllSavedCartEndpoint();
 
-  cy.get('cx-saved-cart-details-action .btn-primary').click();
+  clickOnSubmitButton();
 
-  cy.get('cx-saved-cart-form-dialog').within(() => {
-    cy.get('button[aria-label="Restore"]').click();
-  });
+  clickOnRestoreButton();
 
-  cy.wait(`@${restoreSavedCartAlias}`)
-    .its('response.statusCode')
-    .should('eq', 200);
+  waitForSuccessfulServerResponse(restoreSavedCartAlias);
 
-  alerts
-    .getSuccessAlert()
-    .should(
-      'contain',
-      `Existing cart is activated by ${cart.code} successfully`
-    );
+  verifySuccessfullAlertMessage(
+    `Existing cart is activated by ${cart.code} successfully`
+  );
 
   cy.wait(`@${getAllSavedCartAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
 
-  cy.get('cx-saved-cart-list .cx-saved-cart-list-no-saved-carts').should(
-    'contain',
-    'No Saved Carts Found'
-  );
+  verifyNotSavedCartListMessage();
 
   // assert that restored cart became active cart
   verifyMiniCartQuantity(1);
@@ -358,37 +367,46 @@ export function restoreSavedCart(cart: any) {
   // assert that it is now in the cart page
   visitCartPage();
 
-  cy.get('.cart-details-wrapper .cx-total').should(
-    'contain',
-    `Cart #${cart.code}`
-  );
+  verifySavedCartCodeIsDisplayed(cart.code);
 
   verifyCartDetails(cart);
 }
 
-export function AddToActiveCart(cart: any, product: SampleProduct) {
-  const addToCartAlias = interceptAddToCartEndpoint();
-
-  const cartPageAlias = interceptCartPageEndpoint();
-
+export function clickOnFirstLinkInCart() {
   cy.get(
     'cx-saved-cart-details-items tr[cx-cart-item-list-row] .cx-action-link'
   )
     .first()
     .click();
+}
 
-  cy.wait(`@${addToCartAlias}`);
-
+export function clickOnPrimaryDialogButton() {
   cy.get('cx-added-to-cart-dialog').within(() => {
     clickOn('.cx-dialog-buttons>.btn-primary');
   });
+}
 
-  cy.wait(`@${cartPageAlias}`);
-
-  getCartItem(product.name).within(() => {
-    cy.get('.cx-code').should('contain', product.code);
+export function verifyProductIsDisplayed(name: string, code: string) {
+  getCartItem(name).within(() => {
+    cy.get('.cx-code').should('contain', code);
     cy.get('cx-item-counter input').should('have.value', '1');
   });
+}
+
+export function verifyAddToCart(cart: any, product: SampleProduct) {
+  const addToCartAlias = interceptAddToCartEndpoint();
+
+  const cartPageAlias = interceptCartPageEndpoint();
+
+  clickOnFirstLinkInCart();
+
+  waitForResponse(addToCartAlias);
+
+  clickOnPrimaryDialogButton();
+
+  waitForResponse(cartPageAlias);
+
+  verifyProductIsDisplayed(product.name, product.code);
 
   verifyCartDetails(cart);
 }
@@ -686,7 +704,7 @@ export function updateSavedCartAndRestore(
         alerts.getSuccessAlert().should('contain', `Cart Edited Successfully`);
 
         if (addToActiveCart) {
-          AddToActiveCart(cart, product);
+          verifyAddToCart(cart, product);
         } else {
           // restore saved cart
           restoreSavedCart(cart);

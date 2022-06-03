@@ -42,15 +42,16 @@ export function interceptCartPageEndpoint() {
   return CART_PAGE_ALIAS;
 }
 
-export function interceptAddToCartEndpoint() {
-  cy.intercept(
-    'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/orgUsers/*/carts/*/entries*`
-  ).as(ADD_TO_CART_ENDPOINT_ALIAS);
+export function verifyActionLinkHasText(text: string) {
+  cy.get('.cx-item-list-row .cx-action-link').should('contain', text);
+}
 
-  return ADD_TO_CART_ENDPOINT_ALIAS;
+export function clickOnActionLink() {
+  cy.get('.cx-item-list-row .cx-action-link').click();
+}
+
+export function waitForResponse(alias: string) {
+  cy.wait(`@${alias}`);
 }
 
 export const orderHistoryTest = {
