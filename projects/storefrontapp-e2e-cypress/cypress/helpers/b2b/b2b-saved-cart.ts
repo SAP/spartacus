@@ -364,10 +364,8 @@ export function restoreSavedCart(cart: any) {
 
   verifyNotSavedCartListMessage();
 
-  // assert that restored cart became active cart
   verifyMiniCartQuantity(1);
 
-  // assert that it is now in the cart page
   visitCartPage();
 
   verifySavedCartCodeIsDisplayed(cart.code);
