@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  ActiveCartFacade,
-  DeliveryMode,
-  LoadCartEvent,
-} from '@spartacus/cart/base/root';
+import { Store } from '@ngrx/store';
+import { CartActions, StateWithMultiCart } from '@spartacus/cart/base/core';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
@@ -101,17 +99,17 @@ export class CheckoutDeliveryModesService
                     },
                     CheckoutDeliveryModeSetEvent
                   );
-                  this.eventService.dispatch(
-                    {
+
+                  /**
+                   * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
+                   * Remove once it is switched from ngrx to c&q.
+                   * We should dispatch an event, which will load the cart$ query.
+                   */
+                  this.store.dispatch(
+                    new CartActions.LoadCart({
                       userId,
                       cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
-                      cartCode: cartId,
-                    },
-                    LoadCartEvent
+                    })
                   );
                 })
               )
@@ -138,31 +136,29 @@ export class CheckoutDeliveryModesService
                     },
                     CheckoutDeliveryModeClearedEvent
                   );
-                  this.eventService.dispatch(
-                    {
+                  /**
+                   * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
+                   * Remove once it is switched from ngrx to c&q.
+                   * We should dispatch an event, which will load the cart$ query.
+                   */
+                  this.store.dispatch(
+                    new CartActions.LoadCart({
                       userId,
                       cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
-                      cartCode: cartId,
-                    },
-                    LoadCartEvent
+                    })
                   );
                 }),
                 catchError((error) => {
-                  this.eventService.dispatch(
-                    {
+                  /**
+                   * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
+                   * Remove once it is switched from ngrx to c&q.
+                   * We should dispatch an event, which will load the cart$ query.
+                   */
+                  this.store.dispatch(
+                    new CartActions.LoadCart({
                       userId,
                       cartId,
-                      /**
-                       * As we know the cart is not anonymous (precondition checked),
-                       * we can safely use the cartId, which is actually the cart.code.
-                       */
-                      cartCode: cartId,
-                    },
-                    LoadCartEvent
+                    })
                   );
                   return throwError(error);
                 })
@@ -181,7 +177,9 @@ export class CheckoutDeliveryModesService
     protected queryService: QueryService,
     protected commandService: CommandService,
     protected checkoutDeliveryModesConnector: CheckoutDeliveryModesConnector,
-    protected checkoutQueryFacade: CheckoutQueryFacade
+    protected checkoutQueryFacade: CheckoutQueryFacade,
+    // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
+    protected store: Store<StateWithMultiCart>
   ) {}
 
   /**
