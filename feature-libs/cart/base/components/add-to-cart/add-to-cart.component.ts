@@ -27,6 +27,12 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 
+/** The context provided to the `cx-add-to-cart-container` outlet */
+export interface AddToCartContainerContext {
+  /** The code of the product to being managed */
+  productCode: string;
+}
+
 @Component({
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',

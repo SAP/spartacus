@@ -1,2 +1,26 @@
-<p>{{ 'deliveryOptions.delivery' | cxTranslate }}</p>
-<p>{{ 'deliveryOptions.pickup' | cxTranslate }}</p>
+<section>
+  <div class="form-check">
+    <input
+      type="radio"
+      id="delivery"
+      name="deliveryOption"
+      [attr.aria-label]="'deliveryOptions.delivery' | cxTranslate"
+      checked
+    />
+    <label for="delivery">
+      {{ 'deliveryOptions.delivery' | cxTranslate }}
+    </label>
+  </div>
+  <div class="form-check">
+    <input
+      type="radio"
+      id="pickInStore"
+      name="deliveryOption"
+      (click)="openDialog()"
+      [attr.aria-label]="'deliveryOptions.pickup' | cxTranslate"
+    />
+    <label for="pickInStore">
+      <p>{{ 'deliveryOptions.pickup' | cxTranslate }}</p>
+    </label>
+  </div>
+</section>
