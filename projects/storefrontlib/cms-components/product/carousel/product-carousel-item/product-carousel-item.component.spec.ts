@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Directive,
   Injector,
   Input,
@@ -15,20 +14,12 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
-  CmsComponentData,
   OutletDirective,
   OutletModule,
-  PageComponentModule,
   ProductListItemContext,
   ProductListItemContextSource,
 } from '@spartacus/storefront';
 import { ProductCarouselItemComponent } from './product-carousel-item.component';
-import {
-  AddToCartComponent,
-  AddToCartModule,
-} from '@spartacus/cart/base/components/add-to-cart';
-import { StoreModule } from '@ngrx/store';
-import { BehaviorSubject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 @Pipe({
@@ -90,10 +81,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
           },
         ],
       })
-        .overrideComponent(ProductCarouselItemComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
+      .compileComponents();
     })
   );
 
@@ -191,88 +179,5 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
         expect(el.nativeElement).toBeTruthy();
       })
     );
-  });
-});
-
-describe('ProductCarouselItemComponent in product-carousel with add-to-cart component', () => {
-  let component: ProductCarouselItemComponent;
-  let fixture: ComponentFixture<ProductCarouselItemComponent>;
-
-  const mockProduct = {
-    name: 'Test product',
-    nameHtml: 'Test product',
-    summary: 'Test summary',
-    code: '1',
-    averageRating: 4.5,
-    stock: {
-      stockLevelStatus: 'inStock',
-    },
-    price: {
-      formattedValue: '$100,00',
-    },
-    images: {
-      PRIMARY: {},
-    },
-  };
-
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          I18nTestingModule,
-          OutletModule,
-          AddToCartModule,
-          PageComponentModule.forRoot(),
-          StoreModule.forRoot({}),
-        ],
-        declarations: [ProductCarouselItemComponent, MockUrlPipe],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ProductService,
-            useClass: MockProductService,
-          },
-          {
-            provide: CmsComponentData, // Addition
-            useValue: {
-              data$: new BehaviorSubject({
-                composition: {
-                  inner: ['ProductAddToCartComponent'],
-                },
-              }),
-              uuid: 'componentData001',
-            },
-          },
-        ],
-      })
-        .overrideComponent(ProductCarouselItemComponent, {
-          set: { changeDetection: ChangeDetectionStrategy.Default },
-        })
-        .compileComponents();
-    })
-  );
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ProductCarouselItemComponent);
-    component = fixture.componentInstance;
-
-    component.item = mockProduct;
-
-    component.ngOnChanges({});
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should render the Add To Cart Button', () => {
-    expect(
-      fixture.debugElement.query(By.directive(AddToCartComponent))
-    ).toBeTruthy();
   });
 });
