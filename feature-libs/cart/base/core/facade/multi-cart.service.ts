@@ -335,6 +335,18 @@ export class MultiCartService implements MultiCartFacade {
   }
 
   /**
+   * Remove Cart
+   *
+   * Used for cleaning cart in local state, when we get information that it no longer exists in the backend.
+   * For removing particular cart in both places use DeleteCart actions.
+   *
+   * @param cartId
+   */
+  removeCart(cartId: string): void {
+    this.store.dispatch(new CartActions.RemoveCart({ cartId }));
+  }
+
+  /**
    * Delete cart
    *
    * @param cartId
