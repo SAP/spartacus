@@ -44,7 +44,7 @@ describe(`MultiCartEventListener`, () => {
   });
 
   describe(`onCartAction`, () => {
-    it(`should dispatch CartActions.LoadCart`, () => {
+    it(`LoadCartEvent should call loadCart`, () => {
       mockEventStream$.next(
         createFrom(LoadCartEvent, {
           userId: mockUserId,
@@ -53,10 +53,13 @@ describe(`MultiCartEventListener`, () => {
         })
       );
 
-      expect(multiCartFacade.removeCart).toHaveBeenCalledWith(mockCartId);
+      expect(multiCartFacade.loadCart).toHaveBeenCalledWith({
+        cartId: mockCartId,
+        userId: mockUserId,
+      });
     });
 
-    it(`should dispatch CartActions.RemoveCartEvent`, () => {
+    it(`LoadCartEvent should call removeCart`, () => {
       mockEventStream$.next(
         createFrom(RemoveCartEvent, {
           userId: mockUserId,
