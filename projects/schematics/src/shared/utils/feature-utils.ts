@@ -109,8 +109,16 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
       context.logger.info(message);
     }
 
+    /**
+     * In dirty installations, we don't want to
+     * force-install the dependent features.
+     */
+    const featuresToInstall = options.internal?.dirtyInstallation
+      ? options.features ?? []
+      : features;
+
     const rules: Rule[] = [];
-    for (const feature of features) {
+    for (const feature of featuresToInstall) {
       const schematicsConfiguration =
         featureSchematicConfigMapping.get(feature);
       if (!schematicsConfiguration) {

@@ -74,19 +74,19 @@ import { GtmModule } from \\"@spartacus/tracking/tms/gtm\\";
   declarations: [],
   imports: [
     BaseTmsModule.forRoot(),
-    AepModule,
-    GtmModule
+    GtmModule,
+    AepModule
   ],
   providers: [provideConfig(<TmsConfig>{
     tagManager: {
-      aep: {
+      gtm: {
         events: [],
       },
     },
   }),
   provideConfig(<TmsConfig>{
     tagManager: {
-      gtm: {
+      aep: {
         events: [],
       },
     },

@@ -11,7 +11,6 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   cartBaseFeatureModulePath,
-  checkoutFeatureModulePath,
   checkoutWrapperModulePath,
   CHECKOUT_BASE_FEATURE_NAME,
   digitalPaymentsFeatureModulePath,
@@ -138,7 +137,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should install the required feature dependencies', async () => {
+      it('should install necessary Spartacus libraries', async () => {
         const packageJson = JSON.parse(appTree.readContent('package.json'));
         let dependencies: Record<string, string> = {};
         dependencies = { ...packageJson.dependencies };
@@ -156,22 +155,17 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
         }
       });
 
-      it('should install the required feature dependencies', async () => {
+      it('should NOT install the required feature dependencies', async () => {
         const userFeatureModule = appTree.readContent(userFeatureModulePath);
-        expect(userFeatureModule).toMatchSnapshot();
+        expect(userFeatureModule).toBeFalsy();
 
         const cartFeatureModule = appTree.readContent(
           cartBaseFeatureModulePath
         );
-        expect(cartFeatureModule).toMatchSnapshot();
+        expect(cartFeatureModule).toBeFalsy();
 
         const orderFeatureModule = appTree.readContent(orderFeatureModulePath);
-        expect(orderFeatureModule).toMatchSnapshot();
-
-        const checkoutFeatureModule = appTree.readContent(
-          checkoutFeatureModulePath
-        );
-        expect(checkoutFeatureModule).toMatchSnapshot();
+        expect(orderFeatureModule).toBeFalsy();
       });
 
       it('should add the feature using the lazy loading syntax', async () => {

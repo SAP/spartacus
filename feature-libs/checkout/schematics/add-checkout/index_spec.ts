@@ -169,19 +169,19 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
         });
 
-        it('should install the required feature dependencies', async () => {
+        it('should NOT install the required feature dependencies', async () => {
           const cartBaseFeatureModule = appTree.readContent(
             cartBaseFeatureModulePath
           );
-          expect(cartBaseFeatureModule).toMatchSnapshot();
+          expect(cartBaseFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
             orderFeatureModulePath
           );
-          expect(orderFeatureModule).toMatchSnapshot();
+          expect(orderFeatureModule).toBeFalsy();
 
           const userFeatureModule = appTree.readContent(userFeatureModulePath);
-          expect(userFeatureModule).toMatchSnapshot();
+          expect(userFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {
@@ -236,19 +236,19 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           expect(wrapperModule).toMatchSnapshot();
         });
 
-        it('should install the required feature dependencies', async () => {
+        it('should NOT install the required feature dependencies', async () => {
           const cartBaseFeatureModule = appTree.readContent(
             cartBaseFeatureModulePath
           );
-          expect(cartBaseFeatureModule).toMatchSnapshot();
+          expect(cartBaseFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
             orderFeatureModulePath
           );
-          expect(orderFeatureModule).toMatchSnapshot();
+          expect(orderFeatureModule).toBeFalsy();
 
           const userFeatureModule = appTree.readContent(userFeatureModulePath);
-          expect(userFeatureModule).toMatchSnapshot();
+          expect(userFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {
@@ -326,19 +326,19 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           expect(wrapperModule).toMatchSnapshot();
         });
 
-        it('should install the required feature dependencies', async () => {
+        it('should NOT install the required feature dependencies', async () => {
           const cartBaseFeatureModule = appTree.readContent(
             cartBaseFeatureModulePath
           );
-          expect(cartBaseFeatureModule).toMatchSnapshot();
+          expect(cartBaseFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
             orderFeatureModulePath
           );
-          expect(orderFeatureModule).toMatchSnapshot();
+          expect(orderFeatureModule).toBeFalsy();
 
           const userFeatureModule = appTree.readContent(userFeatureModulePath);
-          expect(userFeatureModule).toMatchSnapshot();
+          expect(userFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {

@@ -161,9 +161,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      it('should install the required feature dependencies', async () => {
+      it('should NOT install the required feature dependencies', async () => {
         const userFeatureModule = appTree.readContent(userFeatureModulePath);
-        expect(userFeatureModule).toMatchSnapshot();
+        expect(userFeatureModule).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -223,12 +223,12 @@ describe('Spartacus Organization schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      it('should install the required feature dependencies', async () => {
+      it('should NOT install the required feature dependencies', async () => {
         const userFeatureModule = appTree.readContent(userFeatureModulePath);
-        expect(userFeatureModule).toMatchSnapshot();
+        expect(userFeatureModule).toBeFalsy();
 
         const orderFeatureModule = appTree.readContent(orderFeatureModulePath);
-        expect(orderFeatureModule).toMatchSnapshot();
+        expect(orderFeatureModule).toBeFalsy();
       });
 
       describe('styling', () => {

@@ -156,24 +156,24 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           ).toBeFalsy();
         });
 
-        it('should install the required feature dependencies', async () => {
+        it('should NOT install the required feature dependencies', async () => {
           const userFeatureModule = appTree.readContent(userFeatureModulePath);
-          expect(userFeatureModule).toMatchSnapshot();
+          expect(userFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
             orderFeatureModulePath
           );
-          expect(orderFeatureModule).toMatchSnapshot();
+          expect(orderFeatureModule).toBeFalsy();
 
           const cartBaseFeatureModule = appTree.readContent(
             cartBaseFeatureModulePath
           );
-          expect(cartBaseFeatureModule).toMatchSnapshot();
+          expect(cartBaseFeatureModule).toBeFalsy();
 
           const checkoutFeatureModule = appTree.readContent(
             checkoutFeatureModulePath
           );
-          expect(checkoutFeatureModule).toMatchSnapshot();
+          expect(checkoutFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {
@@ -236,24 +236,24 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(wrapperModule).toMatchSnapshot();
         });
 
-        it('should install the required feature dependencies', async () => {
+        it('should NOT install the required feature dependencies', async () => {
           const userFeatureModule = appTree.readContent(userFeatureModulePath);
-          expect(userFeatureModule).toMatchSnapshot();
+          expect(userFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
             orderFeatureModulePath
           );
-          expect(orderFeatureModule).toMatchSnapshot();
+          expect(orderFeatureModule).toBeFalsy();
 
           const cartBaseFeatureModule = appTree.readContent(
             cartBaseFeatureModulePath
           );
-          expect(cartBaseFeatureModule).toMatchSnapshot();
+          expect(cartBaseFeatureModule).toBeFalsy();
 
           const checkoutFeatureModule = appTree.readContent(
             checkoutFeatureModulePath
           );
-          expect(checkoutFeatureModule).toMatchSnapshot();
+          expect(checkoutFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {
@@ -328,24 +328,24 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           ).toBeFalsy();
         });
 
-        it('should install the required feature dependencies', async () => {
+        it('should NOT install the required feature dependencies', async () => {
           const userFeatureModule = appTree.readContent(userFeatureModulePath);
-          expect(userFeatureModule).toMatchSnapshot();
+          expect(userFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
             orderFeatureModulePath
           );
-          expect(orderFeatureModule).toMatchSnapshot();
+          expect(orderFeatureModule).toBeFalsy();
 
           const cartBaseFeatureModule = appTree.readContent(
             cartBaseFeatureModulePath
           );
-          expect(cartBaseFeatureModule).toMatchSnapshot();
+          expect(cartBaseFeatureModule).toBeFalsy();
 
           const checkoutFeatureModule = appTree.readContent(
             checkoutFeatureModulePath
           );
-          expect(checkoutFeatureModule).toMatchSnapshot();
+          expect(checkoutFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {
@@ -427,24 +427,24 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(wrapperModule).toMatchSnapshot();
         });
 
-        it('should install the required feature dependencies', async () => {
+        it('should NOT install the required feature dependencies', async () => {
           const userFeatureModule = appTree.readContent(userFeatureModulePath);
-          expect(userFeatureModule).toMatchSnapshot();
+          expect(userFeatureModule).toBeFalsy();
 
           const orderFeatureModule = appTree.readContent(
             orderFeatureModulePath
           );
-          expect(orderFeatureModule).toMatchSnapshot();
+          expect(orderFeatureModule).toBeFalsy();
 
           const cartBaseFeatureModule = appTree.readContent(
             cartBaseFeatureModulePath
           );
-          expect(cartBaseFeatureModule).toMatchSnapshot();
+          expect(cartBaseFeatureModule).toBeFalsy();
 
           const checkoutFeatureModule = appTree.readContent(
             checkoutFeatureModulePath
           );
-          expect(checkoutFeatureModule).toMatchSnapshot();
+          expect(checkoutFeatureModule).toBeFalsy();
         });
 
         describe('styling', () => {

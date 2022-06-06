@@ -179,9 +179,9 @@ describe('Spartacus Cart schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      it('should install the required feature dependencies', async () => {
+      it('should NOT install the required feature dependencies', async () => {
         const userFeatureModule = appTree.readContent(userFeatureModulePath);
-        expect(userFeatureModule).toMatchSnapshot();
+        expect(userFeatureModule).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -316,14 +316,14 @@ describe('Spartacus Cart schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      it('should install the required feature dependencies', async () => {
+      it('should NOT install the required feature dependencies', async () => {
         const baseCartFeatureModule = appTree.readContent(
           cartBaseFeatureModulePath
         );
-        expect(baseCartFeatureModule).toMatchSnapshot();
+        expect(baseCartFeatureModule).toBeFalsy();
 
         const userFeatureModule = appTree.readContent(userFeatureModulePath);
-        expect(userFeatureModule).toMatchSnapshot();
+        expect(userFeatureModule).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -370,14 +370,14 @@ describe('Spartacus Cart schematics: ng-add', () => {
         expect(module).toMatchSnapshot();
       });
 
-      it('should install the required feature dependencies', async () => {
+      it('should NOT install the required feature dependencies', async () => {
         const baseCartFeatureModule = appTree.readContent(
           cartBaseFeatureModulePath
         );
-        expect(baseCartFeatureModule).toMatchSnapshot();
+        expect(baseCartFeatureModule).toBeFalsy();
 
         const userFeatureModule = appTree.readContent(userFeatureModulePath);
-        expect(userFeatureModule).toMatchSnapshot();
+        expect(userFeatureModule).toBeFalsy();
       });
 
       describe('styling', () => {
