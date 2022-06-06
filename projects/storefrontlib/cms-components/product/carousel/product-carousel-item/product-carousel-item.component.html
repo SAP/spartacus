@@ -2,7 +2,7 @@
   <cx-media
     [container]="item.images?.PRIMARY"
     format="product"
-    [alt]="item.name"
+    [alt]="item.name ?? ''"
   ></cx-media>
   <h3 class="cx-product-name">
     {{ item.name }}
