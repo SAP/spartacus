@@ -7,7 +7,7 @@ export const initialState: AvailableEntriesState = {
 
 export function availableEntriesReducer(
   state = initialState,
-  action: BundleActions.GetBundleAllowedProductsSuccess
+  action: BundleActions.CartBundleAction
 ): AvailableEntriesState {
   switch (action.type) {
     case BundleActions.GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS: {
@@ -25,6 +25,5 @@ export function availableEntriesReducer(
       };
     }
   }
-
   return state;
 }

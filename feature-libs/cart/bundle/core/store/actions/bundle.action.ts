@@ -1,15 +1,5 @@
 import { EntryGroup, OrderEntry } from '@spartacus/cart/base/root';
-import {
-  Breadcrumb,
-  Facet,
-  Product,
-  SearchConfig,
-  SearchState,
-  SpellingSuggestion,
-  StateUtils,
-  PaginationModel,
-  SortModel,
-} from '@spartacus/core';
+import { SearchConfig, StateUtils } from '@spartacus/core';
 import { BundleStarter } from '../../model/bundle.model';
 import { BUNDLE_DATA } from '../bundle-state';
 
@@ -40,15 +30,15 @@ export class StartBundleSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = START_BUNDLE_SUCCESS;
   constructor(
     public payload: {
-      userId: string;
-      cartId: string;
-      deliveryModeChanged: boolean;
-      entry: OrderEntry;
-      entryGroups: EntryGroup[];
-      quantity: number;
-      quantityAdded: number;
-      statusCode: string;
-      statusMessage: string;
+      userId?: string;
+      cartId?: string;
+      deliveryModeChanged?: boolean;
+      entry?: OrderEntry;
+      entryGroups?: EntryGroup[];
+      quantity?: number;
+      quantityAdded?: number;
+      statusCode?: string;
+      statusMessage?: string;
     }
   ) {
     super(BUNDLE_DATA);
@@ -76,7 +66,7 @@ export class GetBundleAllowedProducts extends StateUtils.LoaderLoadAction {
       cartId: string;
       userId: string;
       entryGroupNumber: number;
-      searchConfig: SearchConfig | undefined;
+      searchConfig?: SearchConfig | undefined;
     }
   ) {
     super(BUNDLE_DATA);
@@ -85,40 +75,14 @@ export class GetBundleAllowedProducts extends StateUtils.LoaderLoadAction {
 
 export class GetBundleAllowedProductsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS;
-  constructor(
-    public payload: {
-      userId: string;
-      cartId: string;
-      entryGroupNumber: number;
-      breadcrumbs: Breadcrumb[];
-      categoryCode: string;
-      currentQuery: SearchState;
-      facets: Facet[];
-      freeTextSearch: string;
-      keywordRedirectUrl: string;
-      pagination: PaginationModel;
-      products: Product[];
-      sorts: SortModel[];
-      spellingSuggestion: SpellingSuggestion[];
-      statusCode: string;
-      statusMessage: string;
-    }
-  ) {
+  constructor(public payload: any) {
     super(BUNDLE_DATA);
   }
 }
 
 export class GetBundleAllowedProductsFail extends StateUtils.LoaderFailAction {
   readonly type = GET_BUNDLE_ALLOWED_PRODUCTS_FAIL;
-  constructor(
-    public payload: {
-      cartId: string;
-      userId: string;
-      entryGroupNumber: number;
-      searchConfig?: SearchConfig;
-      error: any;
-    }
-  ) {
+  constructor(public payload: any) {
     super(BUNDLE_DATA, payload);
   }
 }
