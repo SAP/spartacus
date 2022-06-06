@@ -1,4 +1,3 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -13,7 +12,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
-
 class MockUserService {
   get(): Observable<User> {
     return of({});
@@ -62,7 +60,7 @@ describe('CustomerEmulationComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, HttpClientTestingModule],
+        imports: [I18nTestingModule],
         declarations: [CustomerEmulationComponent],
         providers: [
           { provide: UserService, useClass: MockUserService },
