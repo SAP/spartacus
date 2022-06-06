@@ -35,6 +35,8 @@ export class AddedToCartToastComponent implements OnDestroy {
 
   toastContainerBaseClass = 'toast-container';
 
+  lastToastItem: CartToastItem;
+
   scrollEventUnlistener: () => void;
 
   @HostBinding('className') baseClass: string;
@@ -68,6 +70,11 @@ export class AddedToCartToastComponent implements OnDestroy {
   addToast(event: CartUiEventAddToCart) {
     this.setOffsetHeight();
 
+    if (this.lastToastItem) {
+      this._destroyPreviousToast();
+      this.lastToastItem = null;
+    }
+
     this.activeCartService
       .getLastEntry(event.productCode)
       .pipe(
@@ -98,8 +105,10 @@ export class AddedToCartToastComponent implements OnDestroy {
 
         // trigger slide out animation after timeout
         toastItem.timeoutRef = setTimeout(() => {
+          this.lastToastItem = null;
           this._closeToast(toastItem);
         }, this.timeout);
+        this.lastToastItem = toastItem;
       });
   }
 
@@ -155,6 +164,13 @@ export class AddedToCartToastComponent implements OnDestroy {
       this.addedToCartToastService.removeToast();
     }, 500);
   };
+
+  _destroyPreviousToast() {
+    if(this.lastToastItem.timeoutRef){
+      clearTimeout(this.lastToastItem.timeoutRef)
+    }
+    this.addedToCartToastService.removeToast();
+  }
 
   _setPosition = () => {
     this.addedToCartToastService.setPosition(

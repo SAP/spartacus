@@ -23,20 +23,6 @@
           {{ 'cartToast.price' | cxTranslate }}: {{ toast.unitPrice }}
         </span>
       </div>
-      <button
-        type="button"
-        class="link continue-shopping"
-        (click)="closeToast(toast)"
-      >
-        {{ 'cartToast.continueShopping' | cxTranslate }}
-      </button>
-      <a
-        [routerLink]="{ cxRoute: 'cart' } | cxUrl"
-        (click)="closeToast(toast)"
-        class="btn btn-primary btn-block"
-      >
-        {{ 'cartToast.goToCart' | cxTranslate }}
-      </a>
     </div>
   </div>
 </ng-container>

@@ -11,7 +11,7 @@ export const defaultCartConfig: CartConfig = {
       enabled: false,
     },
     addToCartFeedback: {
-      feedback: ADDED_TO_CART_FEEDBACK.MODAL,
+      feedback: ADDED_TO_CART_FEEDBACK.TOAST,
       toast: defaultAddToCartToastConfig,
     },
   },
