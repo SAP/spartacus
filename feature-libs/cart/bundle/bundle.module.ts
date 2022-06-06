@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
-import { BundleComponentsModule, BundleCoreModule } from './core/public_api';
-import { BundleOccModule } from './occ/public_api';
+import { BundleComponentsModule } from '@spartacus/cart/bundle/components';
+import { BundleCoreModule } from '@spartacus/cart/bundle/core';
+import { BundleOccModule } from '@spartacus/cart/bundle/occ';
 
 @NgModule({
-  imports: [
-    BundleCoreModule.forRoot(),
-    BundleOccModule,
-    BundleComponentsModule,
-  ],
+  imports: [BundleCoreModule, BundleOccModule, BundleComponentsModule],
 })
 export class BundleModule {}

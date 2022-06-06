@@ -1,7 +1,6 @@
 export * from './connectors/index';
 export * from './model/index';
 export * from './bundle-core.module';
-export * from './bundle-components.module';
 export * from './connectors/index';
 export * from './facade/index';
 export * from './model/index';

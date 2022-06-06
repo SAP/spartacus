@@ -17,6 +17,7 @@ export class AddToEntryGroup extends StateUtils.EntityProcessesIncrementAction {
       cartId: string;
       entry: OrderEntry;
       entryGroupNumber: number;
+      quantity: number;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -31,6 +32,7 @@ export class AddToEntryGroupSuccess extends StateUtils.EntityProcessesDecrementA
       cartId: string;
       deliveryModeChanged: boolean;
       entry: OrderEntry;
+      entryGroupNumber: number;
       quantity: number;
       quantityAdded: number;
       statusCode: string;

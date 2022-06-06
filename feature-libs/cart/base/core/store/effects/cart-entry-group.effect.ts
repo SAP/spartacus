@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartModification } from '@spartacus/cart/base/root';
@@ -16,7 +16,6 @@ export class CartEntryGroupEffects {
     )
   );
 
-  @Effect()
   addToEntryGroup$: Observable<
     | CartActions.AddToEntryGroupSuccess
     | CartActions.AddToEntryGroupFail
@@ -56,7 +55,6 @@ export class CartEntryGroupEffects {
     withdrawOn(this.contextChange$)
   );
 
-  @Effect()
   deleteEntryGroup$: Observable<
     | CartActions.DeleteEntryGroupSuccess
     | CartActions.DeleteEntryGroupFail
