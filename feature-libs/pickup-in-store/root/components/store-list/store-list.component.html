@@ -1,0 +1,35 @@
+<p>Store List</p>
+<div
+  *ngIf="
+    !(isLoading$ | async) && (locations$ | async) as locations;
+    else loading
+  "
+>
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+  <div *ngIf="locations?.stores?.length">
+    <div class="cx-pagination">
+      <!-- <cx-pagination
+        aria-hidden="true"
+        [pagination]="locations.pagination"
+        (viewPageEvent)="viewPage($event)"
+      ></cx-pagination> -->
+    </div>
+  </div>
+  <!-- <cx-store-finder-list
+    *ngIf="locations?.stores?.length"
+    [locations]="locations"
+    [useMylocation]="useMyLocation"
+  ></cx-store-finder-list> -->
+  <div class="container" *ngIf="!locations?.stores?.length">
+    <div class="row">
+      <span class="cx-no-stores" role="alert">
+        {{ 'storeFinder.noStoresMessage' | cxTranslate }}
+      </span>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
