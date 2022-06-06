@@ -80,8 +80,7 @@ describe('ProductCarouselItemComponent in product-carousel', () => {
             useClass: MockProductService,
           },
         ],
-      })
-      .compileComponents();
+      }).compileComponents();
     })
   );
 
