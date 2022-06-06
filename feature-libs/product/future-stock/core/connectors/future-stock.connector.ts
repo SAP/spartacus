@@ -1,4 +1,7 @@
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ProductFutureStock } from '../model/future-stock.model';
+import { FutureStockAdapter } from './future-stock.adapter';
 
 @Injectable()
 export class FutureStockConnector {

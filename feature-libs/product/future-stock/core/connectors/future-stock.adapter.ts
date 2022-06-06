@@ -1,5 +1,5 @@
-import { Cart } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
+import { ProductFutureStock } from '../model/future-stock.model';
 
 export abstract class FutureStockAdapter {
   /**
