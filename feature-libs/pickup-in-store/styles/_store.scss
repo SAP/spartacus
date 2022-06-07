@@ -1,0 +1,45 @@
+cx-store {
+  .cx-store {
+    font-size: 14px;
+    display: flex;
+    border-top: solid thin $gray-500;
+  }
+
+  .cx-store-address {
+    flex-grow: 1;
+  }
+
+  .cx-store-address-name {
+    font-weight: 900;
+  }
+
+  .cx-store-opening-hours-toggle {
+    color: #1672b7;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .cx-store-opening-hours {
+    display: flex;
+    .cx-store-day-of-week {
+      flex-grow: 1;
+    }
+  }
+  .cx-store-pick-up-from-here {
+    padding: 25px 0 25px 0;
+    button {
+      width: 100%;
+      height: 48px;
+      border-radius: 24px;
+      border: solid 3px #1672b7;
+      color: #1672b7;
+      background-color: transparent;
+      font-weight: 600;
+      user-select: none;
+    }
+  }
+
+  // .cx-store > div {
+  //   border: solid thin red;
+  // }
+}

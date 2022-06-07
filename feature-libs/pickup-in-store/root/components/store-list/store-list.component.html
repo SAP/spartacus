@@ -1,4 +1,3 @@
-<p>Store List</p>
 <div
   *ngIf="
     !(isLoading$ | async) && (locations$ | async) as locations;
@@ -27,6 +26,13 @@
       </span>
     </div>
   </div>
+
+  <div class="container" *ngIf="locations?.stores?.length">
+    <cx-store *ngFor="let store of locations.stores"
+    [storeDetails]="store"
+    ></cx-store>
+  </div>
+
 </div>
 <ng-template #loading>
   <div class="cx-spinner">
