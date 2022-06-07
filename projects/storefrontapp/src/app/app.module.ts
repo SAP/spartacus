@@ -24,6 +24,7 @@ import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
+import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
 
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
@@ -79,6 +80,11 @@ if (!environment.production) {
     provideConfig(<FeaturesConfig>{
       features: {
         level: '4.2',
+      },
+    }),
+    provideConfig(<ConfiguratorUISettingsConfig>{
+      productConfigurator: {
+        enableNavigationToConflict: true,
       },
     }),
   ],
