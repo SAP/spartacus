@@ -222,7 +222,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'form-check-input',
         1,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:' +
+        'configurator.a11y.selectedValueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
           component.attribute.values[1].valueDisplay
@@ -279,6 +279,137 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-attribute-numeric-input-field'
+      );
+    });
+  });
+  describe('getAriaLabel', () => {
+    it('should return aria label for additional value', () => {
+      expect(component.getAdditionalValueAriaLabel()).toEqual(
+        'configurator.a11y.additionalValue'
+      );
+    });
+    it('should return aria label of value with total price', () => {
+      let attributeWithTotalPrice: Configurator.Attribute = {
+        name: 'attribute with total price',
+        label: 'attribute with total price',
+      };
+      let price: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      let priceTotal: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      const valueWithValuePriceTotal = createValue(
+        '1',
+        'value with total price',
+        true
+      );
+      valueWithValuePriceTotal.valuePriceTotal = priceTotal;
+      valueWithValuePriceTotal.valuePrice = price;
+
+      expect(
+        component.getAriaLabelWithoutAdditionalValue(
+          valueWithValuePriceTotal,
+          attributeWithTotalPrice
+        )
+      ).toEqual(
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          attributeWithTotalPrice.label +
+          ' price:' +
+          valueWithValuePriceTotal.valuePrice?.formattedValue +
+          ' value:' +
+          valueWithValuePriceTotal.valueDisplay
+      );
+    });
+
+    it('should return aria label for value with price', () => {
+      let attributeWithValuePrice: Configurator.Attribute = {
+        name: 'attribute with value price',
+        label: 'attribute with value price',
+      };
+      let price: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      const valueWithValuePrice = createValue(
+        '1',
+        'value with value price',
+        true
+      );
+      valueWithValuePrice.valuePrice = price;
+
+      expect(
+        component.getAriaLabelWithoutAdditionalValue(
+          valueWithValuePrice,
+          attributeWithValuePrice
+        )
+      ).toEqual(
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          attributeWithValuePrice.label +
+          ' price:' +
+          valueWithValuePrice.valuePrice?.formattedValue +
+          ' value:' +
+          valueWithValuePrice.valueDisplay
+      );
+    });
+
+    it('should return aria label for value without price', () => {
+      let attributeWithOutPrice: Configurator.Attribute = {
+        name: 'attribute without price',
+        label: 'attribute without value price',
+      };
+      const valueWithOutPrice = createValue('1', 'value without price', true);
+
+      expect(
+        component.getAriaLabelWithoutAdditionalValue(
+          valueWithOutPrice,
+          attributeWithOutPrice
+        )
+      ).toEqual(
+        'configurator.a11y.selectedValueOfAttributeFull attribute:' +
+          attributeWithOutPrice.label +
+          ' value:' +
+          valueWithOutPrice.valueDisplay
+      );
+    });
+
+    it('should return aria label for value with price and attribute additional value', () => {
+      let attributeWithValuePrice: Configurator.Attribute = {
+        name: 'attribute with value price',
+        label: 'attribute with value price',
+      };
+      let price: Configurator.PriceDetails = {
+        currencyIso: '$',
+        formattedValue: '$100.00',
+        value: 100,
+      };
+      const valueWithValuePrice = createValue(
+        '1',
+        'value with value price',
+        true
+      );
+      valueWithValuePrice.valuePrice = price;
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT ||
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      fixture.detectChanges();
+      expect(
+        component.getAriaLabel(valueWithValuePrice, attributeWithValuePrice)
+      ).toEqual(
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          attributeWithValuePrice.label +
+          ' price:' +
+          valueWithValuePrice.valuePrice?.formattedValue +
+          ' value:' +
+          valueWithValuePrice.valueDisplay +
+          ' ' +
+          'configurator.a11y.additionalValue'
       );
     });
   });
