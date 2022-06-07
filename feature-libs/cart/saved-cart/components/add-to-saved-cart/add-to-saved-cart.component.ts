@@ -44,6 +44,13 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     );
   }
 
+  /**
+   * @returns whether to show the "Save cart for later" button. Contingent on whether there are actual entries to save.
+   */
+  showSaveCartForLater(cart: Cart): boolean {
+    return (cart.entries?.length ?? 0) !== 0;
+  }
+
   saveCart(cart: Cart): void {
     if (this.loggedIn) {
       this.openDialog(cart);

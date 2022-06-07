@@ -106,6 +106,20 @@ describe('AddToSavedCartComponent', () => {
     );
   });
 
+  it("should show the 'Save cart for later' button", () => {
+    expect(component.showSaveCartForLater(mockCart)).toBe(true);
+  });
+
+  it("should hide the 'Save cart for later' button", () => {
+    expect(component.showSaveCartForLater({})).toBe(false);
+
+    const emptyCart = {
+      entries: [],
+    };
+
+    expect(component.showSaveCartForLater(emptyCart)).toBe(false);
+  });
+
   describe('should trigger action on save cart method', () => {
     describe('when user is not logged in', () => {
       it('should redirect to login page', () => {

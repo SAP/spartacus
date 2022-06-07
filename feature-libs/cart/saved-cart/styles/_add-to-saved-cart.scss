@@ -7,7 +7,7 @@ cx-add-to-saved-cart {
     margin-top: 3rem;
 
     .cx-action-link {
-      &:last-child {
+      &:nth-child(n + 2) {
         margin-inline-end: 0;
         &:before {
           content: '|';
