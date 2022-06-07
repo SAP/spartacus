@@ -197,7 +197,7 @@ export const configurator = {
       numericInfiniteIntervalMaxValue: 'Enter a value less than {{ value }}',
       numericIntervalSingleValue: 'Enter {{ value }}',
       combinedIntervalsText: '{{ combinedInterval }} or {{ newInterval }}',
-      additionalValue: 'You can enter an additional value.',
+      additionalValue: 'You can also enter an additional value.',
       addToCartPrices:
         'Base Price {{basePrice}}, Selected Options {{selectedOptions}}, Total Price {{totalPrice}}',
     },
