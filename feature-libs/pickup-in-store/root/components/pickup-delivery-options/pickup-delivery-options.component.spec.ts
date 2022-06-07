@@ -60,7 +60,7 @@ describe('PickupDeliveryOptionsComponent', () => {
     service = TestBed.inject(PickupInStoreFacade);
     launchDialogService = TestBed.inject(LaunchDialogService);
 
-    spyOn(launchDialogService, 'openDialog').and.stub();
+    spyOn(launchDialogService, 'openDialog').and.callThrough();
 
     fixture.detectChanges();
   };

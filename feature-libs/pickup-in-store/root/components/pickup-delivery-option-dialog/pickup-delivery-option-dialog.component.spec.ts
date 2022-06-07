@@ -33,7 +33,7 @@ describe('PickupDeliveryOptionDialogComponent', () => {
   });
 
   it('should create dialog', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 
   it('should close dialog on close method', () => {
