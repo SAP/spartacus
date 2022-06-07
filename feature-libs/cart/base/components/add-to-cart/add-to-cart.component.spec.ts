@@ -168,7 +168,7 @@ describe('AddToCartComponent', () => {
     fixture.detectChanges();
   }
 
-  function getTextFromButton(): string {
+  function getTextFromAddToCartButton(): string {
     return getButton().query(By.css('span')).nativeElement.innerText;
   }
 
@@ -329,7 +329,7 @@ describe('AddToCartComponent', () => {
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
 
-        expect(getTextFromButton()).toEqual('addToCart.addToCart');
+        expect(getTextFromAddToCartButton()).toEqual('addToCart.addToCart');
       });
 
       it('should use the provided string for add to cart button', () => {
@@ -340,7 +340,7 @@ describe('AddToCartComponent', () => {
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
 
-        expect(getTextFromButton()).toEqual('add to active cart');
+        expect(getTextFromAddToCartButton()).toEqual('add to active cart');
       });
 
       it('should display add to cart if the string is not provided', () => {
@@ -349,7 +349,7 @@ describe('AddToCartComponent', () => {
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
 
-        expect(getTextFromButton()).toEqual('addToCart.addToCart');
+        expect(getTextFromAddToCartButton()).toEqual('addToCart.addToCart');
       });
 
       it('should not show any button if the product is not in stock', () => {

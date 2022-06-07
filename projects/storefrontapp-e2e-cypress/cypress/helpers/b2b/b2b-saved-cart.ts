@@ -358,9 +358,7 @@ export function restoreSavedCart(cart: any) {
     `Existing cart is activated by ${cart.code} successfully`
   );
 
-  cy.wait(`@${getAllSavedCartAlias}`)
-    .its('response.statusCode')
-    .should('eq', 200);
+  waitForSuccessfulServerResponse(getAllSavedCartAlias);
 
   verifyNotSavedCartListMessage();
 
@@ -707,7 +705,6 @@ export function updateSavedCartAndRestore(
         if (addToActiveCart) {
           verifyAddToCart(cart, product);
         } else {
-          // restore saved cart
           restoreSavedCart(cart);
         }
       });
