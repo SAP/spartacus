@@ -1,7 +1,8 @@
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { TranslationService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -20,7 +21,10 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() ownerType: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected translation: TranslationService
+  ) {
     super();
   }
 
@@ -188,5 +192,70 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
       this.isAdditionalValue &&
       this.attribute.validationType === Configurator.ValidationType.NONE
     );
+  }
+
+  getAriaLabel(
+    value: Configurator.Value,
+    attribute: Configurator.Attribute
+  ): string {
+    let ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
+    if (this.isAdditionalValue) {
+      let ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
+      return ariaLabel + ' ' + ariaLabelWithAdditionalValue;
+    } else {
+      return ariaLabel;
+    }
+  }
+
+  getAdditionalValueAriaLabel(): string {
+    let ariaLabel = '';
+    this.translation
+      .translate('configurator.a11y.additionalValue')
+      .pipe(take(1))
+      .subscribe((text) => (ariaLabel = text));
+    return ariaLabel;
+  }
+
+  getAriaLabelWithoutAdditionalValue(
+    value: Configurator.Value,
+    attribute: Configurator.Attribute
+  ): string {
+    let ariaLabel = '';
+    if (value.valuePrice && value.valuePrice?.value !== 0) {
+      if (value.valuePriceTotal && value.valuePriceTotal?.value !== 0) {
+        this.translation
+          .translate(
+            'configurator.a11y.selectedValueOfAttributeFullWithPrice',
+            {
+              value: value.valueDisplay,
+              attribute: attribute.label,
+              price: value.valuePriceTotal.formattedValue,
+            }
+          )
+          .pipe(take(1))
+          .subscribe((text) => (ariaLabel = text));
+      } else {
+        this.translation
+          .translate(
+            'configurator.a11y.selectedValueOfAttributeFullWithPrice',
+            {
+              value: value.valueDisplay,
+              attribute: attribute.label,
+              price: value.valuePrice.formattedValue,
+            }
+          )
+          .pipe(take(1))
+          .subscribe((text) => (ariaLabel = text));
+      }
+    } else {
+      this.translation
+        .translate('configurator.a11y.selectedValueOfAttributeFull', {
+          value: value.valueDisplay,
+          attribute: attribute.label,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (ariaLabel = text));
+    }
+    return ariaLabel;
   }
 }
