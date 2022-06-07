@@ -158,7 +158,7 @@ export function checkBasicCart() {
   cy.get('cx-searchbox input').clear().type(`cameras{enter}`);
 
   cy.get(
-    ':nth-child(2) > :nth-child(1) > :nth-child(2) > .row > .col-md-4 > cx-add-to-cart > .ng-untouched > .btn'
+    ':nth-child(2) > :nth-child(1) > :nth-child(2) > .row > .col-md-5 > cx-add-to-cart > .ng-untouched > .btn'
   ).click();
 
   cy.wait('@refresh_cart');
