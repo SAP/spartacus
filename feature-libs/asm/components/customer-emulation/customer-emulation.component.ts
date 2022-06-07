@@ -28,8 +28,6 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
   cartIdExists: boolean;
-  showAssignCartSuccess = false;
-  showAssignCartError = false;
   protected subscription = new Subscription();
 
   @Output()
