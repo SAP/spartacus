@@ -39,13 +39,13 @@ export class ModalService {
     });
   }
 
-  getActiveModal(): ModalRef {
+  getActiveModal(): ModalRef | null {
     const modal = this.modals[this.modals.length - 1];
     return modal ? modal : null;
   }
 
   dismissActiveModal(reason?: any): void {
-    const modal: ModalRef = this.getActiveModal();
+    const modal = this.getActiveModal();
 
     if (modal) {
       modal.dismiss(reason);
@@ -53,7 +53,7 @@ export class ModalService {
   }
 
   closeActiveModal(reason?: any): void {
-    const modal: ModalRef = this.getActiveModal();
+    const modal = this.getActiveModal();
 
     if (modal) {
       modal.close(reason);
