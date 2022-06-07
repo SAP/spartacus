@@ -47,6 +47,7 @@ class MockAddedToCartToastComponentService
       images: product?.images,
       unitPrice: product?.price?.formattedValue,
     };
+    mockCartToastItems.splice(0, mockCartToastItems.length);
     mockCartToastItems.push(cartToastItem);
     return cartToastItem;
   }
@@ -116,6 +117,19 @@ describe('AddedToCartToastComponent', () => {
     const spy = spyOn(activeCartService, 'getLastEntry').and.callThrough();
     component.addToast(mockEvent);
     expect(spy).toHaveBeenCalled();
+  });
+
+  it('should render only one toast', () => {
+    component.addToast(mockEvent);
+    component.addToast(mockEvent);
+    fixture.detectChanges();
+    const elements = fixture.debugElement.queryAll(
+      By.css('div.added-to-cart-toast-title')
+    );
+    expect(elements.length).toBe(1);
+    component.cartToasts$.subscribe((toasts) => {
+      expect(toasts.length).toBe(1);
+    })
   });
 
   it('should set the class on init', () => {

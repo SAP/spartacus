@@ -25,11 +25,12 @@ export class AddedToCartToastComponentService {
       unitPrice: basePrice?.formattedValue,
       images: product?.images,
     };
-    const index = this.cartToastItems.push(newCartToastItem) - 1;
+    this.removePrevious();
+    this.cartToastItems.push(newCartToastItem);
     setTimeout(() => {
       this.removePrevious();
     }, 500);
-    return this.cartToastItems[index];
+    return this.cartToastItems[0];
   }
 
   removeToast() {
