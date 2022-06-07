@@ -7,6 +7,10 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
+import {
+  OrganizationUserRegistration,
+  UserRegistrationFacade,
+} from '@spartacus/organization/user-registration/root';
 import { of } from 'rxjs';
 import { UserRegistrationFormService } from './user-registration-form.service';
 import createSpy = jasmine.createSpy;
@@ -37,15 +41,23 @@ class MockTranslationService implements Partial<TranslationService> {
   }
 }
 
-describe('UserRegistrationFormService', () => {
+class MockUserRegistrationFacade implements Partial<UserRegistrationFacade> {
+  registerUser(userData: OrganizationUserRegistration) {
+    return of(userData);
+  }
+}
+
+fdescribe('UserRegistrationFormService', () => {
   let service: UserRegistrationFormService;
   let userAddressService: UserAddressService;
   let userRegisterFacade: UserRegisterFacade;
+  let organizationUserRegistrationFacade: UserRegistrationFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         FormBuilder,
+
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -66,11 +78,16 @@ describe('UserRegistrationFormService', () => {
           provide: TranslationService,
           useClass: MockTranslationService,
         },
+        {
+          provide: UserRegistrationFacade,
+          useClass: MockUserRegistrationFacade,
+        },
       ],
     });
     service = TestBed.inject(UserRegistrationFormService);
     userAddressService = TestBed.inject(UserAddressService);
     userRegisterFacade = TestBed.inject(UserRegisterFacade);
+    organizationUserRegistrationFacade = TestBed.inject(UserRegistrationFacade);
   });
 
   it('should inject service', () => {
@@ -138,5 +155,17 @@ describe('UserRegistrationFormService', () => {
     );
   });
 
-  // TODO: Add unit tests for missing functions...
+  it('should build content message and call facade', () => {
+    const form = service.form;
+
+    spyOn<any>(service, 'buildMessageContent').and.callThrough();
+    spyOn(service, 'registerUser').and.callThrough();
+
+    service.registerUser(form).subscribe(() => {
+      expect(
+        organizationUserRegistrationFacade.registerUser
+      ).toHaveBeenCalled();
+    });
+    expect(service['buildMessageContent']).toHaveBeenCalledWith(form);
+  });
 });
