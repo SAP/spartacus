@@ -27,16 +27,10 @@
         [class.visible]="cartIdExists"
         (click)="clearText()"
       >
-        <cx-icon
-          class="cx-icon fas fa-times-circle"
-          ng-reflect-type="RESET"
-        ></cx-icon>
+        <cx-icon class="cx-icon fas fa-times-circle"></cx-icon>
       </button>
       <div role="presentation" class="search-icon">
-        <cx-icon
-          class="cx-icon fas fa-search"
-          ng-reflect-type="SEARCH"
-        ></cx-icon>
+        <cx-icon class="cx-icon fas fa-search"></cx-icon>
       </div>
     </div>
     <button
@@ -48,11 +42,7 @@
       {{ 'asm.assignCart.assignCartToCustomer' | cxTranslate }}
     </button>
   </label>
-  <button
-    formcontrolname="logoutCustomer"
-    (click)="logoutCustomer()"
-    data-cy="logout"
-  >
+  <button formcontrolname="logoutCustomer" (click)="logoutCustomer()">
     {{ 'asm.endSession' | cxTranslate }}
   </button>
 </ng-container>

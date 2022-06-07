@@ -15,7 +15,6 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
@@ -25,7 +24,6 @@ import { AsmComponentService } from '../services/asm-component.service';
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
   cartId: FormControl = new FormControl();
-  iconTypes = ICON_TYPE;
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
   cartIdExists: boolean;
   protected subscription = new Subscription();
