@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ICON_TYPE } from '../../../../cms-components';
+import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { PasswordInputState } from './password-input-visibility.model';
 
 @Component({

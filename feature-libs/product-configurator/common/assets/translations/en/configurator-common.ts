@@ -198,6 +198,8 @@ export const configurator = {
       numericIntervalSingleValue: 'Enter {{ value }}',
       combinedIntervalsText: '{{ combinedInterval }} or {{ newInterval }}',
       additionalValue: 'You can enter an additional value.',
+      addToCartPrices:
+        'Base Price {{basePrice}}, Selected Options {{selectedOptions}}, Total Price {{totalPrice}}',
     },
   },
 };
