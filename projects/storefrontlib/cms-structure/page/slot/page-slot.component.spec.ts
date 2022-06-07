@@ -181,6 +181,9 @@ describe('PageSlotComponent', () => {
   });
 
   describe('cx-pending style class', () => {
+    beforeEach(() => {
+      pageSlotComponent.position = 'Section1';
+    });
     it('should not have cx-pending class when there is no slot data', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(of(null));
       fixture.detectChanges();
@@ -238,8 +241,12 @@ describe('PageSlotComponent', () => {
   });
 
   describe('components', () => {
+    beforeEach(() => {
+      pageSlotComponent.position = 'Section1';
+    });
     it('should have empty component list if slot is undefined', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(of(undefined));
+      pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
       let results;
       pageSlotComponent.components$
@@ -250,6 +257,7 @@ describe('PageSlotComponent', () => {
 
     it('should have empty component list if slot is empty', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
+      pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
       let results;
       pageSlotComponent.components$
@@ -260,6 +268,7 @@ describe('PageSlotComponent', () => {
 
     it('should have one components', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(of(slotWithOneComp));
+      pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
       let results;
       pageSlotComponent.components$
@@ -308,6 +317,9 @@ describe('PageSlotComponent', () => {
   });
 
   describe('has-components class', () => {
+    beforeEach(() => {
+      pageSlotComponent.position = 'Section1';
+    });
     it('should not add has-components class when slot has no components', () => {
       spyOn(cmsService, 'getContentSlot').and.returnValue(of({}));
       fixture.detectChanges();
@@ -341,7 +353,7 @@ describe('PageSlotComponent', () => {
   describe('SmartEdit integration', () => {
     it('should add page slot contract', () => {
       spyOn(dynamicAttributeService, 'addAttributesToSlot').and.callThrough();
-
+      pageSlotComponent.position = 'Section1';
       fixture.detectChanges();
 
       const native = fixture.debugElement.nativeElement;
