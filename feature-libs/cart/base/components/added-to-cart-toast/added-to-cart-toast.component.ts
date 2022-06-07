@@ -25,8 +25,6 @@ import { AddedToCartToastComponentService } from './added-to-cart-toast-componen
 export class AddedToCartToastComponent implements OnDestroy {
   protected subscription = new Subscription();
 
-  customClass?: string;
-
   headerElement: HTMLElement | null;
 
   toastContainerClass: string;
@@ -54,11 +52,7 @@ export class AddedToCartToastComponent implements OnDestroy {
   ) {}
 
   init(): void {
-    if (!this.customClass) {
-      this.customClass = 'cx-added-to-cart-toast';
-    }
-
-    this.baseClass = `${this.customClass}`;
+    this.baseClass = 'cx-added-to-cart-toast';
     this.toastContainerClass = this.toastContainerBaseClass;
     this.headerElement = this.winRef.document.querySelector('header');
   }
@@ -167,7 +161,7 @@ export class AddedToCartToastComponent implements OnDestroy {
 
   _destroyPreviousToast() {
     if(this.lastToastItem.timeoutRef){
-      clearTimeout(this.lastToastItem.timeoutRef)
+      clearTimeout(this.lastToastItem.timeoutRef);
     }
     this.addedToCartToastService.removeToast();
   }
