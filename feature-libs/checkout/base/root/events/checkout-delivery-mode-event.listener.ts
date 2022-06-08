@@ -47,10 +47,6 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
             {
               userId,
               cartId,
-              /**
-               * As we know the cart is not anonymous (precondition checked),
-               * we can safely use the cartId, which is actually the cart.code.
-               */
               cartCode,
             },
             LoadCartEvent
@@ -70,10 +66,6 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
             {
               userId,
               cartId,
-              /**
-               * As we know the cart is not anonymous (precondition checked),
-               * we can safely use the cartId, which is actually the cart.code.
-               */
               cartCode,
             },
             LoadCartEvent
@@ -93,10 +85,6 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
             {
               userId,
               cartId,
-              /**
-               * As we know the cart is not anonymous (precondition checked),
-               * we can safely use the cartId, which is actually the cart.code.
-               */
               cartCode,
             },
             LoadCartEvent
