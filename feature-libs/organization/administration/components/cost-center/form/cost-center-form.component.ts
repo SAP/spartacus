@@ -30,7 +30,7 @@ import { CurrentCostCenterService } from '../services/current-cost-center.servic
   ],
 })
 export class CostCenterFormComponent {
-  form: FormGroup = this.itemService.getForm();
+  form: FormGroup | null = this.itemService.getForm();
   /**
    * Initialize the business unit for the cost center.
    *

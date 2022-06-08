@@ -45,7 +45,7 @@ export class UserFormService extends FormService<B2BUser> {
   protected patchData(item: B2BUser) {
     super.patchData(item);
     if (item) {
-      const roles = this.form.get('roles') as FormArray;
+      const roles = this.form?.get('roles') as FormArray;
       item.roles?.forEach((role) => {
         if (!(roles.value as string[]).includes(role)) {
           roles.push(new FormControl(role));

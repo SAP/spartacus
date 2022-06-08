@@ -120,7 +120,7 @@ export class PermissionFormService
   protected patchData(item?: Permission) {
     super.patchData(item);
     if (item?.code !== undefined) {
-      this.form.get('orderApprovalPermissionType')?.disable();
+      this.form?.get('orderApprovalPermissionType')?.disable();
     }
   }
 }

@@ -39,13 +39,13 @@ export class UnitFormComponent implements OnInit {
 
   @Input() createChildUnit = false;
 
-  form: FormGroup = this.itemService.getForm();
+  form: FormGroup | null = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[] | undefined> = this.itemService.unit$.pipe(
     tap((unit) => {
-      this.form.get('parentOrgUnit.uid')?.setValue(unit);
+      this.form?.get('parentOrgUnit.uid')?.setValue(unit);
       if (this.createChildUnit) {
-        this.form.get('parentOrgUnit')?.disable();
+        this.form?.get('parentOrgUnit')?.disable();
       }
     }),
     switchMap(() =>

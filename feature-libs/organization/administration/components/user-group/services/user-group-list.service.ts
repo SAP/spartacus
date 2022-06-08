@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel, PaginationModel } from '@spartacus/core';
+import {
+  EntitiesModel,
+  isNotUndefined,
+  PaginationModel,
+} from '@spartacus/core';
 import {
   UserGroup,
   UserGroupService,
@@ -44,7 +48,7 @@ export class UserGroupListService extends ListService<UserGroupModel> {
     pagination: PaginationModel
   ): Observable<EntitiesModel<UserGroupModel>> {
     return this.userGroupService.getList(pagination).pipe(
-      filter((list) => Boolean(list)),
+      filter(isNotUndefined),
       map((raw) => this.convertUserGroups(raw))
     );
   }
@@ -61,7 +65,7 @@ export class UserGroupListService extends ListService<UserGroupModel> {
     const userGroupModels: EntitiesModel<UserGroupModel> = {
       pagination,
       sorts,
-      values: values.map((value: any) => ({
+      values: values?.map((value: any) => ({
         ...value,
         unit: value.orgUnit,
       })),

@@ -43,11 +43,11 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   readonly structure$: Observable<TableStructure> = this.service.getStructure();
 
-  readonly listData$: Observable<EntitiesModel<T>> = this.service
+  readonly listData$: Observable<EntitiesModel<T> | undefined> = this.service
     .getData()
     .pipe(
       tap((data) => {
-        this.sortCode = data.pagination?.sort;
+        this.sortCode = data?.pagination?.sort;
         this.hasGhostData = this.service.hasGhostData(data);
       })
     );

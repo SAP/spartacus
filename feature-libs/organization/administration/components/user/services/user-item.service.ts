@@ -27,7 +27,10 @@ export class UserItemService extends ItemService<B2BUser> {
     return this.userService.get(code);
   }
 
-  update(code, value: B2BUser): Observable<OrganizationItemStatus<B2BUser>> {
+  update(
+    code: string,
+    value: B2BUser
+  ): Observable<OrganizationItemStatus<B2BUser>> {
     delete value.approvers;
     this.userService.update(code, value);
     return this.userService.getLoadingStatus(code);

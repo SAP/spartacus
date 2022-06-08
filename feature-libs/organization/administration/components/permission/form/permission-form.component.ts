@@ -36,7 +36,7 @@ import { PermissionItemService } from '../services/permission-item.service';
   ],
 })
 export class PermissionFormComponent implements OnInit {
-  form: FormGroup = this.itemService.getForm();
+  form: FormGroup | null = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[] | undefined> = this.unitService
     .getActiveUnitList()

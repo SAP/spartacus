@@ -34,14 +34,15 @@
         'orgUserGroup.orgUnit' | cxTranslate
       }}</span>
       <ng-select
+        *ngIf="units$ | async as units"
         [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="units$ | async"
+        [items]="units"
         bindLabel="name"
         bindValue="id"
-        [readonly]="form.get('orgUnit.uid').disabled"
+        [readonly]="form.get('orgUnit.uid')?.disabled ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgUserGroup.orgUnit' | cxTranslate"
       >

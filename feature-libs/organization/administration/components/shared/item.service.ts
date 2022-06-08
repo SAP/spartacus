@@ -82,7 +82,7 @@ export abstract class ItemService<T> {
    */
   protected abstract getDetailsRoute(): string;
 
-  getForm(item?: T): FormGroup {
+  getForm(item?: T): FormGroup | null {
     return this.formService.getForm(item);
   }
 

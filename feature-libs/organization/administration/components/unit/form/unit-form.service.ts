@@ -38,8 +38,8 @@ export class UnitFormService extends FormService<B2BUnit> {
   protected toggleParentUnit(item?: B2BUnit): void {
     if (this.isRootUnit(item)) {
       this.form?.removeControl('parentOrgUnit');
-    } else if (!this.form.get('parentOrgUnit')) {
-      this.form.setControl(
+    } else if (!this.form?.get('parentOrgUnit')) {
+      this.form?.setControl(
         'parentOrgUnit',
         new FormGroup({
           uid: new FormControl(null, Validators.required),

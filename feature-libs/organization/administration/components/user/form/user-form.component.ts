@@ -35,7 +35,7 @@ import { UserItemService } from '../services/user-item.service';
   ],
 })
 export class UserFormComponent implements OnInit {
-  form: FormGroup = this.itemService.getForm();
+  form: FormGroup | null = this.itemService.getForm();
 
   /**
    * Initialize the business unit for the user.
@@ -44,18 +44,20 @@ export class UserFormComponent implements OnInit {
    */
   @Input() set unitKey(value: string) {
     if (value) {
-      this.form?.get('orgUnit.uid').setValue(value);
+      this.form?.get('orgUnit.uid')?.setValue(value);
       this.form?.get('orgUnit')?.disable();
     }
   }
 
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
-    tap((units) => {
-      if (units.length === 1) {
-        this.form?.get('orgUnit.uid').setValue(units[0]?.id);
-      }
-    })
-  );
+  units$: Observable<B2BUnitNode[] | undefined> = this.unitService
+    .getActiveUnitList()
+    .pipe(
+      tap((units) => {
+        if (units && units.length === 1) {
+          this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
+        }
+      })
+    );
 
   titles$: Observable<Title[]> = this.userService.getTitles();
 
@@ -82,10 +84,10 @@ export class UserFormComponent implements OnInit {
   }
 
   get roles(): FormArray {
-    return this.form.get('roles') as FormArray;
+    return this.form?.get('roles') as FormArray;
   }
 
   get isAssignedToApprovers(): FormControl {
-    return this.form.get('isAssignedToApprovers') as FormControl;
+    return this.form?.get('isAssignedToApprovers') as FormControl;
   }
 }
