@@ -333,10 +333,8 @@ describe('AddToCartComponent', () => {
       });
 
       it('should use the provided string for add to cart button', () => {
-        const addToCartString$: Observable<string> = of('add to active cart');
-
         addToCartComponent.productCode = productCode;
-        addToCartComponent.options = { addToCartString: addToCartString$ };
+        addToCartComponent.options = { addToCartString: 'add to active cart' };
         addToCartComponent.ngOnInit();
         fixture.detectChanges();
 
