@@ -4,21 +4,21 @@ import { Address, CxEvent } from '@spartacus/core';
 /**
  * Emit this event to force checkout details reload
  */
-export class CheckoutReloadQueryEvent extends CxEvent {
+export class CheckoutQueryReloadEvent extends CxEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutReloadQueryEvent';
+  static readonly type = 'CheckoutQueryReloadEvent';
 }
 
 /**
  * Emit this event to force checkout details reset
  */
-export class CheckoutResetQueryEvent extends CxEvent {
+export class CheckoutQueryResetEvent extends CxEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutResetQueryEvent';
+  static readonly type = 'CheckoutQueryResetEvent';
 }
 
 /**

@@ -12,7 +12,7 @@ import {
   CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryReloadEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
@@ -41,7 +41,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
       this.eventService
         .get(CheckoutDeliveryModeSetEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
 
           this.eventService.dispatch(
             {
@@ -64,7 +64,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
       this.eventService
         .get(CheckoutDeliveryModeClearedEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
 
           this.eventService.dispatch(
             {
@@ -87,7 +87,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
       this.eventService
         .get(CheckoutDeliveryModeClearedErrorEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
 
           this.eventService.dispatch(
             {

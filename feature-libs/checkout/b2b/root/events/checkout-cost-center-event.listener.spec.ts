@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
 import { createFrom, CxEvent, EventService } from '@spartacus/core';
@@ -54,10 +54,10 @@ describe(`CheckoutCostCenterEventListener`, () => {
       );
     });
 
-    it(`CheckoutCostCenterSetEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`CheckoutCostCenterSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });

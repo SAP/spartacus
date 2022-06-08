@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
 import {
@@ -39,7 +39,7 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
             { userId, cartId },
             CheckoutSupportedDeliveryModesQueryResetEvent
           );
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
   }

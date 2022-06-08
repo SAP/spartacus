@@ -15,7 +15,7 @@ import {
   CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryReloadEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
@@ -63,10 +63,10 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
       );
     });
 
-    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
 
@@ -89,10 +89,10 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
       );
     });
 
-    it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
 

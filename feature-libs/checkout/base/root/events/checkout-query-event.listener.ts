@@ -14,8 +14,8 @@ import {
 import { OrderPlacedEvent } from '@spartacus/order/root';
 import { merge, Subscription } from 'rxjs';
 import {
-  CheckoutReloadQueryEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryReloadEvent,
+  CheckoutQueryResetEvent,
 } from './checkout.events';
 
 @Injectable({
@@ -25,22 +25,22 @@ export class CheckoutQueryEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(protected eventService: EventService) {
-    this.onGetQueryReload();
-    this.onGetQueryReset();
+    this.onCheckoutQueryReload();
+    this.onCheckoutQueryReset();
   }
 
-  protected onGetQueryReload(): void {
+  protected onCheckoutQueryReload(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
         this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutReloadQueryEvent);
+        this.eventService.dispatch({}, CheckoutQueryReloadEvent);
       })
     );
   }
 
-  protected onGetQueryReset(): void {
+  protected onCheckoutQueryReset(): void {
     this.subscriptions.add(
       merge(
         this.eventService.get(LogoutEvent),
@@ -50,7 +50,7 @@ export class CheckoutQueryEventListener implements OnDestroy {
         this.eventService.get(MergeCartSuccessEvent),
         this.eventService.get(OrderPlacedEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutResetQueryEvent);
+        this.eventService.dispatch({}, CheckoutQueryResetEvent);
       })
     );
   }

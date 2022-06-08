@@ -16,8 +16,8 @@ import { OrderPlacedEvent } from '@spartacus/order/root';
 import { Subject } from 'rxjs';
 import { CheckoutQueryEventListener } from './checkout-query-event.listener';
 import {
-  CheckoutReloadQueryEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryReloadEvent,
+  CheckoutQueryResetEvent,
 } from './checkout.events';
 
 import createSpy = jasmine.createSpy;
@@ -47,78 +47,78 @@ describe(`CheckoutQueryEventListener`, () => {
     eventService = TestBed.inject(EventService);
   });
 
-  describe(`onGetQueryReload`, () => {
-    it(`LanguageSetEvent should dispatch CheckoutReloadQueryEvent()`, () => {
+  describe(`onCheckoutQueryReload`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutQueryReloadEvent()`, () => {
       mockEventStream$.next(new LanguageSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadQueryEvent
+        CheckoutQueryReloadEvent
       );
     });
 
-    it(`LanguageSetEvent should dispatch CheckoutReloadQueryEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutQueryReloadEvent()`, () => {
       mockEventStream$.next(new CurrencySetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadQueryEvent
+        CheckoutQueryReloadEvent
       );
     });
   });
 
-  describe(`onGetQueryReset`, () => {
-    it(`LogoutEvent should dispatch CheckoutResetQueryEvent()`, () => {
+  describe(`onCheckoutQueryReset`, () => {
+    it(`LogoutEvent should dispatch CheckoutQueryResetEvent()`, () => {
       mockEventStream$.next(new LogoutEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
 
-    it(`LoginEvent should dispatch CheckoutResetQueryEvent()`, () => {
+    it(`LoginEvent should dispatch CheckoutQueryResetEvent()`, () => {
       mockEventStream$.next(new LoginEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
 
-    it(`SaveCartSuccessEvent should dispatch CheckoutResetQueryEvent()`, () => {
+    it(`SaveCartSuccessEvent should dispatch CheckoutQueryResetEvent()`, () => {
       mockEventStream$.next(new SaveCartSuccessEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
 
-    it(`RestoreSavedCartSuccessEvent should dispatch CheckoutResetQueryEvent()`, () => {
+    it(`RestoreSavedCartSuccessEvent should dispatch CheckoutQueryResetEvent()`, () => {
       mockEventStream$.next(new RestoreSavedCartSuccessEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
 
-    it(`MergeCartSuccessEvent should dispatch CheckoutResetQueryEvent()`, () => {
+    it(`MergeCartSuccessEvent should dispatch CheckoutQueryResetEvent()`, () => {
       mockEventStream$.next(new MergeCartSuccessEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
 
-    it(`OrderPlacedEvent should dispatch CheckoutResetQueryEvent()`, () => {
+    it(`OrderPlacedEvent should dispatch CheckoutQueryResetEvent()`, () => {
       mockEventStream$.next(new OrderPlacedEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });

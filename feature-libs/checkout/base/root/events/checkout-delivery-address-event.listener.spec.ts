@@ -17,7 +17,7 @@ import {
   CheckoutDeliveryAddressClearedEvent,
   CheckoutDeliveryAddressCreatedEvent,
   CheckoutDeliveryAddressSetEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
@@ -140,10 +140,10 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
         );
       });
 
-      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetQueryEvent`, () => {
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutQueryResetEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutResetQueryEvent
+          CheckoutQueryResetEvent
         );
       });
 
@@ -180,10 +180,10 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
         );
       });
 
-      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetQueryEvent`, () => {
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutQueryResetEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutResetQueryEvent
+          CheckoutQueryResetEvent
         );
       });
 
@@ -221,21 +221,21 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
       );
     });
 
-    it(`CheckoutDeliveryAddressSetEvent should dispatch  CheckoutResetQueryEvent`, () => {
+    it(`CheckoutDeliveryAddressSetEvent should dispatch  CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });
 
   describe(`onDeliveryAddressCleared`, () => {
-    it(`CheckoutDeliveryAddressClearedEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`CheckoutDeliveryAddressClearedEvent should dispatch CheckoutQueryResetEvent`, () => {
       mockEventStream$.next(new CheckoutDeliveryAddressClearedEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });

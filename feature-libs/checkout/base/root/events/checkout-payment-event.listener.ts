@@ -13,7 +13,7 @@ import {
   CheckoutPaymentCardTypesQueryReloadEvent,
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
 } from './checkout.events';
 
 /**
@@ -48,7 +48,7 @@ export class CheckoutPaymentEventListener implements OnDestroy {
             { key: 'paymentForm.paymentAddedSuccessfully' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
   }
@@ -56,7 +56,7 @@ export class CheckoutPaymentEventListener implements OnDestroy {
   protected onPaymentSet(): void {
     this.subscriptions.add(
       this.eventService.get(CheckoutPaymentDetailsSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutResetQueryEvent);
+        this.eventService.dispatch({}, CheckoutQueryResetEvent);
       })
     );
   }

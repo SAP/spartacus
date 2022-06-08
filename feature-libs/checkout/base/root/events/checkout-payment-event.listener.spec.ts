@@ -17,7 +17,7 @@ import {
   CheckoutPaymentCardTypesQueryReloadEvent,
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
 
@@ -72,10 +72,10 @@ describe(`CheckoutPaymentEventListener`, () => {
         );
       });
 
-      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutResetQueryEvent `, () => {
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutQueryResetEvent `, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutResetQueryEvent
+          CheckoutQueryResetEvent
         );
       });
 
@@ -97,10 +97,10 @@ describe(`CheckoutPaymentEventListener`, () => {
         );
       });
 
-      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutResetQueryEvent `, () => {
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutQueryResetEvent `, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutResetQueryEvent
+          CheckoutQueryResetEvent
         );
       });
 
@@ -121,12 +121,12 @@ describe(`CheckoutPaymentEventListener`, () => {
   });
 
   describe(`onPaymentSet`, () => {
-    it(`CheckoutPaymentDetailsSetEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`CheckoutPaymentDetailsSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       mockEventStream$.next(new CheckoutPaymentDetailsSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });

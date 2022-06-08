@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutQueryFacade,
-  CheckoutReloadQueryEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryReloadEvent,
+  CheckoutQueryResetEvent,
   CheckoutState,
 } from '@spartacus/checkout/base/root';
 import {
@@ -21,16 +21,16 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 @Injectable()
 export class CheckoutQueryService implements CheckoutQueryFacade {
   /**
-   * Returns the reload triggers for the checkout query.
+   * Returns the reload events for the checkout query.
    */
-  protected getQueryReloadTriggers(): QueryNotifier[] {
-    return [CheckoutReloadQueryEvent];
+  protected getCheckoutQueryReloadEvents(): QueryNotifier[] {
+    return [CheckoutQueryReloadEvent];
   }
   /**
-   * Returns the reset triggers for the checkout query.
+   * Returns the reset events for the checkout query.
    */
-  protected getQueryResetTriggers(): QueryNotifier[] {
-    return [CheckoutResetQueryEvent];
+  protected getCheckoutQueryResetEvents(): QueryNotifier[] {
+    return [CheckoutQueryResetEvent];
   }
 
   protected checkoutQuery$: Query<CheckoutState | undefined> =
@@ -42,8 +42,8 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
           )
         ),
       {
-        reloadOn: this.getQueryReloadTriggers(),
-        resetOn: this.getQueryResetTriggers(),
+        reloadOn: this.getCheckoutQueryReloadEvents(),
+        resetOn: this.getCheckoutQueryResetEvents(),
       }
     );
 

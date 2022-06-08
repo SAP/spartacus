@@ -17,7 +17,7 @@ import {
   CheckoutDeliveryAddressClearedEvent,
   CheckoutDeliveryAddressCreatedEvent,
   CheckoutDeliveryAddressSetEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
   CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
 
@@ -93,7 +93,7 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
             CheckoutSupportedDeliveryModesQueryResetEvent
           );
 
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
   }
@@ -108,7 +108,7 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
             CheckoutSupportedDeliveryModesQueryResetEvent
           );
 
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
   }
@@ -118,7 +118,7 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
       this.eventService
         .get(CheckoutDeliveryAddressClearedEvent)
         .subscribe(() =>
-          this.eventService.dispatch({}, CheckoutResetQueryEvent)
+          this.eventService.dispatch({}, CheckoutQueryResetEvent)
         )
     );
   }
