@@ -272,7 +272,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
           ' item:' +
           component.attributeOverview.value +
           ' price:' +
-          component.attributeOverview.valuePrice.formattedValue
+          component.attributeOverview.valuePrice?.formattedValue
       );
     });
 
