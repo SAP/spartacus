@@ -26,18 +26,18 @@ import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-typ
 
 @Injectable()
 export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
-  protected getPaymentTypesQueryReloadEvents(): QueryNotifier[] {
+  protected getCheckoutPaymentTypesQueryReloadEvents(): QueryNotifier[] {
     return [CheckoutReloadPaymentTypesEvent];
   }
-  protected getPaymentTypesQueryResetEvents(): QueryNotifier[] {
+  protected getCheckoutPaymentTypesQueryResetEvents(): QueryNotifier[] {
     return [CheckoutResetPaymentTypesEvent];
   }
 
   protected paymentTypesQuery: Query<PaymentType[]> = this.queryService.create(
     () => this.paymentTypeConnector.getPaymentTypes(),
     {
-      reloadOn: this.getPaymentTypesQueryReloadEvents(),
-      resetOn: this.getPaymentTypesQueryResetEvents(),
+      reloadOn: this.getCheckoutPaymentTypesQueryReloadEvents(),
+      resetOn: this.getCheckoutPaymentTypesQueryResetEvents(),
     }
   );
 
