@@ -14,13 +14,13 @@
 <title>cluster_FooterNavigationModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 617,-230.8 617,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_FooterNavigationModule_exports</title>
-<polygon fill="none" stroke="black" points="169,-170.8 169,-222.8 369,-222.8 369,-170.8 169,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_FooterNavigationModule_declarations</title>
 <polygon fill="none" stroke="black" points="413,-40.8 413,-92.8 609,-92.8 609,-40.8 413,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_FooterNavigationModule_exports</title>
+<polygon fill="none" stroke="black" points="169,-170.8 169,-222.8 369,-222.8 369,-170.8 169,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_FooterNavigationModule_imports</title>

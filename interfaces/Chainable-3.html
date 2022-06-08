@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/cx-config.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/ng-select.commands.ts</code>
         </p>
 
 
@@ -83,9 +83,9 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#cxConfig" 
+                                        <a href="#ngSelect" 
 >
-                                            cxConfig
+                                            ngSelect
                                         </a>
                                 </li>
                             </ul>
@@ -103,9 +103,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="cxConfig"></a>
-                                        <span class="name "><b>cxConfig</b>
-                                            <a href="#cxConfig">
+                                        <a name="ngSelect"></a>
+                                        <span class="name "><b>ngSelect</b>
+                                            <a href="#ngSelect">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -113,7 +113,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>cxConfig:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>ngSelect:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -132,8 +132,8 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Provides dynamically a chunk of the <code>Config</code>.</p>
-<div><pre class="line-numbers"><code class="language-none">cy.cxConfig(config)</code></pre></div></div>
+                                    <div class="io-description"><p>Selects in ng select</p>
+<div><pre class="line-numbers"><code class="language-none">cy.get(&#39;[name=&quot;title&quot;]&#39;).ngSelect(&#39;Mr.&#39;)</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -143,29 +143,32 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Config } from &#x27;@spartacus/core&#x27;;
-
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      /**
-       * Provides dynamically a chunk of the &#x60;Config&#x60;.
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare namespace Cypress {
+  interface Chainable {
+    /**
+       * Selects in ng select
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.cxConfig(config)
+        cy.get(&#x27;[name&#x3D;&quot;title&quot;]&#x27;).ngSelect(&#x27;Mr.&#x27;)
         &#x60;&#x60;&#x60;
        */
-      cxConfig: (config: Config) &#x3D;&gt; void;
-    }
+    ngSelect: (option: string) &#x3D;&gt; void;
   }
 }
 
-Cypress.Commands.add(&#x27;cxConfig&#x27;, (config) &#x3D;&gt; {
-  cy.setCookie(&#x27;cxConfigE2E&#x27;, encodeURIComponent(JSON.stringify(config)));
-});
+Cypress.Commands.add(
+  &#x27;ngSelect&#x27;,
+  {
+    prevSubject: &#x27;element&#x27;,
+  },
+  (element, option) &#x3D;&gt; {
+    cy.wrap(element).click();
+    cy.get(&#x27;.ng-dropdown-panel-items&#x27;).contains(option).click({ force: true });
+  }
+);
 </code></pre>
     </div>
 </div>

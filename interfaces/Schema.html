@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>integration-libs/epd-visualization/schematics/add-epd-visualization/schema.ts</code>
+            <code>integration-libs/cdc/schematics/add-cdc/schema.ts</code>
         </p>
 
 
@@ -89,9 +89,21 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#baseUrl" 
+                                        <a href="#baseSite" 
 >
-                                            baseUrl
+                                            baseSite
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#javascriptUrl" 
+>
+                                            javascriptUrl
+                                        </a>
+                                </li>
+                                <li>
+                                        <a href="#sessionExpiration" 
+>
+                                            sessionExpiration
                                         </a>
                                 </li>
                             </ul>
@@ -109,9 +121,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="baseUrl"></a>
-                                        <span class="name "><b>baseUrl</b>
-                                            <a href="#baseUrl">
+                                        <a name="baseSite"></a>
+                                        <span class="name "><b>baseSite</b>
+                                            <a href="#baseSite">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -119,7 +131,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>baseUrl:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>baseSite:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -138,6 +150,72 @@
 
                         </tbody>
                     </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="javascriptUrl"></a>
+                                        <span class="name "><b>javascriptUrl</b>
+                                            <a href="#javascriptUrl">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>javascriptUrl:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="sessionExpiration"></a>
+                                        <span class="name "><b>sessionExpiration</b>
+                                            <a href="#sessionExpiration">
+                                                <span class="icon ion-ios-link"></span>
+                                            </a>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>sessionExpiration:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
             </section>
     </div>
 
@@ -146,7 +224,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LibraryOptions } from &#x27;@spartacus/schematics&#x27;;
 
 export interface Schema extends LibraryOptions {
-  baseUrl: string;
+  baseSite: string;
+  javascriptUrl: string;
+  sessionExpiration: number;
 }
 </code></pre>
     </div>

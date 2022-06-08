@@ -64,214 +64,50 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/config/occ-config.ts</code>
+            <code>feature-libs/product-configurator/rulebased/cpq/rest/cpq-configurator-endpoint.config.ts</code>
         </p>
 
 
 
-
-        <section>
-            <h3 id="index">Index</h3>
-            <table class="table table-sm table-bordered index-table">
-                <tbody>
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Properties</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#loadingScopes" 
->
-                                            loadingScopes
-                                        </a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#media" 
->
-                                            media
-                                        </a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#occ" 
->
-                                            occ
-                                        </a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-
-
-            <section>
-                <h3 id="inputs">Properties</h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="loadingScopes"></a>
-                                        <span class="name "><b>loadingScopes</b>
-                                            <a href="#loadingScopes">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>loadingScopes:         <code><a href="../interfaces/LoadingScopes.html" target="_self" >LoadingScopes</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/LoadingScopes.html" target="_self" >LoadingScopes</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../injectables/Config.html" target="_self" >CpqConfiguratorBackendConfig</a></code>
+            </p>
 
 
 
 
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="media"></a>
-                                        <span class="name "><b>media</b>
-                                            <a href="#media">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>media:     <code>literal type</code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>    <code>literal type</code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="occ"></a>
-                                        <span class="name "><b>occ</b>
-                                            <a href="#occ">
-                                                <span class="icon ion-ios-link"></span>
-                                            </a>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>occ:     <code>literal type</code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>    <code>literal type</code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-            </section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;../../config/config-tokens&#x27;;
-import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
-import { OccEndpoints } from &#x27;../occ-models/occ-endpoints.model&#x27;;
-import { LoadingScopes } from &#x27;./loading-scopes-config&#x27;;
+import { Config } from &#x27;@spartacus/core&#x27;;
 
-export interface BackendConfig {
-  occ?: {
-    baseUrl?: string;
-    prefix?: string;
-    /**
-     * Indicates whether or not cross-site Access-Control requests should be made
-     * using credentials such as cookies, authorization headers or TLS client certificates
-     */
-    useWithCredentials?: boolean;
-
-    endpoints?: OccEndpoints;
+interface CpqConfiguratorBackendConfig {
+  cpq?: {
+    endpoints: {
+      configurationInit: string;
+      configurationDisplay: string;
+      attributeUpdate: string;
+      valueUpdate: string;
+    };
+    prefix: string;
   };
-  media?: {
-    /**
-     * Media URLs are typically relative, so that the host can be configured.
-     * Configurable media baseURLs are useful for SEO, multi-site,
-     * switching environments, etc.
-     */
-    baseUrl?: string;
-  };
-  loadingScopes?: LoadingScopes;
 }
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class OccConfig extends SiteContextConfig {
-  backend?: BackendConfig;
+export abstract class CpqConfiguratorEndpointConfig {
+  backend?: CpqConfiguratorBackendConfig;
 }
 
-declare module &#x27;../../config/config-tokens&#x27; {
-  interface Config extends OccConfig {}
+declare module &#x27;@spartacus/core&#x27; {
+  interface BackendConfig extends CpqConfiguratorBackendConfig {}
 }
 </code></pre>
     </div>

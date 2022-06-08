@@ -14,6 +14,10 @@
 <title>cluster_VisualPickingProductFilterModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 898,-230.8 898,-32.8 8,-32.8"/>
 </g>
+<g id="clust5" class="cluster">
+<title>cluster_VisualPickingProductFilterModule_exports</title>
+<polygon fill="none" stroke="black" points="138,-170.8 138,-222.8 392,-222.8 392,-170.8 138,-170.8"/>
+</g>
 <g id="clust7" class="cluster">
 <title>cluster_VisualPickingProductFilterModule_providers</title>
 <polygon fill="none" stroke="black" points="582,-40.8 582,-92.8 890,-92.8 890,-40.8 582,-40.8"/>
@@ -25,10 +29,6 @@
 <g id="clust4" class="cluster">
 <title>cluster_VisualPickingProductFilterModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 316,-92.8 316,-40.8 16,-40.8"/>
-</g>
-<g id="clust5" class="cluster">
-<title>cluster_VisualPickingProductFilterModule_exports</title>
-<polygon fill="none" stroke="black" points="138,-170.8 138,-222.8 392,-222.8 392,-170.8 138,-170.8"/>
 </g>
 <!-- VisualPickingProductFilterComponent -->
 <g id="node1" class="node">

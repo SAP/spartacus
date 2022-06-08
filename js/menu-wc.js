@@ -225,7 +225,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-AmendOrderActionsModule-98c82e60a4aae7a1ca34782bece7c76b-1"' :
                                             'id="xs-components-links-module-AmendOrderActionsModule-98c82e60a4aae7a1ca34782bece7c76b-1"' }>
                                             <li class="link">
-                                                <a href="components/AmendOrderActionsComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">AmendOrderActionsComponent</a>
+                                                <a href="components/AmendOrderActionsComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >AmendOrderActionsComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -637,7 +637,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CancelOrderModule-fa959f78e491e0490d3601033ced5027-1"' :
                                             'id="xs-components-links-module-CancelOrderModule-fa959f78e491e0490d3601033ced5027-1"' }>
                                             <li class="link">
-                                                <a href="components/CancelOrderComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CancelOrderComponent</a>
+                                                <a href="components/CancelOrderComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">CancelOrderComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -3354,7 +3354,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-OrderHistoryModule-04accf924cd79a34f77e07fc5de3b0ff-1"' :
                                             'id="xs-components-links-module-OrderHistoryModule-04accf924cd79a34f77e07fc5de3b0ff-1"' }>
                                             <li class="link">
-                                                <a href="components/OrderHistoryComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >OrderHistoryComponent</a>
+                                                <a href="components/OrderHistoryComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">OrderHistoryComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -6184,7 +6184,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? 'id="components-links"' : 'id="xs-components-links"' }>
                             <li class="link">
-                                <a href="components/CancelOrderComponent-1.html" data-type="entity-link" class="deprecated-name">CancelOrderComponent</a>
+                                <a href="components/AmendOrderActionsComponent-1.html" data-type="entity-link" class="deprecated-name">AmendOrderActionsComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/CardComponent-1.html" data-type="entity-link" >CardComponent</a>
@@ -6230,9 +6230,6 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="components/OrderDetailTotalsComponent-1.html" data-type="entity-link" class="deprecated-name">OrderDetailTotalsComponent</a>
-                            </li>
-                            <li class="link">
-                                <a href="components/OrderHistoryComponent-1.html" data-type="entity-link" class="deprecated-name">OrderHistoryComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/ReplenishmentOrderCancellationComponent.html" data-type="entity-link" >ReplenishmentOrderCancellationComponent</a>
@@ -12911,6 +12908,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="interfaces/Schema-3.html" data-type="entity-link" >Schema</a>
+                            </li>
+                            <li class="link">
+                                <a href="interfaces/Schema-4.html" data-type="entity-link" >Schema</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/SchemaBuilder.html" data-type="entity-link" >SchemaBuilder</a>
