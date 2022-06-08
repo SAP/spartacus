@@ -31,14 +31,10 @@
   >
     <span
       attr.aria-label="{{
-        (options?.addToCartString | async) ??
-          ('addToCart.addToCart' | cxTranslate)
+        options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate)
       }}"
     >
-      {{
-        (options?.addToCartString | async) ??
-          ('addToCart.addToCart' | cxTranslate)
-      }}
+      {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
     </span>
   </button>
 </form>

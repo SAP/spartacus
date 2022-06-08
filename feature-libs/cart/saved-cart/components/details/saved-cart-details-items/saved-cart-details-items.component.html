@@ -11,7 +11,7 @@
           promotionLocation: CartLocation.SavedCart,
           options: {
             displayAddToCart: true,
-            addToCartString: buyItAgainTranslation$,
+            addToCartString: (buyItAgainTranslation$ | async),
             optionalBtn: addToCartBtn
           }
         }"

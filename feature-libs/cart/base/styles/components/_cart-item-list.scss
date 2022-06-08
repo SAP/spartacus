@@ -2,6 +2,7 @@
   @extend .cx-agnostic-table;
 
   td.cx-actions {
+    cx-add-to-cart,
     button {
       white-space: nowrap;
       display: block;
@@ -12,17 +13,6 @@
         min-height: 48px;
       }
     }
-
-    .action-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-  }
-
-  .add-to-cart {
-    text-align: end;
-    width: 100%;
   }
 
   .cx-table-item-container {

@@ -17,24 +17,24 @@
       *ngIf="others$ | async as others"
       [order]="order"
       [consignments]="others"
-      [enableAddToCart$]="enableAddToCart$"
-      [buyItAgainTranslation$]="buyItAgainTranslation$"
+      [enableAddToCart]="enableAddToCart$ | async"
+      [buyItAgainTranslation]="buyItAgainTranslation$ | async"
     ></cx-order-consigned-entries>
 
     <cx-order-consigned-entries
       *ngIf="completed$ | async as completed"
       [order]="order"
       [consignments]="completed"
-      [enableAddToCart$]="enableAddToCart$"
-      [buyItAgainTranslation$]="buyItAgainTranslation$"
+      [enableAddToCart]="enableAddToCart$ | async"
+      [buyItAgainTranslation]="buyItAgainTranslation$ | async"
     ></cx-order-consigned-entries>
 
     <cx-order-consigned-entries
       *ngIf="cancel$ | async as cancel"
       [order]="order"
       [consignments]="cancel"
-      [enableAddToCart$]="enableAddToCart$"
-      [buyItAgainTranslation$]="buyItAgainTranslation$"
+      [enableAddToCart]="enableAddToCart$ | async"
+      [buyItAgainTranslation]="buyItAgainTranslation$ | async"
     ></cx-order-consigned-entries>
   </ng-container>
 
@@ -64,7 +64,7 @@
             promotionLocation: promotionLocation,
             options: {
               displayAddToCart: enableAddToCart$ | async,
-              addToCartString: buyItAgainTranslation$,
+              addToCartString: (buyItAgainTranslation$ | async),
               optionalBtn: addToCartBtn
             }
           }"
