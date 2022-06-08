@@ -15,8 +15,8 @@ import {
 import { Subject } from 'rxjs';
 import {
   CheckoutPaymentTypeSetEvent,
-  CheckoutReloadPaymentTypesEvent,
-  CheckoutResetPaymentTypesEvent,
+  CheckoutPaymentTypesQueryReloadEvent,
+  CheckoutPaymentTypesQueryResetEvent,
 } from './checkout-b2b.events';
 import { CheckoutPaymentTypeEventListener } from './checkout-payment-type-event.listener';
 import createSpy = jasmine.createSpy;
@@ -75,41 +75,41 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
   });
 
   describe(`onGetPaymentTypesQueryReload`, () => {
-    it(`LanguageSetEvent should dispatch CheckoutReloadPaymentTypesEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutPaymentTypesQueryReloadEvent()`, () => {
       mockEventStream$.next(new LanguageSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadPaymentTypesEvent
+        CheckoutPaymentTypesQueryReloadEvent
       );
     });
 
-    it(`LanguageSetEvent should dispatch CheckoutReloadPaymentTypesEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutPaymentTypesQueryReloadEvent()`, () => {
       mockEventStream$.next(new CurrencySetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadPaymentTypesEvent
+        CheckoutPaymentTypesQueryReloadEvent
       );
     });
   });
 
   describe(`onGetPaymentTypesQueryReset`, () => {
-    it(`LogoutEvent should dispatch CheckoutResetPaymentTypesEvent()`, () => {
+    it(`LogoutEvent should dispatch CheckoutPaymentTypesQueryResetEvent()`, () => {
       mockEventStream$.next(new LogoutEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetPaymentTypesEvent
+        CheckoutPaymentTypesQueryResetEvent
       );
     });
 
-    it(`LoginEvent should dispatch CheckoutResetPaymentTypesEvent()`, () => {
+    it(`LoginEvent should dispatch CheckoutPaymentTypesQueryResetEvent()`, () => {
       mockEventStream$.next(new LoginEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetPaymentTypesEvent
+        CheckoutPaymentTypesQueryResetEvent
       );
     });
   });

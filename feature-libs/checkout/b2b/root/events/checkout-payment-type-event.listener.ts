@@ -13,8 +13,8 @@ import {
 import { merge, Subscription } from 'rxjs';
 import {
   CheckoutPaymentTypeSetEvent,
-  CheckoutReloadPaymentTypesEvent,
-  CheckoutResetPaymentTypesEvent,
+  CheckoutPaymentTypesQueryReloadEvent,
+  CheckoutPaymentTypesQueryResetEvent,
 } from './checkout-b2b.events';
 
 @Injectable({
@@ -50,7 +50,7 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
         this.eventService.get(LanguageSetEvent),
         this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutReloadPaymentTypesEvent);
+        this.eventService.dispatch({}, CheckoutPaymentTypesQueryReloadEvent);
       })
     );
   }
@@ -61,7 +61,7 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutResetPaymentTypesEvent);
+        this.eventService.dispatch({}, CheckoutPaymentTypesQueryResetEvent);
       })
     );
   }

@@ -4,8 +4,8 @@ import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
   CheckoutPaymentTypeSetEvent,
-  CheckoutReloadPaymentTypesEvent,
-  CheckoutResetPaymentTypesEvent,
+  CheckoutPaymentTypesQueryReloadEvent,
+  CheckoutPaymentTypesQueryResetEvent,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
@@ -27,10 +27,10 @@ import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-typ
 @Injectable()
 export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   protected getCheckoutPaymentTypesQueryReloadEvents(): QueryNotifier[] {
-    return [CheckoutReloadPaymentTypesEvent];
+    return [CheckoutPaymentTypesQueryReloadEvent];
   }
   protected getCheckoutPaymentTypesQueryResetEvents(): QueryNotifier[] {
-    return [CheckoutResetPaymentTypesEvent];
+    return [CheckoutPaymentTypesQueryResetEvent];
   }
 
   protected paymentTypesQuery: Query<PaymentType[]> = this.queryService.create(
