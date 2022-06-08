@@ -13,6 +13,7 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import { CommonConfigurator } from 'feature-libs/product-configurator/common';
 import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -151,41 +152,66 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set value on init', () => {
-    component.ngOnInit();
-    expect(component.attributeInputForm.value).toEqual(userInput);
-  });
+  describe('ngOnInit', () => {
+    const attributeEmpty: Configurator.Attribute = {
+      name: 'Required',
+      required: true,
+      incomplete: true,
+      userInput: '',
+    };
 
-  it('should call service for pattern generation with meta data from attribute', () => {
-    component.ngOnInit();
-    expect(
-      configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
-    ).toHaveBeenCalledWith(
-      component.attribute.numDecimalPlaces,
-      component.attribute.numTotalLength,
-      component.attribute.negativeAllowed,
-      'en'
-    );
-  });
+    it('should set form value', () => {
+      component.ngOnInit();
+      expect(component.attributeInputForm.value).toEqual(userInput);
+    });
 
-  it('should call service for pattern generation with defaults in case attribute does not carry meta data', () => {
-    component.attribute = attributeWoNumericalMetadata;
-    component.ngOnInit();
-    const defaultSettings = component['getDefaultSettings']();
-    expect(
-      configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
-    ).toHaveBeenCalledWith(
-      defaultSettings.numDecimalPlaces,
-      defaultSettings.numTotalLength,
-      defaultSettings.negativeAllowed,
-      'en'
-    );
-  });
+    it('should call service for pattern generation with meta data from attribute', () => {
+      component.ngOnInit();
+      expect(
+        configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
+      ).toHaveBeenCalledWith(
+        component.attribute.numDecimalPlaces,
+        component.attribute.numTotalLength,
+        component.attribute.negativeAllowed,
+        'en'
+      );
+    });
 
-  it('should display no validation issue if input is fine, an unknown locale was requested, and we fall back to en locale', () => {
-    component.language = 'unknown locale';
-    component.ngOnInit();
-    checkForValidationMessage(component, fixture, htmlElem, 0);
+    it('should call service for pattern generation with defaults in case attribute does not carry meta data', () => {
+      component.attribute = attributeWoNumericalMetadata;
+      component.ngOnInit();
+      const defaultSettings = component['getDefaultSettings']();
+      expect(
+        configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
+      ).toHaveBeenCalledWith(
+        defaultSettings.numDecimalPlaces,
+        defaultSettings.numTotalLength,
+        defaultSettings.negativeAllowed,
+        'en'
+      );
+    });
+
+    it('should display no validation issue if input is fine, an unknown locale was requested, and we fall back to en locale', () => {
+      component.language = 'unknown locale';
+      component.ngOnInit();
+      checkForValidationMessage(component, fixture, htmlElem, 0);
+    });
+
+    it('should mark input as touched in case empty, and we navigated from cart', () => {
+      component.ownerType = CommonConfigurator.OwnerType.CART_ENTRY;
+      component.attribute = attributeEmpty;
+
+      component.ngOnInit();
+      expect(component.attributeInputForm.touched).toBe(true);
+    });
+
+    it('should not mark input as touched in case empty, and we navigated from product', () => {
+      component.ownerType = CommonConfigurator.OwnerType.PRODUCT;
+      component.attribute = attributeEmpty;
+
+      component.ngOnInit();
+      expect(component.attributeInputForm.touched).toBe(false);
+    });
   });
 
   it('should display a validation issue if alphanumeric characters occur', () => {
