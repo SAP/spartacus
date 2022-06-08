@@ -10,6 +10,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import * as path from 'path';
 import ts from 'typescript';
 import { UTF_8 } from '../constants';
+import { SPARTACUS_SCHEMATICS } from '../libs-constants';
 import { getPathResultsForFile } from './file-utils';
 import {
   addImport,
@@ -21,7 +22,10 @@ import {
 } from './module-file-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
-const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
 
 const TEMPLATE_NAME = 'template.html';
 const COMPONENT_TEMPLATE_URL = `

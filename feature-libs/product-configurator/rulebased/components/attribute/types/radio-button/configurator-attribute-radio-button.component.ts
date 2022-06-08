@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { TranslationService } from '@spartacus/core';
+
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
@@ -14,8 +16,11 @@ export class ConfiguratorAttributeRadioButtonComponent
 {
   attributeRadioButtonForm = new FormControl('');
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super(quantityService);
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected translation: TranslationService
+  ) {
+    super(quantityService, translation);
   }
 
   ngOnInit(): void {

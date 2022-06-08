@@ -10,21 +10,26 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_ORDER_FEATURE,
+  cartBaseFeatureModulePath,
   LibraryOptions as SpartacusOrderOptions,
+  orderFeatureModulePath,
+  ORDER_FEATURE_NAME,
   SpartacusOptions,
+  SPARTACUS_ORDER,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/order/order-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/order.scss';
 
 describe('Spartacus Order schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_ORDER,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -57,7 +62,7 @@ describe('Spartacus Order schematics: ng-add', () => {
 
   const orderFeatureOptions: SpartacusOrderOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ORDER_FEATURE],
+    features: [ORDER_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -103,7 +108,7 @@ describe('Spartacus Order schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(orderFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -141,8 +146,18 @@ describe('Spartacus Order schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(orderFeatureModulePath);
         expect(module).toMatchSnapshot();
+      });
+
+      it('should NOT install the required feature dependencies', async () => {
+        const baseCartFeatureModule = appTree.readContent(
+          cartBaseFeatureModulePath
+        );
+        expect(baseCartFeatureModule).toBeFalsy();
+
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -170,7 +185,7 @@ describe('Spartacus Order schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(orderFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
