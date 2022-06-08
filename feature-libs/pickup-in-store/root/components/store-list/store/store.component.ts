@@ -41,10 +41,10 @@ export class StoreComponent implements OnInit {
     console.log('this.openingHoursText', this.openingHoursTextArray);
   }
 
-  selectStore(event: MouseEvent): void {
-    // event.stopPropagation();
-    event.preventDefault();
+  selectStore(): boolean {
     console.log('Store Selected');
+    // return false to prevent this button adding to cart
+    return false;
   }
 
   toggleOpenHours(): void {

@@ -19,12 +19,6 @@ cx-store {
     user-select: none;
   }
 
-  .cx-store-opening-hours {
-    display: flex;
-    .cx-store-day-of-week {
-      flex-grow: 1;
-    }
-  }
   .cx-store-pick-up-from-here {
     padding: 25px 0 25px 0;
     button {
@@ -38,8 +32,4 @@ cx-store {
       user-select: none;
     }
   }
-
-  // .cx-store > div {
-  //   border: solid thin red;
-  // }
 }

@@ -29,12 +29,9 @@
           [type]="openHoursOpen ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
         ></cx-icon>
       </div>
-      <div *ngIf="openHoursOpen">
-        <div class="cx-store-opening-hours" *ngFor="let opening of openingHoursTextArray">
-          <div class="cx-store-day-of-week">{{ opening[0] }}</div>
-          <div>{{ opening[1] }}</div>
-        </div>
-      </div>
+      <cx-store-schedule *ngIf="openHoursOpen" [storeDetails]="storeDetails">
+        <h4>{{ 'storeFinder.storeHours' | cxTranslate }}</h4>
+      </cx-store-schedule>
     </div>
   </div>
   <div>
@@ -42,6 +39,8 @@
     <div>Out of Stock</div>
   </div>
 </div>
-<div class="cx-store-pick-up-from-here"><button (click)="selectStore($event)">Pick Up From Here</button></div>
+<div class="cx-store-pick-up-from-here">
+  <button (click)="selectStore()">Pick Up From Here</button>
+</div>
 
 <!-- <pre>{{storeDetails | json}}</pre> -->
