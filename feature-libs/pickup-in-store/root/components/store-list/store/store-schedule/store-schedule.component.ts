@@ -18,7 +18,6 @@ export class StoreScheduleComponent implements OnInit {
 
   constructor() {}
 
-  // TODO i18n on closed
   ngOnInit() {
     this.openingTimes =
       this.storeDetails?.openingHours?.weekDayOpeningList?.map(
