@@ -47,7 +47,7 @@ class MockUserRegistrationFacade implements Partial<UserRegistrationFacade> {
   }
 }
 
-fdescribe('UserRegistrationFormService', () => {
+describe('UserRegistrationFormService', () => {
   let service: UserRegistrationFormService;
   let userAddressService: UserAddressService;
   let userRegisterFacade: UserRegisterFacade;
