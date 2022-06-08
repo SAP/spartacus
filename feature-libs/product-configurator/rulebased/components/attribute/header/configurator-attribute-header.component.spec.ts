@@ -216,8 +216,6 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
-
-
   describe('hasImage', () => {
     it('should return true if image available', () => {
       expect(component.hasImage).toBe(true);

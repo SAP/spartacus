@@ -157,5 +157,5 @@ describe('ConfigUIKeyGeneratorService', () => {
         true
       );
     });
-  });  
+  });
 });
