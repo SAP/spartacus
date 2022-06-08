@@ -25,11 +25,10 @@ export class StoreScheduleComponent implements OnInit {
         ({ weekDay, closed, openingTime, closingTime }) => {
           return {
             weekDay: weekDay ?? '',
-            openingHours: closed
-              ? 'Closed'
-              : `${openingTime?.formattedHour ?? ''} - ${
-                  closingTime?.formattedHour ?? ''
-                }`,
+            closed,
+            openingHours: `${openingTime?.formattedHour ?? ''} - ${
+              closingTime?.formattedHour ?? ''
+            }`,
           };
         }
       ) ?? [];

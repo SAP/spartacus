@@ -1,25 +1,25 @@
 <div class="cx-store">
   <div class="cx-store-address">
     <div *ngIf="storeDetails?.displayName" class="cx-store-address-name">
-      - {{ storeDetails?.displayName }}
+      {{ storeDetails?.displayName }}
     </div>
     <div *ngIf="storeDetails?.address?.line1">
-      - {{ storeDetails.address?.line1 }}
+      {{ storeDetails.address?.line1 }}
     </div>
     <div *ngIf="storeDetails?.address?.line2">
-      - {{ storeDetails.address?.line2 }}
+      {{ storeDetails.address?.line2 }}
     </div>
     <div *ngIf="storeDetails?.address?.town">
-      - {{ storeDetails.address?.town }}
+      {{ storeDetails.address?.town }}
     </div>
     <div *ngIf="storeDetails?.address?.region">
-      - {{ storeDetails.address.region }}
+      {{ storeDetails.address.region }}
     </div>
     <div *ngIf="storeDetails?.address?.district">
-      - {{ storeDetails.address.district }}
+      {{ storeDetails.address.district }}
     </div>
     <div *ngIf="storeDetails?.address?.phone">
-      - {{ storeDetails.address.phone }}
+      {{ storeDetails.address.phone }}
     </div>
 
     <div>
@@ -42,5 +42,3 @@
 <div class="cx-store-pick-up-from-here">
   <button (click)="selectStore()">Pick Up From Here</button>
 </div>
-
-<!-- <pre>{{storeDetails | json}}</pre> -->

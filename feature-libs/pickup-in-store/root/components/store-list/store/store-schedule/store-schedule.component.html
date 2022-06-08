@@ -1,5 +1,6 @@
 <ng-content></ng-content>
 <div class="cx-store-schedule-opening-times" *ngFor="let openingTime of openingTimes">
   <div class="cx-store-schedule-day-of-week">{{ openingTime.weekDay }}</div>
-  <div>{{ openingTime.openingHours }}</div>
+  <div *ngIf="!openingTime.closed; else closed">{{ openingTime.openingHours }}</div>
+  <ng-template #closed>{{ 'storeFinder.closed' | cxTranslate }}</ng-template>
 </div>
