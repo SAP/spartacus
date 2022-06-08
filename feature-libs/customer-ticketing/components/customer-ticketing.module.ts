@@ -6,4 +6,4 @@ import { CustomerTicketingComponent } from './customer-ticketing.component';
   imports: [],
   exports: [CustomerTicketingComponent],
 })
-export class CustomerTicketingModule {}
+export class CustomerTicketingComponentsModule {}

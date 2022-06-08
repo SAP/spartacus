@@ -1,7 +1,4 @@
-// Zone.js and zone.js/testing should be imported as FIRST and in this ORDER:
-import 'zone.js';
-import 'zone.js/testing';
-
+import 'zone.js/fesm2015/zone-testing-bundle.min.js';
 import { getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,

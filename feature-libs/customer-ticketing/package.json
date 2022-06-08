@@ -1,7 +1,7 @@
 {
   "name": "@spartacus/customer-ticketing",
   "version": "4.1.0-next.0",
-  "description": "customer-ticketing",
+  "description": "Customer-Ticketing library for Spartacus",
   "keywords": [
     "spartacus",
     "framework",
@@ -9,7 +9,7 @@
     "customer-ticketing"
   ],
   "homepage": "https://github.com/SAP/spartacus",
-  "repository": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/customer-ticketing",
   "license": "Apache-2.0",
   "exports": {
     ".": {
@@ -28,7 +28,10 @@
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/core": "^13.3.0",
     "@spartacus/core": "4.1.0-next.0",
-    "@spartacus/schematics": "4.1.0"
+    "@spartacus/schematics": "4.1.0",
+    "@angular/common": "^13.3.0",
+    "@spartacus/storefront": "4.1.0-next.0",
+    "rxjs": "^6.6.0"
   },
   "publishConfig": {
     "access": "public"

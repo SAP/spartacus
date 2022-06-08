@@ -165,6 +165,9 @@
       "@spartacus/customer-ticketing/root": [
         "../../feature-libs/customer-ticketing/root/public_api"
       ],
+      "@spartacus/customer-ticketing/occ": [
+        "../../feature-libs/customer-ticketing/occ/public_api"
+      ],
       "@spartacus/order/assets": ["../../feature-libs/order/assets/public_api"],
       "@spartacus/order/components": [
         "../../feature-libs/order/components/public_api"

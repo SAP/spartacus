@@ -4,16 +4,24 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
     plugins: [
+      require('karma-parallel'),
       require('karma-jasmine'),
       require('karma-coverage'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
+    parallelOptions: {
+      executors: 2,
+      shardStrategy: 'round-robin',
+    },
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      jasmine: {
+        random: false,
+      },
     },
     reporters: ['progress', 'kjhtml', 'dots'],
     coverageReporter: {
@@ -21,10 +29,10 @@ module.exports = function (config) {
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
       check: {
         global: {
-          statements: 80,
-          lines: 80,
-          branches: 70,
-          functions: 80,
+          statements: 90,
+          lines: 90,
+          branches: 75,
+          functions: 85,
         },
       },
     },

@@ -15,7 +15,6 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strictNullChecks": true,
-    "strict": false,
     "target": "es6",
     "types": ["jest", "node"],
     "resolveJsonModule": true,
@@ -24,9 +23,6 @@
       "@spartacus/schematics": ["../../projects/schematics/index"]
     }
   },
-  "include": ["../../projects/schematics/**/*.ts"],
-  "exclude": [
-    "../../projects/schematics/*/files/**/*",
-    "../../projects/schematics/**/*_spec.ts"
-  ]
+  "include": ["schematics/**/*.ts"],
+  "exclude": ["schematics/*/files/**/*", "schematics/**/*_spec.ts"]
 }

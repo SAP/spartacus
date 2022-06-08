@@ -105,6 +105,9 @@
       "@spartacus/customer-ticketing/root": [
         "../../dist/customer-ticketing/root"
       ],
+      "@spartacus/customer-ticketing/occ": [
+        "../../dist/customer-ticketing/occ"
+      ],
       "@spartacus/order/assets": ["../../dist/order/assets"],
       "@spartacus/order/components": ["../../dist/order/components"],
       "@spartacus/order/core": ["../../dist/order/core"],
