@@ -12,9 +12,9 @@ import {
   CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
-  CheckoutReloadDeliveryModesEvent,
-  CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
+  CheckoutSupportedDeliveryModesQueryReloadEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
 
 /**
@@ -107,13 +107,13 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
 
   /**
    * Registers listeners for the delivery mode clear event.
-   * This is needed for when `CheckoutResetDeliveryModesEvent` is dispatched
+   * This is needed for when `CheckoutSupportedDeliveryModesQueryResetEvent` is dispatched
    * as we need to update the user's cart when the delivery mode is cleared from the backend checkout details.
    */
   protected onDeliveryModeReset(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutResetDeliveryModesEvent)
+        .get(CheckoutSupportedDeliveryModesQueryResetEvent)
         .subscribe(({ userId, cartId }) =>
           this.eventService.dispatch(
             {
@@ -137,7 +137,10 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
         this.eventService.get(LanguageSetEvent),
         this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutReloadDeliveryModesEvent);
+        this.eventService.dispatch(
+          {},
+          CheckoutSupportedDeliveryModesQueryReloadEvent
+        );
       })
     );
   }
@@ -148,7 +151,10 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
+        this.eventService.dispatch(
+          {},
+          CheckoutSupportedDeliveryModesQueryResetEvent
+        );
       })
     );
   }

@@ -127,21 +127,21 @@ export class CheckoutDeliveryModeClearedErrorEvent extends CheckoutDeliveryModeE
 /**
  * Emit this event to force delivery modes reload
  */
-export class CheckoutReloadDeliveryModesEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutSupportedDeliveryModesQueryReloadEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutReloadDeliveryModesEvent';
+  static readonly type = 'CheckoutSupportedDeliveryModesQueryReloadEvent';
 }
 
 /**
  * Emit this event to force delivery modes reset
  */
-export class CheckoutResetDeliveryModesEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutSupportedDeliveryModesQueryResetEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutResetDeliveryModesEvent';
+  static readonly type = 'CheckoutSupportedDeliveryModesQueryResetEvent';
 }
 
 /**

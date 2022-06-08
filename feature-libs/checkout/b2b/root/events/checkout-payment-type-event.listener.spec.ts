@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   createFrom,
@@ -59,10 +59,10 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
       );
     });
 
-    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
+    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
-        CheckoutResetDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent
       );
     });
 
