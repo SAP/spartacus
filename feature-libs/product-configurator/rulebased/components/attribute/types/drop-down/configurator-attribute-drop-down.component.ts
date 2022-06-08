@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';

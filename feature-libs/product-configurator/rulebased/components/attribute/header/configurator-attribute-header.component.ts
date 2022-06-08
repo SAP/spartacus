@@ -3,7 +3,7 @@ import {
   Component,
   Input,
   isDevMode,
-  OnInit
+  OnInit,
 } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import {
   ConfiguratorCommonsService,
-  ConfiguratorGroupsService
+  ConfiguratorGroupsService,
 } from '../../../core';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
@@ -96,7 +96,7 @@ export class ConfiguratorAttributeHeaderComponent
       }
     }
     return false;
-  } 
+  }
 
   protected isRequiredAttributeWithDomain(): boolean {
     const uiType = this.attribute.uiType;

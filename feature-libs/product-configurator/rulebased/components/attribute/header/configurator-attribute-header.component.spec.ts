@@ -3,17 +3,17 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  ConfiguratorUISettingsConfig
+  ConfiguratorUISettingsConfig,
 } from '@spartacus/product-configurator/rulebased';
 import {
   IconLoaderService,
   IconModule,
-  ICON_TYPE
+  ICON_TYPE,
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
