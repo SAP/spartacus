@@ -23,13 +23,8 @@
       <section
         class="cx-delivery-pickup-options-dialog-container-body modal-body"
       >
-        <p>
-          {{
-            'pickUpInStoreDialog.msg'
-              | cxTranslate
-                : { productCode: this.productCode, location: this.location }
-          }}
-        </p>
+        <cx-store-search></cx-store-search>
+
         <cx-store-list></cx-store-list>
       </section>
     </div>
