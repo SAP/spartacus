@@ -34,7 +34,6 @@ describe('UserRegistrationService', () => {
           provide: UserRegistrationConnector,
           useClass: MockUserRegistrationConnector,
         },
-
         UserRegistrationService,
       ],
     });
