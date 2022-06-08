@@ -16,6 +16,8 @@ import { ConfiguratorStorefrontUtilsService } from '../../../service/configurato
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 
+const VALUE_NAME_2 = 'val2';
+
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
     valueCode: code,
@@ -61,7 +63,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   const initialSelectedValue = 'initialSelectedValue';
 
   const value1 = createValue('1', 'val1', true);
-  const value2 = createValue('2', 'val2', false);
+  const value2 = createValue('2', VALUE_NAME_2, false);
   const value3 = createValue('3', 'val3', false);
 
   const values: Configurator.Value[] = [value1, value2, value3];
@@ -225,7 +227,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'configurator.a11y.selectedValueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          component.attribute.values[1].valueDisplay
+          VALUE_NAME_2
       );
     });
 
@@ -250,7 +252,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         1,
         'aria-hidden',
         'true',
-        component.attribute.values[1].valueDisplay
+        VALUE_NAME_2
       );
     });
   });
