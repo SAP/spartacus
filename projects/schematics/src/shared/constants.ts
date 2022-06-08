@@ -714,7 +714,6 @@ export const STORE_FINDER_HEADER_COMPONENT = 'StoreFinderHeaderComponent';
 export const STORE_FINDER_PAGINATION_DETAILS_COMPONENT =
   'StoreFinderPaginationDetailsComponent';
 export const STORE_FINDER_COMPONENT = 'StoreFinderComponent';
-export const STORE_FINDER_SCSS_FILE_NAME = 'storefinder.scss';
 
 export const ON_SUCCESS = 'onSuccess';
 
@@ -1059,6 +1058,11 @@ export const CONFIGURATOR_IS_IN_VIEWPORT = 'isInViewport';
 /***** feature keys start *****/
 export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE = 'rulebased';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE = 'textfield';
+
+export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE =
+  'productConfiguratorRulebased';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
+  'productConfiguratorTextfield';
 /***** feature keys end *****/
 
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
