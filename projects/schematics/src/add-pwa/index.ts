@@ -8,23 +8,18 @@ import {
 } from '@angular-devkit/schematics';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import { UTF_8 } from '../shared/constants';
 import { getLineFromTSFile } from '../shared/utils/file-utils';
 import { getProjectTargets } from '../shared/utils/workspace-utils';
 
-function removeServiceWorkerSetup(host: Tree, modulePath: string) {
-  const buffer = host.read(modulePath);
-
-  if (!buffer) {
-    return;
-  }
-
-  let fileContent = buffer.toString();
+function removeServiceWorkerSetup(host: Tree, modulePath: string): void {
+  let fileContent = host.read(modulePath)?.toString(UTF_8);
 
   const serviceWorkerImport = `import { ServiceWorkerModule } from '@angular/service-worker';`;
-  const serviceWorkerModuleImport = `ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })`;
+  const serviceWorkerModuleImport = `ServiceWorkerModule.register('ngsw-worker.js'`;
   if (
-    !fileContent.includes(serviceWorkerModuleImport) ||
-    !fileContent.includes(serviceWorkerImport)
+    !fileContent?.includes(serviceWorkerModuleImport) ||
+    !fileContent?.includes(serviceWorkerImport)
   ) {
     return;
   }

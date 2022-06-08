@@ -4,6 +4,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
 import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurator/rulebased/cpq\\";
 import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
 import { TextfieldConfiguratorModule } from \\"@spartacus/product-configurator/textfield\\";
@@ -13,8 +14,9 @@ import { TextfieldConfiguratorRootModule } from \\"@spartacus/product-configurat
   declarations: [],
   imports: [
     RulebasedConfiguratorRootModule,
-    RulebasedCpqConfiguratorModule,
+    RulebasedConfiguratorModule,
     CpqConfiguratorRootModule,
+    RulebasedCpqConfiguratorModule,
     TextfieldConfiguratorRootModule,
     TextfieldConfiguratorModule
   ],
@@ -85,7 +87,7 @@ import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule
     featureModules: {
       [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
         module: () =>
-          import('@spartacus/product-configurator/rulebased/cpq').then((m) => m.RulebasedCpqConfiguratorModule),
+          import('./rulebased-configurator-wrapper.module').then((m) => m.RulebasedConfiguratorWrapperModule),
       },
     }
   }),
@@ -106,6 +108,22 @@ import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule
   ]
 })
 export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ and Textfield general setup should add the feature using the lazy loading syntax, including VC as well 2`] = `
+"import { NgModule } from '@angular/core';
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
+import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurator/rulebased/cpq\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RulebasedConfiguratorModule,
+    RulebasedCpqConfiguratorModule
+  ]
+})
+export class RulebasedConfiguratorWrapperModule { }
 "
 `;
 
@@ -241,6 +259,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
 import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurator/rulebased/cpq\\";
 import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
 
@@ -248,8 +267,9 @@ import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \\"@s
   declarations: [],
   imports: [
     RulebasedConfiguratorRootModule,
-    RulebasedCpqConfiguratorModule,
-    CpqConfiguratorRootModule
+    RulebasedConfiguratorModule,
+    CpqConfiguratorRootModule,
+    RulebasedCpqConfiguratorModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
@@ -316,7 +336,7 @@ import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, Rule
     featureModules: {
       [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
         module: () =>
-          import('@spartacus/product-configurator/rulebased/cpq').then((m) => m.RulebasedCpqConfiguratorModule),
+          import('./rulebased-configurator-wrapper.module').then((m) => m.RulebasedConfiguratorWrapperModule),
       },
     }
   }),
@@ -329,6 +349,22 @@ import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, Rule
   ]
 })
 export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature CPQ general setup should add the feature using the lazy loading syntax, and include VC as well 2`] = `
+"import { NgModule } from '@angular/core';
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
+import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurator/rulebased/cpq\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RulebasedConfiguratorModule,
+    RulebasedCpqConfiguratorModule
+  ]
+})
+export class RulebasedConfiguratorWrapperModule { }
 "
 `;
 
