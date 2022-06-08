@@ -3,17 +3,17 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils,
+  ConfiguratorModelUtils
 } from '@spartacus/product-configurator/common';
 import {
   ConfiguratorCommonsService,
   ConfiguratorGroupsService,
-  ConfiguratorUISettingsConfig,
+  ConfiguratorUISettingsConfig
 } from '@spartacus/product-configurator/rulebased';
 import {
   IconLoaderService,
   IconModule,
-  ICON_TYPE,
+  ICON_TYPE
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -193,29 +193,26 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('isSingleSelection', () => {
-    it('should know which attribute type represent single selection attributes', () => {
-      expect(component['isSingleSelection']()).toBe(true);
+    it('should know that DROPDOWN_ADDITIONAL_INPUT is a single selection attributes', () => {
       component.attribute.uiType =
         Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
       expect(component['isSingleSelection']()).toBe(true);
+    });
+
+    it('should know that RADIOBUTTON_ADDITIONAL_INPUT is a single selection attributes', () => {
       component.attribute.uiType =
         Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
       expect(component['isSingleSelection']()).toBe(true);
+    });
+
+    it('should know that CHECKBOX is a single selection attributes from the users point of view', () => {
+      component.attribute.uiType = Configurator.UiType.CHECKBOX;
+      expect(component['isSingleSelection']()).toBe(true);
+    });
+
+    it('should know that MULTI_SELECTION_IMAGE is not a single selection attributes', () => {
       component.attribute.uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
       expect(component['isSingleSelection']()).toBe(false);
-    });
-  });
-
-  describe('isWithAdditionalValues', () => {
-    it('should know which attribute types allows for additional values', () => {
-      expect(component['isWithAdditionalValues']).toBe(false);
-      component.attribute.uiType =
-        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
-      expect(component['isWithAdditionalValues']).toBe(true);
-
-      component.attribute.uiType =
-        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
-      expect(component['isWithAdditionalValues']).toBe(true);
     });
   });
 

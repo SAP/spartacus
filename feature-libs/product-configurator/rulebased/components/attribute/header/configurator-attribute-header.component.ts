@@ -3,7 +3,7 @@ import {
   Component,
   Input,
   isDevMode,
-  OnInit,
+  OnInit
 } from '@angular/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import {
   ConfiguratorCommonsService,
-  ConfiguratorGroupsService,
+  ConfiguratorGroupsService
 } from '../../../core';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
@@ -60,10 +60,10 @@ export class ConfiguratorAttributeHeaderComponent
    */
   getRequiredMessageKey(): string {
     if (this.isSingleSelection()) {
-      return this.isWithAdditionalValues
+      return this.isWithAdditionalValues(this.attribute)
         ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
         : 'configurator.attribute.singleSelectRequiredMessage';
-    } else if (this.isMultiSelection()) {
+    } else if (this.isMultiSelection) {
       return 'configurator.attribute.multiSelectRequiredMessage';
     } else {
       //input attribute types
@@ -71,7 +71,7 @@ export class ConfiguratorAttributeHeaderComponent
     }
   }
 
-  protected isMultiSelection(): boolean {
+  protected get isMultiSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOXLIST_PRODUCT:
@@ -96,15 +96,7 @@ export class ConfiguratorAttributeHeaderComponent
       }
     }
     return false;
-  }
-
-  protected get isWithAdditionalValues(): boolean {
-    const uiType = this.attribute.uiType;
-    return (
-      uiType === Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT ||
-      uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
-    );
-  }
+  } 
 
   protected isRequiredAttributeWithDomain(): boolean {
     const uiType = this.attribute.uiType;

@@ -43,12 +43,12 @@
     </ng-template>
 
     <div class="row">
-      <div class="col-12 col-md-8">
+      <div class="col-12 col-md-7 col-xl-7">
         <p class="cx-product-summary" [innerHtml]="product.summary">
           {{ product.summary }}
         </p>
       </div>
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-5 col-xl-5">
         <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
           <ng-container cxInnerComponentsHost></ng-container>
         </ng-template>
