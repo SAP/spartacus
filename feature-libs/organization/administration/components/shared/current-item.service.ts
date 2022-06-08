@@ -30,8 +30,8 @@ export abstract class CurrentItemService<T> {
    *
    * The active item is loaded by the active `key$`.
    */
-  readonly item$: Observable<T> = this.key$.pipe(
-    switchMap((code: string) => (code ? this.getItem(code) : of(null)))
+  readonly item$: Observable<T | undefined> = this.key$.pipe(
+    switchMap((code: string) => (code ? this.getItem(code) : of(undefined)))
   );
 
   /**
@@ -50,7 +50,7 @@ export abstract class CurrentItemService<T> {
   /**
    * Emits the current model or null, if there is no model available
    */
-  protected abstract getItem(...params: any[]): Observable<T>;
+  protected abstract getItem(...params: any[]): Observable<T | undefined>;
 
   getRouterParam(paramKey: string): Observable<string> {
     return this.routingService

@@ -5,13 +5,12 @@ import {
   Input,
 } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
-import { Table, TableStructure } from '@spartacus/storefront';
+import { ICON_TYPE, Table, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { OrganizationTableType } from '../organization.model';
 import { ListService } from './list.service';
-import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-org-list',
@@ -31,7 +30,7 @@ export class ListComponent<T = any, P = PaginationModel> {
 
   domainType = this.service.domainType;
 
-  sortCode: string;
+  sortCode: string | undefined;
 
   iconTypes = ICON_TYPE;
 
@@ -58,7 +57,7 @@ export class ListComponent<T = any, P = PaginationModel> {
   /**
    * Returns the total number of items.
    */
-  getListCount(dataTable: Table): number {
+  getListCount(dataTable: Table): number | undefined {
     return dataTable.pagination?.totalResults;
   }
 

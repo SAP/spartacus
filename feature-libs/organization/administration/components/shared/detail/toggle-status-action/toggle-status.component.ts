@@ -42,7 +42,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * resolves the current item.
    */
-  current$: Observable<T> = this.itemService.current$;
+  current$: Observable<T | undefined> = this.itemService.current$;
 
   /**
    * resolves if the user is currently in the edit form.
@@ -50,7 +50,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   isInEditMode$: Observable<boolean> = this.itemService.isInEditMode$;
 
   protected subscription = new Subscription();
-  protected confirmation: Subject<ConfirmationMessageData>;
+  protected confirmation: Subject<ConfirmationMessageData> | null;
 
   constructor(
     protected itemService: ItemService<T>,

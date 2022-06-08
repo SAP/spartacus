@@ -23,8 +23,8 @@ export class MessageService<
     return message.events;
   }
 
-  close(message: Subject<MessageEventData>) {
-    message.next({ close: true });
+  close(message: Subject<MessageEventData> | null) {
+    message?.next({ close: true });
   }
 
   /**

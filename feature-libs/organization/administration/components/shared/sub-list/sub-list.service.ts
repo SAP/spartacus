@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { EntitiesModel } from '@spartacus/core';
+import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 import {
   ResponsiveTableConfiguration,
   TableLayout,
 } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { ListService } from '../list/list.service';
 import { BaseItem } from '../organization.model';
-import { Observable, of } from 'rxjs';
-import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
 
 @Injectable()
 export abstract class SubListService<
@@ -40,7 +40,9 @@ export abstract class SubListService<
   /**
    * As we can't filter with the backend API, we do this client side.
    */
-  protected filterSelected(list: EntitiesModel<T>): EntitiesModel<T> {
+  protected filterSelected(
+    list: EntitiesModel<T> | undefined
+  ): EntitiesModel<T> | undefined {
     if (!list) {
       return list;
     }
@@ -50,7 +52,7 @@ export abstract class SubListService<
     return {
       pagination,
       sorts,
-      values: values.filter((value) => value.selected),
+      values: values?.filter((value) => value.selected),
     };
   }
 }

@@ -89,7 +89,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
       });
   }
 
-  protected notify(item: T, action: string) {
+  protected notify(item: T | undefined, action: string) {
     this.messageService.add({
       message: {
         key: `${this.i18nRoot}.messages.${action}`,
@@ -100,7 +100,7 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     });
   }
 
-  protected setI18nRoot(item: T): void {
+  protected setI18nRoot(item?: T): void {
     // concatenate the i18n root with .edit or .create suffix
     this.i18n = this.i18nRoot + (item ? '.edit' : '.create');
   }

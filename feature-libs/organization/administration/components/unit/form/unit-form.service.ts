@@ -48,14 +48,14 @@ export class UnitFormService extends FormService<B2BUnit> {
     }
   }
 
-  protected isRootUnit(item: B2BUnit): boolean {
+  protected isRootUnit(item: B2BUnit | undefined): boolean {
     // as we don't have full response after toggle item status,
     // we have situation where we have object like {uid, active},
     // so decided to check name as alternative required property
-    return (
+    return Boolean(
       item?.uid &&
-      item?.name &&
-      (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
+        item?.name &&
+        (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
     );
   }
 }

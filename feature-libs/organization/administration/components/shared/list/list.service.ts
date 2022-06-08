@@ -151,5 +151,5 @@ export abstract class ListService<T, P = PaginationModel> {
   protected abstract load(
     pagination: PaginationModel,
     ...args: any
-  ): Observable<EntitiesModel<T>>;
+  ): Observable<EntitiesModel<T> | undefined>;
 }

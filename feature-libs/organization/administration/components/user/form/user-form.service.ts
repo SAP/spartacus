@@ -30,12 +30,12 @@ export class UserFormService extends FormService<B2BUser> {
     form.setControl('roles', new FormArray([]));
     form.setControl('isAssignedToApprovers', new FormControl(false));
 
-    form.get('roles').valueChanges.subscribe((roles: string[]) => {
+    form.get('roles')?.valueChanges.subscribe((roles: string[]) => {
       if (roles.includes(B2BUserRole.APPROVER)) {
-        form.get('isAssignedToApprovers').enable();
+        form.get('isAssignedToApprovers')?.enable();
       } else {
-        form.get('isAssignedToApprovers').disable();
-        form.get('isAssignedToApprovers').reset();
+        form.get('isAssignedToApprovers')?.disable();
+        form.get('isAssignedToApprovers')?.reset();
       }
     });
 

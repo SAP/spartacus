@@ -89,7 +89,7 @@ export abstract class ItemService<T> {
   /**
    * Launches the detailed route for the given item item.
    */
-  launchDetails(item: T): void {
+  launchDetails(item?: T): void {
     const cxRoute = this.getDetailsRoute();
     const params = this.buildRouteParams(item);
     if (cxRoute && item && Object.keys(item).length > 0) {
@@ -106,7 +106,7 @@ export abstract class ItemService<T> {
    * doesn't match the expected route parameters. You can manipulate
    * the parameter data.
    */
-  protected buildRouteParams(item: T): any {
+  protected buildRouteParams(item?: T): any {
     return item;
   }
 

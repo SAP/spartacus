@@ -7,8 +7,8 @@ import {
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { SubListService } from '../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
+import { SubListService } from '../../shared/sub-list/sub-list.service';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +45,7 @@ export class BudgetCostCenterListService extends SubListService<Budget> {
     return {
       pagination,
       sorts,
-      values: values.filter((value) => value.active),
+      values: values?.filter((value) => value.active),
     };
   }
 }

@@ -65,7 +65,7 @@ export class UnitAddressFormService extends FormService<Address> {
   }
 
   getRegions(): Observable<Region[]> {
-    let selectedCountryCode = this.form.get('country.isocode').value;
+    let selectedCountryCode = this.form.get('country.isocode')?.value;
     let newCountryCode: string;
 
     return this.getForm()
@@ -79,12 +79,12 @@ export class UnitAddressFormService extends FormService<Address> {
         tap((regions: Region[]) => {
           const regionControl = this.form.get('region.isocode');
           if (!regions || regions.length === 0) {
-            regionControl.disable();
+            regionControl?.disable();
           } else {
-            regionControl.enable();
+            regionControl?.enable();
           }
           if (selectedCountryCode && newCountryCode !== selectedCountryCode) {
-            regionControl.reset();
+            regionControl?.reset();
           }
           selectedCountryCode = newCountryCode;
         })

@@ -115,8 +115,8 @@ export class LoadOrgUnitSuccess extends StateUtils.EntitySuccessAction {
     super(
       ORG_UNIT_ENTITIES,
       Array.isArray(payload)
-        ? payload.map((orgUnit) => orgUnit?.uid)
-        : payload?.uid
+        ? payload.map((orgUnit) => orgUnit?.uid ?? '')
+        : payload?.uid ?? ''
     );
   }
 }
@@ -149,7 +149,7 @@ export class LoadOrgUnitNodesSuccess extends StateUtils.EntitySuccessAction {
 export class CreateUnit extends StateUtils.EntityLoadAction {
   readonly type = CREATE_ORG_UNIT;
   constructor(public payload: { userId: string; unit: B2BUnit }) {
-    super(ORG_UNIT_ENTITIES, payload.unit.uid);
+    super(ORG_UNIT_ENTITIES, payload.unit.uid ?? '');
   }
 }
 
@@ -163,7 +163,7 @@ export class CreateUnitFail extends StateUtils.EntityFailAction {
 export class CreateUnitSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_ORG_UNIT_SUCCESS;
   constructor(public payload: B2BUnit) {
-    super(ORG_UNIT_ENTITIES, payload.uid, payload);
+    super(ORG_UNIT_ENTITIES, payload.uid ?? '', payload);
   }
 }
 
@@ -172,7 +172,7 @@ export class UpdateUnit extends StateUtils.EntityLoadAction {
   constructor(
     public payload: { userId: string; unitCode: string; unit: B2BUnit }
   ) {
-    super(ORG_UNIT_ENTITIES, payload.unit.uid);
+    super(ORG_UNIT_ENTITIES, payload.unit.uid ?? '');
   }
 }
 
@@ -186,7 +186,7 @@ export class UpdateUnitFail extends StateUtils.EntityFailAction {
 export class UpdateUnitSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_ORG_UNIT_SUCCESS;
   constructor(public payload: B2BUnit) {
-    super(ORG_UNIT_ENTITIES, payload.uid, payload);
+    super(ORG_UNIT_ENTITIES, payload.uid ?? '', payload);
   }
 }
 
@@ -461,7 +461,7 @@ export class CreateAddress extends StateUtils.EntityLoadAction {
   constructor(
     public payload: { userId: string; orgUnitId: string; address: Address }
   ) {
-    super(ADDRESS_ENTITIES, payload.address.id);
+    super(ADDRESS_ENTITIES, payload.address.id ?? '');
   }
 }
 
@@ -475,7 +475,7 @@ export class CreateAddressFail extends StateUtils.EntityFailAction {
 export class CreateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_ADDRESS_SUCCESS;
   constructor(public payload: Address) {
-    super(ADDRESS_ENTITIES, payload.id, payload);
+    super(ADDRESS_ENTITIES, payload.id ?? '', payload);
   }
 }
 
@@ -489,7 +489,7 @@ export class UpdateAddress extends StateUtils.EntityLoadAction {
       address: Address;
     }
   ) {
-    super(ADDRESS_ENTITIES, payload.address.id);
+    super(ADDRESS_ENTITIES, payload.address.id ?? '');
   }
 }
 
@@ -503,7 +503,7 @@ export class UpdateAddressFail extends StateUtils.EntityFailAction {
 export class UpdateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_ADDRESS_SUCCESS;
   constructor(public payload: Address) {
-    super(ADDRESS_ENTITIES, payload.id, payload);
+    super(ADDRESS_ENTITIES, payload.id ?? '', payload);
   }
 }
 
@@ -530,7 +530,7 @@ export class DeleteAddressFail extends StateUtils.EntityFailAction {
 export class DeleteAddressSuccess extends StateUtils.EntityRemoveAction {
   readonly type = DELETE_ADDRESS_SUCCESS;
   constructor(public payload: Address) {
-    super(ADDRESS_ENTITIES, payload.id);
+    super(ADDRESS_ENTITIES, payload.id ?? '');
   }
 }
 
@@ -540,8 +540,8 @@ export class LoadAddressSuccess extends StateUtils.EntitySuccessAction {
     super(
       ADDRESS_ENTITIES,
       Array.isArray(payload)
-        ? payload.map((address) => address?.id)
-        : payload?.id
+        ? payload.map((address) => address?.id ?? '')
+        : payload?.id ?? ''
     );
   }
 }
