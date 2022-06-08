@@ -134,4 +134,28 @@ describe('ConfigUIKeyGeneratorService', () => {
       ).toThrow();
     });
   });
+
+  describe('isWithAdditionalValues', () => {
+    it('should know that DROPDOWN does not allow additional values', () => {
+      currentAttribute.uiType = Configurator.UiType.DROPDOWN;
+      expect(classUnderTest['isWithAdditionalValues'](currentAttribute)).toBe(
+        false
+      );
+    });
+
+    it('should know that DROPDOWN_ADDITIONAL_INPUT allows additional values', () => {
+      currentAttribute.uiType = Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      expect(classUnderTest['isWithAdditionalValues'](currentAttribute)).toBe(
+        true
+      );
+    });
+
+    it('should know that RADIOBUTTON_ADDITIONAL_INPUT allows additional values', () => {
+      currentAttribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      expect(classUnderTest['isWithAdditionalValues'](currentAttribute)).toBe(
+        true
+      );
+    });
+  });  
 });

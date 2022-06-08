@@ -172,24 +172,16 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     return this.attribute.values?.find((value) => value.selected)?.valuePrice;
   }
 
-  protected get isAdditionalValue(): boolean {
-    return (
-      this.attribute.uiType ===
-        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT ||
-      this.attribute.uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
-    );
-  }
-
   get isAdditionalValueNumeric(): boolean {
     return (
-      this.isAdditionalValue &&
+      this.isWithAdditionalValues(this.attribute) &&
       this.attribute.validationType === Configurator.ValidationType.NUMERIC
     );
   }
 
   get isAdditionalValueAlphaNumeric(): boolean {
     return (
-      this.isAdditionalValue &&
+      this.isWithAdditionalValues(this.attribute) &&
       this.attribute.validationType === Configurator.ValidationType.NONE
     );
   }
@@ -199,7 +191,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     attribute: Configurator.Attribute
   ): string {
     let ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
-    if (this.isAdditionalValue) {
+    if (this.isWithAdditionalValues(this.attribute)) {
       let ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
       return ariaLabel + ' ' + ariaLabelWithAdditionalValue;
     } else {

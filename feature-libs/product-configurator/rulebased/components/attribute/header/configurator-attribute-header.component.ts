@@ -60,10 +60,10 @@ export class ConfiguratorAttributeHeaderComponent
    */
   getRequiredMessageKey(): string {
     if (this.isSingleSelection()) {
-      return this.isWithAdditionalValues
+      return this.isWithAdditionalValues(this.attribute)
         ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
         : 'configurator.attribute.singleSelectRequiredMessage';
-    } else if (this.isMultiSelection()) {
+    } else if (this.isMultiSelection) {
       return 'configurator.attribute.multiSelectRequiredMessage';
     } else {
       //input attribute types
@@ -71,7 +71,7 @@ export class ConfiguratorAttributeHeaderComponent
     }
   }
 
-  protected isMultiSelection(): boolean {
+  protected get isMultiSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOXLIST_PRODUCT:
@@ -96,14 +96,6 @@ export class ConfiguratorAttributeHeaderComponent
       }
     }
     return false;
-  }
-
-  protected get isWithAdditionalValues(): boolean {
-    const uiType = this.attribute.uiType;
-    return (
-      uiType === Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT ||
-      uiType === Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
-    );
   }
 
   protected isRequiredAttributeWithDomain(): boolean {
