@@ -14,9 +14,9 @@ import {
 import { Subject } from 'rxjs';
 import { CheckoutPaymentEventListener } from './checkout-payment-event.listener';
 import {
+  CheckoutPaymentCardTypesQueryReloadEvent,
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
-  CheckoutReloadPaymentCardTypesEvent,
   CheckoutResetQueryEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
@@ -132,21 +132,21 @@ describe(`CheckoutPaymentEventListener`, () => {
   });
 
   describe(`onGetCardTypesQueryReload`, () => {
-    it(`LanguageSetEvent should dispatch CheckoutReloadPaymentCardTypesEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutPaymentCardTypesQueryReloadEvent()`, () => {
       mockEventStream$.next(new LanguageSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadPaymentCardTypesEvent
+        CheckoutPaymentCardTypesQueryReloadEvent
       );
     });
 
-    it(`LanguageSetEvent should dispatch CheckoutReloadPaymentCardTypesEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutPaymentCardTypesQueryReloadEvent()`, () => {
       mockEventStream$.next(new CurrencySetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadPaymentCardTypesEvent
+        CheckoutPaymentCardTypesQueryReloadEvent
       );
     });
   });

@@ -5,12 +5,12 @@ import {
   PaymentDetails,
 } from '@spartacus/cart/base/root';
 import {
+  CheckoutPaymentCardTypesQueryReloadEvent,
+  CheckoutPaymentCardTypesQueryResetEvent,
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
-  CheckoutReloadPaymentCardTypesEvent,
-  CheckoutResetPaymentCardTypesEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
@@ -31,24 +31,24 @@ import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkou
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
   /**
-   * Returns the reload triggers for the cardTypes query
+   * Returns the reload events for the cardTypes query
    */
-  protected getCardTypesQueryReloadTriggers(): QueryNotifier[] {
-    return [CheckoutReloadPaymentCardTypesEvent];
+  protected getCheckoutPaymentCardTypesQueryReloadEvents(): QueryNotifier[] {
+    return [CheckoutPaymentCardTypesQueryReloadEvent];
   }
 
   /**
-   * Returns the reset triggers for the cardTypes query
+   * Returns the reset events for the cardTypes query
    */
-  protected getCardTypesQueryResetTriggers(): QueryNotifier[] {
-    return [CheckoutResetPaymentCardTypesEvent];
+  protected getCheckoutPaymentCardTypesQueryResetEvents(): QueryNotifier[] {
+    return [CheckoutPaymentCardTypesQueryResetEvent];
   }
 
-  protected cardTypesQuery: Query<CardType[]> = this.queryService.create<
+  protected paymentCardTypesQuery: Query<CardType[]> = this.queryService.create<
     CardType[]
-  >(() => this.checkoutPaymentConnector.getCardTypes(), {
-    reloadOn: this.getCardTypesQueryReloadTriggers(),
-    resetOn: this.getCardTypesQueryResetTriggers(),
+  >(() => this.checkoutPaymentConnector.getPaymentCardTypes(), {
+    reloadOn: this.getCheckoutPaymentCardTypesQueryReloadEvents(),
+    resetOn: this.getCheckoutPaymentCardTypesQueryResetEvents(),
   });
 
   protected createPaymentMethodCommand: Command<PaymentDetails, unknown> =
@@ -137,12 +137,14 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     );
   }
 
-  getCardTypesState(): Observable<QueryState<CardType[] | undefined>> {
-    return this.cardTypesQuery.getState();
+  getPaymentCardTypesState(): Observable<QueryState<CardType[] | undefined>> {
+    return this.paymentCardTypesQuery.getState();
   }
 
-  getCardTypes(): Observable<CardType[]> {
-    return this.getCardTypesState().pipe(map((state) => state.data ?? []));
+  getPaymentCardTypes(): Observable<CardType[]> {
+    return this.getPaymentCardTypesState().pipe(
+      map((state) => state.data ?? [])
+    );
   }
 
   getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {

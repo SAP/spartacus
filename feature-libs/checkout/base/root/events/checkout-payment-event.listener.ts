@@ -10,9 +10,9 @@ import {
 } from '@spartacus/core';
 import { merge, Subscription } from 'rxjs';
 import {
+  CheckoutPaymentCardTypesQueryReloadEvent,
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
-  CheckoutReloadPaymentCardTypesEvent,
   CheckoutResetQueryEvent,
 } from './checkout.events';
 
@@ -67,7 +67,10 @@ export class CheckoutPaymentEventListener implements OnDestroy {
         this.eventService.get(LanguageSetEvent),
         this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutReloadPaymentCardTypesEvent);
+        this.eventService.dispatch(
+          {},
+          CheckoutPaymentCardTypesQueryReloadEvent
+        );
       })
     );
   }

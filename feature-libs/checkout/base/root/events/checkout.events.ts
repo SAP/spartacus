@@ -180,19 +180,19 @@ export class CheckoutPaymentDetailsSetEvent extends CheckoutPaymentDetailsEvent 
 /**
  * Emit this event to force payment card types reload
  */
-export class CheckoutReloadPaymentCardTypesEvent extends CheckoutPaymentDetailsEvent {
+export class CheckoutPaymentCardTypesQueryReloadEvent extends CheckoutPaymentDetailsEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutReloadPaymentCardTypesEvent';
+  static readonly type = 'CheckoutPaymentCardTypesQueryReloadEvent';
 }
 
 /**
  * Emit this event to force payment card types reset
  */
-export class CheckoutResetPaymentCardTypesEvent extends CheckoutPaymentDetailsEvent {
+export class CheckoutPaymentCardTypesQueryResetEvent extends CheckoutPaymentDetailsEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutResetPaymentCardTypesEvent';
+  static readonly type = 'CheckoutPaymentCardTypesQueryResetEvent';
 }
