@@ -10,9 +10,9 @@ export class MessageService<
   O extends MessageEventData = MessageEventData,
   T extends MessageData<O> = MessageData<O>
 > {
-  protected data$: ReplaySubject<MessageData> = new ReplaySubject();
+  protected data$: ReplaySubject<T> = new ReplaySubject();
 
-  get(): Observable<MessageData> {
+  get(): Observable<T> {
     return this.data$;
   }
 

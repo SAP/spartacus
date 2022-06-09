@@ -61,7 +61,10 @@ export class BudgetFormComponent implements OnInit {
     this.unitService.loadList();
   }
 
-  createCodeWithName(name: AbstractControl, code: AbstractControl): void {
+  createCodeWithName(
+    name: AbstractControl | null,
+    code: AbstractControl | null
+  ): void {
     createCodeForEntityName(name, code);
   }
 }

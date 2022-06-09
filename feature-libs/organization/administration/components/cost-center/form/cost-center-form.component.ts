@@ -36,7 +36,7 @@ export class CostCenterFormComponent {
    *
    * If there's a unit provided, we disable the form control.
    */
-  @Input() set unitKey(value: string) {
+  @Input() set unitKey(value: string | null) {
     if (value) {
       this.form?.get('unit.uid')?.setValue(value);
       this.form?.get('unit')?.disable();
@@ -67,7 +67,10 @@ export class CostCenterFormComponent {
     protected currencyService: CurrencyService
   ) {}
 
-  createCodeWithName(name: AbstractControl, code: AbstractControl): void {
+  createCodeWithName(
+    name: AbstractControl | null,
+    code: AbstractControl | null
+  ): void {
     createCodeForEntityName(name, code);
   }
 }

@@ -5,7 +5,12 @@ import {
   Input,
 } from '@angular/core';
 import { EntitiesModel, PaginationModel } from '@spartacus/core';
-import { ICON_TYPE, Table, TableStructure } from '@spartacus/storefront';
+import {
+  ICON_TYPE,
+  Table,
+  TableStructure,
+  TrapFocus,
+} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
@@ -18,6 +23,8 @@ import { ListService } from './list.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListComponent<T = any, P = PaginationModel> {
+  readonly trapFocus = TrapFocus;
+
   @HostBinding('class.ghost') hasGhostData = false;
 
   constructor(
@@ -57,15 +64,17 @@ export class ListComponent<T = any, P = PaginationModel> {
   /**
    * Returns the total number of items.
    */
-  getListCount(dataTable: Table): number | undefined {
+  getListCount(dataTable: Table | EntitiesModel<T>): number | undefined {
     return dataTable.pagination?.totalResults;
   }
 
   /**
    * Browses to the given page number
    */
-  browse(pagination: P, pageNumber: number) {
-    this.service.view(pagination, pageNumber);
+  browse(pagination: P | undefined, pageNumber: number) {
+    if (pagination) {
+      this.service.view(pagination, pageNumber);
+    }
   }
 
   /**
@@ -78,10 +87,12 @@ export class ListComponent<T = any, P = PaginationModel> {
   /**
    * Sorts the list.
    */
-  sort(pagination: P): void {
-    this.service.sort({
-      ...pagination,
-      ...({ sort: this.sortCode } as PaginationModel),
-    });
+  sort(pagination: P | undefined): void {
+    if (pagination) {
+      this.service.sort({
+        ...pagination,
+        ...({ sort: this.sortCode } as PaginationModel),
+      });
+    }
   }
 }

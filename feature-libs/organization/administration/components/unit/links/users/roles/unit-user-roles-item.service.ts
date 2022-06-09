@@ -48,7 +48,7 @@ export class UnitUserRolesItemService extends ItemService<B2BUser> {
   protected create(
     _customer: B2BUser
   ): Observable<OrganizationItemStatus<B2BUser>> {
-    return this.b2bUserService.getLoadingStatus(null);
+    return this.b2bUserService.getLoadingStatus('');
   }
 
   protected getDetailsRoute(): string {

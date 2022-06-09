@@ -46,7 +46,10 @@ export class UserGroupFormComponent implements OnInit {
     this.unitService.loadList();
   }
 
-  createUidWithName(name: AbstractControl, code: AbstractControl): void {
+  createUidWithName(
+    name: AbstractControl | null,
+    code: AbstractControl | null
+  ): void {
     createCodeForEntityName(name, code);
   }
 }

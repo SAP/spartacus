@@ -33,7 +33,7 @@ export class UnitAddressDetailsComponent {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  getCountry(isoCode: string): Observable<Country | undefined> {
+  getCountry(isoCode: string | undefined): Observable<Country | undefined> {
     return this.userAddressService.getDeliveryCountries().pipe(
       tap((countries: Country[]) => {
         if (Object.keys(countries).length === 0) {

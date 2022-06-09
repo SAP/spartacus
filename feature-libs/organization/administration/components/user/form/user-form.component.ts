@@ -42,7 +42,7 @@ export class UserFormComponent implements OnInit {
    *
    * If there's a unit provided, we disable the unit form control.
    */
-  @Input() set unitKey(value: string) {
+  @Input() set unitKey(value: string | null) {
     if (value) {
       this.form?.get('orgUnit.uid')?.setValue(value);
       this.form?.get('orgUnit')?.disable();

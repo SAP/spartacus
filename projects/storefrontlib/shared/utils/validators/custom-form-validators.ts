@@ -189,7 +189,7 @@ export class CustomFormValidators {
     startDateKey: string,
     endDateKey: string,
     getDate: (value: string) => Date | undefined
-  ): (_: FormGroup) => ValidationErrors | null {
+  ): any {
     const validator = (formGroup: FormGroup): ValidationErrors | null => {
       const startDateControl = formGroup.controls[startDateKey];
       const endDateControl = formGroup.controls[endDateKey];

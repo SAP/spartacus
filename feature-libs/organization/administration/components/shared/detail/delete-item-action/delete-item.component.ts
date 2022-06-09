@@ -87,7 +87,10 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
 
   protected confirmDelete(item: T): void {
     this.itemService
-      .delete(item[this.key], this.additionalParam)
+      .delete?.(
+        item[this.key as keyof BaseItem] as string,
+        this.additionalParam
+      )
       .pipe(
         take(1),
         filter((data) => data.status === LoadStatus.SUCCESS)
