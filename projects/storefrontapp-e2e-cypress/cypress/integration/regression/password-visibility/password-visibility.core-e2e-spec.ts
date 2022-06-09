@@ -1,16 +1,11 @@
 import { viewportContext } from '../../../helpers/viewport-context';
-import { standardUser } from '../../../sample-data/shared-users';
-import { generateMail, randomString } from '../../../helpers/user';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { waitForPage } from '../../../helpers/checkout-flow';
 
 context('Password Visibility', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
-      cy.window().then((win) => {
-        win.sessionStorage.clear();
-        clearAllStorage();
-      });
+      clearAllStorage();
     });
 
     it('should hide password by default', () => {
