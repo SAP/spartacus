@@ -30,6 +30,16 @@ export class StoreListComponent implements OnInit {
   ngOnInit() {
     this.locations$ = this.storeFinderService.getFindStoresEntities();
     this.isLoading$ = this.storeFinderService.getStoresLoading();
+
+    // just whilst developing
+    this.storeFinderService.findStoresAction(
+      '',
+      {},
+      undefined,
+      undefined,
+      true,
+      50000
+    );
   }
 
   findStores(storeFinderSearchQuery: StoreFinderSearchQuery): void {
