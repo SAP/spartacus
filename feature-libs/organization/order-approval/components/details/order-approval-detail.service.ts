@@ -22,7 +22,7 @@ export class OrderApprovalDetailService {
     .pipe(map((routingData) => routingData.state.params.approvalCode));
 
   protected orderApproval$ = this.approvalCode$.pipe(
-    filter(Boolean),
+    filter((value) => Boolean(value)),
     tap((approvalCode: string) =>
       this.orderApprovalService.loadOrderApproval(approvalCode)
     ),
@@ -32,7 +32,9 @@ export class OrderApprovalDetailService {
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  protected order$ = this.orderApproval$.pipe(pluck('order'));
+  protected order$: Observable<Order> = this.orderApproval$.pipe(
+    pluck('order')
+  );
 
   constructor(
     protected routingService: RoutingService,
@@ -59,7 +61,7 @@ export class OrderApprovalDetailService {
    * Returns the approval details that have been retrieved from the
    * approval code in the page url.
    */
-  getOrderApproval(): Observable<OrderApproval> {
+  getOrderApproval(): Observable<OrderApproval | undefined> {
     return this.orderApproval$;
   }
 }

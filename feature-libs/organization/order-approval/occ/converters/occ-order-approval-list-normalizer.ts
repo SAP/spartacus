@@ -5,8 +5,8 @@ import {
   EntitiesModel,
   Occ,
 } from '@spartacus/core';
-import { OrderApproval } from '../../core/model/order-approval.model';
 import { ORDER_APPROVAL_NORMALIZER } from '../../core/connectors/converters';
+import { OrderApproval } from '../../core/model/order-approval.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +21,9 @@ export class OccOrderApprovalListNormalizer
     target?: EntitiesModel<OrderApproval>
   ): EntitiesModel<OrderApproval> {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as EntitiesModel<OrderApproval>;
     }
-    target.values = source.orderApprovals.map((orderApproval) => ({
+    target.values = source.orderApprovals?.map((orderApproval) => ({
       ...this.converter.convert(orderApproval, ORDER_APPROVAL_NORMALIZER),
     }));
     return target;
