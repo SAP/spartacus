@@ -31,5 +31,5 @@ export abstract class CheckoutPaymentAdapter {
   /**
    * Abstract method used to get available card types
    */
-  abstract getCardTypes(): Observable<CardType[]>;
+  abstract getPaymentCardTypes(): Observable<CardType[]>;
 }
