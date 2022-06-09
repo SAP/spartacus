@@ -2,6 +2,7 @@
   @extend .cx-agnostic-table;
 
   td.cx-actions {
+    cx-add-to-cart,
     button {
       white-space: nowrap;
       display: block;

@@ -10,8 +10,6 @@ import {
 import {
   Address,
   EventService,
-  LoadUserAddressesEvent,
-  OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
@@ -62,7 +60,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
   let connector: CheckoutDeliveryAddressConnector;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
-  let userIdService: UserIdService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -83,7 +80,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
     connector = TestBed.inject(CheckoutDeliveryAddressConnector);
     checkoutQuery = TestBed.inject(CheckoutQueryFacade);
     eventService = TestBed.inject(EventService);
-    userIdService = TestBed.inject(UserIdService);
   });
 
   it(`should inject CheckoutDeliveryAddressService`, inject(
@@ -140,28 +136,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
           address: mockAddress,
         },
         CheckoutDeliveryAddressCreatedEvent
-      );
-    });
-
-    it(`should dispatch LoadUserAddressesEvent`, () => {
-      service.createAndSetAddress(mockAddress);
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { userId: mockUserId },
-        LoadUserAddressesEvent
-      );
-    });
-
-    it(`should NOT dispatch LoadUserAddressesEvent when the user is anonymous`, () => {
-      userIdService.takeUserId = createSpy().and.returnValue(
-        of(OCC_USER_ID_ANONYMOUS)
-      );
-
-      service.createAndSetAddress(mockAddress);
-
-      expect(eventService.dispatch).not.toHaveBeenCalledWith(
-        { userId: mockUserId },
-        LoadUserAddressesEvent
       );
     });
   });
