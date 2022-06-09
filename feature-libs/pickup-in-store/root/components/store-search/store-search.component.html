@@ -3,10 +3,10 @@
     <label for="txtFindAStore">Find a Store</label>
   </div>
   <div class="cx-find-a-store-input">
-    <input class="form-control" type="text" id="txtFindAStore" />
+    <input class="form-control" type="text" id="txtFindAStore" #txtFindAStore />
   </div>
-  <div><button (click)="findStores()">Find Stores</button></div>
-  <div><span class="cs-find-a-store-psuedo-link">USE MY LOCATION</span> | <span class="cs-find-a-store-psuedo-link">VIEW ALL STORES</span></div>
+  <div><button (click)="onFindStores(txtFindAStore.value)">Find Stores</button></div>
+  <div><span class="cs-find-a-store-psuedo-link" (click)="useMyLocation()">USE MY LOCATION</span> | <span class="cs-find-a-store-psuedo-link">VIEW ALL STORES</span></div>
   <div class="cx-find-a-store-hide-out-of-stock form-check">
     <label class="form-check-label" for="chkHideOutOfStock">Hide out of stock options </label>
     <input class="form-check-input" id="chkHideOutOfStock" type="checkbox" />

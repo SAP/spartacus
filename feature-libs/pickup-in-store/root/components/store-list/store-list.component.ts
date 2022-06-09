@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { StoreEntities, StoreFinderService } from '@spartacus/storefinder/core';
+import { Component, Input, OnInit } from '@angular/core';
+import {
+  StoreEntities,
+  StoreFinderSearchQuery,
+  StoreFinderService,
+} from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,18 +14,31 @@ export class StoreListComponent implements OnInit {
   isLoading$: Observable<boolean>;
   locations$: Observable<StoreEntities>;
 
-  constructor(private storeFinderService: StoreFinderService) {}
+  private _storeSearch: StoreFinderSearchQuery;
+  @Input() set storeSearch(storeFinderSearchQuery: StoreFinderSearchQuery) {
+    this._storeSearch = storeFinderSearchQuery;
+    if (this._storeSearch) {
+      this.findStores(this._storeSearch);
+    }
+  }
+  get storeSearch(): StoreFinderSearchQuery {
+    return this._storeSearch;
+  }
+
+  constructor(private readonly storeFinderService: StoreFinderService) {}
 
   ngOnInit() {
     this.locations$ = this.storeFinderService.getFindStoresEntities();
     this.isLoading$ = this.storeFinderService.getStoresLoading();
+  }
 
+  findStores(storeFinderSearchQuery: StoreFinderSearchQuery): void {
     this.storeFinderService.findStoresAction(
-      '',
+      storeFinderSearchQuery?.queryText ?? '',
       {},
       undefined,
       undefined,
-      true,
+      !!storeFinderSearchQuery?.useMyLocation,
       50000
     );
   }
