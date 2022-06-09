@@ -35,6 +35,11 @@ class MockCarouselComponent {
   @Input() items: any[];
 }
 
+@Component({ selector: 'cx-product-carousel-item', template: '' })
+class MockProductCarouselItemComponent {
+  @Input() item: any;
+}
+
 @Pipe({
   name: 'cxUrl',
 })
@@ -113,6 +118,7 @@ describe('ProductCarouselComponent', () => {
         imports: [RouterTestingModule, I18nTestingModule],
         declarations: [
           ProductCarouselComponent,
+          MockProductCarouselItemComponent,
           MockCarouselComponent,
           MockMediaComponent,
           MockUrlPipe,
@@ -173,42 +179,10 @@ describe('ProductCarouselComponent', () => {
     it(
       'should have 2 rendered templates',
       waitForAsync(() => {
-        const el = fixture.debugElement.queryAll(By.css('a'));
+        const el = fixture.debugElement.queryAll(
+          By.css('cx-product-carousel-item')
+        );
         expect(el.length).toEqual(2);
-      })
-    );
-
-    it(
-      'should render product name in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('a:first-child h3'));
-        expect(el.nativeElement).toBeTruthy();
-        expect(el.nativeElement.innerText).toEqual('product 1');
-      })
-    );
-
-    it(
-      'should render product price in template',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('a:last-child .price'));
-        expect(el.nativeElement).toBeTruthy();
-        expect(el.nativeElement.innerText).toEqual('$200.00');
-      })
-    );
-
-    it(
-      'should render product primary image for the first item',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('a:first-child cx-media'));
-        expect(el.nativeElement).toBeTruthy();
-      })
-    );
-
-    it(
-      'should render missing product image for the 2nd item as well',
-      waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
-        expect(el.nativeElement).toBeTruthy();
       })
     );
   });
