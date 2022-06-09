@@ -21,6 +21,33 @@ import {
 } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
+const MIGRATION_TEST_CLASS = `import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ConfigFormUpdateEvent,
+  Configurator,
+  ConfiguratorAttributeDropDownComponent,
+  ConfiguratorAttributeQuantityService,
+} from '@spartacus/product-configurator/rulebased';
+import { BehaviorSubject } from 'rxjs';
+
+@Directive()
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
+export class CustomAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeDropDownComponent {
+  loading$ = new BehaviorSubject<boolean>(false);
+
+  @Input() attribute: Configurator.Attribute;
+  @Input() ownerKey: string;
+  @Input() language: string;
+  @Input() ownerType: string;
+  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+    super(quantityService);
+  }
+}
+
+`;
+
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
     import { StateWithProcess, StateWithUser } from '@spartacus/core';
@@ -557,6 +584,17 @@ describe('constructor migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(NO_CONSTRUCTOR);
+    });
+  });
+
+  describe('configurator migration', () => {
+    it('should make the required changes', async () => {
+      writeFile(host, '/src/index.ts', MIGRATION_TEST_CLASS);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(MIGRATION_TEST_CLASS);
     });
   });
 
