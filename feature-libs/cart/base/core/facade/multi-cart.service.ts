@@ -334,14 +334,6 @@ export class MultiCartService implements MultiCartFacade {
     );
   }
 
-  /**
-   * Remove cart
-   *
-   * Removes the cart from the state.
-   * To remove a cart from the state and back-end, please use `DeleteCart` action.
-   *
-   * @param cartId
-   */
   removeCart(cartId: string): void {
     this.store.dispatch(new CartActions.RemoveCart({ cartId }));
   }
