@@ -142,6 +142,7 @@ export const common = {
     voucherExceeded:
       'This coupon has exceeded the number of times it can be used',
     unknownIdentifier: 'Item not found.',
+    invalidCostCenter: 'Invalid cost center.',
     otherCartErrors: 'Cart errors occurred.',
   },
   miniCart: {

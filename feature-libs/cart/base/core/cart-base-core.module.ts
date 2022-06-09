@@ -11,6 +11,7 @@ import { facadeProviders } from './facade/facade-providers';
 import { BadCartRequestHandler } from './http-interceptors/handlers/bad-cart-request.handler';
 import { BadVoucherRequestHandler } from './http-interceptors/handlers/bad-voucher-request.handler';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
+import { BadCostCenterRequestHandler } from "./http-interceptors/handlers/bad-cost-center-request.handler";
 
 @NgModule({
   imports: [
@@ -33,6 +34,11 @@ import { MultiCartStoreModule } from './store/multi-cart-store.module';
     {
       provide: HttpErrorHandler,
       useExisting: BadVoucherRequestHandler,
+      multi: true,
+    },
+    {
+      provide: HttpErrorHandler,
+      useExisting: BadCostCenterRequestHandler,
       multi: true,
     },
   ],
