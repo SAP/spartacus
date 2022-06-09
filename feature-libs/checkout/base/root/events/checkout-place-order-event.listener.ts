@@ -1,25 +1,27 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { RemoveCartEvent } from '@spartacus/cart/base/root';
-import { CheckoutQueryResetEvent } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
-import { ReplenishmentOrderScheduledEvent } from '@spartacus/order/root';
+import { OrderPlacedEvent } from '@spartacus/order/root';
 import { Subscription } from 'rxjs';
+import { CheckoutQueryResetEvent } from './checkout.events';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutScheduledReplenishmentEventListener implements OnDestroy {
+export class CheckoutPlaceOrderEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
   constructor(protected eventService: EventService) {
-    this.onReplenishmentOrder();
+    this.onOrderPlaced();
   }
 
-  protected onReplenishmentOrder() {
+  protected onOrderPlaced(): void {
     this.subscriptions.add(
       this.eventService
-        .get(ReplenishmentOrderScheduledEvent)
+        .get(OrderPlacedEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
+
           this.eventService.dispatch(
             {
               userId,
@@ -28,8 +30,6 @@ export class CheckoutScheduledReplenishmentEventListener implements OnDestroy {
             },
             RemoveCartEvent
           );
-
-          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
   }
