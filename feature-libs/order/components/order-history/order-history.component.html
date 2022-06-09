@@ -60,7 +60,7 @@
                 {{ 'orderHistory.orderId' | cxTranslate }}
               </th>
               <th scope="col">
-                {{ 'orderHistory.ordererName' | cxTranslate }}
+                {{ 'orderHistory.placedBy' | cxTranslate }}
               </th>
               <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
               <th scope="col">
@@ -68,7 +68,7 @@
               </th>
               <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
               <th scope="col">
-                {{ 'orderHistory.unitName' | cxTranslate }}
+                {{ 'orderHistory.unit' | cxTranslate }}
               </th>
             </thead>
             <tbody>
@@ -92,6 +92,25 @@
                     {{ order?.code }}</a
                   >
                 </td>
+
+                <td class="cx-order-history-code">
+                  <!-- TODO have an eye on the file order.i18n.ts-->
+                  <div class="cx-order-history-label">
+                    {{ 'orderHistory.placedBy' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                  >
+                    {{ order?.code }}</a
+                  >
+                </td>
+
                 <td class="cx-order-history-placed">
                   <div class="cx-order-history-label">
                     {{ 'orderHistory.date' | cxTranslate }}
@@ -142,6 +161,25 @@
                     {{ order?.total.formattedValue }}</a
                   >
                 </td>
+
+
+                <td class="cx-order-history-total">
+                  <div class="cx-order-history-label">
+                    {{ 'orderHistory.unit' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                  ><!-- TODO unit name not present here, should be available from the new endpoint -->
+                    {{ order?.total.formattedValue }}</a
+                  >
+                </td>
+
               </tr>
             </tbody>
           </table>
