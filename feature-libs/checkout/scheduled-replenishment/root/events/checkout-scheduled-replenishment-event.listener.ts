@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { RemoveCartEvent } from '@spartacus/cart/base/root';
-import { CheckoutResetQueryEvent } from '@spartacus/checkout/base/root';
+import { CheckoutQueryResetEvent } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
 import { ReplenishmentOrderScheduledEvent } from '@spartacus/order/root';
 import { Subscription } from 'rxjs';
@@ -24,16 +24,12 @@ export class CheckoutScheduledReplenishmentEventListener implements OnDestroy {
             {
               userId,
               cartId,
-              /**
-               * As we know the cart is not anonymous (precondition checked),
-               * we can safely use the cartId, which is actually the cart.code.
-               */
               cartCode,
             },
             RemoveCartEvent
           );
 
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
   }

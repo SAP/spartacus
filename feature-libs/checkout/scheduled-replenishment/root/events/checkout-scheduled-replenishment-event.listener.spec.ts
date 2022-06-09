@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RemoveCartEvent } from '@spartacus/cart/base/root';
-import { CheckoutResetQueryEvent } from '@spartacus/checkout/base/root';
+import { CheckoutQueryResetEvent } from '@spartacus/checkout/base/root';
 import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import {
   ReplenishmentOrder,
@@ -59,10 +59,10 @@ describe(`CheckoutScheduledReplenishmentEventListener`, () => {
       );
     });
 
-    it(`ReplenishmentOrderScheduledEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`ReplenishmentOrderScheduledEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });

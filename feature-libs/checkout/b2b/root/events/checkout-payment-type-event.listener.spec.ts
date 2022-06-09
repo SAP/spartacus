@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   createFrom,
@@ -15,8 +15,8 @@ import {
 import { Subject } from 'rxjs';
 import {
   CheckoutPaymentTypeSetEvent,
-  CheckoutReloadPaymentTypesEvent,
-  CheckoutResetPaymentTypesEvent,
+  CheckoutPaymentTypesQueryReloadEvent,
+  CheckoutPaymentTypesQueryResetEvent,
 } from './checkout-b2b.events';
 import { CheckoutPaymentTypeEventListener } from './checkout-payment-type-event.listener';
 import createSpy = jasmine.createSpy;
@@ -59,57 +59,57 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
       );
     });
 
-    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
+    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
-        CheckoutResetDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent
       );
     });
 
-    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });
 
   describe(`onGetPaymentTypesQueryReload`, () => {
-    it(`LanguageSetEvent should dispatch CheckoutReloadPaymentTypesEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutPaymentTypesQueryReloadEvent()`, () => {
       mockEventStream$.next(new LanguageSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadPaymentTypesEvent
+        CheckoutPaymentTypesQueryReloadEvent
       );
     });
 
-    it(`LanguageSetEvent should dispatch CheckoutReloadPaymentTypesEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutPaymentTypesQueryReloadEvent()`, () => {
       mockEventStream$.next(new CurrencySetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadPaymentTypesEvent
+        CheckoutPaymentTypesQueryReloadEvent
       );
     });
   });
 
   describe(`onGetPaymentTypesQueryReset`, () => {
-    it(`LogoutEvent should dispatch CheckoutResetPaymentTypesEvent()`, () => {
+    it(`LogoutEvent should dispatch CheckoutPaymentTypesQueryResetEvent()`, () => {
       mockEventStream$.next(new LogoutEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetPaymentTypesEvent
+        CheckoutPaymentTypesQueryResetEvent
       );
     });
 
-    it(`LoginEvent should dispatch CheckoutResetPaymentTypesEvent()`, () => {
+    it(`LoginEvent should dispatch CheckoutPaymentTypesQueryResetEvent()`, () => {
       mockEventStream$.next(new LoginEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetPaymentTypesEvent
+        CheckoutPaymentTypesQueryResetEvent
       );
     });
   });

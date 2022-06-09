@@ -4,7 +4,7 @@ import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import { Order, OrderPlacedEvent } from '@spartacus/order/root';
 import { Subject } from 'rxjs';
 import { CheckoutPlaceOrderEventListener } from './checkout-place-order-event.listener';
-import { CheckoutResetQueryEvent } from './checkout.events';
+import { CheckoutQueryResetEvent } from './checkout.events';
 
 import createSpy = jasmine.createSpy;
 
@@ -51,10 +51,10 @@ describe(`CheckoutPlaceOrderEventListener`, () => {
       );
     });
 
-    it(`OrderPlacedEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`OrderPlacedEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
 

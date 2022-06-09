@@ -28,21 +28,21 @@ export abstract class CheckoutPaymentTypeEvent extends CheckoutEvent {}
 /**
  * Emit this event to force payment types reload
  */
-export class CheckoutReloadPaymentTypesEvent extends CheckoutPaymentTypeEvent {
+export class CheckoutPaymentTypesQueryReloadEvent extends CheckoutPaymentTypeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutReloadPaymentTypesEvent';
+  static readonly type = 'CheckoutPaymentTypesQueryReloadEvent';
 }
 
 /**
  * Emit this event to force payment types reset
  */
-export class CheckoutResetPaymentTypesEvent extends CheckoutPaymentTypeEvent {
+export class CheckoutPaymentTypesQueryResetEvent extends CheckoutPaymentTypeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutResetPaymentTypesEvent';
+  static readonly type = 'CheckoutPaymentTypesQueryResetEvent';
 }
 
 /**

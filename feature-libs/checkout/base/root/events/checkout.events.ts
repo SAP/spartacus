@@ -4,21 +4,21 @@ import { Address, CxEvent } from '@spartacus/core';
 /**
  * Emit this event to force checkout details reload
  */
-export class CheckoutReloadQueryEvent extends CxEvent {
+export class CheckoutQueryReloadEvent extends CxEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutReloadQueryEvent';
+  static readonly type = 'CheckoutQueryReloadEvent';
 }
 
 /**
  * Emit this event to force checkout details reset
  */
-export class CheckoutResetQueryEvent extends CxEvent {
+export class CheckoutQueryResetEvent extends CxEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutResetQueryEvent';
+  static readonly type = 'CheckoutQueryResetEvent';
 }
 
 /**
@@ -127,21 +127,21 @@ export class CheckoutDeliveryModeClearedErrorEvent extends CheckoutDeliveryModeE
 /**
  * Emit this event to force delivery modes reload
  */
-export class CheckoutReloadDeliveryModesEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutSupportedDeliveryModesQueryReloadEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutReloadDeliveryModesEvent';
+  static readonly type = 'CheckoutSupportedDeliveryModesQueryReloadEvent';
 }
 
 /**
  * Emit this event to force delivery modes reset
  */
-export class CheckoutResetDeliveryModesEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutSupportedDeliveryModesQueryResetEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutResetDeliveryModesEvent';
+  static readonly type = 'CheckoutSupportedDeliveryModesQueryResetEvent';
 }
 
 /**
@@ -180,19 +180,19 @@ export class CheckoutPaymentDetailsSetEvent extends CheckoutPaymentDetailsEvent 
 /**
  * Emit this event to force payment card types reload
  */
-export class CheckoutReloadPaymentCardTypesEvent extends CheckoutPaymentDetailsEvent {
+export class CheckoutPaymentCardTypesQueryReloadEvent extends CheckoutPaymentDetailsEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutReloadPaymentCardTypesEvent';
+  static readonly type = 'CheckoutPaymentCardTypesQueryReloadEvent';
 }
 
 /**
  * Emit this event to force payment card types reset
  */
-export class CheckoutResetPaymentCardTypesEvent extends CheckoutPaymentDetailsEvent {
+export class CheckoutPaymentCardTypesQueryResetEvent extends CheckoutPaymentDetailsEvent {
   /**
    * Event's type
    */
-  static readonly type = 'CheckoutResetPaymentCardTypesEvent';
+  static readonly type = 'CheckoutPaymentCardTypesQueryResetEvent';
 }

@@ -15,9 +15,9 @@ import {
   CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
-  CheckoutReloadDeliveryModesEvent,
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryReloadEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
 
@@ -63,10 +63,10 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
       );
     });
 
-    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
 
@@ -89,10 +89,10 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
       );
     });
 
-    it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
 
@@ -122,9 +122,9 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
   });
 
   describe(`onDeliveryModeReset`, () => {
-    it(`CheckoutResetDeliveryModesEvent should dispatch LoadCartEvent()`, () => {
+    it(`CheckoutSupportedDeliveryModesQueryResetEvent should dispatch LoadCartEvent()`, () => {
       mockEventStream$.next(
-        createFrom(CheckoutResetDeliveryModesEvent, {
+        createFrom(CheckoutSupportedDeliveryModesQueryResetEvent, {
           userId: mockUserId,
           cartId: mockCartId,
         })
@@ -138,41 +138,41 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
   });
 
   describe(`onGetSupportedDeliveryModesQueryReload`, () => {
-    it(`LanguageSetEvent should dispatch CheckoutReloadDeliveryModesEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutSupportedDeliveryModesQueryReloadEvent()`, () => {
       mockEventStream$.next(new LanguageSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryReloadEvent
       );
     });
 
-    it(`LanguageSetEvent should dispatch CheckoutReloadDeliveryModesEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutSupportedDeliveryModesQueryReloadEvent()`, () => {
       mockEventStream$.next(new CurrencySetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryReloadEvent
       );
     });
   });
 
   describe(`onGetSupportedDeliveryModesQueryReset`, () => {
-    it(`LogoutEvent should dispatch CheckoutResetDeliveryModesEvent()`, () => {
+    it(`LogoutEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent()`, () => {
       mockEventStream$.next(new LogoutEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent
       );
     });
 
-    it(`LoginEvent should dispatch CheckoutResetDeliveryModesEvent()`, () => {
+    it(`LoginEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent()`, () => {
       mockEventStream$.next(new LoginEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent
       );
     });
   });

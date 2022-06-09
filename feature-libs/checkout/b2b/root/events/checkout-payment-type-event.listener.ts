@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   CurrencySetEvent,
@@ -13,8 +13,8 @@ import {
 import { merge, Subscription } from 'rxjs';
 import {
   CheckoutPaymentTypeSetEvent,
-  CheckoutReloadPaymentTypesEvent,
-  CheckoutResetPaymentTypesEvent,
+  CheckoutPaymentTypesQueryReloadEvent,
+  CheckoutPaymentTypesQueryResetEvent,
 } from './checkout-b2b.events';
 
 @Injectable({
@@ -37,9 +37,9 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
         .subscribe(({ userId, cartId }) => {
           this.eventService.dispatch(
             { userId, cartId },
-            CheckoutResetDeliveryModesEvent
+            CheckoutSupportedDeliveryModesQueryResetEvent
           );
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
         })
     );
   }
@@ -50,7 +50,7 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
         this.eventService.get(LanguageSetEvent),
         this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutReloadPaymentTypesEvent);
+        this.eventService.dispatch({}, CheckoutPaymentTypesQueryReloadEvent);
       })
     );
   }
@@ -61,7 +61,7 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutResetPaymentTypesEvent);
+        this.eventService.dispatch({}, CheckoutPaymentTypesQueryResetEvent);
       })
     );
   }

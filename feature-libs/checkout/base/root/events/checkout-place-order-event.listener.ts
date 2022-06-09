@@ -3,7 +3,7 @@ import { RemoveCartEvent } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import { OrderPlacedEvent } from '@spartacus/order/root';
 import { Subscription } from 'rxjs';
-import { CheckoutResetQueryEvent } from './checkout.events';
+import { CheckoutQueryResetEvent } from './checkout.events';
 
 @Injectable({
   providedIn: 'root',
@@ -20,16 +20,12 @@ export class CheckoutPlaceOrderEventListener implements OnDestroy {
       this.eventService
         .get(OrderPlacedEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
 
           this.eventService.dispatch(
             {
               userId,
               cartId,
-              /**
-               * As we know the cart is not anonymous (precondition checked),
-               * we can safely use the cartId, which is actually the cart.code.
-               */
               cartCode,
             },
             RemoveCartEvent

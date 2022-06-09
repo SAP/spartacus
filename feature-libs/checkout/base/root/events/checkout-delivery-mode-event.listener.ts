@@ -12,9 +12,9 @@ import {
   CheckoutDeliveryModeClearedErrorEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
-  CheckoutReloadDeliveryModesEvent,
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryReloadEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
 
 /**
@@ -41,16 +41,12 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
       this.eventService
         .get(CheckoutDeliveryModeSetEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
 
           this.eventService.dispatch(
             {
               userId,
               cartId,
-              /**
-               * As we know the cart is not anonymous (precondition checked),
-               * we can safely use the cartId, which is actually the cart.code.
-               */
               cartCode,
             },
             LoadCartEvent
@@ -64,16 +60,12 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
       this.eventService
         .get(CheckoutDeliveryModeClearedEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
 
           this.eventService.dispatch(
             {
               userId,
               cartId,
-              /**
-               * As we know the cart is not anonymous (precondition checked),
-               * we can safely use the cartId, which is actually the cart.code.
-               */
               cartCode,
             },
             LoadCartEvent
@@ -87,16 +79,12 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
       this.eventService
         .get(CheckoutDeliveryModeClearedErrorEvent)
         .subscribe(({ userId, cartId, cartCode }) => {
-          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+          this.eventService.dispatch({}, CheckoutQueryResetEvent);
 
           this.eventService.dispatch(
             {
               userId,
               cartId,
-              /**
-               * As we know the cart is not anonymous (precondition checked),
-               * we can safely use the cartId, which is actually the cart.code.
-               */
               cartCode,
             },
             LoadCartEvent
@@ -107,13 +95,13 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
 
   /**
    * Registers listeners for the delivery mode clear event.
-   * This is needed for when `CheckoutResetDeliveryModesEvent` is dispatched
+   * This is needed for when `CheckoutSupportedDeliveryModesQueryResetEvent` is dispatched
    * as we need to update the user's cart when the delivery mode is cleared from the backend checkout details.
    */
   protected onDeliveryModeReset(): void {
     this.subscriptions.add(
       this.eventService
-        .get(CheckoutResetDeliveryModesEvent)
+        .get(CheckoutSupportedDeliveryModesQueryResetEvent)
         .subscribe(({ userId, cartId }) =>
           this.eventService.dispatch(
             {
@@ -137,7 +125,10 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
         this.eventService.get(LanguageSetEvent),
         this.eventService.get(CurrencySetEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutReloadDeliveryModesEvent);
+        this.eventService.dispatch(
+          {},
+          CheckoutSupportedDeliveryModesQueryReloadEvent
+        );
       })
     );
   }
@@ -148,7 +139,10 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent)
       ).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
+        this.eventService.dispatch(
+          {},
+          CheckoutSupportedDeliveryModesQueryResetEvent
+        );
       })
     );
   }

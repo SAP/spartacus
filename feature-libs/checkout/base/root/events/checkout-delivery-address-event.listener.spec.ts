@@ -17,8 +17,8 @@ import {
   CheckoutDeliveryAddressClearedEvent,
   CheckoutDeliveryAddressCreatedEvent,
   CheckoutDeliveryAddressSetEvent,
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
 
@@ -100,23 +100,23 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
       ).toHaveBeenCalled();
     });
 
-    it(`UpdateUserAddressEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
+    it(`UpdateUserAddressEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { cartId: mockCartId, userId: mockUserId },
-        CheckoutResetDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent
       );
     });
 
-    it(`DeleteUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch CheckoutResetDeliveryModesEvent`, () => {
+    it(`DeleteUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(
         checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
       ).toHaveBeenCalled();
     });
 
-    it(`DeleteUserAddressEvent dispatch CheckoutResetDeliveryModesEvent`, () => {
+    it(`DeleteUserAddressEvent dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { cartId: mockCartId, userId: mockUserId },
-        CheckoutResetDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent
       );
     });
   });
@@ -133,17 +133,17 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
         );
       });
 
-      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           { userId: mockUserId, cartId: mockCartId },
-          CheckoutResetDeliveryModesEvent
+          CheckoutSupportedDeliveryModesQueryResetEvent
         );
       });
 
-      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetQueryEvent`, () => {
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutQueryResetEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutResetQueryEvent
+          CheckoutQueryResetEvent
         );
       });
 
@@ -173,17 +173,17 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
         );
       });
 
-      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           { userId: OCC_USER_ID_ANONYMOUS, cartId: mockCartId },
-          CheckoutResetDeliveryModesEvent
+          CheckoutSupportedDeliveryModesQueryResetEvent
         );
       });
 
-      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutResetQueryEvent`, () => {
+      it(`CheckoutDeliveryAddressCreatedEvent should dispatch CheckoutQueryResetEvent`, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutResetQueryEvent
+          CheckoutQueryResetEvent
         );
       });
 
@@ -214,28 +214,28 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
       );
     });
 
-    it(`CheckoutDeliveryAddressSetEvent should dispatch CheckoutResetDeliveryModesEvent`, () => {
+    it(`CheckoutDeliveryAddressSetEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
-        CheckoutResetDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent
       );
     });
 
-    it(`CheckoutDeliveryAddressSetEvent should dispatch  CheckoutResetQueryEvent`, () => {
+    it(`CheckoutDeliveryAddressSetEvent should dispatch  CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });
 
   describe(`onDeliveryAddressCleared`, () => {
-    it(`CheckoutDeliveryAddressClearedEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`CheckoutDeliveryAddressClearedEvent should dispatch CheckoutQueryResetEvent`, () => {
       mockEventStream$.next(new CheckoutDeliveryAddressClearedEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });

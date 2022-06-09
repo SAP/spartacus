@@ -14,10 +14,10 @@ import {
 import { Subject } from 'rxjs';
 import { CheckoutPaymentEventListener } from './checkout-payment-event.listener';
 import {
+  CheckoutPaymentCardTypesQueryReloadEvent,
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
-  CheckoutReloadPaymentCardTypesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
 
@@ -72,10 +72,10 @@ describe(`CheckoutPaymentEventListener`, () => {
         );
       });
 
-      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutResetQueryEvent `, () => {
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutQueryResetEvent `, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutResetQueryEvent
+          CheckoutQueryResetEvent
         );
       });
 
@@ -97,10 +97,10 @@ describe(`CheckoutPaymentEventListener`, () => {
         );
       });
 
-      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutResetQueryEvent `, () => {
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutQueryResetEvent `, () => {
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutResetQueryEvent
+          CheckoutQueryResetEvent
         );
       });
 
@@ -121,32 +121,32 @@ describe(`CheckoutPaymentEventListener`, () => {
   });
 
   describe(`onPaymentSet`, () => {
-    it(`CheckoutPaymentDetailsSetEvent should dispatch CheckoutResetQueryEvent`, () => {
+    it(`CheckoutPaymentDetailsSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       mockEventStream$.next(new CheckoutPaymentDetailsSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });
 
   describe(`onGetCardTypesQueryReload`, () => {
-    it(`LanguageSetEvent should dispatch CheckoutReloadPaymentCardTypesEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutPaymentCardTypesQueryReloadEvent()`, () => {
       mockEventStream$.next(new LanguageSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadPaymentCardTypesEvent
+        CheckoutPaymentCardTypesQueryReloadEvent
       );
     });
 
-    it(`LanguageSetEvent should dispatch CheckoutReloadPaymentCardTypesEvent()`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutPaymentCardTypesQueryReloadEvent()`, () => {
       mockEventStream$.next(new CurrencySetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutReloadPaymentCardTypesEvent
+        CheckoutPaymentCardTypesQueryReloadEvent
       );
     });
   });

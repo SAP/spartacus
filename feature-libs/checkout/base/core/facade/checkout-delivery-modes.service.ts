@@ -6,8 +6,8 @@ import {
   CheckoutDeliveryModeSetEvent,
   CheckoutDeliveryModesFacade,
   CheckoutQueryFacade,
-  CheckoutReloadDeliveryModesEvent,
-  CheckoutResetDeliveryModesEvent,
+  CheckoutSupportedDeliveryModesQueryReloadEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
@@ -30,16 +30,16 @@ export class CheckoutDeliveryModesService
   implements CheckoutDeliveryModesFacade
 {
   /**
-   * Returns the reload triggers for the supportedDeliveryModes query
+   * Returns the reload events for the supportedDeliveryModes query
    */
-  protected getSupportedDeliveryModesQueryReloadTriggers(): QueryNotifier[] {
-    return [CheckoutReloadDeliveryModesEvent];
+  protected getCheckoutSupportedDeliveryModesQueryReloadEvents(): QueryNotifier[] {
+    return [CheckoutSupportedDeliveryModesQueryReloadEvent];
   }
   /**
-   * Return the reset triggers for the supportedDeliveryModes query
+   * Return the reset events for the supportedDeliveryModes query
    */
-  protected getSupportedDeliveryModesQueryResetTriggers(): QueryNotifier[] {
-    return [CheckoutResetDeliveryModesEvent];
+  protected getCheckoutSupportedDeliveryModesQueryResetEvents(): QueryNotifier[] {
+    return [CheckoutSupportedDeliveryModesQueryResetEvent];
   }
 
   protected supportedDeliveryModesQuery: Query<DeliveryMode[]> =
@@ -54,8 +54,8 @@ export class CheckoutDeliveryModesService
           )
         ),
       {
-        reloadOn: this.getSupportedDeliveryModesQueryReloadTriggers(),
-        resetOn: this.getSupportedDeliveryModesQueryResetTriggers(),
+        reloadOn: this.getCheckoutSupportedDeliveryModesQueryReloadEvents(),
+        resetOn: this.getCheckoutSupportedDeliveryModesQueryResetEvents(),
       }
     );
 
@@ -94,6 +94,10 @@ export class CheckoutDeliveryModesService
                     {
                       userId,
                       cartId,
+                      /**
+                       * As we know the cart is not anonymous (precondition checked),
+                       * we can safely use the cartId, which is actually the cart.code.
+                       */
                       cartCode: cartId,
                     },
                     CheckoutDeliveryModeClearedEvent
@@ -104,6 +108,10 @@ export class CheckoutDeliveryModesService
                     {
                       userId,
                       cartId,
+                      /**
+                       * As we know the cart is not anonymous (precondition checked),
+                       * we can safely use the cartId, which is actually the cart.code.
+                       */
                       cartCode: cartId,
                     },
                     CheckoutDeliveryModeClearedErrorEvent
