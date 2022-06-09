@@ -59,7 +59,7 @@ describe(`MultiCartEventListener`, () => {
       });
     });
 
-    it(`LoadCartEvent should call removeCart`, () => {
+    it(`RemoveCartEvent should call removeCart`, () => {
       mockEventStream$.next(
         createFrom(RemoveCartEvent, {
           userId: mockUserId,
