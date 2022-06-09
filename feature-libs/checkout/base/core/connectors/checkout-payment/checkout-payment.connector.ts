@@ -23,7 +23,7 @@ export class CheckoutPaymentConnector {
     return this.adapter.setPaymentDetails(userId, cartId, paymentDetailsId);
   }
 
-  getCardTypes(): Observable<CardType[]> {
-    return this.adapter.getCardTypes();
+  getPaymentCardTypes(): Observable<CardType[]> {
+    return this.adapter.getPaymentCardTypes();
   }
 }
