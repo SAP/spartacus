@@ -335,10 +335,10 @@ export class MultiCartService implements MultiCartFacade {
   }
 
   /**
-   * Remove Cart
+   * Remove cart
    *
-   * Used for cleaning cart in local state, when we get information that it no longer exists in the backend.
-   * For removing particular cart in both places use DeleteCart actions.
+   * Removes the cart from the state.
+   * To remove a cart from the state and back-end, please use `DeleteCart` action.
    *
    * @param cartId
    */
