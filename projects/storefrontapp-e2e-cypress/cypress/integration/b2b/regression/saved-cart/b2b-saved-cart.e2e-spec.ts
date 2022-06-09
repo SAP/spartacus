@@ -175,7 +175,16 @@ context('B2B - Saved Cart', () => {
       it('should update saved cart name and description, and restore it', () => {
         savedCart.updateSavedCartAndRestore(
           sampleData.products[1],
-          sampleData.savedActiveCartForm[0]
+          sampleData.savedActiveCartForm[0],
+          false
+        );
+      });
+
+      it('should update saved cart name and description, and add to current cart', () => {
+        savedCart.updateSavedCartAndRestore(
+          sampleData.products[1],
+          sampleData.savedActiveCartForm[0],
+          true
         );
       });
     });
