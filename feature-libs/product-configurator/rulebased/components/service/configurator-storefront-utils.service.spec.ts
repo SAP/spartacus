@@ -1,6 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -11,7 +12,6 @@ import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from './configurator-storefront-utils.service';
-import { By } from '@angular/platform-browser';
 
 let isGroupVisited: Observable<boolean> = of(false);
 
@@ -266,8 +266,8 @@ describe('ConfigUtilsService', () => {
         return value;
       }
 
-      function spyFocusForFocusedElements(focusedElements) {
-        focusedElements.forEach((focusedElement) => {
+      function spyFocusForFocusedElements(focusedElements: any) {
+        focusedElements.forEach((focusedElement: any) => {
           spyOn(focusedElement, 'focus').and.callThrough();
         });
       }
