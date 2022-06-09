@@ -194,6 +194,10 @@ export interface CmsAddToCartComponent extends CmsComponent {
   inventoryDisplay?: boolean;
 }
 
+export interface CmsOrderDetailItemsComponent extends CmsComponent {
+  enableAddToCart?: boolean;
+}
+
 export interface CmsPDFDocumentComponent extends CmsComponent {
   pdfFile?: CmsBannerComponentMedia;
   title?: string;

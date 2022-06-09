@@ -39,9 +39,9 @@
       "name": "Debug schematics",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/node_modules/@angular/cli/bin/ng",
-      "args": ["add", "@spartacus/schematics@latest"],
+      "args": ["add", "--skip-confirmation", "@spartacus/schematics@latest"],
       "console": "integratedTerminal",
-      "outFiles": ["${workspaceFolder}/**/*.js"]
+      "outFiles": ["${workspaceFolder}/node_modules/@spartacus/**/*.js"]
     },
 
     // to debug a schematics Jest test, make sure that a spec.ts file is currently opened.

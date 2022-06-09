@@ -91,6 +91,7 @@ export namespace OccConfigurator {
     retractTriggered?: boolean;
     intervalInDomain?: boolean;
     retractBlocked?: boolean;
+    validationType?: string;
   }
 
   export interface Value {

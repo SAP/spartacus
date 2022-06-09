@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
-import {
-  CheckoutB2BRootModule,
-  CHECKOUT_B2B_CMS_COMPONENTS,
-} from '@spartacus/checkout/b2b/root';
+import { CHECKOUT_B2B_CMS_COMPONENTS } from '@spartacus/checkout/b2b/root';
 import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { CheckoutScheduledReplenishmentEventModule } from './events/checkout-scheduled-replenishment-event.module';
@@ -28,7 +25,7 @@ export function defaultCheckoutComponentsConfig() {
 }
 
 @NgModule({
-  imports: [CheckoutB2BRootModule, CheckoutScheduledReplenishmentEventModule],
+  imports: [CheckoutScheduledReplenishmentEventModule],
   providers: [provideDefaultConfigFactory(defaultCheckoutComponentsConfig)],
 })
 export class CheckoutScheduledReplenishmentRootModule {}
