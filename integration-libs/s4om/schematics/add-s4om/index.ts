@@ -9,6 +9,7 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_S4OM_FEATURE,
+  configureB2bFeatures,
   LibraryOptions as S4OMOptions,
   readPackageJson,
   S4OM_MODULE,
@@ -34,7 +35,7 @@ export function addS4OMFeature(options: S4OMOptions): Rule {
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_S4OM_FEATURE, options.features)
-        ? addS4OM(options)
+        ? chain([configureB2bFeatures(options, packageJson), addS4OM(options)])
         : noop(),
     ]);
   };
