@@ -105,6 +105,8 @@ export interface CartModification {
 export interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;
+  displayAddToCart?: boolean;
+  addToCartString?: string;
 }
 
 export interface OrderEntry {

@@ -53,15 +53,15 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
     this.subscriptions.add(
       merge(
         this.eventService.get(CheckoutDeliveryAddressSetEvent),
-        this.eventService.get(LogoutEvent),
-        this.eventService.get(LoginEvent),
         this.eventService.get(CheckoutDeliveryAddressClearedEvent),
         this.eventService.get(CheckoutDeliveryModeSetEvent),
         this.eventService.get(CheckoutDeliveryModeClearedEvent),
-        this.eventService.get(SaveCartSuccessEvent),
-        this.eventService.get(RestoreSavedCartSuccessEvent),
         this.eventService.get(CheckoutPaymentDetailsCreatedEvent),
         this.eventService.get(CheckoutPaymentDetailsSetEvent),
+        this.eventService.get(LogoutEvent),
+        this.eventService.get(LoginEvent),
+        this.eventService.get(SaveCartSuccessEvent),
+        this.eventService.get(RestoreSavedCartSuccessEvent),
         this.eventService.get(MergeCartSuccessEvent)
       ).subscribe(() => {
         (this.orderType$ as BehaviorSubject<ORDER_TYPE>).next(

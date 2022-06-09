@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
 import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
-import { CostCenterSetEvent } from './checkout-b2b.events';
+import { CheckoutCostCenterSetEvent } from './checkout-b2b.events';
 import { CheckoutCostCenterEventListener } from './checkout-cost-center-event.listener';
 import createSpy = jasmine.createSpy;
 
@@ -36,28 +36,28 @@ describe(`CheckoutCostCenterEventListener`, () => {
     eventService = TestBed.inject(EventService);
   });
 
-  describe(`onCostCenterChange`, () => {
-    it(`should dispatch CheckoutResetDeliveryModesEvent`, () => {
+  describe(`onCostCenterSet`, () => {
+    beforeEach(() => {
       mockEventStream$.next(
-        createFrom(CostCenterSetEvent, {
+        createFrom(CheckoutCostCenterSetEvent, {
           userId: mockUserId,
           cartId: mockCartId,
           code: 'test-cost-center',
         })
       );
+    });
 
+    it(`CheckoutCostCenterSetEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
-        CheckoutResetDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent
       );
     });
 
-    it(`should dispatch CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new CostCenterSetEvent());
-
+    it(`CheckoutCostCenterSetEvent should dispatch CheckoutQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutQueryResetEvent
       );
     });
   });
