@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
-  CostCenterSetEvent,
+  CheckoutCostCenterSetEvent,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
@@ -36,7 +36,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
                       userId,
                       code: payload,
                     },
-                    CostCenterSetEvent
+                    CheckoutCostCenterSetEvent
                   )
                 )
               )
