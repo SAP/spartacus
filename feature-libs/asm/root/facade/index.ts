@@ -1,1 +1,1 @@
-export * from './asm-facade.service';
+export * from './asm.facade';

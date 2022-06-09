@@ -1,4 +1,4 @@
-import { BindCartOptions } from '@spartacus/asm/root';
+import { BindCartParams } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 import {
   CustomerSearchOptions,
@@ -13,5 +13,5 @@ export abstract class AsmAdapter {
     options: CustomerSearchOptions
   ): Observable<CustomerSearchPage>;
 
-  abstract bindCart(options: BindCartOptions): Observable<unknown>;
+  abstract bindCart(options: BindCartParams): Observable<unknown>;
 }

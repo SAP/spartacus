@@ -59,7 +59,9 @@ context('Assisted Service Module', () => {
       consent.giveConsent();
 
       cy.log('--> Stop customer emulation');
-      cy.get('cx-customer-emulation [data-cy=logout]').click();
+      cy.get(
+        'cx-customer-emulation [formcontrolname="logoutCustomer"]'
+      ).click();
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('exist');
 
@@ -72,7 +74,9 @@ context('Assisted Service Module', () => {
       cy.log(
         '--> Stop customer emulation using the end session button in the ASM UI'
       );
-      cy.get('cx-customer-emulation [data-cy=logout]').click();
+      cy.get(
+        'cx-customer-emulation [formcontrolname="logoutCustomer"]'
+      ).click();
       cy.get('cx-customer-emulation').should('not.exist');
       cy.get('cx-customer-selection').should('exist');
 

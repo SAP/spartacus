@@ -1,12 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { AsmFacadeService } from '@spartacus/asm/root';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { AsmFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
@@ -23,20 +17,20 @@ import { AsmComponentService } from '../services/asm-component.service';
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
-  cartId: FormControl = new FormControl();
+  cartId: FormControl = new FormControl('', [
+    Validators.required,
+    Validators.minLength(1),
+  ]);
   isCustomerEmulationSessionInProgress$: Observable<boolean>;
   cartIdExists: boolean;
   protected subscription = new Subscription();
-
-  @Output()
-  submitEvent = new EventEmitter<{ customerId?: string }>();
 
   constructor(
     protected asmComponentService: AsmComponentService,
     protected userService: UserService,
     protected activeCartFacade: ActiveCartFacade,
     protected globalMessageService: GlobalMessageService,
-    protected asmFacadeService: AsmFacadeService,
+    protected asmFacadeService: AsmFacade,
     protected multiCartFacade: MultiCartFacade
   ) {}
 
@@ -48,12 +42,6 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     );
     this.isCustomerEmulationSessionInProgress$ =
       this.asmComponentService.isCustomerEmulationSessionInProgress();
-
-    this.subscription.add(
-      this.cartId.valueChanges.subscribe((response: string) => {
-        this.cartIdExists = response.trim().length > 0;
-      })
-    );
 
     this.subscription.add(
       this.activeCartFacade.getActiveCartId().subscribe((response) => {

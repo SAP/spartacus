@@ -9,7 +9,7 @@
       role="search"
       aria-label="Assign a cart id to customer"
       class="assignCart"
-      [class.active]="cartIdExists"
+      [class.active]="cartId.valid"
       (click)="cartIdElement.focus()"
     >
       <input
@@ -24,7 +24,7 @@
       <button
         class="reset"
         aria-label="Reset"
-        [class.visible]="cartIdExists"
+        [class.visible]="cartId.value?.length > 0"
         (click)="clearText()"
       >
         <cx-icon class="cx-icon fas fa-times-circle"></cx-icon>
@@ -35,9 +35,9 @@
     </div>
     <button
       class="assignCartToCustomer"
-      [disabled]="!cartIdExists"
+      [disabled]="cartId.invalid"
       (click)="assignCartToCustomer()"
-      [class.active]="cartIdExists"
+      [class.active]="cartId.valid"
     >
       {{ 'asm.assignCart.assignCartToCustomer' | cxTranslate }}
     </button>

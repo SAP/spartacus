@@ -1,4 +1,4 @@
-export interface BindCartOptions {
+export interface BindCartParams {
   cartId: string;
   customerId: string;
 }

@@ -1,7 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmFacadeService } from '@spartacus/asm/root';
+import { AsmFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   BaseSiteService,
@@ -52,7 +52,7 @@ describe('CustomerEmulationComponent', () => {
   let fixture: ComponentFixture<CustomerEmulationComponent>;
   let userService: UserService;
   let asmComponentService: AsmComponentService;
-  let asmFacadeService: AsmFacadeService;
+  let asmFacadeService: AsmFacade;
   let multiCartFacade: MultiCartFacade;
   let activeCartFacade: ActiveCartFacade;
   let el: DebugElement;
@@ -66,7 +66,7 @@ describe('CustomerEmulationComponent', () => {
           { provide: UserService, useClass: MockUserService },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
           { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          { provide: AsmFacadeService, useClass: MockAsmQueryService },
+          { provide: AsmFacade, useClass: MockAsmQueryService },
           { provide: BaseSiteService, useClass: MockBaseSiteService },
           { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         ],
@@ -80,7 +80,7 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
     userService = TestBed.inject(UserService);
     asmComponentService = TestBed.inject(AsmComponentService);
-    asmFacadeService = TestBed.inject(AsmFacadeService);
+    asmFacadeService = TestBed.inject(AsmFacade);
     multiCartFacade = TestBed.inject(MultiCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
     el = fixture.debugElement;
