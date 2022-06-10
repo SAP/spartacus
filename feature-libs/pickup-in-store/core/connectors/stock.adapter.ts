@@ -14,5 +14,6 @@ export abstract class StockAdapter {
 
   // abstract load(storeId: string): Observable<PointOfService>;
 
-  abstract loadStockLevels(productCode: string): Observable<any>;
+  // TODO type this
+  abstract loadStockLevels(productCode: string, location: any): Observable<any>;
 }

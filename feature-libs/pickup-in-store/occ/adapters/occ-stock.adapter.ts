@@ -1,24 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  ConverterService,
-  GeoPoint,
-  Occ,
-  OccEndpointsService,
-  PointOfService,
-  POINT_OF_SERVICE_NORMALIZER,
-  SearchConfig,
-} from '@spartacus/core';
-import {
-  StoreCount,
-  StoreFinderAdapter,
-  StoreFinderSearchPage,
-  STORE_COUNT_NORMALIZER,
-  STORE_FINDER_SEARCH_PAGE_NORMALIZER,
-} from '@spartacus/storefinder/core';
+import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import { StockAdapter } from 'feature-libs/pickup-in-store/core/connectors/stock.adapter';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class OccStockAdapter implements StockAdapter {
@@ -28,14 +12,14 @@ export class OccStockAdapter implements StockAdapter {
     protected converterService: ConverterService
   ) {}
 
-  loadStockLevels(productCode: string): Observable<any> {
-    return this.http
-      .get<Occ.PointOfService>(
-        this.occEndpointsService.buildUrl('products', {
-          urlParams: { productCode },
-        })
-      )
-      // .pipe(this.converterService.pipeable(POINT_OF_SERVICE_NORMALIZER));
+  loadStockLevels(productCode: string, location: any): Observable<any> {
+    return this.http.get<Occ.PointOfService>(
+      this.occEndpointsService.buildUrl('products', {
+        urlParams: { productCode },
+        queryParams: { ...location },
+      })
+    );
+    // .pipe(this.converterService.pipeable(POINT_OF_SERVICE_NORMALIZER));
   }
   // search(
   //   query: string,
@@ -71,5 +55,4 @@ export class OccStockAdapter implements StockAdapter {
   //     )
   //     .pipe(this.converterService.pipeable(POINT_OF_SERVICE_NORMALIZER));
   // }
-
 }
