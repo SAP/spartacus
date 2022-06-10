@@ -1,7 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { BundleActions, BundleSelectors, StateWithBundle } from '../store';
-import { BundleStarter } from '../model/bundle.model';
+import { BundleStarter, BundleTypes } from '../model/bundle.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -10,6 +10,7 @@ import {
   SearchConfig,
   WindowRef,
 } from '@spartacus/core';
+import { EntryGroup } from '@spartacus/cart/base/root';
 
 @Injectable({
   providedIn: 'root',
@@ -106,6 +107,17 @@ export class BundleService {
         entryGroupNumber,
         searchConfig,
       })
+    );
+  }
+  /**
+   * Check if given entry group is a bundle
+   *
+   * @param entryGroup
+   */
+  isBundle(entryGroup: EntryGroup): boolean {
+    return (
+      Boolean(entryGroup.type) &&
+      Object.values(BundleTypes).includes(entryGroup.type as BundleTypes)
     );
   }
 }

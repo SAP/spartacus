@@ -15,3 +15,7 @@ export interface BundleStarter {
   quantity?: number;
   templateId?: string;
 }
+
+export enum BundleTypes {
+  CONFIGURABLE = 'CONFIGURABLEBUNDLE',
+}

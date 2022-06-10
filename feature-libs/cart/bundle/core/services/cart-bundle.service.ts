@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  ActiveCartFacade,
-  Cart,
-  MultiCartFacade,
-} from '@spartacus/cart/base/root';
+import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import { Product, ProductService, UserIdService } from '@spartacus/core';
-import { Observable, of, Subject } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { BundleService } from '../facade/bundle.service';
 import { BundleProductScope } from '../model';
 import { BundleTemplate } from '../model/bundle-template.model';
@@ -43,28 +39,15 @@ export class CartBundleService {
    * @param quantity
    * @param templateId
    */
-  startBundle(starter: BundleStarter): Observable<Cart> {
-    let newCart = new Subject<Cart>();
-
-    this.userIdService
-      .getUserId()
-      .pipe(
-        switchMap((userId) =>
-          this.multiCartService
-            .createCart({ userId })
-            .pipe(map((cart) => ({ userId, cart })))
-        ),
-        take(1)
-      )
-      .subscribe(({ userId, cart }) => {
-        newCart.next(cart);
-        newCart.complete();
-        if (cart.code) {
-          this.bundleService.startBundle(cart.code, userId, starter);
-        }
+  startBundle(starter: BundleStarter) {
+    this.activeCartService
+      .getActiveCartId()
+      .pipe(take(1))
+      .subscribe((cartId) => {
+        this.userIdService.takeUserId().subscribe((userId) => {
+          this.bundleService.startBundle(cartId, userId, starter);
+        });
       });
-
-    return newCart.asObservable();
   }
 
   /**
