@@ -108,7 +108,7 @@ export class AutoFocusDirective
    *
    * We keep this private to not pollute the API.
    */
-  private get firstFocusable(): HTMLElement {
+  private get firstFocusable(): HTMLElement | null | undefined {
     return this.service.findFirstFocusable(this.host, this.config);
   }
 }
