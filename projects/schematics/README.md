@@ -52,7 +52,7 @@ The best way to test an unpublished schematic is to publish it to a local npm re
 
 ### Workflow for testing schematics
 
-- run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules && npm i`)
+- run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules/@spartacus && <your-schematics-command>`)
 - try until everything is perfect
 
 ### Workflow for testing migrations
