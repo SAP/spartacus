@@ -21,6 +21,7 @@ import {
   ProductService,
   UserInterestsService,
 } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { cold, getTestScheduler } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
@@ -296,6 +297,38 @@ describe('MyInterestsComponent', () => {
     expect(
       el.queryAll(By.css('.cx-product-interests-remove-btn')).length
     ).toEqual(2);
+  });
+
+  it("should contain span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
+    productInterestService.getAndLoadProductInterests.and.returnValue(
+      of(mockedInterests)
+    );
+    productService.get.withArgs('553637', 'details').and.returnValue(p553637$);
+    productInterestService.getProdutInterestsLoading.and.returnValue(of(false));
+    fixture.detectChanges();
+
+    const tableHeaders = el.queryAll(By.css('th'));
+    CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+      expect,
+      tableHeaders[1].nativeElement,
+      'span',
+      'cx-visually-hidden',
+      undefined,
+      undefined,
+      undefined,
+      'myInterests.item'
+    );
+
+    CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+      expect,
+      tableHeaders[4].nativeElement,
+      'span',
+      'cx-visually-hidden',
+      undefined,
+      undefined,
+      undefined,
+      'myInterests.remove'
+    );
   });
 
   it('should be able to change page/sort', () => {
