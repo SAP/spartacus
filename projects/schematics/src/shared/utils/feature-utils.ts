@@ -159,18 +159,18 @@ function analyzeWrappers<OPTIONS extends LibraryOptions>(
   schematicsConfiguration: SchematicConfig,
   options: OPTIONS
 ): WrapperAnalysisResult[] {
-  if (!schematicsConfiguration.wrappers) {
+  if (!schematicsConfiguration.importAfter) {
     return [];
   }
 
   const result: WrapperAnalysisResult[] = [];
-  for (const markerModuleName in schematicsConfiguration.wrappers) {
-    if (!schematicsConfiguration.wrappers.hasOwnProperty(markerModuleName)) {
+  for (const markerModuleName in schematicsConfiguration.importAfter) {
+    if (!schematicsConfiguration.importAfter.hasOwnProperty(markerModuleName)) {
       continue;
     }
 
     const featureModuleName =
-      schematicsConfiguration.wrappers[markerModuleName];
+      schematicsConfiguration.importAfter[markerModuleName];
     const wrapperOptions: SpartacusWrapperOptions = {
       scope: options.scope,
       interactive: options.interactive,
@@ -316,7 +316,7 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
     for (const targetFeature of options.features ?? []) {
       const targetFeatureConfig =
         getSchematicsConfigByFeatureOrThrow(targetFeature);
-      if (!targetFeatureConfig.wrappers) {
+      if (!targetFeatureConfig.importAfter) {
         continue;
       }
 
