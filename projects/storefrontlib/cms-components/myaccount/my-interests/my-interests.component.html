@@ -7,7 +7,14 @@
     *ngIf="!(getInterestsloading$ | async); else loading"
   >
     <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
-    <ng-container *ngIf="interests.pagination.totalCount > 0; else noInterest">
+    <ng-container
+      *ngIf="
+        interests.pagination &&
+          interests.pagination.totalCount &&
+          interests.pagination.totalCount > 0;
+        else noInterest
+      "
+    >
       <div class="cx-product-interests-sort top row">
         <label
           class="
@@ -122,7 +129,7 @@
                       </ng-container>
                       <div
                         class="cx-property"
-                        *ngIf="product.stock.stockLevelStatus === 'outOfStock'"
+                        *ngIf="product.stock?.stockLevelStatus === 'outOfStock'"
                       >
                         <div
                           class="cx-label cx-product-interests-product-stock"
@@ -139,7 +146,7 @@
                   <div class="d-md-none cx-product-interests-label">
                     {{ 'myInterests.price' | cxTranslate }}
                   </div>
-                  <span>{{ product.price.formattedValue }}</span>
+                  <span>{{ product.price?.formattedValue }}</span>
                 </div>
               </td>
               <td>
