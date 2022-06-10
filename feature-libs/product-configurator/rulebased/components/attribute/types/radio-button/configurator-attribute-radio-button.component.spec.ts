@@ -224,7 +224,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'form-check-input',
         1,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:' +
+        'configurator.a11y.selectedValueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
           VALUE_NAME_2
@@ -253,6 +253,34 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'aria-hidden',
         'true',
         VALUE_NAME_2
+      );
+    });
+  });
+
+  describe('Rendering for additional value', () => {
+    it('should provide input field for alpha numeric value ', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
+    it('should provide input field for numeric value ', () => {
+      component.attribute.uiType =
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-numeric-input-field'
       );
     });
   });
