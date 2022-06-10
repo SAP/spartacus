@@ -38,15 +38,28 @@ export class CartBundleService {
    * @param quantity
    * @param templateId
    */
-  startBundle(starter: BundleStarter) {
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((cartId) => {
-        this.userIdService.takeUserId().subscribe((userId) => {
-          this.bundleService.startBundle(cartId, userId, starter);
+  startBundle(starter: BundleStarter): Observable<Cart> {
+    let newCart = new Subject<Cart>();
+
+    this.userIdService
+      .getUserId()
+      .pipe(
+        switchMap((userId) =>
+          this.multiCartService
+            .createCart({ userId })
+            .pipe(map((cart) => ({ userId, cart })))
+        ),
+        take(1)
+      )
+      .subscribe(({ userId, cart }) => {
+        newCart.next(cart);
+        newCart.complete();
+        if (cart.code) {
+          this.bundleService.startBundle(cart.code, userId, starter);
+        }
         });
-      });
+
+    return newCart.asObservable();
   }
 
   /**
