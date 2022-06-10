@@ -23,6 +23,7 @@ export class CartItemComponent implements OnChanges {
   @Input() item: OrderEntry;
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
+  @Input() isBundleItem = false;
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 

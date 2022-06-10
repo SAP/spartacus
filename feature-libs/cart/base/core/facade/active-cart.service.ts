@@ -179,7 +179,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   }
 
   /**
-   * Returns cart entries
+   * Returns cart entry groups
    */
   getEntryGroups(): Observable<EntryGroup[]> {
     return this.activeCartId$.pipe(
