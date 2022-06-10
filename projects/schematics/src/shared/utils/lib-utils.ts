@@ -93,13 +93,18 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
   options?: LibraryOptions;
 }
 
+/**
+ * Configuration describing the feature schematics.
+ */
 export interface SchematicConfig {
   /**
    * Library options
    */
   library: {
     /**
-     * The feature name, e.g. CHECKOUT_BASE_FEATURE
+     * The feature name, e.g. CHECKOUT_BASE_FEATURE.
+     * Corresponds to the CLI's name defined in file:
+     * `projects/schematics/src/add-spartacus/schema.json`
      */
     featureName: string;
     /**
@@ -126,10 +131,12 @@ export interface SchematicConfig {
   moduleName: string;
   /**
    * The feature module configuration.
+   * E.g. `CheckoutB2BModule` from `@spartacus/checkout/b2b`.
    */
   featureModule: Module | Module[];
   /**
    * The root module configuration.
+   * E.g. `CheckoutB2BRootModule` from `@spartacus/checkout/b2b/root`.
    */
   rootModule?: Module;
   /**

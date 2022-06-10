@@ -62,6 +62,33 @@ The best way to test an unpublished schematic is to publish it to a local npm re
 - run schematics you want to test (to revert schematics changes `git reset --hard HEAD && rm -rf node_modules && npm i`)
 - try until everything is perfect
 
+### Creating and configuring feature schematics
+
+One of the common tasks a library author has to do is to create schematics for the library they are developing.
+
+To start creating the schematics configuration, a developer has to first create a configuration file in  the `projects/schematics/src/shared/lib-configs/*` directory.
+
+The objects has to conform to the `SchematicsConfig` interface:
+
+- `library.featureName` - corresponds to the CLI's feature name defined in `projects/schematics/src/add-spartacus/schema.json`'s `features.items.enum` array.
+- `library.mainScope` - represents the Spartacus library's main scope, e.g. `@spartacus/checkout`.
+- `library.featureScope` - if the library has multiple features organized in secondary entry-points, the entry pont's name should be defined here - e.g. `@spartacus/checkout/base/b2b`.
+- `library.b2b` - if the feature is a b2b feature, it will provide the b2b configuration. 
+- `folderName` - the name of the folder where the feature will be created.
+- `moduleName` - the name of the generated feature module.
+- `featureModule` - the feature module's configuration, e.g. `CheckoutB2BModule` from `@spartacus/checkout/b2b`.
+- `rootModule` - the root module's configuration, e.g. `CheckoutB2BRootModule` from `@spartacus/checkout/b2b/root`. Omit if your feature doesn't have a root module (e.g. `DigitalPayments` doesn't have it).
+- `lazyLoadingChunk` - if the feature is being installed in a LL manner, this config will be used to provide the LL configuration.
+- `i18n` - configuration for the translations.
+- `styles` - configuration for the styles.
+- `assets` - configuration for the assets - e.g. Smartedit has to provide some configuration to the angular.json's assets.
+- `customConfig` - generates some non-standard configuration providers in the feature module.
+- `dependencyFeatures` - should configure the runtime features on which your library depends on. This prevents Spartacus to install e.g. `Checkout` feature without configuring its dependency feature module - `Order`. In this case, `Checkout` depends on the `User` features as well, which _don't have to be specified_, as they're the transitive dependencies of the already specified `Order` feature.
+- `importAfter` - related to wrapper modules, and specifies after which module (aka "marker" module) should the given module be imported. E.g. the `CheckoutB2BModule` should be imported after the base checkout's `CheckoutModule`.
+
+The finished configuration file needs to imported to `projects/schematics/src/shared/schematics-config-mappings.ts`' `SCHEMATICS_CONFIGS` array. `SCHEMATICS_CONFIGS`' order follows the order in which features are sorted in the file explorer's tree.
+
+
 ## Update schematics
 
 ### Introduction
