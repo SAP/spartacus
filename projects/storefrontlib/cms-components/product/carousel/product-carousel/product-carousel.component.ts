@@ -15,7 +15,11 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductCarouselComponent {
-  protected readonly PRODUCT_SCOPE = ProductScope.LIST;
+  protected readonly PRODUCT_SCOPE = [
+    ProductScope.LIST,
+    ProductScope.PRICE,
+    ProductScope.DETAILS,
+  ];
 
   private componentData$: Observable<model> = this.componentData.data$.pipe(
     filter((data) => Boolean(data))
@@ -37,7 +41,7 @@ export class ProductCarouselComponent {
     map((data) => data.productCodes?.trim().split(' ') ?? []),
     map((codes) =>
       codes.map((code) =>
-        this.productService.get(code, [this.PRODUCT_SCOPE, ProductScope.PRICE])
+        this.productService.get(code, [...this.PRODUCT_SCOPE])
       )
     )
   );

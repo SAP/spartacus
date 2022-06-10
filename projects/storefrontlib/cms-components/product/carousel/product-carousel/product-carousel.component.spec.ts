@@ -13,6 +13,7 @@ import {
   FeatureConfigService,
   I18nTestingModule,
   Product,
+  ProductScope,
   ProductService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -157,9 +158,23 @@ describe('ProductCarouselComponent', () => {
   it(
     'should have 2 items',
     waitForAsync(() => {
-      let items: Observable<Product>[];
-      component.items$.subscribe((i) => (items = i));
-      expect(items.length).toBe(2);
+      const productService = TestBed.inject(ProductService);
+      spyOn(productService, 'get').and.callThrough();
+
+      const scopes = [
+        ProductScope.LIST,
+        ProductScope.PRICE,
+        ProductScope.DETAILS,
+      ];
+
+      let items: Observable<Product>[] | undefined;
+      component.items$.subscribe((i) => {
+        expect(productService.get).toHaveBeenCalledTimes(2);
+        expect(productService.get).toHaveBeenCalledWith('1', scopes);
+        expect(productService.get).toHaveBeenCalledWith('2', scopes);
+        items = i;
+      });
+      expect(items?.length).toBe(2);
     })
   );
 
