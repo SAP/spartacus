@@ -5,9 +5,9 @@ export const defaultOccBundleConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        bundleStart: 'users/${userId}/carts/${cartId}/bundles?fields=BASIC',
+        bundleStart: 'users/${userId}/carts/${cartId}/bundles?fields=FULL',
         bundleAllowedProductsSearch:
-          'users/${userId}/carts/${cartId}/entrygroups/${entryGroupId}/allowedProductsSearch?fields=products',
+          'users/${userId}/carts/${cartId}/entrygroups/${entryGroupNumber}/allowedProductsSearch?fields=products(FULL)',
         product: {
           bundleTemplates:
             'products/${productCode}?fields=code,bundleTemplates',

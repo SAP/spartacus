@@ -19,9 +19,11 @@ import { Cart, CartType, EntryGroup, OrderEntry } from '../models/cart.model';
         'mergeToCurrentCart',
         'loadCart',
         'getEntries',
+        'getEntryGroups',
         'getLastEntry',
         'addEntry',
         'addEntries',
+        'addEntriesToEntryGroups',
         'removeEntry',
         'updateEntry',
         'getEntry',
@@ -196,6 +198,22 @@ export abstract class MultiCartFacade {
     entryGroupNumber: number,
     entry: OrderEntry,
     quantity: number
+  ): void;
+
+  /**
+   * Add products to bundle
+   *
+   * @param cartId
+   * @param userId
+   * @param entries
+   */
+  abstract addEntriesToEntryGroups(
+    cartId: string,
+    userId: string,
+    entries: {
+      entryGroupNumber: number;
+      entry: OrderEntry;
+    }[]
   ): void;
 
   /**

@@ -1,0 +1,14 @@
+<div class="cx-bundle-summary">
+  <h4 class="cx-bundle-summary-title">{{ bundle.label }}</h4>
+  <ul *ngIf="products?.length">
+    <li *ngFor="let product of products">{{ product.nameHtml }}</li>
+  </ul>
+
+  <button
+    class="btn btn-primary cx-add-to-cart-btn"
+    *ngIf="showAddToCart"
+    (click)="onAddToCart()"
+  >
+    Add to cart
+  </button>
+</div>

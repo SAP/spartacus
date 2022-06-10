@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { StateUtils } from '@spartacus/core';
+import { Product, StateUtils } from '@spartacus/core';
 import {
   AvailableEntriesState,
   BundlesState,
@@ -21,6 +21,16 @@ export const getAvailableEntriesEntities: MemoizedSelector<
 > = createSelector(getAvailableEntriesState, (state) =>
   StateUtils.loaderValueSelector(state)
 );
+
+export const getAvailableEntryGroupEntries = (
+  cartId: string,
+  entryGroupNumber: number
+): MemoizedSelector<StateWithBundle, Product[]> =>
+  createSelector(
+    getAvailableEntriesEntities,
+    (state) =>
+      state.availableEntriesEntities[cartId]?.[entryGroupNumber]?.products ?? []
+  );
 
 export const getAvailableEntriesLoading: MemoizedSelector<
   StateWithBundle,

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartService } from '@spartacus/cart/base/core';
 import { Product, ProductService, UserIdService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { Cart, EntryGroup, MultiCartFacade } from 'feature-libs/cart/base/root';
+import { Observable, of, Subject } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { BundleService } from '../facade/bundle.service';
 import { BundleProductScope } from '../model';
 import { BundleTemplate } from '../model/bundle-template.model';
@@ -15,7 +15,7 @@ export class CartBundleService {
   protected readonly PRODUCT_SCOPE = BundleProductScope.TEMPLATES;
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected multiCartService: MultiCartFacade,
     protected userIdService: UserIdService,
     protected bundleService: BundleService,
     protected productService: ProductService
@@ -38,55 +38,68 @@ export class CartBundleService {
    * @param quantity
    * @param templateId
    */
-  startBundle(starter: BundleStarter) {
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((cartId) => {
-        this.userIdService.takeUserId().subscribe((userId) => {
-          this.bundleService.startBundle(cartId, userId, starter);
-        });
+  startBundle(starter: BundleStarter): Observable<Cart> {
+    let newCart = new Subject<Cart>();
+
+    this.userIdService
+      .getUserId()
+      .pipe(
+        switchMap((userId) =>
+          this.multiCartService
+            .createCart({ userId })
+            .pipe(map((cart) => ({ userId, cart })))
+        ),
+        take(1)
+      )
+      .subscribe(({ userId, cart }) => {
+        newCart.next(cart);
+        newCart.complete();
+        if (cart.code) {
+          this.bundleService.startBundle(cart.code, userId, starter);
+        }
       });
+
+    return newCart.asObservable();
   }
 
   /**
-   * Get allowed Bundle Products
+   * Get bundle for given cart id
    *
-   * @param entryGroupNumber
+   * @param cartId
    */
-  getBundleAllowedProducts(entryGroupNumber: number) {
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((cartId) => {
-        this.userIdService.takeUserId().subscribe((userId) => {
-          this.bundleService?.getBundleAllowedProducts(
-            cartId,
-            userId,
-            entryGroupNumber
-          );
-        });
-      });
-  }
-
-  /**
-   * Get allowed Bundle Products
-   *
-   * @param entryGroupNumber
-   */
-  getAvailableEntries(entryGroupNumber: number) {
-    let cartId;
-
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((activeCartId) => {
-        cartId = activeCartId;
-      });
-
-    return this.bundleService.getAvailableEntriesEntity(
-      cartId,
-      entryGroupNumber
+  getBundle(cartId: string): Observable<EntryGroup> {
+    return this.multiCartService.getEntryGroups(cartId).pipe(
+      map(
+        (groups) =>
+          // There is always cart created for each new bundle so our cart will have only one bundle entry group
+          groups.find((group) =>
+            this.bundleService.isBundle(group)
+          ) as EntryGroup
+      )
     );
+  }
+
+  toggleProductSelection(
+    isSelected: boolean,
+    cartId: string,
+    bundleId: number,
+    sectionId: number,
+    product: Product
+  ): void {
+    if (isSelected) {
+      this.bundleService.removeProductFromBundle(
+        cartId,
+        bundleId,
+        sectionId,
+        product
+      );
+    } else {
+      this.bundleService.addProductToBundle(
+        cartId,
+        bundleId,
+        sectionId,
+        product
+      );
+    }
   }
 }

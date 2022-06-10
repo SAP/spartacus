@@ -1,0 +1,49 @@
+%cx-bundle-product-grid-item {
+  .cx-product-container {
+    border: 1px solid $light;
+    border-radius: 8px;
+    padding: 1.25rem;
+    min-height: 26.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
+  .cx-product-image-container {
+    align-self: stretch;
+  }
+
+  .cx-product-active-icon {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    width: 1.5rem;
+    height: 1.5rem;
+    z-index: 1;
+    color: var(--cx-color-primary-accent);
+  }
+
+  .cx-product-container-active {
+    outline: 3px solid var(--cx-color-primary-accent);
+  }
+
+  .cx-product-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-clamp: 2;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  cx-media.is-missing {
+    min-height: 135px;
+    width: 100%;
+  }
+
+  .cx-btn-container {
+    align-self: stretch;
+  }
+}

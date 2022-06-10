@@ -88,7 +88,7 @@ export const getCartEntryGroupsSelectorFactory = (
   cartId: string
 ): MemoizedSelector<StateWithMultiCart, EntryGroup[]> => {
   return createSelector(getCartSelectorFactory(cartId), (state: Cart) => {
-    return state && state.entryGroups ? state.entryGroups : [];
+    return state?.entryGroups ?? [];
   });
 };
 

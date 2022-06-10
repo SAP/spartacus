@@ -1,0 +1,24 @@
+%cx-bundle-main {
+  .cx-bundle-section-title-container {
+    margin-bottom: 2rem;
+  }
+
+  .cx-bundle-section-title {
+    font-weight: var(--cx-font-weight-bold);
+  }
+
+  .cx-progress-btns-container {
+    display: flex;
+    margin-bottom: 2.5rem;
+
+    .btn {
+      flex-basis: 48%;
+      font-weight: var(--cx-font-weight-semi);
+      text-transform: none;
+    }
+
+    .cx-next-step-btn {
+      margin-left: auto;
+    }
+  }
+}

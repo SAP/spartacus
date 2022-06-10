@@ -1,0 +1,30 @@
+<ng-template [cxOutlet]="CartOutlets.LIST_ITEM">
+  <td role="cell">
+    <ng-template
+      [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES"
+    ></ng-template>
+    <div>
+      <!-- TODO: Add bundle image -->
+      <div class="cx-info">
+        <div *ngIf="bundle.label" class="cx-name cx-link">
+          <!-- TODO: Add link to the bundle -->
+          {{ bundle.label }}
+        </div>
+        <!-- TODO: Add bundle base price -->
+      </div>
+    </div>
+  </td>
+  <!-- TODO: Add bundle quantity -->
+  <!-- TODO: Add bundle total price -->
+  <!-- TODO: Add bundle edit action -->
+  <td role="cell" colspan="3" *ngIf="!readonly" class="cx-actions">
+    <button
+      (click)="removeBundle()"
+      [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
+      attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
+      class="link cx-action-link cx-remove-btn"
+    >
+      {{ 'common.remove' | cxTranslate }}
+    </button>
+  </td>
+</ng-template>

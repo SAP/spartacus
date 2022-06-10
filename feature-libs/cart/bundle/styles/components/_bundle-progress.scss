@@ -1,0 +1,58 @@
+%cx-bundle-progress {
+  .cx-bundle-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .cx-arrow-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+    }
+  }
+
+  .cx-bundle-progress-steps-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .cx-step {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  .cx-step-icon {
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+    color: var(--cx-color-secondary-accent);
+  }
+
+  .cx-step-active {
+    .cx-step-label {
+      font-weight: var(--cx-font-weight-bold);
+    }
+  }
+
+  .cx-step-active,
+  .cx-step-completed {
+    .cx-step-icon {
+      color: var(--cx-color-primary);
+    }
+  }
+
+  .cx-step-label {
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .cx-gap {
+    margin: 0 1rem;
+    height: 1px;
+    background-color: #a1aabf;
+    width: 2rem;
+  }
+}

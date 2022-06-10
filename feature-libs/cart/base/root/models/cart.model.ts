@@ -200,5 +200,4 @@ export interface EntryGroup {
   erroneous?: boolean;
   label?: string;
   type?: string;
-  allowedProducts?: any;
 }

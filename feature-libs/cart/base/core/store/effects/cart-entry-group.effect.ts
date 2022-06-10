@@ -55,6 +55,60 @@ export class CartEntryGroupEffects {
     withdrawOn(this.contextChange$)
   );
 
+  addEntriesToEntryGroups$: Observable<
+    | CartActions.AddEntriesToEntryGroupsSuccess
+    | CartActions.AddEntriesToEntryGroupsFail
+    | CartActions.LoadCart
+    | CartActions.MergeCart
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartActions.ADD_ENTRIES_TO_ENTRY_GROUPS),
+      map((action: CartActions.AddEntriesToEntryGroups) => action.payload),
+      concatMap((payload) =>
+        from(payload.entries)
+          .pipe(
+            concatMap((item) =>
+              this.cartEntryGroupConnector.addToEntryGroup(
+                payload.userId,
+                payload.cartId,
+                item.entryGroupNumber,
+                item.entry
+              )
+            ),
+            toArray()
+          )
+          .pipe(
+            mergeMap((cartModifications: CartModification[]) => {
+              // const pseudoUuid = Math.random().toString(36).substr(2, 9);
+              return [
+                new CartActions.AddEntriesToEntryGroupsSuccess({
+                  ...payload,
+                  statuses: cartModifications as Required<CartModification>[],
+                }),
+                // new CartActions.MergeCart({
+                //   userId: payload.userId,
+                //   cartId: payload.cartId,
+                //   tempCartId: pseudoUuid,
+                // }),
+              ];
+            }),
+            catchError((error) =>
+              from([
+                new CartActions.AddEntriesToEntryGroupsFail({
+                  ...payload,
+                  error: error,
+                }),
+                new CartActions.LoadCart({
+                  cartId: payload.cartId,
+                  userId: payload.userId,
+                }),
+              ])
+            )
+          )
+      ),
+      withdrawOn(this.contextChange$)
+    )
+  );
   deleteEntryGroup$: Observable<
     | CartActions.DeleteEntryGroupSuccess
     | CartActions.DeleteEntryGroupFail

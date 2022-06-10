@@ -1,0 +1,69 @@
+<div class="mb-3" *ngIf="bundle$ | async as bundle">
+  <ng-container *ngIf="bundle.entryGroups?.length">
+    <ng-container
+      *ngIf="{
+        isPreview: isPreview$ | async,
+        allSelectedProducts: allSelectedProducts$ | async,
+        activeSectionProducts: activeSectionProducts$ | async
+      } as data"
+    >
+      <cx-bundle-progress></cx-bundle-progress>
+      <hr />
+      <div class="row mt-2">
+        <div class="col-9">
+          <div class="cx-bundle-section-title-container" *ngIf="activeStep">
+            <h5 class="cx-bundle-section-title">{{ activeStep.label }}</h5>
+            <hr />
+          </div>
+          <ng-container *ngIf="data.isPreview; else bundleSections">
+            <cx-bundle-product-list
+              [products]="data.allSelectedProducts"
+              [selectedProducts]="data.allSelectedProducts"
+              (edit)="editSection($event)"
+              [productAction]="productBtnActions.EDIT_SECTION"
+            ></cx-bundle-product-list>
+          </ng-container>
+          <ng-template #bundleSections>
+            <cx-bundle-product-list
+              [products]="data.activeSectionProducts"
+              [selectedProducts]="data.allSelectedProducts"
+              (toggleProduct)="toggleProductSelection($event)"
+              [productAction]="productBtnActions.TOGGLE_SELECTION"
+            ></cx-bundle-product-list>
+          </ng-template>
+        </div>
+        <div class="col-3">
+          <div class="cx-progress-btns-container">
+            <button
+              class="btn btn-action cx-prev-step-btn"
+              *ngIf="!bundleProgress.isFirstStep"
+              (click)="onPrev()"
+            >
+              Back
+            </button>
+            <button
+              class="btn btn-primary cx-next-step-btn"
+              *ngIf="!bundleProgress.isLastStep"
+              (click)="onNext()"
+            >
+              Next
+            </button>
+            <button
+              class="btn btn-primary cx-next-step-btn"
+              *ngIf="data.isPreview"
+              (click)="addToCart()"
+            >
+              Add to cart
+            </button>
+          </div>
+          <cx-bundle-summary
+            [bundle]="bundle"
+            [products]="data.allSelectedProducts"
+            (addToCart)="addToCart()"
+            [showAddToCart]="data.isPreview"
+          ></cx-bundle-summary>
+        </div>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

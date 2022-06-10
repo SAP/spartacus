@@ -1,3 +1,5 @@
+import { Product } from '@spartacus/core';
+
 /**
  * Mandatory data required to start a bundle. This includes the templateId of the bundle, the productCode, and the quantity of the product itself.
  *
@@ -14,4 +16,18 @@ export interface BundleStarter {
   productCode?: string;
   quantity?: number;
   templateId?: string;
+}
+
+export interface ProductSelectionState {
+  product: Product;
+  isSelected: boolean;
+}
+
+export enum ProductBtnActionTypes {
+  TOGGLE_SELECTION,
+  EDIT_SECTION,
+}
+
+export enum BundleTypes {
+  CONFIGURABLE = 'CONFIGURABLEBUNDLE',
 }

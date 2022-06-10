@@ -15,6 +15,7 @@ import { Cart, EntryGroup, OrderEntry } from '../models/cart.model';
         'getActiveCartId',
         'takeActiveCartId',
         'getEntries',
+        'getEntryGroups',
         'getLastEntry',
         'getLoading',
         'isStable',

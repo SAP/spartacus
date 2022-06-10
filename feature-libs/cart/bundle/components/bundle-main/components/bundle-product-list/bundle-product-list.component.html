@@ -1,0 +1,11 @@
+<div *ngIf="products?.length" class="row">
+  <cx-bundle-product-grid-item
+    *ngFor="let product of products"
+    class="col-6 col-md-3 mb-3"
+    [product]="product"
+    [selected]="selectedProducts | isSelected: product"
+    (selectProduct)="toggleSelection($event)"
+    (edit)="onEditProduct($event)"
+    [action]="productAction"
+  ></cx-bundle-product-grid-item>
+</div>

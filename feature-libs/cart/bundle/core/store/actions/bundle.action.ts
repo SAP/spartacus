@@ -12,6 +12,9 @@ export const GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS =
   '[Bundle] Get Bundle Allowed Products Success';
 export const GET_BUNDLE_ALLOWED_PRODUCTS_FAIL =
   '[Bundle] Get Bundle Allowed Products Fail';
+export const ADD_PRODUCT_TO_BUNDLE = '[Bundle] Add Product To Bundle Section';
+export const REMOVE_PRODUCT_FROM_BUNDLE =
+  '[Bundle] Remove Product From Bundle Section';
 
 export class StartBundle extends StateUtils.LoaderLoadAction {
   readonly type = START_BUNDLE;
@@ -87,10 +90,36 @@ export class GetBundleAllowedProductsFail extends StateUtils.LoaderFailAction {
   }
 }
 
+export class AddProductToBundle implements Action {
+  readonly type = ADD_PRODUCT_TO_BUNDLE;
+  constructor(
+    public payload: {
+      cartId: string;
+      bundleId: number;
+      sectionId: number;
+      product: Product;
+    }
+  ) {}
+}
+
+export class RemoveProductFromBundle implements Action {
+  readonly type = REMOVE_PRODUCT_FROM_BUNDLE;
+  constructor(
+    public payload: {
+      cartId: string;
+      bundleId: number;
+      sectionId: number;
+      product: Product;
+    }
+  ) {}
+}
+
 export type CartBundleAction =
   | StartBundle
   | StartBundleSuccess
   | StartBundleFail
   | GetBundleAllowedProducts
   | GetBundleAllowedProductsSuccess
-  | GetBundleAllowedProductsFail;
+  | GetBundleAllowedProductsFail
+  | AddProductToBundle
+  | RemoveProductFromBundle;

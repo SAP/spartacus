@@ -1,0 +1,51 @@
+<div class="cx-bundle-progress-container">
+  <div class="cx-bundle-progress-header">
+    <ng-container *ngIf="steps?.length">
+      <button
+        (click)="onPrev()"
+        [disabled]="bundleProgress.isFirstStep"
+        class="btn cx-action-link cx-arrow-button"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+        </span>
+      </button>
+      <div class="cx-bundle-progress-steps-container">
+        <ng-container
+          *ngFor="let step of steps; let index = index; let last = last"
+        >
+          <div
+            class="cx-step"
+            [class.cx-step-active]="isActive(index)"
+            [class.cx-step-completed]="isCompleted(index)"
+          >
+            <div class="cx-step-icon">
+              <cx-icon
+                [type]="
+                  isCompleted(index)
+                    ? iconTypes.EMPTY_SUCCESS
+                    : iconTypes.SUCCESS
+                "
+              ></cx-icon>
+            </div>
+            <div class="cx-step-label" (click)="goToStep(step.key)">
+              {{ step.label }}
+            </div>
+
+            <div class="cx-gap" *ngIf="!last"></div>
+          </div>
+        </ng-container>
+      </div>
+
+      <button
+        (click)="onNext()"
+        [disabled]="isLast()"
+        class="btn cx-action-link cx-arrow-button"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CARET_RIGHT"></cx-icon>
+        </span>
+      </button>
+    </ng-container>
+  </div>
+</div>
