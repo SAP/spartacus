@@ -22,6 +22,18 @@ export function goToConfigurationPage(shopName: string, productId: string) {
 }
 
 /**
+ * Navigates to the configuration overview  page.
+ * @return {Chainable<Window>} - New configuration window
+ */
+export function navigateToOverviewPage() {  
+  cy.get('.cx-tab-bar').within(() => {
+    cy.get('a')
+      .filter((index) => index === 1)
+      .click();
+  });
+}
+
+/**
  * Register configuration route.
  */
 export function registerConfigurationRoute() {
