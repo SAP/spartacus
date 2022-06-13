@@ -6,5 +6,5 @@ export const commerceQuotesTranslations: TranslationResources = {
 };
 
 export const commerceQuotesTranslationChunksConfig: TranslationChunksConfig = {
-  commerceQuotes: ['commerceQuotes'],
+  commerceQuotes: ['commerceQuotesList', 'commerceQuotesStates'],
 };
