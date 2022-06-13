@@ -8,7 +8,7 @@ describe('Login', () => {
       login.registerUserFromLoginPage();
     });
 
-    it('should login and logout successfully with correct credentials', () => {
+    it('should login and logout successfully', () => {
       login.loginUser();
 
       const tokenRevocationRequestAlias =
@@ -17,7 +17,7 @@ describe('Login', () => {
       cy.wait(tokenRevocationRequestAlias);
     });
 
-    it('login should fail if password is wrong', () => {
+    it('should not login with wrong password', () => {
       cy.visit('/login');
       login.loginWithBadCredentialsFromLoginPage();
     });
