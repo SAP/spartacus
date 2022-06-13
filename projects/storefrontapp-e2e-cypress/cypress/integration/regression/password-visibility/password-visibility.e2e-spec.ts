@@ -1,9 +1,9 @@
+import { waitForPage } from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import { waitForPage } from '../../../helpers/checkout-flow';
 
 context('Password Visibility', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'], () => {
     beforeEach(() => {
       clearAllStorage();
     });
@@ -14,18 +14,24 @@ context('Password Visibility', () => {
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('button[aria-label="Show password"]').should('be.visible');
-    });
 
-    it('should show and hide password when toggled', () => {
-      const loginPage = waitForPage('/login', 'getLoginPage');
-      cy.visit('/login');
-      cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
-
-      cy.get('button[aria-label="Show password"]').click();
+      //type password and assert
+      cy.get('input[aria-label="Password"]').should(
+        'have.attr',
+        'type',
+        'password'
+      );
       cy.get('input[aria-label="Password"]').type('abc');
       cy.get('input[aria-label="Password"]').should('have.value', 'abc');
 
-      cy.get('button[aria-label="Hide password"]').click();
+      cy.get('button[aria-label="Show password"]').click();
+      cy.get('input[aria-label="Password"]').should(
+        'have.attr',
+        'type',
+        'text'
+      );
+      cy.get('input[aria-label="Password"]').should('have.value', 'abc');
+      cy.get('button[aria-label="Hide password"]').should('be.visible');
     });
 
     it('should verify password is hidden by default on registration page', () => {
