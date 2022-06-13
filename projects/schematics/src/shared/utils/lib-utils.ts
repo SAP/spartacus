@@ -163,10 +163,10 @@ export interface SchematicConfig {
     options: OPTIONS
   ) => AdditionalFeatureConfiguration;
   /**
-   * Contains the feature dependencies.
-   * The key is a Spartacus scope, while the value is an array of its features.
+   * A list of feature dependencies which will be configured
+   * during the new Spartacus installation.
    */
-  dependencyFeatures?: Record<string, string[]>;
+  dependencyFeatures?: string[];
   /**
    * Configuration for generating the wrapper modules.
    */

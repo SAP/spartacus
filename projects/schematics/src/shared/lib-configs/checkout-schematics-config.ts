@@ -13,7 +13,6 @@ import {
   SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT,
   SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ASSETS,
   SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
-  SPARTACUS_ORDER,
 } from '../libs-constants';
 import { SchematicConfig } from '../utils/lib-utils';
 
@@ -57,9 +56,7 @@ export const CHECKOUT_BASE_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: CHECKOUT_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CHECKOUT,
   },
-  dependencyFeatures: {
-    [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
-  },
+  dependencyFeatures: [ORDER_FEATURE_NAME],
 };
 
 export const CHECKOUT_B2B_MODULE = 'CheckoutB2BModule';
@@ -94,10 +91,7 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: CHECKOUT_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CHECKOUT,
   },
-  dependencyFeatures: {
-    [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
-    [SPARTACUS_CHECKOUT]: [CHECKOUT_BASE_FEATURE_NAME],
-  },
+  dependencyFeatures: [ORDER_FEATURE_NAME, CHECKOUT_BASE_FEATURE_NAME],
   importAfter: [
     {
       markerModuleName: CHECKOUT_BASE_MODULE,
@@ -142,10 +136,7 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: SchematicConfig
       scssFileName: CHECKOUT_SCSS_FILE_NAME,
       importStyle: SPARTACUS_CHECKOUT,
     },
-    dependencyFeatures: {
-      [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
-      [SPARTACUS_CHECKOUT]: [CHECKOUT_B2B_FEATURE_NAME],
-    },
+    dependencyFeatures: [ORDER_FEATURE_NAME, CHECKOUT_B2B_FEATURE_NAME],
     importAfter: [
       {
         markerModuleName: CHECKOUT_BASE_MODULE,
