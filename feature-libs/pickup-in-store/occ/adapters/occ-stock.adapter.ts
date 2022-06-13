@@ -14,7 +14,7 @@ export class OccStockAdapter implements StockAdapter {
 
   loadStockLevels(productCode: string, location: any): Observable<any> {
     return this.http.get<Occ.PointOfService>(
-      this.occEndpointsService.buildUrl('products', {
+      this.occEndpointsService.buildUrl('stock', {
         urlParams: { productCode },
         queryParams: { ...location },
       })
