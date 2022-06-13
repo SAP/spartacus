@@ -1,22 +1,14 @@
-@import '~@spartacus/styles/scss/cxbase/mixins';
-@import '~@spartacus/styles/scss/cxbase/blocks/buttons';
-
 .cx-organization-user-register-button {
+  @import '~@spartacus/styles/scss/cxbase/mixins';
+  @import '~@spartacus/styles/scss/cxbase/blocks/buttons';
   a {
-    @extend .btn, .btn-link, .btn-secondary;
+    @extend .btn, .btn-block, .btn-secondary;
     &:focus {
       @include visible-focus();
     }
   }
 }
-.santorini .cx-organization-user-register-button {
-  a {
-    @extend .btn, .btn-block, .btn-secondary;
-    font-size: var(--cx-font-size, 1rem);
-    font-weight: var(--cx-font-weight-semi);
-    line-height: var(--cx-line-height, 1.2222222222);
-  }
-}
+
 cx-user-registration-form {
   form {
     width: 50%;
