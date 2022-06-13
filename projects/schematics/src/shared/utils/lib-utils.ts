@@ -170,7 +170,16 @@ export interface SchematicConfig {
   /**
    * Configuration for generating the wrapper modules.
    */
-  importAfter?: { markerModuleName: string; featureModuleName: string }[];
+  importAfter?: {
+    /**
+     * The "marker" module name is a module name for which to search for.
+     */
+    markerModuleName: string;
+    /**
+     * The feature module name will be imported after the "marker" module.
+     */
+    featureModuleName: string;
+  }[];
 }
 
 export interface Module {
