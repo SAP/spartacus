@@ -36,6 +36,16 @@ The best way to test an unpublished schematic is to publish it to a local npm re
 
 ## Developing schematics
 
+### Glossary
+
+Here are some terms you might hear or find in the code:
+
+- installing a feature vs. configuring a features: by _installing_ a feature, we mean specifying a spartacus library in the customers' package.json, and running `yarn` or `npm install` which will download the library into the `node_modules`. By _configuring_ a feature, we mean generating its feature module (e.g. `checkout-feature.module.ts`) where are all features' configuration lives.
+
+- Spartacus library vs. Spartacus feature - a library is a top-level Spartacus library (e.g. `@spartacus/checkout`). A feature is contained withing that library, and it could have its own secondary entry-point (e.g. `@spartacus/checkout/base`). Feature usually have their own menu item in the schematics prompt.
+
+- "wrapper" module - refer to our feature extension mechanism, as described [here](https://github.com/SAP/spartacus/pull/15237) (_note_: the link might be moved to the Wiki, so please check there by searching for "wrapper module". Additionally, please notify us to update the link in this file).
+
 ### Preparing setup
 
 - Install verdaccio `$ npm i -g verdaccio@4` (only for the first time)
