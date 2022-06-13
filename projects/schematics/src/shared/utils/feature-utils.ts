@@ -110,10 +110,10 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
     }
 
     /**
-     * In the existing installations, we don't want to
+     * In an existing Spartacus application, we don't want to
      * force-install the dependent features.
      */
-    const featuresToInstall = options.internal?.existingInstallation
+    const featuresToInstall = options.internal?.existingSpartacusApplication
       ? options.features ?? []
       : features;
 
@@ -288,10 +288,10 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
      */
     options.internal = {
       ...options.internal,
-      existingInstallation: spartacusFeatureModuleExists,
+      existingSpartacusApplication: spartacusFeatureModuleExists,
     };
 
-    if (!options.internal.existingInstallation) {
+    if (!options.internal.existingSpartacusApplication) {
       const dependentFeaturesMessage = createDependentFeaturesLog(
         options,
         allFeatures
