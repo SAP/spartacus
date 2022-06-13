@@ -82,7 +82,7 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
     /**
      * If Spartacus is already installed in the app.
      */
-    dirtyInstallation?: boolean;
+    existingInstallation?: boolean;
   };
   /**
    * Meta.
@@ -851,7 +851,7 @@ export function finalizeInstallation<OPTIONS extends LibraryOptions>(
   features: string[]
 ): Rule {
   return (_tree: Tree, context: SchematicContext) => {
-    if (options.internal?.dirtyInstallation) {
+    if (options.internal?.existingInstallation) {
       let message = `🚨 Detected Spartacus installation. Please make sure the following `;
       message += `features are installed, configured and sorted in the correct order:\n`;
       message += features.join(', ');

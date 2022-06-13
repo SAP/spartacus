@@ -110,10 +110,10 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
     }
 
     /**
-     * In dirty installations, we don't want to
+     * In the existing installations, we don't want to
      * force-install the dependent features.
      */
-    const featuresToInstall = options.internal?.dirtyInstallation
+    const featuresToInstall = options.internal?.existingInstallation
       ? options.features ?? []
       : features;
 
@@ -294,10 +294,10 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
      */
     options.internal = {
       ...options.internal,
-      dirtyInstallation: spartacusFeatureModuleExists,
+      existingInstallation: spartacusFeatureModuleExists,
     };
 
-    if (!options.internal.dirtyInstallation) {
+    if (!options.internal.existingInstallation) {
       const dependentFeaturesMessage = createDependentFeaturesLog(
         options,
         allFeatures
