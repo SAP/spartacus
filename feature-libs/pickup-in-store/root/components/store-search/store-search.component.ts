@@ -12,7 +12,7 @@ export class StoreSearchComponent {
   constructor() {}
 
   onFindStores(queryText: string): boolean {
-    this.findStores.emit({queryText});
+    this.findStores.emit({ queryText });
     return false;
   }
 

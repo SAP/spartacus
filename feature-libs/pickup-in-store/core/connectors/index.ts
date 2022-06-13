@@ -1,2 +1,2 @@
 export * from './stock.adapter';
-export* from'./stock.connector';
+export * from './stock.connector';

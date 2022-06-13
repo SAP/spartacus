@@ -1,4 +1,4 @@
-import {StockEffect} from './stock.effect';
+import { StockEffect } from './stock.effect';
 
 export const effects = [StockEffect];
 

@@ -8,7 +8,6 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { AddToCartContainerContext } from '@spartacus/cart/base/components/add-to-cart';
-import { PickupInStoreService } from '@spartacus/pickup-in-store/core';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
@@ -16,7 +15,6 @@ import {
 } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-// import { PickupInStoreFacade } from '../../facade/pickup-in-store.facade';
 
 @Component({
   selector: 'cx-pickup-delivery-options',
@@ -29,14 +27,12 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   private productCode: string;
 
   constructor(
-    protected pickupInStoreFacade: PickupInStoreService,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     @Optional() protected outlet?: OutletContextData<AddToCartContainerContext>
   ) {}
 
   ngOnInit() {
-    this.pickupInStoreFacade.getStore();
     this.outlet?.context$.subscribe(
       ({ productCode }) => (this.productCode = productCode)
     );

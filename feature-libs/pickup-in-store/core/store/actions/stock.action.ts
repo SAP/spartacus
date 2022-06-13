@@ -44,4 +44,8 @@ export class StockLevelSuccess extends StateUtils.LoaderSuccessAction {
   }
 }
 
-export type StockLevelAction = StockLevel | StockLevelOnHold | StockLevelFail | StockLevelSuccess;
+export type StockLevelAction =
+  | StockLevel
+  | StockLevelOnHold
+  | StockLevelFail
+  | StockLevelSuccess;
