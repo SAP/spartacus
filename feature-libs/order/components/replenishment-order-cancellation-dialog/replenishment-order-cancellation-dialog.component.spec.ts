@@ -1,4 +1,6 @@
+import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -9,7 +11,7 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { LaunchDialogService } from '@spartacus/storefront';
+import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
 import { Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
@@ -20,6 +22,14 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   replenishmentOrderCode: 'test-repl-order',
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
 };
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: ICON_TYPE;
+}
 
 class MockReplenishmentOrderHistoryFacade
   implements Partial<ReplenishmentOrderHistoryFacade>
@@ -59,12 +69,13 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationDialogComponent>;
+  let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, KeyboardFocusTestingModule],
-        declarations: [ReplenishmentOrderCancellationDialogComponent],
+        declarations: [ReplenishmentOrderCancellationDialogComponent, MockCxIconComponent,],
         providers: [
           {
             provide: ReplenishmentOrderHistoryFacade,
@@ -81,6 +92,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     fixture = TestBed.createComponent(
       ReplenishmentOrderCancellationDialogComponent
     );
+    el = fixture.debugElement;
     replenishmentOrderHistoryFacade = TestBed.inject(
       ReplenishmentOrderHistoryFacade
     );
@@ -162,5 +174,13 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     expect(
       replenishmentOrderHistoryFacade.cancelReplenishmentOrder
     ).toHaveBeenCalledWith(mockReplenishmentOrder.replenishmentOrderCode);
+  });
+
+  it('should be able to close dialog', () => {
+    spyOn(launchDialogService, 'closeDialog').and.stub();
+    el.query(By.css('.close')).nativeElement.click();
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Cross click'
+    );
   });
 });
