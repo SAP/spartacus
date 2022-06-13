@@ -9,8 +9,8 @@ import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from './configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfigFormUpdateEvent } from './configurator-form.event';
 
 @Component({
   selector: 'cx-configurator-form',
@@ -26,7 +26,8 @@ export class ConfiguratorFormComponent implements OnInit {
       ),
       switchMap((routerData) => {
         return this.configuratorCommonsService.getOrCreateConfiguration(
-          routerData.owner
+          routerData.owner,
+          routerData.configIdTemplate
         );
       })
     );

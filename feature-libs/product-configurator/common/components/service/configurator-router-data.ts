@@ -11,5 +11,6 @@ export namespace ConfiguratorRouter {
     displayOnly?: boolean;
     forceReload?: boolean;
     resolveIssues?: boolean;
+    configIdTemplate?: string;
   }
 }

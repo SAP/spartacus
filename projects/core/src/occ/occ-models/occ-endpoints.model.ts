@@ -218,6 +218,7 @@ export interface OccEndpoints {
    * @member {string}
    */
   createVariantConfiguration?: string;
+  createVariantConfigurationTemplate?: string;
   /**
    * Endpoint for create configuration for the textfield configurator
    *

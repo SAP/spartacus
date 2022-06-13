@@ -7,7 +7,8 @@ export function defaultOccVariantConfiguratorConfigFactory(): OccConfig {
         endpoints: {
           createVariantConfiguration:
             'products/${productCode}/configurators/ccpconfigurator',
-
+          createVariantConfigurationTemplate:
+            'products/${productCode}/configurators/ccpconfigurator?configIdTemplate=${configIdTemplate}',
           readVariantConfiguration: 'ccpconfigurator/${configId}',
 
           updateVariantConfiguration: 'ccpconfigurator/${configId}',
