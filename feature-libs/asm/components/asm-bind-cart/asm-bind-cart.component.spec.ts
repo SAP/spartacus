@@ -3,7 +3,6 @@ import { AsmFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import { BaseSiteService, User } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { AsmComponentService } from '../services';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
 
 class MockActiveCartService {
@@ -20,11 +19,11 @@ class MockBaseSiteService {
 }
 
 class MockMultiCartFacade {
-  loadCart(cartId: string, userId: string): void {}
+  loadCart(_cartId: string, _userId: string): void {}
 }
 
 class MockAsmQueryService {
-  bindCart(cartId: string, customerId: string): Observable<unknown> {
+  bindCart(_cartId: string, _customerId: string): Observable<unknown> {
     return of(null);
   }
 }
@@ -32,7 +31,6 @@ class MockAsmQueryService {
 describe('AsmBindCartComponent', () => {
   let component: AsmBindCartComponent;
   let fixture: ComponentFixture<AsmBindCartComponent>;
-  let asmComponentService: AsmComponentService;
   let asmFacadeService: AsmFacade;
   let multiCartFacade: MultiCartFacade;
   let activeCartFacade: ActiveCartFacade;
@@ -53,7 +51,6 @@ describe('AsmBindCartComponent', () => {
     fixture = TestBed.createComponent(AsmBindCartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    asmComponentService = TestBed.inject(AsmComponentService);
     asmFacadeService = TestBed.inject(AsmFacade);
     multiCartFacade = TestBed.inject(MultiCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
@@ -65,10 +62,12 @@ describe('AsmBindCartComponent', () => {
     const testCartId = '00001234';
 
     spyOn(asmFacadeService, 'bindCart').and.returnValue(of());
+    spyOn(multiCartFacade, 'loadCart').and.stub();
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(
       of(prevActiveCartId)
     );
 
+    component.customer = testUser;
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -85,5 +84,15 @@ describe('AsmBindCartComponent', () => {
     expect(component.cartId.value).toEqual(testCartId);
 
     component.assignCartToCustomer();
+
+    expect(asmFacadeService.bindCart).toHaveBeenCalledWith({
+      cartId: testCartId,
+      customerId: testUser.uid,
+    });
+
+    expect(multiCartFacade.loadCart).toHaveBeenCalledWith({
+      cartId: testCartId,
+      userId: testUser.uid,
+    });
   });
 });
