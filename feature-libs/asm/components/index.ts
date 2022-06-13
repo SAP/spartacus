@@ -1,3 +1,4 @@
+export * from './asm-bind-cart/asm-bind-cart.component';
 export * from './asm-components.module';
 export * from './asm-main-ui/asm-main-ui.component';
 export * from './asm-session-timer/asm-session-timer.component';
