@@ -1,7 +1,6 @@
 import {
   CHECKOUT_BASE_FEATURE_NAME,
   DIGITAL_PAYMENTS_FEATURE_NAME,
-  SPARTACUS_CHECKOUT,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_DIGITAL_PAYMENTS_ASSETS,
 } from '../../libs-constants';
@@ -31,10 +30,11 @@ export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: SchematicConfig = {
     chunks: DIGITAL_PAYMENTS_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_DIGITAL_PAYMENTS_ASSETS,
   },
-  dependencyFeatures: {
-    [SPARTACUS_CHECKOUT]: [CHECKOUT_BASE_FEATURE_NAME],
-  },
-  wrappers: {
-    [CHECKOUT_BASE_MODULE]: DIGITAL_PAYMENTS_MODULE,
-  },
+  dependencyFeatures: [CHECKOUT_BASE_FEATURE_NAME],
+  importAfter: [
+    {
+      markerModuleName: CHECKOUT_BASE_MODULE,
+      featureModuleName: DIGITAL_PAYMENTS_MODULE,
+    },
+  ],
 };
