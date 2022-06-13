@@ -49,7 +49,7 @@ export function clickOnResolveIssuesLinkOnOP(): void {
 /**
  * Clicks on 'Resolve Issues' link on the product overview page in case overview still refers to product bound configuration
  */
- export function clickOnResolveIssuesLinkOnOPProductBound(): void {
+export function clickOnResolveIssuesLinkOnOPProductBound(): void {
   cy.get(resolveIssuesLinkSelector)
     .click()
     .then(() => {
