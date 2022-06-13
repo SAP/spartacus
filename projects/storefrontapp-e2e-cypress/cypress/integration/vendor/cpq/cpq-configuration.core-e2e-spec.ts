@@ -7,9 +7,9 @@ import * as configurationCartCpq from '../../../helpers/product-configurator-car
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
 const POWERTOOLS = 'powertools-spa';
-const EMAIL = 'cpq03@sap.com';
-const PASSWORD = 'welcome';
-const CPQ_USER = 'cpq03';
+const EMAIL = 'gi.sun@pronto-hw.com';
+const PASSWORD = '12341234';
+const CPQ_USER = 'Gi Sun';
 
 // UI types
 const RADGRP = 'radioGroup';
