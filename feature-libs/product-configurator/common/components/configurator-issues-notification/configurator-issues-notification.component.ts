@@ -1,7 +1,7 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
-import { CartItemContext, ICON_TYPE } from '@spartacus/storefront';
+import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
@@ -48,5 +48,15 @@ export class ConfiguratorIssuesNotificationComponent {
    */
   getNumberOfIssues(item: OrderEntry): number {
     return this.commonConfigUtilsService.getNumberOfIssues(item);
+  }
+
+  /**
+   * Retrieves the unique id for the error message.
+   *
+   * @param item - Cart item
+   * @returns - Unique id for error message
+   */
+  getErrorMessageId(item: OrderEntry): string {
+    return 'cx-error-msg-' + item.entryNumber;
   }
 }

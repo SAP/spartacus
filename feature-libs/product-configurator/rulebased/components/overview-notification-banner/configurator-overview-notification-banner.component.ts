@@ -20,26 +20,49 @@ export class ConfiguratorOverviewNotificationBannerComponent {
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
-  numberOfIssues$: Observable<number> = this.routerData$.pipe(
-    filter(
-      (routerData) =>
-        routerData.owner.type === CommonConfigurator.OwnerType.PRODUCT ||
-        routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
-    ),
-    switchMap((routerData) =>
-      this.configuratorCommonsService.getConfiguration(routerData.owner)
-    ),
+  configuration$: Observable<Configurator.Configuration> =
+    this.routerData$.pipe(
+      filter(
+        (routerData) =>
+          routerData.owner.type === CommonConfigurator.OwnerType.PRODUCT ||
+          routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
+      ),
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      )
+    );
+
+  configurationOverview$: Observable<Configurator.Overview | undefined> =
+    this.configuration$.pipe(map((configuration) => configuration.overview));
+
+  numberOfIssues$: Observable<number> = this.configuration$.pipe(
     map((configuration) => {
       //In case overview carries number of issues: We take it from there.
       //otherwise configuration's number will be accurate
-      if (configuration.overview?.totalNumberOfIssues) {
-        return configuration.overview.totalNumberOfIssues;
+      let configOv = configuration.overview;
+      if (configOv?.totalNumberOfIssues) {
+        return configOv.numberOfIncompleteCharacteristics !== undefined
+          ? configOv.numberOfIncompleteCharacteristics
+          : configOv.totalNumberOfIssues;
       } else
         return configuration.totalNumberOfIssues
           ? configuration.totalNumberOfIssues
           : 0;
     })
   );
+
+  numberOfConflicts$: Observable<number> = this.configuration$.pipe(
+    map((configuration) => {
+      return configuration.overview?.numberOfConflicts ?? 0;
+    })
+  );
+
+  skipConflictsOnIssueNavigation$: Observable<boolean> =
+    this.configuration$.pipe(
+      map((configuration) => {
+        return (configuration.overview?.numberOfConflicts ?? 0) > 0;
+      })
+    );
 
   iconTypes = ICON_TYPE;
 
@@ -48,14 +71,4 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
-
-  protected countIssuesInGroup(group: Configurator.Group): number {
-    let numberOfIssues = 0;
-
-    group.attributes?.forEach((attribute) => {
-      numberOfIssues =
-        numberOfIssues + (attribute.incomplete && attribute.required ? 1 : 0);
-    });
-    return numberOfIssues;
-  }
 }

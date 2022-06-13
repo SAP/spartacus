@@ -2,6 +2,7 @@
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
 import { SampleUser } from '../sample-data/checkout-flow';
+import { waitForPage } from './checkout-flow';
 
 export interface LoginUser {
   username: string;
@@ -16,7 +17,7 @@ export function fillRegistrationForm(
   cy.log(`🛒 Registering user ${email} from the registration page`);
   cy.get('cx-register form').should('be.visible');
   cy.get('cx-register form').within(() => {
-    cy.get('[formcontrolname="titleCode"]').select('mr');
+    cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
     cy.get('[formcontrolname="firstName"]').type(firstName);
     cy.get('[formcontrolname="lastName"]').type(lastName);
     cy.get('[formcontrolname="email"]').type(email);
@@ -49,8 +50,10 @@ export function register(
   hiddenConsent?
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get('cx-register form').within(() => {
     cy.get('button[type="submit"]').click();
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
   });
 }
 

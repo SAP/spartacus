@@ -26,12 +26,12 @@ import {
   NGRX_STORE,
   PLATFORM,
   PLATFORM_ID_STRING,
-  SPARTACUS_CORE,
   STORE,
   TODO_SPARTACUS,
   USER_ADDRESS_SERVICE,
   UTF_8,
 } from '../constants';
+import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
   addConstructorParam,
   buildSpartacusComment,
@@ -294,7 +294,10 @@ export class ServiceNameService extends LaunchDialogService {
 }`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
-const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
 
 describe('File utils', () => {
   let appTree: UnitTestTree;
@@ -398,10 +401,13 @@ describe('File utils', () => {
 
   describe('insertHtmlComment', () => {
     it('should insert the comment with *ngIf', async () => {
+      const angularCompiler = await import('@angular/compiler');
+
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[2];
       const result = insertHtmlComment(
         HTML_EXAMPLE_NGIF,
-        (componentDeprecation.removedProperties || [])[0]
+        (componentDeprecation.removedProperties || [])[0],
+        angularCompiler
       );
 
       expect(result).toBeTruthy();

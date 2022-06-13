@@ -11,25 +11,19 @@ import { CustomerCouponAdapter } from '../../../user/connectors/customer-coupon/
 import { PRODUCT_INTERESTS_NORMALIZER } from '../../../user/connectors/interests/converters';
 import { UserInterestsAdapter } from '../../../user/connectors/interests/user-interests.adapter';
 import { UserNotificationPreferenceAdapter } from '../../../user/connectors/notification-preference/user-notification-preference.adapter';
-import { ORDER_RETURN_REQUEST_NORMALIZER } from '../../../user/connectors/order/converters';
-import { UserOrderAdapter } from '../../../user/connectors/order/user-order.adapter';
 import { UserPaymentAdapter } from '../../../user/connectors/payment/user-payment.adapter';
-import { UserReplenishmentOrderAdapter } from '../../../user/connectors/replenishment-order';
-import { OccCustomerCouponAdapter } from '../user/occ-customer-coupon.adapter';
 import { AnonymousConsentNormalizer } from './converters/anonymous-consents-normalizer';
 import { OccAddressListNormalizer } from './converters/occ-address-list-normalizer';
-import { OccReturnRequestNormalizer } from './converters/occ-return-request-normalizer';
 import { OccUserInterestsNormalizer } from './converters/occ-user-interests-normalizer';
 import { defaultOccUserConfig } from './default-occ-user-config';
 import { OccAnonymousConsentTemplatesAdapter } from './occ-anonymous-consent-templates.adapter';
+import { OccCustomerCouponAdapter } from './occ-customer-coupon.adapter';
 import { OccUserAddressAdapter } from './occ-user-address.adapter';
 import { OccUserConsentAdapter } from './occ-user-consent.adapter';
 import { OccUserCostCenterAdapter } from './occ-user-cost-centers.adapter';
 import { OccUserInterestsAdapter } from './occ-user-interests.adapter';
 import { OccUserNotificationPreferenceAdapter } from './occ-user-notification-preference.adapter';
-import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
-import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order.adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -45,7 +39,6 @@ import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order
       provide: UserPaymentAdapter,
       useClass: OccUserPaymentAdapter,
     },
-    { provide: UserOrderAdapter, useClass: OccUserOrderAdapter },
     { provide: CustomerCouponAdapter, useClass: OccCustomerCouponAdapter },
     {
       provide: UserNotificationPreferenceAdapter,
@@ -59,11 +52,6 @@ import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order
       multi: true,
     },
     {
-      provide: ORDER_RETURN_REQUEST_NORMALIZER,
-      useExisting: OccReturnRequestNormalizer,
-      multi: true,
-    },
-    {
       provide: ANONYMOUS_CONSENT_NORMALIZER,
       useExisting: AnonymousConsentNormalizer,
       multi: true,
@@ -72,10 +60,6 @@ import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order
       provide: ADDRESS_LIST_NORMALIZER,
       useExisting: OccAddressListNormalizer,
       multi: true,
-    },
-    {
-      provide: UserReplenishmentOrderAdapter,
-      useClass: OccUserReplenishmentOrderAdapter,
     },
   ],
 })

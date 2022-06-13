@@ -26,16 +26,14 @@
           name="{{ createAttributeIdForConfigurator(attribute) }}"
           attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
           [cxFocus]="{ key: attribute.name + '-' + value.name }"
-          attr.aria-labelledby="{{
-            createAriaLabelledBy('label', attribute.name, value.valueCode)
-          }}"
-          [attr.aria-checked]="
-            attributeRadioButtonForm.value === value.valueCode ? true : false
-          "
+          [attr.aria-label]="getAriaLabel(value, attribute)"
           [attr.checked]="
             attributeRadioButtonForm.value === value.valueCode
               ? 'checked'
               : null
+          "
+          [attr.aria-describedby]="
+            createAttributeUiKey('label', attribute.name)
           "
           (change)="onSelect(value.valueCode)"
         />
@@ -44,15 +42,37 @@
           for="{{
             createAttributeValueIdForConfigurator(attribute, value.valueCode)
           }}"
+          aria-hidden="true"
           class="form-check-label form-radio-label"
           >{{ value.valueDisplay }}</label
         >
       </div>
+
       <div class="cx-value-price">
         <cx-configurator-price
           [formula]="extractValuePriceFormulaParameters(value)"
         ></cx-configurator-price>
       </div>
     </div>
+
+    <cx-configurator-attribute-numeric-input-field
+      *ngIf="isAdditionalValueNumeric"
+      class="cx-configurator-attribute-additional-value"
+      [attribute]="attribute"
+      [ownerType]="ownerType"
+      [ownerKey]="ownerKey"
+      [language]="language"
+      (inputChange)="onSelectAdditionalValue($event)"
+    ></cx-configurator-attribute-numeric-input-field>
+
+    <cx-configurator-attribute-input-field
+      *ngIf="isAdditionalValueAlphaNumeric"
+      class="cx-configurator-attribute-additional-value"
+      [attribute]="attribute"
+      [ownerType]="ownerType"
+      [ownerKey]="ownerKey"
+      (inputChange)="onSelectAdditionalValue($event)"
+    >
+    </cx-configurator-attribute-input-field>
   </div>
 </fieldset>

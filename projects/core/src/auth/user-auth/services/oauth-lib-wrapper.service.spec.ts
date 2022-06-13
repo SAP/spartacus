@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
+import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { WindowRef } from 'projects/core/src/window';
+import { BehaviorSubject } from 'rxjs';
 import { AuthConfigService } from './auth-config.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
@@ -37,6 +38,7 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
     };
   }
 }
+
 class MockOAuthService implements Partial<OAuthService> {
   configure() {}
   fetchTokenUsingPasswordFlow() {
@@ -221,6 +223,12 @@ describe('OAuthLibWrapperService', () => {
   });
 
   describe('tryLogin()', () => {
+    beforeEach(() => {
+      service.events$ = new BehaviorSubject<OAuthEvent>({
+        type: 'token_received',
+      });
+    });
+
     it('should call tryLogin method from the lib', () => {
       spyOn(oAuthService, 'tryLogin').and.callThrough();
 
@@ -228,6 +236,25 @@ describe('OAuthLibWrapperService', () => {
 
       expect(oAuthService.tryLogin).toHaveBeenCalledWith({
         disableOAuth2StateCheck: true,
+      });
+    });
+
+    it('should return POSTITIVE token received event indication', async () => {
+      const result = await service.tryLogin();
+      expect(result).toEqual({
+        result: true,
+        tokenReceived: true,
+      });
+    });
+
+    it('should return NEGATIVE token received event indication', async () => {
+      (service.events$ as BehaviorSubject<OAuthEvent>).next({
+        type: 'discovery_document_load_error',
+      });
+      const result = await service.tryLogin();
+      expect(result).toEqual({
+        result: true,
+        tokenReceived: false,
       });
     });
   });

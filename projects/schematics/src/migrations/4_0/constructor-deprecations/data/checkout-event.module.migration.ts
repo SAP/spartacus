@@ -2,8 +2,8 @@ import {
   CHECKOUT_EVENT_BUILDER,
   CHECKOUT_EVENT_LISTENER,
   CHECKOUT_EVENT_MODULE,
-  SPARTACUS_CORE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_EVENT_MODULE_MIGRATION: ConstructorDeprecation = {

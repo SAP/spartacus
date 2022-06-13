@@ -2,9 +2,11 @@ import {
   CART_ITEM_CONTEXT,
   COMMON_CONFIGURATOR_UTILS_SERVICE,
   CONFIGURATOR_CART_ENTRY_INFO_COMPONENT,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION: ConstructorDeprecation =

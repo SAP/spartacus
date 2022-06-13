@@ -1,9 +1,17 @@
 <ng-container *ngIf="displayFormula()">
   <ng-container *ngIf="displayPriceOnly()">
-    <div [ngClass]="styleClass">{{ price }}</div>
+    <div
+      [ngClass]="styleClass"
+      [attr.aria-label]="'configurator.a11y.valueSurcharge' | cxTranslate"
+    >
+      {{ price }}
+    </div>
   </ng-container>
   <ng-container *ngIf="displayQuantityAndPrice()">
-    <div class="cx-quantity-price">
+    <div
+      class="cx-quantity-price"
+      [attr.aria-label]="'configurator.a11y.valueSurcharge' | cxTranslate"
+    >
       {{ quantityWithPrice(formula?.quantity | cxNumeric) }}
     </div>
     <div class="cx-price-total">{{ priceTotal }}</div>

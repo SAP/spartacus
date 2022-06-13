@@ -4,9 +4,9 @@ import {
   CONFIGURATION_SERVICE,
   DEFAULT_CONFIG,
   ROOT_CONFIG,
-  SPARTACUS_CORE,
   UNIFIED_INJECTOR,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATION_SERVICE_MIGRATION: ConstructorDeprecation = {

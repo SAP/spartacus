@@ -208,7 +208,7 @@ describe('StockNotificationComponent', () => {
       el.query(By.css('.stock-notification-notes')).nativeElement
     ).toBeTruthy();
     expect(el.query(By.css('.btn-notify')).nativeElement.disabled).toEqual(
-      true
+      false
     );
   });
 

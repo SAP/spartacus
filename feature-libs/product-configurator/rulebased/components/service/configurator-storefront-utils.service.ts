@@ -75,26 +75,6 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
-   * Verifies whether the HTML element is in the viewport.
-   *
-   * @param {Element} element - HTML element
-   * @return {boolean} Returns 'true' if the HTML element is in the viewport, otherwise 'false'
-   */
-  protected isInViewport(element: Element): boolean {
-    const bounding = element.getBoundingClientRect();
-    const window = this.windowRef.nativeWindow;
-    const document = this.windowRef.document;
-    return (
-      bounding.top >= 0 &&
-      bounding.left >= 0 &&
-      bounding.bottom <=
-        (window?.innerHeight || document?.documentElement.clientHeight) &&
-      bounding.right <=
-        (window?.innerWidth || document?.documentElement.clientWidth)
-    );
-  }
-
-  /**
    * Scrolls to the corresponding HTML element.
    *
    * @param {Element | HTMLElement} element - HTML element
@@ -115,8 +95,8 @@ export class ConfiguratorStorefrontUtilsService {
   scrollToConfigurationElement(selector: string): void {
     if (this.windowRef.isBrowser()) {
       // we don't want to run this logic when doing SSR
-      const element = this.windowRef.document?.querySelector(selector);
-      if (element && !this.isInViewport(element)) {
+      const element = this.getElement(selector);
+      if (element) {
         this.scroll(element);
       }
     }
@@ -126,17 +106,104 @@ export class ConfiguratorStorefrontUtilsService {
    * Focus the first attribute in the form.
    */
   focusFirstAttribute(): void {
-    if (this.keyboardFocusService) {
-      if (this.windowRef.isBrowser()) {
-        const form: HTMLElement | null = this.windowRef.document?.querySelector(
-          'cx-configurator-form'
-        );
-        if (form) {
-          const focusableElements: HTMLElement[] =
-            this.keyboardFocusService.findFocusable(form);
-          if (focusableElements && focusableElements.length > 0) {
-            focusableElements[0].focus();
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+    const form = this.getElement('cx-configurator-form');
+    if (form) {
+      const focusableElements: HTMLElement[] =
+        this.keyboardFocusService.findFocusable(form);
+      if (focusableElements && focusableElements.length > 0) {
+        focusableElements[0].focus();
+      }
+    }
+  }
+
+  protected getFocusableElementById(
+    focusableElements: HTMLElement[],
+    id?: string
+  ): HTMLElement | undefined {
+    return focusableElements.find((focusableElement) => {
+      if (id) {
+        if (
+          focusableElement.nodeName.toLocaleLowerCase().indexOf(id) !== -1 ||
+          focusableElement.id.indexOf(id) !== -1
+        ) {
+          return focusableElement;
+        }
+      }
+    });
+  }
+
+  protected getFocusableConflictDescription(
+    focusableElements: HTMLElement[]
+  ): HTMLElement | undefined {
+    return this.getFocusableElementById(
+      focusableElements,
+      'cx-configurator-conflict-description'
+    );
+  }
+
+  protected getFocusableElementByValueUiKey(
+    focusableElements: HTMLElement[],
+    valueUiKey?: string
+  ): HTMLElement | undefined {
+    return this.getFocusableElementById(focusableElements, valueUiKey);
+  }
+
+  protected getFocusableElementByAttributeId(
+    focusableElements: HTMLElement[],
+    attributeName: string
+  ): HTMLElement | undefined {
+    return this.getFocusableElementById(focusableElements, attributeName);
+  }
+
+  protected createAttributeValueUiKey(
+    attributeId: string,
+    valueId: string
+  ): string {
+    return attributeId + '--' + valueId;
+  }
+
+  /**
+   * Focus a value in the form.
+   *
+   * @param {Configurator.Attribute} attribute - Attribute
+   */
+  focusValue(attribute: Configurator.Attribute): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+    const form = this.getElement('cx-configurator-form');
+    if (form) {
+      const focusableElements: HTMLElement[] =
+        this.keyboardFocusService.findFocusable(form);
+      if (focusableElements.length > 0) {
+        let foundFocusableElement =
+          this.getFocusableConflictDescription(focusableElements);
+        if (!foundFocusableElement) {
+          const selectedValue = attribute.values?.find(
+            (value) => value.selected
+          );
+          if (selectedValue) {
+            const valueUiKey = this.createAttributeValueUiKey(
+              attribute.name,
+              selectedValue.valueCode
+            );
+            foundFocusableElement = this.getFocusableElementByValueUiKey(
+              focusableElements,
+              valueUiKey
+            );
           }
+          if (!foundFocusableElement) {
+            foundFocusableElement = this.getFocusableElementByAttributeId(
+              focusableElements,
+              attribute.name
+            );
+          }
+        }
+        if (foundFocusableElement) {
+          foundFocusableElement.focus();
         }
       }
     }
@@ -164,6 +231,34 @@ export class ConfiguratorStorefrontUtilsService {
   setFocus(key?: string, group?: string): void {
     if (key) {
       this.keyboardFocusService.set(key, group);
+    }
+  }
+
+  /**
+   * Change styling of element
+   *
+   * @param querySelector - querySelector
+   * @param property - CSS property
+   * @param value - CSS value
+   */
+  changeStyling(querySelector: string, property: string, value: string): void {
+    const element = this.getElement(querySelector);
+    if (element) {
+      element.style.setProperty(property, value);
+    }
+  }
+
+  /**
+   * Get HTML element based on querySelector when running in browser
+   *
+   * @param querySelector - querySelector
+   * @returns selected HTML element
+   */
+  getElement(querySelector: string): HTMLElement | undefined {
+    if (this.windowRef.isBrowser()) {
+      return this.windowRef.document.querySelector(
+        querySelector
+      ) as HTMLElement;
     }
   }
 }

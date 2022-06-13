@@ -23,21 +23,22 @@ export class SelectFocusUtility {
   //   `iframe`, // we really don't like iframes...
   //   `area[href]`, // very debatable!
 
-  protected focusableSelectorSuffix = ':not([disabled]):not([hidden])';
+  protected focusableSelectorSuffix =
+    ':not([disabled]):not([hidden]):not([aria-hidden])';
 
-  query(host: HTMLElement, selector: string): HTMLElement[] {
+  query(host: HTMLElement | null | undefined, selector: string): HTMLElement[] {
     if (!selector || selector === '') {
       return [];
     }
     return Array.from(
-      host.querySelectorAll(selector) as NodeListOf<HTMLElement>
+      host?.querySelectorAll(selector) as NodeListOf<HTMLElement>
     );
   }
 
   findFirstFocusable(
-    host: HTMLElement,
+    host: HTMLElement | null | undefined,
     config: AutoFocusConfig = { autofocus: true }
-  ): HTMLElement {
+  ): HTMLElement | undefined {
     const selector =
       typeof config?.autofocus === 'string' ? config.autofocus : '[autofocus]';
     // fallback to first focusable
@@ -56,7 +57,7 @@ export class SelectFocusUtility {
    * @param invisible indicates whether hidden focusable elements should be returned
    */
   findFocusable(
-    host: HTMLElement,
+    host: HTMLElement | null | undefined,
     locked = false,
     invisible = false
   ): HTMLElement[] {

@@ -3,15 +3,17 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Consignment,
+  CmsOrderDetailItemsComponent,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
-  Order,
-  PromotionLocation,
-  ReplenishmentOrder,
 } from '@spartacus/core';
-import { CardModule, PromotionsModule } from '@spartacus/storefront';
+import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
+import {
+  CardModule,
+  CmsComponentData,
+  PromotionsModule,
+} from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
@@ -112,22 +114,13 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   ],
 };
 
-@Component({
-  selector: 'cx-cart-item-list',
-  template: '',
-})
-class MockCartItemListComponent {
-  @Input()
-  readonly = false;
-  @Input()
-  hasHeader = true;
-  @Input()
-  items = [];
-  @Input()
-  cartIsLoading = false;
-  @Input()
-  promotionLocation: PromotionLocation = PromotionLocation.Order;
-}
+const mockData: CmsOrderDetailItemsComponent = {
+  enableAddToCart: true,
+};
+
+const MockCmsComponentData = <CmsComponentData<any>>{
+  data$: of(mockData),
+};
 
 @Component({
   selector: 'cx-consignment-tracking',
@@ -170,10 +163,10 @@ describe('OrderDetailItemsComponent', () => {
               features: { level: '1.4', consignmentTracking: true },
             },
           },
+          { provide: CmsComponentData, useValue: MockCmsComponentData },
         ],
         declarations: [
           OrderDetailItemsComponent,
-          MockCartItemListComponent,
           MockConsignmentTrackingComponent,
           OrderConsignedEntriesComponent,
         ],

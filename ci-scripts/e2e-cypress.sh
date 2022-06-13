@@ -46,12 +46,20 @@ done
 
 set -- "${POSITIONAL[@]}"
 
+if [ "$SUITE" == ":ccv2" ]; then
+    export SPA_ENV='ccv2,b2c'
+fi
+
+if [ "$SUITE" == ":ccv2-b2b" ]; then
+    export SPA_ENV='ccv2,b2b'
+fi
+
 echo '-----'
 echo "Building Spartacus libraries"
 
-yarn install
+yarn --frozen-lockfile
 
-(cd projects/storefrontapp-e2e-cypress && yarn install)
+(cd projects/storefrontapp-e2e-cypress && yarn --frozen-lockfile)
 
 yarn build:libs 2>&1 | tee build.log
 
@@ -85,5 +93,9 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    yarn e2e:run:ci"${SUITE}"
+    if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
+        yarn e2e:run:ci:core"${SUITE}"
+    else
+        yarn e2e:run:ci"${SUITE}"
+    fi
 fi

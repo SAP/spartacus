@@ -8,11 +8,12 @@ import {
   Optional,
   Type,
 } from '@angular/core';
+import { MODULE_INITIALIZER } from '@spartacus/core';
 import { OutletDirective } from './outlet.directive';
 import { OutletPosition } from './outlet.model';
 import {
-  PROVIDE_OUTLET_OPTIONS,
   ProvideOutletOptions,
+  PROVIDE_OUTLET_OPTIONS,
 } from './outlet.providers';
 import { OutletService } from './outlet.service';
 
@@ -51,6 +52,24 @@ export class OutletModule {
       providers: [
         {
           provide: APP_INITIALIZER,
+          useFactory: registerOutletsFactory,
+          deps: [
+            [new Optional(), PROVIDE_OUTLET_OPTIONS],
+            ComponentFactoryResolver,
+            OutletService,
+          ],
+          multi: true,
+        },
+      ],
+    };
+  }
+
+  static forChild(): ModuleWithProviders<OutletModule> {
+    return {
+      ngModule: OutletModule,
+      providers: [
+        {
+          provide: MODULE_INITIALIZER,
           useFactory: registerOutletsFactory,
           deps: [
             [new Optional(), PROVIDE_OUTLET_OPTIONS],

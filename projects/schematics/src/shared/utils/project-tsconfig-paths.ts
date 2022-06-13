@@ -49,9 +49,9 @@ export function getProjectTsConfigPaths(
       const projects = Object.keys(workspace.projects).map(
         (name) => workspace.projects[name]
       );
-      for (const project of projects) {
-        const buildPath = getTargetTsconfigPath(project, 'build');
-        const testPath = getTargetTsconfigPath(project, 'test');
+      for (const workspaceProject of projects) {
+        const buildPath = getTargetTsconfigPath(workspaceProject, 'build');
+        const testPath = getTargetTsconfigPath(workspaceProject, 'test');
 
         if (buildPath) {
           buildPaths.add(buildPath);

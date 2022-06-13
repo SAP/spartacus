@@ -1,7 +1,7 @@
 <div class="cx-section">
   <ng-container
     *ngIf="
-      (addresses$ | async).length &&
+      (addresses$ | async)?.length &&
       !(showAddAddressForm || showEditAddressForm)
     "
   >
@@ -21,16 +21,21 @@
       *ngIf="!(addressesStateLoading$ | async); else loading"
     >
       <div
-        *ngFor="let address of addresses$ | async"
+        role="status"
+        [attr.aria-label]="'common.loaded' | cxTranslate"
+      ></div>
+      <div
+        *ngFor="let address of addresses$ | async; let i = index"
         class="col-md-6 cx-address-card"
       >
         <cx-card
+          [index]="i"
           [border]="true"
           [fitToContainer]="true"
           [content]="getCardContent(address) | async"
           (editCard)="editAddressButtonHandle(address)"
-          (setDefaultCard)="setAddressAsDefault(address.id)"
-          (deleteCard)="setEdit(address.id)"
+          (setDefaultCard)="setAddressAsDefault(address)"
+          (deleteCard)="setEdit(address.id ?? '')"
           [editMode]="address.id === editCard"
           (cancelCard)="cancelCard()"
         ></cx-card>
@@ -38,18 +43,18 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!(addresses$ | async).length || showAddAddressForm">
+  <ng-container *ngIf="!(addresses$ | async)?.length || showAddAddressForm">
     <section>
       <p class="cx-section-msg">
-        {{ 'addressBook.addNewShippingAddress' | cxTranslate }}
+        {{ 'addressBook.addNewDeliveryAddress' | cxTranslate }}
       </p>
       <cx-address-form
         class="cx-form"
-        showTitleCode="true"
-        [showCancelBtn]="!((addresses$ | async).length === 0)"
+        [showTitleCode]="true"
+        [showCancelBtn]="!((addresses$ | async)?.length === 0)"
         actionBtnLabel="{{ 'addressBook.addAddress' | cxTranslate }}"
         cancelBtnLabel="{{ 'addressBook.backToAddressList' | cxTranslate }}"
-        [setAsDefaultField]="!((addresses$ | async).length === 0)"
+        [setAsDefaultField]="!((addresses$ | async)?.length === 0)"
         (submitAddress)="addAddressSubmit($event)"
         (backToAddress)="addAddressCancel()"
         (cancelCard)="cancelCard()"
@@ -60,10 +65,10 @@
   <ng-container *ngIf="showEditAddressForm">
     <section>
       <p class="cx-section-msg">
-        {{ 'addressBook.editShippingAddress' | cxTranslate }}
+        {{ 'addressBook.editDeliveryAddress' | cxTranslate }}
       </p>
       <cx-address-form
-        showTitleCode="true"
+        [showTitleCode]="true"
         actionBtnLabel="{{ 'addressBook.updateAddress' | cxTranslate }}"
         cancelBtnLabel="{{ 'addressBook.backToAddressList' | cxTranslate }}"
         [addressData]="currentAddress"

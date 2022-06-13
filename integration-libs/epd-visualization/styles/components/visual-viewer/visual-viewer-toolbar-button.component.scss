@@ -1,0 +1,68 @@
+%cx-epd-visualization-viewer-toolbar-button {
+  display: inline-block;
+
+  @include media-breakpoint-down(sm) {
+    width: auto;
+  }
+
+  .buttonVBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+    padding: 0.25em;
+
+    @include media-breakpoint-down(sm) {
+      justify-content: center;
+    }
+  }
+
+  cx-icon {
+    padding: 0 auto;
+  }
+
+  .buttonText {
+    padding: 0.125em 0 0 0;
+  }
+
+  .btn {
+    max-height: none;
+    height: 55px;
+    width: 65px;
+    padding: inherit;
+    border-radius: 0.25em;
+
+    font-size: var(--cx-font-size, 0.9rem) !important;
+    font-weight: var(--cx-font-weight-semi);
+
+    @include media-breakpoint-down(sm) {
+      height: 44px;
+      width: 36px;
+    }
+
+    &:focus,
+    &.focus {
+      box-shadow: none !important;
+      @include visible-focus();
+      outline-offset: 0;
+    }
+  }
+
+  .btn-link {
+    text-decoration: none !important;
+    font-size: $small-font-size;
+
+    .buttonText {
+      margin: auto 0 0 0;
+
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+    }
+  }
+
+  .checked {
+    background-color: var(--cx-color-background);
+  }
+}

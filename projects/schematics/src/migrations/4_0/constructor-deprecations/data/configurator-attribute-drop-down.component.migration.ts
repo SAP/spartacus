@@ -1,8 +1,8 @@
 import {
   CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT,
   CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
 } from '../../../../shared/constants';
+import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION: ConstructorDeprecation =

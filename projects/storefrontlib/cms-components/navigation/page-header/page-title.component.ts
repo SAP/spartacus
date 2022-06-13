@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  AfterViewInit,
+} from '@angular/core';
 import {
   CmsPageTitleComponent,
   isNotNullable,
@@ -13,8 +18,9 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   templateUrl: './page-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageTitleComponent implements OnInit {
+export class PageTitleComponent implements OnInit, AfterViewInit {
   title$: Observable<string>;
+  lastestTitle$: Observable<string>;
 
   constructor(
     public component: CmsComponentData<CmsPageTitleComponent>,
@@ -23,6 +29,10 @@ export class PageTitleComponent implements OnInit {
 
   ngOnInit(): void {
     this.setTitle();
+  }
+
+  ngAfterViewInit(): void {
+    this.lastestTitle$ = this.title$;
   }
 
   private setTitle(): void {

@@ -2,11 +2,11 @@ import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, WindowRef } from '@spartacus/core';
+import { of } from 'rxjs';
+import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'cx-icon',
@@ -18,7 +18,7 @@ class MockIconComponent {
 
 @Component({
   selector: 'cx-generic-link',
-  template: '',
+  template: '{{title}}',
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -30,6 +30,12 @@ class MockHamburgerMenuService {
   isExpanded = of(true);
   toggle(_forceCollapse?: boolean): void {}
 }
+
+const mockWinRef: WindowRef = {
+  nativeWindow: {
+    location: { href: '/sub-sub-child-1a' },
+  },
+} as WindowRef;
 
 const childLength = 9;
 
@@ -47,20 +53,20 @@ const mockNode: NavigationNode = {
               title: 'Sub child 1',
               children: [
                 {
-                  title: 'Sub sub child 1',
-                  url: '/sub-sub-child-1',
+                  title: 'Sub sub child 1a',
+                  url: '/sub-sub-child-1a',
                 },
                 {
-                  title: 'Sub sub child 1',
-                  url: '/sub-sub-child-1',
+                  title: 'Sub sub child 1b',
+                  url: '/sub-sub-child-1b',
                 },
                 {
-                  title: 'Sub sub child 1',
-                  url: '/sub-sub-child-1',
+                  title: 'Sub sub child 1c',
+                  url: '/sub-sub-child-1c',
                 },
                 {
-                  title: 'Sub sub child 1',
-                  url: '/sub-sub-child-1',
+                  title: 'Sub sub child 1d',
+                  url: '/sub-sub-child-1d',
                 },
               ],
             },
@@ -82,6 +88,7 @@ const mockNode: NavigationNode = {
 describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
+  let hamburgerMenuService: HamburgerMenuService;
   let element: DebugElement;
 
   beforeEach(() => {
@@ -97,11 +104,16 @@ describe('Navigation UI Component', () => {
           provide: HamburgerMenuService,
           useClass: MockHamburgerMenuService,
         },
+        {
+          provide: WindowRef,
+          useValue: mockWinRef,
+        },
       ],
     }).compileComponents();
   });
   beforeEach(() => {
     fixture = TestBed.createComponent(NavigationUIComponent);
+    hamburgerMenuService = TestBed.inject(HamburgerMenuService);
     navigationComponent = fixture.debugElement.componentInstance;
     element = fixture.debugElement;
 
@@ -162,7 +174,7 @@ describe('Navigation UI Component', () => {
 
     it('should render cx-icon element for a nav node with children in flyout mode', () => {
       fixture.detectChanges();
-      const icon: ElementRef = element.query(By.css('span > cx-icon'));
+      const icon: ElementRef = element.query(By.css('button > cx-icon'));
       const link: HTMLLinkElement = icon.nativeElement;
 
       expect(link).toBeDefined();
@@ -176,42 +188,39 @@ describe('Navigation UI Component', () => {
       expect(icon).toBeFalsy();
     });
 
-    it('should render all link for root 1', () => {
+    it('should render all link for root', () => {
       fixture.detectChanges();
-      const allLink: ElementRef[] = element.queryAll(By.css('.wrapper > .all'));
-      expect(allLink.length).toEqual(1);
+      const allLink: ElementRef[] = element.queryAll(
+        By.css('nav > ul > li > cx-generic-link')
+      );
+      expect(allLink.length).toEqual(2);
     });
 
     it('should render ' + childLength + ' nav elements', () => {
+      navigationComponent.flyout = false;
       fixture.detectChanges();
-      const nav: ElementRef[] = element.queryAll(By.css('nav'));
+      const nav: ElementRef[] = element.queryAll(By.css('li'));
       expect(nav.length).toEqual(childLength);
-    });
-
-    it('should render 2 root nav elements', () => {
-      fixture.detectChanges();
-      // mmm... no `> nav` available in By.css
-      let rootNavElementCount = 0;
-      (<HTMLElement>element.nativeElement).childNodes.forEach((el) => {
-        if (el.nodeName === 'NAV') {
-          rootNavElementCount++;
-        }
-      });
-      expect(rootNavElementCount).toEqual(2);
     });
 
     it('should render a tag for nav nodes without a URL', () => {
       fixture.detectChanges();
-
-      const nav: ElementRef = element.query(By.css('nav > span'));
-      const el: HTMLElement = nav.nativeElement;
-      expect(el.innerText).toEqual('Root 1');
+      const navs: ElementRef[] = element.queryAll(
+        By.css('nav > ul > li > button')
+      );
+      const back: HTMLElement = navs[0].nativeElement;
+      const root1: HTMLElement = navs[1].nativeElement;
+      expect(navs.length).toBe(2);
+      expect(back.innerText).toEqual('common.back');
+      expect(root1.innerText).toEqual('');
     });
 
     it('should render link for nav nodes with a URL', () => {
       fixture.detectChanges();
 
-      const nav: ElementRef = element.query(By.css('nav > cx-generic-link'));
+      const nav: ElementRef = element.query(
+        By.css('nav > ul > li > cx-generic-link')
+      );
       const el: HTMLElement = nav.nativeElement;
       expect(el).toBeTruthy();
     });
@@ -245,23 +254,56 @@ describe('Navigation UI Component', () => {
     it('should render child element in the childs container for nav nodes with childs', () => {
       fixture.detectChanges();
 
-      const child: ElementRef[] = element.queryAll(
-        By.css('nav div .childs nav')
-      );
+      const child: ElementRef[] = element.queryAll(By.css('nav .childs li'));
       expect(child.length).toEqual(7);
     });
 
     it('should reinitialize menu, when menu is expanded', () => {
       navigationComponent['resetMenuOnClose'] = true;
-      spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
+      spyOn(navigationComponent, 'reinitializeMenu').and.stub();
       fixture.detectChanges();
-      expect(navigationComponent.reinitalizeMenu).toHaveBeenCalled();
+      expect(navigationComponent.reinitializeMenu).toHaveBeenCalled();
     });
 
     it('should NOT reinitialize menu, when menu is expanded if config is false', () => {
-      spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
+      spyOn(navigationComponent, 'reinitializeMenu').and.stub();
       fixture.detectChanges();
-      expect(navigationComponent.reinitalizeMenu).not.toHaveBeenCalled();
+      expect(navigationComponent.reinitializeMenu).not.toHaveBeenCalled();
+    });
+
+    it('should close hamburger and every LI element when click on link to current route', () => {
+      spyOn(navigationComponent, 'closeIfClickedTheSameLink').and.callThrough();
+      spyOn(navigationComponent, 'reinitializeMenu').and.callThrough();
+      spyOn(hamburgerMenuService, 'toggle').and.stub();
+      fixture.detectChanges();
+
+      element
+        .query(By.css('nav > ul > li:nth-child(2) > button'))
+        .nativeElement.click();
+      element
+        .query(By.css('button[aria-label="Child 1"]'))
+        .nativeElement.click();
+      element
+        .query(By.css('button[aria-label="Sub child 1"]'))
+        .nativeElement.click();
+
+      expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
+      expect(element.queryAll(By.css('li.is-opened')).length).toBe(2);
+
+      element
+        .query(By.css('cx-generic-link[ng-reflect-url="/sub-sub-child-1a"]'))
+        .nativeElement.click();
+      expect(
+        navigationComponent.closeIfClickedTheSameLink
+      ).toHaveBeenCalledWith({
+        title: 'Sub sub child 1a',
+        url: '/sub-sub-child-1a',
+      });
+      expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(0);
+      expect(element.queryAll(By.css('li.is-opened')).length).toBe(0);
+
+      expect(navigationComponent.reinitializeMenu).toHaveBeenCalledWith();
+      expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
     });
   });
 });

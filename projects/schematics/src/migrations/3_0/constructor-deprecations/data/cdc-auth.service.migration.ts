@@ -4,12 +4,14 @@ import {
   CDC_AUTH_SERVICE,
   GLOBAL_MESSAGE_SERVICE,
   NGRX_STORE,
-  SPARTACUS_CDC,
-  SPARTACUS_CORE,
   STORE,
   USER_ID_SERVICE,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CDC,
+  SPARTACUS_CORE,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CDC_AUTH_SERVICE_CONSTRUCTOR_MIGRATION: ConstructorDeprecation = {

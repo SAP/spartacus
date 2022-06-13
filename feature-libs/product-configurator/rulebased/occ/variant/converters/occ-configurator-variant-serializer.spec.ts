@@ -90,6 +90,7 @@ describe('OccConfiguratorVariantSerializer', () => {
   const targetOccConfiguration: OccConfigurator.Configuration = {
     complete: false,
     configId: '1234-56-7890',
+    rootProduct: 'A',
     groups: [
       {
         configurable: true,
@@ -493,5 +494,17 @@ describe('OccConfiguratorVariantSerializer', () => {
         Configurator.UiType.SINGLE_SELECTION_IMAGE
       )
     ).toBe(OccConfigurator.UiType.SINGLE_SELECTION_IMAGE);
+
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT
+      )
+    ).toBe(OccConfigurator.UiType.RADIO_BUTTON_ADDITIONAL_INPUT);
+
+    expect(
+      occConfiguratorVariantSerializer.convertCharacteristicType(
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT
+      )
+    ).toBe(OccConfigurator.UiType.DROPDOWN_ADDITIONAL_INPUT);
   });
 });

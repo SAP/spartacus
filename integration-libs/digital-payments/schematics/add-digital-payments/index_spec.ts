@@ -1,6 +1,5 @@
 /// <reference types="jest" />
 
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -11,23 +10,29 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_DIGITAL_PAYMENTS_FEATURE,
-  CLI_CHECKOUT_FEATURE,
-  LibraryOptions,
+  cartBaseFeatureModulePath,
+  checkoutWrapperModulePath,
+  CHECKOUT_BASE_FEATURE_NAME,
+  digitalPaymentsFeatureModulePath,
+  DIGITAL_PAYMENTS_FEATURE_NAME,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
+  orderFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_CHECKOUT,
+  SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/digital-payments/digital-payments-feature.module.ts';
 
 describe('Spartacus Digital-Payments schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_DIGITAL_PAYMENTS,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -58,9 +63,14 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
     features: [],
   };
 
+  const checkoutFeatureOptions: SpartacusDigitalPaymentsOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CHECKOUT_BASE_FEATURE_NAME],
+  };
+
   const digitalPaymentsFeatureOptions: SpartacusDigitalPaymentsOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_DIGITAL_PAYMENTS_FEATURE],
+    features: [DIGITAL_PAYMENTS_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -112,7 +122,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(digitalPaymentsFeatureModulePath)).toBeFalsy();
     });
   });
 
@@ -120,11 +130,14 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
+          .runSchematicAsync('ng-add', checkoutFeatureOptions, appTree)
+          .toPromise();
+        appTree = await schematicRunner
           .runSchematicAsync('ng-add', digitalPaymentsFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should install necessary Spartacus libraries', () => {
+      it('should install necessary Spartacus libraries', async () => {
         const packageJson = JSON.parse(appTree.readContent('package.json'));
         let dependencies: Record<string, string> = {};
         dependencies = { ...packageJson.dependencies };
@@ -142,40 +155,37 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
         }
       });
 
-      it('should run the proper installation tasks', async () => {
-        const tasks = schematicRunner.tasks
-          .filter((task) => task.name === 'run-schematic')
-          .map(
-            (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
-          );
-        expect(tasks.length).toEqual(2);
+      it('should NOT install the required feature dependencies', async () => {
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toBeFalsy();
 
-        const checkoutTask = tasks[0];
-        expect(checkoutTask).toBeTruthy();
-        expect(checkoutTask.name).toEqual('add-spartacus-library');
-        expect(checkoutTask.options).toHaveProperty(
-          'collection',
-          SPARTACUS_CHECKOUT
+        const cartFeatureModule = appTree.readContent(
+          cartBaseFeatureModulePath
         );
-        expect(checkoutTask.options.options?.features).toEqual([]);
+        expect(cartFeatureModule).toBeFalsy();
 
-        const checkoutTaskWithSubFeatures = tasks[1];
-        expect(checkoutTaskWithSubFeatures).toBeTruthy();
-        expect(checkoutTaskWithSubFeatures.name).toEqual(
-          'add-spartacus-library'
-        );
-        expect(checkoutTaskWithSubFeatures.options).toHaveProperty(
-          'collection',
-          SPARTACUS_CHECKOUT
-        );
-        expect(checkoutTaskWithSubFeatures.options.options?.features).toEqual([
-          CLI_CHECKOUT_FEATURE,
-        ]);
+        const orderFeatureModule = appTree.readContent(orderFeatureModulePath);
+        expect(orderFeatureModule).toBeFalsy();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(digitalPaymentsFeatureModulePath);
+        expect(module).toMatchSnapshot();
+
+        const wrapperModule = appTree.readContent(checkoutWrapperModulePath);
+        expect(wrapperModule).toMatchSnapshot();
       });
     });
 
     describe('eager loading', () => {
       beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...checkoutFeatureOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
@@ -186,8 +196,10 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(digitalPaymentsFeatureModulePath);
         expect(module).toMatchSnapshot();
+
+        expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
       });
     });
   });

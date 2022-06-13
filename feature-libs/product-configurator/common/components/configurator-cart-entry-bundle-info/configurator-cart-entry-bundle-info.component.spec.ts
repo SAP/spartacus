@@ -6,13 +6,14 @@ import {
   PipeTransform,
   Type,
 } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ControlContainer, FormControl } from '@angular/forms';
 import {
-  I18nTestingModule,
+  CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/core';
+} from '@spartacus/cart/base/root';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
@@ -20,8 +21,8 @@ import {
   ConfiguratorType,
   LineItem,
 } from '@spartacus/product-configurator/common';
-import { BreakpointService, CartItemContext } from '@spartacus/storefront';
-import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
+import { BreakpointService } from '@spartacus/storefront';
+import { BehaviorSubject, EMPTY, of, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
@@ -81,10 +82,10 @@ const entry: OrderEntry = {
 };
 
 function setConfiguratorTypeIntoFirstConfigInfo(
-  entry: OrderEntry,
+  orderEntry: OrderEntry,
   configuratorType: string
 ) {
-  const configInfos = entry.configurationInfos;
+  const configInfos = orderEntry.configurationInfos;
   if (configInfos && configInfos[0]) {
     configInfos[0].configuratorType = configuratorType;
   }
@@ -709,9 +710,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
         fixture.detectChanges();
 
-        const htmlElem = fixture.nativeElement;
+        const htmlElementAfterChanges = fixture.nativeElement;
         expect(
-          htmlElem.querySelectorAll('.cx-configure-cart-entry').length
+          htmlElementAfterChanges.querySelectorAll('.cx-configure-cart-entry')
+            .length
         ).toBe(0);
       });
 
@@ -720,9 +722,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
         fixture.detectChanges();
 
-        const htmlElem = fixture.nativeElement;
+        const htmlElementAfterChanges = fixture.nativeElement;
         expect(
-          htmlElem.querySelectorAll('cx-configure-cart-entry').length
+          htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
+            .length
         ).toBe(1);
       });
     });
@@ -755,7 +758,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleInfo_plural' if there are more than one line item", () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfo_other' if there are more than one line item", () => {
         let numberOfItems: number = 4;
         expect(
           component
@@ -970,5 +973,31 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         ).toBe(0);
       });
     });
+  });
+});
+
+describe('ConfiguratorCartEntryBundleInfoComponent without cart item context', () => {
+  let component: ConfiguratorCartEntryBundleInfoComponent;
+  let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
+
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [ConfiguratorCartEntryBundleInfoComponent],
+      }).compileComponents();
+    })
+  );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should contain empty observables for orderEntry, quantityControl and readOnly', () => {
+    expect(component).toBeTruthy();
+    expect(component.orderEntry$).toBe(EMPTY);
+    expect(component.quantityControl$).toBe(EMPTY);
+    expect(component.readonly$).toBe(EMPTY);
   });
 });

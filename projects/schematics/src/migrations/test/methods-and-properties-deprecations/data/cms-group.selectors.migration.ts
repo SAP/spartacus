@@ -7,9 +7,9 @@ import {
   GET_COMPONENTS_STATE_NEW_API,
   GET_COMPONENT_ENTITIES_OLD_API,
   GET_COMPONENT_STATE_OLD_API,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CMS_SELECTORS_MIGRATION: MethodPropertyDeprecation[] = [

@@ -7,12 +7,12 @@ import {
   OBJECT_TYPE,
   PLATFORM,
   PLATFORM_ID_STRING,
-  SERVER_REQUEST_URL_STRING,
   SERVER_REQUEST_ORIGIN_STRING,
-  SPARTACUS_CORE,
+  SERVER_REQUEST_URL_STRING,
   STRING_TYPE,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const WINDOW_REF_MIGRATION: ConstructorDeprecation = {

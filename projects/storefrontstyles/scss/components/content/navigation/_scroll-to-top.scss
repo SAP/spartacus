@@ -1,0 +1,47 @@
+%cx-scroll-to-top {
+  display: none;
+  height: 48px;
+  width: 48px;
+  position: fixed;
+  bottom: 80px;
+  inset-inline-end: 60px; /* evaluates to right in ltr and left in rtl */
+  z-index: 100;
+
+  &.display {
+    display: initial;
+    animation: popup 1s 1;
+  }
+
+  button {
+    height: inherit;
+    width: inherit;
+    font-size: 30px;
+    border-radius: 4px;
+    color: var(--cx-color-inverse);
+    background-color: var(--cx-color-secondary);
+    border: transparent;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px,
+      rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px,
+      rgba(0, 0, 0, 0.07) 0px 16px 16px;
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--cx-color-primary-accent);
+      }
+    }
+  }
+
+  @keyframes popup {
+    0% {
+      transform: translateY(100px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  // Compact styling
+  @include media-breakpoint-down(sm) {
+    inset-inline-end: 15px;
+  }
+}

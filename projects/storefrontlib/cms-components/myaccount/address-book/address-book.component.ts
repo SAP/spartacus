@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Address, TranslationService } from '@spartacus/core';
+import {
+  Address,
+  GlobalMessageService,
+  GlobalMessageType,
+  TranslationService,
+} from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';
@@ -17,11 +22,12 @@ export class AddressBookComponent implements OnInit {
 
   showAddAddressForm = false;
   showEditAddressForm = false;
-  editCard: string;
+  editCard: string | null;
 
   constructor(
     public service: AddressBookComponentService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -52,14 +58,16 @@ export class AddressBookComponent implements OnInit {
 
   editAddressSubmit(address: Address): void {
     this.showEditAddressForm = false;
-    this.service.updateUserAddress(this.currentAddress['id'], address);
+    if (address && this.currentAddress['id']) {
+      this.service.updateUserAddress(this.currentAddress['id'], address);
+    }
   }
 
   editAddressCancel(): void {
     this.showEditAddressForm = false;
   }
 
-  getCardContent(address: Address) {
+  getCardContent(address: Address): Observable<Card> {
     return combineLatest([
       this.translation.translate('addressCard.default'),
       this.translation.translate('addressCard.setAsDefault'),
@@ -89,25 +97,36 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textDelete, event: 'delete' });
 
           return {
+            role: 'region',
             textBold: address.firstName + ' ' + address.lastName,
             text: [
               address.line1,
               address.line2,
-              address.town + ', ' + region + address.country.isocode,
+              address.town + ', ' + region + address.country?.isocode,
               address.postalCode,
               address.phone,
             ],
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
             deleteMsg: textVerifyDeleteMsg,
-          };
+            label: address.defaultAddress
+              ? 'addressBook.defaultDeliveryAddress'
+              : 'addressBook.additionalDeliveryAddress',
+          } as Card;
         }
       )
     );
   }
 
-  setAddressAsDefault(addressId: string): void {
-    this.service.setAddressAsDefault(addressId);
+  setAddressAsDefault(address: Address): void {
+    this.service.setAddressAsDefault(address.id ?? '');
+    this.globalMessageService.add(
+      {
+        key: 'addressMessages.setAsDefaultSuccessfully',
+        params: { streetAddress: address.line1 },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   deleteAddress(addressId: string): void {

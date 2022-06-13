@@ -73,7 +73,7 @@ export class FacetComponent {
   }
 
   get isExpanded(): boolean {
-    return this.values.first.nativeElement.offsetParent !== null;
+    return this.values?.first?.nativeElement.offsetParent !== null;
   }
 
   openLink(event: KeyboardEvent) {
@@ -98,6 +98,6 @@ export class FacetComponent {
   }
 
   getLinkParams(value: FacetValue) {
-    return this.facetService.getLinkParams(value.query?.query.value);
+    return this.facetService.getLinkParams(value.query?.query?.value ?? '');
   }
 }

@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { ProductData } from '@spartacus/cart/base/root';
+import {
+  defaultImportExportConfig,
+  ImportExportConfig,
+} from '@spartacus/cart/import-export/core';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
   FilesFormValidators,
@@ -8,12 +12,8 @@ import {
   FormErrorsModule,
   ImportCsvFileService,
   LaunchDialogService,
-  ProductData,
 } from '@spartacus/storefront';
-import {
-  defaultImportExportConfig,
-  ImportExportConfig,
-} from '@spartacus/cart/import-export/core';
+import { Observable, of } from 'rxjs';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';
 import { ImportEntriesFormComponent } from './import-entries-form.component';
 

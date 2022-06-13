@@ -1,6 +1,6 @@
 import { Title } from '@spartacus/core';
 
-export const titleScores = {
+export const titleScores: { [code: string]: number } = {
   mr: 1,
   mrs: 2,
   miss: 3,
@@ -9,10 +9,13 @@ export const titleScores = {
   rev: 6,
 };
 
-export function sortTitles(title1: Title, title2: Title) {
-  if (!titleScores[title1.code] || !titleScores[title2.code]) {
-    return 1;
-  } else {
-    return titleScores[title1.code] - titleScores[title2.code];
+export function sortTitles(title1: Title, title2: Title): number {
+  if (title1.code && title2.code) {
+    if (!titleScores[title1.code] || !titleScores[title2.code]) {
+      return 1;
+    } else {
+      return titleScores[title1.code] - titleScores[title2.code];
+    }
   }
+  return 1;
 }

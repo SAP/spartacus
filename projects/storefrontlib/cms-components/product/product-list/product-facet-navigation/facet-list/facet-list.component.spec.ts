@@ -111,18 +111,6 @@ describe('FacetListComponent', () => {
     expect(element.queryAll(By.css('cx-facet')).length).toEqual(1);
   });
 
-  it('should emit expandFacetGroup when handling unlock', () => {
-    spyOn(component, 'expandFacetGroup').and.stub();
-    component.isDialog = true;
-    fixture.detectChanges();
-
-    const container = element.queryAll(By.css('cx-facet'));
-    (container[0].nativeElement as HTMLElement).dispatchEvent(
-      new Event('unlock')
-    );
-    expect(component.expandFacetGroup).toHaveBeenCalled();
-  });
-
   describe('dialog', () => {
     it('should add modal class to body element', () => {
       spyOn(renderer, 'addClass').and.stub();

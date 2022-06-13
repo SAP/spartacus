@@ -21,7 +21,7 @@ import {
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
-
+const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
@@ -142,40 +142,40 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     values = [
       createValue('', [], '', 1, true, '0', 'No Selected'),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        'Hih',
         [createImage('url', 'alt')],
         'valueName',
         1,
         true,
         '1111',
-        'Lorem Ipsum Dolor'
+        VALUE_DISPLAY_NAME
       ),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        'Huh',
         [createImage('url', 'alt')],
         'valueName',
         1,
         false,
         '2222',
-        'Lorem Ipsum Dolor'
+        VALUE_DISPLAY_NAME
       ),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        'Hah',
         [createImage('url', 'alt')],
         'valueName',
         1,
         false,
         '3333',
-        'Lorem Ipsum Dolor'
+        VALUE_DISPLAY_NAME
       ),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        'Heh',
         [createImage('url', 'alt')],
         'valueName',
         1,
         false,
         '4444',
-        'Lorem Ipsum Dolor'
+        VALUE_DISPLAY_NAME
       ),
     ];
 
@@ -185,6 +185,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     component.selectionValue = values[0];
 
     component.attribute = {
+      label: 'Label of attribute',
       uiType: Configurator.UiType.DROPDOWN_PRODUCT,
       attrCode,
       groupId,
@@ -249,12 +250,56 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       checkQuantityStepperNotDisplayed(htmlElem);
     });
 
-    function checkQuantityStepperNotDisplayed(htmlElem: HTMLElement) {
+    function checkQuantityStepperNotDisplayed(htmlEl: HTMLElement) {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
-        htmlElem,
+        htmlEl,
         'cx-configurator-attribute-quantity'
       );
     }
+
+    describe('Accessibility', () => {
+      it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'label',
+          'cx-visually-hidden',
+          0,
+          undefined,
+          undefined,
+          'configurator.a11y.listbox count:' +
+            component.attribute.values?.length
+        );
+      });
+
+      it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'select',
+          'form-control',
+          0,
+          'aria-describedby',
+          'cx-configurator--label--nameAttribute'
+        );
+      });
+
+      it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'option',
+          undefined,
+          1,
+          'aria-label',
+          'configurator.a11y.selectedValueOfAttributeFull attribute:' +
+            component.attribute.label +
+            ' value:' +
+            VALUE_DISPLAY_NAME,
+          VALUE_DISPLAY_NAME
+        );
+      });
+    });
   });
 });
