@@ -33,7 +33,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.activeCartFacade.getActiveCartId().subscribe((response) => {
+      this.activeCartFacade.getActiveCartId().subscribe((response: string) => {
         if (response) {
           this.cartId.setValue(response);
         }
