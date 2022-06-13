@@ -23,6 +23,9 @@
       "@spartacus/schematics": ["../../projects/schematics/index"]
     }
   },
-  "include": ["schematics/**/*.ts"],
-  "exclude": ["schematics/*/files/**/*", "schematics/**/*_spec.ts"]
+  "include": ["../../projects/schematics/**/*.ts"],
+  "exclude": [
+    "../../projects/schematics/*/files/**/*",
+    "../../projects/schematics/**/*_spec.ts"
+  ]
 }
