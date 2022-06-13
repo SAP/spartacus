@@ -1,6 +1,11 @@
 <ng-container *ngIf="orderApprovals$ | async as orderApprovals">
   <ng-container
-    *ngIf="orderApprovals.pagination.totalResults > 0; else noOrder"
+    *ngIf="
+      orderApprovals.pagination &&
+        orderApprovals.pagination.totalResults !== undefined &&
+        orderApprovals.pagination.totalResults > 0;
+      else noOrder
+    "
   >
     <!-- Select Form and Pagination Top -->
     <div class="cx-order-approval-sort top row">
