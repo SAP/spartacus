@@ -10,6 +10,7 @@ import {
   PasswordVisibilityToggleModule,
   PopoverModule,
 } from '@spartacus/storefront';
+import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -40,6 +41,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     FormatTimerPipe,
     CustomerEmulationComponent,
     AsmToggleUiComponent,
+    AsmBindCartComponent,
   ],
   exports: [
     AsmMainUiComponent,
@@ -49,6 +51,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     FormatTimerPipe,
     CustomerEmulationComponent,
     AsmToggleUiComponent,
+    AsmBindCartComponent,
   ],
   providers: [provideConfig(defaultAsmLayoutConfig)],
 })

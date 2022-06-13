@@ -4,10 +4,11 @@
 @import './_csagent-login-form.component.scss';
 @import './_customer-emulation.component.scss';
 @import './_customer-selection.component.scss';
+@import './_asm-bind-cart.component.scss';
 
 $asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
-  cx-asm-toggle-ui, cx-csagent-login-form, cx-customer-emulation,
-  cx-customer-selection !default;
+  cx-asm-bind-cart, cx-asm-toggle-ui, cx-csagent-login-form,
+  cx-customer-emulation, cx-customer-selection !default;
 
 $skipComponentStyles: () !default;
 
