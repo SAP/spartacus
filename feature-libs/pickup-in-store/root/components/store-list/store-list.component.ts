@@ -5,6 +5,7 @@ import {
   StoreFinderService,
 } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
+import { PickupInStoreFacade } from '../../facade';
 
 @Component({
   selector: 'cx-store-list',
@@ -25,9 +26,14 @@ export class StoreListComponent implements OnInit {
     return this._storeSearch;
   }
 
-  constructor(private readonly storeFinderService: StoreFinderService) {}
+  constructor(
+    private readonly storeFinderService: StoreFinderService,
+    private readonly pickupInStoreService: PickupInStoreFacade
+  ) {}
 
   ngOnInit() {
+    this.pickupInStoreService.getStore();
+
     this.locations$ = this.storeFinderService.getFindStoresEntities();
     this.isLoading$ = this.storeFinderService.getStoresLoading();
 
