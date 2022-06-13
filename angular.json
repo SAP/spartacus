@@ -74,6 +74,10 @@
                 "bundleName": "order"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-commerce-quotes.scss",
+                "bundleName": "commerce-quotes"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
                 "bundleName": "epd-visualization"
               }

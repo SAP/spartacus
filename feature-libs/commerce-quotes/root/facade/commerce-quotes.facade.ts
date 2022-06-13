@@ -15,6 +15,18 @@ import { QuoteList } from '../model/commerce-quotes.model';
 })
 export abstract class CommerceQuotesFacade {
   /**
+   * Set Qoery List current page
+   * @param page number
+   */
+  abstract setCurrentPage(page: number): void;
+
+  /**
+   * Set Query List orting key
+   * @param sort string
+   */
+  abstract setSort(sort: string): void;
+
+  /**
    * Returns the query list state.
    */
   abstract getQuotesState(): Observable<QueryState<QuoteList | undefined>>;
