@@ -1,24 +1,22 @@
 import { NgModule } from '@angular/core';
-import {
-  PickupDeliveryOptionsDialogModule,
-  PickupDeliveryOptionsModule,
-} from '../components';
+import { PickupDeliveryOptionDialogModule } from './pickup-delivery-option-dialog';
+import { PickupDeliveryOptionsModule } from './pickup-delivery-options';
 import { StoreListModule } from './store-list';
 import { StoreSearchModule } from './store-search/store-search.module';
 
 @NgModule({
   imports: [
+    PickupDeliveryOptionDialogModule,
     PickupDeliveryOptionsModule,
-    PickupDeliveryOptionsDialogModule,
     StoreListModule,
     StoreSearchModule,
   ],
   exports: [
+    PickupDeliveryOptionDialogModule,
     PickupDeliveryOptionsModule,
-    PickupDeliveryOptionsDialogModule,
     StoreListModule,
     StoreSearchModule,
   ],
-  declarations: [],
+  providers: [],
 })
 export class PickupInStoreComponentsModule {}

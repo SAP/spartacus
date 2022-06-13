@@ -1,5 +1,5 @@
+import { PickupDeliveryOptionDialogComponent } from '@spartacus/pickup-in-store/components';
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
-import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
 
 export const defaultPickupOptionsDialogLayoutConfig: LayoutConfig = {
   launch: {

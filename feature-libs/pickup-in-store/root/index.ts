@@ -1,5 +1,4 @@
-export * from './components/index';
-export * from './facade/index';
+export * from './facade';
 export * from './feature-name';
-export * from './models/index';
+export * from './models';
 export * from './pickup-in-store-root.module';

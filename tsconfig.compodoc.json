@@ -187,12 +187,13 @@
       "@spartacus/pickup-in-store/assets": [
         "feature-libs/pickup-in-store/assets/public_api"
       ],
+      "@spartacus/pickup-in-store/components": [
+        "feature-libs/pickup-in-store/components/public_api"
+      ],
       "@spartacus/pickup-in-store/core": [
         "feature-libs/pickup-in-store/core/public_api"
       ],
-      "@spartacus/pickup-in-store": [
-        "feature-libs/pickup-in-store/public_api"
-      ],
+      "@spartacus/pickup-in-store": ["feature-libs/pickup-in-store/public_api"],
       "@spartacus/pickup-in-store/root": [
         "feature-libs/pickup-in-store/root/public_api"
       ],

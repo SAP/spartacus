@@ -11,4 +11,4 @@ import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-di
   declarations: [PickupDeliveryOptionDialogComponent],
   exports: [PickupDeliveryOptionDialogComponent],
 })
-export class PickupDeliveryOptionsDialogModule {}
+export class PickupDeliveryOptionDialogModule {}
