@@ -1,18 +1,30 @@
 import { TestBed } from '@angular/core/testing';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import {
+  createFrom,
+  CurrencySetEvent,
   CxEvent,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  LanguageSetEvent,
+  LoadUserPaymentMethodsEvent,
+  OCC_USER_ID_ANONYMOUS,
 } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CheckoutPaymentEventListener } from './checkout-payment-event.listener';
 import {
+  CheckoutPaymentCardTypesQueryReloadEvent,
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
+
+const mockPaymentInfo: PaymentDetails = {
+  id: 'mockPaymentId',
+};
+const mockUserId = 'test-user-id';
 
 const mockEventStream$ = new Subject<CxEvent>();
 
@@ -49,34 +61,93 @@ describe(`CheckoutPaymentEventListener`, () => {
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
-  describe(`onPaymentChange`, () => {
-    it(`should dispatch CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new CheckoutPaymentDetailsCreatedEvent());
+  describe(`onPaymentCreated`, () => {
+    describe(`when user is NOT anonymous`, () => {
+      beforeEach(() => {
+        mockEventStream$.next(
+          createFrom(CheckoutPaymentDetailsCreatedEvent, {
+            userId: mockUserId,
+            paymentDetails: mockPaymentInfo,
+          })
+        );
+      });
 
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetQueryEvent
-      );
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutQueryResetEvent `, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          CheckoutQueryResetEvent
+        );
+      });
+
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch LoadUserPaymentMethodsEvent`, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          { userId: mockUserId },
+          LoadUserPaymentMethodsEvent
+        );
+      });
     });
 
-    it(`CheckoutPaymentDetailsSetEvent should dispatch CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new CheckoutPaymentDetailsSetEvent());
+    describe(`when user is anonymous`, () => {
+      beforeEach(() => {
+        mockEventStream$.next(
+          createFrom(CheckoutPaymentDetailsCreatedEvent, {
+            userId: OCC_USER_ID_ANONYMOUS,
+            paymentDetails: mockPaymentInfo,
+          })
+        );
+      });
 
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetQueryEvent
-      );
-    });
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch CheckoutQueryResetEvent `, () => {
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          CheckoutQueryResetEvent
+        );
+      });
 
-    describe(`global message`, () => {
+      it(`CheckoutPaymentDetailsCreatedEvent should dispatch LoadUserPaymentMethodsEvent`, () => {
+        expect(eventService.dispatch).not.toHaveBeenCalledWith(
+          { userId: OCC_USER_ID_ANONYMOUS },
+          LoadUserPaymentMethodsEvent
+        );
+      });
+
       it(`CheckoutPaymentDetailsCreatedEvent should add a global message`, () => {
-        mockEventStream$.next(new CheckoutPaymentDetailsCreatedEvent());
-
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'paymentForm.paymentAddedSuccessfully' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
       });
+    });
+  });
+
+  describe(`onPaymentSet`, () => {
+    it(`CheckoutPaymentDetailsSetEvent should dispatch CheckoutQueryResetEvent`, () => {
+      mockEventStream$.next(new CheckoutPaymentDetailsSetEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutQueryResetEvent
+      );
+    });
+  });
+
+  describe(`onGetCardTypesQueryReload`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutPaymentCardTypesQueryReloadEvent()`, () => {
+      mockEventStream$.next(new LanguageSetEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutPaymentCardTypesQueryReloadEvent
+      );
+    });
+
+    it(`LanguageSetEvent should dispatch CheckoutPaymentCardTypesQueryReloadEvent()`, () => {
+      mockEventStream$.next(new CurrencySetEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutPaymentCardTypesQueryReloadEvent
+      );
     });
   });
 });

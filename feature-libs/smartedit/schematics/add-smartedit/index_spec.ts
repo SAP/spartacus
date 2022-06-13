@@ -10,20 +10,23 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_SMARTEDIT_FEATURE,
+  smartEditFeatureModulePath,
+  SMARTEDIT_FEATURE_NAME,
   SpartacusOptions,
+  SpartacusSmartEditOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_SMARTEDIT,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
-import { Schema as SpartacusSmartEditOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/smartedit/smart-edit-feature.module.ts';
 
 describe('Spartacus SmartEdit schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_SMARTEDIT,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -56,7 +59,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
 
   const smarteditFeatureOptions: SpartacusSmartEditOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_SMARTEDIT_FEATURE],
+    features: [SMARTEDIT_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -98,7 +101,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(smartEditFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -136,7 +139,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(smartEditFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -160,7 +163,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(smartEditFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
@@ -180,7 +183,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
 
       it('should configure the storefrontPreviewRoute', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(smartEditFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
@@ -200,7 +203,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
 
       it('should configure the allowOrigin', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(smartEditFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
