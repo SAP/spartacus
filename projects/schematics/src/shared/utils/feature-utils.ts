@@ -159,12 +159,12 @@ function analyzeWrappers<OPTIONS extends LibraryOptions>(
   schematicsConfiguration: SchematicConfig,
   options: OPTIONS
 ): WrapperAnalysisResult[] {
-  if (schematicsConfiguration.importAfter?.length === 0) {
+  if (!schematicsConfiguration.importAfter?.length) {
     return [];
   }
 
   const result: WrapperAnalysisResult[] = [];
-  for (const importAfterConfig of schematicsConfiguration.importAfter ?? []) {
+  for (const importAfterConfig of schematicsConfiguration.importAfter) {
     const wrapperOptions: SpartacusWrapperOptions = {
       scope: options.scope,
       interactive: options.interactive,
@@ -310,7 +310,7 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
     for (const targetFeature of options.features ?? []) {
       const targetFeatureConfig =
         getSchematicsConfigByFeatureOrThrow(targetFeature);
-      if (targetFeatureConfig.importAfter?.length === 0) {
+      if (!targetFeatureConfig.importAfter?.length) {
         continue;
       }
 
