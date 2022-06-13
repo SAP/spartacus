@@ -159,29 +159,23 @@ function analyzeWrappers<OPTIONS extends LibraryOptions>(
   schematicsConfiguration: SchematicConfig,
   options: OPTIONS
 ): WrapperAnalysisResult[] {
-  if (!schematicsConfiguration.importAfter) {
+  if (schematicsConfiguration.importAfter?.length === 0) {
     return [];
   }
 
   const result: WrapperAnalysisResult[] = [];
-  for (const markerModuleName in schematicsConfiguration.importAfter) {
-    if (!schematicsConfiguration.importAfter.hasOwnProperty(markerModuleName)) {
-      continue;
-    }
-
-    const featureModuleName =
-      schematicsConfiguration.importAfter[markerModuleName];
+  for (const importAfterConfig of schematicsConfiguration.importAfter ?? []) {
     const wrapperOptions: SpartacusWrapperOptions = {
       scope: options.scope,
       interactive: options.interactive,
       project: options.project,
-      markerModuleName,
-      featureModuleName,
+      markerModuleName: importAfterConfig.markerModuleName,
+      featureModuleName: importAfterConfig.featureModuleName,
       debug: options.debug,
     };
 
     const analysis: WrapperAnalysisResult = {
-      markerModuleName,
+      markerModuleName: importAfterConfig.markerModuleName,
       wrapperOptions,
     };
     result.push(analysis);
@@ -316,7 +310,7 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
     for (const targetFeature of options.features ?? []) {
       const targetFeatureConfig =
         getSchematicsConfigByFeatureOrThrow(targetFeature);
-      if (!targetFeatureConfig.importAfter) {
+      if (targetFeatureConfig.importAfter?.length === 0) {
         continue;
       }
 

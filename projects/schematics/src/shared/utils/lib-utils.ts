@@ -169,11 +169,8 @@ export interface SchematicConfig {
   dependencyFeatures?: Record<string, string[]>;
   /**
    * Configuration for generating the wrapper modules.
-   *
-   * The key is a "marker module", i.e. a module name for which to search for.
-   * The value is the feature module name which should be imported after the "marker" module.
    */
-  importAfter?: Record<string, string>;
+  importAfter?: { markerModuleName: string; featureModuleName: string }[];
 }
 
 export interface Module {

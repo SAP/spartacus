@@ -34,7 +34,10 @@ export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: SchematicConfig = {
   dependencyFeatures: {
     [SPARTACUS_CHECKOUT]: [CHECKOUT_BASE_FEATURE_NAME],
   },
-  importAfter: {
-    [CHECKOUT_BASE_MODULE]: DIGITAL_PAYMENTS_MODULE,
-  },
+  importAfter: [
+    {
+      markerModuleName: CHECKOUT_BASE_MODULE,
+      featureModuleName: DIGITAL_PAYMENTS_MODULE,
+    },
+  ],
 };

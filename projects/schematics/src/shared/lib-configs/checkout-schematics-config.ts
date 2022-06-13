@@ -98,9 +98,12 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: SchematicConfig = {
     [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
     [SPARTACUS_CHECKOUT]: [CHECKOUT_BASE_FEATURE_NAME],
   },
-  importAfter: {
-    [CHECKOUT_BASE_MODULE]: CHECKOUT_B2B_MODULE,
-  },
+  importAfter: [
+    {
+      markerModuleName: CHECKOUT_BASE_MODULE,
+      featureModuleName: CHECKOUT_B2B_MODULE,
+    },
+  ],
 };
 
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE =
@@ -143,7 +146,10 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: SchematicConfig
       [SPARTACUS_ORDER]: [ORDER_FEATURE_NAME],
       [SPARTACUS_CHECKOUT]: [CHECKOUT_B2B_FEATURE_NAME],
     },
-    importAfter: {
-      [CHECKOUT_BASE_MODULE]: CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
-    },
+    importAfter: [
+      {
+        markerModuleName: CHECKOUT_BASE_MODULE,
+        featureModuleName: CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
+      },
+    ],
   };
