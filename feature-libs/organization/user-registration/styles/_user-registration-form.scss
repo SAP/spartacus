@@ -3,7 +3,10 @@
 
 .cx-organization-user-register-button {
   a {
-    @extend .btn, .btn-block, .btn-secondary;
+    @extend .btn, .btn-link, .btn-secondary;
+    &:focus {
+      @include visible-focus();
+    }
   }
 }
 .santorini .cx-organization-user-register-button {
@@ -14,7 +17,6 @@
     line-height: var(--cx-line-height, 1.2222222222);
   }
 }
-
 cx-user-registration-form {
   form {
     width: 50%;

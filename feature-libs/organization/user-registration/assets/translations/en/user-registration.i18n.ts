@@ -1,7 +1,7 @@
 export const userRegistrationForm = {
   fields: {
     titleCode: {
-      label: 'Title',
+      label: 'Title (optional)',
       placeholder: 'Title',
     },
     firstName: {
@@ -17,35 +17,35 @@ export const userRegistrationForm = {
       placeholder: 'E-mail',
     },
     city: {
-      label: 'City/Town',
+      label: 'City/Town (optional)',
       placeholder: 'Please select City/Town',
     },
     country: {
-      label: 'Country',
+      label: 'Country (optional)',
       placeholder: 'Select Country',
     },
     state: {
-      label: 'State/Province',
+      label: 'State/Province (optional)',
       placeholder: 'Select State/Province',
     },
     postalCode: {
-      label: 'Zip/Postal code',
+      label: 'Zip/Postal code (optional)',
       placeholder: 'Zip/Postal code',
     },
     addressLine: {
-      label: 'Address',
+      label: 'Address (optional)',
       placeholder: 'Address',
     },
     secondAddressLine: {
-      label: 'Address line 2',
+      label: 'Address line 2 (optional)',
       placeholder: 'Address line 2',
     },
     phoneNumber: {
-      label: 'Phone number',
+      label: 'Phone number (optional)',
       placeholder: 'Phone number',
     },
     message: {
-      label: 'Message',
+      label: 'Message (optional)',
       placeholder: `An example data for the message field: "Department: Ground support; Position: Chief safe guard; Report to: Steve Jackson; Comments: Please create new account for me".`,
     },
   },
@@ -56,6 +56,9 @@ export const userRegistrationForm = {
     'Thank you for registering! A representative will contact you shortly and confirm your access information.',
   formSubmitButtonLabel: 'Register',
   goToLoginButtonLabel: 'Already registered? Go to Sign in',
+  httpHandlers: {
+    conflict: 'User with this e-mail address already exists.',
+  },
 };
 
 export const userRegistration = {
