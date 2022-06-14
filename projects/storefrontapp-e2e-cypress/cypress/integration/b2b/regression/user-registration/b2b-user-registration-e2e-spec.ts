@@ -73,7 +73,9 @@ context('B2B - User Registration', () => {
 
           fillOrganizationUserRegistrationForm(user);
           submitOrganizationUserRegistrationForm();
-          verifyGlobalMessageAfterRegistration('Already exists.');
+          verifyGlobalMessageAfterRegistration(
+            'User with this e-mail address already exists.'
+          );
         });
       });
     });
