@@ -75,7 +75,10 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, KeyboardFocusTestingModule],
-        declarations: [ReplenishmentOrderCancellationDialogComponent, MockCxIconComponent,],
+        declarations: [
+          ReplenishmentOrderCancellationDialogComponent,
+          MockCxIconComponent,
+        ],
         providers: [
           {
             provide: ReplenishmentOrderHistoryFacade,
@@ -179,8 +182,6 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   it('should be able to close dialog', () => {
     spyOn(launchDialogService, 'closeDialog').and.stub();
     el.query(By.css('.close')).nativeElement.click();
-    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      'Cross click'
-    );
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith('Cross click');
   });
 });
