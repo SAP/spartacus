@@ -45,7 +45,11 @@ export class BadCostCenterRequestHandler extends HttpErrorHandler {
   }
 
   private isCostCenterRequest(errorResponse: HttpErrorResponse): boolean {
-    const url = new URL(errorResponse.url);
-    return url.pathname.endsWith('costcenter') && new URLSearchParams(url.search).has('costCenterId');
+    if (errorResponse?.url) {
+      const url = new URL(errorResponse.url);
+      return url.pathname.endsWith('costcenter') && new URLSearchParams(url.search).has('costCenterId');
+    }
+
+    return false;
   }
 }
