@@ -18,10 +18,6 @@ class MockAuthService implements Partial<AuthService> {
   coreLogout() {
     return Promise.resolve();
   }
-
-  isUserLoggedIn(): Observable<boolean> {
-    return of(true);
-  }
 }
 
 const gigya = {
