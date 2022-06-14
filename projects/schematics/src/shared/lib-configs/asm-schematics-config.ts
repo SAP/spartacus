@@ -3,7 +3,6 @@ import {
   SPARTACUS_ASM,
   SPARTACUS_ASM_ASSETS,
   SPARTACUS_ASM_ROOT,
-  SPARTACUS_USER,
   USER_PROFILE_FEATURE_NAME,
 } from '../libs-constants';
 import { SchematicConfig } from '../utils/lib-utils';
@@ -46,7 +45,5 @@ export const ASM_SCHEMATICS_CONFIG: SchematicConfig = {
     chunks: ASM_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_ASM_ASSETS,
   },
-  dependencyFeatures: {
-    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
-  },
+  dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
 };
