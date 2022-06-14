@@ -3,7 +3,6 @@ import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
 import {
   StoreEntities,
   StoreFinderSearchQuery,
-  StoreFinderService,
 } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
 
@@ -19,7 +18,7 @@ export class StoreListComponent implements OnInit {
   @Input() set storeSearch(storeFinderSearchQuery: StoreFinderSearchQuery) {
     this._storeSearch = storeFinderSearchQuery;
     if (this._storeSearch) {
-      this.findStores(this._storeSearch);
+      // this.findStores(this._storeSearch);
     }
   }
   get storeSearch(): StoreFinderSearchQuery {
@@ -27,35 +26,37 @@ export class StoreListComponent implements OnInit {
   }
 
   constructor(
-    private readonly storeFinderService: StoreFinderService,
+    // private readonly storeFinderService: StoreFinderService,
     private readonly pickupInStoreService: PickupInStoreFacade
   ) {}
 
   ngOnInit() {
+    console.log('StoreListComponent.ngOnInit');
     this.pickupInStoreService.getStore();
+    console.log('StoreListComponent.ngOnInit done');
 
-    this.locations$ = this.storeFinderService.getFindStoresEntities();
-    this.isLoading$ = this.storeFinderService.getStoresLoading();
+    //   this.locations$ = this.storeFinderService.getFindStoresEntities();
+    //   this.isLoading$ = this.storeFinderService.getStoresLoading();
 
-    // just whilst developing
-    this.storeFinderService.findStoresAction(
-      '',
-      {},
-      undefined,
-      undefined,
-      true,
-      50000
-    );
-  }
+    //   // just whilst developing
+    //   this.storeFinderService.findStoresAction(
+    //     '',
+    //     {},
+    //     undefined,
+    //     undefined,
+    //     true,
+    //     50000
+    //   );
+    // }
 
-  findStores(storeFinderSearchQuery: StoreFinderSearchQuery): void {
-    this.storeFinderService.findStoresAction(
-      storeFinderSearchQuery?.queryText ?? '',
-      {},
-      undefined,
-      undefined,
-      !!storeFinderSearchQuery?.useMyLocation,
-      50000
-    );
+    // findStores(storeFinderSearchQuery: StoreFinderSearchQuery): void {
+    //   this.storeFinderService.findStoresAction(
+    //     storeFinderSearchQuery?.queryText ?? '',
+    //     {},
+    //     undefined,
+    //     undefined,
+    //     !!storeFinderSearchQuery?.useMyLocation,
+    //     50000
+    //   );
   }
 }

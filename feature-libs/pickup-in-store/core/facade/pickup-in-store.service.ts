@@ -8,6 +8,7 @@ export class PickupInStoreService implements PickupInStoreFacade {
   constructor(protected store: Store<StateWithStock>) {}
 
   getStore(): void {
+    console.log('PickupInStoreService.getStore');
     this.store.dispatch(
       new StockActions.StockLevel({
         productCode: '300310300',
@@ -15,5 +16,6 @@ export class PickupInStoreService implements PickupInStoreFacade {
         longitude: 0,
       })
     );
+    console.log('PickupInStoreService.getStore done');
   }
 }

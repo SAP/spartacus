@@ -11,6 +11,7 @@ export class StockConnector {
     productCode: string,
     location: { latitude?: number; longitude?: number; location?: string }
   ): Observable<any> {
+    console.log('StockConnector.loadStockLevels');
     return this.adapter.loadStockLevels(productCode, location);
   }
 }
