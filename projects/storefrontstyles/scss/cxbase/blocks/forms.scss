@@ -147,6 +147,10 @@ legend {
       &:hover {
         color: var(--cx-color-primary);
       }
+
+      @include media-breakpoint-down(sm) {
+        display: inline;
+      }
     }
 
     &::after {
