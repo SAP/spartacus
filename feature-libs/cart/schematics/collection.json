@@ -9,12 +9,6 @@
       "hidden": true,
       "aliases": ["install"]
     },
-    "add-spartacus-library": {
-      "description": "Install a spartacus library",
-      "factory": "./add-library/index#addSpartacusLibrary",
-      "private": true,
-      "hidden": true
-    },
     "add": {
       "factory": "./add-cart/index#addCartFeatures",
       "description": "Add and configure Spartacus' Cart library",

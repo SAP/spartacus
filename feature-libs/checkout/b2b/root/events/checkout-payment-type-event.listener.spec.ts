@@ -1,11 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  CheckoutResetDeliveryModesEvent,
-  CheckoutResetQueryEvent,
+  CheckoutQueryResetEvent,
+  CheckoutSupportedDeliveryModesQueryResetEvent,
 } from '@spartacus/checkout/base/root';
-import { createFrom, CxEvent, EventService } from '@spartacus/core';
+import {
+  createFrom,
+  CurrencySetEvent,
+  CxEvent,
+  EventService,
+  LanguageSetEvent,
+  LoginEvent,
+  LogoutEvent,
+} from '@spartacus/core';
 import { Subject } from 'rxjs';
-import { PaymentTypeSetEvent } from './checkout-b2b.events';
+import {
+  CheckoutPaymentTypeSetEvent,
+  CheckoutPaymentTypesQueryReloadEvent,
+  CheckoutPaymentTypesQueryResetEvent,
+} from './checkout-b2b.events';
 import { CheckoutPaymentTypeEventListener } from './checkout-payment-type-event.listener';
 import createSpy = jasmine.createSpy;
 
@@ -36,28 +48,68 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
     eventService = TestBed.inject(EventService);
   });
 
-  describe(`onPaymentTypeChange`, () => {
-    it(`should dispatch CheckoutResetDeliveryModesEvent`, () => {
+  describe(`onPaymentTypeSet`, () => {
+    beforeEach(() => {
       mockEventStream$.next(
-        createFrom(PaymentTypeSetEvent, {
+        createFrom(CheckoutPaymentTypeSetEvent, {
           userId: mockUserId,
           cartId: mockCartId,
           paymentTypeCode: 'test-type-code',
         })
       );
+    });
 
+    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutSupportedDeliveryModesQueryResetEvent`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
-        CheckoutResetDeliveryModesEvent
+        CheckoutSupportedDeliveryModesQueryResetEvent
       );
     });
 
-    it(`should dispatch CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new PaymentTypeSetEvent());
+    it(`CheckoutPaymentTypeSetEvent should dispatch CheckoutQueryResetEvent`, () => {
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutQueryResetEvent
+      );
+    });
+  });
+
+  describe(`onGetPaymentTypesQueryReload`, () => {
+    it(`LanguageSetEvent should dispatch CheckoutPaymentTypesQueryReloadEvent()`, () => {
+      mockEventStream$.next(new LanguageSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetQueryEvent
+        CheckoutPaymentTypesQueryReloadEvent
+      );
+    });
+
+    it(`LanguageSetEvent should dispatch CheckoutPaymentTypesQueryReloadEvent()`, () => {
+      mockEventStream$.next(new CurrencySetEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutPaymentTypesQueryReloadEvent
+      );
+    });
+  });
+
+  describe(`onGetPaymentTypesQueryReset`, () => {
+    it(`LogoutEvent should dispatch CheckoutPaymentTypesQueryResetEvent()`, () => {
+      mockEventStream$.next(new LogoutEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutPaymentTypesQueryResetEvent
+      );
+    });
+
+    it(`LoginEvent should dispatch CheckoutPaymentTypesQueryResetEvent()`, () => {
+      mockEventStream$.next(new LoginEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutPaymentTypesQueryResetEvent
       );
     });
   });
