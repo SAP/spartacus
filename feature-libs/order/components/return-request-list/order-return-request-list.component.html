@@ -4,13 +4,8 @@
     <div class="cx-order-history-body">
       <ng-container *ngIf="returnRequests.pagination.totalResults > 0">
         <!-- Select Form and Pagination Top -->
-        <div class="cx-order-history-sort top row">
-          <label
-            class="
-              cx-order-history-form-group
-              form-group
-              col-sm-12 col-md-4 col-lg-4
-            "
+        <div class="cx-order-history-sort top">
+          <label class="cx-order-history-form-group form-group"
             ><span>{{ 'returnRequestList.sortBy' | cxTranslate }}</span>
             <cx-sorting
               [sortOptions]="returnRequests.sorts"
@@ -43,7 +38,7 @@
           <tbody>
             <tr *ngFor="let return of returnRequests.returnRequests">
               <td class="cx-order-history-code">
-                <div class="d-md-none cx-order-history-label">
+                <div class="cx-order-history-label">
                   {{ 'returnRequestList.returnRequestId' | cxTranslate }}
                 </div>
                 <a
@@ -59,7 +54,7 @@
                 >
               </td>
               <td class="cx-order-history-code">
-                <div class="d-md-none cx-order-history-label">
+                <div class="cx-order-history-label">
                   {{ 'returnRequestList.orderId' | cxTranslate }}
                 </div>
                 <a
@@ -76,13 +71,13 @@
               </td>
 
               <td class="cx-order-history-placed">
-                <div class="d-md-none cx-order-history-label">
+                <div class="cx-order-history-label">
                   {{ 'returnRequestList.date' | cxTranslate }}
                 </div>
                 {{ return?.creationTime | cxDate: 'longDate' }}
               </td>
               <td class="cx-order-history-status">
-                <div class="d-md-none cx-order-history-label">
+                <div class="cx-order-history-label">
                   {{ 'returnRequestList.status' | cxTranslate }}
                 </div>
                 {{
@@ -94,13 +89,8 @@
           </tbody>
         </table>
         <!-- Select Form and Pagination Bottom -->
-        <div class="cx-order-history-sort bottom row">
-          <label
-            class="
-              cx-order-history-form-group
-              form-group
-              col-sm-12 col-md-4 col-lg-4
-            "
+        <div class="cx-order-history-sort bottom">
+          <label class="cx-order-history-form-group form-group"
             ><span>{{ 'returnRequestList.sortBy' | cxTranslate }}</span>
             <cx-sorting
               [sortOptions]="returnRequests.sorts"

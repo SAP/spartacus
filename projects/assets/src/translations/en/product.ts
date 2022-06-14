@@ -17,6 +17,8 @@ export const product = {
       label: 'Filter by',
       action: 'Filter by',
     },
+    activeFilter:
+      '{{filter}} filter, clicking on this button will remove the filter',
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
@@ -91,6 +93,8 @@ export const product = {
     selectStyleAndSize: 'Select style and size to check stock',
     removeFromCart: 'Remove Product from Cart',
     closeModal: 'Close Modal',
+    buyItAgain: 'Buy It Again',
+    addToActiveCart: 'Add To Active Cart',
   },
   TabPanelContainer: {
     tabs: {

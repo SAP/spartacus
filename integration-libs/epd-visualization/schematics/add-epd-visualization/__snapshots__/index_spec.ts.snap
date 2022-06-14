@@ -153,7 +153,12 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/epd-visualization.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -222,7 +227,12 @@ exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/epd-visualization.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }

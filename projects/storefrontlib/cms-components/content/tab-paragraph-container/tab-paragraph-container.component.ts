@@ -23,7 +23,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/index';
 })
 export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   activeTabNum = 0;
-  ariaLabel?: string;
+  ariaLabel: string;
 
   @ViewChildren(ComponentWrapperDirective)
   children!: QueryList<ComponentWrapperDirective>;
