@@ -78,7 +78,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   ).pipe(
     map((config) => {
       const isBool = (obj: SearchBoxConfig, prop: string): boolean =>
-        obj?.[prop] !== 'false' && obj?.[prop] !== false;
+        obj[prop as keyof SearchBoxConfig] !== 'false' &&
+        obj[prop as keyof SearchBoxConfig] !== false;
 
       return {
         ...DEFAULT_SEARCH_BOX_CONFIG,

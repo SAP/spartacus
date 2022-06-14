@@ -168,6 +168,14 @@ describe('AddToCartComponent', () => {
     fixture.detectChanges();
   }
 
+  function getTextFromAddToCartButton(): string {
+    return getButton().query(By.css('span')).nativeElement.innerText;
+  }
+
+  function getButton(): DebugElement {
+    return el.query(By.css('button'));
+  }
+
   describe('without ProductListItemContext', () => {
     beforeEach(() => {
       configureTestingModule();
@@ -316,6 +324,41 @@ describe('AddToCartComponent', () => {
         expect(el.query(By.css('button'))).toBeNull();
       });
 
+      it('should show addToCart button', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(getTextFromAddToCartButton()).toEqual('addToCart.addToCart');
+      });
+
+      it('should use the provided string for add to cart button', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.options = { addToCartString: 'add to active cart' };
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(getTextFromAddToCartButton()).toEqual('add to active cart');
+      });
+
+      it('should display add to cart if the string is not provided', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.options = { addToCartString: undefined };
+        addToCartComponent.ngOnInit();
+        fixture.detectChanges();
+
+        expect(getTextFromAddToCartButton()).toEqual('addToCart.addToCart');
+      });
+
+      it('should not show any button if the product is not in stock', () => {
+        addToCartComponent.productCode = productCode;
+        addToCartComponent.ngOnInit();
+        addToCartComponent.hasStock = false;
+        fixture.detectChanges();
+
+        expect(getButton()).toBeFalsy();
+      });
+
       it('should show the addToCart button for currentProduct', () => {
         addToCartComponent.productCode = null;
         spyOn(currentProductService, 'getProduct').and.returnValue(
@@ -325,7 +368,6 @@ describe('AddToCartComponent', () => {
         fixture.detectChanges();
         expect(el.query(By.css('button')).nativeElement).toBeDefined();
       });
-
       it('should hide the addToCart button for currentProduct', () => {
         addToCartComponent.productCode = null;
         spyOn(currentProductService, 'getProduct').and.returnValue(

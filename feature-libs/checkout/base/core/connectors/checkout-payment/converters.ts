@@ -6,6 +6,6 @@ export const PAYMENT_DETAILS_SERIALIZER = new InjectionToken<
   Converter<PaymentDetails, any>
 >('PaymentDetailsSerializer');
 
-export const CARD_TYPE_NORMALIZER = new InjectionToken<
+export const PAYMENT_CARD_TYPE_NORMALIZER = new InjectionToken<
   Converter<any, CardType>
->('CardTypeNormalizer');
+>('PaymentCardTypeNormalizer');

@@ -350,3 +350,15 @@ export function clickAddToCartBtn(): void {
       checkGlobalMessageNotDisplayed();
     });
 }
+
+/**
+ * Register configuration update route.
+ */
+export function registerConfigurationUpdateRoute() {
+  cy.intercept({
+    method: 'PATCH',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*`,
+  }).as('updateConfig');
+}

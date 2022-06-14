@@ -9,6 +9,7 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
+import { spartacusFeaturesModulePath } from '../../../shared/utils/test-utils';
 import { scaffoldAppStructure } from './scaffold-app-structure';
 
 const spartacusModulePath = 'src/app/spartacus/spartacus.module.ts';
@@ -32,7 +33,6 @@ import { SpartacusFeaturesModule } from './spartacus-features.module';
 export class SpartacusModule { }
 `;
 
-const featuresModulePath = 'src/app/spartacus/spartacus-features.module.ts';
 const exampleFeaturesModule = `
 import { NgModule } from '@angular/core';
 import { AsmFeatureModule } from './features/asm/asm-feature.module';
@@ -104,7 +104,9 @@ describe('scaffold app structure', () => {
         .callRule(scaffoldAppStructure(), appTree)
         .toPromise();
 
-      expect(resultTree.read(featuresModulePath)?.toString()).toMatchSnapshot();
+      expect(
+        resultTree.read(spartacusFeaturesModulePath)?.toString()
+      ).toMatchSnapshot();
       expect(
         resultTree.read(configurationModulePath)?.toString()
       ).toMatchSnapshot();
@@ -117,7 +119,7 @@ describe('scaffold app structure', () => {
   describe('When the new app structure is already in place', () => {
     beforeEach(async () => {
       appTree.create(spartacusModulePath, exampleSpartacusModule);
-      appTree.create(featuresModulePath, exampleFeaturesModule);
+      appTree.create(spartacusFeaturesModulePath, exampleFeaturesModule);
       appTree.create(configurationModulePath, exampleConfigurationModule);
     });
 
@@ -126,7 +128,9 @@ describe('scaffold app structure', () => {
         .callRule(scaffoldAppStructure(), appTree)
         .toPromise();
 
-      expect(resultTree.read(featuresModulePath)?.toString()).toMatchSnapshot();
+      expect(
+        resultTree.read(spartacusFeaturesModulePath)?.toString()
+      ).toMatchSnapshot();
       expect(
         resultTree.read(configurationModulePath)?.toString()
       ).toMatchSnapshot();
