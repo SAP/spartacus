@@ -26,6 +26,7 @@ import { Cart, CartType, EntryGroup, OrderEntry } from '../models/cart.model';
         'updateEntry',
         'getEntry',
         'assignEmail',
+        'removeCart',
         'deleteCart',
         'reloadCart',
         'getCartIdByType',
@@ -258,6 +259,16 @@ export abstract class MultiCartFacade {
    * @param email
    */
   abstract assignEmail(cartId: string, userId: string, email: string): void;
+
+  /**
+   * Remove cart
+   *
+   * Removes the cart from the state.
+   * To remove a cart from the state and back-end, please use `DeleteCart` action.
+   *
+   * @param cartId
+   */
+  abstract removeCart(cartId: string): void;
 
   /**
    * Delete cart
