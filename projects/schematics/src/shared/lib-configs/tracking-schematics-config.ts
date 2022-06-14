@@ -5,7 +5,6 @@ import {
   SPARTACUS_TMS_CORE,
   SPARTACUS_TMS_GTM,
   SPARTACUS_TRACKING,
-  SPARTACUS_USER,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
   TRACKING_TMS_AEP_FEATURE_NAME,
   TRACKING_TMS_GTM_FEATURE_NAME,
@@ -41,9 +40,7 @@ export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: SchematicConfig = {
     moduleSpecifier: SPARTACUS_PERSONALIZATION_ROOT,
     namedImports: [PERSONALIZATION_FEATURE_NAME_CONSTANT],
   },
-  dependencyFeatures: {
-    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
-  },
+  dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
 };
 
 export const TMS_MODULE_NAME = 'TagManagement';
@@ -69,9 +66,7 @@ export const TRACKING_GTM_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${TMS_BASE_MODULE}.forRoot()`,
   },
   customConfig: buildGtmConfig,
-  dependencyFeatures: {
-    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
-  },
+  dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
 };
 function buildGtmConfig(
   options: LibraryOptions
@@ -121,9 +116,7 @@ export const TRACKING_AEP_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${TMS_BASE_MODULE}.forRoot()`,
   },
   customConfig: buildAepConfig,
-  dependencyFeatures: {
-    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
-  },
+  dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
 };
 
 function buildAepConfig(
