@@ -22,7 +22,7 @@ export function goToConfigurationPage(shopName: string, productId: string) {
 }
 
 /**
- * Navigates to the configuration overview  page.
+ * Navigates to the configuration overview  page
  */
 export function navigateToOverviewPage() {
   cy.get('.cx-tab-bar').within(() => {
