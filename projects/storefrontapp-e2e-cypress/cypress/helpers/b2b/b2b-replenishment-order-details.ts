@@ -95,11 +95,10 @@ export function cancelReplenishmentDetails() {
       .click();
 
     cy.get(`${replenishmentCancelDialogSelector} .close`)
-    .should('exist')
-    .click();
+      .should('exist')
+      .click();
 
-    cy.get(`${replenishmentCancelDialogSelector}`)
-    .should('not.exist');
+    cy.get(`${replenishmentCancelDialogSelector}`).should('not.exist');
 
     cy.get(cancellationSelector)
       .contains('Cancel')
