@@ -405,6 +405,30 @@ export class MultiCartService implements MultiCartFacade {
   }
 
   /**
+   * Add products to bundle
+   *
+   * @param cartId
+   * @param userId
+   * @param entries Array of objects with entry and entryGroupNumber
+   */
+  addEntriesToEntryGroups(
+    cartId: string,
+    userId: string,
+    entries: {
+      entryGroupNumber: number;
+      entry: OrderEntry;
+    }[]
+  ) {
+    this.store.dispatch(
+      new CartActions.AddEntriesToEntryGroups({
+        cartId,
+        userId,
+        entries,
+      })
+    );
+  }
+
+  /**
    * Reloads the cart with specified id.
    *
    * @param cartId

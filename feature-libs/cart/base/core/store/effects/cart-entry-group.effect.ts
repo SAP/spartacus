@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import { catchError, concatMap, map, mergeMap, toArray } from 'rxjs/operators';
 import { CartModification } from '@spartacus/cart/base/root';
 import { SiteContextActions, withdrawOn } from '@spartacus/core';
 import { CartEntryGroupConnector } from '../../connectors/entry-group';
@@ -60,54 +60,52 @@ export class CartEntryGroupEffects {
     | CartActions.AddEntriesToEntryGroupsFail
     | CartActions.LoadCart
     | CartActions.MergeCart
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType(CartActions.ADD_ENTRIES_TO_ENTRY_GROUPS),
-      map((action: CartActions.AddEntriesToEntryGroups) => action.payload),
-      concatMap((payload) =>
-        from(payload.entries)
-          .pipe(
-            concatMap((item) =>
-              this.cartEntryGroupConnector.addToEntryGroup(
-                payload.userId,
-                payload.cartId,
-                item.entryGroupNumber,
-                item.entry
-              )
-            ),
-            toArray()
-          )
-          .pipe(
-            mergeMap((cartModifications: CartModification[]) => {
-              // const pseudoUuid = Math.random().toString(36).substr(2, 9);
-              return [
-                new CartActions.AddEntriesToEntryGroupsSuccess({
-                  ...payload,
-                  statuses: cartModifications as Required<CartModification>[],
-                }),
-                // new CartActions.MergeCart({
-                //   userId: payload.userId,
-                //   cartId: payload.cartId,
-                //   tempCartId: pseudoUuid,
-                // }),
-              ];
-            }),
-            catchError((error) =>
-              from([
-                new CartActions.AddEntriesToEntryGroupsFail({
-                  ...payload,
-                  error: error,
-                }),
-                new CartActions.LoadCart({
-                  cartId: payload.cartId,
-                  userId: payload.userId,
-                }),
-              ])
+  > = this.actions$.pipe(
+    ofType(CartActions.ADD_ENTRIES_TO_ENTRY_GROUPS),
+    map((action: CartActions.AddEntriesToEntryGroups) => action.payload),
+    concatMap((payload) =>
+      from(payload.entries)
+        .pipe(
+          concatMap((item) =>
+            this.cartEntryGroupConnector.addToEntryGroup(
+              payload.userId,
+              payload.cartId,
+              item.entryGroupNumber,
+              item.entry
             )
+          ),
+          toArray()
+        )
+        .pipe(
+          mergeMap((cartModifications: CartModification[]) => {
+            // const pseudoUuid = Math.random().toString(36).substr(2, 9);
+            return [
+              new CartActions.AddEntriesToEntryGroupsSuccess({
+                ...payload,
+                statuses: cartModifications as Required<CartModification>[],
+              }),
+              // new CartActions.MergeCart({
+              //   userId: payload.userId,
+              //   cartId: payload.cartId,
+              //   tempCartId: pseudoUuid,
+              // }),
+            ];
+          }),
+          catchError((error) =>
+            from([
+              new CartActions.AddEntriesToEntryGroupsFail({
+                ...payload,
+                error: error,
+              }),
+              new CartActions.LoadCart({
+                cartId: payload.cartId,
+                userId: payload.userId,
+              }),
+            ])
           )
-      ),
-      withdrawOn(this.contextChange$)
-    )
+        )
+    ),
+    withdrawOn(this.contextChange$)
   );
   deleteEntryGroup$: Observable<
     | CartActions.DeleteEntryGroupSuccess

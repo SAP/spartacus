@@ -1,5 +1,6 @@
+import { Action } from '@ngrx/store';
 import { EntryGroup, OrderEntry } from '@spartacus/cart/base/root';
-import { SearchConfig, StateUtils } from '@spartacus/core';
+import { Product, SearchConfig, StateUtils } from '@spartacus/core';
 import { BundleStarter } from '../../model/bundle.model';
 import { BUNDLE_DATA } from '../bundle-state';
 
