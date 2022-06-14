@@ -38,6 +38,10 @@ export class CartDetailsComponent implements OnInit {
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
 
+    this.entries$ = this.activeCartService
+      .getEntries()
+      .pipe(filter((entries) => entries.length > 0));
+
     this.entryGroups$ = this.activeCartService
       .getEntryGroups()
       .pipe(filter((groups) => groups.length > 0));
