@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { isNotUndefined } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn } from 'rxjs/operators';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
@@ -43,7 +44,7 @@ export class ClientTokenService {
    * Fetches a clientToken from the backend and saves it in the store where getClientToken can use it.
    * The new clientToken is returned.
    */
-  refreshClientToken(): Observable<ClientToken | undefined> {
+  refreshClientToken(): Observable<ClientToken> {
     this.store.dispatch(new ClientAuthActions.LoadClientToken());
 
     return this.store.pipe(
@@ -51,7 +52,8 @@ export class ClientTokenService {
       filter((state: LoaderState<ClientToken>) =>
         this.isClientTokenLoaded(state)
       ),
-      map((state: LoaderState<ClientToken>) => state.value)
+      map((state: LoaderState<ClientToken>) => state.value),
+      filter(isNotUndefined)
     );
   }
 

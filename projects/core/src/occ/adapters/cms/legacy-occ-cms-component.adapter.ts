@@ -46,7 +46,7 @@ export class LegacyOccCmsComponentAdapter extends OccCmsComponentAdapter {
       )
       .pipe(
         pluck('component'),
-        map((compts) => compts ?? []),
+        map((components) => components ?? []),
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
   }
