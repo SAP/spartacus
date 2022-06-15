@@ -1,15 +1,18 @@
 /* webpackIgnore: true */
 import { Request, Response } from 'express';
 import * as fs from 'fs';
-import {
-  getRequestUrl,
-  NgExpressEngineInstance,
-} from '../engine-decorator/ng-express-engine-decorator';
+import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import { getRequestUrl } from '../util/request-url';
 import { RenderingCache } from './rendering-cache';
 import {
   RenderingStrategy,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
+
+/**
+ * Returns the full url for the given SSR Request.
+ */
+export const getDefaultRenderKey = getRequestUrl;
 
 export type SsrCallbackFn = (
   /**
@@ -69,7 +72,7 @@ export class OptimizedSsrEngine {
   protected getRenderingKey(request: Request): string {
     return this.ssrOptions?.renderKeyResolver
       ? this.ssrOptions.renderKeyResolver(request)
-      : getRequestUrl(request);
+      : getDefaultRenderKey(request);
   }
 
   protected getRenderingStrategy(request: Request): RenderingStrategy {

@@ -1,16 +1,15 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  ActiveCartService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-  OrderEntry,
   Product,
   Translatable,
 } from '@spartacus/core';
@@ -99,7 +98,7 @@ class MockQuickOrderStatePersistenceService
 const mockIsStable$ = new BehaviorSubject<boolean>(true);
 const mockCartId$ = new BehaviorSubject<string>('123456789');
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActiveCartId(): Observable<string> {
     return mockCartId$.asObservable();
   }
@@ -130,7 +129,6 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   selector: 'cx-quick-order-form',
 })
 class MockQuickOrderFormComponent {
-  @Input() isDisabled: boolean;
   @Input() isLoading: boolean;
 }
 
@@ -169,7 +167,7 @@ describe('QuickOrderComponent', () => {
         MockProgressButtonComponent,
       ],
       providers: [
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: QuickOrderFacade, useClass: MockQuickOrderFacade },
         {

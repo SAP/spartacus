@@ -3,10 +3,12 @@ import {
   FEATURE_CONFIG_SERVICE,
   OUTLET_REF_DIRECTIVE,
   OUTLET_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   TEMPLATE_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const OUTLET_REF_DIRECTIVE_CONSTRUCTOR_MIGRATION: ConstructorDeprecation =

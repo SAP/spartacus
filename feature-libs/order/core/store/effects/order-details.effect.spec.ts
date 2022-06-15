@@ -2,11 +2,12 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { GlobalMessageService, Order } from '@spartacus/core';
+import { GlobalMessageService } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { OrderAdapter } from '../../connectors/order.adapter';
-import { OrderConnector } from '../../connectors/order.connector';
+import { OrderHistoryAdapter } from '../../connectors/order-history.adapter';
+import { OrderHistoryConnector } from '../../connectors/order-history.connector';
 import { OrderActions } from '../actions/index';
 import * as fromOrderDetailsEffect from './order-details.effect';
 
@@ -29,16 +30,16 @@ class MockGlobalMessageService {
 
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
-  let orderConnector: OrderConnector;
+  let orderHistoryConnector: OrderHistoryConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OrderConnector,
+        OrderHistoryConnector,
         fromOrderDetailsEffect.OrderDetailsEffect,
-        { provide: OrderAdapter, useValue: {} },
+        { provide: OrderHistoryAdapter, useValue: {} },
         provideMockActions(() => actions$),
         {
           provide: GlobalMessageService,
@@ -51,12 +52,12 @@ describe('Order Details effect', () => {
     orderDetailsEffect = TestBed.inject(
       fromOrderDetailsEffect.OrderDetailsEffect
     );
-    orderConnector = TestBed.inject(OrderConnector);
+    orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
   });
 
   describe('loadOrderDetails$', () => {
     it('should load order details', () => {
-      spyOn(orderConnector, 'get').and.returnValue(of(mockOrderDetails));
+      spyOn(orderHistoryConnector, 'get').and.returnValue(of(mockOrderDetails));
       const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
       const completion = new OrderActions.LoadOrderDetailsSuccess(
@@ -70,7 +71,7 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for load order details', () => {
-      spyOn(orderConnector, 'get').and.returnValue(throwError('Error'));
+      spyOn(orderHistoryConnector, 'get').and.returnValue(throwError('Error'));
 
       const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
@@ -85,7 +86,7 @@ describe('Order Details effect', () => {
 
   describe('cancelOrder$', () => {
     it('should cancel an order', () => {
-      spyOn(orderConnector, 'cancel').and.returnValue(of({}));
+      spyOn(orderHistoryConnector, 'cancel').and.returnValue(of({}));
 
       const action = new OrderActions.CancelOrder(mockCancelOrderParams);
 
@@ -98,7 +99,9 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for cancel an order', () => {
-      spyOn(orderConnector, 'cancel').and.returnValue(throwError('Error'));
+      spyOn(orderHistoryConnector, 'cancel').and.returnValue(
+        throwError('Error')
+      );
 
       const action = new OrderActions.CancelOrder(mockCancelOrderParams);
 

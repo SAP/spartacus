@@ -6,25 +6,50 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import {
   CommonConfigurator,
+  CommonConfiguratorUtilsService,
   ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { IntersectionService } from '@spartacus/storefront';
+import { OrderHistoryFacade } from 'feature-libs/order/root';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { Observable, of } from 'rxjs';
+import { delay, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorStorefrontUtilsService } from '../service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
-const CART_ENTRY_KEY = '1';
+const CART_ENTRY_KEY = '001+1';
+const ORDER_ENTRY_KEY = '001+1';
+
 const configuratorType = ConfiguratorType.VARIANT;
 
 const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
+
+const mockProductConfigurationWithoutPriceSummary =
+  ConfigurationTestData.productConfigurationWithConflicts;
+
+const mockProductConfigurationWithoutBasePrice =
+  ConfigurationTestData.productConfigurationWithoutBasePrice;
+
+const mockProductConfigurationWithoutSelectedOptions =
+  ConfigurationTestData.productConfigurationWithoutSelectedOptions;
+
+const mockProductConfigurationWithoutTotalPrice =
+  ConfigurationTestData.mockProductConfigurationWithoutTotalPrice;
+
+const mockProductConfigurationWithPriceSummaryButNoPrices =
+  ConfigurationTestData.mockProductConfigurationWithPriceSummaryButNoPrices;
 
 const navParamsOverview: any = {
   cxRoute: 'configureOverview' + configuratorType,
@@ -32,11 +57,16 @@ const navParamsOverview: any = {
 };
 
 const mockOwner = mockProductConfiguration.owner;
+const parts: string[] = mockOwner.id.split('+');
 
 const mockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
   isOwnerCartEntry: false,
   owner: mockOwner,
+};
+
+const mockOrder: Order = {
+  code: '1',
 };
 
 let component: ConfiguratorAddToCartButtonComponent;
@@ -45,6 +75,7 @@ let htmlElem: HTMLElement;
 let routerStateObservable: Observable<any>;
 let productConfigurationObservable: Observable<any>;
 let pendingChangesObservable: Observable<any>;
+let elementMock: { style: any };
 
 function initialize() {
   routerStateObservable = of(mockRouterState);
@@ -79,6 +110,31 @@ class MockConfiguratorGroupsService {
   setGroupStatusVisited() {}
 }
 
+class MockCommonConfiguratorUtilsService {
+  decomposeOwnerId(): any {
+    return { documentId: parts[0], entryNumber: parts[1] };
+  }
+}
+
+class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
+  loadOrderDetails() {}
+  getOrderDetails(): Observable<Order> {
+    return of(mockOrder);
+  }
+}
+
+class MockConfiguratorRouterExtractorService {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return of(mockRouterData);
+  }
+}
+
+class MockIntersectionService {
+  isIntersecting(): Observable<boolean> {
+    return of(false);
+  }
+}
+
 function setRouterTestDataCartBoundAndConfigPage() {
   mockRouterState.state.params = {
     entityKey: CART_ENTRY_KEY,
@@ -101,6 +157,30 @@ function setRouterTestDataProductBoundAndConfigPage() {
   mockRouterData.owner.type = CommonConfigurator.OwnerType.PRODUCT;
   mockRouterData.owner.id = ConfigurationTestData.PRODUCT_CODE;
   mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+}
+
+function setRouterTestDataReadOnlyCart() {
+  mockRouterState.state.params = {
+    entityKey: CART_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.isOwnerCartEntry = true;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
+  mockRouterData.owner.id = CART_ENTRY_KEY;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
+}
+
+function setRouterTestDataReadOnlyOrder() {
+  mockRouterState.state.params = {
+    entityKey: ORDER_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.ORDER_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.isOwnerCartEntry = false;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
+  mockRouterData.owner.id = ORDER_ENTRY_KEY;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
 }
 
 function performAddToCartOnOverview() {
@@ -158,13 +238,17 @@ class MockRoutingService {
   }
   go() {}
 }
+class MockConfiguratorAddToCartButtonComponent {
+  goToOrderDetails() {}
+}
 
 describe('ConfigAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
-
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+  let intersectionService: IntersectionService;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -188,6 +272,29 @@ describe('ConfigAddToCartButtonComponent', () => {
             useClass: MockConfiguratorGroupsService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          {
+            provide: OrderHistoryFacade,
+            useClass: MockOrderHistoryFacade,
+          },
+          {
+            provide: CommonConfiguratorUtilsService,
+            useClass: MockCommonConfiguratorUtilsService,
+          },
+          {
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
+          },
+          {
+            provide: ConfiguratorAddToCartButtonComponent,
+            useClass: MockConfiguratorAddToCartButtonComponent,
+          },
+          {
+            provide: ConfiguratorStorefrontUtilsService,
+          },
+          {
+            provide: IntersectionService,
+            useClass: MockIntersectionService,
+          },
         ],
       })
         .overrideComponent(ConfiguratorAddToCartButtonComponent, {
@@ -200,6 +307,11 @@ describe('ConfigAddToCartButtonComponent', () => {
   );
 
   beforeEach(() => {
+    elementMock = {
+      style: {
+        position: '',
+      },
+    };
     pendingChangesObservable = of(false);
     initialize();
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
@@ -212,10 +324,20 @@ describe('ConfigAddToCartButtonComponent', () => {
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+    intersectionService = TestBed.inject(
+      IntersectionService as Type<IntersectionService>
+    );
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
+    spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
+      elementMock as unknown as HTMLElement
+    );
+    spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
   });
 
   it('should create', () => {
@@ -261,6 +383,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
 
     it('should not remove configuration for cart entry owner in case configuration is cart bound and we are on OV page and no changes happened', () => {
+      //not needed to remove the configuration here, as clean up is done in router listener
       mockProductConfiguration.isCartEntryUpdateRequired = false;
       performUpdateOnOV();
       expect(
@@ -325,10 +448,11 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
 
     it('should remove one (cart bound) configurations in case configuration has not yet been added and process was triggered from overview', () => {
+      //not needed to remove the configuration here, as clean up is done in router listener
       performAddToCartOnOverview();
       expect(
         configuratorCommonsService.removeConfiguration
-      ).toHaveBeenCalledTimes(1);
+      ).toHaveBeenCalledTimes(0);
     });
   });
 
@@ -354,6 +478,168 @@ describe('ConfigAddToCartButtonComponent', () => {
         false
       );
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('displayOnlyButton', () => {
+    it('should navigate to review order', () => {
+      setRouterTestDataReadOnlyCart();
+      initialize();
+      component.leaveConfigurationOverview();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'checkoutReviewOrder',
+      });
+    });
+
+    it('should navigate to order details', () => {
+      setRouterTestDataReadOnlyOrder();
+      initialize();
+      component.leaveConfigurationOverview();
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'orderDetails',
+        params: mockOrder,
+      });
+    });
+  });
+  describe('Floating button', () => {
+    it('should make button sticky', (done) => {
+      spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
+      component.ngOnInit();
+      component.container$.pipe(take(1), delay(0)).subscribe(() => {
+        expect(
+          configuratorStorefrontUtilsService.changeStyling
+        ).toHaveBeenCalledWith(
+          'cx-configurator-add-to-cart-button',
+          'position',
+          'sticky'
+        );
+        done();
+      });
+    });
+
+    it('should make button fixed when not intersecting', (done) => {
+      component.ngOnInit();
+      component.container$.pipe(take(1), delay(0)).subscribe(() => {
+        spyOn(intersectionService, 'isIntersecting').and.callThrough();
+        expect(
+          configuratorStorefrontUtilsService.changeStyling
+        ).toHaveBeenCalledWith(
+          'cx-configurator-add-to-cart-button',
+          'position',
+          'fixed'
+        );
+        done();
+      });
+    });
+  });
+  describe('Accessibility', () => {
+    it('should return base price, selected option price and total price', () => {
+      let result = {
+        basePrice: '$123.56',
+        selectedOptions: '$500',
+        totalPrice: '$623.56',
+      };
+      expect(component.extractConfigPrices(mockProductConfiguration)).toEqual(
+        result
+      );
+    });
+
+    it('should return "0" in case there is no price summary in the configuration', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '0',
+        totalPrice: '0',
+      };
+      expect(
+        component.extractConfigPrices(
+          mockProductConfigurationWithoutPriceSummary
+        )
+      ).toEqual(result);
+    });
+
+    it('should return "0" for basePrice in case basePrice is undefined', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '$500',
+        totalPrice: '$623.56',
+      };
+      expect(
+        component.extractConfigPrices(mockProductConfigurationWithoutBasePrice)
+      ).toEqual(result);
+    });
+
+    it('should return "0" for basePrice in case basePrice is undefined', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '$500',
+        totalPrice: '$623.56',
+      };
+      expect(
+        component.extractConfigPrices(mockProductConfigurationWithoutBasePrice)
+      ).toEqual(result);
+    });
+
+    it('should return "0" for selectedOption in case selectedOption is undefined', () => {
+      let result = {
+        basePrice: '$123.56',
+        selectedOptions: '0',
+        totalPrice: '$623.56',
+      };
+      expect(
+        component.extractConfigPrices(
+          mockProductConfigurationWithoutSelectedOptions
+        )
+      ).toEqual(result);
+    });
+
+    it('should return "0" for totalPrice in case totalPrice  is undefined', () => {
+      let result = {
+        basePrice: '$123.56',
+        selectedOptions: '$500',
+        totalPrice: '0',
+      };
+      expect(
+        component.extractConfigPrices(mockProductConfigurationWithoutTotalPrice)
+      ).toEqual(result);
+    });
+
+    it('should return "0" for prices in case they are not available', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '0',
+        totalPrice: '0',
+      };
+      expect(
+        component.extractConfigPrices(
+          mockProductConfigurationWithPriceSummaryButNoPrices
+        )
+      ).toEqual(result);
+    });
+
+    it("should contain add to cart button element with 'aria-label' attribute that contains prices of the configuration", () => {
+      let basePrice =
+        mockProductConfiguration.priceSummary?.basePrice?.formattedValue;
+      let selectedOptions =
+        mockProductConfiguration.priceSummary?.selectedOptions?.formattedValue;
+      let totalPrice =
+        mockProductConfiguration.priceSummary?.currentTotal?.formattedValue;
+      let expectedA11YString =
+        `configurator.a11y.addToCartPrices basePrice:${basePrice}` +
+        ` selectedOptions:${selectedOptions} totalPrice:${totalPrice}`;
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        undefined,
+        0,
+        'aria-label',
+        component.getButtonResourceKey(
+          mockRouterData,
+          mockProductConfiguration
+        ) +
+          ' ' +
+          expectedA11YString
+      );
     });
   });
 });

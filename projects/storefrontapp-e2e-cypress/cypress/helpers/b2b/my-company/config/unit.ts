@@ -209,7 +209,7 @@ export const unitConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
     {
-      name: 'Shipping Addresses',
+      name: 'Delivery Addresses',
       baseUrl: `/addresses`,
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',
@@ -232,5 +232,11 @@ export const unitConfig: MyCompanyConfig = {
     MY_COMPANY_FEATURE.UPDATE,
     MY_COMPANY_FEATURE.NESTED_LIST,
     MY_COMPANY_FEATURE.ASSIGNMENTS,
+  ],
+  coreFeatures: [
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.NESTED_LIST,
   ],
 };

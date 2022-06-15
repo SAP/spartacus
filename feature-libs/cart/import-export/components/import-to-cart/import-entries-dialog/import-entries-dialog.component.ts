@@ -1,14 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AddOrderEntriesContext,
-  FocusConfig,
-  ICON_TYPE,
-  LaunchDialogService,
   OrderEntriesSource,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
   ProductImportSummary,
+} from '@spartacus/cart/base/root';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, pluck } from 'rxjs/operators';

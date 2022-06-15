@@ -14,7 +14,7 @@ export function signOut() {
     option: 'Sign Out',
   });
   cy.wait('@logOut');
-  cy.visit('/');
+  return cy.visit('/');
 }
 
 export function verifyGlobalMessageAfterRegistration() {

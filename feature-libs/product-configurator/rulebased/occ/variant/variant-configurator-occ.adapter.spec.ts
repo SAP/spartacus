@@ -5,8 +5,11 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  BaseOccUrlProperties,
   CartModification,
+  CART_MODIFICATION_NORMALIZER,
+} from '@spartacus/cart/base/root';
+import {
+  BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
   OccEndpointsService,
@@ -18,24 +21,23 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
 import {
-  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VariantConfiguratorOccAdapter,
+  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
 } from '.';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { OccConfiguratorTestUtils } from '../../testing/occ-configurator-test-utils';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
 import { OccConfiguratorVariantOverviewNormalizer } from './converters/occ-configurator-variant-overview-normalizer';
+import { OccConfiguratorVariantPriceNormalizer } from './converters/occ-configurator-variant-price-normalizer';
 import {
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
-import { OccConfiguratorVariantPriceNormalizer } from './converters/occ-configurator-variant-price-normalizer';
 
 class MockOccEndpointsService {
   buildUrl(
@@ -80,6 +82,7 @@ const configuration: Configurator.Configuration = {
 
 const productConfigurationOcc: OccConfigurator.Configuration = {
   configId: configId,
+  rootProduct: productCode,
 };
 
 const pricesOcc: OccConfigurator.Prices =
@@ -96,7 +99,10 @@ const productConfigurationForCartEntry: Configurator.Configuration = {
   productCode: productCode,
 };
 
-const overviewOcc: OccConfigurator.Overview = { id: configId };
+const overviewOcc: OccConfigurator.Overview = {
+  id: configId,
+  productCode: productCode,
+};
 
 const cartModification: CartModification = { quantity: 1 };
 

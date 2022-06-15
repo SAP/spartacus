@@ -50,7 +50,7 @@ export class ConfiguratorTextfieldFormComponent {
 
   /**
    * Updates a configuration attribute
-   * @param attribute Configuration attribute, always containing a string typed value
+   * @param attribute - Configuration attribute, always containing a string typed value
    */
   updateConfiguration(
     attribute: ConfiguratorTextfield.ConfigurationInfo

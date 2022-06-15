@@ -1,4 +1,4 @@
-import { PaymentDetails } from '../../../model/cart.model';
+import { PaymentDetails } from '../../../model/payment.model';
 import { UserActions } from '../actions/index';
 import * as fromUserPaymentMethodsReducer from './payment-methods.reducer';
 

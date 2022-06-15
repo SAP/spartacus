@@ -1,8 +1,9 @@
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
+const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.schematics');
 
 module.exports = {
-  setupFilesAfterEnv: ['<rootDir>/jest.ts'],
+  preset: 'jest-preset-angular',
+  setupFilesAfterEnv: ['<rootDir>/test-jest.ts'],
   transform: {
     '^.+\\.ts?$': 'ts-jest',
   },
@@ -17,8 +18,8 @@ module.exports = {
   coverageThreshold: {
     global: {
       statements: 90,
-      branches: 69,
-      functions: 88,
+      branches: 74,
+      functions: 90,
       lines: 90,
     },
   },

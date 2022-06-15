@@ -7,16 +7,16 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  Renderer2,
   OnInit,
+  Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { WindowRef } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { debounceTime, filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
-import { NavigationNode } from './navigation-node.model';
-import { distinctUntilChanged } from 'rxjs/operators';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { NavigationNode } from './navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -27,7 +27,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
    * The navigation node to render.
    */
-  @Input() node: NavigationNode;
+  @Input() node: NavigationNode | null;
 
   /**
    * The number of child nodes that must be wrapped.
@@ -37,8 +37,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
    * Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
    */
-  @Input() resetMenuOnClose: boolean;
+  @Input() resetMenuOnClose: boolean | undefined;
 
+  @Input() navAriaLabel: string | null | undefined;
   /**
    * the icon type that will be used for navigation nodes
    * with children.
@@ -67,7 +68,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
-    protected hamburgerMenuService: HamburgerMenuService
+    protected hamburgerMenuService: HamburgerMenuService,
+    protected winRef: WindowRef
   ) {
     this.subscriptions.add(
       this.router.events
@@ -99,35 +101,64 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.hamburgerMenuService?.isExpanded
         .pipe(distinctUntilChanged(), filter(Boolean))
         .subscribe(() => {
-          this.reinitalizeMenu();
+          this.reinitializeMenu();
         })
     );
+  }
+
+  closeIfClickedTheSameLink(navNode: NavigationNode): void {
+    if (
+      typeof navNode.url === 'string' &&
+      this.winRef.nativeWindow?.location.href.includes(navNode.url)
+    ) {
+      this.elemRef.nativeElement
+        .querySelectorAll('li.is-open:not(.back), li.is-opened')
+        .forEach((el: any) => {
+          this.renderer.removeClass(el, 'is-open');
+          this.renderer.removeClass(el, 'is-opened');
+        });
+      this.reinitializeMenu();
+      this.hamburgerMenuService.toggle();
+    }
   }
 
   /**
    * This method performs the actions required to reset the state of the menu and reset any visual components.
    */
-  reinitalizeMenu(): void {
+  reinitializeMenu(): void {
     if (this.openNodes?.length > 0) {
       this.clear();
       this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
     }
   }
 
+  protected ariaCollapseNodes(): void {
+    this.openNodes.forEach((parentNode) => {
+      Array.from(parentNode.children)
+        .filter((childNode) => childNode?.tagName === 'BUTTON')
+        .forEach((childNode) => {
+          this.renderer.setAttribute(childNode, 'aria-expanded', 'false');
+        });
+    });
+  }
+
   toggleOpen(event: UIEvent): void {
     if (event.type === 'keydown') {
       event.preventDefault();
     }
+    this.ariaCollapseNodes();
     const node = <HTMLElement>event.currentTarget;
-    if (this.openNodes.includes(node)) {
+    const parentNode = <HTMLElement>node.parentNode;
+    if (this.openNodes.includes(parentNode)) {
       if (event.type === 'keydown') {
         this.back();
       } else {
-        this.openNodes = this.openNodes.filter((n) => n !== node);
-        this.renderer.removeClass(node, 'is-open');
+        this.openNodes = this.openNodes.filter((n) => n !== parentNode);
+        this.renderer.removeClass(parentNode, 'is-open');
       }
     } else {
-      this.openNodes.push(node);
+      this.openNodes.push(parentNode);
+      this.renderer.setAttribute(node, 'aria-expanded', 'true');
     }
 
     this.updateClasses();
@@ -176,8 +207,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       (event.target || event.relatedTarget)
     );
     if (
-      target.ownerDocument.activeElement.matches('nav[tabindex]') &&
-      target.parentElement.matches('.flyout')
+      target.ownerDocument.activeElement?.matches('nav[tabindex]') &&
+      target.parentElement?.matches('.flyout')
     ) {
       target.focus();
     }
@@ -211,7 +242,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   private alignWrappersToRightIfStickOut() {
     const navs = <HTMLCollection>this.elemRef.nativeElement.childNodes;
     Array.from(navs)
-      .filter((node) => node.tagName === 'NAV')
+      .filter((node) => node.tagName === 'LI')
       .forEach((nav) => this.alignWrapperToRightIfStickOut(<HTMLElement>nav));
   }
 

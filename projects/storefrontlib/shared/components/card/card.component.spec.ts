@@ -213,7 +213,7 @@ describe('CardComponent', () => {
 
   it('should handle delete action', () => {
     function getDeleteButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
+      return elem.query(By.css('.cx-card-actions .link')).nativeElement;
     }
     const mockCard: Card = {
       actions: [{ event: 'delete', name: 'Delete' }],
@@ -228,7 +228,7 @@ describe('CardComponent', () => {
 
   it('should handle default action', () => {
     function getDefaultActionButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
+      return elem.query(By.css('.cx-card-actions .link')).nativeElement;
     }
     const mockCard: Card = {
       actions: [{ event: 'default', name: 'Set as default' }],
@@ -243,7 +243,7 @@ describe('CardComponent', () => {
 
   it('should handle send action', () => {
     function getSendActionButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
+      return elem.query(By.css('.cx-card-actions .link')).nativeElement;
     }
     const mockCard: Card = {
       actions: [{ event: 'send', name: 'Save address' }],
@@ -258,7 +258,7 @@ describe('CardComponent', () => {
 
   it('should handle edit action', () => {
     function getEditActionButton(elem: DebugElement): HTMLElement {
-      return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
+      return elem.query(By.css('.cx-card-actions .link')).nativeElement;
     }
     const mockCard: Card = {
       actions: [{ event: 'edit', name: 'Edit address' }],
@@ -273,7 +273,7 @@ describe('CardComponent', () => {
 
   it('should handle links', () => {
     function getLinkAction(elem: DebugElement): HTMLAnchorElement {
-      return elem.query(By.css('.cx-card-actions .btn-link')).nativeElement;
+      return elem.query(By.css('.cx-card-actions .link')).nativeElement;
     }
     const link: CardLinkAction = { link: '/test.html', name: 'Go to test' };
     const mockCard: Card = {

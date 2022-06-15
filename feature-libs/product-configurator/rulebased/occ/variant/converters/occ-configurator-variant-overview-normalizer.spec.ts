@@ -28,6 +28,8 @@ class MockTranslationService {
 const convertedOverview: Configurator.Overview = {
   configId: configId,
   totalNumberOfIssues: totalNumberOfIssues,
+  numberOfConflicts: totalNumberOfIssues - 1,
+  numberOfIncompleteCharacteristics: 1,
   priceSummary: {},
   productCode: PRODUCT_CODE,
   groups: [
@@ -117,6 +119,8 @@ Object.freeze(generalGroup);
 const overview: OccConfigurator.Overview = {
   id: configId,
   totalNumberOfIssues: totalNumberOfIssues,
+  numberOfConflicts: totalNumberOfIssues - 1,
+  numberOfIncompleteCharacteristics: 1,
   pricing: {},
   productCode: PRODUCT_CODE,
   groups: [
@@ -214,10 +218,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
       occConfiguratorVariantOverviewNormalizer.convertGroup(groupWithSubgroups);
     const rootGroup = result[0];
     expect(rootGroup).toBeDefined();
-    const subGroups = rootGroup.subGroups;
-    if (subGroups) {
-      expect(subGroups.length).toBe(3);
-      const secondLevelGroupInResult = subGroups[2];
+    const rootSubGroups = rootGroup.subGroups;
+    if (rootSubGroups) {
+      expect(rootSubGroups.length).toBe(3);
+      const secondLevelGroupInResult = rootSubGroups[2];
       expect(secondLevelGroupInResult.subGroups?.length).toBe(1);
     } else {
       fail();
@@ -245,5 +249,32 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const result =
       occConfiguratorVariantOverviewNormalizer.convertGroup(generalGroup);
     expect(result[0].groupDescription).toBe(generalGroupDescription);
+  });
+
+  it('should set all issue counters when running on commerce 2205 or later', () => {
+    let target: Configurator.Overview = { configId: '123', productCode: 'abc' };
+    occConfiguratorVariantOverviewNormalizer['setIssueCounters'](
+      target,
+      overview
+    );
+    expect(target.totalNumberOfIssues).toBe(2);
+    expect(target.numberOfIncompleteCharacteristics).toBe(1);
+    expect(target.numberOfConflicts).toBe(1);
+  });
+
+  it('should set only total number of issues when running on commerce before 2205', () => {
+    let target: Configurator.Overview = { configId: '123', productCode: 'abc' };
+    let source: OccConfigurator.Overview = {
+      id: '123',
+      productCode: 'abc',
+      totalNumberOfIssues: 2,
+    };
+    occConfiguratorVariantOverviewNormalizer['setIssueCounters'](
+      target,
+      source
+    );
+    expect(target.totalNumberOfIssues).toBe(2);
+    expect(target.numberOfIncompleteCharacteristics).toBeUndefined();
+    expect(target.numberOfConflicts).toBeUndefined();
   });
 });

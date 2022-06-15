@@ -1,8 +1,9 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule, Order } from '@spartacus/core';
-import { OrderDetailsService } from '@spartacus/storefront';
+import { I18nTestingModule } from '@spartacus/core';
+import { OrderDetailsService } from '@spartacus/order/components';
+import { Order } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { OrderDetailPermissionResultsComponent } from './order-detail-permission-results.component';
 

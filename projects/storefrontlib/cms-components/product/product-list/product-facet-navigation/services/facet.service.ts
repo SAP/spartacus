@@ -1,7 +1,7 @@
 import { HttpUrlEncodingCodec } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Facet } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {
   FacetCollapseState,
@@ -24,6 +24,8 @@ export class FacetService {
    */
   protected facetState = new Map<string, BehaviorSubject<FacetCollapseState>>();
 
+  protected readonly codec = new HttpUrlEncodingCodec();
+
   constructor(protected productFacetService: ProductFacetService) {}
 
   /**
@@ -35,7 +37,7 @@ export class FacetService {
    */
   facetList$: Observable<FacetList> = this.productFacetService.facetList$.pipe(
     tap((facetList) => {
-      facetList.facets.forEach((facet) => this.initialize(facet));
+      facetList.facets?.forEach((facet) => this.initialize(facet));
     })
   );
 
@@ -46,7 +48,7 @@ export class FacetService {
    */
   getState(facet: Facet): Observable<FacetCollapseState> {
     this.initialize(facet);
-    return this.facetState.get(facet.name);
+    return facet.name ? this.facetState.get(facet.name) ?? of({}) : of({});
   }
 
   /**
@@ -85,7 +87,7 @@ export class FacetService {
    * Increases the visible values to the maximum values of the facet.
    */
   increaseVisibleValues(facet: Facet): void {
-    this.updateState(facet, { maxVisible: facet.values.length });
+    this.updateState(facet, { maxVisible: facet.values?.length });
   }
 
   /**
@@ -104,8 +106,10 @@ export class FacetService {
    */
   protected initialize(facet: Facet): void {
     const topFacets =
-      facet.topValueCount > 0 ? facet.topValueCount : facet.values?.length || 0;
-    if (!this.hasState(facet)) {
+      facet.topValueCount && facet.topValueCount > 0
+        ? facet.topValueCount
+        : facet.values?.length || 0;
+    if (facet.name && !this.hasState(facet)) {
       this.facetState.set(
         facet.name,
         new BehaviorSubject({
@@ -121,11 +125,16 @@ export class FacetService {
    */
   protected updateState(facet: Facet, property: FacetCollapseState): void {
     const state = { ...this.getStateSnapshot(facet), ...property };
-    this.facetState.get(facet.name).next(state);
+    if (facet.name) {
+      this.facetState.get(facet.name)?.next(state);
+    }
   }
 
   protected hasState(facet: Facet): boolean {
-    return this.facetState.has(facet.name);
+    if (facet.name) {
+      return this.facetState.has(facet.name);
+    }
+    return false;
   }
 
   getLinkParams(query: string): { [key: string]: string } {
@@ -133,7 +142,13 @@ export class FacetService {
       // to avoid encoding issues with facets that have space (' ') in their name,
       // we replace the decoded '+' back to empty space ' '.
       // For more, see https://github.com/SAP/spartacus/issues/7348
-      query: new HttpUrlEncodingCodec().decodeValue(query).replace(/\+/g, ' '),
+      query: this.codec
+        .decodeValue(this.decodeUriComponentSafe(query))
+        .replace(/\+/g, ' '),
     };
+  }
+
+  protected decodeUriComponentSafe(query: string): string {
+    return query.replace(/%(?![0-9][0-9a-fA-F]+)/g, '%25');
   }
 }

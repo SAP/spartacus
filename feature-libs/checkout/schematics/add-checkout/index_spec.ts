@@ -10,21 +10,31 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_CHECKOUT_FEATURE,
+  cartBaseFeatureModulePath,
+  checkoutFeatureModulePath,
+  checkoutWrapperModulePath,
+  CHECKOUT_B2B_FEATURE_NAME,
+  CHECKOUT_BASE_FEATURE_NAME,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME,
   LibraryOptions as SpartacusCheckoutOptions,
+  orderFeatureModulePath,
   SpartacusOptions,
+  SPARTACUS_CHECKOUT,
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/checkout/checkout-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/checkout.scss';
 
 describe('Spartacus Checkout schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_CHECKOUT,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
@@ -55,10 +65,21 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     features: [],
   };
 
-  const checkoutFeatureOptions: SpartacusCheckoutOptions = {
+  const checkoutBaseFeatureOptions: SpartacusCheckoutOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CHECKOUT_FEATURE],
+    features: [CHECKOUT_BASE_FEATURE_NAME],
   };
+
+  const checkoutB2BFeatureOptions: SpartacusCheckoutOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CHECKOUT_B2B_FEATURE_NAME],
+  };
+
+  const checkoutScheduledReplenishmentFeatureOptions: SpartacusCheckoutOptions =
+    {
+      ...libraryNoFeaturesOptions,
+      features: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME],
+    };
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
@@ -103,7 +124,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(checkoutFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -133,45 +154,246 @@ describe('Spartacus Checkout schematics: ng-add', () => {
   });
 
   describe('Checkout feature', () => {
-    describe('general setup', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', checkoutFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
-      });
-
-      describe('styling', () => {
-        it('should create a proper scss file', () => {
-          const scssContent = appTree.readContent(scssFilePath);
-          expect(scssContent).toMatchSnapshot();
+    describe('base', () => {
+      describe('general setup', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', checkoutBaseFeatureOptions, appTree)
+            .toPromise();
         });
 
-        it('should update angular.json', async () => {
-          const content = appTree.readContent('/angular.json');
-          expect(content).toMatchSnapshot();
+        it('should add the feature using the lazy loading syntax', async () => {
+          const module = appTree.readContent(checkoutFeatureModulePath);
+          expect(module).toMatchSnapshot();
+
+          expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
+        });
+
+        it('should NOT install the required feature dependencies', async () => {
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toBeFalsy();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toBeFalsy();
+
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toBeFalsy();
+        });
+
+        describe('styling', () => {
+          it('should create a proper scss file', () => {
+            const scssContent = appTree.readContent(scssFilePath);
+            expect(scssContent).toMatchSnapshot();
+          });
+
+          it('should update angular.json', async () => {
+            const content = appTree.readContent('/angular.json');
+            expect(content).toMatchSnapshot();
+          });
+        });
+      });
+
+      describe('eager loading', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutBaseFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+        });
+
+        it('should import appropriate modules', async () => {
+          const module = appTree.readContent(checkoutFeatureModulePath);
+          expect(module).toMatchSnapshot();
+
+          expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
         });
       });
     });
 
-    describe('eager loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...checkoutFeatureOptions, lazy: false },
-            appTree
-          )
-          .toPromise();
+    describe('b2b', () => {
+      describe('general setup', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', checkoutBaseFeatureOptions, appTree)
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', checkoutB2BFeatureOptions, appTree)
+            .toPromise();
+        });
+
+        it('should add the feature using the lazy loading syntax', async () => {
+          const module = appTree.readContent(checkoutFeatureModulePath);
+          expect(module).toMatchSnapshot();
+
+          const wrapperModule = appTree.readContent(checkoutWrapperModulePath);
+          expect(wrapperModule).toMatchSnapshot();
+        });
+
+        it('should NOT install the required feature dependencies', async () => {
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toBeFalsy();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toBeFalsy();
+
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toBeFalsy();
+        });
+
+        describe('styling', () => {
+          it('should create a proper scss file', () => {
+            const scssContent = appTree.readContent(scssFilePath);
+            expect(scssContent).toMatchSnapshot();
+          });
+
+          it('should update angular.json', async () => {
+            const content = appTree.readContent('/angular.json');
+            expect(content).toMatchSnapshot();
+          });
+        });
+
+        describe('b2b features', () => {
+          it('configuration should be added', () => {
+            const configurationModule = appTree.readContent(
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            );
+            expect(configurationModule).toMatchSnapshot();
+          });
+        });
       });
 
-      it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
+      describe('eager loading', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutBaseFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutB2BFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+        });
+
+        it('should import appropriate modules', async () => {
+          const module = appTree.readContent(checkoutFeatureModulePath);
+          expect(module).toMatchSnapshot();
+
+          expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
+        });
+      });
+    });
+
+    describe('scheduled replenishment', () => {
+      describe('general setup', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', checkoutBaseFeatureOptions, appTree)
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', checkoutB2BFeatureOptions, appTree)
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              checkoutScheduledReplenishmentFeatureOptions,
+              appTree
+            )
+            .toPromise();
+        });
+
+        it('should add the feature using the lazy loading syntax', async () => {
+          const module = appTree.readContent(checkoutFeatureModulePath);
+          expect(module).toMatchSnapshot();
+
+          const wrapperModule = appTree.readContent(checkoutWrapperModulePath);
+          expect(wrapperModule).toMatchSnapshot();
+        });
+
+        it('should NOT install the required feature dependencies', async () => {
+          const cartBaseFeatureModule = appTree.readContent(
+            cartBaseFeatureModulePath
+          );
+          expect(cartBaseFeatureModule).toBeFalsy();
+
+          const orderFeatureModule = appTree.readContent(
+            orderFeatureModulePath
+          );
+          expect(orderFeatureModule).toBeFalsy();
+
+          const userFeatureModule = appTree.readContent(userFeatureModulePath);
+          expect(userFeatureModule).toBeFalsy();
+        });
+
+        describe('styling', () => {
+          it('should create a proper scss file', () => {
+            const scssContent = appTree.readContent(scssFilePath);
+            expect(scssContent).toMatchSnapshot();
+          });
+
+          it('should update angular.json', async () => {
+            const content = appTree.readContent('/angular.json');
+            expect(content).toMatchSnapshot();
+          });
+        });
+
+        describe('b2b features', () => {
+          it('configuration should be added', () => {
+            const configurationModule = appTree.readContent(
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            );
+            expect(configurationModule).toMatchSnapshot();
+          });
+        });
+      });
+
+      describe('eager loading', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutBaseFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutB2BFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...checkoutScheduledReplenishmentFeatureOptions, lazy: false },
+              appTree
+            )
+            .toPromise();
+        });
+
+        it('should import appropriate modules', async () => {
+          const module = appTree.readContent(checkoutFeatureModulePath);
+          expect(module).toMatchSnapshot();
+
+          expect(appTree.readContent(checkoutWrapperModulePath)).toBeFalsy();
+        });
       });
     });
   });

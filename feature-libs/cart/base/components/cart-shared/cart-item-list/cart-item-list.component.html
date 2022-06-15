@@ -1,0 +1,54 @@
+<table role="table">
+  <caption class="cx-visually-hidden">
+    {{
+      'cartItems.caption' | cxTranslate
+    }}
+  </caption>
+  <thead *ngIf="hasHeader">
+    <tr role="row" class="cx-item-list-header">
+      <th role="columnheader" class="cx-item-list-desc">
+        {{ 'cartItems.description' | cxTranslate }}
+      </th>
+      <th role="columnheader" class="cx-item-list-qty">
+        {{ 'cartItems.quantity' | cxTranslate }}
+      </th>
+      <ng-container *ngIf="options.isSaveForLater; else totalHeader">
+        <th role="columnheader" class="cx-item-list-total">
+          {{ 'saveForLaterItems.stock' | cxTranslate }}
+        </th>
+      </ng-container>
+      <ng-container
+        *ngIf="!readonly || options.isSaveForLater || options.displayAddToCart"
+      >
+        <th role="columnheader" class="cx-item-list-actions">
+          {{ 'cartItems.actions' | cxTranslate }}
+        </th>
+      </ng-container>
+    </tr>
+  </thead>
+  <tbody class="cx-item-list-items">
+    <ng-container *ngFor="let item of items; let i = index">
+      <ng-container
+        *ngIf="getControl(item) | async as control"
+        [class.is-changed]="control.get('quantity').disabled"
+      >
+        <tr
+          cx-cart-item-list-row
+          role="row"
+          class="cx-item-list-row"
+          [item]="item"
+          [quantityControl]="control.get('quantity')"
+          [readonly]="readonly"
+          [promotionLocation]="promotionLocation"
+          [options]="options"
+        ></tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+</table>
+
+<ng-template #totalHeader>
+  <th role="columnheader" class="cx-item-list-total">
+    {{ 'cartItems.total' | cxTranslate }}
+  </th>
+</ng-template>

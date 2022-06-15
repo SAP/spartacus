@@ -7,9 +7,9 @@ import {
   OBJECT_TYPE,
   PLATFORM,
   PLATFORM_ID_STRING,
-  SPARTACUS_CORE,
   STORE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_LOADING_SERVICE_MIGRATION: ConstructorDeprecation = {

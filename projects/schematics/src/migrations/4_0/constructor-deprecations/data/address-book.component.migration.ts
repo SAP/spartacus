@@ -2,10 +2,10 @@ import {
   ADDRESS_BOOK_COMPONENT,
   ADDRESS_BOOK_COMPONENT_SERVICE,
   CHECKOUT_DELIVERY_SERVICE,
-  SPARTACUS_CORE,
   TRANSLATION_SERVICE,
   USER_ADDRESS_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ADDRESS_BOOK_COMPONENT_MIGRATION: ConstructorDeprecation = {

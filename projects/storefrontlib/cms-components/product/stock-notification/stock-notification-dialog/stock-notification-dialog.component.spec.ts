@@ -12,6 +12,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { DebugElement } from '@angular/core';
 import { of } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
 describe('StockNotificationDialogComponent', () => {
   let component: StockNotificationDialogComponent;
@@ -38,7 +39,12 @@ describe('StockNotificationDialogComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [StockNotificationDialogComponent],
-        imports: [I18nTestingModule, RouterTestingModule, SpinnerModule],
+        imports: [
+          I18nTestingModule,
+          RouterTestingModule,
+          SpinnerModule,
+          UrlTestingModule,
+        ],
         providers: [
           { provide: ModalService, useValue: modalService },
           { provide: UserInterestsService, useValue: interestsService },

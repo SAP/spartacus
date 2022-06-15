@@ -8,7 +8,6 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   Output,
   Renderer2,
   Type,
@@ -18,9 +17,10 @@ import {
   ContentSlotComponentData,
   DynamicAttributeService,
   EventService,
+  isNotUndefined,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { filter, finalize, tap } from 'rxjs/operators';
 import { CmsComponentsService } from '../../services/cms-components.service';
 import {
   ComponentCreateEvent,
@@ -51,29 +51,6 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private launcherResource?: Subscription;
 
-  /**
-   * @deprecated since version 3.3
-   * Use the following constructor instead:
-   * ```
-   * constructor( protected vcr: ViewContainerRef,
-   * protected cmsComponentsService: CmsComponentsService,
-   * protected injector: Injector,
-   * protected dynamicAttributeService: DynamicAttributeService,
-   * protected renderer: Renderer2,
-   * protected componentHandler: ComponentHandlerService,
-   * protected cmsInjector: CmsInjectorService,
-   * protected eventService: EventService) {}
-   * ```
-   */
-  constructor(
-    vcr: ViewContainerRef,
-    cmsComponentsService: CmsComponentsService,
-    injector: Injector,
-    dynamicAttributeService: DynamicAttributeService,
-    renderer: Renderer2,
-    componentHandler: ComponentHandlerService,
-    cmsInjector: CmsInjectorService
-  );
   constructor(
     protected vcr: ViewContainerRef,
     protected cmsComponentsService: CmsComponentsService,
@@ -82,16 +59,16 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
     protected cmsInjector: CmsInjectorService,
-    @Optional() protected eventService?: EventService
+    protected eventService: EventService
   ) {}
 
   ngOnInit() {
     this.cmsComponentsService
-      .determineMappings([this.cxComponentWrapper.flexType])
+      .determineMappings([this.cxComponentWrapper.flexType ?? ''])
       .subscribe(() => {
         if (
           this.cmsComponentsService.shouldRender(
-            this.cxComponentWrapper.flexType
+            this.cxComponentWrapper.flexType ?? ''
           )
         ) {
           this.launchComponent();
@@ -101,7 +78,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private launchComponent() {
     const componentMapping = this.cmsComponentsService.getMapping(
-      this.cxComponentWrapper.flexType
+      this.cxComponentWrapper.flexType ?? ''
     );
 
     if (!componentMapping) {
@@ -113,13 +90,16 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         componentMapping,
         this.vcr,
         this.cmsInjector.getInjector(
-          this.cxComponentWrapper.flexType,
-          this.cxComponentWrapper.uid,
+          this.cxComponentWrapper.flexType ?? '',
+          this.cxComponentWrapper.uid ?? '',
           this.injector
         ),
-        this.cmsComponentsService.getModule(this.cxComponentWrapper.flexType)
+        this.cmsComponentsService.getModule(
+          this.cxComponentWrapper.flexType ?? ''
+        )
       )
-      .pipe(
+      ?.pipe(
+        filter(isNotUndefined),
         tap(({ elementRef, componentRef }) => {
           this.cmpRef = componentRef;
 
@@ -150,7 +130,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     if (event === ComponentCreateEvent) {
       (payload as ComponentCreateEvent).host = elementRef?.nativeElement;
     }
-    this.eventService?.dispatch(payload, event);
+    this.eventService.dispatch(payload, event);
   }
 
   private decorate(elementRef: ElementRef): void {

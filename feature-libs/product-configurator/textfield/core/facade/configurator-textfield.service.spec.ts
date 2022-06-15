@@ -2,9 +2,8 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-  ActiveCartService,
-  Cart,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   UserIdService,
@@ -115,13 +114,9 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
-const cartState: any = {
-  value: cart,
-};
-
 class MockActiveCartService {
   requireLoadedCart(): any {
-    return of(cartState);
+    return of(cart);
   }
 }
 
@@ -151,7 +146,7 @@ describe('ConfiguratorTextfieldService', () => {
         providers: [
           ConfiguratorTextfieldService,
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {

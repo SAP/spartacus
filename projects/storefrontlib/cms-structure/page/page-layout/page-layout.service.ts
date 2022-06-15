@@ -1,6 +1,11 @@
-import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
-import { CmsService, Page } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Injectable, isDevMode, OnDestroy } from '@angular/core';
+import {
+  CmsService,
+  isNotUndefined,
+  Page,
+  UnifiedInjector,
+} from '@spartacus/core';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import {
@@ -14,21 +19,28 @@ import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
 @Injectable({
   providedIn: 'root',
 })
-export class PageLayoutService {
+export class PageLayoutService implements OnDestroy {
+  protected handlers: PageLayoutHandler[];
+  protected subscription = new Subscription();
+
   constructor(
     private cms: CmsService,
     private config: LayoutConfig,
     private breakpointService: BreakpointService,
-    @Optional()
-    @Inject(PAGE_LAYOUT_HANDLER)
-    private handlers: PageLayoutHandler[]
-  ) {}
+    private unifiedInjector: UnifiedInjector
+  ) {
+    this.subscription.add(
+      this.unifiedInjector
+        .getMulti(PAGE_LAYOUT_HANDLER)
+        .subscribe((handlers) => (this.handlers = handlers))
+    );
+  }
 
   // Prints warn messages for missing layout configs.
   // The warnings are only printed once per config
   // to not pollute the console log.
-  private warnLogMessages = {};
-  private logSlots = {};
+  private warnLogMessages: any = {};
+  private logSlots: any = {};
 
   getSlots(section?: string): Observable<string[]> {
     return combineLatest([this.page$, this.breakpointService.breakpoint$]).pipe(
@@ -64,12 +76,12 @@ export class PageLayoutService {
    *
    * The page fold is configurable in the `LayoutConfig` for each page layout.
    */
-  getPageFoldSlot(pageTemplate: string): Observable<string> {
+  getPageFoldSlot(pageTemplate: string): Observable<string | undefined> {
     return this.breakpointService.breakpoint$.pipe(
       map((breakpoint) => {
         if (!this.config.layoutSlots) {
           // no layout config available
-          return null;
+          return undefined;
         }
         const pageTemplateConfig = this.config.layoutSlots[pageTemplate];
         const config = this.getResponsiveSlotConfig(
@@ -77,24 +89,28 @@ export class PageLayoutService {
           'pageFold',
           breakpoint
         );
-        return config ? config.pageFold : null;
+        return config ? config.pageFold : undefined;
       })
     );
   }
 
-  private resolveSlots(page, section, breakpoint): string[] {
+  private resolveSlots(
+    page: Page,
+    section: string | undefined,
+    breakpoint: BREAKPOINT
+  ): string[] {
     const config = this.getSlotConfig(
-      page.template,
+      page.template ?? '',
       'slots',
       section,
       breakpoint
     );
     if (config && config.slots) {
-      const pageSlots = Object.keys(page.slots);
+      const pageSlots = page.slots ? Object.keys(page.slots) : [];
       return config.slots.filter((slot) => pageSlots.includes(slot));
     } else if (!section) {
       this.logMissingLayoutConfig(page);
-      return Object.keys(page.slots);
+      return page.slots ? Object.keys(page.slots) : [];
     } else {
       this.logMissingLayoutConfig(page, section);
       return [];
@@ -107,8 +123,8 @@ export class PageLayoutService {
 
   get templateName$(): Observable<string> {
     return this.page$.pipe(
-      filter((page) => !!page.template),
-      map((page: Page) => page.template)
+      map((page: Page) => page.template),
+      filter(isNotUndefined)
     );
   }
 
@@ -123,9 +139,9 @@ export class PageLayoutService {
     configAttribute: string,
     section?: string,
     breakpoint?: BREAKPOINT
-  ): SlotConfig {
+  ): SlotConfig | undefined {
     if (!this.config.layoutSlots) {
-      return null;
+      return undefined;
     }
     const pageTemplateConfig = this.config.layoutSlots[templateUid];
 
@@ -152,21 +168,21 @@ export class PageLayoutService {
     configAttribute: string,
     section?: string,
     breakpoint?: BREAKPOINT
-  ): SlotConfig {
-    const pageTemplateConfig = this.config.layoutSlots[templateUid];
+  ): SlotConfig | undefined {
+    const pageTemplateConfig: any = this.config.layoutSlots?.[templateUid];
 
-    if (!pageTemplateConfig) {
-      return null;
+    if (!pageTemplateConfig || !section) {
+      return undefined;
     }
 
     // if there's no section config on the page layout
     // we fall back to the global section config
     const sectionConfig = pageTemplateConfig[section]
       ? pageTemplateConfig[section]
-      : this.config.layoutSlots[section];
+      : this.config.layoutSlots?.[section];
 
     if (!sectionConfig) {
-      return null;
+      return undefined;
     }
 
     const responsiveConfig = this.getResponsiveSlotConfig(
@@ -179,7 +195,7 @@ export class PageLayoutService {
       return responsiveConfig;
     } else if (pageTemplateConfig[section].hasOwnProperty(configAttribute)) {
       return pageTemplateConfig[section];
-    } else if (this.config.layoutSlots[section]) {
+    } else if (this.config.layoutSlots?.[section]) {
       return <SlotConfig>this.config.layoutSlots[section];
     }
   }
@@ -233,21 +249,28 @@ export class PageLayoutService {
     if (!isDevMode()) {
       return;
     }
-    if (!this.logSlots[page.template]) {
+    if (page.template && !this.logSlots[page.template]) {
       // the info log is not printed in production
       // eslint-disable-next-line no-console
       console.info(
-        `Available CMS page slots: '${Object.keys(page.slots).join(`','`)}'`
+        `Available CMS page slots: '${(page.slots
+          ? Object.keys(page.slots)
+          : []
+        ).join(`','`)}'`
       );
       this.logSlots[page.template] = true;
     }
 
     const cacheKey = section || page.template;
-    if (!this.warnLogMessages[cacheKey]) {
+    if (cacheKey && !this.warnLogMessages[cacheKey]) {
       console.warn(
         `No layout config found for ${cacheKey}, you can configure a 'LayoutConfig' to control the rendering of page slots.`
       );
       this.warnLogMessages[cacheKey] = true;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

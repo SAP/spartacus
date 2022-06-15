@@ -16,7 +16,7 @@ export class FooterNavigationComponent {
     this.componentData.data$
   );
 
-  styleClass$: Observable<string> = this.componentData.data$.pipe(
+  styleClass$: Observable<string | undefined> = this.componentData.data$.pipe(
     map((d) => d?.styleClass)
   );
 

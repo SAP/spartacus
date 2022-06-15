@@ -14,7 +14,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { SPARTACUS_CORE } from '../../shared/constants';
+import { SPARTACUS_CORE, SPARTACUS_SCHEMATICS } from '../libs-constants';
 import {
   buildDefaultPath,
   getAngularJsonFile,
@@ -30,7 +30,10 @@ import {
 } from './workspace-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
-const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+const schematicRunner = new SchematicTestRunner(
+  SPARTACUS_SCHEMATICS,
+  collectionPath
+);
 
 describe('Workspace utils', () => {
   let appTree: UnitTestTree;
@@ -259,7 +262,7 @@ describe('Workspace utils', () => {
       ).toThrowError(
         new SchematicsException(
           `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation.`
+    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
         )
       );
     });

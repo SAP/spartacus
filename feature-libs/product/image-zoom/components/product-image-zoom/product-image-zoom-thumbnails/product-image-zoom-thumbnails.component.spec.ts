@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProductImageZoomThumbnailsComponent } from './product-image-zoom-thumbnails.component';
 
@@ -58,6 +58,7 @@ describe('ProductImageZoomThumbnailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductImageZoomThumbnailsComponent);
     productImageZoomThumbnailsComponent = fixture.componentInstance;
+    productImageZoomThumbnailsComponent.activeThumb = new EventEmitter<any>();
     fixture.detectChanges();
   });
 

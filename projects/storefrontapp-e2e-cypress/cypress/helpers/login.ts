@@ -7,8 +7,8 @@ export const userGreetSelector = 'cx-login .cx-login-greet';
 export const loginLinkSelector = 'cx-login [role="link"]';
 
 export const defaultUser = {
-  name: 'test-user-cypress@ydev.hybris.com',
-  password: 'Password123.',
+  name: 'test-user-with-orders@sap.cx.com',
+  password: 'pw4all',
 };
 
 /**
@@ -54,18 +54,26 @@ export function loginUser() {
   login(user.email, user.password);
 }
 
-export function loginWithBadCredentials() {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get(loginLinkSelector).click();
-  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+export function loginWithBadCredentialsFromLoginPage() {
+  listenForTokenAuthenticationRequest();
 
   login(user.email, 'Password321');
+
+  cy.wait('@tokenAuthentication').its('response.statusCode').should('eq', 400);
 
   cy.get(userGreetSelector).should('not.exist');
 
   alerts
     .getErrorAlert()
     .should('contain', 'Bad credentials. Please login again');
+}
+
+export function loginWithBadCredentials() {
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.get(loginLinkSelector).click();
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+
+  loginWithBadCredentialsFromLoginPage();
 }
 
 export function loginAsDefaultUser() {

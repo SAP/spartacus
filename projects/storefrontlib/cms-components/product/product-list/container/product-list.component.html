@@ -1,5 +1,9 @@
 <div class="cx-page" *ngIf="model$ | async as model">
-  <section class="cx-page-section">
+  <section
+    tabindex="-1"
+    class="cx-page-section"
+    [attr.aria-label]="'productList.productListResults' | cxTranslate"
+  >
     <div class="container">
       <div class="row">
         <div class="col-12 col-lg-12" *ngIf="viewMode$ | async as viewMode">
@@ -12,7 +16,9 @@
                 <cx-sorting
                   [sortOptions]="model.sorts"
                   (sortListEvent)="sortList($event)"
-                  [selectedOption]="model.pagination.sort"
+                  [selectedOption]="model.pagination?.sort"
+                  [ariaLabel]="'productList.sortResults' | cxTranslate"
+                  ariaControls="product-results-list"
                   placeholder="{{ 'productList.sortBy' | cxTranslate }}"
                 ></cx-sorting>
               </label>
@@ -38,7 +44,7 @@
               </div>
             </div>
           </div>
-          <div class="cx-product-container">
+          <div id="product-results-list" class="cx-product-container">
             <!-- Product list when using pagination -->
             <ng-container *ngIf="!isInfiniteScroll; else infiniteScroll">
               <ng-container *ngIf="viewMode === ViewModes.Grid">
@@ -78,7 +84,9 @@
                 <cx-sorting
                   [sortOptions]="model.sorts"
                   (sortListEvent)="sortList($event)"
-                  [selectedOption]="model.pagination.sort"
+                  [selectedOption]="model.pagination?.sort"
+                  [ariaLabel]="'productList.sortResults' | cxTranslate"
+                  ariaControls="product-results-list"
                   placeholder="{{ 'productList.sortBy' | cxTranslate }}"
                 ></cx-sorting>
               </label>

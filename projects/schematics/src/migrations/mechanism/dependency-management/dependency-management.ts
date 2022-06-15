@@ -5,26 +5,18 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
-import {
-  addPackageJsonDependency,
-  NodeDependency,
-} from '@schematics/angular/utility/dependencies';
-import semver from 'semver';
+import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import collectedDependencies from '../../../dependencies.json';
 import {
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SCOPE,
-} from '../../../shared/constants';
+} from '../../../shared/libs-constants';
+import { analyzeCrossLibraryDependenciesByLibraries } from '../../../shared/utils/dependency-utils';
+import { installPackageJsonDependencies } from '../../../shared/utils/lib-utils';
 import {
-  addPackageJsonDependencies,
-  dependencyExists,
-  installPackageJsonDependencies,
-} from '../../../shared/utils/lib-utils';
-import {
-  cleanSemverVersion,
-  CORE_SPARTACUS_SCOPES,
   createDependencies,
   readPackageJson,
+  updatePackageJsonDependencies,
 } from '../../../shared/utils/package-utils';
 
 export function migrateDependencies(
@@ -60,46 +52,18 @@ function collectSpartacusLibraryDependencies(packageJson: any): {
   installedLibs: string[];
   spartacusPeerDeps: string[];
 } {
-  const dependencies =
-    (packageJson.dependencies as Record<string, string>) ?? {};
-  const installedLibs = Object.keys(dependencies).filter((dep) =>
-    dep.startsWith(SPARTACUS_SCOPE)
+  const dependencies: Record<string, string> = packageJson.dependencies;
+  const installedLibs = Object.keys(dependencies).filter((dependency) =>
+    dependency.startsWith(SPARTACUS_SCOPE)
   );
 
-  let spartacusPeerDeps: string[] = [];
-  for (const spartacusLib of installedLibs) {
-    spartacusPeerDeps = collectSpartacusPeerDeps(
-      spartacusPeerDeps,
-      spartacusLib
-    );
-  }
+  const spartacusPeerDeps =
+    analyzeCrossLibraryDependenciesByLibraries(installedLibs);
 
-  // remove the duplicates
-  spartacusPeerDeps = Array.from(new Set<string>(spartacusPeerDeps));
   return {
     installedLibs,
     spartacusPeerDeps,
   };
-}
-
-function collectSpartacusPeerDeps(
-  collectedDeps: string[],
-  name: string
-): string[] {
-  const peerDepsWithVersions = (
-    collectedDependencies as Record<string, Record<string, string>>
-  )[name];
-  const peerDeps = Object.keys(peerDepsWithVersions)
-    .filter((d) => d.startsWith(SPARTACUS_SCOPE))
-    .filter((d) => !CORE_SPARTACUS_SCOPES.includes(d))
-    .filter((d) => !collectedDeps.includes(d));
-
-  collectedDeps = collectedDeps.concat(peerDeps);
-  for (const peerDep of peerDeps) {
-    collectedDeps = collectSpartacusPeerDeps(collectedDeps, peerDep);
-  }
-
-  return collectedDeps;
 }
 
 function createSpartacusLibraryDependencies(
@@ -139,9 +103,6 @@ function checkAndLogRemovedDependencies(
   removedDependencies: string[],
   logger: logging.LoggerApi
 ): void {
-  const dependencies =
-    (packageJson.dependencies as Record<string, string>) ?? {};
-
   let allSpartacusDeps: string[] = [];
   for (const libraryName of installedSpartacusLibs) {
     const spartacusLibrary = (
@@ -150,6 +111,8 @@ function checkAndLogRemovedDependencies(
     allSpartacusDeps = allSpartacusDeps.concat(Object.keys(spartacusLibrary));
   }
 
+  const dependencies =
+    (packageJson.dependencies as Record<string, string>) ?? {};
   const removed: string[] = [];
   for (const removedDependency of removedDependencies) {
     if (!dependencies[removedDependency]) {
@@ -167,57 +130,4 @@ function checkAndLogRemovedDependencies(
       )}. If you don't use these dependencies in your application, you might want to consider removing them from your dependencies list.`
     );
   }
-}
-
-function updatePackageJsonDependencies(
-  dependencies: NodeDependency[],
-  packageJson: any
-): Rule {
-  return (tree: Tree, context: SchematicContext): Rule => {
-    const dependenciesToAdd: NodeDependency[] = [];
-
-    for (const dependency of dependencies) {
-      const currentVersion = getCurrentDependencyVersion(
-        dependency,
-        packageJson
-      );
-      if (!currentVersion) {
-        dependenciesToAdd.push(dependency);
-        continue;
-      }
-
-      if (semver.satisfies(currentVersion, dependency.version)) {
-        continue;
-      }
-
-      const versionToUpdate = semver.parse(
-        cleanSemverVersion(dependency.version)
-      );
-      if (!versionToUpdate || semver.eq(versionToUpdate, currentVersion)) {
-        continue;
-      }
-
-      addPackageJsonDependency(tree, dependency);
-      const change = semver.gt(versionToUpdate, currentVersion)
-        ? 'Upgrading'
-        : 'Downgrading';
-      context.logger.info(
-        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
-      );
-    }
-
-    return addPackageJsonDependencies(dependenciesToAdd, packageJson);
-  };
-}
-
-function getCurrentDependencyVersion(
-  dependency: NodeDependency,
-  packageJson: any
-): semver.SemVer | null {
-  if (!dependencyExists(dependency, packageJson)) {
-    return null;
-  }
-  const dependencies = packageJson[dependency.type];
-  const currentVersion = dependencies[dependency.name];
-  return semver.parse(cleanSemverVersion(currentVersion));
 }

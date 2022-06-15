@@ -3,25 +3,22 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  ConfigModule,
   I18nModule,
+  provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    ConfigModule.withConfig(<CmsConfig>{
+  imports: [CommonModule, RouterModule, I18nModule, UrlModule],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AddToSavedCartsComponent: {
           component: AddToSavedCartComponent,
         },
       },
     }),
-    I18nModule,
-    UrlModule,
   ],
   exports: [AddToSavedCartComponent],
   declarations: [AddToSavedCartComponent],

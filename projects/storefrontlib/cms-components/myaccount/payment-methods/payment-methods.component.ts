@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  GlobalMessageService,
+  GlobalMessageType,
   PaymentDetails,
   TranslationService,
   UserPaymentService,
@@ -15,13 +17,14 @@ import { Card } from '../../../shared/components/card/card.component';
 })
 export class PaymentMethodsComponent implements OnInit {
   paymentMethods$: Observable<PaymentDetails[]>;
-  editCard: string;
+  editCard: string | undefined;
   iconTypes = ICON_TYPE;
   loading$: Observable<boolean>;
 
   constructor(
     private userPaymentService: UserPaymentService,
-    private translation: TranslationService
+    private translation: TranslationService,
+    protected globalMessageService?: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +40,7 @@ export class PaymentMethodsComponent implements OnInit {
       })
     );
 
-    this.editCard = null;
+    this.editCard = undefined;
     this.loading$ = this.userPaymentService.getPaymentMethodsLoading();
     this.userPaymentService.loadPaymentMethods();
   }
@@ -74,12 +77,16 @@ export class PaymentMethodsComponent implements OnInit {
           }
           actions.push({ name: textDelete, event: 'edit' });
           const card: Card = {
-            header: defaultPayment ? textDefaultPaymentMethod : null,
+            role: 'region',
+            header: defaultPayment ? textDefaultPaymentMethod : undefined,
             textBold: accountHolderName,
-            text: [cardNumber, textExpires],
+            text: [cardNumber ?? '', textExpires],
             actions,
             deleteMsg: textDeleteConfirmation,
-            img: this.getCardIcon(cardType.code),
+            img: this.getCardIcon(cardType?.code ?? ''),
+            label: defaultPayment
+              ? 'paymentCard.defaultPaymentLabel'
+              : 'paymentCard.additionalPaymentLabel',
           };
 
           return card;
@@ -89,8 +96,10 @@ export class PaymentMethodsComponent implements OnInit {
   }
 
   deletePaymentMethod(paymentMethod: PaymentDetails): void {
-    this.userPaymentService.deletePaymentMethod(paymentMethod.id);
-    this.editCard = null;
+    if (paymentMethod.id) {
+      this.userPaymentService.deletePaymentMethod(paymentMethod.id);
+      this.editCard = undefined;
+    }
   }
 
   setEdit(paymentMethod: PaymentDetails): void {
@@ -98,11 +107,15 @@ export class PaymentMethodsComponent implements OnInit {
   }
 
   cancelCard(): void {
-    this.editCard = null;
+    this.editCard = undefined;
   }
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
-    this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
+    this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id ?? '');
+    this.globalMessageService?.add(
+      { key: 'paymentMessages.setAsDefaultSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   getCardIcon(code: string): string {

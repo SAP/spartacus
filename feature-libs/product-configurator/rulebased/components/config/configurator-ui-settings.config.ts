@@ -6,6 +6,8 @@ export interface ProductConfiguratorUISettingsConfig {
     quantity?: number;
     input?: number;
   };
+  addRetractOption?: boolean;
+  enableNavigationToConflict?: boolean;
 }
 
 @Injectable({

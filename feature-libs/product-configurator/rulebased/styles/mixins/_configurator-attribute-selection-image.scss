@@ -27,7 +27,7 @@
         }
       }
 
-      input[aria-checked='true'] + .cx-label-container {
+      input[checked='checked'] + .cx-label-container {
         .cx-img,
         .cx-img-dummy {
           border: var(--cx-color-primary) 3px solid;

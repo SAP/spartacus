@@ -15,26 +15,18 @@
     "types": [],
     "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/checkout/assets": ["dist/checkout/assets"],
-      "@spartacus/checkout/components": ["dist/checkout/components"],
-      "@spartacus/checkout/core": ["dist/checkout/core"],
-      "@spartacus/checkout": ["dist/checkout"],
-      "@spartacus/checkout/occ": ["dist/checkout/occ"],
-      "@spartacus/checkout/root": ["dist/checkout/root"],
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
-      "@spartacus/tracking": ["dist/tracking"],
-      "@spartacus/tracking/personalization/core": [
-        "dist/tracking/personalization/core"
+      "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
+      "@spartacus/cart/base/components/add-to-cart": [
+        "dist/cart/base/components/add-to-cart"
       ],
-      "@spartacus/tracking/personalization": ["dist/tracking/personalization"],
-      "@spartacus/tracking/personalization/root": [
-        "dist/tracking/personalization/root"
+      "@spartacus/cart/base/components/mini-cart": [
+        "dist/cart/base/components/mini-cart"
       ],
-      "@spartacus/tracking/tms/aep": ["dist/tracking/tms/aep"],
-      "@spartacus/tracking/tms/core": ["dist/tracking/tms/core"],
-      "@spartacus/tracking/tms/gtm": ["dist/tracking/tms/gtm"],
-      "@spartacus/tracking/tms": ["dist/tracking/tms"],
+      "@spartacus/cart/base/components": ["dist/cart/base/components"],
+      "@spartacus/cart/base/core": ["dist/cart/base/core"],
+      "@spartacus/cart/base": ["dist/cart/base"],
+      "@spartacus/cart/base/occ": ["dist/cart/base/occ"],
+      "@spartacus/cart/base/root": ["dist/cart/base/root"],
       "@spartacus/cart/import-export/assets": [
         "dist/cart/import-export/assets"
       ],
@@ -60,6 +52,36 @@
       "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
+      "@spartacus/cart/wish-list/assets": ["dist/cart/wish-list/assets"],
+      "@spartacus/cart/wish-list/components/add-to-wishlist": [
+        "dist/cart/wish-list/components/add-to-wishlist"
+      ],
+      "@spartacus/cart/wish-list/components": [
+        "dist/cart/wish-list/components"
+      ],
+      "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
+      "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
+      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/tracking": ["dist/tracking"],
+      "@spartacus/tracking/personalization/core": [
+        "dist/tracking/personalization/core"
+      ],
+      "@spartacus/tracking/personalization": ["dist/tracking/personalization"],
+      "@spartacus/tracking/personalization/root": [
+        "dist/tracking/personalization/root"
+      ],
+      "@spartacus/tracking/tms/aep": ["dist/tracking/tms/aep"],
+      "@spartacus/tracking/tms/core": ["dist/tracking/tms/core"],
+      "@spartacus/tracking/tms/gtm": ["dist/tracking/tms/gtm"],
+      "@spartacus/tracking/tms": ["dist/tracking/tms"],
+      "@spartacus/order/assets": ["dist/order/assets"],
+      "@spartacus/order/components": ["dist/order/components"],
+      "@spartacus/order/core": ["dist/order/core"],
+      "@spartacus/order": ["dist/order"],
+      "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/root": ["dist/order/root"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],
       "@spartacus/user/account/components": ["dist/user/account/components"],
       "@spartacus/user/account/core": ["dist/user/account/core"],

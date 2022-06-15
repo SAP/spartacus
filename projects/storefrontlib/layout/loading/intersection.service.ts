@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, first, flatMap, map } from 'rxjs/operators';
+import { Observable, Observer } from 'rxjs';
+import { distinctUntilChanged, first, map, mergeMap } from 'rxjs/operators';
 import { LayoutConfig } from '../config/layout-config';
 import { IntersectionOptions } from './intersection.model';
 
@@ -31,29 +31,41 @@ export class IntersectionService {
   }
 
   /**
+   * Returns an observable that emits for every change of intersection of a given element
+   * @param  element - HTML element
+   * @param  options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
+   * @returns Element intersects?
+   */
+  isIntersecting(
+    element: HTMLElement,
+    options?: IntersectionOptions
+  ): Observable<boolean> {
+    return this.intersects(element, options);
+  }
+
+  /**
    * Indicates whenever the element intersects the view port. An optional margin
    * is used to intersects before the element shows up in the viewport.
    * A value is emitted each time the element intersects.
-   *
-   * This is private for now, but could be exposed as a public API
-   * to introduce additional (css) render effects to the UI.
    */
   private intersects(
     element: HTMLElement,
     options: IntersectionOptions = {}
   ): Observable<boolean> {
-    const elementVisible$ = new Observable((observer) => {
-      const rootMargin = this.getRootMargin(options);
-      const intersectOptions = { rootMargin, threshold: options.threshold };
-      const intersectionObserver = new IntersectionObserver((entries) => {
-        observer.next(entries);
-      }, intersectOptions);
-      intersectionObserver.observe(element);
-      return () => {
-        intersectionObserver.disconnect();
-      };
-    }).pipe(
-      flatMap((entries: IntersectionObserverEntry[]) => entries),
+    const elementVisible$ = new Observable(
+      (observer: Observer<IntersectionObserverEntry[]>) => {
+        const rootMargin = this.getRootMargin(options);
+        const intersectOptions = { rootMargin, threshold: options.threshold };
+        const intersectionObserver = new IntersectionObserver((entries) => {
+          observer.next(entries);
+        }, intersectOptions);
+        intersectionObserver.observe(element);
+        return () => {
+          intersectionObserver.disconnect();
+        };
+      }
+    ).pipe(
+      mergeMap((entries: IntersectionObserverEntry[]) => entries),
       map((entry: IntersectionObserverEntry) => entry.isIntersecting),
       distinctUntilChanged()
     );
@@ -61,7 +73,7 @@ export class IntersectionService {
     return elementVisible$;
   }
 
-  private getRootMargin(options: IntersectionOptions = {}): string {
+  private getRootMargin(options: IntersectionOptions = {}): string | undefined {
     if (options.rootMargin) {
       return options.rootMargin;
     }

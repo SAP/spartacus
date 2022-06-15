@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule, ReturnRequest } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
+import { ReturnRequest } from '@spartacus/order/root';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';

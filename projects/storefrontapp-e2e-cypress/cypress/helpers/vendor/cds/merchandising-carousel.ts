@@ -2,7 +2,11 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
-import { waitForPage, waitForProductPage } from '../../checkout-flow';
+import {
+  waitForCategoryPage,
+  waitForPage,
+  waitForProductPage,
+} from '../../checkout-flow';
 
 interface StrategyRequestContext {
   language?: string;
@@ -181,7 +185,7 @@ export function verifyRequestToStrategyService(
 ): void {
   cy.wait(`@${requestAlias}`).its('response.statusCode').should('eq', 200);
 
-  cy.get<Cypress.WaitXHR>(`@${requestAlias}`).then((request) => {
+  cy.get<Cypress.WaitXHR>(`@${requestAlias}`).then(({ request }: any) => {
     expect(request.url).to.contain(`site=${site}`);
     expect(request.url).to.contain(
       `language=${
@@ -217,10 +221,8 @@ export function verifyRequestToStrategyService(
     }
 
     strategyRequestContext.containsConsentReference
-      ? expect(request.requestHeaders).to.have.property('consent-reference')
-      : expect(request.requestHeaders).to.not.have.property(
-          'consent-reference'
-        );
+      ? expect(request.headers).to.have.property('consent-reference')
+      : expect(request.headers).to.not.have.property('consent-reference');
   });
 }
 
@@ -340,8 +342,11 @@ export function navigateToHomepage(): void {
   cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
 }
 
-export function navigateToCategory(categoryName: string): void {
-  const categoryPage = waitForPage('CategoryPage', 'getCategory');
+export function navigateToCategory(
+  categoryName: string,
+  categoryCode: string
+): void {
+  const categoryPage = waitForCategoryPage(categoryCode, 'getCategory');
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force: true });

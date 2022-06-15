@@ -59,8 +59,16 @@ class MyCouponsComponent {
     });
 }
 
+class MockModalRef {
+  get componentInstance() {
+    return {
+      coupon: null,
+    };
+  }
+}
+
 class MockModalService {
-  open = createSpy('open');
+  open = createSpy('open').and.returnValue(new MockModalRef());
 }
 
 describe('CouponCardComponent', () => {
