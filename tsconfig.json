@@ -90,6 +90,9 @@
       "@spartacus/cart/bundle": [
         "feature-libs/cart/bundle/public_api"
       ],
+      "@spartacus/cart/bundle/occ": [
+        "feature-libs/cart/bundle/occ/public_api"
+      ],
       "@spartacus/cart/bundle/root": [
         "feature-libs/cart/bundle/root/public_api"
       ],
