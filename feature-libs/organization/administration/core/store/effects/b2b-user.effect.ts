@@ -11,8 +11,8 @@ import {
   StateUtils,
   User,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { from, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -167,7 +167,10 @@ export class B2BUserEffects {
     this.actions$.pipe(
       ofType(B2BUserActions.UPDATE_B2B_USER_SUCCESS),
       map((action: B2BUserActions.UpdateB2BUserSuccess) => action.payload),
-      withLatestFrom(this.userService.get(), this.userIdService.getUserId()),
+      withLatestFrom(
+        this.userAccountFacade.get(),
+        this.userIdService.getUserId()
+      ),
       switchMap(([payload, currentUser]: [B2BUser, User, string]) => {
         const currentUserEmailMatch =
           payload.customerId === currentUser.customerId &&
@@ -616,7 +619,7 @@ export class B2BUserEffects {
     private actions$: Actions,
     private b2bUserConnector: B2BUserConnector,
     private routingService: RoutingService,
-    private userService: UserService,
+    private userAccountFacade: UserAccountFacade,
     private userIdService: UserIdService
   ) {}
 
