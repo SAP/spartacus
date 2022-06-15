@@ -14,7 +14,7 @@ cx-store-search {
       }
     }
 
-    .cs-find-a-store-psuedo-link {
+    .cx-find-a-store-pseudo-link {
       color: #1672b7;
       cursor: pointer;
     }
@@ -29,14 +29,11 @@ cx-store-search {
 
     .cx-find-a-store-hide-out-of-stock {
       width: 100%;
-      text-align: right;
-      label {
-        display: inline;
-        padding-right: 50px;
-        user-select: none;
-      }
-      input {
-        // margin-inline-start: 0;
+      display: flex;
+      justify-content: end;
+
+      .cx-find-a-store-checkbox-group {
+        display: flex;
       }
     }
   }
