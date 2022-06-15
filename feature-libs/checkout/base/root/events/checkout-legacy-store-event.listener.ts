@@ -77,12 +77,14 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
          * Remove once it is switched from ngrx to c&q.
          * We should dispatch an event, which will load the cart$ query.
          */
-        this.store.dispatch(
-          new CartActions.LoadCart({
-            userId,
-            cartId,
-          })
-        );
+        if (userId && cartId) {
+          this.store.dispatch(
+            new CartActions.LoadCart({
+              userId,
+              cartId,
+            })
+          );
+        }
       })
     );
 
