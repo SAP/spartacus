@@ -24,7 +24,9 @@ export class ActiveFacetsComponent {
   constructor(protected facetService: FacetService) {}
 
   getLinkParams(facet: Breadcrumb) {
-    return this.facetService.getLinkParams(facet.removeQuery?.query?.value);
+    return this.facetService.getLinkParams(
+      facet.removeQuery?.query?.value ?? ''
+    );
   }
 
   /**

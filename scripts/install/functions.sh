@@ -103,7 +103,7 @@ function add_epd_visualization {
 }
 
 function add_product_configurator {
-    local FEATURES=(--features="Textfield-Configurator");
+    local FEATURES=(--features="Textfield-Configurator" --features="VC-Configurator");
 
     if [ "$ADD_CPQ" = true ] ; then
         FEATURES+=(--features="CPQ-Configurator");

@@ -18,8 +18,8 @@ import {
   shareReplay,
   tap,
 } from 'rxjs/operators';
-import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 import { ViewConfig } from '../../../../shared/config/view-config';
+import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 
 /**
  * The `ProductListComponentService` is used to search products. The service is used

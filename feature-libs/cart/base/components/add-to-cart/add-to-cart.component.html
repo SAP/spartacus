@@ -21,10 +21,20 @@
 
   <button
     *ngIf="hasStock"
-    class="btn btn-primary btn-block"
+    [ngClass]="
+      options?.displayAddToCart
+        ? 'link cx-action-link'
+        : 'btn btn-primary btn-block'
+    "
     type="submit"
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
-    {{ 'addToCart.addToCart' | cxTranslate }}
+    <span
+      attr.aria-label="{{
+        options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate)
+      }}"
+    >
+      {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
+    </span>
   </button>
 </form>

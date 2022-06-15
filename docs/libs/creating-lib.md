@@ -8,16 +8,19 @@ This document can also serve as the guideline for the future schematic that can 
 
 ## Table of contents
 
-- [Naming conventions](#Naming-conventions)
-- [Generating a library](#Generating-a-library)
-- [Aligning with the other libs](#Aligning-with-the-other-libs)
-  - [Modifying the generated files](#Modifying-the-generated-files)
-  - [Additional changes to existing files](#Additional-changes-to-existing-files)
-- [Multi-entry point library](#multi-entry-point-library)
-- [Testing](#Testing)
-- [Schematics](#Schematics)
-  - [Configuring Schematics](#Configuring Schematics)
-  - [Testing Schematics](#Testing Schematics)
+- [Creating a Spartacus library](#creating-a-spartacus-library)
+  - [Table of contents](#table-of-contents)
+  - [Naming conventions](#naming-conventions)
+  - [Generating a library](#generating-a-library)
+  - [Aligning with the other libs](#aligning-with-the-other-libs)
+    - [Modifying the generated files](#modifying-the-generated-files)
+    - [Additional changes to existing files](#additional-changes-to-existing-files)
+  - [Multi-entry point library](#multi-entry-point-library)
+    - [Process](#process)
+  - [Testing](#testing)
+  - [Schematics](#schematics)
+    - [Configuring Schematics](#configuring-schematics)
+    - [Testing Schematics](#testing-schematics)
 
 ## Naming conventions
 
@@ -396,6 +399,7 @@ There are couple of required changes to make sure schematics will work properly
 - add new feature lib schema.json elements in schematics folder - `feature-libs\<lib-name>\schematics\add-<lib-name>\schema.json` where the `lib-name` is the name of the new library
 - add new feature chain method to 'shouldAddFeature' and function to add it - `feature-libs\<lib-name>\schematics\add-<lib-name>\index.ts` where the `lib-name` is the name of the new library
 - create new feature lib module in - `projects/storefrontapp/src/app/spartacus/features`
+- create your schematics configuration in e.g. `projects/schematics/src/shared/lib-configs/asm-schematics-config.ts` and add it to the `projects/schematics/src/shared/schematics-config-mappings.ts` file. 
 
 
 ### Testing Schematics
