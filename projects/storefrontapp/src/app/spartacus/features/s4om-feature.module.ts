@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
-import { S4omModule } from '@spartacus/s4om';
 import {
   s4omTranslationChunksConfig,
   s4omTranslations,
 } from '@spartacus/s4om/assets';
-import { S4OM_FEATURE } from 'integration-libs/s4om/root/feature-name';
+import { S4omRootModule, S4OM_FEATURE } from '@spartacus/s4om/root';
 
 @NgModule({
-  imports: [S4omModule],
+  imports: [S4omRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
