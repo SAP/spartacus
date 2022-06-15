@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { StockConnector } from './connectors';
-import { facadeProviders } from './facade/facade-providers';
+import { StockConnector } from './connectors/index';
+import { facadeProviders } from './facade/index';
 
 @NgModule({
   providers: [StockConnector, ...facadeProviders],

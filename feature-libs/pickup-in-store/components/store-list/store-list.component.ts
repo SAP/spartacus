@@ -5,7 +5,6 @@ import {
   StoreFinderService,
 } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
-// import { PickupInStoreFacade } from '../../facade';
 
 @Component({
   selector: 'cx-store-list',

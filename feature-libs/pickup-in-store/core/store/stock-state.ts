@@ -1,5 +1,5 @@
 import { StateUtils } from '@spartacus/core';
-import { StockEntities } from '../model/store-entities';
+import { StockEntities } from '../model/index';
 
 export const STOCK_FEATURE = 'stock';
 export const STOCK_DATA = '[Stock] Stock Data';

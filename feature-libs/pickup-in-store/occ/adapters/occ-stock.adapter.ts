@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
-import { StockAdapter } from 'feature-libs/pickup-in-store/core/connectors/stock.adapter';
+import { StockAdapter } from '@spartacus/pickup-in-store/core';
 import { Observable } from 'rxjs';
 
 @Injectable()

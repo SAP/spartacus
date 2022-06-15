@@ -3,8 +3,9 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError } from '@spartacus/core';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { StockConnector } from '../../connectors';
-import { StockActions } from '../actions';
+
+import { StockConnector } from '../../connectors/index';
+import { StockActions } from '../actions/index';
 
 @Injectable()
 export class StockEffect {

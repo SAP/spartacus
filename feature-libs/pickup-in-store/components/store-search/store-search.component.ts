@@ -4,7 +4,6 @@ import { StoreFinderSearchQuery } from '@spartacus/storefinder/core';
 @Component({
   selector: 'cx-store-search',
   templateUrl: './store-search.component.html',
-  styleUrls: ['./store-search.component.css'],
 })
 export class StoreSearchComponent {
   @Output() findStores = new EventEmitter<StoreFinderSearchQuery>();

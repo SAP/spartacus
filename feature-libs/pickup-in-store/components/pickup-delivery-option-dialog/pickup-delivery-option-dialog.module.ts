@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { StoreListModule } from '../store-list';
+import { StoreListModule } from '../store-list/index';
 import { StoreSearchModule } from '../store-search/store-search.module';
 import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
 

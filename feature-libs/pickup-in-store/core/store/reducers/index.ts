@@ -6,7 +6,8 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { SiteContextActions, StateUtils } from '@spartacus/core';
-import { StockActions } from '../actions';
+
+import { StockActions } from '../actions/index';
 import { StockLevelState, StockState, STOCK_DATA } from '../stock-state';
 import { stockReducer } from './stock.reducer';
 

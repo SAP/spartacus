@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { PickupDeliveryOptionDialogModule } from './pickup-delivery-option-dialog';
-import { PickupDeliveryOptionsModule } from './pickup-delivery-options';
-import { StoreListModule } from './store-list';
+import { PickupDeliveryOptionDialogModule } from './pickup-delivery-option-dialog/index';
+import { PickupDeliveryOptionsModule } from './pickup-delivery-options/index';
+import { StoreListModule } from './store-list/index';
 import { StoreSearchModule } from './store-search/store-search.module';
 
 @NgModule({
