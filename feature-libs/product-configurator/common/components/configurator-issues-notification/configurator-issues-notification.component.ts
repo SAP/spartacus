@@ -36,8 +36,8 @@ export class ConfiguratorIssuesNotificationComponent {
    * @param item - Cart item
    * @returns - whether there are any issues
    */
-  hasIssues(item: OrderEntry): boolean {
-    return this.commonConfigUtilsService.hasIssues(item);
+  hasIssues(_item: OrderEntry): boolean {
+    return true;
   }
 
   /**
