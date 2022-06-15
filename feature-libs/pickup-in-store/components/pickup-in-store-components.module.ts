@@ -17,6 +17,5 @@ import { StoreSearchModule } from './store-search/store-search.module';
     StoreListModule,
     StoreSearchModule,
   ],
-  providers: [],
 })
 export class PickupInStoreComponentsModule {}

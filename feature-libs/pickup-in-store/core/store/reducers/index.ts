@@ -7,12 +7,15 @@ import {
 } from '@ngrx/store';
 import { SiteContextActions, StateUtils } from '@spartacus/core';
 import { StockActions } from '../actions';
-import { StockState, STOCK_DATA } from '../stock-state';
+import { StockLevelState, StockState, STOCK_DATA } from '../stock-state';
 import { stockReducer } from './stock.reducer';
 
 export function getReducers(): ActionReducerMap<StockState> {
   return {
-    stock: StateUtils.loaderReducer(STOCK_DATA, stockReducer),
+    stock: StateUtils.loaderReducer<StockLevelState, any>(
+      STOCK_DATA,
+      stockReducer
+    ),
   };
 }
 
