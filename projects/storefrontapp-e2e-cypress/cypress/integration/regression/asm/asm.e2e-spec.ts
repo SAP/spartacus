@@ -81,6 +81,11 @@ context('Assisted Service Module', () => {
       cy.get('button[title="Close ASM"]').click();
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('not.be.visible');
+
+      // CXSPA-301/GH-14914
+      // Must ensure that site is still functional after service agent logout
+      cy.get('cx-generic-link[ng-reflect-url="/Open-Catalogue/Cameras/Film-C"]', { timeout: 1000 }).click('center');
+      cy.get('#product-results-list', { timeout: 1000 }).should('exist');
     });
   });
 
@@ -218,7 +223,7 @@ function assertCustomerIsSignedIn() {
 }
 
 export function deleteFirstAddress() {
-  
+
   //interceptDelete('deleteAddresses', '/users/?lang=en&curr=USD');
   //interceptGet('fetchAddresses', '/users/?lang=en&curr=USD');
 

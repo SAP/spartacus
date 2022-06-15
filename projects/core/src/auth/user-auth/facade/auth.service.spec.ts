@@ -167,19 +167,24 @@ describe('AuthService', () => {
   });
 
   describe('coreLogout()', () => {
-    it('should revoke tokens and logout', async () => {
+    it('should revoke tokens and logout', done => {
       spyOn(userIdService, 'clearUserId').and.callThrough();
       spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
       spyOn(store, 'dispatch').and.callThrough();
 
-      await service.coreLogout();
+      service.coreLogout().then(() => {
+        expect(userIdService.clearUserId).toHaveBeenCalled();
+        expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
+        expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+        expect(
+          (service.logoutInProgress$ as BehaviorSubject<boolean>).value
+        ).toBe(false);
+        done();
+      });
 
       expect(
         (service.logoutInProgress$ as BehaviorSubject<boolean>).value
-      ).toBeTruthy();
-      expect(userIdService.clearUserId).toHaveBeenCalled();
-      expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
-      expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
+      ).toBe(true);
     });
   });
 
