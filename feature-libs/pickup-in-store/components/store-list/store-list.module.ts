@@ -3,11 +3,8 @@ import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { StoreFinderModule } from '@spartacus/storefinder';
 import { IconModule, SpinnerModule } from '@spartacus/storefront';
-import {
-  StoreComponent,
-  StoreListComponent,
-  StoreScheduleComponent,
-} from './index';
+import { StoreListComponent } from './store-list.component';
+import { StoreComponent, StoreScheduleComponent } from './store/index';
 
 @NgModule({
   imports: [
