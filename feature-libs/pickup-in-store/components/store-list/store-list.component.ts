@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
 import {
   StoreEntities,
   StoreFinderSearchQuery,
@@ -26,12 +27,12 @@ export class StoreListComponent implements OnInit {
   }
 
   constructor(
-    private readonly storeFinderService: StoreFinderService
-    // private readonly pickupInStoreService: PickupInStoreFacade
+    private readonly storeFinderService: StoreFinderService,
+    private readonly pickupInStoreService: PickupInStoreFacade
   ) {}
 
   ngOnInit() {
-    // this.pickupInStoreService.getStore();
+    this.pickupInStoreService.getStore();
 
     this.locations$ = this.storeFinderService.getFindStoresEntities();
     this.isLoading$ = this.storeFinderService.getStoresLoading();
