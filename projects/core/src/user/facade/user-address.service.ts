@@ -9,7 +9,6 @@ import {
   Country,
   Region,
 } from '../../model/address.model';
-import { StateWithProcess } from '../../process/store/process-state';
 import {
   Command,
   CommandService,
@@ -24,7 +23,7 @@ import { StateWithUser } from '../store/user-state';
 })
 export class UserAddressService {
   constructor(
-    protected store: Store<StateWithUser | StateWithProcess<void>>,
+    protected store: Store<StateWithUser>,
     protected userIdService: UserIdService,
     protected userAddressConnector: UserAddressConnector,
     protected command: CommandService
@@ -137,7 +136,7 @@ export class UserAddressService {
    * Returns a country based on the provided `isocode`
    * @param isocode an isocode for a country
    */
-  getCountry(isocode: string): Observable<Country> {
+  getCountry(isocode: string): Observable<Country | null> {
     return this.store.pipe(
       select(UsersSelectors.countrySelectorFactory(isocode))
     );

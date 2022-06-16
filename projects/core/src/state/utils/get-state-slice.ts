@@ -4,12 +4,14 @@ import { StateTransferType, StorageSyncType } from '../config/state-config';
 const OBJECT_SEPARATOR = '.';
 
 export function getStateSliceValue<T, E>(keys: string, state: T): E {
-  return keys
+  const stateSliceValue = keys
     .split(OBJECT_SEPARATOR)
     .reduce(
-      (previous, current) => (previous ? previous[current] : undefined),
+      (previous: any, current) => (previous ? previous[current] : undefined),
       state
     );
+
+  return stateSliceValue as E;
 }
 
 export function createShellObject<T, E>(
