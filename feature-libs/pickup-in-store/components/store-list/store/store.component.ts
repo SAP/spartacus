@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
+import { PointOfServiceStock } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
@@ -8,7 +8,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 })
 export class StoreComponent {
   @Input()
-  storeDetails: PointOfService = {};
+  storeDetails: PointOfServiceStock = {};
 
   iconTypes = ICON_TYPE;
 

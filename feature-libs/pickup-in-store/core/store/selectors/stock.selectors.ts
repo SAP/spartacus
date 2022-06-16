@@ -11,19 +11,19 @@ export const getStockState: MemoizedSelector<
   (stockState: StockState) => stockState.stock
 );
 
-export const getFindStoresEntities: MemoizedSelector<
+export const getStockEntities: MemoizedSelector<
   StateWithStock,
   StockLevelState
 > = createSelector(getStockState, (state) =>
   StateUtils.loaderValueSelector(state)
 );
 
-export const getStoresLoading: MemoizedSelector<StateWithStock, boolean> =
+export const getStockLoading: MemoizedSelector<StateWithStock, boolean> =
   createSelector(getStockState, (state) =>
     StateUtils.loaderLoadingSelector(state)
   );
 
-export const getStoresSuccess: MemoizedSelector<StateWithStock, boolean> =
+export const getStockSuccess: MemoizedSelector<StateWithStock, boolean> =
   createSelector(getStockState, (state) =>
     StateUtils.loaderSuccessSelector(state)
   );

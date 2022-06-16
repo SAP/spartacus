@@ -1,21 +1,35 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
-import { StateWithStock, StockActions } from '../store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { StockEntities, StockLocationSearchParams } from '../model/index';
+import { StateWithStock, StockActions, StockSelectors } from '../store';
 
 @Injectable()
 export class PickupInStoreService implements PickupInStoreFacade {
   constructor(protected store: Store<StateWithStock>) {}
 
-  getStore(): void {
-    console.log('PickupInStoreService.getStore');
+  getStore({
+    productCode,
+    latitude,
+    longitude,
+    location,
+  }: StockLocationSearchParams): void {
     this.store.dispatch(
       new StockActions.StockLevel({
-        productCode: '300310300',
-        latitude: 0,
-        longitude: 0,
+        productCode,
+        latitude,
+        longitude,
+        location,
       })
     );
-    console.log('PickupInStoreService.getStore done');
+  }
+
+  getStockEntities(): Observable<StockEntities> {
+    return this.store.pipe(
+      select(StockSelectors.getStockEntities),
+      map((data) => data.findStockLevelByCode)
+    );
   }
 }

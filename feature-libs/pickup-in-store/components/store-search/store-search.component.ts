@@ -1,21 +1,25 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { StoreFinderSearchQuery } from '@spartacus/storefinder/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { LocationSearchParams } from '@spartacus/pickup-in-store/core';
 
 @Component({
   selector: 'cx-store-search',
   templateUrl: './store-search.component.html',
 })
 export class StoreSearchComponent {
-  @Output() findStores = new EventEmitter<StoreFinderSearchQuery>();
+  @Output() findStores = new EventEmitter<LocationSearchParams>();
 
   constructor() {}
 
-  onFindStores(queryText: string): boolean {
-    this.findStores.emit({ queryText });
+  onFindStores(location: string): boolean {
+    this.findStores.emit({ location });
     return false;
   }
 
   useMyLocation(): void {
-    this.findStores.emit({ useMyLocation: true });
+    window.navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        this.findStores.emit({ latitude, longitude });
+      }
+    );
   }
 }

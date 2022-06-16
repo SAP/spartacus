@@ -4,7 +4,7 @@ import {
   StoreEntities,
   StoreFinderSearchQuery,
 } from '@spartacus/storefinder/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'cx-store-list',
@@ -32,11 +32,15 @@ export class StoreListComponent implements OnInit {
 
   ngOnInit() {
     console.log('StoreListComponent.ngOnInit');
-    this.pickupInStoreService.getStore();
+    // this.pickupInStoreService.getStore({
+    //   productCode: '300310300',
+    //   latitude: 0,
+    //   longitude: 0,
+    // });
     console.log('StoreListComponent.ngOnInit done');
 
-    //   this.locations$ = this.storeFinderService.getFindStoresEntities();
-    //   this.isLoading$ = this.storeFinderService.getStoresLoading();
+    this.locations$ = this.pickupInStoreService.getStockEntities();
+    this.isLoading$ = of(false);
 
     //   // just whilst developing
     //   this.storeFinderService.findStoresAction(

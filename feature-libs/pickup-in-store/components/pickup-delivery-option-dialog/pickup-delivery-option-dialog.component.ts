@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { StoreFinderSearchQuery } from '@spartacus/storefinder/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+import { LocationSearchParams } from 'feature-libs/pickup-in-store/core';
+import { PickupInStoreFacade } from 'feature-libs/pickup-in-store/root';
 
 @Component({
   selector: 'cx-delivery-pickup-options-dialog',
@@ -14,7 +16,10 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
 
   readonly iconTypes = ICON_TYPE;
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  constructor(
+    protected launchDialogService: LaunchDialogService,
+    protected pickupInStoreFacade: PickupInStoreFacade
+  ) {}
 
   ngOnInit() {
     this.launchDialogService.data$.subscribe(({ msg, productCode }) => {
@@ -22,8 +27,11 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
     });
   }
 
-  onFindStores(storeFinderSearchQuery: StoreFinderSearchQuery): void {
-    this.storeSearch = storeFinderSearchQuery;
+  onFindStores(locationSearchParams: LocationSearchParams): void {
+    this.pickupInStoreFacade.getStore({
+      productCode: this.productCode,
+      ...locationSearchParams,
+    });
   }
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);

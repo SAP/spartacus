@@ -13,14 +13,12 @@ export class OccStockAdapter implements StockAdapter {
   ) {}
 
   loadStockLevels(productCode: string, location: any): Observable<any> {
-    console.log('OccStockAdapter.loadStockLevels');
     return this.http.get<Occ.PointOfService>(
       this.occEndpointsService.buildUrl('stock', {
         urlParams: { productCode },
-        queryParams: { ...location },
+        queryParams: { ...location, fields: 'FULL' },
       })
     );
-    // .pipe(this.converterService.pipeable(POINT_OF_SERVICE_NORMALIZER));
   }
   // search(
   //   query: string,
