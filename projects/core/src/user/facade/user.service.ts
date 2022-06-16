@@ -26,6 +26,7 @@ export class UserService {
    * Returns titles.
    *
    * @deprecated since 3.2, use `UserProfileFacade.getTitles()` from `@spartacus/user` package.
+   * We can remove it completely once we move the user-address feature to the User lib.
    */
   getTitles(): Observable<Title[]> {
     if (this.userProfileFacade) {
