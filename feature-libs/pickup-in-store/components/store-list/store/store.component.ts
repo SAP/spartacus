@@ -15,7 +15,6 @@ export class StoreComponent {
   openHoursOpen = false;
 
   selectStore(): boolean {
-    console.log('Store Selected');
     // return false to prevent this button adding to cart
     return false;
   }

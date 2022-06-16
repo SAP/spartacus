@@ -31,36 +31,7 @@ export class StoreListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    console.log('StoreListComponent.ngOnInit');
-    // this.pickupInStoreService.getStore({
-    //   productCode: '300310300',
-    //   latitude: 0,
-    //   longitude: 0,
-    // });
-    console.log('StoreListComponent.ngOnInit done');
-
     this.locations$ = this.pickupInStoreService.getStockEntities();
     this.isLoading$ = of(false);
-
-    //   // just whilst developing
-    //   this.storeFinderService.findStoresAction(
-    //     '',
-    //     {},
-    //     undefined,
-    //     undefined,
-    //     true,
-    //     50000
-    //   );
-    // }
-
-    // findStores(storeFinderSearchQuery: StoreFinderSearchQuery): void {
-    //   this.storeFinderService.findStoresAction(
-    //     storeFinderSearchQuery?.queryText ?? '',
-    //     {},
-    //     undefined,
-    //     undefined,
-    //     !!storeFinderSearchQuery?.useMyLocation,
-    //     50000
-    //   );
   }
 }
