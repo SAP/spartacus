@@ -17,7 +17,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 export class ConfiguratorProductTitleComponent {
   @HostBinding('class.ghost') ghostStyle = true;
 
-  product$: Observable<Product> = this.configRouterExtractorService
+  product$: Observable<Product | undefined> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>

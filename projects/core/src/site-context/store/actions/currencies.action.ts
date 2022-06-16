@@ -28,7 +28,9 @@ export class SetActiveCurrency implements Action {
 
 export class CurrencyChange implements Action {
   readonly type = CURRENCY_CHANGE;
-  constructor(public payload: { previous: string; current: string }) {}
+  constructor(
+    public payload: { previous: string | null; current: string | null }
+  ) {}
 }
 
 // action types
