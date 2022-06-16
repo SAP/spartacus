@@ -72,7 +72,9 @@ export class CartValidationGuard implements CanActivate {
                 this.GLOBAL_MESSAGE_TIMEOUT
               );
               this.activeCartService.reloadActiveCart();
-              return this.router.parseUrl(this.semanticPathService.get('cart'));
+              return this.router.parseUrl(
+                this.semanticPathService.get('cart') ?? ''
+              );
             }
 
             return true;
