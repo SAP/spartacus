@@ -25,7 +25,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   transform(
     input: Translatable | string,
     options: TranslatableParams = {}
-  ): string | undefined {
+  ): string {
     if (!input) {
       if (isDevMode()) {
         console.error(
