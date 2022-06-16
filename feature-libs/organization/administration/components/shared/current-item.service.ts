@@ -48,7 +48,7 @@ export abstract class CurrentItemService<T> {
   protected abstract getParamKey(): string;
 
   /**
-   * Emits the current model or null, if there is no model available
+   * Emits the current model or undefined, if there is no model available
    */
   protected abstract getItem(...params: any[]): Observable<T | undefined>;
 

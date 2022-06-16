@@ -25,24 +25,26 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse) {
     return this.getErrors(response).forEach(({ message }: ErrorModel) => {
-      // Handle budget conflict
-      this.handleConflict(message ?? '', this.budgetMask, 'budget');
-      // Handle user email conflict
-      this.handleConflict(
-        message ?? '',
-        this.userMask,
-        'user',
-        request?.body?.email
-      );
-      // Handle user group conflict
-      this.handleConflict(
-        message ?? '',
-        this.userGroupMask,
-        'userGroup',
-        request?.body?.uid
-      );
-      // Handle unit conflict
-      this.handleConflict(message ?? '', this.unitMask, 'unit');
+      if (message) {
+        // Handle budget conflict
+        this.handleConflict(message, this.budgetMask, 'budget');
+        // Handle user email conflict
+        this.handleConflict(
+          message,
+          this.userMask,
+          'user',
+          request?.body?.email
+        );
+        // Handle user group conflict
+        this.handleConflict(
+          message,
+          this.userGroupMask,
+          'userGroup',
+          request?.body?.uid
+        );
+        // Handle unit conflict
+        this.handleConflict(message, this.unitMask, 'unit');
+      }
     });
   }
 
