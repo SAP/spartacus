@@ -57,7 +57,7 @@ export class PermissionFormService
           distinctUntilChanged(),
           filter((code) => !!code)
         )
-        .subscribe((code: any) => this.amend(form, code))
+        .subscribe((code: PermissionType) => this.amend(form, code))
     );
 
     this.form = form;
