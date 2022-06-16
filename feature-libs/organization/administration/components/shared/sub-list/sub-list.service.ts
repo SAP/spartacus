@@ -52,7 +52,7 @@ export abstract class SubListService<
     return {
       pagination,
       sorts,
-      values: values?.filter((value) => value.selected),
+      values: values.filter((value) => value.selected),
     };
   }
 }

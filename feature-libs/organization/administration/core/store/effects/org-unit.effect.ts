@@ -34,7 +34,7 @@ export class OrgUnitEffects {
         return this.orgUnitConnector.get(userId, orgUnitId).pipe(
           switchMap((orgUnit: B2BUnit) => {
             const { values, page } = StateUtils.normalizeListPage(
-              { values: orgUnit.addresses },
+              { values: orgUnit.addresses ?? [] },
               'id'
             );
             return [

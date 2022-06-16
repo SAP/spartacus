@@ -62,7 +62,7 @@ export class CostCenterListService extends ListService<CostCenterModel> {
     const costCenterModels: EntitiesModel<CostCenterModel> = {
       pagination,
       sorts,
-      values: values?.map((value: any) => ({
+      values: values.map((value: any) => ({
         ...value,
         currency: value.currency?.isocode,
       })),

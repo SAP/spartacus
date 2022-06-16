@@ -52,7 +52,7 @@ export class BudgetListService extends ListService<Budget> {
     const budgetModels: EntitiesModel<Budget> = {
       pagination,
       sorts,
-      values: values?.map((value: any) => ({
+      values: values.map((value: any) => ({
         ...value,
         currency: value.currency?.isocode,
         unit: value.orgUnit,

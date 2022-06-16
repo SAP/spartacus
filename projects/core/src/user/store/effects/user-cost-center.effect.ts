@@ -20,7 +20,7 @@ export class UserCostCenterEffects {
             // TODO(#8875): Should we use here serialize utils?
             map(
               (data: EntitiesModel<CostCenter>) =>
-                new UserActions.LoadActiveCostCentersSuccess(data.values ?? [])
+                new UserActions.LoadActiveCostCentersSuccess(data.values)
             ),
             catchError((error) =>
               of(

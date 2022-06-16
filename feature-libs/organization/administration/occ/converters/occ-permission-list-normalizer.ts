@@ -25,9 +25,10 @@ export class OccPermissionListNormalizer
     if (target === undefined) {
       target = { ...(source as any) } as EntitiesModel<Permission>;
     }
-    target.values = source.orderApprovalPermissions?.map((permission) => ({
-      ...this.converter.convert(permission, PERMISSION_NORMALIZER),
-    }));
+    target.values =
+      source.orderApprovalPermissions?.map((permission) => ({
+        ...this.converter.convert(permission, PERMISSION_NORMALIZER),
+      })) ?? [];
     return target;
   }
 }

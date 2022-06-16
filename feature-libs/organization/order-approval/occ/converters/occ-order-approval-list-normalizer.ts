@@ -23,9 +23,10 @@ export class OccOrderApprovalListNormalizer
     if (target === undefined) {
       target = { ...(source as any) } as EntitiesModel<OrderApproval>;
     }
-    target.values = source.orderApprovals?.map((orderApproval) => ({
-      ...this.converter.convert(orderApproval, ORDER_APPROVAL_NORMALIZER),
-    }));
+    target.values =
+      source.orderApprovals?.map((orderApproval) => ({
+        ...this.converter.convert(orderApproval, ORDER_APPROVAL_NORMALIZER),
+      })) ?? [];
     return target;
   }
 }

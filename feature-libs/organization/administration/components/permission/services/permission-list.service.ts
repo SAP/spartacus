@@ -65,7 +65,7 @@ export class PermissionListService extends ListService<PermissionModel> {
     const permissionGroupModels: EntitiesModel<PermissionModel> = {
       pagination,
       sorts,
-      values: values?.map((value: any) => ({
+      values: values.map((value: any) => ({
         ...value,
         unit: value.orgUnit,
       })),

@@ -45,7 +45,7 @@ export class BudgetCostCenterListService extends SubListService<Budget> {
     return {
       pagination,
       sorts,
-      values: values?.filter((value) => value.active),
+      values: values.filter((value) => value.active),
     };
   }
 }

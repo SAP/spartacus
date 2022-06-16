@@ -65,7 +65,7 @@ export class UserGroupListService extends ListService<UserGroupModel> {
     const userGroupModels: EntitiesModel<UserGroupModel> = {
       pagination,
       sorts,
-      values: values?.map((value: any) => ({
+      values: values.map((value: any) => ({
         ...value,
         unit: value.orgUnit,
       })),

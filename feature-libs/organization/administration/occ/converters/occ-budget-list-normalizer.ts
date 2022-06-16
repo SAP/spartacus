@@ -25,9 +25,10 @@ export class OccBudgetListNormalizer
     if (target === undefined) {
       target = { ...(source as any) } as EntitiesModel<Budget>;
     }
-    target.values = source.budgets?.map((budget) => ({
-      ...this.converter.convert(budget, BUDGET_NORMALIZER),
-    }));
+    target.values =
+      source.budgets?.map((budget) => ({
+        ...this.converter.convert(budget, BUDGET_NORMALIZER),
+      })) ?? [];
     return target;
   }
 }
