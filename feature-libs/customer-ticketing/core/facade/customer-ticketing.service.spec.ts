@@ -8,3 +8,4 @@ describe('CustomerTicketingService', () => {
     });
   });
 });
+describe('CustomerTicketingFacade', () => {});
