@@ -24,7 +24,7 @@
 
     <div>
       <div class="cx-store-opening-hours-toggle" (click)="toggleOpenHours()">
-        View Hours
+        {{ 'store.viewHours' | cxTranslate }}
         <cx-icon
           [type]="openHoursOpen ? iconTypes.CARET_UP : iconTypes.CARET_DOWN"
         ></cx-icon>
@@ -36,9 +36,11 @@
   </div>
   <div>
     <div class="cx-store-distance">{{ storeDetails?.formattedDistance }}</div>
-    <div>Out of Stock</div>
+    <div>{{ 'store.outOfStock' | cxTranslate }}</div>
   </div>
 </div>
 <div class="cx-store-pick-up-from-here">
-  <button (click)="selectStore()">Pick Up From Here</button>
+  <button (click)="selectStore()">
+    {{ 'store.pickupFromHere' | cxTranslate }}
+  </button>
 </div>
