@@ -1,8 +1,5 @@
-import { Address } from './address.model';
-import { Image } from './image.model';
-import { GeoPoint, PaginationModel, SortModel } from './misc.model';
-import { OpeningSchedule } from './point-of-service.model';
-import { Product, Stock } from './product.model';
+import { PaginationModel, SortModel } from './misc.model';
+import { PointOfServiceStock, Product } from './product.model';
 
 export interface CategoryHierarchy {
   id?: string;
@@ -50,23 +47,6 @@ export interface OrderStatusUpdateElement {
   baseSiteId?: string;
   code?: string;
   status?: string;
-}
-
-export interface PointOfServiceStock {
-  address?: Address;
-  description?: string;
-  displayName?: string;
-  distanceKm?: number;
-  features?: { [propertyName: string]: string };
-  formattedDistance?: string;
-  geoPoint?: GeoPoint;
-  mapIcon?: Image;
-  name?: string;
-  openingHours?: OpeningSchedule;
-  stockInfo?: Stock;
-  storeContent?: string;
-  storeImages?: Image[];
-  url?: string;
 }
 
 export interface ProductExpressUpdateElement {

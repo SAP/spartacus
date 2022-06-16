@@ -1,0 +1,32 @@
+<div class="cx-find-a-store-container">
+  <div class="cx-find-a-store-label">
+    <label for="txtFindAStore">
+      {{ 'storeSearch.findAStore' | cxTranslate }}
+    </label>
+  </div>
+  <div class="cx-find-a-store-input">
+    <input class="form-control" type="text" id="txtFindAStore" #txtFindAStore />
+  </div>
+  <div>
+    <button (click)="onFindStores(txtFindAStore.value)">
+      {{ 'storeSearch.findStores' | cxTranslate }}
+    </button>
+  </div>
+  <div>
+    <span class="cx-find-a-store-pseudo-link" (click)="useMyLocation()">
+      {{ 'storeSearch.useMyLocation' | cxTranslate }}
+    </span>
+    |
+    <span class="cx-find-a-store-pseudo-link">
+      {{ 'storeSearch.viewAllStores' | cxTranslate }}
+    </span>
+  </div>
+  <div class="cx-find-a-store-hide-out-of-stock">
+    <div class="cx-find-a-store-checkbox-group form-check">
+      <label class="form-check-label" for="chkHideOutOfStock">
+        {{ 'storeSearch.hideOutOfStockOptions' | cxTranslate }}
+      </label>
+      <input class="form-check-input" id="chkHideOutOfStock" type="checkbox" />
+    </div>
+  </div>
+</div>

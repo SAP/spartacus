@@ -7,5 +7,10 @@ export const pickupInStoreTranslations: TranslationResources = {
 
 // expose all translation chunk mapping for the pickupInStore feature
 export const pickupInStoreTranslationChunksConfig: TranslationChunksConfig = {
-  pickupInStore: ['deliveryOptions', 'pickUpInStoreDialog'],
+  pickupInStore: [
+    'deliveryOptions',
+    'pickupInStoreDialog',
+    'store',
+    'storeSearch',
+  ],
 };

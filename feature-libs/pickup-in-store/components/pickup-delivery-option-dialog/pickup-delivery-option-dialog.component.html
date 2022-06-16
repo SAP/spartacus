@@ -1,0 +1,32 @@
+<ng-container>
+  <div class="cx-delivery-pickup-options-dialog">
+    <div class="cx-delivery-pickup-options-dialog-container">
+      <!-- Modal Header -->
+      <div
+        class="modal-header cx-delivery-pickup-options-dialog-container-header"
+      >
+        {{ 'pickupInStoreDialog.modalHeader' | cxTranslate }}
+
+        <button
+          (click)="close('Close Pick A Store Dialog')"
+          class="cx-delivery-pickup-options-dialog-container-close close"
+          [attr.aria-label]="'pickupInStoreDialog.close' | cxTranslate"
+          type="button"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <section
+        class="cx-delivery-pickup-options-dialog-container-body modal-body"
+      >
+        <cx-store-search (findStores)="onFindStores($event)"></cx-store-search>
+
+        <cx-store-list [storeSearch]="storeSearch"></cx-store-list>
+      </section>
+    </div>
+  </div>
+</ng-container>

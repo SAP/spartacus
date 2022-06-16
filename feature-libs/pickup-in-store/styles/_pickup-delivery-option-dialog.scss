@@ -4,6 +4,9 @@ cx-delivery-pickup-options-dialog {
   .cx-delivery-pickup-options-dialog {
     @extend .modal-dialog;
     @extend .modal-dialog-centered;
+    @include media-breakpoint-down(sm) {
+      height: min-content
+     }
 
     .cx-delivery-pickup-options-dialog-container {
       @extend .modal-content;

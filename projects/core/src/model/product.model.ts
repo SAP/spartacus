@@ -1,5 +1,7 @@
+import { Address } from './address.model';
 import { Image, Images } from './image.model';
-import { User } from './misc.model';
+import { GeoPoint, User } from './misc.model';
+import { OpeningSchedule } from './point-of-service.model';
 
 export interface VariantOptionQualifier {
   image?: Image;
@@ -202,4 +204,21 @@ export enum VariantQualifier {
   THUMBNAIL = 'thumbnail',
   PRODUCT = 'product',
   ROLLUP_PROPERTY = 'rollupProperty',
+}
+
+export interface PointOfServiceStock {
+  address?: Address;
+  description?: string;
+  displayName?: string;
+  distanceKm?: number;
+  features?: { [propertyName: string]: string };
+  formattedDistance?: string;
+  geoPoint?: GeoPoint;
+  mapIcon?: Image;
+  name?: string;
+  openingHours?: OpeningSchedule;
+  stockInfo?: Stock;
+  storeContent?: string;
+  storeImages?: Image[];
+  url?: string;
 }
