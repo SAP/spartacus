@@ -56,8 +56,8 @@ export class SiteContextInterceptor implements HttpInterceptor {
     ) {
       request = request.clone({
         setParams: {
-          lang: this.activeLang,
-          curr: this.activeCurr,
+          lang: this.activeLang ?? '',
+          curr: this.activeCurr ?? '',
         },
       });
     }

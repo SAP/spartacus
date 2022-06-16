@@ -140,8 +140,7 @@ export abstract class CmsStructureConfigService {
 
     for (const position of Object.keys(slots)) {
       if (
-        pageStructure.page &&
-        pageStructure.page.slots &&
+        pageStructure.page?.slots &&
         !Object.keys(pageStructure.page.slots).includes(position)
       ) {
         // the global slot isn't yet part of the page structure

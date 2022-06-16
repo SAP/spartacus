@@ -335,8 +335,11 @@ export class AnonymousConsentsService {
    */
   decodeAndDeserialize(rawConsents: string): AnonymousConsent[] {
     const decoded = decodeURIComponent(rawConsents);
-    const unserialized = JSON.parse(decoded) as AnonymousConsent[];
-    return unserialized;
+    if (decoded.length > 0) {
+      const unserialized = JSON.parse(decoded) as AnonymousConsent[];
+      return unserialized;
+    }
+    return [];
   }
 
   /**

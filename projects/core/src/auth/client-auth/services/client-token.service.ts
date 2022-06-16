@@ -3,6 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, queueScheduler } from 'rxjs';
 import { filter, map, observeOn } from 'rxjs/operators';
 import { LoaderState } from '../../../state/utils/loader/loader-state';
+import { isNotUndefined } from '../../../util/type-guards';
 import { ClientToken } from '../models/client-token.model';
 import { ClientAuthActions } from '../store/actions/index';
 import { StateWithClientAuth } from '../store/client-auth-state';
@@ -51,7 +52,8 @@ export class ClientTokenService {
       filter((state: LoaderState<ClientToken>) =>
         this.isClientTokenLoaded(state)
       ),
-      map((state: LoaderState<ClientToken>) => state.value)
+      map((state: LoaderState<ClientToken>) => state.value),
+      filter(isNotUndefined)
     );
   }
 
