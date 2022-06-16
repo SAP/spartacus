@@ -22,7 +22,9 @@ export class OrderCancellationGuard implements CanActivate {
           // the order code is not available in the route
           // as long as we're inside a guard, hence we redirect
           // to the common orders page.
-          return this.router.parseUrl(this.semanticPathService.get('orders'));
+          return this.router.parseUrl(
+            this.semanticPathService.get('orders') ?? ''
+          );
         } else {
           return true;
         }
