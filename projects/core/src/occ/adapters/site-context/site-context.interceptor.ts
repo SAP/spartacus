@@ -49,11 +49,7 @@ export class SiteContextInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (
-      this.activeCurr &&
-      this.activeLang &&
-      request.url.includes(this.occEndpoints.getBaseUrl())
-    ) {
+    if (request.url.includes(this.occEndpoints.getBaseUrl())) {
       request = request.clone({
         setParams: {
           lang: this.activeLang ?? '',

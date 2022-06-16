@@ -44,7 +44,7 @@ export class ClientTokenService {
    * Fetches a clientToken from the backend and saves it in the store where getClientToken can use it.
    * The new clientToken is returned.
    */
-  refreshClientToken(): Observable<ClientToken | undefined> {
+  refreshClientToken(): Observable<ClientToken> {
     this.store.dispatch(new ClientAuthActions.LoadClientToken());
 
     return this.store.pipe(

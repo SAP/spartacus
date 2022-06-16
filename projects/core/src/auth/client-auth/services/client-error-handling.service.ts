@@ -1,8 +1,7 @@
 import { HttpHandler, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
-import { isNotUndefined } from '../../../util/type-guards';
+import { switchMap, take } from 'rxjs/operators';
 import { ClientToken } from '../models/client-token.model';
 import { ClientTokenService } from './client-token.service';
 
@@ -27,7 +26,6 @@ export class ClientErrorHandlingService {
     next: HttpHandler
   ): Observable<any> {
     return this.clientTokenService.refreshClientToken().pipe(
-      filter(isNotUndefined),
       take(1),
       switchMap((token: ClientToken) => {
         return next.handle(this.createNewRequestWithNewToken(request, token));
