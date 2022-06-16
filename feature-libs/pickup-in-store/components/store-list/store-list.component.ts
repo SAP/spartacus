@@ -4,7 +4,7 @@ import {
   StoreEntities,
   StoreFinderSearchQuery,
 } from '@spartacus/storefinder/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-store-list',
@@ -32,6 +32,6 @@ export class StoreListComponent implements OnInit {
 
   ngOnInit() {
     this.locations$ = this.pickupInStoreService.getStockEntities();
-    this.isLoading$ = of(false);
+    this.isLoading$ =  this.pickupInStoreService.getStockLoading()
   }
 }

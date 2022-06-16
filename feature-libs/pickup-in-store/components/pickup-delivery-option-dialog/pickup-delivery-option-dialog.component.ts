@@ -28,7 +28,7 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
   }
 
   onFindStores(locationSearchParams: LocationSearchParams): void {
-    this.pickupInStoreFacade.getStore({
+    this.pickupInStoreFacade.getStock({
       productCode: this.productCode,
       ...locationSearchParams,
     });

@@ -21,9 +21,9 @@ describe('PickupInStoreService', () => {
     expect(service).toBeDefined();
   });
 
-  it('getStore', () => {
-    spyOn(service, 'getStore').and.callThrough();
-    service.getStore();
-    expect(service.getStore).toHaveBeenCalled();
+  it('getStock', () => {
+    spyOn(service, 'getStock').and.callThrough();
+    service.getStock();
+    expect(service.getStock).toHaveBeenCalled();
   });
 });

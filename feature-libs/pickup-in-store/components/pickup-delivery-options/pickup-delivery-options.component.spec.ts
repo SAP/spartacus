@@ -14,7 +14,7 @@ import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.compon
 import createSpy = jasmine.createSpy;
 
 class MockPickupInStoreFacade implements PickupInStoreFacade {
-  getStore = createSpy();
+  getStock = createSpy();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -71,9 +71,9 @@ describe('PickupDeliveryOptionsComponent', () => {
       stubServiceAndCreateComponent();
     });
 
-    it('should create and call getStore', () => {
+    it('should create and call getStock', () => {
       expect(component).toBeDefined();
-      expect(service.getStore).toHaveBeenCalled();
+      expect(service.getStock).toHaveBeenCalled();
     });
 
     it('should trigger and open dialog', () => {

@@ -10,7 +10,7 @@ import { StateWithStock, StockActions, StockSelectors } from '../store';
 export class PickupInStoreService implements PickupInStoreFacade {
   constructor(protected store: Store<StateWithStock>) {}
 
-  getStore({
+  getStock({
     productCode,
     latitude,
     longitude,
@@ -24,6 +24,14 @@ export class PickupInStoreService implements PickupInStoreFacade {
         location,
       })
     );
+  }
+
+  getStockLoading(): Observable<boolean> {
+    return this.store.pipe(select(StockSelectors.getStockLoading));
+  }
+
+  getStockSuccess(): Observable<boolean> {
+    return this.store.pipe(select(StockSelectors.getStockSuccess));
   }
 
   getStockEntities(): Observable<StockEntities> {
