@@ -27,3 +27,19 @@ export const getStockSuccess: MemoizedSelector<StateWithStock, boolean> =
   createSelector(getStockState, (state) =>
     StateUtils.loaderSuccessSelector(state)
   );
+
+export const getStockError: MemoizedSelector<StateWithStock, boolean> =
+  createSelector(getStockState, (state) =>
+    StateUtils.loaderErrorSelector(state)
+  );
+
+export const getSearchHasBeenPerformed: MemoizedSelector<
+  StateWithStock,
+  boolean
+> = createSelector(
+  getStockLoading,
+  getStockSuccess,
+  getStockError,
+  (_getStockLoading, _getStockSuccess, _getStockError) =>
+    (_getStockLoading || _getStockSuccess || _getStockError)
+);

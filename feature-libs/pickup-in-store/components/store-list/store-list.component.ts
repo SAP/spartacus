@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 export class StoreListComponent implements OnInit {
   isLoading$: Observable<boolean>;
   locations$: Observable<StoreEntities>;
+  searchHasBeenPerformed$: Observable<boolean>;
 
   private _storeSearch: StoreFinderSearchQuery;
   @Input() set storeSearch(storeFinderSearchQuery: StoreFinderSearchQuery) {
@@ -32,6 +33,7 @@ export class StoreListComponent implements OnInit {
 
   ngOnInit() {
     this.locations$ = this.pickupInStoreService.getStockEntities();
-    this.isLoading$ =  this.pickupInStoreService.getStockLoading()
+    this.isLoading$ =  this.pickupInStoreService.getStockLoading();
+    this.searchHasBeenPerformed$ = this.pickupInStoreService.getSearchHasBeenPerformed();
   }
 }

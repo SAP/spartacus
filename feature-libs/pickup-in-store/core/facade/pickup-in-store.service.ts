@@ -34,6 +34,10 @@ export class PickupInStoreService implements PickupInStoreFacade {
     return this.store.pipe(select(StockSelectors.getStockSuccess));
   }
 
+  getSearchHasBeenPerformed(): Observable<boolean> {
+    return this.store.pipe(select(StockSelectors.getSearchHasBeenPerformed));
+  }
+
   getStockEntities(): Observable<StockEntities> {
     return this.store.pipe(
       select(StockSelectors.getStockEntities),

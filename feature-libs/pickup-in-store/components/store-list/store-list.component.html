@@ -8,8 +8,8 @@
   <div *ngIf="locations?.stores?.length">
     <div class="cx-pagination"></div>
   </div>
-
-  <div class="container" *ngIf="!locations?.stores?.length">
+  
+  <div class="container" *ngIf="(searchHasBeenPerformed$ | async) && !locations?.stores?.length">
     <div class="row">
       <span class="cx-no-stores" role="alert">
         {{ 'storeFinder.noStoresMessage' | cxTranslate }}
