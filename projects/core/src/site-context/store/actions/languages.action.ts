@@ -28,7 +28,9 @@ export class SetActiveLanguage implements Action {
 
 export class LanguageChange implements Action {
   readonly type = LANGUAGE_CHANGE;
-  constructor(public payload: { previous: string; current: string }) {}
+  constructor(
+    public payload: { previous: string | null; current: string | null }
+  ) {}
 }
 
 // action types

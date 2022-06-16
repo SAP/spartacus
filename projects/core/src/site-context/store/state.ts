@@ -16,20 +16,20 @@ export interface CurrencyEntities {
 }
 
 export interface CurrenciesState {
-  entities: CurrencyEntities;
-  activeCurrency: string;
+  entities: CurrencyEntities | null;
+  activeCurrency: string | null;
 }
 export interface LanguagesEntities {
   [isocode: string]: Language;
 }
 
 export interface LanguagesState {
-  entities: LanguagesEntities;
-  activeLanguage: string;
+  entities: LanguagesEntities | null;
+  activeLanguage: string | null;
 }
 
 export interface BaseSiteState {
-  entities: BaseSiteEntities;
+  entities: BaseSiteEntities | null;
   activeSite: string;
   details: BaseSite;
 }
