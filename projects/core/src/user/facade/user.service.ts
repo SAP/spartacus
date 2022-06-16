@@ -5,10 +5,7 @@ import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Title } from '../../model/misc.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { StateWithUser } from '../store/user-state';
-import {
-  UserAccountFacadeTransitionalToken,
-  UserProfileFacadeTransitionalToken,
-} from '../user-transitional-tokens';
+import { UserProfileFacadeTransitionalToken } from '../user-transitional-tokens';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -16,8 +13,6 @@ export class UserService {
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected userIdService: UserIdService,
     // TODO: Remove transitional tokens in 4.0 with #11607
-    @Optional()
-    protected userAccountFacade?: UserAccountFacadeTransitionalToken,
     @Optional()
     protected userProfileFacade?: UserProfileFacadeTransitionalToken
   ) {}
