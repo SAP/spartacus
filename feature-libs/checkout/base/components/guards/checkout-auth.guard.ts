@@ -52,7 +52,7 @@ export class CheckoutAuthGuard implements CanActivate {
         { queryParams: { forced: true } }
       );
     } else {
-      return this.router.parseUrl(this.semanticPathService.get('login'));
+      return this.router.parseUrl(this.semanticPathService.get('login') ?? '');
     }
   }
 }
