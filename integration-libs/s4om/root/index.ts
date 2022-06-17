@@ -1,3 +1,3 @@
-export * from './model/index';
-export * from './feature-name';
 export * from './s4om-root.module';
+export * from './feature-name';
+export * from './model/index';
