@@ -2,7 +2,6 @@ import { CDS_CONFIG } from '../../constants';
 import {
   CDS_FEATURE_NAME,
   SPARTACUS_CDS,
-  SPARTACUS_TRACKING,
   TRACKING_PERSONALIZATION_FEATURE_NAME,
 } from '../../libs-constants';
 import {
@@ -36,9 +35,7 @@ export const CDS_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${CDS_MODULE}.forRoot()`,
   },
   customConfig: buildCdsConfig,
-  dependencyFeatures: {
-    [SPARTACUS_TRACKING]: [TRACKING_PERSONALIZATION_FEATURE_NAME],
-  },
+  dependencyFeatures: [TRACKING_PERSONALIZATION_FEATURE_NAME],
 };
 
 function buildCdsConfig(

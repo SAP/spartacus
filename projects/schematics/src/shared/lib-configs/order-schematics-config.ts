@@ -1,7 +1,6 @@
 import {
   CART_BASE_FEATURE_NAME,
   ORDER_FEATURE_NAME,
-  SPARTACUS_CART,
   SPARTACUS_ORDER,
   SPARTACUS_ORDER_ASSETS,
   SPARTACUS_ORDER_ROOT,
@@ -46,7 +45,5 @@ export const ORDER_SCHEMATICS_CONFIG: SchematicConfig = {
     scssFileName: ORDER_SCSS_FILE_NAME,
     importStyle: SPARTACUS_ORDER,
   },
-  dependencyFeatures: {
-    [SPARTACUS_CART]: [CART_BASE_FEATURE_NAME],
-  },
+  dependencyFeatures: [CART_BASE_FEATURE_NAME],
 };
