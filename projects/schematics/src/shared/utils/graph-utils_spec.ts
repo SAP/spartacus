@@ -6,6 +6,7 @@ import {
   SPARTACUS_CDC,
   SPARTACUS_CDS,
   SPARTACUS_CHECKOUT,
+  SPARTACUS_CUSTOMER_TICKETING,
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_ORDER,
@@ -137,6 +138,7 @@ describe('Graph utils', () => {
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
         SPARTACUS_ORGANIZATION,
+        SPARTACUS_CUSTOMER_TICKETING,
       ]);
     });
   });
@@ -162,6 +164,7 @@ describe('Graph utils', () => {
           "VC-Configurator",
           "CPQ-Configurator",
           "Textfield-Configurator",
+          "Customer-Ticketing",
           "EPD-Visualization",
           "Digital-Payments",
           "CDS",
