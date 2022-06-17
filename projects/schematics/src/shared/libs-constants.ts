@@ -217,5 +217,5 @@ export const CDS_FEATURE_NAME = 'CDS';
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
-export const CLI_CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
+export const CUSTOMER_TICKETING_FEATURE_NAME = 'Customer-Ticketing';
 /***** Feature name end *****/

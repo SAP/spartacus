@@ -395,7 +395,6 @@ There are couple of required changes to make sure schematics will work properly
   - `projects/storefrontapp/tsconfig.server.prod.json`,
   - `projects/storefrontapp/tsconfig.server.json`,
   - `projects/storefrontapp/tsconfig.app.prod.json`
-- add new feature lib consts in schematics folder - `feature-libs\<lib-name>\schematics\constants.ts` where the `lib-name` is the name of the new library
 - add new feature lib schema.json elements in schematics folder - `feature-libs\<lib-name>\schematics\add-<lib-name>\schema.json` where the `lib-name` is the name of the new library
 - add new feature chain method to 'shouldAddFeature' and function to add it - `feature-libs\<lib-name>\schematics\add-<lib-name>\index.ts` where the `lib-name` is the name of the new library
 - create new feature lib module in - `projects/storefrontapp/src/app/spartacus/features`
