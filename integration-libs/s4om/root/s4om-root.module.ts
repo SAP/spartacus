@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
-import { ScheduleLinesModule } from '@spartacus/s4om';
 
 @NgModule({
-  imports: [ScheduleLinesModule],
+  imports: [],
 })
 export class S4omModule {}
