@@ -25,12 +25,14 @@ export const getPageContext: MemoizedSelector<any, PageContext> =
       (routingState.state && routingState.state.context) || { id: '' }
   );
 
-export const getNextPageContext: MemoizedSelector<any, PageContext> =
-  createSelector(
-    getRouterState,
-    (routingState: RouterState) =>
-      routingState.nextState && routingState.nextState.context
-  );
+export const getNextPageContext: MemoizedSelector<
+  any,
+  PageContext | undefined
+> = createSelector(
+  getRouterState,
+  (routingState: RouterState) =>
+    routingState.nextState && routingState.nextState.context
+);
 
 export const isNavigating: MemoizedSelector<any, boolean> = createSelector(
   getNextPageContext,
