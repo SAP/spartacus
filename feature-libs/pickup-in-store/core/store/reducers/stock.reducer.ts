@@ -6,19 +6,6 @@ export const initialState: StockLevelState = {
   findStockLevelByCode: {},
 };
 
-// export function stockReducer(
-//   state = initialState,
-//   action: StockActions.StockLevelAction
-// ): StockLevelState {
-//   switch (action.type) {
-//     case StockActions.STOCK_LEVEL_SUCCESS: {
-//       return { ...state, findStockLevelByCode: action.payload };
-//     }
-//   }
-
-//   return state;
-// }
-
 const _stockReducer = createReducer(
   initialState,
   on(
@@ -28,9 +15,16 @@ const _stockReducer = createReducer(
         payload: any;
       }>()
     ),
-    (state: StockLevelState, action) => ({
+    (state: StockLevelState, action): StockLevelState => ({
       ...state,
       findStockLevelByCode: action.payload,
+    })
+  ),
+  on(
+    createAction(StockActions.CLEAR_STOCK_DATA),
+    (state: StockLevelState): StockLevelState => ({
+      ...state,
+      findStockLevelByCode: {},
     })
   )
 );

@@ -44,8 +44,16 @@ export class StockLevelSuccess extends StateUtils.LoaderSuccessAction {
   }
 }
 
+export class ClearStockData extends StateUtils.LoaderResetAction {
+  readonly type = CLEAR_STOCK_DATA;
+  constructor() {
+    super(STOCK_DATA);
+  }
+}
+
 export type StockLevelAction =
   | StockLevel
   | StockLevelOnHold
   | StockLevelFail
-  | StockLevelSuccess;
+  | StockLevelSuccess
+  | ClearStockData;

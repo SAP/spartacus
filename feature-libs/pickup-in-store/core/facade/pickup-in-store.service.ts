@@ -26,6 +26,10 @@ export class PickupInStoreService implements PickupInStoreFacade {
     );
   }
 
+  clearStockData(): void {
+    this.store.dispatch(new StockActions.ClearStockData());
+  }
+
   getStockLoading(): Observable<boolean> {
     return this.store.pipe(select(StockSelectors.getStockLoading));
   }
