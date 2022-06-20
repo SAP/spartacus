@@ -10,15 +10,5 @@ export function getConfiguredDependencies(feature: string): string[] {
     throw new SchematicsException(`No feature config found for ${feature}.`);
   }
 
-  const dependencyConfig = featureConfig.dependencyFeatures ?? {};
-  const featureDependencies: string[] = [];
-  for (const key in dependencyConfig) {
-    if (!dependencyConfig.hasOwnProperty(key)) {
-      continue;
-    }
-
-    featureDependencies.push(...(dependencyConfig[key] ?? []));
-  }
-
-  return featureDependencies;
+  return featureConfig.dependencyFeatures ?? [];
 }

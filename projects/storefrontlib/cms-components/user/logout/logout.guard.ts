@@ -64,7 +64,7 @@ export class LogoutGuard implements CanActivate {
    */
   protected getRedirectUrl(): UrlTree {
     const cxRoute = this.protectedRoutes.shouldProtect ? 'login' : 'home';
-    return this.router.parseUrl(this.semanticPathService.get(cxRoute));
+    return this.router.parseUrl(this.semanticPathService.get(cxRoute) ?? '');
   }
 
   protected logoutAndTryToRedirect(): Observable<boolean | UrlTree> {
@@ -76,7 +76,7 @@ export class LogoutGuard implements CanActivate {
       switchMap(() => {
         return this.cms
           .hasPage({
-            id: this.semanticPathService.get('logout'),
+            id: this.semanticPathService.get('logout') ?? '',
             type: PageType.CONTENT_PAGE,
           })
           .pipe(
