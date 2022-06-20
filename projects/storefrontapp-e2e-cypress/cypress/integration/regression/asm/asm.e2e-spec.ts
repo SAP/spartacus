@@ -8,8 +8,14 @@ import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import * as consent from '../../../helpers/consent-management';
 import { fillShippingAddress } from '../../../helpers/checkout-forms';
-import { waitForCategoryPage, waitForPage } from '../../../helpers/checkout-flow';
-import { navigateToCategory, navigateToHomepage } from '../../../helpers/vendor/cds/merchandising-carousel';
+import {
+  waitForCategoryPage,
+  waitForPage,
+} from '../../../helpers/checkout-flow';
+import {
+  navigateToCategory,
+  navigateToHomepage,
+} from '../../../helpers/vendor/cds/merchandising-carousel';
 
 let customer: any;
 

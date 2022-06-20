@@ -170,7 +170,7 @@ describe('AuthService', () => {
     it('should revoke tokens and logout', fakeAsync(() => {
       spyOn(userIdService, 'clearUserId').and.callThrough();
       spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callFake(() => {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve) => {
           setTimeout(() => {
             resolve();
           }, 100);

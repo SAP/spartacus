@@ -12,7 +12,10 @@ import {
   interceptGet,
   interceptPost,
 } from '../support/utils/intercept';
-import { navigateToCategory, navigateToHomepage } from './vendor/cds/merchandising-carousel';
+import {
+  navigateToCategory,
+  navigateToHomepage,
+} from './vendor/cds/merchandising-carousel';
 
 export function listenForAuthenticationRequest(): string {
   return interceptPost(
