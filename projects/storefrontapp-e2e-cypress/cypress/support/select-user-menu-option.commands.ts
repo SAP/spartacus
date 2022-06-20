@@ -31,7 +31,8 @@ Cypress.Commands.add(
     }
 
     cy.get(
-      'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > ul > li > div > ul'
+      'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > ul > li > div > ul',
+      { timeout: Cypress.config('defaultCommandTimeout') + 20000 }
     )
       .findByText(new RegExp(option, 'i'))
       .click({ force: true });
