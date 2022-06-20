@@ -1,15 +1,13 @@
 <ng-container>
   <div class="cx-delivery-pickup-options-dialog">
-    <div class="cx-delivery-pickup-options-dialog-container">
+    <div class="cx-dialog-content">
       <!-- Modal Header -->
-      <div
-        class="modal-header cx-delivery-pickup-options-dialog-container-header"
-      >
-        {{ 'pickupInStoreDialog.modalHeader' | cxTranslate }}
+      <div class="modal-header cx-dialog-header">
+        <div class="cx-dialog-title">{{ 'pickupInStoreDialog.modalHeader' | cxTranslate }}</div>
 
         <button
           (click)="close('Close Pick A Store Dialog')"
-          class="cx-delivery-pickup-options-dialog-container-close close"
+          class="cx-dialog-close close"
           [attr.aria-label]="'pickupInStoreDialog.close' | cxTranslate"
           type="button"
         >
@@ -21,7 +19,7 @@
 
       <!-- Modal Body -->
       <section
-        class="cx-delivery-pickup-options-dialog-container-body modal-body"
+        class="cx-dialog-body modal-body"
       >
         <cx-store-search
           [hideOutOfStock]="getHideOutOfStockState$ | async"

@@ -1,6 +1,6 @@
 <div class="cx-store">
   <div class="cx-store-address">
-    <div *ngIf="storeDetails?.displayName" class="cx-store-address-name">
+    <div *ngIf="storeDetails?.displayName" class="cx-store-name">
       {{ storeDetails?.displayName }}
     </div>
     <div *ngIf="storeDetails?.address?.line1">
@@ -30,13 +30,30 @@
         ></cx-icon>
       </div>
       <cx-store-schedule *ngIf="openHoursOpen" [storeDetails]="storeDetails">
-        <h4>{{ 'storeFinder.storeHours' | cxTranslate }}</h4>
       </cx-store-schedule>
     </div>
   </div>
   <div>
     <div class="cx-store-distance">{{ storeDetails?.formattedDistance }}</div>
-    <div>{{ 'store.stockLevel' | cxTranslate: { count: storeDetails?.stockInfo?.stockLevel } }}</div>
+    <div>
+      <cx-icon
+        class="cx-store-stock-icon"
+        *ngIf="!!storeDetails?.stockInfo?.stockLevel"
+        [type]="iconTypes.CHECK"
+      ></cx-icon>
+      <span
+        class="cx-stock-level"
+        [ngClass]="{
+          'cx-store-out-of-stock': !storeDetails?.stockInfo?.stockLevel,
+          'cx-store-in-stock': !!storeDetails?.stockInfo?.stockLevel
+        }"
+      >
+        {{
+          'store.stockLevel'
+            | cxTranslate: { count: storeDetails?.stockInfo?.stockLevel }
+        }}</span
+      >
+    </div>
   </div>
 </div>
 <div class="cx-store-pick-up-from-here">

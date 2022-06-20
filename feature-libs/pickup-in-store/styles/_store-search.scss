@@ -2,7 +2,10 @@ cx-store-search {
   .cx-find-a-store-container {
     display: flex;
     flex-wrap: wrap;
+    column-gap: 20px;
+
     .cx-find-a-store-label {
+      @include type('6');
       width: 100%;
     }
 
@@ -15,17 +18,11 @@ cx-store-search {
     }
 
     .cx-find-a-store-pseudo-link {
+      @include type('6');
+      color: var(--cx-color-primary);
+      text-decoration: var(--cx-text-decoration);
       text-transform: uppercase;
-      color: #1672b7;
       cursor: pointer;
-    }
-
-    button {
-      height: 48px;
-      border-radius: 24px;
-      border: solid 3px #1672b7;
-      background-color: #1672b7;
-      color: white;
     }
 
     .cx-find-a-store-hide-out-of-stock {
@@ -35,6 +32,11 @@ cx-store-search {
 
       .cx-find-a-store-checkbox-group {
         display: flex;
+
+       .cx-hide-out-of-stock-label {
+          @include type('6');
+          user-select: none;
+       }
       }
     }
   }

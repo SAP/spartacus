@@ -22,6 +22,7 @@ export const storeSearch = {
   hideOutOfStockOptions: 'Hide out of stock options',
   useMyLocation: 'Use my location',
   viewAllStores: 'View all stores',
+  searchPlaceholder: 'Enter Zip Code, Town or Address',
 };
 
 export const pickupInStore = {

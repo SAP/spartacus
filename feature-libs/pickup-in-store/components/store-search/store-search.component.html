@@ -5,10 +5,19 @@
     </label>
   </div>
   <div class="cx-find-a-store-input">
-    <input class="form-control" type="text" id="txtFindAStore" #txtFindAStore />
+    <input
+      [placeholder]="'storeSearch.searchPlaceholder' | cxTranslate"
+      class="form-control"
+      type="text"
+      id="txtFindAStore"
+      #txtFindAStore
+    />
   </div>
   <div>
-    <button (click)="onFindStores(txtFindAStore.value)">
+    <button
+      (click)="onFindStores(txtFindAStore.value)"
+      class="btn btn-primary btn-block"
+    >
       {{ 'storeSearch.findStores' | cxTranslate }}
     </button>
   </div>
@@ -23,7 +32,7 @@
   </div>
   <div class="cx-find-a-store-hide-out-of-stock">
     <div class="cx-find-a-store-checkbox-group form-check">
-      <label class="form-check-label" for="chkHideOutOfStock">
+      <label class="cx-hide-out-of-stock-label form-check-label" for="chkHideOutOfStock">
         {{ 'storeSearch.hideOutOfStockOptions' | cxTranslate }}
       </label>
       <input

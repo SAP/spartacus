@@ -1,5 +1,11 @@
+.cx-store-schedule-title {
+  @include type('4', 'semi')
+}
+
 .cx-store-schedule-opening-times {
+  @include type('6', 'normal');
   display: flex;
+
   .cx-store-schedule-day-of-week {
     flex-grow: 1;
   }

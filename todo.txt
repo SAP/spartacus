@@ -1,0 +1,7 @@
+x (A) Find stores button design
+x (B) Search box and button spacing
+x (C) Colours for stock levels and in stock icon
+x (D) Search box placeholder text
+x (E) Text sizing and emphasis of headings
+(F) Spacing between items in the dialog
+(Z) Dialog window width
