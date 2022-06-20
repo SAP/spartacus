@@ -8,6 +8,8 @@ import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import * as consent from '../../../helpers/consent-management';
 import { fillShippingAddress } from '../../../helpers/checkout-forms';
+import { waitForCategoryPage, waitForPage } from '../../../helpers/checkout-flow';
+import { navigateToCategory, navigateToHomepage } from '../../../helpers/vendor/cds/merchandising-carousel';
 
 let customer: any;
 
@@ -84,8 +86,10 @@ context('Assisted Service Module', () => {
 
       // CXSPA-301/GH-14914
       // Must ensure that site is still functional after service agent logout
-      cy.get('cx-generic-link[ng-reflect-url="/Open-Catalogue/Cameras/Film-C"]', { timeout: 1000 }).click('center');
-      cy.get('#product-results-list', { timeout: 1000 }).should('exist');
+      navigateToHomepage();
+      cy.get('cx-storefront.stop-navigating').should('exist');
+      navigateToCategory('Brands', 'brands', false);
+      cy.get('cx-product-list-item').should('exist');
     });
   });
 
