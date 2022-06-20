@@ -22,7 +22,7 @@ export class OrderApprovalDetailService {
     .pipe(map((routingData) => routingData.state.params.approvalCode));
 
   protected orderApproval$ = this.approvalCode$.pipe(
-    filter((value) => Boolean(value)),
+    filter((approvalCode) => Boolean(approvalCode)),
     tap((approvalCode: string) =>
       this.orderApprovalService.loadOrderApproval(approvalCode)
     ),

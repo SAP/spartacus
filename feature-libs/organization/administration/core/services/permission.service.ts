@@ -74,7 +74,7 @@ export class PermissionService {
   private getPermissionValue(permissionCode: string): Observable<Permission> {
     return this.store
       .select(getPermissionValue(permissionCode))
-      .pipe(filter((value) => Boolean(value)));
+      .pipe(filter((permission) => Boolean(permission)));
   }
 
   private getPermissionList(

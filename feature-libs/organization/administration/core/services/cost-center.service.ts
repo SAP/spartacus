@@ -62,7 +62,7 @@ export class CostCenterService {
   private getCostCenterValue(costCenterCode: string): Observable<CostCenter> {
     return this.store
       .select(getCostCenterValue(costCenterCode))
-      .pipe(filter((value) => Boolean(value)));
+      .pipe(filter((costCenter) => Boolean(costCenter)));
   }
 
   private getCostCenterList(

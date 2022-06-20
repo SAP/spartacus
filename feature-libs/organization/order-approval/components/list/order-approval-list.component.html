@@ -2,7 +2,7 @@
   <ng-container
     *ngIf="
       orderApprovals.pagination &&
-        orderApprovals.pagination.totalResults !== undefined &&
+        orderApprovals.pagination.totalResults &&
         orderApprovals.pagination.totalResults > 0;
       else noOrder
     "

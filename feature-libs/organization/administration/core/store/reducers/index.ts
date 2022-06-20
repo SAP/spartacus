@@ -1,5 +1,4 @@
 import { InjectionToken, Provider } from '@angular/core';
-import { AnyForUntypedForms } from '@angular/forms';
 import {
   Action,
   ActionReducer,
@@ -130,10 +129,9 @@ export function getReducers(): ActionReducerMap<OrganizationState, any> {
         ADDRESS_LIST,
         orgUnitAddressListReducer
       ),
-      addressEntities: StateUtils.entityLoaderReducer<
-        Address,
-        AnyForUntypedForms
-      >(ADDRESS_ENTITIES),
+      addressEntities: StateUtils.entityLoaderReducer<Address, any>(
+        ADDRESS_ENTITIES
+      ),
     }),
     [USER_GROUP_FEATURE]: combineReducers({
       entities: StateUtils.entityLoaderReducer<UserGroup, any>(

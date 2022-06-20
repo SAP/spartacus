@@ -64,7 +64,7 @@ export class OrganizationBadRequestHandler extends HttpErrorHandler {
     message: string,
     mask: RegExp,
     key: string
-  ) {
+  ): void {
     const result = message.match(mask);
     const params = { code: result?.[1] };
     if (result) {

@@ -57,7 +57,7 @@ export class BudgetService {
   private getBudgetValue(budgetCode: string): Observable<Budget> {
     return this.store
       .select(getBudgetValue(budgetCode))
-      .pipe(filter((value) => Boolean(value)));
+      .pipe(filter((budget) => Boolean(budget)));
   }
 
   private getBudgetList(

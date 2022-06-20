@@ -61,7 +61,7 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
     mask: RegExp,
     key: string,
     code?: string
-  ) {
+  ): void {
     const result = message.match(mask);
     const params = { code: result?.[1] ?? code };
     if (result) {

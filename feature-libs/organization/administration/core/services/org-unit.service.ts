@@ -132,7 +132,7 @@ export class OrgUnitService {
   private getOrgUnitValue(orgUnitId: string): Observable<B2BUnit> {
     return this.store
       .select(getOrgUnitValue(orgUnitId))
-      .pipe(filter((value) => Boolean(value)));
+      .pipe(filter((orgUnit) => Boolean(orgUnit)));
   }
 
   private getTreeState(): Observable<StateUtils.LoaderState<B2BUnitNode>> {

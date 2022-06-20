@@ -62,7 +62,7 @@ export class B2BUserService {
   private getB2BUserValue(orgCustomerId: string): Observable<B2BUser> {
     return this.store
       .select(getB2BUserValue(orgCustomerId))
-      .pipe(filter((value) => Boolean(value)));
+      .pipe(filter((b2bUser) => Boolean(b2bUser)));
   }
 
   get(orgCustomerId: string): Observable<B2BUser> {
