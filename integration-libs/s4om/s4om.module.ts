@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { S4omComponentsModule } from './components/s4om-components.module';
+import { S4omComponentsModule } from '@spartacus/s4om/components';
 
 @NgModule({
   declarations: [],
