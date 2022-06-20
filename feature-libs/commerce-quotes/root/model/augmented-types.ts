@@ -1,4 +1,4 @@
-import '@spartacus/checkout/base/root';
+// import '@spartacus/cart/base/root';
 import { ConfigurationInfo } from '@spartacus/product-configurator/common';
 import { Comment } from './commerce-quotes.model';
 

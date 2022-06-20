@@ -1,6 +1,8 @@
 @import './commerce-quotes-list';
+@import './commerce-quotes-request-quote-dialog';
 
-$commerce-quotes-components-allowlist: cx-commerce-quotes-list !default;
+$commerce-quotes-components-allowlist: cx-commerce-quotes-list
+  cx-commerce-quotes-request-quote-dialog !default;
 
 $skipComponentStyles: () !default;
 

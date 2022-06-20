@@ -27,11 +27,11 @@ export const defaultCommerceQuotesRoutingConfig: RoutingConfig = {
         paths: ['my-account/quotes'],
       },
       quoteDetails: {
-        paths: ['my-account/quotes/{quoteId}'],
+        paths: ['my-account/quotes/:quoteId'],
         paramsMapping: { quoteId: 'quoteId' },
       },
       quoteEdit: {
-        paths: ['my-account/quotes/{quoteId}/edit'],
+        paths: ['my-account/quotes/:quoteId/edit'],
         paramsMapping: { quoteId: 'quoteId' },
       },
     },
