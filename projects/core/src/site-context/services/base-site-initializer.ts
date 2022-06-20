@@ -47,10 +47,12 @@ export class BaseSiteInitializer implements OnDestroy {
    * unless the active base site has been already initialized.
    */
   protected setDefaultFromConfig(config: SiteContextConfig): void {
-    if (!this.baseSiteService.isInitialized()) {
-      this.baseSiteService.setActive(
-        getContextParameterDefault(config, BASE_SITE_CONTEXT_ID)
-      );
+    const contextParam = getContextParameterDefault(
+      config,
+      BASE_SITE_CONTEXT_ID
+    );
+    if (!this.baseSiteService.isInitialized() && contextParam) {
+      this.baseSiteService.setActive(contextParam);
     }
   }
 

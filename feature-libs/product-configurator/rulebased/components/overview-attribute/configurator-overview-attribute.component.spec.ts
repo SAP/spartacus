@@ -177,7 +177,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
         'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
           component.attributeOverview.attribute +
           ' price:' +
-          component.attributeOverview.valuePrice.formattedValue +
+          component.attributeOverview.valuePrice?.formattedValue +
           ' value:' +
           component.attributeOverview.value
       );

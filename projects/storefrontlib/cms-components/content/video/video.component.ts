@@ -86,7 +86,7 @@ export class VideoComponent {
         })
         .pipe(take(1))
         .subscribe((page) => {
-          this.routerLink = page.label;
+          this.routerLink = page?.label;
           this.cd.markForCheck();
         });
     } else if (data.product) {
