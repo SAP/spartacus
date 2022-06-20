@@ -43,7 +43,7 @@ export class PermissionFormComponent implements OnInit {
     .pipe(
       tap((units) => {
         if (units && units.length === 1) {
-          this.form?.get('orgUnit.uid')?.setValue(units[0]?.id);
+          this.form?.get('orgUnit.uid')?.setValue(units[0].id);
         }
       })
     );
