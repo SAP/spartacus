@@ -848,8 +848,6 @@ export const DEFAULT_USER_GROUP_ROUTING_CONFIG =
   'defaultUserGroupRoutingConfig';
 export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
 
-export const CUSTOMER_TICKETING_SCSS_FILE_NAME = 'customer-ticketing.scss';
-
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 // export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
