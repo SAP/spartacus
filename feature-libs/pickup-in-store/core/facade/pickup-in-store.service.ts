@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { PointOfServiceStock } from '@spartacus/core';
 import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -63,5 +64,9 @@ export class PickupInStoreService implements PickupInStoreFacade {
       select(StockSelectors.getStockEntities),
       map((data) => data.findStockLevelByCode)
     );
+  }
+
+  getStores(): Observable<PointOfServiceStock[]> {
+    return this.store.pipe(select(StockSelectors.getStores));
   }
 }

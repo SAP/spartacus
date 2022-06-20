@@ -4,7 +4,7 @@
 /*istanbul ignore file*/
 
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
+import { facadeFactory, PointOfServiceStock } from '@spartacus/core';
 import {
   StockEntities,
   StockLocationSearchParams,
@@ -27,6 +27,7 @@ import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
         'getStockSuccess',
         'getSearchHasBeenPerformed',
         'getStockEntities',
+        'getStores',
       ],
       async: true,
     }),
@@ -40,4 +41,5 @@ export abstract class PickupInStoreFacade {
   abstract getStockSuccess(): Observable<boolean>;
   abstract getSearchHasBeenPerformed(): Observable<boolean>;
   abstract getStockEntities(): Observable<StockEntities>;
+  abstract getStores(): Observable<PointOfServiceStock[]>;
 }

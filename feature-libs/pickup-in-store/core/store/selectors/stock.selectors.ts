@@ -1,7 +1,8 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { StateUtils } from '@spartacus/core';
+import { PointOfServiceStock, StateUtils } from '@spartacus/core';
 import { StateWithStock, StockLevelState } from '../stock-state';
 import { getStockState } from './feature.selector';
+import { getHideOutOfStockState } from './hide-out-of-stock.selectors';
 
 export const getStockLevelState: MemoizedSelector<
   StateWithStock,
@@ -39,4 +40,16 @@ export const getSearchHasBeenPerformed: MemoizedSelector<
   getStockError,
   (_getStockLoading, _getStockSuccess, _getStockError) =>
     _getStockLoading || _getStockSuccess || _getStockError
+);
+
+export const getStores: MemoizedSelector<
+  StateWithStock,
+  PointOfServiceStock[]
+> = createSelector(
+  getStockEntities,
+  getHideOutOfStockState,
+  (stockEntities, hideOutOfStock) =>
+    stockEntities.findStockLevelByCode?.stores?.filter(
+      (store) => (store?.stockInfo?.stockLevel ?? 0) > 0 || !hideOutOfStock
+    ) ?? []
 );
