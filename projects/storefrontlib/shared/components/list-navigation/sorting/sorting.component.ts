@@ -18,7 +18,7 @@ export class SortingComponent {
   @Input()
   ariaControls: string;
   @Input()
-  ariaLabel: string;
+  ariaLabel: string | undefined;
   @Input()
   selectedOption: string | undefined;
   @Input()

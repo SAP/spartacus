@@ -82,7 +82,7 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
     /**
      * If Spartacus is already installed in the app.
      */
-    dirtyInstallation?: boolean;
+    existingSpartacusApplication?: boolean;
   };
   /**
    * Meta.
@@ -93,13 +93,18 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
   options?: LibraryOptions;
 }
 
+/**
+ * Configuration describing the feature schematics.
+ */
 export interface SchematicConfig {
   /**
    * Library options
    */
   library: {
     /**
-     * The feature name, e.g. CHECKOUT_BASE_FEATURE
+     * The feature name, e.g. CHECKOUT_BASE_FEATURE.
+     * Corresponds to the CLI's name defined in file:
+     * `projects/schematics/src/add-spartacus/schema.json`
      */
     featureName: string;
     /**
@@ -126,10 +131,12 @@ export interface SchematicConfig {
   moduleName: string;
   /**
    * The feature module configuration.
+   * E.g. `CheckoutB2BModule` from `@spartacus/checkout/b2b`.
    */
   featureModule: Module | Module[];
   /**
    * The root module configuration.
+   * E.g. `CheckoutB2BRootModule` from `@spartacus/checkout/b2b/root`.
    */
   rootModule?: Module;
   /**
@@ -156,20 +163,23 @@ export interface SchematicConfig {
     options: OPTIONS
   ) => AdditionalFeatureConfiguration;
   /**
-   * Contains the feature dependencies.
-   * The key is a Spartacus scope, while the value is an array of its features.
+   * A list of feature dependencies which will be configured
+   * during the new Spartacus installation.
    */
-  dependencyFeatures?: Record<string, string[]>;
+  dependencyFeatures?: string[];
   /**
    * Configuration for generating the wrapper modules.
-   *
-   * The key is the feature module name for which to search for
-   * in either the feature module or the wrapper module.
-   *
-   * The value is the feature module name which should be added
-   * to the wrapper module.
    */
-  wrappers?: Record<string, string>;
+  importAfter?: {
+    /**
+     * The "marker" module name is a module name for which to search for.
+     */
+    markerModuleName: string;
+    /**
+     * The feature module name will be imported after the "marker" module.
+     */
+    featureModuleName: string;
+  }[];
 }
 
 export interface Module {
@@ -847,7 +857,7 @@ export function finalizeInstallation<OPTIONS extends LibraryOptions>(
   features: string[]
 ): Rule {
   return (_tree: Tree, context: SchematicContext) => {
-    if (options.internal?.dirtyInstallation) {
+    if (options.internal?.existingSpartacusApplication) {
       let message = `🚨 Detected Spartacus installation. Please make sure the following `;
       message += `features are installed, configured and sorted in the correct order:\n`;
       message += features.join(', ');

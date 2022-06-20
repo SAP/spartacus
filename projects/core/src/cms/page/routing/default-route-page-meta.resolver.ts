@@ -58,7 +58,9 @@ export abstract class DefaultRoutePageMetaResolver
         : breadcrumbConfig.i18n;
 
     return this.getParams().pipe(
-      switchMap((params) => this.translation.translate(i18nKey, params ?? {}))
+      switchMap((params) =>
+        this.translation.translate(i18nKey ?? '', params ?? {})
+      )
     );
   }
 
