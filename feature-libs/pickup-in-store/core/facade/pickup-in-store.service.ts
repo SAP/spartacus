@@ -4,7 +4,13 @@ import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { StockEntities, StockLocationSearchParams } from '../model/index';
-import { StateWithStock, StockActions, StockSelectors } from '../store';
+import {
+  HideOutOfStockOptionsAction,
+  StateWithStock,
+  StockLevelActions,
+  StockSelectors,
+  HideOutOfStockSelectors,
+} from '../store/index';
 
 @Injectable()
 export class PickupInStoreService implements PickupInStoreFacade {
@@ -17,7 +23,7 @@ export class PickupInStoreService implements PickupInStoreFacade {
     location,
   }: StockLocationSearchParams): void {
     this.store.dispatch(
-      new StockActions.StockLevel({
+      new StockLevelActions.StockLevel({
         productCode,
         latitude,
         longitude,
@@ -27,11 +33,21 @@ export class PickupInStoreService implements PickupInStoreFacade {
   }
 
   clearStockData(): void {
-    this.store.dispatch(new StockActions.ClearStockData());
+    this.store.dispatch(new StockLevelActions.ClearStockData());
   }
 
   getStockLoading(): Observable<boolean> {
     return this.store.pipe(select(StockSelectors.getStockLoading));
+  }
+
+  getHideOutOfStockState(): Observable<boolean> {
+    return this.store.pipe(
+      select(HideOutOfStockSelectors.getHideOutOfStockState)
+    );
+  }
+
+  hideOutOfStock(): void {
+    this.store.dispatch(HideOutOfStockOptionsAction());
   }
 
   getStockSuccess(): Observable<boolean> {

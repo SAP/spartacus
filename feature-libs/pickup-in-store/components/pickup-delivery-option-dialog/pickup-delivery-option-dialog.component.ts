@@ -3,6 +3,7 @@ import { StoreFinderSearchQuery } from '@spartacus/storefinder/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { LocationSearchParams } from 'feature-libs/pickup-in-store/core';
 import { PickupInStoreFacade } from 'feature-libs/pickup-in-store/root';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-delivery-pickup-options-dialog',
@@ -10,9 +11,10 @@ import { PickupInStoreFacade } from 'feature-libs/pickup-in-store/root';
 })
 export class PickupDeliveryOptionDialogComponent implements OnInit {
   /*--@Todo :- Change it to actual Data when implementing the other story --*/
-  location: string;
   productCode: string;
   storeSearch: StoreFinderSearchQuery;
+
+  getHideOutOfStockState$: Observable<boolean>;
 
   readonly iconTypes = ICON_TYPE;
 
@@ -23,9 +25,10 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
 
   ngOnInit() {
     this.pickupInStoreFacade.clearStockData();
-    this.launchDialogService.data$.subscribe(({ msg, productCode }) => {
-      (this.location = msg), (this.productCode = productCode);
+    this.launchDialogService.data$.subscribe(({ productCode }) => {
+      (this.productCode = productCode);
     });
+    this.getHideOutOfStockState$ = this.pickupInStoreFacade.getHideOutOfStockState();
   }
 
   onFindStores(locationSearchParams: LocationSearchParams): void {
@@ -33,6 +36,10 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
       productCode: this.productCode,
       ...locationSearchParams,
     });
+  }
+
+  onHideOutOfStock(): void {
+    this.pickupInStoreFacade.hideOutOfStock();
   }
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);

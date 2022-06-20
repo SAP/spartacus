@@ -26,7 +26,13 @@
       <label class="form-check-label" for="chkHideOutOfStock">
         {{ 'storeSearch.hideOutOfStockOptions' | cxTranslate }}
       </label>
-      <input class="form-check-input" id="chkHideOutOfStock" type="checkbox" />
+      <input
+        (click)="onHideOutOfStock()"
+        [checked]="hideOutOfStock"
+        class="form-check-input"
+        id="chkHideOutOfStock"
+        type="checkbox"
+      />
     </div>
   </div>
 </div>

@@ -1,2 +1,3 @@
-import * as StockActions from './stock.action';
-export { StockActions };
+export * from './hide-out-of-stock.action';
+import * as StockLevelActions from './stock.action';
+export { StockLevelActions };

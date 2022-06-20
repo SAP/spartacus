@@ -9,7 +9,8 @@ export interface StateWithStock {
 }
 
 export interface StockState {
-  stock: StateUtils.LoaderState<StockLevelState>;
+  stockLevel: StateUtils.LoaderState<StockLevelState>;
+  hideOutOfStock: boolean;
 }
 
 export interface StockLevelState {

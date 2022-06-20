@@ -4,7 +4,7 @@ import { normalizeHttpError } from '@spartacus/core';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { StockConnector } from '../../connectors/index';
-import { StockActions } from '../actions/index';
+import { StockLevelActions } from '../actions/index';
 
 @Injectable()
 export class StockEffect {
@@ -15,13 +15,13 @@ export class StockEffect {
 
   loadStockLevels$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(StockActions.STOCK_LEVEL),
-      map((action: StockActions.StockLevel) => action.payload),
+      ofType(StockLevelActions.STOCK_LEVEL),
+      map((action: StockLevelActions.StockLevel) => action.payload),
       switchMap(({ productCode, ...location }) =>
         this.stockConnector.loadStockLevels(productCode, location).pipe(
-          map((data) => new StockActions.StockLevelSuccess(data)),
+          map((data) => new StockLevelActions.StockLevelSuccess(data)),
           catchError((error) =>
-            of(new StockActions.StockLevelFail(normalizeHttpError(error)))
+            of(new StockLevelActions.StockLevelFail(normalizeHttpError(error)))
           )
         )
       )

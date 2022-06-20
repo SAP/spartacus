@@ -5,7 +5,6 @@ export const STOCK_LEVEL = '[Stock] Get Stock Level';
 export const STOCK_LEVEL_ON_HOLD = '[Stock] On Hold';
 export const STOCK_LEVEL_FAIL = '[Stock] Get Stock Level Fail';
 export const STOCK_LEVEL_SUCCESS = '[Stock] Get Stock Level Success';
-
 export const CLEAR_STOCK_DATA = '[Stock] Clear Data';
 
 export class StockLevel extends StateUtils.LoaderLoadAction {

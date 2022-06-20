@@ -1,5 +1,4 @@
-import { PaginationModel, SortModel } from './misc.model';
-import { PointOfServiceStock, Product } from './product.model';
+import { Product } from './product.model';
 
 export interface CategoryHierarchy {
   id?: string;
@@ -62,17 +61,4 @@ export interface ProductList {
   totalPageCount?: number;
   totalProductCount?: number;
   version?: string;
-}
-
-export interface StoreFinderStockSearchPage {
-  boundEastLongitude?: number;
-  boundSouthLatitude?: number;
-  boundWestLongitude?: number;
-  locationText?: string;
-  pagination?: PaginationModel;
-  product?: Product;
-  sorts?: SortModel[];
-  sourceLatitude?: number;
-  sourceLongitude?: number;
-  stores?: PointOfServiceStock[];
 }

@@ -23,8 +23,11 @@
       <section
         class="cx-delivery-pickup-options-dialog-container-body modal-body"
       >
-        <cx-store-search (findStores)="onFindStores($event)"></cx-store-search>
-
+        <cx-store-search
+          [hideOutOfStock]="getHideOutOfStockState$ | async"
+          (findStores)="onFindStores($event)"
+          (eventHideOutOfStock)="onHideOutOfStock()"
+        ></cx-store-search>
         <cx-store-list [storeSearch]="storeSearch"></cx-store-list>
       </section>
     </div>

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { StockEntities } from '@spartacus/pickup-in-store/core';
 import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
 import {
-  StoreEntities,
   StoreFinderSearchQuery,
 } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 })
 export class StoreListComponent implements OnInit {
   isLoading$: Observable<boolean>;
-  locations$: Observable<StoreEntities>;
+  locations$: Observable<StockEntities>;
   searchHasBeenPerformed$: Observable<boolean>;
 
   private _storeSearch: StoreFinderSearchQuery;

@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { I18nModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
@@ -6,7 +7,13 @@ import { StoreSearchModule } from '../store-search/store-search.module';
 import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
 
 @NgModule({
-  imports: [I18nModule, IconModule, StoreListModule, StoreSearchModule],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    StoreListModule,
+    StoreSearchModule,
+  ],
   entryComponents: [PickupDeliveryOptionDialogComponent],
   declarations: [PickupDeliveryOptionDialogComponent],
   exports: [PickupDeliveryOptionDialogComponent],
