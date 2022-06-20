@@ -71,6 +71,6 @@ export class LogoutGuard implements CanActivate {
    */
   protected getRedirectUrl(): UrlTree {
     const cxRoute = this.protectedRoutes.shouldProtect ? 'login' : 'home';
-    return this.router.parseUrl(this.semanticPathService.get(cxRoute));
+    return this.router.parseUrl(this.semanticPathService.get(cxRoute) ?? '');
   }
 }
