@@ -58,25 +58,25 @@ export class PageEffects {
               mergeMap((cmsStructure: CmsStructureModel) => {
                 const actions: Action[] = [
                   new CmsActions.CmsGetComponentFromPage(
-                    cmsStructure.components.map((component) => ({
+                    (cmsStructure.components ?? []).map((component) => ({
                       component,
                       pageContext,
                     }))
                   ),
                   new CmsActions.LoadCmsPageDataSuccess(
                     pageContext,
-                    cmsStructure.page
+                    cmsStructure.page ?? {}
                   ),
                 ];
 
-                const pageLabel = cmsStructure.page.label;
+                const pageLabel = cmsStructure.page?.label;
                 // For content pages the page label returned from backend can be different than page ID initially assumed from route.
                 // In such a case let's save the success response not only for initially assumed page ID, but also for correct page label.
                 if (pageLabel && pageLabel !== pageContext.id) {
                   actions.unshift(
                     new CmsActions.CmsSetPageSuccessIndex(
                       { id: pageLabel, type: pageContext.type },
-                      cmsStructure.page
+                      cmsStructure.page ?? {}
                     )
                   );
                 }
