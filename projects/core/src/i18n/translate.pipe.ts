@@ -25,14 +25,14 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   transform(
     input: Translatable | string,
     options: TranslatableParams = {}
-  ): string {
+  ): string | undefined {
     if (!input) {
       if (isDevMode()) {
         console.error(
           `The given input for the cxTranslate pipe (${input}) is invalid and cannot be translated`
         );
       }
-      return;
+      return undefined;
     }
 
     if ((input as Translatable).raw) {

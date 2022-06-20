@@ -1,3 +1,4 @@
+import { HttpRequest } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { OccEndpointsService } from '@spartacus/core';
 import { AuthService } from '../../../../auth/user-auth/facade/auth.service';
@@ -56,7 +57,7 @@ describe('ForbiddenHandler', () => {
   it('should logout unauthorized user while logging', () => {
     spyOn(authService, 'logout');
     spyOn(occEndpoints, 'buildUrl').and.returnValue('/user');
-    service.handleError({ url: '/user' });
+    service.handleError({ url: '/user' } as HttpRequest<any>);
 
     expect(occEndpoints.buildUrl).toHaveBeenCalledWith('user', {
       urlParams: { userId: 'current' },
@@ -67,14 +68,14 @@ describe('ForbiddenHandler', () => {
   it('should not logout unauthorized user in other case', () => {
     spyOn(authService, 'logout');
 
-    service.handleError({ url: '' });
+    service.handleError({ url: '' } as HttpRequest<any>);
     expect(authService.logout).not.toHaveBeenCalled();
   });
 
   it('should send common error to global message service', () => {
     spyOn(globalMessageService, 'add');
 
-    service.handleError({ url: '' });
+    service.handleError({ url: '' } as HttpRequest<any>);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.forbidden' },
       GlobalMessageType.MSG_TYPE_ERROR

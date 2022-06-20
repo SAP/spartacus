@@ -104,13 +104,12 @@ export class ConfigurableRoutesService {
     route: Route,
     matchersOrFactories: RouteConfig['matchers']
   ): UrlMatcher {
-    const matchers: UrlMatcher[] = matchersOrFactories.map(
-      (matcherOrFactory) => {
+    const matchers: UrlMatcher[] =
+      matchersOrFactories?.map((matcherOrFactory) => {
         return typeof matcherOrFactory === 'function'
           ? matcherOrFactory // matcher
           : this.resolveUrlMatcherFactory(route, matcherOrFactory); // factory injection token
-      }
-    );
+      }) ?? [];
     return this.urlMatcherService.getCombined(matchers);
   }
 
@@ -137,7 +136,7 @@ export class ConfigurableRoutesService {
   }
 
   protected validateRouteConfig(
-    routeConfig: RouteConfig,
+    routeConfig: RouteConfig | null | undefined,
     routeName: string,
     route: Route
   ) {
@@ -164,7 +163,7 @@ export class ConfigurableRoutesService {
     }
   }
 
-  private warn(...args) {
+  private warn(...args: any[]) {
     if (isDevMode()) {
       console.warn(...args);
     }

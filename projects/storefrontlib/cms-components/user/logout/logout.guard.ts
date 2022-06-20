@@ -42,7 +42,7 @@ export class LogoutGuard implements CanActivate {
       switchMap(() => {
         return this.cms
           .hasPage({
-            id: this.semanticPathService.get('logout'),
+            id: this.semanticPathService.get('logout') ?? '',
             type: PageType.CONTENT_PAGE,
           })
           .pipe(

@@ -21,7 +21,7 @@ export class OccCostCenterListNormalizer
     target?: EntitiesModel<CostCenter>
   ): EntitiesModel<CostCenter> {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as EntitiesModel<CostCenter>;
     }
     target.values = source.costCenters.map((costCenter) => ({
       ...this.converter.convert(costCenter, COST_CENTER_NORMALIZER),
