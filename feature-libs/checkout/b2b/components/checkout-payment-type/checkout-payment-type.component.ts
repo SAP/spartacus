@@ -42,11 +42,43 @@ export class CheckoutPaymentTypeComponent {
   paymentTypes$: Observable<PaymentType[]> =
     this.checkoutPaymentTypeFacade.getPaymentTypes();
 
-  typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeFacade
+  defaultSelectedPaymentType$: Observable<PaymentType | undefined> =
+    this.paymentTypes$.pipe(
+    map((paymentTypes) => {
+      if(paymentTypes.length === 1) {
+        return paymentTypes[0];
+      } else {
+        return undefined;
+      }
+    }));
+
+  typeSelected$: Observable<PaymentType> = combineLatest([this.checkoutPaymentTypeFacade
     .getSelectedPaymentTypeState()
     .pipe(
       filter((state) => !state.loading),
-      map((state) => state.data),
+      map((state) => state.data)), this.paymentTypes$])
+    .pipe(
+      map(([prevSelected, availablePaymentTypes]) => {
+        if(prevSelected){
+          if(availablePaymentTypes.find(availablePaymentType => {
+            return availablePaymentType.code === prevSelected.code;
+          })) {
+            return prevSelected;
+          }
+        }
+        if(availablePaymentTypes.length === 1) {
+          this.busy$.next(true);
+          this.checkoutPaymentTypeFacade
+            .setPaymentType(availablePaymentTypes[0].code || "", this.poNumberInputElement?.nativeElement?.value)
+            .subscribe({
+              complete: () => this.onSuccess(),
+              error: () => this.onError(),
+            });
+          return availablePaymentTypes[0];
+        } else {
+          return undefined;
+        }
+      }),
       filter(isNotUndefined),
       distinctUntilChanged(),
       tap((selected) => {
