@@ -5,6 +5,7 @@ import {
   IconModule,
   KeyboardFocusModule,
   ModalModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +26,7 @@ import { CommerceQuotesRequestQuoteDialogComponent } from './commerce-quotes-req
     FormErrorsModule,
     RouterModule,
     KeyboardFocusModule,
+    SpinnerModule,
   ],
 })
 export class CommerceQuotesRequestQuoteDialogModule {}

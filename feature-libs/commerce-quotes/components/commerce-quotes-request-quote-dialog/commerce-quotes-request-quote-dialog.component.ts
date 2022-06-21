@@ -8,6 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
 import { RoutingService } from '@spartacus/core';
 import { FocusConfig, ICON_TYPE, ModalService } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-commerce-quotes-request-quote-dialog',
@@ -17,6 +18,7 @@ import { FocusConfig, ICON_TYPE, ModalService } from '@spartacus/storefront';
 export class CommerceQuotesRequestQuoteDialogComponent {
   iconTypes = ICON_TYPE;
   cartId: string;
+  requestInProgress$ = new BehaviorSubject<boolean>(false);
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -49,6 +51,7 @@ export class CommerceQuotesRequestQuoteDialogComponent {
       this.form.markAllAsTouched();
       return;
     } else {
+      this.requestInProgress$.next(true);
       this.commerceQuotesFacade.createQuote().subscribe((quote) => {
         if (goToDetails) {
           this.routingService.go({

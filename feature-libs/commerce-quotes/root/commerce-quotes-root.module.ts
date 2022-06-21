@@ -13,7 +13,10 @@ export function defaultCommerceQuotesComponentsConfig() {
   const config = {
     featureModules: {
       [COMMERCE_QUOTES_FEATURE]: {
-        cmsComponents: ['AccountMyQuotesComponent'],
+        cmsComponents: [
+          'AccountMyQuotesComponent',
+          'CommerceQuotesRequestComponent',
+        ],
       },
     },
   };

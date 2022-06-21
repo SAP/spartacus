@@ -24,7 +24,6 @@ export class CommerceQuotesRequestQuoteButtonComponent implements OnInit {
   }
 
   showDialog() {
-    console.log('showDialog');
     this.activeCartService
       .getActiveCartId()
       .pipe(
