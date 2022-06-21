@@ -11,7 +11,7 @@ import { LoginFormComponentService } from 'feature-libs/user/account/components/
 import { CdcJsService } from 'integration-libs/cdc/root';
 import { FormErrorsModule } from 'projects/storefrontlib/shared';
 import { of } from 'rxjs';
-import { CdcLoginComponentService } from './cdc-login.service';
+import { CdcLoginComponentService } from './cdc-login-component.service';
 import createSpy = jasmine.createSpy;
 
 class MockWinRef {
@@ -103,7 +103,7 @@ describe('CdcLoginComponentService', () => {
       );
     });
 
-    fit('should happen without CDC', () => {
+    it('should happen without CDC', () => {
       //spyOn(cdcJsService, 'didLoad').and.returnValue(of(false));
       spyOn(loginFormService, 'login');
       expect(loginFormService.login).toHaveBeenCalled();

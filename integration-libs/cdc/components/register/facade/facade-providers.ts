@@ -6,12 +6,12 @@ import {
   UserProfileFacade,
   UserRegisterFacade
 } from '@spartacus/user/profile/root';
-import { CDCUserRegisterService } from 'integration-libs/cdc/core/profile/facade/cdc-user-register.service';
+import { CDCRegisterComponentService } from 'integration-libs/cdc/components/register/facade/cdc-register-component.service';
 export const facadeProviders: Provider[] = [
   UserEmailService,
   UserPasswordService,
   UserProfileService,
-  CDCUserRegisterService,
+  CDCRegisterComponentService,
   {
     provide: UserEmailFacade,
     useExisting: UserEmailService,
@@ -26,6 +26,6 @@ export const facadeProviders: Provider[] = [
   },
   {
     provide: UserRegisterFacade,
-    useExisting: CDCUserRegisterService,
+    useExisting: CDCRegisterComponentService,
   },
 ];

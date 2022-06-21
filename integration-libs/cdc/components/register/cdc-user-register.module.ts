@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { UserProfileComponentsModule } from '@spartacus/user/profile/components';
 import { UserProfileOccModule } from '@spartacus/user/profile/occ';
-import { CDCUserProfileCoreModule } from './cdc-user-profile-core.module';
+import { CDCUserRegisterCoreModule } from './cdc-user-register-core.module';
 
 @NgModule({
   imports: [
-    CDCUserProfileCoreModule,
+    CDCUserRegisterCoreModule, // replacing UserProfileCoreModule
     UserProfileOccModule,
     UserProfileComponentsModule,
   ],
 })
-export class CDCUserProfileModule {}
+export class CDCUserRegisterModule {}

@@ -5,4 +5,4 @@ import { facadeProviders } from './facade/facade-providers';
 @NgModule({
   providers: [UserProfileConnector, ...facadeProviders],
 })
-export class CDCUserProfileCoreModule {}
+export class CDCUserRegisterCoreModule {}

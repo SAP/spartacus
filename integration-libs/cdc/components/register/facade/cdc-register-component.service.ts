@@ -8,25 +8,23 @@ import {
   WindowRef
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
+import { RegisterComponentService } from '@spartacus/user/profile/components';
 import {
-  Title, UserRegisterFacade, UserSignUp
+  Title, UserSignUp
 } from '@spartacus/user/profile/root';
 import {
   UserProfileConnector, UserProfileService
 } from 'feature-libs/user/profile/core';
 import { CdcJsService } from 'integration-libs/cdc/root';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class CDCUserRegisterService implements UserRegisterFacade {
+export class CDCRegisterComponentService extends RegisterComponentService {
   protected registerCommand: Command<{ user: UserSignUp }, User> =
     this.command.create(
       ({ user }) =>
         new Observable<User>((userRegistered) => {
-          console.log(
-            'Registering user through CDC Gigya SDK'
-          );
+          // Registering user through CDC Gigya SDK
           if (user.firstName && user.lastName && user.uid && user.password) {
             this.cdcJSService.registerUserWithoutScreenSet(user);
           }
@@ -35,37 +33,7 @@ export class CDCUserRegisterService implements UserRegisterFacade {
         })
     );
 
-  protected registerGuestCommand: Command<
-    {
-      guid: string;
-      password: string;
-    },
-    User
-  > = this.command.create((payload) =>
-    this.userConnector.registerGuest(payload.guid, payload.password).pipe(
-      tap((user) => {
-        this.cdcJSService.didLoad().subscribe((cdcLoaded) => {
-          if (!cdcLoaded) {
-            console.log(
-              'CDC Gigya SDK not loaded, registering using normal service'
-            );
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            this.authService.loginWithCredentials(user.uid!, payload.password);
-          } else {
-            console.log('Registering user through CDC Gigya SDK');
-            if (user.uid) {
-              this.cdcJSService.registerUserWithoutScreenSet({
-                firstName: user.firstName,
-                lastName: user.lastName,
-                uid: user.uid,
-                password: payload.password,
-              });
-            }
-          }
-        });
-      })
-    )
-  );
+
 
   constructor(
     protected userProfile: UserProfileService,
@@ -76,6 +44,7 @@ export class CDCUserRegisterService implements UserRegisterFacade {
     protected winRef: WindowRef,
     protected cdcJSService: CdcJsService
   ) {
+    super(userProfile, userConnector, authService, command, store);
   }
 
   /**
@@ -85,16 +54,6 @@ export class CDCUserRegisterService implements UserRegisterFacade {
    */
   register(user: UserSignUp): Observable<User> {
     return this.registerCommand.execute({ user });
-  }
-
-  /**
-   * Register a new user from guest.
-   *
-   * @param guid
-   * @param password
-   */
-  registerGuest(guid: string, password: string): Observable<User> {
-    return this.registerGuestCommand.execute({ guid, password });
   }
 
   /**

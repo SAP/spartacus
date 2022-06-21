@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CdcConfig, CdcJsService, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
-import { AuthService, CmsConfig, GlobalMessageService, NotAuthGuard, provideConfig, WindowRef } from '@spartacus/core';
-import { LoginFormComponent, LoginFormComponentService } from '@spartacus/user/account/components';
+import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
+import { CmsConfig, provideConfig } from '@spartacus/core';
+import { USER_ACCOUNT_FEATURE } from '@spartacus/user/account/root';
 import { USER_PROFILE_FEATURE } from 'feature-libs/user/profile/root';
-import { CdcLoginComponentService } from 'integration-libs/cdc/core/auth/services/user-authentication/cdc-login.service';
 
 @NgModule({
   imports: [CdcRootModule],
@@ -32,27 +31,20 @@ import { CdcLoginComponentService } from 'integration-libs/cdc/core/auth/service
     }),
     provideConfig(<CmsConfig>{
       featureModules: {
-        [USER_PROFILE_FEATURE]: {
+        [USER_ACCOUNT_FEATURE]: {
           module: () =>
-            import('@spartacus/cdc/core').then((m) => m.CDCUserProfileModule),
+            import('@spartacus/cdc/components/login').then((m) => m.CDCUserAccountModule),
         },
       },
     }),
     provideConfig(<CmsConfig>{
-      cmsComponents: {
-        ReturningCustomerLoginComponent: {
-          component: LoginFormComponent,
-          guards: [NotAuthGuard],
-          providers: [
-            {
-              provide: LoginFormComponentService,
-              useClass: CdcLoginComponentService,
-              deps: [AuthService, GlobalMessageService, WindowRef, CdcJsService],
-            },
-          ],
+      featureModules: {
+        [USER_PROFILE_FEATURE]: {
+          module: () =>
+            import('@spartacus/cdc/components/register').then((m) => m.CDCUserRegisterModule),
         },
       },
-    }),
+    })
   ],
 })
 export class CdcFeatureModule {}

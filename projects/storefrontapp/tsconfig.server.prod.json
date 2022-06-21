@@ -233,6 +233,8 @@
       "@spartacus/user/profile/occ": ["../../dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["../../dist/user/profile/root"],
       "@spartacus/cdc/components": ["../../dist/cdc/components"],
+      "@spartacus/cdc/components/login": ["../../dist/cdc/components/login"],
+      "@spartacus/cdc/components/register": ["../../dist/cdc/components/register"],
       "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cdc/root": ["../../dist/cdc/root"],

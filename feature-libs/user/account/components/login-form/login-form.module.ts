@@ -13,7 +13,6 @@ import {
   WindowRef
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { CdcJsService } from 'integration-libs/cdc/root/service/cdc-js.service';
 import { LoginFormComponentService } from './login-form-component.service';
 import { LoginFormComponent } from './login-form.component';
 
@@ -38,7 +37,7 @@ import { LoginFormComponent } from './login-form.component';
             {
               provide: LoginFormComponentService,
               useClass: LoginFormComponentService,
-              deps: [AuthService, GlobalMessageService, WindowRef, CdcJsService],
+              deps: [AuthService, GlobalMessageService, WindowRef],
             },
           ],
         },

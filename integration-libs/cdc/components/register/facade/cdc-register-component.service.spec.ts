@@ -12,7 +12,7 @@ import { AuthService } from 'projects/core/src/auth';
 import { User } from 'projects/core/src/model';
 import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { Observable, of } from 'rxjs';
-import { CDCUserRegisterService } from './cdc-user-register.service';
+import { CDCRegisterComponentService } from './cdc-register-component.service';
 import createSpy = jasmine.createSpy;
 
 const userRegisterFormData: UserSignUp = {
@@ -49,7 +49,7 @@ class MockCDCJsServiceWithoutCDC implements Partial<CdcJsService> {
 }
 
 describe('CdcLoginComponentService', () => {
-  let cdcUserRegisterService: CDCUserRegisterService;
+  let cdcUserRegisterService: CDCRegisterComponentService;
   let connector: UserProfileConnector;
   let cdcJsService: CdcJsService;
   let authService: AuthService;
@@ -66,11 +66,11 @@ describe('CdcLoginComponentService', () => {
         },
         { provide: UserProfileService, useClass: MockUserProfileService },
         { provide: CdcJsService, useClass: MockCDCJsServiceWithCDC },
-        CDCUserRegisterService,
+        CDCRegisterComponentService,
       ],
     });
 
-    cdcUserRegisterService = TestBed.inject(CDCUserRegisterService);
+    cdcUserRegisterService = TestBed.inject(CDCRegisterComponentService);
     connector = TestBed.inject(UserProfileConnector);
     // cdcJsService = jasmine.createSpyObj('cdcJsService', ['didLoad', 'registerUserWithoutScreenSet']);
     authService = TestBed.inject(AuthService);
@@ -81,7 +81,7 @@ describe('CdcLoginComponentService', () => {
   });
 
   it('should inject UserRegisterService', inject(
-    [CDCUserRegisterService],
+    [CDCRegisterComponentService],
     (userRegisterService: UserRegisterService) => {
       expect(userRegisterService).toBeTruthy();
     }
@@ -116,29 +116,6 @@ describe('CdcLoginComponentService', () => {
       uid: 'uid',
       password: 'password',
     });
-    expect(authService.loginWithCredentials).toHaveBeenCalledWith(
-      'uid',
-      'password'
-    );
-  });
-
-  it('should be able to register guest with CDC', () => {
-    cdcUserRegisterService.registerGuest('guid', 'password');
-    expect(connector.registerGuest).toHaveBeenCalledWith('guid', 'password');
-    expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
-      firstName: 'firstName',
-      lastName: 'lastName',
-      uid: 'uid',
-      password: 'password',
-    });
-  });
-
-  it('should be able to register guest without CDC', () => {
-    TestBed.overrideProvider(CdcJsService, {
-      useValue: MockCDCJsServiceWithoutCDC,
-    });
-    cdcUserRegisterService.registerGuest('guid', 'password');
-    expect(connector.registerGuest).toHaveBeenCalledWith('guid', 'password');
     expect(authService.loginWithCredentials).toHaveBeenCalledWith(
       'uid',
       'password'
