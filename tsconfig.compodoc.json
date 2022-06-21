@@ -452,8 +452,14 @@
       "@spartacus/s4om/assets": [
         "integration-libs/s4om/assets/public_api"
       ],
+      "@spartacus/s4om/components": [
+        "integration-libs/s4om/components/public_api"
+      ],
       "@spartacus/s4om": [
         "integration-libs/s4om/public_api"
+      ],
+      "@spartacus/s4om/root": [
+        "integration-libs/s4om/root/public_api"
       ],
       "@spartacus/assets": [
         "projects/assets/src/public_api"

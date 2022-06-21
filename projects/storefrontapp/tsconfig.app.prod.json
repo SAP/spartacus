@@ -223,7 +223,9 @@
       "@spartacus/epd-visualization": ["dist/epd-visualization"],
       "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
       "@spartacus/s4om/assets": ["dist/s4om/assets"],
+      "@spartacus/s4om/components": ["dist/s4om/components"],
       "@spartacus/s4om": ["dist/s4om"],
+      "@spartacus/s4om/root": ["dist/s4om/root"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]

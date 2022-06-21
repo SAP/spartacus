@@ -21,5 +21,6 @@ import { ScheduleLinesComponent } from './schedule-lines.component';
   ],
 
   declarations: [ScheduleLinesComponent],
+  exports: [ScheduleLinesComponent],
 })
 export class ScheduleLinesModule {}
