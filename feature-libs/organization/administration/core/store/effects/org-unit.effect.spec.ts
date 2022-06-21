@@ -21,7 +21,6 @@ import {
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import { B2BUnitNode } from '../../model/unit-node.model';
 import { B2BUserActions, OrgUnitActions } from '../actions/index';
 import * as fromEffects from './org-unit.effect';
@@ -96,6 +95,15 @@ describe('OrgUnit Effects', () => {
     },
   };
 
+  const mockOccModuleConfig: OccConfig = {
+    backend: {
+      occ: {
+        baseUrl: '',
+        prefix: '',
+      },
+    },
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -104,7 +112,7 @@ describe('OrgUnit Effects', () => {
       ],
       providers: [
         { provide: OrgUnitConnector, useClass: MockOrgUnitConnector },
-        { provide: OccConfig, useValue: defaultOccOrganizationConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.OrgUnitEffects,
         provideMockActions(() => actions$),
       ],
