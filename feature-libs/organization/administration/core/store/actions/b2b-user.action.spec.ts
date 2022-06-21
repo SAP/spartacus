@@ -188,7 +188,7 @@ describe('B2BUser Actions', () => {
         expect({ ...action }).toEqual({
           type: B2BUserActions.CREATE_B2B_USER,
           payload: { userId, orgCustomer: {} },
-          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, ''),
+          meta: StateUtils.entityLoadMeta(B2B_USER_ENTITIES, null),
         });
       });
     });
