@@ -8,7 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
+import { AsmConfig, CustomerSearchPage } from '@spartacus/asm/core';
+import { AsmFacade } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -35,7 +36,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   constructor(
     protected fb: FormBuilder,
-    protected asmService: AsmService,
+    protected asmService: AsmFacade,
     protected config: AsmConfig
   ) {}
 

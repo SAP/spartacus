@@ -1,6 +1,6 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { AsmService, AsmUi } from '@spartacus/asm/core';
-import { CsAgentAuthService } from '@spartacus/asm/root';
+import { AsmUi } from '@spartacus/asm/core';
+import { AsmFacade, CsAgentAuthService } from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,
@@ -34,7 +34,7 @@ export class AsmMainUiComponent implements OnInit {
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected asmService: AsmService
+    protected asmService: AsmFacade
   ) {}
 
   ngOnInit(): void {

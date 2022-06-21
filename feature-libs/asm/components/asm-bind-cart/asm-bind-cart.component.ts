@@ -26,7 +26,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
   constructor(
     protected globalMessageService: GlobalMessageService,
-    protected asmFacadeService: AsmFacade,
+    protected asmFacade: AsmFacade,
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade
   ) {}
@@ -50,7 +50,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
 
     if (customerId) {
       this.subscription.add(
-        this.asmFacadeService.bindCart({ cartId, customerId }).subscribe(
+        this.asmFacade.bindCart({ cartId, customerId }).subscribe(
           () => {
             this.globalMessageService.add(
               { key: 'asm.assignCart.success' },
