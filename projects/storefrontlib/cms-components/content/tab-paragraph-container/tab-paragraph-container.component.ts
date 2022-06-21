@@ -99,13 +99,9 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
   }
 
-  private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
+  protected getTitleParams(children: QueryList<ComponentWrapperDirective>) {
     children.forEach((comp) => {
-      if (comp.cmpRef?.instance.tabTitleParam$) {
-        this.tabTitleParams.push(comp.cmpRef.instance.tabTitleParam$);
-      } else {
-        this.tabTitleParams.push(null);
-      }
+      this.tabTitleParams.push(comp['cmpRef']?.instance.tabTitleParam ?? null);
     });
   }
 }
