@@ -86,9 +86,7 @@ context('Apparel - checkout as guest', () => {
         .should('eq', 200);
 
       cy.get('cx-login div.cx-login-greet').should('exist');
-      cy.get('.cx-checkout-title', {
-        timeout: Cypress.config('defaultCommandTimeout') + 20000,
-      }).should('contain', 'Delivery Address');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
 
       cy.get('cx-mini-cart .count').contains('1');
 
