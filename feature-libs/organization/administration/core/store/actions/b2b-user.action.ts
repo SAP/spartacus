@@ -102,7 +102,7 @@ export class LoadB2BUserSuccess extends StateUtils.EntitySuccessAction {
       B2B_USER_ENTITIES,
       Array.isArray(payload)
         ? payload.map((orgUnitCustomer) => orgUnitCustomer?.customerId ?? '')
-        : payload?.customerId ?? null
+        : payload?.customerId ?? ''
     );
   }
 }
@@ -137,7 +137,7 @@ export class UpdateB2BUser extends StateUtils.EntityLoadAction {
       orgCustomer: B2BUser;
     }
   ) {
-    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId ?? null);
+    super(B2B_USER_ENTITIES, payload.orgCustomer.customerId ?? '');
   }
 }
 
@@ -151,7 +151,7 @@ export class UpdateB2BUserFail extends StateUtils.EntityFailAction {
 export class UpdateB2BUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_B2B_USER_SUCCESS;
   constructor(public payload: B2BUser) {
-    super(B2B_USER_ENTITIES, payload.customerId ?? null, payload);
+    super(B2B_USER_ENTITIES, payload.customerId ?? '', payload);
   }
 }
 

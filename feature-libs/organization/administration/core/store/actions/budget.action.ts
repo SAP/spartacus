@@ -82,7 +82,7 @@ export class LoadBudgetsSuccess extends StateUtils.EntitySuccessAction {
 export class CreateBudget extends StateUtils.EntityLoadAction {
   readonly type = CREATE_BUDGET;
   constructor(public payload: { userId: string; budget: Budget }) {
-    super(BUDGET_ENTITIES, payload.budget.code ?? '');
+    super(BUDGET_ENTITIES, payload.budget.code ?? null);
   }
 }
 
@@ -96,7 +96,7 @@ export class CreateBudgetFail extends StateUtils.EntityFailAction {
 export class CreateBudgetSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_BUDGET_SUCCESS;
   constructor(public payload: Budget) {
-    super(BUDGET_ENTITIES, payload.code ?? '', payload);
+    super(BUDGET_ENTITIES, payload.code ?? null, payload);
   }
 }
 

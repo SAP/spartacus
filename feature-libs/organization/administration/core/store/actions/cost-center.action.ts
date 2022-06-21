@@ -108,7 +108,7 @@ export class LoadCostCentersSuccess extends StateUtils.EntitySuccessAction {
 export class CreateCostCenter extends StateUtils.EntityLoadAction {
   readonly type = CREATE_COST_CENTER;
   constructor(public payload: { userId: string; costCenter: CostCenter }) {
-    super(COST_CENTER_ENTITIES, payload.costCenter.code ?? '');
+    super(COST_CENTER_ENTITIES, payload.costCenter.code ?? null);
   }
 }
 
@@ -122,7 +122,7 @@ export class CreateCostCenterFail extends StateUtils.EntityFailAction {
 export class CreateCostCenterSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_COST_CENTER_SUCCESS;
   constructor(public payload: CostCenter) {
-    super(COST_CENTER_ENTITIES, payload.code ?? '', payload);
+    super(COST_CENTER_ENTITIES, payload.code ?? null, payload);
   }
 }
 

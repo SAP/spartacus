@@ -101,7 +101,7 @@ export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
 export class CreatePermission extends StateUtils.EntityLoadAction {
   readonly type = CREATE_PERMISSION;
   constructor(public payload: { userId: string; permission: Permission }) {
-    super(PERMISSION_ENTITIES, payload.permission.code ?? '');
+    super(PERMISSION_ENTITIES, payload.permission.code ?? null);
   }
 }
 
@@ -115,7 +115,7 @@ export class CreatePermissionFail extends StateUtils.EntityFailAction {
 export class CreatePermissionSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_PERMISSION_SUCCESS;
   constructor(public payload: Permission) {
-    super(PERMISSION_ENTITIES, payload.code ?? '', payload);
+    super(PERMISSION_ENTITIES, payload.code ?? null, payload);
   }
 }
 

@@ -50,7 +50,7 @@ export class UnitAddressItemService extends ItemService<Address> {
     this.unitRouteParam$
       .pipe(first())
       .subscribe((unitCode) => this.unitService.createAddress(unitCode, value));
-    return this.unitService.getAddressLoadingStatus('');
+    return this.unitService.getAddressLoadingStatus(value.id ?? '');
   }
 
   protected getDetailsRoute(): string {

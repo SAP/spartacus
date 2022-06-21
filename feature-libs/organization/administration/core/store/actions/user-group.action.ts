@@ -234,7 +234,7 @@ export class LoadAvailableOrgCustomersSuccess extends StateUtils.EntitySuccessAc
 export class CreateUserGroup extends StateUtils.EntityLoadAction {
   readonly type = CREATE_USER_GROUP;
   constructor(public payload: { userId: string; userGroup: UserGroup }) {
-    super(USER_GROUP_ENTITIES, payload.userGroup.uid ?? '');
+    super(USER_GROUP_ENTITIES, payload.userGroup.uid ?? null);
   }
 }
 
@@ -248,7 +248,7 @@ export class CreateUserGroupFail extends StateUtils.EntityFailAction {
 export class CreateUserGroupSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_USER_GROUP_SUCCESS;
   constructor(public payload: UserGroup) {
-    super(USER_GROUP_ENTITIES, payload.uid ?? '', payload);
+    super(USER_GROUP_ENTITIES, payload.uid ?? null, payload);
   }
 }
 

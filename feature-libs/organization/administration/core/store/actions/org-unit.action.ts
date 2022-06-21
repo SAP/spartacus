@@ -149,7 +149,7 @@ export class LoadOrgUnitNodesSuccess extends StateUtils.EntitySuccessAction {
 export class CreateUnit extends StateUtils.EntityLoadAction {
   readonly type = CREATE_ORG_UNIT;
   constructor(public payload: { userId: string; unit: B2BUnit }) {
-    super(ORG_UNIT_ENTITIES, payload.unit.uid ?? '');
+    super(ORG_UNIT_ENTITIES, payload.unit.uid ?? null);
   }
 }
 
@@ -163,7 +163,7 @@ export class CreateUnitFail extends StateUtils.EntityFailAction {
 export class CreateUnitSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_ORG_UNIT_SUCCESS;
   constructor(public payload: B2BUnit) {
-    super(ORG_UNIT_ENTITIES, payload.uid ?? '', payload);
+    super(ORG_UNIT_ENTITIES, payload.uid ?? null, payload);
   }
 }
 
@@ -461,7 +461,7 @@ export class CreateAddress extends StateUtils.EntityLoadAction {
   constructor(
     public payload: { userId: string; orgUnitId: string; address: Address }
   ) {
-    super(ADDRESS_ENTITIES, payload.address.id ?? '');
+    super(ADDRESS_ENTITIES, payload.address.id ?? null);
   }
 }
 
@@ -475,7 +475,7 @@ export class CreateAddressFail extends StateUtils.EntityFailAction {
 export class CreateAddressSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_ADDRESS_SUCCESS;
   constructor(public payload: Address) {
-    super(ADDRESS_ENTITIES, payload.id ?? '', payload);
+    super(ADDRESS_ENTITIES, payload.id ?? null, payload);
   }
 }
 
