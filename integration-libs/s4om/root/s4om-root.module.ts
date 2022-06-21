@@ -14,6 +14,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
   };
   return config;
 }
+
 @NgModule({
   imports: [ScheduleLinesModule],
   providers: [provideDefaultConfigFactory(defaultOrderComponentsConfig)],
