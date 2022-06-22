@@ -26,12 +26,10 @@ export class LogoutGuard implements CanActivate {
     protected cms: CmsService,
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
-    protected router: Router
+    protected router: Router,
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    // Logout route should never be remembered as a redirect url after login (that would cause logout right after login).
-    this.authRedirectService.reportNotAuthGuard();
     /**
      * First we want to complete logout process before redirecting to logout page
      * We want to avoid errors like `token is no longer valid`
