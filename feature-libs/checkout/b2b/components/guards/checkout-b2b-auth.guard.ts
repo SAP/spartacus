@@ -81,6 +81,6 @@ export class CheckoutB2BAuthGuard
       { key: 'checkoutB2B.invalid.accountType' },
       GlobalMessageType.MSG_TYPE_WARNING
     );
-    return this.router.parseUrl(this.semanticPathService.get('home'));
+    return this.router.parseUrl(this.semanticPathService.get('home') ?? '');
   }
 }
