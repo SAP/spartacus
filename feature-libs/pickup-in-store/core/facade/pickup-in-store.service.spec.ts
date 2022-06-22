@@ -3,9 +3,15 @@ import { Store, StoreModule } from '@ngrx/store';
 import { ProcessModule } from '@spartacus/core';
 import { PickupInStoreService } from './pickup-in-store.service';
 
+import { StockLocationSearchParams } from '@spartacus/pickup-in-store/core';
+
 describe('PickupInStoreService', () => {
   let service: PickupInStoreService;
   let store: Store<{}>;
+
+  const stockLocationSearchParams: StockLocationSearchParams = {
+    productCode: 'P0001'
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -23,7 +29,7 @@ describe('PickupInStoreService', () => {
 
   it('getStock', () => {
     spyOn(service, 'getStock').and.callThrough();
-    service.getStock();
+    service.getStock(stockLocationSearchParams);
     expect(service.getStock).toHaveBeenCalled();
   });
 });
