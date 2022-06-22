@@ -81,14 +81,6 @@ if (!environment.production) {
         level: '4.2',
       },
     }),
-    provideConfig({
-      authentication: {
-        client_id: 'client4kyma',
-        OAuthLibConfig: {
-          responseType: 'code',
-        },
-      },
-    }),
   ],
   bootstrap: [StorefrontComponent],
 })
