@@ -241,6 +241,7 @@ export function registerSaveCartRoute() {
 }
 
 export function closeAddedToCartDialog() {
+  cy.get('div.cx-dialog-buttons a.btn-primary').should('contain', 'view cart');
   cy.get('span > .cx-icon.fa-times').click({ force: true });
 }
 
