@@ -171,7 +171,7 @@ describe('Feature utils', () => {
 
   describe('analyzeApplication', () => {
     describe('dependent features check', () => {
-      it('should throw when a feature is not configured during dirty installation', async () => {
+      it('should throw when a feature is not configured in the existing Spartacus application', async () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',

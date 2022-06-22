@@ -37,14 +37,18 @@ export class ProductCarouselComponent {
    * the component UI could consider to lazy load the UI components when they're
    * in the viewpoint.
    */
-  items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
-    map((data) => data.productCodes?.trim().split(' ') ?? []),
-    map((codes) =>
-      codes.map((code) =>
-        this.productService.get(code, [...this.PRODUCT_SCOPE])
+  items$: Observable<Observable<Product | undefined>[]> =
+    this.componentData$.pipe(
+      map((data) => data.productCodes?.trim().split(' ') ?? []),
+      map((codes) =>
+        codes.map((code) =>
+          this.productService.get(code, [
+            ...this.PRODUCT_SCOPE,
+            ProductScope.PRICE,
+          ])
+        )
       )
-    )
-  );
+    );
 
   constructor(
     protected componentData: CmsComponentData<model>,

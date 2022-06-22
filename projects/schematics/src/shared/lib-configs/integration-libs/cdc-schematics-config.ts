@@ -2,7 +2,6 @@ import {
   CDC_FEATURE_NAME,
   SPARTACUS_CDC,
   SPARTACUS_CDC_ROOT,
-  SPARTACUS_USER,
   USER_PROFILE_FEATURE_NAME,
 } from '../../libs-constants';
 import { AdditionalFeatureConfiguration } from '../../utils/feature-utils';
@@ -43,9 +42,7 @@ export const CDC_SCHEMATICS_CONFIG: SchematicConfig = {
     content: `${CDC_ROOT_MODULE}`,
   },
   customConfig: buildCdcConfig,
-  dependencyFeatures: {
-    [SPARTACUS_USER]: [USER_PROFILE_FEATURE_NAME],
-  },
+  dependencyFeatures: [USER_PROFILE_FEATURE_NAME],
 };
 
 function buildCdcConfig(
