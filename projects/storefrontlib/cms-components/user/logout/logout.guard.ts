@@ -26,7 +26,7 @@ export class LogoutGuard implements CanActivate {
     protected cms: CmsService,
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
-    protected router: Router,
+    protected router: Router
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
