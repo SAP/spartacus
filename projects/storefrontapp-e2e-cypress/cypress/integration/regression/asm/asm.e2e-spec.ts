@@ -9,13 +9,10 @@ import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import * as consent from '../../../helpers/consent-management';
 import { fillShippingAddress } from '../../../helpers/checkout-forms';
 import {
-  waitForCategoryPage,
-  waitForPage,
-} from '../../../helpers/checkout-flow';
-import {
   navigateToCategory,
   navigateToHomepage,
-} from '../../../helpers/vendor/cds/merchandising-carousel';
+  waitForPage,
+} from '../../../helpers/navigation';
 
 let customer: any;
 
@@ -131,7 +128,7 @@ context('Assisted Service Module', () => {
 
   describe('When a customer session and an asm agent session are both active', () => {
     it('Customer should not be able to login when there is an active CS agent session.', () => {
-      const loginPage = checkout.waitForPage('/login', 'getLoginPage');
+      const loginPage = waitForPage('/login', 'getLoginPage');
       cy.visit('/login?asm=true');
       cy.wait(`@${loginPage}`);
 
