@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { BindCartParams } from '@spartacus/asm/root';
+import { AsmFacade, BindCartParams } from '@spartacus/asm/root';
 import { Command, CommandService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { AsmConnector } from '../connectors';
@@ -16,7 +16,7 @@ import { AsmSelectors } from '../store/index';
 @Injectable({
   providedIn: 'root',
 })
-export class AsmService {
+export class AsmService implements AsmFacade {
   constructor(
     protected store: Store<StateWithAsm>,
     protected commandService: CommandService,
