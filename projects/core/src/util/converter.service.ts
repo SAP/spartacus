@@ -45,12 +45,14 @@ export class ConverterService implements OnDestroy {
 
   private getConverters<S, T>(
     injectionToken: InjectionToken<Converter<S, T>>
-  ): Converter<S, T>[] {
+  ): Converter<S, T>[] | undefined {
     if (!this.converters.has(injectionToken)) {
       const converters = getLastValueSync(
         this.unifiedInjector.getMulti(injectionToken)
       );
-      this.converters.set(injectionToken, converters);
+      if (converters) {
+        this.converters.set(injectionToken, converters);
+      }
     }
 
     return this.converters.get(injectionToken);
@@ -123,9 +125,9 @@ export class ConverterService implements OnDestroy {
     source: S,
     injectionToken: InjectionToken<Converter<S, T>>
   ): T {
-    return this.getConverters(injectionToken).reduce((target, converter) => {
+    return this.getConverters(injectionToken)?.reduce((target, converter) => {
       return converter.convert(source, target);
-    }, undefined as T);
+    }, undefined as any);
   }
 
   ngOnDestroy(): void {
