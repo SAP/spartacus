@@ -13,9 +13,7 @@ import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AsmService implements AsmFacade {
   constructor(
     protected store: Store<StateWithAsm>,
