@@ -3,6 +3,8 @@ import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-saved-cart';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
+// TODO: Remove skip when flaky test has been fixed
+// https://jira.tools.sap/browse/CXSPA-638
 context.skip('B2B - Saved Cart', () => {
   viewportContext(['desktop'], () => {
     before(() => {
