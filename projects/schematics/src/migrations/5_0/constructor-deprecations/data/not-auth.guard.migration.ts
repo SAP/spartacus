@@ -5,8 +5,8 @@ import {
   NOT_AUTH_GUARD,
   ROUTER,
   SEMANTIC_PATH_SERVICE,
-  SPARTACUS_CORE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const NOT_AUTH_GUARD_MIGRATION: ConstructorDeprecation = {

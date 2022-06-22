@@ -3,9 +3,9 @@ import {
   REPORT_AUTH_GUARD,
   REPORT_NOT_AUTH_GUARD,
   SAVE_CURRENT_NAVIGATION_URL,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/core/src/auth/user-auth/services/auth-redirect.service.ts
