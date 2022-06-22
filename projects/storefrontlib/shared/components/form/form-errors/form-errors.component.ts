@@ -36,16 +36,10 @@ export class FormErrorsComponent implements DoCheck {
   _control: FormControl | AbstractControl;
 
   /**
-   * @deprecated since 4.1 - use `errorsDetails$` instead, which contains not only
-   *                         the error key, but also the error details
-   */
-  errors$: Observable<string[]>;
-
-  /**
    * Emits an array of errors, each represented by a tuple:
    * the error key and error details.
    */
-  errorsDetails$: Observable<Array<[string, string]>>;
+  errorsDetails$: Observable<Array<[string, string | boolean]>>;
 
   protected differ: KeyValueDiffer<any, any>;
 
@@ -76,10 +70,6 @@ export class FormErrorsComponent implements DoCheck {
       map((errors) =>
         Object.entries(errors).filter(([_key, details]) => details)
       )
-    );
-
-    this.errors$ = this.errorsDetails$.pipe(
-      map((errors) => errors.map(([key, _details]) => key))
     );
   }
 

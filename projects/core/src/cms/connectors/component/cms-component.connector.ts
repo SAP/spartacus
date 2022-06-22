@@ -37,7 +37,7 @@ export class CmsComponentConnector {
       switchMap((configuredComponents) => {
         // check if we have some components that are not loaded from configuration
         const missingIds = configuredComponents.reduce(
-          (acc, component, index) => {
+          (acc: string[], component, index) => {
             if (component === undefined) {
               acc.push(ids[index]);
             }
