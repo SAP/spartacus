@@ -155,28 +155,25 @@ describe('ProductCarouselComponent', () => {
     })
   );
 
-  it(
-    'should have 2 items',
-    waitForAsync(() => {
-      const productService = TestBed.inject(ProductService);
-      spyOn(productService, 'get').and.callThrough();
+  it('should have 2 items', (done) => {
+    const productService = TestBed.inject(ProductService);
+    spyOn(productService, 'get').and.callThrough();
 
-      const scopes = [
-        ProductScope.LIST,
-        ProductScope.PRICE,
-        ProductScope.DETAILS,
-      ];
+    const scopes = [
+      ProductScope.LIST,
+      ProductScope.PRICE,
+      ProductScope.DETAILS,
+    ];
 
-      let items: Observable<Product>[] | undefined;
-      component.items$.subscribe((i) => {
-        expect(productService.get).toHaveBeenCalledTimes(2);
-        expect(productService.get).toHaveBeenCalledWith('1', scopes);
-        expect(productService.get).toHaveBeenCalledWith('2', scopes);
-        items = i;
-      });
+    component.items$.subscribe((items) => {
+      expect(productService.get).toHaveBeenCalledTimes(2);
+      expect(productService.get).toHaveBeenCalledWith('1', scopes);
+      expect(productService.get).toHaveBeenCalledWith('2', scopes);
       expect(items?.length).toBe(2);
-    })
-  );
+
+      done();
+    });
+  });
 
   it(
     'should have product code 111 in first product',
