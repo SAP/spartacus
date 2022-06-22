@@ -255,7 +255,9 @@ describe('OrgUnit Effects', () => {
         address,
       });
       const completion1 = new OrgUnitActions.CreateAddressSuccess(address);
-      const completion2 = new OrgUnitActions.CreateAddressSuccess({ id: null });
+      const completion2 = new OrgUnitActions.CreateAddressSuccess({
+        id: undefined,
+      });
       const completion3 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
       expected = cold('-(bcd)', {

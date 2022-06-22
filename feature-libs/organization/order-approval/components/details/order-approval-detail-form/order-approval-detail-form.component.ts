@@ -44,7 +44,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
     )
   );
 
-  orderApproval$: Observable<OrderApproval> =
+  orderApproval$: Observable<OrderApproval | undefined> =
     this.orderApprovalDetailService.getOrderApproval();
 
   constructor(
@@ -72,7 +72,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
 
   submitDecision(orderApproval: OrderApproval) {
     if (this.approvalForm.valid) {
-      this.orderApprovalService.makeDecision(orderApproval.code, {
+      this.orderApprovalService.makeDecision(orderApproval.code ?? '', {
         decision: this.approvalDecision,
         comment: this.approvalForm.controls.comment.value,
       });
