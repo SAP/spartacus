@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { User } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { AsmConnector } from '../connectors';
 import {
   AsmUi,
   CustomerSearchOptions,
@@ -20,6 +22,17 @@ const mockUser: User = {
   customerId: '123456',
 };
 
+class AsmConnectorMock {
+  customerSearch(
+    _options: CustomerSearchOptions
+  ): Observable<CustomerSearchPage> {
+    return of();
+  }
+  bindCart(_cartId: string, _customerId: string): Observable<unknown> {
+    return of(null);
+  }
+}
+
 const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
 };
@@ -27,6 +40,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
 describe('AsmService', () => {
   let service: AsmService;
   let store: Store<AsmState>;
+  let asmConnector: AsmConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,11 +48,21 @@ describe('AsmService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
-      providers: [AsmService],
+      providers: [
+        AsmService,
+        {
+          provide: AsmConnector,
+          useClass: AsmConnectorMock,
+        },
+      ],
     });
 
     service = TestBed.inject(AsmService);
     store = TestBed.inject(Store);
+    asmConnector = TestBed.inject(AsmConnector);
+
+    spyOn(asmConnector, 'customerSearch').and.stub();
+    spyOn(asmConnector, 'bindCart').and.stub();
   });
 
   it('should be created', () => {
