@@ -59,10 +59,6 @@ export function isCartError(error: ErrorModel): boolean {
   );
 }
 
-export function isEntityValidationError(error: ErrorModel): boolean {
-  return error.type === 'EntityValidationError';
-}
-
 /**
  * What is a temporary cart?
  * - frontend only cart entity!

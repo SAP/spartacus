@@ -30,7 +30,7 @@ class MockGlobalMessageService {
 }
 
 describe('BadCostCenterRequestHandler', () => {
-  let service: BadCostCenterRequestHandler;
+  let handler: BadCostCenterRequestHandler;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
@@ -43,7 +43,7 @@ describe('BadCostCenterRequestHandler', () => {
         },
       ],
     });
-    service = TestBed.inject(BadCostCenterRequestHandler);
+    handler = TestBed.inject(BadCostCenterRequestHandler);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
     spyOn(globalMessageService, 'add');
@@ -51,30 +51,30 @@ describe('BadCostCenterRequestHandler', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(handler).toBeTruthy();
   });
 
   it('should register 400 responseStatus', () => {
-    expect(service.responseStatus).toEqual(HttpResponseStatus.BAD_REQUEST);
+    expect(handler.responseStatus).toEqual(HttpResponseStatus.BAD_REQUEST);
   });
 
   it('should match cost center error', () => {
     spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(true);
-    expect(service.hasMatch(MockCostCenterErrorResponse)).toBe(true);
+    expect(handler.hasMatch(MockCostCenterErrorResponse)).toBe(true);
   });
 
   it('should not have a match when super.hasMatch() is false', () => {
     spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(false);
-    expect(service.hasMatch(MockCostCenterErrorResponse)).toBe(false);
+    expect(handler.hasMatch(MockCostCenterErrorResponse)).toBe(false);
   });
 
   it('should not handle response without errors', () => {
-    service.handleError(MockRequest, MockRandomResponse);
+    handler.handleError(MockRequest, MockRandomResponse);
     expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 
   it('should handle invalid cost center error', () => {
-    service.handleError(MockRequest, MockCostCenterErrorResponse);
+    handler.handleError(MockRequest, MockCostCenterErrorResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.invalidCostCenter' },
       GlobalMessageType.MSG_TYPE_ERROR

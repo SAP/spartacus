@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { HttpErrorResponse, HttpRequest } from "@angular/common/http";
-import { isEntityValidationError} from "../../utils/utils";
 import {
   ErrorModel,
   GlobalMessageType,
@@ -22,20 +21,15 @@ export class BadCostCenterRequestHandler extends HttpErrorHandler {
   hasMatch(errorResponse: HttpErrorResponse): boolean {
     return (
       super.hasMatch(errorResponse) &&
-      this.getErrors(errorResponse).some(isEntityValidationError) &&
+      this.getErrors(errorResponse).some(this.isEntityValidationError) &&
       this.isCostCenterRequest(errorResponse)
     );
   }
 
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
-    this.getErrors(response)
-      .filter((e) => isEntityValidationError(e))
-      .forEach(() => {
-        this.globalMessageService.add(
-          { key: 'httpHandlers.invalidCostCenter' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      });
+     if (this.getErrors(response).some((e) => this.isEntityValidationError(e))) {
+        this.globalMessageService.add({ key: 'httpHandlers.invalidCostCenter' }, GlobalMessageType.MSG_TYPE_ERROR);
+      }
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
@@ -51,5 +45,9 @@ export class BadCostCenterRequestHandler extends HttpErrorHandler {
     }
 
     return false;
+  }
+
+  private isEntityValidationError(error: ErrorModel): boolean {
+    return error.type === 'EntityValidationError';
   }
 }
