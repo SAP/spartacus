@@ -108,6 +108,7 @@ export const order = {
     emptyPurchaseOrderId: 'None',
     date: 'Date',
     status: 'Status',
+    PONumber: 'P.O. Number',
     total: 'Total',
     noOrders: 'We have no order records for this account.',
     noReplenishmentOrders:

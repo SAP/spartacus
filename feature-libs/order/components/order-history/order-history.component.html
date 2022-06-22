@@ -59,6 +59,9 @@
               <th scope="col">
                 {{ 'orderHistory.orderId' | cxTranslate }}
               </th>
+              <th scope="col" *ngIf="hasPONumber">
+                {{ 'orderHistory.PONumber' | cxTranslate }}
+              </th>
               <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
               <th scope="col">
                 {{ 'orderHistory.status' | cxTranslate }}
@@ -84,6 +87,22 @@
                     class="cx-order-history-value"
                   >
                     {{ order?.code }}</a
+                  >
+                </td>
+                <td class="cx-order-history-placed" *ngIf="hasPONumber">
+                  <div class="cx-order-history-label">
+                    {{ 'orderHistory.PONumber' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                  >
+                    {{ order.purchaseOrderNumber }}</a
                   >
                 </td>
                 <td class="cx-order-history-placed">

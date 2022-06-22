@@ -81,6 +81,8 @@ export interface OrderHistory {
   status?: string;
   statusDisplay?: string;
   total?: Price;
+  costCenter?: CostCenter;
+  purchaseOrderNumber?: string;
 }
 
 export interface OrderHistoryList {

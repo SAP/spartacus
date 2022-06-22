@@ -28,6 +28,7 @@ export class OrderHistoryComponent implements OnDestroy {
 
   private PAGE_SIZE = 5;
   sortType: string;
+  hasPONumber = false;
 
   orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
     .getOrderHistoryList(this.PAGE_SIZE)
@@ -35,6 +36,10 @@ export class OrderHistoryComponent implements OnDestroy {
       tap((orders: OrderHistoryList | undefined) => {
         if (orders?.pagination?.sort) {
           this.sortType = orders.pagination.sort;
+        }
+        if (orders?.orders?.length) {
+          this.hasPONumber =
+            typeof orders.orders[0].purchaseOrderNumber !== 'undefined';
         }
       })
     );
