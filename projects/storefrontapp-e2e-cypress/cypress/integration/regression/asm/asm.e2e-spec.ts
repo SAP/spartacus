@@ -134,16 +134,8 @@ context('Assisted Service Module', () => {
       cy.log(
         '--> Stop customer emulation using the end session button in the ASM UI'
       );
-      cy.get(
-        'cx-customer-emulation  [formcontrolname="logoutCustomer"]'
-      ).click();
-      cy.get('cx-customer-emulation').should('not.exist');
-      cy.get('cx-customer-selection').should('exist');
-
-      cy.log('--> sign out and close ASM UI');
       asm.agentSignOut();
 
-      cy.get('button[title="Close ASM"]').click();
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('not.be.visible');
     });

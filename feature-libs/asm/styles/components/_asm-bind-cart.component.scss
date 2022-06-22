@@ -21,7 +21,7 @@
       margin-inline-start: 8px;
     }
 
-    &.assignCartToCustomer {
+    &.bindCartToCustomer {
       background-color: #0070f2;
       border: 1px solid #0070f2;
       color: #ffffff;
@@ -34,14 +34,22 @@
     }
   }
 
-  label {
-    position: relative;
+  form {
     display: flex;
     align-items: center;
     min-width: auto;
-    margin: 0 15px 0 0;
-    color: #556b82;
+    margin: 0;
     flex: 1;
+
+    @media (max-width: 575px) {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+  }
+
+  label {
+    color: #556b82;
   }
 
   input {
@@ -66,6 +74,13 @@
     display: flex;
     align-items: center;
     padding-inline-end: 15px;
+
+    @media (max-width: 575px) {
+      margin-inline-end: 0;
+      margin-inline-start: 0;
+      min-width: 326px;
+      max-width: 326px;
+    }
 
     &:focus,
     &:focus-within,

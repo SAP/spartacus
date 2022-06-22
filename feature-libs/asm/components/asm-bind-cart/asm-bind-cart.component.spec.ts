@@ -1,8 +1,12 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Store, StoreModule } from '@ngrx/store';
 import { AsmFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
-import { BaseSiteService, User } from '@spartacus/core';
+import { BaseSiteService, User, UserService } from '@spartacus/core';
+import { StateWithAsm } from 'feature-libs/asm/core';
 import { Observable, of } from 'rxjs';
+import * as fromReducers from '../../core/store/reducers/index';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
 
 class MockActiveCartService {
@@ -18,50 +22,83 @@ class MockBaseSiteService {
   }
 }
 
+@Pipe({
+  name: 'cxTranslate',
+})
+class MockTranslatePipe implements PipeTransform {
+  transform(): any {}
+}
+
 class MockMultiCartFacade {
   loadCart(_cartId: string, _userId: string): void {}
 }
 
-class MockAsmQueryService {
+class MockAsmService {
   bindCart(_cartId: string, _customerId: string): Observable<unknown> {
     return of(null);
+  }
+}
+
+class MockUserService {
+  get(): Observable<User> {
+    return of({});
   }
 }
 
 describe('AsmBindCartComponent', () => {
   let component: AsmBindCartComponent;
   let fixture: ComponentFixture<AsmBindCartComponent>;
-  let asmFacadeService: AsmFacade;
+  let asmFacade: AsmFacade;
   let multiCartFacade: MultiCartFacade;
   let activeCartFacade: ActiveCartFacade;
+  let store: Store<StateWithAsm>;
+  let userService: UserService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AsmBindCartComponent],
+      imports: [
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('asm', fromReducers.getReducers()),
+      ],
+      declarations: [AsmBindCartComponent, MockTranslatePipe],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
-        { provide: AsmFacade, useClass: MockAsmQueryService },
+        { provide: AsmFacade, useClass: MockAsmService },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
+        { provide: UserService, useClass: MockUserService },
       ],
     }).compileComponents();
+
+    store = TestBed.inject(Store);
+    spyOn(store, 'dispatch').and.callThrough();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmBindCartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    asmFacadeService = TestBed.inject(AsmFacade);
+    asmFacade = TestBed.inject(AsmFacade);
     multiCartFacade = TestBed.inject(MultiCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
+    userService = TestBed.inject(UserService);
   });
 
   it('should assign cart to customer', () => {
-    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     const prevActiveCartId = '00001122';
     const testCartId = '00001234';
 
-    spyOn(asmFacadeService, 'bindCart').and.returnValue(of());
+    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
+    spyOn(userService, 'get').and.returnValue(of(testUser));
+
+    spyOn(asmFacade, 'bindCart').and.returnValue(
+      of(() => {
+        expect(multiCartFacade.loadCart).toHaveBeenCalledWith({
+          cartId: testCartId,
+          userId: testUser.uid,
+        });
+      })
+    );
     spyOn(multiCartFacade, 'loadCart').and.stub();
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(
       of(prevActiveCartId)
@@ -83,16 +120,16 @@ describe('AsmBindCartComponent', () => {
     // check that cart id entered matches
     expect(component.cartId.value).toEqual(testCartId);
 
-    component.assignCartToCustomer();
+    component.bindCartToCustomer();
 
-    expect(asmFacadeService.bindCart).toHaveBeenCalledWith({
+    expect(asmFacade.bindCart).toHaveBeenCalledWith({
       cartId: testCartId,
       customerId: testUser.uid,
     });
 
-    expect(multiCartFacade.loadCart).toHaveBeenCalledWith({
-      cartId: testCartId,
-      userId: testUser.uid,
-    });
+    // clear entered cart id
+    component.cartId.setValue('');
+    component.bindCartToCustomer();
+    expect(asmFacade.bindCart).toHaveBeenCalledTimes(1);
   });
 });

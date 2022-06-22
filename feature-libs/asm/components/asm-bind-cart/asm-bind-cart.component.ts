@@ -7,8 +7,9 @@ import {
   GlobalMessageType,
   OCC_CART_ID_CURRENT,
   User,
+  UserService,
 } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-asm-bind-cart',
@@ -16,11 +17,10 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class AsmBindCartComponent implements OnInit, OnDestroy {
   @Input() customer: User;
-  @Input() cartId: FormControl = new FormControl('', [
+  cartId: FormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(1),
   ]);
-  isCustomerEmulationSessionInProgress$: Observable<boolean>;
 
   protected subscription = new Subscription();
 
@@ -28,10 +28,17 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected asmFacade: AsmFacade,
     protected activeCartFacade: ActiveCartFacade,
-    protected multiCartFacade: MultiCartFacade
+    protected multiCartFacade: MultiCartFacade,
+    protected userService: UserService
   ) {}
 
   ngOnInit(): void {
+    this.subscription.add(
+      this.userService.get().subscribe((user) => {
+        if (user) this.customer = user;
+      })
+    );
+
     this.subscription.add(
       this.activeCartFacade.getActiveCartId().subscribe((response: string) => {
         if (response) {
@@ -42,18 +49,18 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Assign the input cart number to the customer
+   * Bind the input cart number to the customer
    */
-  assignCartToCustomer() {
+  bindCartToCustomer() {
     const customerId = this.customer.uid;
     const cartId = this.cartId.value;
 
-    if (customerId) {
+    if (customerId && cartId) {
       this.subscription.add(
         this.asmFacade.bindCart({ cartId, customerId }).subscribe(
           () => {
             this.globalMessageService.add(
-              { key: 'asm.assignCart.success' },
+              { key: 'asm.bindCart.success' },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
 
@@ -64,7 +71,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
           },
           () => {
             this.globalMessageService.add(
-              { key: 'asm.assignCart.error' },
+              { key: 'asm.bindCart.error' },
               GlobalMessageType.MSG_TYPE_ERROR
             );
           }

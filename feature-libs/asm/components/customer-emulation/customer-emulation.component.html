@@ -3,7 +3,7 @@
     <label class="name">{{ customer?.name }}</label>
     <label class="uid">{{ customer?.uid }}</label>
   </div>
-  <cx-asm-bind-cart [customer]="customer"></cx-asm-bind-cart>
+  <cx-asm-bind-cart></cx-asm-bind-cart>
   <button formcontrolname="logoutCustomer" (click)="logoutCustomer()">
     {{ 'asm.endSession' | cxTranslate }}
   </button>

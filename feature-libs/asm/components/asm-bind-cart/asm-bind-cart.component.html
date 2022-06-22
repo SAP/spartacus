@@ -1,5 +1,5 @@
-<label for="cartNumber"
-  >{{ 'asm.assignCart.cartNumber' | cxTranslate }}
+<form (submit)="bindCartToCustomer()">
+  <label for="cartNumber">{{ 'asm.bindCart.cartNumber' | cxTranslate }} </label>
   <div
     role="search"
     aria-label="Assign a cart id to customer"
@@ -12,7 +12,7 @@
       #cartIdElement
       formcontrolname="cartNumber"
       [formControl]="cartId"
-      (keydown.enter)="assignCartToCustomer()"
+      (keydown.enter)="bindCartToCustomer()"
       aria-label="Enter cart id"
     />
     <button
@@ -28,11 +28,11 @@
     </div>
   </div>
   <button
-    class="assignCartToCustomer"
+    class="bindCartToCustomer"
     [disabled]="cartId.invalid"
-    (click)="assignCartToCustomer()"
+    type="submit"
     [class.active]="cartId.valid"
   >
-    {{ 'asm.assignCart.assignCartToCustomer' | cxTranslate }}
+    {{ 'asm.bindCart.bindCartToCustomer' | cxTranslate }}
   </button>
-</label>
+</form>

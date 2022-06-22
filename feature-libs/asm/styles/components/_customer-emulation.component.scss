@@ -26,16 +26,15 @@
     border: 1px solid #ffd6ea;
     border-radius: 8px;
     padding: 6px 10px;
+
+    @media (max-width: 575px) {
+      width: 100%;
+    }
   }
 
   label {
-    position: relative;
-    display: flex;
-    align-items: center;
-    min-width: auto;
     margin: 0 15px 0 0;
     color: #556b82;
-    flex: 1;
   }
 
   .customerInfo {
