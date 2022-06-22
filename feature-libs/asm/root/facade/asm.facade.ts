@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
 import {
   AsmUi,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from 'feature-libs/asm/core';
+} from '@spartacus/asm/core';
+import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ASM_FEATURE } from '../feature-name';
 import { BindCartParams } from '../model/bind-cart.model';

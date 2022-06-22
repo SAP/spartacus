@@ -1,10 +1,10 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { StateWithAsm } from '@spartacus/asm/core';
 import { AsmFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import { BaseSiteService, User, UserService } from '@spartacus/core';
-import { StateWithAsm } from 'feature-libs/asm/core';
 import { Observable, of } from 'rxjs';
 import * as fromReducers from '../../core/store/reducers/index';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
