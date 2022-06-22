@@ -5,13 +5,13 @@ import {
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-  RoutingConfig,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import {
   CUSTOMER_TICKETING_CORE_FEATURE,
   CUSTOMER_TICKETING_FEATURE,
 } from './feature-name';
+import { defaultSupportTicketRoutingConfig } from './config/default-support-ticket-routing-config';
 
 export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -23,7 +23,7 @@ export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
           'UpdateSupportTicketComponent',
           'SupportTicketDetailsComponent',
         ],
-        dependencies: [CUSTOMER_TICKETING_FEATURE],
+        // dependencies: [CUSTOMER_TICKETING_FEATURE],
       },
 
       // by default core is bundled together with components
@@ -57,19 +57,7 @@ export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
   ],
   providers: [
     provideDefaultConfigFactory(defaultCustomerTicketingComponentsConfig),
-    provideDefaultConfig(<RoutingConfig>{
-      routing: {
-        routes: {
-          supportTickets: {
-            paths: ['my-account/support-tickets'],
-          },
-          supportTicketDetails: {
-            paths: ['my-account/support-ticket/:ticketCode'],
-            paramsMapping: { ticketCode: 'ticketCode' },
-          },
-        },
-      },
-    }),
+    provideDefaultConfig(defaultSupportTicketRoutingConfig),
   ],
 })
 export class CustomerTicketingRootModule {}
