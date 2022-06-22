@@ -261,7 +261,7 @@ describe('OrderHistoryComponent', () => {
       By.css('.cx-order-history-thead-mobile')
     );
     expect(headerPO.children.length).toEqual(5);
-    expect(headerPO.children[1].nativeElement.textContent).toEqual(
+    expect(headerPO.children[1].nativeElement.textContent.trim()).toEqual(
       'orderHistory.PONumber'
     );
   });
