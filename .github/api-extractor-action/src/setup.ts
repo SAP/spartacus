@@ -21,7 +21,7 @@ export async function prepareRepositoryForApiExtractor(
   // Create directory for reports
   await io.mkdirP(`${REPORT_DIR}`);
 
-  await exec.exec('npm', ['i', '-g', '@microsoft/api-extractor@^7.12.0']);
+  await exec.exec('npm', ['i', '-g', '@microsoft/api-extractor@7.23.2']);
 
   // Clone base branch
   await exec.exec('sh', [
