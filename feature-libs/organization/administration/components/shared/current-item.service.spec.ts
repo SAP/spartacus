@@ -162,7 +162,7 @@ describe('CurrentItemService', () => {
       service.item$.subscribe((value) => (result = value));
       mockParams.next({ foo: 'bar' });
       expect(service.getItem).not.toHaveBeenCalled();
-      expect(result).toBe(null);
+      expect(result).toBeUndefined();
     });
 
     it('should resolve model', () => {
@@ -192,7 +192,7 @@ describe('CurrentItemService', () => {
       service.item$.subscribe((value) => (result = value));
       mockParams.next({ [PARAM]: '123' });
       mockParams.next({ foo: 'bar' });
-      expect(result).toBe(null);
+      expect(result).toBeUndefined();
     });
   });
 });

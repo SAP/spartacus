@@ -20,7 +20,6 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-import { defaultOccOrganizationConfig } from '../../../occ/config/default-occ-organization-config';
 import { B2BUserConnector } from '../../connectors';
 import { Permission } from '../../model/permission.model';
 import {
@@ -150,6 +149,15 @@ describe('B2B User Effects', () => {
     },
   };
 
+  const mockOccModuleConfig: OccConfig = {
+    backend: {
+      occ: {
+        baseUrl: '',
+        prefix: '',
+      },
+    },
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -159,7 +167,7 @@ describe('B2B User Effects', () => {
       providers: [
         { provide: B2BUserConnector, useClass: MockB2BUserConnector },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: OccConfig, useValue: defaultOccOrganizationConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.B2BUserEffects,
         provideMockActions(() => actions$),
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
@@ -285,7 +293,7 @@ describe('B2B User Effects', () => {
       const action = new B2BUserActions.CreateB2BUser({ userId, orgCustomer });
       const completion1 = new B2BUserActions.CreateB2BUserSuccess(orgCustomer);
       const completion2 = new B2BUserActions.CreateB2BUserSuccess({
-        customerId: null,
+        customerId: undefined,
       });
       const completion3 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });

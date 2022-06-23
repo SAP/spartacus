@@ -24,7 +24,7 @@ export class AdminGuard implements CanActivate {
     return this.userAccountFacade.get().pipe(
       filter((user) => !!user && Object.keys(user).length > 0),
       pluck('roles'),
-      map((roles: string[]) => {
+      map((roles) => {
         const hasRole =
           Array.isArray(roles) && roles.includes(B2BUserRole.ADMIN);
 
