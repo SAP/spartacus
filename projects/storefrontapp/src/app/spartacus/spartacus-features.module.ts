@@ -61,6 +61,7 @@ import { SavedCartFeatureModule } from './features/cart/cart-saved-cart-feature.
 import { WishListFeatureModule } from './features/cart/wish-list-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
+import { CustomerTicketingFeatureModule } from './features/customer-ticketing/customer-ticketing-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
 import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-visualization-feature.module';
 import { OrderFeatureModule } from './features/order/order-feature.module';
@@ -195,6 +196,7 @@ if (environment.epdVisualization) {
 
     VariantsFeatureModule,
     ImageZoomFeatureModule,
+    CustomerTicketingFeatureModule,
 
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,

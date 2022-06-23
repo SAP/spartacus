@@ -57,27 +57,35 @@ Just copy paste the following and and make sure to rename `TODO:` to you lib's n
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
     plugins: [
+      require('karma-parallel'),
       require('karma-jasmine'),
       require('karma-coverage'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
+    parallelOptions: {
+      executors: 2,
+      shardStrategy: 'round-robin',
+    },
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      jasmine: {
+        random: false,
+      },
     },
     reporters: ['progress', 'kjhtml', 'dots'],
     coverageReporter: {
-      dir: require('path').join(__dirname, '../../coverage/TODO:'),
+      dir: require('path').join(__dirname, '../../coverage/TODO'),
       reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
       check: {
         global: {
-          statements: 80,
-          lines: 80,
-          branches: 70,
-          functions: 80,
+          statements: 90,
+          lines: 90,
+          branches: 75,
+          functions: 85,
         },
       },
     },
@@ -136,7 +144,7 @@ Use the following template:
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/TODO",
   "dependencies": {
     "tslib": "^2.0.0"
   },
@@ -180,6 +188,8 @@ Use the following template:
     "module": "es2020",
     "moduleResolution": "node",
     "declaration": true,
+    "declarationMap": true,
+    "strict": true,
     "sourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
@@ -197,6 +207,8 @@ Use the following template:
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
     "enableResourceInlining": true,
+    "strictTemplates": true,
+    "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "strictInputAccessModifiers": true
   },
@@ -275,7 +287,7 @@ Add `- [ ] `npm run release:TODO::with-changelog`(needed since`x.x.x`)` under th
     "publishPath": "./../../dist/TODO:"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build TODO: --configuration production"
+    "after:version:bump": "cd ../.. && yarn build TODO:lib-name"
   },
   "github": {
     "release": true,
@@ -323,7 +335,7 @@ Also make sure to add the lib to the `switch` statement at the end of the file.
 
 - `scripts/templates/changelog.ejs` - add the library to `const CUSTOM_SORT_ORDER`
 
-- `ci-scripts/unit-tests-sonar.sh`
+- `ci-scripts/unit-tests.sh`
 
 Add the library unit tests with code coverage
 
@@ -383,7 +395,6 @@ There are couple of required changes to make sure schematics will work properly
   - `projects/storefrontapp/tsconfig.server.prod.json`,
   - `projects/storefrontapp/tsconfig.server.json`,
   - `projects/storefrontapp/tsconfig.app.prod.json`
-- add new feature lib consts in schematics folder - `feature-libs\<lib-name>\schematics\constants.ts` where the `lib-name` is the name of the new library
 - add new feature lib schema.json elements in schematics folder - `feature-libs\<lib-name>\schematics\add-<lib-name>\schema.json` where the `lib-name` is the name of the new library
 - add new feature chain method to 'shouldAddFeature' and function to add it - `feature-libs\<lib-name>\schematics\add-<lib-name>\index.ts` where the `lib-name` is the name of the new library
 - create new feature lib module in - `projects/storefrontapp/src/app/spartacus/features`
@@ -392,6 +403,7 @@ There are couple of required changes to make sure schematics will work properly
 
 ### Testing Schematics
 
+IMPORTANT : DO NOT PUSH any changed done under this step.
 - Install verdaccio locally `$ npm i -g verdaccio@latest` (only for the first time)
 - Run it: `$ verdaccio`
 - Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once
