@@ -293,7 +293,7 @@ describe('B2B User Effects', () => {
       const action = new B2BUserActions.CreateB2BUser({ userId, orgCustomer });
       const completion1 = new B2BUserActions.CreateB2BUserSuccess(orgCustomer);
       const completion2 = new B2BUserActions.CreateB2BUserSuccess({
-        customerId: null,
+        customerId: undefined,
       });
       const completion3 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
