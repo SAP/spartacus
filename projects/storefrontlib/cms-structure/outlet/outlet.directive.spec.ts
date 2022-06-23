@@ -444,7 +444,6 @@ describe('OutletDirective', () => {
         testComponent.componentInstance.outlet;
 
       expect(outletData.reference).toEqual(keptOutlet);
-      expect(outletData.context).toEqual('fakeContext');
       expect(getLastValueSync(outletData.context$)).toEqual('fakeContext');
       expect(outletData.position).toEqual(OutletPosition.REPLACE);
     });
