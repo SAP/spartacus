@@ -15,6 +15,6 @@ export class StatusCellComponent extends CellComponent {
   }
 
   get isActive(): boolean {
-    return this.model.active;
+    return this.model?.active;
   }
 }
