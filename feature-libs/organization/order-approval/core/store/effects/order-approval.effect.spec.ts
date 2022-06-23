@@ -8,7 +8,6 @@ import { OrderApprovalConnector } from '../../connectors/order-approval.connecto
 import { cold, hot } from 'jasmine-marbles';
 import { TestColdObservable } from 'jasmine-marbles/src/test-observables';
 import { Observable, of, throwError } from 'rxjs';
-import { defaultOccOrderApprovalConfig } from '../../../occ/config/default-occ-organization-config';
 import {
   OrderApproval,
   OrderApprovalDecision,
@@ -64,6 +63,15 @@ describe('OrderApproval Effects', () => {
     },
   };
 
+  const mockOccModuleConfig: OccConfig = {
+    backend: {
+      occ: {
+        baseUrl: '',
+        prefix: '',
+      },
+    },
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -75,7 +83,7 @@ describe('OrderApproval Effects', () => {
           provide: OrderApprovalConnector,
           useClass: MockOrderApprovalConnector,
         },
-        { provide: OccConfig, useValue: defaultOccOrderApprovalConfig },
+        { provide: OccConfig, useValue: mockOccModuleConfig },
         fromEffects.OrderApprovalEffects,
         provideMockActions(() => actions$),
       ],
