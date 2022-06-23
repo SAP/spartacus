@@ -286,6 +286,10 @@
          * DEFAULT VALUE: false
          */
         // "addToApiReportFile": false
+      },
+
+      "ae-missing-release-tag": {
+        "logLevel": "none"
       }
 
       // "TS2551": {
