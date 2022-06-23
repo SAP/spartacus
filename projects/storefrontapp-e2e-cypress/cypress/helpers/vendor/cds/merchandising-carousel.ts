@@ -344,13 +344,12 @@ export function navigateToHomepage(): void {
 
 export function navigateToCategory(
   categoryName: string,
-  categoryCode: string,
-  force: boolean = true
+  categoryCode: string
 ): void {
   const categoryPage = waitForCategoryPage(categoryCode, 'getCategory');
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
-    .click({ force });
+    .click({ force: true });
   cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
 }
 
