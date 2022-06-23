@@ -5,12 +5,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole, Title, UserService } from '@spartacus/core';
+import { B2BUser, B2BUserRole, Title } from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUserService,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
@@ -59,14 +60,14 @@ export class UserFormComponent implements OnInit {
       })
     );
 
-  titles$: Observable<Title[]> = this.userService.getTitles();
+  titles$: Observable<Title[]> = this.userProfileFacade.getTitles();
 
   availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();
 
   constructor(
     protected itemService: ItemService<B2BUser>,
     protected unitService: OrgUnitService,
-    protected userService: UserService,
+    protected userProfileFacade: UserProfileFacade,
     protected b2bUserService: B2BUserService
   ) {}
 
