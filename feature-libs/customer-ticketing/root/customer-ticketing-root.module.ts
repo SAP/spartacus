@@ -7,11 +7,11 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { defaultSupportTicketRoutingConfig } from './config/default-support-ticket-routing-config';
 import {
   CUSTOMER_TICKETING_CORE_FEATURE,
   CUSTOMER_TICKETING_FEATURE,
 } from './feature-name';
-import { defaultSupportTicketRoutingConfig } from './config/default-support-ticket-routing-config';
 
 export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -23,7 +23,6 @@ export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
           'UpdateSupportTicketComponent',
           'SupportTicketDetailsComponent',
         ],
-        // dependencies: [CUSTOMER_TICKETING_FEATURE],
       },
 
       // by default core is bundled together with components
