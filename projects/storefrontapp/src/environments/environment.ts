@@ -17,7 +17,7 @@ export const environment: Environment = {
   production: false,
   // should be removed before merging epic into develop
   occBaseUrl:
-    'https://spartacus-dev0.eastus.cloudapp.azure.com:9002/' ??
+    'https://spartacus-dev0.eastus.cloudapp.azure.com:9002' ??
     buildProcess.env.CX_BASE_URL,
   // occBaseUrl: buildProcess.env.CX_BASE_URL,
   occApiPrefix: '/occ/v2/',
