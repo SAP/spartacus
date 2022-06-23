@@ -19,8 +19,8 @@ export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
       [CUSTOMER_TICKETING_FEATURE]: {
         cmsComponents: [
           'SupportTicketsHistoryComponent',
-          'AddSupportTicketComponent',
-          'UpdateSupportTicketComponent',
+          'SupportTicketCreateComponent',
+          'SupportTicketUpdateComponent',
           'SupportTicketDetailsComponent',
         ],
       },
