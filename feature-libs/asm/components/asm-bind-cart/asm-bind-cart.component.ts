@@ -7,8 +7,8 @@ import {
   GlobalMessageType,
   OCC_CART_ID_CURRENT,
   User,
-  UserService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -29,7 +29,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     protected asmFacade: AsmFacade,
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade,
-    protected userService: UserService
+    protected userService: UserAccountFacade
   ) {}
 
   ngOnInit(): void {

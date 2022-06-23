@@ -32,7 +32,7 @@ export class AsmMainUiComponent implements OnInit {
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected asmService: AsmService,
+    protected asmService: AsmFacade,
     protected userAccountFacade: UserAccountFacade
   ) {}
 
