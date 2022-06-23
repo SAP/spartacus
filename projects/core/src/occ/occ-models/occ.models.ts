@@ -97,25 +97,25 @@ export namespace Occ {
    */
   export interface ErrorModel {
     /**
-     * @member {string} [message] Descriptive, human readable error message.
+     * Descriptive, human readable error message.
      */
     message?: string;
     /**
-     * @member {string} [reason] Additional classification specific for each
+     * Additional classification specific for each
      * error type e.g. 'noStock'.
      */
     reason?: string;
     /**
-     * @member {string} [subject] Identifier of the related object e.g. '1'.
+     * Identifier of the related object e.g. '1'.
      */
     subject?: string;
     /**
-     * @member {string} [subjectType] Type of the object related to the error
+     * Type of the object related to the error
      * e.g. 'entry'.
      */
     subjectType?: string;
     /**
-     * @member {string} [type] Type of the error e.g. 'LowStockError'.
+     * Type of the error e.g. 'LowStockError'.
      */
     type?: string;
   }
@@ -155,7 +155,7 @@ export namespace Occ {
 
     minQuantity?: number;
     /**
-     * @member {PriceType} [priceType] Possible values include: 'BUY', 'FROM'
+     * Possible values include: 'BUY', 'FROM'
      */
     priceType?: PriceType;
 
@@ -183,7 +183,7 @@ export namespace Occ {
 
     galleryIndex?: number;
     /**
-     * @member {ImageType} [imageType] Possible values include: 'PRIMARY',
+     * Possible values include: 'PRIMARY',
      * 'GALLERY'
      */
     imageType?: ImageType;
@@ -1331,19 +1331,19 @@ export namespace Occ {
    */
   export interface Pagination {
     /**
-     * @member {number} [count] Number of elements on this page
+     * Number of elements on this page
      */
     count?: number;
     /**
-     * @member {number} [page] Current page number
+     * Current page number
      */
     page?: number;
     /**
-     * @member {number} [totalCount] Total number of elements
+     * Total number of elements
      */
     totalCount?: number;
     /**
-     * @member {number} [totalPages] Total number of pages
+     * Total number of pages
      */
     totalPages?: number;
   }
