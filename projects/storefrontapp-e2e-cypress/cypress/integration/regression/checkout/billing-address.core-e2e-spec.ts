@@ -1,7 +1,6 @@
 import * as checkout from '../../../helpers/checkout-flow';
 import { Address } from '../../../helpers/checkout-forms';
 import { user } from '../../../sample-data/checkout-flow';
-import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
 
 const usaAddress: Address = {
   city: 'Los Angeles',
@@ -37,7 +36,6 @@ context('Payment billing address', () => {
 
   it('should go to checkout', () => {
     checkout.registerUser();
-    verifyGlobalMessageAfterRegistration();
     checkout.goToCheapProductDetailsPage();
     checkout.addCheapProductToCartAndLogin();
     checkout.fillAddressFormWithCheapProduct();
