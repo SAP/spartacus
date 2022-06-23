@@ -4,7 +4,8 @@ import { Store, StoreModule } from '@ngrx/store';
 import { StateWithAsm } from '@spartacus/asm/core';
 import { AsmFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
-import { BaseSiteService, User, UserService } from '@spartacus/core';
+import { BaseSiteService, User } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import * as fromReducers from '../../core/store/reducers/index';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
@@ -29,6 +30,12 @@ class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
+  get(): Observable<User> {
+    return of({});
+  }
+}
+
 class MockMultiCartFacade {
   loadCart(_cartId: string, _userId: string): void {}
 }
@@ -39,12 +46,6 @@ class MockAsmService {
   }
 }
 
-class MockUserService {
-  get(): Observable<User> {
-    return of({});
-  }
-}
-
 describe('AsmBindCartComponent', () => {
   let component: AsmBindCartComponent;
   let fixture: ComponentFixture<AsmBindCartComponent>;
@@ -52,7 +53,7 @@ describe('AsmBindCartComponent', () => {
   let multiCartFacade: MultiCartFacade;
   let activeCartFacade: ActiveCartFacade;
   let store: Store<StateWithAsm>;
-  let userService: UserService;
+  let userService: UserAccountFacade;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -66,7 +67,7 @@ describe('AsmBindCartComponent', () => {
         { provide: AsmFacade, useClass: MockAsmService },
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserAccountFacade, useClass: MockUserAccountFacade },
       ],
     }).compileComponents();
 
@@ -81,7 +82,7 @@ describe('AsmBindCartComponent', () => {
     asmFacade = TestBed.inject(AsmFacade);
     multiCartFacade = TestBed.inject(MultiCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
-    userService = TestBed.inject(UserService);
+    userService = TestBed.inject(UserAccountFacade);
   });
 
   it('should assign cart to customer', () => {

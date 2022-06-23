@@ -6,10 +6,9 @@ import {
 import { TestBed } from '@angular/core/testing';
 import {
   AsmConfig,
-  CustomerSearchOptions,
-  CustomerSearchPage,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
+import { CustomerSearchOptions, CustomerSearchPage } from '@spartacus/asm/root';
 import {
   BaseOccUrlProperties,
   BaseSiteService,
