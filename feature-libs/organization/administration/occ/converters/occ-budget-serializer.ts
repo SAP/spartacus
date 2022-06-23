@@ -8,7 +8,7 @@ export class OccBudgetSerializer implements Converter<Budget, Occ.Budget> {
 
   convert(source: Budget, target?: Occ.Budget): Occ.Budget {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Occ.Budget;
     }
 
     if (source.startDate) {
