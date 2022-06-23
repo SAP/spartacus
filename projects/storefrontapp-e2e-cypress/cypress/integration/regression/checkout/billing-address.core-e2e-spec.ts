@@ -22,13 +22,14 @@ const polandAddress: Address = {
 context('Payment billing address', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-    cy.visit('/');
   });
 
-  it('should go to checkout', () => {
-    checkout.registerUser();
+  it('should go through checkout steps', () => {
+    cy.requireLoggedIn();
+    cy.visit('/');
     checkout.goToCheapProductDetailsPage();
-    checkout.addCheapProductToCartAndLogin();
+    checkout.addCheapProductToCart();
+    cy.findByText(/proceed to checkout/i).click();
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryMethod();
     checkout.fillPaymentFormWithCheapProduct();
