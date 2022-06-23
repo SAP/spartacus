@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import { getLastValueSync } from '@spartacus/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import { TableHeaderOutletContext } from '../table.model';
 
@@ -16,10 +17,12 @@ export class TableDataCellComponent {
   }
 
   protected get model(): any {
-    return this.outlet?.context;
+    const context = getLastValueSync(this.outlet.context$);
+    return context;
   }
 
-  protected get field(): string {
-    return this.outlet?.context?._field;
+  protected get field(): string | undefined {
+    const context = getLastValueSync(this.outlet.context$);
+    return context?._field;
   }
 }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { B2BUnit, getLastValueSync } from '@spartacus/core';
 import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import {
   OutletContextData,
@@ -67,10 +67,11 @@ export class ToggleLinkCellComponent extends CellComponent {
   }
 
   protected get item(): B2BUnit | null {
-    if (!this.outlet.context) {
+    const context = getLastValueSync(this.outlet.context$);
+    if (!context) {
       return null;
     }
-    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
+    const { _field, _options, _type, _i18nRoot, ...all } = context;
     return all as B2BUnit;
   }
 }

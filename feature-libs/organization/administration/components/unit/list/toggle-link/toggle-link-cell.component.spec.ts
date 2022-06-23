@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ToggleLinkCellComponent } from '@spartacus/organization/administration/components';
 import { IconModule, OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
 import { UnitTreeService } from '../../services/unit-tree.service';
 import createSpy = jasmine.createSpy;
 
@@ -34,7 +35,7 @@ describe('ToggleLinkCellComponent', () => {
       providers: [
         {
           provide: OutletContextData,
-          useValue: { context: mockContext },
+          useValue: { context$: of(mockContext) },
         },
         {
           provide: UnitTreeService,

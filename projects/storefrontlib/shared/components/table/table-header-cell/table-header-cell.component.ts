@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { getLastValueSync } from '@spartacus/core';
 import { OutletContextData } from '../../../../cms-structure/outlet/outlet.model';
 import {
   TableFieldOptions,
@@ -41,18 +42,22 @@ export class TableHeaderCellComponent {
   }
 
   protected get fieldOptions(): TableFieldOptions | undefined {
-    return this.outlet?.context._options?.cells?.[this.field];
+    const context = getLastValueSync(this.outlet.context$);
+    return context?._options?.cells?.[this.field];
   }
 
-  protected get field(): string {
-    return this.outlet?.context?._field;
+  protected get field(): string | undefined {
+    const context = getLastValueSync(this.outlet.context$);
+    return context?._field;
   }
 
-  protected get type(): string {
-    return this.outlet?.context?._type;
+  protected get type(): string | undefined {
+    const context = getLastValueSync(this.outlet.context$);
+    return context?._type;
   }
 
   protected get i18nRoot(): string | undefined {
-    return this.outlet?.context?._i18nRoot;
+    const context = getLastValueSync(this.outlet.context$);
+    return context?._i18nRoot;
   }
 }

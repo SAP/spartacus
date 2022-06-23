@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { getLastValueSync } from '@spartacus/core';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -92,11 +93,8 @@ export class AssignCellComponent<T> extends CellComponent {
    * item.
    */
   protected get link(): string {
-    return (
-      this.outlet.context.code ??
-      this.outlet.context.customerId ??
-      this.outlet.context.uid
-    );
+    const context = getLastValueSync(this.outlet.context$);
+    return context?.code ?? context?.customerId ?? context?.uid;
   }
 
   protected notify(item: any, state: string) {

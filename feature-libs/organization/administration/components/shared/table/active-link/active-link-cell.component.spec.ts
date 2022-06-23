@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { OutletContextData } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { of } from 'rxjs';
 import { ActiveLinkCellComponent } from '..';
 
 const mockContext = {
@@ -24,7 +25,7 @@ describe('ActiveLinkCellComponent', () => {
       providers: [
         {
           provide: OutletContextData,
-          useValue: { context: mockContext },
+          useValue: { context$: of(mockContext) },
         },
       ],
     }).compileComponents();

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { getLastValueSync } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -18,11 +19,13 @@ export class CellComponent {
   }
 
   get model(): TableDataOutletContext {
-    return this.outlet.context;
+    const context = getLastValueSync(this.outlet.context$);
+    return context;
   }
 
   get property(): string | undefined {
-    return this.model?.[this.outlet?.context?._field];
+    const context = getLastValueSync(this.outlet.context$);
+    return this.model?.[context?._field];
   }
 
   /**
@@ -41,20 +44,21 @@ export class CellComponent {
    * Helper method to access the cell options.
    */
   get cellOptions(): TableFieldOptions {
-    return (
-      this.outlet.context?._options?.cells?.[this.outlet.context?._field] ?? {}
-    );
+    const context = getLastValueSync(this.outlet.context$);
+    return context?._options?.cells?.[context?._field] ?? {};
   }
 
   /**
    * Generates the configurable route to the detail page of the given context item.
    */
   get route(): string {
-    return this.outlet.context._type + 'Details';
+    const context = getLastValueSync(this.outlet.context$);
+    return context._type + 'Details';
   }
 
   get routeModel(): any {
-    return this.outlet.context;
+    const context = getLastValueSync(this.outlet.context$);
+    return context;
   }
 
   get type(): string {
@@ -69,10 +73,11 @@ export class CellComponent {
   }
 
   protected get item(): any {
-    if (!this.outlet.context) {
+    const context = getLastValueSync(this.outlet.context$);
+    if (!context) {
       return null;
     }
-    const { _field, _options, _type, _i18nRoot, ...all } = this.outlet.context;
+    const { _field, _options, _type, _i18nRoot, ...all } = context;
     return all;
   }
 }

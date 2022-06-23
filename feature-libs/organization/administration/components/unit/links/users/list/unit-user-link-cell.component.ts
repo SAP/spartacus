@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { B2BUnit } from '@spartacus/core';
+import { B2BUnit, getLastValueSync } from '@spartacus/core';
 import {
   OutletContextData,
   TableDataOutletContext,
@@ -32,6 +32,7 @@ export class UnitUserRolesCellComponent extends CellComponent {
   }
 
   getRouterModel(uid: string): any {
-    return { ...this.outlet.context, uid };
+    const context = getLastValueSync(this.outlet.context$);
+    return { ...context, uid };
   }
 }
