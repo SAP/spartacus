@@ -16,7 +16,7 @@ export class BudgetRoutePageMetaResolver extends DefaultRoutePageMetaResolver {
     super(translation);
   }
 
-  protected getParams(): Observable<Budget> {
+  protected getParams(): Observable<Budget | undefined> {
     return this.currentItemService.item$;
   }
 }

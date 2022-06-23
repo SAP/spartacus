@@ -26,7 +26,7 @@ export function getReducers(): ActionReducerMap<OrderApprovalState> {
         ORDER_APPROVAL_ENTITIES,
         orderApprovalsEntitiesReducer
       ),
-      list: StateUtils.entityLoaderReducer<ListModel>(
+      list: StateUtils.entityLoaderReducer<ListModel, any>(
         ORDER_APPROVAL_LIST,
         orderApprovalsListReducer
       ),
