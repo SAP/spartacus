@@ -18,14 +18,14 @@ export class CellComponent {
     return -1;
   }
 
-  get model(): TableDataOutletContext {
+  get model(): TableDataOutletContext | undefined {
     const context = getLastValueSync(this.outlet.context$);
     return context;
   }
 
   get property(): string | undefined {
     const context = getLastValueSync(this.outlet.context$);
-    return this.model?.[context?._field];
+    return context ? this.model?.[context?._field] : undefined;
   }
 
   /**
@@ -53,7 +53,7 @@ export class CellComponent {
    */
   get route(): string {
     const context = getLastValueSync(this.outlet.context$);
-    return context._type + 'Details';
+    return context?._type + 'Details';
   }
 
   get routeModel(): any {
@@ -61,8 +61,8 @@ export class CellComponent {
     return context;
   }
 
-  get type(): string {
-    return this.model._type;
+  get type(): string | undefined {
+    return this.model?._type;
   }
 
   /**
