@@ -13,7 +13,7 @@ export class TableDataCellComponent {
 
   @HostBinding('attr.title')
   get value(): string {
-    return this.model[this.field];
+    return this.field ? this.model[this.field] : undefined;
   }
 
   protected get model(): any {

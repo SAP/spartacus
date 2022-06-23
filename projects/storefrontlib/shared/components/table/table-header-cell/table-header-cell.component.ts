@@ -43,7 +43,7 @@ export class TableHeaderCellComponent {
 
   protected get fieldOptions(): TableFieldOptions | undefined {
     const context = getLastValueSync(this.outlet.context$);
-    return context?._options?.cells?.[this.field];
+    return this.field ? context?._options?.cells?.[this.field] : undefined;
   }
 
   protected get field(): string | undefined {
