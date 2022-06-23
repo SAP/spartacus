@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import {
   ProductSearchPage,
   Suggestion,
@@ -13,6 +13,7 @@ import {
 import { ProductSearchAdapter } from '../../../product/connectors/search/product-search.adapter';
 import { SearchConfig } from '../../../product/model/search-config';
 import { ConverterService } from '../../../util/converter.service';
+import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
@@ -41,9 +42,12 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     pageSize: number = 3
   ): Observable<Suggestion[]> {
     return this.http
-      .get(this.getSuggestionEndpoint(term, pageSize.toString()))
+      .get<Occ.SuggestionList>(
+        this.getSuggestionEndpoint(term, pageSize.toString())
+      )
       .pipe(
         pluck('suggestions'),
+        map((suggestions) => suggestions ?? []),
         this.converter.pipeableMany(PRODUCT_SUGGESTION_NORMALIZER)
       );
   }

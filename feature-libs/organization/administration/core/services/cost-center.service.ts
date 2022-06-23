@@ -5,7 +5,6 @@ import {
   EntitiesModel,
   SearchConfig,
   StateUtils,
-  StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, queueScheduler, using } from 'rxjs';
@@ -26,7 +25,7 @@ import { getItemStatus } from '../utils/get-item-status';
 @Injectable({ providedIn: 'root' })
 export class CostCenterService {
   constructor(
-    protected store: Store<StateWithOrganization | StateWithProcess<void>>,
+    protected store: Store<StateWithOrganization>,
     protected userIdService: UserIdService
   ) {}
 
@@ -42,7 +41,7 @@ export class CostCenterService {
     );
   }
 
-  loadList(params?: SearchConfig): void {
+  loadList(params: SearchConfig): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(
@@ -63,18 +62,18 @@ export class CostCenterService {
   private getCostCenterValue(costCenterCode: string): Observable<CostCenter> {
     return this.store
       .select(getCostCenterValue(costCenterCode))
-      .pipe(filter(Boolean));
+      .pipe(filter((costCenter) => Boolean(costCenter)));
   }
 
   private getCostCenterList(
-    params
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<CostCenter>>> {
     return this.store.select(getCostCenterList(params));
   }
 
   private getBudgetList(
-    costCenterCode,
-    params
+    costCenterCode: string,
+    params: SearchConfig
   ): Observable<StateUtils.LoaderState<EntitiesModel<Budget>>> {
     return this.store.select(getAssignedBudgets(costCenterCode, params));
   }
@@ -95,7 +94,9 @@ export class CostCenterService {
     );
   }
 
-  getList(params: SearchConfig): Observable<EntitiesModel<CostCenter>> {
+  getList(
+    params: SearchConfig
+  ): Observable<EntitiesModel<CostCenter> | undefined> {
     return this.getCostCenterList(params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<CostCenter>>) => {
@@ -103,9 +104,8 @@ export class CostCenterService {
           this.loadList(params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<CostCenter>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<CostCenter>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -170,7 +170,7 @@ export class CostCenterService {
   getBudgets(
     costCenterCode: string,
     params: SearchConfig
-  ): Observable<EntitiesModel<Budget>> {
+  ): Observable<EntitiesModel<Budget> | undefined> {
     return this.getBudgetList(costCenterCode, params).pipe(
       observeOn(queueScheduler),
       tap((process: StateUtils.LoaderState<EntitiesModel<Budget>>) => {
@@ -178,9 +178,8 @@ export class CostCenterService {
           this.loadBudgets(costCenterCode, params);
         }
       }),
-      filter(
-        (process: StateUtils.LoaderState<EntitiesModel<Budget>>) =>
-          process.success || process.error
+      filter((process: StateUtils.LoaderState<EntitiesModel<Budget>>) =>
+        Boolean(process.success || process.error)
       ),
       map((result) => result.value)
     );
@@ -218,9 +217,9 @@ export class CostCenterService {
     );
   }
 
-  getErrorState(costCenterCode): Observable<boolean> {
+  getErrorState(costCenterCode: string): Observable<boolean> {
     return this.getCostCenterState(costCenterCode).pipe(
-      map((state) => state.error)
+      map((state) => state.error ?? false)
     );
   }
 }
