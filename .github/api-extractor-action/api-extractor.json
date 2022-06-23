@@ -312,11 +312,7 @@
       // Spartaus: currently we don't use the release tags @alpha/@beta/@internal/@public in our JSDocs:
       "ae-missing-release-tag": {
         "logLevel": "none"
-      },
-      
-      "tsdoc-param-tag-missing-hyphen": {
-        "logLevel": "none"
-      },
+      }
 
       // "ae-extra-release-tag": {
       //   "logLevel": "warning",
@@ -337,6 +333,10 @@
       "default": {
         "logLevel": "warning"
         // "addToApiReportFile": false
+      },
+      
+      "tsdoc-param-tag-missing-hyphen": {
+        "logLevel": "none"
       }
 
       // "tsdoc-link-tag-unescaped-text": {
