@@ -2,15 +2,6 @@ import * as checkout from '../../../helpers/checkout-flow';
 import { Address } from '../../../helpers/checkout-forms';
 import { user } from '../../../sample-data/checkout-flow';
 
-const usaAddress: Address = {
-  city: 'Los Angeles',
-  line1: '340 Main Street',
-  line2: '',
-  country: 'United States',
-  postal: '90291',
-  state: 'California',
-};
-
 const canadaAddress: Address = {
   city: 'Montreal',
   line1: '111 Boulevard Robert-Bourassa',
@@ -45,13 +36,6 @@ context('Payment billing address', () => {
   });
 
   it('should add new payment forms', () => {
-    checkout.goToPaymentDetails();
-    checkout.clickAddNewPayment();
-    checkout.fillPaymentFormWithCheapProduct(user, {
-      ...user,
-      address: usaAddress,
-    });
-    checkout.verifyReviewOrderPage();
     checkout.goToPaymentDetails();
     checkout.clickAddNewPayment();
     checkout.fillPaymentFormWithCheapProduct(user, {
