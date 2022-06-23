@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { LocationSearchParams } from '@spartacus/pickup-in-store/core';
 import { IconTestingModule, LaunchDialogService } from '@spartacus/storefront';
 import { MockPickupInStoreService } from 'feature-libs/pickup-in-store/core/facade/mock-pickup-in-store.service';
 import { PickupInStoreFacade } from 'feature-libs/pickup-in-store/root';
@@ -21,6 +22,7 @@ describe('PickupDeliveryOptionDialogComponent', () => {
   let component: PickupDeliveryOptionDialogComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionDialogComponent>;
   let launchDialogService: LaunchDialogService;
+  let pickupInStoreFacade: PickupInStoreFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -40,12 +42,33 @@ describe('PickupDeliveryOptionDialogComponent', () => {
     fixture = TestBed.createComponent(PickupDeliveryOptionDialogComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
+    pickupInStoreFacade = TestBed.inject(PickupInStoreFacade);
 
     fixture.detectChanges();
   });
 
   it('should create dialog', () => {
     expect(component).toBeDefined();
+  });
+
+  it('ngOnInit should call appropriate methods', () => {
+    spyOn(pickupInStoreFacade, 'clearStockData');
+    component.ngOnInit();
+    expect(pickupInStoreFacade.clearStockData).toHaveBeenCalled();
+  });
+
+  it('onFindStores calls appropriate service method', () => {
+    spyOn(pickupInStoreFacade, 'getStock');
+    component.onFindStores({ productCode: 'P001' } as LocationSearchParams);
+    expect(pickupInStoreFacade.getStock).toHaveBeenCalledWith({
+      productCode: 'P001',
+    });
+  });
+
+  it('onHideOutOfStock calls appropriate service method', () => {
+    spyOn(pickupInStoreFacade, 'hideOutOfStock');
+    component.onHideOutOfStock();
+    expect(pickupInStoreFacade.hideOutOfStock).toHaveBeenCalled();
   });
 
   it('should close dialog on close method', () => {
