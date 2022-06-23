@@ -5,11 +5,11 @@ import {
   OnInit,
   PLATFORM_ID,
 } from '@angular/core';
+import { Translatable } from '@spartacus/core';
 import { BaseMessageComponent } from '../base-message.component';
 import { MessageData } from '../message.model';
 import { MessageService } from '../services/message.service';
 import { ConfirmationMessageData } from './confirmation-message.model';
-import { Translatable } from '@spartacus/core';
 
 /**
  * Renders a confirmation message and cancel/confirm button in the message component.
@@ -50,6 +50,6 @@ export class ConfirmationMessageComponent
    * the event data.
    */
   confirm() {
-    this.data.events.next({ confirm: true });
+    this.data.events?.next({ confirm: true });
   }
 }
