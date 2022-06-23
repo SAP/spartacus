@@ -1,5 +1,5 @@
+import { AsmUi, CustomerSearchPage } from '@spartacus/asm/root';
 import { StateUtils } from '@spartacus/core';
-import { AsmUi, CustomerSearchPage } from '../models/asm.models';
 
 export const ASM_FEATURE = 'asm';
 export const CUSTOMER_SEARCH_DATA = '[asm] Customer search data';

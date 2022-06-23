@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmUi } from '@spartacus/asm/core';
-import { AsmFacade } from '@spartacus/asm/root';
+import { AsmFacade, AsmUi } from '@spartacus/asm/root';
 import { Subscription } from 'rxjs';
 
 @Component({

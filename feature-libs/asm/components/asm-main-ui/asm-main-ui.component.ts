@@ -1,6 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { AsmUi } from '@spartacus/asm/core';
-import { AsmFacade, CsAgentAuthService } from '@spartacus/asm/root';
+import { AsmFacade, AsmUi, CsAgentAuthService } from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,
