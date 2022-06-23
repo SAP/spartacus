@@ -43,10 +43,8 @@ export class CartVoucherService implements CartVoucherFacade {
     );
   }
 
-  // TODO(#7241): Remove when switching to event system for add voucher
   /**
    * Get add voucher process error flag
-   * @deprecated since 2.0
    */
   getAddVoucherResultError(): Observable<boolean> {
     return this.store.pipe(
@@ -54,10 +52,8 @@ export class CartVoucherService implements CartVoucherFacade {
     );
   }
 
-  // TODO(#7241): Remove when switching to event system for add voucher
   /**
    * Get add voucher process success flag
-   * @deprecated since 2.0
    */
   getAddVoucherResultSuccess(): Observable<boolean> {
     return this.store.pipe(
@@ -65,10 +61,8 @@ export class CartVoucherService implements CartVoucherFacade {
     );
   }
 
-  // TODO(#7241): Remove when switching to event system for add voucher
   /**
    * Get add voucher process loading flag
-   * @deprecated since 2.0
    */
   getAddVoucherResultLoading(): Observable<boolean> {
     return this.store.pipe(
@@ -76,10 +70,8 @@ export class CartVoucherService implements CartVoucherFacade {
     );
   }
 
-  // TODO(#7241): Remove when switching to event system for add voucher
   /**
    * Reset add voucher process
-   * @deprecated since 2.0
    */
   resetAddVoucherProcessingState(): void {
     this.store.dispatch(new CartActions.CartResetAddVoucher());

@@ -37,6 +37,7 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
   imports: [
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,

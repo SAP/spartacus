@@ -6,8 +6,8 @@ import {
   GlobalMessageType,
   RoutingService,
   User,
-  UserService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -29,11 +29,11 @@ export class AsmMainUiComponent implements OnInit {
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
-    protected userService: UserService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected asmService: AsmFacade
+    protected asmService: AsmService,
+    protected userAccountFacade: UserAccountFacade
   ) {}
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class AsmMainUiComponent implements OnInit {
       switchMap((isLoggedIn) => {
         if (isLoggedIn) {
           this.handleCustomerSessionStartRedirection();
-          return this.userService.get();
+          return this.userAccountFacade.get();
         } else {
           return of(undefined);
         }
