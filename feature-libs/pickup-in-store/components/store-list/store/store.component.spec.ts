@@ -23,4 +23,16 @@ describe('StoreComponent', () => {
   it('should create', () => {
     expect(component).toBeDefined();
   });
+
+  it('selectStore returns false', () => {
+    expect(component.selectStore()).toEqual(false);
+  });
+
+  it('toggleOpenHours toggles the value of openHoursOpen', () => {
+    expect(component.openHoursOpen).toEqual(false);
+    component.toggleOpenHours();
+    expect(component.openHoursOpen).toEqual(true);
+    component.toggleOpenHours();
+    expect(component.openHoursOpen).toEqual(false);
+  });
 });

@@ -48,9 +48,15 @@ describe('StoreListComponent', () => {
     spyOn(pickupInStoreService, 'getStores');
     spyOn(pickupInStoreService, 'getStockLoading');
     spyOn(pickupInStoreService, 'getSearchHasBeenPerformed');
-    //   component.ngOnInit();
-    // expect(pickupInStoreService.getStores).toHaveBeenCalled();
-    // expect(pickupInStoreService.getStockLoading).toHaveBeenCalled();
-    //   expect(pickupInStoreService.findStoresAction).toHaveBeenCalled();
+    component.ngOnInit();
+    expect(pickupInStoreService.getStores).toHaveBeenCalled();
+    expect(pickupInStoreService.getStockLoading).toHaveBeenCalled();
+    expect(pickupInStoreService.getSearchHasBeenPerformed).toHaveBeenCalled();
+  });
+
+  it('get storeSearch() returns storeFinderSearchQuery', () => {
+    component.storeSearch = {};
+    fixture.detectChanges();
+    expect(component.storeSearch).toEqual({});
   });
 });
