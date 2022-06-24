@@ -1,7 +1,7 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}" class="form-group">
   <input
     [formControl]="attributeInputForm"
-    [required]="attribute.required"
+    [required]="isRequired"
     class="form-control"
     attr.required="{{ attribute.required }}"
     maxlength="{{ attribute.maxlength }}"

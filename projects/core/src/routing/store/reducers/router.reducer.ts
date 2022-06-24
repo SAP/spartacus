@@ -107,8 +107,8 @@ export class CustomSerializer
     let state: CmsActivatedRouteSnapshot =
       routerState.root as CmsActivatedRouteSnapshot;
     let cmsRequired = false;
-    let context: PageContext;
-    let semanticRoute: string;
+    let context: PageContext | undefined;
+    let semanticRoute: string | undefined;
     let urlString = '';
 
     while (state.firstChild) {

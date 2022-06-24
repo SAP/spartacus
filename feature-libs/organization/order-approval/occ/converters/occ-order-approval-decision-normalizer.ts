@@ -15,7 +15,7 @@ export class OccOrderApprovalDecisionNormalizer
     target?: OrderApprovalDecision
   ): OrderApprovalDecision {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as OrderApprovalDecision;
     }
     return target;
   }

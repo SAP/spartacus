@@ -1,14 +1,14 @@
-import { StateUtils } from '@spartacus/core';
+import { ListModel, StateUtils } from '@spartacus/core';
 import { OrderApproval } from '../../model/order-approval.model';
 import { OrderApprovalActions } from '../actions/index';
 
-export const orderApprovalInitialState = undefined;
-export const orderApprovalsInitialState = undefined;
+export const orderApprovalInitialState: OrderApproval | undefined = undefined;
+export const orderApprovalsInitialState: ListModel | undefined = undefined;
 
 export function orderApprovalsEntitiesReducer(
-  state: OrderApproval = orderApprovalInitialState,
+  state = orderApprovalInitialState,
   action: StateUtils.LoaderAction
-): OrderApproval {
+): OrderApproval | undefined {
   switch (action.type) {
     case OrderApprovalActions.LOAD_ORDER_APPROVAL_SUCCESS:
       return action.payload;
@@ -21,7 +21,7 @@ export function orderApprovalsEntitiesReducer(
 export function orderApprovalsListReducer(
   state = orderApprovalsInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case OrderApprovalActions.LOAD_ORDER_APPROVALS_SUCCESS:
       return action.payload.page;

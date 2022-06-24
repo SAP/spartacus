@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce, take } from 'rxjs/operators';
@@ -105,6 +106,15 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       );
     if (this.attribute.userInput) {
       this.attributeInputForm.setValue(this.attribute.userInput);
+    }
+
+    if (
+      this.ownerType === CommonConfigurator.OwnerType.CART_ENTRY &&
+      this.attribute.required &&
+      this.attribute.incomplete &&
+      !this.attributeInputForm.value
+    ) {
+      this.attributeInputForm.markAsTouched();
     }
 
     if (this.attribute.intervalInDomain) {
