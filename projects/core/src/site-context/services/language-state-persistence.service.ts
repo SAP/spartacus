@@ -29,7 +29,7 @@ export class LanguageStatePersistenceService {
     return this.initialized$;
   }
 
-  protected onRead(valueFromStorage: string): void {
+  protected onRead(valueFromStorage: string | undefined): void {
     if (!this.languageService.isInitialized() && valueFromStorage) {
       this.languageService.setActive(valueFromStorage);
     }

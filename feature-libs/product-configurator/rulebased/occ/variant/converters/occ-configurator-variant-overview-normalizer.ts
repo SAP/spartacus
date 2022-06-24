@@ -59,6 +59,7 @@ export class OccConfiguratorVariantOverviewNormalizer
               attributeId: characteristic.characteristicId,
               value: characteristic.value,
               valueId: characteristic.valueId,
+              valuePrice: characteristic.price,
             };
           })
         : [],

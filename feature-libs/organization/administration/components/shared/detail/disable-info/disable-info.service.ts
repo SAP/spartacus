@@ -18,12 +18,12 @@ export class DisableInfoService<T extends BaseItem> {
   }
 
   isRootUnit(item: B2BUnit): boolean {
-    return (
+    return Boolean(
       item?.uid &&
-      item?.name &&
-      !(item as T)?.orgUnit &&
-      !(item as T)?.unit &&
-      (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
+        item?.name &&
+        !(item as T)?.orgUnit &&
+        !(item as T)?.unit &&
+        (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
     );
   }
 }
