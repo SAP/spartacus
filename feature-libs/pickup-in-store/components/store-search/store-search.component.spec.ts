@@ -68,6 +68,6 @@ describe('StoreSearchComponent', () => {
 
     spyOn(component.findStores, 'emit').and.callThrough();
     component.useMyLocation();
-    expect(component.findStores.emit).toHaveBeenNthCalledWith({ latitude: 0, longitude: 0 });
+    expect(component.findStores.emit).toHaveBeenCalledWith({ latitude: 0, longitude: 0 });
   });
 });
