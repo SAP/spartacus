@@ -32,7 +32,7 @@ export class AsmMainUiComponent implements OnInit {
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected asmService: AsmFacade,
+    protected asmFacade: AsmFacade,
     protected userAccountFacade: UserAccountFacade
   ) {}
 
@@ -51,7 +51,7 @@ export class AsmMainUiComponent implements OnInit {
         }
       })
     );
-    this.isCollapsed$ = this.asmService
+    this.isCollapsed$ = this.asmFacade
       .getAsmUiState()
       .pipe(
         map((uiState: AsmUi) =>
