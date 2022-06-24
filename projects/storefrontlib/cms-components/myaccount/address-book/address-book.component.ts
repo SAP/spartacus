@@ -96,6 +96,20 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textEdit, event: 'edit' });
           actions.push({ name: textDelete, event: 'delete' });
 
+          let numbers = '';
+          if (address.cellphone && address.phone) {
+            numbers =
+            `P: ${address.phone}
+            M: ${address.cellphone}`;
+            if(address.cellphone === address.phone) {
+              numbers = 'M: ' + address.cellphone;
+            }
+          } else if (address.cellphone && !address.phone) {
+            numbers = 'M: ' + address.cellphone;
+          } else if (!address.cellphone && address.phone) {
+            numbers =  'P: ' + address.phone;
+          }
+
           return {
             role: 'region',
             textBold: address.firstName + ' ' + address.lastName,
@@ -104,7 +118,8 @@ export class AddressBookComponent implements OnInit {
               address.line2,
               address.town + ', ' + region + address.country?.isocode,
               address.postalCode,
-              address.phone,
+              numbers,
+
             ],
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',

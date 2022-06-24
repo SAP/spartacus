@@ -199,6 +199,20 @@ export class CheckoutPaymentFormComponent implements OnInit {
       region = address.region.isocode + ', ';
     }
 
+    let numbers = '';
+    if (address.cellphone && address.phone) {
+      numbers =
+      `P: ${address.phone}
+      M: ${address.cellphone}`;
+      if(address.cellphone === address.phone) {
+        numbers = 'M: ' + address.cellphone;
+      }
+    } else if (address.cellphone && !address.phone) {
+      numbers = 'M: ' + address.cellphone;
+    } else if (!address.cellphone && address.phone) {
+      numbers =  'P: ' + address.phone;
+    }
+
     return {
       textBold: address.firstName + ' ' + address.lastName,
       text: [
@@ -206,7 +220,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
         address.line2,
         address.town + ', ' + region + address.country?.isocode,
         address.postalCode,
-        address.phone,
+        numbers,
       ],
     } as Card;
   }

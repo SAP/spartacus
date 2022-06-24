@@ -89,6 +89,20 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       region = address.region.isocode + ', ';
     }
 
+    let numbers = '';
+    if (address.cellphone && address.phone) {
+      numbers =
+      `P: ${address.phone}
+      M: ${address.cellphone}`;
+      if(address.cellphone === address.phone) {
+        numbers = 'M: ' + address.cellphone;
+      }
+    } else if (address.cellphone && !address.phone) {
+      numbers = 'M: ' + address.cellphone;
+    } else if (!address.cellphone && address.phone) {
+      numbers =  'P: ' + address.phone;
+    }
+
     return {
       role: 'region',
       title: address.defaultAddress ? textDefaultDeliveryAddress : '',
@@ -98,7 +112,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         address.line2,
         address.town + ', ' + region + address.country?.isocode,
         address.postalCode,
-        address.phone,
+        numbers,
       ],
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',

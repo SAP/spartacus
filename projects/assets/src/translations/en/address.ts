@@ -26,6 +26,10 @@ export const address = {
       label: 'Phone number (optional)',
       placeholder: '(555) 555 - 0123',
     },
+    cellphone: {
+      label: 'Mobile number (optional)',
+      placeholder: '(555) 555 - 0123',
+    },
     saveAsDefault: 'Save as default',
     chooseAddress: 'Choose address',
     streetAddress: 'Street Address',

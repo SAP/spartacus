@@ -102,6 +102,19 @@ export class CheckoutReviewSubmitComponent {
         ) {
           region = deliveryAddress.region.isocode + ', ';
         }
+        let numbers = '';
+        if (deliveryAddress.cellphone && deliveryAddress.phone) {
+          numbers =
+          `P: ${deliveryAddress.phone}
+          M: ${deliveryAddress.cellphone}`;
+          if(deliveryAddress.cellphone === deliveryAddress.phone) {
+            numbers = 'M: ' + deliveryAddress.cellphone;
+          }
+        } else if (deliveryAddress.cellphone && !deliveryAddress.phone) {
+          numbers = 'M: ' + deliveryAddress.cellphone;
+        } else if (!deliveryAddress.cellphone && deliveryAddress.phone) {
+          numbers =  'P: ' + deliveryAddress.phone;
+        }
 
         return {
           title: textTitle,
@@ -111,7 +124,8 @@ export class CheckoutReviewSubmitComponent {
             deliveryAddress.line2,
             deliveryAddress.town + ', ' + region + countryName,
             deliveryAddress.postalCode,
-            deliveryAddress.phone,
+            numbers,
+
           ],
         } as Card;
       })

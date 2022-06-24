@@ -46,6 +46,8 @@ export class UnitAddressFormService extends FormService<Address> {
     );
     form.setControl('postalCode', new FormControl('', Validators.required));
     form.setControl('phone', new FormControl(''));
+    form.setControl('cellphone', new FormControl(''));
+
 
     this.form = form;
   }
