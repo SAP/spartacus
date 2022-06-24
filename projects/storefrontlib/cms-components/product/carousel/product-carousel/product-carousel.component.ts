@@ -18,7 +18,7 @@ export class ProductCarouselComponent {
   protected readonly PRODUCT_SCOPE = [
     ProductScope.LIST,
     ProductScope.PRICE,
-    ProductScope.DETAILS,
+    ProductScope.STOCK,
   ];
 
   private componentData$: Observable<model> = this.componentData.data$.pipe(

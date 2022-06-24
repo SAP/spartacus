@@ -159,11 +159,7 @@ describe('ProductCarouselComponent', () => {
     const productService = TestBed.inject(ProductService);
     spyOn(productService, 'get').and.callThrough();
 
-    const scopes = [
-      ProductScope.LIST,
-      ProductScope.PRICE,
-      ProductScope.DETAILS,
-    ];
+    const scopes = [ProductScope.LIST, ProductScope.PRICE, ProductScope.STOCK];
 
     component.items$.subscribe((items) => {
       expect(productService.get).toHaveBeenCalledTimes(2);
