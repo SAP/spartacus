@@ -9,9 +9,9 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
+import { createCodeForEntityName } from '../../shared/utility/entity-code';
 import { CostCenterItemService } from '../services/cost-center-item.service';
 import { CurrentCostCenterService } from '../services/current-cost-center.service';
-import { createCodeForEntityName } from '../../shared/utility/entity-code';
 
 @Component({
   selector: 'cx-org-cost-center-form',
@@ -30,26 +30,28 @@ import { createCodeForEntityName } from '../../shared/utility/entity-code';
   ],
 })
 export class CostCenterFormComponent {
-  form: FormGroup = this.itemService.getForm();
+  form: FormGroup | null = this.itemService.getForm();
   /**
    * Initialize the business unit for the cost center.
    *
    * If there's a unit provided, we disable the form control.
    */
-  @Input() set unitKey(value: string) {
+  @Input() set unitKey(value: string | null) {
     if (value) {
-      this.form?.get('unit.uid').setValue(value);
+      this.form?.get('unit.uid')?.setValue(value);
       this.form?.get('unit')?.disable();
     }
   }
 
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
-    tap((units) => {
-      if (units.length === 1) {
-        this.form?.get('unit.uid')?.setValue(units[0]?.id);
-      }
-    })
-  );
+  units$: Observable<B2BUnitNode[] | undefined> = this.unitService
+    .getActiveUnitList()
+    .pipe(
+      tap((units) => {
+        if (units && units.length === 1) {
+          this.form?.get('unit.uid')?.setValue(units[0]?.id);
+        }
+      })
+    );
 
   currencies$: Observable<Currency[]> = this.currencyService.getAll().pipe(
     tap((currency) => {
@@ -65,7 +67,10 @@ export class CostCenterFormComponent {
     protected currencyService: CurrencyService
   ) {}
 
-  createCodeWithName(name: AbstractControl, code: AbstractControl): void {
+  createCodeWithName(
+    name: AbstractControl | null,
+    code: AbstractControl | null
+  ): void {
     createCodeForEntityName(name, code);
   }
 }

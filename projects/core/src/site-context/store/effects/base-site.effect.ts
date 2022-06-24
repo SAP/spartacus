@@ -15,9 +15,13 @@ export class BaseSiteEffects {
       ofType(SiteContextActions.LOAD_BASE_SITE),
       exhaustMap(() => {
         return this.siteConnector.getBaseSite().pipe(
-          map(
-            (baseSite) => new SiteContextActions.LoadBaseSiteSuccess(baseSite)
-          ),
+          map((baseSite) => {
+            if (baseSite) {
+              return new SiteContextActions.LoadBaseSiteSuccess(baseSite);
+            } else {
+              throw new Error('BaseSite is not found');
+            }
+          }),
           catchError((error) =>
             of(
               new SiteContextActions.LoadBaseSiteFail(normalizeHttpError(error))
