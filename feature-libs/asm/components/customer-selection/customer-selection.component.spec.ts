@@ -8,8 +8,8 @@ import {
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { AsmConfig, AsmService } from '@spartacus/asm/core';
-import { CustomerSearchPage } from '@spartacus/asm/root';
+import { AsmConfig } from '@spartacus/asm/core';
+import { AsmFacade, CustomerSearchPage } from '@spartacus/asm/root';
 import { GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -72,7 +72,7 @@ const MockAsmConfig: AsmConfig = {
 describe('CustomerSelectionComponent', () => {
   let component: CustomerSelectionComponent;
   let fixture: ComponentFixture<CustomerSelectionComponent>;
-  let asmService: AsmService;
+  let asmService: AsmFacade;
   let el: DebugElement;
 
   const validSearchTerm = 'cUstoMer@test.com';
@@ -83,7 +83,7 @@ describe('CustomerSelectionComponent', () => {
         imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
         declarations: [CustomerSelectionComponent],
         providers: [
-          { provide: AsmService, useClass: MockAsmService },
+          { provide: AsmFacade, useClass: MockAsmService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: AsmConfig, useValue: MockAsmConfig },
         ],
@@ -95,7 +95,7 @@ describe('CustomerSelectionComponent', () => {
     fixture = TestBed.createComponent(CustomerSelectionComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
-    asmService = TestBed.inject(AsmService);
+    asmService = TestBed.inject(AsmFacade);
     el = fixture.debugElement;
     fixture.detectChanges();
   });

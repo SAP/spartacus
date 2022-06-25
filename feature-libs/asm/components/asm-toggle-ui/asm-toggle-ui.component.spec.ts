@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Store, StoreModule } from '@ngrx/store';
 import { StateWithAsm } from '@spartacus/asm/core';
-import { AsmFacade, AsmUi } from '@spartacus/asm/root';
+import { AsmFacade, AsmUi, ASM_FEATURE } from '@spartacus/asm/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import * as fromReducers from '../../core/store/reducers/index';
@@ -34,7 +34,7 @@ describe('AsmToggleuUiComponent', () => {
         imports: [
           I18nTestingModule,
           StoreModule.forRoot({}),
-          StoreModule.forFeature('asm', fromReducers.getReducers()),
+          StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
         ],
         declarations: [AsmToggleUiComponent],
         providers: [{ provide: AsmFacade, useClass: MockAsmService }],

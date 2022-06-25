@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { StateWithAsm } from '@spartacus/asm/core';
-import { AsmFacade } from '@spartacus/asm/root';
+import { AsmFacade, ASM_FEATURE } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import { BaseSiteService, User } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
@@ -59,7 +59,7 @@ describe('AsmBindCartComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature('asm', fromReducers.getReducers()),
+        StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
       declarations: [AsmBindCartComponent, MockTranslatePipe],
       providers: [
