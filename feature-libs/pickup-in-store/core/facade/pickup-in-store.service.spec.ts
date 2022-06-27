@@ -1,19 +1,19 @@
+import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { PointOfServiceStock, ProcessModule } from '@spartacus/core';
-import { PickupInStoreService } from './pickup-in-store.service';
+import { StockEntities } from '@spartacus/pickup-in-store/core';
 import {
-  StockEntities,
+  PickupInStoreFacade,
   StockLocationSearchParams,
-} from '@spartacus/pickup-in-store/core';
+} from 'feature-libs/pickup-in-store/root';
+import { Observable, of } from 'rxjs';
 import {
   HideOutOfStockOptionsAction,
   StateWithStock,
   StockLevelActions,
 } from '../store';
-import { PickupInStoreFacade } from 'feature-libs/pickup-in-store/root';
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { PickupInStoreService } from './pickup-in-store.service';
 
 @Injectable()
 export class MockPickupInStoreService implements PickupInStoreFacade {

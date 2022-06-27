@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  LocationSearchParams,
+  PickupInStoreFacade,
+} from '@spartacus/pickup-in-store/root';
 import { StoreFinderSearchQuery } from '@spartacus/storefinder/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
-import { LocationSearchParams } from 'feature-libs/pickup-in-store/core';
-import { PickupInStoreFacade } from 'feature-libs/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -26,9 +28,10 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
   ngOnInit() {
     this.pickupInStoreFacade.clearStockData();
     this.launchDialogService.data$.subscribe(({ productCode }) => {
-      (this.productCode = productCode);
+      this.productCode = productCode;
     });
-    this.getHideOutOfStockState$ = this.pickupInStoreFacade.getHideOutOfStockState();
+    this.getHideOutOfStockState$ =
+      this.pickupInStoreFacade.getHideOutOfStockState();
   }
 
   onFindStores(locationSearchParams: LocationSearchParams): void {

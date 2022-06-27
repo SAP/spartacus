@@ -1,16 +1,12 @@
-/* -----
-@Todo - Remove this after adding adding functionalities which will improve code coverage for functions
-------*/
-/*istanbul ignore file*/
-
 import { Injectable } from '@angular/core';
-import { facadeFactory, PointOfServiceStock } from '@spartacus/core';
 import {
-  StockEntities,
-  StockLocationSearchParams,
-} from '@spartacus/pickup-in-store/core';
+  facadeFactory,
+  PointOfServiceStock,
+  StoreFinderStockSearchPage,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
+import { StockLocationSearchParams } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,6 +36,6 @@ export abstract class PickupInStoreFacade {
   abstract getStockLoading(): Observable<boolean>;
   abstract getStockSuccess(): Observable<boolean>;
   abstract getSearchHasBeenPerformed(): Observable<boolean>;
-  abstract getStockEntities(): Observable<StockEntities>;
+  abstract getStockEntities(): Observable<StoreFinderStockSearchPage>;
   abstract getStores(): Observable<PointOfServiceStock[]>;
 }
