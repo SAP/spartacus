@@ -7,10 +7,10 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { Cart } from '@spartacus/cart/base/root';
 import { AuthService, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -27,7 +27,6 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
 
   constructor(
-    protected activeCartFacade: ActiveCartFacade,
     protected authService: AuthService,
     protected routingService: RoutingService,
     protected vcr: ViewContainerRef,
@@ -36,7 +35,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.cart$ = combineLatest([
-      this.activeCartFacade.getActive(),
+      of({}),
       this.authService.isUserLoggedIn(),
     ]).pipe(
       tap(([_, loggedIn]) => (this.loggedIn = loggedIn)),
@@ -63,9 +62,5 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     if (dialog) {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 }

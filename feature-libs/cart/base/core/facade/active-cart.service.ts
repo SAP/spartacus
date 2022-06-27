@@ -132,6 +132,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return this.activeCart$;
   }
 
+  somethingNew(): Observable<string> {
+    return of('something');
+  }
+
   /**
    * Waits for the cart to be stable before returning the active cart.
    */

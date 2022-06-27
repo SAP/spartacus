@@ -29,6 +29,7 @@ import { Cart, OrderEntry } from '../models/cart.model';
         'addEntries',
         'requireLoadedCart',
         'reloadActiveCart',
+        'somethingNew',
       ],
       async: true,
     }),
@@ -137,4 +138,6 @@ export abstract class ActiveCartFacade {
   abstract requireLoadedCart(forGuestMerge?: boolean): Observable<Cart>;
 
   abstract reloadActiveCart(): void;
+
+  abstract somethingNew(): Observable<string>;
 }
