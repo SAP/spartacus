@@ -1,8 +1,6 @@
 export const commerceQuotesList = {
   header: 'My Quotes',
   quoteName: 'Name',
-  quoteId: 'Quote ID',
-  quoteStatus: 'Status',
   quoteUpdated: 'Updated',
   sortBy: 'Sort by',
   sortOrders: 'Sort orders',
@@ -31,4 +29,16 @@ export const commerceQuotesStates = {
 export const commerceQuotes = {
   commerceQuotesList,
   commerceQuotesStates,
+  commerceQuotesCommons: {
+    quoteId: 'Quote ID',
+    quoteStatus: 'Status',
+  },
+  commerceQuotesDetails: {
+    code: 'Quote ID',
+    created: 'Created',
+    lastUpdated: 'Last Updated',
+    estimatedTotal: 'Estimated Total',
+    description: 'Description',
+    expiryDate: 'Expiry Date',
+  },
 };

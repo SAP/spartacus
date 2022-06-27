@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   CommerceQuotesFacade,
   CommerceQuotesListReloadQueryEvent,
+  Quote,
   QuoteList,
 } from '@spartacus/commerce-quotes/root';
 import {
@@ -9,6 +10,7 @@ import {
   Query,
   QueryService,
   QueryState,
+  RoutingService,
   UserIdService,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
@@ -37,11 +39,25 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       { reloadOn: [CommerceQuotesListReloadQueryEvent] }
     );
 
+  protected quoteDetailsState$: Query<Quote, unknown[]> =
+    this.queryService.create<Quote>(() =>
+      this.routingService.getRouterState().pipe(
+        withLatestFrom(this.userIdService.takeUserId()),
+        switchMap(([{ state }, userId]) => {
+          return this.commerceQuotesConnector.getQuote(
+            userId,
+            state.params.quoteId
+          );
+        })
+      )
+    );
+
   constructor(
     protected userIdService: UserIdService,
     protected commerceQuotesConnector: CommerceQuotesConnector,
     protected eventService: EventService,
     protected queryService: QueryService,
+    protected routingService: RoutingService,
     protected config: ViewConfig
   ) {}
 
@@ -57,5 +73,9 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
 
   getQuotesState(): Observable<QueryState<QuoteList | undefined>> {
     return this.quotesState$.getState();
+  }
+
+  getQuoteDetails(): Observable<Quote | undefined> {
+    return this.quoteDetailsState$.get();
   }
 }
