@@ -1,0 +1,27 @@
+cx-future-stock-accordion {
+	display: block;
+  overflow: hidden;
+
+	.cx-future-stock-accordion-header {
+		border: none;
+		background-color: #fff;
+		padding-left: 20px;
+    height: 24px;
+    margin: 0.5em auto;
+		cursor: pointer;
+		transition: background-color 250ms ease-in-out;
+		text-decoration: underline;
+
+		&:hover {
+			color:red;
+		}
+
+		cx-icon {
+      padding: 0 0 0 0.4em;
+    }
+	}
+
+	.cx-future-stock-accordion-content {
+		padding-left: 20px;
+	}
+}

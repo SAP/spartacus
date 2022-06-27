@@ -1,1 +1,18 @@
-<div>FUTURE STOCK TRIGGER</div>
+<!-- <div *ngIf="futureStocks">FUTURE STOCK TRIGGER</div> -->
+<!-- {{futureStocks}} -->
+<!-- <div>AAA
+
+</div> -->
+<!-- <button (click)="toggle()">
+	<span>Future Availability:</span>
+	<span>ICON</span>
+	<div *ngFor = "let futureStock of futureStocks">
+		{{futureStock.formattedDate}} - Qty {{futureStock.stock.stockLevel}}
+	</div>
+</button> -->
+
+<cx-future-stock-accordion [header]="'Future Availability'" [content]="futureStocks">
+	<!-- <div *ngFor = "let futureStock of futureStocks">
+		{{futureStock.formattedDate}} - Qty {{futureStock.stock.stockLevel}}
+	</div> -->
+</cx-future-stock-accordion>
