@@ -12,7 +12,7 @@ import { CellComponent } from '../../../../shared/table/cell.component';
   selector: 'cx-org-unit-user-link-cell',
   template: `
     <a
-      *ngIf="hasItem && unitKey$ | async as uid"
+      *ngIf="hasItem && (unitKey$ | async) as uid"
       [routerLink]="
         { cxRoute: 'orgUnitUserRoles', params: getRouterModel(uid) } | cxUrl
       "

@@ -52,12 +52,12 @@ export class PermissionFormService
     this.subscription.add(
       form
         .get('orderApprovalPermissionType')
-        .get('code')
-        .valueChanges.pipe(
+        ?.get('code')
+        ?.valueChanges.pipe(
           distinctUntilChanged(),
           filter((code) => !!code)
         )
-        .subscribe((code) => this.amend(form, code))
+        .subscribe((code: PermissionType) => this.amend(form, code))
     );
 
     this.form = form;
@@ -117,10 +117,10 @@ export class PermissionFormService
     this.subscription.unsubscribe();
   }
 
-  protected patchData(item?) {
+  protected patchData(item?: Permission) {
     super.patchData(item);
     if (item?.code !== undefined) {
-      this.form.get('orderApprovalPermissionType').disable();
+      this.form?.get('orderApprovalPermissionType')?.disable();
     }
   }
 }

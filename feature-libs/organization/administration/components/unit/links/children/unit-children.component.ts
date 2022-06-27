@@ -18,7 +18,7 @@ import { UnitChildrenService } from './unit-children.service';
   ],
 })
 export class UnitChildrenComponent {
-  unit$: Observable<B2BUnit> = this.currentUnitService
+  unit$: Observable<B2BUnit | undefined> = this.currentUnitService
     ? this.currentUnitService.item$
     : of({ active: true });
 
