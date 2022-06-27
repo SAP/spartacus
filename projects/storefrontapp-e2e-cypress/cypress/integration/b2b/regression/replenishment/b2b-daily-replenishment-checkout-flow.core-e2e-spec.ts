@@ -2,7 +2,7 @@ import * as b2bCheckout from '../../../../helpers/b2b/b2b-checkout';
 import {
   b2bAccountShipToUser,
   b2bProduct,
-  cartWithB2bProduct,
+  cartWithB2bProductAndPremiumShipping,
   order_type,
   POWERTOOLS_BASESITE,
   recurrencePeriod,
@@ -47,7 +47,7 @@ context(`B2B - ${recurrencePeriod.DAILY} Replenishment Checkout flow`, () => {
   it('should review and place order', () => {
     b2bCheckout.reviewB2bReviewOrderPage(
       b2bAccountShipToUser,
-      cartWithB2bProduct,
+      cartWithB2bProductAndPremiumShipping,
       true,
       order_type.SCHEDULE_REPLENISHMENT
     );
@@ -61,7 +61,7 @@ context(`B2B - ${recurrencePeriod.DAILY} Replenishment Checkout flow`, () => {
     b2bCheckout.reviewB2bOrderConfirmation(
       b2bAccountShipToUser,
       b2bProduct,
-      cartWithB2bProduct,
+      cartWithB2bProductAndPremiumShipping,
       true,
       recurrencePeriod.DAILY
     );
