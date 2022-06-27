@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  OnDestroy,
   OnInit,
   ViewChild,
   ViewContainerRef,
@@ -18,7 +17,7 @@ import { map, take, tap } from 'rxjs/operators';
   templateUrl: './add-to-saved-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddToSavedCartComponent implements OnInit, OnDestroy {
+export class AddToSavedCartComponent implements OnInit {
   protected subscription = new Subscription();
   protected loggedIn = false;
 
