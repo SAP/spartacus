@@ -4,7 +4,7 @@ cx-future-stock-accordion {
 
 	.cx-future-stock-accordion-header {
 		border: none;
-		background-color: #fff;
+		background-color: transparent;
 		padding-left: 20px;
     height: 24px;
     margin: 0.5em auto;
@@ -13,7 +13,7 @@ cx-future-stock-accordion {
 		text-decoration: underline;
 
 		&:hover {
-			color:red;
+			color: var(--cx-color-primary);
 		}
 
 		cx-icon {
