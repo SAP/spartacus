@@ -19,7 +19,7 @@ import { map, tap } from 'rxjs/operators';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {
-    product$?: Observable<Product>;
+    product$?: Observable<Product | undefined>;
   })[];
 }
 
@@ -113,7 +113,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   private getProduct(
     interest: ProductInterestEntryRelation
-  ): Observable<Product> {
+  ): Observable<Product | undefined> {
     return this.productService.get(
       interest.product?.code ?? '',
       ProductScope.DETAILS
@@ -122,7 +122,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   removeInterest(
     relation: ProductInterestEntryRelation & {
-      product$?: Observable<Product>;
+      product$?: Observable<Product | undefined>;
     }
   ): void {
     this.productInterestService.removeProdutInterest({

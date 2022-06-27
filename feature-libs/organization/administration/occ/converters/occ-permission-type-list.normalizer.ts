@@ -23,10 +23,10 @@ export class OccPermissionTypeListNormalizer
     source: Occ.OrderApprovalPermissionTypeList,
     target?: OrderApprovalPermissionType[]
   ): OrderApprovalPermissionType[] {
-    target = source.orderApprovalPermissionTypes.map((permissionType) =>
+    target = source.orderApprovalPermissionTypes?.map((permissionType) =>
       this.converter.convert(permissionType, PERMISSION_TYPE_NORMALIZER)
     );
 
-    return target;
+    return target ?? [];
   }
 }
