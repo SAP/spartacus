@@ -43,7 +43,6 @@ describe('PickupDeliveryOptionsComponent', () => {
   let component: PickupDeliveryOptionsComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionsComponent>;
   let launchDialogService: LaunchDialogService;
-  // let service: PickupInStoreFacade;
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
@@ -65,7 +64,6 @@ describe('PickupDeliveryOptionsComponent', () => {
   const stubServiceAndCreateComponent = () => {
     fixture = TestBed.createComponent(PickupDeliveryOptionsComponent);
     component = fixture.componentInstance;
-    // service = TestBed.inject(PickupInStoreFacade);
     launchDialogService = TestBed.inject(LaunchDialogService);
 
     spyOn(launchDialogService, 'openDialog').and.callThrough();
@@ -79,9 +77,8 @@ describe('PickupDeliveryOptionsComponent', () => {
       stubServiceAndCreateComponent();
     });
 
-    it('should create and call getStock', () => {
+    it('should create', () => {
       expect(component).toBeDefined();
-      // expect(service.getStock).toHaveBeenCalled();
     });
 
     it('should trigger and open dialog', () => {
@@ -90,15 +87,15 @@ describe('PickupDeliveryOptionsComponent', () => {
         LAUNCH_CALLER.PICKUP_IN_STORE,
         component.element,
         component['vcr'],
-        { msg: 'London', productCode: undefined }
+        { productCode: undefined }
       );
     });
 
     it('should unsubscribe from any subscriptions when destroyed', () => {
       component.subscription = new Subscription();
       spyOn(component.subscription, 'unsubscribe');
-      // component.ngOnDestroy();
-      // expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      component.ngOnDestroy();
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 
@@ -118,7 +115,7 @@ describe('PickupDeliveryOptionsComponent', () => {
         LAUNCH_CALLER.PICKUP_IN_STORE,
         component.element,
         component['vcr'],
-        { msg: 'London', productCode: contextData.productCode }
+        { productCode: contextData.productCode }
       );
     });
   });

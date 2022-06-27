@@ -12,7 +12,6 @@ import { Observable } from 'rxjs';
   templateUrl: './pickup-delivery-option-dialog.component.html',
 })
 export class PickupDeliveryOptionDialogComponent implements OnInit {
-  /*--@Todo :- Change it to actual Data when implementing the other story --*/
   productCode: string;
   storeSearch: StoreFinderSearchQuery;
 
