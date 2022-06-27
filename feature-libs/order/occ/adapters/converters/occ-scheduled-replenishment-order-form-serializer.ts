@@ -35,7 +35,7 @@ export class OccScheduledReplenishmentOrderFormSerializer
     const localTime = new Date().toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
-      hourCycle: 'h23',
+      hour12: false,
     });
     return `${date}T${localTime}:00${TimeUtils.getLocalTimezoneOffset()}`;
   }
