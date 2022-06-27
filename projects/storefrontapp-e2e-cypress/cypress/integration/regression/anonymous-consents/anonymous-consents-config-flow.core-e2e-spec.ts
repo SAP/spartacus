@@ -38,7 +38,7 @@ context('Anonymous consents - config flow', () => {
       cy.get('cx-login [role="link"]').should('be.visible');
       seeBannerAsAnonymous();
 
-      // Make sure to user is logged in after saving it in storage
+      // Make sure user is logged in after saving it in storage
       sessionLogin();
       cy.reload();
       cy.get('cx-login .cx-login-greet').should('be.visible');
