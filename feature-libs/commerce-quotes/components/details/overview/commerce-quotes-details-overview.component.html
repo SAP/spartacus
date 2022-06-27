@@ -1,0 +1,68 @@
+<ng-container *ngIf="quoteDetails$ | async as quote">
+  <div class="cx-quote-overview">
+    <div class="container">
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getCardContent(quote?.code, 'commerceQuotesDetails.code') | async
+          "
+        ></cx-card>
+        <cx-card
+          [content]="
+            getCardContent(
+              quote?.creationTime | cxDate,
+              'commerceQuotesDetails.created'
+            ) | async
+          "
+        ></cx-card>
+        <cx-card
+          [content]="
+            getCardContent(
+              quote?.updatedTime | cxDate,
+              'commerceQuotesDetails.lastUpdated'
+            ) | async
+          "
+        ></cx-card>
+      </div>
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getCardContent(
+              quote?.previousEstimatedTotal.formattedValue,
+              'commerceQuotesDetails.estimatedTotal'
+            ) | async
+          "
+        ></cx-card>
+        <cx-card
+          class="cx-card-description"
+          [content]="
+            getCardContent(
+              quote?.description,
+              'commerceQuotesDetails.description'
+            ) | async
+          "
+          [truncateText]="true"
+          [charactersLimit]="30"
+        ></cx-card>
+      </div>
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getCardContent(
+              'commerceQuotesStates.' + quote?.state | cxTranslate,
+              'commerceQuotesCommons.quoteStatus'
+            ) | async
+          "
+        ></cx-card>
+        <cx-card
+          [content]="
+            getCardContent(
+              quote?.expirationTime | cxDate,
+              'commerceQuotesDetails.expiryDate'
+            ) | async
+          "
+        ></cx-card>
+      </div>
+    </div>
+  </div>
+</ng-container>
