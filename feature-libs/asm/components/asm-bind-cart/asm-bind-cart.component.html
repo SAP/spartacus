@@ -29,9 +29,9 @@
   </div>
   <button
     class="bindCartToCustomer"
-    [disabled]="cartId.invalid"
+    [disabled]="cartId.invalid || prevBoundCartId === cartId.value"
     type="submit"
-    [class.active]="cartId.valid"
+    [class.active]="cartId.valid && prevBoundCartId !== cartId.value"
   >
     {{ 'asm.bindCart.bindCartToCustomer' | cxTranslate }}
   </button>

@@ -21,6 +21,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     Validators.required,
     Validators.minLength(1),
   ]);
+  prevBoundCartId = '';
 
   protected subscription = new Subscription();
 
@@ -42,7 +43,8 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.activeCartFacade.getActiveCartId().subscribe((response: string) => {
         if (response) {
-          this.cartId.setValue(response);
+          this.prevBoundCartId = response;
+          this.cartId.setValue(this.prevBoundCartId);
         }
       })
     );
