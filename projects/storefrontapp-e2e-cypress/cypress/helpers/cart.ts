@@ -333,9 +333,10 @@ export function logOutAndNavigateToEmptyCart() {
 
 export function addProducts() {
   const prods = products.slice(0, 3);
-  prods.forEach((product) => {
+  prods.forEach((product, index) => {
     cy.visit(`/product/${product.code}`);
     clickAddToCart();
+    checkAddedToCartDialog(index + 1);
     closeAddedToCartDialog();
   });
 }
