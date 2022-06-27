@@ -19,8 +19,14 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { switchMap, withLatestFrom, take } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable, of, zip } from 'rxjs';
+import {
+  switchMap,
+  withLatestFrom,
+  take,
+  concatMap,
+  map,
+} from 'rxjs/operators';
 import { CommerceQuotesConnector } from '../connectors/commerce-quotes.connector';
 
 import { tap } from 'rxjs/operators';
@@ -46,25 +52,49 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       { reloadOn: [CommerceQuotesListReloadQueryEvent] }
     );
 
-  protected createQuoteCommand: Command<void, Quote> =
-    this.commandService.create<void, Quote>(
-      () =>
-        combineLatest([
-          this.userIdService.takeUserId(),
-          this.activeCartFacade.takeActiveCartId(),
-        ]).pipe(
-          take(1),
-          switchMap(([userId, cartId]) => {
-            return this.commerceQuotesConnector.createQuote(userId, { cartId });
-          }),
-          tap(() => {
-            this.activeCartFacade.reloadActiveCart();
-          })
+  protected createQuoteCommand: Command<
+    { quoteMetadata: QuoteMetadata; quoteComment: Comment },
+    Quote
+  > = this.commandService.create<
+    { quoteMetadata: QuoteMetadata; quoteComment: Comment },
+    Quote
+  >(
+    (payload) =>
+      combineLatest([
+        this.userIdService.takeUserId(),
+        this.activeCartFacade.takeActiveCartId(),
+      ]).pipe(
+        take(1),
+        switchMap(([userId, cartId]) =>
+          zip(
+            of(userId),
+            this.commerceQuotesConnector.createQuote(userId, { cartId })
+          )
         ),
-      {
-        strategy: CommandStrategy.CancelPrevious,
-      }
-    );
+        concatMap(([userId, quote]) => {
+          return zip(
+            combineLatest([
+              this.commerceQuotesConnector.editQuote(
+                userId,
+                quote.code,
+                payload.quoteMetadata
+              ),
+              this.commerceQuotesConnector.addComment(
+                userId,
+                quote.code,
+                payload.quoteComment
+              ),
+            ]),
+            of(quote)
+          );
+        }),
+        map(([_, quote]) => quote),
+        tap(() => this.activeCartFacade.reloadActiveCart())
+      ),
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
 
   protected editQuoteCommand: Command<
     { quoteCode: string; quoteMetadata: QuoteMetadata },
@@ -136,8 +166,14 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     return this.quotesState$.getState();
   }
 
-  createQuote(): Observable<Quote> {
-    return this.createQuoteCommand.execute();
+  createQuote(
+    quoteMetadata: QuoteMetadata,
+    quoteComment: Comment
+  ): Observable<Quote> {
+    return this.createQuoteCommand.execute({
+      quoteMetadata,
+      quoteComment,
+    });
   }
 
   editQuote(

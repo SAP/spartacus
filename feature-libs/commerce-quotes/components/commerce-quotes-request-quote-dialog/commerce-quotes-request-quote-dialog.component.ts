@@ -33,7 +33,7 @@ export class CommerceQuotesRequestQuoteDialogComponent {
   form: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     description: new FormControl('', []),
-    comment: new FormControl('', []),
+    comment: new FormControl('', [Validators.required]),
   });
 
   constructor(
@@ -52,16 +52,21 @@ export class CommerceQuotesRequestQuoteDialogComponent {
       return;
     } else {
       this.requestInProgress$.next(true);
-      this.commerceQuotesFacade.createQuote().subscribe((quote) => {
-        if (goToDetails) {
-          this.routingService.go({
-            cxRoute: 'quoteEdit',
-            params: { quoteId: quote.code },
-          });
-        }
+      this.commerceQuotesFacade
+        .createQuote(
+          { name: this.form.controls.name.value },
+          { text: this.form.controls.comment.value }
+        )
+        .subscribe((quote) => {
+          if (goToDetails) {
+            this.routingService.go({
+              cxRoute: 'quoteEdit',
+              params: { quoteId: quote.code },
+            });
+          }
 
-        this.modalService.dismissActiveModal();
-      });
+          this.modalService.dismissActiveModal();
+        });
     }
   }
 }

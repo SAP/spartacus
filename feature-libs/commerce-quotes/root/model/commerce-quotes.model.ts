@@ -48,7 +48,7 @@ export interface QuoteList {
 }
 
 export interface QuoteMetadata {
-  description: string;
+  description?: string;
   expirationTime?: Date;
   name: string;
 }

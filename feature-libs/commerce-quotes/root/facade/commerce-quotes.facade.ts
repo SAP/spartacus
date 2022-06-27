@@ -42,9 +42,12 @@ export abstract class CommerceQuotesFacade {
   abstract getQuotesState(): Observable<QueryState<QuoteList | undefined>>;
 
   /**
-   * Returns the query list state.
+   * Create quote with name and comment.
    */
-  abstract createQuote(): Observable<Quote>;
+  abstract createQuote(
+    quoteMetadata: QuoteMetadata,
+    quoteComment: Comment
+  ): Observable<Quote>;
 
   /**
    * Edit quote name, description or expiry date.
