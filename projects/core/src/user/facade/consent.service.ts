@@ -19,7 +19,9 @@ export class ConsentService {
    * Returns either anonymous consent or registered consent as they are emmited.
    * @param templateCode for which to return either anonymous or registered consent.
    */
-  getConsent(templateCode: string): Observable<AnonymousConsent | Consent> {
+  getConsent(
+    templateCode: string
+  ): Observable<AnonymousConsent | Consent | undefined> {
     return merge(
       this.userConsentService.getConsent(templateCode),
       this.anonymousConsentsService.getConsent(templateCode)

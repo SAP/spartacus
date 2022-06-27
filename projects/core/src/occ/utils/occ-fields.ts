@@ -21,13 +21,15 @@ export function mergeFields(fields: (string | object)[]): string {
 export function optimizeFields(fields: object = {}): object {
   const keys = Object.keys(fields);
   if (keys.includes('FULL')) {
-    delete fields['DEFAULT'];
-    delete fields['BASIC'];
+    delete fields['DEFAULT' as keyof object];
+    delete fields['BASIC' as keyof object];
   } else if (keys.includes('DEFAULT')) {
-    delete fields['BASIC'];
+    delete fields['BASIC' as keyof object];
   }
   Object.keys(fields).forEach((key) => {
-    fields[key] = optimizeFields(fields[key]);
+    (fields[key as keyof object] as object) = optimizeFields(
+      fields[key as keyof object]
+    );
   });
   return fields;
 }
@@ -42,7 +44,7 @@ export function parseFields(
   fields: string,
   startIndex = 0
 ): [object, number] | object {
-  const parsedFields = {};
+  const parsedFields: Record<string, object> = {};
 
   let i = startIndex;
   while (i < fields.length) {
@@ -84,7 +86,7 @@ export function parseFields(
 export function stringifyFields(fields: object): string {
   return Object.keys(fields)
     .map((key) => {
-      const subFields = stringifyFields(fields[key]);
+      const subFields = stringifyFields(fields[key as keyof object]);
       return subFields ? `${key}(${subFields})` : key;
     })
     .join(',');
@@ -120,8 +122,11 @@ function getObjectPart<T>(data: T, fields: object): T {
   const result = {} as T;
 
   keys.forEach((key) => {
-    if (data.hasOwnProperty(key)) {
-      result[key] = getObjectPart(data[key], fields[key]);
+    if ((data as unknown as object).hasOwnProperty(key)) {
+      result[key as keyof T] = getObjectPart(
+        data[key as keyof object],
+        fields[key as keyof object]
+      );
     }
   });
 

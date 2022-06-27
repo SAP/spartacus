@@ -1,4 +1,4 @@
-export function mockTranslate(key: string, options: any = {}) {
+export function mockTranslate(key: string | undefined, options: any = {}) {
   const optionsString = Object.keys(options)
     .sort()
     .map((optionName) => `${optionName}:${options[optionName]}`)

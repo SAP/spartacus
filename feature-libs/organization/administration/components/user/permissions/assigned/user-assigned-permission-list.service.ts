@@ -14,7 +14,7 @@ export class UserAssignedPermissionListService extends UserPermissionListService
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<B2BUser>> {
+  ): Observable<EntitiesModel<B2BUser> | undefined> {
     return super
       .load(pagination, code)
       .pipe(map((result) => this.filterSelected(result)));

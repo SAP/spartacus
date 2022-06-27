@@ -24,9 +24,9 @@ import {
   I18nTestingModule,
   RoutingService,
   User,
-  UserService,
 } from '@spartacus/core';
 import { ModalRef, ModalService } from '@spartacus/storefront';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { CustomerListComponent } from '../customer-list/customer-list.component';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -51,7 +51,7 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
   startCustomerEmulationSession(_customerId: string) {}
 }
 
-class MockUserService implements Partial<UserService> {
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get(): Observable<User> {
     return of({});
   }
@@ -146,7 +146,7 @@ describe('AsmMainUiComponent', () => {
   let fixture: ComponentFixture<AsmMainUiComponent>;
   let authService: AuthService;
   let csAgentAuthService: CsAgentAuthService;
-  let userService: UserService;
+  let userAccountFacade: UserAccountFacade;
   let el: DebugElement;
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
@@ -169,7 +169,7 @@ describe('AsmMainUiComponent', () => {
         providers: [
           { provide: AuthService, useClass: MockAuthService },
           { provide: CsAgentAuthService, useClass: MockCsAgentAuthService },
-          { provide: UserService, useClass: MockUserService },
+          { provide: UserAccountFacade, useClass: MockUserAccountFacade },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
@@ -184,7 +184,7 @@ describe('AsmMainUiComponent', () => {
     fixture = TestBed.createComponent(AsmMainUiComponent);
     authService = TestBed.inject(AuthService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
-    userService = TestBed.inject(UserService);
+    userAccountFacade = TestBed.inject(UserAccountFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
     asmComponentService = TestBed.inject(AsmComponentService);
@@ -278,7 +278,7 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-    spyOn(userService, 'get').and.returnValue(of({}));
+    spyOn(userAccountFacade, 'get').and.returnValue(of({}));
     component.ngOnInit();
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
@@ -294,7 +294,7 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-    spyOn(userService, 'get').and.returnValue(of({}));
+    spyOn(userAccountFacade, 'get').and.returnValue(of({}));
     component.ngOnInit();
     fixture.detectChanges();
     expect(el.query(By.css('cx-csagent-login-form'))).toBeFalsy();
@@ -310,7 +310,7 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    spyOn(userService, 'get').and.returnValue(of(testUser));
+    spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
     component.ngOnInit();
     fixture.detectChanges();
 
@@ -328,7 +328,7 @@ describe('AsmMainUiComponent', () => {
       of(true)
     );
     spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
-    spyOn(userService, 'get').and.returnValue(of(testUser));
+    spyOn(userAccountFacade, 'get').and.returnValue(of(testUser));
     component.ngOnInit();
     fixture.detectChanges();
 

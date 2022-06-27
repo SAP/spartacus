@@ -8,6 +8,13 @@ import { getErrorAlert } from '../../../helpers/global-message';
 import * as profile from '../../../helpers/update-profile';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
+import * as consent from '../../../helpers/consent-management';
+import { fillShippingAddress } from '../../../helpers/checkout-forms';
+import {
+  navigateToCategory,
+  navigateToHomepage,
+  waitForPage,
+} from '../../../helpers/navigation';
 
 let customer: any;
 
@@ -81,6 +88,13 @@ context('Assisted Service Module', () => {
       cy.get('button[title="Close ASM"]').click();
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('not.be.visible');
+
+      // CXSPA-301/GH-14914
+      // Must ensure that site is still functional after service agent logout
+      navigateToHomepage();
+      cy.get('cx-storefront.stop-navigating').should('exist');
+      navigateToCategory('Brands', 'brands', false);
+      cy.get('cx-product-list-item').should('exist');
     });
   });
 
@@ -116,7 +130,7 @@ context('Assisted Service Module', () => {
 
   describe('When a customer session and an asm agent session are both active', () => {
     it('Customer should not be able to login when there is an active CS agent session.', () => {
-      const loginPage = checkout.waitForPage('/login', 'getLoginPage');
+      const loginPage = waitForPage('/login', 'getLoginPage');
       cy.visit('/login?asm=true');
       cy.wait(`@${loginPage}`);
 

@@ -6,8 +6,8 @@ import {
 } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { SubListService } from '../../shared/sub-list/sub-list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
+import { SubListService } from '../../shared/sub-list/sub-list.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class UserApproverListService extends SubListService<B2BUser> {
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<B2BUser>> {
+  ): Observable<EntitiesModel<B2BUser> | undefined> {
     return this.userService.getApprovers(code, pagination);
   }
 
