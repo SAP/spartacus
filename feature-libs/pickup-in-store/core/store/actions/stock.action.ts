@@ -1,4 +1,5 @@
 import { StateUtils } from '@spartacus/core';
+import { StoreFinderStockSearchPage } from '@spartacus/core';
 import { STOCK_DATA } from '../stock-state';
 
 export const STOCK_LEVEL = '[Stock] Get Stock Level';
@@ -38,7 +39,7 @@ export class StockLevelFail extends StateUtils.LoaderFailAction {
 
 export class StockLevelSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = STOCK_LEVEL_SUCCESS;
-  constructor(public payload: any) {
+  constructor(public payload: StoreFinderStockSearchPage) {
     super(STOCK_DATA);
   }
 }

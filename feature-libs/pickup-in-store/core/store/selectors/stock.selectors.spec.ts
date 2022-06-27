@@ -66,18 +66,66 @@ describe('stock-selector', () => {
     expect(result).toEqual(expectedResult);
   });
 
-  it('getStores', () => {
-    const result = getStores(state);
-    const expectedResult: PointOfServiceStock[] = [];
-    expect(result).toEqual(expectedResult);
-  });
+  describe('getStores', () => {
+    const storeWithoutStockInfo: PointOfServiceStock = {
+      name: 'store without stock info',
+    };
+    const storeWithStockInfoAndNoStock: PointOfServiceStock = {
+      name: 'store with stock info and no stock',
+      stockInfo: { stockLevel: 0 },
+    };
+    const storeWithStockInfoAndStock: PointOfServiceStock = {
+      name: 'store with stock info and stock',
+      stockInfo: { stockLevel: 1 },
+    };
 
-  it('getStores', () => {
-    const result = getStores({
+    const stores: PointOfServiceStock[] = [
+      storeWithoutStockInfo,
+      storeWithStockInfoAndNoStock,
+      storeWithStockInfoAndStock,
+    ];
+    const stateWithStores: StateWithStock = {
       ...state,
-      stock: { ...state.stock, hideOutOfStock: true },
+      stock: {
+        ...state.stock,
+        hideOutOfStock: true,
+        stockLevel: {
+          loading: false,
+          error: false,
+          success: false,
+          value: { findStockLevelByCode: { stores } },
+        },
+      },
+    };
+
+    it('getStores without store data', () => {
+      const result = getStores(state);
+      const expectedResult: PointOfServiceStock[] = [];
+      expect(result).toEqual(expectedResult);
     });
-    const expectedResult: PointOfServiceStock[] = [];
-    expect(result).toEqual(expectedResult);
+
+    it('getStores with store data hiding out of stock', () => {
+      const result = getStores({
+        ...stateWithStores,
+        stock: {
+          ...stateWithStores.stock,
+          hideOutOfStock: true,
+        },
+      });
+      const expectedResult: PointOfServiceStock[] = [storeWithStockInfoAndStock];
+      expect(result).toEqual(expectedResult);
+    });
+
+    it('getStores with store data showing out of stock', () => {
+      const result = getStores({
+        ...stateWithStores,
+        stock: {
+          ...stateWithStores.stock,
+          hideOutOfStock: false,
+        },
+      });
+      const expectedResult: PointOfServiceStock[] = stores;
+      expect(result).toEqual(expectedResult);
+    });
   });
 });

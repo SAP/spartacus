@@ -48,8 +48,11 @@ describe('StoreSearchComponent', () => {
   it('useMyLocation makes findStores emit a location', () => {
     const mockNavigatorGeolocation = () => {
       const clearWatchMock = () => {};
-      const getCurrentPositionMock = () =>
-        component.findStores.emit({ latitude: 0, longitude: 0 });
+      const getCurrentPositionMock = (callback: PositionCallback) =>
+        callback({
+          coords: { latitude: 0, longitude: 0, accuracy: 0, altitude: 0, altitudeAccuracy: 0, heading: 0, speed: 0 },
+          timestamp: 0,
+        });
       const watchPositionMock = () => {};
 
       const geolocation = {
@@ -68,6 +71,9 @@ describe('StoreSearchComponent', () => {
 
     spyOn(component.findStores, 'emit').and.callThrough();
     component.useMyLocation();
-    expect(component.findStores.emit).toHaveBeenCalledWith({ latitude: 0, longitude: 0 });
+    expect(component.findStores.emit).toHaveBeenCalledWith({
+      latitude: 0,
+      longitude: 0,
+    });
   });
 });

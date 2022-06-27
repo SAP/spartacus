@@ -49,7 +49,7 @@ export const getStores: MemoizedSelector<
   getStockEntities,
   getHideOutOfStockState,
   (stockEntities, hideOutOfStock) =>
-    stockEntities.findStockLevelByCode?.stores?.filter(
-      (store) => (store?.stockInfo?.stockLevel ?? 0) > 0 || !hideOutOfStock
-    ) ?? []
+    (stockEntities.findStockLevelByCode.stores ?? []).filter(
+      (store) => (store.stockInfo?.stockLevel ?? 0) > 0 || !hideOutOfStock
+    )
 );
