@@ -34,7 +34,7 @@ export class RoutingService {
    * active child routes.
    */
   getParams(): Observable<{ [key: string]: string }> {
-    return this.routingParamsService?.getParams();
+    return this.routingParamsService.getParams();
   }
 
   /**
