@@ -48,7 +48,7 @@ export class AsmMainUiComponent implements OnInit {
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
     protected asmService: AsmService,
-    protected modalService: ModalService
+    protected modalService: ModalService,
     protected userAccountFacade: UserAccountFacade
   ) {}
 
