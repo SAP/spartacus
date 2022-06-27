@@ -1,0 +1,4 @@
+(A) identify the consent template to use
+(B) integrate with the consent service to check if the user has consented to the template
+(C) expand tests to cover consents
+(D) check sample data for uniqueness of point of service `name` fields
