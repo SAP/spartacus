@@ -8,7 +8,7 @@ describe('Clear Cart', () => {
     cart.registerCartUser();
   });
 
-  viewportContext(['desktop', 'mobile'], () => {
+  viewportContext(['desktop'], () => {
     context('Clear cart of anonymous user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
@@ -70,7 +70,6 @@ describe('Clear Cart', () => {
           .should('contain', `Active cart cleared successfully.`);
         cart.validateEmptyCart();
         cart.verifyCartIdAfterClearCart();
-        cart.clearActiveCart();
         signOutUser();
       });
     });
