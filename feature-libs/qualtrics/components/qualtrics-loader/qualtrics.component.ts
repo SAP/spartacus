@@ -1,4 +1,5 @@
 import { Component, isDevMode } from '@angular/core';
+import { Config } from '@spartacus/core';
 import { QualtricsConfig } from './config/qualtrics-config';
 import { QualtricsLoaderService } from './qualtrics-loader.service';
 /**
@@ -12,8 +13,14 @@ import { QualtricsLoaderService } from './qualtrics-loader.service';
 export class QualtricsComponent {
   constructor(
     protected qualtricsLoader: QualtricsLoaderService,
-    protected config: QualtricsConfig
+    protected config: QualtricsConfig,
+    protected globalConfigType: Config
   ) {
+    console.log(
+      'find me in qualtrics entry point',
+      this.globalConfigType.checkout
+    );
+
     if (this.config.qualtrics?.scriptSource) {
       this.qualtricsLoader.addScript(this.config.qualtrics.scriptSource);
     } else if (isDevMode()) {
