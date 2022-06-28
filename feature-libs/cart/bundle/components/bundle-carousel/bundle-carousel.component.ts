@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Product, RoutingService } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { BundleTemplate } from '../../core/model';
 import { CartBundleService } from '../../core/services';
 
@@ -25,28 +25,12 @@ export class BundleCarouselComponent {
   ) {}
 
   startBundle(template: BundleTemplate) {
-    this.product$
-      .pipe(
-        switchMap((product) =>
-          this.cartBundleService.startBundle({
-            productCode: product?.code,
-            templateId: template.id,
-            quantity: 1,
-          })
-        ),
-        take(1)
-      )
-      .subscribe((cart) => {
-        // TODO: Change the lines below to:
-        // this.router.go('bundle', {
-        //  queryParams: { cartId: cart?.code },
-        // });
-        this.router.navigate([], {
-          relativeTo: this.route,
-          queryParams: {
-            cartId: cart?.code,
-          },
-        });
-      });
+    this.product$.pipe(take(1)).subscribe((product) =>
+      this.cartBundleService.startBundle({
+        productCode: product?.code,
+        templateId: template.id,
+        quantity: 1,
+      })
+    );
   }
 }
