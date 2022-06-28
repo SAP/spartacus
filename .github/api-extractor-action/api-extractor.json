@@ -286,7 +286,7 @@
          * DEFAULT VALUE: false
          */
         // "addToApiReportFile": false
-      },
+      }
 
       // "TS2551": {
       //   "logLevel": "warning",
