@@ -7,7 +7,7 @@ import { I18nTestingModule } from '@spartacus/core';
 import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
 import { StoreFinderModule } from '@spartacus/storefinder';
 import { SpinnerModule } from '@spartacus/storefront';
-import { MockPickupInStoreService } from 'feature-libs/pickup-in-store/core/facade/mock-pickup-in-store.service';
+import { MockPickupInStoreService } from 'feature-libs/pickup-in-store/core/facade/pickup-in-store.service.spec';
 import { StoreListComponent } from './store-list.component';
 
 describe('StoreListComponent', () => {
@@ -29,7 +29,6 @@ describe('StoreListComponent', () => {
       declarations: [StoreListComponent],
       providers: [
         { provide: PickupInStoreFacade, useClass: MockPickupInStoreService },
-        // provideDefaultConfig(defaultPickupOptionsDialogLayoutConfig)
       ],
     }).compileComponents();
 
@@ -48,9 +47,15 @@ describe('StoreListComponent', () => {
     spyOn(pickupInStoreService, 'getStores');
     spyOn(pickupInStoreService, 'getStockLoading');
     spyOn(pickupInStoreService, 'getSearchHasBeenPerformed');
-    //   component.ngOnInit();
-    // expect(pickupInStoreService.getStores).toHaveBeenCalled();
-    // expect(pickupInStoreService.getStockLoading).toHaveBeenCalled();
-    //   expect(pickupInStoreService.findStoresAction).toHaveBeenCalled();
+    component.ngOnInit();
+    expect(pickupInStoreService.getStores).toHaveBeenCalled();
+    expect(pickupInStoreService.getStockLoading).toHaveBeenCalled();
+    expect(pickupInStoreService.getSearchHasBeenPerformed).toHaveBeenCalled();
+  });
+
+  it('get storeSearch() returns storeFinderSearchQuery', () => {
+    component.storeSearch = {};
+    fixture.detectChanges();
+    expect(component.storeSearch).toEqual({});
   });
 });

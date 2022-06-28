@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
-import { LocationSearchParams } from '@spartacus/pickup-in-store/core';
+import { LocationSearchParams, PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
 import { IconTestingModule, LaunchDialogService } from '@spartacus/storefront';
-import { MockPickupInStoreService } from 'feature-libs/pickup-in-store/core/facade/mock-pickup-in-store.service';
-import { PickupInStoreFacade } from 'feature-libs/pickup-in-store/root';
+import { MockPickupInStoreService } from 'feature-libs/pickup-in-store/core/facade/pickup-in-store.service.spec';
 import { Observable, of } from 'rxjs';
 import { StoreListModule } from '../store-list/index';
 import { StoreSearchModule } from '../store-search/store-search.module';
@@ -31,6 +33,9 @@ describe('PickupDeliveryOptionDialogComponent', () => {
         IconTestingModule,
         StoreListModule,
         StoreSearchModule,
+        HttpClientTestingModule,
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
       ],
       declarations: [PickupDeliveryOptionDialogComponent],
       providers: [

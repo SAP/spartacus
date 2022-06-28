@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  LocationSearchParams,
+  PickupInStoreFacade,
+} from '@spartacus/pickup-in-store/root';
 import { StoreFinderSearchQuery } from '@spartacus/storefinder/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
-import { LocationSearchParams } from 'feature-libs/pickup-in-store/core';
-import { PickupInStoreFacade } from 'feature-libs/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,7 +12,6 @@ import { Observable } from 'rxjs';
   templateUrl: './pickup-delivery-option-dialog.component.html',
 })
 export class PickupDeliveryOptionDialogComponent implements OnInit {
-  /*--@Todo :- Change it to actual Data when implementing the other story --*/
   productCode: string;
   storeSearch: StoreFinderSearchQuery;
 

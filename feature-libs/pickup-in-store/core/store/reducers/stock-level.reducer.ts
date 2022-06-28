@@ -1,4 +1,5 @@
 import { Action, createAction, createReducer, on, props } from '@ngrx/store';
+import { StoreFinderStockSearchPage } from '@spartacus/core';
 import { StockLevelActions } from '../actions/index';
 import { StockLevelState } from '../stock-state';
 
@@ -12,7 +13,7 @@ const _stockReducer = createReducer(
     createAction(
       StockLevelActions.STOCK_LEVEL_SUCCESS,
       props<{
-        payload: any;
+        payload: StoreFinderStockSearchPage;
       }>()
     ),
     (state: StockLevelState, action): StockLevelState => ({

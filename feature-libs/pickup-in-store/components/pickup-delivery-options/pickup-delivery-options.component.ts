@@ -47,7 +47,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
       LAUNCH_CALLER.PICKUP_IN_STORE,
       this.element,
       this.vcr,
-      { msg: 'London', productCode: this.productCode }
+      { productCode: this.productCode }
     );
 
     if (dialog) {

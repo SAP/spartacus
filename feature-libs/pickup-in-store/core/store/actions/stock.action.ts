@@ -1,4 +1,5 @@
-import { StateUtils } from '@spartacus/core';
+import { StateUtils, StoreFinderStockSearchPage } from '@spartacus/core';
+import { StockLocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { STOCK_DATA } from '../stock-state';
 
 export const STOCK_LEVEL = '[Stock] Get Stock Level';
@@ -9,15 +10,7 @@ export const CLEAR_STOCK_DATA = '[Stock] Clear Data';
 
 export class StockLevel extends StateUtils.LoaderLoadAction {
   readonly type = STOCK_LEVEL;
-  constructor(
-    // TODO replace any with real type
-    public payload: {
-      productCode: string;
-      latitude?: number;
-      longitude?: number;
-      location?: string;
-    }
-  ) {
+  constructor(public payload: StockLocationSearchParams) {
     super(STOCK_DATA);
   }
 }
@@ -38,7 +31,7 @@ export class StockLevelFail extends StateUtils.LoaderFailAction {
 
 export class StockLevelSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = STOCK_LEVEL_SUCCESS;
-  constructor(public payload: any) {
+  constructor(public payload: StoreFinderStockSearchPage) {
     super(STOCK_DATA);
   }
 }

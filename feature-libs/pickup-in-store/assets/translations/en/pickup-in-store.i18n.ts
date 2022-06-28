@@ -5,7 +5,6 @@ const deliveryOptions = {
 
 export const pickupInStoreDialog = {
   close: 'Close',
-  msg: '{{ productCode }} is not available on Pickup Location:- {{ location }}',
   modalHeader: 'Pickup in Store',
 };
 

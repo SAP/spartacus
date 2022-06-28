@@ -28,12 +28,14 @@ describe('StoreScheduleComponent', () => {
     const storeDetails: PointOfService = undefined as unknown as PointOfService;
     component.storeDetails = storeDetails;
     component.ngOnInit();
+    expect(component.openingTimes).toEqual([]);
   });
 
   it('should fail gracefully when storeDetails input is an empty Object', () => {
     const storeDetails: PointOfService = {};
     component.storeDetails = storeDetails;
     component.ngOnInit();
+    expect(component.openingTimes).toEqual([]);
   });
 
   it('should fail gracefully when openingHours input is an empty Object', () => {
@@ -42,6 +44,7 @@ describe('StoreScheduleComponent', () => {
     };
     component.storeDetails = storeDetails;
     component.ngOnInit();
+    expect(component.openingTimes).toEqual([]);
   });
 
   it('should create an openingTimes array from storeDetails input', () => {

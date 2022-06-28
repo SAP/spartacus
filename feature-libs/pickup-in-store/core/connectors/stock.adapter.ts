@@ -1,6 +1,10 @@
+import { StoreFinderStockSearchPage } from '@spartacus/core';
+import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
 export abstract class StockAdapter {
-  // TODO type this
-  abstract loadStockLevels(productCode: string, location: any): Observable<any>;
+  abstract loadStockLevels(
+    productCode: string,
+    location: LocationSearchParams
+  ): Observable<StoreFinderStockSearchPage>;
 }

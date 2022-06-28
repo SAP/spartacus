@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { PointOfServiceStock } from '@spartacus/core';
-import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
+import {
+  PickupInStoreFacade,
+  StockLocationSearchParams,
+} from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { StockEntities, StockLocationSearchParams } from '../model/index';
+import { StockEntities } from '../model/index';
 import {
   HideOutOfStockOptionsAction,
+  HideOutOfStockSelectors,
   StateWithStock,
   StockLevelActions,
   StockSelectors,
-  HideOutOfStockSelectors,
 } from '../store/index';
 
 @Injectable()

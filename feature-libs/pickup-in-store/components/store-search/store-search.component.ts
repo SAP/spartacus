@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
-import { LocationSearchParams } from '@spartacus/pickup-in-store/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 
 @Component({
   selector: 'cx-store-search',
