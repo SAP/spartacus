@@ -13,7 +13,7 @@ cx-delivery-pickup-options-dialog {
       .cx-dialog-header {
         .cx-dialog-title {
           @include type('3');
-          margin-inline-start:var(--cx-margin-left,0.875rem)
+          margin-inline-start: var(--cx-margin-left, 0.875rem);
         }
       }
       .cx-dialog-header {

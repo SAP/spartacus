@@ -4,7 +4,6 @@ cx-store-search {
     flex-wrap: wrap;
     column-gap: 20px;
 
-
     .cx-find-a-store-label {
       @include type('6');
       width: 100%;
@@ -30,7 +29,6 @@ cx-store-search {
       margin-bottom: 0;
     }
     .cx-find-a-store-pseudo-link-container {
-
       @include media-breakpoint-down(sm) {
         margin: auto;
       }
@@ -42,13 +40,12 @@ cx-store-search {
         text-transform: uppercase;
         cursor: pointer;
 
-
-          &:nth-of-type(1) {
-            margin-inline-end: var(--cx-margin-right, 0.5rem);
-          }
-          &:nth-of-type(2) {
-            margin-inline-start: var(--cx-margin-right, 0.5rem);
-          }
+        &:nth-of-type(1) {
+          margin-inline-end: var(--cx-margin-right, 0.5rem);
+        }
+        &:nth-of-type(2) {
+          margin-inline-start: var(--cx-margin-right, 0.5rem);
+        }
 
         @include media-breakpoint-down(md) {
           display: inline-block;
@@ -68,7 +65,7 @@ cx-store-search {
       .cx-find-a-store-checkbox-group {
         display: flex;
 
-        @include media-breakpoint-down(sm){
+        @include media-breakpoint-down(sm) {
           flex-basis: 100%;
         }
         .cx-hide-out-of-stock-label {

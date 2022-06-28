@@ -16,7 +16,7 @@ describe('[Stock] Actions', () => {
   it('StockLevel', () => {
     const RESULT = new StockLevel({ productCode: 'P0001' });
     const EXPECTED: StockLevel = {
-      type:STOCK_LEVEL,
+      type: STOCK_LEVEL,
       meta: {
         entityType: '[Stock] Stock Data',
         loader: {
@@ -88,8 +88,8 @@ describe('[Stock] Actions', () => {
       type: CLEAR_STOCK_DATA,
       meta: {
         entityType: STOCK_DATA,
-        loader: {}
-      }
+        loader: {},
+      },
     };
 
     expect(RESULT.type).toEqual(EXPECTED.type);

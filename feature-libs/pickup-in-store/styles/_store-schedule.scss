@@ -12,8 +12,8 @@
   .cx-store-schedule-opening-times {
     @include type('6', 'light');
     display: flex;
-    font-size: var(--cx-font-size,0.875rem);
-    line-height: var(--cx-line-height,1.125rem);
+    font-size: var(--cx-font-size, 0.875rem);
+    line-height: var(--cx-line-height, 1.125rem);
     .cx-store-schedule-day-of-week {
       flex-grow: 1;
     }

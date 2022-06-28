@@ -112,7 +112,9 @@ describe('stock-selector', () => {
           hideOutOfStock: true,
         },
       });
-      const expectedResult: PointOfServiceStock[] = [storeWithStockInfoAndStock];
+      const expectedResult: PointOfServiceStock[] = [
+        storeWithStockInfoAndStock,
+      ];
       expect(result).toEqual(expectedResult);
     });
 
