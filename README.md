@@ -1,5 +1,7 @@
 # ![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)
 
+## test empty non breaking change things
+
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/spartacus)](https://api.reuse.software/info/github.com/SAP/spartacus)
 
 ## What is Spartacus?
