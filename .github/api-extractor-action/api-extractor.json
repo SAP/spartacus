@@ -286,7 +286,7 @@
          * DEFAULT VALUE: false
          */
         // "addToApiReportFile": false
-      }
+      },
 
       // "TS2551": {
       //   "logLevel": "warning",
@@ -305,8 +305,18 @@
      */
     "extractorMessageReporting": {
       "default": {
-        "logLevel": "warning"
-        // "addToApiReportFile": false
+        "logLevel": "warning",
+        "addToApiReportFile": false
+      },
+
+      // Spartaus: currently we don't use the release tags @alpha/@beta/@internal/@public in our JSDocs:
+      "ae-missing-release-tag": {
+        "logLevel": "none"
+      },
+
+      // Spartacus: disebled, because caused false-positive warnings e.g. when an interface is exported, but from a different library
+      "ae-forgotten-export": {
+        "logLevel": "none"
       }
 
       // "ae-extra-release-tag": {
@@ -326,7 +336,7 @@
      */
     "tsdocMessageReporting": {
       "default": {
-        "logLevel": "warning"
+        "logLevel": "none"
         // "addToApiReportFile": false
       }
 
