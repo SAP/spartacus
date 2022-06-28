@@ -134,6 +134,8 @@ export class AsmMainUiComponent implements OnInit {
       centered: true,
       size: 'mf',
       windowClass: 'fiori-like',
+      ariaLabelledBy: 'asm-customer-list-title',
+      ariaDescribedBy: 'asm-customer-list-desc',
     });
     this.modalRef.result
       .then(({ selectedUser, actionType }: CustomerListActionEvent) => {

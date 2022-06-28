@@ -6,9 +6,12 @@
   <!-- Modal Header -->
   <ng-container>
     <div class="cx-dialog-header modal-header">
-      <h2 class="title modal-title">
+      <h2 id="asm-customer-list-title" class="title modal-title">
         {{ 'asm.customerList.title' | cxTranslate }}
       </h2>
+      <div id="asm-customer-list-desc" class="cx-visually-hidden">
+        {{ 'asm.customerList.description' | cxTranslate }}
+      </div>
       <ng-template *ngTemplateOutlet="closeButton"></ng-template>
     </div>
     <div
