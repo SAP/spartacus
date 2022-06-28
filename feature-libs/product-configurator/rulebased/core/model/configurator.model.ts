@@ -169,6 +169,10 @@ export namespace Configurator {
     galleryIndex?: number;
   }
 
+  export interface Variant {
+    productCode: string;
+  }  
+
   export enum GroupType {
     ATTRIBUTE_GROUP = 'AttributeGroup',
     SUB_ITEM_GROUP = 'SubItemGroup',
