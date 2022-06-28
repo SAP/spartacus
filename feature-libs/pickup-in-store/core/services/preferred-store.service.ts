@@ -1,13 +1,22 @@
-import { Injectable } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { ConsentService, WindowRef } from '@spartacus/core';
 import { PREFERRED_STORE_LOCAL_STORAGE_KEY } from '@spartacus/pickup-in-store/root';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { PickupInStoreConfig } from '../config';
 
 /**
  * Service to store the user's preferred store for Pickup in Store in local storage.
  */
 @Injectable()
-export class PreferredStoreService {
-  constructor(protected readonly winRef: WindowRef) {}
+export class PreferredStoreService implements OnDestroy {
+  subscription: Subscription;
+
+  constructor(
+    protected readonly consentService: ConsentService,
+    protected config: PickupInStoreConfig,
+    protected readonly winRef: WindowRef
+  ) {}
 
   /**
    * Gets the user's preferred store for Pickup in Store.
@@ -22,10 +31,17 @@ export class PreferredStoreService {
    * @param preferredStore the preferred store to set
    */
   setPreferredStore(preferredStore: string): void {
-    this.winRef.localStorage?.setItem(
-      PREFERRED_STORE_LOCAL_STORAGE_KEY,
-      preferredStore
-    );
+    this.subscription = this.consentService
+      .checkConsentGivenByTemplateId(
+        this.config.pickupInStore?.consentTemplateId ?? ''
+      )
+      .pipe(filter((consentGiven) => consentGiven))
+      .subscribe(() => {
+        this.winRef.localStorage?.setItem(
+          PREFERRED_STORE_LOCAL_STORAGE_KEY,
+          preferredStore
+        );
+      });
   }
 
   /**
@@ -33,5 +49,12 @@ export class PreferredStoreService {
    */
   clearPreferredStore(): void {
     this.winRef.localStorage?.removeItem(PREFERRED_STORE_LOCAL_STORAGE_KEY);
+  }
+
+  /**
+   * Unsubscribes to dangling subscriptions before destroying the service.
+   */
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
