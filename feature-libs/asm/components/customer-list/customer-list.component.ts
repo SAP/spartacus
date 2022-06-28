@@ -6,7 +6,7 @@ import {
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '@spartacus/asm/root';
-import { SortModel, User } from '@spartacus/core';
+import { SortModel, TranslationService, User } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
@@ -14,7 +14,7 @@ import {
   ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CustomerListActionEvent } from './customer-list.model';
 
@@ -50,7 +50,7 @@ export class CustomerListComponent implements OnInit {
 
   loaded = false;
 
-  dateSorts: SortModel[] | null;
+  sorts: SortModel[] | null;
 
   sortCode: string | undefined;
 
@@ -62,7 +62,8 @@ export class CustomerListComponent implements OnInit {
     protected modalService: ModalService,
     protected asmService: AsmService,
     protected breakpointService: BreakpointService,
-    protected asmConfig: AsmConfig
+    protected asmConfig: AsmConfig,
+    protected translation: TranslationService
   ) {
     this.breakpoint$ = this.getBreakpoint();
   }
@@ -83,7 +84,7 @@ export class CustomerListComponent implements OnInit {
         tap((result) => {
           if (!this.selectedUserGroupId) {
             this.selectedUserGroupId = result?.userGroups?.[0].uid;
-            this.dateSorts = null;
+            this.sorts = null;
             this.fetchCustomers();
           }
         })
@@ -111,10 +112,8 @@ export class CustomerListComponent implements OnInit {
           tap((result) => {
             this.loaded = true;
             if (result.sorts) {
-              this.dateSorts = result.sorts;
-              this.sortCode = this.dateSorts.find(
-                (sort) => sort.selected
-              )?.code;
+              this.sorts = result.sorts;
+              this.sortCode = result.pagination?.sort;
             }
             if (result.entries.length < pageSize) {
               this.maxPage = result.pagination?.currentPage || 0;
@@ -128,7 +127,8 @@ export class CustomerListComponent implements OnInit {
 
   onChangeCustomerGroup(): void {
     this.currentPage = 0;
-    this.dateSorts = null;
+    this.sorts = null;
+    this.sortCode = '';
     this.fetchCustomers();
   }
 
@@ -161,6 +161,11 @@ export class CustomerListComponent implements OnInit {
     this.closeModal(closeValue);
   }
 
+  changeSortCode(sortCode: string): void {
+    this.sortCode = sortCode;
+    this.fetchCustomers();
+  }
+
   goToNextPage(): void {
     if (this.currentPage >= this.maxPage) {
       this.currentPage = this.maxPage;
@@ -185,6 +190,44 @@ export class CustomerListComponent implements OnInit {
 
   closeModal(reason?: any): void {
     this.modalService.closeActiveModal(reason);
+  }
+
+  getSortLabels(): Observable<{
+    byNameAsc: string;
+    byNameDesc: string;
+    byOrderDateAsc: string;
+    byOrderDateDesc: string;
+    byDateAsc: string;
+    byDateDesc: string;
+  }> {
+    return combineLatest([
+      this.translation.translate('asm.customerList.tableSort.byNameAsc'),
+      this.translation.translate('asm.customerList.tableSort.byNameDesc'),
+      this.translation.translate('asm.customerList.tableSort.byDateAsc'),
+      this.translation.translate('asm.customerList.tableSort.byDateDesc'),
+      this.translation.translate('asm.customerList.tableSort.byOrderDateAsc'),
+      this.translation.translate('asm.customerList.tableSort.byOrderDateDesc'),
+    ]).pipe(
+      map(
+        ([
+          textByNameAsc,
+          textByNameDesc,
+          textByOrderDateAsc,
+          textByOrderDateDesc,
+          textByDateAsc,
+          textByDateDesc,
+        ]) => {
+          return {
+            byNameAsc: textByNameAsc,
+            byNameDesc: textByNameDesc,
+            byOrderDateAsc: textByOrderDateAsc,
+            byOrderDateDesc: textByOrderDateDesc,
+            byDateAsc: textByDateAsc,
+            byDateDesc: textByDateDesc,
+          };
+        }
+      )
+    );
   }
 
   private getBreakpoint(): Observable<BREAKPOINT> {

@@ -253,29 +253,17 @@
 </ng-template>
 
 <ng-template #sort>
-  <label class="sort">
-    <cx-icon [type]="iconTypes.SORT_AMOUNT_DOWN"></cx-icon>
-    <span class="cx-visually-hidden">{{
-      'asm.customerList.tableSort.' + sortCode | cxTranslate
-    }}</span>
-    <ng-select
-      class="sort-selector"
-      *ngIf="dateSorts"
-      [searchable]="false"
-      [clearable]="false"
-      (change)="fetchCustomers()"
-      [tabIndex]="0"
-      [(ngModel)]="sortCode"
-      [cxNgSelectA11y]="{
-        ariaLabel: 'asm.customerList.tableSort.' + sortCode | cxTranslate,
-        ariaControls: 'asm-cusomer-list-table'
-      }"
-    >
-      <ng-option *ngFor="let sort of dateSorts" [value]="sort.code">
-        {{ 'asm.customerList.tableSort.' + sort.code | cxTranslate }}
-      </ng-option>
-    </ng-select>
-  </label>
+  <cx-sorting
+    class="sort-selector"
+    [sortOptions]="sorts"
+    [sortLabels]="getSortLabels() | async"
+    (sortListEvent)="changeSortCode($event)"
+    [selectedOption]="sortCode"
+    [cxNgSelectA11y]="{
+      ariaLabel: sortCode,
+      ariaControls: 'asm-cusomer-list-table'
+    }"
+  ></cx-sorting>
 </ng-template>
 
 <ng-template #pagination>

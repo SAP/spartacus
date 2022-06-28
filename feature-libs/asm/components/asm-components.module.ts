@@ -10,6 +10,7 @@ import {
   ModalModule,
   NgSelectA11yModule,
   PasswordVisibilityToggleModule,
+  SortingModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
@@ -35,6 +36,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     PasswordVisibilityToggleModule,
     KeyboardFocusModule,
     NgSelectA11yModule,
+    SortingModule,
   ],
   declarations: [
     AsmMainUiComponent,

@@ -100,7 +100,7 @@ export function asmCustomerLists(): void {
   });
 
   cy.log('--> checking customer list sorting');
-  cy.get('cx-customer-list ng-select.sort-selector').then((selects) => {
+  cy.get('cx-customer-list .sort-selector').then((selects) => {
     let select = selects[0];
     cy.wrap(select)
       .click()

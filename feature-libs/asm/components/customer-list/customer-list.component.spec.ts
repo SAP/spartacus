@@ -249,17 +249,17 @@ describe('CustomerListComponent', () => {
     );
   });
 
-  it('should sort customer list', () => {
+  it('should get customer list with different requests', () => {
     spyOn(asmService, 'searchCustomers').and.callThrough();
 
     if (config.asm?.customerList?.pageSize) {
       config.asm.customerList.pageSize = undefined;
     }
-    component.sortCode = 'byNameAsc';
+    component.changeSortCode('byNameAsc');
 
-    component.fetchCustomers();
-
+    console.log(component.selectedUserGroupId);
     fixture.detectChanges();
+    expect(component.sortCode).toBe('byNameAsc');
     expect(asmService.searchCustomers).toHaveBeenCalledWith({
       customerListId: mockCustomerListPage?.userGroups?.[0].uid,
       pageSize: 5,
