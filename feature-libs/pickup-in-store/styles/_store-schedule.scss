@@ -1,12 +1,21 @@
-.cx-store-schedule-title {
-  @include type('4', 'semi')
-}
+.cx-store-schedule-container {
+  margin-top: 1.5rem;
+  margin-bottom: 0.25rem;
+  @include media-breakpoint-up(lg) {
+    width: 70%;
+  }
+  .cx-store-schedule-title {
+    @include type('4', 'semi');
+    margin-bottom: 1rem;
+  }
 
-.cx-store-schedule-opening-times {
-  @include type('6', 'normal');
-  display: flex;
-
-  .cx-store-schedule-day-of-week {
-    flex-grow: 1;
+  .cx-store-schedule-opening-times {
+    @include type('6', 'light');
+    display: flex;
+    font-size: var(--cx-font-size,0.875rem);
+    line-height: var(--cx-line-height,1.125rem);
+    .cx-store-schedule-day-of-week {
+      flex-grow: 1;
+    }
   }
 }

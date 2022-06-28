@@ -26,9 +26,10 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
   ngOnInit() {
     this.pickupInStoreFacade.clearStockData();
     this.launchDialogService.data$.subscribe(({ productCode }) => {
-      (this.productCode = productCode);
+      this.productCode = productCode;
     });
-    this.getHideOutOfStockState$ = this.pickupInStoreFacade.getHideOutOfStockState();
+    this.getHideOutOfStockState$ =
+      this.pickupInStoreFacade.getHideOutOfStockState();
   }
 
   onFindStores(locationSearchParams: LocationSearchParams): void {

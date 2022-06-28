@@ -12,13 +12,10 @@ describe('stockReducer', () => {
     expect(newState).toEqual({ findStockLevelByCode: stockEntities });
   });
 
-
   it('should clear the slice of state of data', () => {
     const initialState: StockLevelState = fromReducer.initialState;
     const action = new ClearStockData();
     const newState = fromReducer.stockReducer(initialState, action);
     expect(newState).toEqual({ findStockLevelByCode: {} });
   });
-
-
 });

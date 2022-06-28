@@ -10,7 +10,7 @@ describe('PickupInStoreService', () => {
   let store: Store<{}>;
 
   const stockLocationSearchParams: StockLocationSearchParams = {
-    productCode: 'P0001'
+    productCode: 'P0001',
   };
 
   beforeEach(() => {

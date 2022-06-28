@@ -3,7 +3,9 @@
     <div class="cx-dialog-content">
       <!-- Modal Header -->
       <div class="modal-header cx-dialog-header">
-        <div class="cx-dialog-title">{{ 'pickupInStoreDialog.modalHeader' | cxTranslate }}</div>
+        <div class="cx-dialog-title">
+          {{ 'pickupInStoreDialog.modalHeader' | cxTranslate }}
+        </div>
 
         <button
           (click)="close('Close Pick A Store Dialog')"
@@ -18,9 +20,7 @@
       </div>
 
       <!-- Modal Body -->
-      <section
-        class="cx-dialog-body modal-body"
-      >
+      <section class="cx-dialog-body modal-body">
         <cx-store-search
           [hideOutOfStock]="getHideOutOfStockState$ | async"
           (findStores)="onFindStores($event)"

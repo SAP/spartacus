@@ -13,7 +13,7 @@
       #txtFindAStore
     />
   </div>
-  <div>
+  <div class="cx-find-a-store-button">
     <button
       (click)="onFindStores(txtFindAStore.value)"
       class="btn btn-primary btn-block"
@@ -21,7 +21,7 @@
       {{ 'storeSearch.findStores' | cxTranslate }}
     </button>
   </div>
-  <div>
+  <div class="cx-find-a-store-pseudo-link-container">
     <span class="cx-find-a-store-pseudo-link" (click)="useMyLocation()">
       {{ 'storeSearch.useMyLocation' | cxTranslate }}
     </span>

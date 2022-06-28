@@ -26,8 +26,7 @@ const _stockReducer = createReducer(
       ...state,
       findStockLevelByCode: {},
     })
-  ),
-
+  )
 );
 
 export function stockReducer(

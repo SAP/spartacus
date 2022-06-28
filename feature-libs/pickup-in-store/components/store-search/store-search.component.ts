@@ -11,7 +11,6 @@ export class StoreSearchComponent {
 
   @Input() hideOutOfStock: boolean = false;
 
-
   constructor() {}
 
   onFindStores(location: string): boolean {

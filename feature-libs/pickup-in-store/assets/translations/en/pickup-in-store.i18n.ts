@@ -12,7 +12,7 @@ export const pickupInStoreDialog = {
 export const store = {
   stockLevel_zero: 'Out of Stock',
   stockLevel_other: '{{ count }} in Stock',
-  pickupFromHere: 'Pickup from here',
+  pickupFromHere: 'Pick Up from here',
   viewHours: 'View Hours',
 };
 
