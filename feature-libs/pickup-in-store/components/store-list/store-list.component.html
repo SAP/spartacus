@@ -1,15 +1,10 @@
-<div
-  *ngIf="
-    !(isLoading$ | async) && (locations$ | async) as locations;
-    else loading
-  "
->
+<div *ngIf="!(isLoading$ | async) && (stores$ | async) as stores; else loading">
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
-  <div *ngIf="locations?.stores?.length">
-    <div class="cx-pagination"></div>
-  </div>
 
-  <div class="container" *ngIf="!locations?.stores?.length">
+  <div
+    class="container"
+    *ngIf="(searchHasBeenPerformed$ | async) && stores.length === 0"
+  >
     <div class="row">
       <span class="cx-no-stores" role="alert">
         {{ 'storeFinder.noStoresMessage' | cxTranslate }}
@@ -17,11 +12,8 @@
     </div>
   </div>
 
-  <div class="container" *ngIf="locations?.stores?.length">
-    <cx-store
-      *ngFor="let store of locations.stores"
-      [storeDetails]="store"
-    ></cx-store>
+  <div *ngIf="stores.length">
+    <cx-store *ngFor="let store of stores" [storeDetails]="store"></cx-store>
   </div>
 </div>
 <ng-template #loading>

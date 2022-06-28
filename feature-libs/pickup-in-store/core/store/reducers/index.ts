@@ -5,18 +5,20 @@ import {
   ActionReducerMap,
   MetaReducer,
 } from '@ngrx/store';
-import { SiteContextActions, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
 
-import { StockActions } from '../actions/index';
+import { StockLevelActions } from '../actions/index';
 import { StockLevelState, StockState, STOCK_DATA } from '../stock-state';
-import { stockReducer } from './stock.reducer';
+import { stockReducer } from './stock-level.reducer';
+import { hideOutOfStockReducer } from './hide-out-of-stock.reducer';
 
 export function getReducers(): ActionReducerMap<StockState> {
   return {
-    stock: StateUtils.loaderReducer<StockLevelState, any>(
+    stockLevel: StateUtils.loaderReducer<StockLevelState, any>(
       STOCK_DATA,
       stockReducer
     ),
+    hideOutOfStock: hideOutOfStockReducer,
   };
 }
 
@@ -32,13 +34,11 @@ export function clearStockState(
   reducer: ActionReducer<StockState, Action>
 ): ActionReducer<StockState, Action> {
   return function (state, action) {
-    if (action.type === SiteContextActions.LANGUAGE_CHANGE) {
-      state = undefined;
-    }
-    if (action.type === StockActions.CLEAR_STOCK_DATA) {
-      state = undefined;
-    }
-    return reducer(state, action);
+    const STATE = new Map([[StockLevelActions.CLEAR_STOCK_DATA, undefined]]);
+    return reducer(
+      STATE.has(action.type) ? STATE.get(action.type) : state,
+      action
+    );
   };
 }
 

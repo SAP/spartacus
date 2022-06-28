@@ -14,7 +14,15 @@ import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.compon
 import createSpy = jasmine.createSpy;
 
 class MockPickupInStoreFacade implements PickupInStoreFacade {
-  getStore = createSpy();
+  getStock = createSpy();
+  clearStockData = createSpy();
+  hideOutOfStock = createSpy();
+  getHideOutOfStockState = createSpy();
+  getStockLoading = createSpy();
+  getStockSuccess = createSpy();
+  getSearchHasBeenPerformed = createSpy();
+  getStockEntities = createSpy();
+  getStores = createSpy();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -35,7 +43,6 @@ describe('PickupDeliveryOptionsComponent', () => {
   let component: PickupDeliveryOptionsComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionsComponent>;
   let launchDialogService: LaunchDialogService;
-  let service: PickupInStoreFacade;
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
@@ -57,7 +64,6 @@ describe('PickupDeliveryOptionsComponent', () => {
   const stubServiceAndCreateComponent = () => {
     fixture = TestBed.createComponent(PickupDeliveryOptionsComponent);
     component = fixture.componentInstance;
-    service = TestBed.inject(PickupInStoreFacade);
     launchDialogService = TestBed.inject(LaunchDialogService);
 
     spyOn(launchDialogService, 'openDialog').and.callThrough();
@@ -71,9 +77,8 @@ describe('PickupDeliveryOptionsComponent', () => {
       stubServiceAndCreateComponent();
     });
 
-    it('should create and call getStore', () => {
+    it('should create', () => {
       expect(component).toBeDefined();
-      expect(service.getStore).toHaveBeenCalled();
     });
 
     it('should trigger and open dialog', () => {
@@ -82,7 +87,7 @@ describe('PickupDeliveryOptionsComponent', () => {
         LAUNCH_CALLER.PICKUP_IN_STORE,
         component.element,
         component['vcr'],
-        { msg: 'London', productCode: undefined }
+        { productCode: undefined }
       );
     });
 
@@ -110,7 +115,7 @@ describe('PickupDeliveryOptionsComponent', () => {
         LAUNCH_CALLER.PICKUP_IN_STORE,
         component.element,
         component['vcr'],
-        { msg: 'London', productCode: contextData.productCode }
+        { productCode: contextData.productCode }
       );
     });
   });

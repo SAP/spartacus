@@ -7,5 +7,6 @@ import { StoreSearchComponent } from './store-search.component';
   imports: [CommonModule, I18nModule],
   exports: [StoreSearchComponent],
   declarations: [StoreSearchComponent],
+  providers: [],
 })
 export class StoreSearchModule {}

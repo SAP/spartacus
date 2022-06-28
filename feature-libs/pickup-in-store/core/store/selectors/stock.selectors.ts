@@ -1,29 +1,55 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { StateUtils } from '@spartacus/core';
-import { StateWithStock, StockLevelState, StockState } from '../stock-state';
-import { getStoreFinderState } from './feature.selector';
+import { PointOfServiceStock, StateUtils } from '@spartacus/core';
+import { StateWithStock, StockLevelState } from '../stock-state';
+import { getStockState } from './feature.selector';
+import { getHideOutOfStockState } from './hide-out-of-stock.selectors';
 
-export const getStockState: MemoizedSelector<
+export const getStockLevelState: MemoizedSelector<
   StateWithStock,
   StateUtils.LoaderState<StockLevelState>
-> = createSelector(
-  getStoreFinderState,
-  (stockState: StockState) => stockState.stock
-);
+> = createSelector(getStockState, (stockState) => stockState.stockLevel);
 
-export const getFindStoresEntities: MemoizedSelector<
+export const getStockEntities: MemoizedSelector<
   StateWithStock,
   StockLevelState
-> = createSelector(getStockState, (state) =>
+> = createSelector(getStockLevelState, (state) =>
   StateUtils.loaderValueSelector(state)
 );
 
-export const getStoresLoading: MemoizedSelector<StateWithStock, boolean> =
-  createSelector(getStockState, (state) =>
+export const getStockLoading: MemoizedSelector<StateWithStock, boolean> =
+  createSelector(getStockLevelState, (state) =>
     StateUtils.loaderLoadingSelector(state)
   );
 
-export const getStoresSuccess: MemoizedSelector<StateWithStock, boolean> =
-  createSelector(getStockState, (state) =>
+export const getStockSuccess: MemoizedSelector<StateWithStock, boolean> =
+  createSelector(getStockLevelState, (state) =>
     StateUtils.loaderSuccessSelector(state)
   );
+
+export const getStockError: MemoizedSelector<StateWithStock, boolean> =
+  createSelector(getStockLevelState, (state) =>
+    StateUtils.loaderErrorSelector(state)
+  );
+
+export const getSearchHasBeenPerformed: MemoizedSelector<
+  StateWithStock,
+  boolean
+> = createSelector(
+  getStockLoading,
+  getStockSuccess,
+  getStockError,
+  (_getStockLoading, _getStockSuccess, _getStockError) =>
+    _getStockLoading || _getStockSuccess || _getStockError
+);
+
+export const getStores: MemoizedSelector<
+  StateWithStock,
+  PointOfServiceStock[]
+> = createSelector(
+  getStockEntities,
+  getHideOutOfStockState,
+  (stockEntities, hideOutOfStock) =>
+    (stockEntities.findStockLevelByCode.stores ?? []).filter(
+      (store) => (store.stockInfo?.stockLevel ?? 0) > 0 || !hideOutOfStock
+    )
+);

@@ -4,30 +4,22 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
+import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
 import { StoreFinderModule } from '@spartacus/storefinder';
-import { StoreEntities, StoreFinderService } from '@spartacus/storefinder/core';
-import { of } from 'rxjs';
+import { SpinnerModule } from '@spartacus/storefront';
+import { MockPickupInStoreService } from 'feature-libs/pickup-in-store/core/facade/pickup-in-store.service.spec';
 import { StoreListComponent } from './store-list.component';
-
-class MockStoreFinderService implements Partial<StoreFinderService> {
-  getFindStoresEntities() {
-    return of<StoreEntities>();
-  }
-  getStoresLoading() {
-    return of(false);
-  }
-  findStoresAction() {}
-}
 
 describe('StoreListComponent', () => {
   let component: StoreListComponent;
   let fixture: ComponentFixture<StoreListComponent>;
-  let storeFinderService: StoreFinderService;
+  let pickupInStoreService: PickupInStoreFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         I18nTestingModule,
+        SpinnerModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
         HttpClientTestingModule,
@@ -36,13 +28,13 @@ describe('StoreListComponent', () => {
       ],
       declarations: [StoreListComponent],
       providers: [
-        { provide: StoreFinderService, useClass: MockStoreFinderService },
+        { provide: PickupInStoreFacade, useClass: MockPickupInStoreService },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StoreListComponent);
     component = fixture.componentInstance;
-    storeFinderService = TestBed.inject(StoreFinderService);
+    pickupInStoreService = TestBed.inject(PickupInStoreFacade);
 
     fixture.detectChanges();
   });
@@ -52,12 +44,18 @@ describe('StoreListComponent', () => {
   });
 
   it('should get local stores on init', () => {
-    spyOn(storeFinderService, 'getFindStoresEntities');
-    spyOn(storeFinderService, 'getStoresLoading');
-    spyOn(storeFinderService, 'findStoresAction');
+    spyOn(pickupInStoreService, 'getStores');
+    spyOn(pickupInStoreService, 'getStockLoading');
+    spyOn(pickupInStoreService, 'getSearchHasBeenPerformed');
     component.ngOnInit();
-    expect(storeFinderService.getStoresLoading).toHaveBeenCalled();
-    expect(storeFinderService.getFindStoresEntities).toHaveBeenCalled();
-    expect(storeFinderService.findStoresAction).toHaveBeenCalled();
+    expect(pickupInStoreService.getStores).toHaveBeenCalled();
+    expect(pickupInStoreService.getStockLoading).toHaveBeenCalled();
+    expect(pickupInStoreService.getSearchHasBeenPerformed).toHaveBeenCalled();
+  });
+
+  it('get storeSearch() returns storeFinderSearchQuery', () => {
+    component.storeSearch = {};
+    fixture.detectChanges();
+    expect(component.storeSearch).toEqual({});
   });
 });

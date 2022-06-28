@@ -2,8 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 
 type OpeningTime = {
-  weekDay: string;
-  openingHours: string;
+  weekDay?: string;
+  openingHours?: string;
+  closed?: boolean;
 };
 
 @Component({

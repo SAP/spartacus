@@ -1,5 +1,3 @@
-import { PointOfServiceStock } from '@spartacus/core';
+import { StoreFinderStockSearchPage } from '@spartacus/core';
 
-export interface StockEntities {
-  [productCode: string]: PointOfServiceStock;
-}
+export type StockEntities = StoreFinderStockSearchPage;

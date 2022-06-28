@@ -1,6 +1,6 @@
 import { Address } from './address.model';
 import { Image, Images } from './image.model';
-import { GeoPoint, User } from './misc.model';
+import { GeoPoint, User, PaginationModel, SortModel } from './misc.model';
 import { OpeningSchedule } from './point-of-service.model';
 
 export interface VariantOptionQualifier {
@@ -221,4 +221,17 @@ export interface PointOfServiceStock {
   storeContent?: string;
   storeImages?: Image[];
   url?: string;
+}
+
+export interface StoreFinderStockSearchPage {
+  boundEastLongitude?: number;
+  boundSouthLatitude?: number;
+  boundWestLongitude?: number;
+  locationText?: string;
+  pagination?: PaginationModel;
+  product?: Product;
+  sorts?: SortModel[];
+  sourceLatitude?: number;
+  sourceLongitude?: number;
+  stores?: PointOfServiceStock[];
 }

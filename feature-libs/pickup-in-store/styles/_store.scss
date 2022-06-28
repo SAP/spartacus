@@ -1,36 +1,69 @@
 cx-store {
   .cx-store {
-    font-size: 14px;
     display: flex;
     border-top: solid thin $gray-500;
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
   }
 
   .cx-store-address {
+    @include type('7');
     flex-grow: 1;
-  }
 
-  .cx-store-address-name {
-    font-weight: 900;
+    .cx-store-name {
+      @include type('5');
+    }
+    .cx-store-full-address {
+      padding-top: 1rem;
+      line-height: var(--cx-line-height, 1.125rem);
+    }
   }
 
   .cx-store-distance {
+    @include type('7');
     text-align: end;
   }
 
   .cx-store-opening-hours-toggle {
-    color: #1672b7;
+    @include type('6');
+    color: $cx-color-link-primary;
     cursor: pointer;
     user-select: none;
+    text-decoration: underline;
+    .cx-store-opening-hours-icon {
+      color: var(--cx-color-secondary);
+      opacity: var(--cx-opacity, 0.5);
+    }
+    padding-top: 0.5rem;
   }
 
+  .cx-stock-level {
+    @include type('6');
+  }
+
+  .cx-store-stock-icon {
+    color: var(--cx-color-secondary);
+    opacity: var(--cx-opacity, 0.5);
+  }
+
+  .cx-store-out-of-stock {
+    color: var(--cx-color-danger);
+  }
+
+  .cx-store-in-stock {
+    color: var(--cx-color-success);
+  }
+
+  // TODO update this with new styling when wires are updated
   .cx-store-pick-up-from-here {
-    padding: 25px 0 25px 0;
+    width: 92%;
+    margin: auto;
+    padding: 0 0 25px 0;
     button {
       width: 100%;
       height: 48px;
-      border-radius: 24px;
-      border: solid 3px #1672b7;
-      color: #1672b7;
+      border: solid 3px $black;
+      color: $black;
       background-color: transparent;
       font-weight: 600;
       user-select: none;
