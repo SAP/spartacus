@@ -1,7 +1,5 @@
 # ![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)
 
-## test empty non breaking change things
-
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/spartacus)](https://api.reuse.software/info/github.com/SAP/spartacus)
 
 ## What is Spartacus?
@@ -134,3 +132,5 @@ Many improvements are coming! All tasks will be posted to our GitHub issue track
 
 Copyright (c) 2021 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE) file.
+
+## stuff test
