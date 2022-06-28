@@ -5,11 +5,13 @@ import {
   cartWithB2bProductAndPremiumShipping,
   order_type,
   POWERTOOLS_BASESITE,
+  recurrencePeriod,
 } from '../../../../sample-data/b2b-checkout';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
-context('B2B - Account Checkout flow', () => {
+context(`B2B - ${recurrencePeriod.DAILY} Replenishment Checkout flow`, () => {
   before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
+    clearAllStorage();
     Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
   });
 
@@ -47,17 +49,21 @@ context('B2B - Account Checkout flow', () => {
       b2bAccountShipToUser,
       cartWithB2bProductAndPremiumShipping,
       true,
-      order_type.PLACE_ORDER
+      order_type.SCHEDULE_REPLENISHMENT
     );
 
-    b2bCheckout.placeOrder('/order-confirmation');
+    b2bCheckout.completeReplenishmentForm(recurrencePeriod.DAILY);
+
+    b2bCheckout.placeOrder('/replenishment/confirmation');
   });
 
   it('should display summary page', () => {
     b2bCheckout.reviewB2bOrderConfirmation(
       b2bAccountShipToUser,
       b2bProduct,
-      cartWithB2bProductAndPremiumShipping
+      cartWithB2bProductAndPremiumShipping,
+      true,
+      recurrencePeriod.DAILY
     );
   });
 });
