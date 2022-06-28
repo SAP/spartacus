@@ -425,7 +425,13 @@ describe('AsmMainUiComponent', () => {
     component.showCustomList();
     expect(modalService.open).toHaveBeenCalledWith(
       CustomerListComponent,
-      Object({ centered: true, size: 'mf', windowClass: 'fiori-like' })
+      Object({
+        centered: true,
+        size: 'mf',
+        windowClass: 'fiori-like',
+        ariaLabelledBy: 'asm-customer-list-title',
+        ariaDescribedBy: 'asm-customer-list-desc',
+      })
     );
   });
 
