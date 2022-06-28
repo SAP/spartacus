@@ -10,10 +10,7 @@ import { BUNDLES_FEATURE } from './feature-name';
     provideDefaultConfig({
       featureModules: {
         [BUNDLES_FEATURE]: {
-          cmsComponents: [
-            'BundleCarouselComponent',
-            'ProductReferencesComponent',
-          ],
+          cmsComponents: ['BundleCarouselComponent', 'CartTotalsComponent'],
         },
       },
     }),

@@ -28,7 +28,7 @@ import { BundleSummaryComponent } from './components/bundle-summary/bundle-summa
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        ProductReferencesComponent: {
+        CartTotalsComponent: {
           component: BundleMainComponent,
         },
       },
