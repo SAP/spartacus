@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
@@ -35,7 +36,7 @@ import { UserItemService } from '../services/user-item.service';
     },
   ],
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, OnDestroy {
   form: FormGroup | null = this.itemService.getForm();
 
   /**
@@ -70,6 +71,10 @@ export class UserFormComponent implements OnInit {
     protected userProfileFacade: UserProfileFacade,
     protected b2bUserService: B2BUserService
   ) {}
+
+  ngOnDestroy(): void {
+    console.log('test');
+  }
 
   ngOnInit(): void {
     this.unitService.loadList();
