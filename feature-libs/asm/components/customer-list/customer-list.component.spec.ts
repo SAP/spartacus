@@ -413,7 +413,7 @@ describe('CustomerListComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.queryAll(By.css('.header-actions.mobile')).length
+      fixture.debugElement.queryAll(By.css('.cx-header-actions.mobile')).length
     ).toEqual(1);
   });
 
@@ -425,7 +425,7 @@ describe('CustomerListComponent', () => {
     fixture.detectChanges();
 
     expect(
-      fixture.debugElement.queryAll(By.css('.header-actions.mobile')).length
+      fixture.debugElement.queryAll(By.css('.cx-header-actions.mobile')).length
     ).toEqual(0);
   });
 });

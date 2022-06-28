@@ -60,7 +60,7 @@ export function agentLogin(): void {
 }
 
 export function asmOpenCustomerList(): void {
-  cy.get('cx-asm-main-ui div.asm-customer-list a').click();
+  cy.get('cx-asm-main-ui div.cx-asm-customer-list a').click();
   cy.get('cx-customer-list').should('exist');
   cy.get('cx-customer-list h2').should('exist');
 }
@@ -84,15 +84,15 @@ export function asmCustomerLists(): void {
   cy.get('cx-customer-list table').should('exist');
 
   cy.log('--> checking customer list pagination');
-  cy.get('cx-customer-list .btn-previous').should('be.disabled');
-  cy.get('cx-customer-list .btn-next').then((button) => {
+  cy.get('cx-customer-list .cx-btn-previous').should('be.disabled');
+  cy.get('cx-customer-list .cx-btn-next').then((button) => {
     cy.wrap(button).click();
     cy.wait(customerSearchRequestAlias)
       .its('response.statusCode')
       .should('eq', 200);
   });
-  cy.get('cx-customer-list .btn-previous').should('not.be.disabled');
-  cy.get('cx-customer-list .btn-previous').then((button) => {
+  cy.get('cx-customer-list .cx-btn-previous').should('not.be.disabled');
+  cy.get('cx-customer-list .cx-btn-previous').then((button) => {
     cy.wrap(button).click();
     cy.wait(customerSearchRequestAlias)
       .its('response.statusCode')
@@ -143,7 +143,7 @@ export function asmCustomerLists(): void {
     .should('eq', 200);
 
   cy.get('cx-customer-list')
-    .find('.btn-cell')
+    .find('.cx-btn-cell')
     .not('[aria-label="Order"]')
     .then(($rows) => {
       expect($rows.length).to.eq(5);
@@ -159,7 +159,7 @@ export function asmCustomerLists(): void {
   cy.log('--> start emulation by click order');
   asm.asmOpenCustomerList();
   cy.get('cx-customer-list')
-    .find('.btn-cell')
+    .find('.cx-btn-cell')
     .filter('[aria-label="Order"]')
     .then(($rows) => {
       expect($rows.length).to.eq(5);

@@ -14,11 +14,11 @@
   </div>
   <div class="asm-bar-actions">
     <div
-      class="asm-customer-list"
+      class="cx-asm-customer-list"
       *ngIf="customerSupportAgentLoggedIn$ | async"
     >
       <cx-icon [type]="iconTypes.USER_FRIENDS"></cx-icon>
-      <a class="asm-customer-list-link" (click)="showCustomList()"
+      <a class="cx-asm-customer-list-link" (click)="showCustomList()"
         ><span>{{ 'asm.customers' | cxTranslate }}</span></a
       >
     </div>

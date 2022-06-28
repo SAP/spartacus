@@ -28,7 +28,7 @@ $sapContent_LabelColor: #6a6d70;
     padding-inline-start: 1.75rem;
     border-width: 0;
     display: flex;
-    .header-actions {
+    .cx-header-actions {
       display: flex;
       .sort {
         display: flex;
@@ -43,7 +43,7 @@ $sapContent_LabelColor: #6a6d70;
           font-size: 0.875rem;
         }
       }
-      .pagination-buttons {
+      .cx-pagination-buttons {
         display: flex;
         align-items: center;
         cx-icon {
@@ -59,12 +59,12 @@ $sapContent_LabelColor: #6a6d70;
           text-decoration: none;
           color: $sapLinkColor;
         }
-        .btn-previous {
+        .cx-btn-previous {
           span {
             padding: 0 0 0 5px;
           }
         }
-        .btn-next {
+        .cx-btn-next {
           span {
             padding: 0 5px 0 0;
           }
@@ -86,7 +86,7 @@ $sapContent_LabelColor: #6a6d70;
         }
       }
     }
-    .header-actions.mobile {
+    .cx-header-actions.mobile {
       flex-direction: column;
     }
   }
@@ -117,19 +117,15 @@ $sapContent_LabelColor: #6a6d70;
       td {
         font-size: 0.875rem;
         color: $sapTextColor;
-        .header-text {
+        .cx-header-text {
           color: $sapContent_LabelColor;
           font-weight: 400;
         }
       }
     }
-    th.cell-text-center,
-    td.cell-text-center {
-      text-align: center;
-    }
   }
 
-  .btn-cell {
+  .cx-btn-cell {
     text-decoration: none;
     color: $sapLinkColor;
     padding: 0;
@@ -137,10 +133,10 @@ $sapContent_LabelColor: #6a6d70;
     min-height: 1.15rem;
     width: fit-content;
   }
-  .avatar-cell {
+  .cx-avatar-cell {
     width: 65px;
     vertical-align: top;
-    .avatar {
+    .cx-avatar {
       width: 44px;
       height: 44px;
       line-height: 44px;
@@ -153,20 +149,20 @@ $sapContent_LabelColor: #6a6d70;
     }
   }
 
-  .cell-container {
+  .cx-cell-container {
     display: flex;
     align-items: center;
     min-height: 44px;
     padding: 5px 0;
   }
 
-  .action-color {
+  .cx-action-color {
     color: $sapLinkColor;
   }
 
-  .multi-cell {
+  .cx-multi-cell {
     vertical-align: top;
-    .cell-container {
+    .cx-cell-container {
       flex-direction: column;
       align-items: flex-start;
       button {
@@ -178,7 +174,7 @@ $sapContent_LabelColor: #6a6d70;
     }
   }
 
-  .empty-state {
+  .cx-empty-state {
     display: flex;
     justify-content: center;
     margin: 50px 0 0 0;

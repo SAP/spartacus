@@ -1,5 +1,5 @@
 <div
-  class="asm-customer-list"
+  class="cx-asm-customer-list"
   [cxFocus]="focusConfig"
   (esc)="closeModal('Escape clicked')"
 >
@@ -26,7 +26,7 @@
         "
       ></ng-template>
       <div
-        class="header-actions"
+        class="cx-header-actions"
         [class.mobile]="(breakpoint$ | async) === BREAKPOINT.xs"
       >
         <ng-template *ngTemplateOutlet="sort"></ng-template>
@@ -53,7 +53,7 @@
                 <tr role="row">
                   <th
                     role="columnheader"
-                    class="avatar-cell"
+                    class="cx-avatar-cell"
                     *ngIf="customerListConfig?.showAvatar"
                   >
                     <span class="cx-visually-hidden">
@@ -80,9 +80,9 @@
                   <td
                     role="cell"
                     *ngIf="customerListConfig?.showAvatar"
-                    class="avatar-cell"
+                    class="cx-avatar-cell"
                   >
-                    <div class="avatar">
+                    <div class="cx-avatar">
                       {{ getbadgeText(customerEntry) }}
                     </div>
                   </td>
@@ -106,7 +106,7 @@
                   </ng-container>
                   <!-- two column if tablet -->
                   <ng-container *ngIf="(breakpoint$ | async) === BREAKPOINT.sm">
-                    <td role="cell" class="multi-cell">
+                    <td role="cell" class="cx-multi-cell">
                       <ng-container
                         *ngFor="
                           let column of customerListConfig?.columns;
@@ -127,7 +127,7 @@
                         </ng-container>
                       </ng-container>
                     </td>
-                    <td role="cell" class="multi-cell">
+                    <td role="cell" class="cx-multi-cell">
                       <ng-container
                         *ngFor="
                           let column of customerListConfig?.columns;
@@ -152,7 +152,7 @@
                   <!-- one column if mobile -->
                   <td
                     role="cell"
-                    class="multi-cell"
+                    class="cx-multi-cell"
                     *ngIf="(breakpoint$ | async) === BREAKPOINT.xs"
                   >
                     <ng-container
@@ -174,7 +174,7 @@
               </tbody>
             </table>
             <div
-              class="empty-state"
+              class="cx-empty-state"
               *ngIf="!customerSearchPage?.entries.length"
             >
               {{ 'asm.customerList.noCustomers' | cxTranslate }}
@@ -192,8 +192,8 @@
   let-column="column"
   let-showHeader="showHeader"
 >
-  <div class="cell-container">
-    <span class="header-text" *ngIf="showHeader">
+  <div class="cx-cell-container">
+    <span class="cx-header-text" *ngIf="showHeader">
       {{ column.headerLocalizationKey | cxTranslate }}
     </span>
 
@@ -209,7 +209,7 @@
     <button
       *ngIf="column.actionType"
       (click)="startColumnAction(customerEntry, column.actionType)"
-      class="btn btn-link cx-action-link btn-cell"
+      class="btn btn-link cx-action-link cx-btn-cell"
       [attr.title]="
         column.icon
           ? (column.icon.captionLocalizationKey ?? column.headerLocalizationKey
@@ -244,7 +244,7 @@
           | cxTranslate)
         : undefined
     "
-    [class.action-color]="column.actionType"
+    [class.cx-action-color]="column.actionType"
     [type]="column.icon.symbol"
     [attr.aria-label]="
       !column.actionType
@@ -270,7 +270,7 @@
 </ng-template>
 
 <ng-template #pagination>
-  <div class="pagination-buttons">
+  <div class="cx-pagination-buttons">
     <div>
       {{
         'asm.customerList.page.page' | cxTranslate: { count: currentPage + 1 }
@@ -279,7 +279,7 @@
     <button
       *ngIf="maxPage > 0"
       (click)="goToPreviousPage()"
-      class="btn btn-link cx-action-link btn-previous"
+      class="btn btn-link cx-action-link cx-btn-previous"
       [disabled]="currentPage === 0 || !loaded"
     >
       <cx-icon class="previous" [type]="iconTypes.CARET_LEFT"></cx-icon
@@ -288,7 +288,7 @@
     <button
       *ngIf="maxPage > 0"
       (click)="goToNextPage()"
-      class="btn btn-link cx-action-link btn-next"
+      class="btn btn-link cx-action-link cx-btn-next"
       [disabled]="currentPage === maxPage || !loaded"
     >
       <span>{{ 'asm.customerList.page.next' | cxTranslate }}</span
