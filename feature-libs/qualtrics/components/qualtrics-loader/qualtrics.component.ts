@@ -16,7 +16,7 @@ export class QualtricsComponent {
     protected config: QualtricsConfig,
     protected globalConfigType: Config
   ) {
-    console.log('find me', this.globalConfigType);
+    console.log('find me', this.globalConfigType.v);
 
     if (this.config.qualtrics?.scriptSource) {
       this.qualtricsLoader.addScript(this.config.qualtrics.scriptSource);
