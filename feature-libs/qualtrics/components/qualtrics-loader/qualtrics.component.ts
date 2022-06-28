@@ -16,10 +16,7 @@ export class QualtricsComponent {
     protected config: QualtricsConfig,
     protected globalConfigType: Config
   ) {
-    console.log(
-      'find me in qualtrics entry point',
-      this.globalConfigType.checkout
-    );
+    console.log('find me in qualtrics entry point', this.globalConfigType);
 
     if (this.config.qualtrics?.scriptSource) {
       this.qualtricsLoader.addScript(this.config.qualtrics.scriptSource);
