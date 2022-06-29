@@ -180,6 +180,15 @@
         "../../feature-libs/organization/administration/root/public_api"
       ],
       "@spartacus/organization": ["../../feature-libs/organization/public_api"],
+      "@spartacus/organization/account-summary/assets": [
+        "../../feature-libs/organization/account-summary/assets/public_api"
+      ],
+      "@spartacus/organization/account-summary": [
+        "../../feature-libs/organization/account-summary/public_api"
+      ],
+      "@spartacus/organization/account-summary/root": [
+        "../../feature-libs/organization/account-summary/root/public_api"
+      ],
       "@spartacus/organization/order-approval/assets": [
         "../../feature-libs/organization/order-approval/assets/public_api"
       ],
