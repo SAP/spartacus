@@ -1,21 +1,17 @@
 import { NgModule } from '@angular/core';
-import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
-import { ScheduleLinesModule } from '@spartacus/s4om/components';
-import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
-import { S4OM_FEATURE } from './feature-name';
+import { CartOutlets } from '@spartacus/cart/base/root';
+import { OutletPosition, provideOutlet } from '@spartacus/storefront';
+import { ScheduleLinesComponent } from './components/schedule-lines/schedule-lines.component';
+import { ScheduleLinesModule } from './components/schedule-lines/schedule-lines.module';
 
-export function defaultOrderComponentsConfig(): CmsConfig {
-  const config: CmsConfig = {
-    featureModules: {
-      [S4OM_FEATURE]: {
-        dependencies: [CART_BASE_FEATURE],
-      },
-    },
-  };
-  return config;
-}
 @NgModule({
   imports: [ScheduleLinesModule],
-  providers: [provideDefaultConfigFactory(defaultOrderComponentsConfig)],
+  providers: [
+    provideOutlet({
+      id: CartOutlets.ITEM_DETAILS,
+      position: OutletPosition.AFTER,
+      component: ScheduleLinesComponent,
+    }),
+  ],
 })
 export class S4omRootModule {}
