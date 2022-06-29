@@ -93,9 +93,20 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
       .first()
       .click({ force: true });
   } else {
+    cy.intercept(
+      `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/products/search?fields=*&query=${id}&*`
+    ).as('ProductSearch');
+
     cy.get('cx-searchbox input')
       .clear({ force: true })
       .type(id, { force: true });
+
+    cy.wait(`@ProductSearch`)
+      .its('response.body.freeTextSearch')
+      .should('eq', id);
+
     cy.get('cx-searchbox')
       .get('.results .products .name')
       .first()
