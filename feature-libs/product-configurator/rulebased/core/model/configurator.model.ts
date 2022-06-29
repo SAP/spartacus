@@ -87,6 +87,7 @@ export namespace Configurator {
     updateType?: UpdateType;
     errorMessages?: string[];
     warningMessages?: string[];
+    variants?: Variant[];
   }
 
   export interface InteractionState {
