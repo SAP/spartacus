@@ -39,6 +39,7 @@ export function decorateExpressEngine(
   optimizationOptions: SsrOptimizationOptions | null = {
     concurrency: 20,
     timeout: 3000,
+    reuseCurrentRendering: true,
   }
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
