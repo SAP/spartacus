@@ -201,5 +201,8 @@ export const configurator = {
       addToCartPrices:
         'Base Price {{basePrice}}, Selected Options {{selectedOptions}}, Total Price {{totalPrice}}',
     },
+    variantCarousel: {
+      title: 'Pre-configured Versions',
+    },
   },
 };
