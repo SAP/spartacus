@@ -1,21 +1,21 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, groupBy, mergeMap } from 'rxjs/operators';
 import {
-  EntitiesModel,
   CostCenter,
+  EntitiesModel,
   normalizeHttpError,
   StateUtils,
 } from '@spartacus/core';
+import { from, Observable, of } from 'rxjs';
+import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
+import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
+import { Budget } from '../../model/budget.model';
 import {
-  CostCenterActions,
   BudgetActions,
+  CostCenterActions,
   OrganizationActions,
 } from '../actions/index';
-import { Budget } from '../../model/budget.model';
-import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class CostCenterEffects {
@@ -99,7 +99,7 @@ export class CostCenterEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new CostCenterActions.CreateCostCenterFail({
-                  costCenterCode: payload.costCenter.code,
+                  costCenterCode: payload.costCenter.code ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),
@@ -129,7 +129,7 @@ export class CostCenterEffects {
             catchError((error: HttpErrorResponse) =>
               from([
                 new CostCenterActions.UpdateCostCenterFail({
-                  costCenterCode: payload.costCenter.code,
+                  costCenterCode: payload.costCenter.code ?? '',
                   error: normalizeHttpError(error),
                 }),
                 new OrganizationActions.OrganizationClearData(),

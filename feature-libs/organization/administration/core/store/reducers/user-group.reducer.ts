@@ -1,15 +1,15 @@
-import * as UserGroupActions from '../actions/user-group.action';
-import { StateUtils } from '@spartacus/core';
-import { B2BUserActions } from '../actions/index';
+import { ListModel, StateUtils } from '@spartacus/core';
 import { UserGroup } from '../../model/user-group.model';
+import { B2BUserActions } from '../actions/index';
+import * as UserGroupActions from '../actions/user-group.action';
 
-export const userGroupInitialState = undefined;
-export const userGroupsInitialState = undefined;
+export const userGroupInitialState: UserGroup | undefined = undefined;
+export const userGroupsInitialState: ListModel | undefined = undefined;
 
 export function userGroupEntitiesReducer(
-  state: UserGroup = userGroupInitialState,
+  state = userGroupInitialState,
   action: StateUtils.LoaderAction
-): UserGroup {
+): UserGroup | undefined {
   switch (action.type) {
     case UserGroupActions.LOAD_USER_GROUP_SUCCESS:
     case UserGroupActions.CREATE_USER_GROUP_SUCCESS:
@@ -28,7 +28,7 @@ export function userGroupEntitiesReducer(
 export function userGroupsListReducer(
   state = userGroupsInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case UserGroupActions.LOAD_USER_GROUPS_SUCCESS:
       return action.payload.page;
@@ -39,7 +39,7 @@ export function userGroupsListReducer(
 export function userGroupAvailableOrderApprovalPermissionsListReducer(
   state = userGroupsInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case UserGroupActions.LOAD_USER_GROUP_PERMISSIONS_SUCCESS:
       return action.payload.page;
@@ -50,7 +50,7 @@ export function userGroupAvailableOrderApprovalPermissionsListReducer(
 export function userGroupAvailablOrgCustomersListReducer(
   state = userGroupsInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS_SUCCESS:
       return action.payload.page;
