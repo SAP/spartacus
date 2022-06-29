@@ -40,6 +40,7 @@ export const asm = {
         view: '360 View',
       },
       tableSort: {
+        sortBy: 'Sort by',
         byNameAsc: 'Name (Asc)',
         byNameDesc: 'Name (Desc)',
         byDateAsc: 'Date (Asc)',

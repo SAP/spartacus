@@ -256,17 +256,23 @@
 </ng-template>
 
 <ng-template #sort>
-  <cx-sorting
-    class="sort-selector"
-    [sortOptions]="sorts"
-    [sortLabels]="getSortLabels() | async"
-    (sortListEvent)="changeSortCode($event)"
-    [selectedOption]="sortCode"
-    [cxNgSelectA11y]="{
-      ariaLabel: sortCode,
-      ariaControls: 'asm-cusomer-list-table'
-    }"
-  ></cx-sorting>
+  <label>
+    <span class="cx-visually-hidden">{{
+      'asm.customerList.tableSort.sortBy' | cxTranslate
+    }}</span>
+    <cx-sorting
+      class="sort-selector"
+      [sortOptions]="sorts"
+      [sortLabels]="getSortLabels() | async"
+      (sortListEvent)="changeSortCode($event)"
+      [selectedOption]="sortCode"
+      placeholder="{{ 'asm.customerList.tableSort.sortBy' | cxTranslate }}"
+      [cxNgSelectA11y]="{
+        ariaLabel: sortCode,
+        ariaControls: 'asm-cusomer-list-table'
+      }"
+    ></cx-sorting>
+  </label>
 </ng-template>
 
 <ng-template #pagination>
