@@ -23,7 +23,7 @@ export function registerOutletsFactory(
   providedOutletOptions: ProvideOutletOptions[],
   componentFactoryResolver: ComponentFactoryResolver,
   outletService: OutletService<ComponentFactory<Type<any>>>
-) {
+): () => void {
   const result = () => {
     (providedOutletOptions ?? []).forEach((options) => {
       const factory = componentFactoryResolver.resolveComponentFactory(
