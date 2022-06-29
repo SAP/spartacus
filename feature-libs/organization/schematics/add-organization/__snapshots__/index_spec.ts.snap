@@ -574,7 +574,12 @@ exports[`Spartacus Organization schematics: ng-add Organization user registratio
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/organization.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -643,7 +648,12 @@ exports[`Spartacus Organization schematics: ng-add Organization user registratio
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/organization.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }

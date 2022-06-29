@@ -14,8 +14,10 @@ import {
   orderFeatureModulePath,
   organizationAdministrationFeatureModulePath,
   organizationOrderApprovalFeatureModulePath,
+  organizationUserRegistrationFeatureModulePath,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
+  ORGANIZATION_USER_REGISTRATION_FEATURE_NAME,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_ORGANIZATION,
@@ -75,7 +77,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   const userRegistrationFeatureOptions: SpartacusOrganizationOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_ORGANIZATION_USER_REGISTRATION_FEATURE],
+    features: [ORGANIZATION_USER_REGISTRATION_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -287,7 +289,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(userRegistrationFeatureModulePath);
+        const module = appTree.readContent(
+          organizationUserRegistrationFeatureModulePath
+        );
         expect(module).toMatchSnapshot();
       });
 
@@ -325,7 +329,9 @@ describe('Spartacus Organization schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(userRegistrationFeatureModulePath);
+        const module = appTree.readContent(
+          organizationUserRegistrationFeatureModulePath
+        );
         expect(module).toMatchSnapshot();
       });
     });

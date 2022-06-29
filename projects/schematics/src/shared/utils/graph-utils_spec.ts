@@ -172,6 +172,7 @@ describe('Graph utils', () => {
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
+          "Organization-User-Registration",
           "Order-Approval",
           "Administration",
           "ASM",

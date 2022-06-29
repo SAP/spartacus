@@ -50,7 +50,7 @@
             "label": "Order Approval (b2b feature)"
           },
           {
-            "value": "Organization-User-Registration",
+            "value": "User-Registration",
             "label": "User Registration (b2b feature)"
           }
         ]
