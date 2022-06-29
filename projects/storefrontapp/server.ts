@@ -1,6 +1,7 @@
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
+  defaultSsrOptimizationOptions,
   NgExpressEngineDecorator,
   SsrOptimizationOptions,
 } from '@spartacus/setup/ssr';
@@ -15,9 +16,10 @@ import { AppServerModule } from './src/main.server';
 const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
-  concurrency: 20,
-  timeout: Number(process.env['SSR_TIMEOUT'] ?? 3000),
-  reuseCurrentRendering: true,
+  ...defaultSsrOptimizationOptions,
+  timeout: Number(
+    process.env['SSR_TIMEOUT'] ?? defaultSsrOptimizationOptions.timeout
+  ),
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);

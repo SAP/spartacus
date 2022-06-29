@@ -3,7 +3,10 @@ import {
   OptimizedSsrEngine,
   SsrCallbackFn,
 } from '../optimized-engine/optimized-ssr-engine';
-import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
+import {
+  defaultSsrOptimizationOptions,
+  SsrOptimizationOptions,
+} from '../optimized-engine/ssr-optimization-options';
 import { getServerRequestProviders } from '../providers/ssr-providers';
 
 export type NgExpressEngineInstance = (
@@ -36,11 +39,7 @@ export class NgExpressEngineDecorator {
 
 export function decorateExpressEngine(
   ngExpressEngine: NgExpressEngine,
-  optimizationOptions: SsrOptimizationOptions | null = {
-    concurrency: 20,
-    timeout: 3000,
-    reuseCurrentRendering: true,
-  }
+  optimizationOptions: SsrOptimizationOptions | null = defaultSsrOptimizationOptions
 ): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
     const engineInstance = ngExpressEngine({
@@ -54,8 +53,19 @@ export function decorateExpressEngine(
 
     // apply optimization wrapper if optimization options were defined
     return optimizationOptions
-      ? new OptimizedSsrEngine(engineInstance, optimizationOptions)
-          .engineInstance
+      ? new OptimizedSsrEngine(
+          engineInstance,
+          buildOptimizationOptions(optimizationOptions)
+        ).engineInstance
       : engineInstance;
+  };
+}
+
+function buildOptimizationOptions(
+  optimizationOptions: SsrOptimizationOptions
+): SsrOptimizationOptions {
+  return {
+    ...defaultSsrOptimizationOptions,
+    ...optimizationOptions,
   };
 }
