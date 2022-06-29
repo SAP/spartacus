@@ -15,7 +15,8 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IntersectionService } from '@spartacus/storefront';
-import { OrderFacade } from 'feature-libs/order/root';
+import { OrderHistoryFacade } from 'feature-libs/order/root';
+import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
@@ -34,6 +35,21 @@ const configuratorType = ConfiguratorType.VARIANT;
 const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 
 const mockProductConfiguration = ConfigurationTestData.productConfiguration;
+
+const mockProductConfigurationWithoutPriceSummary =
+  ConfigurationTestData.productConfigurationWithConflicts;
+
+const mockProductConfigurationWithoutBasePrice =
+  ConfigurationTestData.productConfigurationWithoutBasePrice;
+
+const mockProductConfigurationWithoutSelectedOptions =
+  ConfigurationTestData.productConfigurationWithoutSelectedOptions;
+
+const mockProductConfigurationWithoutTotalPrice =
+  ConfigurationTestData.mockProductConfigurationWithoutTotalPrice;
+
+const mockProductConfigurationWithPriceSummaryButNoPrices =
+  ConfigurationTestData.mockProductConfigurationWithPriceSummaryButNoPrices;
 
 const navParamsOverview: any = {
   cxRoute: 'configureOverview' + configuratorType,
@@ -100,7 +116,7 @@ class MockCommonConfiguratorUtilsService {
   }
 }
 
-class MockUserOrderService {
+class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
   loadOrderDetails() {}
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
@@ -257,8 +273,8 @@ describe('ConfigAddToCartButtonComponent', () => {
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           {
-            provide: OrderFacade,
-            useClass: MockUserOrderService,
+            provide: OrderHistoryFacade,
+            useClass: MockOrderHistoryFacade,
           },
           {
             provide: CommonConfiguratorUtilsService,
@@ -514,6 +530,116 @@ describe('ConfigAddToCartButtonComponent', () => {
         );
         done();
       });
+    });
+  });
+  describe('Accessibility', () => {
+    it('should return base price, selected option price and total price', () => {
+      let result = {
+        basePrice: '$123.56',
+        selectedOptions: '$500',
+        totalPrice: '$623.56',
+      };
+      expect(component.extractConfigPrices(mockProductConfiguration)).toEqual(
+        result
+      );
+    });
+
+    it('should return "0" in case there is no price summary in the configuration', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '0',
+        totalPrice: '0',
+      };
+      expect(
+        component.extractConfigPrices(
+          mockProductConfigurationWithoutPriceSummary
+        )
+      ).toEqual(result);
+    });
+
+    it('should return "0" for basePrice in case basePrice is undefined', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '$500',
+        totalPrice: '$623.56',
+      };
+      expect(
+        component.extractConfigPrices(mockProductConfigurationWithoutBasePrice)
+      ).toEqual(result);
+    });
+
+    it('should return "0" for basePrice in case basePrice is undefined', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '$500',
+        totalPrice: '$623.56',
+      };
+      expect(
+        component.extractConfigPrices(mockProductConfigurationWithoutBasePrice)
+      ).toEqual(result);
+    });
+
+    it('should return "0" for selectedOption in case selectedOption is undefined', () => {
+      let result = {
+        basePrice: '$123.56',
+        selectedOptions: '0',
+        totalPrice: '$623.56',
+      };
+      expect(
+        component.extractConfigPrices(
+          mockProductConfigurationWithoutSelectedOptions
+        )
+      ).toEqual(result);
+    });
+
+    it('should return "0" for totalPrice in case totalPrice  is undefined', () => {
+      let result = {
+        basePrice: '$123.56',
+        selectedOptions: '$500',
+        totalPrice: '0',
+      };
+      expect(
+        component.extractConfigPrices(mockProductConfigurationWithoutTotalPrice)
+      ).toEqual(result);
+    });
+
+    it('should return "0" for prices in case they are not available', () => {
+      let result = {
+        basePrice: '0',
+        selectedOptions: '0',
+        totalPrice: '0',
+      };
+      expect(
+        component.extractConfigPrices(
+          mockProductConfigurationWithPriceSummaryButNoPrices
+        )
+      ).toEqual(result);
+    });
+
+    it("should contain add to cart button element with 'aria-label' attribute that contains prices of the configuration", () => {
+      let basePrice =
+        mockProductConfiguration.priceSummary?.basePrice?.formattedValue;
+      let selectedOptions =
+        mockProductConfiguration.priceSummary?.selectedOptions?.formattedValue;
+      let totalPrice =
+        mockProductConfiguration.priceSummary?.currentTotal?.formattedValue;
+      let expectedA11YString =
+        `configurator.a11y.addToCartPrices basePrice:${basePrice}` +
+        ` selectedOptions:${selectedOptions} totalPrice:${totalPrice}`;
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        undefined,
+        0,
+        'aria-label',
+        component.getButtonResourceKey(
+          mockRouterData,
+          mockProductConfiguration
+        ) +
+          ' ' +
+          expectedA11YString
+      );
     });
   });
 });

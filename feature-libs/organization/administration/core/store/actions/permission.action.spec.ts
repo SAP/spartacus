@@ -1,4 +1,4 @@
-import { StateUtils, OrderApprovalPermissionType } from '@spartacus/core';
+import { OrderApprovalPermissionType, StateUtils } from '@spartacus/core';
 import { Permission } from '../../model/permission.model';
 import {
   PERMISSION_ENTITIES,
@@ -68,7 +68,7 @@ describe('Permission Actions', () => {
     });
 
     describe('LoadPermissionSuccess', () => {
-      it('should create the action', () => {
+      it('should create the action: payload is an array', () => {
         const action = new PermissionActions.LoadPermissionSuccess([
           permission,
         ]);
@@ -80,6 +80,39 @@ describe('Permission Actions', () => {
             permissionCode,
           ]),
         });
+      });
+
+      it('should create the action: payload has list of undefined permission codes', () => {
+        const action = new PermissionActions.LoadPermissionSuccess([{}]);
+
+        expect({ ...action }).toEqual({
+          type: PermissionActions.LOAD_PERMISSION_SUCCESS,
+          payload: [{}],
+          meta: StateUtils.entitySuccessMeta(PERMISSION_ENTITIES, ['']),
+        });
+      });
+
+      it('should create the action: payload is not an array', () => {
+        const action = new PermissionActions.LoadPermissionSuccess(permission);
+
+        expect({ ...action }).toEqual({
+          type: PermissionActions.LOAD_PERMISSION_SUCCESS,
+          payload: permission,
+          meta: StateUtils.entitySuccessMeta(
+            PERMISSION_ENTITIES,
+            permissionCode
+          ),
+        });
+      });
+    });
+
+    it('should create the action: payload has undefined permission code', () => {
+      const action = new PermissionActions.LoadPermissionSuccess({});
+
+      expect({ ...action }).toEqual({
+        type: PermissionActions.LOAD_PERMISSION_SUCCESS,
+        payload: {},
+        meta: StateUtils.entitySuccessMeta(PERMISSION_ENTITIES, ''),
       });
     });
   });

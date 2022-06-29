@@ -27,7 +27,7 @@ export function checkProductAvailabilityMessage() {
 
 export function checkReducedQuantity(product) {
   cy.get('cx-cart-item-list')
-    .contains('cx-cart-item', product.name)
+    .contains('.cx-item-list-row', product.name)
     .should('contain', `Quantity has reduced to 1 due to insufficient stock.`);
 }
 
@@ -44,11 +44,11 @@ export function addMultipleProductsToCart(products) {
 
 export function removeItemAndCheckCartEntriesNumber(
   product,
-  expectedCartLength = 0
+  expectedCartLength
 ) {
   removeCartItem(product);
   cy.wait('@refresh_cart');
-  cy.get('cx-cart-item-list cx-cart-item').should(
+  cy.get('cx-cart-item-list .cx-item-list-row').should(
     'have.length',
     expectedCartLength
   );

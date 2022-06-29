@@ -1,4 +1,4 @@
-import { SampleUser, user } from '../sample-data/checkout-flow';
+import { product, SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
 import {
   replenishmentOrderHistoryHeaderValue,
@@ -7,9 +7,10 @@ import {
 import { waitForPage } from './checkout-flow';
 import { checkBanner, clickHamburger } from './homepage';
 import { switchLanguage } from './language';
-import { product } from '../sample-data/checkout-flow';
 
 const orderHistoryLink = '/my-account/orders';
+export const CART_PAGE_ALIAS = 'cartPage';
+export const ADD_TO_CART_ENDPOINT_ALIAS = 'addToCart';
 
 export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
@@ -22,12 +23,46 @@ export function doPlaceOrder(productData?: any) {
       return cy.requireProductAddedToCart(stateAuth, productData);
     })
     .then(({ cartId }) => {
-      cy.requireShippingAddressAdded(user.address, stateAuth, cartId);
-      cy.requireShippingMethodSelected(stateAuth, cartId);
+      cy.requireDeliveryAddressAdded(user.address, stateAuth, cartId);
+      cy.requireDeliveryMethodSelected(stateAuth, cartId);
       cy.requirePaymentDone(stateAuth, cartId);
 
       return cy.requirePlacedOrder(stateAuth, cartId);
     });
+}
+
+export function interceptCartPageEndpoint() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+  ).as(CART_PAGE_ALIAS);
+
+  return CART_PAGE_ALIAS;
+}
+
+export function verifyActionLinkHasText(text: string) {
+  cy.get('.cx-item-list-row .cx-action-link').should('contain', text);
+}
+
+export function clickOnActionLink() {
+  cy.get('.cx-item-list-row .cx-action-link').click();
+}
+
+export function waitForResponse(alias: string) {
+  cy.wait(`@${alias}`);
+}
+
+export function interceptAddToCartEndpoint() {
+  cy.intercept(
+    'POST',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+      'OCC_PREFIX_USER_ENDPOINT'
+    )}/*/carts/*/entries*`
+  ).as(ADD_TO_CART_ENDPOINT_ALIAS);
+
+  return ADD_TO_CART_ENDPOINT_ALIAS;
 }
 
 export const orderHistoryTest = {

@@ -9,7 +9,7 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { Order, OrderFacade } from '@spartacus/order/root';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -69,7 +69,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected globalMessageService: GlobalMessageService,
-    protected orderFacade: OrderFacade,
+    protected orderHistoryFacade: OrderHistoryFacade,
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected intersectionService: IntersectionService
@@ -264,10 +264,10 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   protected goToOrderDetails(owner: CommonConfigurator.Owner): void {
-    this.orderFacade.loadOrderDetails(
+    this.orderHistoryFacade.loadOrderDetails(
       this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
     );
-    this.orderFacade
+    this.orderHistoryFacade
       .getOrderDetails()
       .pipe(
         filter((order: Order) => order !== undefined),
@@ -276,6 +276,28 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       .subscribe((order: Order) =>
         this.routingService.go({ cxRoute: 'orderDetails', params: order })
       );
+  }
+
+  extractConfigPrices(configuration: Configurator.Configuration) {
+    let priceSummary = configuration.priceSummary;
+    let basePrice = priceSummary?.basePrice?.formattedValue;
+    let selectedOptions = priceSummary?.selectedOptions?.formattedValue;
+    let totalPrice = priceSummary?.currentTotal?.formattedValue;
+    let prices = {
+      basePrice: basePrice,
+      selectedOptions: selectedOptions,
+      totalPrice: totalPrice,
+    };
+    if (!basePrice || basePrice === '-') {
+      prices.basePrice = '0';
+    }
+    if (!selectedOptions || selectedOptions === '-') {
+      prices.selectedOptions = '0';
+    }
+    if (!totalPrice || totalPrice === '-') {
+      prices.totalPrice = '0';
+    }
+    return prices;
   }
 
   protected makeAddToCartButtonSticky(): void {
@@ -311,7 +333,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         })
     );
   }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

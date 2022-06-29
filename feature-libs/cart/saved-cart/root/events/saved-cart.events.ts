@@ -7,27 +7,6 @@ export abstract class SavedCartEvent extends CartEvent {}
 
 // =====================================================================
 
-export class DeleteSavedCartEvent extends SavedCartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'DeleteSavedCartEvent';
-}
-
-export class DeleteSavedCartSuccessEvent extends SavedCartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'DeleteSavedCartSuccessEvent';
-}
-
-export class DeleteSavedCartFailEvent extends SavedCartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'DeleteSavedCartFailEvent';
-}
-
 export class SaveCartEvent extends SavedCartEvent {
   /**
    * Event's type

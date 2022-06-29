@@ -16,6 +16,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 
+const VALUE_DISPLAY_NAME = 'val2';
 class MockGroupService {}
 
 @Directive({
@@ -68,32 +69,32 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   );
 
   function createImage(url: string, altText: string): Configurator.Image {
-    const image: Configurator.Image = {
+    const configImage: Configurator.Image = {
       url: url,
       altText: altText,
     };
-    return image;
+    return configImage;
   }
 
   function createValue(
     code: string,
     name: string,
     isSelected: boolean,
-    images: Configurator.Image[]
+    configImages: Configurator.Image[]
   ): Configurator.Value {
     const value: Configurator.Value = {
       valueCode: code,
       valueDisplay: name,
       name: name,
       selected: isSelected,
-      images: images,
+      images: configImages,
     };
     return value;
   }
   const image = createImage('url', 'altText');
   const images: Configurator.Image[] = [image, image, image];
   const value1 = createValue('1', 'val1', false, images);
-  const value2 = createValue('2', 'val2', false, images);
+  const value2 = createValue('2', VALUE_DISPLAY_NAME, false, images);
   const value3 = createValue('3', 'val3', false, images);
   const values: Configurator.Value[] = [value1, value2, value3];
 
@@ -173,7 +174,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
         'configurator.a11y.valueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          component.attribute.values[1].valueDisplay
+          VALUE_DISPLAY_NAME
       );
     });
 

@@ -15,7 +15,8 @@ export const getAnonymousConsentTemplatesValue: MemoizedSelector<
   ConsentTemplate[]
 > = createSelector(
   getAnonymousConsentTemplatesState,
-  StateUtils.loaderValueSelector
+  (state: StateUtils.LoaderState<ConsentTemplate[]>) =>
+    StateUtils.loaderValueSelector(state)
 );
 
 export const getAnonymousConsentTemplatesLoading: MemoizedSelector<
@@ -44,10 +45,13 @@ export const getAnonymousConsentTemplatesError: MemoizedSelector<
 
 export const getAnonymousConsentTemplate = (
   templateCode: string
-): MemoizedSelector<StateWithAnonymousConsents, ConsentTemplate> => {
+): MemoizedSelector<
+  StateWithAnonymousConsents,
+  ConsentTemplate | undefined
+> => {
   return createSelector(getAnonymousConsentTemplatesValue, (templates) => {
     return templates
       ? templates.find((template) => template.id === templateCode)
-      : null;
+      : undefined;
   });
 };

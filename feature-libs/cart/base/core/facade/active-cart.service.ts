@@ -133,6 +133,18 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   }
 
   /**
+   * Waits for the cart to be stable before returning the active cart.
+   */
+  takeActive(): Observable<Cart> {
+    return this.isStable().pipe(
+      filter((isStable) => isStable),
+      switchMap(() => this.getActive()),
+      filter((cart) => !!cart),
+      take(1)
+    );
+  }
+
+  /**
    * Returns active cart id
    */
   getActiveCartId(): Observable<string> {
@@ -140,6 +152,18 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       withLatestFrom(this.userIdService.getUserId()),
       map(([cart, userId]) => getCartIdByUserId(cart, userId)),
       distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Waits for the cart to be stable before returning the active cart's ID.
+   */
+  takeActiveCartId(): Observable<string> {
+    return this.isStable().pipe(
+      filter((isStable) => isStable),
+      switchMap(() => this.getActiveCartId()),
+      filter((cartId) => !!cartId),
+      take(1)
     );
   }
 
@@ -442,7 +466,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return cart
       ? of(this.isCartUserGuest(cart))
       : this.activeCart$.pipe(
-          map((activeCart) => this.isCartUserGuest(activeCart))
+          map((activeCart) => this.isCartUserGuest(activeCart)),
+          distinctUntilChanged()
         );
   }
 

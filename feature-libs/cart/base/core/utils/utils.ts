@@ -38,6 +38,18 @@ export function isCartNotFoundError(error: ErrorModel): boolean {
   );
 }
 
+export function voucherExceededError(error: ErrorModel): boolean {
+  return error.message === 'coupon.already.redeemed';
+}
+
+export function voucherInvalidError(error: ErrorModel): boolean {
+  return error.message === 'coupon.invalid.code.provided';
+}
+
+export function isVoucherError(error: ErrorModel): boolean {
+  return error.type === 'VoucherOperationError';
+}
+
 export function isCartError(error: ErrorModel): boolean {
   return (
     error.type === 'CartError' ||

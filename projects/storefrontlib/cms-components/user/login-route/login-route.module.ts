@@ -18,6 +18,7 @@ import { LoginGuard } from './login.guard';
     PageLayoutModule,
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [LoginGuard],
         component: PageLayoutComponent,

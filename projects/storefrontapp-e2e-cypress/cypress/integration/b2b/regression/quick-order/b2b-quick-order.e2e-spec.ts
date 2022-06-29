@@ -15,7 +15,7 @@ context('B2B - Quick Order', () => {
       });
 
       it('should show result box with 5 products', () => {
-        quickOrder.getQuickOrderResultBox(sampleData.b2bProduct.code, 5);
+        quickOrder.getQuickOrderResultBox(sampleData.b2bProduct.code);
       });
 
       it('should add product to the cart', () => {
@@ -149,6 +149,7 @@ context('B2B - Quick Order', () => {
         quickOrder.verifyQuickOrderPageDoNotShowEntryDeletionMessages();
       });
     });
+
     describe('Cart Page', () => {
       beforeEach(() => {
         quickOrder.prepareCartWithProduct();

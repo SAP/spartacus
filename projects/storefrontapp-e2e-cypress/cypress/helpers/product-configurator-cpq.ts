@@ -3,6 +3,7 @@ import * as authentication from './auth-forms';
 import * as globalMessage from './global-message';
 import * as configuration from './product-configurator';
 import * as configurationVc from './product-configurator-vc';
+import * as productSearch from './product-search';
 
 /**
  * bundle types
@@ -347,4 +348,13 @@ export function waitForProductCardsLoad(expectedLength: number) {
  */
 export function checkSuccessMessageNotDisplayed(): void {
   globalMessage.getSuccessAlert().should('not.exist');
+}
+
+/**
+ * Searches for a product by a product name.
+ *
+ * @param {string} productName - Product name
+ */
+export function searchForProduct(productName: string): void {
+  productSearch.searchForProduct(productName);
 }

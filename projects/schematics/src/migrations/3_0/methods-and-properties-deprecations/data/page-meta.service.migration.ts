@@ -2,9 +2,9 @@ import {
   GET_META,
   GET_META_RESOLVER,
   PAGE_META_SERVICE,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/core/src/cms/facade/page-meta.service.ts

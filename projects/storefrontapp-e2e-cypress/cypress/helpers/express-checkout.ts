@@ -1,6 +1,6 @@
 import { CheckoutConfig } from '@spartacus/storefront';
-import * as checkout from './checkout-flow';
 import { getSampleUser } from '../sample-data/checkout-flow';
+import * as checkout from './checkout-flow';
 
 export function testExpressCheckout() {
   it('should go to first step of checkout when there is no default address/payment', () => {
@@ -17,7 +17,7 @@ export function testExpressCheckout() {
     checkout.goToCheapProductDetailsPage();
     checkout.addCheapProductToCartAndLogin(user);
 
-    cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+    cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   });
 
   it('should skip address and payment checkout steps once address and payment are set', () => {

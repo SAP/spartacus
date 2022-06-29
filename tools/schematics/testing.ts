@@ -20,7 +20,12 @@ const featureLibsFolders: string[] = [
   'user',
 ];
 
-const integrationLibsFolders: string[] = ['cdc', 'cds', 'digital-payments'];
+const integrationLibsFolders: string[] = [
+  'cdc',
+  'cds',
+  'digital-payments',
+  'epd-visualization',
+];
 
 const commands = [
   'publish',
@@ -33,6 +38,7 @@ const commands = [
   'build cdc/schematics',
   'build cds/schematics',
   'build digital-payments/schematics',
+  'build epd-visualization/schematics',
   'build organization/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
@@ -131,23 +137,32 @@ function buildSchematicsAndPublish(buildCmd: string): void {
 }
 
 function testAllSchematics(): void {
-  execSync('yarn --cwd projects/schematics run test --coverage', {
-    stdio: 'inherit',
-  });
-
-  featureLibsFolders.forEach((lib) =>
-    execSync(`yarn --cwd feature-libs/${lib} run test:schematics --coverage`, {
+  try {
+    execSync('yarn --cwd projects/schematics run test --coverage', {
       stdio: 'inherit',
-    })
-  );
-  integrationLibsFolders.forEach((lib) =>
-    execSync(
-      `yarn --cwd integration-libs/${lib} run test:schematics --coverage`,
-      {
-        stdio: 'inherit',
-      }
-    )
-  );
+    });
+
+    featureLibsFolders.forEach((lib) =>
+      execSync(
+        `yarn --cwd feature-libs/${lib} run test:schematics --coverage`,
+        {
+          stdio: 'inherit',
+        }
+      )
+    );
+    integrationLibsFolders.forEach((lib) =>
+      execSync(
+        `yarn --cwd integration-libs/${lib} run test:schematics --coverage`,
+        {
+          stdio: 'inherit',
+        }
+      )
+    );
+  } catch (e) {
+    console.error(e);
+    beforeExit();
+    process.exit();
+  }
 }
 
 async function executeCommand(command: Command): Promise<void> {
@@ -168,6 +183,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build cdc/schematics':
     case 'build cds/schematics':
     case 'build digital-payments/schematics':
+    case 'build epd-visualization/schematics':
     case 'build organization/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':
@@ -208,16 +224,19 @@ async function program(): Promise<void> {
       executeCommand(response.command);
     }
   } catch (e) {
-    console.log(e);
+    console.error(e);
     beforeExit();
     process.exit();
   }
 }
 
-program();
-
 // Handle killing the script
 process.once('SIGINT', function () {
+  beforeExit();
+  process.exit();
+});
+
+process.on('SIGHUP', function () {
   beforeExit();
   process.exit();
 });
@@ -226,3 +245,5 @@ process.once('SIGTERM', function () {
   beforeExit();
   process.exit();
 });
+
+program();

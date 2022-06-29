@@ -6,7 +6,7 @@
       'updateEmailForm.newEmailAddress.label' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="email"
       name="email"
       formControlName="email"
@@ -23,7 +23,7 @@
       'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="email"
       name="confirmEmail"
       formControlName="confirmEmail"
@@ -40,13 +40,15 @@
       'updateEmailForm.password.label' | cxTranslate
     }}</span>
     <input
-      aria-required="true"
+      required="true"
       type="password"
       name="password"
       formControlName="password"
       placeholder="{{ 'updateEmailForm.password.placeholder' | cxTranslate }}"
       class="form-control"
       autocomplete="new-password"
+      [attr.aria-label]="'updateEmailForm.password.placeholder' | cxTranslate"
+      cxPasswordVisibilitySwitch
     />
     <cx-form-errors [control]="form.get('password')"></cx-form-errors>
   </label>

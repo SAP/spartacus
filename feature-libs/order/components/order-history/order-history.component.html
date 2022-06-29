@@ -5,7 +5,7 @@
   } as type"
 >
   <ng-container *ngIf="type.orderHistory">
-    <div [ngClass]="type.replenishmentOrder ? '' : 'container'">
+    <div>
       <!-- HEADER -->
       <div
         [ngClass]="
@@ -28,13 +28,8 @@
           *ngIf="type.orderHistory.pagination.totalResults > 0; else noOrder"
         >
           <!-- Select Form and Pagination Top -->
-          <div class="cx-order-history-sort top row">
-            <label
-              class="
-                cx-order-history-form-group
-                form-group
-                col-sm-12 col-md-4 col-lg-4
-              "
+          <div class="cx-order-history-sort top">
+            <label class="cx-order-history-form-group form-group"
               ><span>
                 {{ 'orderHistory.sortBy' | cxTranslate }}
               </span>
@@ -44,6 +39,8 @@
                 (sortListEvent)="changeSortCode($event)"
                 [selectedOption]="type.orderHistory.pagination.sort"
                 placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
+                [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
+                ariaControls="order-history-table"
               ></cx-sorting>
             </label>
             <div
@@ -57,7 +54,7 @@
             </div>
           </div>
           <!-- TABLE -->
-          <table class="table cx-order-history-table">
+          <table id="order-history-table" class="table cx-order-history-table">
             <thead class="cx-order-history-thead-mobile">
               <th scope="col">
                 {{ 'orderHistory.orderId' | cxTranslate }}
@@ -74,7 +71,7 @@
                 (click)="goToOrderDetail(order)"
               >
                 <td class="cx-order-history-code">
-                  <div class="d-md-none cx-order-history-label">
+                  <div class="cx-order-history-label">
                     {{ 'orderHistory.orderId' | cxTranslate }}
                   </div>
                   <a
@@ -90,7 +87,7 @@
                   >
                 </td>
                 <td class="cx-order-history-placed">
-                  <div class="d-md-none cx-order-history-label">
+                  <div class="cx-order-history-label">
                     {{ 'orderHistory.date' | cxTranslate }}
                   </div>
                   <a
@@ -105,7 +102,7 @@
                   >
                 </td>
                 <td class="cx-order-history-status">
-                  <div class="d-md-none cx-order-history-label">
+                  <div class="cx-order-history-label">
                     {{ 'orderHistory.status' | cxTranslate }}
                   </div>
                   <a
@@ -124,7 +121,7 @@
                   >
                 </td>
                 <td class="cx-order-history-total">
-                  <div class="d-md-none cx-order-history-label">
+                  <div class="cx-order-history-label">
                     {{ 'orderHistory.total' | cxTranslate }}
                   </div>
                   <a
@@ -143,7 +140,7 @@
             </tbody>
           </table>
           <!-- Select Form and Pagination Bottom -->
-          <div class="cx-order-history-sort bottom row">
+          <div class="cx-order-history-sort bottom">
             <div
               *ngIf="type.orderHistory.pagination.totalPages > 1"
               class="cx-order-history-pagination"
@@ -162,15 +159,11 @@
             *ngIf="isLoaded$ | async"
             [ngClass]="
               type.replenishmentOrder
-                ? 'cx-replenishment-details-order-history-no-order row'
-                : 'cx-order-history-no-order row'
+                ? 'cx-replenishment-details-order-history-no-order'
+                : 'cx-order-history-no-order'
             "
           >
-            <div
-              [ngClass]="
-                type.replenishmentOrder ? '' : 'col-sm-12 col-md-6 col-lg-4'
-              "
-            >
+            <div>
               <ng-container *ngIf="type.replenishmentOrder; else otherOrder">
                 <div>{{ 'orderHistory.notFound' | cxTranslate }}</div>
               </ng-container>

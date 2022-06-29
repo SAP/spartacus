@@ -1,28 +1,40 @@
 <form *ngIf="productCode" [formGroup]="addToCartForm" (submit)="addToCart()">
   <div class="quantity" *ngIf="showQuantity">
     <label>{{ 'addToCart.quantity' | cxTranslate }}</label>
-    <cx-item-counter
-      *ngIf="hasStock"
-      [max]="maxQuantity"
-      [control]="addToCartForm.get('quantity')"
-    ></cx-item-counter>
+    <div class="cx-counter-stock">
+      <cx-item-counter
+        *ngIf="hasStock"
+        [max]="maxQuantity"
+        [control]="addToCartForm.get('quantity')"
+      ></cx-item-counter>
 
-    <span class="info">
-      <span *ngIf="showInventory$ | async">{{ getInventory() }}</span>
-      {{
-        hasStock
-          ? ('addToCart.inStock' | cxTranslate)
-          : ('addToCart.outOfStock' | cxTranslate)
-      }}</span
-    >
+      <span class="info">
+        <span *ngIf="showInventory$ | async">{{ getInventory() }}</span>
+        {{
+          hasStock
+            ? ('addToCart.inStock' | cxTranslate)
+            : ('addToCart.outOfStock' | cxTranslate)
+        }}</span
+      >
+    </div>
   </div>
 
   <button
     *ngIf="hasStock"
-    class="btn btn-primary btn-block"
+    [ngClass]="
+      options?.displayAddToCart
+        ? 'link cx-action-link'
+        : 'btn btn-primary btn-block'
+    "
     type="submit"
     [disabled]="quantity <= 0 || quantity > maxQuantity"
   >
-    {{ 'addToCart.addToCart' | cxTranslate }}
+    <span
+      attr.aria-label="{{
+        options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate)
+      }}"
+    >
+      {{ options?.addToCartString ?? ('addToCart.addToCart' | cxTranslate) }}
+    </span>
   </button>
 </form>

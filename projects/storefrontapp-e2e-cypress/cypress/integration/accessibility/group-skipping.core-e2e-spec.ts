@@ -1,11 +1,11 @@
-import {
-  groupSkippingConfigNotLoggedIn,
-  groupSkippingConfigMyAccount,
-  groupSkippingConfigCheckout,
-} from '../../helpers/accessibility/group-skipping/group-skipping.config';
-import * as checkout from '../../helpers/checkout-flow';
 import { verifyGroupSkippingFromConfig } from '../../helpers/accessibility/group-skipping/group-skipping';
+import {
+  groupSkippingConfigCheckout,
+  groupSkippingConfigMyAccount,
+  groupSkippingConfigNotLoggedIn,
+} from '../../helpers/accessibility/group-skipping/group-skipping.config';
 import { checkoutNextStep } from '../../helpers/accessibility/tabbing-order';
+import * as checkout from '../../helpers/checkout-flow';
 
 context('Group Skipping - Not Logged In', () => {
   before(() => {

@@ -5,7 +5,13 @@ import { GlobalMessageType } from '../../../models/global-message.model';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { BadRequestHandler } from './bad-request.handler';
 
-const MockRequest = {} as HttpRequest<any>;
+const MockRequest = {
+  url: 'https://electronics-spa/occ/user/password',
+} as HttpRequest<any>;
+
+const MockRequestEmailChange = {
+  url: 'https://electronics-spa/occ/user/email',
+} as HttpRequest<any>;
 
 const MockRandomResponse = {} as HttpErrorResponse;
 
@@ -51,17 +57,6 @@ const MockValidationErrorResponse = {
         type: 'ValidationError',
         reason: 'the_reason',
         subject: 'the_subject',
-      },
-    ],
-  },
-} as HttpErrorResponse;
-
-const MockVoucherOperationErrorResponse = {
-  error: {
-    errors: [
-      {
-        type: 'VoucherOperationError',
-        message: 'coupon.invalid.code.provided',
       },
     ],
   },
@@ -152,21 +147,19 @@ describe('BadRequestHandler', () => {
     );
   });
 
+  it('should handle non matching password response for email update', () => {
+    service.handleError(MockRequestEmailChange, MockBadLoginResponse);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'httpHandlers.validationErrors.invalid.password' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
   it('should handle validation error', () => {
     service.handleError(MockRequest, MockValidationErrorResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
         key: `httpHandlers.validationErrors.the_reason.the_subject`,
-      },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-  });
-
-  it('should handle voucher operation error', () => {
-    service.handleError(MockRequest, MockVoucherOperationErrorResponse);
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      {
-        key: `httpHandlers.invalidCodeProvided`,
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );

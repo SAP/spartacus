@@ -59,7 +59,7 @@
       <cx-form-errors [control]="form.get('email')"></cx-form-errors>
     </label>
 
-    <fieldset aria-required="true" class="full-width" formArrayName="roles">
+    <fieldset required="true" class="full-width" formArrayName="roles">
       <legend class="label-content required">
         {{ 'orgUser.roles' | cxTranslate }}
       </legend>
@@ -73,7 +73,7 @@
           class="form-check-input"
           [value]="role"
           [checked]="roles?.value?.includes(role)"
-          (change)="updateRoles($event)"
+          (change)="updateRoles($any($event))"
           [disabled]="form?.status === 'DISABLED'"
         />
         <span class="form-check-label">
@@ -82,15 +82,16 @@
       </label>
     </fieldset>
 
-    <label aria-required="true" [formGroup]="form.get('orgUnit')">
+    <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">{{
         'orgUser.orgUnit' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="units$ | async"
+        [items]="(units$ | async) ?? null"
         bindLabel="name"
         bindValue="id"
         appendTo="cx-org-list"

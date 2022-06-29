@@ -1,13 +1,16 @@
 %cx-cart-coupon {
   padding-inline-end: 0;
   padding-inline-start: 3rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 0;
+  padding-bottom: 1rem;
 
   @include media-breakpoint-down(md) {
+    padding-top: 2rem;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-inline-start: 0;
     padding-top: 0;
-    padding-bottom: 2rem;
-    padding-inline-start: 3rem;
   }
 
   .form-group .col-md-4 {
@@ -24,7 +27,7 @@
   .cx-cart-coupon-container {
     display: grid;
     grid-template-columns: 1fr auto;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
     grid-column-gap: 15px;
     grid-row-gap: 0px;
 

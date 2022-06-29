@@ -6,5 +6,5 @@ export const wishListTranslations: TranslationResources = {
 };
 
 export const wishListTranslationChunksConfig: TranslationChunksConfig = {
-  wishlist: ['empty'],
+  wishlist: ['wishlist'],
 };

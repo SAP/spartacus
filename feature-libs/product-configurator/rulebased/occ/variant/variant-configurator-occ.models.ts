@@ -89,6 +89,9 @@ export namespace OccConfigurator {
     negativeAllowed?: boolean;
     conflicts?: string[];
     retractTriggered?: boolean;
+    intervalInDomain?: boolean;
+    retractBlocked?: boolean;
+    validationType?: string;
   }
 
   export interface Value {
@@ -129,6 +132,8 @@ export namespace OccConfigurator {
   export interface Overview {
     id: string;
     totalNumberOfIssues?: number;
+    numberOfIncompleteCharacteristics?: number;
+    numberOfConflicts?: number;
     groups?: GroupOverview[];
     pricing?: PriceSummary;
     productCode: string;
@@ -146,6 +151,7 @@ export namespace OccConfigurator {
     characteristicId?: string;
     value: string;
     valueId?: string;
+    price?: PriceDetails;
   }
   export interface Image {
     imageType: ImageType;

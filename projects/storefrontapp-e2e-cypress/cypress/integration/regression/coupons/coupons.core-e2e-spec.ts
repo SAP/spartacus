@@ -16,7 +16,7 @@ describe('Cart Coupon', () => {
       //TODO products can be added to cart asynchronously
       cartCoupon.addProductToCart(cartCoupon.productCode1);
       cartCoupon.applyCoupon(cartCoupon.couponForCart);
-      cartCoupon.goTroughCheckout(stateAuth.token).then(() => {
+      cartCoupon.goThroughCheckout(stateAuth.token).then(() => {
         cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);
       });
     });

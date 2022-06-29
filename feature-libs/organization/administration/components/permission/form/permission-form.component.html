@@ -16,17 +16,17 @@
 
     <label
       *ngIf="(types$ | async)?.length"
-      aria-required="true"
-      [formGroup]="form.get('orderApprovalPermissionType')"
+      [formGroup]="$any(form.get('orderApprovalPermissionType'))"
     >
       <span class="label-content required">{{
         'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="code"
         [searchable]="false"
         [clearable]="false"
-        [items]="types$ | async"
+        [items]="(types$ | async) ?? null"
         bindLabel="name"
         bindValue="code"
         [readonly]="form.disabled"
@@ -41,11 +41,12 @@
       ></cx-form-errors>
     </label>
 
-    <label aria-required="true" *ngIf="form.get('periodRange')">
+    <label *ngIf="form.get('periodRange')">
       <span class="label-content required">{{
         'orgPurchaseLimit.periodRange' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="periodRange"
         [searchable]="false"
         [clearable]="false"
@@ -58,15 +59,15 @@
     </label>
 
     <label
-      aria-required="true"
       *ngIf="form.get('currency')"
-      [formGroup]="form.get('currency')"
+      [formGroup]="$any(form.get('currency'))"
     >
       <span class="label-content required">{{
         'orgPurchaseLimit.currency' | cxTranslate
       }}</span>
       <ng-select
         *ngIf="currencies$ | async as currencies"
+        [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
         [searchable]="false"
         [clearable]="false"
@@ -93,18 +94,19 @@
       <cx-form-errors [control]="form.get('threshold')"></cx-form-errors>
     </label>
 
-    <label aria-required="true" [formGroup]="form.get('orgUnit')">
+    <label [formGroup]="$any(form.get('orgUnit'))">
       <span class="label-content required">{{
         'orgPurchaseLimit.orgUnit' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="units$ | async"
+        [items]="(units$ | async) ?? null"
         bindLabel="name"
         bindValue="id"
-        [readonly]="form.get('orgUnit').disabled"
+        [readonly]="form.get('orgUnit')?.disabled ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgPurchaseLimit.orgUnit' | cxTranslate"
       >

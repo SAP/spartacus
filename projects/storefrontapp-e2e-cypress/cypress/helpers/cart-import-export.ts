@@ -153,7 +153,7 @@ export function verifyCart(config: ImportConfig) {
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
   for (let i = 0; i < rowCount; i++) {
-    cy.get('cx-cart-item')
+    cy.get('.cx-item-list-row')
       .eq(i)
       .within(() => {
         for (let j = 0; j < config.headers.length; j++) {

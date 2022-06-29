@@ -37,6 +37,7 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
   imports: [
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
@@ -56,7 +57,6 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
           },
           orderApprovalDetails: {
             paths: ['my-account/approval/:approvalCode'],
-            paramsMapping: { approvalCode: 'approvalCode' },
           },
         },
       },

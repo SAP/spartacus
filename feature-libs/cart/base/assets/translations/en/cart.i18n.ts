@@ -13,8 +13,11 @@ export const cart = {
     quantityTitle:
       'The quantity represents the total number of this item in your cart.',
     total: 'Total',
+    actions: 'Actions',
     cartTotal: 'Cart total ({{count}} item)',
-    cartTotal_plural: 'Cart total ({{count}} items)',
+    cartTotal_other: 'Cart total ({{count}} items)',
+    itemRemoved: 'Selected item has been removed. Cart total has been updated.',
+    caption: 'Shopping cart contents.',
   },
   orderCost: {
     orderSummary: 'Order Summary',
@@ -30,7 +33,7 @@ export const cart = {
   },
   voucher: {
     coupon: 'Have a coupon?',
-    coupon_plural: 'Coupon codes',
+    coupon_other: 'Coupon codes',
     couponLabel: 'Enter a promo code here',
     apply: 'Apply',
     placeholder: 'Promo code',
@@ -43,12 +46,19 @@ export const cart = {
   },
   saveForLaterItems: {
     itemTotal: 'Saved for later ({{count}} item)',
-    itemTotal_plural: 'Saved for later ({{count}} items)',
+    itemTotal_other: 'Saved for later ({{count}} items)',
     cartTitle: 'Cart',
     saveForLater: 'Save For Later',
     moveToCart: 'Move To Cart',
     stock: 'Stock',
     forceInStock: 'In Stock',
+  },
+  clearCart: {
+    clearCart: 'Clear Cart',
+    clearingCart: 'Clearing Cart...',
+    cartClearedSuccessfully: 'Active cart cleared successfully.',
+    areYouSureToClearCart: 'Are you sure you want to clear this cart?',
+    allItemsWillBeRemoved: 'All items in your active cart will be removed.',
   },
   validation: {
     cartEntriesChangeDuringCheckout:
@@ -64,6 +74,6 @@ export const cart = {
       'Configurator pricing is currently not available. Checkout/quote submission is not possible. Please try again later.',
     unresolvableIssues:
       'The product configuration requires additional entries in the back end. As a result, you cannot proceed. Please contact support.',
-    inProgress: 'Cart validation is running',
+    inProgress: 'Processing',
   },
 };

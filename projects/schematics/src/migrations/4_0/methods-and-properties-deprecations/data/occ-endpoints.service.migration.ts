@@ -5,9 +5,9 @@ import {
   GET_RAW_ENDPOINT,
   GET_URL,
   OCC_ENDPOINTS_SERVICE,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/core/src/occ/services/occ-endpoints.service.ts

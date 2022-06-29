@@ -10,15 +10,15 @@
       (focus)="open()"
       (click)="open()"
       (input)="search(searchInput.value)"
-      (blur)="close($event)"
-      (keydown.escape)="close($event)"
+      (blur)="close($any($event))"
+      (keydown.escape)="close($any($event))"
       (keydown.enter)="
-        close($event, true);
-        launchSearchResult($event, searchInput.value);
+        close($any($event), true);
+        launchSearchResult($any($event), searchInput.value);
         updateChosenWord(searchInput.value)
       "
-      (keydown.arrowup)="focusPreviousChild($event)"
-      (keydown.arrowdown)="focusNextChild($event)"
+      (keydown.arrowup)="focusPreviousChild($any($event))"
+      (keydown.arrowdown)="focusNextChild($any($event))"
       value="{{ chosenWord }}"
     />
 
@@ -49,8 +49,8 @@
   *ngIf="results$ | async as result"
   class="results"
   id="results"
-  (click)="close($event, true)"
-  role="listbox"
+  (click)="close($any($event), true)"
+  role="dialog"
 >
   <div
     *ngIf="result.message"
@@ -61,10 +61,11 @@
   <ul
     class="suggestions"
     attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
-    tabindex="0"
+    role="listbox"
   >
     <li *ngFor="let suggestion of result.suggestions">
       <a
+        role="option"
         [innerHTML]="suggestion | cxHighlight: searchInput.value"
         [routerLink]="
           {
@@ -72,17 +73,17 @@
             params: { query: suggestion }
           } | cxUrl
         "
-        (keydown.arrowup)="focusPreviousChild($event)"
-        (keydown.arrowdown)="focusNextChild($event)"
-        (keydown.enter)="close($event, true)"
-        (keydown.escape)="close($event, true)"
+        (keydown.arrowup)="focusPreviousChild($any($event))"
+        (keydown.arrowdown)="focusNextChild($any($event))"
+        (keydown.enter)="close($any($event), true)"
+        (keydown.escape)="close($any($event), true)"
         (blur)="close($event)"
         (mousedown)="preventDefault($event)"
         (click)="
           dispatchSuggestionEvent({
             freeText: searchInput.value,
             selectedSuggestion: suggestion,
-            searchSuggestions: result.suggestions
+            searchSuggestions: result.suggestions ?? []
           });
           updateChosenWord(suggestion)
         "
@@ -95,10 +96,11 @@
     class="products"
     *ngIf="result.products"
     attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
-    tabindex="0"
+    role="listbox"
   >
     <li *ngFor="let product of result.products">
       <a
+        role="option"
         [routerLink]="
           {
             cxRoute: 'product',
@@ -106,11 +108,11 @@
           } | cxUrl
         "
         [class.has-media]="config.displayProductImages"
-        (keydown.arrowup)="focusPreviousChild($event)"
-        (keydown.arrowdown)="focusNextChild($event)"
-        (keydown.enter)="close($event, true)"
-        (keydown.escape)="close($event, true)"
-        (blur)="close($event)"
+        (keydown.arrowup)="focusPreviousChild($any($event))"
+        (keydown.arrowdown)="focusNextChild($any($event))"
+        (keydown.enter)="close($any($event), true)"
+        (keydown.escape)="close($any($event), true)"
+        (blur)="close($any($event))"
         (mousedown)="preventDefault($event)"
         (click)="
           dispatchProductEvent({

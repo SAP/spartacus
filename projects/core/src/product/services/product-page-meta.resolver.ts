@@ -17,6 +17,7 @@ import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
 import { Category, Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
+import { isNotUndefined } from '../../util/type-guards';
 import { ProductService } from '../facade/product.service';
 import { ProductScope } from '../model/product-scope';
 
@@ -58,7 +59,7 @@ export class ProductPageMetaResolver
       map((state) => state.state.params['productCode']),
       filter((code) => !!code),
       switchMap((code) => this.productService.get(code, ProductScope.DETAILS)),
-      filter((p) => Boolean(p))
+      filter(isNotUndefined)
     );
 
   /**
@@ -194,7 +195,7 @@ export class ProductPageMetaResolver
       return this.productService
         .get(product.baseProduct, ProductScope.LIST)
         .pipe(
-          filter((product) => Boolean(product)),
+          filter(isNotUndefined),
           switchMap((baseProduct) => this.findBaseProduct(baseProduct))
         );
     }

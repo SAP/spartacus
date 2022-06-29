@@ -1,9 +1,4 @@
-import {
-  Component,
-  HostBinding,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
 import { CsAgentAuthService } from '@spartacus/asm/root';
 import {
@@ -12,8 +7,8 @@ import {
   GlobalMessageType,
   RoutingService,
   User,
-  UserService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -21,8 +16,6 @@ import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-asm-main-ui',
   templateUrl: './asm-main-ui.component.html',
-  styleUrls: ['./asm-main-ui.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class AsmMainUiComponent implements OnInit {
   customerSupportAgentLoggedIn$: Observable<boolean>;
@@ -37,11 +30,11 @@ export class AsmMainUiComponent implements OnInit {
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
-    protected userService: UserService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected asmService: AsmService
+    protected asmService: AsmService,
+    protected userAccountFacade: UserAccountFacade
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +46,7 @@ export class AsmMainUiComponent implements OnInit {
       switchMap((isLoggedIn) => {
         if (isLoggedIn) {
           this.handleCustomerSessionStartRedirection();
-          return this.userService.get();
+          return this.userAccountFacade.get();
         } else {
           return of(undefined);
         }

@@ -1,4 +1,3 @@
-import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 import {
   ANGULAR_CORE,
   ANGULAR_ROUTER,
@@ -7,10 +6,13 @@ import {
   NAVIGATION_UI_COMPONENT,
   RENDERER_2,
   ROUTER,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
+import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const NAVIGATION_UI_COMPONENT_MIGRATION: ConstructorDeprecation = {
   // projects/storefrontlib/cms-components/navigation/navigation/navigation-ui.component.ts

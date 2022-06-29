@@ -30,6 +30,7 @@ export class CartItemComponent implements OnChanges {
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
+    displayAddToCart: false,
   };
 
   iconTypes = ICON_TYPE;
@@ -58,7 +59,7 @@ export class CartItemComponent implements OnChanges {
     }
   }
 
-  isProductOutOfStock(product: any) {
+  isProductOutOfStock(product: any): boolean {
     // TODO Move stocklevelstatuses across the app to an enum
     return (
       product &&

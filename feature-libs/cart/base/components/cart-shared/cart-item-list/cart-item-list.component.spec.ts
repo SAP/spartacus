@@ -92,7 +92,7 @@ const mockUserId = 'test-user';
 
 @Component({
   template: '',
-  selector: 'cx-cart-item',
+  selector: '[cx-cart-item-list-row], cx-cart-item-list-row',
 })
 class MockCartItemComponent {
   @Input() item;
@@ -271,7 +271,6 @@ describe('CartItemListComponent', () => {
       fixture.detectChanges();
       const multipleMockItems = [
         {
-          id: 1,
           quantity: 5,
           entryNumber: 1,
           product: {
@@ -280,7 +279,6 @@ describe('CartItemListComponent', () => {
           },
         },
         {
-          id: 2,
           quantity: 3,
           entryNumber: 2,
           product: {
@@ -297,6 +295,34 @@ describe('CartItemListComponent', () => {
       expect(
         component.form.controls[multipleMockItems[1].entryNumber]
       ).toBeDefined();
+    });
+
+    it('should update controls when quantity change', () => {
+      fixture.detectChanges();
+      const mockItem0Qty = mockItem0.quantity;
+      mockItem0.quantity = 20;
+      component.items = [mockItem0, mockItem1];
+      expect(
+        component.form.controls[mockItem0.entryNumber].get('quantity')?.value
+      ).toEqual(20);
+      mockItem0.quantity = mockItem0Qty;
+    });
+
+    it('should be able to remove entry with free promotion product ', () => {
+      const mockItem3 = {
+        quantity: 1,
+        entryNumber: 2,
+        product: {
+          code: 'PR0000',
+        },
+        updateable: true,
+      };
+      component.items = [mockItem0, mockItem1, mockItem3];
+      fixture.detectChanges();
+      component.items = [mockItem0];
+      fixture.detectChanges();
+      expect(component.form.controls[mockItem0.entryNumber]).toBeDefined();
+      expect(Object.keys(component.form.controls).length).toEqual(1);
     });
 
     it('remove entry from save for later list', () => {

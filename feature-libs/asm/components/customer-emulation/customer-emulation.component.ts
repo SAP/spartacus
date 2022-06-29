@@ -1,13 +1,12 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { User, UserService } from '@spartacus/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { User } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, Subscription } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
   selector: 'cx-customer-emulation',
   templateUrl: './customer-emulation.component.html',
-  styleUrls: ['./customer-emulation.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class CustomerEmulationComponent implements OnInit, OnDestroy {
   customer: User;
@@ -16,12 +15,12 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
 
   constructor(
     protected asmComponentService: AsmComponentService,
-    protected userService: UserService
+    protected userAccountFacade: UserAccountFacade
   ) {}
 
   ngOnInit() {
     this.subscription.add(
-      this.userService.get().subscribe((user) => {
+      this.userAccountFacade.get().subscribe((user) => {
         if (user) this.customer = user;
       })
     );

@@ -12,15 +12,6 @@
 }
 
 cx-form-errors {
-  display: none;
-
-  &.control-invalid {
-    &.control-dirty,
-    &.control-touched {
-      display: initial;
-    }
-  }
-
   p {
     font-size: 14px;
     margin: 6px 0;
@@ -69,6 +60,10 @@ cx-file-upload {
 
   input[type='file'] {
     display: none;
+  }
+
+  button {
+    width: 100%;
   }
 }
 
@@ -124,6 +119,10 @@ label {
   }
 }
 
+.notes-content {
+  margin-top: 1rem;
+}
+
 legend {
   margin-bottom: $label-margin-bottom;
 }
@@ -151,6 +150,10 @@ legend {
 
       &:hover {
         color: var(--cx-color-primary);
+      }
+
+      @include media-breakpoint-down(sm) {
+        display: inline;
       }
     }
 

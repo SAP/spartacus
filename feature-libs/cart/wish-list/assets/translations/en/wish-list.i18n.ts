@@ -1,3 +1,7 @@
 export const wishlist = {
-  empty: 'No products in your wish list yet',
+  wishlist: {
+    empty: 'No products in your wish list yet',
+    itemRemoved: 'Selected item has been removed.',
+    caption: 'Wish list contents.',
+  },
 };

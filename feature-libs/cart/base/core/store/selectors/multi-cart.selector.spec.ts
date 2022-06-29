@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/base/root';
+import { take } from 'rxjs/operators';
 import { MultiCartSelectors } from '.';
 import { CartActions } from '../actions';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';
@@ -194,21 +195,58 @@ describe('Multi Cart selectors', () => {
   });
 
   describe('getCartIsStableSelectorFactory', () => {
-    it('should return cart stability flag', () => {
-      let result;
+    it('should return true when cart is stable when there is no active cart', (done) => {
       store
         .pipe(
           select(
             MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
-          )
+          ),
+          take(1)
         )
-        .subscribe((value) => (result = value));
+        .subscribe((result) => {
+          expect(result).toEqual(true);
+          done();
+        });
+    });
 
-      expect(result).toEqual(false);
-
+    it('should return true when cart is stable when there are 0 processes and loading is false', (done) => {
       loadCart();
 
-      expect(result).toEqual(true);
+      store
+        .pipe(
+          select(
+            MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
+          ),
+          take(1)
+        )
+        .subscribe((result) => {
+          expect(result).toEqual(true);
+          done();
+        });
+    });
+
+    it('should return false when there are pending processes', (done) => {
+      store.dispatch(
+        new CartActions.LoadCart({
+          userId: 'userId',
+          extraData: {
+            active: true,
+          },
+          cartId: testCart.code,
+        })
+      );
+
+      store
+        .pipe(
+          select(
+            MultiCartSelectors.getCartIsStableSelectorFactory(testCart.code)
+          ),
+          take(1)
+        )
+        .subscribe((result) => {
+          expect(result).toEqual(false);
+          done();
+        });
     });
   });
 

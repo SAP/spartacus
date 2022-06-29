@@ -1,20 +1,19 @@
+import {
+  cartWithTotalVariantProduct,
+  getApparelCheckoutUser,
+  products,
+  variantProduct,
+} from '../sample-data/apparel-checkout-flow';
 import { assertAddressForm } from './address-book';
 import * as guestCheckout from './checkout-as-guest';
 import * as checkout from './checkout-flow';
 import { validateUpdateProfileForm } from './update-profile';
-import { getApparelCheckoutUser } from '../sample-data/apparel-checkout-flow';
 import {
   addMutipleProductWithoutVariantToCart,
   addVariantOfSameProductToCart,
   APPAREL_CURRENCY,
   visitProductWithoutVariantPage,
 } from './variants/apparel-checkout-flow';
-
-import {
-  cartWithTotalVariantProduct,
-  products,
-  variantProduct,
-} from '../sample-data/apparel-checkout-flow';
 
 export let variantUser;
 export function generateVariantGuestUser() {
@@ -86,7 +85,7 @@ export function testCheckoutVariantAsGuest() {
     });
 
     validateUpdateProfileForm(
-      'mr',
+      'Mr.',
       variantUser.firstName,
       variantUser.lastName
     );

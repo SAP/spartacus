@@ -1,27 +1,44 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { OrderAdapter, ReplenishmentOrderAdapter } from '@spartacus/order/core';
+import {
+  OrderAdapter,
+  OrderHistoryAdapter,
+  ReplenishmentOrderHistoryAdapter,
+  ScheduledReplenishmentOrderAdapter,
+} from '@spartacus/order/core';
 import {
   ORDER_NORMALIZER,
   ORDER_RETURN_REQUEST_NORMALIZER,
+  REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/order/root';
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
 import { OccReturnRequestNormalizer } from './adapters/converters/occ-return-request-normalizer';
+import { OccScheduledReplenishmentOrderFormSerializer } from './adapters/converters/occ-scheduled-replenishment-order-form-serializer';
+import { OccOrderHistoryAdapter } from './adapters/occ-order-history.adapter';
 import { OccOrderAdapter } from './adapters/occ-order.adapter';
-import { OccReplenishmentOrderAdapter } from './adapters/occ-replenishment-order.adapter';
+import { OccReplenishmentOrderHistoryAdapter } from './adapters/occ-replenishment-order-history.adapter';
+import { OccScheduledReplenishmentOrderAdapter } from './adapters/occ-scheduled-replenishment-order.adapter';
 import { defaultOccOrderConfig } from './config/default-occ-order-config';
 
 @NgModule({
   imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccOrderConfig),
-    { provide: OrderAdapter, useClass: OccOrderAdapter },
+    { provide: OrderHistoryAdapter, useClass: OccOrderHistoryAdapter },
     {
-      provide: ReplenishmentOrderAdapter,
-      useClass: OccReplenishmentOrderAdapter,
+      provide: ReplenishmentOrderHistoryAdapter,
+      useClass: OccReplenishmentOrderHistoryAdapter,
+    },
+    {
+      provide: OrderAdapter,
+      useClass: OccOrderAdapter,
+    },
+    {
+      provide: ScheduledReplenishmentOrderAdapter,
+      useClass: OccScheduledReplenishmentOrderAdapter,
     },
     {
       provide: ORDER_RETURN_REQUEST_NORMALIZER,
@@ -36,6 +53,11 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
     {
       provide: REPLENISHMENT_ORDER_NORMALIZER,
       useExisting: OccReplenishmentOrderNormalizer,
+      multi: true,
+    },
+    {
+      provide: REPLENISHMENT_ORDER_FORM_SERIALIZER,
+      useExisting: OccScheduledReplenishmentOrderFormSerializer,
       multi: true,
     },
   ],

@@ -1,26 +1,21 @@
 import { addProduct } from '../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
 import { addToCartTabbingOrder } from '../../helpers/accessibility/tabbing-order/add-to-cart';
-import {
-  asmTabbingOrderNoSelectedUser,
-  asmTabbingOrderNotLoggedIn,
-  asmTabbingOrderWithSelectedUser,
-} from '../../helpers/accessibility/tabbing-order/asm';
 import { cartTabbingOrder } from '../../helpers/accessibility/tabbing-order/cart';
 import {
   checkoutAppliedCouponsTabbingOrder,
   checkoutCouponsTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/coupons';
+import {
+  checkoutShippingAddressExistingTabbingOrder,
+  checkoutShippingAddressNewTabbingOrder,
+} from '../../helpers/accessibility/tabbing-order/checkout/delivery-address';
 import { checkoutDeliveryModeTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/delivery-mode';
 import {
   checkoutBillingAddressTabbingOrder,
   checkoutPaymentDetailsTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/checkout/payment-details';
 import { checkoutReviewOrderTabbingOrder } from '../../helpers/accessibility/tabbing-order/checkout/review-order';
-import {
-  checkoutShippingAddressExistingTabbingOrder,
-  checkoutShippingAddressNewTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/checkout/shipping-address';
 import {
   consignmentTrackingEventsTabbingOrder,
   consignmentTrackingTabbingOrder,

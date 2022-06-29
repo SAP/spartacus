@@ -215,6 +215,34 @@ describe('ConfigAttributeDropDownComponent', () => {
     });
   });
 
+  describe('Rendering for additional value', () => {
+    it('should provide input field for alpha numeric value ', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NONE;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-input-field'
+      );
+    });
+
+    it('should provide input field for numeric value ', () => {
+      component.attribute.uiType =
+        Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT;
+      component.attribute.validationType = Configurator.ValidationType.NUMERIC;
+      fixture.detectChanges();
+      htmlElem = fixture.nativeElement;
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-numeric-input-field'
+      );
+    });
+  });
+
   describe('Accessibility', () => {
     it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -225,7 +253,8 @@ describe('ConfigAttributeDropDownComponent', () => {
         0,
         undefined,
         undefined,
-        'configurator.a11y.listbox count:' + component.attribute.values.length
+        'configurator.a11y.listbox count:' +
+          (component.attribute.values ? component.attribute.values.length : 0)
       );
     });
 
@@ -252,8 +281,8 @@ describe('ConfigAttributeDropDownComponent', () => {
         'configurator.a11y.selectedValueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
-          component.attribute.values[1].valueDisplay,
-        component.attribute.values[1].valueDisplay
+          value2.valueDisplay,
+        value2.valueDisplay
       );
     });
 
@@ -282,10 +311,10 @@ describe('ConfigAttributeDropDownComponent', () => {
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          component.attribute.values[0].valuePrice.formattedValue +
+          value1.valuePrice?.formattedValue +
           ' value:' +
-          component.attribute.values[0].valueDisplay,
-        component.attribute.values[0].valueDisplay
+          value1.valueDisplay,
+        value1.valueDisplay
       );
     });
 
@@ -314,10 +343,10 @@ describe('ConfigAttributeDropDownComponent', () => {
         'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
-          component.attribute.values[0].valuePrice.formattedValue +
+          value1.valuePrice?.formattedValue +
           ' value:' +
-          component.attribute.values[0].valueDisplay,
-        component.attribute.values[0].valueDisplay
+          value1.valueDisplay,
+        value1.valueDisplay
       );
     });
   });

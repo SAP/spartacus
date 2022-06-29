@@ -75,6 +75,10 @@ const v2_confInfo_version: ConfigurationInfo = {
   configurationLabel: 'CI#@#VERSION',
   configurationValue: '2',
 };
+const v1_confInfo_version: ConfigurationInfo = {
+  configurationLabel: 'CI#@#VERSION',
+  configurationValue: '1',
+};
 
 const v2_confInfo0_name_novalue: ConfigurationInfo = {
   configurationLabel: 'LI#0#NAME',
@@ -464,6 +468,21 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
       expect(lineItems.length).toBe(2);
       expect(lineItems[0]).toEqual(v2_expectedLineItem0);
       expect(lineItems[1]).toEqual(v2_expectedLineItem1);
+    });
+
+    it('should handle order entries without configuration info', () => {
+      const orderEntry: OrderEntry = {};
+      const lineItems: LineItem[] =
+        configuratorCartEntryBundleInfoService.retrieveLineItems(orderEntry);
+      expect(lineItems.length).toBe(0);
+    });
+    it('should handle unknown version as part of configuration info', () => {
+      const orderEntry: OrderEntry = {
+        configurationInfos: [v1_confInfo_version],
+      };
+      const lineItems: LineItem[] =
+        configuratorCartEntryBundleInfoService.retrieveLineItems(orderEntry);
+      expect(lineItems.length).toBe(0);
     });
   });
 });

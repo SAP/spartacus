@@ -4,10 +4,12 @@ import {
   FORGOT_PASSWORD_COMPONENT,
   FORM_BUILDER,
   ROUTING_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   USER_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const FORGOT_PASSWORD_COMPONENT_MIGRATION: ConstructorDeprecation = {

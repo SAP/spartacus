@@ -63,12 +63,12 @@ export class ConfiguratorFormComponent implements OnInit {
             .hasConflicts(routingData.owner)
             .pipe(take(1))
             .subscribe((hasConflicts) => {
-              if (hasConflicts) {
+              if (hasConflicts && !routingData.skipConflicts) {
                 this.configuratorGroupsService.navigateToConflictSolver(
                   routingData.owner
                 );
 
-                //Only check for Incomplete group when there are no conflicts
+                //Only check for Incomplete group when there are no conflicts or conflicts should be skipped
               } else {
                 this.configuratorGroupsService.navigateToFirstIncompleteGroup(
                   routingData.owner

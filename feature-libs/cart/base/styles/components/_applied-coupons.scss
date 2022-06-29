@@ -35,10 +35,6 @@
       flex: 0 0 100%;
       max-width: 100%;
     }
-
-    @include media-breakpoint-up(md) {
-      padding-inline-end: 0;
-    }
   }
 
   .textonly {

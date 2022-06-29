@@ -13,6 +13,7 @@ import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
 import { ViewConfig } from '../../../shared/config/view-config';
 import {
+  AtMessageModule,
   ItemCounterModule,
   ListNavigationModule,
   MediaModule,
@@ -29,20 +30,21 @@ import { ProductViewComponent } from './product-view/product-view.component';
 
 @NgModule({
   imports: [
+    AtMessageModule,
     CommonModule,
-    RouterModule,
-    MediaModule,
+    FeaturesConfigModule,
+    I18nModule,
+    IconModule,
+    InfiniteScrollModule,
     ItemCounterModule,
     ListNavigationModule,
-    UrlModule,
-    I18nModule,
-    StarRatingModule,
-    IconModule,
-    SpinnerModule,
-    InfiniteScrollModule,
-    FeaturesConfigModule,
+    MediaModule,
     OutletModule,
     PageComponentModule,
+    RouterModule,
+    SpinnerModule,
+    StarRatingModule,
+    UrlModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>defaultViewConfig),

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { CheckoutFacade } from '@spartacus/checkout/root';
+import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
   OCC_USER_ID_CURRENT,
   StateUtils,
@@ -25,7 +25,8 @@ export class ConfiguratorCartService {
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartFacade,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected checkoutFacade: CheckoutFacade,
+    // TODO:#checkout - handle the breaking changes
+    protected checkoutQueryFacade: CheckoutQueryFacade,
     protected userIdService: UserIdService,
     protected configuratorUtilsService: ConfiguratorUtilsService
   ) {}
@@ -50,7 +51,10 @@ export class ConfiguratorCartService {
         this.activeCartService.isStable().pipe(filter((stable) => stable))
       ),
       delayWhen(() =>
-        this.checkoutFacade.isLoading().pipe(filter((loading) => !loading))
+        this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
+          map((state) => state.loading),
+          filter((loading) => !loading)
+        )
       ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {

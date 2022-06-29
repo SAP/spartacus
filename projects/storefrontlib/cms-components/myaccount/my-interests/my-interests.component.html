@@ -6,7 +6,15 @@
     class="cx-product-interests-body"
     *ngIf="!(getInterestsloading$ | async); else loading"
   >
-    <ng-container *ngIf="interests.pagination.totalCount > 0; else noInterest">
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <ng-container
+      *ngIf="
+        interests.pagination &&
+          interests.pagination.totalCount &&
+          interests.pagination.totalCount > 0;
+        else noInterest
+      "
+    >
       <div class="cx-product-interests-sort top row">
         <label
           class="
@@ -21,6 +29,8 @@
             (sortListEvent)="sortChange($event)"
             [selectedOption]="sort"
             placeholder="{{ 'myInterests.sortBy' | cxTranslate }}"
+            [ariaLabel]="'myInterests.sortInterests' | cxTranslate"
+            ariaControls="product-interests-table"
           >
           </cx-sorting>
         </label>
@@ -35,7 +45,10 @@
           ></cx-pagination>
         </div>
       </div>
-      <table class="table cx-product-interests-table">
+      <table
+        id="product-interests-table"
+        class="table cx-product-interests-table"
+      >
         <thead class="cx-product-interests-thead-mobile">
           <th scope="col">
             {{ 'myInterests.item' | cxTranslate }}
@@ -116,7 +129,7 @@
                       </ng-container>
                       <div
                         class="cx-property"
-                        *ngIf="product.stock.stockLevelStatus === 'outOfStock'"
+                        *ngIf="product.stock?.stockLevelStatus === 'outOfStock'"
                       >
                         <div
                           class="cx-label cx-product-interests-product-stock"
@@ -133,7 +146,7 @@
                   <div class="d-md-none cx-product-interests-label">
                     {{ 'myInterests.price' | cxTranslate }}
                   </div>
-                  <span>{{ product.price.formattedValue }}</span>
+                  <span>{{ product.price?.formattedValue }}</span>
                 </div>
               </td>
               <td>
@@ -194,6 +207,8 @@
             (sortListEvent)="sortChange($event)"
             [selectedOption]="sort"
             placeholder="{{ 'myInterests.sortBy' | cxTranslate }}"
+            [ariaLabel]="'myInterests.sortInterests' | cxTranslate"
+            ariaControls="product-interests-table"
           >
           </cx-sorting>
         </label>

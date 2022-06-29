@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import {
   ReplenishmentOrder,
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
@@ -21,7 +21,9 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
 };
 
-class MockUserReplenishmentOrderService {
+class MockReplenishmentOrderHistoryFacade
+  implements Partial<ReplenishmentOrderHistoryFacade>
+{
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return of(mockReplenishmentOrder);
   }
@@ -53,7 +55,7 @@ class MockLaunchDialogService {
 
 describe('ReplenishmentOrderCancellationDialogComponent', () => {
   let component: ReplenishmentOrderCancellationDialogComponent;
-  let userReplenishmentOrderService: ReplenishmentOrderFacade;
+  let replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade;
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationDialogComponent>;
@@ -65,8 +67,8 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
         declarations: [ReplenishmentOrderCancellationDialogComponent],
         providers: [
           {
-            provide: ReplenishmentOrderFacade,
-            useClass: MockUserReplenishmentOrderService,
+            provide: ReplenishmentOrderHistoryFacade,
+            useClass: MockReplenishmentOrderHistoryFacade,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -79,7 +81,9 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     fixture = TestBed.createComponent(
       ReplenishmentOrderCancellationDialogComponent
     );
-    userReplenishmentOrderService = TestBed.inject(ReplenishmentOrderFacade);
+    replenishmentOrderHistoryFacade = TestBed.inject(
+      ReplenishmentOrderHistoryFacade
+    );
     globalMessageService = TestBed.inject(GlobalMessageService);
     launchDialogService = TestBed.inject(LaunchDialogService);
 
@@ -94,7 +98,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   it('should be able to get replenishment order details', () => {
     let result: ReplenishmentOrder;
 
-    userReplenishmentOrderService
+    replenishmentOrderHistoryFacade
       .getReplenishmentOrderDetails()
       .subscribe((data) => (result = data))
       .unsubscribe();
@@ -103,9 +107,12 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should redirect to same page and add global message on successful cancellation ', () => {
-    spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
     spyOn(
-      userReplenishmentOrderService,
+      replenishmentOrderHistoryFacade,
+      'cancelReplenishmentOrder'
+    ).and.stub();
+    spyOn(
+      replenishmentOrderHistoryFacade,
       'clearCancelReplenishmentOrderProcessState'
     ).and.stub();
     spyOn(globalMessageService, 'add').and.stub();
@@ -128,7 +135,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     );
 
     expect(
-      userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState
+      replenishmentOrderHistoryFacade.clearCancelReplenishmentOrderProcessState
     ).toHaveBeenCalled();
   });
 
@@ -145,12 +152,15 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the cancel replenishment', () => {
-    spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
+    spyOn(
+      replenishmentOrderHistoryFacade,
+      'cancelReplenishmentOrder'
+    ).and.stub();
 
     component.cancelReplenishment();
 
     expect(
-      userReplenishmentOrderService.cancelReplenishmentOrder
+      replenishmentOrderHistoryFacade.cancelReplenishmentOrder
     ).toHaveBeenCalledWith(mockReplenishmentOrder.replenishmentOrderCode);
   });
 });

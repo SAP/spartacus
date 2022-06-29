@@ -1,7 +1,9 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { OAuthEvent, OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { WindowRef } from '../../../window/window-ref';
+import { OAuthTryLoginResult } from '../models/oauth-try-login-response';
 import { AuthConfigService } from './auth-config.service';
 
 /**
@@ -111,11 +113,39 @@ export class OAuthLibWrapperService {
 
   /**
    * Tries to login user based on `code` or `token` present in the url.
+   *
+   * @param result The result returned by `OAuthService.tryLogin()`.
+   *
+   * @param tokenReceived Whether the event 'token_received' is emitted during `OAuthService.tryLogin()`.
+   * We can use this identify that we have returned from an external authorization page to Spartacus).
+   * In cases where we don't receive this event, the token has been obtained from storage.
    */
-  tryLogin() {
-    return this.oAuthService.tryLogin({
-      // We don't load discovery document, because it doesn't contain revoke endpoint information
-      disableOAuth2StateCheck: true,
+  tryLogin(): Promise<OAuthTryLoginResult> {
+    return new Promise((resolve) => {
+      // We use the 'token_received' event to check if we have returned
+      // from the auth server.
+      let tokenReceivedEvent: OAuthEvent | undefined;
+      const subscription = this.events$
+        .pipe(
+          filter((event) => event.type === 'token_received'),
+          take(1)
+        )
+        .subscribe((event) => (tokenReceivedEvent = event));
+
+      this.oAuthService
+        .tryLogin({
+          // We don't load discovery document, because it doesn't contain revoke endpoint information
+          disableOAuth2StateCheck: true,
+        })
+        .then((result: boolean) => {
+          resolve({
+            result: result,
+            tokenReceived: !!tokenReceivedEvent,
+          });
+        })
+        .finally(() => {
+          subscription.unsubscribe();
+        });
     });
   }
 }

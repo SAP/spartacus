@@ -22,7 +22,7 @@ export class AddressBookComponent implements OnInit {
 
   showAddAddressForm = false;
   showEditAddressForm = false;
-  editCard: string;
+  editCard: string | null;
 
   constructor(
     public service: AddressBookComponentService,
@@ -58,14 +58,16 @@ export class AddressBookComponent implements OnInit {
 
   editAddressSubmit(address: Address): void {
     this.showEditAddressForm = false;
-    this.service.updateUserAddress(this.currentAddress['id'], address);
+    if (address && this.currentAddress['id']) {
+      this.service.updateUserAddress(this.currentAddress['id'], address);
+    }
   }
 
   editAddressCancel(): void {
     this.showEditAddressForm = false;
   }
 
-  getCardContent(address: Address) {
+  getCardContent(address: Address): Observable<Card> {
     return combineLatest([
       this.translation.translate('addressCard.default'),
       this.translation.translate('addressCard.setAsDefault'),
@@ -95,11 +97,12 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textDelete, event: 'delete' });
 
           return {
+            role: 'region',
             textBold: address.firstName + ' ' + address.lastName,
             text: [
               address.line1,
               address.line2,
-              address.town + ', ' + region + address.country.isocode,
+              address.town + ', ' + region + address.country?.isocode,
               address.postalCode,
               address.phone,
             ],
@@ -107,9 +110,9 @@ export class AddressBookComponent implements OnInit {
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
             deleteMsg: textVerifyDeleteMsg,
             label: address.defaultAddress
-              ? 'addressBook.defaultShippingAddress'
-              : 'addressBook.additionalShippingAddress',
-          };
+              ? 'addressBook.defaultDeliveryAddress'
+              : 'addressBook.additionalDeliveryAddress',
+          } as Card;
         }
       )
     );
@@ -119,7 +122,7 @@ export class AddressBookComponent implements OnInit {
     this.service.setAddressAsDefault(address.id ?? '');
     this.globalMessageService.add(
       {
-        key: 'addressMessages.setAsDefaultSucessfully',
+        key: 'addressMessages.setAsDefaultSuccessfully',
         params: { streetAddress: address.line1 },
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION

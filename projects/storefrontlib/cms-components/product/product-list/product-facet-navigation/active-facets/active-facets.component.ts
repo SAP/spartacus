@@ -24,7 +24,9 @@ export class ActiveFacetsComponent {
   constructor(protected facetService: FacetService) {}
 
   getLinkParams(facet: Breadcrumb) {
-    return this.facetService.getLinkParams(facet.removeQuery?.query?.value);
+    return this.facetService.getLinkParams(
+      facet.removeQuery?.query?.value ?? ''
+    );
   }
 
   /**
@@ -41,5 +43,16 @@ export class ActiveFacetsComponent {
     )
       ? ''
       : facet.facetValueName;
+  }
+
+  /**
+   * Purpose of this function is to allow keyboard users to click on a filter they
+   * wish to remove by pressing spacebar. Event not handled natively by <a> elements.
+   *
+   * @param event spacebar keydown
+   */
+  removeFilterWithSpacebar(event?: Event): void {
+    event?.preventDefault(); // Avoid spacebar scroll
+    event?.target?.dispatchEvent(new MouseEvent('click', { cancelable: true }));
   }
 }

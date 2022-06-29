@@ -14,7 +14,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -83,7 +83,9 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockUserReplenishmentOrderService {
+class MockReplenishmentOrderHistoryFacade
+  implements Partial<ReplenishmentOrderHistoryFacade>
+{
   getReplenishmentOrderHistoryList(): Observable<ReplenishmentOrderList> {
     return replenishmentOrderHistory.asObservable();
   }
@@ -91,7 +93,6 @@ class MockUserReplenishmentOrderService {
     return of(true);
   }
   loadReplenishmentOrderList(
-    _userId: string,
     _pageSize: number,
     _currentPage?: number,
     _sort?: string
@@ -116,7 +117,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 describe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
-  let userService: ReplenishmentOrderFacade;
+  let replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
   let el: DebugElement;
@@ -134,8 +135,8 @@ describe('ReplenishmentOrderHistoryComponent', () => {
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
           {
-            provide: ReplenishmentOrderFacade,
-            useClass: MockUserReplenishmentOrderService,
+            provide: ReplenishmentOrderHistoryFacade,
+            useClass: MockReplenishmentOrderHistoryFacade,
           },
           {
             provide: LaunchDialogService,
@@ -144,7 +145,9 @@ describe('ReplenishmentOrderHistoryComponent', () => {
         ],
       }).compileComponents();
 
-      userService = TestBed.inject(ReplenishmentOrderFacade);
+      replenishmentOrderHistoryFacade = TestBed.inject(
+        ReplenishmentOrderHistoryFacade
+      );
       routingService = TestBed.inject(RoutingService);
       launchDialogService = TestBed.inject(LaunchDialogService);
     })
@@ -204,29 +207,31 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should set correctly sort code', () => {
-    spyOn(userService, 'loadReplenishmentOrderList').and.stub();
+    spyOn(
+      replenishmentOrderHistoryFacade,
+      'loadReplenishmentOrderList'
+    ).and.stub();
 
     component.changeSortCode('byReplenishmentNumber');
 
     expect(component.sortType).toBe('byReplenishmentNumber');
-    expect(userService.loadReplenishmentOrderList).toHaveBeenCalledWith(
-      5,
-      0,
-      'byReplenishmentNumber'
-    );
+    expect(
+      replenishmentOrderHistoryFacade.loadReplenishmentOrderList
+    ).toHaveBeenCalledWith(5, 0, 'byReplenishmentNumber');
   });
 
   it('should set correctly page', () => {
-    spyOn(userService, 'loadReplenishmentOrderList').and.stub();
+    spyOn(
+      replenishmentOrderHistoryFacade,
+      'loadReplenishmentOrderList'
+    ).and.stub();
 
     component.sortType = 'byDate';
     component.pageChange(1);
 
-    expect(userService.loadReplenishmentOrderList).toHaveBeenCalledWith(
-      5,
-      1,
-      'byDate'
-    );
+    expect(
+      replenishmentOrderHistoryFacade.loadReplenishmentOrderList
+    ).toHaveBeenCalledWith(5, 1, 'byDate');
   });
 
   it('should be able to call the open dialog', () => {
@@ -303,10 +308,15 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should clear replenishment order history data when component destroy', () => {
-    spyOn(userService, 'clearReplenishmentOrderList').and.stub();
+    spyOn(
+      replenishmentOrderHistoryFacade,
+      'clearReplenishmentOrderList'
+    ).and.stub();
 
     component.ngOnDestroy();
 
-    expect(userService.clearReplenishmentOrderList).toHaveBeenCalledWith();
+    expect(
+      replenishmentOrderHistoryFacade.clearReplenishmentOrderList
+    ).toHaveBeenCalledWith();
   });
 });

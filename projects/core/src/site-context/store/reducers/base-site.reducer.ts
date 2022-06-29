@@ -40,7 +40,7 @@ export function reducer(
         (siteEntities: { [uid: string]: BaseSite }, site: BaseSite) => {
           return {
             ...siteEntities,
-            [site.uid]: site,
+            [site.uid ?? '']: site,
           };
         },
         {

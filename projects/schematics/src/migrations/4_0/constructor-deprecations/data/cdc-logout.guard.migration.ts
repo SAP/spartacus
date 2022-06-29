@@ -7,10 +7,12 @@ import {
   PROTECTED_ROUTES_SERVICE,
   ROUTER,
   SEMANTIC_PATH_SERVICE,
-  SPARTACUS_CDC,
-  SPARTACUS_CORE,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CDC,
+  SPARTACUS_CORE,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION: ConstructorDeprecation = {

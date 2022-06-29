@@ -1,14 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/base/core';
 import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   CloneSavedCartEvent,
   CloneSavedCartFailEvent,
   CloneSavedCartSuccessEvent,
-  DeleteSavedCartEvent,
-  DeleteSavedCartFailEvent,
-  DeleteSavedCartSuccessEvent,
   EditSavedCartEvent,
   EditSavedCartFailEvent,
   EditSavedCartSuccessEvent,
@@ -255,90 +251,6 @@ describe('SavedCartEventBuilder', () => {
 
         actions$.next({
           type: SavedCartActions.RESTORE_SAVED_CART_FAIL,
-          payload,
-        });
-
-        expect(result).toEqual(jasmine.objectContaining(eventData));
-      });
-    });
-  });
-
-  describe('Delete Save Cart Events', () => {
-    describe('DeleteSavedCartEvent', () => {
-      it('should emit the event when the action is fired', () => {
-        const payload = {
-          cartId: mockSavedCartCode,
-          userId: mockUserId,
-        };
-
-        const eventData: DeleteSavedCartEvent = {
-          cartCode: mockSavedCartCode,
-          ...payload,
-        };
-
-        let result: DeleteSavedCartEvent | undefined;
-        eventService
-          .get(DeleteSavedCartEvent)
-          .pipe(take(1))
-          .subscribe((value) => (result = value));
-
-        actions$.next({
-          type: CartActions.DELETE_CART,
-          payload,
-        });
-
-        expect(result).toEqual(jasmine.objectContaining(eventData));
-      });
-    });
-
-    describe('DeleteSavedCartSuccessEvent', () => {
-      it('should emit the event when the action is fired', () => {
-        const payload = {
-          cartId: mockSavedCartCode,
-          userId: mockUserId,
-        };
-
-        const eventData: DeleteSavedCartSuccessEvent = {
-          cartCode: mockSavedCartCode,
-          ...payload,
-        };
-
-        let result: DeleteSavedCartSuccessEvent | undefined;
-        eventService
-          .get(DeleteSavedCartSuccessEvent)
-          .pipe(take(1))
-          .subscribe((value) => (result = value));
-
-        actions$.next({
-          type: CartActions.DELETE_CART_SUCCESS,
-          payload,
-        });
-
-        expect(result).toEqual(jasmine.objectContaining(eventData));
-      });
-    });
-
-    describe('DeleteSavedCartFailEvent', () => {
-      it('should emit the event when the action is fired', () => {
-        const payload = {
-          cartId: mockSavedCartCode,
-          userId: mockUserId,
-          error: { error: 'error' },
-        };
-
-        const eventData: DeleteSavedCartFailEvent = {
-          cartCode: mockSavedCartCode,
-          ...payload,
-        };
-
-        let result: DeleteSavedCartFailEvent | undefined;
-        eventService
-          .get(DeleteSavedCartFailEvent)
-          .pipe(take(1))
-          .subscribe((value) => (result = value));
-
-        actions$.next({
-          type: CartActions.DELETE_CART_FAIL,
           payload,
         });
 

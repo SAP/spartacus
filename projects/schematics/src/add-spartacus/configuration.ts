@@ -1,4 +1,9 @@
-import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
+import {
+  Rule,
+  SchematicContext,
+  SchematicsException,
+  Tree,
+} from '@angular-devkit/schematics';
 import { SourceFile } from 'ts-morph';
 import {
   FEATURES_CONFIG,
@@ -6,11 +11,13 @@ import {
   OCC_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
   SITE_CONTEXT_CONFIG,
+} from '../shared/constants';
+import {
   SPARTACUS_ASSETS,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../shared/constants';
+} from '../shared/libs-constants';
 import { addModuleProvider } from '../shared/utils/new-module-utils';
 import { getSpartacusCurrentFeatureLevel } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
@@ -19,7 +26,11 @@ import { parseCSV } from '../shared/utils/transform-utils';
 import { Schema as SpartacusOptions } from './schema';
 
 export function addSpartacusConfiguration(options: SpartacusOptions): Rule {
-  return (tree: Tree): Tree => {
+  return (tree: Tree, context: SchematicContext): Tree => {
+    if (options.debug) {
+      context.logger.info(`⌛️ Setting up Spartacus configuration module...`);
+    }
+
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
     if (!buildPaths.length) {
@@ -31,6 +42,10 @@ export function addSpartacusConfiguration(options: SpartacusOptions): Rule {
     const basePath = process.cwd();
     for (const tsconfigPath of buildPaths) {
       addConfiguration(tree, tsconfigPath, basePath, options);
+    }
+
+    if (options.debug) {
+      context.logger.info(`✅ Spartacus configuration module setup complete.`);
     }
     return tree;
   };
@@ -53,7 +68,6 @@ function addConfiguration(
       addCommonConfiguration(sourceFile, options);
 
       saveAndFormat(sourceFile);
-
       break;
     }
   }

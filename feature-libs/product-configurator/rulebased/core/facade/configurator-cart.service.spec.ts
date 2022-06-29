@@ -3,10 +3,14 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-import { CheckoutFacade } from '@spartacus/checkout/root';
+import {
+  CheckoutQueryFacade,
+  CheckoutState,
+} from '@spartacus/checkout/base/root';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
+  QueryState,
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
@@ -67,7 +71,7 @@ const productConfiguration: Configurator.Configuration = {
 
 let cartObs: Observable<Cart>;
 let isStableObs: Observable<boolean>;
-let checkoutLoadingObs: Observable<boolean>;
+let checkoutLoadingObs: Observable<QueryState<CheckoutState>>;
 class MockActiveCartService {
   requireLoadedCart(): Observable<Cart> {
     return cartObs;
@@ -77,8 +81,8 @@ class MockActiveCartService {
   }
 }
 
-class MockCheckoutFacade {
-  isLoading(): Observable<boolean> {
+class MockCheckoutQueryFacade {
+  getCheckoutDetailsState(): Observable<QueryState<CheckoutState>> {
     return checkoutLoadingObs;
   }
 }
@@ -98,7 +102,7 @@ describe('ConfiguratorCartService', () => {
     waitForAsync(() => {
       cartObs = of(cart);
       isStableObs = of(true);
-      checkoutLoadingObs = of(true);
+      checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
       TestBed.configureTestingModule({
         imports: [
           StoreModule.forRoot({}),
@@ -112,8 +116,8 @@ describe('ConfiguratorCartService', () => {
             useClass: MockActiveCartService,
           },
           {
-            provide: CheckoutFacade,
-            useClass: MockCheckoutFacade,
+            provide: CheckoutQueryFacade,
+            useClass: MockCheckoutQueryFacade,
           },
           {
             provide: UserIdService,
@@ -214,7 +218,7 @@ describe('ConfiguratorCartService', () => {
         y: true,
       });
       checkoutLoadingObs = cold('a', {
-        a: false,
+        a: { loading: false, error: false, data: undefined },
       });
 
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
@@ -241,8 +245,8 @@ describe('ConfiguratorCartService', () => {
         a: true,
       });
       checkoutLoadingObs = cold('xxy', {
-        x: true,
-        y: false,
+        x: { loading: true, error: false, data: undefined },
+        y: { loading: false, error: false, data: undefined },
       });
 
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =

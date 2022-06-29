@@ -12,6 +12,10 @@
       </div>
       <div *ngIf="loading$ | async; else cards"><cx-spinner></cx-spinner></div>
       <ng-template #cards>
+        <div
+          role="status"
+          [attr.aria-label]="'common.loaded' | cxTranslate"
+        ></div>
         <div class="cx-existing row">
           <div
             class="cx-payment-card col-sm-12 col-md-12 col-lg-6"

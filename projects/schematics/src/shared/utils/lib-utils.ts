@@ -2,7 +2,6 @@ import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
   ExecutionOptions,
-  externalSchematic,
   noop,
   Rule,
   SchematicContext,
@@ -10,73 +9,42 @@ import {
   TaskId,
   Tree,
 } from '@angular-devkit/schematics';
-import {
-  NodePackageInstallTask,
-  RunSchematicTask,
-} from '@angular-devkit/schematics/tasks';
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
-  ANGULAR_CORE,
-  CLI_ASM_FEATURE,
-  CLI_CART_BASE_FEATURE,
-  CLI_CART_IMPORT_EXPORT_FEATURE,
-  CLI_CART_QUICK_ORDER_FEATURE,
-  CLI_CART_SAVED_CART_FEATURE,
-  CLI_CART_WISHLIST_FEATURE,
-  CLI_CDC_FEATURE,
-  CLI_CDS_FEATURE,
-  CLI_CHECKOUT_FEATURE,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
-  CLI_ORDER_FEATURE,
-  CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
-  CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
-  CLI_PRODUCT_BULK_PRICING_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
-  CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
-  CLI_PRODUCT_VARIANTS_FEATURE,
-  CLI_QUALTRICS_FEATURE,
-  CLI_SMARTEDIT_FEATURE,
-  CLI_STOREFINDER_FEATURE,
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
-  CLI_TRACKING_TMS_AEP_FEATURE,
-  CLI_TRACKING_TMS_GTM_FEATURE,
-  CLI_USER_ACCOUNT_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
   CMS_CONFIG,
   I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
-  SPARTACUS_ASM,
-  SPARTACUS_CART,
-  SPARTACUS_CDC,
-  SPARTACUS_CDS,
-  SPARTACUS_CHECKOUT,
-  SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_CORE,
-  SPARTACUS_DIGITAL_PAYMENTS,
-  SPARTACUS_FEATURES_MODULE,
-  SPARTACUS_FEATURES_NG_MODULE,
-  SPARTACUS_ORDER,
-  SPARTACUS_ORGANIZATION,
-  SPARTACUS_PRODUCT,
-  SPARTACUS_PRODUCT_CONFIGURATOR,
-  SPARTACUS_QUALTRICS,
-  SPARTACUS_SETUP,
-  SPARTACUS_SMARTEDIT,
-  SPARTACUS_STOREFINDER,
-  SPARTACUS_TRACKING,
-  SPARTACUS_USER,
   UTF_8,
 } from '../constants';
+import {
+  SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_CORE,
+  SPARTACUS_FEATURES_MODULE,
+  SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_SETUP,
+} from '../libs-constants';
 import { getB2bConfiguration } from './config-utils';
-import { isImportedFrom } from './import-utils';
+import {
+  AdditionalFeatureConfiguration,
+  AdditionalProviders,
+  findFeatureModule,
+  getSpartacusFeaturesModule,
+} from './feature-utils';
+import {
+  crossFeatureInstallationOrder,
+  crossLibraryInstallationOrder,
+} from './graph-utils';
+import { createImports } from './import-utils';
+import {
+  debugLogRule,
+  formatFeatureComplete,
+  formatFeatureStart,
+} from './logger-utils';
 import {
   addModuleImport,
   addModuleProvider,
@@ -102,11 +70,56 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
   lazy?: boolean;
   features?: string[];
-  // meta, when programmatically installing other Spartacus libraries as dependencies
+  /**
+   * When enabled, prints the additional logs.
+   */
+  debug?: boolean;
+  /**
+   * Internal options.
+   * Should not be set by the user.
+   */
+  internal?: {
+    /**
+     * If Spartacus is already installed in the app.
+     */
+    existingSpartacusApplication?: boolean;
+  };
+  /**
+   * Meta.
+   * Populated when programmatically invoking
+   * Spartacus installation schematics in order
+   * to install them as dependencies.
+   */
   options?: LibraryOptions;
 }
 
-export interface FeatureConfig {
+/**
+ * Configuration describing the feature schematics.
+ */
+export interface SchematicConfig {
+  /**
+   * Library options
+   */
+  library: {
+    /**
+     * The feature name, e.g. CHECKOUT_BASE_FEATURE.
+     * Corresponds to the CLI's name defined in file:
+     * `projects/schematics/src/add-spartacus/schema.json`
+     */
+    featureName: string;
+    /**
+     * Spartacus library scope, e.g. `@spartacus/checkout`
+     */
+    mainScope: string;
+    /**
+     * E.g. `@spartacus/checkout/base/b2b`
+     */
+    featureScope?: string;
+    /**
+     * If the feature is a b2b feature, it will provide the b2b configuration.
+     */
+    b2b?: boolean;
+  };
   /**
    * The folder in which we will generate the feature module. E.g. app/spartacus/features/__organization__ (__NOTE__: just the `organization` part should be provided.).
    */
@@ -118,14 +131,17 @@ export interface FeatureConfig {
   moduleName: string;
   /**
    * The feature module configuration.
+   * E.g. `CheckoutB2BModule` from `@spartacus/checkout/b2b`.
    */
   featureModule: Module | Module[];
   /**
    * The root module configuration.
+   * E.g. `CheckoutB2BRootModule` from `@spartacus/checkout/b2b/root`.
    */
   rootModule?: Module;
   /**
-   * The lazy loading chunk's name. It's usually a constant imported from a library.
+   * The lazy loading chunk's name.
+   * It's usually a constant imported from a library.
    */
   lazyLoadingChunk?: Import;
   /**
@@ -141,38 +157,41 @@ export interface FeatureConfig {
    */
   assets?: AssetsConfig;
   /**
-   * An optional custom configuration to provide to the generated module.
+   * A function returning the custom configuration.
    */
-  customConfig?: CustomConfig | CustomConfig[];
+  customConfig?: <OPTIONS extends LibraryOptions>(
+    options: OPTIONS
+  ) => AdditionalFeatureConfiguration;
   /**
-   * Dependency management for the library
+   * A list of feature dependencies which will be configured
+   * during the new Spartacus installation.
    */
-  dependencyManagement?: DependencyManagement;
-}
-
-/**
- * Dependency management for the library
- */
-export interface DependencyManagement {
+  dependencyFeatures?: string[];
   /**
-   * The name of the feature that's currently being installed.
+   * Configuration for generating the wrapper modules.
    */
-  featureName: string;
-  /**
-   * Contains the feature dependencies.
-   * The key is a Spartacus scope, while the value is an array of its features.
-   */
-  featureDependencies: Record<string, string[]>;
-}
-
-export interface CustomConfig {
-  import: Import[];
-  content: string;
+  importAfter?: {
+    /**
+     * The "marker" module name is a module name for which to search for.
+     */
+    markerModuleName: string;
+    /**
+     * The feature module name will be imported after the "marker" module.
+     */
+    featureModuleName: string;
+  }[];
 }
 
 export interface Module {
+  /** Module name */
   name: string;
+  /** Module import path */
   importPath: string;
+  /**
+   * The content to specify in ng-module's imports,
+   * e.g. `AuthModule.forRoot()`. If not specified,
+   * the `name` is used.
+   */
   content?: string;
 }
 
@@ -193,45 +212,6 @@ export interface AssetsConfig {
   glob: string;
 }
 
-export const packageSubFeaturesMapping: Record<string, string[]> = {
-  [SPARTACUS_ASM]: [CLI_ASM_FEATURE],
-  [SPARTACUS_CART]: [
-    CLI_CART_BASE_FEATURE,
-    CLI_CART_WISHLIST_FEATURE,
-    CLI_CART_IMPORT_EXPORT_FEATURE,
-    CLI_CART_QUICK_ORDER_FEATURE,
-    CLI_CART_SAVED_CART_FEATURE,
-  ],
-  [SPARTACUS_ORGANIZATION]: [
-    CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
-    CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
-  ],
-  [SPARTACUS_CDC]: [CLI_CDC_FEATURE],
-  [SPARTACUS_CDS]: [CLI_CDS_FEATURE],
-  [SPARTACUS_DIGITAL_PAYMENTS]: [CLI_DIGITAL_PAYMENTS_FEATURE],
-  [SPARTACUS_PRODUCT]: [
-    CLI_PRODUCT_BULK_PRICING_FEATURE,
-    CLI_PRODUCT_VARIANTS_FEATURE,
-    CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
-  ],
-  [SPARTACUS_PRODUCT_CONFIGURATOR]: [
-    CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
-    CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-    CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-  ],
-  [SPARTACUS_QUALTRICS]: [CLI_QUALTRICS_FEATURE],
-  [SPARTACUS_SMARTEDIT]: [CLI_SMARTEDIT_FEATURE],
-  [SPARTACUS_STOREFINDER]: [CLI_STOREFINDER_FEATURE],
-  [SPARTACUS_TRACKING]: [
-    CLI_TRACKING_PERSONALIZATION_FEATURE,
-    CLI_TRACKING_TMS_GTM_FEATURE,
-    CLI_TRACKING_TMS_AEP_FEATURE,
-  ],
-  [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE, CLI_USER_PROFILE_FEATURE],
-  [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_FEATURE],
-  [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
-};
-
 export function shouldAddFeature(
   feature: string,
   features: string[] = []
@@ -239,59 +219,38 @@ export function shouldAddFeature(
   return features.includes(feature);
 }
 
-export function prepareCliPackageAndSubFeature(
-  features: string[]
-): Record<string, string[]> {
-  return features.reduce((cliFeatures, subFeature) => {
-    const packageName = getPackageBySubFeature(subFeature);
-    const subFeatures = [...(cliFeatures[packageName] ?? []), subFeature];
-
-    return { ...cliFeatures, [packageName]: subFeatures };
-  }, {} as Record<string, string[]>);
-}
-
-export function getPackageBySubFeature(subFeature: string): string {
-  for (const spartacusPackage in packageSubFeaturesMapping) {
-    if (!packageSubFeaturesMapping.hasOwnProperty(spartacusPackage)) {
-      continue;
-    }
-
-    const subFeatures = packageSubFeaturesMapping[spartacusPackage];
-    if (subFeatures.includes(subFeature)) {
-      return spartacusPackage;
-    }
-  }
-
-  throw new SchematicsException(
-    `The given '${subFeature}' doesn't contain a Spartacus package mapping.
-Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/utils/lib-utils.ts'`
-  );
-}
-
 export function addLibraryFeature<T extends LibraryOptions>(
   options: T,
-  config: FeatureConfig
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const spartacusFeatureModuleExists = checkAppStructure(
+    const spartacusFeatureModuleExistsInApp = checkAppStructure(
       tree,
       options.project
     );
-    if (!spartacusFeatureModuleExists) {
+    if (!spartacusFeatureModuleExistsInApp) {
       context.logger.info('Scaffolding the new app structure...');
       context.logger.warn(
         'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
       );
     }
+
     return chain([
-      spartacusFeatureModuleExists ? noop() : scaffoldStructure(options),
+      debugLogRule(
+        formatFeatureStart(config.library.featureName, `adding...`),
+        options.debug
+      ),
+
+      spartacusFeatureModuleExistsInApp ? noop() : scaffoldStructure(options),
 
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
-      config.dependencyManagement
-        ? installRequiredSpartacusFeatures(config.dependencyManagement, options)
-        : noop(),
+
+      debugLogRule(
+        formatFeatureComplete(config.library.featureName, `added.`),
+        options.debug
+      ),
     ]);
   };
 }
@@ -307,110 +266,74 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
 
   const basePath = process.cwd();
   for (const tsconfigPath of buildPaths) {
-    if (spartacusFeatureModuleExists(tree, tsconfigPath, basePath)) {
+    if (getSpartacusFeaturesModule(tree, basePath, tsconfigPath)) {
       return true;
     }
   }
   return false;
 }
 
-function spartacusFeatureModuleExists(
-  tree: Tree,
-  tsconfigPath: string,
-  basePath: string
-): boolean {
-  const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-
-  for (const sourceFile of appSourceFiles) {
-    if (
-      sourceFile
-        .getFilePath()
-        .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
-    ) {
-      if (getSpartacusFeaturesModule(sourceFile)) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-function getSpartacusFeaturesModule(
-  sourceFile: SourceFile
-): CallExpression | undefined {
-  let spartacusFeaturesModule;
-
-  function visitor(node: Node) {
-    if (Node.isCallExpression(node)) {
-      const expression = node.getExpression();
-      if (
-        Node.isIdentifier(expression) &&
-        expression.getText() === 'NgModule' &&
-        isImportedFrom(expression, ANGULAR_CORE)
-      ) {
-        const classDeclaration = node.getFirstAncestorByKind(
-          tsMorph.SyntaxKind.ClassDeclaration
-        );
-        if (classDeclaration) {
-          const identifier = classDeclaration.getNameNode();
-          if (
-            identifier &&
-            identifier.getText() === SPARTACUS_FEATURES_NG_MODULE
-          ) {
-            spartacusFeaturesModule = node;
-          }
-        }
-      }
-    }
-
-    node.forEachChild(visitor);
-  }
-
-  sourceFile.forEachChild(visitor);
-  return spartacusFeaturesModule;
-}
-
 function handleFeature<T extends LibraryOptions>(
   options: T,
-  config: FeatureConfig
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree, _context: SchematicContext) => {
-    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
-
-    const basePath = process.cwd();
     const rules: Rule[] = [];
-    for (const tsconfigPath of buildPaths) {
-      rules.push(
-        ensureModuleExists({
-          name: `${dasherize(config.moduleName)}-feature`,
-          path: `app/spartacus/features/${config.folderName}`,
-          module: SPARTACUS_FEATURES_MODULE,
-          project: options.project,
-        })
-      );
-      rules.push(addRootModule(tsconfigPath, basePath, config));
-      rules.push(addFeatureModule(tsconfigPath, basePath, config, options));
-      rules.push(addFeatureTranslations(tsconfigPath, basePath, config));
-      rules.push(addCustomConfig(tsconfigPath, basePath, config));
+
+    rules.push(
+      ensureModuleExists({
+        name: createSpartacusFeatureFileName(config.moduleName),
+        path: createSpartacusFeatureFolderPath(config.folderName),
+        module: SPARTACUS_FEATURES_MODULE,
+        project: options.project,
+      })
+    );
+    rules.push(addRootModule(options, config));
+    rules.push(addFeatureModule(options, config));
+    rules.push(addFeatureTranslations(options, config));
+    rules.push(addCustomConfig(options, config));
+    if (config.library.b2b) {
+      rules.push(configureB2bFeatures(options, readPackageJson(tree)));
     }
+
     return chain(rules);
   };
 }
 
-function addRootModule(
-  tsconfigPath: string,
-  basePath: string,
-  config: FeatureConfig
+export function createSpartacusFeatureFolderPath(folderName: string): string {
+  return `app/spartacus/features/${dasherize(folderName)}`;
+}
+
+export function createSpartacusFeatureFileName(name: string): string {
+  return `${dasherize(name)}-feature`;
+}
+
+export function createSpartacusWrapperModuleFileName(name: string): string {
+  const normalizedName = name.replace('module', '').replace('Module', '');
+  return `${dasherize(normalizedName)}-wrapper`;
+}
+
+function addRootModule<T extends LibraryOptions>(
+  options: T,
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree): Tree => {
     if (!config.rootModule) {
       return tree;
     }
 
-    const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+    const basePath = process.cwd();
     const moduleFileName = createModuleFileName(config);
-    for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const sourceFile of appSourceFiles) {
+        if (!sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+          continue;
+        }
+
         addModuleImport(sourceFile, {
           import: {
             moduleSpecifier: config.rootModule.importPath,
@@ -418,61 +341,69 @@ function addRootModule(
           },
           content: config.rootModule.content || config.rootModule.name,
         });
+
         saveAndFormat(sourceFile);
         break;
       }
     }
+
     return tree;
   };
 }
 
-function addFeatureModule(
-  tsconfigPath: string,
-  basePath: string,
-  config: FeatureConfig,
-  options: LibraryOptions
+function addFeatureModule<T extends LibraryOptions>(
+  options: T,
+  config: SchematicConfig
 ): Rule {
-  return (tree: Tree): Tree => {
-    const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+  return (tree: Tree) => {
+    const basePath = process.cwd();
     const moduleFileName = createModuleFileName(config);
-    for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-        let configFeatures = [];
-        if (config.featureModule instanceof Array) {
-          configFeatures = config.featureModule;
-        } else {
-          configFeatures.push(config.featureModule);
+
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const sourceFile of appSourceFiles) {
+        if (!sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+          continue;
         }
 
-        if (options.lazy) {
+        const configFeatures = ([] as Module[]).concat(config.featureModule);
+        for (let i = 0; i < configFeatures.length; i++) {
+          const featureModule = configFeatures[i];
+
+          // if it's already in a wrapper module
+          if (findFeatureModule(featureModule, appSourceFiles)) {
+            break;
+          }
+
           let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
             featureModules: {`;
-          for (let i = 0; i < configFeatures.length; i++) {
-            const featureModule = configFeatures[i];
+          if (options.lazy) {
             let lazyLoadingChunkName = config.moduleName;
             if (config.lazyLoadingChunk) {
-              const content = config.lazyLoadingChunk.namedImports[i];
-              lazyLoadingChunkName = `[${content}]`;
-              sourceFile.addImportDeclaration(config.lazyLoadingChunk);
+              const namedImportsContent =
+                config.lazyLoadingChunk.namedImports[i];
+              lazyLoadingChunkName = `[${namedImportsContent}]`;
+              createImports(sourceFile, config.lazyLoadingChunk);
             }
             content =
               content +
               `${lazyLoadingChunkName}: {
-              module: () =>
-                import('${featureModule.importPath}').then((m) => m.${featureModule.name}),
-            },`;
-          }
-          addModuleProvider(sourceFile, {
-            import: [
-              {
-                moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
-              },
-            ],
-            content: content + `}})`,
-          });
-        } else {
-          for (let featureModule of configFeatures) {
+                module: () =>
+                  import('${featureModule.importPath}').then((m) => m.${featureModule.name}),
+              },`;
+
+            addModuleProvider(sourceFile, {
+              import: [
+                {
+                  moduleSpecifier: SPARTACUS_CORE,
+                  namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
+                },
+              ],
+              content: content + `}})`,
+            });
+          } else {
             addModuleImport(sourceFile, {
               import: {
                 moduleSpecifier: featureModule.importPath,
@@ -482,6 +413,7 @@ function addFeatureModule(
             });
           }
         }
+
         saveAndFormat(sourceFile);
         break;
       }
@@ -490,37 +422,47 @@ function addFeatureModule(
   };
 }
 
-function addFeatureTranslations(
-  tsconfigPath: string,
-  basePath: string,
-  config: FeatureConfig
+export function addFeatureTranslations<T extends LibraryOptions>(
+  options: T,
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree): Tree => {
-    const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+    if (!config.i18n) {
+      return tree;
+    }
+
+    const basePath = process.cwd();
     const moduleFileName = createModuleFileName(config);
-    for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-        if (config.i18n) {
-          addModuleProvider(sourceFile, {
-            import: [
-              {
-                moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION, I18N_CONFIG],
-              },
-              {
-                moduleSpecifier: config.i18n.importPath,
-                namedImports: [config.i18n.chunks, config.i18n.resources],
-              },
-            ],
-            content: `${PROVIDE_CONFIG_FUNCTION}(<${I18N_CONFIG}>{
+
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const sourceFile of appSourceFiles) {
+        if (!sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+          continue;
+        }
+
+        addModuleProvider(sourceFile, {
+          import: [
+            {
+              moduleSpecifier: SPARTACUS_CORE,
+              namedImports: [PROVIDE_CONFIG_FUNCTION, I18N_CONFIG],
+            },
+            {
+              moduleSpecifier: config.i18n.importPath,
+              namedImports: [config.i18n.chunks, config.i18n.resources],
+            },
+          ],
+          content: `${PROVIDE_CONFIG_FUNCTION}(<${I18N_CONFIG}>{
               i18n: {
                 resources: ${config.i18n.resources},
                 chunks: ${config.i18n.chunks},
               },
             })`,
-          });
-          saveAndFormat(sourceFile);
-        }
+        });
+
+        saveAndFormat(sourceFile);
         break;
       }
     }
@@ -528,34 +470,44 @@ function addFeatureTranslations(
   };
 }
 
-function addCustomConfig(
-  tsconfigPath: string,
-  basePath: string,
-  config: FeatureConfig
+function addCustomConfig<T extends LibraryOptions>(
+  options: T,
+  config: SchematicConfig
 ): Rule {
   return (tree: Tree): Tree => {
-    const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+    if (!config.customConfig) {
+      return tree;
+    }
+
+    const basePath = process.cwd();
     const moduleFileName = createModuleFileName(config);
-    for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-        if (config.customConfig) {
-          const customConfigs = ([] as CustomConfig[]).concat(
-            config.customConfig
-          );
-          customConfigs.forEach((customConfig) => {
-            addModuleProvider(sourceFile, {
-              import: [
-                {
-                  moduleSpecifier: SPARTACUS_CORE,
-                  namedImports: [PROVIDE_CONFIG_FUNCTION],
-                },
-                ...customConfig.import,
-              ],
-              content: `${PROVIDE_CONFIG_FUNCTION}(${customConfig.content})`,
-            });
-          });
-          saveAndFormat(sourceFile);
+
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const sourceFile of appSourceFiles) {
+        if (!sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+          continue;
         }
+
+        const customConfigs = ([] as AdditionalProviders[]).concat(
+          config.customConfig(options).providers ?? []
+        );
+        customConfigs.forEach((customConfig) => {
+          addModuleProvider(sourceFile, {
+            import: [
+              {
+                moduleSpecifier: SPARTACUS_CORE,
+                namedImports: [PROVIDE_CONFIG_FUNCTION],
+              },
+              ...customConfig.import,
+            ],
+            content: `${PROVIDE_CONFIG_FUNCTION}(${customConfig.content})`,
+          });
+        });
+
+        saveAndFormat(sourceFile);
         break;
       }
     }
@@ -763,71 +715,23 @@ export function addPackageJsonDependencies(
   };
 }
 
+/**
+ * Adds libraries dependencies to package.json
+ */
 export function addPackageJsonDependenciesForLibrary<
   OPTIONS extends LibraryOptions
->(dependencies: Record<string, string>, options: OPTIONS): Rule {
-  return (tree: Tree, context: SchematicContext): Rule => {
+>(dependencies: Record<string, string>, _options: OPTIONS): Rule {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     const spartacusLibraries = createSpartacusDependencies(dependencies);
     const thirdPartyLibraries = createDependencies(dependencies);
     const libraries = spartacusLibraries.concat(thirdPartyLibraries);
-
-    const cliFeatures = spartacusLibraries
-      .map((dependency) => dependency.name)
-      .reduce((previous, current) => {
-        return {
-          ...previous,
-          // just install the Spartacus library, without any sub-features
-          [current]: [],
-        };
-      }, {} as Record<string, string[]>);
-    const featureOptions = createSpartacusFeatureOptionsForLibrary(
-      options,
-      cliFeatures,
-      false
-    );
-    addSchematicsTasks(featureOptions, context);
 
     return chain([
       addPackageJsonDependencies(libraries, packageJson),
       installPackageJsonDependencies(),
     ]);
   };
-}
-
-function installRequiredSpartacusFeatures<OPTIONS extends LibraryOptions>(
-  dependencyManagement: DependencyManagement,
-  options: OPTIONS
-): Rule {
-  return (_tree: Tree, context: SchematicContext): void => {
-    if (!dependencyManagement) {
-      return;
-    }
-
-    logFeatureInstallation(dependencyManagement, context);
-    const featureOptions = createSpartacusFeatureOptionsForLibrary(
-      options,
-      dependencyManagement.featureDependencies
-    );
-    addSchematicsTasks(featureOptions, context);
-  };
-}
-
-function logFeatureInstallation(
-  dependencyManagement: DependencyManagement,
-  context: SchematicContext
-): void {
-  const cliFeatures = dependencyManagement.featureDependencies;
-  for (const spartacusScope in cliFeatures) {
-    if (!cliFeatures.hasOwnProperty(spartacusScope)) {
-      continue;
-    }
-
-    const requiredFeatures = cliFeatures[spartacusScope].join(',');
-    context.logger.info(
-      `⚙️  ${dependencyManagement.featureName} requires the following features from ${spartacusScope}: ${requiredFeatures}`
-    );
-  }
 }
 
 export function dependencyExists(
@@ -874,17 +778,19 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
 
       for (const sourceFile of appSourceFiles) {
         if (
-          sourceFile
+          !sourceFile
             .getFilePath()
             .includes(`${SPARTACUS_CONFIGURATION_MODULE}.module.ts`)
         ) {
-          getB2bConfiguration().forEach((provider) =>
-            addModuleProvider(sourceFile, provider)
-          );
-          saveAndFormat(sourceFile);
-
-          break;
+          continue;
         }
+
+        getB2bConfiguration().forEach((provider) =>
+          addModuleProvider(sourceFile, provider)
+        );
+
+        saveAndFormat(sourceFile);
+        break;
       }
     }
 
@@ -892,84 +798,70 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
   };
 }
 
-/**
- * A helper method that creates the default options for the given Spartacus' libraries.
- *
- * All `features` options will be set to an empty array, meaning that no features should be installed.
- *
- * @param spartacusLibraries
- * @param options
- * @returns
- */
-export function createSpartacusFeatureOptionsForLibrary<
-  OPTIONS extends LibraryOptions
->(
-  options: OPTIONS,
-  cliFeatures: Record<string, string[]>,
-  interactive = true
-): {
-  feature: string;
-  options: LibraryOptions;
-}[] {
-  return Object.keys(cliFeatures).map((spartacusLibrary) => ({
-    feature: spartacusLibrary,
-    options: {
-      ...options,
-      // an empty array means that no library features will be installed.
-      features: cliFeatures[spartacusLibrary] ?? [],
-      interactive,
-    },
-  }));
-}
-
-export function addSchematicsTasks(
-  featureOptions: {
-    feature: string;
-    options: LibraryOptions;
-  }[],
-  context: SchematicContext
-): void {
-  const installationTaskId = createNodePackageInstallationTask(context);
-
-  featureOptions.forEach((featureOption) => {
-    const runSchematicTaskOptions: RunSchematicTaskOptions<LibraryOptions> = {
-      collection: featureOption.feature,
-      name: 'add',
-      options: featureOption.options,
-    };
-
-    context.addTask(
-      new RunSchematicTask('add-spartacus-library', runSchematicTaskOptions),
-      [installationTaskId]
-    );
-  });
-}
-
-export function runExternalSpartacusLibrary(
-  taskOptions: RunSchematicTaskOptions<LibraryOptions>
-): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    if (!taskOptions.collection) {
-      throw new SchematicsException(
-        `Can't run the Spartacus library schematic, please specify the 'collection' argument.`
-      );
-    }
-
-    const executionOptions: Partial<ExecutionOptions> = {
-      interactive: taskOptions.options.interactive,
-    };
-
-    return chain([
-      externalSchematic(
-        taskOptions.collection,
-        taskOptions.name,
-        taskOptions.options,
-        executionOptions
-      ),
-    ])(tree, context);
-  };
-}
-
-function createModuleFileName(config: FeatureConfig): string {
+function createModuleFileName(config: SchematicConfig): string {
   return `${dasherize(config.moduleName)}-feature.module.ts`;
+}
+
+/**
+ * Used a comparator function when sorting features.
+ */
+export function calculateCrossFeatureSort(
+  featureA: string,
+  featureB: string
+): number {
+  return calculateSortInternal(
+    featureA,
+    featureB,
+    crossFeatureInstallationOrder
+  );
+}
+
+/**
+ * Used a comparator function when sorting libraries.
+ */
+export function calculateCrossLibrarySort(
+  libraryA: string,
+  libraryB: string
+): number {
+  return calculateSortInternal(
+    libraryA,
+    libraryB,
+    crossLibraryInstallationOrder
+  );
+}
+
+/**
+ * Used to sort libraries or features in the correct order.
+ */
+function calculateSortInternal(
+  libOrFeatureA: string,
+  libOrFeatureB: string,
+  order: string[]
+): number {
+  const indexA = order.indexOf(libOrFeatureA);
+  const indexB = order.indexOf(libOrFeatureB);
+
+  /**
+   * In case a feature module is _not_ found in the `order`,
+   * we want to sort it at the end of the list.
+   */
+  return (indexA > -1 ? indexA : Infinity) - (indexB > -1 ? indexB : Infinity);
+}
+
+/**
+ * Performs the final steps of the installation,
+ * before Angular schematics mechanism takes over.
+ */
+export function finalizeInstallation<OPTIONS extends LibraryOptions>(
+  options: OPTIONS,
+  features: string[]
+): Rule {
+  return (_tree: Tree, context: SchematicContext) => {
+    if (options.internal?.existingSpartacusApplication) {
+      let message = `🚨 Detected Spartacus installation. Please make sure the following `;
+      message += `features are installed, configured and sorted in the correct order:\n`;
+      message += features.join(', ');
+      context.logger.warn(message);
+    }
+  };
 }

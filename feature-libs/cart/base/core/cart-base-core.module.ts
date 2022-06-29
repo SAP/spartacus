@@ -9,6 +9,7 @@ import { CartEventModule } from './event/cart-event.module';
 import { CartPageEventModule } from './event/cart-page-event.module';
 import { facadeProviders } from './facade/facade-providers';
 import { BadCartRequestHandler } from './http-interceptors/handlers/bad-cart-request.handler';
+import { BadVoucherRequestHandler } from './http-interceptors/handlers/bad-voucher-request.handler';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
 @NgModule({
@@ -27,6 +28,11 @@ import { MultiCartStoreModule } from './store/multi-cart-store.module';
     {
       provide: HttpErrorHandler,
       useExisting: BadCartRequestHandler,
+      multi: true,
+    },
+    {
+      provide: HttpErrorHandler,
+      useExisting: BadVoucherRequestHandler,
       multi: true,
     },
   ],

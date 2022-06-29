@@ -1,5 +1,6 @@
 <!-- Item Start Outlet -->
 <ng-template [cxOutlet]="CartOutlets.ITEM">
+  <ng-template [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES"></ng-template>
   <ng-container *cxFeatureLevel="'4.2'">
     <cx-cart-item-validation-warning
       [code]="item.product?.code"
@@ -155,10 +156,11 @@
 
         <div class="col-md-3 cx-remove-btn">
           <button
-            class="link cx-action-link"
-            [disabled]="quantityControl.disabled"
             (click)="removeItem()"
+            [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
+            [disabled]="quantityControl.disabled"
             attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
+            class="link cx-action-link"
           >
             {{ 'common.remove' | cxTranslate }}
           </button>

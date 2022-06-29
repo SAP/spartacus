@@ -8,11 +8,12 @@ export const configurator = {
       editConfiguration: 'Edit Configuration',
       displayConfiguration: 'Display Configuration',
       resolveIssues: 'Resolve Issues',
+      resolveConflicts: 'Resolve Conflicts',
       updateMessage: 'The configuration is being updated in the background',
       showMore: 'show more',
       showLess: 'show less',
       items: '{{count}} item',
-      items_plural: '{{count}} items',
+      items_other: '{{count}} items',
       show: 'show',
       hide: 'hide',
       multipleWarnings: 'There are multiple warnings.',
@@ -26,8 +27,11 @@ export const configurator = {
     },
     notificationBanner: {
       numberOfIssues: '{{count}} issue must be resolved before checkout.',
-      numberOfIssues_plural:
+      numberOfIssues_other:
         '{{count}} issues must be resolved before checkout.',
+      numberOfConflicts: '{{count}} conflict must be resolved before checkout.',
+      numberOfConflicts_other:
+        '{{count}} conflicts must be resolved before checkout.',
     },
     attribute: {
       id: 'ID',
@@ -37,6 +41,7 @@ export const configurator = {
       requiredAttribute: '{{param}} required',
       defaultRequiredMessage: 'Enter a value for the required field',
       singleSelectRequiredMessage: 'Select a value',
+      singleSelectAdditionalRequiredMessage: 'Select or enter a value',
       multiSelectRequiredMessage: 'Select one or more values',
       wrongNumericFormat:
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
@@ -86,13 +91,14 @@ export const configurator = {
     conflict: {
       suggestionTitle: 'Suggestion {{number}}:',
       suggestionText: 'Change value for "{{ attribute }}"',
-      viewConflictDetails: 'Conflict Detected',
-      viewConfigurationDetails: '',
+      viewConflictDetails: 'Conflict Detected - View Details',
+      conflictDetected: 'Conflict Detected',
+      viewConfigurationDetails: 'View In Configuration',
     },
     a11y: {
       configureProduct: 'Configure product',
       cartEntryBundleInfo: 'There is an item ',
-      cartEntryBundleInfo_plural: 'There are {{items}} items ',
+      cartEntryBundleInfo_other: 'There are {{items}} items ',
       cartEntryBundleName: 'Item {{ name }}',
       cartEntryBundleNameWithQuantity:
         'Item {{ name }} item quantity {{quantity}}',
@@ -171,8 +177,29 @@ export const configurator = {
       productDescription: 'Product description',
       configurationPage: 'You are on the configuration page.',
       configurationPageLink: 'Navigate to configuration  page.',
-      overviewPage: 'You are on the overview page.',
+      overviewPage:
+        'You are on the overview page. Check attributes and their selected values with reading mode of your screen reader.',
       overviewPageLink: 'Navigate to configuration overview page.',
+      navigateToConflict:
+        'Follow link to get more details on conflict for attribute {{ attribute }}.',
+      numericIntervalStandard:
+        'Enter a value between {{ minValue }} and {{ maxValue }}',
+      numericIntervalStandardOpen: '(Endpoints are not included)',
+      numericIntervalStandardLowerEndpointNotIncluded:
+        '(The lower endpoint is not included)',
+      numericIntervalStandardUpperEndpointNotIncluded:
+        '(The upper endpoint is not included)',
+      numericInfiniteIntervalMinValueIncluded:
+        'Enter a value greater than or equal to {{ value }}',
+      numericInfiniteIntervalMinValue: 'Enter a value greater than {{ value }}',
+      numericInfiniteIntervalMaxValueIncluded:
+        'Enter a value less than or equal to {{ value }}',
+      numericInfiniteIntervalMaxValue: 'Enter a value less than {{ value }}',
+      numericIntervalSingleValue: 'Enter {{ value }}',
+      combinedIntervalsText: '{{ combinedInterval }} or {{ newInterval }}',
+      additionalValue: 'You can also enter an additional value.',
+      addToCartPrices:
+        'Base Price {{basePrice}}, Selected Options {{selectedOptions}}, Total Price {{totalPrice}}',
     },
   },
 };

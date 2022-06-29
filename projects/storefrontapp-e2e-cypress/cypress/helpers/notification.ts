@@ -9,6 +9,8 @@ export const firstProductAscending = '4205431';
 export const firstProductDescending = '898520';
 export const NOTIFICATION_PREFERENCES_CHANGE_ENDPOINT_ALIAS =
   'notificationPreferencesChange';
+export const GET_STOCK_NOTIFICATION_ENDPOINT_ALIAS =
+  'getStockNotificationEndpointAlias';
 
 function navigateToNotificationPreferencePage() {
   const alias = waitForPage(
@@ -51,6 +53,17 @@ function interceptNotificationPreferencesChange() {
   return NOTIFICATION_PREFERENCES_CHANGE_ENDPOINT_ALIAS;
 }
 
+function interceptGetStockNotification() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields*`
+  ).as(GET_STOCK_NOTIFICATION_ENDPOINT_ALIAS);
+
+  return GET_STOCK_NOTIFICATION_ENDPOINT_ALIAS;
+}
+
 export function enableNotificationChannel() {
   navigateToNotificationPreferencePage();
   const notificationPreferencesChange =
@@ -81,7 +94,7 @@ export function updateEmail(): String {
   cy.get('cx-update-email [formcontrolname="email"]').type(newUid);
   cy.get('cx-update-email [formcontrolname="confirmEmail"]').type(newUid);
   cy.get('cx-update-email [formcontrolname="password"]').type(password);
-  cy.get('cx-update-email button').click();
+  cy.get('cx-update-email button').contains('Save').click();
   login(newUid, password);
   return newUid;
 }
@@ -126,17 +139,31 @@ export function subscribeStockNotification(productCode: string) {
 
 export function unsubscribeStockNotification(productCode: string) {
   navigateToPDP(productCode);
+
+  const getStockNotification = interceptGetStockNotification();
+
   cy.get('cx-stock-notification > .btn')
     .should('contain', 'STOP NOTIFICATION')
     .click();
+
+  cy.wait(`@${getStockNotification}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function clickNotifyMeBtn(productCode: string) {
   navigateToPDP(productCode);
+
+  const getStockNotification = interceptGetStockNotification();
+
   cy.get('cx-stock-notification > .btn')
     .should('contain', 'NOTIFY ME')
     .should('not.be.disabled')
-    .click();
+    .click({ force: true });
+
+  cy.wait(`@${getStockNotification}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function verifyStockNotification() {

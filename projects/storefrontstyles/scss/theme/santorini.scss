@@ -4,7 +4,9 @@
   --cx-color-inverse: #ffffff;
   --cx-color-transparent: transparent;
   --cx-color-primary: #1672b7;
+  --cx-color-primary-accent: #50b0f4;
   --cx-color-secondary: #6c7079;
+  --cx-color-secondary-accent: #c3cbde;
   --cx-buttons-border-radius: 27px;
   --cx-buttons-border-width: 3px;
   --cx-color-dark: #212738;
@@ -93,6 +95,12 @@
     }
   }
 
+  cx-scroll-to-top {
+    button {
+      border-radius: var(--cx-buttons-border-radius);
+    }
+  }
+
   cx-searchbox {
     > * {
       @include media-breakpoint-up(md) {
@@ -105,7 +113,10 @@
         border: 1px solid var(--cx-color-secondary);
       }
 
-      input,
+      input {
+        color: var(--cx-color-text);
+      }
+
       cx-icon {
         color: var(--cx-color-primary);
         @include media-breakpoint-up(md) {
@@ -250,7 +261,7 @@
 
   %cx-pagination {
     a {
-      @include type('4');
+      font-size: var(--cx-font-size, 1.188rem);
       font-weight: var(--cx-font-weight-normal);
 
       &.current {

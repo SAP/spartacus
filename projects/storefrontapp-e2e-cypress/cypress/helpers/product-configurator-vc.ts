@@ -22,6 +22,23 @@ export function goToConfigurationPage(shopName: string, productId: string) {
 }
 
 /**
+ * Navigates to the configuration overview  page
+ */
+export function navigateToOverviewPage() {
+  cy.get('.cx-tab-bar').within(() => {
+    cy.get('a')
+      .filter((index) => index === 1)
+      .click()
+      .then(() => {
+        cy.location('pathname').should(
+          'contain',
+          '/en/USD/configure-overview/vc/product/entityKey/'
+        );
+      });
+  });
+}
+
+/**
  * Register configuration route.
  */
 export function registerConfigurationRoute() {
@@ -172,7 +189,7 @@ export function checkImageSelected(
   const attributeId = configuration.getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
   cy.log('valueId: ' + valueId);
-  cy.get(`#${valueId}`).should('be.checked');
+  cy.get(`#${valueId}`).should('have.attr', 'aria-checked', 'true');
 }
 
 /**
@@ -207,6 +224,42 @@ export function checkConflictDescriptionDisplayed(description: string): void {
   cy.get('cx-configurator-conflict-description').should(($div) => {
     expect($div).to.contain(description);
   });
+}
+
+/**
+ * Navigates to the corresponding group that contains an attribute which is involved in a conflict.
+ *
+ * @param attribute - Attribute name
+ */
+function clickOnConflictSolverLink(attribute: string): void {
+  checkGhostAnimationNotDisplayed();
+  cy.get('cx-configurator-attribute-header').within(() => {
+    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
+      cy.get('.cx-conflict-msg')
+        .click()
+        .then(() => {
+          checkGhostAnimationNotDisplayed();
+        });
+    });
+  });
+}
+
+/**
+ * Navigates to a group that contains an attribute which is involved in a conflict.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfiguration(attribute: string): void {
+  clickOnConflictSolverLink(attribute);
+}
+
+/**
+ * Navigates to the conflict group that contains an attribute which is involved in a conflict.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnConflictDetected(attribute: string): void {
+  clickOnConflictSolverLink(attribute);
 }
 
 /**
@@ -313,4 +366,16 @@ export function clickAddToCartBtn(): void {
       cy.location('pathname').should('contain', 'cartEntry/entityKey/');
       checkGlobalMessageNotDisplayed();
     });
+}
+
+/**
+ * Register configuration update route.
+ */
+export function registerConfigurationUpdateRoute() {
+  cy.intercept({
+    method: 'PATCH',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*`,
+  }).as('updateConfig');
 }

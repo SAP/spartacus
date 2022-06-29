@@ -1,4 +1,4 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject, Store, StoreModule } from '@ngrx/store';
 import {
@@ -141,7 +141,8 @@ describe('B2BUserService', () => {
   });
 
   describe('get B2B user', () => {
-    xit('get() should load B2B user when not present in the store', (done) => {
+    it('get() should load B2B user when not present in the store', fakeAsync(() => {
+      spyOn(service, 'load').and.callThrough();
       const sub = service.get(orgCustomerId).subscribe();
 
       actions$
@@ -150,10 +151,12 @@ describe('B2BUserService', () => {
           expect(action).toEqual(
             new B2BUserActions.LoadB2BUser({ userId, orgCustomerId })
           );
-          sub.unsubscribe();
-          done();
         });
-    });
+
+      tick();
+      expect(service.load).toHaveBeenCalledWith(orgCustomerId);
+      sub.unsubscribe();
+    }));
 
     it('get() should be able to get user when present in the store', () => {
       store.dispatch(

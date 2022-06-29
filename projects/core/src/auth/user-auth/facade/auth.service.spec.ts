@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { OAuthEvent, TokenResponse } from 'angular-oauth2-oidc';
 import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
@@ -33,7 +33,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   }
   initLoginFlow() {}
   tryLogin() {
-    return Promise.resolve(true);
+    return Promise.resolve({ result: true, tokenReceived: true });
   }
   events$ = oauthLibEvents;
 }
@@ -122,7 +122,9 @@ describe('AuthService', () => {
 
     describe('when the token is NOT received', () => {
       it('should NOT redirect', async () => {
-        oauthLibEvents.next({ type: 'discovery_document_load_error' });
+        spyOn(oAuthLibWrapperService, 'tryLogin').and.returnValue(
+          Promise.resolve({ result: true, tokenReceived: false })
+        );
         spyOn(authRedirectService, 'redirect').and.stub();
 
         await service.checkOAuthParamsInUrl();
@@ -165,20 +167,32 @@ describe('AuthService', () => {
   });
 
   describe('coreLogout()', () => {
-    it('should revoke tokens and logout', async () => {
+    it('should revoke tokens and logout', fakeAsync(() => {
       spyOn(userIdService, 'clearUserId').and.callThrough();
-      spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callThrough();
+      spyOn(oAuthLibWrapperService, 'revokeAndLogout').and.callFake(() => {
+        return new Promise<void>((resolve) => {
+          setTimeout(() => {
+            resolve();
+          }, 100);
+        });
+      });
       spyOn(store, 'dispatch').and.callThrough();
 
-      await service.coreLogout();
-
-      expect(
-        (service.logoutInProgress$ as BehaviorSubject<boolean>).value
-      ).toBeTruthy();
+      service.coreLogout();
       expect(userIdService.clearUserId).toHaveBeenCalled();
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
+      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(
+        (service.logoutInProgress$ as BehaviorSubject<boolean>).value
+      ).toBe(true);
+
+      tick(100);
+
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());
-    });
+      expect(
+        (service.logoutInProgress$ as BehaviorSubject<boolean>).value
+      ).toBe(false);
+    }));
   });
 
   describe('isUserLoggedIn()', () => {

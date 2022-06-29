@@ -48,6 +48,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
+    displayAddToCart: false,
   };
 
   @Input() cartId: string;
@@ -153,6 +154,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           }
           if (!items[i]) {
             this._items.splice(i, 1);
+            i--;
           } else {
             this._items[i] = items[i];
           }
@@ -167,12 +169,18 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   protected createForm(): void {
     this._items.forEach((item) => {
       const controlName = this.getControlName(item);
-      const group = new FormGroup({
-        entryNumber: new FormControl(item.entryNumber),
-        quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
-      });
-
-      this.form.addControl(controlName, group);
+      const control = this.form.get(controlName);
+      if (control) {
+        if (control.get('quantity')?.value !== item.quantity) {
+          control.patchValue({ quantity: item.quantity }, { emitEvent: false });
+        }
+      } else {
+        const group = new FormGroup({
+          entryNumber: new FormControl(item.entryNumber),
+          quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
+        });
+        this.form.addControl(controlName, group);
+      }
 
       // If we disable form group before adding, disabled status will reset
       // Which forces us to disable control after including to form object

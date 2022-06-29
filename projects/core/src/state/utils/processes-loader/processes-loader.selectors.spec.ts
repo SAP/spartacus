@@ -30,6 +30,12 @@ describe('Processes loader selectors', () => {
       const value = isStableSelector(TestState);
       expect(value).toBe(false);
     });
+
+    it('should return true when there is an undefined processes and no loading', () => {
+      const TestState: ProcessesLoaderState<string> = { loading: false };
+      const value = isStableSelector(TestState);
+      expect(value).toBe(true);
+    });
   });
 
   describe('hasPendingProcessesSelector', () => {

@@ -1,14 +1,13 @@
 import {
   assertAddressForm,
-  createNewAddress,
   editedAddress,
   newAddress,
   verifyNewAddress,
 } from '../../../helpers/address-book';
+import { fillShippingAddress } from '../../../helpers/checkout-forms';
+import * as alerts from '../../../helpers/global-message';
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
-import * as alerts from '../../../helpers/global-message';
-import { fillShippingAddress } from '../../../helpers/checkout-forms';
 
 describe('My Account - Address Book', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -89,7 +88,7 @@ describe('My Account - Address Book', () => {
         alerts
           .getSuccessAlert()
           .contains(
-            `Address ${newAddress.address.line1} was sucessfully set as default`
+            `Address ${newAddress.address.line1} was successfully set as default`
           );
         const firstCard = cy.get('cx-card').first();
         firstCard.should('contain', '✓ DEFAULT');

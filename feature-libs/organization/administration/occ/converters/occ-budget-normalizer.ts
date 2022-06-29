@@ -8,7 +8,7 @@ import { Budget } from '@spartacus/organization/administration/core';
 export class OccBudgetNormalizer implements Converter<Occ.Budget, Budget> {
   convert(source: Occ.Budget, target?: Budget): Budget {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Budget;
     }
 
     if (source.startDate) {

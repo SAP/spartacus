@@ -8,11 +8,13 @@ import {
   GLOBAL_MESSAGE_SERVICE,
   ROUTER,
   SEMANTIC_PATH_SERVICE,
+  USER_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CHECKOUT,
   SPARTACUS_CORE,
   SPARTACUS_USER_ACCOUNT,
-  USER_SERVICE,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs/checkout/components/guards/checkout-auth.guard.ts

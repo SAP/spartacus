@@ -6,6 +6,7 @@ import { FormErrorsComponent } from './form-errors.component';
 
 const mockErrorName = 'exampleError';
 const mockError = { [mockErrorName]: true };
+const mockErrorDetails: [string, string | boolean][] = [[mockErrorName, true]];
 
 describe('FormErrors', () => {
   let component: FormErrorsComponent;
@@ -36,65 +37,48 @@ describe('FormErrors', () => {
   });
 
   it('should not provide errors, when control is valid', () => {
-    let returnedErrors: string[];
-
     control.setErrors({});
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
+    component.errorsDetails$.subscribe((errors) => {
+      expect(errors).toEqual([]);
     });
-
-    expect(returnedErrors).toEqual([]);
   });
 
   it('should not provide errors, when control no longer invalid', () => {
-    let returnedErrors: string[];
+    let returnedErrors: [string, string | boolean][] = [];
 
     control.setErrors(mockError);
-    component.errors$.subscribe((errors) => {
+    component.errorsDetails$.subscribe((errors) => {
       returnedErrors = errors;
     });
+    expect(returnedErrors).toEqual(mockErrorDetails);
 
-    expect(returnedErrors).toEqual([mockErrorName]);
-
-    control.setErrors({});
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
-    });
-
+    control.setErrors([]);
     expect(returnedErrors).toEqual([]);
   });
 
   it('should provide errors, when control not valid', () => {
-    let returnedErrors: string[];
-
     control.setErrors(mockError);
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
+    component.errorsDetails$.subscribe((errors) => {
+      expect(errors).toEqual(mockErrorDetails);
     });
-
-    expect(returnedErrors).toEqual([mockErrorName]);
   });
 
   it('should provide errors, when control no longer valid', () => {
-    let returnedErrors: string[];
+    let returnedErrors: [string, string | boolean][] = [];
 
     control.setErrors({});
-    component.errors$.subscribe((errors) => {
+    component.errorsDetails$.subscribe((errors) => {
       returnedErrors = errors;
     });
-
     expect(returnedErrors).toEqual([]);
 
     control.setErrors(mockError);
-    component.errors$.subscribe((errors) => {
-      returnedErrors = errors;
-    });
-
-    expect(returnedErrors).toEqual([mockErrorName]);
+    expect(returnedErrors).toEqual(mockErrorDetails);
   });
 
   it('should render multiple errors', () => {
     control.setErrors({ email: true, required: true });
+    control.markAsTouched();
     fixture.detectChanges();
     const renderedErrors =
       fixture.debugElement.nativeElement.querySelectorAll('p');
@@ -106,6 +90,7 @@ describe('FormErrors', () => {
     describe('key', () => {
       it('should use the error key with default prefix', () => {
         control.setErrors(mockError);
+        control.markAsTouched();
         fixture.detectChanges();
         expect(getContent()).toEqual('formErrors.exampleError');
       });
@@ -113,6 +98,7 @@ describe('FormErrors', () => {
       it('should use the error key with prefix @Input', () => {
         component.prefix = 'customPrefix';
         control.setErrors(mockError);
+        control.markAsTouched();
         fixture.detectChanges();
         expect(getContent()).toEqual('customPrefix.exampleError');
       });
@@ -125,6 +111,7 @@ describe('FormErrors', () => {
           bar: '2',
         });
         control.setErrors({ exampleError: { foo: '1', bar: '2' } });
+        control.markAsTouched();
         fixture.detectChanges();
         expect(getContent()).toEqual('formErrors.exampleError bar:2 foo:1');
         expect(component.getTranslationParams).toHaveBeenCalledWith({

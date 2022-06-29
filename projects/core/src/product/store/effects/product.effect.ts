@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, Effect, ofType } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
 import { merge, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { normalizeHttpError } from '../../../util/normalize-http-error';
-import { ProductConnector } from '../../connectors/product/product.connector';
-import { ProductActions } from '../actions/index';
-import { ScopedProductData } from '../../connectors/product/scoped-product-data';
+import { AuthActions } from '../../../auth/user-auth/store/actions';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { bufferDebounceTime } from '../../../util/rxjs/buffer-debounce-time';
-import { Action } from '@ngrx/store';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
+import { ProductConnector } from '../../connectors/product/product.connector';
+import { ScopedProductData } from '../../connectors/product/scoped-product-data';
+import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductEffects {
@@ -51,25 +52,40 @@ export class ProductEffects {
   ): Observable<
     ProductActions.LoadProductSuccess | ProductActions.LoadProductFail
   > {
-    return productLoad.data$.pipe(
-      map(
-        (data) =>
-          new ProductActions.LoadProductSuccess(
-            { code: productLoad.code, ...data },
-            productLoad.scope
-          )
-      ),
-      catchError((error) => {
-        return of(
-          new ProductActions.LoadProductFail(
-            productLoad.code,
-            normalizeHttpError(error),
-            productLoad.scope
-          )
-        );
-      })
+    return (
+      productLoad.data$?.pipe(
+        map(
+          (data) =>
+            new ProductActions.LoadProductSuccess(
+              { code: productLoad.code, ...data },
+              productLoad.scope
+            )
+        ),
+        catchError((error) => {
+          return of(
+            new ProductActions.LoadProductFail(
+              productLoad.code,
+              normalizeHttpError(error),
+              productLoad.scope
+            )
+          );
+        })
+      ) ??
+      of(
+        new ProductActions.LoadProductFail(
+          productLoad.code,
+          'Scoped product data does not exist',
+          productLoad.scope
+        )
+      )
     );
   }
+
+  @Effect()
+  clearProductPrice$: Observable<ProductActions.ClearProductPrice> = this.actions$.pipe(
+    ofType(AuthActions.LOGOUT, AuthActions.LOGIN),
+    map(() => new ProductActions.ClearProductPrice())
+  );
 
   constructor(
     private actions$: Actions,

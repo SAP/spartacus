@@ -1,4 +1,5 @@
 export * from './amend-order/index';
+export * from './guards/index';
 export * from './order-components.module';
 export * from './order-details/index';
 export * from './order-history/order-history.component';

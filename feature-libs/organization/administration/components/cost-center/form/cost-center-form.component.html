@@ -29,18 +29,19 @@
       <cx-form-errors [control]="form.get('code')"></cx-form-errors>
     </label>
 
-    <label aria-required="true" formGroupName="currency">
+    <label formGroupName="currency">
       <span class="label-content required">{{
         'orgCostCenter.currency' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
         [searchable]="false"
         [clearable]="false"
         [items]="currencies$ | async"
         bindLabel="name"
         bindValue="isocode"
-        [class.invalid]="form.get('currency.isocode').invalid"
+        [class.invalid]="form.get('currency.isocode')?.invalid ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgCostCenter.currency' | cxTranslate"
       >
@@ -48,18 +49,19 @@
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
     </label>
 
-    <label aria-required="true" [formGroup]="form.get('unit')">
+    <label [formGroup]="$any(form.get('unit'))">
       <span class="label-content required">{{
         'orgCostCenter.unit' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
-        [items]="units$ | async"
+        [items]="(units$ | async) ?? null"
         bindLabel="name"
         bindValue="id"
-        [readonly]="form.get('unit.uid').disabled"
+        [readonly]="form.get('unit.uid')?.disabled ?? false"
         appendTo="cx-org-list"
         [placeholder]="'orgCostCenter.unit' | cxTranslate"
       >

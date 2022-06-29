@@ -18,7 +18,6 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleBadPassword(request, response);
     this.handleBadLoginResponse(request, response);
     this.handleValidationError(request, response);
-    this.handleVoucherOperationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
     this.handleUnknownIdentifierError(request, response);
   }
@@ -53,8 +52,15 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.getErrors(response)
       .filter((error) => error.type === 'PasswordMismatchError')
       .forEach(() => {
+        // Updating email and changing password share same http error occurence.
+        // Determine the context of global error message based on request url
+        const url = new URL(_request.url);
+        const key = url.pathname.endsWith('/password')
+          ? 'httpHandlers.badRequestOldPasswordIncorrect'
+          : 'httpHandlers.validationErrors.invalid.password';
+
         this.globalMessageService.add(
-          { key: 'httpHandlers.badRequestOldPasswordIncorrect' },
+          { key },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
@@ -71,24 +77,6 @@ export class BadRequestHandler extends HttpErrorHandler {
           {
             key: `httpHandlers.validationErrors.${error.reason}.${error.subject}`,
           },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      });
-  }
-
-  protected handleVoucherOperationError(
-    _request: HttpRequest<any>,
-    response: HttpErrorResponse
-  ): void {
-    this.getErrors(response)
-      .filter(
-        (e) =>
-          e.message === 'coupon.invalid.code.provided' &&
-          e.type === 'VoucherOperationError'
-      )
-      .forEach(() => {
-        this.globalMessageService.add(
-          { key: 'httpHandlers.invalidCodeProvided' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
@@ -131,7 +119,7 @@ export class BadRequestHandler extends HttpErrorHandler {
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error) => error.type !== 'JaloObjectNoLongerValidError'
+      (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError'
     );
   }
 

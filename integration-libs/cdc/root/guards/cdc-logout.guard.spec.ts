@@ -3,7 +3,6 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AuthRedirectService,
   AuthService,
   CmsService,
   ProtectedRoutesService,
@@ -48,10 +47,6 @@ class MockProtectedRoutesService implements Partial<ProtectedRoutesService> {
   get shouldProtect() {
     return false;
   }
-}
-
-class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  reportNotAuthGuard() {}
 }
 
 describe('CdcLogoutGuard', () => {
@@ -99,10 +94,6 @@ describe('CdcLogoutGuard', () => {
         {
           provide: ProtectedRoutesService,
           useClass: MockProtectedRoutesService,
-        },
-        {
-          provide: AuthRedirectService,
-          useClass: MockAuthRedirectService,
         },
         SemanticPathService,
       ],

@@ -5,12 +5,14 @@ import {
   FORM_BUILDER,
   GLOBAL_MESSAGE_SERVICE,
   MODAL_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   TRANSLATION_SERVICE,
   USER_ADDRESS_SERVICE,
   USER_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ADDRESS_FORM_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {

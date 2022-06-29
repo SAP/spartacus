@@ -4,6 +4,7 @@ import {
   OrderCancellationModule,
   OrderReturnModule,
 } from './amend-order/index';
+import { OrderConfirmationModule } from './order-confirmation/order-confirmation.module';
 import { OrderDetailsModule } from './order-details/order-details.module';
 import { OrderHistoryModule } from './order-history/order-history.module';
 import { OrderDetailsOrderEntriesContext } from './page-context/order-details-order-entries.context';
@@ -22,6 +23,7 @@ import { ReturnRequestListModule } from './return-request-list/order-return-requ
     ReplenishmentOrderHistoryModule,
     ReturnRequestListModule,
     ReturnRequestDetailModule,
+    OrderConfirmationModule,
   ],
   providers: [
     {

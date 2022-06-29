@@ -18,23 +18,36 @@
   *ngIf="attribute.hasConflicts"
   class="cx-conflict-msg"
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
-  [attr.aria-live]="isAttributeGroup(groupType) ? 'assertive' : 'off'"
-  [attr.aria-atomic]="isAttributeGroup(groupType) ? true : false"
-  role="alert"
+  [attr.aria-live]="isAttributeGroup() ? 'assertive' : 'off'"
+  [attr.aria-atomic]="isAttributeGroup() ? true : false"
+  [attr.role]="isAttributeGroup() ? 'alert' : null"
   [attr.aria-label]="
-    isAttributeGroup(groupType)
+    isAttributeGroup()
       ? ('configurator.a11y.conflictDetected' | cxTranslate)
       : ''
   "
 >
   <cx-icon
-    *ngIf="isAttributeGroup(groupType)"
+    *ngIf="isAttributeGroup()"
     [type]="iconTypes.WARNING"
     aria-hidden="true"
   ></cx-icon>
-  <div class="cx-conflict-msg">
-    {{ getConflictMessageKey(groupType) | cxTranslate }}
-  </div>
+  <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
+    <ng-container *ngIf="isNavigationToConflictEnabled(); else withoutLink">
+      <a
+        class="cx-conflict-msg link cx-action-link"
+        (click)="navigateToGroup()"
+        (keydown.enter)="navigateToGroup()"
+        tabindex="0"
+        [attr.aria-label]="
+          'configurator.a11y.navigateToConflict'
+            | cxTranslate: { attribute: attribute.label }
+        "
+      >
+        {{ getConflictMessageKey() | cxTranslate }}
+      </a>
+    </ng-container>
+  </ng-container>
 </div>
 <div
   *ngIf="showRequiredMessageForDomainAttribute$ | async"
@@ -51,3 +64,20 @@
   src="{{ image?.url }}"
   alt="{{ image?.altText }}"
 />
+
+<ng-template #conflictGroup>
+  <a
+    class="cx-conflict-msg link cx-action-link"
+    (click)="navigateToGroup()"
+    (keydown.enter)="navigateToGroup()"
+    tabindex="0"
+  >
+    {{ getConflictMessageKey() | cxTranslate }}
+  </a>
+</ng-template>
+
+<ng-template #withoutLink>
+  <div class="cx-conflict-msg">
+    {{ getConflictMessageKey() | cxTranslate }}
+  </div>
+</ng-template>

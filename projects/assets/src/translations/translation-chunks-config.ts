@@ -16,6 +16,8 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'formErrors',
     'errorHandlers',
     'carousel',
+    'assistiveMessage',
+    'passwordVisibility',
   ],
   address: [
     'addressForm',
@@ -62,4 +64,5 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'productView',
   ],
   user: ['anonymousConsents', 'loginRegister', 'checkoutLogin', 'authMessages'],
+  video: ['player'],
 };

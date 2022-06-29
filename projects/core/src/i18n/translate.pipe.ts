@@ -6,7 +6,7 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { shallowEqualObjects } from '../util/compare-equal-objects';
+import { ObjectComparisonUtils } from '../util/object-comparison-utils';
 import { Translatable, TranslatableParams } from './translatable';
 import { TranslationService } from './translation.service';
 
@@ -32,11 +32,11 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
           `The given input for the cxTranslate pipe (${input}) is invalid and cannot be translated`
         );
       }
-      return;
+      return '';
     }
 
     if ((input as Translatable).raw) {
-      return (input as Translatable).raw;
+      return (input as Translatable).raw ?? '';
     }
 
     const key = typeof input === 'string' ? input : input.key;
@@ -51,7 +51,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   private translate(key: any, options: object) {
     if (
       key !== this.lastKey ||
-      !shallowEqualObjects(options, this.lastOptions)
+      !ObjectComparisonUtils.shallowEqualObjects(options, this.lastOptions)
     ) {
       this.lastKey = key;
       this.lastOptions = options;

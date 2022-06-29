@@ -1,6 +1,9 @@
 import { Cart } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '@spartacus/core';
 import {
+  isVoucherError,
+  voucherExceededError,
+  voucherInvalidError,
   getCartIdByUserId,
   isCartError,
   isCartNotFoundError,
@@ -94,6 +97,60 @@ describe('Cart utils', () => {
           reason: 'notFound',
           subject: 'selectivecart-electronicsspa-123456',
           subjectType: 'cart',
+        })
+      ).toEqual(false);
+    });
+  });
+
+  describe('isVoucherError', () => {
+    it('should return true when it is normal voucher error', () => {
+      expect(
+        isVoucherError({
+          type: 'VoucherOperationError',
+        })
+      ).toEqual(true);
+    });
+
+    it('should return false for different type', () => {
+      expect(
+        isVoucherError({
+          type: 'CartError',
+        })
+      ).toEqual(false);
+    });
+  });
+
+  describe('voucherExceededError', () => {
+    it('should return true when it is normal voucher exceeded error', () => {
+      expect(
+        voucherExceededError({
+          message: 'coupon.already.redeemed',
+        })
+      ).toEqual(true);
+    });
+
+    it('should return false for a different error message', () => {
+      expect(
+        voucherExceededError({
+          message: 'coupon.invalid.code.provided',
+        })
+      ).toEqual(false);
+    });
+  });
+
+  describe('voucherInvalidError', () => {
+    it('should return true when it is normal voucher exceeded error', () => {
+      expect(
+        voucherInvalidError({
+          message: 'coupon.invalid.code.provided',
+        })
+      ).toEqual(true);
+    });
+
+    it('should return false for a different error message', () => {
+      expect(
+        voucherInvalidError({
+          message: 'coupon.expired',
         })
       ).toEqual(false);
     });

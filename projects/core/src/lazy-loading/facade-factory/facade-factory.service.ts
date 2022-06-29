@@ -16,6 +16,8 @@ import {
 import { FeatureModulesService } from '../feature-modules.service';
 import { FacadeDescriptor } from './facade-descriptor';
 
+const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
+
 /**
  * Service that can create proxy facade, which is a service that will expose
  * methods and properties from a facade implemented in the lazy loaded module.
@@ -112,13 +114,24 @@ export class FacadeFactoryService {
 
     const result: any = new (class extends (facade as any) {})();
     (methods ?? []).forEach((method) => {
-      result[method] = (...args) =>
+      result[method] = (...args: any[]) =>
         this.call(resolver$, method as string, args);
     });
     (properties ?? []).forEach((property) => {
       result[property] = this.get(resolver$, property as string);
     });
 
+    result[PROXY_FACADE_INSTANCE_PROP] = true;
+
     return result;
+  }
+
+  /**
+   * isProxyFacadeInstance tests if the provided facade is labeled as a proxy instance.
+   * Facade proxy instances contain an object key to label them as such.
+   * @param facade The facade object to evaluate
+   */
+  isProxyFacadeInstance(facade: any) {
+    return !!facade?.[PROXY_FACADE_INSTANCE_PROP];
   }
 }
