@@ -5,6 +5,7 @@ import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
+  defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
@@ -104,6 +105,24 @@ const getCurrentConcurrency = (
 };
 
 describe('OptimizedSsrEngine', () => {
+  describe('SsrOptimizationOptions', () => {
+    it('should use the defaults if an empty object is provided', () => {
+      const engineRunner = new TestEngineRunner({});
+      expect(engineRunner.optimizedSsrEngine['ssrOptions']).toEqual(
+        defaultSsrOptimizationOptions
+      );
+    });
+    it('should override the defaults', () => {
+      const engineRunner = new TestEngineRunner({
+        reuseCurrentRendering: false,
+      });
+      expect(engineRunner.optimizedSsrEngine['ssrOptions']).toEqual({
+        ...defaultSsrOptimizationOptions,
+        reuseCurrentRendering: false,
+      });
+    });
+  });
+
   describe('timeout option', () => {
     it('should fallback to CSR if rendering exceeds timeout', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({ timeout: 50 }).request('a');
@@ -391,10 +410,11 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.renders).toEqual(['a-0']);
       }));
 
-      it('should render each request separately, even if there is already a pending render for the same rendering key', fakeAsync(() => {
+      it('when reuseCurrentRendering is false, it should render each request separately, even if there is already a pending render for the same rendering key', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           renderingStrategyResolver: () => RenderingStrategy.ALWAYS_SSR,
           timeout: 200,
+          reuseCurrentRendering: false,
         });
         spyOn(
           engineRunner.optimizedSsrEngine as any,
@@ -470,10 +490,11 @@ describe('OptimizedSsrEngine', () => {
         expect(engineRunner.renders).toEqual(['', 'a-0']);
       }));
 
-      it('should fallback to CSR when there is already pending a render for the same rendering key', fakeAsync(() => {
+      it('when reuseCurrentRendering is false, it should fallback to CSR when there is already pending a render for the same rendering key', fakeAsync(() => {
         const engineRunner = new TestEngineRunner({
           renderingStrategyResolver: () => RenderingStrategy.DEFAULT,
           timeout: 200,
+          reuseCurrentRendering: false,
         }).request('a');
         expect(getCurrentConcurrency(engineRunner)).toEqual({
           currentConcurrency: 1,
@@ -599,7 +620,10 @@ describe('OptimizedSsrEngine', () => {
       const renderTime = 200;
       const maxRenderTime = renderTime - 50; // shorter than the predicted render time
       const engineRunner = new TestEngineRunner(
-        { maxRenderTime },
+        {
+          maxRenderTime,
+          timeout: undefined,
+        },
         renderTime
       ).request(requestUrl);
       spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
@@ -712,7 +736,10 @@ describe('OptimizedSsrEngine', () => {
     describe('when disabled', () => {
       it('should fallback to CSR for parallel subsequent requests for the same rendering key', fakeAsync(() => {
         const timeout = 300;
-        const engineRunner = new TestEngineRunner({ timeout }, 400);
+        const engineRunner = new TestEngineRunner(
+          { timeout, reuseCurrentRendering: false },
+          400
+        );
         spyOn<any>(engineRunner.optimizedSsrEngine, 'log').and.callThrough();
 
         engineRunner.request(requestUrl);
