@@ -53,19 +53,8 @@ export function decorateExpressEngine(
 
     // apply optimization wrapper if optimization options were defined
     return optimizationOptions
-      ? new OptimizedSsrEngine(
-          engineInstance,
-          buildOptimizationOptions(optimizationOptions)
-        ).engineInstance
+      ? new OptimizedSsrEngine(engineInstance, optimizationOptions)
+          .engineInstance
       : engineInstance;
-  };
-}
-
-function buildOptimizationOptions(
-  optimizationOptions: SsrOptimizationOptions
-): SsrOptimizationOptions {
-  return {
-    ...defaultSsrOptimizationOptions,
-    ...optimizationOptions,
   };
 }

@@ -5,6 +5,7 @@ import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-d
 import { getRequestUrl } from '../util/request-url';
 import { RenderingCache } from './rendering-cache';
 import {
+  defaultSsrOptimizationOptions,
   RenderingStrategy,
   SsrOptimizationOptions,
 } from './ssr-optimization-options';
@@ -53,7 +54,15 @@ export class OptimizedSsrEngine {
   constructor(
     protected expressEngine: NgExpressEngineInstance,
     protected ssrOptions?: SsrOptimizationOptions
-  ) {}
+  ) {
+    this.ssrOptions = ssrOptions
+      ? {
+          ...defaultSsrOptimizationOptions,
+          // overrides the default options
+          ...ssrOptions,
+        }
+      : undefined;
+  }
 
   /**
    * When SSR page can not be returned in time, we're returning index.html of
