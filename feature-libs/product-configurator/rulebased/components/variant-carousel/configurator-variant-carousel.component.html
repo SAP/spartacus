@@ -1,3 +1,18 @@
 <div class="cx-variant-carousel-container">
-  <cx-product-carousel></cx-product-carousel>
+  <cx-carousel
+    *ngIf="items$ | async as items"
+    role="region"
+    [attr.aria-label]="
+      'productCarousel.carouselLabel' | cxTranslate: { title: title$ | async }
+    "
+    [items]="items"
+    [title]="title$ | async"
+    [template]="carouselItem"
+    itemWidth="285px"
+  >
+  </cx-carousel>
+
+  <ng-template #carouselItem let-item="item">
+    <cx-product-carousel-item [item]="item"></cx-product-carousel-item>
+  </ng-template>
 </div>
