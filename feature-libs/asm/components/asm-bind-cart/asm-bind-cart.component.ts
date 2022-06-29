@@ -21,7 +21,6 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     Validators.required,
     Validators.minLength(1),
   ]);
-  prevBoundCartId = '';
 
   protected subscription = new Subscription();
 
@@ -30,12 +29,12 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     protected asmFacade: AsmFacade,
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade,
-    protected userService: UserAccountFacade
+    protected userAccountFacade: UserAccountFacade
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.userService.get().subscribe((user) => {
+      this.userAccountFacade.get().subscribe((user) => {
         if (user) this.customer = user;
       })
     );
@@ -43,8 +42,7 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.activeCartFacade.getActiveCartId().subscribe((response: string) => {
         if (response) {
-          this.prevBoundCartId = response;
-          this.cartId.setValue(this.prevBoundCartId);
+          this.cartId.setValue(response);
         }
       })
     );

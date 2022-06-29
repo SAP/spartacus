@@ -27,9 +27,9 @@
   </div>
   <button
     class="cx-asm-bindCartToCustomer"
-    [disabled]="cartId.invalid || prevBoundCartId === cartId.value"
+    [disabled]="cartId.invalid"
     type="submit"
-    [class.active]="cartId.valid && prevBoundCartId !== cartId.value"
+    [class.active]="cartId.valid"
   >
     {{ 'asm.bindCart.bindCartToCustomer' | cxTranslate }}
   </button>

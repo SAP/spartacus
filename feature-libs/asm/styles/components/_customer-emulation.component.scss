@@ -3,23 +3,14 @@
   justify-content: flex-start;
   align-items: baseline;
 
-  @media (max-width: 875px) {
+  @media (max-width: 940px) {
     flex-direction: column;
     > * {
       margin-bottom: 12px;
     }
   }
 
-  @media (min-width: 575px) {
-    input {
-      flex: 1;
-    }
-  }
   button {
-    @media (min-width: 575px) {
-      margin-inline-start: 8px;
-    }
-
     color: #aa0808;
     font-weight: 700;
     background-color: #ffd6ea;
@@ -27,7 +18,7 @@
     border-radius: 8px;
     padding: 6px 10px;
 
-    @media (max-width: 575px) {
+    @media (max-width: 940px) {
       width: 100%;
     }
   }
