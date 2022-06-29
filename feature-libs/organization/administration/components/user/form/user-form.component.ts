@@ -2,10 +2,17 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { B2BUser, B2BUserRole, Title, UserService } from '@spartacus/core';
+import {
+  B2BUser,
+  B2BUserRole,
+  Config,
+  Title,
+  UserService,
+} from '@spartacus/core';
 import {
   B2BUnitNode,
   B2BUserService,
@@ -34,7 +41,7 @@ import { UserItemService } from '../services/user-item.service';
     },
   ],
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, OnDestroy {
   form: FormGroup = this.itemService.getForm();
 
   /**
@@ -65,8 +72,12 @@ export class UserFormComponent implements OnInit {
     protected itemService: ItemService<B2BUser>,
     protected unitService: OrgUnitService,
     protected userService: UserService,
-    protected b2bUserService: B2BUserService
+    protected b2bUserService: B2BUserService,
+    protected config: Config
   ) {}
+  ngOnDestroy(): void {
+    console.log('breaking changes', this.config);
+  }
 
   ngOnInit(): void {
     this.unitService.loadList();
