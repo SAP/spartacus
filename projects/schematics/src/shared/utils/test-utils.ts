@@ -35,6 +35,8 @@ export const organizationAdministrationFeatureModulePath =
   'src/app/spartacus/features/organization/organization-administration-feature.module.ts';
 export const organizationOrderApprovalFeatureModulePath =
   'src/app/spartacus/features/organization/organization-order-approval-feature.module.ts';
+export const organizationUserRegistrationFeatureModulePath =
+  'src/app/spartacus/features/organization/organization-user-registration-feature.module.ts';
 export const productBulkPricingFeatureModulePath =
   'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 export const productImageZoomFeatureModulePath =

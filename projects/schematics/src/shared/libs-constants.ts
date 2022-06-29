@@ -187,7 +187,8 @@ export const ORDER_FEATURE_NAME = 'Order';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME = 'Administration';
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME = 'Order-Approval';
-export const ORGANIZATION_USER_REGISTRATION_FEATURE_NAME = 'User-Registration';
+export const ORGANIZATION_USER_REGISTRATION_FEATURE_NAME =
+  'Organization-User-Registration';
 
 export const PRODUCT_BULK_PRICING_FEATURE_NAME = 'Bulk-Pricing';
 export const PRODUCT_IMAGE_ZOOM_FEATURE_NAME = 'Image-Zoom';
