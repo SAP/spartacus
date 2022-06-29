@@ -530,5 +530,6 @@ export interface OccEndpoints {
    * @member {string}
    */
   orderApprovalDecision?: string | OccEndpoint;
+
   // DEPRECATION END
 }
