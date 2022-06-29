@@ -3,7 +3,7 @@
   <div
     role="search"
     aria-label="Assign a cart id to customer"
-    class="assignCart"
+    class="cx-asm-assignCart"
     [class.active]="cartId.valid"
     (click)="cartIdElement.focus()"
   >
@@ -16,19 +16,17 @@
       aria-label="Enter cart id"
     />
     <button
-      class="reset"
+      class="cx-asm-reset"
       aria-label="Reset"
       [class.visible]="cartId.value?.length > 0"
       (click)="clearText()"
     >
       <cx-icon class="cx-icon fas fa-times-circle"></cx-icon>
     </button>
-    <div role="presentation" class="search-icon">
-      <cx-icon class="cx-icon fas fa-search"></cx-icon>
-    </div>
+    <cx-icon class="cx-icon fas fa-search"></cx-icon>
   </div>
   <button
-    class="bindCartToCustomer"
+    class="cx-asm-bindCartToCustomer"
     [disabled]="cartId.invalid || prevBoundCartId === cartId.value"
     type="submit"
     [class.active]="cartId.valid && prevBoundCartId !== cartId.value"

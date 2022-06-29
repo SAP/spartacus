@@ -1,7 +1,7 @@
 <ng-container *ngIf="isCustomerEmulationSessionInProgress$ | async">
-  <div class="customerInfo">
-    <label class="name">{{ customer?.name }}</label>
-    <label class="uid">{{ customer?.uid }}</label>
+  <div class="cx-asm-customerInfo">
+    <label class="cx-asm-name">{{ customer?.name }}</label>
+    <label class="cx-asm-uid">{{ customer?.uid }}</label>
   </div>
   <cx-asm-bind-cart></cx-asm-bind-cart>
   <button formcontrolname="logoutCustomer" (click)="logoutCustomer()">
