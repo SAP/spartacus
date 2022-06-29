@@ -11,7 +11,7 @@ describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
     let originalEngine: NgExpressEngine;
     let originalEngineInstance: NgExpressEngineInstance;
-    let mockEngineOptions;
+    let mockEngineOptions: Readonly<NgSetupOptions>;
 
     let mockOptions: RenderOptions;
     const mockPath = 'testPath';
