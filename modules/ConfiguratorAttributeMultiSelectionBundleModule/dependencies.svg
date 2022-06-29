@@ -14,13 +14,13 @@
 <title>cluster_ConfiguratorAttributeMultiSelectionBundleModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 1439,-230.8 1439,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ConfiguratorAttributeMultiSelectionBundleModule_declarations</title>
-<polygon fill="none" stroke="black" points="1087,-40.8 1087,-92.8 1431,-92.8 1431,-40.8 1087,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorAttributeMultiSelectionBundleModule_exports</title>
 <polygon fill="none" stroke="black" points="296,-170.8 296,-222.8 644,-222.8 644,-170.8 296,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ConfiguratorAttributeMultiSelectionBundleModule_declarations</title>
+<polygon fill="none" stroke="black" points="1087,-40.8 1087,-92.8 1431,-92.8 1431,-40.8 1087,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorAttributeMultiSelectionBundleModule_imports</title>

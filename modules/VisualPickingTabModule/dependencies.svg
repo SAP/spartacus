@@ -18,13 +18,13 @@
 <title>cluster_VisualPickingTabModule_VisualPickingTabComponent_providers</title>
 <polygon fill="none" stroke="black" points="734,-40.8 734,-157.8 970,-157.8 970,-40.8 734,-40.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_VisualPickingTabModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-105.8 16,-157.8 726,-157.8 726,-105.8 16,-105.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_VisualPickingTabModule_exports</title>
 <polygon fill="none" stroke="black" points="407,-235.8 407,-287.8 609,-287.8 609,-235.8 407,-235.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_VisualPickingTabModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-105.8 16,-157.8 726,-157.8 726,-105.8 16,-105.8"/>
 </g>
 <!-- VisualPickingTabComponent -->
 <g id="node1" class="node">

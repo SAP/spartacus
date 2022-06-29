@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">integration-libs/cds/src/profiletag/model/profile-tag.model.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">integration-libs/cds/src/profiletag/model/profile-tag.model.ts:57</a></div>
                             </td>
                         </tr>
 
@@ -184,7 +184,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">integration-libs/cds/src/profiletag/model/profile-tag.model.ts:56</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">integration-libs/cds/src/profiletag/model/profile-tag.model.ts:57</a></div>
                         </td>
                     </tr>
 
@@ -215,7 +215,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">integration-libs/cds/src/profiletag/model/profile-tag.model.ts:55</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">integration-libs/cds/src/profiletag/model/profile-tag.model.ts:56</a></div>
                         </td>
                     </tr>
 
@@ -235,6 +235,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PersonalizationAction } from &#x27;@spartacus/tracking/personalization/core&#x27;;
+import { Cart } from &#x27;@spartacus/core&#x27;;
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
@@ -406,6 +407,14 @@ export class ModifiedCartPushEvent implements ProfileTagPushEvent {
     productCategoryName: string;
     productCategory: string;
   }) {
+    this.data &#x3D; data;
+  }
+}
+
+export class CartSnapshotPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;CartSnapshot&#x27;;
+  data: any;
+  constructor(data: { cart: Cart }) {
     this.data &#x3D; data;
   }
 }

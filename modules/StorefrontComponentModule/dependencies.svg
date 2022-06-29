@@ -18,13 +18,13 @@
 <title>cluster_StorefrontComponentModule_declarations</title>
 <polygon fill="none" stroke="black" points="835,-40.8 835,-92.8 989,-92.8 989,-40.8 835,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_StorefrontComponentModule_exports</title>
-<polygon fill="none" stroke="black" points="404,-170.8 404,-222.8 562,-222.8 562,-170.8 404,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_StorefrontComponentModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 827,-92.8 827,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_StorefrontComponentModule_exports</title>
+<polygon fill="none" stroke="black" points="404,-170.8 404,-222.8 562,-222.8 562,-170.8 404,-170.8"/>
 </g>
 <!-- StorefrontComponent -->
 <g id="node1" class="node">

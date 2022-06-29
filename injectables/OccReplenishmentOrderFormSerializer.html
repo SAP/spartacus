@@ -300,7 +300,7 @@ export class OccReplenishmentOrderFormSerializer
     const localTime &#x3D; new Date().toLocaleTimeString([], {
       hour: &#x27;2-digit&#x27;,
       minute: &#x27;2-digit&#x27;,
-      hour12: false,
+      hourCycle: &#x27;h23&#x27;,
     });
     return &#x60;${date}T${localTime}:00${TimeUtils.getLocalTimezoneOffset()}&#x60;;
   }

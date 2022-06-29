@@ -144,6 +144,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PersonalizationAction } from &#x27;@spartacus/tracking/personalization/core&#x27;;
+import { Cart } from &#x27;@spartacus/core&#x27;;
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {
@@ -315,6 +316,14 @@ export class ModifiedCartPushEvent implements ProfileTagPushEvent {
     productCategoryName: string;
     productCategory: string;
   }) {
+    this.data &#x3D; data;
+  }
+}
+
+export class CartSnapshotPushEvent implements ProfileTagPushEvent {
+  name &#x3D; &#x27;CartSnapshot&#x27;;
+  data: any;
+  constructor(data: { cart: Cart }) {
     this.data &#x3D; data;
   }
 }
