@@ -231,7 +231,7 @@ describe('CpqConfiguratorRestAdapter', () => {
 
   it('should throw exception if variant search is attempted', () => {
     expect(() => adapterUnderTest.searchVariants()).toThrowError();
-  });  
+  });
 
   it('should delegate addToCart to OCC service', () => {
     adapterUnderTest.addToCart(addToCartParams).subscribe((response) => {

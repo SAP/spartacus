@@ -171,7 +171,7 @@ export namespace Configurator {
 
   export interface Variant {
     productCode: string;
-  }  
+  }
 
   export enum GroupType {
     ATTRIBUTE_GROUP = 'AttributeGroup',
