@@ -55,6 +55,11 @@ describe('AsmBindCartComponent', () => {
   let store: Store<StateWithAsm>;
   let userService: UserAccountFacade;
 
+  const prevActiveCartId = '00001122';
+  const testCartId = '00001234';
+
+  const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -83,13 +88,7 @@ describe('AsmBindCartComponent', () => {
     multiCartFacade = TestBed.inject(MultiCartFacade);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
     userService = TestBed.inject(UserAccountFacade);
-  });
 
-  it('should assign cart to customer', () => {
-    const prevActiveCartId = '00001122';
-    const testCartId = '00001234';
-
-    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
     spyOn(userService, 'get').and.returnValue(of(testUser));
 
     spyOn(asmFacade, 'bindCart').and.returnValue(
@@ -104,33 +103,47 @@ describe('AsmBindCartComponent', () => {
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(
       of(prevActiveCartId)
     );
+  });
 
-    component.customer = testUser;
-    component.ngOnInit();
-    fixture.detectChanges();
+  describe('should assign cart to customer', () => {
+    it('should check that load cart Id matches previous assigned cart id', () => {
+      component.customer = testUser;
+      component.ngOnInit();
+      fixture.detectChanges();
 
-    // check that cart id entered matches
-    expect(component.cartId.value).toEqual(prevActiveCartId);
-
-    // clear entered cart id
-    component.cartId.setValue('');
-
-    // set cart number to assign
-    component.cartId.setValue(testCartId);
-
-    // check that cart id entered matches
-    expect(component.cartId.value).toEqual(testCartId);
-
-    component.bindCartToCustomer();
-
-    expect(asmFacade.bindCart).toHaveBeenCalledWith({
-      cartId: testCartId,
-      customerId: testUser.uid,
+      // check that cart id entered matches
+      expect(component.cartId.value).toEqual(prevActiveCartId);
     });
 
-    // clear entered cart id
-    component.cartId.setValue('');
-    component.bindCartToCustomer();
-    expect(asmFacade.bindCart).toHaveBeenCalledTimes(1);
+    it('should bind cart for assigned cart id', () => {
+      component.customer = testUser;
+      component.ngOnInit();
+      fixture.detectChanges();
+      // clear entered cart id
+      component.cartId.setValue('');
+
+      // set cart number to assign
+      component.cartId.setValue(testCartId);
+
+      // check that cart id entered matches
+      expect(component.cartId.value).toEqual(testCartId);
+
+      component.bindCartToCustomer();
+
+      expect(asmFacade.bindCart).toHaveBeenCalledWith({
+        cartId: testCartId,
+        customerId: testUser.uid,
+      });
+    });
+
+    it('should not bind cart for empty value', () => {
+      component.customer = testUser;
+      component.ngOnInit();
+      fixture.detectChanges();
+      // clear entered cart id
+      component.cartId.setValue('');
+      component.bindCartToCustomer();
+      expect(asmFacade.bindCart).toHaveBeenCalledTimes(0);
+    });
   });
 });

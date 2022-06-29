@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 import { ASM_FEATURE } from '../feature-name';
 import {
   AsmUi,
+  BindCartParams,
   CustomerSearchOptions,
   CustomerSearchPage,
 } from '../model/asm.models';
-import { BindCartParams } from '../model/bind-cart.model';
 
 @Injectable({
   providedIn: 'root',

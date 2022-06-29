@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { ASM_FEATURE, CustomerSearchPage } from '@spartacus/asm/root';
+import { CustomerSearchPage } from '@spartacus/asm/root';
 import { StateUtils, User } from '@spartacus/core';
 import { AsmActions } from '../actions';
 import { StateWithAsm } from '../asm-state';
@@ -27,7 +27,7 @@ describe('Customer Search Results Selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
+        StoreModule.forFeature('asm', fromReducers.getReducers()),
       ],
     });
 
