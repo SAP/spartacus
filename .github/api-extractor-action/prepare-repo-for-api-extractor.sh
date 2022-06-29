@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-BRANCH=develop
+BRANCH=test-4.3.x-branch
 if [ "$1" != "" ] ; then
   BRANCH=$1
 fi
