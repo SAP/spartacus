@@ -19,7 +19,7 @@ import { AuthStorageService } from './services/auth-storage.service';
 export function checkOAuthParamsInUrl(
   authService: AuthService,
   configInit: ConfigInitializerService
-) {
+): () => Promise<void> {
   const result = () =>
     configInit
       .getStable()
