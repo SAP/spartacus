@@ -286,7 +286,7 @@
          * DEFAULT VALUE: false
          */
         // "addToApiReportFile": false
-      },
+      }
 
       // "TS2551": {
       //   "logLevel": "warning",
@@ -314,9 +314,10 @@
         "logLevel": "none"
       },
 
-      // Spartacus: disebled, because caused false-positive warnings e.g. when an interface is exported, but from a different library
+      // Spartacus: disabled due to false-positive warnings e.g. when an interface is exported, but from a different library
       "ae-forgotten-export": {
-        "logLevel": "none"
+        "logLevel": "none",
+        "addToApiReportFile": false
       }
 
       // "ae-extra-release-tag": {
