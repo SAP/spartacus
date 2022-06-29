@@ -1,3 +1,5 @@
 export * from './s4om-root.module';
 export * from './feature-name';
-export * from './model/index';
+export * from './components/schedule-lines/schedule-lines.module';
+export * from './components/schedule-lines/schedule-lines.component';
+export * from './model';

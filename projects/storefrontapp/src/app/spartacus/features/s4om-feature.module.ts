@@ -4,7 +4,7 @@ import {
   s4omTranslationChunksConfig,
   s4omTranslations,
 } from '@spartacus/s4om/assets';
-import { S4omRootModule, S4OM_FEATURE } from '@spartacus/s4om/root';
+import { S4omRootModule, S4OM_FEATURE } from 'integration-libs/s4om/root';
 
 @NgModule({
   imports: [S4omRootModule],

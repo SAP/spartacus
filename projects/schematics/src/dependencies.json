@@ -277,10 +277,17 @@
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",
     "@angular/core": "^13.3.0",
+<<<<<<< Updated upstream
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
+=======
+    "@spartacus/cart": "4.1.1",
+    "@spartacus/core": "4.1.1",
+    "@spartacus/schematics": "4.1.1",
+    "@spartacus/storefront": "4.1.1",
+>>>>>>> Stashed changes
     "rxjs": "^6.6.0"
   },
   "storefrontapp": {
