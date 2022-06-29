@@ -196,7 +196,7 @@ describe('decorateExpressEngine', () => {
     });
 
     it(`should apply optimization wrapper`, () => {
-      // we check, that callback is not the original one
+      // we check that callback is not the original one
       expect(originalEngineInstance).not.toHaveBeenCalledWith(
         mockPath,
         mockOptions,
