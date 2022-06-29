@@ -343,7 +343,7 @@ describe('OptimizedSsrEngine', () => {
 
     it('should use custom render key resolver', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({
-        renderKeyResolver: (req) => req.originalUrl.substr(0, 2),
+        renderKeyResolver: (req) => req.originalUrl.substring(0, 2),
         timeout: 200,
         cache: true,
       }).request('ala');
