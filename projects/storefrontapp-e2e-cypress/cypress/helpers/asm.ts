@@ -4,12 +4,15 @@ import * as checkout from '../helpers/checkout-flow';
 import { fillShippingAddress } from '../helpers/checkout-forms';
 import * as consent from '../helpers/consent-management';
 import * as profile from '../helpers/update-profile';
+import { SampleUser } from '../sample-data/checkout-flow';
 import { interceptGet, interceptPost } from '../support/utils/intercept';
+import { login } from './auth-forms';
 import * as loginHelper from './login';
 import {
   navigateToAMyAccountPage,
   navigateToCategory,
   navigateToHomepage,
+  waitForPage,
 } from './navigation';
 
 export function listenForAuthenticationRequest(): string {
@@ -88,6 +91,13 @@ export function startCustomerEmulation(customer): void {
   cy.get('cx-customer-emulation').should('be.visible');
 }
 
+export function loginCustomerInStorefront(customer) {
+  const authRequest = listenForAuthenticationRequest();
+
+  login(customer.email, customer.password);
+  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
+}
+
 export function agentSignOut() {
   const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest();
   cy.get('button[title="Sign Out"]').click();
@@ -96,11 +106,17 @@ export function agentSignOut() {
   cy.get('cx-customer-selection').should('not.exist');
 }
 
+export function assertCustomerIsSignedIn() {
+  cy.get('cx-login div.cx-login-greet').should('exist');
+}
+
 export function testCustomerEmulation() {
+  let customer: SampleUser;
+
   it('should test customer emulation', () => {
     checkout.visitHomePage();
 
-    const customer = checkout.registerUser(false);
+    customer = checkout.registerUser(false);
 
     // storefront should have ASM UI disabled by default
     cy.get('cx-asm-main-ui').should('not.exist');
@@ -196,5 +212,47 @@ export function testCustomerEmulation() {
     cy.get('cx-storefront.stop-navigating').should('exist');
     navigateToCategory('Brands', 'brands', false);
     cy.get('cx-product-list-item').should('exist');
+  });
+
+  it('should verify data changed by the agent as a customer', () => {
+    cy.log('--> customer sign in');
+
+    const loginPage = waitForPage('/login', 'getLoginPage');
+    cy.visit('/login');
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+
+    asm.loginCustomerInStorefront(customer);
+    asm.assertCustomerIsSignedIn();
+
+    cy.log('Check personal details updated by the agent');
+
+    navigateToAMyAccountPage(
+      'Personal Details',
+      '/my-account/update-profile',
+      'updateProfilePage'
+    );
+    profile.verifyUpdatedProfile();
+
+    cy.log('--> check address created by the agent');
+
+    navigateToAMyAccountPage(
+      'Address Book',
+      '/my-account/address-book',
+      'addressBookPage'
+    );
+
+    cy.get('cx-card').should('be.visible');
+    addressBook.verifyNewAddress();
+
+    cy.log('--> Check consent given by agent');
+
+    navigateToAMyAccountPage(
+      'Consent Management',
+      '/my-account/consents',
+      'consentManagementPage'
+    );
+    cy.get('input[type="checkbox"]').first().should('be.checked');
+
+    checkout.signOutUser();
   });
 }
