@@ -16,6 +16,9 @@ import {
   DeleteCartEvent,
   DeleteCartFailEvent,
   DeleteCartSuccessEvent,
+  RemoveCartVoucherEvent,
+  RemoveCartVoucherFailEvent,
+  RemoveCartVoucherSuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
   ActionToEventMapping,
@@ -50,6 +53,7 @@ export class CartEventBuilder {
     this.registerRemoveEntry();
     this.registerUpdateEntry();
     this.registerDeleteCart();
+    this.registerRemoveCartVoucher();
   }
 
   /**
@@ -139,6 +143,23 @@ export class CartEventBuilder {
           ...action.payload,
           cartCode: action.payload.cartId,
         }),
+    });
+  }
+
+  protected registerRemoveCartVoucher(): void {
+    this.stateEventService.register({
+      action: CartActions.CART_REMOVE_VOUCHER,
+      event: RemoveCartVoucherEvent,
+    });
+
+    this.stateEventService.register({
+      action: CartActions.CART_REMOVE_VOUCHER_SUCCESS,
+      event: RemoveCartVoucherSuccessEvent,
+    });
+
+    this.stateEventService.register({
+      action: CartActions.CART_REMOVE_VOUCHER_FAIL,
+      event: RemoveCartVoucherFailEvent,
     });
   }
 
