@@ -199,19 +199,35 @@ This options has a significant disadvantage: the `Injector.get` method can be ca
 Let's disqualify this option, as it is pretty much the same as Option 1 (`inject` function), but has only more disadvantages than Option 1.
 
 ### Option 3: Use constructor parameters
-**TODO:**
 
 #### Pros
+- no work needed - business as usual
 
 #### Cons
-
-#### Interesting
+- for every major we do 1-2 weeks of work for few people (depending on the number of constructor changes) before every major release to change all optional constructor parameters as required and provide migrations (docs and schematics) 
+- Having constructor params is prone to introducing accidental breaking changes by adding new required constructor dependencies in minor versions (only reviewer can spot it) 
 
 ## 5. Decision
-_Elaborate the decision_
+Option 1. We want to use `inject` instead of constructor params. 
+
+Open ends: 
+- Do we roll out the change in every class of Spartacus in major release, or in parts (in many majors), e.g. only storefinder lib in the first go – to test the reaction of customers?
+	- Why: We’re unfamiliar with the `inject` function, same for the community. It hasn't been widely adopted in the community. Therefore we're a bit hesitant to use it 100% everywhere in the next major release.
+- Is the investment worth it? 
+	- Current costs we pay when having constructor parameters: 
+		- 1-2 weeks of work for few people (depending on the number of constructor changes) before every major release to change all optional parameters as required and provide migrations (docs and schematics) 
+		- Prone to introducing accidental breaking changes by adding new required constructor dependencies 
+	- Cost of switching once to inject function and dropping constructor params everywhere: 
+		- Refactor whole codebase constructors to inject functions (with regex/script + manual review needed) 
+		- Create custom ESLint rule: to put all `inject` calls in the top of the class body, as property initializers 
+		- Test migration scripts on example fresh app with example customizations of constructors 
+		- about 2 weeks of work for 2 people
+
+Investment will pay off after about 2-3 major releases.
 
 ## 6. Consequences
-_What becomes easier or more difficult to do because of this change?_
+- we can add new constructor parameters in minor releases, without being prone to introduce a breaking change
+- simpler preparation for every next Major release - no more hassle of changing constructor parameters from optional to required and providing migrations (docs and schematics)
 
 
 
