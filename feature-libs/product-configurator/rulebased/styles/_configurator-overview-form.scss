@@ -61,7 +61,8 @@
         background-color: var(--cx-color-inverse);
         text-transform: none;
         position: sticky;
-        top: 0;
+        top: 2px;
+        z-index: 5;
         span {
           @include cx-configurator-truncate-content();
         }
@@ -92,7 +93,6 @@
       font-weight: normal;
       text-transform: uppercase;
       position: sticky;
-      top: 58px;
 
       span {
         @include cx-configurator-truncate-content();
@@ -100,6 +100,33 @@
     }
   }
 
+  &.subgroupLevel2 {
+    h2 {
+      top: 60px;
+      z-index: 4;
+    }
+  }
+
+  &.subgroupLevel3 {
+    h2 {
+      top: 112px;
+      z-index: 3;
+    }
+  }
+
+  &.subgroupLevel4 {
+    h2 {
+      top: 164px;
+      z-index: 2;
+    }
+  }
+
+  &.subgroupLevel5 {
+    h2 {
+      top: 216px;
+      z-index: 1;
+    }
+  }
     .cx-attribute-value-pair {
       padding-inline-start: 32px;
       padding-inline-end: 32px;
