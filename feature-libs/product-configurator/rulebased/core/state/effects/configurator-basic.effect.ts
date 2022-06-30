@@ -71,7 +71,6 @@ export class ConfiguratorBasicEffects {
 
   readConfiguration$: Observable<
     | ConfiguratorActions.ReadConfigurationSuccess
-    | ConfiguratorActions.SearchVariants
     | ConfiguratorActions.ReadConfigurationFail
   > = createEffect(() =>
     this.actions$.pipe(
@@ -86,9 +85,9 @@ export class ConfiguratorBasicEffects {
           )
           .pipe(
             switchMap((configuration: Configurator.Configuration) => {
+              console.log('CHHI read');
               return [
                 new ConfiguratorActions.ReadConfigurationSuccess(configuration),
-                new ConfiguratorActions.SearchVariants(configuration),
               ];
             }),
             catchError((error) => [
