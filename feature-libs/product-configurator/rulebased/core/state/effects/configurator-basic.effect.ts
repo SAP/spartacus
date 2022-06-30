@@ -30,6 +30,7 @@ import { ConfiguratorBasicEffectService } from './configurator-basic-effect.serv
 export class ConfiguratorBasicEffects {
   createConfiguration$: Observable<
     | ConfiguratorActions.CreateConfigurationSuccess
+    | ConfiguratorActions.SearchVariants
     | ConfiguratorActions.CreateConfigurationFail
   > = createEffect(() =>
     this.actions$.pipe(
@@ -54,6 +55,7 @@ export class ConfiguratorBasicEffects {
                 new ConfiguratorActions.CreateConfigurationSuccess(
                   configuration
                 ),
+                new ConfiguratorActions.SearchVariants(configuration),
               ];
             }),
             catchError((error) => [
@@ -198,6 +200,7 @@ export class ConfiguratorBasicEffects {
   updateConfigurationSuccess$: Observable<
     | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
     | ConfiguratorActions.UpdatePriceSummary
+    | ConfiguratorActions.SearchVariants
     | ConfiguratorActions.ChangeGroup
   > = createEffect(() =>
     this.actions$.pipe(
@@ -249,11 +252,18 @@ export class ConfiguratorBasicEffects {
                       currentGroup: container.groupIdFromPayload,
                     },
                   });
+                const searchVariantsAction =
+                  new ConfiguratorActions.SearchVariants(payload);
                 return container.currentGroupId === container.groupIdFromPayload
-                  ? [updateFinalizeSuccessAction, updatePriceSummaryAction]
+                  ? [
+                      updateFinalizeSuccessAction,
+                      updatePriceSummaryAction,
+                      searchVariantsAction,
+                    ]
                   : [
                       updateFinalizeSuccessAction,
                       updatePriceSummaryAction,
+                      searchVariantsAction,
                       new ConfiguratorActions.ChangeGroup({
                         configuration: payload,
                         groupId: container.groupIdFromPayload,

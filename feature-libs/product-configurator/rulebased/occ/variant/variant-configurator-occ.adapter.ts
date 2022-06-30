@@ -268,7 +268,8 @@ export class VariantConfiguratorOccAdapter
       'searchConfiguratorVariants',
       { urlParams: { configId } }
     );
-
+    //no need to work with a converter here, as Configurator.Variant is a projection of the OCC
+    //variant representation
     return this.http.get<Configurator.Variant[]>(url);
   }
 }
