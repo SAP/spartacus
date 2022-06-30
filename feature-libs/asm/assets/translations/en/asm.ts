@@ -29,7 +29,7 @@ export const asm = {
     },
     customerList: {
       title: 'Customer List',
-      description: 'Customer list',
+      description: 'Select a customer from one of several provided lists.',
       tableHeader: {
         customer: 'Customer',
         name: 'Name',
@@ -37,7 +37,6 @@ export const asm = {
         phone: 'Phone',
         cart: 'Cart',
         order: 'Order',
-        view: '360 View',
       },
       tableSort: {
         sortBy: 'Sort by',

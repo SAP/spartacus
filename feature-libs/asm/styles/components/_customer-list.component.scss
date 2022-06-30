@@ -40,10 +40,16 @@ $sapFioriContent_LabelColor: #6a6d70;
           color: $sapFioriLinkColor;
         }
         cx-icon.previous {
-          padding: 0 10px 0 0;
+          padding-top: 0;
+          padding-inline-end: 10px;
+          padding-bottom: 0;
+          padding-inline-start: 0;
         }
         cx-icon.next {
-          padding: 0 0 0 10px;
+          padding-top: 0;
+          padding-inline-end: 0;
+          padding-bottom: 0;
+          padding-inline-start: 10px;
         }
         button {
           text-decoration: none;
@@ -51,23 +57,32 @@ $sapFioriContent_LabelColor: #6a6d70;
         }
         .cx-btn-previous {
           span {
-            padding: 0 0 0 5px;
+            padding-top: 0;
+            padding-inline-end: 0;
+            padding-bottom: 0;
+            padding-inline-start: 5px;
           }
         }
         .cx-btn-next {
           span {
-            padding: 0 5px 0 0;
+            padding-top: 0;
+            padding-inline-end: 5px;
+            padding-bottom: 0;
+            padding-inline-start: 0;
           }
         }
         div:first-child {
           font-size: 0.875rem;
           color: $sapFioriTextColor;
-          padding: 0 10px 0 10px;
+          padding: 0 10px;
         }
       }
       .table-header-cell {
         line-height: 40px;
-        margin: 0 15px 0 0;
+        margin-top: 0;
+        margin-inline-end: 15px;
+        margin-bottom: 0;
+        margin-inline-start: 0;
       }
       .table-header-cell.sort {
         cursor: pointer;
@@ -97,9 +112,9 @@ $sapFioriContent_LabelColor: #6a6d70;
         border-top: 1px solid var(--cx-color-light);
         height: 44px;
         th {
-          color: $sapFioriTextColor !important;
-          text-transform: none !important;
-          font-weight: 700 !important;
+          color: $sapFioriTextColor;
+          text-transform: none;
+          font-weight: 700;
         }
       }
     }
@@ -135,7 +150,10 @@ $sapFioriContent_LabelColor: #6a6d70;
       text-align: center;
       background: #9259cd;
       text-transform: uppercase;
-      margin: 2px 10px 2px 0;
+      margin-top: 2px;
+      margin-inline-end: 10px;
+      margin-bottom: 2px;
+      margin-inline-start: 0;
     }
   }
 
@@ -167,19 +185,22 @@ $sapFioriContent_LabelColor: #6a6d70;
   .cx-empty-state {
     display: flex;
     justify-content: center;
-    margin: 50px 0 0 0;
+    margin-top: 50px;
+    margin-inline-end: 0;
+    margin-bottom: 0;
+    margin-inline-start: 0;
   }
-  ng-select {
+  .ng-select {
     .ng-select-container {
-      border: 0 !important;
+      border: 0;
       .ng-arrow-wrapper {
         .ng-arrow {
-          border-color: $sapFioriLinkColor transparent transparent !important;
+          border-color: $sapFioriLinkColor transparent transparent;
         }
       }
     }
   }
-  .ng-select-focused {
-    outline: none !important;
+  .ng-select.ng-select-focused {
+    outline: none;
   }
 }
