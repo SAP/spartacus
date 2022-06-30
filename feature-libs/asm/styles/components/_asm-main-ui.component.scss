@@ -106,7 +106,10 @@
       .cx-asm-customer-list {
         cursor: pointer;
         cx-icon {
-          padding: 0 7px 0 0;
+          padding-top: 0;
+          padding-inline-end: 7px;
+          padding-bottom: 0;
+          padding-inline-start: 0;
           color: #1e3050;
         }
         .cx-asm-customer-list-link {
