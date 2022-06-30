@@ -67,6 +67,7 @@ Do the following steps to keep track of spartacussampledata releases:
   - Check if you are logged into npm with `npm whoami`
   - If you are not logged in, then login with `npm login`
   - If there are any problems, setup 2FA for npm & `npm set @spartacus:registry https://registry.npmjs.org/`
+  - Important note: DO NOT push or tag any of the released and committed libraries from list below. INSTEAD, push all commits together. Then wait for merging branch to maintenance one and tag release with proper version `major.minor.patch`.
   - For each package select/type version when prompted:
     - [ ] `npm run release:core:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
@@ -121,4 +122,5 @@ Do the following steps to keep track of spartacussampledata releases:
       - [ ] Register a new user, login and make sure you can checkout
 
 - [ ] Merge release branch (PR from release/*.*.*) to the maintenance branch
+- [ ] Tag release version as `major.minor.patch` with reference to merge commit from the above step 
 - [ ] Announce the new release on tribe channel
