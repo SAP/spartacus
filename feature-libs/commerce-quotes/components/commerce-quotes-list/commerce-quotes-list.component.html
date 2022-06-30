@@ -1,7 +1,7 @@
 <ng-container *ngIf="quotesState$ | async as quotesState">
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <div>
-    <h3 id="header">{{ 'commerceQuotesList.header' | cxTranslate }}</h3>
+    <h3 id="header">{{ 'commerceQuotes.list.header' | cxTranslate }}</h3>
   </div>
   <ng-container *ngIf="quotesState.data">
     <ng-container
@@ -10,15 +10,15 @@
       <div class="cx-commerce-quotes-list-sort top">
         <label class="cx-commerce-quotes-list-form-group form-group"
           ><span>
-            {{ 'commerceQuotesList.sortBy' | cxTranslate }}
+            {{ 'commerceQuotes.list.sortBy' | cxTranslate }}
           </span>
           <cx-sorting
             [sortOptions]="sorts"
             [sortLabels]="getSortLabels() | async"
             (sortListEvent)="changeSortCode($event)"
             [selectedOption]="quotesState.data.pagination.sort"
-            placeholder="{{ 'commerceQuotesList.sortBy' | cxTranslate }}"
-            [ariaLabel]="'commerceQuotesList.sortOrders' | cxTranslate"
+            placeholder="{{ 'commerceQuotes.list.sortBy' | cxTranslate }}"
+            [ariaLabel]="'commerceQuotes.list.sortOrders' | cxTranslate"
             ariaControls="commerce-quotes-list"
           ></cx-sorting>
         </label>
@@ -33,16 +33,16 @@
         <thead>
           <tr role="row">
             <th scope="col">
-              {{ 'commerceQuotesList.quoteName' | cxTranslate }}
+              {{ 'commerceQuotes.list.name' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'commerceQuotesCommons.quoteId' | cxTranslate }}
+              {{ 'commerceQuotes.commons.id' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'commerceQuotesCommons.quoteStatus' | cxTranslate }}
+              {{ 'commerceQuotes.commons.status' | cxTranslate }}
             </th>
             <th scope="col">
-              {{ 'commerceQuotesList.quoteUpdated' | cxTranslate }}
+              {{ 'commerceQuotes.list.updated' | cxTranslate }}
             </th>
           </tr>
         </thead>
@@ -50,7 +50,7 @@
           <tr *ngFor="let quote of quotesState.data.quotes">
             <td class="cx-commerce-quotes-list-quote-name">
               <div class="cx-mobile-header">
-                {{ 'commerceQuotesList.quoteName' | cxTranslate }}
+                {{ 'commerceQuotes.list.name' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
@@ -65,7 +65,7 @@
             </td>
             <td>
               <div class="cx-mobile-header">
-                {{ 'commerceQuotesList.quoteId' | cxTranslate }}
+                {{ 'commerceQuotes.commons.id' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
@@ -79,7 +79,7 @@
             </td>
             <td>
               <div class="cx-mobile-header">
-                {{ 'commerceQuotesList.quoteStatus' | cxTranslate }}
+                {{ 'commerceQuotes.commons.status' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
@@ -88,12 +88,12 @@
                     params: { quoteId: quote?.code }
                   } | cxUrl
                 "
-                >{{ 'commerceQuotesStates.' + quote?.state | cxTranslate }}
+                >{{ 'commerceQuotes.states.' + quote?.state | cxTranslate }}
               </a>
             </td>
             <td>
               <div class="cx-mobile-header">
-                {{ 'commerceQuotesList.quoteUpdated' | cxTranslate }}
+                {{ 'commerceQuotes.list.updated' | cxTranslate }}
               </div>
               <a
                 [routerLink]="
@@ -123,6 +123,6 @@
 
 <ng-template #emptyQuoteList>
   <div class="cx-commerce-quotes-list-empty">
-    {{ 'commerceQuotesList.empty' | cxTranslate }}
+    {{ 'commerceQuotes.list.empty' | cxTranslate }}
   </div>
 </ng-template>

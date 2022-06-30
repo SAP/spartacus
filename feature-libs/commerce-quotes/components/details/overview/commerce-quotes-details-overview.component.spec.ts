@@ -97,7 +97,7 @@ describe('CommerceQuotesDetailsOverviewComponent', () => {
     expect(descriptionElement.nativeElement.innerHTML).toBeDefined();
   });
 
-  it('should return object with title and text if value is defined when getCardContent', (done) => {
+  it('should return object with title and text if value is defined when getCardContent', () => {
     //given
     const value = 'test';
     const titleKey = 'key';
@@ -107,10 +107,9 @@ describe('CommerceQuotesDetailsOverviewComponent', () => {
     component.getCardContent(value, titleKey).subscribe((result) => {
       expect(result).toEqual(expected);
     });
-    done();
   });
 
-  it('should return object with title and placeholder if value is not defined defined when getCardContent', (done) => {
+  it('should return object with title and placeholder if value is not defined defined when getCardContent', () => {
     //given
     const value = null;
     const titleKey = 'key';
@@ -120,6 +119,5 @@ describe('CommerceQuotesDetailsOverviewComponent', () => {
     component.getCardContent(value, titleKey).subscribe((result) => {
       expect(result).toEqual(expected);
     });
-    done();
   });
 });

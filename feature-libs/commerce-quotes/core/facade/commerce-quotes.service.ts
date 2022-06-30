@@ -28,13 +28,13 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       () =>
         this.userIdService.takeUserId().pipe(
           withLatestFrom(this.currentPage$, this.sortBy$),
-          switchMap(([userId, currentPage, sort]) => {
-            return this.commerceQuotesConnector.getQuotes(userId, {
+          switchMap(([userId, currentPage, sort]) =>
+            this.commerceQuotesConnector.getQuotes(userId, {
               currentPage,
               sort,
               pageSize: this.config.view?.defaultPageSize,
-            });
-          })
+            })
+          )
         ),
       { reloadOn: [CommerceQuotesListReloadQueryEvent] }
     );
@@ -43,12 +43,9 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     this.queryService.create<Quote>(() =>
       this.routingService.getRouterState().pipe(
         withLatestFrom(this.userIdService.takeUserId()),
-        switchMap(([{ state }, userId]) => {
-          return this.commerceQuotesConnector.getQuote(
-            userId,
-            state.params.quoteId
-          );
-        })
+        switchMap(([{ state }, userId]) =>
+          this.commerceQuotesConnector.getQuote(userId, state.params.quoteId)
+        )
       )
     );
 

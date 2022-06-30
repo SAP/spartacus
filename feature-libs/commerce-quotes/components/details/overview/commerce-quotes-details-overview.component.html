@@ -4,14 +4,14 @@
       <div class="cx-summary-card">
         <cx-card
           [content]="
-            getCardContent(quote?.code, 'commerceQuotesDetails.code') | async
+            getCardContent(quote?.code, 'commerceQuotes.details.code') | async
           "
         ></cx-card>
         <cx-card
           [content]="
             getCardContent(
               quote?.creationTime | cxDate,
-              'commerceQuotesDetails.created'
+              'commerceQuotes.details.created'
             ) | async
           "
         ></cx-card>
@@ -19,7 +19,7 @@
           [content]="
             getCardContent(
               quote?.updatedTime | cxDate,
-              'commerceQuotesDetails.lastUpdated'
+              'commerceQuotes.details.lastUpdated'
             ) | async
           "
         ></cx-card>
@@ -29,7 +29,7 @@
           [content]="
             getCardContent(
               quote?.previousEstimatedTotal.formattedValue,
-              'commerceQuotesDetails.estimatedTotal'
+              'commerceQuotes.details.estimatedTotal'
             ) | async
           "
         ></cx-card>
@@ -38,7 +38,7 @@
           [content]="
             getCardContent(
               quote?.description,
-              'commerceQuotesDetails.description'
+              'commerceQuotes.details.description'
             ) | async
           "
           [truncateText]="true"
@@ -49,8 +49,8 @@
         <cx-card
           [content]="
             getCardContent(
-              'commerceQuotesStates.' + quote?.state | cxTranslate,
-              'commerceQuotesCommons.quoteStatus'
+              'commerceQuotes.states.' + quote?.state | cxTranslate,
+              'commerceQuotes.commons.status'
             ) | async
           "
         ></cx-card>
@@ -58,7 +58,7 @@
           [content]="
             getCardContent(
               quote?.expirationTime | cxDate,
-              'commerceQuotesDetails.expiryDate'
+              'commerceQuotes.details.expiryDate'
             ) | async
           "
         ></cx-card>

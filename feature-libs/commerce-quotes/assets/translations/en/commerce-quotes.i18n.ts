@@ -1,44 +1,42 @@
-export const commerceQuotesList = {
-  header: 'My Quotes',
-  quoteName: 'Name',
-  quoteUpdated: 'Updated',
-  sortBy: 'Sort by',
-  sortOrders: 'Sort orders',
-  empty: 'Quote list is empty',
-};
-
-export const commerceQuotesStates = {
-  BUYER_DRAFT: 'Draft',
-  BUYER_SUBMITTED: 'Submitted',
-  BUYER_ACCEPTED: 'Accepted',
-  BUYER_APPROVED: 'Approved',
-  BUYER_REJECTED: 'Rejected',
-  BUYER_OFFER: 'Vendor Quote',
-  BUYER_ORDERED: 'Ordered',
-  SELLER_DRAFT: 'Draft',
-  SELLER_REQUEST: 'Requested',
-  SELLER_SUBMITTED: 'Submitted',
-  SELLERAPPROVER_PENDING: 'Pending Approval',
-  SELLERAPPROVER_DRAFT: 'Draft',
-  SELLERAPPROVER_APPROVED: 'Approved',
-  SELLERAPPROVER_REJECTED: 'Rejected',
-  CANCELLED: 'Cancelled',
-  EXPIRED: 'Expired',
-};
-
 export const commerceQuotes = {
-  commerceQuotesList,
-  commerceQuotesStates,
-  commerceQuotesCommons: {
-    quoteId: 'Quote ID',
-    quoteStatus: 'Status',
-  },
-  commerceQuotesDetails: {
-    code: 'Quote ID',
-    created: 'Created',
-    lastUpdated: 'Last Updated',
-    estimatedTotal: 'Estimated Total',
-    description: 'Description',
-    expiryDate: 'Expiry Date',
+  commerceQuotes: {
+    list: {
+      header: 'My Quotes',
+      name: 'Name',
+      updated: 'Updated',
+      sortBy: 'Sort by',
+      sortOrders: 'Sort orders',
+      empty: 'Quote list is empty',
+    },
+    states: {
+      BUYER_DRAFT: 'Draft',
+      BUYER_SUBMITTED: 'Submitted',
+      BUYER_ACCEPTED: 'Accepted',
+      BUYER_APPROVED: 'Approved',
+      BUYER_REJECTED: 'Rejected',
+      BUYER_OFFER: 'Vendor Quote',
+      BUYER_ORDERED: 'Ordered',
+      SELLER_DRAFT: 'Draft',
+      SELLER_REQUEST: 'Requested',
+      SELLER_SUBMITTED: 'Submitted',
+      SELLERAPPROVER_PENDING: 'Pending Approval',
+      SELLERAPPROVER_DRAFT: 'Draft',
+      SELLERAPPROVER_APPROVED: 'Approved',
+      SELLERAPPROVER_REJECTED: 'Rejected',
+      CANCELLED: 'Cancelled',
+      EXPIRED: 'Expired',
+    },
+    commons: {
+      id: 'Quote ID',
+      status: 'Status',
+    },
+    details: {
+      code: 'Quote ID',
+      created: 'Created',
+      lastUpdated: 'Last Updated',
+      estimatedTotal: 'Estimated Total',
+      description: 'Description',
+      expiryDate: 'Expiry Date',
+    },
   },
 };
