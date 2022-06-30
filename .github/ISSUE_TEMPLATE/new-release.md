@@ -49,6 +49,11 @@ assignees: ''
 
 Do the following steps to keep track of spartacussampledata releases:
 
+- Important note:
+  - If the release is a 4.3.x
+    - make sure the downloaded sample data is using the `release/2105/4dot4` for the 2105 sample release
+  - If the release is a 5.x.x
+    - make sure the downloaded sample data is using the `release/2105/deploy` for the 2105 sample release
 - [ ] Tag sample data branches for each version (1905, 2005, 2011, 2105):
   - [ ] `git clone https://github.tools.sap/cx-commerce/spartacussampledata` (if already present `cd spartacussampledata && git fetch origin`)
   - [ ] tag the final commit on [release/1905/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/1905/next) branch: `git tag 1905-*.*.* HEAD-COMMIT-HASH-FROM-release/1905/next`
