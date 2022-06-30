@@ -3,6 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import {
   ActiveCartFacade,
+  AddCartVoucherEvent,
+  AddCartVoucherFailEvent,
+  AddCartVoucherSuccessEvent,
   Cart,
   CartAddEntryEvent,
   CartAddEntryFailEvent,
@@ -447,6 +450,71 @@ describe('CartEventBuilder', () => {
             type: CartActions.DELETE_CART_FAIL,
             payload,
           });
+
+          expect(result).toEqual(jasmine.objectContaining(eventData));
+        });
+      });
+    });
+
+    describe('AddCartVoucherEvents', () => {
+      const voucherId = 'mockVoucherId';
+
+      describe('AddCartVoucherEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const eventData: AddCartVoucherEvent = {
+            voucherId,
+            cartCode: MOCK_ACTIVE_CART.code,
+            ...MOCK_ACTIVE_CART_EVENT,
+          };
+
+          let result: AddCartVoucherEvent | undefined;
+          eventService
+            .get(AddCartVoucherEvent)
+            .pipe(take(1))
+            .subscribe((value) => (result = value));
+
+          actions$.next(new CartActions.CartAddVoucher(eventData));
+
+          expect(result).toEqual(jasmine.objectContaining(eventData));
+        });
+      });
+
+      describe('AddCartVoucherSuccessEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const eventData: AddCartVoucherSuccessEvent = {
+            voucherId,
+            cartCode: MOCK_ACTIVE_CART.code,
+            ...MOCK_ACTIVE_CART_EVENT,
+          };
+
+          let result: AddCartVoucherSuccessEvent | undefined;
+          eventService
+            .get(AddCartVoucherSuccessEvent)
+            .pipe(take(1))
+            .subscribe((value) => (result = value));
+
+          actions$.next(new CartActions.CartAddVoucherSuccess(eventData));
+
+          expect(result).toEqual(jasmine.objectContaining(eventData));
+        });
+      });
+
+      describe('AddCartVoucherFailEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const eventData: AddCartVoucherFailEvent = {
+            voucherId,
+            cartCode: MOCK_ACTIVE_CART.code,
+            error: { error: 'error' },
+            ...MOCK_ACTIVE_CART_EVENT,
+          };
+
+          let result: AddCartVoucherFailEvent | undefined;
+          eventService
+            .get(AddCartVoucherFailEvent)
+            .pipe(take(1))
+            .subscribe((value) => (result = value));
+
+          actions$.next(new CartActions.CartAddVoucherFail(eventData));
 
           expect(result).toEqual(jasmine.objectContaining(eventData));
         });
