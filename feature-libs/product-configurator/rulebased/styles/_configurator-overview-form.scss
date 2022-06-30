@@ -40,6 +40,18 @@
 
     &.topLevel {
       h2 {
+        padding-inline-start: 32px;
+        padding-inline-end: 32px;
+        padding-block-start: 16px;
+        padding-block-end: 16px;
+
+        @include media-breakpoint-down(sm) {
+          padding-inline-start: 16px;
+          padding-inline-end: 16px;
+          padding-block-start: 16px;
+          padding-block-end: 16px;
+        }
+
         font-size: 1.25rem;
         font-weight: 700;
         border-bottom: solid 1px var(--cx-color-light);
@@ -48,14 +60,18 @@
         border-right-style: none;
         background: none;
         text-transform: none;
+        span {
+          @include cx-configurator-truncate-content();
+        }
       }
     }
 
     &.subgroupTopLevel {
-      margin-bottom: -60px;
+      margin-bottom: -20px;
     }
 
-    h2 {
+    &.subgroup {
+      h2 {
       padding-inline-start: 32px;
       padding-inline-end: 32px;
       padding-block-start: 16px;
@@ -71,12 +87,14 @@
       border: solid 1px var(--cx-color-light);
       background-color: var(--cx-color-background);
       font-size: 1rem;
+      font-weight: normal;
       text-transform: uppercase;
 
       span {
         @include cx-configurator-truncate-content();
       }
     }
+  }
 
     .cx-attribute-value-pair {
       padding-inline-start: 32px;

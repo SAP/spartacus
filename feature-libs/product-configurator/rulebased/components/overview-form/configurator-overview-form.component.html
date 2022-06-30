@@ -29,6 +29,7 @@
       class="cx-group"
       [class.topLevel]="level === 1"
       [class.subgroupTopLevel]="level === 1 && group.subGroups?.length > 0"
+      [class.subgroup]="level > 1"
     >
       <span class="cx-visually-hidden">
         {{
@@ -71,15 +72,15 @@
           </ng-container>
         </ng-container>
       </div>
+      <ng-container *ngIf="group.subGroups?.length > 0">
+        <ng-container
+          *ngTemplateOutlet="
+            groups;
+            context: { overviewGroups: group.subGroups, level: level + 1 }
+          "
+        ></ng-container>
+      </ng-container>
     </div>
-    <ng-container *ngIf="group.subGroups?.length > 0">
-      <ng-container
-        *ngTemplateOutlet="
-          groups;
-          context: { overviewGroups: group.subGroups, level: level + 1 }
-        "
-      ></ng-container>
-    </ng-container>
   </ng-container>
 </ng-template>
 
