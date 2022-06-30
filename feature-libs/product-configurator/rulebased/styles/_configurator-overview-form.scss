@@ -58,8 +58,10 @@
         border-top: solid 1px var(--cx-color-light);
         border-left-style: none;
         border-right-style: none;
-        background: none;
+        background-color: var(--cx-color-inverse);
         text-transform: none;
+        position: sticky;
+        top: 0;
         span {
           @include cx-configurator-truncate-content();
         }
@@ -89,6 +91,8 @@
       font-size: 1rem;
       font-weight: normal;
       text-transform: uppercase;
+      position: sticky;
+      top: 58px;
 
       span {
         @include cx-configurator-truncate-content();
