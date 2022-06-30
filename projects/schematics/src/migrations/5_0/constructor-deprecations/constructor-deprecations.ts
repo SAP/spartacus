@@ -18,6 +18,7 @@ import { CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION } from './data/configurator
 import { CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_MIGRATION } from './data/configurator-overview-bundle-attribute.component.migration';
 import { CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION } from './data/configurator-tab-bar.component.migration';
 import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
+import { GENERATED_CONSTRUCTOR_MIGRATIONS } from './data/generated-constructor.migration';
 import { GENERIC_LINK_COMPONENT_MIGRATION } from './data/generic-link.component.migration';
 import { INNER_COMPONENTS_HOST_DIRECTIVE_MIGRATION } from './data/inner-components-host.directive.migration';
 import { LOGIN_GUARD_CONSTRUCTOR_MIGRATION } from './data/login.guard.migration';
@@ -32,6 +33,7 @@ import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.co
 import { TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION } from './data/tab-paragraph-container.component.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
+  ...GENERATED_CONSTRUCTOR_MIGRATIONS,
   CART_TOTALS_COMPONENT_MIGRATION,
   CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT_MIGRATION,
   NOT_AUTH_GUARD_MIGRATION,
