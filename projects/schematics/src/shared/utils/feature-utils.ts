@@ -110,10 +110,10 @@ export function addFeatures<OPTIONS extends LibraryOptions>(
     }
 
     /**
-     * In dirty installations, we don't want to
+     * In an existing Spartacus application, we don't want to
      * force-install the dependent features.
      */
-    const featuresToInstall = options.internal?.dirtyInstallation
+    const featuresToInstall = options.internal?.existingSpartacusApplication
       ? options.features ?? []
       : features;
 
@@ -159,29 +159,23 @@ function analyzeWrappers<OPTIONS extends LibraryOptions>(
   schematicsConfiguration: SchematicConfig,
   options: OPTIONS
 ): WrapperAnalysisResult[] {
-  if (!schematicsConfiguration.wrappers) {
+  if (!schematicsConfiguration.importAfter?.length) {
     return [];
   }
 
   const result: WrapperAnalysisResult[] = [];
-  for (const markerModuleName in schematicsConfiguration.wrappers) {
-    if (!schematicsConfiguration.wrappers.hasOwnProperty(markerModuleName)) {
-      continue;
-    }
-
-    const featureModuleName =
-      schematicsConfiguration.wrappers[markerModuleName];
+  for (const importAfterConfig of schematicsConfiguration.importAfter) {
     const wrapperOptions: SpartacusWrapperOptions = {
       scope: options.scope,
       interactive: options.interactive,
       project: options.project,
-      markerModuleName,
-      featureModuleName,
+      markerModuleName: importAfterConfig.markerModuleName,
+      featureModuleName: importAfterConfig.featureModuleName,
       debug: options.debug,
     };
 
     const analysis: WrapperAnalysisResult = {
-      markerModuleName,
+      markerModuleName: importAfterConfig.markerModuleName,
       wrapperOptions,
     };
     result.push(analysis);
@@ -294,10 +288,10 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
      */
     options.internal = {
       ...options.internal,
-      dirtyInstallation: spartacusFeatureModuleExists,
+      existingSpartacusApplication: spartacusFeatureModuleExists,
     };
 
-    if (!options.internal.dirtyInstallation) {
+    if (!options.internal.existingSpartacusApplication) {
       const dependentFeaturesMessage = createDependentFeaturesLog(
         options,
         allFeatures
@@ -316,7 +310,7 @@ export function analyzeApplication<OPTIONS extends LibraryOptions>(
     for (const targetFeature of options.features ?? []) {
       const targetFeatureConfig =
         getSchematicsConfigByFeatureOrThrow(targetFeature);
-      if (!targetFeatureConfig.wrappers) {
+      if (!targetFeatureConfig.importAfter?.length) {
         continue;
       }
 

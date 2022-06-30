@@ -18,7 +18,7 @@ import { UnitCostCenterListService } from './unit-cost-centers.service';
   ],
 })
 export class UnitCostCenterListComponent {
-  unit$: Observable<B2BUnit> = this.currentUnitService
+  unit$: Observable<B2BUnit | undefined> = this.currentUnitService
     ? this.currentUnitService.item$
     : of({ active: true });
 

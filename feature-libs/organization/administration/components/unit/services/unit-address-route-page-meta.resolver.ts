@@ -16,7 +16,7 @@ export class UnitAddressRoutePageMetaResolver extends DefaultRoutePageMetaResolv
     super(translation);
   }
 
-  protected getParams(): Observable<Address> {
+  protected getParams(): Observable<Address | undefined> {
     return this.currentItemService.item$;
   }
 }

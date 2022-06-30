@@ -58,14 +58,16 @@ export abstract class DefaultRoutePageMetaResolver
         : breadcrumbConfig.i18n;
 
     return this.getParams().pipe(
-      switchMap((params) => this.translation.translate(i18nKey, params ?? {}))
+      switchMap((params) =>
+        this.translation.translate(i18nKey ?? '', params ?? {})
+      )
     );
   }
 
   /**
    * Resolves dynamic data for the whole resolver.
    */
-  protected getParams(): Observable<{ [_: string]: any }> {
+  protected getParams(): Observable<{ [_: string]: any } | undefined> {
     return of({});
   }
 }
