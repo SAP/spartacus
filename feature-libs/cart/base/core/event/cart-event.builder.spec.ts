@@ -456,29 +456,27 @@ describe('CartEventBuilder', () => {
 
     describe('MergeCartSuccessEvent', () => {
       it('should emit the event when the action is fired', () => {
-        const payload = {
-          cartId: MOCK_ID,
-          userId: MOCK_USER_ID,
-          tempCartId: 'abc'
-        };
-
         const eventData: MergeCartSuccessEvent = {
           cartCode: MOCK_ID,
-          ...payload,
+          tempCartId: 'abc',
+          ...MOCK_ACTIVE_CART_EVENT,
         };
 
         let result: MergeCartSuccessEvent | undefined;
-        eventService
+        const subscription = eventService
           .get(MergeCartSuccessEvent)
           .pipe(take(1))
           .subscribe((value) => (result = value));
 
-        actions$.next({
-          type: CartActions.MERGE_CART_SUCCESS,
-          payload,
-        });
+        actions$.next(new CartActions.MergeCartSuccess({
+          oldCartId: 'old-cart-id',
+          tempCartId: 'abc',
+          ...MOCK_ACTIVE_CART_EVENT
+        }));
 
         expect(result).toEqual(jasmine.objectContaining(eventData));
+
+        subscription.unsubscribe();
       });
     });
   });
