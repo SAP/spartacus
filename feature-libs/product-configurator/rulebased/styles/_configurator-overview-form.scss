@@ -74,59 +74,68 @@
     }
 
     &.subgroup {
-      h2 {
-      padding-inline-start: 32px;
-      padding-inline-end: 32px;
-      padding-block-start: 16px;
-      padding-block-end: 16px;
 
       @include media-breakpoint-down(sm) {
-        padding-inline-start: 16px;
-        padding-inline-end: 16px;
+        padding-block-start: 20px;
+        padding-block-end: 20px;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+      }
+
+      h2 {
+        padding-inline-start: 32px;
+        padding-inline-end: 32px;
         padding-block-start: 16px;
         padding-block-end: 16px;
+
+        @include media-breakpoint-down(sm) {
+          padding-inline-start: 16px;
+          padding-inline-end: 16px;
+          padding-block-start: 16px;
+          padding-block-end: 16px;
+        }
+
+        border: solid 1px var(--cx-color-light);
+        background-color: var(--cx-color-background);
+        font-size: 1rem;
+        font-weight: normal;
+        text-transform: uppercase;
+        position: sticky;
+
+        span {
+          @include cx-configurator-truncate-content();
+        }
       }
+    }
 
-      border: solid 1px var(--cx-color-light);
-      background-color: var(--cx-color-background);
-      font-size: 1rem;
-      font-weight: normal;
-      text-transform: uppercase;
-      position: sticky;
-
-      span {
-        @include cx-configurator-truncate-content();
+    &.subgroupLevel2 {
+      h2 {
+        top: 60px;
+        z-index: 4;
       }
     }
-  }
 
-  &.subgroupLevel2 {
-    h2 {
-      top: 60px;
-      z-index: 4;
+    &.subgroupLevel3 {
+      h2 {
+        top: 112px;
+        z-index: 3;
+      }
     }
-  }
 
-  &.subgroupLevel3 {
-    h2 {
-      top: 112px;
-      z-index: 3;
+    &.subgroupLevel4 {
+      h2 {
+        top: 164px;
+        z-index: 2;
+      }
     }
-  }
 
-  &.subgroupLevel4 {
-    h2 {
-      top: 164px;
-      z-index: 2;
+    &.subgroupLevel5 {
+      h2 {
+        top: 216px;
+        z-index: 1;
+      }
     }
-  }
 
-  &.subgroupLevel5 {
-    h2 {
-      top: 216px;
-      z-index: 1;
-    }
-  }
     .cx-attribute-value-pair {
       padding-inline-start: 32px;
       padding-inline-end: 32px;
