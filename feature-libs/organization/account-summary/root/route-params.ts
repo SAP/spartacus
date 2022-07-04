@@ -3,4 +3,4 @@
  */
 export const ROUTE_PARAMS = {
   unitCode: 'unitCode',
-}
+};
