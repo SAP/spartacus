@@ -34,7 +34,7 @@ export class UserRegistrationFormService {
   /*
    * Initializes form structure for registration.
    */
-  protected buildForm() {
+  protected buildForm(): FormGroup {
     return this.formBuilder.group({
       titleCode: [null],
       firstName: ['', Validators.required],
@@ -76,6 +76,17 @@ export class UserRegistrationFormService {
     return this.form.get('region.isocode') as FormControl;
   }
 
+  constructor(
+    protected userRegisterFacade: UserRegisterFacade,
+    protected userAddressService: UserAddressService,
+    protected organizationUserRegistrationFacade: UserRegistrationFacade,
+    protected translationService: TranslationService,
+    protected globalMessageService: GlobalMessageService,
+    protected authConfigService: AuthConfigService,
+    protected routingService: RoutingService,
+    protected formBuilder: FormBuilder
+  ) {}
+
   /**
    * Gets all title codes.
    */
@@ -101,7 +112,7 @@ export class UserRegistrationFormService {
    */
   getRegions(): Observable<Region[]> {
     return this.countryControl.valueChanges.pipe(
-      filter((countryIsoCode) => Boolean(countryIsoCode)),
+      filter((countryIsoCode) => !!countryIsoCode),
       switchMap((countryIsoCode) => {
         this.regionControl.reset();
         return this.userAddressService.getRegions(countryIsoCode);
@@ -117,7 +128,7 @@ export class UserRegistrationFormService {
       'userRegistrationForm.messageToApproverTemplate',
       {
         phoneNumber: form.get('phoneNumber')?.value,
-        addresLine: form.get('line1')?.value,
+        addressLine: form.get('line1')?.value,
         secondAddressLine: form.get('line2')?.value,
         city: form.get('city')?.value,
         state: form.get('region')?.get('isocode')?.value,
@@ -143,7 +154,7 @@ export class UserRegistrationFormService {
    *
    * This only happens in case of the `ResourceOwnerPasswordFlow` OAuth flow.
    */
-  protected redirectToLogin() {
+  protected redirectToLogin(): void {
     if (
       this.authConfigService.getOAuthFlow() ===
       OAuthFlow.ResourceOwnerPasswordFlow
@@ -174,15 +185,4 @@ export class UserRegistrationFormService {
       })
     );
   }
-
-  constructor(
-    protected userRegisterFacade: UserRegisterFacade,
-    protected userAddressService: UserAddressService,
-    protected organizationUserRegistrationFacade: UserRegistrationFacade,
-    protected translationService: TranslationService,
-    protected globalMessageService: GlobalMessageService,
-    protected authConfigService: AuthConfigService,
-    protected routingService: RoutingService,
-    protected formBuilder: FormBuilder
-  ) {}
 }

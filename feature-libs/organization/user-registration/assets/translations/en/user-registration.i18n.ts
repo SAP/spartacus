@@ -50,7 +50,7 @@ export const userRegistrationForm = {
     },
   },
   messageToApproverTemplate: `Phone number: {{phoneNumber}},
-  Address: {{addresLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},
+  Address: {{addressLine}} {{secondAddressLine}} {{city}} {{state}} {{postalCode}} {{country}},
   Message: {{message}}`,
   successFormSubmitMessage:
     'Thank you for registering! A representative will contact you shortly and confirm your access information.',

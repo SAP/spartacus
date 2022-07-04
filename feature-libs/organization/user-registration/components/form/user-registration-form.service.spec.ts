@@ -6,11 +6,11 @@ import {
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
-import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import {
   OrganizationUserRegistration,
   UserRegistrationFacade,
 } from '@spartacus/organization/user-registration/root';
+import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { UserRegistrationFormService } from './user-registration-form.service';
 import createSpy = jasmine.createSpy;
@@ -51,7 +51,6 @@ describe('UserRegistrationFormService', () => {
   let service: UserRegistrationFormService;
   let userAddressService: UserAddressService;
   let userRegisterFacade: UserRegisterFacade;
-  let organizationUserRegistrationFacade: UserRegistrationFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -87,7 +86,6 @@ describe('UserRegistrationFormService', () => {
     service = TestBed.inject(UserRegistrationFormService);
     userAddressService = TestBed.inject(UserAddressService);
     userRegisterFacade = TestBed.inject(UserRegisterFacade);
-    organizationUserRegistrationFacade = TestBed.inject(UserRegistrationFacade);
   });
 
   it('should inject service', () => {
@@ -127,7 +125,6 @@ describe('UserRegistrationFormService', () => {
     service.getTitles().subscribe().unsubscribe();
     expect(userRegisterFacade.getTitles).toHaveBeenCalled();
   });
-
   it('should get countries from `userAddressService`', () => {
     service.getCountries().subscribe().unsubscribe();
     expect(userAddressService.getDeliveryCountries).toHaveBeenCalled();
@@ -153,19 +150,5 @@ describe('UserRegistrationFormService', () => {
         `userRegistrationForm.messageToApproverTemplate+00000000000,Test St.,1/2,,US-AZ,1234,US,Message!`
       )
     );
-  });
-
-  it('should build content message and call facade', () => {
-    const form = service.form;
-
-    spyOn<any>(service, 'buildMessageContent').and.callThrough();
-    spyOn(service, 'registerUser').and.callThrough();
-
-    service.registerUser(form).subscribe(() => {
-      expect(
-        organizationUserRegistrationFacade.registerUser
-      ).toHaveBeenCalled();
-    });
-    expect(service['buildMessageContent']).toHaveBeenCalledWith(form);
   });
 });
