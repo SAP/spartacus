@@ -132,7 +132,12 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -201,7 +206,12 @@ exports[`Spartacus Product schematics: ng-add BulkPricing feature general setup 
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -305,7 +315,12 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -374,7 +389,12 @@ exports[`Spartacus Product schematics: ng-add ImageZoom feature general setup st
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -478,7 +498,12 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -547,7 +572,12 @@ exports[`Spartacus Product schematics: ng-add Variants feature general setup sty
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/product.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }

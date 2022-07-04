@@ -3,7 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  PasswordVisibilityToggleModule,
+} from '@spartacus/storefront';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
 
 describe('CSAgentLoginFormComponent', () => {
@@ -19,7 +22,12 @@ describe('CSAgentLoginFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+        imports: [
+          ReactiveFormsModule,
+          I18nTestingModule,
+          FormErrorsModule,
+          PasswordVisibilityToggleModule,
+        ],
         declarations: [CSAgentLoginFormComponent],
       }).compileComponents();
     })

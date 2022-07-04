@@ -36,7 +36,12 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
             \\"styles\\": [
               \\"src/styles.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -104,7 +109,12 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
             \\"styles\\": [
               \\"src/styles.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -156,7 +166,12 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/xxx.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           },
           \\"configurations\\": {
             \\"production\\": {
@@ -230,7 +245,12 @@ exports[`Lib utils addLibraryFeature assets options should update angular.json f
               \\"src/styles.scss\\",
               \\"src/styles/spartacus/xxx.scss\\"
             ],
-            \\"scripts\\": []
+            \\"scripts\\": [],
+            \\"stylePreprocessorOptions\\": {
+              \\"includePaths\\": [
+                \\"node_modules/\\"
+              ]
+            }
           }
         }
       }
@@ -275,68 +295,6 @@ import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
           'random',
         allowInsecureCookies: true,
       },
-    },
-  })
-  ]
-})
-export class XxxFeatureModule { }
-"
-`;
-
-exports[`Lib utils addLibraryFeature recreate option should remove the feature module and recreate it 1`] = `
-"import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
-import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
-
-@NgModule({
-  declarations: [],
-  imports: [
-    XxxModuleRoot
-  ],
-  providers: [provideConfig(<CmsConfig>{
-    featureModules: {
-      xxx: {
-        module: () =>
-          import('@spartacus/xxx').then((m) => m.XxxModule),
-      },
-    }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: translations,
-      chunks: translationChunk,
-    },
-  })
-  ]
-})
-export class XxxFeatureModule { }
-"
-`;
-
-exports[`Lib utils addLibraryFeature recreate option should remove the feature module and recreate it 2`] = `
-"import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
-import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
-
-@NgModule({
-  declarations: [],
-  imports: [
-    XxxModuleRoot
-  ],
-  providers: [provideConfig(<CmsConfig>{
-    featureModules: {
-      xxx: {
-        module: () =>
-          import('@spartacus/xxx').then((m) => m.YyyModule),
-      },
-    }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: translations,
-      chunks: translationChunk,
     },
   })
   ]
@@ -451,75 +409,5 @@ import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
   ]
 })
 export class XxxFeatureModule { }
-"
-`;
-
-exports[`Lib utils feature ordering should appropriately order the feature modules 1`] = `
-"import { NgModule } from '@angular/core';
-import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from \\"@spartacus/core\\";
-import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, PageTitleModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ScrollToTopModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule } from \\"@spartacus/storefront\\";
-import { CartFeatureModule } from './features/cart/cart-feature.module';
-import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
-import { DigitalPaymentsFeatureModule } from './features/dp/digital-payments-feature.module';
-import { OrderFeatureModule } from './features/order/order-feature.module';
-import { UserProfileFeatureModule } from './features/user/user-profile-feature.module';
-import { XxxFeatureModule } from './features/xxx/xxx-feature.module';
-
-@NgModule({
-  declarations: [],
-  imports: [AuthModule.forRoot(),
-    LogoutModule,
-    LoginRouteModule,
-    HamburgerMenuModule,
-    SiteContextSelectorModule,
-    LinkModule,
-    BannerModule,
-    CmsParagraphModule,
-    TabParagraphContainerModule,
-    BannerCarouselModule,
-    CategoryNavigationModule,
-    NavigationModule,
-    FooterNavigationModule,
-    BreadcrumbModule,
-    ScrollToTopModule,
-    PageTitleModule,
-    UserModule,
-    UserOccModule,
-    AddressBookModule,
-    PaymentMethodsModule,
-    NotificationPreferenceModule,
-    MyInterestsModule,
-    StockNotificationModule,
-    ConsentManagementModule,
-    MyCouponsModule,
-  AnonymousConsentsModule.forRoot(),
-    AnonymousConsentsDialogModule,
-    AnonymousConsentManagementBannerModule,
-  ProductModule.forRoot(),
-    ProductOccModule,
-    ProductDetailsPageModule,
-    ProductListingPageModule,
-    ProductListModule,
-    SearchBoxModule,
-    ProductFacetNavigationModule,
-    ProductTabsModule,
-    ProductCarouselModule,
-    ProductReferencesModule,
-    ProductImagesModule,
-    ProductSummaryModule,
-    ProductIntroModule,
-    CostCenterOccModule,
-    NavigationEventModule,
-    HomePageEventModule,
-    ProductPageEventModule,
-  ExternalRoutesModule.forRoot(),
-    UserProfileFeatureModule,
-    CartFeatureModule,
-    OrderFeatureModule,
-    CheckoutFeatureModule,
-    DigitalPaymentsFeatureModule,
-    XxxFeatureModule]
-})
-export class SpartacusFeaturesModule { }
 "
 `;

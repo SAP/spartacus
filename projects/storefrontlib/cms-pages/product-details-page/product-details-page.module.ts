@@ -9,6 +9,7 @@ import { PRODUCT_DETAILS_URL_MATCHER } from './product-details-url-matcher';
   imports: [
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [CmsPageGuard],
         component: PageLayoutComponent,

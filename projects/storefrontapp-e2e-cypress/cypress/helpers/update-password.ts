@@ -19,7 +19,7 @@ export function testUpdatePassword() {
     );
     cy.get('[formcontrolname="newPassword"]').type(newPassword);
     cy.get('[formcontrolname="newPasswordConfirm"]').type(newPassword);
-    cy.get('cx-update-password button').click();
+    cy.get('cx-update-password button.btn-primary').click();
     cy.title().should('eq', PAGE_TITLE_HOME);
     alerts.getSuccessAlert().should('exist');
 

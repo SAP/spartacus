@@ -245,7 +245,7 @@
   }
 
   cx-org-toggle-link-cell {
-    padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
+    padding-inline-start: calc((var(--cx-depth-level) + 3) * 20px);
     button.tree-item-toggle {
       margin-inline-start: -40px;
       min-width: 40px;
@@ -254,7 +254,7 @@
 
   @include media-breakpoint-down(md) {
     cx-org-toggle-link-cell {
-      padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
+      padding-inline-start: calc(3rem + var(--cx-depth-level) * 1.5rem);
     }
   }
 }
@@ -376,7 +376,6 @@
       padding: 0;
     }
     th {
-      padding-inline-start: 20px;
       font-size: 14px;
     }
 
@@ -453,11 +452,15 @@
   .list {
     .header {
       padding: 0 6px 38px 6px;
-      height: 130px;
+      min-height: 130px;
 
       h3 {
         text-transform: uppercase;
         margin: 0 0 23px 0;
+
+        @include media-breakpoint-down(sm) {
+          font-size: 1.1rem;
+        }
       }
       @include media-breakpoint-down(md) {
         padding: 20px;
@@ -471,6 +474,15 @@
         label {
           align-items: center;
           display: inline-flex;
+
+          @include media-breakpoint-down(sm) {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-content: center;
+            padding-bottom: 0;
+          }
+
           span {
             margin-inline-end: 0.5rem;
           }

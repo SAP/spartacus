@@ -170,9 +170,258 @@ export const attributeCheckbox: Configurator.Attribute = {
   ],
 };
 
+export const productConfigurationWithoutBasePrice: Configurator.Configuration =
+  {
+    configId: CONFIG_ID,
+    productCode: PRODUCT_CODE,
+    priceSummary: {
+      basePrice: {
+        formattedValue: undefined,
+        currencyIso: 'USD',
+        value: 123.56,
+      },
+      selectedOptions: {
+        formattedValue: '$500',
+        currencyIso: 'USD',
+        value: 500,
+      },
+      currentTotal: {
+        formattedValue: '$623.56',
+        currencyIso: 'USD',
+        value: 623.56,
+      },
+    },
+    groups: [
+      {
+        id: GROUP_ID_1,
+        configurable: true,
+        description: 'Description for ' + GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [attributeCheckbox],
+        subGroups: [],
+      },
+    ],
+    flatGroups: [
+      {
+        id: GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [],
+        attributes: [
+          {
+            name: ATTRIBUTE_1_CHECKBOX,
+            uiType: Configurator.UiType.CHECKBOXLIST,
+            required: true,
+            incomplete: true,
+          },
+        ],
+      },
+    ],
+    owner: ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      CONFIGURATOR_TYPE
+    ),
+    nextOwner: ConfiguratorModelUtils.createInitialOwner(),
+    interactionState: {
+      currentGroup: GROUP_ID_2,
+      menuParentGroup: GROUP_ID_3,
+      groupsVisited: {},
+      issueNavigationDone: true,
+    },
+  };
+
+export const mockProductConfigurationWithoutTotalPrice: Configurator.Configuration =
+  {
+    configId: CONFIG_ID,
+    productCode: PRODUCT_CODE,
+    priceSummary: {
+      basePrice: {
+        formattedValue: '$123.56',
+        currencyIso: 'USD',
+        value: 123.56,
+      },
+      selectedOptions: {
+        formattedValue: '$500',
+        currencyIso: 'USD',
+        value: 500,
+      },
+      currentTotal: {
+        formattedValue: undefined,
+        currencyIso: 'USD',
+        value: 623.56,
+      },
+    },
+    groups: [
+      {
+        id: GROUP_ID_1,
+        configurable: true,
+        description: 'Description for ' + GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [attributeCheckbox],
+        subGroups: [],
+      },
+    ],
+    flatGroups: [
+      {
+        id: GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [],
+        attributes: [
+          {
+            name: ATTRIBUTE_1_CHECKBOX,
+            uiType: Configurator.UiType.CHECKBOXLIST,
+            required: true,
+            incomplete: true,
+          },
+        ],
+      },
+    ],
+    owner: ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      CONFIGURATOR_TYPE
+    ),
+    nextOwner: ConfiguratorModelUtils.createInitialOwner(),
+    interactionState: {
+      currentGroup: GROUP_ID_2,
+      menuParentGroup: GROUP_ID_3,
+      groupsVisited: {},
+      issueNavigationDone: true,
+    },
+  };
+
+export const mockProductConfigurationWithPriceSummaryButNoPrices: Configurator.Configuration =
+  {
+    configId: CONFIG_ID,
+    productCode: PRODUCT_CODE,
+    priceSummary: {
+      basePrice: {
+        formattedValue: undefined,
+        currencyIso: 'USD',
+        value: 50,
+      },
+      selectedOptions: {
+        formattedValue: undefined,
+        currencyIso: 'USD',
+        value: 20,
+      },
+      currentTotal: {
+        formattedValue: undefined,
+        currencyIso: 'USD',
+        value: 30,
+      },
+    },
+    groups: [
+      {
+        id: GROUP_ID_1,
+        configurable: true,
+        description: 'Description for ' + GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [attributeCheckbox],
+        subGroups: [],
+      },
+    ],
+    flatGroups: [
+      {
+        id: GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [],
+        attributes: [
+          {
+            name: ATTRIBUTE_1_CHECKBOX,
+            uiType: Configurator.UiType.CHECKBOXLIST,
+            required: true,
+            incomplete: true,
+          },
+        ],
+      },
+    ],
+    owner: ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      CONFIGURATOR_TYPE
+    ),
+    nextOwner: ConfiguratorModelUtils.createInitialOwner(),
+    interactionState: {
+      currentGroup: GROUP_ID_2,
+      menuParentGroup: GROUP_ID_3,
+      groupsVisited: {},
+      issueNavigationDone: true,
+    },
+  };
+
+export const productConfigurationWithoutSelectedOptions: Configurator.Configuration =
+  {
+    configId: CONFIG_ID,
+    productCode: PRODUCT_CODE,
+    priceSummary: {
+      basePrice: {
+        formattedValue: '$123.56',
+        currencyIso: 'USD',
+        value: 123.56,
+      },
+      selectedOptions: {
+        formattedValue: '',
+        currencyIso: 'USD',
+        value: 500,
+      },
+      currentTotal: {
+        formattedValue: '$623.56',
+        currencyIso: 'USD',
+        value: 623.56,
+      },
+    },
+    groups: [
+      {
+        id: GROUP_ID_1,
+        configurable: true,
+        description: 'Description for ' + GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [attributeCheckbox],
+        subGroups: [],
+      },
+    ],
+    flatGroups: [
+      {
+        id: GROUP_ID_1,
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        subGroups: [],
+        attributes: [
+          {
+            name: ATTRIBUTE_1_CHECKBOX,
+            uiType: Configurator.UiType.CHECKBOXLIST,
+            required: true,
+            incomplete: true,
+          },
+        ],
+      },
+    ],
+    owner: ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      CONFIGURATOR_TYPE
+    ),
+    nextOwner: ConfiguratorModelUtils.createInitialOwner(),
+    interactionState: {
+      currentGroup: GROUP_ID_2,
+      menuParentGroup: GROUP_ID_3,
+      groupsVisited: {},
+      issueNavigationDone: true,
+    },
+  };
+
 export const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
+  priceSummary: {
+    basePrice: { formattedValue: '$123.56', currencyIso: 'USD', value: 123.56 },
+    selectedOptions: { formattedValue: '$500', currencyIso: 'USD', value: 500 },
+    currentTotal: {
+      formattedValue: '$623.56',
+      currencyIso: 'USD',
+      value: 623.56,
+    },
+  },
   groups: [
     {
       id: GROUP_ID_1,

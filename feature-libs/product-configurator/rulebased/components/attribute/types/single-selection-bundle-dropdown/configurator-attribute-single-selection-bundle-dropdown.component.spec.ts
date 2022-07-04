@@ -21,7 +21,7 @@ import {
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
-
+const VALUE_DISPLAY_NAME = 'Lorem Ipsum Dolor';
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
@@ -142,40 +142,40 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     values = [
       createValue('', [], '', 1, true, '0', 'No Selected'),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        'Hih',
         [createImage('url', 'alt')],
         'valueName',
         1,
         true,
         '1111',
-        'Lorem Ipsum Dolor'
+        VALUE_DISPLAY_NAME
       ),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        'Huh',
         [createImage('url', 'alt')],
         'valueName',
         1,
         false,
         '2222',
-        'Lorem Ipsum Dolor'
+        VALUE_DISPLAY_NAME
       ),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        'Hah',
         [createImage('url', 'alt')],
         'valueName',
         1,
         false,
         '3333',
-        'Lorem Ipsum Dolor'
+        VALUE_DISPLAY_NAME
       ),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        'Heh',
         [createImage('url', 'alt')],
         'valueName',
         1,
         false,
         '4444',
-        'Lorem Ipsum Dolor'
+        VALUE_DISPLAY_NAME
       ),
     ];
 
@@ -268,7 +268,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           0,
           undefined,
           undefined,
-          'configurator.a11y.listbox count:' + component.attribute.values.length
+          'configurator.a11y.listbox count:' +
+            component.attribute.values?.length
         );
       });
 
@@ -295,8 +296,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           'configurator.a11y.selectedValueOfAttributeFull attribute:' +
             component.attribute.label +
             ' value:' +
-            component.attribute.values[1].valueDisplay,
-          component.attribute.values[1].valueDisplay
+            VALUE_DISPLAY_NAME,
+          VALUE_DISPLAY_NAME
         );
       });
     });
