@@ -1,6 +1,6 @@
-import { ProductService, TranslationService } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Product, ProductService, TranslationService } from '@spartacus/core';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -25,14 +25,17 @@ export class ConfiguratorVariantCarouselComponent {
     'configurator.variantCarousel.title'
   );
 
-  //items$: Observable<Observable<Product | undefined>[]> =
-  items$ = this.configuration$.pipe(
-    map((configuration) => {
-      return configuration?.variants?.map((variant) =>
-        this.productService.get(variant.productCode)
-      );
-    })
-  );
+  items$: Observable<Observable<Product | undefined>[]> =
+    this.configuration$.pipe(
+      map((configuration) =>
+        configuration.variants ? configuration.variants : []
+      ),
+      map((variants) => {
+        return variants.map((variant) =>
+          this.productService.get(variant.productCode)
+        );
+      })
+    );
 
   constructor(
     protected productService: ProductService,
