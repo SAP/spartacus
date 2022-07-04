@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  AuthGuard,
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,
@@ -16,6 +17,7 @@ export function defaultCommerceQuotesComponentsConfig() {
         cmsComponents: [
           'AccountMyQuotesComponent',
           'CommerceQuotesRequestComponent',
+          'CommerceQuotesDetailsOverviewComponent',
         ],
       },
     },
@@ -30,7 +32,7 @@ export const defaultCommerceQuotesRoutingConfig: RoutingConfig = {
         paths: ['my-account/quotes'],
       },
       quoteDetails: {
-        paths: ['my-account/quotes/:quoteId'],
+        paths: ['my-account/quote/:quoteId'],
         paramsMapping: { quoteId: 'quoteId' },
       },
       quoteEdit: {
@@ -47,10 +49,19 @@ export const defaultCommerceQuotesRoutingConfig: RoutingConfig = {
       {
         // @ts-ignore
         path: null,
-        canActivate: [CmsPageGuard],
+        canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: {
           cxRoute: 'quotes',
+        },
+      },
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: 'quoteDetails',
         },
       },
     ]),

@@ -1,18 +1,21 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { Params } from '@angular/router';
 import {
+  CommerceQuotesListReloadQueryEvent,
   Quote,
   QuoteList,
-  CommerceQuotesListReloadQueryEvent,
 } from '@spartacus/commerce-quotes/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
   PaginationModel,
   QueryState,
+  RouterState,
+  RoutingService,
   UserIdService,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommerceQuotesConnector } from '../connectors';
 import { CommerceQuotesService } from './commerce-quotes.service';
@@ -35,6 +38,17 @@ const mockQuoteList: QuoteList = {
   sorts: [{ code: 'byDate' }],
   quotes: [mockQuote],
 };
+const mockParams = { ['quoteId']: '1' };
+const mockRouterState$ = new BehaviorSubject({
+  navigationId: 1,
+  state: { params: mockParams as Params },
+});
+
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState() {
+    return mockRouterState$.asObservable() as Observable<RouterState>;
+  }
+}
 
 class MockUserIdService implements Partial<UserIdService> {
   takeUserId = createSpy().and.returnValue(of(mockUserId));
@@ -51,6 +65,7 @@ class MockViewConfig implements ViewConfig {
 
 class MockCommerceQuotesConnector implements Partial<CommerceQuotesConnector> {
   getQuotes = createSpy().and.returnValue(of(mockQuoteList));
+  getQuote = createSpy().and.returnValue(of(mockQuote));
 }
 
 describe('CommerceQuotesService', () => {
@@ -70,6 +85,7 @@ describe('CommerceQuotesService', () => {
           provide: CommerceQuotesConnector,
           useClass: MockCommerceQuotesConnector,
         },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
@@ -171,6 +187,20 @@ describe('CommerceQuotesService', () => {
       {},
       CommerceQuotesListReloadQueryEvent
     );
+    done();
+  });
+
+  it('should return quote details after calling commerceQuotesConnector.getQuote', (done) => {
+    service
+      .getQuoteDetails()
+      .pipe(take(1))
+      .subscribe((details) => {
+        expect(connector.getQuote).toHaveBeenCalledWith(
+          mockUserId,
+          mockParams.quoteId
+        );
+        expect(details).toEqual(mockQuote);
+      });
     done();
   });
 });

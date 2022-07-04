@@ -211,7 +211,7 @@ describe('CommerceQuotesListComponent', () => {
 
     //then
     expect(header.nativeElement.textContent).toEqual(
-      'commerceQuotesList.header'
+      'commerceQuotes.list.header'
     );
     expect(sorting.nativeElement).not.toBeNull();
     expect(table.nativeElement).not.toBeNull();
@@ -232,7 +232,7 @@ describe('CommerceQuotesListComponent', () => {
 
     //then
     expect(header.nativeElement.textContent.trim()).toEqual(
-      'commerceQuotesList.empty'
+      'commerceQuotes.list.empty'
     );
   });
 

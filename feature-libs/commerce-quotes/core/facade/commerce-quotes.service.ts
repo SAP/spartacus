@@ -16,6 +16,7 @@ import {
   Query,
   QueryService,
   QueryState,
+  RoutingService,
   UserIdService,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
@@ -41,13 +42,13 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       () =>
         this.userIdService.takeUserId().pipe(
           withLatestFrom(this.currentPage$, this.sortBy$),
-          switchMap(([userId, currentPage, sort]) => {
-            return this.commerceQuotesConnector.getQuotes(userId, {
+          switchMap(([userId, currentPage, sort]) =>
+            this.commerceQuotesConnector.getQuotes(userId, {
               currentPage,
               sort,
               pageSize: this.config.view?.defaultPageSize,
-            });
-          })
+            })
+          )
         ),
       { reloadOn: [CommerceQuotesListReloadQueryEvent] }
     );
@@ -141,6 +142,15 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       strategy: CommandStrategy.CancelPrevious,
     }
   );
+  protected quoteDetailsState$: Query<Quote, unknown[]> =
+    this.queryService.create<Quote>(() =>
+      this.routingService.getRouterState().pipe(
+        withLatestFrom(this.userIdService.takeUserId()),
+        switchMap(([{ state }, userId]) =>
+          this.commerceQuotesConnector.getQuote(userId, state.params.quoteId)
+        )
+      )
+    );
 
   constructor(
     protected userIdService: UserIdService,
@@ -149,7 +159,8 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     protected queryService: QueryService,
     protected config: ViewConfig,
     protected commandService: CommandService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
+    protected routingService: RoutingService
   ) {}
 
   setCurrentPage(page: number): void {
@@ -188,5 +199,9 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     quoteComment: Comment
   ): Observable<unknown> {
     return this.addQuoteCommentCommand.execute({ quoteCode, quoteComment });
+  }
+
+  getQuoteDetails(): Observable<Quote | undefined> {
+    return this.quoteDetailsState$.get();
   }
 }

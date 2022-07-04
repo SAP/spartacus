@@ -17,6 +17,7 @@ import {
       feature: COMMERCE_QUOTES_FEATURE,
       methods: [
         'getQuotesState',
+        'getQuoteDetails',
         'createQuote',
         'editQuote',
         'addQuoteComment',
@@ -64,4 +65,9 @@ export abstract class CommerceQuotesFacade {
     quoteCode: string,
     quoteComment: Comment
   ): Observable<unknown>;
+
+  /**
+   * Returns the quote details.
+   */
+  abstract getQuoteDetails(): Observable<Quote | undefined>;
 }

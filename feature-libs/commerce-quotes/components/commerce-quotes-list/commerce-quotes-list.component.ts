@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { QuoteList } from '@spartacus/commerce-quotes/root';
+import {
+  CommerceQuotesFacade,
+  QuoteList,
+} from '@spartacus/commerce-quotes/root';
 import { QueryState, SortModel, TranslationService } from '@spartacus/core';
-import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 

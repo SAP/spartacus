@@ -3,7 +3,7 @@
 
   <div class="cx-dialog-header modal-header">
     <div class="cx-dialog-title modal-title">
-      {{ 'requestDialog.requestQuoteModalTitle' | cxTranslate }}
+      {{ 'commerceQuotes.requestDialog.title' | cxTranslate }}
     </div>
     <button
       type="button"
@@ -23,7 +23,7 @@
       <form [formGroup]="form">
         <label>
           <span class="label-content">{{
-            'requestDialog.requestDialogForm.name.label' | cxTranslate
+            'commerceQuotes.requestDialog.form.name.label' | cxTranslate
           }}</span>
           <input
             required="true"
@@ -31,7 +31,7 @@
             name="name"
             formControlName="name"
             placeholder="{{
-              'requestDialog.requestDialogForm.name.placeholder' | cxTranslate
+              'commerceQuotes.requestDialog.form.name.placeholder' | cxTranslate
             }}"
             class="form-control"
           />
@@ -40,14 +40,14 @@
 
         <label>
           <span class="label-content">{{
-            'requestDialog.requestDialogForm.description.label' | cxTranslate
+            'commerceQuotes.requestDialog.form.description.label' | cxTranslate
           }}</span>
           <input
             type="text"
             name="description"
             formControlName="description"
             placeholder="{{
-              'requestDialog.requestDialogForm.description.placeholder'
+              'commerceQuotes.requestDialog.form.description.placeholder'
                 | cxTranslate
             }}"
             class="form-control"
@@ -57,7 +57,7 @@
 
         <label>
           <span class="label-content">{{
-            'requestDialog.requestDialogForm.comment.label' | cxTranslate
+            'commerceQuotes.requestDialog.form.comment.label' | cxTranslate
           }}</span>
           <textarea
             required="true"
@@ -65,7 +65,7 @@
             name="comment"
             formControlName="comment"
             placeholder="{{
-              'requestDialog.requestDialogForm.comment.placeholder'
+              'commerceQuotes.requestDialog.form.comment.placeholder'
                 | cxTranslate
             }}"
             class="form-control"
@@ -74,10 +74,11 @@
         </label>
 
         <div class="notes">
-          <p>{{ 'requestDialog.requestDialogForm.note' | cxTranslate }}</p>
+          <p>{{ 'commerceQuotes.requestDialog.form.note' | cxTranslate }}</p>
           <p>
             {{
-              'requestDialog.requestDialogForm.requestSubmitNote' | cxTranslate
+              'commerceQuotes.requestDialog.form.requestSubmitNote'
+                | cxTranslate
             }}
           </p>
         </div>
@@ -88,7 +89,9 @@
             (click)="onSubmit(true)"
             [disabled]="form.disabled"
           >
-            {{ 'requestDialog.requestDialogForm.continueToEdit' | cxTranslate }}
+            {{
+              'commerceQuotes.requestDialog.form.continueToEdit' | cxTranslate
+            }}
           </button>
 
           <button
@@ -96,7 +99,7 @@
             (click)="onSubmit()"
             [disabled]="form.disabled"
           >
-            {{ 'requestDialog.requestDialogForm.request' | cxTranslate }}
+            {{ 'commerceQuotes.requestDialog.form.request' | cxTranslate }}
           </button>
         </div>
       </form>
