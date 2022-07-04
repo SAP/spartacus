@@ -2,7 +2,7 @@ import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
   //
-  // Generated array, don't modify directly.
+  // Generated array, don't update manually.
   //
   [
     {

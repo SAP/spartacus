@@ -2,7 +2,7 @@ import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecation[] =
   //
-  // Generated array, don't modify directly.
+  // Generated array, don't update manually.
   //
   [
     {
