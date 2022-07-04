@@ -31,14 +31,10 @@ class MockGlobalMessageService {
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  didLoad = createSpy().and.stub();
+  didLoad = createSpy().and.returnValue(of(true));
   registerUserWithoutScreenSet = createSpy().and.callFake((user: any) => of(user));
   loginUserWithoutScreenSet = createSpy();
 }
-
-// class MockCDCJsServiceWithoutCDC implements Partial<CdcJsService> {
-//   didLoad = createSpy().and.returnValue(of(false));
-// }
 
 class MockLoginFormComponentService implements Partial<LoginFormComponentService> {
   login = createSpy();
@@ -79,7 +75,6 @@ describe('CdcLoginComponentService', () => {
     cdcLoginService = TestBed.inject(CdcLoginComponentService);
     cdcJsService = TestBed.inject(CdcJsService);
     loginFormService = TestBed.inject(LoginFormComponentService);
-    //winRef = TestBed.inject(WindowRef);
   });
 
   it('should create service', () => {
@@ -104,8 +99,14 @@ describe('CdcLoginComponentService', () => {
     });
 
     it('should happen without CDC', () => {
-      //spyOn(cdcJsService, 'didLoad').and.returnValue(of(false));
-      spyOn(loginFormService, 'login');
+      cdcLoginService.form.setValue({
+        userId: userId,
+        password: password,
+      });
+      cdcJsService.didLoad = createSpy().and.returnValue(of(false));
+      Object.setPrototypeOf(cdcLoginService, loginFormService);
+      cdcLoginService.login();
+      expect(cdcJsService.loginUserWithoutScreenSet).not.toHaveBeenCalled();
       expect(loginFormService.login).toHaveBeenCalled();
     });
   });

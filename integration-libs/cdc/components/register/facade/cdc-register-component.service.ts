@@ -9,31 +9,31 @@ import {
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
+import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import {
-  Title, UserSignUp
-} from '@spartacus/user/profile/root';
-import {
-  UserProfileConnector, UserProfileService
+  UserProfileConnector,
+  UserProfileService
 } from 'feature-libs/user/profile/core';
 import { CdcJsService } from 'integration-libs/cdc/root';
 import { Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
-  protected registerCommand: Command<{ user: UserSignUp }, User> =
-    this.command.create(
-      ({ user }) =>
-        new Observable<User>((userRegistered) => {
-          // Registering user through CDC Gigya SDK
-          if (user.firstName && user.lastName && user.uid && user.password) {
-            this.cdcJSService.registerUserWithoutScreenSet(user);
-          }
-          this.store.dispatch(new UserActions.RegisterUserSuccess());
-          userRegistered.complete();
-        })
-    );
-
-
+  protected registerWihoutScreenSetCommand: Command<
+    { user: UserSignUp },
+    User
+  > = this.command.create(
+    ({ user }) =>
+      new Observable<User>((userRegistered) => {
+        // Registering user through CDC Gigya SDK
+        if (user.firstName && user.lastName && user.uid && user.password) {
+          this.cdcJSService.registerUserWithoutScreenSet(user);
+        }
+        this.store.dispatch(new UserActions.RegisterUserSuccess());
+        userRegistered.complete();
+      })
+  );
 
   constructor(
     protected userProfile: UserProfileService,
@@ -53,7 +53,18 @@ export class CDCRegisterComponentService extends RegisterComponentService {
    * @param submitFormData as UserRegisterFormData
    */
   register(user: UserSignUp): Observable<User> {
-    return this.registerCommand.execute({ user });
+    //return this.registerWihoutScreenSetCommand.execute({ user });
+    return this.cdcJSService.didLoad().pipe(mergeMap((cdcLoaded: boolean) => {
+      if (!cdcLoaded) {
+        //If CDC Gigya SDK not loaded, use the out of the box registerCommand
+        return this.registerCommand.execute({ user });
+      } else {
+         // Logging in using CDC Gigya SDK, update the registerCommand
+        return this.registerWihoutScreenSetCommand.execute({ user });
+      }
+    }));
+      //return cdcLoaded?  this.registerWihoutScreenSetCommand.execute({ user }): this.registerCommand.execute({ user });
+    //}));
   }
 
   /**

@@ -2,9 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import {
-    UserProfileConnector,
-    UserProfileService,
-    UserRegisterService
+  UserProfileConnector,
+  UserProfileService,
+  UserRegisterService
 } from 'feature-libs/user/profile/core';
 import { UserSignUp } from 'feature-libs/user/profile/root';
 import { CdcJsService } from 'integration-libs/cdc/root';
@@ -32,27 +32,23 @@ class MockUserProfileService implements Partial<UserProfileService> {
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
   register = createSpy().and.callFake((user: any) => of(user));
-  registerGuest = createSpy().and.callFake((uid: string, _password: string) => of({ uid }));
 }
 
 class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = createSpy().and.returnValue(Promise.resolve());
 }
 
-class MockCDCJsServiceWithCDC implements Partial<CdcJsService> {
-  didLoad = createSpy().and.returnValue(of(true));
+class MockCDCJsService implements Partial<CdcJsService> {
+  didLoad = createSpy().and.returnValue(of(false));
   registerUserWithoutScreenSet = createSpy().and.callFake((user: any) => of(user));
+  onLoginEventHandler = createSpy();
 }
 
-class MockCDCJsServiceWithoutCDC implements Partial<CdcJsService> {
-  didLoad = createSpy().and.returnValue(of(false));
-}
 
 describe('CdcLoginComponentService', () => {
   let cdcUserRegisterService: CDCRegisterComponentService;
   let connector: UserProfileConnector;
   let cdcJsService: CdcJsService;
-  let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -65,15 +61,14 @@ describe('CdcLoginComponentService', () => {
           useClass: MockUserProfileConnector,
         },
         { provide: UserProfileService, useClass: MockUserProfileService },
-        { provide: CdcJsService, useClass: MockCDCJsServiceWithCDC },
+        { provide: CdcJsService, useClass: MockCDCJsService },
         CDCRegisterComponentService,
       ],
     });
 
     cdcUserRegisterService = TestBed.inject(CDCRegisterComponentService);
     connector = TestBed.inject(UserProfileConnector);
-    // cdcJsService = jasmine.createSpyObj('cdcJsService', ['didLoad', 'registerUserWithoutScreenSet']);
-    authService = TestBed.inject(AuthService);
+    cdcJsService = TestBed.inject(CdcJsService);
   });
 
   it('should be created', () => {
@@ -89,14 +84,9 @@ describe('CdcLoginComponentService', () => {
 
   it('should be able to register user through CDC', () => {
     cdcUserRegisterService.register(userRegisterFormData);
-    expect(connector.register).toHaveBeenCalledWith({
-      titleCode: 'Mr.',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      uid: 'uid',
-      password: 'password',
-    });
+    expect(connector.register).not.toHaveBeenCalled();
     expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
+      titleCode: 'Mr.',
       firstName: 'firstName',
       lastName: 'lastName',
       uid: 'uid',
@@ -104,22 +94,24 @@ describe('CdcLoginComponentService', () => {
     });
   });
 
-  it('should be able to register user without CDC', () => {
-    TestBed.overrideProvider(CdcJsService, {
-      useValue: MockCDCJsServiceWithoutCDC,
-    });
+  fit('should be able to register user without CDC', () => {
+    cdcJsService.didLoad = createSpy().and.returnValue(of(false));
     cdcUserRegisterService.register(userRegisterFormData);
-    expect(connector.register).toHaveBeenCalledWith({
+    expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
       titleCode: 'Mr.',
       firstName: 'firstName',
       lastName: 'lastName',
       uid: 'uid',
       password: 'password',
     });
-    expect(authService.loginWithCredentials).toHaveBeenCalledWith(
-      'uid',
-      'password'
-    );
+    expect(connector.register).not.toHaveBeenCalled();
+    expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
+      titleCode: 'Mr.',
+      firstName: 'firstName',
+      lastName: 'lastName',
+      uid: 'uid',
+      password: 'password',
+    });
   });
 
   it('should get titles from profileService', () => {
