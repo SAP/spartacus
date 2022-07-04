@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   CommerceQuotesFacade,
   CommerceQuotesListReloadQueryEvent,
+  Quote,
   QuoteList,
 } from '@spartacus/commerce-quotes/root';
 import {
@@ -9,6 +10,7 @@ import {
   Query,
   QueryService,
   QueryState,
+  RoutingService,
   UserIdService,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
@@ -26,15 +28,25 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       () =>
         this.userIdService.takeUserId().pipe(
           withLatestFrom(this.currentPage$, this.sortBy$),
-          switchMap(([userId, currentPage, sort]) => {
-            return this.commerceQuotesConnector.getQuotes(userId, {
+          switchMap(([userId, currentPage, sort]) =>
+            this.commerceQuotesConnector.getQuotes(userId, {
               currentPage,
               sort,
               pageSize: this.config.view?.defaultPageSize,
-            });
-          })
+            })
+          )
         ),
       { reloadOn: [CommerceQuotesListReloadQueryEvent] }
+    );
+
+  protected quoteDetailsState$: Query<Quote, unknown[]> =
+    this.queryService.create<Quote>(() =>
+      this.routingService.getRouterState().pipe(
+        withLatestFrom(this.userIdService.takeUserId()),
+        switchMap(([{ state }, userId]) =>
+          this.commerceQuotesConnector.getQuote(userId, state.params.quoteId)
+        )
+      )
     );
 
   constructor(
@@ -42,6 +54,7 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     protected commerceQuotesConnector: CommerceQuotesConnector,
     protected eventService: EventService,
     protected queryService: QueryService,
+    protected routingService: RoutingService,
     protected config: ViewConfig
   ) {}
 
@@ -57,5 +70,9 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
 
   getQuotesState(): Observable<QueryState<QuoteList | undefined>> {
     return this.quotesState$.getState();
+  }
+
+  getQuoteDetails(): Observable<Quote | undefined> {
+    return this.quoteDetailsState$.get();
   }
 }

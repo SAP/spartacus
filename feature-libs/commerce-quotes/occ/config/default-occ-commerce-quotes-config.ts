@@ -6,7 +6,8 @@ export const defaultOccCommerceQuotesConfig: OccConfig = {
       endpoints: {
         getQuotes: 'users/${userId}/quotes',
         createQuote: 'users/${userId}/quotes',
-        getQuote: 'users/${userId}/quotes/${quoteCode}',
+        getQuote:
+          'users/${userId}/quotes/${quoteCode}?fields=FULL,previousEstimatedTotal(formattedValue)',
         editQuote: 'users/${userId}/quotes/${quoteCode}',
         performActionQuote: 'users/${userId}/quotes/${quoteCode}/action',
         addComment: 'users/${userId}/quotes/${quoteCode}/comments',
