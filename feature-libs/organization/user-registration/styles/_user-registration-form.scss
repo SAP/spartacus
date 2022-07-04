@@ -9,7 +9,7 @@
   }
 }
 
-cx-user-registration-form {
+%cx-user-registration-form {
   form {
     width: 50%;
     margin: 0 auto;
@@ -18,12 +18,7 @@ cx-user-registration-form {
     button {
       margin-bottom: 0.675rem;
     }
-  }
-}
-
-@include media-breakpoint-down(md) {
-  cx-user-registration-form {
-    form {
+    @include media-breakpoint-down(sm) {
       width: 100%;
     }
   }

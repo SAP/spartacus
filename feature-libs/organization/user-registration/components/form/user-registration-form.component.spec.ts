@@ -143,22 +143,8 @@ describe('UserRegistrationFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call `getTitles`, `getCountries` and `getRegions` on init', () => {
-    spyOn(userRegistrationFormService, 'getTitles').and.callThrough();
-    spyOn(userRegistrationFormService, 'getCountries').and.callThrough();
-    spyOn(userRegistrationFormService, 'getRegions').and.callThrough();
-
-    component.ngOnInit();
-
-    expect(userRegistrationFormService.getTitles).toHaveBeenCalled();
-    expect(userRegistrationFormService.getCountries).toHaveBeenCalled();
-    expect(userRegistrationFormService.getRegions).toHaveBeenCalled();
-  });
-
   it('should initialize registerForm', () => {
     spyOnProperty(userRegistrationFormService, 'form', 'get').and.callThrough();
-
-    component.ngOnInit();
 
     expect(component.registerForm).toBeInstanceOf(FormGroup);
   });
@@ -190,7 +176,6 @@ describe('UserRegistrationFormComponent', () => {
 
   it('should submit form and call the service', () => {
     spyOn(userRegistrationFormService, 'registerUser').and.callThrough();
-    component.ngOnInit();
     component.registerForm.patchValue(mockOrganizationUser);
     component.registerForm.markAllAsTouched();
 
@@ -205,7 +190,6 @@ describe('UserRegistrationFormComponent', () => {
 
   it('should not register organization user with invalid form', () => {
     spyOn(userRegistrationFormService, 'registerUser').and.callThrough();
-    component.ngOnInit();
     component.registerForm.reset();
     component.registerForm.patchValue({
       firstName: mockOrganizationUser.firstName,
@@ -218,7 +202,6 @@ describe('UserRegistrationFormComponent', () => {
   });
 
   it('should show spinner based on `isLoading$` property', () => {
-    component.ngOnInit();
     expect(el.query(By.css('cx-spinner'))).toBeNull();
 
     component.isLoading$.next(true);

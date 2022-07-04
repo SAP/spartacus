@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Country, Region } from '@spartacus/core';
 import { Title } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { UserRegistrationFormService } from './user-registration-form.service';
 
 @Component({
@@ -10,33 +10,30 @@ import { UserRegistrationFormService } from './user-registration-form.service';
   templateUrl: './user-registration-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserRegistrationFormComponent implements OnInit {
-  titles$: Observable<Title[]>;
+export class UserRegistrationFormComponent implements OnDestroy {
+  titles$: Observable<Title[]> = this.userRegistrationFormService.getTitles();
 
-  countries$: Observable<Country[]>;
+  countries$: Observable<Country[]> =
+    this.userRegistrationFormService.getCountries();
 
-  regions$: Observable<Region[]>;
+  regions$: Observable<Region[]> =
+    this.userRegistrationFormService.getRegions();
+
+  registerForm: FormGroup = this.userRegistrationFormService.form;
 
   isLoading$ = new BehaviorSubject(false);
 
-  registerForm: FormGroup;
+  protected registrationSub = new Subscription();
 
   constructor(
     protected userRegistrationFormService: UserRegistrationFormService
   ) {}
 
-  ngOnInit(): void {
-    this.registerForm = this.userRegistrationFormService.form;
-    this.titles$ = this.userRegistrationFormService.getTitles();
-    this.countries$ = this.userRegistrationFormService.getCountries();
-    this.regions$ = this.userRegistrationFormService.getRegions();
-  }
-
   submit(): void {
     if (this.registerForm.valid) {
       this.isLoading$.next(true);
 
-      this.userRegistrationFormService
+      this.registrationSub = this.userRegistrationFormService
         .registerUser(this.registerForm)
         .subscribe({
           complete: () => this.isLoading$.next(false),
@@ -44,6 +41,12 @@ export class UserRegistrationFormComponent implements OnInit {
         });
     } else {
       this.registerForm.markAllAsTouched();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.registrationSub) {
+      this.registrationSub.unsubscribe();
     }
   }
 }

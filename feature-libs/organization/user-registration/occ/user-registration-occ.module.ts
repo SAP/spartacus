@@ -11,7 +11,7 @@ import { defaultOccOrganizationUserRegistrationConfig } from './config/default-o
     provideDefaultConfig(defaultOccOrganizationUserRegistrationConfig),
     {
       provide: UserRegistrationAdapter,
-      useClass: OccUserRegistrationAdapter,
+      useExisting: OccUserRegistrationAdapter,
     },
   ],
 })

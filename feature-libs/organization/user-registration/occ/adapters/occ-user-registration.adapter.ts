@@ -15,7 +15,9 @@ import { OrganizationUserRegistration } from '@spartacus/organization/user-regis
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccUserRegistrationAdapter implements UserRegistrationAdapter {
   constructor(
     protected http: HttpClient,
