@@ -179,7 +179,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   /**
    * Creates form models for list items
    */
-  protected createForm(items: OrderEntry[]): void {
+  protected createForm(items: OrderEntry[] = []): void {
     items.forEach((item) => {
       const controlName = this.getControlName(item);
       const control = this.form.get(controlName);
