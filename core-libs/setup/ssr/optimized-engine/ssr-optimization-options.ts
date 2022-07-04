@@ -114,6 +114,7 @@ export enum RenderingStrategy {
 export const defaultSsrOptimizationOptions: SsrOptimizationOptions = {
   concurrency: 10,
   timeout: 3_000,
+  forcedSsrTimeout: 60_000,
   maxRenderTime: 300_000,
   reuseCurrentRendering: true,
 };
