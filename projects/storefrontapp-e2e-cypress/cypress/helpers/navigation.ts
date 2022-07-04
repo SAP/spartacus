@@ -79,3 +79,16 @@ export function navigateToCategory(
     .click({ force });
   cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
 }
+
+export function navigateToAMyAccountPage(
+  myAccountOptionText: string,
+  page: string,
+  alias: string
+) {
+  const pageAlias = waitForPage(page, alias);
+
+  cy.selectUserMenuOption({
+    option: myAccountOptionText,
+  });
+  cy.wait(`@${pageAlias}`).its('response.statusCode').should('eq', 200);
+}
