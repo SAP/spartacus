@@ -8,6 +8,7 @@ import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 export class StoreSearchComponent {
   @Output() findStores = new EventEmitter<LocationSearchParams>();
   @Output() eventHideOutOfStock = new EventEmitter<boolean>();
+  @Output() showSpinner = new EventEmitter<boolean>();
 
   @Input() hideOutOfStock: boolean = false;
 
@@ -23,9 +24,11 @@ export class StoreSearchComponent {
   }
 
   useMyLocation(): void {
+    this.showSpinner.emit(true);
     window.navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
         this.findStores.emit({ latitude, longitude });
+        this.showSpinner.emit(false);
       }
     );
   }

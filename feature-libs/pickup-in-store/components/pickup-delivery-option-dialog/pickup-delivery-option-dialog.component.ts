@@ -18,6 +18,7 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
   getHideOutOfStockState$: Observable<boolean>;
 
   readonly iconTypes = ICON_TYPE;
+  loading: boolean;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -45,5 +46,8 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
   }
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
+  }
+  showSpinner(showSpinner: boolean): void {
+    this.loading = showSpinner;
   }
 }

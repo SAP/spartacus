@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
 import { PointOfServiceStock } from '@spartacus/core';
+import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
 import { StoreFinderSearchQuery } from '@spartacus/storefinder/core';
 import { Observable } from 'rxjs';
 
