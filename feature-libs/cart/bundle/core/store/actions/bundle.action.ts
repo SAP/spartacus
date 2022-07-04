@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { EntryGroup, OrderEntry } from '@spartacus/cart/base/root';
 import { Product, SearchConfig, StateUtils } from '@spartacus/core';
 import { BundleStarter } from '../../model/bundle.model';
@@ -91,7 +90,7 @@ export class GetBundleAllowedProductsFail extends StateUtils.LoaderFailAction {
   }
 }
 
-export class AddProductToBundle implements Action {
+export class AddProductToBundle extends StateUtils.LoaderLoadAction {
   readonly type = ADD_PRODUCT_TO_BUNDLE;
   constructor(
     public payload: {
@@ -100,10 +99,12 @@ export class AddProductToBundle implements Action {
       sectionId: number;
       product: Product;
     }
-  ) {}
+  ) {
+    super(BUNDLE_DATA);
+  }
 }
 
-export class RemoveProductFromBundle implements Action {
+export class RemoveProductFromBundle extends StateUtils.LoaderLoadAction {
   readonly type = REMOVE_PRODUCT_FROM_BUNDLE;
   constructor(
     public payload: {
@@ -112,7 +113,9 @@ export class RemoveProductFromBundle implements Action {
       sectionId: number;
       product: Product;
     }
-  ) {}
+  ) {
+    super(BUNDLE_DATA);
+  }
 }
 
 export type CartBundleAction =

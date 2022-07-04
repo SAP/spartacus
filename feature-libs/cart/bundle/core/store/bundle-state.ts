@@ -27,7 +27,7 @@ export type SelectedProductsState = {
 
 export interface BundlesState {
   availableEntries: StateUtils.LoaderState<AvailableEntriesState>;
-  selectedProducts: SelectedProductsState;
+  selectedProducts: StateUtils.LoaderState<SelectedProductsState>;
 }
 
 export interface AvailableEntriesState {

@@ -5,8 +5,8 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { EntryGroup } from '@spartacus/cart/base/root';
 import { Product } from '@spartacus/core';
-import { EntryGroup } from 'feature-libs/cart/base/root';
 
 @Component({
   selector: 'cx-bundle-summary',

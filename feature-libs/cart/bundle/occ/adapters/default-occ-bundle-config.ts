@@ -1,5 +1,5 @@
+import { BundleProductScope } from '@spartacus/cart/bundle/core';
 import { OccConfig } from '@spartacus/core';
-import { BundleProductScope } from '../../core/model/bundle-product-scope.model';
 
 export const defaultOccBundleConfig: OccConfig = {
   backend: {

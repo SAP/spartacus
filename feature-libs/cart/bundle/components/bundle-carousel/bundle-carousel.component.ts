@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { BundleTemplate, CartBundleService } from '@spartacus/cart/bundle/core';
 import { Product, RoutingService } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { BundleTemplate } from '../../core/model';
-import { CartBundleService } from '../../core/services';
 
 @Component({
   selector: 'cx-bundle-carousel',

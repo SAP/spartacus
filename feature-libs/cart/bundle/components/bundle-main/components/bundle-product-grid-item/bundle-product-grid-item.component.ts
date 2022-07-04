@@ -8,7 +8,7 @@ import {
 import {
   ProductBtnActionTypes,
   ProductSelectionState,
-} from '@spartacus/cart/bundle';
+} from '@spartacus/cart/bundle/core';
 import { Product } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 

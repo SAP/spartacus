@@ -11,8 +11,8 @@ import {
   SearchConfig,
   WindowRef,
 } from '@spartacus/core';
-import { EntryGroup } from 'feature-libs/cart/base/root';
 import { BundleTypes } from '../model';
+import { EntryGroup } from '@spartacus/cart/base/root';
 
 @Injectable({
   providedIn: 'root',
@@ -84,7 +84,7 @@ export class BundleService {
   ): Observable<Record<number, Product[]>> {
     return this.store.pipe(
       select(BundleSelectors.getSelectedProductsState),
-      map((data) => data?.[cartId]?.[bundleId])
+      map((data: any) => data?.[cartId]?.[bundleId])
     );
   }
 

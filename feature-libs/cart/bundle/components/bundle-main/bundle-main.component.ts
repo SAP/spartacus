@@ -6,17 +6,20 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { EntryGroup, MultiCartFacade } from '@spartacus/cart/base/root';
+import {
+  BundleSelectors,
+  BundleService,
+  CartBundleService,
+  ProductBtnActionTypes,
+  ProductSelectionState,
+  StateWithBundle,
+} from '@spartacus/cart/bundle/core';
 import { Product, RoutingService, UserIdService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { EntryGroup, MultiCartFacade } from 'feature-libs/cart/base/root';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, take, withLatestFrom } from 'rxjs/operators';
 
-import { BundleService } from '../../core/facade';
-import { ProductBtnActionTypes, ProductSelectionState } from '../../core/model';
-import { CartBundleService } from '../../core/services';
-import { StateWithBundle } from '../../core/store';
-import { getAvailableEntryGroupEntries } from '../../core/store/selectors/bundle-group.selectors';
 import {
   BundleProgressService,
   PREVIEW_STEP,
@@ -48,7 +51,7 @@ export class BundleMainComponent implements OnInit, OnDestroy {
     protected multiCartService: MultiCartFacade,
     protected bundleService: BundleService,
     protected cartBundleService: CartBundleService,
-    protected bundleProgress: BundleProgressService,
+    public bundleProgress: BundleProgressService,
     protected userIdService: UserIdService,
     protected store: Store<StateWithBundle>,
     protected routingService: RoutingService,
@@ -164,7 +167,7 @@ export class BundleMainComponent implements OnInit, OnDestroy {
           ({ entryGroupNumber }) => entryGroupNumber === activeStep?.key
         );
         return this.store.select(
-          getAvailableEntryGroupEntries(
+          BundleSelectors.getAvailableEntryGroupEntries(
             cartId,
             group?.entryGroupNumber as number
           )

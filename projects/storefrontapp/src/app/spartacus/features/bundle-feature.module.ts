@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BUNDLE_FEATURE } from '@spartacus/cart/bundle/core';
-import { BundleRootModule } from '@spartacus/cart/bundle/root';
+import { BundleRootModule, BUNDLE_FEATURE } from '@spartacus/cart/bundle/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({

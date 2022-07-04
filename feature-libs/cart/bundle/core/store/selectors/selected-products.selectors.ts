@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
 import {
   BundlesState,
   SelectedProductsState,
@@ -8,7 +9,7 @@ import { getBundleState } from './feature.selector';
 
 export const getSelectedProductsState: MemoizedSelector<
   StateWithBundle,
-  SelectedProductsState
+  StateUtils.LoaderState<SelectedProductsState>
 > = createSelector(
   getBundleState,
   (bundleState: BundlesState) => bundleState.selectedProducts

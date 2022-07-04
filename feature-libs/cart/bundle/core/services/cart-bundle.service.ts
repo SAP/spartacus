@@ -4,7 +4,7 @@ import {
   ActiveCartFacade,
   EntryGroup,
   MultiCartFacade,
-} from 'feature-libs/cart/base/root';
+} from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { BundleService } from '../facade/bundle.service';

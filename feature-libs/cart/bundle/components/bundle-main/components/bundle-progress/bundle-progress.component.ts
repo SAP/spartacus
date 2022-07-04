@@ -10,7 +10,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 export class BundleProgressComponent {
   iconTypes = ICON_TYPE;
 
-  constructor(private bundleProgress: BundleProgressService) {}
+  constructor(public bundleProgress: BundleProgressService) {}
 
   get steps() {
     return this.bundleProgress.steps;
