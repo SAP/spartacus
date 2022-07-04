@@ -1,9 +1,12 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Params } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
+  Comment,
   CommerceQuotesListReloadQueryEvent,
   Quote,
   QuoteList,
+  QuoteMetadata,
 } from '@spartacus/commerce-quotes/root';
 import {
   EventService,
@@ -15,7 +18,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { ViewConfig } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommerceQuotesConnector } from '../connectors';
 import { CommerceQuotesService } from './commerce-quotes.service';
@@ -43,6 +46,13 @@ const mockRouterState$ = new BehaviorSubject({
   navigationId: 1,
   state: { params: mockParams as Params },
 });
+const mockMetadata: QuoteMetadata = {
+  name: 'test',
+  description: 'test desc',
+};
+const mockComment: Comment = {
+  text: 'test comment',
+};
 
 class MockRoutingService implements Partial<RoutingService> {
   getRouterState() {
@@ -66,13 +76,21 @@ class MockViewConfig implements ViewConfig {
 class MockCommerceQuotesConnector implements Partial<CommerceQuotesConnector> {
   getQuotes = createSpy().and.returnValue(of(mockQuoteList));
   getQuote = createSpy().and.returnValue(of(mockQuote));
+  createQuote = createSpy().and.returnValue(of(mockQuote));
+  editQuote = createSpy().and.returnValue(of(EMPTY));
+  addComment = createSpy().and.returnValue(of(EMPTY));
 }
 
-describe('CommerceQuotesService', () => {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
+  reloadActiveCart = createSpy();
+}
+
+fdescribe('CommerceQuotesService', () => {
   let service: CommerceQuotesService;
   let connector: CommerceQuotesConnector;
   let eventService: EventService;
   let config: ViewConfig;
+  let activeCartService: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -86,6 +104,7 @@ describe('CommerceQuotesService', () => {
           useClass: MockCommerceQuotesConnector,
         },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
       ],
     });
 
@@ -93,6 +112,7 @@ describe('CommerceQuotesService', () => {
     connector = TestBed.inject(CommerceQuotesConnector);
     eventService = TestBed.inject(EventService);
     config = TestBed.inject(ViewConfig);
+    activeCartService = TestBed.inject(ActiveCartFacade);
   });
 
   it('should inject CommerceQuotesService', inject(
@@ -200,6 +220,46 @@ describe('CommerceQuotesService', () => {
           mockParams.quoteId
         );
         expect(details).toEqual(mockQuote);
+      });
+    done();
+  });
+
+  it('should call create quote command', (done) => {
+    service
+      .createQuote(mockMetadata, mockComment)
+      .pipe(take(1))
+      .subscribe((quote) => {
+        expect(connector.createQuote).toHaveBeenCalled();
+        expect(quote.code).toEqual(mockQuote.code);
+        expect(activeCartService.reloadActiveCart).toHaveBeenCalled();
+      });
+    done();
+  });
+
+  it('should call create quote command', (done) => {
+    service
+      .editQuote(mockQuote.code, mockMetadata)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(connector.editQuote).toHaveBeenCalledWith(
+          mockUserId,
+          mockQuote.code,
+          mockMetadata
+        );
+      });
+    done();
+  });
+
+  it('should call create quote command', (done) => {
+    service
+      .addQuoteComment(mockQuote.code, mockComment)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(connector.addComment).toHaveBeenCalledWith(
+          mockUserId,
+          mockQuote.code,
+          mockComment
+        );
       });
     done();
   });
