@@ -42,7 +42,7 @@ const productConfiguration: Configurator.Configuration = {
 
 const variants: Configurator.Variant[] = [
   { productCode: 'CONF_LAPTOP_A' },
-  { productCode: 'CONF_LAPTOP:B' },
+  { productCode: 'CONF_LAPTOP_B' },
 ];
 
 let configuratorCoreConfig: ConfiguratorCoreConfig;
