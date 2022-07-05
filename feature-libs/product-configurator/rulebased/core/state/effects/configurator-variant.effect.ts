@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { catchError, filter, switchMap } from 'rxjs/operators';
+import { ConfiguratorCoreConfig } from '../../config/configurator-core.config';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
@@ -18,6 +19,11 @@ export class ConfiguratorVariantEffects {
   > = createEffect(() =>
     this.actions$.pipe(
       ofType(ConfiguratorActions.SEARCH_VARIANTS),
+      filter(
+        () =>
+          this.configuratorCoreConfig.productConfigurator
+            ?.enableVariantSearch === true
+      ),
       switchMap((action: ConfiguratorActions.SearchVariants) => {
         return this.configuratorCommonsConnector
           .searchVariants(action.payload)
@@ -41,6 +47,7 @@ export class ConfiguratorVariantEffects {
 
   constructor(
     protected actions$: Actions,
-    protected configuratorCommonsConnector: RulebasedConfiguratorConnector
+    protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
+    protected configuratorCoreConfig: ConfiguratorCoreConfig
   ) {}
 }
