@@ -23,7 +23,7 @@ export class UserRegistrationFormComponent implements OnDestroy {
 
   isLoading$ = new BehaviorSubject(false);
 
-  protected registrationSub = new Subscription();
+  protected subscriptions = new Subscription();
 
   constructor(
     protected userRegistrationFormService: UserRegistrationFormService
@@ -32,21 +32,20 @@ export class UserRegistrationFormComponent implements OnDestroy {
   submit(): void {
     if (this.registerForm.valid) {
       this.isLoading$.next(true);
-
-      this.registrationSub = this.userRegistrationFormService
-        .registerUser(this.registerForm)
-        .subscribe({
-          complete: () => this.isLoading$.next(false),
-          error: () => this.isLoading$.next(false),
-        });
+      this.subscriptions.add(
+        this.userRegistrationFormService
+          .registerUser(this.registerForm)
+          .subscribe({
+            complete: () => this.isLoading$.next(false),
+            error: () => this.isLoading$.next(false),
+          })
+      );
     } else {
       this.registerForm.markAllAsTouched();
     }
   }
 
   ngOnDestroy(): void {
-    if (this.registrationSub) {
-      this.registrationSub.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 }

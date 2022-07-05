@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -22,7 +22,7 @@ import {
   OrganizationUserRegistration,
   UserRegistrationFacade,
 } from '@spartacus/organization/user-registration/root';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -65,15 +65,15 @@ export class UserRegistrationFormService {
   /*
    * Gets form control for country isocode.
    */
-  public get countryControl(): FormControl {
-    return this.form.get('country.isocode') as FormControl;
+  public get countryControl(): AbstractControl | null {
+    return this.form.get('country.isocode');
   }
 
   /*
    *  Gets form control for region isocode.
    */
-  public get regionControl(): FormControl {
-    return this.form.get('region.isocode') as FormControl;
+  public get regionControl(): AbstractControl | null {
+    return this.form.get('region.isocode');
   }
 
   constructor(
@@ -111,12 +111,15 @@ export class UserRegistrationFormService {
    * Gets all regions list for specific selected country.
    */
   getRegions(): Observable<Region[]> {
-    return this.countryControl.valueChanges.pipe(
-      filter((countryIsoCode) => !!countryIsoCode),
-      switchMap((countryIsoCode) => {
-        this.regionControl.reset();
-        return this.userAddressService.getRegions(countryIsoCode);
-      })
+    const regions: Region[] = [];
+    return (
+      this.countryControl?.valueChanges.pipe(
+        filter((countryIsoCode) => !!countryIsoCode),
+        switchMap((countryIsoCode) => {
+          this.regionControl?.reset();
+          return this.userAddressService.getRegions(countryIsoCode);
+        })
+      ) ?? of(regions)
     );
   }
 
