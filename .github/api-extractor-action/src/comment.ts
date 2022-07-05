@@ -1,5 +1,6 @@
 import { Context } from '@actions/github/lib/context';
 import * as fs from 'fs';
+import * as core from '@actions/core';
 import {
   EntryPoints,
   EntryPointStatus,
@@ -305,5 +306,8 @@ export async function addCommentToPR(
     commentsForEntryPoints,
     notAnalyzedEntryPoints
   );
+
+  core.info(commentBody);
+
   await printReport(commentBody, ghClient, relatedPR.number, context);
 }
