@@ -2,10 +2,10 @@
   margin-top: 1.5rem;
   margin-bottom: 0.25rem;
 
-  @include media-breakpoint-between(md,sm) {
+  @include media-breakpoint-between(md, sm) {
     width: 60%;
   }
-  @include media-breakpoint-between(sm,lg) {
+  @include media-breakpoint-between(sm, lg) {
     width: 70%;
   }
   @include media-breakpoint-up(lg) {

@@ -28,7 +28,7 @@
           (eventHideOutOfStock)="onHideOutOfStock()"
         ></cx-store-search>
         <cx-store-list [storeSearch]="storeSearch"></cx-store-list>
-        <div *ngIf='loading'>
+        <div *ngIf="loading">
           <div class="cx-spinner">
             <cx-spinner></cx-spinner>
           </div>
