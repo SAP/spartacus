@@ -1,0 +1,47 @@
+Branchs and commits compared to produce the 5.0 initial breaking change breaking-changes.json file:
+
+Old Version
+------------------
+Branch: release/4.3.x
+Commit: 1fca51a6ac1747acf04647b67979f9df4d8446c7  chore: fix "Public API Changes" bot (#15923)
+
+New Version
+------------------
+Branch: release/5.0.x
+Commit: 3d9d7903c75efc650601ef8f50ae2daa7ae0694c  chore: improve clear cart core e2e tests (#15886)
+
+
+breaking-changes.json July 2022 stats:
+--------------------------------------
+
+1076 api elements with breaking changes
+1735 individual breaking changes
+
+CLASS_DELETED: 137
+CLASS_MOVED: 255
+CONSTRUCTOR_CHANGED: 152
+ENUM_CHANGED: 1
+ENUM_MOVED: 11
+FUNCTION_CHANGED: 19
+FUNCTION_DELETED: 3
+FUNCTION_MOVED: 6
+INTERFACE_DELETED: 5
+INTERFACE_MOVED: 43
+METHODSIGNATURE_CHANGED: 4
+METHOD_CHANGED: 216
+METHOD_DELETED: 133
+NAMESPACE_DELETED: 2
+NAMESPACE_MOVED: 2
+PROPERTYSIGNATURE_CHANGED: 16
+PROPERTYSIGNATURE_DELETED: 86
+PROPERTY_CHANGED: 198
+PROPERTY_DELETED: 110
+TYPEALIAS_CHANGED: 1
+TYPEALIAS_DELETED: 6
+TYPEALIAS_MOVED: 13
+VARIABLE_CHANGED: 50
+VARIABLE_DELETED: 109
+VARIABLE_MOVED: 157
+
+
+
