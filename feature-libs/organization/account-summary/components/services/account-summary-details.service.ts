@@ -14,7 +14,6 @@ export class AccountSummaryDetailsService {
   baseSiteId: string;
 
   constructor(private routingService: RoutingService,
-    private http: HttpClient,
     private userIdService: UserIdService,
     private baseSiteService: BaseSiteService) {
     this.unitCode$ = this.routingService.getRouterState().pipe(
@@ -30,19 +29,7 @@ export class AccountSummaryDetailsService {
 
   }
 
-  getAccountSummary(unitCode: string) {
+  getAccountSummaryData(unitCode: string) {
     //TODO - incomplete
-    return this.http.get(`https://spartacus-dev3.eastus.cloudapp.azure.com:9002/occ/v2/${this.baseSiteId}/users/${this.userId}/accountSummary`,
-      {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json;charset=UTF-8',
-          Authorization: 'Basic ' + btoa('mobile_android' + ':' + 'secret'),
-          username: 'linda.wolf@rustic-hw.com',
-          password: 'Humorbot5.0'
-        }),
-        params: {
-          unit: unitCode,
-        }
-      });
   }
 }
