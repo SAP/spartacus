@@ -1,7 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
-import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
 import { BANNER_COMPONENT_MIGRATION } from './data/banner.component.migration';
 import { CART_TOTALS_COMPONENT_MIGRATION } from './data/cart-totals.component.migration';
 import { CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/cdc-logout.guard.migration';
@@ -44,7 +43,6 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION,
   QUICK_ORDER_SERVICE_MIGRATION,
   QUICK_ORDER_FORM_COMPONENT_MIGRATION,
-  ADDRESS_BOOK_COMPONENT_MIGRATION,
   SHIPPING_ADDRESS_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_MIGRATION,
