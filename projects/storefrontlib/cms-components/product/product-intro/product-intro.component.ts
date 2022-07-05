@@ -25,7 +25,7 @@ export class ProductIntroComponent {
   /**
    * Observable that checks the reviews component availability on the page.
    */
-  areReviewsAvailable$ = merge(
+  areReviewsAvailable: Observable<boolean> = merge(
     // Check if reviews component is already defined:
     defer(() => of(!!this.getReviewsComponent())),
 
