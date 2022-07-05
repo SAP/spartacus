@@ -13,6 +13,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
+import { ConfiguratorCoreConfig } from '../../config/configurator-core.config';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
@@ -41,8 +42,10 @@ const productConfiguration: Configurator.Configuration = {
 
 const variants: Configurator.Variant[] = [
   { productCode: 'CONF_LAPTOP_A' },
-  { productCode: 'CONF_LAPTOP:B' },
+  { productCode: 'CONF_LAPTOP_B' },
 ];
+
+let configuratorCoreConfig: ConfiguratorCoreConfig;
 
 describe('ConfiguratorVariantEffect', () => {
   let searchVariantsMock: jasmine.Spy;
@@ -53,6 +56,9 @@ describe('ConfiguratorVariantEffect', () => {
 
   beforeEach(() => {
     searchVariantsMock = jasmine.createSpy().and.returnValue(of(variants));
+    configuratorCoreConfig = {
+      productConfigurator: { enableVariantSearch: true },
+    };
 
     class MockConnector {
       searchVariants = searchVariantsMock;
@@ -75,6 +81,10 @@ describe('ConfiguratorVariantEffect', () => {
         {
           provide: ConfiguratorUtilsService,
           useClass: ConfiguratorUtilsService,
+        },
+        {
+          provide: ConfiguratorCoreConfig,
+          useValue: configuratorCoreConfig,
         },
       ],
     });
@@ -101,7 +111,30 @@ describe('ConfiguratorVariantEffect', () => {
     expect(configEffects.searchVariants$).toBeObservable(expected);
   });
 
-  it('must not emit anything in case source action is not covered', () => {
+  it('should not emit anything if variant search is disabled per configuration', () => {
+    const action = new ConfiguratorActions.SearchVariants(productConfiguration);
+    if (configuratorCoreConfig.productConfigurator) {
+      configuratorCoreConfig.productConfigurator.enableVariantSearch = false;
+    }
+
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-');
+
+    expect(configEffects.searchVariants$).toBeObservable(expected);
+  });
+
+  it('should not emit anything if variant search configuration is incomplete', () => {
+    const action = new ConfiguratorActions.SearchVariants(productConfiguration);
+
+    configuratorCoreConfig.productConfigurator = undefined;
+
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-');
+
+    expect(configEffects.searchVariants$).toBeObservable(expected);
+  });
+
+  it('should not emit anything in case source action is not covered', () => {
     const actionNotCovered = new ConfiguratorActions.CreateConfigurationSuccess(
       productConfiguration
     );

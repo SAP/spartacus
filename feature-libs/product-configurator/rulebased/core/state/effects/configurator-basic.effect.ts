@@ -84,12 +84,9 @@ export class ConfiguratorBasicEffects {
             action.payload.configuration.owner
           )
           .pipe(
-            switchMap((configuration: Configurator.Configuration) => {
-              console.log('CHHI read');
-              return [
-                new ConfiguratorActions.ReadConfigurationSuccess(configuration),
-              ];
-            }),
+            switchMap((configuration: Configurator.Configuration) => [
+              new ConfiguratorActions.ReadConfigurationSuccess(configuration),
+            ]),
             catchError((error) => [
               new ConfiguratorActions.ReadConfigurationFail({
                 ownerKey: action.payload.configuration.owner.key,
