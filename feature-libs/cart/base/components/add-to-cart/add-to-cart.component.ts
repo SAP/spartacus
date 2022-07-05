@@ -10,6 +10,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
+  CartItemComponentOptions,
   CartOutlets,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
@@ -41,7 +42,7 @@ export interface AddToCartContainerContext {
 export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() productCode: string;
   @Input() showQuantity = true;
-
+  @Input() options: CartItemComponentOptions;
   /**
    * As long as we do not support #5026, we require product input, as we need
    *  a reference to the product model to fetch the stock data.

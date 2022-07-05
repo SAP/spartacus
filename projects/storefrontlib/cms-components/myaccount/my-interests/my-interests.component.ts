@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
 import {
   PaginationModel,
   Product,
@@ -15,11 +14,12 @@ import {
   TranslationService,
   UserInterestsService,
 } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {
-    product$?: Observable<Product>;
+    product$?: Observable<Product | undefined>;
   })[];
 }
 
@@ -30,7 +30,7 @@ interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
 })
 export class MyInterestsComponent implements OnInit, OnDestroy {
   private DEFAULT_PAGE_SIZE = 10;
-  private sortMapping = {
+  private sortMapping: { [key: string]: string } = {
     byNameAsc: 'name:asc',
     byNameDesc: 'name:desc',
   };
@@ -66,10 +66,10 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
         tap(
           (interests) =>
             (this.pagination = {
-              currentPage: interests.pagination.page,
-              pageSize: interests.pagination.count,
-              totalPages: interests.pagination.totalPages,
-              totalResults: interests.pagination.totalCount,
+              currentPage: interests.pagination?.page,
+              pageSize: interests.pagination?.count,
+              totalPages: interests.pagination?.totalPages,
+              totalResults: interests.pagination?.totalCount,
               sort: 'byNameAsc',
             })
         ),
@@ -113,13 +113,16 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   private getProduct(
     interest: ProductInterestEntryRelation
-  ): Observable<Product> {
-    return this.productService.get(interest.product.code, ProductScope.DETAILS);
+  ): Observable<Product | undefined> {
+    return this.productService.get(
+      interest.product?.code ?? '',
+      ProductScope.DETAILS
+    );
   }
 
   removeInterest(
     relation: ProductInterestEntryRelation & {
-      product$?: Observable<Product>;
+      product$?: Observable<Product | undefined>;
     }
   ): void {
     this.productInterestService.removeProdutInterest({

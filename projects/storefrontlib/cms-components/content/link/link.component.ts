@@ -10,7 +10,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinkComponent {
-  @HostBinding('class') styleClasses: string;
+  @HostBinding('class') styleClasses: string | undefined;
 
   data$: Observable<CmsLinkComponent> = this.component.data$.pipe(
     tap((data) => (this.styleClasses = data?.styleClasses))

@@ -2,11 +2,16 @@
   @extend .cx-agnostic-table;
 
   td.cx-actions {
+    cx-add-to-cart,
     button {
       white-space: nowrap;
       display: block;
       text-align: end;
       width: 100%;
+
+      @include media-breakpoint-down(sm) {
+        min-height: 48px;
+      }
     }
   }
 
