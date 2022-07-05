@@ -1,0 +1,41 @@
+The breaking changes in this folder were produced by comparing these branch/commits:
+
+Old version;
+  branch: release/4.3.x
+  commit: f76f83032b5ab9e490175ffd81a6e35fe048192e
+
+New version;
+  branch: develop
+  commit: 980234441ccae3fec371cb13b8d621253c6f4258 
+
+
+
+breaking-changes.json March 2022 stats:
+---------------------------------------
+
+810 api elements with breaking changes
+1223 individual breaking changes
+
+CLASS_DELETED: 135
+CLASS_MOVED: 255
+CONSTRUCTOR_CHANGED: 94
+ENUM_CHANGED: 3
+ENUM_MOVED: 11
+FUNCTION_CHANGED: 3
+FUNCTION_DELETED: 2
+FUNCTION_MOVED: 6
+INTERFACE_DELETED: 5
+INTERFACE_MOVED: 43
+METHODSIGNATURE_CHANGED: 3
+METHOD_CHANGED: 46
+METHOD_DELETED: 123
+PROPERTYSIGNATURE_CHANGED: 1
+PROPERTYSIGNATURE_DELETED: 42
+PROPERTY_CHANGED: 48
+PROPERTY_DELETED: 90
+TYPEALIAS_CHANGED: 1
+TYPEALIAS_DELETED: 6
+TYPEALIAS_MOVED: 13
+VARIABLE_CHANGED: 28
+VARIABLE_DELETED: 107
+VARIABLE_MOVED: 158
