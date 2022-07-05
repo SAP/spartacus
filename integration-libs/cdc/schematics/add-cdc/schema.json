@@ -30,7 +30,7 @@
       "type": "string",
       "description": "Name of the Spartcus base site",
       "x-prompt": "[CDC] What is the base site?",
-      "default": "electronics-spa"
+      "default": "electronics-cdc"
     },
     "sessionExpiration": {
       "type": "number",
