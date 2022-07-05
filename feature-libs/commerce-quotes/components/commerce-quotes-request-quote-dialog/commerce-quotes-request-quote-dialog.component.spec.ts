@@ -44,7 +44,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-fdescribe('CommerceQuotesRequestQuoteDialogComponent', () => {
+describe('CommerceQuotesRequestQuoteDialogComponent', () => {
   let component: CommerceQuotesRequestQuoteDialogComponent;
   let fixture: ComponentFixture<CommerceQuotesRequestQuoteDialogComponent>;
   let modalService: ModalService;

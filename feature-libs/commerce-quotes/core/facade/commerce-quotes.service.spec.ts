@@ -85,7 +85,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   reloadActiveCart = createSpy();
 }
 
-fdescribe('CommerceQuotesService', () => {
+describe('CommerceQuotesService', () => {
   let service: CommerceQuotesService;
   let connector: CommerceQuotesConnector;
   let eventService: EventService;
