@@ -16,7 +16,7 @@ export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 export const PICKUP_IN_STORE_TRANSLATIONS = 'pickupInStoreTranslations';
 export const PICKUP_IN_STORE_TRANSLATION_CHUNKS_CONFIG =
   'pickupInStoreTranslationChunksConfig';
-export const PICKUP_IN_STORE_SCSS_FILE_NAME = 'pickup-in-store';
+export const PICKUP_IN_STORE_SCSS_FILE_NAME = 'pickup-in-store.scss';
 
 export const PICKUP_IN_STORE_SCHEMATICS_CONFIG: SchematicConfig = {
   library: {

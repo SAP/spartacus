@@ -718,8 +718,6 @@ export const STORE_FINDER_PAGINATION_DETAILS_COMPONENT =
   'StoreFinderPaginationDetailsComponent';
 export const STORE_FINDER_COMPONENT = 'StoreFinderComponent';
 
-export const PICKUP_IN_STORE_SCSS_FILE_NAME = 'pickup-in-store.scss';
-
 export const ON_SUCCESS = 'onSuccess';
 
 export const CHECKOUT_ACTIONS = 'CheckoutActions';
