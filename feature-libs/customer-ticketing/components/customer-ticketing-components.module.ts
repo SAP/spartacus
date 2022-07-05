@@ -6,6 +6,7 @@ import {
   FormErrorsModule,
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
+import { CustomerTicketDetailsModule } from './customer-ticket-details';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import {
     I18nModule,
     FormErrorsModule,
     PasswordVisibilityToggleModule,
+    CustomerTicketDetailsModule,
   ],
   declarations: [],
   exports: [],
