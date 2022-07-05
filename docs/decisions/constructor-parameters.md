@@ -1,8 +1,8 @@
 ## 1. Title
-Injecting dependencies in Spartacus classes
+Stop using constructor parameters for dependency injection
 
 ## 2. Status
-Proposed
+Rejected
 
 ## 3. Involved areas
 dependency injection, breaking changes migrations, extensibility 
@@ -69,6 +69,43 @@ In the light of the `inject` function introduced in Angular 14, we should ask ou
 #### Interesting
 - how to preserve the clarity of the declarative dependencies - introduce ES Lint rule?
 	- can we easily enforce injecting dependencies at the top of the class body (e.g. with custom ESLint rule)?
+
+//
+Investment:
+- create breaking changes in constructors (can we automate creating schematics?)
+- create ES Lint rule for organizing dependencies initialization at the top of the class body 
+
+Return:
+- less breaking changes
+- less maintenance hassle for the core team
+
+Risks:
+- we solve one problem, but might introduce new ones (that are not known until we release it)
+
+Unknowns to check:
+- how to refactor constructors that contain logic, but use injectable dependencies
+	- question: can we use initialized properties in the constructor body
+	- workaround idea: use `inject` in the constructor body (instead of property initialization)
+- how can we automate the changes in our codebase, and creating migrations
+
+Is the investment worth it?
+Maybe.
+	- hard to say how much efforts it takes (migrations, docs, communication to train people)
+
+
+Open ends: 
+- Do we roll out the change in every class of Spartacus in major release, or in parts (in many majors), e.g. only storefinder lib in the first go – to test the reaction of customers?
+	- Why: We’re unfamiliar with the `inject` function, same for the community. It hasn't been widely adopted in the community. Therefore we're a bit hesitant to use it 100% everywhere in the next major release.
+- Is the investment worth it? 
+	- Current costs we pay when having constructor parameters: 
+		- ??? weeks of work for few people (depending on the number of constructor changes) before every major release to change all optional parameters as required and provide migrations (docs and schematics) 
+		- Prone to introducing accidental breaking changes by adding new required constructor dependencies 
+	- Cost of switching once to inject function and dropping constructor params everywhere: 
+		- Refactor whole codebase constructors to inject functions (with regex/script + manual review needed) 
+		- Create custom ESLint rule: to put all `inject` calls in the top of the class body, as property initializers 
+		- Test migration scripts on example fresh app with example customizations of constructors 
+		- about 2 weeks of work for 2 people
+
 
 #### Additional notes:
 
@@ -198,37 +235,19 @@ This options has a significant disadvantage: the `Injector.get` method can be ca
 
 Let's disqualify this option, as it is pretty much the same as Option 1 (`inject` function), but has only more disadvantages than Option 1.
 
-### Option 3: Use constructor parameters
-
-#### Pros
-- no work needed - business as usual
-
-#### Cons
-- for every major we do 1-2 weeks of work for few people (depending on the number of constructor changes) before every major release to change all optional constructor parameters as required and provide migrations (docs and schematics) 
-- Having constructor params is prone to introducing accidental breaking changes by adding new required constructor dependencies in minor versions (only reviewer can spot it) 
-
 ## 5. Decision
-Option 1. We want to use `inject` instead of constructor params. 
+Rejected.
 
-Open ends: 
-- Do we roll out the change in every class of Spartacus in major release, or in parts (in many majors), e.g. only storefinder lib in the first go – to test the reaction of customers?
-	- Why: We’re unfamiliar with the `inject` function, same for the community. It hasn't been widely adopted in the community. Therefore we're a bit hesitant to use it 100% everywhere in the next major release.
-- Is the investment worth it? 
-	- Current costs we pay when having constructor parameters: 
-		- 1-2 weeks of work for few people (depending on the number of constructor changes) before every major release to change all optional parameters as required and provide migrations (docs and schematics) 
-		- Prone to introducing accidental breaking changes by adding new required constructor dependencies 
-	- Cost of switching once to inject function and dropping constructor params everywhere: 
-		- Refactor whole codebase constructors to inject functions (with regex/script + manual review needed) 
-		- Create custom ESLint rule: to put all `inject` calls in the top of the class body, as property initializers 
-		- Test migration scripts on example fresh app with example customizations of constructors 
-		- about 2 weeks of work for 2 people
+Let's stick with constructor parameters for now (until we have a time to spike the option with `inject`).
 
-Investment will pay off after about 2-3 major releases.
+Why:
+- Not sure if the benefits of using `inject` outweigh the costs and risks
+- Someone needs to spike it in a small portion and see if it's doable (what are potential obstacles and how much it costs to overcome them)
+- At the moment, it's one of the lower priorities in our architectural backlog, because of relatively low return of investment
+- When the way is more paved by the community using the new `inject` function, we might reconsider using it.
+
+How soon we want to spike it? It depends on the prioritization of all the items in the architectural backlog.
 
 ## 6. Consequences
-- we can add new constructor parameters in minor releases, without being prone to introduce a breaking change
-- simpler preparation for every next Major release - no more hassle of changing constructor parameters from optional to required and providing migrations (docs and schematics)
-
-
-
-
+- Nothing changes, we still use constructor parameters for dependency injection
+- we still add required constructor parameters only in Major releases and provide migrations for those breaking changes
