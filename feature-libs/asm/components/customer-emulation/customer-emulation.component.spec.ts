@@ -8,7 +8,6 @@ import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
 
-
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get(): Observable<User> {
     return of({});
@@ -62,10 +61,12 @@ describe('CustomerEmulationComponent', () => {
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('.customerInfo .name')).nativeElement.innerHTML
+      el.query(By.css('.cx-asm-customerInfo .cx-asm-name')).nativeElement
+        .innerHTML
     ).toEqual(`${testUser.name}`);
     expect(
-      el.query(By.css('.customerInfo .uid')).nativeElement.innerHTML
+      el.query(By.css('.cx-asm-customerInfo .cx-asm-uid')).nativeElement
+        .innerHTML
     ).toEqual(`${testUser.uid}`);
     expect(el.query(By.css('dev.fd-alert'))).toBeFalsy();
   });
