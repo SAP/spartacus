@@ -25,6 +25,10 @@ export const SPARTACUS_ASM = `@spartacus/asm`;
 export const SPARTACUS_ASM_ROOT = `@spartacus/asm/root`;
 export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
 
+export const SPARTACUS_PICKUP_IN_STORE = '@spartacus/pickup-in-store';
+export const SPARTACUS_PICKUP_IN_STORE_ASSETS = `@spartacus/pickup-in-store/assets`;
+export const SPARTACUS_PICKUP_IN_STORE_ROOT = `@spartacus/pickup-in-store/root`;
+
 export const SPARTACUS_CART = `@spartacus/cart`;
 export const SPARTACUS_CART_BASE = `@spartacus/cart/base`;
 export const SPARTACUS_CART_BASE_ROOT = `@spartacus/cart/base/root`;
@@ -102,11 +106,6 @@ export const SPARTACUS_IMAGE_ZOOM_ASSETS = `@spartacus/product/image-zoom/assets
 export const SPARTACUS_VARIANTS = `@spartacus/product/variants`;
 export const SPARTACUS_VARIANTS_ROOT = `@spartacus/product/variants/root`;
 export const SPARTACUS_VARIANTS_ASSETS = `@spartacus/product/variants/assets`;
-
-export const CLI_PICKUP_IN_STORE_FEATURE = 'Pickup-In-Store';
-export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
-export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
-export const SPARTACUS_PICKUP_IN_STORE = '@spartacus/pickup-in-store';
 
 export const SPARTACUS_PRODUCT_CONFIGURATOR = `@spartacus/product-configurator`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `@spartacus/product-configurator/common`;
@@ -219,4 +218,11 @@ export const CDS_FEATURE_NAME = 'CDS';
 export const DIGITAL_PAYMENTS_FEATURE_NAME = 'Digital-Payments';
 
 export const EPD_VISUALIZATION_FEATURE_NAME = 'EPD-Visualization';
+/***** Feature name end *****/
+
+/***** Feature name start *****/
+export const PICKUP_IN_STORE_FEATURE_NAME = 'Pickup-In-Store';
+export const PICKUP_IN_STORE_FEATURE = 'Pickup-In-Store';
+export const PICKUP_IN_STORE_MODULE = 'PickupInStoreModule';
+export const PICKUP_IN_STORE_ROOT_MODULE = 'PickupInStoreRootModule';
 /***** Feature name end *****/
