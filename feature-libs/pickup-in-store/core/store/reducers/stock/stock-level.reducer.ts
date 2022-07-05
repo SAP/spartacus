@@ -1,7 +1,7 @@
 import { Action, createAction, createReducer, on, props } from '@ngrx/store';
 import { StoreFinderStockSearchPage } from '@spartacus/core';
-import { StockLevelActions } from '../actions/index';
-import { StockLevelState } from '../stock-state';
+import { StockLevelActions } from '../../actions/index';
+import { StockLevelState } from '../../stock-state';
 
 export const initialState: StockLevelState = {
   findStockLevelByCode: {},

@@ -1,6 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { StateWithStock, StockState } from '../stock-state';
-import { getStockState } from './feature.selector';
+import { getStockState } from './feature.selectors';
 
 export const getHideOutOfStockState: MemoizedSelector<
   StateWithStock,

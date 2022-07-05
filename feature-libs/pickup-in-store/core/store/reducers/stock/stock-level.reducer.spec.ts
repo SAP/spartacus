@@ -1,7 +1,7 @@
+import { StockEntities } from '../../../model/index';
+import { ClearStockData, StockLevelSuccess } from '../../actions/stock.action';
+import { StockLevelState } from '../../stock-state';
 import * as fromReducer from './stock-level.reducer';
-import { StockLevelState } from '../stock-state';
-import { StockEntities } from '../../model/index';
-import { StockLevelSuccess, ClearStockData } from '../actions/stock.action';
 
 describe('stockReducer', () => {
   it('should populate the slice of state with payload data', () => {

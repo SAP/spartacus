@@ -1,5 +1,5 @@
+import { HideOutOfStockOptionsAction } from '../../actions/hide-out-of-stock.action';
 import * as fromReducer from './hide-out-of-stock.reducer';
-import { HideOutOfStockOptionsAction } from '../actions/hide-out-of-stock.action';
 
 describe('hideOutOfStockReducer', () => {
   it('should toggle the hideOutOfStock value', () => {
