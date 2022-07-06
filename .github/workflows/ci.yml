@@ -97,7 +97,7 @@ jobs:
           ci-scripts/unit-tests.sh
   linting:
     needs: no_retries
-    name: Validation checks
+    name: Validations and static code checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -297,4 +297,4 @@ jobs:
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' && 
           github.ref_name == 'develop'
-        
+
