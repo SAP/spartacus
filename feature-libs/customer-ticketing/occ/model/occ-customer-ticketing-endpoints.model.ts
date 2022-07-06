@@ -7,6 +7,6 @@ declare module '@spartacus/core' {
      *
      * * @member {string}
      */
-    getTicketDetails?: string | OccEndpoint;
+    getTicket?: string | OccEndpoint;
   }
 }
