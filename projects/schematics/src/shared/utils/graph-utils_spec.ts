@@ -10,6 +10,7 @@ import {
   SPARTACUS_EPD_VISUALIZATION,
   SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
+  SPARTACUS_PICKUP_IN_STORE,
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
@@ -136,6 +137,7 @@ describe('Graph utils', () => {
         SPARTACUS_QUALTRICS,
         SPARTACUS_PRODUCT_CONFIGURATOR,
         SPARTACUS_PRODUCT,
+        SPARTACUS_PICKUP_IN_STORE,
         SPARTACUS_ORGANIZATION,
       ]);
     });
@@ -172,6 +174,7 @@ describe('Graph utils', () => {
           "Product-Variants",
           "Image-Zoom",
           "Bulk-Pricing",
+          "Pickup-In-Store",
           "Order-Approval",
           "Administration",
           "ASM",
