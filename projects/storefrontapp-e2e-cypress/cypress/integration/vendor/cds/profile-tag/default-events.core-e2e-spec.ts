@@ -545,7 +545,7 @@ describe('Cart merging on login', () => {
     profileTagHelper.waitForCMSComponents();
   });
 
-  it('should send a CartSnapshot event when the cart got merged after a successful login', () => {
+  it('should send a CartSnapshot event when a cart gets merged after a successful login', () => {
     anonymousConsents.clickAllowAllFromBanner();
     loginHelper.registerUser();
     loginHelper.loginUser();
@@ -570,7 +570,7 @@ describe('Cart merging on login', () => {
     cy.get('cx-add-to-cart button.btn-primary').click();
     verifyCartSnapshotEventNumberOfEntries(cy, 1);
 
-    //login again, merge of carts should occur and a cart snapshot event with to products should be sent
+    //login again, merge of carts should occur and a cart snapshot event with two products should be sent
     cy.visit('/login');
     loginHelper.loginUser();
     cy.wait(`@${loginAlias}`);
