@@ -1,7 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
-import { CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION } from './data/configurator-tab-bar.component.migration';
 import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
 import { GENERATED_CONSTRUCTOR_MIGRATIONS } from './data/generated-constructor.migration';
 import { GENERIC_LINK_COMPONENT_MIGRATION } from './data/generic-link.component.migration';
@@ -22,7 +21,6 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   NOT_AUTH_GUARD_MIGRATION,
   LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,
   LOGIN_GUARD_CONSTRUCTOR_MIGRATION,
-  CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION,
   QUICK_ORDER_SERVICE_MIGRATION,
   QUICK_ORDER_FORM_COMPONENT_MIGRATION,
   SHIPPING_ADDRESS_COMPONENT_MIGRATION,
