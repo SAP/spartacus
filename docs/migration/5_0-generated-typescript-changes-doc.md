@@ -20467,6 +20467,32 @@ constructor(
 ```
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartService,
+  router: Router
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartFacade
+)
+
+```
+
+
 ### Property activeCartService changed.
 
 
@@ -20485,6 +20511,10 @@ activeCartService: ActiveCartFacade
 
 
 ### Property cartValidationInProgress is removed.
+
+
+
+### Property router is removed.
 
 
 

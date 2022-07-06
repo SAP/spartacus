@@ -1,7 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
-import { CART_TOTALS_COMPONENT_MIGRATION } from './data/cart-totals.component.migration';
 import { CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/cdc-logout.guard.migration';
 import { COMPONENT_WRAPPER_DIRECTIVE_MIGRATION } from './data/component-wrapper.directive.migration';
 import { CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT_MIGRATION } from './data/configurator-add-to-cart-button.component.migration';
@@ -32,7 +31,6 @@ import { TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION } from './data/tab-paragrap
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   ...GENERATED_CONSTRUCTOR_MIGRATIONS,
-  CART_TOTALS_COMPONENT_MIGRATION,
   CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT_MIGRATION,
   NOT_AUTH_GUARD_MIGRATION,
   LOGOUT_GUARD_CONSTRUCTOR_MIGRATION,

@@ -93197,7 +93197,7 @@
         "changeKind": "Constructor",
         "changeLabel": "changed",
         "changeElementName": "constructor",
-        "changeElementCategory": "MEMBER",
+        "changeDesc": true,
         "previousStateDoc": "\nconstructor(\n  activeCartService: ActiveCartService\n)\n",
         "currentStateDoc": "\nconstructor(\n  activeCartService: ActiveCartFacade\n)\n",
         "details": {
@@ -93207,7 +93207,6 @@
             {
               "name": "activeCartService",
               "type": "ActiveCartService",
-              "isOptional": false,
               "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
               "shortType": "ActiveCartService",
               "importPath": "@spartacus/core"
@@ -93217,7 +93216,6 @@
             {
               "name": "activeCartService",
               "type": "ActiveCartFacade",
-              "isOptional": false,
               "canonicalReference": "@spartacus/cart_base_components!ActiveCartFacade:class",
               "shortType": "ActiveCartFacade",
               "importPath": "@spartacus/cart/base/root"
@@ -93227,7 +93225,6 @@
             {
               "name": "activeCartService",
               "type": "ActiveCartService",
-              "isOptional": false,
               "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
               "shortType": "ActiveCartService",
               "importPath": "@spartacus/core"
@@ -93237,15 +93234,76 @@
             {
               "name": "activeCartService",
               "type": "ActiveCartFacade",
-              "isOptional": false,
               "canonicalReference": "@spartacus/cart_base_components!ActiveCartFacade:class",
               "shortType": "ActiveCartFacade",
               "importPath": "@spartacus/cart/base/root"
             }
           ]
-        },
-        "topLevelApiElementName": "CartTotalsComponent",
-        "entryPoint": "@spartacus/storefront"
+        }
+      },
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeDesc": true,
+        "previousStateDoc": "\nconstructor(\n  activeCartService: ActiveCartService,\n  router: Router\n)\n",
+        "currentStateDoc": "\nconstructor(\n  activeCartService: ActiveCartFacade\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "router",
+              "type": "Router",
+              "canonicalReference": "@angular/router!Router:class",
+              "shortType": "Router",
+              "importPath": "@angular/router"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartFacade",
+              "canonicalReference": "@spartacus/cart_base_components!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "router",
+              "type": "Router",
+              "canonicalReference": "@angular/router!Router:class",
+              "shortType": "Router",
+              "importPath": "@angular/router"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartFacade",
+              "canonicalReference": "@spartacus/cart_base_components!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            }
+          ]
+        }
       },
       {
         "change": "PROPERTY_CHANGED",
@@ -93278,6 +93336,26 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Property 'cartValidationInProgress' was removed from Class 'CartTotalsComponent'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "CartTotalsComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "router",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "router",
+          "type": "Router"
+        },
+        "apiElementName": "CartTotalsComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'router' was removed from Class 'CartTotalsComponent'.",
         "migrationComment": "",
         "topLevelApiElementName": "CartTotalsComponent"
       },
