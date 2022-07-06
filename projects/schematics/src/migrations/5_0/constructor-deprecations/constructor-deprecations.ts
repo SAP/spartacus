@@ -3,7 +3,6 @@ import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
 import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
 import { GENERATED_CONSTRUCTOR_MIGRATIONS } from './data/generated-constructor.migration';
-import { GENERIC_LINK_COMPONENT_MIGRATION } from './data/generic-link.component.migration';
 import { INNER_COMPONENTS_HOST_DIRECTIVE_MIGRATION } from './data/inner-components-host.directive.migration';
 import { LOGIN_GUARD_CONSTRUCTOR_MIGRATION } from './data/login.guard.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
@@ -30,7 +29,6 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   FORM_ERRORS_COMPONENT_MIGRATION,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION,
   INNER_COMPONENTS_HOST_DIRECTIVE_MIGRATION,
-  GENERIC_LINK_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
