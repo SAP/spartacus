@@ -7,6 +7,7 @@ import {
   AccountSummaryRootModule,
   ACCOUNT_SUMMARY_FEATURE
 } from '@spartacus/organization/account-summary/root';
+// DUMMY CHANGE FOR TESTING
 
 @NgModule({
   declarations: [],
