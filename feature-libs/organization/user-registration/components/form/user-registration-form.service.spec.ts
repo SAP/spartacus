@@ -51,6 +51,7 @@ describe('UserRegistrationFormService', () => {
   let service: UserRegistrationFormService;
   let userAddressService: UserAddressService;
   let userRegisterFacade: UserRegisterFacade;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -86,6 +87,7 @@ describe('UserRegistrationFormService', () => {
     service = TestBed.inject(UserRegistrationFormService);
     userAddressService = TestBed.inject(UserAddressService);
     userRegisterFacade = TestBed.inject(UserRegisterFacade);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should inject service', () => {
@@ -125,6 +127,7 @@ describe('UserRegistrationFormService', () => {
     service.getTitles().subscribe().unsubscribe();
     expect(userRegisterFacade.getTitles).toHaveBeenCalled();
   });
+
   it('should get countries from `userAddressService`', () => {
     service.getCountries().subscribe().unsubscribe();
     expect(userAddressService.getDeliveryCountries).toHaveBeenCalled();
@@ -150,5 +153,15 @@ describe('UserRegistrationFormService', () => {
         `userRegistrationForm.messageToApproverTemplate+00000000000,Test St.,1/2,,US-AZ,1234,US,Message!`
       )
     );
+  });
+
+  it('should redirect to login page', () => {
+    spyOn(routingService, 'go').and.callThrough();
+
+    service.registerUser(service.form).subscribe().unsubscribe();
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'login',
+    });
   });
 });
