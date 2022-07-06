@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartService } from '@spartacus/cart/base/core';
+import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import { Product, ProductService, UserIdService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 import { BundleService } from '../facade/bundle.service';
 import { BundleProductScope } from '../model';
 import { BundleTemplate } from '../model/bundle-template.model';
@@ -18,7 +19,8 @@ export class CartBundleService {
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected bundleService: BundleService,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected multiCartService: MultiCartFacade
   ) {}
 
   getBundleTemplates(
@@ -57,7 +59,7 @@ export class CartBundleService {
         if (cart.code) {
           this.bundleService.startBundle(cart.code, userId, starter);
         }
-        });
+      });
 
     return newCart.asObservable();
   }
