@@ -66,7 +66,7 @@ import { EpdVisualizationFeatureModule } from './features/epd-visualization/epd-
 import { OrderFeatureModule } from './features/order/order-feature.module';
 import { AdministrationFeatureModule } from './features/organization/organization-administration-feature.module';
 import { OrderApprovalFeatureModule } from './features/organization/organization-order-approval-feature.module';
-import { PickupInStoreFeatureModule } from './features/pickup-in-store-feature.module';
+import { PickupInStoreFeatureModule } from './features/pickup-in-store/pickup-in-store-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator/product-configurator-textfield-feature.module';
 import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';

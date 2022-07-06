@@ -1,4 +1,4 @@
-/// <reference types="jest" />
+// /// <reference types="jest" />
 
 import {
   SchematicTestRunner,
@@ -10,29 +10,31 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_PICKUP_IN_STORE_FEATURE,
+  cartBaseFeatureModulePath,
   LibraryOptions as SpartacusPickupInStoreOptions,
+  pickupInStoreFeatureModulePath,
+  PICKUP_IN_STORE_FEATURE_NAME,
   SpartacusOptions,
+  SPARTACUS_PICKUP_IN_STORE,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { minVersion } from 'semver';
-import { devDependencies } from '../../../../package.json';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/pickup-in-store/pickup-in-store-feature.module.ts';
-const scssFilePath = 'src/styles/spartacus/pickup-in-store.scss';
+const scssFilePath = 'src/styles/spartacus/order.scss';
 
-describe('Spartacus Pickup in Store schematics: ng-add', () => {
-  const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+describe('Spartacus Order schematics: ng-add', () => {
+  const schematicRunner = new SchematicTestRunner(
+    SPARTACUS_PICKUP_IN_STORE,
+    collectionPath
+  );
 
   let appTree: UnitTestTree;
 
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
-    version: devDependencies['@angular/cli'],
+    version: '0.5.0',
   };
 
   const appOptions: ApplicationOptions = {
@@ -57,9 +59,9 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
     features: [],
   };
 
-  const pickupInStoreFeatureOptions: SpartacusPickupInStoreOptions = {
+  const orderFeatureOptions: SpartacusPickupInStoreOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PICKUP_IN_STORE_FEATURE],
+    features: [PICKUP_IN_STORE_FEATURE_NAME],
   };
 
   beforeEach(async () => {
@@ -96,20 +98,23 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
+        .runSchematicAsync(
+          'ng-add',
+          { ...libraryNoFeaturesOptions, features: [] },
+          appTree
+        )
         .toPromise();
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(pickupInStoreFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
       const packageJson = JSON.parse(appTree.readContent('package.json'));
-      let dependencies: Record<string, string> = {
-        ...packageJson.dependencies,
-        ...packageJson.devDependencies,
-      };
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...dependencies, ...packageJson.devDependencies };
 
       for (const toAdd in peerDependencies) {
         // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
@@ -119,29 +124,41 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
         ) {
           continue;
         }
-        const expectedVersion = (peerDependencies as Record<string, string>)[
-          toAdd
-        ];
+        // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+        // const expectedVersion = (peerDependencies as Record<
+        //   string,
+        //   string
+        // >)[toAdd];
         const expectedDependency = dependencies[toAdd];
-        expect(expectedDependency).toBeDefined();
-        expect(minVersion(expectedDependency)).toEqual(
-          minVersion(expectedVersion)
-        );
+        expect(expectedDependency).toBeTruthy();
+        // expect(expectedDependency).toEqual(expectedVersion);
       }
     });
   });
 
-  describe('Pickup in Store feature', () => {
+  describe('Order feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', pickupInStoreFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', orderFeatureOptions, appTree)
           .toPromise();
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(pickupInStoreFeatureModulePath);
         expect(module).toMatchSnapshot();
+      });
+
+      it('should NOT install the required feature dependencies', async () => {
+        const baseCartFeatureModule = appTree.readContent(
+          cartBaseFeatureModulePath
+        );
+        expect(baseCartFeatureModule).toBeFalsy();
+
+        const userFeatureModule = appTree.readContent(
+          pickupInStoreFeatureModulePath
+        );
+        expect(userFeatureModule).toBeFalsy();
       });
 
       describe('styling', () => {
@@ -162,17 +179,14 @@ describe('Spartacus Pickup in Store schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            {
-              ...pickupInStoreFeatureOptions,
-              lazy: false,
-            },
+            { ...orderFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(pickupInStoreFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
