@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18nModule, provideDefaultConfig, provideDefaultConfigFactory, UrlModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { ListModule } from 'feature-libs/organization/administration/components/shared/list/list.module';
+import { ListModule } from '@spartacus/organization/administration/components';
 import { AccountSummaryListComponent } from './account-summary-list.component';
 import { accountSummaryListCmsConfig, unitsTableConfigFactory } from './account-summary-list.config';
 

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+// import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BaseSiteService, RoutingService, UserIdService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -29,7 +29,7 @@ export class AccountSummaryDetailsService {
 
   }
 
-  getAccountSummaryData(unitCode: string) {
-    //TODO - incomplete
-  }
+  // getAccountSummaryData(unitCode: string) {
+  //   //TODO - incomplete
+  // }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { ColDef, GridReadyEvent } from 'ag-grid-community';
-import { AccountSummaryDetailsService } from '../../../services/account-summary-details.service';
+// import { AccountSummaryDetailsService } from '../../../services/account-summary-details.service';
 
 @Component({
   selector: 'cx-account-summary-document',
@@ -44,8 +44,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
   }
 
   constructor(
-    private routingService: RoutingService,
-    private accountSummaryDetailsService: AccountSummaryDetailsService) {
+    private routingService: RoutingService) {
     this.routingService.getRouterState().subscribe((value) => {
       const urlArr = value.state.url.split('/');
       this.baseSiteId = urlArr[0];
@@ -54,9 +53,9 @@ export class AccountSummaryDocumentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.accountSummaryDetailsService.getAccountSummary(this.currentUnitCode).subscribe((response: any) => {
-      this.res = response;
-    });
+    // this.accountSummaryDetailsService.getAccountSummary(this.currentUnitCode).subscribe((response: any) => {
+    //   this.res = response;
+    // });
   }
 
 

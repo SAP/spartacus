@@ -2,7 +2,7 @@ import { AuthGuard, CmsConfig } from "@spartacus/core";
 import { OrganizationTableType } from "@spartacus/organization/administration/components";
 import { ROUTE_PARAMS } from "@spartacus/organization/administration/root";
 import { BREAKPOINT, TableConfig, TableLayout } from "@spartacus/storefront";
-import { AdminGuard } from "feature-libs/organization/administration/core/guards/admin.guard";
+import { AdminGuard } from "@spartacus/organization/administration/core";
 import { AccountSummaryCellLinkComponent } from "../cell-link/account-summary-cell-link.component";
 import { AccountSummaryDocumentComponent } from "../details/account-summary-document/account-summary-document.component";
 import { AccountSummaryListComponent } from "./account-summary-list.component";

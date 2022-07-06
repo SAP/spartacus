@@ -120,6 +120,15 @@
         "../../dist/organization/administration/root"
       ],
       "@spartacus/organization": ["../../dist/organization"],
+      "@spartacus/organization/account-summary/assets": [
+        "../../dist/organization/account-summary/assets"
+      ],
+      "@spartacus/organization/account-summary": [
+        "../../dist/organization/account-summary"
+      ],
+      "@spartacus/organization/account-summary/root": [
+        "../../dist/organization/account-summary/root"
+      ],
       "@spartacus/organization/order-approval/assets": [
         "../../dist/organization/order-approval/assets"
       ],

@@ -1,13 +1,14 @@
-import { StateUtils } from '@spartacus/core';
+import { ListModel, StateUtils } from '@spartacus/core';
+import { AccountSummary } from '../../model/account-summary';
 import { AccountSummaryActions } from '../actions';
 
-export const accountSummaryInitialState = undefined;
-export const accountSummarysInitialState = undefined;
+export const accountSummaryInitialState: AccountSummary | undefined = undefined;
+export const accountSummarysInitialState: ListModel | undefined = undefined;
 
 export function accountSummaryEntitiesReducer(
   state = accountSummaryInitialState,
   action: StateUtils.LoaderAction
-): any {
+): AccountSummary | undefined {
   switch (action.type) {
     case AccountSummaryActions.LOAD_ACCOUNT_SUMMARY:
       console.log("ACCOUNT SUMMARY LOADED");
@@ -18,7 +19,7 @@ export function accountSummaryEntitiesReducer(
 export function accountSummaryListReducer(
   state = accountSummarysInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case AccountSummaryActions.LOAD_ACCOUNT_SUMMARY_SUCCESS:
       console.log("ACCOUNT SUMMARY LOAD SUCCESS");

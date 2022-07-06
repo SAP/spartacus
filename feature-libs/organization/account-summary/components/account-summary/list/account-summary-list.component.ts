@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ItemService, ListService } from '@spartacus/organization/administration/components';
-import { UnitTreeService } from 'feature-libs/organization/administration/components/unit/services/unit-tree.service';
+import { UnitTreeService } from '@spartacus/organization/administration/components';
 import { AccountSummaryItemService } from '../../services/account-summary-item.service';
 import { AccountSummaryListService } from '../../services/account-summary-list.service';
 

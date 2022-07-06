@@ -1,5 +1,5 @@
 import { StateUtils } from '@spartacus/core';
-import { ACCOUNT_SUMMARY_ENTITIES } from 'feature-libs/organization/administration/core/store/organization-state';
+import { ACCOUNT_SUMMARY_ENTITIES } from '../account-summary-state';
 
 export const LOAD_ACCOUNT_SUMMARY = '[AccountSummary] Load Account Summary';
 export const LOAD_ACCOUNT_SUMMARY_FAIL = '[AccountSummary] Load Account Summary Data Fail';
@@ -35,4 +35,3 @@ export type AccountSummaryAction =
   | LoadAccountSummary
   | LoadAccountSummaryFail
   | LoadAccountSummarySuccess;
-
