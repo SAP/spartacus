@@ -3,7 +3,6 @@ import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
 import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
 import { GENERATED_CONSTRUCTOR_MIGRATIONS } from './data/generated-constructor.migration';
-import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
 import { NOT_AUTH_GUARD_MIGRATION } from './data/not-auth.guard.migration';
 import { PAGE_LAYOUT_SERVICE_MIGRATION } from './data/page-layout.service.migration';
 import { PARAGRAPH_COMPONENT_MIGRATION } from './data/paragraph.component.migration';
@@ -18,7 +17,6 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   QUICK_ORDER_SERVICE_MIGRATION,
   QUICK_ORDER_FORM_COMPONENT_MIGRATION,
   SHIPPING_ADDRESS_COMPONENT_MIGRATION,
-  NAVIGATION_UI_COMPONENT_MIGRATION,
   PAGE_LAYOUT_SERVICE_MIGRATION,
   PARAGRAPH_COMPONENT_MIGRATION,
   FORM_ERRORS_COMPONENT_MIGRATION,
