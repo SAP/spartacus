@@ -6,7 +6,7 @@ import {
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { CardType, Cart, PaymentDetails } from '@spartacus/cart/base/root';
 import {
-  CARD_TYPE_NORMALIZER,
+  PAYMENT_CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/base/core';
 import {
@@ -835,7 +835,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     });
   });
 
-  describe(`getCardTypes`, () => {
+  describe(`getPaymentCardTypes`, () => {
     const cardTypesList: Occ.CardTypeList = {
       cardTypes: [
         {
@@ -851,7 +851,7 @@ describe('OccCheckoutPaymentAdapter', () => {
 
     it(`should return cardTypes`, (done) => {
       service
-        .getCardTypes()
+        .getPaymentCardTypes()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(cardTypesList.cardTypes);
@@ -869,13 +869,15 @@ describe('OccCheckoutPaymentAdapter', () => {
 
     it(`should use converter`, (done) => {
       service
-        .getCardTypes()
+        .getPaymentCardTypes()
         .pipe(take(1))
         .subscribe(() => {
           done();
         });
       httpMock.expectOne('cardtypes').flush({});
-      expect(converter.pipeableMany).toHaveBeenCalledWith(CARD_TYPE_NORMALIZER);
+      expect(converter.pipeableMany).toHaveBeenCalledWith(
+        PAYMENT_CARD_TYPE_NORMALIZER
+      );
     });
 
     describe(`back-off`, () => {
@@ -884,7 +886,7 @@ describe('OccCheckoutPaymentAdapter', () => {
 
         let result: HttpErrorModel | undefined;
         const subscription = service
-          .getCardTypes()
+          .getPaymentCardTypes()
           .pipe(take(1))
           .subscribe({ error: (err) => (result = err) });
 
@@ -910,7 +912,7 @@ describe('OccCheckoutPaymentAdapter', () => {
 
         let result: CardType[] | undefined;
         const subscription = service
-          .getCardTypes()
+          .getPaymentCardTypes()
           .pipe(take(1))
           .subscribe((res) => {
             result = res;

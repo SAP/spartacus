@@ -27,7 +27,10 @@ export class InterceptorUtil {
     return request.clone({ headers: updatedHeaders });
   }
 
-  static getInterceptorParam<T>(headerName: string, headers: HttpHeaders): T {
+  static getInterceptorParam<T>(
+    headerName: string,
+    headers: HttpHeaders
+  ): T | undefined {
     const rawValue = headers.get(headerName);
     if (rawValue) {
       return JSON.parse(rawValue);

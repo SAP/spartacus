@@ -13,8 +13,8 @@ import {
   StateUtils,
   StateWithProcess,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, EMPTY, Observable, queueScheduler } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -40,7 +40,7 @@ export class SavedCartService implements SavedCartFacade {
   constructor(
     protected store: Store<StateWithMultiCart | StateWithProcess<void>>,
     protected userIdService: UserIdService,
-    protected userService: UserService,
+    protected userAccountFacade: UserAccountFacade,
     protected multiCartService: MultiCartFacade,
     protected eventService: EventService
   ) {}
@@ -153,7 +153,7 @@ export class SavedCartService implements SavedCartFacade {
   getSavedCartList(): Observable<Cart[]> {
     return combineLatest([
       this.multiCartService.getCarts(),
-      this.userService.get(),
+      this.userAccountFacade.get(),
     ]).pipe(
       distinctUntilChanged(),
       map(([carts, user]) =>

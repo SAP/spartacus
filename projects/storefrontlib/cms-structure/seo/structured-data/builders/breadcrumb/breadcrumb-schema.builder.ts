@@ -13,10 +13,10 @@ export class BreadcrumbSchemaBuilder implements SchemaBuilder {
   build(): Observable<any> {
     return this.pageMetaService
       .getMeta()
-      .pipe(map((pageMeta: PageMeta) => this.collect(pageMeta)));
+      .pipe(map((pageMeta: PageMeta | null) => this.collect(pageMeta)));
   }
 
-  protected collect(pageMeta: PageMeta): any {
+  protected collect(pageMeta: PageMeta | null): any {
     if (!pageMeta?.breadcrumbs) {
       return;
     }

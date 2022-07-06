@@ -4,7 +4,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import { ObjectComparisonUtils } from '../../../util/object-comparison-utils';
-import { defaultGlobalMessageConfigFactory } from '../../config/default-global-message-config';
+import { defaultGlobalMessageConfig } from '../../config/default-global-message-config';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import {
   GlobalMessage,
@@ -59,7 +59,7 @@ describe('GlobalMessage Effects', () => {
         fromEffects.GlobalMessageEffect,
         {
           provide: GlobalMessageConfig,
-          useValue: defaultGlobalMessageConfigFactory(),
+          useValue: defaultGlobalMessageConfig,
         },
       ],
     });

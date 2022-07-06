@@ -7,7 +7,12 @@
       </div>
 
       <ng-container
-        *ngIf="couponResult.pagination.totalCount > 0; else noCoupons"
+        *ngIf="
+          couponResult.pagination &&
+            couponResult.pagination.totalCount &&
+            couponResult.pagination.totalCount > 0;
+          else noCoupons
+        "
       >
         <div class="cx-my-coupons-sort top row">
           <label
