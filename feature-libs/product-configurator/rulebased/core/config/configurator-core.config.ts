@@ -12,5 +12,3 @@ export interface ProductConfiguratorCoreConfig {
 export abstract class ConfiguratorCoreConfig {
   productConfigurator?: ProductConfiguratorCoreConfig;
 }
-
- 
