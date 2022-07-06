@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
-import { filter, first, switchMap, take } from 'rxjs/operators';
 import {
   LoadStatus,
   UserGroup,
 } from '@spartacus/organization/administration/core';
+import { filter, first, switchMap, take } from 'rxjs/operators';
 import { ListService } from '../../shared/list/list.service';
+import { SubListComponent } from '../../shared/sub-list/sub-list.component';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import { SubListComponent } from '../../shared/sub-list/sub-list.component';
 
 @Component({
   selector: 'cx-org-user-group-user-list',
@@ -46,7 +46,7 @@ export class UserGroupUserListComponent {
       });
   }
 
-  protected notify(item: UserGroup) {
+  protected notify(item: UserGroup | undefined) {
     this.subList.messageService.add({
       message: {
         key: `orgUserGroupUsers.unassignAllConfirmation`,

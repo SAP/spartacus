@@ -70,7 +70,7 @@ cx-order-detail-permission-results {
       text-transform: uppercase;
       color: var(--cx-color-secondary);
 
-      @include media-breakpoint-up(md) {
+      @include media-breakpoint-up(lg) {
         display: none;
       }
 

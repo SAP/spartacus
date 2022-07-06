@@ -62,7 +62,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@latest
+        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for Spartacus libs
@@ -89,7 +89,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@latest
+        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for integration libs
@@ -97,7 +97,7 @@ jobs:
           ci-scripts/unit-tests.sh
   linting:
     needs: no_retries
-    name: Validation checks
+    name: Validations and static code checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -116,7 +116,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@latest
+        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run linting validation
@@ -297,4 +297,4 @@ jobs:
           needs.build_conclusion.result == 'failure' &&
           github.event_name == 'push' && 
           github.ref_name == 'develop'
-        
+

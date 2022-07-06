@@ -1,5 +1,6 @@
 import { Directive, OnDestroy, OnInit } from '@angular/core';
 import { GlobalMessageType } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ItemService } from './item.service';
 import { MessageService } from './message/services/message.service';
@@ -9,7 +10,7 @@ import { BaseItem } from './organization.model';
   selector: '[cxOrgItemExists]',
 })
 export class ItemExistsDirective<T = BaseItem> implements OnInit, OnDestroy {
-  protected subscription;
+  protected subscription: Subscription;
 
   constructor(
     protected itemService: ItemService<T>,

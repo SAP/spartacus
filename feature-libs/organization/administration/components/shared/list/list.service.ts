@@ -90,7 +90,7 @@ export abstract class ListService<T, P = PaginationModel> {
    * The load method is streamed from the `pagination$` stream, which is initialized
    * with default pagination and structure drive properties.
    */
-  getData(...args: any): Observable<EntitiesModel<T>> {
+  getData(...args: any): Observable<EntitiesModel<T> | undefined> {
     return this.pagination$.pipe(
       // we merge any configured pagination from the table structure
       switchMap((pagination) =>
@@ -140,7 +140,7 @@ export abstract class ListService<T, P = PaginationModel> {
    * while sorting and paginating, where as the initial loading state
    * only happens at the very first load.
    */
-  hasGhostData(data: EntitiesModel<T>): boolean {
+  hasGhostData(data: EntitiesModel<T> | undefined): boolean {
     return data === this.ghostData;
   }
 
@@ -151,5 +151,5 @@ export abstract class ListService<T, P = PaginationModel> {
   protected abstract load(
     pagination: PaginationModel,
     ...args: any
-  ): Observable<EntitiesModel<T>>;
+  ): Observable<EntitiesModel<T> | undefined>;
 }

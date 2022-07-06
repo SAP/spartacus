@@ -8,8 +8,8 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   UserIdService,
-  UserService,
 } from '@spartacus/core';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { TokenResponse } from 'angular-oauth2-oidc';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -34,7 +34,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   }
 }
 
-class MockUserService implements Partial<UserService> {
+class MockUserProfileFacade implements Partial<UserProfileFacade> {
   get() {
     return of({});
   }
@@ -47,7 +47,7 @@ describe('CsAgentAuthService', () => {
   let authService: AuthService;
   let asmAuthStorageService: AsmAuthStorageService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
-  let userService: UserService;
+  let userProfileFacade: UserProfileFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,7 +63,7 @@ describe('CsAgentAuthService', () => {
           provide: OAuthLibWrapperService,
           useClass: MockOAuthLibWrapperService,
         },
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
       ],
     });
 
@@ -72,7 +72,7 @@ describe('CsAgentAuthService', () => {
     authService = TestBed.inject(AuthService);
     asmAuthStorageService = TestBed.inject(AsmAuthStorageService);
     oAuthLibWrapperService = TestBed.inject(OAuthLibWrapperService);
-    userService = TestBed.inject(UserService);
+    userProfileFacade = TestBed.inject(UserProfileFacade);
     store = TestBed.inject(Store);
   });
 
@@ -117,7 +117,9 @@ describe('CsAgentAuthService', () => {
       ).and.callThrough();
       spyOn(userIdService, 'setUserId').and.callThrough();
       spyOn(asmAuthStorageService, 'setEmulatedUserToken').and.callThrough();
-      spyOn(userService, 'get').and.returnValue(of({ customerId: 'custId' }));
+      spyOn(userProfileFacade, 'get').and.returnValue(
+        of({ customerId: 'custId' })
+      );
       asmAuthStorageService.setToken({ access_token: 'token' } as AuthToken);
 
       await service.authorizeCustomerSupportAgent('testUser', 'testPass');

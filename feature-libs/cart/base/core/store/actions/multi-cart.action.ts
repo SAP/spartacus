@@ -13,11 +13,9 @@ export const CLEAR_CART_STATE = '[Cart] Clear Cart State';
 export const SET_CART_TYPE_INDEX = '[Cart] Set cart type index';
 export const SET_CART_DATA = '[Cart] Set cart data';
 
-// TODO(#7241): Remove when there won't be any usage
 /**
  * Increases process counter on cart entities
  * All actions that cause computations on cart should extend EntityProcessesIncrementAction instead of dispatching this action.
- * @deprecated since 2.0
  */
 export class CartProcessesIncrement extends StateUtils.EntityProcessesIncrementAction {
   readonly type = CART_PROCESSES_INCREMENT;
@@ -26,11 +24,9 @@ export class CartProcessesIncrement extends StateUtils.EntityProcessesIncrementA
   }
 }
 
-// TODO(#7241): Remove when there won't be any usage
 /**
  * Decrement process counter on cart entities
  * All actions that cause computations on cart should extend EntityProcessesDecrementAction instead of dispatching this action.
- * @deprecated since 2.0
  */
 export class CartProcessesDecrement extends StateUtils.EntityProcessesDecrementAction {
   readonly type = CART_PROCESSES_DECREMENT;
