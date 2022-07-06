@@ -93197,7 +93197,7 @@
         "changeKind": "Constructor",
         "changeLabel": "changed",
         "changeElementName": "constructor",
-        "changeDesc": true,
+        "changeElementCategory": "MEMBER",
         "previousStateDoc": "\nconstructor(\n  activeCartService: ActiveCartService\n)\n",
         "currentStateDoc": "\nconstructor(\n  activeCartService: ActiveCartFacade\n)\n",
         "details": {
@@ -93207,6 +93207,7 @@
             {
               "name": "activeCartService",
               "type": "ActiveCartService",
+              "isOptional": false,
               "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
               "shortType": "ActiveCartService",
               "importPath": "@spartacus/core"
@@ -93216,6 +93217,7 @@
             {
               "name": "activeCartService",
               "type": "ActiveCartFacade",
+              "isOptional": false,
               "canonicalReference": "@spartacus/cart_base_components!ActiveCartFacade:class",
               "shortType": "ActiveCartFacade",
               "importPath": "@spartacus/cart/base/root"
@@ -93225,6 +93227,7 @@
             {
               "name": "activeCartService",
               "type": "ActiveCartService",
+              "isOptional": false,
               "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
               "shortType": "ActiveCartService",
               "importPath": "@spartacus/core"
@@ -93234,12 +93237,15 @@
             {
               "name": "activeCartService",
               "type": "ActiveCartFacade",
+              "isOptional": false,
               "canonicalReference": "@spartacus/cart_base_components!ActiveCartFacade:class",
               "shortType": "ActiveCartFacade",
               "importPath": "@spartacus/cart/base/root"
             }
           ]
-        }
+        },
+        "topLevelApiElementName": "CartTotalsComponent",
+        "entryPoint": "@spartacus/storefront"
       },
       {
         "change": "CONSTRUCTOR_CHANGED",
