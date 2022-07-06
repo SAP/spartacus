@@ -20835,6 +20835,23 @@ constructor(
 ```
 
 
+### Property cmpRef changed.
+
+
+Previous version: 
+
+```
+public
+```
+
+
+Current version: 
+
+```
+`cmpRef` has been made `protected` due to being unsafe.
+```
+
+
 
 
 # Class ConsentManagementFormComponent 

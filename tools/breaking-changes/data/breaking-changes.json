@@ -94796,6 +94796,22 @@
         },
         "topLevelApiElementName": "ComponentWrapperDirective",
         "entryPoint": "@spartacus/storefront"
+      },
+      { "kind": "Property", "name": "cmpRef", "type": "ComponentRef<any>" },
+
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "cmpRef",
+        "changeElementCategory": "MEMBER",
+        "oldType": "ComponentRef<any>",
+        "newType": "ComponentRef<any>",
+        "previousStateDoc": "public",
+        "currentStateDoc": "`cmpRef` has been made `protected` due to being unsafe.",
+        "topLevelApiElementName": "ComponentWrapperDirective",
+        "entryPoint": "@spartacus/storefront"
       }
     ]
   },
