@@ -13,6 +13,7 @@ import {
 } from '@spartacus/order/root';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-order-cancellation-dialog.component';
 
@@ -78,6 +79,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
         declarations: [
           ReplenishmentOrderCancellationDialogComponent,
           MockCxIconComponent,
+          MockFeatureLevelDirective,
         ],
         providers: [
           {
