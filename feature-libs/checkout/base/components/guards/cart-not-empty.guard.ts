@@ -19,7 +19,9 @@ export class CartNotEmptyGuard implements CanActivate {
     return this.activeCartFacade.takeActive().pipe(
       map((cart) => {
         if (this.isEmpty(cart)) {
-          return this.router.parseUrl(this.semanticPathService.get('home'));
+          return this.router.parseUrl(
+            this.semanticPathService.get('home') ?? ''
+          );
         }
         return true;
       })

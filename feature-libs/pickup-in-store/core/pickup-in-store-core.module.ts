@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
-import { facadeProviders } from './facade/facade-providers';
+import { StockConnector } from './connectors/index';
+import { facadeProviders } from './facade/index';
+import { StockStoreModule } from './store';
 
 @NgModule({
-  providers: [...facadeProviders],
+  imports: [StockStoreModule],
+  providers: [StockConnector, ...facadeProviders],
 })
 export class PickupInStoreCoreModule {}

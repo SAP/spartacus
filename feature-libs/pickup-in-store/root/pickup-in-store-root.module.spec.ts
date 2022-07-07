@@ -1,5 +1,9 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import { CmsConfig } from '@spartacus/core';
+
 import {
   PICKUP_IN_STORE_CORE_FEATURE,
   PICKUP_IN_STORE_FEATURE,
@@ -18,7 +22,12 @@ const MockCmsConfig: CmsConfig = {
 describe('PickupInStoreRootModule', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [PickupInStoreRootModule],
+      imports: [
+        StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
+        HttpClientTestingModule,
+        PickupInStoreRootModule,
+      ],
     });
   });
 

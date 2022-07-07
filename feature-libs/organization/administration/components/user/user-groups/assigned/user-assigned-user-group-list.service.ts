@@ -15,7 +15,7 @@ export class UserAssignedUserGroupListService extends UserUserGroupListService {
   protected load(
     pagination: PaginationModel,
     code: string
-  ): Observable<EntitiesModel<UserGroup>> {
+  ): Observable<EntitiesModel<UserGroup> | undefined> {
     return super.load(pagination, code).pipe(
       filter((list) => Boolean(list)),
       map((userGroups) => this.filterSelected(userGroups))

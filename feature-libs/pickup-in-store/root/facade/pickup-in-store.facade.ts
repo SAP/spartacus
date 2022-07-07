@@ -1,11 +1,12 @@
-/* -----
-@Todo - Remove this after adding adding functionalities which will improve code coverage for functions
-------*/
-/*istanbul ignore file*/
-
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
+import {
+  facadeFactory,
+  PointOfServiceStock,
+  StoreFinderStockSearchPage,
+} from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
+import { StockLocationSearchParams } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +14,28 @@ import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
     facadeFactory({
       facade: PickupInStoreFacade,
       feature: PICKUP_IN_STORE_CORE_FEATURE,
-      methods: ['getStore'],
+      methods: [
+        'getStock',
+        'clearStockData',
+        'hideOutOfStock',
+        'getHideOutOfStockState',
+        'getStockLoading',
+        'getStockSuccess',
+        'getSearchHasBeenPerformed',
+        'getStockEntities',
+        'getStores',
+      ],
       async: true,
     }),
 })
 export abstract class PickupInStoreFacade {
-  abstract getStore(): void;
+  abstract getStock(searchParams: StockLocationSearchParams): void;
+  abstract clearStockData(): void;
+  abstract hideOutOfStock(): void;
+  abstract getHideOutOfStockState(): Observable<boolean>;
+  abstract getStockLoading(): Observable<boolean>;
+  abstract getStockSuccess(): Observable<boolean>;
+  abstract getSearchHasBeenPerformed(): Observable<boolean>;
+  abstract getStockEntities(): Observable<StoreFinderStockSearchPage>;
+  abstract getStores(): Observable<PointOfServiceStock[]>;
 }
