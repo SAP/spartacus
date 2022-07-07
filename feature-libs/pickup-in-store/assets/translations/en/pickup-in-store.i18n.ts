@@ -15,6 +15,15 @@ export const store = {
   viewHours: 'View Hours',
 };
 
+export const storeList = {
+  noStoresMessage: 'No stores found in database...',
+};
+
+export const storeSchedule = {
+  closed: 'Closed',
+  storeHours: 'Store hours',
+};
+
 export const storeSearch = {
   findAStore: 'Find a Store',
   findStores: 'Find Stores',
@@ -28,5 +37,7 @@ export const pickupInStore = {
   deliveryOptions,
   pickupInStoreDialog,
   store,
+  storeList,
+  storeSchedule,
   storeSearch,
 };

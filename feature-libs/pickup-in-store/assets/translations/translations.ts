@@ -11,6 +11,8 @@ export const pickupInStoreTranslationChunksConfig: TranslationChunksConfig = {
     'deliveryOptions',
     'pickupInStoreDialog',
     'store',
+    'storeList',
+    'storeSchedule',
     'storeSearch',
   ],
 };

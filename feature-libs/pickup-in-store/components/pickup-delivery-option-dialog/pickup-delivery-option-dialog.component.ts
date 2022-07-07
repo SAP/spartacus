@@ -3,7 +3,6 @@ import {
   LocationSearchParams,
   PickupInStoreFacade,
 } from '@spartacus/pickup-in-store/root';
-import { StoreFinderSearchQuery } from '@spartacus/storefinder/core';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 
@@ -13,7 +12,6 @@ import { Observable } from 'rxjs';
 })
 export class PickupDeliveryOptionDialogComponent implements OnInit {
   productCode: string;
-  storeSearch: StoreFinderSearchQuery;
 
   getHideOutOfStockState$: Observable<boolean>;
 

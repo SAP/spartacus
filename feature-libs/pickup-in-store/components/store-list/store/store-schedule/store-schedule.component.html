@@ -1,6 +1,6 @@
 <div class="cx-store-schedule-container">
   <div class="cx-store-schedule-title">
-    {{ 'storeFinder.storeHours' | cxTranslate }}
+    {{ 'storeSchedule.storeHours' | cxTranslate }}
   </div>
   <div
     class="cx-store-schedule-opening-times"
@@ -10,6 +10,8 @@
     <div *ngIf="!openingTime.closed; else closed">
       {{ openingTime.openingHours }}
     </div>
-    <ng-template #closed>{{ 'storeFinder.closed' | cxTranslate }}</ng-template>
+    <ng-template #closed>{{
+      'storeSchedule.closed' | cxTranslate
+    }}</ng-template>
   </div>
 </div>
