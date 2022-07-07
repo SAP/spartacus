@@ -12,7 +12,7 @@ import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
-import { RoutingService } from '@spartacus/core';
+import { Config, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -45,8 +45,11 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     protected routing: RoutingService,
     protected savedCartService: SavedCartFacade,
     protected vcr: ViewContainerRef,
-    protected launchDialogService: LaunchDialogService
-  ) {}
+    protected launchDialogService: LaunchDialogService,
+    protected config: Config
+  ) {
+    console.log('disabled workflow?');
+  }
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();
