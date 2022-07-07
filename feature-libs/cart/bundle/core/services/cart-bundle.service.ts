@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartService } from '@spartacus/cart/base/core';
-import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
 import { Product, ProductService, UserIdService } from '@spartacus/core';
 import { Observable, of, Subject } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
@@ -16,7 +19,7 @@ export class CartBundleService {
   protected readonly PRODUCT_SCOPE = BundleProductScope.TEMPLATES;
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected bundleService: BundleService,
     protected productService: ProductService,
