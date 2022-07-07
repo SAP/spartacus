@@ -19444,6 +19444,36 @@ suggestedAddressModalRef: ModalRef | null
 
 
 
+# Class FormErrorsComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor()
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  ChangeDetectionRef: ChangeDetectorRef,
+  keyValueDiffers: KeyValueDiffers
+)
+
+```
+
+
+
+
 # Class AddToCartComponent 
 ## @spartacus/storefront
 

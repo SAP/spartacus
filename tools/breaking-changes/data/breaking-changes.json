@@ -88682,6 +88682,49 @@
   {
     "entryPoint": "@spartacus/storefront",
     "kind": "Class",
+    "name": "FormErrorsComponent",
+    "members": [],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor()\n",
+        "currentStateDoc": "\nconstructor(\n  ChangeDetectionRef: ChangeDetectorRef,\n  keyValueDiffers: KeyValueDiffers\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [],
+          "newParams": [
+            {
+              "name": "ChangeDetectionRef",
+              "type": "ChangeDetectorRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ChangeDetectorRef:class",
+              "shortType": "ChangeDetectorRef",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "keyValueDiffers",
+              "type": "KeyValueDiffers",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!KeyValueDiffers:class",
+              "shortType": "KeyValueDiffers",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "FormErrorsComponent",
+        "entryPoint": "@spartacus/storefront"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
     "name": "AddToCartComponent",
     "members": [
       {

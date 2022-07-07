@@ -4789,6 +4789,22 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'FormErrorsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [],
+      removeParams: [],
+      addParams: [
+        {
+          className: 'ChangeDetectorRef',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'KeyValueDiffers',
+          importPath: '@angular/core',
+        },
+      ],
+    },
+    {
       class: 'AddToCartComponent',
       importPath: '@spartacus/storefront',
       deprecatedParams: [
