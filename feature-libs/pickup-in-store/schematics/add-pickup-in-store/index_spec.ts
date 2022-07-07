@@ -22,9 +22,9 @@ import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const scssFilePath = 'src/styles/spartacus/order.scss';
+const scssFilePath = 'src/styles/spartacus/pickup-in-store.scss';
 
-describe('Spartacus Order schematics: ng-add', () => {
+describe('Spartacus Pick up In Store schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner(
     SPARTACUS_PICKUP_IN_STORE,
     collectionPath
@@ -59,7 +59,7 @@ describe('Spartacus Order schematics: ng-add', () => {
     features: [],
   };
 
-  const orderFeatureOptions: SpartacusPickupInStoreOptions = {
+  const pickupInStoreFeatureOptions: SpartacusPickupInStoreOptions = {
     ...libraryNoFeaturesOptions,
     features: [PICKUP_IN_STORE_FEATURE_NAME],
   };
@@ -136,11 +136,11 @@ describe('Spartacus Order schematics: ng-add', () => {
     });
   });
 
-  describe('Order feature', () => {
+  describe('Pick Up In Store feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', orderFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', pickupInStoreFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -179,7 +179,7 @@ describe('Spartacus Order schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...orderFeatureOptions, lazy: false },
+            { ...pickupInStoreFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();

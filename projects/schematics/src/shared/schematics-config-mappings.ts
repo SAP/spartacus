@@ -21,7 +21,7 @@ import {
   ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG,
   ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG,
 } from './lib-configs/organization-schematics-config';
-import { PICKUP_IN_STORE_SCHEMATICS_CONFIG } from './lib-configs/pickupinstore-schematics-config';
+import { PICKUP_IN_STORE_SCHEMATICS_CONFIG } from './lib-configs/pickup-in-store-schematics-config';
 import {
   PRODUCT_CONFIGURATOR_CPQ_SCHEMATICS_CONFIG,
   PRODUCT_CONFIGURATOR_RULEBASED_SCHEMATICS_CONFIG,
