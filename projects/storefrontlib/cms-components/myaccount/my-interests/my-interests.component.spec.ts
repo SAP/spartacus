@@ -23,6 +23,7 @@ import {
 } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from 'feature-libs/product-configurator/common/testing/common-configurator-test-utils.service';
 import { cold, getTestScheduler } from 'jasmine-marbles';
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { LayoutConfig } from '../../../layout/config/layout-config';
 import { MyInterestsComponent } from './my-interests.component';
@@ -213,6 +214,7 @@ describe('MyInterestsComponent', () => {
           MockSpinnerComponent,
           MockPaginationComponent,
           MockSortingComponent,
+          MockFeatureLevelDirective,
         ],
       }).compileComponents();
     })

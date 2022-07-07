@@ -54,9 +54,11 @@
             {{ 'myInterests.item' | cxTranslate }}
           </th>
           <th scope="col">
-            <span class="cx-visually-hidden">
-              {{ 'myInterests.item' | cxTranslate }}
-            </span>
+            <ng-container *cxFeatureLevel="'5.1'">
+              <span class="cx-visually-hidden">
+                {{ 'myInterests.item' | cxTranslate }}
+              </span>
+            </ng-container>
           </th>
           <th scope="col">
             {{ 'myInterests.price' | cxTranslate }}
@@ -65,9 +67,11 @@
             {{ 'myInterests.notifications' | cxTranslate }}
           </th>
           <th scope="col">
-            <span class="cx-visually-hidden">
-              {{ 'myInterests.remove' | cxTranslate }}
-            </span>
+            <ng-container *cxFeatureLevel="'5.1'">
+              <span class="cx-visually-hidden">
+                {{ 'myInterests.remove' | cxTranslate }}
+              </span>
+            </ng-container>
           </th>
         </thead>
         <tbody>

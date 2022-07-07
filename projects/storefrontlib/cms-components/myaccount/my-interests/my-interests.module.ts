@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
@@ -34,6 +35,7 @@ import { MyInterestsComponent } from './my-interests.component';
         data: { cxRoute: 'myInterests' },
       },
     ]),
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
