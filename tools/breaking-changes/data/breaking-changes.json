@@ -2051,6 +2051,98 @@
         "entryPoint": "@spartacus/cart/quick-order/components"
       },
       {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  globalMessageService: GlobalMessageService,\n  quickOrderService: QuickOrderFacade,\n  config: Config,\n  cd: ChangeDetectorRef,\n  winRef: WindowRef\n)\n",
+        "currentStateDoc": "\nconstructor(\n  config: Config,\n  cd: ChangeDetectorRef,\n  quickOrderService: QuickOrderFacade,\n  winRef: WindowRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "quickOrderService",
+              "type": "QuickOrderFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!QuickOrderFacade:class",
+              "shortType": "QuickOrderFacade",
+              "importPath": "@spartacus/cart/quick-order/root"
+            },
+            {
+              "name": "config",
+              "type": "Config",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!Config:class",
+              "shortType": "Config",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "cd",
+              "type": "ChangeDetectorRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ChangeDetectorRef:class",
+              "shortType": "ChangeDetectorRef",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "config",
+              "type": "Config",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!Config:class",
+              "shortType": "Config",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "cd",
+              "type": "ChangeDetectorRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ChangeDetectorRef:class",
+              "shortType": "ChangeDetectorRef",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "quickOrderService",
+              "type": "QuickOrderFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!QuickOrderFacade:class",
+              "shortType": "QuickOrderFacade",
+              "importPath": "@spartacus/cart/quick-order/root"
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "QuickOrderFormComponent",
+        "entryPoint": "@spartacus/cart/quick-order/components"
+      },
+      {
         "change": "PROPERTY_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Property",

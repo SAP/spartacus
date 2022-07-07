@@ -276,6 +276,38 @@ constructor(
 ```
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  globalMessageService: GlobalMessageService,
+  quickOrderService: QuickOrderFacade,
+  config: Config,
+  cd: ChangeDetectorRef,
+  winRef: WindowRef
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  config: Config,
+  cd: ChangeDetectorRef,
+  quickOrderService: QuickOrderFacade,
+  winRef: WindowRef
+)
+
+```
+
+
 ### Property cd changed.
 
 

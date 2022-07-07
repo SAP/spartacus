@@ -3,11 +3,9 @@ import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
 import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
 import { GENERATED_CONSTRUCTOR_MIGRATIONS } from './data/generated-constructor.migration';
-import { QUICK_ORDER_FORM_COMPONENT_MIGRATION } from './data/quick-order-form.component.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   ...GENERATED_CONSTRUCTOR_MIGRATIONS,
-  QUICK_ORDER_FORM_COMPONENT_MIGRATION,
   FORM_ERRORS_COMPONENT_MIGRATION,
 ];
 
