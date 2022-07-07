@@ -59,9 +59,11 @@
               <th scope="col">
                 {{ 'orderHistory.orderId' | cxTranslate }}
               </th>
-              <th scope="col" *ngIf="hasPONumber">
-                {{ 'orderHistory.PONumber' | cxTranslate }}
-              </th>
+              <ng-container *cxFeatureLevel="'5.1'">
+                <th scope="col" *ngIf="hasPONumber">
+                  {{ 'orderHistory.PONumber' | cxTranslate }}
+                </th>
+              </ng-container>
               <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
               <th scope="col">
                 {{ 'orderHistory.status' | cxTranslate }}
@@ -89,22 +91,24 @@
                     {{ order?.code }}</a
                   >
                 </td>
-                <td class="cx-order-history-placed" *ngIf="hasPONumber">
-                  <div class="cx-order-history-label">
-                    {{ 'orderHistory.PONumber' | cxTranslate }}
-                  </div>
-                  <a
-                    [routerLink]="
-                      {
-                        cxRoute: 'orderDetails',
-                        params: order
-                      } | cxUrl
-                    "
-                    class="cx-order-history-value"
-                  >
-                    {{ order.purchaseOrderNumber }}</a
-                  >
-                </td>
+                <ng-container *cxFeatureLevel="'5.1'">
+                  <td class="cx-order-history-placed" *ngIf="hasPONumber">
+                    <div class="cx-order-history-label">
+                      {{ 'orderHistory.PONumber' | cxTranslate }}
+                    </div>
+                    <a
+                      [routerLink]="
+                        {
+                          cxRoute: 'orderDetails',
+                          params: order
+                        } | cxUrl
+                      "
+                      class="cx-order-history-value"
+                    >
+                      {{ order.purchaseOrderNumber }}</a
+                    >
+                  </td>
+                </ng-container>
                 <td class="cx-order-history-placed">
                   <div class="cx-order-history-label">
                     {{ 'orderHistory.date' | cxTranslate }}

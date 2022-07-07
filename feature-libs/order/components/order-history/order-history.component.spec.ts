@@ -1,10 +1,13 @@
 import {
   Component,
+  Directive,
   EventEmitter,
   Input,
   Output,
   Pipe,
   PipeTransform,
+  TemplateRef,
+  ViewContainerRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -141,6 +144,20 @@ class MockReplenishmentOrderHistoryFacade
   }
 }
 
+@Directive({
+  selector: '[cxFeatureLevel]',
+})
+export class MockFeatureLevelDirective {
+  constructor(
+    protected templateRef: TemplateRef<any>,
+    protected viewContainer: ViewContainerRef
+  ) {}
+
+  @Input() set cxFeatureLevel(_feature: string | number) {
+    this.viewContainer.createEmbeddedView(this.templateRef);
+  }
+}
+
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
@@ -156,6 +173,7 @@ describe('OrderHistoryComponent', () => {
           MockUrlPipe,
           MockPaginationComponent,
           MockSortingComponent,
+          MockFeatureLevelDirective,
         ],
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
