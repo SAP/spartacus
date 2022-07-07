@@ -75,7 +75,6 @@ describe('CheckoutOnePaymentTypeComponent', () => {
   let component: CheckoutPaymentTypeComponent;
   let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
 
-  // let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(
@@ -96,9 +95,6 @@ describe('CheckoutOnePaymentTypeComponent', () => {
         ],
       }).compileComponents();
 
-      // checkoutPaymentTypeFacade = TestBed.inject(
-      //   CheckoutPaymentTypeFacade as Type<CheckoutPaymentTypeFacade>
-      // );
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
