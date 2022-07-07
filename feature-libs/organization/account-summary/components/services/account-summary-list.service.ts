@@ -3,7 +3,6 @@ import { OrganizationTableType, UnitItemService, UnitListService } from '@sparta
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { UnitTreeService } from '@spartacus/organization/administration/components';
-
 @Injectable({
   providedIn: 'root'
 })

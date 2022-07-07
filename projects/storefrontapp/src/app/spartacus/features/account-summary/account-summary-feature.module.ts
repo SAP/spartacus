@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
-import {
-  accountSummaryTranslationChunksConfig, accountSummaryTranslations
-} from '@spartacus/organization/account-summary/assets';
+import { accountSummaryTranslationChunksConfig, accountSummaryTranslations } from '@spartacus/organization/account-summary/assets';
 import {
   AccountSummaryRootModule,
   ACCOUNT_SUMMARY_FEATURE

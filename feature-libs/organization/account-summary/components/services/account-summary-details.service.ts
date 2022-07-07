@@ -29,7 +29,6 @@ export class AccountSummaryDetailsService {
     this.baseSiteService.getActive().subscribe((baseSiteId) => {
       this.baseSiteId = baseSiteId;
     });
-
   }
 
   getHeaderData(unitCode: string) {

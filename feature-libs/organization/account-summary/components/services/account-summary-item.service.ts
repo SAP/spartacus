@@ -4,6 +4,7 @@ import { CurrentUnitService, ItemService, UnitFormService } from '@spartacus/org
 import { OrganizationItemStatus, OrgUnitService } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,14 +15,13 @@ export class AccountSummaryItemService extends ItemService<B2BUnit> {
     protected currentItemService: CurrentUnitService,
     protected routingService: RoutingService,
     protected formService: UnitFormService,
-    protected unitService: OrgUnitService
+    protected unitService: OrgUnitService,
   ) {
     super(currentItemService, routingService, formService);
   }
 
-  load(code: string): Observable<B2BUnit> {
-    this.unitService.load(code);
-    return this.unitService.get(code);
+  load(): Observable<B2BUnit> {
+    throw new Error('Method not implemented.');
   }
 
   launchDetails(item: B2BUnit): void {

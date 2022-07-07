@@ -16,7 +16,7 @@ export const defaultAccountSummaryRoutingConfig: RoutingConfig = {
         paths: [`${listPath}`],
       },
       orgAccountSummaryDetails: {
-        paths: [`${listPath}/account-summary-details/:${ROUTE_PARAMS.unitCode}`],
+        paths: [`${listPath}/details/:${ROUTE_PARAMS.unitCode}`],
         paramsMapping,
       },
     },

@@ -5,10 +5,6 @@ export const accountSummaryTranslations: TranslationResources = {
   en,
 };
 
-// expose all translation chunk mapping for organization sub features
 export const accountSummaryTranslationChunksConfig: TranslationChunksConfig = {
-  organization: [
-    'orgUnit',
-    'orgAccountSummary',
-  ],
+  accountSummary: ['orgAccountSummaryUnit'],
 };

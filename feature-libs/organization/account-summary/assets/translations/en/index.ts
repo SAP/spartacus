@@ -1,5 +1,5 @@
-import { orgAccountSummaryUnit } from "./account-summary-unit.i18n";
+import { accountSummary } from "./account-summary.i18n";
 
 export const en = {
-  orgAccountSummaryUnit,
+  accountSummary,
 };

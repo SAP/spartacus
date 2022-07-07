@@ -16,8 +16,7 @@ export const accountSummaryListCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'orgAccountSummary.breadcrumbs.list',
-              // resolver: UnitRoutePageMetaResolver,
+              breadcrumb: 'accountSummary.orgAccountSummaryUnit.breadcrumbs.list', //TODO fix breadcrumbs
             },
           },
         },
@@ -27,7 +26,7 @@ export const accountSummaryListCmsConfig: CmsConfig = {
             component: AccountSummaryDocumentComponent,
             data: {
               cxPageMeta: {
-                breadcrumb: 'orgAccountSummary.breadcrumbs.details',
+                breadcrumb: 'accountSummary.orgAccountSummaryUnit.breadcrumbs.details', //TODO fix breadcrumbs
               },
             },
           },
