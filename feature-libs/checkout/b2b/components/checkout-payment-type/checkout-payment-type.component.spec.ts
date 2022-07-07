@@ -107,7 +107,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('get the default payment type if selected not present in ', (done) => {
+  it('get payment type selected by default if one payment type returned ', (done) => {
     component.typeSelected$.pipe(take(1)).subscribe((selectedPaymentType) => {
       expect(selectedPaymentType).toEqual({
         code: 'CARD',
