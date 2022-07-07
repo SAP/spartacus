@@ -16,7 +16,7 @@ export class UserGroupRoutePageMetaResolver extends DefaultRoutePageMetaResolver
     super(translation);
   }
 
-  protected getParams(): Observable<UserGroup> {
+  protected getParams(): Observable<UserGroup | undefined> {
     return this.currentItemService.item$;
   }
 }
