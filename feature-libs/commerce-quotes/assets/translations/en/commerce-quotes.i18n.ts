@@ -38,5 +38,9 @@ export const commerceQuotes = {
       description: 'Description',
       expiryDate: 'Expiry Date',
     },
+    links: {
+      newCart: 'New Cart',
+      quotes: 'Quotes',
+    },
   },
 };

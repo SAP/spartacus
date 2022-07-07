@@ -1,8 +1,9 @@
 @import './commerce-quotes-list';
 @import './commerce-quotes-details-overview';
+@import './commerce-quotes-action-links';
 
 $commerce-quotes-components-allowlist: cx-commerce-quotes-list
-  cx-commerce-quotes-details-overview !default;
+  cx-commerce-quotes-details-overview cx-commerce-quotes-action-links !default;
 
 $skipComponentStyles: () !default;
 
