@@ -28,6 +28,7 @@ export const commerceQuotes = {
     commons: {
       id: 'Quote ID',
       status: 'Status',
+      creationSuccess: 'Quote #{{ code }} created successfully',
     },
     details: {
       code: 'Quote ID',

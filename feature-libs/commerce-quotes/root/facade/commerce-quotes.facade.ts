@@ -7,6 +7,7 @@ import {
   QuoteList,
   QuoteMetadata,
   Comment,
+  QuoteAction,
 } from '../model/commerce-quotes.model';
 
 @Injectable({
@@ -20,6 +21,7 @@ import {
         'getQuoteDetails',
         'createQuote',
         'editQuote',
+        'performQuoteAction',
         'addQuoteComment',
       ],
     }),
@@ -64,6 +66,14 @@ export abstract class CommerceQuotesFacade {
   abstract addQuoteComment(
     quoteCode: string,
     quoteComment: Comment
+  ): Observable<unknown>;
+
+  /**
+   * Perform action on quote.
+   */
+  abstract performQuoteAction(
+    quoteCode: string,
+    quoteAction: QuoteAction
   ): Observable<unknown>;
 
   /**

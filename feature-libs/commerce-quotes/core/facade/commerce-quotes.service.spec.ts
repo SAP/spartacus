@@ -224,7 +224,7 @@ describe('CommerceQuotesService', () => {
     done();
   });
 
-  it('should call create quote command', (done) => {
+  it('should call createQuote command', () => {
     service
       .createQuote(mockMetadata, mockComment)
       .pipe(take(1))
@@ -233,10 +233,9 @@ describe('CommerceQuotesService', () => {
         expect(quote.code).toEqual(mockQuote.code);
         expect(activeCartService.reloadActiveCart).toHaveBeenCalled();
       });
-    done();
   });
 
-  it('should call create quote command', (done) => {
+  it('should call editQuote command', () => {
     service
       .editQuote(mockQuote.code, mockMetadata)
       .pipe(take(1))
@@ -247,10 +246,9 @@ describe('CommerceQuotesService', () => {
           mockMetadata
         );
       });
-    done();
   });
 
-  it('should call create quote command', (done) => {
+  it('should call addQuoteComment command', () => {
     service
       .addQuoteComment(mockQuote.code, mockComment)
       .pipe(take(1))
@@ -261,6 +259,5 @@ describe('CommerceQuotesService', () => {
           mockComment
         );
       });
-    done();
   });
 });

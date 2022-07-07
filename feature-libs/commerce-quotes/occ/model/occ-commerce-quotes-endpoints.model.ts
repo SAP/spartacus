@@ -24,7 +24,7 @@ export interface CommerceQuotesOccEndpoints {
   /**
    * Perform workflow actions with the quote.
    */
-  performActionQuote?: string | OccEndpoint;
+  performQuoteAction?: string | OccEndpoint;
 
   /**
    * Add a comment to a quote.

@@ -5,7 +5,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CommerceQuotesFacade } from '@spartacus/commerce-quotes/root';
+import {
+  CommerceQuotesFacade,
+  QuoteAction,
+  QuoteMetadata,
+} from '@spartacus/commerce-quotes/root';
 import { RoutingService } from '@spartacus/core';
 import { FocusConfig, ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
@@ -51,18 +55,30 @@ export class CommerceQuotesRequestQuoteDialogComponent {
       this.form.markAllAsTouched();
       return;
     } else {
+      const quoteCreationPayload: QuoteMetadata = {
+        name: this.form.controls.name.value,
+      };
+
+      if (this.form.controls.description.value.length) {
+        quoteCreationPayload.description = this.form.controls.description.value;
+      }
       this.requestInProgress$.next(true);
       this.commerceQuotesFacade
-        .createQuote(
-          { name: this.form.controls.name.value },
-          { text: this.form.controls.comment.value }
-        )
+        .createQuote(quoteCreationPayload, {
+          text: this.form.controls.comment.value,
+        })
         .subscribe((quote) => {
           if (goToDetails) {
             this.routingService.go({
               cxRoute: 'quoteEdit',
               params: { quoteId: quote.code },
             });
+          } else {
+            console.log('tesatasdfa');
+            this.commerceQuotesFacade.performQuoteAction(
+              quote.code,
+              QuoteAction.SUBMIT
+            );
           }
 
           this.modalService.dismissActiveModal();

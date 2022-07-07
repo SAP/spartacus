@@ -7,12 +7,15 @@ import {
   QuoteList,
   QuoteMetadata,
   Comment,
+  QuoteAction,
 } from '@spartacus/commerce-quotes/root';
 import {
   Command,
   CommandService,
   CommandStrategy,
   EventService,
+  GlobalMessageService,
+  GlobalMessageType,
   Query,
   QueryService,
   QueryState,
@@ -72,8 +75,8 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
             this.commerceQuotesConnector.createQuote(userId, { cartId })
           )
         ),
-        concatMap(([userId, quote]) => {
-          return zip(
+        concatMap(([userId, quote]) =>
+          zip(
             combineLatest([
               this.commerceQuotesConnector.editQuote(
                 userId,
@@ -87,8 +90,8 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
               ),
             ]),
             of(quote)
-          );
-        }),
+          )
+        ),
         map(([_, quote]) => quote),
         tap(() => this.activeCartFacade.reloadActiveCart())
       ),
@@ -107,13 +110,13 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     (payload) =>
       this.userIdService.takeUserId().pipe(
         take(1),
-        switchMap((userId) => {
-          return this.commerceQuotesConnector.editQuote(
+        switchMap((userId) =>
+          this.commerceQuotesConnector.editQuote(
             userId,
             payload.quoteCode,
             payload.quoteMetadata
-          );
-        })
+          )
+        )
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
@@ -130,11 +133,44 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     (payload) =>
       this.userIdService.takeUserId().pipe(
         take(1),
-        switchMap((userId) => {
-          return this.commerceQuotesConnector.addComment(
+        switchMap((userId) =>
+          this.commerceQuotesConnector.addComment(
             userId,
             payload.quoteCode,
             payload.quoteComment
+          )
+        )
+      ),
+    {
+      strategy: CommandStrategy.CancelPrevious,
+    }
+  );
+
+  protected performQuoteActionCommand: Command<
+    { quoteCode: string; quoteAction: QuoteAction },
+    unknown
+  > = this.commandService.create<
+    { quoteCode: string; quoteAction: QuoteAction },
+    unknown
+  >(
+    (payload) =>
+      this.userIdService.takeUserId().pipe(
+        take(1),
+        switchMap((userId) =>
+          this.commerceQuotesConnector.performQuoteAction(
+            userId,
+            payload.quoteCode,
+            payload.quoteAction
+          )
+        ),
+        tap(() => {
+          console.log('adsfadsfad');
+          this.globalMessageService.add(
+            {
+              key: 'commerceQuotes.commons.creationSuccess',
+              params: { code: payload.quoteCode },
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
         })
       ),
@@ -142,6 +178,7 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
       strategy: CommandStrategy.CancelPrevious,
     }
   );
+
   protected quoteDetailsState$: Query<Quote, unknown[]> =
     this.queryService.create<Quote>(() =>
       this.routingService.getRouterState().pipe(
@@ -160,7 +197,8 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     protected config: ViewConfig,
     protected commandService: CommandService,
     protected activeCartFacade: ActiveCartFacade,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   setCurrentPage(page: number): void {
@@ -199,6 +237,13 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     quoteComment: Comment
   ): Observable<unknown> {
     return this.addQuoteCommentCommand.execute({ quoteCode, quoteComment });
+  }
+
+  performQuoteAction(
+    quoteCode: string,
+    quoteAction: QuoteAction
+  ): Observable<unknown> {
+    return this.performQuoteActionCommand.execute({ quoteCode, quoteAction });
   }
 
   getQuoteDetails(): Observable<Quote | undefined> {

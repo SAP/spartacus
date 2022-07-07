@@ -1,14 +1,11 @@
 @import './commerce-quotes-list';
 @import './commerce-quotes-request-quote-button';
 @import './commerce-quotes-request-quote-dialog';
-
-$commerce-quotes-components-allowlist: cx-commerce-quotes-list
-  cx-commerce-quotes-request-quote-button
-  cx-commerce-quotes-request-quote-dialog !default;
 @import './commerce-quotes-details-overview';
 
 $commerce-quotes-components-allowlist: cx-commerce-quotes-list
-  cx-commerce-quotes-details-overview !default;
+  cx-commerce-quotes-details-overview cx-commerce-quotes-request-quote-button
+  cx-commerce-quotes-request-quote-dialog !default;
 
 $skipComponentStyles: () !default;
 

@@ -32,8 +32,20 @@ export interface Comment {
   text?: string;
 }
 
-export interface QuoteAction {
-  action: string;
+export enum QuoteAction {
+  CREATE = 'CREATE',
+  VIEW = 'VIEW',
+  SUBMIT = 'SUBMIT',
+  SAVE = 'SAVE',
+  EDIT = 'EDIT',
+  DISCOUNT = 'DISCOUNT',
+  CANCEL = 'CANCEL',
+  CHECKOUT = 'CHECKOUT',
+  ORDER = 'ORDER',
+  APPROVE = 'APPROVE',
+  REJECT = 'REJECT',
+  EXPIRED = 'EXPIRED',
+  REQUOTE = 'REQUOTE',
 }
 
 export interface QuoteDiscount {
