@@ -200,6 +200,9 @@ if (environment.epdVisualization) {
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
 
+    ProductConfiguratorTextfieldFeatureModule,
+    ProductConfiguratorRulebasedFeatureModule,
+
     ...featureModules,
   ],
 })
