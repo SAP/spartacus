@@ -72,7 +72,7 @@ export class CheckoutPaymentTypeComponent {
           });
         return availablePaymentTypes[0];
       } else {
-        return availablePaymentTypes[0];
+        return availablePaymentTypes[1];
       }
     }),
     filter(isNotUndefined),
