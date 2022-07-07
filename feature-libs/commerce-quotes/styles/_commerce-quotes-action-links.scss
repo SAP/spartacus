@@ -1,7 +1,8 @@
 %cx-commerce-quotes-action-links {
   section {
+    display: flex;
     padding: 1rem 0;
-    text-align: right;
+    justify-content: flex-end;
     .link {
       &:before {
         content: '|';
