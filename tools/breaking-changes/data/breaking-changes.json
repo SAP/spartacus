@@ -2822,6 +2822,90 @@
         "entryPoint": "@spartacus/cart/quick-order/core"
       },
       {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  activeCartService: ActiveCartService,\n  productAdapter: ProductAdapter,\n  eventService: EventService,\n  productSearchConnector: ProductSearchConnector | undefined\n)\n",
+        "currentStateDoc": "\nconstructor(\n  activeCartService: ActiveCartFacade,\n  config: Config,\n  eventService: EventService,\n  productSearchConnector: ProductSearchConnector\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "productAdapter",
+              "type": "ProductAdapter",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!ProductAdapter:class",
+              "shortType": "ProductAdapter",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "eventService",
+              "type": "EventService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!EventService:class",
+              "shortType": "EventService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "productSearchConnector",
+              "type": "ProductSearchConnector | undefined",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/cart_quick-order_core!ProductSearchConnector:class",
+              "shortType": "ProductSearchConnector",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "config",
+              "type": "Config",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!Config:class",
+              "shortType": "Config",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "eventService",
+              "type": "EventService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!EventService:class",
+              "shortType": "EventService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "productSearchConnector",
+              "type": "ProductSearchConnector",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!ProductSearchConnector:class",
+              "shortType": "ProductSearchConnector",
+              "importPath": "@spartacus/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "QuickOrderService",
+        "entryPoint": "@spartacus/cart/quick-order/core"
+      },
+      {
         "change": "PROPERTY_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Property",
@@ -94932,8 +95016,6 @@
         "topLevelApiElementName": "ComponentWrapperDirective",
         "entryPoint": "@spartacus/storefront"
       },
-      { "kind": "Property", "name": "cmpRef", "type": "ComponentRef<any>" },
-
       {
         "change": "PROPERTY_CHANGED",
         "changeType": "CHANGED",

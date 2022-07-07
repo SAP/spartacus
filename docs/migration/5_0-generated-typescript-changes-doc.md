@@ -399,6 +399,37 @@ constructor(
 ```
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartService,
+  productAdapter: ProductAdapter,
+  eventService: EventService,
+  productSearchConnector: ProductSearchConnector | undefined
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartFacade,
+  config: Config,
+  eventService: EventService,
+  productSearchConnector: ProductSearchConnector
+)
+
+```
+
+
 ### Property activeCartService changed.
 
 
