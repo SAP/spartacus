@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { LoginModule } from 'feature-libs/user/account/components/login';
-import { LoginRegisterModule } from 'feature-libs/user/account/components/login-register';
+import { LoginModule, LoginRegisterModule } from '@spartacus/user/account/components';
 import { CDCUserLoginModule } from '.';
 
 

@@ -4,6 +4,8 @@ import {
   AuthService,
   Command,
   CommandService,
+  GlobalMessageService,
+  GlobalMessageType,
   UserActions,
   WindowRef
 } from '@spartacus/core';
@@ -20,7 +22,7 @@ import { mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class CDCRegisterComponentService extends RegisterComponentService {
-  protected registerWihoutScreenSetCommand: Command<
+  protected registerCommand: Command<
     { user: UserSignUp },
     User
   > = this.command.create(
@@ -42,7 +44,8 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     protected command: CommandService,
     protected store: Store,
     protected winRef: WindowRef,
-    protected cdcJSService: CdcJsService
+    protected cdcJSService: CdcJsService,
+    protected globalMessageService: GlobalMessageService,
   ) {
     super(userProfile, userConnector, authService, command, store);
   }
@@ -56,12 +59,18 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     //return this.registerWihoutScreenSetCommand.execute({ user });
     return this.cdcJSService.didLoad().pipe(mergeMap((cdcLoaded: boolean) => {
       if (!cdcLoaded) {
-        //If CDC Gigya SDK not loaded, use the out of the box registerCommand
+        // Logging in using CDC Gigya SDK, update the registerCommand
         return this.registerCommand.execute({ user });
       } else {
-         // Logging in using CDC Gigya SDK, update the registerCommand
-        return this.registerWihoutScreenSetCommand.execute({ user });
-      }
+          // CDC Gigya SDK not loaded, show error
+          this.globalMessageService.add(
+            {
+              key: 'errorHandlers.scriptFailedToLoad',
+            },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          return new Observable<User>();
+        }
     }));
       //return cdcLoaded?  this.registerWihoutScreenSetCommand.execute({ user }): this.registerCommand.execute({ user });
     //}));
