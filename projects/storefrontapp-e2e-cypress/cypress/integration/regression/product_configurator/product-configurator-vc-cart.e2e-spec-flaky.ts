@@ -138,9 +138,9 @@ context('Product Configuration', () => {
       configurationVc.clickAddToCartBtn();
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
       if (commerceIsAtLeast2205) {
-        configurationOverviewVc.verifyNotificationBannerOnOP(1);
-      } else {
         configurationOverviewVc.verifyNotificationBannerOnOP(0, 1);
+      } else {
+        configurationOverviewVc.verifyNotificationBannerOnOP(1);
       }
       // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
       configurationOverview.clickContinueToCartBtnOnOP();
@@ -151,9 +151,9 @@ context('Product Configuration', () => {
       configurationVc.clickAddToCartBtn();
       // Click 'Resolve issues' link in the banner and navigate back to the configuration
       if (commerceIsAtLeast2205) {
-        configurationOverviewVc.clickOnResolveIssuesLinkOnOP(); // pre 2205
-      } else {
         configurationOverviewVc.clickOnResolveConflictsLinkOnOP(); //post 2205
+      } else {
+        configurationOverviewVc.clickOnResolveIssuesLinkOnOP(); // pre 2205
       }
       configurationVc.checkConflictDescriptionDisplayed(
         Conflict_msg_gaming_console
@@ -179,20 +179,19 @@ context('Product Configuration', () => {
     it('should support the issue solving process', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
-
       configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
       configurationOverviewVc.registerConfigurationOvOCC();
-      configurationVc.clickAddToCartBtn();
+      configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(2, 0);
 
-      configurationOverviewVc.clickOnResolveIssuesLinkOnOP();
+      configurationOverviewVc.clickOnResolveIssuesLinkOnOPProductBound();
       configuration.selectAttribute(CAMERA_FORMAT_PICTURES, radioGroup, 'JPEG');
-      configurationVc.clickAddToCartBtn();
+      configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(1, 0);
 
-      configurationOverviewVc.clickOnResolveIssuesLinkOnOP();
+      configurationOverviewVc.clickOnResolveIssuesLinkOnOPProductBound();
       configuration.selectAttribute(CAMERA_DISPLAY, radioGroup, 'P5');
-      configurationVc.clickAddToCartBtn();
+      configurationVc.navigateToOverviewPage();
       configurationOverviewVc.verifyNotificationBannerOnOP(0, 0);
     });
   });

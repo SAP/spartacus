@@ -5,8 +5,8 @@ import {
   GlobalMessageType,
   RoutingService,
   User,
-  UserService,
 } from '@spartacus/core';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import { AdminGuard } from './admin.guard';
 import createSpy = jasmine.createSpy;
@@ -17,7 +17,7 @@ const mockUserDetails: User = {
   roles: [],
 };
 
-class MockUserService implements Partial<MockUserService> {
+class MockUserAccountFacade implements Partial<UserAccountFacade> {
   get = createSpy('get').and.returnValue(of(mockUserDetails));
 }
 
@@ -39,8 +39,8 @@ describe('AdminGuard', () => {
       providers: [
         AdminGuard,
         {
-          provide: UserService,
-          useClass: MockUserService,
+          provide: UserAccountFacade,
+          useClass: MockUserAccountFacade,
         },
         {
           provide: RoutingService,
@@ -58,7 +58,7 @@ describe('AdminGuard', () => {
   });
 
   it('should return true when admin role found', () => {
-    let result: boolean;
+    let result: boolean | undefined;
     mockUserDetails.roles = [B2BUserRole.APPROVER, B2BUserRole.ADMIN];
 
     guard
@@ -70,7 +70,7 @@ describe('AdminGuard', () => {
   });
 
   it('should return false when admin role not found', () => {
-    let result: boolean;
+    let result: boolean | undefined;
     mockUserDetails.roles = [B2BUserRole.APPROVER];
 
     guard
@@ -82,7 +82,7 @@ describe('AdminGuard', () => {
   });
 
   it('should make redirect and show global message if sufficient roles', () => {
-    let result: boolean;
+    let result: boolean | undefined;
     mockUserDetails.roles = [];
 
     guard

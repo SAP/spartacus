@@ -61,6 +61,10 @@ cx-file-upload {
   input[type='file'] {
     display: none;
   }
+
+  button {
+    width: 100%;
+  }
 }
 
 input,
@@ -146,6 +150,10 @@ legend {
 
       &:hover {
         color: var(--cx-color-primary);
+      }
+
+      @include media-breakpoint-down(sm) {
+        display: inline;
       }
     }
 

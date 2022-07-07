@@ -23,7 +23,7 @@ export class OccUserGroupListNormalizer
     target?: EntitiesModel<UserGroup>
   ): EntitiesModel<UserGroup> {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as EntitiesModel<UserGroup>;
     }
     target.values = source.orgUnitUserGroups.map((userGroup) => ({
       ...this.converter.convert(userGroup, USER_GROUP_NORMALIZER),

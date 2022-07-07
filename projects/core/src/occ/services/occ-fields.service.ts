@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
-import { mergeFields, parseFields } from '../utils/occ-fields';
-import { ScopedData } from '../../model/scoped-data';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { ScopedData } from '../../model/scoped-data';
+import { mergeFields, parseFields } from '../utils/occ-fields';
 
 export interface ScopedDataWithUrl {
   /** Url (with fields) to load scoped data */
@@ -16,7 +16,7 @@ export interface ScopedDataWithUrl {
  */
 export interface OccFieldsModel extends ScopedDataWithUrl {
   /** extracted fields object, used to extract data from broader model */
-  fields?: object;
+  fields: object;
 }
 
 /**
@@ -53,12 +53,14 @@ export class OccFieldsService {
   getOptimalUrlGroups(models: ScopedDataWithUrl[]): OccOptimimalUrlGroups {
     const groupedByUrls: OccOptimimalUrlGroups = {};
     for (const model of models as OccFieldsModel[]) {
-      const [urlPart, fields] = this.splitFields(model.url);
+      const [urlPart, fields] = this.splitFields(model.url ?? '');
       if (!groupedByUrls[urlPart]) {
         groupedByUrls[urlPart] = {};
       }
       model.fields = fields ? parseFields(fields) : {};
-      groupedByUrls[urlPart][model.scopedData.scope] = model;
+      if (model.scopedData.scope !== undefined) {
+        groupedByUrls[urlPart][model.scopedData.scope] = model;
+      }
     }
 
     const mergedUrls: OccOptimimalUrlGroups = {};
@@ -81,7 +83,7 @@ export class OccFieldsService {
   private splitFields(urlWithFields: string): [string, string] {
     const [url, params] = urlWithFields.split('?');
 
-    const paramsMap = {};
+    const paramsMap: Record<string, string> = {};
 
     if (params) {
       params.split('&').forEach((param) => {
@@ -92,7 +94,7 @@ export class OccFieldsService {
 
     const nonFieldsParams = Object.keys(paramsMap)
       .sort()
-      .reduce((id, par) => {
+      .reduce((id: string[], par) => {
         if (par !== this.FIELDS_PARAM) {
           id.push(paramsMap[par] ? `${par}=${paramsMap[par]}` : par);
         }

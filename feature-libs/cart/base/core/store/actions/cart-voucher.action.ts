@@ -46,11 +46,8 @@ export class CartAddVoucherSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
-// TODO(#7241): Remove when switching to event system for vouchers
 /**
  * Resets add voucher process
- *
- * @deprecated since 2.0
  */
 export class CartResetAddVoucher extends StateUtils.EntityLoaderResetAction {
   readonly type = CART_RESET_ADD_VOUCHER;
