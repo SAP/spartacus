@@ -35,7 +35,7 @@ class MockCheckoutOnePaymentTypeService
   implements Partial<CheckoutPaymentTypeFacade>
 {
   getPaymentTypes = createSpy().and.returnValue(of(mockDisableOnePaymentTypes));
-  setPaymentType = createSpy().and.returnValue(of('setPaymentType'));
+  setPaymentType = createSpy().and.returnValue(of(undefined));
   getSelectedPaymentTypeState = createSpy().and.returnValue(
     selectedPaymentType$.asObservable()
   );
@@ -107,7 +107,7 @@ describe('CheckoutOnePaymentTypeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('get payment type selected by default if one payment type returned ', (done) => {
+  it('should get payment type selected by default if one payment type is returned', (done) => {
     component.typeSelected$.pipe(take(1)).subscribe((selectedPaymentType) => {
       expect(selectedPaymentType).toEqual({
         code: 'CARD',

@@ -59,7 +59,7 @@ export class CheckoutPaymentTypeComponent {
           return prevSelected;
         }
       }
-      if (availablePaymentTypes.length === 1) {
+      if (availablePaymentTypes.length !== 0) {
         this.busy$.next(true);
         this.checkoutPaymentTypeFacade
           .setPaymentType(
@@ -71,9 +71,10 @@ export class CheckoutPaymentTypeComponent {
             error: () => this.onError(),
           });
         return availablePaymentTypes[0];
-      } else {
-        return availablePaymentTypes[1];
       }
+      // } else {
+      //   return availablePaymentTypes[1];
+      // }
     }),
     filter(isNotUndefined),
     distinctUntilChanged(),
