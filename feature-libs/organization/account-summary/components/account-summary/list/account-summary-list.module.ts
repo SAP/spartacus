@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { I18nModule, provideDefaultConfig, provideDefaultConfigFactory, UrlModule } from '@spartacus/core';
+import { I18nModule, provideDefaultConfigFactory, UrlModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { ListModule } from '@spartacus/organization/administration/components';
+import { ListModule, } from '@spartacus/organization/administration/components';
 import { AccountSummaryListComponent } from './account-summary-list.component';
-import { accountSummaryListCmsConfig, unitsTableConfigFactory } from './account-summary-list.config';
+import { accountSummaryUnitsTableConfigFactory } from './account-summary-list-table.config';
+
 
 @NgModule({
   imports: [CommonModule,
@@ -15,8 +16,7 @@ import { accountSummaryListCmsConfig, unitsTableConfigFactory } from './account-
     IconModule,
     ListModule,],
   providers: [
-    provideDefaultConfig(accountSummaryListCmsConfig),
-    provideDefaultConfigFactory(unitsTableConfigFactory)
+    provideDefaultConfigFactory(accountSummaryUnitsTableConfigFactory)
   ],
   declarations: [AccountSummaryListComponent],
   exports: [AccountSummaryListComponent],
