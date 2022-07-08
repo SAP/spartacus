@@ -13,7 +13,7 @@ import { Configurator } from '../../core/model/configurator.model';
 })
 export class ConfiguratorVariantCarouselComponent {
   configuration$: Observable<Configurator.Configuration> =
-    this.configRouterExtractorService
+    this.configuratorRouterExtractorService
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
@@ -21,7 +21,7 @@ export class ConfiguratorVariantCarouselComponent {
         )
       );
 
-  title$: Observable<string | undefined> = this.translation.translate(
+  title$: Observable<string | undefined> = this.translationService.translate(
     'configurator.variantCarousel.title'
   );
 
