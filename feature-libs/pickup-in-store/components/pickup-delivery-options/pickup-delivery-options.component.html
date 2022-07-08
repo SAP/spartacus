@@ -4,6 +4,7 @@
       type="radio"
       id="delivery"
       name="deliveryOption"
+      (click)="clearIntendedPickupLocation()"
       [attr.aria-label]="'deliveryOptions.delivery' | cxTranslate"
       checked
     />

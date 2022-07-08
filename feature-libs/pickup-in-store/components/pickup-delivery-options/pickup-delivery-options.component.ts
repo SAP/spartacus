@@ -13,6 +13,7 @@ import {
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
+import { IntendedPickupLocationFacade } from 'feature-libs/pickup-in-store/root';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -29,6 +30,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
+    protected intendedPickupLocationService: IntendedPickupLocationFacade,
     @Optional() protected outlet?: OutletContextData<AddToCartContainerContext>
   ) {}
 
@@ -53,5 +55,9 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
     if (dialog) {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
+  }
+
+  clearIntendedPickupLocation(): void {
+    this.intendedPickupLocationService.removeIntendedLocation(this.productCode);
   }
 }

@@ -2,13 +2,17 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddToCartContainerContext } from '@spartacus/cart/base/components/add-to-cart';
 import { I18nTestingModule } from '@spartacus/core';
-import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
+import {
+  IntendedPickupLocationFacade,
+  PickupInStoreFacade,
+} from '@spartacus/pickup-in-store/root';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
 import { of, Subscription } from 'rxjs';
+import { MockIntendedPickupLocationService } from '../../core/facade/intended-pickup-location.service.spec';
 import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.component';
 
 import createSpy = jasmine.createSpy;
@@ -43,6 +47,7 @@ describe('PickupDeliveryOptionsComponent', () => {
   let component: PickupDeliveryOptionsComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionsComponent>;
   let launchDialogService: LaunchDialogService;
+  let intendedPickupLocationService: IntendedPickupLocationFacade;
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
@@ -57,6 +62,10 @@ describe('PickupDeliveryOptionsComponent', () => {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
+        {
+          provide: IntendedPickupLocationFacade,
+          useClass: MockIntendedPickupLocationService,
+        },
       ],
       declarations: [PickupDeliveryOptionsComponent],
     });
@@ -65,6 +74,7 @@ describe('PickupDeliveryOptionsComponent', () => {
     fixture = TestBed.createComponent(PickupDeliveryOptionsComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
+    intendedPickupLocationService = TestBed.inject(IntendedPickupLocationFacade);
 
     spyOn(launchDialogService, 'openDialog').and.callThrough();
 
@@ -117,6 +127,14 @@ describe('PickupDeliveryOptionsComponent', () => {
         component['vcr'],
         { productCode: contextData.productCode }
       );
+    });
+
+    it('should clear intended pickup location when delivery is selected', () => {
+      spyOn(intendedPickupLocationService, 'removeIntendedLocation');
+      component.clearIntendedPickupLocation();
+      expect(
+        intendedPickupLocationService.removeIntendedLocation
+      ).toHaveBeenCalledWith(contextData.productCode);
     });
   });
 });
