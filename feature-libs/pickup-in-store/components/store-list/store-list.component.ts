@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PointOfServiceStock } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
@@ -14,6 +14,8 @@ import { Observable } from 'rxjs';
 export class StoreListComponent implements OnInit {
   @Input()
   productCode: string;
+  @Output()
+  storeSelected: EventEmitter<null> = new EventEmitter<null>();
 
   isLoading$: Observable<boolean>;
   stores$: Observable<PointOfServiceStock[]>;
@@ -39,5 +41,6 @@ export class StoreListComponent implements OnInit {
       this.productCode,
       pointOfService
     );
+    this.storeSelected.emit();
   }
 }

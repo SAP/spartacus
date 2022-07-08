@@ -27,7 +27,10 @@
           (showSpinner)="showSpinner($event)"
           (eventHideOutOfStock)="onHideOutOfStock()"
         ></cx-store-search>
-        <cx-store-list [productCode]="productCode"></cx-store-list>
+        <cx-store-list
+          [productCode]="productCode"
+          (storeSelected)="close('Pickup location selected')"
+        ></cx-store-list>
         <div *ngIf="loading">
           <div class="cx-spinner">
             <cx-spinner></cx-spinner>

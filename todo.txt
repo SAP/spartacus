@@ -1,3 +1,3 @@
-(A) close pickup dialog on selection
+x (A) close pickup dialog on selection
 (B) default options to pickup if they have an intended location for that product
 (C) augment add to cart to check intended pickup location to adjust cart entity

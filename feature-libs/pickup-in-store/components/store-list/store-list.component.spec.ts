@@ -71,6 +71,8 @@ describe('StoreListComponent', () => {
   it('should set the preferred store when a store is selected', () => {
     spyOn(preferredStoreService, 'setPreferredStore');
     spyOn(intendedPickupLocationService, 'setIntendedLocation');
+    spyOn(component.storeSelected, 'emit');
+
     component.productCode = 'productCode';
     fixture.detectChanges();
 
@@ -81,6 +83,7 @@ describe('StoreListComponent', () => {
     expect(
       intendedPickupLocationService.setIntendedLocation
     ).toHaveBeenCalledWith('productCode', { name: 'storeName' });
+    expect(component.storeSelected.emit).toHaveBeenCalledWith();
   });
 
   it('should set blank preferred store when store has no name', () => {

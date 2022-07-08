@@ -42,9 +42,11 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
   onHideOutOfStock(): void {
     this.pickupInStoreFacade.hideOutOfStock();
   }
+
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
+
   showSpinner(showSpinner: boolean): void {
     this.loading = showSpinner;
   }
