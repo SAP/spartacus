@@ -87149,7 +87149,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class RulebasedConfiguratorEventListener has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Please use 'ConfiguratorRouterListener' instead.  RulebasedConfiguratorEventListener was responsible for deleting cart bound configurations when an order was submitted. This is now handled by `ConfiguratorRouterListener`, which checks on cart boundconfigurations on every navigation that is not configurator related, and deletes cart bound configurations if needed.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

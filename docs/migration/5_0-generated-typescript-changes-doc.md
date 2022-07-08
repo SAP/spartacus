@@ -19084,7 +19084,7 @@ convertAttributeType(
 
 
 Class RulebasedConfiguratorEventListener has been removed and is no longer part of the public API.
-
+Please use 'ConfiguratorRouterListener' instead.  RulebasedConfiguratorEventListener was responsible for deleting cart bound configurations when an order was submitted. This is now handled by `ConfiguratorRouterListener`, which checks on cart boundconfigurations on every navigation that is not configurator related, and deletes cart bound configurations if needed.
 
 
 
