@@ -29141,7 +29141,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'reportAuthGuard' was removed from Class 'AuthRedirectService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'saveCurrentNavigationUrl' method instead.",
         "topLevelApiElementName": "AuthRedirectService"
       },
       {
@@ -29163,7 +29163,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'reportNotAuthGuard' was removed from Class 'AuthRedirectService'.",
-        "migrationComment": "",
+        "migrationComment": "No replacement needed. Every visited URL is now remembered automatically as redirect URL on 'NavigationEnd' event.",
         "topLevelApiElementName": "AuthRedirectService"
       }
     ]
