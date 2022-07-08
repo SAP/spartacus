@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, User } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-
+import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { Observable, of } from 'rxjs';
 import { AsmComponentService } from '../services/asm-component.service';
 import { CustomerEmulationComponent } from './customer-emulation.component';
@@ -32,7 +32,7 @@ describe('CustomerEmulationComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [CustomerEmulationComponent],
+        declarations: [CustomerEmulationComponent, MockFeatureLevelDirective],
         providers: [
           { provide: UserAccountFacade, useClass: MockUserAccountFacade },
           { provide: AsmComponentService, useClass: MockAsmComponentService },
