@@ -1,4 +1,4 @@
-import { defineConfig } from 'cypress'
+import { defineConfig } from 'cypress';
 
 export default defineConfig({
   defaultCommandTimeout: 30000,
@@ -9,7 +9,7 @@ export default defineConfig({
   chromeWebSecurity: false,
   video: true,
   retries: {
-    runMode: 2
+    runMode: 2,
   },
   videoUploadOnPasses: false,
   env: {
@@ -26,4 +26,4 @@ export default defineConfig({
   e2e: {
     baseUrl: 'http://localhost:4200',
   },
-})
+});
