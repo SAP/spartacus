@@ -91,7 +91,7 @@ export function startCustomerEmulation(customer): void {
   cy.get('button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
-   cy.get('cx-customer-emulation div.customerInfo label.name').should(
+  cy.get('cx-customer-emulation div.customerInfo label.name').should(
     'contain',
     customer.fullName
   );
