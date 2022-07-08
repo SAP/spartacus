@@ -4,12 +4,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
+import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   LocationSearchParams,
   PickupInStoreFacade,
 } from '@spartacus/pickup-in-store/root';
 import { IconTestingModule, LaunchDialogService } from '@spartacus/storefront';
 import { MockPickupInStoreService } from 'feature-libs/pickup-in-store/core/facade/pickup-in-store.service.spec';
+import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
 import { StoreListModule } from '../store-list/index';
 import { StoreSearchModule } from '../store-search/store-search.module';
@@ -44,6 +46,7 @@ describe('PickupDeliveryOptionDialogComponent', () => {
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: PickupInStoreFacade, useClass: MockPickupInStoreService },
+        { provide: PreferredStoreService, useClass: MockPreferredStoreService },
       ],
     }).compileComponents();
 

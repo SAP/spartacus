@@ -1,0 +1,151 @@
+import { TestBed } from '@angular/core/testing';
+import { ConsentService, WindowRef } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { PickupInStoreConfig } from '../config';
+import { PreferredStoreService } from './preferred-store.service';
+
+class MockConsentService {
+  checkConsentGivenByTemplateId(_templateId: string): Observable<boolean> {
+    return of(true);
+  }
+}
+
+const MockPickupInStoreConfig = (withConfig = true): PickupInStoreConfig => {
+  return withConfig
+    ? {
+        pickupInStore: {
+          consentTemplateId: 'STORE_USER_INFORMATION',
+        },
+      }
+    : {};
+};
+
+const MockWindowRef = () => {
+  const store: { [key: string]: string | null } = {};
+  return {
+    localStorage: {
+      getItem: (key: string): string | null => {
+        return key in store ? store[key] : null;
+      },
+      setItem: (key: string, value: string) => {
+        store[key] = `${value}`;
+      },
+      removeItem: (key: string): void => {
+        if (key in store) {
+          delete store[key];
+        }
+      },
+    },
+  };
+};
+
+describe('PreferredStoreService', () => {
+  let preferredStoreService: PreferredStoreService;
+  let consentService: ConsentService;
+  let windowRef: WindowRef;
+
+  const configureTestingModule = (withConfig = true) => {
+    TestBed.configureTestingModule({
+      providers: [
+        PreferredStoreService,
+        { provide: ConsentService, useClass: MockConsentService },
+        {
+          provide: PickupInStoreConfig,
+          useValue: MockPickupInStoreConfig(withConfig),
+        },
+        { provide: WindowRef, useValue: MockWindowRef() },
+      ],
+    });
+
+    preferredStoreService = TestBed.inject(PreferredStoreService);
+    consentService = TestBed.inject(ConsentService);
+    windowRef = TestBed.inject(WindowRef);
+  };
+
+  describe('with pickup in store config', () => {
+    beforeEach(() => {
+      configureTestingModule();
+    });
+
+    it('should be created', () => {
+      expect(preferredStoreService).toBeDefined();
+    });
+
+    describe('getPreferredStore', () => {
+      it('should return the preferred store', () => {
+        const preferredStore = 'preferredStore';
+        windowRef.localStorage?.setItem('preferred_store', preferredStore);
+        expect(preferredStoreService.getPreferredStore()).toEqual(
+          preferredStore
+        );
+      });
+    });
+
+    describe('setPreferredStore', () => {
+      it('should set the preferred store if consent is given', () => {
+        spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
+          of(true)
+        );
+        const preferredStore = 'preferredStore';
+        preferredStoreService.setPreferredStore(preferredStore);
+        expect(windowRef.localStorage?.getItem('preferred_store')).toEqual(
+          preferredStore
+        );
+      });
+
+      it('should not set the preferred store if consent is not', () => {
+        spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
+          of(false)
+        );
+        const preferredStore = 'preferredStore';
+        preferredStoreService.setPreferredStore(preferredStore);
+        expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
+      });
+    });
+
+    describe('clearPreferredStore', () => {
+      it('should clear the preferred store', () => {
+        windowRef.localStorage?.setItem('preferred_store', 'preferredStore');
+        preferredStoreService.clearPreferredStore();
+        expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
+      });
+    });
+
+    describe('onDestroy', () => {
+      it('should unsubscribe onDestroy', () => {
+        preferredStoreService.setPreferredStore('preferredStore');
+        spyOn(preferredStoreService.subscription, 'unsubscribe');
+        preferredStoreService.ngOnDestroy();
+        expect(
+          preferredStoreService.subscription.unsubscribe
+        ).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('without pickup in store config', () => {
+    beforeEach(() => {
+      configureTestingModule(false);
+    });
+
+    it('setPreferredStore should not set preferred store if consent template config is not set', () => {
+      spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
+        of(false)
+      );
+      const preferredStore = 'preferredStore';
+      preferredStoreService.setPreferredStore(preferredStore);
+      expect(consentService.checkConsentGivenByTemplateId).toHaveBeenCalledWith(
+        ''
+      );
+      expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
+    });
+  });
+});
+
+export class MockPreferredStoreService {
+  getPreferredStore(): string {
+    return 'preferredStore';
+  }
+  setPreferredStore(_preferredStore: string): void {}
+  clearPreferredStore(): void {}
+}

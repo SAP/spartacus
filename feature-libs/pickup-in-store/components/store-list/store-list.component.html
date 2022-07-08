@@ -12,8 +12,12 @@
     </div>
   </div>
 
-  <div *ngIf="stores.length">
-    <cx-store *ngFor="let store of stores" [storeDetails]="store"></cx-store>
+  <div class="container" *ngIf="stores.length">
+    <cx-store
+      *ngFor="let store of stores"
+      [storeDetails]="store"
+      (storeSelected)="onSelectStore($event)"
+    ></cx-store>
   </div>
 </div>
 <ng-template #loading>
