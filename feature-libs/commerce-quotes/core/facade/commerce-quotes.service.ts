@@ -164,7 +164,6 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
           )
         ),
         tap(() => {
-          console.log('adsfadsfad');
           this.globalMessageService.add(
             {
               key: 'commerceQuotes.commons.creationSuccess',

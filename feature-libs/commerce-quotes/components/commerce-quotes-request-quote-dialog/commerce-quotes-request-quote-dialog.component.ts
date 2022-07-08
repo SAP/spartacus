@@ -74,7 +74,6 @@ export class CommerceQuotesRequestQuoteDialogComponent {
               params: { quoteId: quote.code },
             });
           } else {
-            console.log('tesatasdfa');
             this.commerceQuotesFacade.performQuoteAction(
               quote.code,
               QuoteAction.SUBMIT
