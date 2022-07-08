@@ -1,2 +1,2 @@
 export const BUNDLE_CAROUSEL_FEATURE = 'bundleCarousel';
-export const BUNDLES_FEATURE = 'bundles';
+export const BUNDLE_FEATURE = 'bundles';

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { BUNDLE_FEATURE } from '../core/store';
+import { BUNDLE_FEATURE } from './feature-name';
 import { defaultBundleLayoutConfig } from './config/default-bundle-layout-config';
 
 @NgModule({

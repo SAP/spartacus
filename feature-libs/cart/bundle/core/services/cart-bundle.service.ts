@@ -69,25 +69,4 @@ export class CartBundleService {
         });
       });
   }
-
-  /**
-   * Get allowed Bundle Products
-   *
-   * @param entryGroupNumber
-   */
-  getAvailableEntries(entryGroupNumber: number) {
-    let cartId;
-
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((activeCartId) => {
-        cartId = activeCartId;
-      });
-
-    return this.bundleService.getAvailableEntriesEntity(
-      cartId,
-      entryGroupNumber
-    );
-  }
 }

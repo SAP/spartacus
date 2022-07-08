@@ -4,9 +4,9 @@ import { BundlesState, BUNDLE_DATA } from '../bundle-state';
 import { availableEntriesReducer } from './available-entries.reducer';
 import { StateUtils } from '@spartacus/core';
 
-export function getReducers(): ActionReducerMap<BundlesState> {
+export function getReducers(): ActionReducerMap<BundlesState, any> {
   return {
-    availableEntries: StateUtils.loaderReducer(
+    availableEntries: StateUtils.loaderReducer<any, any>(
       BUNDLE_DATA,
       availableEntriesReducer
     ),

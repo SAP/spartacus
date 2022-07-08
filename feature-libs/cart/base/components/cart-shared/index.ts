@@ -1,3 +1,4 @@
+export * from './cart-bundle-list-row/cart-bundle-list-row.component';
 export * from './cart-item-list-row/cart-item-list-row.component';
 export * from './cart-item-list/cart-item-list.component';
 export * from './cart-item/index';
