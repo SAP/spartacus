@@ -40,7 +40,7 @@ export class ConfiguratorVariantCarouselComponent {
   constructor(
     protected productService: ProductService,
     protected translationService: TranslationService,
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+    protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 }
