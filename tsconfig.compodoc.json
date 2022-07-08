@@ -71,6 +71,9 @@
       "@spartacus/cart/base/root": [
         "feature-libs/cart/base/root/public_api"
       ],
+      "@spartacus/cart/bundle/components/bundle-carousel": [
+        "feature-libs/cart/bundle/components/bundle-carousel/public_api"
+      ],
       "@spartacus/cart/bundle/components": [
         "feature-libs/cart/bundle/components/public_api"
       ],
@@ -79,6 +82,9 @@
       ],
       "@spartacus/cart/bundle": [
         "feature-libs/cart/bundle/public_api"
+      ],
+      "@spartacus/cart/bundle/occ": [
+        "feature-libs/cart/bundle/occ/public_api"
       ],
       "@spartacus/cart/bundle/root": [
         "feature-libs/cart/bundle/root/public_api"

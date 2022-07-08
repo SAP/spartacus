@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BundleComponentsModule } from '@spartacus/cart/bundle/components';
 import { BundleCoreModule } from '@spartacus/cart/bundle/core';
-import { BundleOccModule } from './occ/bundle-occ.module';
+import { BundleOccModule } from '@spartacus/cart/bundle/occ';
 
 @NgModule({
   imports: [BundleCoreModule, BundleOccModule, BundleComponentsModule],
