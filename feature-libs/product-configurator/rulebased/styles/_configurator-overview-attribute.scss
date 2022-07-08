@@ -10,6 +10,7 @@
     font-weight: 600;
     line-break: anywhere;
     padding-inline-end: 10px;
+    z-index: -6;
 
     @include media-breakpoint-up(md) {
       width: 40%;
@@ -21,6 +22,7 @@
     padding-inline-end: 10px;
     line-break: anywhere;
     color: var(--cx-color-secondary);
+    z-index: -6;
 
     @include media-breakpoint-up(md) {
       width: 30%;
@@ -31,6 +33,7 @@
     align-self: flex-start;
     color: var(--cx-color-secondary);
     width: 50%;
+    z-index: -6;
 
     @include media-breakpoint-up(md) {
       width: 30%;
