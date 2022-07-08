@@ -1,7 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { PointOfServiceStock, StateUtils } from '@spartacus/core';
 import { StateWithStock, StockLevelState } from '../stock-state';
-import { getStockState } from './feature.selector';
+import { getStockState } from './feature.selectors';
 import { getHideOutOfStockState } from './hide-out-of-stock.selectors';
 
 export const getStockLevelState: MemoizedSelector<
