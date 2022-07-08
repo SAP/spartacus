@@ -6,10 +6,12 @@ import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
+  IntendedPickupLocationFacade,
   LocationSearchParams,
   PickupInStoreFacade,
 } from '@spartacus/pickup-in-store/root';
 import { IconTestingModule, LaunchDialogService } from '@spartacus/storefront';
+import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
 import { MockPickupInStoreService } from 'feature-libs/pickup-in-store/core/facade/pickup-in-store.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
@@ -47,6 +49,10 @@ describe('PickupDeliveryOptionDialogComponent', () => {
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: PickupInStoreFacade, useClass: MockPickupInStoreService },
         { provide: PreferredStoreService, useClass: MockPreferredStoreService },
+        {
+          provide: IntendedPickupLocationFacade,
+          useClass: MockIntendedPickupLocationService,
+        },
       ],
     }).compileComponents();
 
@@ -90,5 +96,12 @@ describe('PickupDeliveryOptionDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       mockCloseReason
     );
+  });
+
+  it('should set loading when showSpinner is called', () => {
+    component.showSpinner(true);
+    expect(component.loading).toEqual(true);
+    component.showSpinner(false);
+    expect(component.loading).toEqual(false);
   });
 });

@@ -4,7 +4,7 @@ import { PointOfService } from '@spartacus/core';
 export const ADD_LOCATION = '[Cart] Add Location';
 export const REMOVE_LOCATION = '[Cart] Remove Location';
 
-type AddLocationProps = {
+export type AddLocationProps = {
   payload: {
     productCode: string;
     location: PointOfService;

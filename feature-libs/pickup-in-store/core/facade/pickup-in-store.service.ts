@@ -18,7 +18,7 @@ import {
 
 @Injectable()
 export class PickupInStoreService implements PickupInStoreFacade {
-  constructor(protected store: Store<StateWithStock>) {}
+  constructor(protected readonly store: Store<StateWithStock>) {}
 
   getStock({
     productCode,

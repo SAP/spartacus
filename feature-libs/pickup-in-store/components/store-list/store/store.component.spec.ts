@@ -24,7 +24,15 @@ describe('StoreComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('selectStore returns false', () => {
+  it('selectStore emits the storeDetails and returns false', () => {
+    spyOn(component.storeSelected, 'emit');
+
+    component.storeDetails = { name: 'storeName' };
+    fixture.detectChanges();
+
+    expect(component.storeSelected.emit).not.toHaveBeenCalledWith({
+      name: 'storeName',
+    });
     expect(component.selectStore()).toEqual(false);
   });
 

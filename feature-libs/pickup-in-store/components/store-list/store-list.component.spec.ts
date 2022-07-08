@@ -5,8 +5,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
-import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
+import {
+  IntendedPickupLocationFacade,
+  PickupInStoreFacade,
+} from '@spartacus/pickup-in-store/root';
 import { SpinnerModule } from '@spartacus/storefront';
+import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
 import { MockPickupInStoreService } from 'feature-libs/pickup-in-store/core/facade/pickup-in-store.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { StoreListComponent } from './store-list.component';
@@ -16,6 +20,7 @@ describe('StoreListComponent', () => {
   let fixture: ComponentFixture<StoreListComponent>;
   let pickupInStoreService: PickupInStoreFacade;
   let preferredStoreService: PreferredStoreService;
+  let intendedPickupLocationService: IntendedPickupLocationFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,6 +36,10 @@ describe('StoreListComponent', () => {
       providers: [
         { provide: PickupInStoreFacade, useClass: MockPickupInStoreService },
         { provide: PreferredStoreService, useClass: MockPreferredStoreService },
+        {
+          provide: IntendedPickupLocationFacade,
+          useClass: MockIntendedPickupLocationService,
+        },
       ],
     }).compileComponents();
 
@@ -38,6 +47,9 @@ describe('StoreListComponent', () => {
     component = fixture.componentInstance;
     pickupInStoreService = TestBed.inject(PickupInStoreFacade);
     preferredStoreService = TestBed.inject(PreferredStoreService);
+    intendedPickupLocationService = TestBed.inject(
+      IntendedPickupLocationFacade
+    );
 
     fixture.detectChanges();
   });
@@ -58,9 +70,23 @@ describe('StoreListComponent', () => {
 
   it('should set the preferred store when a store is selected', () => {
     spyOn(preferredStoreService, 'setPreferredStore');
-    component.onSelectStore('storeName');
+    spyOn(intendedPickupLocationService, 'setIntendedLocation');
+    component.productCode = 'productCode';
+    fixture.detectChanges();
+
+    component.onSelectStore({ name: 'storeName' });
     expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith(
       'storeName'
     );
+    expect(
+      intendedPickupLocationService.setIntendedLocation
+    ).toHaveBeenCalledWith('productCode', { name: 'storeName' });
+  });
+
+  it('should set blank preferred store when store has no name', () => {
+    spyOn(preferredStoreService, 'setPreferredStore');
+
+    component.onSelectStore({ storeContent: 'storeContent' });
+    expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith('');
   });
 });

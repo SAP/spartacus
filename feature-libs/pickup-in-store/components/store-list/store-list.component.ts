@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PointOfServiceStock } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
-import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
+import {
+  IntendedPickupLocationFacade,
+  PickupInStoreFacade,
+} from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,13 +12,17 @@ import { Observable } from 'rxjs';
   templateUrl: 'store-list.component.html',
 })
 export class StoreListComponent implements OnInit {
+  @Input()
+  productCode: string;
+
   isLoading$: Observable<boolean>;
   stores$: Observable<PointOfServiceStock[]>;
   searchHasBeenPerformed$: Observable<boolean>;
 
   constructor(
     private readonly pickupInStoreService: PickupInStoreFacade,
-    private readonly preferredStoreService: PreferredStoreService
+    private readonly preferredStoreService: PreferredStoreService,
+    private readonly intendedPickupLocationService: IntendedPickupLocationFacade
   ) {}
 
   ngOnInit() {
@@ -25,7 +32,12 @@ export class StoreListComponent implements OnInit {
       this.pickupInStoreService.getSearchHasBeenPerformed();
   }
 
-  onSelectStore(storeName: string) {
-    this.preferredStoreService.setPreferredStore(storeName);
+  onSelectStore(store: PointOfServiceStock) {
+    const { stockInfo: _, ...pointOfService } = store;
+    this.preferredStoreService.setPreferredStore(pointOfService.name ?? '');
+    this.intendedPickupLocationService.setIntendedLocation(
+      this.productCode,
+      pointOfService
+    );
   }
 }
