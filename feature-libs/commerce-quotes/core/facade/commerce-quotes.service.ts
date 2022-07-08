@@ -13,7 +13,7 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { ViewConfig } from '@spartacus/storefront';
+import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap, withLatestFrom } from 'rxjs/operators';
 import { CommerceQuotesConnector } from '../connectors';
@@ -40,13 +40,15 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     );
 
   protected quoteDetailsState$: Query<Quote, unknown[]> =
-    this.queryService.create<Quote>(() =>
-      this.routingService.getRouterState().pipe(
-        withLatestFrom(this.userIdService.takeUserId()),
-        switchMap(([{ state }, userId]) =>
-          this.commerceQuotesConnector.getQuote(userId, state.params.quoteId)
-        )
-      )
+    this.queryService.create<Quote>(
+      () =>
+        this.routingService.getRouterState().pipe(
+          withLatestFrom(this.userIdService.takeUserId()),
+          switchMap(([{ state }, userId]) =>
+            this.commerceQuotesConnector.getQuote(userId, state.params.quoteId)
+          )
+        ),
+      { resetOn: [NavigationEvent] }
     );
 
   constructor(
