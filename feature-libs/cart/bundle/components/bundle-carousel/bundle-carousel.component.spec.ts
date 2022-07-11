@@ -1,7 +1,8 @@
+// TODO: Write component unit tests when components are finalized
+
 // import { DebugElement } from '@angular/core';
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
 // import { By } from '@angular/platform-browser';
-// import { RouterTestingModule } from '@angular/router/testing';
 // import { I18nTestingModule, Product, RoutingService } from '@spartacus/core';
 // import { CurrentProductService } from '@spartacus/storefront';
 // import { of } from 'rxjs';
@@ -39,7 +40,7 @@
 
 //   beforeEach(() => {
 //     TestBed.configureTestingModule({
-//       imports: [I18nTestingModule, RouterTestingModule],
+//       imports: [I18nTestingModule],
 //       declarations: [BundleCarouselComponent],
 //       providers: [
 //         { provide: CurrentProductService, useClass: MockCurrentProductService },

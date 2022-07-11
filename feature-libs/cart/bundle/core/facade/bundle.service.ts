@@ -1,7 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { BundleActions, BundleSelectors, StateWithBundle } from '../store';
-import { BundleStarter } from '../model/bundle.model';
+import { BundleStarter, BundleTypes } from '../model/bundle.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -11,7 +11,6 @@ import {
   SearchConfig,
   WindowRef,
 } from '@spartacus/core';
-import { BundleTypes } from '../model';
 import { EntryGroup } from '@spartacus/cart/base/root';
 
 @Injectable({

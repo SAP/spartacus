@@ -38,9 +38,34 @@ export class CartDetailsComponent implements OnInit {
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
 
-    this.entries$ = this.activeCartService
-      .getEntries()
-      .pipe(filter((entries) => entries.length > 0));
+    this.entryGroups$ = this.activeCartService
+      .getEntryGroups()
+      .pipe(filter((groups) => groups.length > 0));
+
+    this.bundles$ = this.entryGroups$.pipe(
+      map((entryGroups) =>
+        entryGroups
+          .filter((group) => Boolean(group.entryGroups?.length))
+          .map((entryGroup) => ({
+            ...entryGroup,
+            entries: entryGroup.entryGroups?.reduce<OrderEntry[]>(
+              (acc, curr) => [...acc, ...(curr.entries ?? [])],
+              []
+            ),
+          }))
+      )
+    );
+
+    this.entries$ = this.entryGroups$.pipe(
+      map((entryGroups) =>
+        entryGroups
+          .filter((group) => !group.entryGroups?.length)
+          .reduce<OrderEntry[]>(
+            (acc, curr) => [...acc, ...(curr.entries ?? [])],
+            []
+          )
+      )
+    );
 
     this.entryGroups$ = this.activeCartService
       .getEntryGroups()
