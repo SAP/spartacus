@@ -10,21 +10,21 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/asm/components',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'AsmMainUiComponent'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'AsmMainUiComponent'. Use 'userAccountFacade' instead.",
     },
     {
       class: 'CustomerEmulationComponent',
       importPath: '@spartacus/asm/components',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'CustomerEmulationComponent'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'CustomerEmulationComponent'. Use 'userAccountFacade' instead.",
     },
     {
       class: 'CsAgentAuthService',
       importPath: '@spartacus/asm/root',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'CsAgentAuthService'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'CsAgentAuthService'. It is replaced by 'userProfileFacade'",
     },
     {
       class: 'CartQuickOrderFormComponent',
@@ -59,7 +59,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/quick-order/components',
       deprecatedNode: 'globalMessageService',
       comment:
-        "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'QuickOrderFormComponent'. ",
+        "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'QuickOrderFormComponent'. It is not used anymore.",
     },
     {
       class: 'QuickOrderFormComponent',
@@ -80,7 +80,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/quick-order/core',
       deprecatedNode: 'productAdapter',
       comment:
-        "// TODO:Spartacus - Property 'productAdapter' was removed from Class 'QuickOrderService'. ",
+        "// TODO:Spartacus - Property 'productAdapter' was removed from Class 'QuickOrderService'. It is not used anymore.",
     },
     {
       class: 'QuickOrderService',
@@ -94,14 +94,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/quick-order/core',
       deprecatedNode: 'removeEntry',
       comment:
-        "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderService'. ",
+        "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderService'. Use `softDeleteEntry` instead.",
     },
     {
       class: 'QuickOrderService',
       importPath: '@spartacus/cart/quick-order/core',
       deprecatedNode: 'search',
       comment:
-        "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderService'. ",
+        "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderService'. Use `searchProducts` instead.",
     },
     {
       class: 'QuickOrderConfig',

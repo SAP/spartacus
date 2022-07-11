@@ -47,7 +47,7 @@ constructor(
 
 ### Property userService is removed.
 
-
+Use 'userAccountFacade' instead.
 
 
 
@@ -84,7 +84,7 @@ constructor(
 
 ### Property userService is removed.
 
-
+Use 'userAccountFacade' instead.
 
 
 
@@ -129,7 +129,7 @@ constructor(
 
 ### Property userService is removed.
 
-
+It is replaced by 'userProfileFacade'
 
 
 
@@ -344,7 +344,7 @@ config: Config
 
 ### Property globalMessageService is removed.
 
-
+It is not used anymore.
 
 ### Property winRef changed.
 
@@ -449,7 +449,7 @@ activeCartService: ActiveCartFacade
 
 ### Property productAdapter is removed.
 
-
+It is not used anymore.
 
 ### Property productSearchConnector changed.
 
@@ -470,11 +470,11 @@ productSearchConnector: ProductSearchConnector
 
 ### Method removeEntry is removed.
 
-
+Use `softDeleteEntry` instead.
 
 ### Method search is removed.
 
-
+Use `searchProducts` instead.
 
 
 

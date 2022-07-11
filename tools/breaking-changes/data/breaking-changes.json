@@ -505,7 +505,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/asm/components",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'CustomerEmulationComponent'.",
-        "migrationComment": "CustomerEmulationComponent",
+        "migrationComment": "Use 'userAccountFacade' instead.",
         "topLevelApiElementName": "CustomerEmulationComponent"
       }
     ]
@@ -807,7 +807,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/asm/root",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'CsAgentAuthService'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by 'userProfileFacade'",
         "topLevelApiElementName": "CsAgentAuthService"
       }
     ]
@@ -2187,7 +2187,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/components",
         "deletedComment": "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'QuickOrderFormComponent'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "QuickOrderFormComponent"
       },
       {
@@ -2936,7 +2936,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/core",
         "deletedComment": "// TODO:Spartacus - Property 'productAdapter' was removed from Class 'QuickOrderService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "QuickOrderService"
       },
       {
@@ -2981,7 +2981,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/core",
         "deletedComment": "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderService'.",
-        "migrationComment": "",
+        "migrationComment": "Use `softDeleteEntry` instead.",
         "topLevelApiElementName": "QuickOrderService"
       },
       {
@@ -3012,7 +3012,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/core",
         "deletedComment": "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderService'.",
-        "migrationComment": "",
+        "migrationComment": "Use `searchProducts` instead.",
         "topLevelApiElementName": "QuickOrderService"
       }
     ]
