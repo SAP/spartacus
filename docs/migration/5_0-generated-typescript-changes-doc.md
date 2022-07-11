@@ -688,7 +688,7 @@ multiCartService: MultiCartFacade
 
 ### Method registerDeleteSavedCartEvents is removed.
 
-
+Use 'registerDeleteCart' Method from Class 'CartEventBuilder' instead.
 
 
 

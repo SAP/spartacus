@@ -171,7 +171,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'registerDeleteSavedCartEvents',
       comment:
-        "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'. ",
+        "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'. Use 'registerDeleteCart' Method from Class 'CartEventBuilder' instead.",
     },
     {
       class: 'SavedCartService',

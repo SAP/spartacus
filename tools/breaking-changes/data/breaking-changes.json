@@ -4721,7 +4721,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'registerDeleteCart' Method from Class 'CartEventBuilder' instead.",
         "topLevelApiElementName": "SavedCartEventBuilder"
       }
     ]
