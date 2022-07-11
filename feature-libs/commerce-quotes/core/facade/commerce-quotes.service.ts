@@ -22,7 +22,7 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { ViewConfig } from '@spartacus/storefront';
+import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of, zip } from 'rxjs';
 import {
   switchMap,
@@ -30,10 +30,9 @@ import {
   take,
   concatMap,
   map,
+  tap,
 } from 'rxjs/operators';
 import { CommerceQuotesConnector } from '../connectors/commerce-quotes.connector';
-
-import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class CommerceQuotesService implements CommerceQuotesFacade {
@@ -179,13 +178,15 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
   );
 
   protected quoteDetailsState$: Query<Quote, unknown[]> =
-    this.queryService.create<Quote>(() =>
-      this.routingService.getRouterState().pipe(
-        withLatestFrom(this.userIdService.takeUserId()),
-        switchMap(([{ state }, userId]) =>
-          this.commerceQuotesConnector.getQuote(userId, state.params.quoteId)
-        )
-      )
+    this.queryService.create<Quote>(
+      () =>
+        this.routingService.getRouterState().pipe(
+          withLatestFrom(this.userIdService.takeUserId()),
+          switchMap(([{ state }, userId]) =>
+            this.commerceQuotesConnector.getQuote(userId, state.params.quoteId)
+          )
+        ),
+      { resetOn: [NavigationEvent] }
     );
 
   constructor(
