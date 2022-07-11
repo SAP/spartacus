@@ -4252,7 +4252,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/storefront',
       deprecatedNode: 'reviewsTabAvailable',
       comment:
-        "// TODO:Spartacus - Property 'reviewsTabAvailable' was removed from Class 'ProductIntroComponent'. ",
+        "// TODO:Spartacus - Property 'reviewsTabAvailable' was removed from Class 'ProductIntroComponent'. Use 'areReviewsAvailable$' instead.",
     },
     {
       class: 'ProductListComponent',

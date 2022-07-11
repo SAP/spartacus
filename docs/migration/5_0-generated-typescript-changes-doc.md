@@ -23479,7 +23479,7 @@ product$: Observable<Product | null>
 
 ### Property reviewsTabAvailable is removed.
 
-
+Use 'areReviewsAvailable$' instead.
 
 
 

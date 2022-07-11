@@ -105340,7 +105340,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Property 'reviewsTabAvailable' was removed from Class 'ProductIntroComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'areReviewsAvailable$' instead.",
         "topLevelApiElementName": "ProductIntroComponent"
       }
     ]
