@@ -15,7 +15,7 @@ import {
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { combineLatest, of, Subscription } from 'rxjs';
+import { combineLatest, EMPTY, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
@@ -46,7 +46,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
           this.productCode = productCode;
           return productCode;
         })
-      ) ?? of();
+      ) ?? EMPTY;
 
     this.subscription.add(
       combineLatest([
