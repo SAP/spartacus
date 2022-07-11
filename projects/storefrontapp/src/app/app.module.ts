@@ -85,6 +85,7 @@ if (!environment.production) {
     provideConfig(<ConfiguratorUISettingsConfig>{
       productConfigurator: {
         enableNavigationToConflict: true,
+        enableVariantSearch: true,
       },
     }),
   ],
