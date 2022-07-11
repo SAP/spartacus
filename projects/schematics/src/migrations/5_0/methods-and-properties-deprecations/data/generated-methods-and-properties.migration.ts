@@ -3272,7 +3272,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'isInViewport',
       comment:
-        "// TODO:Spartacus - Method 'isInViewport' was removed from Class 'ConfiguratorStorefrontUtilsService'. ",
+        "// TODO:Spartacus - Method 'isInViewport' was removed from Class 'ConfiguratorStorefrontUtilsService'. It is not needed anymore as scrolling is always executed on navigation regardless of position of element.",
     },
     {
       class: 'OccConfiguratorVariantNormalizer',

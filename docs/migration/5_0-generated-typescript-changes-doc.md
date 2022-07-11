@@ -18984,7 +18984,7 @@ product$: Observable<Product | undefined>
 
 ### Method isInViewport is removed.
 
-
+It is not needed anymore as scrolling is always executed on navigation regardless of position of element.
 
 
 

@@ -86581,7 +86581,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/product-configurator/rulebased",
         "deletedComment": "// TODO:Spartacus - Method 'isInViewport' was removed from Class 'ConfiguratorStorefrontUtilsService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not needed anymore as scrolling is always executed on navigation regardless of position of element.",
         "topLevelApiElementName": "ConfiguratorStorefrontUtilsService"
       }
     ]
