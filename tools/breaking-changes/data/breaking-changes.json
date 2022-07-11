@@ -2051,6 +2051,98 @@
         "entryPoint": "@spartacus/cart/quick-order/components"
       },
       {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  globalMessageService: GlobalMessageService,\n  quickOrderService: QuickOrderFacade,\n  config: Config,\n  cd: ChangeDetectorRef,\n  winRef: WindowRef\n)\n",
+        "currentStateDoc": "\nconstructor(\n  config: Config,\n  cd: ChangeDetectorRef,\n  quickOrderService: QuickOrderFacade,\n  winRef: WindowRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "quickOrderService",
+              "type": "QuickOrderFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!QuickOrderFacade:class",
+              "shortType": "QuickOrderFacade",
+              "importPath": "@spartacus/cart/quick-order/root"
+            },
+            {
+              "name": "config",
+              "type": "Config",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!Config:class",
+              "shortType": "Config",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "cd",
+              "type": "ChangeDetectorRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ChangeDetectorRef:class",
+              "shortType": "ChangeDetectorRef",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "config",
+              "type": "Config",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!Config:class",
+              "shortType": "Config",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "cd",
+              "type": "ChangeDetectorRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ChangeDetectorRef:class",
+              "shortType": "ChangeDetectorRef",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "quickOrderService",
+              "type": "QuickOrderFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!QuickOrderFacade:class",
+              "shortType": "QuickOrderFacade",
+              "importPath": "@spartacus/cart/quick-order/root"
+            },
+            {
+              "name": "winRef",
+              "type": "WindowRef",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_components!WindowRef:class",
+              "shortType": "WindowRef",
+              "importPath": "@spartacus/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "QuickOrderFormComponent",
+        "entryPoint": "@spartacus/cart/quick-order/components"
+      },
+      {
         "change": "PROPERTY_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Property",
@@ -2714,6 +2806,90 @@
               "isOptional": false,
               "canonicalReference": "@spartacus/cart_quick-order_core!Config:class",
               "shortType": "Config",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "productSearchConnector",
+              "type": "ProductSearchConnector",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!ProductSearchConnector:class",
+              "shortType": "ProductSearchConnector",
+              "importPath": "@spartacus/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "QuickOrderService",
+        "entryPoint": "@spartacus/cart/quick-order/core"
+      },
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  activeCartService: ActiveCartService,\n  productAdapter: ProductAdapter,\n  eventService: EventService,\n  productSearchConnector: ProductSearchConnector | undefined\n)\n",
+        "currentStateDoc": "\nconstructor(\n  activeCartService: ActiveCartFacade,\n  config: Config,\n  eventService: EventService,\n  productSearchConnector: ProductSearchConnector\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "productAdapter",
+              "type": "ProductAdapter",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!ProductAdapter:class",
+              "shortType": "ProductAdapter",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "eventService",
+              "type": "EventService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!EventService:class",
+              "shortType": "EventService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "productSearchConnector",
+              "type": "ProductSearchConnector | undefined",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/cart_quick-order_core!ProductSearchConnector:class",
+              "shortType": "ProductSearchConnector",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "config",
+              "type": "Config",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!Config:class",
+              "shortType": "Config",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "eventService",
+              "type": "EventService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/cart_quick-order_core!EventService:class",
+              "shortType": "EventService",
               "importPath": "@spartacus/core"
             },
             {
@@ -88590,6 +88766,49 @@
   {
     "entryPoint": "@spartacus/storefront",
     "kind": "Class",
+    "name": "FormErrorsComponent",
+    "members": [],
+    "breakingChanges": [
+      {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor()\n",
+        "currentStateDoc": "\nconstructor(\n  ChangeDetectionRef: ChangeDetectorRef,\n  keyValueDiffers: KeyValueDiffers\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [],
+          "newParams": [
+            {
+              "name": "ChangeDetectionRef",
+              "type": "ChangeDetectorRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ChangeDetectorRef:class",
+              "shortType": "ChangeDetectorRef",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "keyValueDiffers",
+              "type": "KeyValueDiffers",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!KeyValueDiffers:class",
+              "shortType": "KeyValueDiffers",
+              "importPath": "@angular/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "FormErrorsComponent",
+        "entryPoint": "@spartacus/storefront"
+      }
+    ]
+  },
+  {
+    "entryPoint": "@spartacus/storefront",
+    "kind": "Class",
     "name": "AddToCartComponent",
     "members": [
       {
@@ -93248,6 +93467,70 @@
         "entryPoint": "@spartacus/storefront"
       },
       {
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeDesc": true,
+        "previousStateDoc": "\nconstructor(\n  activeCartService: ActiveCartService,\n  router: Router\n)\n",
+        "currentStateDoc": "\nconstructor(\n  activeCartService: ActiveCartFacade\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "router",
+              "type": "Router",
+              "canonicalReference": "@angular/router!Router:class",
+              "shortType": "Router",
+              "importPath": "@angular/router"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartFacade",
+              "canonicalReference": "@spartacus/cart_base_components!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "router",
+              "type": "Router",
+              "canonicalReference": "@angular/router!Router:class",
+              "shortType": "Router",
+              "importPath": "@angular/router"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartFacade",
+              "canonicalReference": "@spartacus/cart_base_components!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            }
+          ]
+        }
+      },
+      {
         "change": "PROPERTY_CHANGED",
         "changeType": "CHANGED",
         "changeKind": "Property",
@@ -93278,6 +93561,26 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Property 'cartValidationInProgress' was removed from Class 'CartTotalsComponent'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "CartTotalsComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "router",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "router",
+          "type": "Router"
+        },
+        "apiElementName": "CartTotalsComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Property 'router' was removed from Class 'CartTotalsComponent'.",
         "migrationComment": "",
         "topLevelApiElementName": "CartTotalsComponent"
       },
@@ -94710,6 +95013,20 @@
             }
           ]
         },
+        "topLevelApiElementName": "ComponentWrapperDirective",
+        "entryPoint": "@spartacus/storefront"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "cmpRef",
+        "changeElementCategory": "MEMBER",
+        "oldType": "ComponentRef<any>",
+        "newType": "ComponentRef<any>",
+        "previousStateDoc": "public",
+        "currentStateDoc": "`cmpRef` has been made `protected` due to being unsafe.",
         "topLevelApiElementName": "ComponentWrapperDirective",
         "entryPoint": "@spartacus/storefront"
       }
