@@ -3237,7 +3237,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'removeObsoleteProductBoundConfiguration',
       comment:
-        "// TODO:Spartacus - Method 'removeObsoleteProductBoundConfiguration' was removed from Class 'ConfiguratorCommonsService'. ",
+        "// TODO:Spartacus - Method 'removeObsoleteProductBoundConfiguration' was removed from Class 'ConfiguratorCommonsService'. It is no longer needed because an obsolete product bound configuration is handled within action `RemoveCartBoundConfigurations`. So in case you called `removeObsoleteProductBoundConfiguration` before, consider to raise that action, which will clear all cart bound configurations, and in addition delete the obsolete product bound configuration that is predecessor of a cart bound configuration.",
     },
     {
       class: 'ConfiguratorExitButtonComponent',

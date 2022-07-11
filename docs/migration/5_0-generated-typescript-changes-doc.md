@@ -18809,7 +18809,7 @@ activeCartService: ActiveCartFacade
 
 ### Method removeObsoleteProductBoundConfiguration is removed.
 
-
+It is no longer needed because an obsolete product bound configuration is handled within action `RemoveCartBoundConfigurations`. So in case you called `removeObsoleteProductBoundConfiguration` before, consider to raise that action, which will clear all cart bound configurations, and in addition delete the obsolete product bound configuration that is predecessor of a cart bound configuration.
 
 
 
