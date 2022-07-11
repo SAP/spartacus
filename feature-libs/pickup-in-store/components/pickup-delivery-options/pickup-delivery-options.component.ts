@@ -7,15 +7,16 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { AddToCartContainerContext } from '@spartacus/cart/base/components/add-to-cart';
+import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { IntendedPickupLocationFacade } from 'feature-libs/pickup-in-store/root';
-import { Subscription } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { combineLatest, of, Subscription } from 'rxjs';
+import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-pickup-delivery-options',
@@ -25,8 +26,11 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   @ViewChild('open') element: ElementRef;
   subscription = new Subscription();
 
+  deliveryOptionsForm = new FormGroup({
+    deliveryOption: new FormControl('delivery'),
+  });
+
   private productCode: string;
-  public pickUpInStore = false;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -36,17 +40,34 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.outlet?.context$
-      .pipe(
-        tap(({ productCode }) => (this.productCode = productCode)),
-        switchMap(({ productCode }) =>
-          this.intendedPickupLocationService.getIntendedLocation(productCode)
-        ),
-        tap((intendedLocation) => {
-          this.pickUpInStore = !!intendedLocation;
+    const productCode$ =
+      this.outlet?.context$?.pipe(
+        map(({ productCode }) => {
+          this.productCode = productCode;
+          return productCode;
         })
-      )
-      .subscribe();
+      ) ?? of();
+
+    this.subscription.add(
+      combineLatest([
+        productCode$,
+        this.launchDialogService.dialogClose.pipe(
+          filter((reason) => reason !== undefined),
+          startWith(undefined)
+        ),
+      ])
+        .pipe(
+          switchMap(([productCode]) =>
+            this.intendedPickupLocationService.getIntendedLocation(productCode)
+          ),
+          tap((intendedLocation) =>
+            this.deliveryOptionsForm
+              .get('deliveryOption')
+              ?.setValue(intendedLocation ? 'pickup' : 'delivery')
+          )
+        )
+        .subscribe()
+    );
   }
 
   ngOnDestroy(): void {

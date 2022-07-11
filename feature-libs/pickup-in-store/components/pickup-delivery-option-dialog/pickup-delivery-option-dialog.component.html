@@ -8,7 +8,7 @@
         </div>
 
         <button
-          (click)="close('Close Pick A Store Dialog')"
+          (click)="close(CLOSE_WITHOUT_SELECTION)"
           class="cx-dialog-close close"
           [attr.aria-label]="'pickupInStoreDialog.close' | cxTranslate"
           type="button"
@@ -29,7 +29,7 @@
         ></cx-store-search>
         <cx-store-list
           [productCode]="productCode"
-          (storeSelected)="close('Pickup location selected')"
+          (storeSelected)="close(LOCATION_SELECTED)"
         ></cx-store-list>
         <div *ngIf="loading">
           <div class="cx-spinner">

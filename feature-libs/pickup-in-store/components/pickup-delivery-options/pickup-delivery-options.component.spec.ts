@@ -11,7 +11,7 @@ import {
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { of, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../core/facade/intended-pickup-location.service.spec';
 import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.component';
 
@@ -37,6 +37,10 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
     _data?: any
   ) {
     return of();
+  }
+
+  get dialogClose(): Observable<string | undefined> {
+    return of(undefined);
   }
 }
 
@@ -142,8 +146,9 @@ describe('PickupDeliveryOptionsComponent', () => {
 
       component.ngOnInit();
 
-      // If the service does not return a pickup location then pickUpInStore should be false
-      expect(component.pickUpInStore).toEqual(false);
+      expect(component.deliveryOptionsForm.value).toEqual({
+        deliveryOption: 'delivery',
+      });
     });
 
     it('should set pickupInStore to true when there is an intended location', () => {
@@ -154,8 +159,9 @@ describe('PickupDeliveryOptionsComponent', () => {
 
       component.ngOnInit();
 
-      // If the service does return a pickup location then pickUpInStore should be true
-      expect(component.pickUpInStore).toEqual(true);
+      expect(component.deliveryOptionsForm.value).toEqual({
+        deliveryOption: 'pickup',
+      });
     });
 
     it('should trigger and open dialog', () => {

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { provideDefaultConfig } from '@spartacus/core';
 
 import {
@@ -11,6 +12,7 @@ import { StoreSearchModule } from './store-search/store-search.module';
 
 @NgModule({
   imports: [
+    ReactiveFormsModule,
     PickupDeliveryOptionDialogModule,
     PickupDeliveryOptionsModule,
     StoreListModule,
