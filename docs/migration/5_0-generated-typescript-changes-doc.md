@@ -22021,7 +22021,7 @@ node: NavigationNode | null
 
 ### Method reinitalizeMenu is removed.
 
-
+Use 'reinitializeMenu' instead.
 
 ### Property resetMenuOnClose changed.
 

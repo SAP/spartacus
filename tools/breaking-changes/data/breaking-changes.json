@@ -99314,7 +99314,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Method 'reinitalizeMenu' was removed from Class 'NavigationUIComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'reinitializeMenu' instead.",
         "topLevelApiElementName": "NavigationUIComponent"
       },
       {

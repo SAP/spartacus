@@ -3951,7 +3951,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/storefront',
       deprecatedNode: 'reinitalizeMenu',
       comment:
-        "// TODO:Spartacus - Method 'reinitalizeMenu' was removed from Class 'NavigationUIComponent'. ",
+        "// TODO:Spartacus - Method 'reinitalizeMenu' was removed from Class 'NavigationUIComponent'. Use 'reinitializeMenu' instead.",
     },
     {
       class: 'NavigationUIComponent',
