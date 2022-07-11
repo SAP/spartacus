@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BundleTemplate, CartBundleService } from '@spartacus/cart/bundle/core';
 import { Product, RoutingService } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { BundleTemplate } from '../../core/model';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-bundle-carousel',
@@ -15,12 +17,19 @@ export class BundleCarouselComponent {
 
   constructor(
     protected currentProductService: CurrentProductService,
-    protected router: RoutingService
+    protected routingService: RoutingService,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected cartBundleService: CartBundleService
   ) {}
 
   startBundle(template: BundleTemplate) {
-    this.router.go('start-bundle', {
-      queryParams: { template: template.id },
-    });
+    this.product$.pipe(take(1)).subscribe((product) =>
+      this.cartBundleService.startBundle({
+        productCode: product?.code,
+        templateId: template.id,
+        quantity: 1,
+      })
+    );
   }
 }

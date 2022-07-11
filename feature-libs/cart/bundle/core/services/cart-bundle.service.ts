@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartService } from '@spartacus/cart/base/core';
+import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import { Product, ProductService, UserIdService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
@@ -15,10 +15,11 @@ export class CartBundleService {
   protected readonly PRODUCT_SCOPE = BundleProductScope.TEMPLATES;
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected bundleService: BundleService,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected multiCartService: MultiCartFacade
   ) {}
 
   getBundleTemplates(
@@ -67,26 +68,5 @@ export class CartBundleService {
           );
         });
       });
-  }
-
-  /**
-   * Get allowed Bundle Products
-   *
-   * @param entryGroupNumber
-   */
-  getAvailableEntries(entryGroupNumber: number) {
-    let cartId;
-
-    this.activeCartService
-      .getActiveCartId()
-      .pipe(take(1))
-      .subscribe((activeCartId) => {
-        cartId = activeCartId;
-      });
-
-    return this.bundleService.getAvailableEntriesEntity(
-      cartId,
-      entryGroupNumber
-    );
   }
 }

@@ -27,6 +27,34 @@
     </tr>
   </thead>
   <tbody class="cx-item-list-items">
+    <ng-container *ngFor="let bundle of bundles">
+      <tr
+        cx-cart-bundle-list-row
+        role="row"
+        class="cx-item-list-row"
+        [bundle]="bundle"
+        [readonly]="readonly"
+        [promotionLocation]="promotionLocation"
+        [options]="options"
+      ></tr>
+      <ng-container *ngFor="let bundleEntry of bundle.entries">
+        <ng-container
+          *ngIf="getControl(bundleEntry) | async as control"
+          [class.is-changed]="control.get('quantity').disabled"
+        >
+          <tr
+            cx-cart-item-list-row
+            role="row"
+            class="cx-item-list-row cx-bundle-item-list-row"
+            [item]="bundleEntry"
+            [quantityControl]="control.get('quantity')"
+            [promotionLocation]="promotionLocation"
+            [options]="options"
+            [isBundleItem]="true"
+          ></tr>
+        </ng-container>
+      </ng-container>
+    </ng-container>
     <ng-container *ngFor="let item of items; let i = index">
       <ng-container
         *ngIf="getControl(item) | async as control"

@@ -5,6 +5,7 @@ import { SearchConfig } from '@spartacus/core';
 const cartId = 'test-cart';
 const userId = 'test-user';
 const entryGroupNumber = 1;
+const sectionId = entryGroupNumber;
 
 describe('Available Entries Reducer', () => {
   describe('Undefined action', () => {
@@ -20,7 +21,7 @@ describe('Available Entries Reducer', () => {
   describe('GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS action', () => {
     it('should populate results after loading', () => {
       const searchConfig: SearchConfig = { pageSize: 10 };
-      const results = { cartId, entryGroupNumber, name: 'test' };
+      const results = { cartId, userId, entryGroupNumber, name: 'test' };
       const { initialState } = fromReducers;
       const loadAction = new BundleActions.GetBundleAllowedProducts({
         cartId,
@@ -42,7 +43,7 @@ describe('Available Entries Reducer', () => {
       );
 
       expect(state.availableEntriesEntities).toEqual({
-        [cartId]: { [entryGroupNumber]: results },
+        [cartId]: { [sectionId]: results },
       });
     });
   });

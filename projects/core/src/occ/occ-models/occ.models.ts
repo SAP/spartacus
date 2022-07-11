@@ -1462,6 +1462,37 @@ export namespace Occ {
 
   /**
    *
+   * An interface representing EntryGroup.
+   */
+  export interface EntryGroup {
+    /**
+     * @member {OrderEntry[]} [entries]
+     */
+    entries?: OrderEntry[];
+    /**
+     * @member {number} [entryGroupNumber]
+     */
+    entryGroupNumber?: number;
+    /**
+     * @member {EntryGroup[]} [entryGroups]
+     */
+    entryGroups?: EntryGroup[];
+    /**
+     * @member {boolean} [erroneous]
+     */
+    erroneous?: boolean;
+    /**
+     * @member {string} [label]
+     */
+    label?: string;
+    /**
+     * @member {string} [type]
+     */
+    type?: string;
+  }
+
+  /**
+   *
    * An interface representing OrderEntry.
    */
   export interface OrderEntry {
@@ -1738,6 +1769,10 @@ export namespace Occ {
      * @member {OrderEntry[]} [entries]
      */
     entries?: OrderEntry[];
+    /**
+     * @member {EntryGroup[]} [entryGroups]
+     */
+    entryGroups?: EntryGroup[];
     /**
      * @member {Date} [expirationTime]
      */

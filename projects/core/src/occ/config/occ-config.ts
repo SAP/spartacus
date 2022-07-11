@@ -14,7 +14,7 @@ export interface BackendConfig {
      */
     useWithCredentials?: boolean;
 
-    endpoints?: OccEndpoints;
+    endpoints?: OccEndpoints | any;
   };
   media?: {
     /**

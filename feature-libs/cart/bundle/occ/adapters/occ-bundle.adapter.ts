@@ -8,8 +8,7 @@ import {
   SearchConfig,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { BundleAdapter } from '../../core/connectors/bundle.adapter';
-import { BundleStarter } from '../../core/model/bundle.model';
+import { BundleAdapter, BundleStarter } from '@spartacus/cart/bundle/core';
 
 @Injectable()
 export class OccBundleAdapter implements BundleAdapter {

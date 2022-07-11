@@ -12,6 +12,7 @@ import {
   ActiveCartFacade,
   CartItemComponentOptions,
   ConsignmentEntry,
+  EntryGroup,
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
@@ -19,7 +20,7 @@ import {
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 
 interface ItemListContext {
@@ -54,15 +55,28 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input() cartId: string;
 
   protected _items: OrderEntry[] = [];
+  protected _bundles: EntryGroup[] = [];
   form: FormGroup = new FormGroup({});
 
   @Input('items')
   set items(items: OrderEntry[]) {
     this.resolveItems(items);
-    this.createForm();
+    this.createForm(items);
   }
   get items(): OrderEntry[] {
     return this._items;
+  }
+
+  @Input('bundles')
+  set bundles(bundles: EntryGroup[]) {
+    this._bundles = bundles;
+    this.createBundleForm(bundles);
+    for (let bundle of bundles) {
+      this.createForm(bundle.entries ?? []);
+    }
+  }
+  get bundles(): EntryGroup[] {
+    return this._bundles;
   }
 
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
@@ -89,7 +103,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(this.getInputsFromContext());
-
     this.subscription.add(
       this.userIdService
         ?.getUserId()
@@ -166,8 +179,8 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   /**
    * Creates form models for list items
    */
-  protected createForm(): void {
-    this._items.forEach((item) => {
+  protected createForm(items: OrderEntry[] = []): void {
+    items.forEach((item) => {
       const controlName = this.getControlName(item);
       const control = this.form.get(controlName);
       if (control) {
@@ -190,6 +203,33 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     });
   }
 
+  protected createBundleForm(bundles: EntryGroup[]): void {
+    bundles.forEach((bundle) => {
+      const controlName = this.getBundleControlName(bundle);
+      const control = this.form.get(controlName);
+      if (control) {
+        // @TODO: Change '1' to bundle.quantity (see this.createForm function)
+        if (control.get('quantity')?.value !== 1) {
+          control.patchValue({ quantity: 1 }, { emitEvent: false });
+        }
+      } else {
+        const group = new FormGroup({
+          entryGroupNumber: new FormControl(bundle.entryGroupNumber),
+          quantity: new FormControl(1, { updateOn: 'blur' }),
+        });
+        this.form.addControl(controlName, group);
+      }
+
+      if (this.readonly) {
+        this.form.controls[controlName].disable();
+      }
+    });
+  }
+
+  protected getBundleControlName(item: EntryGroup): string {
+    return `bundle_${item.entryGroupNumber?.toString()}`;
+  }
+
   protected getControlName(item: OrderEntry): string {
     return item.entryNumber?.toString() || '';
   }
@@ -207,6 +247,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       this.activeCartService.removeEntry(item);
     }
     delete this.form.controls[this.getControlName(item)];
+  }
+
+  getBundleControl(bundle: EntryGroup): Observable<FormGroup> | undefined {
+    return of(<FormGroup>this.form.get(this.getBundleControlName(bundle)));
   }
 
   getControl(item: OrderEntry): Observable<FormGroup> | undefined {

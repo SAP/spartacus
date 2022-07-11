@@ -19,6 +19,7 @@
 
       <cx-cart-item-list
         [items]="entries"
+        [bundles]="bundles$ | async"
         [cartIsLoading]="!(cartLoaded$ | async)"
         [promotionLocation]="promotionLocation"
         [options]="{
