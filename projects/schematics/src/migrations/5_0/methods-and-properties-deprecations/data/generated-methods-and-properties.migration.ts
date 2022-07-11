@@ -3191,6 +3191,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "The 'isAttributeGroup' method's signature changed to: 'isAttributeGroup(): boolean'",
     },
     {
+      class: 'ConfiguratorAttributeHeaderComponent',
+      importPath: '@spartacus/product-configurator/rulebased',
+      deprecatedNode: 'isMultiSelection',
+      comment:
+        "// TODO:Spartacus - Method 'isMultiSelection' was removed from Class 'ConfiguratorAttributeHeaderComponent'. It has been converted to a getter instead.",
+    },
+    {
       class: 'ConfiguratorAttributeMultiSelectionBundleComponent',
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'extractProductCardParameters',

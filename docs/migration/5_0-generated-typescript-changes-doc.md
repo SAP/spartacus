@@ -18485,6 +18485,10 @@ isAttributeGroup(): boolean
 ```
 
 
+### Method isMultiSelection is removed.
+
+It has been converted to a getter instead.
+
 
 
 # Class ConfiguratorAttributeMultiSelectionBundleComponent 

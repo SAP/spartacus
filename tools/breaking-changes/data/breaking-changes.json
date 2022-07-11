@@ -83032,6 +83032,28 @@
         },
         "topLevelApiElementName": "ConfiguratorAttributeHeaderComponent",
         "entryPoint": "@spartacus/product-configurator/rulebased"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "isMultiSelection",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "isMultiSelection",
+          "overloadIndex": 1,
+          "parameters": [],
+          "returnType": "boolean"
+        },
+        "apiElementName": "ConfiguratorAttributeHeaderComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/product-configurator/rulebased",
+        "deletedComment": "// TODO:Spartacus - Method 'isMultiSelection' was removed from Class 'ConfiguratorAttributeHeaderComponent'.",
+        "migrationComment": "It has been converted to a getter instead.",
+        "topLevelApiElementName": "ConfiguratorAttributeHeaderComponent"
       }
     ]
   },
