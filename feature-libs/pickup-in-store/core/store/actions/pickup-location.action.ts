@@ -1,8 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { PointOfService } from '@spartacus/core';
 
-export const ADD_LOCATION = '[Cart] Add Location';
-export const REMOVE_LOCATION = '[Cart] Remove Location';
+export const ADD_LOCATION = '[Pickup Locations] Add Location';
+export const REMOVE_LOCATION = '[Pickup Locations] Remove Location';
 
 export type AddLocationProps = {
   payload: {
