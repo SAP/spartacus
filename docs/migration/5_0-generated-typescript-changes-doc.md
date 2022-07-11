@@ -18909,7 +18909,7 @@ constructor(
 
 ### Property configuration$ is removed.
 
-
+In case you use it in a sub component, consider to declare it there via `configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService .extractRouterData() .pipe( switchMap((routerData) => this.configuratorCommonsService.getConfiguration(routerData.owner) ) );`
 
 
 
