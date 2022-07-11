@@ -4322,7 +4322,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/storefront',
       deprecatedNode: 'clikEvent',
       comment:
-        "// TODO:Spartacus - Property 'clikEvent' was removed from Class 'ProgressButtonComponent'. ",
+        "// TODO:Spartacus - Property 'clikEvent' was removed from Class 'ProgressButtonComponent'. Use 'clickEvent' instead.",
     },
     {
       class: 'ReplenishmentOrderCancellationComponent',

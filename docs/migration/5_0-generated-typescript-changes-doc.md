@@ -23722,7 +23722,7 @@ modeChange: EventEmitter<ViewModes>
 
 ### Property clikEvent is removed.
 
-
+Use 'clickEvent' instead.
 
 
 
