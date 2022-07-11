@@ -15,7 +15,7 @@ export abstract class PageMetaResolver implements Applicable {
   /** The page template is used to score the (non)matching page template */
   pageTemplate: string;
 
-  /** The page uid is used to score the (non)matching page template */
+  /** The page uid is used to score the (non)matching page ids */
   pageUid: string;
 
   /**
