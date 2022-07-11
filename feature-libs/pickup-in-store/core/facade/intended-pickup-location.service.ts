@@ -6,8 +6,9 @@ import { Observable } from 'rxjs';
 import { PickupLocationActions, PickupLocationsSelectors } from '../store';
 import { StateWithPickupLocations } from '../store/pickup-location-state';
 
-// TODO add jsdocs
-
+/**
+ * Store the Point of Service a user wants to collect a product from before it is added to the cart.
+ */
 @Injectable()
 export class IntendedPickupLocationService
   implements IntendedPickupLocationFacade
