@@ -276,6 +276,38 @@ constructor(
 ```
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  globalMessageService: GlobalMessageService,
+  quickOrderService: QuickOrderFacade,
+  config: Config,
+  cd: ChangeDetectorRef,
+  winRef: WindowRef
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  config: Config,
+  cd: ChangeDetectorRef,
+  quickOrderService: QuickOrderFacade,
+  winRef: WindowRef
+)
+
+```
+
+
 ### Property cd changed.
 
 
@@ -348,6 +380,37 @@ constructor(
   activeCartService: ActiveCartService,
   productAdapter: ProductAdapter,
   eventService: EventService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartFacade,
+  config: Config,
+  eventService: EventService,
+  productSearchConnector: ProductSearchConnector
+)
+
+```
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartService,
+  productAdapter: ProductAdapter,
+  eventService: EventService,
+  productSearchConnector: ProductSearchConnector | undefined
 )
 
 ```
@@ -19412,6 +19475,36 @@ suggestedAddressModalRef: ModalRef | null
 
 
 
+# Class FormErrorsComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor()
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  ChangeDetectionRef: ChangeDetectorRef,
+  keyValueDiffers: KeyValueDiffers
+)
+
+```
+
+
+
+
 # Class AddToCartComponent 
 ## @spartacus/storefront
 
@@ -20467,6 +20560,32 @@ constructor(
 ```
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartService,
+  router: Router
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartFacade
+)
+
+```
+
+
 ### Property activeCartService changed.
 
 
@@ -20485,6 +20604,10 @@ activeCartService: ActiveCartFacade
 
 
 ### Property cartValidationInProgress is removed.
+
+
+
+### Property router is removed.
 
 
 
@@ -20802,6 +20925,23 @@ constructor(
   eventService: EventService
 )
 
+```
+
+
+### Property cmpRef changed.
+
+
+Previous version: 
+
+```
+public
+```
+
+
+Current version: 
+
+```
+`cmpRef` has been made `protected` due to being unsafe.
 ```
 
 
