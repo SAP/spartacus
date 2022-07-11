@@ -9,13 +9,4 @@ import { CommerceQuotesActionLinksComponent } from './commerce-quotes-action-lin
   declarations: [CommerceQuotesActionLinksComponent],
   exports: [CommerceQuotesActionLinksComponent],
 })
-
-/**
- * TODO: Think about the way how component can be initialised,
- * should does it be separate CMS Component and render it on the page
- * by using CMS mapping?
- *
- * Or render action links directly in any components template by
- * using component's selector name.
- */
 export class CommerceQuotesActionLinksModule {}

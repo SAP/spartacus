@@ -1,13 +1,17 @@
 <section>
-  <!--
-    TODO: Does should be always new cart, or link to existing cart?
-    If first option, we need to fire clear cart action before 
-    navigation action will be ended.
-    -->
-  <a [routerLink]="{ cxRoute: 'cart' } | cxUrl" class="link cx-action-link">{{
-    'commerceQuotes.links.newCart' | cxTranslate
-  }}</a>
-  <a [routerLink]="{ cxRoute: 'quotes' } | cxUrl" class="link cx-action-link">{{
-    'commerceQuotes.links.quotes' | cxTranslate
-  }}</a>
+  <ul>
+    <li>
+      <button (click)="goToNewCart()" class="link cx-action-link">
+        {{ 'commerceQuotes.links.newCart' | cxTranslate }}
+      </button>
+    </li>
+    <li>
+      <button
+        [routerLink]="{ cxRoute: 'quotes' } | cxUrl"
+        class="link cx-action-link"
+      >
+        {{ 'commerceQuotes.links.quotes' | cxTranslate }}
+      </button>
+    </li>
+  </ul>
 </section>

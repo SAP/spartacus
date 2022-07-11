@@ -1,21 +1,39 @@
 %cx-commerce-quotes-action-links {
   section {
     display: flex;
-    padding: 1rem 0;
     justify-content: flex-end;
-    .link {
-      &:before {
-        content: '|';
-        color: var(--cx-color-light);
-        display: inline-block;
-        margin-inline-start: 0.313rem;
-        margin-inline-end: 0.313rem;
-      }
-      &:first-child {
-        &:before {
-          display: none;
+    @include media-breakpoint-down(sm) {
+      padding: 0 1.25rem;
+    }
+    @include media-breakpoint-up(md) {
+      padding-bottom: 1.25rem;
+    }
+    ul {
+      display: flex;
+      list-style: none;
+      margin-bottom: 0;
+      li {
+        padding: 0 1em;
+        text-align: center;
+        border-right: 1px solid var(--cx-color-light);
+        &:last-child {
+          border: none;
+          padding-right: 0;
         }
       }
+    }
+  }
+}
+
+html[dir='rtl'] cx-commerce-quotes-action-links {
+  ul li {
+    &:first-child {
+      border-right: 0;
+    }
+    &:last-child {
+      padding-left: 0;
+      padding-right: 1em;
+      border-right: 1px solid var(--cx-color-light);
     }
   }
 }
