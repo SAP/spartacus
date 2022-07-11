@@ -6,7 +6,7 @@
       name="deliveryOption"
       (click)="clearIntendedPickupLocation()"
       [attr.aria-label]="'deliveryOptions.delivery' | cxTranslate"
-      checked
+      [checked]="!pickUpInStore"
     />
     <label for="delivery">
       {{ 'deliveryOptions.delivery' | cxTranslate }}
@@ -19,6 +19,7 @@
       name="deliveryOption"
       (click)="openDialog()"
       [attr.aria-label]="'deliveryOptions.pickup' | cxTranslate"
+      [checked]="pickUpInStore"
     />
     <label for="pickInStore">
       <p>{{ 'deliveryOptions.pickup' | cxTranslate }}</p>

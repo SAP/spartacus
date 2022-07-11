@@ -15,7 +15,7 @@ import {
 } from '@spartacus/storefront';
 import { IntendedPickupLocationFacade } from 'feature-libs/pickup-in-store/root';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { switchMap, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-pickup-delivery-options',
@@ -26,6 +26,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
 
   private productCode: string;
+  public pickUpInStore = false;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -35,9 +36,17 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.outlet?.context$.subscribe(
-      ({ productCode }) => (this.productCode = productCode)
-    );
+    this.outlet?.context$
+      .pipe(
+        tap(({ productCode }) => (this.productCode = productCode)),
+        switchMap(({ productCode }) =>
+          this.intendedPickupLocationService.getIntendedLocation(productCode)
+        ),
+        tap((intendedLocation) => {
+          this.pickUpInStore = !!intendedLocation;
+        })
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {

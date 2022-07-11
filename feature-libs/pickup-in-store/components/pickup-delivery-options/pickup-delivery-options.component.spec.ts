@@ -74,7 +74,9 @@ describe('PickupDeliveryOptionsComponent', () => {
     fixture = TestBed.createComponent(PickupDeliveryOptionsComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
-    intendedPickupLocationService = TestBed.inject(IntendedPickupLocationFacade);
+    intendedPickupLocationService = TestBed.inject(
+      IntendedPickupLocationFacade
+    );
 
     spyOn(launchDialogService, 'openDialog').and.callThrough();
 
