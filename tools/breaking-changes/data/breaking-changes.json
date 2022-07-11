@@ -347,7 +347,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/asm/components",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'AsmMainUiComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'userAccountFacade' instead.",
         "topLevelApiElementName": "AsmMainUiComponent"
       }
     ]
@@ -505,7 +505,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/asm/components",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'CustomerEmulationComponent'.",
-        "migrationComment": "",
+        "migrationComment": "CustomerEmulationComponent",
         "topLevelApiElementName": "CustomerEmulationComponent"
       }
     ]
