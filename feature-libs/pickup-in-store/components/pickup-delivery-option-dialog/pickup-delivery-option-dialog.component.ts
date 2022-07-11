@@ -12,11 +12,12 @@ import { Observable } from 'rxjs';
 })
 export class PickupDeliveryOptionDialogComponent implements OnInit {
   productCode: string;
-
   getHideOutOfStockState$: Observable<boolean>;
+  loading: boolean;
 
   readonly iconTypes = ICON_TYPE;
-  loading: boolean;
+  readonly CLOSE_WITHOUT_SELECTION = 'CLOSE_WITHOUT_SELECTION';
+  readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -42,9 +43,11 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
   onHideOutOfStock(): void {
     this.pickupInStoreFacade.hideOutOfStock();
   }
+
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
+
   showSpinner(showSpinner: boolean): void {
     this.loading = showSpinner;
   }

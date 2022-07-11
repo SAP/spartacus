@@ -10,14 +10,14 @@ export class StoreComponent {
   @Input()
   storeDetails: PointOfServiceStock = {};
   @Output()
-  storeSelected: EventEmitter<string> = new EventEmitter<string>();
+  storeSelected: EventEmitter<PointOfServiceStock> = new EventEmitter<PointOfServiceStock>();
 
   iconTypes = ICON_TYPE;
 
   openHoursOpen = false;
 
   selectStore(): boolean {
-    this.storeSelected.emit(this.storeDetails.name);
+    this.storeSelected.emit(this.storeDetails);
     // return false to prevent this button adding to cart
     return false;
   }

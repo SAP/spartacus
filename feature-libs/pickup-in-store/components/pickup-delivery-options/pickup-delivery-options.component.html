@@ -1,11 +1,16 @@
-<section>
+<form [formGroup]="deliveryOptionsForm">
   <div class="form-check">
     <input
       type="radio"
+      role="radio"
       id="delivery"
-      name="deliveryOption"
+      value="delivery"
+      (click)="clearIntendedPickupLocation()"
+      formControlName="deliveryOption"
       [attr.aria-label]="'deliveryOptions.delivery' | cxTranslate"
-      checked
+      [attr.aria-checked]="
+        deliveryOptionsForm.value.deliveryOption === 'delivery'
+      "
     />
     <label for="delivery">
       {{ 'deliveryOptions.delivery' | cxTranslate }}
@@ -14,13 +19,18 @@
   <div class="form-check">
     <input
       type="radio"
-      id="pickInStore"
-      name="deliveryOption"
+      role="radio"
+      id="pickup"
+      value="pickup"
       (click)="openDialog()"
+      formControlName="deliveryOption"
       [attr.aria-label]="'deliveryOptions.pickup' | cxTranslate"
+      [attr.aria-checked]="
+        deliveryOptionsForm.value.deliveryOption === 'pickup'
+      "
     />
-    <label for="pickInStore">
+    <label for="pickup">
       <p>{{ 'deliveryOptions.pickup' | cxTranslate }}</p>
     </label>
   </div>
-</section>
+</form>

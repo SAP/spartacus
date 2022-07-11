@@ -2,13 +2,17 @@ import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AddToCartContainerContext } from '@spartacus/cart/base/components/add-to-cart';
 import { I18nTestingModule } from '@spartacus/core';
-import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
+import {
+  IntendedPickupLocationFacade,
+  PickupInStoreFacade,
+} from '@spartacus/pickup-in-store/root';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
   OutletContextData,
 } from '@spartacus/storefront';
-import { of, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
+import { MockIntendedPickupLocationService } from '../../core/facade/intended-pickup-location.service.spec';
 import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.component';
 
 import createSpy = jasmine.createSpy;
@@ -34,6 +38,10 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   ) {
     return of();
   }
+
+  get dialogClose(): Observable<string | undefined> {
+    return of(undefined);
+  }
 }
 
 const contextData: AddToCartContainerContext = { productCode: 'test' };
@@ -43,6 +51,7 @@ describe('PickupDeliveryOptionsComponent', () => {
   let component: PickupDeliveryOptionsComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionsComponent>;
   let launchDialogService: LaunchDialogService;
+  let intendedPickupLocationService: IntendedPickupLocationFacade;
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
@@ -57,6 +66,10 @@ describe('PickupDeliveryOptionsComponent', () => {
           provide: LaunchDialogService,
           useClass: MockLaunchDialogService,
         },
+        {
+          provide: IntendedPickupLocationFacade,
+          useClass: MockIntendedPickupLocationService,
+        },
       ],
       declarations: [PickupDeliveryOptionsComponent],
     });
@@ -65,6 +78,9 @@ describe('PickupDeliveryOptionsComponent', () => {
     fixture = TestBed.createComponent(PickupDeliveryOptionsComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
+    intendedPickupLocationService = TestBed.inject(
+      IntendedPickupLocationFacade
+    );
 
     spyOn(launchDialogService, 'openDialog').and.callThrough();
 
@@ -109,6 +125,45 @@ describe('PickupDeliveryOptionsComponent', () => {
       stubServiceAndCreateComponent();
     });
 
+    it('should get the intended pickup location for the product on init', () => {
+      spyOn(
+        intendedPickupLocationService,
+        'getIntendedLocation'
+      ).and.callThrough();
+
+      component.ngOnInit();
+
+      expect(
+        intendedPickupLocationService.getIntendedLocation
+      ).toHaveBeenCalledWith(contextData.productCode);
+    });
+
+    it('should set pickupInStore to false when there is not intended location', () => {
+      spyOn(
+        intendedPickupLocationService,
+        'getIntendedLocation'
+      ).and.returnValue(of());
+
+      component.ngOnInit();
+
+      expect(component.deliveryOptionsForm.value).toEqual({
+        deliveryOption: 'delivery',
+      });
+    });
+
+    it('should set pickupInStore to true when there is an intended location', () => {
+      spyOn(
+        intendedPickupLocationService,
+        'getIntendedLocation'
+      ).and.returnValue(of({ name: 'location-name' }));
+
+      component.ngOnInit();
+
+      expect(component.deliveryOptionsForm.value).toEqual({
+        deliveryOption: 'pickup',
+      });
+    });
+
     it('should trigger and open dialog', () => {
       component.openDialog();
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(
@@ -117,6 +172,14 @@ describe('PickupDeliveryOptionsComponent', () => {
         component['vcr'],
         { productCode: contextData.productCode }
       );
+    });
+
+    it('should clear intended pickup location when delivery is selected', () => {
+      spyOn(intendedPickupLocationService, 'removeIntendedLocation');
+      component.clearIntendedPickupLocation();
+      expect(
+        intendedPickupLocationService.removeIntendedLocation
+      ).toHaveBeenCalledWith(contextData.productCode);
     });
   });
 });

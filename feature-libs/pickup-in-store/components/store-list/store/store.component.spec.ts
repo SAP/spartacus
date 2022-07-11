@@ -24,8 +24,16 @@ describe('StoreComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('selectStore returns false', () => {
+  it('selectStore emits the storeDetails and returns false', () => {
+    spyOn(component.storeSelected, 'emit');
+
+    component.storeDetails = { name: 'storeName' };
+    fixture.detectChanges();
+
     expect(component.selectStore()).toEqual(false);
+    expect(component.storeSelected.emit).toHaveBeenCalledWith({
+      name: 'storeName',
+    });
   });
 
   it('toggleOpenHours toggles the value of openHoursOpen', () => {

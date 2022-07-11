@@ -77,11 +77,16 @@ describe('StoreSearchComponent', () => {
     };
     mockNavigatorGeolocation();
 
+    spyOn(component.showSpinner, 'emit').and.callThrough();
     spyOn(component.findStores, 'emit').and.callThrough();
+
     component.useMyLocation();
+
+    expect(component.showSpinner.emit).toHaveBeenCalledWith(true);
     expect(component.findStores.emit).toHaveBeenCalledWith({
       latitude: 0,
       longitude: 0,
     });
+    expect(component.showSpinner.emit).toHaveBeenCalledWith(false);
   });
 });
