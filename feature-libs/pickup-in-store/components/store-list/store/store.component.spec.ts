@@ -30,10 +30,10 @@ describe('StoreComponent', () => {
     component.storeDetails = { name: 'storeName' };
     fixture.detectChanges();
 
-    expect(component.storeSelected.emit).not.toHaveBeenCalledWith({
+    expect(component.selectStore()).toEqual(false);
+    expect(component.storeSelected.emit).toHaveBeenCalledWith({
       name: 'storeName',
     });
-    expect(component.selectStore()).toEqual(false);
   });
 
   it('toggleOpenHours toggles the value of openHoursOpen', () => {
