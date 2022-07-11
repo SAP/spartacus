@@ -61,7 +61,7 @@ export class MockIntendedPickupLocationService
   implements IntendedPickupLocationFacade
 {
   getIntendedLocation(_productCode: string): Observable<PointOfService> {
-    return of({});
+    return of();
   }
   setIntendedLocation(_productCode: string, _location: PointOfService): void {}
   removeIntendedLocation(_productCode: string): void {}

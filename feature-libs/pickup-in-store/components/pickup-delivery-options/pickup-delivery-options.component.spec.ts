@@ -121,6 +121,43 @@ describe('PickupDeliveryOptionsComponent', () => {
       stubServiceAndCreateComponent();
     });
 
+    it('should get the intended pickup location for the product on init', () => {
+      spyOn(
+        intendedPickupLocationService,
+        'getIntendedLocation'
+      ).and.callThrough();
+
+      component.ngOnInit();
+
+      expect(
+        intendedPickupLocationService.getIntendedLocation
+      ).toHaveBeenCalledWith(contextData.productCode);
+    });
+
+    it('should set pickupInStore to false when there is not intended location', () => {
+      spyOn(
+        intendedPickupLocationService,
+        'getIntendedLocation'
+      ).and.returnValue(of());
+
+      component.ngOnInit();
+
+      // If the service does not return a pickup location then pickUpInStore should be false
+      expect(component.pickUpInStore).toEqual(false);
+    });
+
+    it('should set pickupInStore to true when there is an intended location', () => {
+      spyOn(
+        intendedPickupLocationService,
+        'getIntendedLocation'
+      ).and.returnValue(of({ name: 'location-name' }));
+
+      component.ngOnInit();
+
+      // If the service does return a pickup location then pickUpInStore should be true
+      expect(component.pickUpInStore).toEqual(true);
+    });
+
     it('should trigger and open dialog', () => {
       component.openDialog();
       expect(launchDialogService.openDialog).toHaveBeenCalledWith(
