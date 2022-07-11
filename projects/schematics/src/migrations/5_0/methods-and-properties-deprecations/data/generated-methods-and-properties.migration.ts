@@ -976,14 +976,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'handleExpiredToken',
       comment:
-        "// TODO:Spartacus - Method 'handleExpiredToken' was removed from Class 'AuthHttpHeaderService'. ",
+        "// TODO:Spartacus - Method 'handleExpiredToken' was removed from Class 'AuthHttpHeaderService'. Use 'getValidToken' instead.",
     },
     {
       class: 'AuthHttpHeaderService',
       importPath: '@spartacus/core',
       deprecatedNode: 'refreshInProgress',
       comment:
-        "// TODO:Spartacus - Property 'refreshInProgress' was removed from Class 'AuthHttpHeaderService'. ",
+        "// TODO:Spartacus - Property 'refreshInProgress' was removed from Class 'AuthHttpHeaderService'. Use 'refreshInProgress$' Observable instead from 'AuthService'.",
     },
     {
       class: 'AuthHttpHeaderService',
@@ -1004,14 +1004,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'reportAuthGuard',
       comment:
-        "// TODO:Spartacus - Method 'reportAuthGuard' was removed from Class 'AuthRedirectService'. ",
+        "// TODO:Spartacus - Method 'reportAuthGuard' was removed from Class 'AuthRedirectService'. Use 'saveCurrentNavigationUrl' method instead.",
     },
     {
       class: 'AuthRedirectService',
       importPath: '@spartacus/core',
       deprecatedNode: 'reportNotAuthGuard',
       comment:
-        "// TODO:Spartacus - Method 'reportNotAuthGuard' was removed from Class 'AuthRedirectService'. ",
+        "// TODO:Spartacus - Method 'reportNotAuthGuard' was removed from Class 'AuthRedirectService'. No replacement needed. Every visited URL is now remembered automatically as redirect URL on 'NavigationEnd' event.",
     },
     {
       class: 'AuthStatePersistenceService',
@@ -3189,13 +3189,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'isAttributeGroup',
       comment:
         "The 'isAttributeGroup' method's signature changed to: 'isAttributeGroup(): boolean'",
-    },
-    {
-      class: 'ConfiguratorAttributeHeaderComponent',
-      importPath: '@spartacus/product-configurator/rulebased',
-      deprecatedNode: 'isMultiSelection',
-      comment:
-        "// TODO:Spartacus - Method 'isMultiSelection' was removed from Class 'ConfiguratorAttributeHeaderComponent'. ",
     },
     {
       class: 'ConfiguratorAttributeMultiSelectionBundleComponent',

@@ -5143,11 +5143,11 @@ handleExpiredAccessToken(
 
 ### Method handleExpiredToken is removed.
 
-
+Use 'getValidToken' instead.
 
 ### Property refreshInProgress is removed.
 
-
+Use 'refreshInProgress$' Observable instead from 'AuthService'.
 
 ### Property stopProgress$ changed.
 
@@ -5191,11 +5191,11 @@ tokenToRetryRequest$: Observable<AuthToken | undefined>
 
 ### Method reportAuthGuard is removed.
 
-
+Use 'saveCurrentNavigationUrl' method instead.
 
 ### Method reportNotAuthGuard is removed.
 
-
+No replacement needed. Every visited URL is now remembered automatically as redirect URL on 'NavigationEnd' event.
 
 
 
@@ -18483,10 +18483,6 @@ Current version:
 isAttributeGroup(): boolean
 
 ```
-
-
-### Method isMultiSelection is removed.
-
 
 
 
