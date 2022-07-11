@@ -407,11 +407,11 @@ productSearchConnector: ProductSearchConnector
 
 ### Method removeEntry is removed.
 
-
+Use `softDeleteEntry` instead.
 
 ### Method search is removed.
 
-
+Use `searchProducts` instead.
 
 
 

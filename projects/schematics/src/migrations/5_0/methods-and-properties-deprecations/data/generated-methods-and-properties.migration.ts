@@ -94,14 +94,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/quick-order/core',
       deprecatedNode: 'removeEntry',
       comment:
-        "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderService'. ",
+        "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderService'. Use `softDeleteEntry` instead.",
     },
     {
       class: 'QuickOrderService',
       importPath: '@spartacus/cart/quick-order/core',
       deprecatedNode: 'search',
       comment:
-        "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderService'. ",
+        "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderService'. Use `searchProducts` instead.",
     },
     {
       class: 'QuickOrderConfig',
