@@ -9,9 +9,13 @@ const mockContentPage: Page = {
 };
 
 const mockContentPageWithTemplate: Page = {
-  type: PageType.CONTENT_PAGE,
+  ...mockContentPage,
   template: 'any-template',
-  slots: {},
+};
+
+const mockContentPageWithTemplateAndPageId: Page = {
+  ...mockContentPageWithTemplate,
+  pageId: 'any-uid',
 };
 
 describe('PageMetaResolver', () => {
@@ -59,5 +63,12 @@ describe('PageMetaResolver', () => {
     service.pageType = PageType.CONTENT_PAGE;
     service.pageTemplate = 'any-template';
     expect(service.getScore(mockContentPageWithTemplate)).toEqual(2);
+  });
+
+  it('should score 3 for ContentPage with page template and page id', () => {
+    service.pageType = PageType.CONTENT_PAGE;
+    service.pageTemplate = 'any-template';
+    service.pageUid = 'any-uid';
+    expect(service.getScore(mockContentPageWithTemplateAndPageId)).toEqual(3);
   });
 });
