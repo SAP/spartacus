@@ -1032,7 +1032,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'handleVoucherOperationError',
       comment:
-        "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'. ",
+        "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'. It is now being handled in 'BadVoucherRequestHandler' from @spartacus/cart/base/core",
     },
     {
       class: 'CreateWishList',

@@ -5244,7 +5244,7 @@ moved to @spartacus/checkout/b2b/root
 
 ### Method handleVoucherOperationError is removed.
 
-
+It is now being handled in 'BadVoucherRequestHandler' from @spartacus/cart/base/core
 
 
 

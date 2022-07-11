@@ -29612,7 +29612,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'.",
-        "migrationComment": "",
+        "migrationComment": "It is now being handled in 'BadVoucherRequestHandler' from @spartacus/cart/base/core",
         "topLevelApiElementName": "BadRequestHandler"
       }
     ]
