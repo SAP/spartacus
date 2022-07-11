@@ -2,7 +2,13 @@ import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { COMMERCE_QUOTES_FEATURE } from '../feature-name';
 import { Injectable } from '@angular/core';
-import { Quote, QuoteList } from '../model/commerce-quotes.model';
+import {
+  Quote,
+  QuoteList,
+  QuoteMetadata,
+  Comment,
+  QuoteAction,
+} from '../model/commerce-quotes.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +16,14 @@ import { Quote, QuoteList } from '../model/commerce-quotes.model';
     facadeFactory({
       facade: CommerceQuotesFacade,
       feature: COMMERCE_QUOTES_FEATURE,
-      methods: ['getQuotesState', 'getQuoteDetails'],
+      methods: [
+        'getQuotesState',
+        'getQuoteDetails',
+        'createQuote',
+        'editQuote',
+        'performQuoteAction',
+        'addQuoteComment',
+      ],
     }),
 })
 export abstract class CommerceQuotesFacade {
@@ -30,6 +43,38 @@ export abstract class CommerceQuotesFacade {
    * Returns the query list state.
    */
   abstract getQuotesState(): Observable<QueryState<QuoteList | undefined>>;
+
+  /**
+   * Create quote with name and comment.
+   */
+  abstract createQuote(
+    quoteMetadata: QuoteMetadata,
+    quoteComment: Comment
+  ): Observable<Quote>;
+
+  /**
+   * Edit quote name, description or expiry date.
+   */
+  abstract editQuote(
+    quoteCode: string,
+    quoteMetadata: QuoteMetadata
+  ): Observable<unknown>;
+
+  /**
+   * Add comment to a quote.
+   */
+  abstract addQuoteComment(
+    quoteCode: string,
+    quoteComment: Comment
+  ): Observable<unknown>;
+
+  /**
+   * Perform action on quote.
+   */
+  abstract performQuoteAction(
+    quoteCode: string,
+    quoteAction: QuoteAction
+  ): Observable<unknown>;
 
   /**
    * Returns the quote details.

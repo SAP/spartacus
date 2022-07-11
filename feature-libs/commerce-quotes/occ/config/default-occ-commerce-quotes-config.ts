@@ -9,7 +9,7 @@ export const defaultOccCommerceQuotesConfig: OccConfig = {
         getQuote:
           'users/${userId}/quotes/${quoteCode}?fields=FULL,previousEstimatedTotal(formattedValue)',
         editQuote: 'users/${userId}/quotes/${quoteCode}',
-        performActionQuote: 'users/${userId}/quotes/${quoteCode}/action',
+        performQuoteAction: 'users/${userId}/quotes/${quoteCode}/action',
         addComment: 'users/${userId}/quotes/${quoteCode}/comments',
         addDiscount: 'users/${userId}/quotes/${quoteCode}/discounts',
         addCartEntryComment:

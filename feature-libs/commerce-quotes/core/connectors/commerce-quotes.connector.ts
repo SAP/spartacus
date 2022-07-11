@@ -42,12 +42,12 @@ export class CommerceQuotesConnector {
     return this.adapter.editQuote(userId, quoteCode, quoteMetadata);
   }
 
-  public performActionQuote(
+  public performQuoteAction(
     userId: string,
     quoteCode: string,
     quoteAction: QuoteAction
   ): Observable<unknown> {
-    return this.adapter.performActionQuote(userId, quoteCode, quoteAction);
+    return this.adapter.performQuoteAction(userId, quoteCode, quoteAction);
   }
 
   public addComment(

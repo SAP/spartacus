@@ -16,6 +16,7 @@ export function defaultCommerceQuotesComponentsConfig() {
       [COMMERCE_QUOTES_FEATURE]: {
         cmsComponents: [
           'AccountMyQuotesComponent',
+          'CommerceQuotesRequestComponent',
           'CommerceQuotesDetailsOverviewComponent',
         ],
       },

@@ -8,5 +8,4 @@ export const facadeProviders: Provider[] = [
     provide: CommerceQuotesFacade,
     useExisting: CommerceQuotesService,
   },
-  CommerceQuotesService,
 ];
