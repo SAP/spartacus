@@ -119,6 +119,36 @@
     }
   }
 
+  .cx-product-interests-table-list {
+    th {
+      &:first-child {
+        text-align: left;
+      }
+      &:last-child {
+        text-align: end;
+      }
+    }
+
+    td {
+      &:first-child {
+        padding-inline-end: 0;
+        padding-inline-start: 0;
+      }
+      &:last-child {
+        text-align: end;
+      }
+      .cx-product-interests-cell-wrapper {
+        display: inline-grid;
+        grid-template-columns: 5rem 14rem;
+        gap: 1rem;
+        text-indent: 0;
+      }
+      .cx-product-interests-remove-button {
+        display: inline-block;
+      }
+    }
+  }
+
   .cx-product-interests-product-price {
     @include media-breakpoint-down(sm) {
       .cx-product-interests-label,

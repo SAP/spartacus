@@ -105,5 +105,8 @@ export const myAccount = {
       byNameAsc: 'Name (ascending)',
       byNameDesc: 'Name (descending)',
     },
+    actions: 'ACTIONS',
+    caption: 'My Interests contents.',
+    itemRemoved: 'Selected item has been removed.',
   },
 };
