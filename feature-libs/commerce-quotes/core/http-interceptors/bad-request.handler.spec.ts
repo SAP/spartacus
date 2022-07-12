@@ -36,7 +36,7 @@ class MockGlobalMessageService {
   remove() {}
 }
 
-fdescribe('CommerceQuotesBadRequestHandler', () => {
+describe('CommerceQuotesBadRequestHandler', () => {
   let service: CommerceQuotesBadRequestHandler;
   let globalMessageService: GlobalMessageService;
 
