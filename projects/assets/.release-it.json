@@ -7,7 +7,7 @@
     "tagAnnotation": "Bumping assets version to ${version}"
   },
   "github": {
-    "release": true,
+    "release": false,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/assets@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib assets --to assets-${version}"
