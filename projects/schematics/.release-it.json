@@ -7,7 +7,7 @@
     "tagAnnotation": "Bumping schematics version to ${version}"
   },
   "github": {
-    "release": true,
+    "release": false,
     "releaseName": "@spartacus/schematics@${version}",
     "releaseNotes": "cd ../.. && ts-node ./scripts/changelog.ts --verbose --lib schematics --to schematics-${version}"
   },
