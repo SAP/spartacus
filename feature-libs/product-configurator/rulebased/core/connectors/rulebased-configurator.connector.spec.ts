@@ -70,6 +70,10 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
     of('getConfigurationOverview' + configId)
   );
 
+  searchVariants = createSpy().and.callFake((configId: string) =>
+    of([{ productCode: PRODUCT_CODE + configId }])
+  );
+
   readPriceSummary = createSpy().and.callFake((configId: string) =>
     of('readPriceSummary' + configId)
   );
@@ -243,6 +247,19 @@ describe('RulebasedConfiguratorConnector', () => {
       'getConfigurationOverview' + productConfiguration.configId
     );
     expect(adapter[0].getConfigurationOverview).toHaveBeenCalledWith(
+      productConfiguration.configId
+    );
+  });
+
+  it('should call adapter on searchVariants', () => {
+    let result;
+    service
+      .searchVariants(productConfiguration)
+      .subscribe((res) => (result = res));
+    expect(result).toEqual([
+      { productCode: PRODUCT_CODE + productConfiguration.configId },
+    ]);
+    expect(adapter[0].searchVariants).toHaveBeenCalledWith(
       productConfiguration.configId
     );
   });
