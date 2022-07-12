@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { B2BUnit, RoutingService } from '@spartacus/core';
 import {
-  OrgUnitService,
   OrganizationItemStatus,
+  OrgUnitService,
 } from '@spartacus/organization/administration/core';
+import { Observable } from 'rxjs';
 import { UnitFormService } from '../../../form/unit-form.service';
 import { UnitItemService } from '../../../services/unit-item.service';
 import { CurrentUnitChildService } from './current-unit-child.service';
@@ -42,6 +42,6 @@ export class UnitChildItemService extends UnitItemService {
   }
 
   protected buildRouteParams(item: B2BUnit) {
-    return { uid: item.parentOrgUnit.uid };
+    return { uid: item.parentOrgUnit?.uid };
   }
 }

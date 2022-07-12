@@ -18,10 +18,10 @@ concurrency:
 name: Spartacus build pipeline
 jobs:
   no_retries: 
-    name: Verify retries
+    name: Verify re-run of all jobs
     runs-on: ubuntu-latest
     steps:
-      - name: Forcefully fail build if retried
+      - name: Forcefully fail build if jobs are all retried
         uses: actions/github-script@v5
         with:
           script: |
@@ -62,7 +62,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@latest
+        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for Spartacus libs
@@ -89,7 +89,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@latest
+        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run unit tests for integration libs
@@ -97,7 +97,7 @@ jobs:
           ci-scripts/unit-tests.sh
   linting:
     needs: no_retries
-    name: Validation checks
+    name: Validations and static code checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -116,7 +116,7 @@ jobs:
           key: nodemodules-${{ github.event.pull_request.base.sha }}
           restore-keys: nodemodules-${{ github.event.pull_request.base.sha }}
       - name: Install angular CLI
-        run: npm install -g @angular/cli@latest
+        run: npm install -g @angular/cli@v13-lts
       - name: Package installation
         run: yarn --frozen-lockfile
       - name: Run linting validation
@@ -131,6 +131,12 @@ jobs:
         containers: [1, 2, 3, 4, 5]
     if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
@@ -153,6 +159,12 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
@@ -178,6 +190,12 @@ jobs:
         containers: [1, 2]
     if: ${{ github.event_name == 'push' || needs.validate_e2e_execution.outputs.SHOULD_RUN_E2E == 'true' }}
     steps:
+      - name: Forcefully fail build if e2e job is retried
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.setFailed('Please push a commit to trigger the build. To push an empty commit you can use `git commit --allow-empty -m "Trigger Build"`') 
+        if: ${{ github.run_attempt > 1 }}
       - uses: actions/checkout@v2
       - name: Cache node_modules
         id: cache-node-modules
@@ -213,3 +231,70 @@ jobs:
           needs.b2c_e2e_tests.result == 'failure' || needs.b2c_e2e_tests.result == 'cancelled' ||
           needs.b2c_ssr_e2e_tests.result == 'failure' || needs.b2c_ssr_e2e_tests.result == 'cancelled' || 
           needs.b2b_e2e_tests.result == 'failure' || needs.b2b_e2e_tests.result == 'cancelled'
+  send_slack_message:
+    needs: build_conclusion
+    name: Slack message for failed develop CI build in Spartacus
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Notify the slack channel of when build conclusion failed
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        uses: slackapi/slack-github-action@v1.19.0
+        with:
+          channel-id: ${{ secrets.SLACK_NOTIFICATION_CHANNEL }}
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": ":nuclear-bomb: :fireduck: *Broken build in develop*"
+                  }
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "type": "actions",
+                  "elements": [
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Failed build",
+                        "emoji": true
+                      },
+                      "value": "failed_build",
+                      "url": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "What was committed?",
+                        "emoji": true
+                      },
+                      "value": "recent_merged_commit",
+                      "url": "${{ github.event.head_commit.url }}"
+                    },
+                    {
+                      "type": "button",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Build history",
+                        "emoji": true
+                      },
+                      "value": "buid_history",
+                      "url": "https://github.com/SAP/spartacus/actions/workflows/ci.yml?query=branch%3Adevelop"
+                    }
+                  ]
+                }
+              ]
+            }
+        if: | 
+          needs.build_conclusion.result == 'failure' &&
+          github.event_name == 'push' && 
+          github.ref_name == 'develop'
+

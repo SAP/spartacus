@@ -103,13 +103,11 @@ function add_epd_visualization {
 }
 
 function add_product_configurator {
-    local FEATURES=(--features="Textfield-Configurator");
+    ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="Textfield-Configurator" --features="VC-Configurator"
 
     if [ "$ADD_CPQ" = true ] ; then
-        FEATURES+=(--features="CPQ-Configurator");
+        ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
     fi
-
-    ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false "${FEATURES[@]}"
 }
 
 # Don't install b2b features here (use add_b2b function for that)

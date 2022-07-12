@@ -176,6 +176,7 @@ export const SMART_EDIT_CONFIG = 'SmartEditConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const LOGOUT_GUARD = 'LogoutGuard';
+export const LOGIN_GUARD = 'LoginGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
@@ -508,6 +509,8 @@ export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
 export const ON_NAVIGATE_FOCUS_SERVICE = 'OnNavigateFocusService';
 export const KEYBOARD_FOCUS_CONFIG = 'KeyboardFocusConfig';
 
+export const CMS_PAGE_GUARD = 'CmsPageGuard';
+
 export const REFRESH_IN_PROGRESS = 'refreshInProgress';
 export const HANDLE_EXPIRED_TOKEN = 'handleExpiredToken';
 
@@ -714,7 +717,6 @@ export const STORE_FINDER_HEADER_COMPONENT = 'StoreFinderHeaderComponent';
 export const STORE_FINDER_PAGINATION_DETAILS_COMPONENT =
   'StoreFinderPaginationDetailsComponent';
 export const STORE_FINDER_COMPONENT = 'StoreFinderComponent';
-export const STORE_FINDER_SCSS_FILE_NAME = 'storefinder.scss';
 
 export const ON_SUCCESS = 'onSuccess';
 
@@ -1052,12 +1054,22 @@ export const CONFIGURATOR_API_IS_ATTRIBUTE_GROUP = 'isAttributeGroup';
 export const CONFIGURATOR_API_GET_CONFLICT_MESSAGE_KEY =
   'getConflictMessageKey';
 export const CONFIGURATOR_CONVERT_ATTRIBUTE_TYPE = 'convertAttributeType';
+export const CONFIGURATOR_IS_IN_VIEWPORT = 'isInViewport';
+
+export const REPORT_AUTH_GUARD = 'reportAuthGuard';
+export const SAVE_CURRENT_NAVIGATION_URL = 'saveCurrentNavigationUrl';
+export const REPORT_NOT_AUTH_GUARD = 'reportNotAuthGuard';
 
 /***** APIs end *****/
 
 /***** feature keys start *****/
 export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE = 'rulebased';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE = 'textfield';
+
+export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE =
+  'productConfiguratorRulebased';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
+  'productConfiguratorTextfield';
 /***** feature keys end *****/
 
 export const TODO_SPARTACUS = 'TODO:Spartacus -';

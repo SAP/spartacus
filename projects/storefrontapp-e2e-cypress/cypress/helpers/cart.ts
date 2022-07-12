@@ -93,9 +93,20 @@ function goToFirstProductFromSearch(id: string, mobile: boolean) {
       .first()
       .click({ force: true });
   } else {
+    cy.intercept(
+      `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/products/search?fields=*&query=${id}&*`
+    ).as('ProductSearch');
+
     cy.get('cx-searchbox input')
       .clear({ force: true })
       .type(id, { force: true });
+
+    cy.wait(`@ProductSearch`)
+      .its('response.body.freeTextSearch')
+      .should('eq', id);
+
     cy.get('cx-searchbox')
       .get('.results .products .name')
       .first()
@@ -158,7 +169,7 @@ export function checkBasicCart() {
   cy.get('cx-searchbox input').clear().type(`cameras{enter}`);
 
   cy.get(
-    ':nth-child(2) > :nth-child(1) > :nth-child(2) > .row > .col-md-4 > cx-add-to-cart > .ng-untouched > .btn'
+    ':nth-child(2) > :nth-child(1) > :nth-child(2) > .row > .col-md-5 > cx-add-to-cart > .ng-untouched > .btn'
   ).click();
 
   cy.wait('@refresh_cart');
@@ -333,9 +344,10 @@ export function logOutAndNavigateToEmptyCart() {
 
 export function addProducts() {
   const prods = products.slice(0, 3);
-  prods.forEach((product) => {
+  prods.forEach((product, index) => {
     cy.visit(`/product/${product.code}`);
     clickAddToCart();
+    checkAddedToCartDialog(index + 1);
     closeAddedToCartDialog();
   });
 }

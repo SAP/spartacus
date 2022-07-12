@@ -51,10 +51,10 @@ export class ProductPageEventBuilder {
           map((product) =>
             createFrom(ProductDetailsPageEvent, {
               navigation: navigationEvent,
-              categories: product.categories,
-              code: product.code,
-              name: product.name,
-              price: product.price,
+              categories: product?.categories,
+              code: product?.code,
+              name: product?.name,
+              price: product?.price,
             })
           )
         )

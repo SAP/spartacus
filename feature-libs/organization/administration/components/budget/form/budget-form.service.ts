@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Budget } from '@spartacus/organization/administration/core';
 import { CustomFormValidators, DatePickerService } from '@spartacus/storefront';
 import { FormService } from '../../shared/form/form.service';
@@ -63,7 +68,7 @@ export class BudgetFormService extends FormService<Budget> {
     form.setValidators(
       CustomFormValidators.dateRange('startDate', 'endDate', (date) =>
         this.datePickerService.getDate(date)
-      )
+      ) as ValidatorFn
     );
     this.form = form;
   }

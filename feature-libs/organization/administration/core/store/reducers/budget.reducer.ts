@@ -1,14 +1,14 @@
-import { StateUtils } from '@spartacus/core';
-import { CostCenterActions, BudgetActions } from '../actions/index';
+import { ListModel, StateUtils } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
+import { BudgetActions, CostCenterActions } from '../actions/index';
 
-export const budgetInitialState = undefined;
-export const budgetsInitialState = undefined;
+export const budgetInitialState: Budget | undefined = undefined;
+export const budgetsInitialState: ListModel | undefined = undefined;
 
 export function budgetsEntitiesReducer(
-  state: Budget = budgetInitialState,
+  state = budgetInitialState,
   action: StateUtils.LoaderAction
-): Budget {
+): Budget | undefined {
   switch (action.type) {
     case BudgetActions.LOAD_BUDGET_SUCCESS:
     case BudgetActions.CREATE_BUDGET_SUCCESS:
@@ -27,7 +27,7 @@ export function budgetsEntitiesReducer(
 export function budgetsListReducer(
   state = budgetsInitialState,
   action: StateUtils.LoaderAction
-): any {
+): ListModel | undefined {
   switch (action.type) {
     case BudgetActions.LOAD_BUDGETS_SUCCESS:
       return action.payload.page;

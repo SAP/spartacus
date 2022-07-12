@@ -115,6 +115,12 @@ describe('UserGroupFormComponent', () => {
       fixture.detectChanges();
       expect(component.form.get('orgUnit.uid').value).toBeNull();
     });
+
+    it('should not auto-select unit if there is no unit', () => {
+      activeUnitList$.next(undefined);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
+    });
   });
 
   describe('createUidWithName', () => {

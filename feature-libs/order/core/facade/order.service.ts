@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   Command,
   CommandService,
@@ -34,13 +34,6 @@ export class OrderService implements OrderFacade {
                      * we can safely use the cartId, which is actually the cart.code.
                      */
                     cartCode: cartId,
-                  },
-                  RemoveCartEvent
-                );
-                this.eventService.dispatch(
-                  {
-                    userId,
-                    cartId,
                     order,
                   },
                   OrderPlacedEvent
