@@ -1,5 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
@@ -13,13 +19,21 @@ class MockActionLinksService
   goToNewCart = createSpy();
 }
 
+const mockRoutes = [{ path: 'cxRoute:quotes', component: {} }] as Routes;
+
 describe('CommerceQuotesActionLinksComponent', () => {
   let fixture: ComponentFixture<CommerceQuotesActionLinksComponent>;
   let component: CommerceQuotesActionLinksComponent;
+  let actionLinksService: CommerceQuotesActionLinksService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, UrlTestingModule],
+      imports: [
+        I18nTestingModule,
+        RouterTestingModule.withRoutes(mockRoutes),
+        UrlTestingModule,
+      ],
       declarations: [CommerceQuotesActionLinksComponent],
       providers: [
         {
@@ -32,6 +46,8 @@ describe('CommerceQuotesActionLinksComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CommerceQuotesActionLinksComponent);
+    actionLinksService = TestBed.inject(CommerceQuotesActionLinksService);
+    router = TestBed.inject(Router);
     component = fixture.componentInstance;
   });
 
@@ -48,4 +64,24 @@ describe('CommerceQuotesActionLinksComponent', () => {
     expect(links[1].nativeElement.innerText).toContain('links.quotes');
     expect(links.length).toEqual(2);
   });
+
+  it('should fire `goToNewCart()` when "New Cart" button was clicked', () => {
+    spyOn(component, 'goToNewCart').and.callThrough();
+    const links = fixture.debugElement.queryAll(By.css('button.link'));
+
+    links[0].nativeElement.click();
+
+    expect(component.goToNewCart).toHaveBeenCalled();
+    expect(actionLinksService.goToNewCart).toHaveBeenCalled();
+  });
+
+  it('should redirect to Quotes list when "Quotes" button was clicked', fakeAsync(() => {
+    const links = fixture.debugElement.queryAll(By.css('button.link'));
+    fixture.detectChanges();
+
+    links[1].nativeElement.click();
+    tick();
+
+    expect(router.url).toBe('/cxRoute:quotes');
+  }));
 });
