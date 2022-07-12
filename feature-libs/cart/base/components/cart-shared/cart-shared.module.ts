@@ -23,7 +23,6 @@ import { CartItemComponent } from './cart-item/cart-item.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 import { CartBundleListRowComponent } from './cart-bundle-list-row';
 import { AddToCartModule } from '../add-to-cart/add-to-cart.module';
-import { CartBundleListRowComponent } from './cart-bundle-list-row';
 
 @NgModule({
   imports: [

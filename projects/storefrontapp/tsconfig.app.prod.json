@@ -22,12 +22,6 @@
       "@spartacus/cart/base": ["dist/cart/base"],
       "@spartacus/cart/base/occ": ["dist/cart/base/occ"],
       "@spartacus/cart/base/root": ["dist/cart/base/root"],
-      "@spartacus/cart/bundle/components/bundle-carousel": [
-        "dist/cart/bundle/components/bundle-carousel"
-      ],
-      "@spartacus/cart/bundle/components/bundle-main": [
-        "dist/cart/bundle/components/bundle-main"
-      ],
       "@spartacus/cart/bundle/components": ["dist/cart/bundle/components"],
       "@spartacus/cart/bundle/core": ["dist/cart/bundle/core"],
       "@spartacus/cart/bundle": ["dist/cart/bundle"],
