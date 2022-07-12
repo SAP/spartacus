@@ -70,7 +70,7 @@ export class CommerceQuotesRequestQuoteDialogComponent {
         .subscribe((quote) => {
           if (goToDetails) {
             this.routingService.go({
-              cxRoute: 'quoteEdit',
+              cxRoute: 'quoteDetails',
               params: { quoteId: quote.code },
             });
           } else {
