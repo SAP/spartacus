@@ -125,7 +125,7 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
     });
   }
 
-  performActionQuote(
+  performQuoteAction(
     userId: string,
     quoteCode: string,
     quoteAction: QuoteAction
@@ -133,18 +133,17 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
     quoteAction = this.converter.convert(quoteAction, QUOTE_ACTION_SERIALIZER);
 
     return this.http
-      .post<unknown>(
-        this.getPerformActionQuoteEndpoint(userId, quoteCode),
-        quoteAction
-      )
+      .post<unknown>(this.getPerformQuoteActionEndpoint(userId, quoteCode), {
+        action: quoteAction,
+      })
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
-  protected getPerformActionQuoteEndpoint(
+  protected getPerformQuoteActionEndpoint(
     userId: string,
     quoteCode: string
   ): string {
-    return this.occEndpoints.buildUrl('performActionQuote', {
+    return this.occEndpoints.buildUrl('performQuoteAction', {
       urlParams: { userId, quoteCode },
     });
   }

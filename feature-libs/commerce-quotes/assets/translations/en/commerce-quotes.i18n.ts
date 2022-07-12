@@ -20,7 +20,6 @@ export const commerceQuotes = {
       SELLER_REQUEST: 'Requested',
       SELLER_SUBMITTED: 'Submitted',
       SELLERAPPROVER_PENDING: 'Pending Approval',
-      SELLERAPPROVER_DRAFT: 'Draft',
       SELLERAPPROVER_APPROVED: 'Approved',
       SELLERAPPROVER_REJECTED: 'Rejected',
       CANCELLED: 'Cancelled',
@@ -29,6 +28,7 @@ export const commerceQuotes = {
     commons: {
       id: 'Quote ID',
       status: 'Status',
+      creationSuccess: 'Quote #{{ code }} created successfully',
     },
     details: {
       code: 'Quote ID',
@@ -38,9 +38,35 @@ export const commerceQuotes = {
       description: 'Description',
       expiryDate: 'Expiry Date',
     },
+
     links: {
       newCart: 'New Cart',
       quotes: 'Quotes',
+},
+    requestDialog: {
+      requestQuote: 'Request a Quote',
+      title: 'Request Quote',
+      continueToEdit: 'Continue to Edit',
+      form: {
+        name: {
+          label: 'Quote name',
+          placeholder: 'Enter name',
+        },
+        description: {
+          label: 'Description (Optional)',
+          placeholder: 'Enter description',
+        },
+        comment: {
+          label: 'Add a Comment',
+          placeholder: 'Add comment',
+        },
+        request: 'Request quote',
+        continueToEdit: 'Continue to Edit',
+        note: 'Please Note:',
+        requestSubmitNote:
+          'Once a request for quote is submitted it cannot be modified.',
+      },
+
     },
   },
 };

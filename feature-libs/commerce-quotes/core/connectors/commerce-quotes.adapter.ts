@@ -58,7 +58,7 @@ export abstract class CommerceQuotesAdapter {
    * @param userId
    * @param quoteCode
    */
-  abstract performActionQuote(
+  abstract performQuoteAction(
     userId: string,
     quoteCode: string,
     quoteAction: QuoteAction

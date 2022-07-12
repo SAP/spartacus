@@ -1,0 +1,41 @@
+%cx-commerce-quotes-request-quote-dialog {
+  .cx-dialog-header {
+    align-items: center;
+    .cx-dialog-title {
+      font-size: var(--cx-font-size, 1.375rem);
+      font-weight: var(--cx-font-weight-semi);
+      line-height: var(--cx-line-height, 1.2222222222);
+      margin-inline-start: 0.75rem;
+    }
+  }
+
+  .cx-dialog-body {
+    .cx-request-dialog-actions {
+      display: flex;
+      align-items: center;
+
+      .btn-action {
+        margin-inline-end: 1em;
+      }
+
+      .btn {
+        margin-top: 0.5rem;
+      }
+    }
+
+    label {
+      margin-bottom: 1rem;
+
+      .label-content {
+        font-weight: var(--cx-font-weight-semi);
+      }
+    }
+
+    .notes {
+      p:first-child {
+        margin-bottom: 0;
+        margin-top: 1.5rem;
+      }
+    }
+  }
+}
