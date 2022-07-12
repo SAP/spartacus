@@ -1,9 +1,12 @@
 @import './commerce-quotes-list';
+@import './commerce-quotes-request-quote-button';
+@import './commerce-quotes-request-quote-dialog';
 @import './commerce-quotes-details-overview';
 @import './commerce-quotes-action-links';
 
 $commerce-quotes-components-allowlist: cx-commerce-quotes-list
-  cx-commerce-quotes-details-overview cx-commerce-quotes-action-links !default;
+  cx-commerce-quotes-details-overview cx-commerce-quotes-request-quote-button
+  cx-commerce-quotes-action-links cx-commerce-quotes-request-quote-dialog !default;
 
 $skipComponentStyles: () !default;
 
