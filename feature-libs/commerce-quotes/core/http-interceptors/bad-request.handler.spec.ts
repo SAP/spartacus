@@ -4,6 +4,7 @@ import {
   GlobalMessageService,
   HttpResponseStatus,
   GlobalMessageType,
+  Config,
 } from '@spartacus/core';
 import { CQConfig } from '../config/cq-config';
 import { CommerceQuotesBadRequestHandler } from './bad-request.handler';
@@ -48,7 +49,7 @@ fdescribe('CommerceQuotesBadRequestHandler', () => {
           useClass: MockGlobalMessageService,
         },
         {
-          provide: CQConfig,
+          provide: Config,
           useValue: MockCQConfig,
         },
       ],
@@ -65,7 +66,7 @@ fdescribe('CommerceQuotesBadRequestHandler', () => {
     expect(service.responseStatus).toEqual(HttpResponseStatus.BAD_REQUEST);
   });
 
-  it('should handle unknown conflict', () => {
+  it('should handle treshold error', () => {
     spyOn(globalMessageService, 'add');
     service.handleError(MockRequest, MockQuoteUnderThresholdResponse);
 
