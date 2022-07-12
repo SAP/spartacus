@@ -13,7 +13,7 @@
     "after:version:bump": "cd ../.. && ng build setup --configuration production"
   },
   "github": {
-    "release": true,
+    "release": false,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/setup@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib setup --to setup-${version}"

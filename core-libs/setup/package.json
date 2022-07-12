@@ -27,6 +27,7 @@
     "express": "^4.15.2"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "@spartacus:registry": "https://int.repositories.cloud.sap/artifactory/api/npm/spartacus-internal-repository/"
   }
 }
