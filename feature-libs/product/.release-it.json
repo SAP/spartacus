@@ -13,7 +13,7 @@
     "after:version:bump": "cd ../.. && yarn build:product"
   },
   "github": {
-    "release": true,
+    "release": false,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/product@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib product --to product-${version}"
