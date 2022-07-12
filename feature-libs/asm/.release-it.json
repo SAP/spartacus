@@ -13,7 +13,7 @@
     "after:version:bump": "cd ../.. && yarn build:asm"
   },
   "github": {
-    "release": true,
+    "release": false,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/asm@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib asm --to asm-${version}"
