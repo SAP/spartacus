@@ -276,6 +276,38 @@ constructor(
 ```
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  globalMessageService: GlobalMessageService,
+  quickOrderService: QuickOrderFacade,
+  config: Config,
+  cd: ChangeDetectorRef,
+  winRef: WindowRef
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  config: Config,
+  cd: ChangeDetectorRef,
+  quickOrderService: QuickOrderFacade,
+  winRef: WindowRef
+)
+
+```
+
+
 ### Property cd changed.
 
 
@@ -348,6 +380,37 @@ constructor(
   activeCartService: ActiveCartService,
   productAdapter: ProductAdapter,
   eventService: EventService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartFacade,
+  config: Config,
+  eventService: EventService,
+  productSearchConnector: ProductSearchConnector
+)
+
+```
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartService,
+  productAdapter: ProductAdapter,
+  eventService: EventService,
+  productSearchConnector: ProductSearchConnector | undefined
 )
 
 ```
@@ -19084,7 +19147,7 @@ convertAttributeType(
 
 
 Class RulebasedConfiguratorEventListener has been removed and is no longer part of the public API.
-
+Please use 'ConfiguratorRouterListener' instead.  RulebasedConfiguratorEventListener was responsible for deleting cart bound configurations when an order was submitted. This is now handled by `ConfiguratorRouterListener`, which checks on cart boundconfigurations on every navigation that is not configurator related, and deletes cart bound configurations if needed.
 
 
 
@@ -19407,6 +19470,36 @@ Current version:
 
 ```
 suggestedAddressModalRef: ModalRef | null
+```
+
+
+
+
+# Class FormErrorsComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor()
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  ChangeDetectionRef: ChangeDetectorRef,
+  keyValueDiffers: KeyValueDiffers
+)
+
 ```
 
 
@@ -20467,6 +20560,32 @@ constructor(
 ```
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartService,
+  router: Router
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartFacade
+)
+
+```
+
+
 ### Property activeCartService changed.
 
 
@@ -20485,6 +20604,10 @@ activeCartService: ActiveCartFacade
 
 
 ### Property cartValidationInProgress is removed.
+
+
+
+### Property router is removed.
 
 
 
@@ -20802,6 +20925,23 @@ constructor(
   eventService: EventService
 )
 
+```
+
+
+### Property cmpRef changed.
+
+
+Previous version: 
+
+```
+public
+```
+
+
+Current version: 
+
+```
+`cmpRef` has been made `protected` due to being unsafe.
 ```
 
 

@@ -1,14 +1,10 @@
 import { Rule, Tree } from '@angular-devkit/schematics';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 import { migrateRenamedSymbols } from '../../mechanism/rename-symbol/rename-symbol';
-import { CHECKOUT_RENAMED_SYMBOLS_DATA } from './checkout-rename-symbol';
 
 export function migrate(): Rule {
   return (tree: Tree) => {
-    return migrateRenamedSymbols(tree, [
-      ...CHECKOUT_RENAMED_SYMBOLS_DATA,
-      ...GENERATED_RENAMED_SYMBOLS_DATA,
-    ]);
+    return migrateRenamedSymbols(tree, GENERATED_RENAMED_SYMBOLS_DATA);
   };
 }
 

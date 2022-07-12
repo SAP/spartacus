@@ -3571,6 +3571,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
     {
       class: 'CartTotalsComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'router',
+      comment:
+        "// TODO:Spartacus - Property 'router' was removed from Class 'CartTotalsComponent'. ",
+    },
+    {
+      class: 'CartTotalsComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'disableButtonWhileNavigation',
       comment:
         "// TODO:Spartacus - Method 'disableButtonWhileNavigation' was removed from Class 'CartTotalsComponent'. ",
@@ -3644,6 +3651,13 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'resolve',
       comment:
         "The 'resolve' method's signature changed to: 'resolve(  componentMapping: CmsComponentMapping): ComponentHandler | undefined'",
+    },
+    {
+      class: 'ComponentWrapperDirective',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'cmpRef',
+      comment:
+        "The type of property 'public' changed to: '`cmpRef` has been made `protected` due to being unsafe.' ",
     },
     {
       class: 'ConsentManagementFormComponent',

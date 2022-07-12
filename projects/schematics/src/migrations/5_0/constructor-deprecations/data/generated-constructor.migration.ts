@@ -386,6 +386,72 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'QuickOrderFormComponent',
+      importPath: '@spartacus/cart/quick-order/components',
+      deprecatedParams: [
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'QuickOrderFacade',
+          importPath: '@spartacus/cart/quick-order/root',
+        },
+        {
+          className: 'Config',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ChangeDetectorRef',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'WindowRef',
+          importPath: '@spartacus/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'QuickOrderFacade',
+          importPath: '@spartacus/cart/quick-order/root',
+        },
+        {
+          className: 'Config',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ChangeDetectorRef',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'WindowRef',
+          importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'Config',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ChangeDetectorRef',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'QuickOrderFacade',
+          importPath: '@spartacus/cart/quick-order/root',
+        },
+        {
+          className: 'WindowRef',
+          importPath: '@spartacus/core',
+        },
+      ],
+    },
+    {
       class: 'QuickOrderService',
       importPath: '@spartacus/cart/quick-order/core',
       deprecatedParams: [
@@ -413,6 +479,64 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         },
         {
           className: 'EventService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'ActiveCartFacade',
+          importPath: '@spartacus/cart/base/root',
+        },
+        {
+          className: 'Config',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'EventService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ProductSearchConnector',
+          importPath: '@spartacus/core',
+        },
+      ],
+    },
+    {
+      class: 'QuickOrderService',
+      importPath: '@spartacus/cart/quick-order/core',
+      deprecatedParams: [
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ProductAdapter',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'EventService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ProductSearchConnector',
+          importPath: '@spartacus/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ProductAdapter',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'EventService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ProductSearchConnector',
           importPath: '@spartacus/core',
         },
       ],
@@ -4723,6 +4847,22 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'FormErrorsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [],
+      removeParams: [],
+      addParams: [
+        {
+          className: 'ChangeDetectorRef',
+          importPath: '@angular/core',
+        },
+        {
+          className: 'KeyValueDiffers',
+          importPath: '@angular/core',
+        },
+      ],
+    },
+    {
       class: 'AddToCartComponent',
       importPath: '@spartacus/storefront',
       deprecatedParams: [
@@ -5197,6 +5337,36 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
         {
           className: 'ActiveCartService',
           importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'ActiveCartFacade',
+          importPath: '@spartacus/cart/base/root',
+        },
+      ],
+    },
+    {
+      class: 'CartTotalsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedParams: [
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'Router',
+          importPath: '@angular/router',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'Router',
+          importPath: '@angular/router',
         },
       ],
       addParams: [
