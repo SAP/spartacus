@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit, Optional } from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
 import {
   CsAgentAuthService,
@@ -32,14 +32,39 @@ export class AsmMainUiComponent implements OnInit {
   customerSupportAgentLoggedIn$: Observable<boolean>;
   csAgentTokenLoading$: Observable<boolean>;
   customer$: Observable<User | undefined>;
-  isCollapsed$: Observable<boolean>;
+  isCollapsed$: Observable<boolean> | undefined;
   iconTypes = ICON_TYPE;
 
   @HostBinding('class.hidden') disabled = false;
 
   protected startingCustomerSession = false;
 
-  protected modalRef: ModalRef | null;
+  protected modalRef: ModalRef | undefined;
+
+  // TODO(#206): make asmService and modalService are required dependency
+  constructor(
+    authService: AuthService,
+    csAgentAuthService: CsAgentAuthService,
+    asmComponentService: AsmComponentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    userAccountFacade: UserAccountFacade,
+    asmService: AsmService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    modalService: ModalService
+  );
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    authService: AuthService,
+    csAgentAuthService: CsAgentAuthService,
+    asmComponentService: AsmComponentService,
+    globalMessageService: GlobalMessageService,
+    routingService: RoutingService,
+    userAccountFacade: UserAccountFacade,
+    asmService: AsmService
+  );
 
   constructor(
     protected authService: AuthService,
@@ -47,9 +72,9 @@ export class AsmMainUiComponent implements OnInit {
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
+    protected userAccountFacade: UserAccountFacade,
     protected asmService: AsmService,
-    protected modalService: ModalService,
-    protected userAccountFacade: UserAccountFacade
+    @Optional() protected modalService?: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -130,14 +155,14 @@ export class AsmMainUiComponent implements OnInit {
   }
 
   showCustomList(): void {
-    this.modalRef = this.modalService.open(CustomerListComponent, {
+    this.modalRef = this.modalService?.open(CustomerListComponent, {
       centered: true,
       size: 'mf',
       windowClass: 'fiori-like',
       ariaLabelledBy: 'asm-customer-list-title',
       ariaDescribedBy: 'asm-customer-list-desc',
     });
-    this.modalRef.result
+    this.modalRef?.result
       .then(({ selectedUser, actionType }: CustomerListActionEvent) => {
         if (selectedUser) {
           this.startCustomerEmulationSession(selectedUser);
@@ -145,17 +170,17 @@ export class AsmMainUiComponent implements OnInit {
             this.routingService.go({ cxRoute: 'orders' });
           }
         }
-        this.modalRef = null;
+        this.modalRef = undefined;
       })
       .catch(() => {
         // this  callback is called when modal is closed with Esc key or clicking backdrop
-        this.modalRef = null;
+        this.modalRef = undefined;
       });
   }
 
   closeModal(): void {
-    if (this.modalService.getActiveModal() === this.modalRef) {
-      this.modalService.closeActiveModal();
+    if (this.modalService?.getActiveModal() === this.modalRef) {
+      this.modalService?.closeActiveModal();
     }
   }
 }

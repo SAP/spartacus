@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nModule, provideConfig } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nModule,
+  provideConfig,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
   IconModule,
@@ -37,6 +41,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     KeyboardFocusModule,
     NgSelectA11yModule,
     SortingModule,
+    FeaturesConfigModule,
   ],
   declarations: [
     AsmMainUiComponent,

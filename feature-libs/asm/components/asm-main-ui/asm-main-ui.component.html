@@ -13,15 +13,18 @@
     </div>
   </div>
   <div class="asm-bar-actions">
-    <div
-      class="cx-asm-customer-list"
-      *ngIf="customerSupportAgentLoggedIn$ | async"
-    >
-      <cx-icon [type]="iconTypes.USER_FRIENDS"></cx-icon>
-      <a class="cx-asm-customer-list-link" (click)="showCustomList()"
-        ><span>{{ 'asm.customers' | cxTranslate }}</span></a
+    <ng-container *cxFeatureLevel="'5.1'">
+      <div
+        class="cx-asm-customer-list"
+        *ngIf="customerSupportAgentLoggedIn$ | async"
       >
-    </div>
+        <cx-icon [type]="iconTypes.USER_FRIENDS"></cx-icon>
+        <a class="cx-asm-customer-list-link" (click)="showCustomList()"
+          ><span>{{ 'asm.customers' | cxTranslate }}</span></a
+        >
+      </div>
+    </ng-container>
+
     <cx-asm-toggle-ui></cx-asm-toggle-ui>
 
     <cx-asm-session-timer
