@@ -383,6 +383,13 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   addEntry(productCode: string, quantity: number): void {
     // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
+
+    // TODO check feature level
+    // this.featureConfigService.isLevel('5.1');
+
+    // TODO check if product code has pickup location in store
+    // this.intendedLocationService.getPickupLocation(productCode).subscribe();
+
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cart, userId]) => {
@@ -390,7 +397,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           userId,
           getCartIdByUserId(cart, userId),
           productCode,
-          quantity
+          quantity,
+          "London School"
         );
       });
   }

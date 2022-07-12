@@ -21,6 +21,7 @@ export class CartAddEntry extends StateUtils.EntityProcessesIncrementAction {
       userId: string;
       productCode: string;
       quantity: number;
+      pickupStore?: string;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);

@@ -9,12 +9,14 @@ export abstract class CartEntryAdapter {
    * @param cartId
    * @param productCode
    * @param quantity
+   * @param pickupStore
    */
   abstract add(
     userId: string,
     cartId: string,
     productCode: string,
-    quantity?: number
+    quantity?: number,
+    pickupStore?: string
   ): Observable<CartModification>;
 
   /**
