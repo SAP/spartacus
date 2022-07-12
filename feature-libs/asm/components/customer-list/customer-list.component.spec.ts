@@ -380,6 +380,24 @@ describe('CustomerListComponent', () => {
       customerId: '123456',
     });
     expect(badgeText3).toBe('F');
+
+    const badgeText4 = component.getbadgeText({
+      displayUid: 'Display Uid',
+      lastName: 'L',
+      name: 'First Last',
+      uid: 'customer@test.com',
+      customerId: '123456',
+    });
+    expect(badgeText4).toBe('L');
+
+    const badgeText5 = component.getbadgeText({
+      displayUid: 'Display Uid',
+      firstName: 'First',
+      name: 'First Last',
+      uid: 'customer@test.com',
+      customerId: '123456',
+    });
+    expect(badgeText5).toBe('F');
   });
 
   it('should set current page to zero when group changed', () => {
@@ -403,6 +421,9 @@ describe('CustomerListComponent', () => {
       'instoreCustomers'
     );
     expect(userGroupName2).toBe('');
+
+    const userGroupName3 = component.getGroupName({}, 'instoreCustomers');
+    expect(userGroupName3).toBe('');
   });
 
   it('should add mobile class', () => {
