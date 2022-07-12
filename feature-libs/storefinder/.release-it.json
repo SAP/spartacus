@@ -13,7 +13,7 @@
     "after:version:bump": "cd ../.. && yarn build:storefinder"
   },
   "github": {
-    "release": true,
+    "release": false,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/storefinder@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib storefinder --to storefinder-${version}"
