@@ -33,8 +33,7 @@
   },
   "publishConfig": {
     "access": "public",
-    
+    "@spartacus:registry": "https://int.repositories.cloud.sap/artifactory/api/npm/spartacus-internal-repository/"
   },
-  "schematics": "./schematics/collection.json",
-  "@spartacus:registry": "https://int.repositories.cloud.sap/artifactory/api/npm/spartacus-internal-repository/"
+  "schematics": "./schematics/collection.json"
 }
