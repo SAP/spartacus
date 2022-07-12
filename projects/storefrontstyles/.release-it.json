@@ -7,7 +7,7 @@
     "tagAnnotation": "Bumping styles version to ${version}"
   },
   "github": {
-    "release": true,
+    "release": false,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/styles@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib styles --to styles-${version}"

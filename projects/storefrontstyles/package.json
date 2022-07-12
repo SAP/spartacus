@@ -19,7 +19,8 @@
     "bootstrap": "^4.6.1"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "@spartacus:registry": "https://int.repositories.cloud.sap/artifactory/api/npm/spartacus-internal-repository/"
   },
   "sass": "./_index.scss"
 }
