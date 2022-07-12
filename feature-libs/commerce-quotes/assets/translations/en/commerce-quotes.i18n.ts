@@ -66,5 +66,11 @@ export const commerceQuotes = {
           'Once a request for quote is submitted it cannot be modified.',
       },
     },
+    httpHandlers: {
+      threshold: {
+        underTresholdError:
+          'Requested quote does not meet the threshold of minimum {{minValue}}$.',
+      },
+    },
   },
 };

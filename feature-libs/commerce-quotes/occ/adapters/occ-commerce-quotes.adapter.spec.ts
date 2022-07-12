@@ -49,9 +49,7 @@ const mockQuoteMetadata: QuoteMetadata = {
   description: 'test',
   name: 'Test1',
 };
-const mockQuoteAction: QuoteAction = {
-  action: 'SUBMIT',
-};
+const mockQuoteAction = QuoteAction.SUBMIT;
 const mockQuoteComment: Comment = {
   text: 'test',
 };
@@ -203,9 +201,9 @@ describe(`OccCommerceQuotesAdapter`, () => {
     );
   });
 
-  it('performActionQuote should send action to be performed for quote', (done) => {
+  it('performQuoteAction should send action to be performed for quote', (done) => {
     service
-      .performActionQuote(userId, mockQuote.code, mockQuoteAction)
+      .performQuoteAction(userId, mockQuote.code, mockQuoteAction)
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual(null);

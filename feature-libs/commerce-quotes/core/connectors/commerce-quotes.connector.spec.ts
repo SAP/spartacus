@@ -142,17 +142,17 @@ describe('CommerceQuotesConnector', () => {
     );
   });
 
-  it('performActionQuote should call adapter', () => {
+  it('performQuoteAction should call adapter', () => {
     let result;
-    const action = { action: 'TEST' };
+    const action = QuoteAction.EDIT;
     service
-      .performActionQuote(userId, quoteCode, action)
+      .performQuoteAction(userId, quoteCode, action)
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
       `performActionQuote-${userId}-${quoteCode}-${action.toString()}`
     );
-    expect(adapter.performActionQuote).toHaveBeenCalledWith(
+    expect(adapter.performQuoteAction).toHaveBeenCalledWith(
       userId,
       quoteCode,
       action
