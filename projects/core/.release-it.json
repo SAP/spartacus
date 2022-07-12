@@ -13,7 +13,7 @@
     "after:version:bump": "cd ../.. && ng build core --configuration production"
   },
   "github": {
-    "release": true,
+    "release": false,
     "assets": [
       "../../docs.tar.gz",
       "../../docs.zip",
