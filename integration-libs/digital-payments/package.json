@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/digital-payments",
-  "version": "5.0.0",
+  "version": "4.0.0",
   "description": "Digital Payments Integration library for Spartacus",
   "keywords": [
     "spartacus",

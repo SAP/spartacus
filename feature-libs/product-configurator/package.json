@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/product-configurator",
-  "version": "5.0.0",
+  "version": "4.0.0",
   "description": "Product configurator feature library for Spartacus",
   "keywords": [
     "spartacus",
