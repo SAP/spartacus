@@ -13,7 +13,7 @@
     "after:version:bump": "cd ../.. && yarn build:tracking"
   },
   "github": {
-    "release": true,
+    "release": false,
     "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/tracking@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib tracking --to tracking-${version}"
