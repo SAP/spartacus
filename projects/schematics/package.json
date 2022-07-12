@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "4.1.0-next.0",
+  "version": "5.0.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -33,6 +33,9 @@
   },
   "ng-add": {
     "save": "devDependencies"
+  },
+  "publishConfig": {
+    "@spartacus/registry": "https://int.repositories.cloud.sap/artifactory/api/npm/spartacus-repository/" 
   },
   "ng-update": {
     "migrations": "./src/migrations/migrations.json",

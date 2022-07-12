@@ -6,8 +6,11 @@
     "commitMessage": "Bumping schematics version to ${version}",
     "tagAnnotation": "Bumping schematics version to ${version}"
   },
+  "npm": {
+    "@spartacus:registry": "https://int.repositories.cloud.sap/artifactory/api/npm/spartacus-repository/" 
+  },
   "github": {
-    "release": true,
+    "release": false,
     "releaseName": "@spartacus/schematics@${version}",
     "releaseNotes": "cd ../.. && ts-node ./scripts/changelog.ts --verbose --lib schematics --to schematics-${version}"
   },
