@@ -37,7 +37,8 @@
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "@spartacus:registry": "https://int.repositories.cloud.sap/artifactory/api/npm/spartacus-internal-repository/"
   },
   "schematics": "./src/schematics/collection.json"
 }
