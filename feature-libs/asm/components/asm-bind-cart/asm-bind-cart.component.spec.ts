@@ -1,18 +1,22 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { StateWithAsm } from '@spartacus/asm/core';
-import { AsmFacade, ASM_FEATURE } from '@spartacus/asm/root';
+import { AsmFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
-import { BaseSiteService, User } from '@spartacus/core';
+import {
+  BaseSiteService,
+  GlobalMessageEntities,
+  GlobalMessageService,
+  GlobalMessageType,
+  Translatable,
+  User,
+} from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Observable, of } from 'rxjs';
-import * as fromReducers from '../../core/store/reducers/index';
+import { EMPTY, Observable, of } from 'rxjs';
 import { AsmBindCartComponent } from './asm-bind-cart.component';
 
 class MockActiveCartService {
   getActiveCartId(): Observable<string> {
-    return of();
+    return EMPTY;
   }
 }
 
@@ -28,6 +32,14 @@ class MockBaseSiteService {
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  get(): Observable<GlobalMessageEntities> {
+    return of({});
+  }
+  add(_: string | Translatable, __: GlobalMessageType, ___?: number): void {}
+  remove(_: GlobalMessageType, __?: number): void {}
 }
 
 class MockUserAccountFacade implements Partial<UserAccountFacade> {
@@ -52,7 +64,6 @@ describe('AsmBindCartComponent', () => {
   let asmFacade: AsmFacade;
   let multiCartFacade: MultiCartFacade;
   let activeCartFacade: ActiveCartFacade;
-  let store: Store<StateWithAsm>;
   let userService: UserAccountFacade;
 
   const prevActiveCartId = '00001122';
@@ -62,10 +73,6 @@ describe('AsmBindCartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
-      ],
       declarations: [AsmBindCartComponent, MockTranslatePipe],
       providers: [
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
@@ -73,11 +80,9 @@ describe('AsmBindCartComponent', () => {
         { provide: BaseSiteService, useClass: MockBaseSiteService },
         { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
     }).compileComponents();
-
-    store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
   });
 
   beforeEach(() => {

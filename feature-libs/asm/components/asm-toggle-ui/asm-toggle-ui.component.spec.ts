@@ -1,12 +1,9 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Store, StoreModule } from '@ngrx/store';
-import { StateWithAsm } from '@spartacus/asm/core';
-import { AsmFacade, AsmUi, ASM_FEATURE } from '@spartacus/asm/root';
+import { AsmFacade, AsmUi } from '@spartacus/asm/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import * as fromReducers from '../../core/store/reducers/index';
 import { AsmToggleUiComponent } from './asm-toggle-ui.component';
 
 class MockAsmService {
@@ -14,7 +11,7 @@ class MockAsmService {
     return of(mockAsmUi);
   }
 
-  updateAsmUiState(_asmUi): void {}
+  updateAsmUiState(_asmUi: unknown): void {}
 }
 
 const mockAsmUi: AsmUi = {
@@ -26,22 +23,14 @@ describe('AsmToggleuUiComponent', () => {
   let fixture: ComponentFixture<AsmToggleUiComponent>;
   let asmFacade: AsmFacade;
   let el: DebugElement;
-  let store: Store<StateWithAsm>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          StoreModule.forRoot({}),
-          StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
-        ],
+        imports: [I18nTestingModule],
         declarations: [AsmToggleUiComponent],
         providers: [{ provide: AsmFacade, useClass: MockAsmService }],
       }).compileComponents();
-
-      store = TestBed.inject(Store);
-      spyOn(store, 'dispatch').and.callThrough();
     })
   );
 
