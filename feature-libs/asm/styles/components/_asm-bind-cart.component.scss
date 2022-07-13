@@ -22,11 +22,31 @@
       color: #ffffff;
       opacity: 0.4;
       transition: opacity 0.3s;
+      position: relative;
 
       &.cx-asm-active {
         opacity: 1;
       }
+
+      cx-dot-spinner {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        display: none;
+      }
+
+      &.cx-bind-loading {
+        span {
+          opacity: 0;
+        }
+        cx-dot-spinner {
+          display: flex;
+        }
+      }
     }
+
   }
 
   form {

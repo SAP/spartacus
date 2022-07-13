@@ -5,10 +5,11 @@
 @import './_customer-emulation.component.scss';
 @import './_customer-selection.component.scss';
 @import './_asm-bind-cart.component.scss';
+@import './_dot-spinner.component.scss';
 
 $asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
   cx-asm-bind-cart, cx-asm-toggle-ui, cx-csagent-login-form,
-  cx-customer-emulation, cx-customer-selection !default;
+  cx-customer-emulation, cx-customer-selection, cx-dot-spinner !default;
 
 $skipComponentStyles: () !default;
 

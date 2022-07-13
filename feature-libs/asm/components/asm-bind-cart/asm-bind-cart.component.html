@@ -30,7 +30,14 @@
     [disabled]="cartId.invalid"
     type="submit"
     [class.cx-asm-active]="cartId.valid"
+    [class.cx-bind-loading]="loading"
   >
-    {{ 'asm.bindCart.bindCartToCustomer' | cxTranslate }}
+    <span [attr.aria-hidden]="loading">
+      {{ 'asm.bindCart.bindCartToCustomer' | cxTranslate }}
+    </span>
+    <cx-dot-spinner
+      [attr.aria-hidden]="!loading"
+      [attr.aria-label]="'common.loading' | cxTranslate"
+    ></cx-dot-spinner>
   </button>
 </form>

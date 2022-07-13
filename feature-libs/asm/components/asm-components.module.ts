@@ -23,6 +23,7 @@ import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-fo
 import { CustomerEmulationComponent } from './customer-emulation/customer-emulation.component';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
+import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     CustomerEmulationComponent,
     AsmToggleUiComponent,
     AsmBindCartComponent,
+    DotSpinnerComponent,
   ],
   exports: [
     AsmMainUiComponent,
@@ -57,6 +59,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     CustomerEmulationComponent,
     AsmToggleUiComponent,
     AsmBindCartComponent,
+    DotSpinnerComponent,
   ],
   providers: [provideConfig(defaultAsmLayoutConfig)],
 })

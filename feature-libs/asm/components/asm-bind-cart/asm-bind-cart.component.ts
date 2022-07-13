@@ -9,7 +9,8 @@ import {
   User,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { Subscription } from 'rxjs';
+import { defer, Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-asm-bind-cart',
@@ -21,6 +22,8 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     Validators.required,
     Validators.minLength(1),
   ]);
+
+  loading = false;
 
   protected subscription = new Subscription();
 
@@ -53,29 +56,37 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
    */
   bindCartToCustomer() {
     const customerId = this.customer.uid;
-    const cartId = this.cartId.value;
 
-    if (customerId && cartId) {
+    if (customerId && this.cartId.valid && !this.loading) {
       this.subscription.add(
-        this.asmFacade.bindCart({ cartId, customerId }).subscribe(
-          () => {
-            this.globalMessageService.add(
-              { key: 'asm.bindCart.success' },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            );
+        defer(() => {
+          this.loading = true;
 
-            this.multiCartFacade.loadCart({
-              cartId: OCC_CART_ID_CURRENT,
-              userId: customerId,
-            });
-          },
-          () => {
-            this.globalMessageService.add(
-              { key: 'asm.bindCart.error' },
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-          }
-        )
+          return this.asmFacade.bindCart({
+            cartId: this.cartId.value,
+            customerId,
+          });
+        })
+          .pipe(finalize(() => (this.loading = false)))
+          .subscribe(
+            () => {
+              this.globalMessageService.add(
+                { key: 'asm.bindCart.success' },
+                GlobalMessageType.MSG_TYPE_CONFIRMATION
+              );
+
+              this.multiCartFacade.loadCart({
+                cartId: OCC_CART_ID_CURRENT,
+                userId: customerId,
+              });
+            },
+            () => {
+              this.globalMessageService.add(
+                { key: 'asm.bindCart.error' },
+                GlobalMessageType.MSG_TYPE_ERROR
+              );
+            }
+          )
       );
     }
   }
