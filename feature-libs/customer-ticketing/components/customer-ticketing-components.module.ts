@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
-import {
-  FormErrorsModule,
-  PasswordVisibilityToggleModule,
-} from '@spartacus/storefront';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { CustomerTicketCloseModule } from './customer-ticket-close';
+import { CustomerTicketDetailsModule } from './customer-ticket-details';
+import { CustomerTicketReopenModule } from './customer-ticket-reopen';
+import { CustomerTicketMessagesModule } from './customer-ticket-messages';
 
 @NgModule({
   imports: [
@@ -13,7 +14,10 @@ import {
     ReactiveFormsModule,
     I18nModule,
     FormErrorsModule,
-    PasswordVisibilityToggleModule,
+    CustomerTicketDetailsModule,
+    CustomerTicketCloseModule,
+    CustomerTicketReopenModule,
+    CustomerTicketMessagesModule,
   ],
   declarations: [],
   exports: [],

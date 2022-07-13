@@ -1,0 +1,16 @@
+cx-customer-ticket-close,
+cx-customer-ticket-reopen {
+  display: flex;
+  justify-content: flex-end;
+
+  @include media-breakpoint-down(sm) {
+    div {
+      justify-content: center;
+      display: flex;
+    }
+  }
+
+  button {
+    margin: 1rem;
+  }
+}
