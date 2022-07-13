@@ -4,7 +4,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
   OrderApproval,
-  OrderApprovalDecisionValue
+  OrderApprovalDecisionValue,
 } from '../../../core/model/order-approval.model';
 import { OrderApprovalService } from '../../../core/services/order-approval.service';
 import { OrderApprovalDetailService } from '../order-approval-detail.service';
