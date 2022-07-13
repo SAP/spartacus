@@ -16,7 +16,7 @@ import { accountSummaryUnitsTableConfigFactory } from './account-summary-list-ta
     IconModule,
     ListModule,],
   providers: [
-    provideDefaultConfigFactory(accountSummaryUnitsTableConfigFactory)
+    provideDefaultConfigFactory(accountSummaryUnitsTableConfigFactory),
   ],
   declarations: [AccountSummaryListComponent],
   exports: [AccountSummaryListComponent],

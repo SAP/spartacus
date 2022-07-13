@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { accountSummaryCmsConfig } from './account-summary/account-summary.config';
 import { AccountSummaryCellLinkModule } from './account-summary/cell-link/account-summary-cell-link.module';
-import { AccountSummaryDocumentModule } from './account-summary/details/account-summary-document/account-summary-document.module';
+import { AccountSummaryDocumentModule } from './account-summary/details';
 import { AccountSummaryHeaderModule } from './account-summary/details/header/account-summary-header.module';
 import { AccountSummaryListModule } from './account-summary/list/account-summary-list.module';
 
@@ -14,7 +14,7 @@ import { AccountSummaryListModule } from './account-summary/list/account-summary
   declarations: [
   ],
   providers: [
-    provideDefaultConfig(accountSummaryCmsConfig),
+    provideDefaultConfig(accountSummaryCmsConfig)
   ]
 })
 export class AccountSummaryComponentsModule { }

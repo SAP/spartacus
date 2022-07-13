@@ -1,14 +1,13 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { PageMetaResolver } from '@spartacus/core';
-import { AccoountSummaryPageMetaResolver } from './account-summary-page-meta.resolver';
-import { AccountSummaryStoreModule } from './store/account-summary-store.module';
+import { AccountSummaryPageMetaResolver } from './account-summary-page-meta.resolver';
 
 @NgModule({
-  imports: [AccountSummaryStoreModule],
+  imports: [],
   providers: [
     {
       provide: PageMetaResolver,
-      useExisting: AccoountSummaryPageMetaResolver,
+      useExisting: AccountSummaryPageMetaResolver,
       multi: true,
     },
   ],
