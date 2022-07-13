@@ -30,12 +30,22 @@ const mockOrders: OrderHistoryList = {
       placed: new Date('2018-01-01'),
       statusDisplay: 'test',
       total: { formattedValue: '1' },
+      placedBy: {
+        firstName: 'John',
+        lastName: 'Doe',
+        orgUnitName: 'Rustic Services',
+      },
     },
     {
       code: '2',
       placed: new Date('2018-01-02'),
       statusDisplay: 'test2',
       total: { formattedValue: '2' },
+      placedBy: {
+        firstName: 'Jane',
+        lastName: 'Roe',
+        orgUnitName: 'Rustic Retail',
+      },
     },
   ],
   pagination: { totalResults: 1, totalPages: 2, sort: 'byDate' },

@@ -63,6 +63,8 @@
               <th scope="col">
                 {{ 'orderHistory.status' | cxTranslate }}
               </th>
+              <th scope="col">{{ 'orderHistory.buyer' | cxTranslate }}</th>
+              <th scope="col">{{ 'orderHistory.unit' | cxTranslate }}</th>
               <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
             </thead>
             <tbody>
@@ -118,6 +120,38 @@
                       'orderDetails.statusDisplay_' + order?.statusDisplay
                         | cxTranslate
                     }}</a
+                  >
+                </td>
+                <td class="cx-order-history-buyer">
+                  <div class="cx-order-history-label">
+                    {{ 'orderHistory.buyer' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                  >
+                    {{ order?.placedBy?.firstName}} {{order?.placedBy?.lastName}}</a
+                  >
+                </td>
+                <td class="cx-order-history-unit">
+                  <div class="cx-order-history-label">
+                    {{ 'orderHistory.unit' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                  >
+                    {{ order?.placedBy?.orgUnitName }}</a
                   >
                 </td>
                 <td class="cx-order-history-total">

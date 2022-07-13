@@ -108,6 +108,8 @@ export const order = {
     emptyPurchaseOrderId: 'None',
     date: 'Date',
     status: 'Status',
+    buyer: 'Buyer',
+    unit: 'Unit',
     total: 'Total',
     noOrders: 'We have no order records for this account.',
     noReplenishmentOrders:

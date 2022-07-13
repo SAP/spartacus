@@ -81,6 +81,7 @@ export interface OrderHistory {
   status?: string;
   statusDisplay?: string;
   total?: Price;
+  placedBy?: OrderUser;
 }
 
 export interface OrderHistoryList {
@@ -130,4 +131,10 @@ export interface Order {
   user?: Principal;
   returnable?: boolean;
   cancellable?: boolean;
+}
+
+export interface OrderUser {
+  firstName?: string;
+  lastName?: string;
+  orgUnitName?: string;
 }
