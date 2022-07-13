@@ -68,7 +68,7 @@ describe('in Spare Parts Tab', () => {
       it('no spare parts indicator should be shown', () => {
         cy.intercept(
           'GET',
-          '**/occ/v2/**/products/**/references**&referenceType=SPAREPART&**',
+          '**/rest/v2/**/products/**/references**&referenceType=SPAREPART&**',
           {
             statusCode: 200,
             body: {

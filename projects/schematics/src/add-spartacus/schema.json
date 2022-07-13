@@ -210,7 +210,7 @@
     },
     "occPrefix": {
       "type": "string",
-      "description": "The OCC API prefix. E.g.: /occ/v2/"
+      "description": "The OCC API prefix. E.g.: /rest/v2/"
     },
     "baseSite": {
       "type": "string",

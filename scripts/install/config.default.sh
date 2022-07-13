@@ -12,7 +12,7 @@ BACKEND_URL="https://40.76.109.9:9002"
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
 BASE_SITE=
 
-OCC_PREFIX="/occ/v2/"
+OCC_PREFIX="/rest/v2/"
 
 SPARTACUS_PROJECTS=(
         "projects/core"

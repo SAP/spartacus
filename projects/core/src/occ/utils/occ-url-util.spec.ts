@@ -18,8 +18,8 @@ describe('urlPathJoin', () => {
   });
 
   it('should keep correct double slashes', () => {
-    expect(urlPathJoin('https://test123', '/occ/v2/', 'test3')).toEqual(
-      'https://test123/occ/v2/test3'
+    expect(urlPathJoin('https://test123', '/rest/v2/', 'test3')).toEqual(
+      'https://test123/rest/v2/test3'
     );
   });
 
