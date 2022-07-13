@@ -3368,7 +3368,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/root",
         "deletedComment": "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use `softDeleteEntry` instead.",
         "topLevelApiElementName": "QuickOrderFacade"
       },
       {
@@ -3399,7 +3399,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/root",
         "deletedComment": "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use `searchProducts` instead.",
         "topLevelApiElementName": "QuickOrderFacade"
       }
     ]
@@ -3946,7 +3946,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'AddToSavedCartComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use activeCartFacade instead.",
         "topLevelApiElementName": "AddToSavedCartComponent"
       }
     ]
@@ -4387,7 +4387,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use the method 'save' from class 'CartAdapter' in @spartacus/cart/base/core",
         "topLevelApiElementName": "SavedCartAdapter"
       }
     ]
@@ -4603,7 +4603,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartConnector'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use the method 'save' from class 'CartConnector' in @spartacus/cart/base/core",
         "topLevelApiElementName": "SavedCartConnector"
       }
     ]
@@ -4897,7 +4897,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'.",
-        "migrationComment": "",
+        "migrationComment": "Cart deletion event is now triggered from CartEventBuilder in @spartacus/cart/base/core",
         "topLevelApiElementName": "SavedCartEventBuilder"
       }
     ]
@@ -5458,7 +5458,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'SavedCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by userAccountFacade.",
         "topLevelApiElementName": "SavedCartService"
       }
     ]
@@ -5832,7 +5832,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getSaveCartEndpoint' was removed from Class 'OccSavedCartAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.  The saved cart request is now done from class 'OccCartAdapter' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccSavedCartAdapter"
       },
       {
@@ -5887,7 +5887,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/occ",
         "deletedComment": "// TODO:Spartacus - Method 'saveCart' was removed from Class 'OccSavedCartAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.  The saved cart request is now done via method `save` from class 'OccCartAdapter' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccSavedCartAdapter"
       }
     ]
@@ -5899,7 +5899,7 @@
     "members": [{ "kind": "Property", "name": "type", "type": "" }],
     "isDeleted": true,
     "deletedComment": "Class DeleteSavedCartEvent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartEvent.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -5920,7 +5920,7 @@
     "members": [{ "kind": "Property", "name": "type", "type": "" }],
     "isDeleted": true,
     "deletedComment": "Class DeleteSavedCartFailEvent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartFailEvent.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -5941,7 +5941,7 @@
     "members": [{ "kind": "Property", "name": "type", "type": "" }],
     "isDeleted": true,
     "deletedComment": "Class DeleteSavedCartSuccessEvent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartSuccessEvent.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
