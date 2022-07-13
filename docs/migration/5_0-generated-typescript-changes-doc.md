@@ -21305,7 +21305,7 @@ control: FormControl | AbstractControl
 
 ### Property errors$ is removed.
 
-
+Use 'errorsDetails$' instead.
 
 ### Property errorsDetails$ changed.
 

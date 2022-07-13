@@ -96306,7 +96306,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Property 'errors$' was removed from Class 'FormErrorsComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'errorsDetails$' instead.",
         "topLevelApiElementName": "FormErrorsComponent"
       },
       {
