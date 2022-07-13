@@ -7,10 +7,11 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { CardModule } from '@spartacus/storefront';
 import { CustomerTicketDetailsComponent } from './customer-ticket-details.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule],
+  imports: [CommonModule, I18nModule, UrlModule, CardModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

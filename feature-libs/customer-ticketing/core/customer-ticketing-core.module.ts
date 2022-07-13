@@ -1,7 +1,15 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { PageMetaResolver } from '@spartacus/core';
+import { CustomerTicketDetailsPageMetaResolver } from './services/customer-ticket-details-page-meta.resolver';
 
 @NgModule({
-  imports: [CommonModule],
+  providers: [
+    CustomerTicketDetailsPageMetaResolver,
+    {
+      provide: PageMetaResolver,
+      useExisting: CustomerTicketDetailsPageMetaResolver,
+      multi: true,
+    },
+  ],
 })
 export class CustomerTicketingCoreModule {}
