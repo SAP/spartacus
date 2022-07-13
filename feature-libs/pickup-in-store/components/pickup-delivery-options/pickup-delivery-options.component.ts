@@ -3,17 +3,15 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { AddToCartContainerContext } from '@spartacus/cart/base/components/add-to-cart';
 import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import {
+  CurrentProductService,
   LaunchDialogService,
   LAUNCH_CALLER,
-  OutletContextData,
 } from '@spartacus/storefront';
 import { combineLatest, EMPTY, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
@@ -31,20 +29,23 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   });
 
   private productCode: string;
+  availableForPickup = false;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    @Optional() protected outlet?: OutletContextData<AddToCartContainerContext>
+    protected currentProductService: CurrentProductService
   ) {}
 
   ngOnInit() {
     const productCode$ =
-      this.outlet?.context$?.pipe(
-        map(({ productCode }) => {
-          this.productCode = productCode;
-          return productCode;
+      this.currentProductService.getProduct().pipe(
+        map((product) => {
+          this.productCode = product?.code ?? '';
+          this.availableForPickup = !!product?.availableForPickup;
+
+          return this.productCode;
         })
       ) ?? EMPTY;
 

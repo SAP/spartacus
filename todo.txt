@@ -2,5 +2,5 @@ x (A) close pickup dialog on selection
 x (B) default options to pickup if they have an intended location for that product in the store
 x (C) if user closes pickup dialog without a store being selected then change radio back to delivery
 (H) augment add to cart to check intended pickup location to adjust cart entity
-disable "Pick Up From Here" if store does not stock for product
-only show pickup delivery options on products marked availableForPickup: true
+x disable "Pick Up From Here" if store does not stock for product
+x only show pickup delivery options on products marked availableForPickup: true

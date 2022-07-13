@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CartOutlets } from '@spartacus/cart/base/root';
@@ -6,7 +7,7 @@ import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.component';
 
 @NgModule({
-  imports: [I18nModule, ReactiveFormsModule],
+  imports: [I18nModule, ReactiveFormsModule, CommonModule],
   providers: [
     provideOutlet({
       id: CartOutlets.ADD_TO_CART_CONTAINER,
