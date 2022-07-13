@@ -7,14 +7,21 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Product } from '@spartacus/core';
 import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { combineLatest, EMPTY, Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
+
+function isProductWithCode(
+  product: Product | null
+): product is Required<Pick<Product, 'code'>> & Product {
+  return !!product?.code;
+}
 
 @Component({
   selector: 'cx-pickup-delivery-options',
@@ -28,8 +35,9 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
     deliveryOption: new FormControl('delivery'),
   });
 
-  private productCode: string;
   availableForPickup = false;
+
+  private productCode: string;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -39,15 +47,15 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    const productCode$ =
-      this.currentProductService.getProduct().pipe(
-        map((product) => {
-          this.productCode = product?.code ?? '';
-          this.availableForPickup = !!product?.availableForPickup;
+    const productCode$ = this.currentProductService.getProduct().pipe(
+      filter(isProductWithCode),
+      map((product) => {
+        this.productCode = product.code;
+        this.availableForPickup = !!product?.availableForPickup;
 
-          return this.productCode;
-        })
-      ) ?? EMPTY;
+        return this.productCode;
+      })
+    );
 
     this.subscription.add(
       combineLatest([

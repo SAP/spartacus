@@ -60,8 +60,10 @@ describe('IntendedPickupLocationService', () => {
 export class MockIntendedPickupLocationService
   implements IntendedPickupLocationFacade
 {
-  getIntendedLocation(_productCode: string): Observable<PointOfService> {
-    return of();
+  getIntendedLocation(
+    _productCode: string
+  ): Observable<PointOfService | undefined> {
+    return of(undefined);
   }
   setIntendedLocation(_productCode: string, _location: PointOfService): void {}
   removeIntendedLocation(_productCode: string): void {}
