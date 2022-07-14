@@ -9,21 +9,6 @@ if it's a rename →
     Manually analyze the class/iface/other for breaking changes that might be present and add those too in breaking-changes.json.
     regenerate doc + all appropriate schematics, at least deleted symbols schematics and renamed api schematics (maybe others if a deleted class was renamed and then has other breaking changes).
 
-
-Variable SET_COST_CENTER_SUCCESS
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SET_COST_CENTER_SUCCESS is DELETED
-
-
-Variable SET_COST_CENTER
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SET_COST_CENTER is DELETED
-
-
 Variable SET_DELIVERY_ADDRESS_SUCCESS
 --------------------------
 @spartacus/checkout/core
@@ -100,20 +85,6 @@ Variable SET_SUPPORTED_DELIVERY_MODES
 @spartacus/checkout/core
 
 - [ ]  Variable SET_SUPPORTED_DELIVERY_MODES is DELETED
-
-
-Class SetCostCenter
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class SetCostCenter is DELETED
-
-
-Class SetCostCenterSuccess
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class SetCostCenterSuccess is DELETED
 
 
 Class SetDeliveryAddress
