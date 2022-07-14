@@ -1,0 +1,27 @@
+<div #dialog>
+  <!-- Modal Header -->
+  <p>conflict-solver-dialog works!</p>
+  <ng-container
+    *ngIf="
+      (conflictGroups$ | async)?.length > 0 &&
+      (conflictGroups$ | async) as conflictGroups
+    "
+  >
+    <cx-configurator-conflict-description
+      [currentGroup]="conflictGroups[0]"
+    ></cx-configurator-conflict-description>
+    <div
+      class="cx-group-attribute"
+      *ngFor="
+        let attribute of conflictGroups[0].attributes;
+        let indexOfAttribute = index
+      "
+    >
+      <cx-configurator-conflict-suggestion
+        [currentGroup]="conflictGroups[0]"
+        [attribute]="attribute"
+        [suggestionNumber]="indexOfAttribute"
+      ></cx-configurator-conflict-suggestion>
+    </div>
+  </ng-container>
+</div>

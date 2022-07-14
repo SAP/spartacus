@@ -162,6 +162,20 @@ export class ConfiguratorGroupsService {
     );
   }
 
+  getConflictGroups(
+    owner: CommonConfigurator.Owner
+  ): Observable<Configurator.Group[] | undefined> {
+    return this.configuratorCommonsService
+      .getConfiguration(owner)
+      .pipe(
+        map((configuration) =>
+          configuration.flatGroups.filter(
+            (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
+          )
+        )
+      );
+  }
+
   /**
    * Determines whether the group has been visited or not.
    *

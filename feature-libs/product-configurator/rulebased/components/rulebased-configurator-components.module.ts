@@ -14,6 +14,7 @@ import { ConfiguratorUpdateMessageModule } from './update-message/configurator-u
 import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-conflict-and-error-messages/configurator-conflict-and-error-messages.module';
 import { ConfiguratorExitButtonModule } from './exit-button/configurator-exit-button.module';
 import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurator-variant-carousel.module';
+import { ConfiguratorConflictSolverDialogModule } from './conflict-solver-dialog/configurator-conflict-solver-dialog.module';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { ConfiguratorVariantCarouselModule } from './variant-carousel/configurat
     ConfiguratorConflictAndErrorMessagesModule,
     ConfiguratorExitButtonModule,
     ConfiguratorVariantCarouselModule,
+    ConfiguratorConflictSolverDialogModule,
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}
