@@ -10,7 +10,7 @@ if it's a rename →
     regenerate doc + all appropriate schematics, at least deleted symbols schematics and renamed api schematics (maybe others if a deleted class was renamed and then has other breaking changes).
 
 
-Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
+Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 Variable SET_ORDER_TYPE
@@ -18,35 +18,6 @@ Variable SET_ORDER_TYPE
 @spartacus/checkout/core
 
 - [ ]  Variable SET_ORDER_TYPE is DELETED
-
-
-
-Variable SET_PAYMENT_DETAILS_SUCCESS
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SET_PAYMENT_DETAILS_SUCCESS is DELETED
-
-
-Variable SET_PAYMENT_DETAILS
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SET_PAYMENT_DETAILS is DELETED
-
-
-Variable SET_PAYMENT_TYPE_SUCCESS
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SET_PAYMENT_TYPE_SUCCESS is DELETED
-
-
-Variable SET_PAYMENT_TYPE
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SET_PAYMENT_TYPE is DELETED
 
 
 Variable SET_SUPPORTED_DELIVERY_MODES_SUCCESS
@@ -68,35 +39,6 @@ Class SetOrderType
 @spartacus/checkout/core
 
 - [ ]  Class SetOrderType is DELETED
-
-
-Class SetPaymentDetails
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class SetPaymentDetails is DELETED
-
-
-Class SetPaymentDetailsSuccess
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class SetPaymentDetailsSuccess is DELETED
-
-
-Class SetPaymentType
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class SetPaymentType is DELETED
-
-
-Class SetPaymentTypeSuccess
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class SetPaymentTypeSuccess is DELETED
-
 
 Class CheckoutAdapter
 --------------------------

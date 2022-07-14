@@ -17567,7 +17567,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_TYPE_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17589,7 +17589,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_TYPE has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18235,7 +18235,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentType has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18315,7 +18315,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentTypeSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
