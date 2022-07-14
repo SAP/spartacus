@@ -138,3 +138,8 @@ export interface OrderUser {
   lastName?: string;
   orgUnitName?: string;
 }
+
+export enum OrderScope {
+  USER = 'USER',
+  BRANCH = 'BRANCH',
+}

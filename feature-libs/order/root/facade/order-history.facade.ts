@@ -59,7 +59,8 @@ export abstract class OrderHistoryFacade {
    * Returns order history list
    */
   abstract getOrderHistoryList(
-    pageSize: number
+    pageSize: number,
+    showUnitOrders?: boolean
   ): Observable<OrderHistoryList | undefined>;
 
   /**
@@ -77,6 +78,20 @@ export abstract class OrderHistoryFacade {
     pageSize: number,
     currentPage?: number,
     sort?: string
+  ): void;
+
+  /**
+   * Retrieves an unit order list
+   * @param pageSize page size
+   * @param currentPage current page
+   * @param sort sort
+   * @param showUnitOrders show unit orders
+   */
+  abstract loadUnitOrderList(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string,
+    showUnitOrders?: boolean
   ): void;
 
   /**

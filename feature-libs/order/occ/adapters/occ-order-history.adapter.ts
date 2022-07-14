@@ -16,6 +16,7 @@ import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   Order,
   OrderHistoryList,
+  OrderScope,
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
@@ -56,7 +57,8 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
+    showUnitOrders?: boolean
   ): Observable<OrderHistoryList> {
     const params: { [key: string]: string } = {};
     if (pageSize) {
@@ -67,6 +69,9 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     }
     if (sort) {
       params['sort'] = sort.toString();
+    }
+    if (showUnitOrders) {
+      params['scope'] = OrderScope.BRANCH;
     }
 
     const url = this.occEndpoints.buildUrl('orderHistory', {

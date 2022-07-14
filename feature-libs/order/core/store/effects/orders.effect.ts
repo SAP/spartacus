@@ -37,7 +37,8 @@ export class OrdersEffect {
                   payload.userId,
                   payload.pageSize,
                   payload.currentPage,
-                  payload.sort
+                  payload.sort,
+                  payload.showUnitOrders
                 )
           ).pipe(
             map((orders: OrderHistoryList) => {

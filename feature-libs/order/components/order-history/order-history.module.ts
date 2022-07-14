@@ -31,6 +31,9 @@ import { OrderHistoryComponent } from './order-history.component';
         AccountOrderHistoryComponent: {
           component: OrderHistoryComponent,
           guards: [AuthGuard],
+          data: {
+            showUnitOrders: false,
+          },
         },
       },
     }),

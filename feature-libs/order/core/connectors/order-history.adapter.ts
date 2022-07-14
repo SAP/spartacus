@@ -31,7 +31,8 @@ export abstract class OrderHistoryAdapter {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
+    showUnitOrders?: boolean
   ): Observable<OrderHistoryList>;
 
   /**
