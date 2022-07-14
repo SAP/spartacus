@@ -1,0 +1,724 @@
+if real delete →
+
+    write a message in the "migrationComment" field of this change in breaking-changes.json
+    regenerate doc + schematics for deleted symbols.
+
+if it's a rename →
+
+    Adjust breaking-changes.json to express a rename instead of a delete
+    Manually analyze the class/iface/other for breaking changes that might be present and add those too in breaking-changes.json.
+    regenerate doc + all appropriate schematics, at least deleted symbols schematics and renamed api schematics (maybe others if a deleted class was renamed and then has other breaking changes).
+
+
+
+
+Variable SCHEDULE_REPLENISHMENT_ORDER_SUCCESS
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SCHEDULE_REPLENISHMENT_ORDER_SUCCESS is DELETED
+
+
+Variable SCHEDULE_REPLENISHMENT_ORDER
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SCHEDULE_REPLENISHMENT_ORDER is DELETED
+
+
+Class ScheduleReplenishmentOrder
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class ScheduleReplenishmentOrder is DELETED
+
+
+Class ScheduleReplenishmentOrderSuccess
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class ScheduleReplenishmentOrderSuccess is DELETED
+
+
+Variable SET_COST_CENTER_SUCCESS
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_COST_CENTER_SUCCESS is DELETED
+
+
+Variable SET_COST_CENTER
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_COST_CENTER is DELETED
+
+
+Variable SET_DELIVERY_ADDRESS_SUCCESS
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_DELIVERY_ADDRESS_SUCCESS is DELETED
+
+
+Variable SET_DELIVERY_ADDRESS
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_DELIVERY_ADDRESS is DELETED
+
+
+Variable SET_DELIVERY_MODE_SUCCESS
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_DELIVERY_MODE_SUCCESS is DELETED
+
+
+Variable SET_DELIVERY_MODE
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_DELIVERY_MODE is DELETED
+
+
+Variable SET_ORDER_TYPE
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_ORDER_TYPE is DELETED
+
+
+
+Variable SET_PAYMENT_DETAILS_SUCCESS
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_PAYMENT_DETAILS_SUCCESS is DELETED
+
+
+Variable SET_PAYMENT_DETAILS
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_PAYMENT_DETAILS is DELETED
+
+
+Variable SET_PAYMENT_TYPE_SUCCESS
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_PAYMENT_TYPE_SUCCESS is DELETED
+
+
+Variable SET_PAYMENT_TYPE
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_PAYMENT_TYPE is DELETED
+
+
+Variable SET_SUPPORTED_DELIVERY_MODES_SUCCESS
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_SUPPORTED_DELIVERY_MODES_SUCCESS is DELETED
+
+
+Variable SET_SUPPORTED_DELIVERY_MODES
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable SET_SUPPORTED_DELIVERY_MODES is DELETED
+
+
+Class SetCostCenter
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetCostCenter is DELETED
+
+
+Class SetCostCenterSuccess
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetCostCenterSuccess is DELETED
+
+
+Class SetDeliveryAddress
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetDeliveryAddress is DELETED
+
+
+
+
+Class SetDeliveryAddressSuccess
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetDeliveryAddressSuccess is DELETED
+
+
+Class SetDeliveryMode
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetDeliveryMode is DELETED
+
+
+Class SetDeliveryModeSuccess
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetDeliveryModeSuccess is DELETED
+
+
+Class SetOrderType
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetOrderType is DELETED
+
+
+Class SetPaymentDetails
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetPaymentDetails is DELETED
+
+
+Class SetPaymentDetailsSuccess
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetPaymentDetailsSuccess is DELETED
+
+
+Class SetPaymentType
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetPaymentType is DELETED
+
+
+Class SetPaymentTypeSuccess
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class SetPaymentTypeSuccess is DELETED
+
+
+Class CheckoutAdapter
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Method clearCheckoutDeliveryAddress is DELETED
+- [ ]  Method clearCheckoutDeliveryMode is DELETED
+- [ ]  Method loadCheckoutDetails is DELETED
+- [ ]  Method placeOrder is DELETED
+
+
+Class CheckoutConnector
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Method clearCheckoutDeliveryAddress is DELETED
+- [ ]  Method clearCheckoutDeliveryMode is DELETED
+- [ ]  Method loadCheckoutDetails is DELETED
+- [ ]  Method placeOrder is DELETED
+
+
+Class CheckoutCostCenterService
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Property activeCartService is DELETED
+- [ ]  Property checkoutStore is DELETED
+- [ ]  Method getCostCenter is DELETED
+
+
+Class CheckoutDeliveryAdapter
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class CheckoutDeliveryAdapter is DELETED
+
+
+Class CheckoutDeliveryConnector
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class CheckoutDeliveryConnector is DELETED
+
+
+Class CheckoutDeliveryService
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class CheckoutDeliveryService is DELETED
+
+
+TypeAlias CheckoutDetails
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  TypeAlias CheckoutDetails is DELETED
+
+
+Class CheckoutEventBuilder
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class CheckoutEventBuilder is DELETED
+
+
+Class CheckoutEventListener
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class CheckoutEventListener is DELETED
+
+
+Class CheckoutPageMetaResolver
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Property activeCartService is DELETED
+- [ ]  Property cart$ is DELETED
+- [ ]  Property translation is DELETED
+
+
+Class CheckoutPaymentAdapter
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Method create is DELETED
+- [ ]  Method loadCardTypes is DELETED
+- [ ]  Method set is DELETED
+
+
+Class CheckoutPaymentConnector
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Method create is DELETED
+- [ ]  Method getCardTypes is DELETED
+- [ ]  Method set is DELETED
+
+
+Class CheckoutPaymentService
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Method actionAllowed is DELETED
+- [ ]  Property activeCartService is DELETED
+- [ ]  Property checkoutStore is DELETED
+- [ ]  Method getCardTypes is DELETED
+- [ ]  Method getPaymentDetails is DELETED
+- [ ]  Method loadSupportedCardTypes is DELETED
+
+
+Class CheckoutReplenishmentOrderAdapter
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class CheckoutReplenishmentOrderAdapter is DELETED
+
+
+Class CheckoutReplenishmentOrderConnector
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class CheckoutReplenishmentOrderConnector is DELETED
+
+
+Namespace CheckoutSelectors
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Namespace CheckoutSelectors is DELETED
+
+
+Variable getAllCardTypes
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getAllCardTypes is DELETED
+
+
+Variable getAllPaymentTypes
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getAllPaymentTypes is DELETED
+
+
+Variable getCardTypesEntites
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getCardTypesEntites is DELETED
+
+
+Variable getCardTypesState
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getCardTypesState is DELETED
+
+
+Variable getCheckoutDetailsLoaded
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getCheckoutDetailsLoaded is DELETED
+
+
+Variable getCheckoutLoading
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getCheckoutLoading is DELETED
+
+
+Variable getCheckoutOrderDetails
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getCheckoutOrderDetails is DELETED
+
+
+Variable getCheckoutState
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getCheckoutState is DELETED
+
+
+Variable getCheckoutSteps
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getCheckoutSteps is DELETED
+
+
+Variable getCheckoutStepsState
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getCheckoutStepsState is DELETED
+
+
+Variable getDeliveryAddress
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getDeliveryAddress is DELETED
+
+
+Variable getDeliveryMode
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getDeliveryMode is DELETED
+
+
+Variable getOrderTypesState
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getOrderTypesState is DELETED
+
+
+Variable getPaymentDetails
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getPaymentDetails is DELETED
+
+
+Variable getPaymentTypesEntites
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getPaymentTypesEntites is DELETED
+
+
+Variable getPaymentTypesState
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getPaymentTypesState is DELETED
+
+
+Variable getPoNumer
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getPoNumer is DELETED
+
+
+Variable getSelectedDeliveryMode
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getSelectedDeliveryMode is DELETED
+
+
+Variable getSelectedDeliveryModeCode
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getSelectedDeliveryModeCode is DELETED
+
+
+Variable getSelectedOrderType
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getSelectedOrderType is DELETED
+
+
+Variable getSelectedOrderTypeSelector
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getSelectedOrderTypeSelector is DELETED
+
+
+Variable getSelectedPaymentType
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getSelectedPaymentType is DELETED
+
+
+Variable getSupportedDeliveryModes
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable getSupportedDeliveryModes is DELETED
+
+
+Class CheckoutService
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class CheckoutService is DELETED
+
+
+Interface CheckoutState
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  PropertySignature cardTypes is DELETED
+- [ ]  PropertySignature orderType is DELETED
+- [ ]  PropertySignature paymentTypes is DELETED
+- [ ]  PropertySignature steps is DELETED
+
+
+Interface CheckoutStepsState
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Interface CheckoutStepsState is DELETED
+
+
+Class ClearCheckoutService
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class ClearCheckoutService is DELETED
+
+Interface OrderTypesState
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Interface OrderTypesState is DELETED
+
+
+Variable PAYMENT_TYPE_NORMALIZER
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Variable PAYMENT_TYPE_NORMALIZER is DELETED
+
+
+Class PaymentTypeAdapter
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class PaymentTypeAdapter is DELETED
+
+
+Class PaymentTypeConnector
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class PaymentTypeConnector is DELETED
+
+
+Class PaymentTypeService
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Class PaymentTypeService is DELETED
+
+
+Interface PaymentTypesState
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Interface PaymentTypesState is DELETED
+
+
+Interface StateWithCheckout
+--------------------------
+@spartacus/checkout/core
+
+- [ ]  Interface StateWithCheckout is DELETED
+
+
+Interface CheckoutOccEndpoints
+--------------------------
+@spartacus/checkout/occ
+
+- [ ]  PropertySignature loadCheckoutDetails is DELETED
+- [ ]  PropertySignature paymentTypes is DELETED
+- [ ]  PropertySignature placeOrder is DELETED
+- [ ]  PropertySignature setCartCostCenter is DELETED
+- [ ]  PropertySignature setCartPaymentType is DELETED
+
+
+Class OccCheckoutAdapter
+--------------------------
+@spartacus/checkout/occ
+
+- [ ]  Method clearCheckoutDeliveryAddress is DELETED
+- [ ]  Method clearCheckoutDeliveryMode is DELETED
+- [ ]  Method getClearDeliveryModeEndpoint is DELETED
+- [ ]  Method getLoadCheckoutDetailsEndpoint is DELETED
+- [ ]  Method getPlaceOrderEndpoint is DELETED
+- [ ]  Method getRemoveDeliveryAddressEndpoint is DELETED
+- [ ]  Method loadCheckoutDetails is DELETED
+- [ ]  Method placeOrder is DELETED
+
+
+Class OccCheckoutDeliveryAdapter
+--------------------------
+@spartacus/checkout/occ
+
+- [ ]  Class OccCheckoutDeliveryAdapter is DELETED
+
+
+Class OccCheckoutPaymentAdapter
+--------------------------
+@spartacus/checkout/occ
+
+- [ ]  Method create is DELETED
+- [ ]  Method getCardTypesEndpoint is DELETED
+- [ ]  Method loadCardTypes is DELETED
+- [ ]  Method set is DELETED
+
+
+Class OccCheckoutPaymentTypeAdapter
+--------------------------
+@spartacus/checkout/occ
+
+- [ ]  Method loadPaymentTypes is DELETED
+
+
+Class OccCheckoutReplenishmentOrderAdapter
+--------------------------
+@spartacus/checkout/occ
+
+- [ ]  Class OccCheckoutReplenishmentOrderAdapter is DELETED
+
+
+Class OccReplenishmentOrderFormSerializer
+--------------------------
+@spartacus/checkout/occ
+
+- [ ]  Class OccReplenishmentOrderFormSerializer is DELETED
+
+
+Class CheckoutCostCenterFacade
+--------------------------
+@spartacus/checkout/root
+
+- [ ]  Method getCostCenter is DELETED
+
+
+Class CheckoutDeliveryFacade
+--------------------------
+@spartacus/checkout/root
+
+- [ ]  Class CheckoutDeliveryFacade is DELETED
+
+
+Class CheckoutFacade
+--------------------------
+@spartacus/checkout/root
+
+- [ ]  Class CheckoutFacade is DELETED
+
+
+Class CheckoutPaymentFacade
+--------------------------
+@spartacus/checkout/root
+
+- [ ]  Method getCardTypes is DELETED
+- [ ]  Method getPaymentDetails is DELETED
+- [ ]  Method loadSupportedCardTypes is DELETED
+
+
+Variable checkoutPaymentSteps
+--------------------------
+@spartacus/checkout/root
+
+- [ ]  Variable checkoutPaymentSteps is DELETED
+
+
+Variable checkoutShippingSteps
+--------------------------
+@spartacus/checkout/root
+
+- [ ]  Variable checkoutShippingSteps is DELETED
+
+
+Class ClearCheckoutFacade
+--------------------------
+@spartacus/checkout/root
+
+- [ ]  Class ClearCheckoutFacade is DELETED
+
+
+Class OrderConfirmationOrderEntriesContext
+--------------------------
+@spartacus/checkout/root
+
+- [ ]  Property checkoutService is DELETED
+
+
+Class OrderPlacedEvent
+--------------------------
+@spartacus/checkout/root
+
+- [ ]  Property code is DELETED
+
+
+Class PaymentTypeFacade
+--------------------------
+@spartacus/checkout/root
+
+- [ ]  Class PaymentTypeFacade is DELETED
+
+
+Variable defaultB2bCheckoutConfig
+--------------------------
+@spartacus/setup
+
+- [ ]  Variable defaultB2bCheckoutConfig is DELETED

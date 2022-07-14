@@ -16479,7 +16479,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.PaymentProcessSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -21649,7 +21649,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'getSetPaymentDetailsResultProcess' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "After switching to commands & queries, processes are no longer used.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -21713,7 +21713,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'processStateStore' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "After switching to commands & queries, processes are no longer used.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -21735,7 +21735,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "After switching to commands & queries, processes are no longer used.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -22995,7 +22995,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable GET_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23404,7 +23404,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable PLACED_ORDER_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23448,7 +23448,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable SET_COST_CENTER_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23490,7 +23490,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable SET_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23511,7 +23511,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable SET_PAYMENT_DETAILS_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23532,7 +23532,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -26409,7 +26409,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'getSetPaymentDetailsResultProcess' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "After switching to commands & queries, processes are no longer used.",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
@@ -26453,7 +26453,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'paymentProcessSuccess' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "After switching to commands & queries, processes are no longer used.",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
@@ -26475,7 +26475,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "After switching to commands & queries, processes are no longer used.",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
