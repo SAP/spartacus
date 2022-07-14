@@ -17347,7 +17347,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setDeliveryAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17823,7 +17823,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryAddress has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setDeliveryAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17903,7 +17903,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryAddressSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setDeliveryAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
