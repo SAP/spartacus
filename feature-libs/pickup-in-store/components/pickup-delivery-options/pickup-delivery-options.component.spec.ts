@@ -1,5 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import {
@@ -59,7 +61,7 @@ describe('PickupDeliveryOptionsComponent', () => {
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
       providers: [
         PickupDeliveryOptionsComponent,
         {

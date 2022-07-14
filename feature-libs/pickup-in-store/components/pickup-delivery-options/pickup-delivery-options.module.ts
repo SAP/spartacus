@@ -7,7 +7,7 @@ import { OutletPosition, provideOutlet } from '@spartacus/storefront';
 import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.component';
 
 @NgModule({
-  imports: [I18nModule, ReactiveFormsModule, CommonModule],
+  imports: [CommonModule, I18nModule, ReactiveFormsModule],
   providers: [
     provideOutlet({
       id: CartOutlets.ADD_TO_CART_CONTAINER,
