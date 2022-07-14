@@ -10,7 +10,7 @@ if it's a rename →
     regenerate doc + all appropriate schematics, at least deleted symbols schematics and renamed api schematics (maybe others if a deleted class was renamed and then has other breaking changes).
 
 
-Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')
+Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 Variable SET_ORDER_TYPE
@@ -18,20 +18,6 @@ Variable SET_ORDER_TYPE
 @spartacus/checkout/core
 
 - [ ]  Variable SET_ORDER_TYPE is DELETED
-
-
-Variable SET_SUPPORTED_DELIVERY_MODES_SUCCESS
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SET_SUPPORTED_DELIVERY_MODES_SUCCESS is DELETED
-
-
-Variable SET_SUPPORTED_DELIVERY_MODES
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SET_SUPPORTED_DELIVERY_MODES is DELETED
 
 
 Class SetOrderType
