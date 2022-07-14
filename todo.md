@@ -10,36 +10,6 @@ if it's a rename →
     regenerate doc + all appropriate schematics, at least deleted symbols schematics and renamed api schematics (maybe others if a deleted class was renamed and then has other breaking changes).
 
 
-
-
-Variable SCHEDULE_REPLENISHMENT_ORDER_SUCCESS
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SCHEDULE_REPLENISHMENT_ORDER_SUCCESS is DELETED
-
-
-Variable SCHEDULE_REPLENISHMENT_ORDER
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SCHEDULE_REPLENISHMENT_ORDER is DELETED
-
-
-Class ScheduleReplenishmentOrder
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class ScheduleReplenishmentOrder is DELETED
-
-
-Class ScheduleReplenishmentOrderSuccess
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class ScheduleReplenishmentOrderSuccess is DELETED
-
-
 Variable SET_COST_CENTER_SUCCESS
 --------------------------
 @spartacus/checkout/core
