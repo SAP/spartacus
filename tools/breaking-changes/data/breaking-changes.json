@@ -17501,7 +17501,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17523,7 +17523,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18111,7 +18111,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18191,7 +18191,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentDetailsSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
