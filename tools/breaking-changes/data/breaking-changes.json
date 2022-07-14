@@ -16987,7 +16987,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetSetDeliveryAddressProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17017,7 +17017,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetSetDeliveryModeProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17047,7 +17047,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetSetPaymentDetailsProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17069,7 +17069,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17197,7 +17197,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ScheduleReplenishmentOrderFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17259,7 +17259,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_COST_CENTER_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17325,7 +17325,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17391,7 +17391,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17479,7 +17479,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17545,7 +17545,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_TYPE_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17611,7 +17611,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17739,7 +17739,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetCostCenterFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17863,7 +17863,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryAddressFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17987,7 +17987,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryModeFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18151,7 +18151,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentDetailsFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18275,7 +18275,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentTypeFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
