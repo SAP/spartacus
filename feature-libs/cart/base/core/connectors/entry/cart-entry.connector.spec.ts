@@ -24,13 +24,31 @@ describe('CartEntryConnector', () => {
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(service).toBeDefined();
   });
 
   it('add should call adapter', () => {
     const adapter = TestBed.inject(CartEntryAdapter);
     service.add('1', '2', '3').subscribe();
-    expect(adapter.add).toHaveBeenCalledWith('1', '2', '3', undefined);
+    expect(adapter.add).toHaveBeenCalledWith(
+      '1',
+      '2',
+      '3',
+      undefined,
+      undefined
+    );
+  });
+
+  it('add should call adapter with quantity', () => {
+    const adapter = TestBed.inject(CartEntryAdapter);
+    service.add('1', '2', '3', 4).subscribe();
+    expect(adapter.add).toHaveBeenCalledWith('1', '2', '3', 4, undefined);
+  });
+
+  it('add should call adapter with quantity and pickupStore', () => {
+    const adapter = TestBed.inject(CartEntryAdapter);
+    service.add('1', '2', '3', 4, 'pickupStore').subscribe();
+    expect(adapter.add).toHaveBeenCalledWith('1', '2', '3', 4, 'pickupStore');
   });
 
   it('update should call adapter', () => {

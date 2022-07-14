@@ -77,6 +77,28 @@ describe('Cart effect', () => {
 
       expect(entryEffects.addEntry$).toBeObservable(expected);
     });
+
+    it('should add an entry with a pickupStore', () => {
+      const action = new CartActions.CartAddEntry({
+        userId: userId,
+        cartId: cartId,
+        productCode: 'testProductCode',
+        quantity: 1,
+        pickupStore: 'testPickupStore',
+      });
+      const completion = new CartActions.CartAddEntrySuccess({
+        userId,
+        cartId,
+        productCode: 'testProductCode',
+        pickupStore: 'testPickupStore',
+        ...mockCartModification,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+
+      expect(entryEffects.addEntry$).toBeObservable(expected);
+    });
   });
 
   describe('removeEntry$', () => {

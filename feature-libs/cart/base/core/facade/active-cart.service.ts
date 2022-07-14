@@ -397,8 +397,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           userId,
           getCartIdByUserId(cart, userId),
           productCode,
-          quantity,
-          "London School"
+          quantity
         );
       });
   }

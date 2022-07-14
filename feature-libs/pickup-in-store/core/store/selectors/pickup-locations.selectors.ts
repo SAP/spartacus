@@ -24,9 +24,10 @@ export const getIntendedPickupLocations: MemoizedSelector<
  */
 export const getIntendedPickupLocationByProductCodeFactory = (
   productCode: string
-): MemoizedSelector<StateWithPickupLocations, PointOfService> =>
+): MemoizedSelector<StateWithPickupLocations, PointOfService | undefined> =>
   createSelector(
     getIntendedPickupLocations,
-    (state: PickupLocationsState['intendedPickupLocations']) =>
-      state[productCode]
+    (
+      state: PickupLocationsState['intendedPickupLocations']
+    ): PointOfService | undefined => state[productCode]
   );

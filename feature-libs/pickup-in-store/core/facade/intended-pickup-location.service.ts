@@ -15,7 +15,9 @@ export class IntendedPickupLocationService
 {
   constructor(protected readonly store: Store<StateWithPickupLocations>) {}
 
-  getIntendedLocation(productCode: string): Observable<PointOfService> {
+  getIntendedLocation(
+    productCode: string
+  ): Observable<PointOfService | undefined> {
     return this.store.pipe(
       select(
         PickupLocationsSelectors.getIntendedPickupLocationByProductCodeFactory(

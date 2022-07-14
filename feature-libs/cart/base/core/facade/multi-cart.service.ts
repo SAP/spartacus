@@ -229,7 +229,7 @@ export class MultiCartService implements MultiCartFacade {
         cartId,
         productCode,
         quantity,
-        pickupStore
+        pickupStore,
       })
     );
   }

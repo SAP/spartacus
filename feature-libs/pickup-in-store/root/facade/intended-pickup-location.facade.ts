@@ -25,7 +25,9 @@ export abstract class IntendedPickupLocationFacade {
    * Get the Point of Service a user wants to collect a product from before it is added to the cart.
    * @param productCode The product code of the product the user wants to collect.
    */
-  abstract getIntendedLocation(productCode: string): Observable<PointOfService>;
+  abstract getIntendedLocation(
+    productCode: string
+  ): Observable<PointOfService | undefined>;
   /**
    * Set the Point of Service a user wants to collect a product from before it is added to the cart.
    * @param productCode The product code of the product the user wants to collect.

@@ -36,6 +36,7 @@ export class CartAddEntrySuccess extends StateUtils.EntityProcessesDecrementActi
       cartId: string;
       productCode: string;
       quantity: number;
+      pickupStore?: string;
       deliveryModeChanged?: boolean;
       entry?: OrderEntry;
       quantityAdded?: number;
