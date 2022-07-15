@@ -31,7 +31,7 @@ export class AccountSummaryDetailsService {
     });
   }
 
-  getHeaderData(unitCode: string) {
+  getHeaderData(unit: string) {
     //TODO
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -40,15 +40,24 @@ export class AccountSummaryDetailsService {
     return this.http.get<any>(
       this.occEndpointsService.buildUrl('headerData', {
         urlParams: { baseSiteId: this.baseSiteId, userId: this.userId },
-        queryParams: { unit: unitCode },
+        queryParams: { unit },
       }),
       { headers }
     );
   }
 
-  getDocumentData(unitCode: string) {
-    //TODO
-    console.log(unitCode);
+  getDocumentData(b2bUnitCode: string) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.get<any>(
+      this.occEndpointsService.buildUrl('documentData', {
+        urlParams: { baseSiteId: this.baseSiteId, userId: this.userId },
+        queryParams: { b2bUnitCode },
+      }),
+      { headers }
+    );
   }
 
 }

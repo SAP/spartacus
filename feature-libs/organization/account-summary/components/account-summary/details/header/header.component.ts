@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { AccountSummaryDetailsService } from '../../../services';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'cx-account-summary-header',
@@ -9,6 +10,7 @@ import { AccountSummaryDetailsService } from '../../../services';
 export class HeaderComponent implements OnInit {
 
   currentUnitCode: string;
+  headerDetails$: Observable<any>
   response: any;
 
   constructor(
@@ -22,9 +24,8 @@ export class HeaderComponent implements OnInit {
       this.currentUnitCode = urlArr[urlArr.length - 1];
     });
 
-    this.accountSummaryDetailsService.getHeaderData(this.currentUnitCode).subscribe((response: any) => {
-      this.response = response;
-    });
+    this.headerDetails$ = this.accountSummaryDetailsService.getHeaderData(this.currentUnitCode);
+    this.accountSummaryDetailsService.getDocumentData(this.currentUnitCode).subscribe(res => console.log(res));
   }
 
 }

@@ -24,7 +24,7 @@ export const defaultOccAccountSummaryConfig: OccConfig = {
     occ: {
       endpoints: {
         headerData: 'users/${userId}/accountSummary',
-        documentData: 'users/${userId}/accountSummary/${unitCode}/document'
+        documentData: 'users/${userId}/documents'
       },
     },
   },

@@ -1,1 +1,42 @@
-<p>header-document component</p>
+<div *ngIf="headerDetails$ | async as headerDetails">
+  <div>
+    <span style="font-weight: bold">ID</span><br/>
+    <span>{{headerDetails?.b2BUnitWsDTO?.uid}}</span>
+  </div>
+  <div>
+    <span style="font-weight: bold">Name</span><br/>
+    <span>{{headerDetails?.b2BUnitWsDTO?.name}}</span>
+  </div>
+  <div *ngIf="headerDetails?.billingAddress as address">
+    <span style="font-weight: bold">Address</span><br/>
+    <span>{{address?.fullnameWithTitle}}</span><br/>
+    <span>{{address?.formattedAddress}}</span><br/>
+    <span>{{address?.country?.name}}</span>
+  </div>
+  <div>
+    <span style="font-weight: bold">Credit Rep</span><br/>
+    <span>{{headerDetails?.accountManagerName}}</span>
+  </div>
+  <div>
+    <span style="font-weight: bold">Credit Line</span><br/>
+    <span>{{headerDetails?.formattedCreditLimit}}</span>
+  </div>
+  <div>
+    <span style="font-weight: bold">Current Balance</span><br/>
+    <span>{{headerDetails?.amountBalanceData?.currentBalance}}</span>
+  </div>
+  <div>
+    <span style="font-weight: bold">Open Balance</span><br/>
+    <span>{{headerDetails?.amountBalanceData?.openBalance}}</span>
+  </div>
+  <div *ngFor="let rangeBalance of headerDetails?.amountBalanceData?.dueBalance">
+    <span style="font-weight: bold">{{rangeBalance?.key?.minBoundery}}</span>
+    <span style="font-weight: bold">{{rangeBalance?.key?.maxBoundery ? '-' + rangeBalance?.key?.maxBoundery : '+'}}</span>
+    <span style="font-weight: bold"> Days</span><br/>
+    <span>{{rangeBalance?.value}}</span>
+  </div>
+  <div>
+    <span style="font-weight: bold">Past Due Balance</span><br/>
+    <span>{{headerDetails?.amountBalanceData?.openBalance}}</span>
+  </div>
+</div>

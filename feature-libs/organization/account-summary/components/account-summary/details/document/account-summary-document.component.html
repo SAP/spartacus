@@ -1,1 +1,25 @@
-<p>account-summary-document component</p>
+<div>
+  <table>
+    <tr>
+      <th>Document #</th>
+      <th>Document Type</th>
+      <th>Document Date</th>
+      <th>Due Date</th>
+      <th>Original Amount</th>
+      <th>Open Amount</th>
+      <th>Status</th>
+      <th>Attachment</th>
+    </tr>
+    <tr *ngFor="let document of documents">
+      <td style="border: 1px solid black">{{document?.documentNumber}}</td>
+      <td style="border: 1px solid black">{{document?.documentType?.name}}</td>
+      <td style="border: 1px solid black">{{document?.date}}</td>
+      <td style="border: 1px solid black">{{document?.dueDate}}</td>
+      <td style="border: 1px solid black">{{document?.amount}}</td>
+      <td style="border: 1px solid black">{{document?.openAmount}}</td>
+      <td style="border: 1px solid black">{{document?.status}}</td>
+      <td style="border: 1px solid black">&nbsp;</td>
+    </tr>
+
+  </table>
+</div>
