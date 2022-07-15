@@ -1,5 +1,6 @@
 export * from './asm-bind-cart/asm-bind-cart.component';
 export * from './asm-components.module';
+export * from './asm-customer-360/asm-customer-360.component';
 export * from './asm-main-ui/asm-main-ui.component';
 export * from './asm-session-timer/asm-session-timer.component';
 export * from './asm-session-timer/format-timer.pipe';

@@ -19,3 +19,16 @@ export interface BindCartParams {
   cartId: string;
   customerId: string;
 }
+
+export interface Customer360Section {
+  sectionTitle: CUSTOMER_360_SECTION_TITLE;
+  sectionContent: string;
+}
+
+export enum CUSTOMER_360_SECTION_TITLE {
+  OVERVIEW = 'Overview',
+  PROFILE = 'Profile',
+  ACTIVITY = 'Activity',
+  FEEDBACK = 'Feedback',
+  MAPS = 'Maps',
+}
