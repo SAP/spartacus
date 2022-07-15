@@ -6221,7 +6221,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/root",
         "deletedComment": "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'NewSavedCartOrderEntriesContext'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.",
         "topLevelApiElementName": "NewSavedCartOrderEntriesContext"
       },
       {
@@ -6842,7 +6842,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/root",
         "deletedComment": "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'SavedCartOrderEntriesContext'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.",
         "topLevelApiElementName": "SavedCartOrderEntriesContext"
       },
       {
@@ -7202,7 +7202,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cdc/root",
         "deletedComment": "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'CdcLogoutGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.  It was there only to pass to the super() contructor and the super() constructor had this parameter removed.",
         "topLevelApiElementName": "CdcLogoutGuard"
       }
     ]
@@ -7923,7 +7923,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cds",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'ProfileTagPushEventsService'.",
-        "migrationComment": "",
+        "migrationComment": "Use activeCartFacade instead.",
         "topLevelApiElementName": "ProfileTagPushEventsService"
       }
     ]
@@ -27658,7 +27658,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is renamed to cartEntity$.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -27837,7 +27837,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isEmail' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use 'isEmail' util function from '@spartacus/cart/base/core'.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -27868,7 +27868,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use 'isEmpty' util function from '@spartacus/cart/base/core'.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -27951,7 +27951,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use 'isJustLoggedIn' util function from '@spartacus/cart/base/core'.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -27971,7 +27971,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Use multiCartFacade instead.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -28037,7 +28037,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'requireLoadedCartForGuestMerge' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -28057,7 +28057,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'store' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "ActiveCartService"
       }
     ]
