@@ -100,7 +100,7 @@ export const myAccount = {
     sortInterests: 'Sort interests',
     expirationDate: ' - Till {{ expirationDate }}',
     productId: 'ID {{ code }}',
-    remove: 'REMOVE',
+    remove: 'Remove',
     sorting: {
       byNameAsc: 'Name (ascending)',
       byNameDesc: 'Name (descending)',
