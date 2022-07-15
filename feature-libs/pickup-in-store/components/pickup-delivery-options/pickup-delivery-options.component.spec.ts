@@ -28,7 +28,7 @@ class MockPickupInStoreFacade implements PickupInStoreFacade {
   getStockSuccess = createSpy();
   getSearchHasBeenPerformed = createSpy();
   getStockEntities = createSpy();
-  getStores = createSpy();
+  getStockLevelByProductCode = createSpy();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

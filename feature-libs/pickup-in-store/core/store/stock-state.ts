@@ -1,5 +1,4 @@
-import { StateUtils } from '@spartacus/core';
-import { StockEntities } from '../model/index';
+import { StateUtils, StoreFinderStockSearchPage } from '@spartacus/core';
 
 export const STOCK_FEATURE = 'stock';
 export const STOCK_DATA = '[Stock] Stock Data';
@@ -13,6 +12,4 @@ export interface StockState {
   hideOutOfStock: boolean;
 }
 
-export interface StockLevelState {
-  findStockLevelByCode: StockEntities;
-}
+export type StockLevelState = Record<string, StoreFinderStockSearchPage>;

@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  facadeFactory,
-  PointOfServiceStock,
-  StoreFinderStockSearchPage,
-} from '@spartacus/core';
+import { facadeFactory, PointOfServiceStock } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
 import { StockLocationSearchParams } from '../model';
@@ -22,8 +18,7 @@ import { StockLocationSearchParams } from '../model';
         'getStockLoading',
         'getStockSuccess',
         'getSearchHasBeenPerformed',
-        'getStockEntities',
-        'getStores',
+        'getStockLevelByProductCode',
       ],
       async: true,
     }),
@@ -36,6 +31,7 @@ export abstract class PickupInStoreFacade {
   abstract getStockLoading(): Observable<boolean>;
   abstract getStockSuccess(): Observable<boolean>;
   abstract getSearchHasBeenPerformed(): Observable<boolean>;
-  abstract getStockEntities(): Observable<StoreFinderStockSearchPage>;
-  abstract getStores(): Observable<PointOfServiceStock[]>;
+  abstract getStockLevelByProductCode(
+    productCode: string
+  ): Observable<PointOfServiceStock[]>;
 }

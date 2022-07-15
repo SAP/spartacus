@@ -29,9 +29,14 @@ export class StockLevelFail extends StateUtils.LoaderFailAction {
   }
 }
 
+export type StockLevelSuccessPayload = {
+  productCode: string;
+  stockLevels: StoreFinderStockSearchPage;
+};
+
 export class StockLevelSuccess extends StateUtils.LoaderSuccessAction {
   readonly type = STOCK_LEVEL_SUCCESS;
-  constructor(public payload: StoreFinderStockSearchPage) {
+  constructor(public payload: StockLevelSuccessPayload) {
     super(STOCK_DATA);
   }
 }

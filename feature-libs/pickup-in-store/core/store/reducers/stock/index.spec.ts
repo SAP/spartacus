@@ -9,9 +9,7 @@ describe('Stock meta-reducer', () => {
       loading: true,
       success: false,
       error: undefined,
-      value: {
-        findStockLevelByCode: {},
-      },
+      value: {},
     },
     hideOutOfStock: false,
   };

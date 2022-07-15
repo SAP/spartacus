@@ -28,7 +28,9 @@ export class StoreListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.stores$ = this.pickupInStoreService.getStores();
+    this.stores$ = this.pickupInStoreService.getStockLevelByProductCode(
+      this.productCode
+    );
     this.isLoading$ = this.pickupInStoreService.getStockLoading();
     this.searchHasBeenPerformed$ =
       this.pickupInStoreService.getSearchHasBeenPerformed();

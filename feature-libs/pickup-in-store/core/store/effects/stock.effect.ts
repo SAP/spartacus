@@ -19,7 +19,13 @@ export class StockEffect {
       map((action: StockLevelActions.StockLevel) => action.payload),
       switchMap(({ productCode, ...location }) =>
         this.stockConnector.loadStockLevels(productCode, location).pipe(
-          map((data) => new StockLevelActions.StockLevelSuccess(data)),
+          map(
+            (stockLevels) =>
+              new StockLevelActions.StockLevelSuccess({
+                productCode,
+                stockLevels,
+              })
+          ),
           catchError((error) =>
             of(new StockLevelActions.StockLevelFail(normalizeHttpError(error)))
           )

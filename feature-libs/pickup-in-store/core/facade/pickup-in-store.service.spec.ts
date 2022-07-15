@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { PointOfServiceStock, ProcessModule } from '@spartacus/core';
-import { StockEntities } from '@spartacus/pickup-in-store/core';
 import {
   PickupInStoreFacade,
   StockLocationSearchParams,
@@ -41,11 +40,9 @@ export class MockPickupInStoreService implements PickupInStoreFacade {
     return of(true);
   }
 
-  getStockEntities(): Observable<StockEntities> {
-    return of({});
-  }
-
-  getStores(): Observable<PointOfServiceStock[]> {
+  getStockLevelByProductCode(
+    _productCode: string
+  ): Observable<PointOfServiceStock[]> {
     return of([]);
   }
 }
@@ -118,13 +115,8 @@ describe('PickupInStoreService', () => {
     expect(store.pipe).toHaveBeenCalled();
   });
 
-  it('getStockEntities', () => {
-    service.getStockEntities();
-    expect(store.pipe).toHaveBeenCalled();
-  });
-
-  it('getStores', () => {
-    service.getStores();
+  it('getStockLevelByProductCode', () => {
+    service.getStockLevelByProductCode('productCode');
     expect(store.pipe).toHaveBeenCalled();
   });
 });

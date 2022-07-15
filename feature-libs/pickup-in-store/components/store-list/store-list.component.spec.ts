@@ -51,6 +51,7 @@ describe('StoreListComponent', () => {
       IntendedPickupLocationFacade
     );
 
+    component.productCode = 'productCode';
     fixture.detectChanges();
   });
 
@@ -59,11 +60,14 @@ describe('StoreListComponent', () => {
   });
 
   it('should get local stores on init', () => {
-    spyOn(pickupInStoreService, 'getStores');
+    spyOn(pickupInStoreService, 'getStockLevelByProductCode');
     spyOn(pickupInStoreService, 'getStockLoading');
     spyOn(pickupInStoreService, 'getSearchHasBeenPerformed');
+
     component.ngOnInit();
-    expect(pickupInStoreService.getStores).toHaveBeenCalled();
+    expect(
+      pickupInStoreService.getStockLevelByProductCode
+    ).toHaveBeenCalledWith('productCode');
     expect(pickupInStoreService.getStockLoading).toHaveBeenCalled();
     expect(pickupInStoreService.getSearchHasBeenPerformed).toHaveBeenCalled();
   });
@@ -72,9 +76,6 @@ describe('StoreListComponent', () => {
     spyOn(preferredStoreService, 'setPreferredStore');
     spyOn(intendedPickupLocationService, 'setIntendedLocation');
     spyOn(component.storeSelected, 'emit');
-
-    component.productCode = 'productCode';
-    fixture.detectChanges();
 
     component.onSelectStore({ name: 'storeName' });
     expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith(

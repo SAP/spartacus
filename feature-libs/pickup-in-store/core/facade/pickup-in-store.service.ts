@@ -6,8 +6,6 @@ import {
   StockLocationSearchParams,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { StockEntities } from '../model/index';
 import {
   HideOutOfStockOptionsAction,
   HideOutOfStockSelectors,
@@ -62,14 +60,11 @@ export class PickupInStoreService implements PickupInStoreFacade {
     return this.store.pipe(select(StockSelectors.getSearchHasBeenPerformed));
   }
 
-  getStockEntities(): Observable<StockEntities> {
+  getStockLevelByProductCode(
+    productCode: string
+  ): Observable<PointOfServiceStock[]> {
     return this.store.pipe(
-      select(StockSelectors.getStockEntities),
-      map((data) => data.findStockLevelByCode)
+      select(StockSelectors.getStockLevelByProductCode(productCode))
     );
-  }
-
-  getStores(): Observable<PointOfServiceStock[]> {
-    return this.store.pipe(select(StockSelectors.getStores));
   }
 }

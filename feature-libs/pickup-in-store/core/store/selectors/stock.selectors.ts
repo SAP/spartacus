@@ -42,14 +42,14 @@ export const getSearchHasBeenPerformed: MemoizedSelector<
     _getStockLoading || _getStockSuccess || _getStockError
 );
 
-export const getStores: MemoizedSelector<
-  StateWithStock,
-  PointOfServiceStock[]
-> = createSelector(
-  getStockEntities,
-  getHideOutOfStockState,
-  (stockEntities, hideOutOfStock) =>
-    (stockEntities.findStockLevelByCode.stores ?? []).filter(
-      (store) => (store.stockInfo?.stockLevel ?? 0) > 0 || !hideOutOfStock
-    )
-);
+export const getStockLevelByProductCode = (
+  productCode: string
+): MemoizedSelector<StateWithStock, PointOfServiceStock[]> =>
+  createSelector(
+    getStockEntities,
+    getHideOutOfStockState,
+    (stockEntities, hideOutOfStock) =>
+      stockEntities[productCode]?.stores?.filter(
+        (store) => (store.stockInfo?.stockLevel ?? 0) > 0 || !hideOutOfStock
+      ) ?? []
+  );

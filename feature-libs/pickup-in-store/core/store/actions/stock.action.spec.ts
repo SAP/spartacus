@@ -67,14 +67,17 @@ describe('[Stock] Actions', () => {
   });
 
   it('StockLevelSuccess', () => {
-    const RESULT = new StockLevelSuccess({});
+    const RESULT = new StockLevelSuccess({
+      productCode: 'P0001',
+      stockLevels: {},
+    });
     const EXPECTED: StockLevelSuccess = {
       type: STOCK_LEVEL_SUCCESS,
       meta: {
         entityType: STOCK_DATA,
         loader: { success: true },
       },
-      payload: {},
+      payload: { productCode: 'P0001', stockLevels: {} },
     };
 
     expect(RESULT.type).toEqual(EXPECTED.type);
