@@ -1,6 +1,8 @@
 %cx-configurator-add-to-cart-button {
   position: fixed;
-  z-index: 10;
+  @include forVersion(6.0) {
+    z-index: 10;
+  }
   bottom: 0;
   width: 100%;
   background-color: var(--cx-color-background);
