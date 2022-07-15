@@ -1,2 +1,2 @@
 export * from './facade-providers';
-export * from './pickup-in-store.service';
+export * from './pickup-locations-search.service';

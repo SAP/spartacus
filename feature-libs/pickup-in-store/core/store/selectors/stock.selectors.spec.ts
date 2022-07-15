@@ -1,13 +1,14 @@
 import { PointOfServiceStock } from '@spartacus/core';
 import { StateWithStock, StockState } from '../stock-state';
 import {
-  getSearchHasBeenPerformed,
   getStockEntities,
   getStockError,
-  getStockLevelByProductCode,
   getStockLevelState,
   getStockLoading,
   getStockSuccess,
+  getStoresWithStockForProductCode,
+  hasSearchStarted,
+  hasSearchStartedForProductCode,
 } from './stock.selectors';
 
 describe('StockSelectors', () => {
@@ -57,26 +58,42 @@ describe('StockSelectors', () => {
     expect(result).toEqual(false);
   });
 
-  describe('getSearchHasBeenPerformed', () => {
+  describe('hasSearchStarted', () => {
     it('should infer that the search has not been performed', () => {
-      const result = getSearchHasBeenPerformed(stateFactory());
+      const result = hasSearchStarted(stateFactory());
       expect(result).toEqual(false);
     });
     it('should infer that the search has been performed while loading', () => {
-      const result = getSearchHasBeenPerformed(stateFactory({ loading: true }));
+      const result = hasSearchStarted(stateFactory({ loading: true }));
       expect(result).toEqual(true);
     });
     it('should infer that the search has been performed after a success', () => {
-      const result = getSearchHasBeenPerformed(stateFactory({ success: true }));
+      const result = hasSearchStarted(stateFactory({ success: true }));
       expect(result).toEqual(true);
     });
     it('should infer that the search has been performed after an error', () => {
-      const result = getSearchHasBeenPerformed(stateFactory({ error: true }));
+      const result = hasSearchStarted(stateFactory({ error: true }));
       expect(result).toEqual(true);
     });
   });
 
-  describe('getStockLevelByProductCode', () => {
+  describe('hasSearchStartedForProductCode', () => {
+    it('should return true if the result is for the product code', () => {
+      const result = hasSearchStartedForProductCode('productCode')(
+        stateFactory({ success: true, value: { productCode: {} } })
+      );
+      expect(result).toEqual(true);
+    });
+
+    it('should return false if the result is not for the product code', () => {
+      const result = hasSearchStartedForProductCode('productCode')(
+        stateFactory({ success: true, value: { productCode2: {} } })
+      );
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('getStoresWithStockForProductCode', () => {
     const storeWithoutStockInfo: PointOfServiceStock = {
       name: 'store without stock info',
     };
@@ -96,7 +113,9 @@ describe('StockSelectors', () => {
     ];
 
     it('should return an empty list for a product without store data', () => {
-      const result = getStockLevelByProductCode('productCode')(stateFactory());
+      const result = getStoresWithStockForProductCode('productCode')(
+        stateFactory()
+      );
       const expectedResult: PointOfServiceStock[] = [];
       expect(result).toEqual(expectedResult);
     });
@@ -106,7 +125,7 @@ describe('StockSelectors', () => {
         { value: { productCode: { stores } } },
         true
       );
-      const result = getStockLevelByProductCode('productCode')(state);
+      const result = getStoresWithStockForProductCode('productCode')(state);
       expect(result).toEqual([storeWithStockInfoAndStock]);
     });
 
@@ -115,7 +134,7 @@ describe('StockSelectors', () => {
         { value: { productCode: { stores } } },
         false
       );
-      const result = getStockLevelByProductCode('productCode')(state);
+      const result = getStoresWithStockForProductCode('productCode')(state);
       expect(result).toEqual(stores);
     });
   });

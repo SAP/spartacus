@@ -1,9 +1,14 @@
-<div *ngIf="!(isLoading$ | async) && (stores$ | async) as stores; else loading">
+<div
+  *ngIf="
+    !(isSearchRunning$ | async) && (stores$ | async) as stores;
+    else loading
+  "
+>
   <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
 
   <div
     class="container"
-    *ngIf="(searchHasBeenPerformed$ | async) && stores.length === 0"
+    *ngIf="(hasSearchStarted$ | async) && stores.length === 0"
   >
     <div class="row">
       <span class="cx-no-stores" role="alert">

@@ -31,18 +31,27 @@ export const getStockError: MemoizedSelector<StateWithStock, boolean> =
     StateUtils.loaderErrorSelector(state)
   );
 
-export const getSearchHasBeenPerformed: MemoizedSelector<
-  StateWithStock,
-  boolean
-> = createSelector(
-  getStockLoading,
-  getStockSuccess,
-  getStockError,
-  (_getStockLoading, _getStockSuccess, _getStockError) =>
-    _getStockLoading || _getStockSuccess || _getStockError
-);
+export const hasSearchStarted: MemoizedSelector<StateWithStock, boolean> =
+  createSelector(
+    getStockLoading,
+    getStockSuccess,
+    getStockError,
+    (_getStockLoading, _getStockSuccess, _getStockError) =>
+      _getStockLoading || _getStockSuccess || _getStockError
+  );
 
-export const getStockLevelByProductCode = (
+export const hasSearchStartedForProductCode = (
+  productCode: string
+): MemoizedSelector<StateWithStock, boolean> =>
+  createSelector(
+    hasSearchStarted,
+    getStockEntities,
+    (hasSearchBeenStarted, stockEntities) => {
+      return hasSearchBeenStarted && !!stockEntities[productCode];
+    }
+  );
+
+export const getStoresWithStockForProductCode = (
   productCode: string
 ): MemoizedSelector<StateWithStock, PointOfServiceStock[]> =>
   createSelector(

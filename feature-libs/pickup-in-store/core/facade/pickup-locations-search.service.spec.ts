@@ -3,52 +3,48 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { PointOfServiceStock, ProcessModule } from '@spartacus/core';
 import {
-  PickupInStoreFacade,
+  PickupLocationsSearchFacade,
   StockLocationSearchParams,
 } from 'feature-libs/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
 import {
-  HideOutOfStockOptionsAction,
   StateWithStock,
   StockLevelActions,
+  ToggleHideOutOfStockOptionsAction,
 } from '../store';
-import { PickupInStoreService } from './pickup-in-store.service';
+import { PickupLocationsSearchService } from './pickup-locations-search.service';
 
 @Injectable()
-export class MockPickupInStoreService implements PickupInStoreFacade {
+export class MockPickupLocationsSearchService
+  implements PickupLocationsSearchFacade
+{
   constructor(protected store: Store<StateWithStock>) {}
 
-  getStock(_params: StockLocationSearchParams): void {}
+  startSearch(_params: StockLocationSearchParams): void {}
 
-  clearStockData(): void {}
-
-  getStockLoading(): Observable<boolean> {
+  hasSearchStarted(_productCode: string): Observable<boolean> {
     return of(true);
   }
 
-  getHideOutOfStockState(): Observable<boolean> {
+  isSearchRunning(): Observable<boolean> {
     return of(true);
   }
 
-  hideOutOfStock(): void {}
-
-  getStockSuccess(): Observable<boolean> {
-    return of(true);
-  }
-
-  getSearchHasBeenPerformed(): Observable<boolean> {
-    return of(true);
-  }
-
-  getStockLevelByProductCode(
-    _productCode: string
-  ): Observable<PointOfServiceStock[]> {
+  getSearchResults(_productCode: string): Observable<PointOfServiceStock[]> {
     return of([]);
   }
+
+  clearSearchResults(): void {}
+
+  getHideOutOfStock(): Observable<boolean> {
+    return of(true);
+  }
+
+  toggleHideOutOfStock(): void {}
 }
 
 describe('PickupInStoreService', () => {
-  let service: PickupInStoreService;
+  let service: PickupLocationsSearchService;
   let store: Store<{}>;
 
   const stockLocationSearchParams: StockLocationSearchParams = {
@@ -58,10 +54,10 @@ describe('PickupInStoreService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({}), ProcessModule.forRoot()],
-      providers: [PickupInStoreService, Store],
+      providers: [PickupLocationsSearchService, Store],
     });
 
-    service = TestBed.inject(PickupInStoreService);
+    service = TestBed.inject(PickupLocationsSearchService);
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch');
     spyOn(store, 'pipe');
@@ -72,7 +68,7 @@ describe('PickupInStoreService', () => {
   });
 
   it('getStock', () => {
-    service.getStock(stockLocationSearchParams);
+    service.startSearch(stockLocationSearchParams);
     expect(store.dispatch).toHaveBeenCalledWith(
       new StockLevelActions.StockLevel({
         productCode: 'P0001',
@@ -84,39 +80,36 @@ describe('PickupInStoreService', () => {
   });
 
   it('clearStockData', () => {
-    service.clearStockData();
+    service.clearSearchResults();
     expect(store.dispatch).toHaveBeenCalledWith(
       new StockLevelActions.ClearStockData()
     );
   });
 
   it('getStockLoading', () => {
-    service.getStockLoading();
+    service.isSearchRunning();
     expect(store.pipe).toHaveBeenCalled();
   });
 
   it('getHideOutOfStockState', () => {
-    service.getHideOutOfStockState();
+    service.getHideOutOfStock();
     expect(store.pipe).toHaveBeenCalled();
   });
 
-  it('hideOutOfStock', () => {
-    service.hideOutOfStock();
-    expect(store.dispatch).toHaveBeenCalledWith(HideOutOfStockOptionsAction());
+  it('toggleHideOutOfStock', () => {
+    service.toggleHideOutOfStock();
+    expect(store.dispatch).toHaveBeenCalledWith(
+      ToggleHideOutOfStockOptionsAction()
+    );
   });
 
-  it('getStockSuccess', () => {
-    service.getStockSuccess();
+  it('hasSearchBeenStartedForProductCode', () => {
+    service.hasSearchStarted('productCode');
     expect(store.pipe).toHaveBeenCalled();
   });
 
-  it('getSearchHasBeenPerformed', () => {
-    service.getSearchHasBeenPerformed();
-    expect(store.pipe).toHaveBeenCalled();
-  });
-
-  it('getStockLevelByProductCode', () => {
-    service.getStockLevelByProductCode('productCode');
+  it('getStoresWithStockForProductCode', () => {
+    service.getSearchResults('productCode');
     expect(store.pipe).toHaveBeenCalled();
   });
 });

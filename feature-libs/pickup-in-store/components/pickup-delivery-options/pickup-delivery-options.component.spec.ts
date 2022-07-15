@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import {
   IntendedPickupLocationFacade,
-  PickupInStoreFacade,
+  PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
@@ -19,16 +19,14 @@ import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.compon
 
 import createSpy = jasmine.createSpy;
 
-class MockPickupInStoreFacade implements PickupInStoreFacade {
-  getStock = createSpy();
-  clearStockData = createSpy();
-  hideOutOfStock = createSpy();
-  getHideOutOfStockState = createSpy();
-  getStockLoading = createSpy();
-  getStockSuccess = createSpy();
-  getSearchHasBeenPerformed = createSpy();
-  getStockEntities = createSpy();
-  getStockLevelByProductCode = createSpy();
+class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
+  startSearch = createSpy();
+  hasSearchStarted = createSpy();
+  isSearchRunning = createSpy();
+  getSearchResults = createSpy();
+  clearSearchResults = createSpy();
+  getHideOutOfStock = createSpy();
+  toggleHideOutOfStock = createSpy();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -65,8 +63,8 @@ describe('PickupDeliveryOptionsComponent', () => {
       providers: [
         PickupDeliveryOptionsComponent,
         {
-          provide: PickupInStoreFacade,
-          useClass: MockPickupInStoreFacade,
+          provide: PickupLocationsSearchFacade,
+          useClass: MockPickupLocationsSearchFacade,
         },
         {
           provide: LaunchDialogService,

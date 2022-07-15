@@ -2,23 +2,27 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { PointOfServiceStock } from '@spartacus/core';
 import {
-  PickupInStoreFacade,
+  PickupLocationsSearchFacade,
   StockLocationSearchParams,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import {
-  HideOutOfStockOptionsAction,
   HideOutOfStockSelectors,
   StateWithStock,
   StockLevelActions,
   StockSelectors,
+  ToggleHideOutOfStockOptionsAction,
 } from '../store/index';
 
+// TODO jsdoc
+
 @Injectable()
-export class PickupInStoreService implements PickupInStoreFacade {
+export class PickupLocationsSearchService
+  implements PickupLocationsSearchFacade
+{
   constructor(protected readonly store: Store<StateWithStock>) {}
 
-  getStock({
+  startSearch({
     productCode,
     latitude,
     longitude,
@@ -34,37 +38,33 @@ export class PickupInStoreService implements PickupInStoreFacade {
     );
   }
 
-  clearStockData(): void {
-    this.store.dispatch(new StockLevelActions.ClearStockData());
+  hasSearchStarted(productCode: string): Observable<boolean> {
+    return this.store.pipe(
+      select(StockSelectors.hasSearchStartedForProductCode(productCode))
+    );
   }
 
-  getStockLoading(): Observable<boolean> {
+  isSearchRunning(): Observable<boolean> {
     return this.store.pipe(select(StockSelectors.getStockLoading));
   }
 
-  getHideOutOfStockState(): Observable<boolean> {
+  getSearchResults(productCode: string): Observable<PointOfServiceStock[]> {
+    return this.store.pipe(
+      select(StockSelectors.getStoresWithStockForProductCode(productCode))
+    );
+  }
+
+  clearSearchResults(): void {
+    this.store.dispatch(new StockLevelActions.ClearStockData());
+  }
+
+  getHideOutOfStock(): Observable<boolean> {
     return this.store.pipe(
       select(HideOutOfStockSelectors.getHideOutOfStockState)
     );
   }
 
-  hideOutOfStock(): void {
-    this.store.dispatch(HideOutOfStockOptionsAction());
-  }
-
-  getStockSuccess(): Observable<boolean> {
-    return this.store.pipe(select(StockSelectors.getStockSuccess));
-  }
-
-  getSearchHasBeenPerformed(): Observable<boolean> {
-    return this.store.pipe(select(StockSelectors.getSearchHasBeenPerformed));
-  }
-
-  getStockLevelByProductCode(
-    productCode: string
-  ): Observable<PointOfServiceStock[]> {
-    return this.store.pipe(
-      select(StockSelectors.getStockLevelByProductCode(productCode))
-    );
+  toggleHideOutOfStock(): void {
+    this.store.dispatch(ToggleHideOutOfStockOptionsAction());
   }
 }

@@ -3,7 +3,7 @@ import { PointOfServiceStock } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
-  PickupInStoreFacade,
+  PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
@@ -17,23 +17,24 @@ export class StoreListComponent implements OnInit {
   @Output()
   storeSelected: EventEmitter<null> = new EventEmitter<null>();
 
-  isLoading$: Observable<boolean>;
   stores$: Observable<PointOfServiceStock[]>;
-  searchHasBeenPerformed$: Observable<boolean>;
+  hasSearchStarted$: Observable<boolean>;
+  isSearchRunning$: Observable<boolean>;
 
   constructor(
-    private readonly pickupInStoreService: PickupInStoreFacade,
+    private readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
     private readonly preferredStoreService: PreferredStoreService,
     private readonly intendedPickupLocationService: IntendedPickupLocationFacade
   ) {}
 
   ngOnInit() {
-    this.stores$ = this.pickupInStoreService.getStockLevelByProductCode(
+    this.stores$ = this.pickupLocationsSearchService.getSearchResults(
       this.productCode
     );
-    this.isLoading$ = this.pickupInStoreService.getStockLoading();
-    this.searchHasBeenPerformed$ =
-      this.pickupInStoreService.getSearchHasBeenPerformed();
+    this.hasSearchStarted$ = this.pickupLocationsSearchService.hasSearchStarted(
+      this.productCode
+    );
+    this.isSearchRunning$ = this.pickupLocationsSearchService.isSearchRunning();
   }
 
   onSelectStore(store: PointOfServiceStock) {
