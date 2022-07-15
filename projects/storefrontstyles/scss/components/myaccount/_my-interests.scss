@@ -65,12 +65,6 @@
         }
       }
 
-      .cx-actions {
-        button.link {
-          @include type('6');
-        }
-      }
-
       .cx-code {
         @include type('7');
         color: var(--cx-color-secondary);
