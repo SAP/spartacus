@@ -2040,7 +2040,7 @@ moved to @spartacus/order/components
 
 
 Class OrderConfirmationOverviewComponent has been removed and is no longer part of the public API.
-
+Use 'OrderDetailShippingComponent' instead from @spartacus/order/components
 
 
 

@@ -12280,7 +12280,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OrderConfirmationOverviewComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'OrderDetailShippingComponent' instead from @spartacus/order/components",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
