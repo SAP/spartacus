@@ -263,12 +263,6 @@ Variable PAYMENT_TYPE_NORMALIZER
 - [ ]  Variable PAYMENT_TYPE_NORMALIZER is DELETED
 
 
-Class PaymentTypeConnector
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class PaymentTypeConnector is DELETED
-
 
 Class PaymentTypeService
 --------------------------

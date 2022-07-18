@@ -23219,7 +23219,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class PaymentTypeConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutPaymentTypeConnector' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
