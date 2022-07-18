@@ -370,13 +370,6 @@ Interface CheckoutOccEndpoints
 - [ ]  PropertySignature setCartPaymentType is DELETED
 
 
-Class OccCheckoutPaymentTypeAdapter
---------------------------
-@spartacus/checkout/occ
-
-- [ ]  Method loadPaymentTypes is DELETED
-
-
 Class OccReplenishmentOrderFormSerializer
 --------------------------
 @spartacus/checkout/occ

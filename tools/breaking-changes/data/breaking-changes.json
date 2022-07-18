@@ -25475,7 +25475,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'loadPaymentTypes' was removed from Class 'OccCheckoutPaymentTypeAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentTypes()' from 'OccCheckoutPaymentTypeAdapter' (imported from '@spartacus/checkout/b2b/occ')",
         "topLevelApiElementName": "OccCheckoutPaymentTypeAdapter"
       }
     ]
