@@ -353,28 +353,28 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutCostCenterService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'CheckoutStepsSetGuard'. ",
+        "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'CheckoutStepsSetGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
     },
     {
       class: 'CheckoutStepsSetGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutDetailsService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'CheckoutStepsSetGuard'. ",
+        "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'CheckoutStepsSetGuard'. Use 'CheckoutQueryService' instead.",
     },
     {
       class: 'CheckoutStepsSetGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'isPaymentTypeSet',
       comment:
-        "// TODO:Spartacus - Method 'isPaymentTypeSet' was removed from Class 'CheckoutStepsSetGuard'. ",
+        "// TODO:Spartacus - Method 'isPaymentTypeSet' was removed from Class 'CheckoutStepsSetGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. The method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
     },
     {
       class: 'CheckoutStepsSetGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'isShippingAddressAndCostCenterSet',
       comment:
-        "// TODO:Spartacus - Method 'isShippingAddressAndCostCenterSet' was removed from Class 'CheckoutStepsSetGuard'. ",
+        "// TODO:Spartacus - Method 'isShippingAddressAndCostCenterSet' was removed from Class 'CheckoutStepsSetGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. The method 'isShippingAddressAndCostCenterSet' has been renamed accordingly for 'base' and 'b2b' entrypoint. Base is using the 'isDeliveryAddress' method and B2B is using the 'isDeliveryAddressAndCostCenterSet'. 'isDeliveryAddressAndCostCenterSet' method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
     },
     {
       class: 'CheckoutStepsSetGuard',
@@ -388,7 +388,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'paymentTypeService',
       comment:
-        "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'CheckoutStepsSetGuard'. ",
+        "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'CheckoutStepsSetGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
     },
     {
       class: 'ExpressCheckoutService',

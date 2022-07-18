@@ -1802,19 +1802,19 @@ canActivate(
 
 ### Property checkoutCostCenterService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 ### Property checkoutDetailsService is removed.
 
-
+Use 'CheckoutQueryService' instead.
 
 ### Method isPaymentTypeSet is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. The method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 ### Method isShippingAddressAndCostCenterSet is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. The method 'isShippingAddressAndCostCenterSet' has been renamed accordingly for 'base' and 'b2b' entrypoint. Base is using the 'isDeliveryAddress' method and B2B is using the 'isDeliveryAddressAndCostCenterSet'. 'isDeliveryAddressAndCostCenterSet' method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 ### Method isStepSet changed.
 
@@ -1844,7 +1844,7 @@ isStepSet(
 
 ### Property paymentTypeService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 
 
