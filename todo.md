@@ -62,15 +62,6 @@ Class CheckoutPageMetaResolver
 - [ ]  Property translation is DELETED
 
 
-Class CheckoutPaymentConnector
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Method create is DELETED
-- [ ]  Method getCardTypes is DELETED
-- [ ]  Method set is DELETED
-
-
 Class CheckoutPaymentService
 --------------------------
 @spartacus/checkout/core
