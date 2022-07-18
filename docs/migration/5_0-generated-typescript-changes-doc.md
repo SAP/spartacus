@@ -1363,11 +1363,11 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 ### Property globalMessageService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'GlobalMessageService' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.
 
 ### Method handleAnonymousUser changed.
 
@@ -1394,11 +1394,11 @@ handleAnonymousUser(): boolean | UrlTree
 
 ### Method handleUserRole is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. The method is found when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.
 
 ### Property userService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'UserAccountFacade' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.
 
 
 

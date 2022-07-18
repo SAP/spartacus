@@ -269,14 +269,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutAuthGuard'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutAuthGuard'. Use 'activeCartFacade' instead.",
     },
     {
       class: 'CheckoutAuthGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'globalMessageService',
       comment:
-        "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'CheckoutAuthGuard'. ",
+        "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'CheckoutAuthGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'GlobalMessageService' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
     },
     {
       class: 'CheckoutAuthGuard',
@@ -290,14 +290,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'handleUserRole',
       comment:
-        "// TODO:Spartacus - Method 'handleUserRole' was removed from Class 'CheckoutAuthGuard'. ",
+        "// TODO:Spartacus - Method 'handleUserRole' was removed from Class 'CheckoutAuthGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. The method is found when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
     },
     {
       class: 'CheckoutAuthGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'CheckoutAuthGuard'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'CheckoutAuthGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'UserAccountFacade' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
     },
     {
       class: 'CheckoutGuard',
