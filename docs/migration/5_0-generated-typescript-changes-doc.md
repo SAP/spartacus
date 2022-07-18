@@ -1933,8 +1933,8 @@ Use 'setDeliveryAddress' instead.
 # Class GuestRegisterFormComponent 
 ## @spartacus/checkout/components
 
-
-Class GuestRegisterFormComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
+renamed to OrderGuestRegisterFormComponent
 
 
 
