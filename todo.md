@@ -41,12 +41,6 @@ Class CheckoutPaymentService
 - [ ]  Method loadSupportedCardTypes is DELETED
 
 
-Namespace CheckoutSelectors
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Namespace CheckoutSelectors is DELETED
-
 
 Variable getAllCardTypes
 --------------------------

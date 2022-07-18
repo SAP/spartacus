@@ -21956,7 +21956,7 @@
     "type": "MemoizedSelector<StateWithCheckout, CardType[]>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getAllCardTypes has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "We are no longer relying on ngrx for the checkout, therefore it was removed.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
