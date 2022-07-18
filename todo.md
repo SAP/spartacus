@@ -278,15 +278,6 @@ Class CheckoutCostCenterFacade
 
 - [ ]  Method getCostCenter is DELETED
 
-Class CheckoutPaymentFacade
---------------------------
-@spartacus/checkout/root
-
-- [ ]  Method getCardTypes is DELETED
-- [ ]  Method getPaymentDetails is DELETED
-- [ ]  Method loadSupportedCardTypes is DELETED
-
-
 Variable checkoutPaymentSteps
 --------------------------
 @spartacus/checkout/root

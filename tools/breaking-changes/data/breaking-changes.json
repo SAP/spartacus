@@ -26365,7 +26365,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
@@ -26387,7 +26387,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentDetailsState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
@@ -26431,7 +26431,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'loadSupportedCardTypes' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
