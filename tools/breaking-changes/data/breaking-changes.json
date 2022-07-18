@@ -28087,38 +28087,6 @@
   },
   {
     "entryPoint": "@spartacus/core",
-    "kind": "Class",
-    "name": "AddUserAddressEvent",
-    "members": [
-      { "kind": "Property", "name": "address", "type": "Address" },
-      { "kind": "Property", "name": "type", "type": "" },
-      { "kind": "Property", "name": "userId", "type": "string" }
-    ],
-    "breakingChanges": [
-      {
-        "change": "PROPERTY_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Property",
-        "changeLabel": "deleted",
-        "changeElementName": "userId",
-        "changeElementCategory": "MEMBER",
-        "isDeletedMember": true,
-        "deletedMember": {
-          "kind": "Property",
-          "name": "userId",
-          "type": "string"
-        },
-        "apiElementName": "AddUserAddressEvent",
-        "apiElementKind": "Class",
-        "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'AddUserAddressEvent'.",
-        "migrationComment": "",
-        "topLevelApiElementName": "AddUserAddressEvent"
-      }
-    ]
-  },
-  {
-    "entryPoint": "@spartacus/core",
     "kind": "Variable",
     "name": "getAnonymousConsentByTemplateCode",
     "namespace": "AnonymousConsentsSelectors",
@@ -29121,7 +29089,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleExpiredToken' was removed from Class 'AuthHttpHeaderService'.",
-        "migrationComment": "",
+        "migrationComment": "Use `getValidToken()` instead.",
         "topLevelApiElementName": "AuthHttpHeaderService"
       },
       {
@@ -29141,7 +29109,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'refreshInProgress' was removed from Class 'AuthHttpHeaderService'.",
-        "migrationComment": "",
+        "migrationComment": "Use `AuthService.refreshInProgress$` instead.",
         "topLevelApiElementName": "AuthHttpHeaderService"
       },
       {
@@ -29317,7 +29285,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'reportAuthGuard' was removed from Class 'AuthRedirectService'.",
-        "migrationComment": "",
+        "migrationComment": "Use `saveCurrentNavigationUrl` method instead.",
         "topLevelApiElementName": "AuthRedirectService"
       },
       {
@@ -29339,7 +29307,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'reportNotAuthGuard' was removed from Class 'AuthRedirectService'.",
-        "migrationComment": "",
+        "migrationComment": "Method not needed anymore. Every visited URL is now remembered automatically as redirect URL on 'NavigationEnd' event.",
         "topLevelApiElementName": "AuthRedirectService"
       }
     ]
@@ -29749,7 +29717,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleBadCartRequest' was removed from Class 'BadRequestHandler'.",
-        "migrationComment": "",
+        "migrationComment": "'handleBadCartRequest' is moved to Class 'BadCartRequestHandler' in  '@spartacus/cart/base/core'",
         "topLevelApiElementName": "BadRequestHandler"
       },
       {
@@ -29788,7 +29756,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'.",
-        "migrationComment": "",
+        "migrationComment": "The voucher error handling logic is moved to the new handler `BadVoucherRequestHandler` in cart-lib",
         "topLevelApiElementName": "BadRequestHandler"
       }
     ]
@@ -33772,7 +33740,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CartActions.RESET_WISH_LIST_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -33856,7 +33824,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CartActions.SET_TEMP_CART has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -33945,7 +33913,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CartActions.SetTempCart has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -35302,7 +35270,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CartModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -35323,7 +35291,7 @@
     "members": [],
     "isDeleted": true,
     "deletedComment": "Class CartOccModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -35385,7 +35353,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'forRoot' was removed from Class 'CartPersistenceModule'.",
-        "migrationComment": "",
+        "migrationComment": "The providers previously loaded by 'forRoot' are now loaded with the module.",
         "topLevelApiElementName": "CartPersistenceModule"
       }
     ]
@@ -35834,7 +35802,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartValidationService'.",
-        "migrationComment": "",
+        "migrationComment": "Use activeCartFacade instead.",
         "topLevelApiElementName": "CartValidationService"
       }
     ]
@@ -39149,38 +39117,6 @@
   },
   {
     "entryPoint": "@spartacus/core",
-    "kind": "Class",
-    "name": "DeleteUserAddressEvent",
-    "members": [
-      { "kind": "Property", "name": "addressId", "type": "string" },
-      { "kind": "Property", "name": "type", "type": "" },
-      { "kind": "Property", "name": "userId", "type": "string" }
-    ],
-    "breakingChanges": [
-      {
-        "change": "PROPERTY_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Property",
-        "changeLabel": "deleted",
-        "changeElementName": "userId",
-        "changeElementCategory": "MEMBER",
-        "isDeletedMember": true,
-        "deletedMember": {
-          "kind": "Property",
-          "name": "userId",
-          "type": "string"
-        },
-        "apiElementName": "DeleteUserAddressEvent",
-        "apiElementKind": "Class",
-        "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'DeleteUserAddressEvent'.",
-        "migrationComment": "",
-        "topLevelApiElementName": "DeleteUserAddressEvent"
-      }
-    ]
-  },
-  {
-    "entryPoint": "@spartacus/core",
     "kind": "Interface",
     "name": "DeliveryMode",
     "members": [
@@ -40303,7 +40239,7 @@
     "type": "MemoizedSelector<StateWithMultiCart, string>",
     "isDeleted": true,
     "deletedComment": "Variable MultiCartSelectors.getActiveCartId has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCartIdByTypeFactory' instead",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -40610,7 +40546,7 @@
     "type": "MemoizedSelector<StateWithMultiCart, string>",
     "isDeleted": true,
     "deletedComment": "Variable MultiCartSelectors.getWishListId has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCartIdByTypeFactory' instead",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53109,39 +53045,6 @@
         "to": { "entryPoint": "@spartacus/order/root", "namespace": "" },
         "topLevelApiElementName": "Trigger",
         "entryPoint": "@spartacus/core"
-      }
-    ]
-  },
-  {
-    "entryPoint": "@spartacus/core",
-    "kind": "Class",
-    "name": "UpdateUserAddressEvent",
-    "members": [
-      { "kind": "Property", "name": "address", "type": "Address" },
-      { "kind": "Property", "name": "addressId", "type": "string" },
-      { "kind": "Property", "name": "type", "type": "" },
-      { "kind": "Property", "name": "userId", "type": "string" }
-    ],
-    "breakingChanges": [
-      {
-        "change": "PROPERTY_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Property",
-        "changeLabel": "deleted",
-        "changeElementName": "userId",
-        "changeElementCategory": "MEMBER",
-        "isDeletedMember": true,
-        "deletedMember": {
-          "kind": "Property",
-          "name": "userId",
-          "type": "string"
-        },
-        "apiElementName": "UpdateUserAddressEvent",
-        "apiElementKind": "Class",
-        "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'UpdateUserAddressEvent'.",
-        "migrationComment": "",
-        "topLevelApiElementName": "UpdateUserAddressEvent"
       }
     ]
   },
