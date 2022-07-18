@@ -8188,7 +8188,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartNotEmptyGuard'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.'",
         "topLevelApiElementName": "CartNotEmptyGuard"
       }
     ]
