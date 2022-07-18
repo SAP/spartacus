@@ -19349,7 +19349,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutCostCenterService'.",
-        "migrationComment": "",
+        "migrationComment": "This property is used internally only",
         "topLevelApiElementName": "CheckoutCostCenterService"
       },
       {
@@ -19369,7 +19369,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutStore' was removed from Class 'CheckoutCostCenterService'.",
-        "migrationComment": "",
+        "migrationComment": "This property is used internally only.",
         "topLevelApiElementName": "CheckoutCostCenterService"
       },
       {
@@ -19391,7 +19391,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getCostCenterState' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
         "topLevelApiElementName": "CheckoutCostCenterService"
       },
       {

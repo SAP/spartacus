@@ -16,13 +16,10 @@ Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (impor
 Use 'getCheckoutDetails()' from 'CheckoutConnector' (imported from '@spartacus/checkout/base/core')
 
 
-Class CheckoutCostCenterService
---------------------------
-@spartacus/checkout/core
 
-- [ ]  Property activeCartService is DELETED
-- [ ]  Property checkoutStore is DELETED
-- [ ]  Method getCostCenter is DELETED
+This property is used internally only.
+
+
 
 
 Class CheckoutDeliveryService
