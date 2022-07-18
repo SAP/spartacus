@@ -20015,7 +20015,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutDeliveryService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

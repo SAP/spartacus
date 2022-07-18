@@ -13,20 +13,13 @@ if it's a rename →
 Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
-Use 'getCheckoutDetails()' from 'CheckoutConnector' (imported from '@spartacus/checkout/base/core')
+Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
 This property is used internally only.
 
 
-
-
-Class CheckoutDeliveryService
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class CheckoutDeliveryService is DELETED
 
 
 TypeAlias CheckoutDetails
