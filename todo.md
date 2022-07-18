@@ -263,14 +263,6 @@ Variable PAYMENT_TYPE_NORMALIZER
 - [ ]  Variable PAYMENT_TYPE_NORMALIZER is DELETED
 
 
-
-Class PaymentTypeService
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class PaymentTypeService is DELETED
-
-
 Interface PaymentTypesState
 --------------------------
 @spartacus/checkout/core
@@ -310,12 +302,8 @@ Class CheckoutCostCenterFacade
 - [ ]  Method getCostCenter is DELETED
 
 
-Class CheckoutDeliveryFacade
---------------------------
-@spartacus/checkout/root
 
-- [ ]  Class CheckoutDeliveryFacade is DELETED
-
+Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 Class CheckoutFacade
 --------------------------
