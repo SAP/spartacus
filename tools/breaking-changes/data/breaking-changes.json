@@ -24850,7 +24850,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccCheckoutDeliveryAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'OccCheckoutDeliveryAddressAdapter' or 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

@@ -383,14 +383,6 @@ Class OccCheckoutAdapter
 - [ ]  Method loadCheckoutDetails is DELETED
 - [ ]  Method placeOrder is DELETED
 
-
-Class OccCheckoutDeliveryAdapter
---------------------------
-@spartacus/checkout/occ
-
-- [ ]  Class OccCheckoutDeliveryAdapter is DELETED
-
-
 Class OccCheckoutPaymentAdapter
 --------------------------
 @spartacus/checkout/occ
