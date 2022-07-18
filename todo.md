@@ -29,15 +29,6 @@ TypeAlias CheckoutDetails
 - [ ]  TypeAlias CheckoutDetails is DELETED
 
 
-Class CheckoutPageMetaResolver
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Property activeCartService is DELETED
-- [ ]  Property cart$ is DELETED
-- [ ]  Property translation is DELETED
-
-
 Class CheckoutPaymentService
 --------------------------
 @spartacus/checkout/core

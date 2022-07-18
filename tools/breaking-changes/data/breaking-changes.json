@@ -20616,7 +20616,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPageMetaResolver'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutPageMetaResolver"
       },
       {
@@ -20636,7 +20636,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'cart$' was removed from Class 'CheckoutPageMetaResolver'.",
-        "migrationComment": "",
+        "migrationComment": "Removed. Use 'activeCartFacade.getActive()' instead.",
         "topLevelApiElementName": "CheckoutPageMetaResolver"
       },
       {
@@ -20682,7 +20682,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'translation' was removed from Class 'CheckoutPageMetaResolver'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'translationService' instead.",
         "topLevelApiElementName": "CheckoutPageMetaResolver"
       }
     ]
