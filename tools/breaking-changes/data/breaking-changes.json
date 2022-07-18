@@ -8890,9 +8890,9 @@
         "returnType": "Observable<string>"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class CheckoutDetailsService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutQueryService",
+    "newEntryPoint": "@spartacus/checkout/base/core",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

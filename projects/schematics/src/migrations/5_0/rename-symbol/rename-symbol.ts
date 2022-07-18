@@ -63,6 +63,12 @@ export const GENERATED_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newImportPath: '@spartacus/checkout/base/components',
   },
   {
+    previousNode: 'CheckoutDetailsService',
+    previousImportPath: '@spartacus/checkout/components',
+    newNode: 'CheckoutQueryService',
+    newImportPath: '@spartacus/checkout/base/core',
+  },
+  {
     previousNode: 'CheckoutGuard',
     previousImportPath: '@spartacus/checkout/components',
     newImportPath: '@spartacus/checkout/base/components',

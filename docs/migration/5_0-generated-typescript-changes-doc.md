@@ -1421,8 +1421,8 @@ moved to @spartacus/checkout/base/components
 # Class CheckoutDetailsService 
 ## @spartacus/checkout/components
 
-
-Class CheckoutDetailsService has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/core
+renamed to CheckoutQueryService
 
 
 
