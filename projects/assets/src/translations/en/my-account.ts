@@ -100,10 +100,13 @@ export const myAccount = {
     sortInterests: 'Sort interests',
     expirationDate: ' - Till {{ expirationDate }}',
     productId: 'ID {{ code }}',
-    remove: 'REMOVE',
+    remove: 'Remove',
     sorting: {
       byNameAsc: 'Name (ascending)',
       byNameDesc: 'Name (descending)',
     },
+    actions: 'ACTIONS',
+    caption: 'My Interests contents.',
+    itemRemoved: 'Selected item has been removed.',
   },
 };
