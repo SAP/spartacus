@@ -13,16 +13,7 @@ if it's a rename →
 Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
-Use 'getCheckoutDetails()' from 'CheckoutAdapter' (imported from '@spartacus/checkout/base/core')
-
-Class CheckoutConnector
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Method clearCheckoutDeliveryAddress is DELETED
-- [ ]  Method clearCheckoutDeliveryMode is DELETED
-- [ ]  Method loadCheckoutDetails is DELETED
-- [ ]  Method placeOrder is DELETED
+Use 'getCheckoutDetails()' from 'CheckoutConnector' (imported from '@spartacus/checkout/base/core')
 
 
 Class CheckoutCostCenterService
