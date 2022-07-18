@@ -12342,9 +12342,10 @@
       { "kind": "Property", "name": "order$", "type": "Observable<any>" },
       { "kind": "Property", "name": "orderGuid", "type": "string" }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class OrderConfirmationThankYouMessageComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "",
+    "newEntryPoint": "@spartacus/order/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

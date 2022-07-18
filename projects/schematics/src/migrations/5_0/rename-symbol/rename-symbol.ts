@@ -192,6 +192,11 @@ export const GENERATED_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newImportPath: '@spartacus/order/components',
   },
   {
+    previousNode: 'OrderConfirmationThankYouMessageComponent',
+    previousImportPath: '@spartacus/checkout/components',
+    newImportPath: '@spartacus/order/components',
+  },
+  {
     previousNode: 'CHECKOUT_FEATURE',
     previousImportPath: '@spartacus/checkout/core',
     newImportPath: '@spartacus/checkout/base/root',

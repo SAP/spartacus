@@ -2047,8 +2047,7 @@ Use 'OrderDetailShippingComponent' instead from @spartacus/order/components
 # Class OrderConfirmationThankYouMessageComponent 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationThankYouMessageComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
