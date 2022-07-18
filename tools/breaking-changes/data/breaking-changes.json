@@ -23134,7 +23134,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class PaymentTypeAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutPaymentTypeAdapter' (imported from '@spartacus/checkout/b2b/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
