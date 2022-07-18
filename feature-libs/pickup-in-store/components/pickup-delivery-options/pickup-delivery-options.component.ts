@@ -7,15 +7,18 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { PointOfService, Product } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { PickupLocationsSearchService } from 'feature-libs/pickup-in-store/core';
-import { combineLatest, Subscription } from 'rxjs';
+import {
+  PickupLocationsSearchService,
+  PreferredStoreService,
+} from 'feature-libs/pickup-in-store/core';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { CurrentLocationService } from '../services/current-location.service';
 
@@ -38,7 +41,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   });
 
   availableForPickup = false;
-  intendedPickupLocation?: PointOfService;
+  intendedPickupLocation$: Observable<string>;
 
   private productCode: string;
 
@@ -48,7 +51,8 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected currentProductService: CurrentProductService,
     protected currentLocationService: CurrentLocationService,
-    protected pickupLocationsSearchService: PickupLocationsSearchService
+    protected pickupLocationsSearchService: PickupLocationsSearchService,
+    protected preferredStoreService: PreferredStoreService
   ) {}
 
   ngOnInit() {
@@ -59,17 +63,40 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
         this.availableForPickup = !!product?.availableForPickup;
 
         return this.productCode;
-      }),
-      tap((productCode) =>
+      })
+    );
+
+    this.intendedPickupLocation$ = this.currentProductService.getProduct().pipe(
+      filter(isProductWithCode),
+      map((product) => product.code),
+      tap((productCode) => {
         this.currentLocationService.getCurrentLocation(
-          ({ coords: { latitude, longitude } }) =>
+          ({ coords: { latitude, longitude } }) => {
+            this.pickupLocationsSearchService.setBrowserLocation(
+              latitude,
+              longitude
+            );
+
             this.pickupLocationsSearchService.startSearch({
               productCode,
               latitude,
               longitude,
-            })
-        )
-      )
+            });
+          }
+        );
+      }),
+      switchMap((productCode) =>
+        this.pickupLocationsSearchService.getSearchResults(productCode)
+      ),
+      map((stores) => stores.filter((store) => !!store?.stockInfo?.stockLevel)),
+      map((stores) => {
+        const preferredStore = this.preferredStoreService.getPreferredStore();
+
+        return (
+          stores.find((store) => store.name === preferredStore) ?? stores[0]
+        );
+      }),
+      map((store) => store?.name ?? '')
     );
 
     this.subscription.add(
@@ -84,10 +111,6 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
           switchMap(([productCode]) =>
             this.intendedPickupLocationService.getIntendedLocation(productCode)
           ),
-          tap(
-            (intendedPickupLocation) =>
-              (this.intendedPickupLocation = intendedPickupLocation)
-          ),
           tap((intendedLocation) =>
             this.deliveryOptionsForm
               .get('deliveryOption')
@@ -96,60 +119,6 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
-
-    // this.currentLocationService.getCurrentLocation(
-    //   ({ coords: { latitude, longitude } }) =>
-    //     this.pickupLocationsSearchService.startSearch({
-    //       productCode: this.productCode,
-    //       latitude,
-    //       longitude,
-    //     })
-    // );
-
-    // this.currentProductService
-    //   .getProduct()
-    //   .pipe(
-    //     filter(isProductWithCode),
-    //     map((product) => {
-    //       this.productCode = product.code;
-    //       this.availableForPickup = !!product?.availableForPickup;
-
-    //       return this.productCode;
-    //     }),
-    //     switchMap((productCode) =>
-    //       this.intendedPickupLocationService.getIntendedLocation(productCode)
-    //     ),
-    //     switchMap((intendedPickupLocation) =>
-    //       iif(
-    //         () => !!intendedPickupLocation,
-    //         of(intendedPickupLocation),
-    //         this.pickupLocationsSearchService
-    //           .getSearchResults(this.productCode)
-    //           .pipe(
-    //             map(
-    //               (results) =>
-    //                 results.filter(
-    //                   (result) => result.stockInfo?.stockLevel
-    //                 )?.[0]
-    //             )
-    //           )
-    //       )
-    //     ),
-    //     tap((intendedPickupLocation) =>
-    //       console.log('intendedPickupLocation', intendedPickupLocation)
-    //     ),
-    //     tap(
-    //       (intendedPickupLocation) =>
-    //         (this.intendedPickupLocation = intendedPickupLocation)
-    //     ),
-    //     tap(() =>
-    //       console.log(
-    //         'this.intendedPickupLocation',
-    //         this.intendedPickupLocation
-    //       )
-    //     )
-    //   )
-    //   .subscribe();
   }
 
   ngOnDestroy(): void {

@@ -9,6 +9,7 @@ import { StateUtils } from '@spartacus/core';
 
 import { StockLevelActions } from '../../actions/index';
 import { StockLevelState, StockState, STOCK_DATA } from '../../stock-state';
+import { browserLocationReducer } from './browser-location.reducer';
 import { hideOutOfStockReducer } from './hide-out-of-stock.reducer';
 import { stockReducer } from './stock-level.reducer';
 
@@ -19,6 +20,7 @@ function getReducers(): ActionReducerMap<StockState> {
       stockReducer
     ),
     hideOutOfStock: hideOutOfStockReducer,
+    browserLocation: browserLocationReducer,
   };
 }
 

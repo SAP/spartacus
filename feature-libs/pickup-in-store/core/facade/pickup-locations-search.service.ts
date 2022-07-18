@@ -7,6 +7,7 @@ import {
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import {
+  BrowserLocationActions,
   HideOutOfStockSelectors,
   StateWithStock,
   StockLevelActions,
@@ -49,6 +50,14 @@ export class PickupLocationsSearchService
   getHideOutOfStock(): Observable<boolean> {
     return this.store.pipe(
       select(HideOutOfStockSelectors.getHideOutOfStockState)
+    );
+  }
+
+  setBrowserLocation(latitude: number, longitude: number): void {
+    this.store.dispatch(
+      BrowserLocationActions.AddBrowserLocation({
+        payload: { latitude, longitude },
+      })
     );
   }
 

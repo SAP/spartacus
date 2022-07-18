@@ -7,9 +7,14 @@ export interface StateWithStock {
   [STOCK_FEATURE]: StockState;
 }
 
+export interface BrowserLocation {
+  latitude: number | null;
+  longitude: number | null;
+}
 export interface StockState {
   stockLevel: StateUtils.LoaderState<StockLevelState>;
   hideOutOfStock: boolean;
+  browserLocation: BrowserLocation;
 }
 
 export type StockLevelState = Record<string, StoreFinderStockSearchPage>;

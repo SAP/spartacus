@@ -32,7 +32,7 @@
     <label for="pickup">
       <p>
         {{ 'deliveryOptions.pickup' | cxTranslate }}:
-        <strong>{{ intendedPickupLocation?.name }}</strong> |
+        <strong>{{ intendedPickupLocation$ | async }}</strong> |
         <a role="button">{{ 'deliveryOptions.changeStore' | cxTranslate }}</a>
       </p>
     </label>
