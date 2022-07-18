@@ -74,13 +74,6 @@ Class CheckoutPaymentService
 - [ ]  Method loadSupportedCardTypes is DELETED
 
 
-Class CheckoutReplenishmentOrderConnector
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class CheckoutReplenishmentOrderConnector is DELETED
-
-
 Namespace CheckoutSelectors
 --------------------------
 @spartacus/checkout/core

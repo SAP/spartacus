@@ -21914,7 +21914,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutReplenishmentOrderConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'ScheduledReplenishmentOrderConnector' (imported from '@spartacus/order/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
