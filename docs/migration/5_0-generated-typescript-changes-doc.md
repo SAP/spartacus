@@ -2137,7 +2137,7 @@ Class PlaceOrderModule has been removed and is no longer part of the public API.
 
 
 Class ReplenishmentOrderConfirmationModule has been removed and is no longer part of the public API.
-
+Use 'OrderConfirmationModule' instead as the cms mapping has been consolidated into one module.
 
 
 

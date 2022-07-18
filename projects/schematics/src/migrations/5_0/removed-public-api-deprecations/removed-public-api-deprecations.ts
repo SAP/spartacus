@@ -68,7 +68,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'ReplenishmentOrderConfirmationModule',
     importPath: '@spartacus/checkout/components',
     comment:
-      'Class ReplenishmentOrderConfirmationModule has been removed and is no longer part of the public API. ',
+      "Class ReplenishmentOrderConfirmationModule has been removed and is no longer part of the public API. Use 'OrderConfirmationModule' instead as the cms mapping has been consolidated into one module.",
   },
   {
     node: 'ReviewSubmitComponent',

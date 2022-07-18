@@ -13390,7 +13390,7 @@
     "members": [],
     "isDeleted": true,
     "deletedComment": "Class ReplenishmentOrderConfirmationModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'OrderConfirmationModule' instead as the cms mapping has been consolidated into one module.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
