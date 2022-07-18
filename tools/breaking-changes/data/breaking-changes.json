@@ -26189,7 +26189,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutFacade has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "The class' functionality is scattered, please check the migration instruction for each of the methods you use from this class.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

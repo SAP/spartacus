@@ -301,17 +301,6 @@ Class CheckoutCostCenterFacade
 
 - [ ]  Method getCostCenter is DELETED
 
-
-
-Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
-
-Class CheckoutFacade
---------------------------
-@spartacus/checkout/root
-
-- [ ]  Class CheckoutFacade is DELETED
-
-
 Class CheckoutPaymentFacade
 --------------------------
 @spartacus/checkout/root
@@ -335,6 +324,7 @@ Variable checkoutShippingSteps
 - [ ]  Variable checkoutShippingSteps is DELETED
 
 
+Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 Class ClearCheckoutFacade
 --------------------------
 @spartacus/checkout/root
