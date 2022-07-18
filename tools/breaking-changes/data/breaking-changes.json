@@ -17457,7 +17457,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_ORDER_TYPE has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18067,7 +18067,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetOrderType has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

@@ -15,20 +15,6 @@ Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (impor
 
 Use 'getCheckoutDetails()' from 'CheckoutAdapter' (imported from '@spartacus/checkout/base/core')
 
-
-Variable SET_ORDER_TYPE
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable SET_ORDER_TYPE is DELETED
-
-
-Class SetOrderType
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class SetOrderType is DELETED
-
 Class CheckoutConnector
 --------------------------
 @spartacus/checkout/core
