@@ -41265,7 +41265,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'active' was removed from Interface 'MultiCartState'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use property 'index' combined with the appropriate 'cartType'.",
         "topLevelApiElementName": "MultiCartState"
       },
       {
@@ -41299,7 +41299,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'wishList' was removed from Interface 'MultiCartState'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use property 'index' combined with the appropriate 'cartType'.",
         "topLevelApiElementName": "MultiCartState"
       }
     ]
@@ -41643,7 +41643,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'NotAuthGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "NotAuthGuard"
       }
     ]
@@ -43420,7 +43420,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'addEmail' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43440,7 +43440,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'addEntries' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43460,7 +43460,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUser' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43480,7 +43480,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserApprover' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43500,7 +43500,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserApprovers' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43520,7 +43520,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserPermission' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43540,7 +43540,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserPermissions' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43560,7 +43560,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUsers' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43580,7 +43580,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserUserGroup' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43600,7 +43600,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserUserGroups' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43620,7 +43620,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'budget' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43640,7 +43640,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'budgets' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43660,7 +43660,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cancelOrder' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43680,7 +43680,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cancelReplenishmentOrder' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43700,7 +43700,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cancelReturn' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43720,7 +43720,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cart' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43740,7 +43740,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'carts' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43760,7 +43760,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cartVoucher' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43780,7 +43780,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'consignmentTracking' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43800,7 +43800,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'costCenter' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43820,7 +43820,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'costCenterBudget' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43840,7 +43840,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'costCenterBudgets' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43860,7 +43860,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'costCenters' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43880,7 +43880,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'costCentersAll' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43900,7 +43900,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'createCart' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43920,7 +43920,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'deleteCart' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43940,7 +43940,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderApproval' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43960,7 +43960,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderApprovalDecision' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43980,7 +43980,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderApprovalPermissionTypes' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44000,7 +44000,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderApprovals' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44020,7 +44020,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderDetail' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44040,7 +44040,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderHistory' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44060,7 +44060,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturnDetail' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44080,7 +44080,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturns' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
