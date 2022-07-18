@@ -13,6 +13,9 @@ if it's a rename →
 Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
+Use 'getCheckoutDetails()' from 'CheckoutAdapter' (imported from '@spartacus/checkout/base/core')
+
+
 Variable SET_ORDER_TYPE
 --------------------------
 @spartacus/checkout/core
@@ -25,16 +28,6 @@ Class SetOrderType
 @spartacus/checkout/core
 
 - [ ]  Class SetOrderType is DELETED
-
-Class CheckoutAdapter
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Method clearCheckoutDeliveryAddress is DELETED
-- [ ]  Method clearCheckoutDeliveryMode is DELETED
-- [ ]  Method loadCheckoutDetails is DELETED
-- [ ]  Method placeOrder is DELETED
-
 
 Class CheckoutConnector
 --------------------------

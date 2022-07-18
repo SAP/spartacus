@@ -18494,7 +18494,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'CheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'clearCheckoutDeliveryAddress()' from 'CheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutAdapter"
       },
       {
@@ -18533,7 +18533,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'CheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'clearCheckoutDeliveryMode()' from 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutAdapter"
       },
       {
@@ -18572,7 +18572,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'CheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getCheckoutDetails()' from 'CheckoutAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutAdapter"
       },
       {
@@ -18619,7 +18619,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'CheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'placeOrder()' from 'OrderAdapter' (imported from '@spartacus/order/core')",
         "topLevelApiElementName": "CheckoutAdapter"
       }
     ]
