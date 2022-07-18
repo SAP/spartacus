@@ -1470,7 +1470,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 
 
