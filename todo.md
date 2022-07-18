@@ -24,12 +24,6 @@ Class CheckoutCostCenterService
 - [ ]  Property checkoutStore is DELETED
 - [ ]  Method getCostCenter is DELETED
 
-Class CheckoutDeliveryConnector
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class CheckoutDeliveryConnector is DELETED
-
 
 Class CheckoutDeliveryService
 --------------------------

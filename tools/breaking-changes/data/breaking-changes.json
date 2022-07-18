@@ -19778,7 +19778,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutDeliveryConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutDeliveryModesConnector' or 'CheckoutDeliveryAddressConnector' (imported from '@spartacus/checkout/base/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
