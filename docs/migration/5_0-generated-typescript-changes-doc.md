@@ -2030,8 +2030,7 @@ moved to @spartacus/order/components
 # Class OrderConfirmationModule 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationModule has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
