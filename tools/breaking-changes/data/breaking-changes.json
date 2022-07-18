@@ -25206,7 +25206,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'create' was removed from Class 'OccCheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'createPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "OccCheckoutPaymentAdapter"
       },
       {
@@ -25228,7 +25228,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getCardTypesEndpoint' was removed from Class 'OccCheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "OccCheckoutPaymentAdapter"
       },
       {
@@ -25297,7 +25297,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'set' was removed from Class 'OccCheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'setPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "OccCheckoutPaymentAdapter"
       }
     ]

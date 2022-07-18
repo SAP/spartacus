@@ -369,15 +369,6 @@ Interface CheckoutOccEndpoints
 - [ ]  PropertySignature setCartCostCenter is DELETED
 - [ ]  PropertySignature setCartPaymentType is DELETED
 
-Class OccCheckoutPaymentAdapter
---------------------------
-@spartacus/checkout/occ
-
-- [ ]  Method create is DELETED
-- [ ]  Method getCardTypesEndpoint is DELETED
-- [ ]  Method loadCardTypes is DELETED
-- [ ]  Method set is DELETED
-
 
 Class OccCheckoutPaymentTypeAdapter
 --------------------------
