@@ -48,11 +48,7 @@ Class CheckoutCostCenterService
 - [ ]  Method getCostCenter is DELETED
 
 
-Class CheckoutDeliveryAdapter
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class CheckoutDeliveryAdapter is DELETED
+Use 'CheckoutDeliveryAddressAdapter' or 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')
 
 
 Class CheckoutDeliveryConnector

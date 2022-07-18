@@ -19592,7 +19592,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutDeliveryAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutDeliveryAddressAdapter' or 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
