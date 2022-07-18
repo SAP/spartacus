@@ -232,13 +232,6 @@ Variable getSupportedDeliveryModes
 - [ ]  Variable getSupportedDeliveryModes is DELETED
 
 
-Class CheckoutService
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class CheckoutService is DELETED
-
-
 Interface CheckoutState
 --------------------------
 @spartacus/checkout/core
