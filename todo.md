@@ -324,14 +324,6 @@ Variable checkoutShippingSteps
 - [ ]  Variable checkoutShippingSteps is DELETED
 
 
-Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
-Class ClearCheckoutFacade
---------------------------
-@spartacus/checkout/root
-
-- [ ]  Class ClearCheckoutFacade is DELETED
-
-
 Class OrderConfirmationOrderEntriesContext
 --------------------------
 @spartacus/checkout/root
@@ -345,7 +337,7 @@ Class OrderPlacedEvent
 
 - [ ]  Property code is DELETED
 
-
+Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 Class PaymentTypeFacade
 --------------------------
 @spartacus/checkout/root
