@@ -2022,8 +2022,7 @@ constructor(
 # Class OrderConfirmationItemsComponent 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationItemsComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
