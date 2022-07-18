@@ -9961,7 +9961,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutProgressMobileTopComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutProgressMobileTopComponent"
       },
       {
@@ -9983,7 +9983,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'CheckoutProgressMobileTopComponent'.",
-        "migrationComment": "",
+        "migrationComment": "It has been removed because we are no longer initializing the 'cart$' observable during Angular's initialization lifecycle, but it has been declared and initialized directly through the class property.",
         "topLevelApiElementName": "CheckoutProgressMobileTopComponent"
       }
     ]

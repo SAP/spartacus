@@ -325,14 +325,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutProgressMobileTopComponent'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutProgressMobileTopComponent'. Use 'activeCartFacade' instead.",
     },
     {
       class: 'CheckoutProgressMobileTopComponent',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'ngOnInit',
       comment:
-        "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'CheckoutProgressMobileTopComponent'. ",
+        "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'CheckoutProgressMobileTopComponent'. It has been removed because we are no longer initializing the 'cart$' observable during Angular's initialization lifecycle, but it has been declared and initialized directly through the class property.",
     },
     {
       class: 'CheckoutStepService',

@@ -1643,11 +1643,11 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 ### Method ngOnInit is removed.
 
-
+It has been removed because we are no longer initializing the 'cart$' observable during Angular's initialization lifecycle, but it has been declared and initialized directly through the class property.
 
 
 
