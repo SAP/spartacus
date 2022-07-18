@@ -35,24 +35,6 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
       'Class DeleteSavedCartSuccessEvent has been removed and is no longer part of the public API. ',
   },
   {
-    node: 'CheckoutDetailsService',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class CheckoutDetailsService has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'DeliveryModeComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class DeliveryModeComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'DeliveryModeModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class DeliveryModeModule has been removed and is no longer part of the public API. ',
-  },
-  {
     node: 'GuestRegisterFormComponent',
     importPath: '@spartacus/checkout/components',
     comment:
