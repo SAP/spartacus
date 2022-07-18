@@ -337,14 +337,6 @@ Class OrderPlacedEvent
 
 - [ ]  Property code is DELETED
 
-Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
-Class PaymentTypeFacade
---------------------------
-@spartacus/checkout/root
-
-- [ ]  Class PaymentTypeFacade is DELETED
-
-
 Variable defaultB2bCheckoutConfig
 --------------------------
 @spartacus/setup
