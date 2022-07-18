@@ -26963,7 +26963,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Property 'code' was removed from Class 'OrderPlacedEvent'.",
-        "migrationComment": "",
+        "migrationComment": "Please use the 'order' property instead.",
         "topLevelApiElementName": "OrderPlacedEvent"
       }
     ]

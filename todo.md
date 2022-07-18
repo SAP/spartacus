@@ -316,13 +316,6 @@ Class OrderConfirmationOrderEntriesContext
 
 - [ ]  Property checkoutService is DELETED
 
-
-Class OrderPlacedEvent
---------------------------
-@spartacus/checkout/root
-
-- [ ]  Property code is DELETED
-
 Variable defaultB2bCheckoutConfig
 --------------------------
 @spartacus/setup
