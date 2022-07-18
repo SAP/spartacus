@@ -20827,7 +20827,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'create' was removed from Class 'CheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'createPaymentDetails()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentAdapter"
       },
       {
@@ -20849,7 +20849,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'loadCardTypes' was removed from Class 'CheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentAdapter"
       },
       {
@@ -20896,7 +20896,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'set' was removed from Class 'CheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentAdapter"
       }
     ]

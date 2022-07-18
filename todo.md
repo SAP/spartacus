@@ -47,10 +47,6 @@ Class CheckoutCostCenterService
 - [ ]  Property checkoutStore is DELETED
 - [ ]  Method getCostCenter is DELETED
 
-
-Use 'CheckoutDeliveryAddressAdapter' or 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')
-
-
 Class CheckoutDeliveryConnector
 --------------------------
 @spartacus/checkout/core
@@ -93,15 +89,6 @@ Class CheckoutPageMetaResolver
 - [ ]  Property activeCartService is DELETED
 - [ ]  Property cart$ is DELETED
 - [ ]  Property translation is DELETED
-
-
-Class CheckoutPaymentAdapter
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Method create is DELETED
-- [ ]  Method loadCardTypes is DELETED
-- [ ]  Method set is DELETED
 
 
 Class CheckoutPaymentConnector
