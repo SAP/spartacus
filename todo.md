@@ -400,13 +400,6 @@ Class OccCheckoutPaymentTypeAdapter
 - [ ]  Method loadPaymentTypes is DELETED
 
 
-Class OccCheckoutReplenishmentOrderAdapter
---------------------------
-@spartacus/checkout/occ
-
-- [ ]  Class OccCheckoutReplenishmentOrderAdapter is DELETED
-
-
 Class OccReplenishmentOrderFormSerializer
 --------------------------
 @spartacus/checkout/occ

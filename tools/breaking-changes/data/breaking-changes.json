@@ -25598,7 +25598,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccCheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'OccScheduledReplenishmentOrderAdapter' (imported from '@spartacus/order/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
