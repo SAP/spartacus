@@ -1,14 +1,14 @@
 <div>
   <table>
     <tr>
-      <th>Document #</th>
-      <th>Document Type</th>
-      <th>Document Date</th>
-      <th>Due Date</th>
-      <th>Original Amount</th>
-      <th>Open Amount</th>
-      <th>Status</th>
-      <th>Attachment</th>
+      <th>{{ 'orgAccountSummary.document.id' | cxTranslate }}</th>
+      <th>{{ 'orgAccountSummary.document.type' | cxTranslate }}</th>
+      <th>{{ 'orgAccountSummary.document.date' | cxTranslate }}</th>
+      <th>{{ 'orgAccountSummary.document.dueDate' | cxTranslate }}
+      <th>{{ 'orgAccountSummary.document.originalAmount' | cxTranslate }}t</th>
+      <th>{{ 'orgAccountSummary.document.openAmount' | cxTranslate }}</th>
+      <th>{{ 'orgAccountSummary.document.status' | cxTranslate }}</th>
+      <th>{{ 'orgAccountSummary.document.attachment' | cxTranslate }}</th>
     </tr>
     <tr *ngFor="let document of documents">
       <td style="border: 1px solid black">{{document?.documentNumber}}</td>

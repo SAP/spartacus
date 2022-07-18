@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import { AccountSummaryDetailsService } from '../../../services';
 import {Observable} from "rxjs";
+import { AccountSummaryDetails } from "../../../../core";
 
 @Component({
   selector: 'cx-account-summary-header',
@@ -10,7 +11,7 @@ import {Observable} from "rxjs";
 export class HeaderComponent implements OnInit {
 
   currentUnitCode: string;
-  headerDetails$: Observable<any>
+  headerDetails$: Observable<AccountSummaryDetails>
   response: any;
 
   constructor(

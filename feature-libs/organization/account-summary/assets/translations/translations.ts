@@ -6,5 +6,5 @@ export const accountSummaryTranslations: TranslationResources = {
 };
 
 export const accountSummaryTranslationChunksConfig: TranslationChunksConfig = {
-  accountSummary: ['orgAccountSummaryUnit'],
+  accountSummary: ['orgAccountSummary'],
 };
