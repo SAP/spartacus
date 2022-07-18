@@ -3148,7 +3148,7 @@ Use 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spar
 
 
 Variable CheckoutActions.SET_ORDER_TYPE has been removed and is no longer part of the public API.
-
+Use 'setOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')
 
 
 
@@ -3319,7 +3319,7 @@ Use 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spar
 
 
 Class CheckoutActions.SetOrderType has been removed and is no longer part of the public API.
-
+Use 'setOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')
 
 
 
@@ -3385,19 +3385,19 @@ moved to @spartacus/checkout/base/core
 
 ### Method clearCheckoutDeliveryAddress is removed.
 
-
+Use 'clearCheckoutDeliveryAddress()' from 'CheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/core')
 
 ### Method clearCheckoutDeliveryMode is removed.
 
-
+Use 'clearCheckoutDeliveryMode()' from 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')
 
 ### Method loadCheckoutDetails is removed.
 
-
+Use 'getCheckoutDetails()' from 'CheckoutAdapter' (imported from '@spartacus/checkout/base/core')
 
 ### Method placeOrder is removed.
 
-
+Use 'placeOrder()' from 'OrderAdapter' (imported from '@spartacus/order/core')
 
 
 
@@ -3409,19 +3409,19 @@ moved to @spartacus/checkout/base/core
 
 ### Method clearCheckoutDeliveryAddress is removed.
 
-
+Use 'clearCheckoutDeliveryAddress()' from 'CheckoutDeliveryAddressConnector' (imported from '@spartacus/checkout/base/core')
 
 ### Method clearCheckoutDeliveryMode is removed.
 
-
+Use 'clearCheckoutDeliveryMode()' from 'CheckoutDeliveryModesConnector' (imported from '@spartacus/checkout/base/core')
 
 ### Method loadCheckoutDetails is removed.
 
-
+Use 'getCheckoutDetails()' from 'CheckoutConnector' (imported from '@spartacus/checkout/base/core')
 
 ### Method placeOrder is removed.
 
-
+Use 'placeOrder()' from 'OrderConnector' (imported from '@spartacus/order/core')
 
 
 
@@ -3531,7 +3531,7 @@ setCostCenter(
 
 
 Class CheckoutDeliveryAdapter has been removed and is no longer part of the public API.
-
+Use 'CheckoutDeliveryAddressAdapter' or 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')
 
 
 
@@ -3540,7 +3540,7 @@ Class CheckoutDeliveryAdapter has been removed and is no longer part of the publ
 
 
 Class CheckoutDeliveryConnector has been removed and is no longer part of the public API.
-
+Use 'CheckoutDeliveryModesConnector' or 'CheckoutDeliveryAddressConnector' (imported from '@spartacus/checkout/base/core')
 
 
 
@@ -3697,15 +3697,15 @@ moved to @spartacus/checkout/base/core
 
 ### Method create is removed.
 
-
+Use 'createPaymentDetails()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')
 
 ### Method loadCardTypes is removed.
 
-
+Use 'getPaymentCardTypes()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')
 
 ### Method set is removed.
 
-
+Use 'setPaymentDetails()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')
 
 
 
@@ -3717,15 +3717,15 @@ moved to @spartacus/checkout/base/core
 
 ### Method create is removed.
 
-
+Use 'createPaymentDetails()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')
 
 ### Method getCardTypes is removed.
 
-
+Use 'getPaymentCardTypes()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')
 
 ### Method set is removed.
 
-
+Use 'setPaymentDetails()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')
 
 
 
@@ -3866,7 +3866,7 @@ setPaymentDetails(
 
 
 Class CheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API.
-
+Use 'ScheduledReplenishmentOrderAdapter' (imported from '@spartacus/order/core')
 
 
 
@@ -3875,7 +3875,7 @@ Class CheckoutReplenishmentOrderAdapter has been removed and is no longer part o
 
 
 Class CheckoutReplenishmentOrderConnector has been removed and is no longer part of the public API.
-
+Use 'ScheduledReplenishmentOrderConnector' (imported from '@spartacus/order/core')
 
 
 
@@ -4219,7 +4219,7 @@ Variable PAYMENT_TYPE_NORMALIZER has been removed and is no longer part of the p
 
 
 Class PaymentTypeAdapter has been removed and is no longer part of the public API.
-
+Use 'CheckoutPaymentTypeAdapter' (imported from '@spartacus/checkout/b2b/core')
 
 
 
@@ -4365,35 +4365,35 @@ moved to @spartacus/checkout/base/occ
 
 ### Method clearCheckoutDeliveryAddress is removed.
 
-
+Use 'clearCheckoutDeliveryAddress()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method clearCheckoutDeliveryMode is removed.
 
-
+Use 'clearCheckoutDeliveryMode()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method getClearDeliveryModeEndpoint is removed.
 
-
+Use 'getClearDeliveryModeEndpoint()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method getLoadCheckoutDetailsEndpoint is removed.
 
-
+Use 'getGetCheckoutDetailsEndpoint()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method getPlaceOrderEndpoint is removed.
 
-
+Use 'getPlaceOrderEndpoint()' from 'OccOrderAdapter' (imported from '@spartacus/order/core')
 
 ### Method getRemoveDeliveryAddressEndpoint is removed.
 
-
+Use 'getRemoveDeliveryAddressEndpoint()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method loadCheckoutDetails is removed.
 
-
+Use 'getCheckoutDetails()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method placeOrder is removed.
 
-
+Use 'placeOrder()' from 'OccOrderAdapter' (imported from '@spartacus/order/core')
 
 
 
@@ -4410,7 +4410,7 @@ moved to @spartacus/checkout/b2b/occ
 
 
 Class OccCheckoutDeliveryAdapter has been removed and is no longer part of the public API.
-
+Use 'OccCheckoutDeliveryAddressAdapter' or 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')
 
 
 
@@ -4422,11 +4422,11 @@ moved to @spartacus/checkout/base/occ
 
 ### Method create is removed.
 
-
+Use 'createPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method getCardTypesEndpoint is removed.
 
-
+Use 'getPaymentCardTypes()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method loadCardTypes is removed.
 
@@ -4434,7 +4434,7 @@ moved to @spartacus/checkout/base/occ
 
 ### Method set is removed.
 
-
+Use 'setPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')
 
 
 
@@ -4446,7 +4446,7 @@ moved to @spartacus/checkout/b2b/occ
 
 ### Method loadPaymentTypes is removed.
 
-
+Use 'getPaymentTypes()' from 'OccCheckoutPaymentTypeAdapter' (imported from '@spartacus/checkout/b2b/occ')
 
 
 
@@ -4455,7 +4455,7 @@ moved to @spartacus/checkout/b2b/occ
 
 
 Class OccCheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API.
-
+Use 'OccScheduledReplenishmentOrderAdapter' (imported from '@spartacus/order/core')
 
 
 
