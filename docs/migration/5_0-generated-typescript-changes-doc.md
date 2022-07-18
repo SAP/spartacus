@@ -1806,7 +1806,7 @@ It is not used in the base checkout entrypoint (b2c) as checkout has been decoup
 
 ### Property checkoutDetailsService is removed.
 
-Use 'CheckoutQueryService' instead.
+Use 'checkoutQueryFacade' instead.
 
 ### Method isPaymentTypeSet is removed.
 
@@ -1910,15 +1910,15 @@ constructor(
 
 ### Property checkoutDeliveryService is removed.
 
-
+'CheckoutDeliveryService' has been splitted and renamed to 'CheckoutDeliveryAddressFacde' and 'checkoutDeliveryModesFacade'. Use 'checkoutDeliveryAdressFacade' and 'checkoutDeliveryModesFacade' instead.
 
 ### Property checkoutDetailsService is removed.
 
-
+Use 'checkoutQueryFacade' instead.
 
 ### Property checkoutPaymentService is removed.
 
-
+Use 'checkoutPaymentFacade' instead.
 
 ### Property clearCheckoutService is removed.
 
@@ -1926,7 +1926,7 @@ constructor(
 
 ### Method setShippingAddress is removed.
 
-
+Use 'setDeliveryAddress' instead.
 
 
 

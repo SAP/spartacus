@@ -10955,7 +10955,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'CheckoutStepsSetGuard'.",
-        "migrationComment": "Use 'CheckoutQueryService' instead.",
+        "migrationComment": "Use 'checkoutQueryFacade' instead.",
         "topLevelApiElementName": "CheckoutStepsSetGuard"
       },
       {
@@ -11614,7 +11614,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ExpressCheckoutService'.",
-        "migrationComment": "",
+        "migrationComment": "'CheckoutDeliveryService' has been splitted and renamed to 'CheckoutDeliveryAddressFacde' and 'checkoutDeliveryModesFacade'. Use 'checkoutDeliveryAdressFacade' and 'checkoutDeliveryModesFacade' instead.",
         "topLevelApiElementName": "ExpressCheckoutService"
       },
       {
@@ -11634,7 +11634,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'ExpressCheckoutService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'checkoutQueryFacade' instead.",
         "topLevelApiElementName": "ExpressCheckoutService"
       },
       {
@@ -11654,7 +11654,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutPaymentService' was removed from Class 'ExpressCheckoutService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'checkoutPaymentFacade' instead.",
         "topLevelApiElementName": "ExpressCheckoutService"
       },
       {
@@ -11696,7 +11696,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Method 'setShippingAddress' was removed from Class 'ExpressCheckoutService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'setDeliveryAddress' instead.",
         "topLevelApiElementName": "ExpressCheckoutService"
       }
     ]

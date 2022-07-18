@@ -360,7 +360,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutDetailsService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'CheckoutStepsSetGuard'. Use 'CheckoutQueryService' instead.",
+        "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'CheckoutStepsSetGuard'. Use 'checkoutQueryFacade' instead.",
     },
     {
       class: 'CheckoutStepsSetGuard',
@@ -395,21 +395,21 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutDeliveryService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ExpressCheckoutService'. ",
+        "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ExpressCheckoutService'. 'CheckoutDeliveryService' has been splitted and renamed to 'CheckoutDeliveryAddressFacde' and 'checkoutDeliveryModesFacade'. Use 'checkoutDeliveryAdressFacade' and 'checkoutDeliveryModesFacade' instead.",
     },
     {
       class: 'ExpressCheckoutService',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutDetailsService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'ExpressCheckoutService'. ",
+        "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'ExpressCheckoutService'. Use 'checkoutQueryFacade' instead.",
     },
     {
       class: 'ExpressCheckoutService',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutPaymentService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutPaymentService' was removed from Class 'ExpressCheckoutService'. ",
+        "// TODO:Spartacus - Property 'checkoutPaymentService' was removed from Class 'ExpressCheckoutService'. Use 'checkoutPaymentFacade' instead.",
     },
     {
       class: 'ExpressCheckoutService',
@@ -423,7 +423,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'setShippingAddress',
       comment:
-        "// TODO:Spartacus - Method 'setShippingAddress' was removed from Class 'ExpressCheckoutService'. ",
+        "// TODO:Spartacus - Method 'setShippingAddress' was removed from Class 'ExpressCheckoutService'. Use 'setDeliveryAddress' instead.",
     },
     {
       class: 'NotCheckoutAuthGuard',
