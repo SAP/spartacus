@@ -22948,7 +22948,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class ClearCheckoutService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "The processes are no longer needed, therefore the class was removed.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

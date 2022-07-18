@@ -249,12 +249,6 @@ Interface CheckoutStepsState
 - [ ]  Interface CheckoutStepsState is DELETED
 
 
-Class ClearCheckoutService
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class ClearCheckoutService is DELETED
-
 Interface OrderTypesState
 --------------------------
 @spartacus/checkout/core
