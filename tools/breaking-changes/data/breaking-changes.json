@@ -14400,9 +14400,10 @@
     "kind": "Variable",
     "name": "CARD_TYPE_NORMALIZER",
     "type": "InjectionToken<Converter<any, CardType>>",
-    "isDeleted": true,
-    "deletedComment": "Variable CARD_TYPE_NORMALIZER has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "PAYMENT_CARD_TYPE_NORMALIZER",
+    "newEntryPoint": "@spartacus/checkout/base/core",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",

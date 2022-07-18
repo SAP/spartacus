@@ -2198,8 +2198,8 @@ Class ShippingAddressModule has been removed and is no longer part of the public
 # Variable CARD_TYPE_NORMALIZER 
 ## @spartacus/checkout/core
 
-
-Variable CARD_TYPE_NORMALIZER has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/core
+renamed to PAYMENT_CARD_TYPE_NORMALIZER
 
 
 

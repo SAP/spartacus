@@ -107,12 +107,6 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
       'Class ShippingAddressModule has been removed and is no longer part of the public API. ',
   },
   {
-    node: 'CARD_TYPE_NORMALIZER',
-    importPath: '@spartacus/checkout/core',
-    comment:
-      'Variable CARD_TYPE_NORMALIZER has been removed and is no longer part of the public API. ',
-  },
-  {
     node: 'CardTypesState',
     importPath: '@spartacus/checkout/core',
     comment:
