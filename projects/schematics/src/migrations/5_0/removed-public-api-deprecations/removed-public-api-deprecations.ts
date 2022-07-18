@@ -53,12 +53,6 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
       'Class PaymentMethodModule has been removed and is no longer part of the public API. ',
   },
   {
-    node: 'PaymentTypeModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PaymentTypeModule has been removed and is no longer part of the public API. ',
-  },
-  {
     node: 'PlaceOrderComponent',
     importPath: '@spartacus/checkout/components',
     comment:
