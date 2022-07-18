@@ -24104,7 +24104,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "Use 'clearCheckoutDeliveryAddress()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/core')",
+        "migrationComment": "Use 'clearCheckoutDeliveryAddress()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -24143,7 +24143,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "Use 'clearCheckoutDeliveryMode()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')",
+        "migrationComment": "Use 'clearCheckoutDeliveryMode()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -24182,7 +24182,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getClearDeliveryModeEndpoint' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "Use 'getClearDeliveryModeEndpoint()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')",
+        "migrationComment": "Use 'getClearDeliveryModeEndpoint()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -24221,7 +24221,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getLoadCheckoutDetailsEndpoint' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "Use 'getGetCheckoutDetailsEndpoint()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/core')",
+        "migrationComment": "Use 'getGetCheckoutDetailsEndpoint()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -24307,7 +24307,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getRemoveDeliveryAddressEndpoint' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "Use 'getRemoveDeliveryAddressEndpoint()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/core')",
+        "migrationComment": "Use 'getRemoveDeliveryAddressEndpoint()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -24346,7 +24346,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "Use 'getCheckoutDetails()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/core')",
+        "migrationComment": "Use 'getCheckoutDetails()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -24850,7 +24850,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccCheckoutDeliveryAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'OccCheckoutDeliveryAddressAdapter' or 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')",
+    "migrationComment": "Use 'OccCheckoutDeliveryAddressAdapter' or 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -25206,7 +25206,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'create' was removed from Class 'OccCheckoutPaymentAdapter'.",
-        "migrationComment": "Use 'createPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
+        "migrationComment": "Use 'createPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutPaymentAdapter"
       },
       {
@@ -25228,7 +25228,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getCardTypesEndpoint' was removed from Class 'OccCheckoutPaymentAdapter'.",
-        "migrationComment": "Use 'getPaymentCardTypes()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
+        "migrationComment": "Use 'getPaymentCardTypes()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutPaymentAdapter"
       },
       {
@@ -25297,7 +25297,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'set' was removed from Class 'OccCheckoutPaymentAdapter'.",
-        "migrationComment": "Use 'setPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
+        "migrationComment": "Use 'setPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutPaymentAdapter"
       }
     ]
