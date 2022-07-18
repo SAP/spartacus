@@ -29,13 +29,6 @@ TypeAlias CheckoutDetails
 - [ ]  TypeAlias CheckoutDetails is DELETED
 
 
-Class CheckoutEventListener
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Class CheckoutEventListener is DELETED
-
-
 Class CheckoutPageMetaResolver
 --------------------------
 @spartacus/checkout/core

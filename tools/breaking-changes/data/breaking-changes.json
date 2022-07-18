@@ -20186,7 +20186,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutEventListener has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "The class was refactorred and removed. Please check migrations for the events you are using.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
