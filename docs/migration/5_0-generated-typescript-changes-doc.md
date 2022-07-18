@@ -1851,8 +1851,8 @@ It is not used in the base checkout entrypoint (b2c) as checkout has been decoup
 # Class DeliveryModeComponent 
 ## @spartacus/checkout/components
 
-
-Class DeliveryModeComponent has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutDeliveryModeComponent
 
 
 

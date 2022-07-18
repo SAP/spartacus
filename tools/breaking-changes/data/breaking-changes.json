@@ -11223,9 +11223,10 @@
         "type": "Observable<DeliveryMode[]>"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class DeliveryModeComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutDeliveryModeComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
