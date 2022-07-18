@@ -258,14 +258,6 @@ Interface CheckoutOccEndpoints
 - [ ]  PropertySignature setCartCostCenter is DELETED
 - [ ]  PropertySignature setCartPaymentType is DELETED
 
-
-
-Class CheckoutCostCenterFacade
---------------------------
-@spartacus/checkout/root
-
-- [ ]  Method getCostCenter is DELETED
-
 Variable checkoutPaymentSteps
 --------------------------
 @spartacus/checkout/root

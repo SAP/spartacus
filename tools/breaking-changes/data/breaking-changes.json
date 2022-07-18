@@ -25806,7 +25806,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getCostCenterState()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
         "topLevelApiElementName": "CheckoutCostCenterFacade"
       },
       {
