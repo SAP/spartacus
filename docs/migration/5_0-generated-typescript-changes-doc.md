@@ -2055,8 +2055,7 @@ moved to @spartacus/order/components
 # Class OrderConfirmationTotalsComponent 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationTotalsComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
