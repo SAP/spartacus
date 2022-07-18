@@ -30,7 +30,11 @@
       "
     />
     <label for="pickup">
-      <p>{{ 'deliveryOptions.pickup' | cxTranslate }}</p>
+      <p>
+        {{ 'deliveryOptions.pickup' | cxTranslate }}:
+        <strong>{{ intendedPickupLocation?.name }}</strong> |
+        <a role="button">{{ 'deliveryOptions.changeStore' | cxTranslate }}</a>
+      </p>
     </label>
   </div>
 </form>

@@ -1,6 +1,7 @@
 const deliveryOptions = {
-  delivery: 'Delivery',
-  pickup: 'Pickup',
+  changeStore: 'Change Store',
+  delivery: 'Ship It (Free Return)',
+  pickup: 'Free Pickup In Store',
 };
 
 export const pickupInStoreDialog = {
@@ -9,9 +10,9 @@ export const pickupInStoreDialog = {
 };
 
 export const store = {
-  stockLevel_zero: 'Out of Stock',
-  stockLevel_other: '{{ count }} in Stock',
   pickupFromHere: 'Pick Up from here',
+  stockLevel_other: '{{ count }} in Stock',
+  stockLevel_zero: 'Out of Stock',
   viewHours: 'View Hours',
 };
 
@@ -28,9 +29,9 @@ export const storeSearch = {
   findAStore: 'Find a Store',
   findStores: 'Find Stores',
   hideOutOfStockOptions: 'Hide out of stock options',
+  searchPlaceholder: 'Enter Zip Code, Town or Address',
   useMyLocation: 'Use my location',
   viewAllStores: 'View all stores',
-  searchPlaceholder: 'Enter Zip Code, Town or Address',
 };
 
 export const pickupInStore = {

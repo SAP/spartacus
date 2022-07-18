@@ -22,20 +22,8 @@ export class PickupLocationsSearchService
 {
   constructor(protected readonly store: Store<StateWithStock>) {}
 
-  startSearch({
-    productCode,
-    latitude,
-    longitude,
-    location,
-  }: StockLocationSearchParams): void {
-    this.store.dispatch(
-      new StockLevelActions.StockLevel({
-        productCode,
-        latitude,
-        longitude,
-        location,
-      })
-    );
+  startSearch(searchParams: StockLocationSearchParams): void {
+    this.store.dispatch(new StockLevelActions.StockLevel(searchParams));
   }
 
   hasSearchStarted(productCode: string): Observable<boolean> {
