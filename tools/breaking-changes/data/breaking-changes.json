@@ -13165,9 +13165,10 @@
         "type": "Observable<string>"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class PaymentTypeComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPaymentTypeComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
