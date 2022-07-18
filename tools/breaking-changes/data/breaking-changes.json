@@ -25644,7 +25644,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccReplenishmentOrderFormSerializer has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'OccScheduledReplenishmentOrderFormSerializer' (imported from '@spartacus/order/occ')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

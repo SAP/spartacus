@@ -259,12 +259,6 @@ Interface CheckoutOccEndpoints
 - [ ]  PropertySignature setCartPaymentType is DELETED
 
 
-Class OccReplenishmentOrderFormSerializer
---------------------------
-@spartacus/checkout/occ
-
-- [ ]  Class OccReplenishmentOrderFormSerializer is DELETED
-
 
 Class CheckoutCostCenterFacade
 --------------------------
