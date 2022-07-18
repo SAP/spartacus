@@ -12692,9 +12692,10 @@
       },
       { "kind": "Property", "name": "years", "type": "number[]" }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class PaymentFormComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPaymentFormComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

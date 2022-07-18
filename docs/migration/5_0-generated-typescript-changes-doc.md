@@ -2063,8 +2063,8 @@ moved to @spartacus/order/components
 # Class PaymentFormComponent 
 ## @spartacus/checkout/components
 
-
-Class PaymentFormComponent has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentFormComponent
 
 
 
