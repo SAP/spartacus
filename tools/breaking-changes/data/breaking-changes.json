@@ -11245,9 +11245,10 @@
     "kind": "Class",
     "name": "DeliveryModeModule",
     "members": [],
-    "isDeleted": true,
-    "deletedComment": "Class DeliveryModeModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutDeliveryModeModule",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
