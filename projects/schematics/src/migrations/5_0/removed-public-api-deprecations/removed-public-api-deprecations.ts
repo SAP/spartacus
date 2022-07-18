@@ -41,12 +41,6 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
       "Class OrderConfirmationOverviewComponent has been removed and is no longer part of the public API. Use 'OrderDetailShippingComponent' instead from @spartacus/order/components",
   },
   {
-    node: 'PaymentFormModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PaymentFormModule has been removed and is no longer part of the public API. ',
-  },
-  {
     node: 'PaymentMethodComponent',
     importPath: '@spartacus/checkout/components',
     comment:

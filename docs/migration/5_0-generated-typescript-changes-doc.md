@@ -2072,8 +2072,8 @@ renamed to CheckoutPaymentFormComponent
 # Class PaymentFormModule 
 ## @spartacus/checkout/components
 
-
-Class PaymentFormModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentFormModule
 
 
 

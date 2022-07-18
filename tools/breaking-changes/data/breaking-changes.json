@@ -12714,9 +12714,10 @@
     "kind": "Class",
     "name": "PaymentFormModule",
     "members": [],
-    "isDeleted": true,
-    "deletedComment": "Class PaymentFormModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPaymentFormModule",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
