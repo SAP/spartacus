@@ -143,8 +143,7 @@
                       "
                       class="cx-order-history-value"
                     >
-                      {{ order?.placedBy?.firstName }}
-                      {{ order?.placedBy?.lastName }}</a
+                      {{ order?.orgCustomer?.name }}</a
                     >
                   </td>
                   <td class="cx-order-history-unit">
@@ -160,7 +159,7 @@
                       "
                       class="cx-order-history-value"
                     >
-                      {{ order?.placedBy?.orgUnitName }}</a
+                      {{ order?.orgUnit?.name }}</a
                     >
                   </td>
                 </ng-container>
