@@ -72,6 +72,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
       tap((productCode) => {
         this.currentLocationService.getCurrentLocation(
           ({ coords: { latitude, longitude } }) => {
+            console.log('In the application: getCurrentLocation callback')
             this.pickupLocationsSearchService.setBrowserLocation(
               latitude,
               longitude
