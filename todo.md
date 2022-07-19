@@ -10,60 +10,10 @@ if it's a rename →
     regenerate doc + all appropriate schematics, at least deleted symbols schematics and renamed api schematics (maybe others if a deleted class was renamed and then has other breaking changes).
 
 
-Variable getAllCardTypes
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getAllCardTypes is DELETED
+Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
-Variable getAllPaymentTypes
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getAllPaymentTypes is DELETED
-
-
-Variable getCardTypesEntites
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getCardTypesEntites is DELETED
-
-
-Variable getCardTypesState
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getCardTypesState is DELETED
-
-
-Variable getCheckoutDetailsLoaded
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getCheckoutDetailsLoaded is DELETED
-
-
-Variable getCheckoutLoading
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getCheckoutLoading is DELETED
-
-
-Variable getCheckoutOrderDetails
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getCheckoutOrderDetails is DELETED
-
-
-Variable getCheckoutState
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getCheckoutState is DELETED
+Use 'getOrderDetails()' from 'OrderFacade' (imported from '@spartacus/order/root')
 
 
 Variable getCheckoutSteps
@@ -80,20 +30,6 @@ Variable getCheckoutStepsState
 - [ ]  Variable getCheckoutStepsState is DELETED
 
 
-Variable getDeliveryAddress
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getDeliveryAddress is DELETED
-
-
-Variable getDeliveryMode
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getDeliveryMode is DELETED
-
-
 Variable getOrderTypesState
 --------------------------
 @spartacus/checkout/core
@@ -101,46 +37,8 @@ Variable getOrderTypesState
 - [ ]  Variable getOrderTypesState is DELETED
 
 
-Variable getPaymentDetails
---------------------------
-@spartacus/checkout/core
 
-- [ ]  Variable getPaymentDetails is DELETED
-
-
-Variable getPaymentTypesEntites
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getPaymentTypesEntites is DELETED
-
-
-Variable getPaymentTypesState
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getPaymentTypesState is DELETED
-
-
-Variable getPoNumer
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getPoNumer is DELETED
-
-
-Variable getSelectedDeliveryMode
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getSelectedDeliveryMode is DELETED
-
-
-Variable getSelectedDeliveryModeCode
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getSelectedDeliveryModeCode is DELETED
+Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 Variable getSelectedOrderType
@@ -207,13 +105,6 @@ Interface PaymentTypesState
 @spartacus/checkout/core
 
 - [ ]  Interface PaymentTypesState is DELETED
-
-
-Interface StateWithCheckout
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Interface StateWithCheckout is DELETED
 
 
 Interface CheckoutOccEndpoints

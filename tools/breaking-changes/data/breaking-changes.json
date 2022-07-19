@@ -21956,7 +21956,7 @@
     "type": "MemoizedSelector<StateWithCheckout, CardType[]>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getAllCardTypes has been removed and is no longer part of the public API.",
-    "migrationComment": "We are no longer relying on ngrx for the checkout, therefore it was removed.",
+    "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -21978,7 +21978,7 @@
     "type": "MemoizedSelector<StateWithCheckout, PaymentType[]>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getAllPaymentTypes has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22000,7 +22000,7 @@
     "type": "MemoizedSelector<StateWithCheckout, {\n    [code: string]: CardType;\n}>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCardTypesEntites has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22044,7 +22044,7 @@
     "type": "MemoizedSelector<StateWithCheckout, boolean>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutDetailsLoaded has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22066,7 +22066,7 @@
     "type": "MemoizedSelector<StateWithCheckout, boolean>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutLoading has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22088,7 +22088,7 @@
     "type": "MemoizedSelector<StateWithCheckout, Order | ReplenishmentOrder>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutOrderDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getOrderDetails()' from 'OrderFacade' (imported from '@spartacus/order/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22110,7 +22110,7 @@
     "type": "MemoizedSelector<StateWithCheckout, CheckoutState>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22217,7 +22217,7 @@
     "type": "MemoizedSelector<StateWithCheckout, Address>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getDeliveryAddress has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getDeliveryAddressState()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22239,7 +22239,7 @@
     "type": "MemoizedSelector<StateWithCheckout, {\n    supported: {\n        [code: string]: DeliveryMode;\n    };\n    selected: string;\n}>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getDeliveryMode has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22283,7 +22283,7 @@
     "type": "MemoizedSelector<StateWithCheckout, PaymentDetails>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getPaymentDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentDetailsState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22305,7 +22305,7 @@
     "type": "MemoizedSelector<StateWithCheckout, {\n    [code: string]: PaymentType;\n}>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getPaymentTypesEntites has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22327,7 +22327,7 @@
     "type": "MemoizedSelector<StateWithCheckout, PaymentTypesState>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getPaymentTypesState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22349,7 +22349,7 @@
     "type": "MemoizedSelector<StateWithCheckout, string | undefined>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getPoNumer has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPurchaseOrderNumberState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22371,7 +22371,7 @@
     "type": "MemoizedSelector<StateWithCheckout, DeliveryMode | undefined | null>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSelectedDeliveryMode has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22393,7 +22393,7 @@
     "type": "MemoizedSelector<StateWithCheckout, string>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSelectedDeliveryModeCode has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' and deduce the code (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23559,7 +23559,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Interface StateWithCheckout has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "No direct replacement. Check the 'CheckoutState' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "INTERFACE_DELETED",
