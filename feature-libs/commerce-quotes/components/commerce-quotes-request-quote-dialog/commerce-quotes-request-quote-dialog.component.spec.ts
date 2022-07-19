@@ -3,7 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CommerceQuotesFacade, Quote } from '@spartacus/commerce-quotes/root';
+import {
+  CommerceQuotesFacade,
+  Quote,
+  QuoteAction,
+} from '@spartacus/commerce-quotes/root';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   FormErrorsModule,
@@ -12,7 +16,7 @@ import {
   ModalService,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { CommerceQuotesRequestQuoteDialogComponent } from './commerce-quotes-request-quote-dialog.component';
 import createSpy = jasmine.createSpy;
 
@@ -38,6 +42,7 @@ class MockModalService implements Partial<ModalService> {
 
 class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
   createQuote = createSpy().and.returnValue(of(mockCreatedQuote));
+  performQuoteAction = createSpy().and.returnValue(of(EMPTY));
 }
 
 class MockRoutingService implements Partial<RoutingService> {
@@ -165,9 +170,44 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
       }
     );
     expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'quoteEdit',
+      cxRoute: 'quoteDetails',
       params: { quoteId: quoteCode },
     });
+    expect(modalService.dismissActiveModal).toHaveBeenCalled();
+  });
+
+  it('should submit quote', () => {
+    const input = fixture.debugElement.queryAll(By.css('form input'))[0]
+      .nativeElement;
+    const textarea = fixture.debugElement.query(
+      By.css('form textarea')
+    ).nativeElement;
+
+    input.value = testForm.name;
+    input.dispatchEvent(new Event('input'));
+
+    textarea.value = testForm.comment;
+    textarea.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges();
+
+    fixture.debugElement
+      .query(By.css('button.btn-primary'))
+      .nativeElement.click();
+
+    expect(commerceQuotesService.createQuote).toHaveBeenCalledWith(
+      {
+        name: testForm.name,
+      },
+      {
+        text: testForm.comment,
+      }
+    );
+
+    expect(commerceQuotesService.performQuoteAction).toHaveBeenCalledWith(
+      quoteCode,
+      QuoteAction.SUBMIT
+    );
     expect(modalService.dismissActiveModal).toHaveBeenCalled();
   });
 });

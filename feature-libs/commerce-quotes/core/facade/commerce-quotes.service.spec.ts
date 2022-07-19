@@ -1,15 +1,17 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Params } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   Comment,
   CommerceQuotesListReloadQueryEvent,
   Quote,
+  QuoteAction,
   QuoteList,
   QuoteMetadata,
 } from '@spartacus/commerce-quotes/root';
 import {
   EventService,
+  GlobalMessageService,
   OCC_USER_ID_CURRENT,
   PaginationModel,
   QueryState,
@@ -79,10 +81,19 @@ class MockCommerceQuotesConnector implements Partial<CommerceQuotesConnector> {
   createQuote = createSpy().and.returnValue(of(mockQuote));
   editQuote = createSpy().and.returnValue(of(EMPTY));
   addComment = createSpy().and.returnValue(of(EMPTY));
+  performQuoteAction = createSpy().and.returnValue(of(EMPTY));
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  reloadActiveCart = createSpy();
+  reloadActiveCart = createSpy().and.stub();
+  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+}
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
+
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
+  loadCart = createSpy();
 }
 
 describe('CommerceQuotesService', () => {
@@ -90,7 +101,7 @@ describe('CommerceQuotesService', () => {
   let connector: CommerceQuotesConnector;
   let eventService: EventService;
   let config: ViewConfig;
-  let activeCartService: ActiveCartFacade;
+  let multiCartFacade: MultiCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -105,6 +116,8 @@ describe('CommerceQuotesService', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        { provide: MultiCartFacade, useClass: MockMultiCartFacade },
       ],
     });
 
@@ -112,7 +125,7 @@ describe('CommerceQuotesService', () => {
     connector = TestBed.inject(CommerceQuotesConnector);
     eventService = TestBed.inject(EventService);
     config = TestBed.inject(ViewConfig);
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    multiCartFacade = TestBed.inject(MultiCartFacade);
   });
 
   it('should inject CommerceQuotesService', inject(
@@ -122,7 +135,7 @@ describe('CommerceQuotesService', () => {
     }
   ));
 
-  it('should return quotes after calling commerceQuotesConnector.getQuotes', (done) => {
+  it('should return quotes after calling commerceQuotesConnector.getQuotes', () => {
     service
       .getQuotesState()
       .pipe(take(1))
@@ -136,11 +149,10 @@ describe('CommerceQuotesService', () => {
           error: false,
           data: mockQuoteList,
         });
-        done();
       });
   });
 
-  it('should return quotes after calling commerceQuotesConnector.getQuotes with default CMS page size if not set', (done) => {
+  it('should return quotes after calling commerceQuotesConnector.getQuotes with default CMS page size if not set', () => {
     //given
     config.view = undefined;
 
@@ -158,11 +170,10 @@ describe('CommerceQuotesService', () => {
           error: false,
           data: mockQuoteList,
         });
-        done();
       });
   });
 
-  it('should set current page and dispatch CommerceQuotesListReloadQueryEvent', (done) => {
+  it('should set current page and dispatch CommerceQuotesListReloadQueryEvent', () => {
     //given
     const currentPage = 10;
 
@@ -183,10 +194,9 @@ describe('CommerceQuotesService', () => {
       {},
       CommerceQuotesListReloadQueryEvent
     );
-    done();
   });
 
-  it('should set sort and dispatch CommerceQuotesListReloadQueryEvent', (done) => {
+  it('should set sort and dispatch CommerceQuotesListReloadQueryEvent', () => {
     //given
     const sort = 'byDate';
 
@@ -207,10 +217,9 @@ describe('CommerceQuotesService', () => {
       {},
       CommerceQuotesListReloadQueryEvent
     );
-    done();
   });
 
-  it('should return quote details after calling commerceQuotesConnector.getQuote', (done) => {
+  it('should return quote details after calling commerceQuotesConnector.getQuote', () => {
     service
       .getQuoteDetails()
       .pipe(take(1))
@@ -221,7 +230,6 @@ describe('CommerceQuotesService', () => {
         );
         expect(details).toEqual(mockQuote);
       });
-    done();
   });
 
   it('should call createQuote command', () => {
@@ -231,7 +239,9 @@ describe('CommerceQuotesService', () => {
       .subscribe((quote) => {
         expect(connector.createQuote).toHaveBeenCalled();
         expect(quote.code).toEqual(mockQuote.code);
-        expect(activeCartService.reloadActiveCart).toHaveBeenCalled();
+        expect(connector.editQuote).toHaveBeenCalled();
+        expect(connector.addComment).toHaveBeenCalled();
+        expect(multiCartFacade.loadCart).toHaveBeenCalled();
       });
   });
 
@@ -257,6 +267,19 @@ describe('CommerceQuotesService', () => {
           mockUserId,
           mockQuote.code,
           mockComment
+        );
+      });
+  });
+
+  it('should call performQuoteAction command', () => {
+    service
+      .performQuoteAction(mockQuote.code, QuoteAction.EDIT)
+      .pipe(take(1))
+      .subscribe(() => {
+        expect(connector.performQuoteAction).toHaveBeenCalledWith(
+          mockUserId,
+          mockQuote.code,
+          QuoteAction.EDIT
         );
       });
   });

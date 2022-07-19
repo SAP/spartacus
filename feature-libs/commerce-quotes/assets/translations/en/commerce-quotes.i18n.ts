@@ -64,6 +64,8 @@ export const commerceQuotes = {
         note: 'Please Note:',
         requestSubmitNote:
           'Once a request for quote is submitted it cannot be modified.',
+        minRequestInitiationNote:
+          'Minimum ${{minValue}} subtotal is required to submit a quote ',
       },
     },
     httpHandlers: {

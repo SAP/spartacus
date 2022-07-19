@@ -3,8 +3,10 @@ import {
   ChangeDetectionStrategy,
   ElementRef,
   ViewChild,
+  OnInit,
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CQConfig } from '@spartacus/commerce-quotes/core';
 import {
   CommerceQuotesFacade,
   QuoteAction,
@@ -19,10 +21,12 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './commerce-quotes-request-quote-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CommerceQuotesRequestQuoteDialogComponent {
+export class CommerceQuotesRequestQuoteDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
   cartId: string;
   requestInProgress$ = new BehaviorSubject<boolean>(false);
+  minRequestInitiationValue =
+    this.config.commerceQuotes?.tresholds?.requestInitiation;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -43,8 +47,11 @@ export class CommerceQuotesRequestQuoteDialogComponent {
   constructor(
     protected modalService: ModalService,
     protected commerceQuotesFacade: CommerceQuotesFacade,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    protected config: CQConfig
   ) {}
+
+  ngOnInit(): void {}
 
   dismissModal(reason?: any): void {
     this.modalService.dismissActiveModal(reason);

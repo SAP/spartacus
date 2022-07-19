@@ -1,3 +1,4 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -40,6 +41,12 @@ class MockTranslationService implements Partial<TranslationService> {
   }
 }
 
+@Component({
+  selector: 'cx-commerce-quotes-action-links',
+  template: '',
+})
+export class MockCommerceQuotesActionLinksComponent {}
+
 describe('CommerceQuotesDetailsOverviewComponent', () => {
   let fixture: ComponentFixture<CommerceQuotesDetailsOverviewComponent>;
   let component: CommerceQuotesDetailsOverviewComponent;
@@ -47,7 +54,10 @@ describe('CommerceQuotesDetailsOverviewComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, CardModule, RouterTestingModule],
-      declarations: [CommerceQuotesDetailsOverviewComponent],
+      declarations: [
+        CommerceQuotesDetailsOverviewComponent,
+        MockCommerceQuotesActionLinksComponent,
+      ],
       providers: [
         {
           provide: CommerceQuotesFacade,
