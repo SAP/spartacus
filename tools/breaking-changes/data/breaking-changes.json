@@ -45374,7 +45374,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccUserOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use OccOrderAdapter in @spartacus/order/occ instead",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -45570,7 +45570,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccUserReplenishmentOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use OccReplenishmentOrderAdapter in @spartacus/order/occ instead",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -46000,7 +46000,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OrderEntryPromotionsService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -49140,7 +49140,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class SaveCartAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use CartAdapter.save instead from '@spartacus/cart/base/core'",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -49218,7 +49218,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class SaveCartConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use CartConnector.save instead from '@spartacus/cart/base/core'",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -49762,7 +49762,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'cartConfigService' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49782,7 +49782,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'cartId' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Use getSelectiveCartId() instead.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49802,7 +49802,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'cartId$' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Use getSelectiveCartId() instead.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49822,7 +49822,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49842,7 +49842,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'customerId' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49917,7 +49917,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49939,7 +49939,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isEnabled' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49970,7 +49970,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50023,7 +50023,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'load' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50043,7 +50043,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Use multiCartFacade instead.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50063,7 +50063,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'PREVIOUS_USER_ID_INITIAL_VALUE' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50083,7 +50083,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'previousUserId' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50103,7 +50103,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'store' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50123,7 +50123,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50143,7 +50143,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       }
     ]
