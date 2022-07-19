@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
+import { MessageDetails } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { CustomerTicketingService } from '../customer-ticketing.service';
 
 @Component({
   selector: 'cx-customer-ticket-messages',
   templateUrl: './customer-ticket-messages.component.html',
 })
 export class CustomerTicketMessagesComponent implements OnInit {
-  constructor() {}
+  constructor(protected customerTicketingService: CustomerTicketingService) {}
 
   ticketDetails$ = of({
     associatedTo: {
@@ -66,6 +68,9 @@ export class CustomerTicketMessagesComponent implements OnInit {
       },
     ],
   });
+
+  messageDetails$: Observable<MessageDetails> =
+    this.customerTicketingService.prepareMessageDetails();
 
   ngOnInit(): void {}
 

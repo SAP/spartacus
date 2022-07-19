@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import { MessageDetails } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomerTicketingService {
   constructor() {}
-  ticketDetails = {
+  ticketDetails$ = of({
     associatedTo: {
       code: '00000001',
       modifiedAt: '2022-06-28T00:00:00+0000',
@@ -22,7 +24,7 @@ export class CustomerTicketingService {
     id: '00000001',
     modifiedAt: '2022-06-22T20:25:02+0000',
     status: {
-      id: 'CLOSE',
+      id: 'OPEN',
       name: 'Open',
     },
     subject: 'test ticket again',
@@ -35,20 +37,51 @@ export class CustomerTicketingService {
         author: 'Mark Rivers',
         createdAt: '2022-06-22T20:25:02+0000',
         message: 'This is the way',
+        attachments: [
+          {
+            filename: 'screenshot.png',
+            URL: 'https://ccv2.domain.com/occ/v2/electronics/users/0001/tickets/0013/events/0007PC/attachments/0034-034-24589',
+          },
+        ],
+      },
+      {
+        author: 'Admin',
+        createdAt: '2022-06-22T14:37:15+0000',
+        message: 'A message to consider',
       },
       {
         author: 'Mark Rivers',
+        createdAt: '2022-06-22T20:25:02+0000',
+        message: 'This is the way',
+      },
+      {
+        author: 'Mark Rivers',
+        createdAt: '2022-06-22T20:25:02+0000',
+        message: 'This is the way',
+      },
+      {
+        author: 'Admin',
         createdAt: '2022-06-22T14:37:15+0000',
         message: 'A message to consider',
       },
     ],
-  };
+  });
 
   getTciketSubject(): Observable<string> {
-    return of(this.ticketDetails.subject);
+    return this.ticketDetails$.pipe(map((details) => details.subject));
   }
 
   getTicketStatus(): Observable<string> {
-    return of(this.ticketDetails.status.id);
+    return this.ticketDetails$.pipe(map((details) => details.status.id));
+  }
+
+  prepareMessageDetails(): Observable<MessageDetails> {
+    return this.ticketDetails$.pipe(
+      map((messageDetails): MessageDetails => {
+        return {
+          messages: messageDetails.ticketEvents,
+        };
+      })
+    );
   }
 }

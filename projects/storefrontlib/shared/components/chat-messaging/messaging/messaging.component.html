@@ -1,9 +1,9 @@
-<ng-container *ngIf="ticketDetails$ | async as ticket">
+<ng-container *ngIf="messageDetails$ | async as messageDetails">
   <div class="message-body">
     <div class="container">
       <div class="avatar-line"></div>
       <div class="cx-messages">
-        <ng-container *ngFor="let event of ticket.ticketEvents">
+        <ng-container *ngFor="let event of messageDetails.messages">
           <div
             class="cx-message-card"
             [ngClass]="event.author !== 'Mark Rivers' ? 'padding-left' : ''"
@@ -50,14 +50,17 @@
       <input
         type="text"
         class="form-control"
-        placeholder="Add New Message"
-        [maxLength]="messageTextLimit"
+        placeholder="{{
+          messageDetails.newMessagePlaceHolder ||
+            ('chatMessaging.addNewMessage' | cxTranslate)
+        }}"
+        [maxLength]="messageDetails.characterLimit || messageTextLimit"
         [(ngModel)]="messageText"
       />
       <p>
         {{
           'customerTicketing.charactersLeft'
-            | cxTranslate: { count: inputCharacterLeft }
+            | cxTranslate: { count: inputCharacterLeft | async }
         }}
       </p>
     </div>
