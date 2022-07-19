@@ -1,21 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { CurrentLocationService } from '../services/current-location.service';
+import { MockCurrentLocationService } from '../services/current-location.service.spec';
 
 import { StoreSearchComponent } from './store-search.component';
 
 describe('StoreSearchComponent', () => {
   let component: StoreSearchComponent;
   let fixture: ComponentFixture<StoreSearchComponent>;
+  let currentLocationService: CurrentLocationService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [StoreSearchComponent],
+      providers: [{ provide: CurrentLocationService, useClass: MockCurrentLocationService }],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreSearchComponent);
+    currentLocationService = TestBed.inject(CurrentLocationService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -46,42 +51,13 @@ describe('StoreSearchComponent', () => {
   });
 
   it('useMyLocation makes findStores emit a location', () => {
-    const mockNavigatorGeolocation = () => {
-      const clearWatchMock = () => {};
-      const getCurrentPositionMock = (callback: PositionCallback) =>
-        callback({
-          coords: {
-            latitude: 0,
-            longitude: 0,
-            accuracy: 0,
-            altitude: 0,
-            altitudeAccuracy: 0,
-            heading: 0,
-            speed: 0,
-          },
-          timestamp: 0,
-        });
-      const watchPositionMock = () => {};
-
-      const geolocation = {
-        clearWatch: clearWatchMock,
-        getCurrentPosition: getCurrentPositionMock,
-        watchPosition: watchPositionMock,
-      };
-
-      Object.defineProperty(window.navigator, 'geolocation', {
-        value: geolocation,
-      });
-
-      return { clearWatchMock, getCurrentPositionMock, watchPositionMock };
-    };
-    mockNavigatorGeolocation();
-
+    spyOn(currentLocationService, 'getCurrentLocation').and.callThrough();
     spyOn(component.showSpinner, 'emit').and.callThrough();
     spyOn(component.findStores, 'emit').and.callThrough();
 
     component.useMyLocation();
 
+    expect(currentLocationService.getCurrentLocation).toHaveBeenCalled();
     expect(component.showSpinner.emit).toHaveBeenCalledWith(true);
     expect(component.findStores.emit).toHaveBeenCalledWith({
       latitude: 0,

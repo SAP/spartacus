@@ -7,7 +7,6 @@ import { I18nTestingModule } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
-  LocationSearchParams,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { IconTestingModule, LaunchDialogService } from '@spartacus/storefront';
@@ -21,7 +20,7 @@ import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-di
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
-    return of({});
+    return of({ productCode: 'testProductCode' });
   }
 
   closeDialog(_reason: string): void {}
@@ -79,9 +78,10 @@ describe('PickupDeliveryOptionDialogComponent', () => {
 
   it('onFindStores calls appropriate service method', () => {
     spyOn(pickupLocationsSearchService, 'startSearch');
-    component.onFindStores({ productCode: 'P001' } as LocationSearchParams);
+    component.onFindStores({ location: '' });
     expect(pickupLocationsSearchService.startSearch).toHaveBeenCalledWith({
-      productCode: 'P001',
+      productCode: 'testProductCode',
+      location: '',
     });
   });
 

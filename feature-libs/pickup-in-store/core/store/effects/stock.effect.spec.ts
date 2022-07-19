@@ -44,7 +44,7 @@ describe('StockEffect', () => {
 
   it('should call the connector on the StockLevel action and create success action', () => {
     spyOn(stockConnector, 'loadStockLevels').and.callThrough();
-    const action = new StockLevel({ productCode: 'P0001' });
+    const action = new StockLevel({ productCode: 'P0001', location: '' });
     const actionSuccess = new StockLevelSuccess({
       productCode: 'P0001',
       stockLevels: {},
@@ -54,7 +54,7 @@ describe('StockEffect', () => {
     const expected = cold('-(b)', { b: actionSuccess });
 
     expect(stockEffects.loadStockLevels$).toBeObservable(expected);
-    expect(stockConnector.loadStockLevels).toHaveBeenCalledWith('P0001', {});
+    expect(stockConnector.loadStockLevels).toHaveBeenCalledWith('P0001', { location:'' });
   });
 
   it('should create a fail action on connector error', () => {
@@ -64,7 +64,7 @@ describe('StockEffect', () => {
       error: 'Error',
     });
     spyOn(stockConnector, 'loadStockLevels').and.returnValue(throwError(error));
-    const action = new StockLevel({ productCode: 'P0001' });
+    const action = new StockLevel({ productCode: 'P0001', location: '' });
     const actionFail = new StockLevelFail(normalizeHttpError(error));
 
     actions$ = hot('-a', { a: action });

@@ -8,16 +8,16 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Product } from '@spartacus/core';
-import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
+import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
+import {
+  IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
+} from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import {
-  PickupLocationsSearchService,
-  PreferredStoreService,
-} from 'feature-libs/pickup-in-store/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { CurrentLocationService } from '../services/current-location.service';
@@ -51,7 +51,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected currentProductService: CurrentProductService,
     protected currentLocationService: CurrentLocationService,
-    protected pickupLocationsSearchService: PickupLocationsSearchService,
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected preferredStoreService: PreferredStoreService
   ) {}
 

@@ -12,6 +12,7 @@ describe('Stock meta-reducer', () => {
       value: {},
     },
     hideOutOfStock: false,
+    browserLocation: { latitude: null, longitude: null },
   };
 
   it('should clear stock state for ClearStockData action', () => {
@@ -25,7 +26,7 @@ describe('Stock meta-reducer', () => {
   });
 
   it('should not clear stock state for other actions', () => {
-    const action = new StockLevel({ productCode: 'code' });
+    const action = new StockLevel({ productCode: 'code', location: '' });
 
     const reducer: ActionReducer<StockState, Action> =
       jasmine.createSpy('reducer');

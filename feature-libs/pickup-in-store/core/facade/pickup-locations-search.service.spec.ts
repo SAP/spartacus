@@ -40,15 +40,18 @@ export class MockPickupLocationsSearchService
     return of(true);
   }
 
+  setBrowserLocation(_latitude: number, _longitude: number): void {}
+
   toggleHideOutOfStock(): void {}
 }
 
-describe('PickupInStoreService', () => {
+describe('PickupLocationsSearchService', () => {
   let service: PickupLocationsSearchService;
   let store: Store<{}>;
 
   const stockLocationSearchParams: StockLocationSearchParams = {
     productCode: 'P0001',
+    location: ''
   };
 
   beforeEach(() => {
@@ -72,9 +75,7 @@ describe('PickupInStoreService', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       new StockLevelActions.StockLevel({
         productCode: 'P0001',
-        latitude: undefined,
-        longitude: undefined,
-        location: undefined,
+        location: '',
       })
     );
   });

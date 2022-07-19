@@ -19,6 +19,7 @@ import { StockLocationSearchParams } from '../model';
         'getSearchResults',
         'clearSearchResults',
         'getHideOutOfStock',
+        'setBrowserLocation',
         'toggleHideOutOfStock',
       ],
       async: true,
@@ -33,5 +34,6 @@ export abstract class PickupLocationsSearchFacade {
   ): Observable<PointOfServiceStock[]>;
   abstract clearSearchResults(): void;
   abstract getHideOutOfStock(): Observable<boolean>;
+  abstract setBrowserLocation(latitude: number, longitude: number): void;
   abstract toggleHideOutOfStock(): void;
 }

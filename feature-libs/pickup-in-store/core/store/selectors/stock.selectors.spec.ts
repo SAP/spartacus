@@ -14,7 +14,8 @@ import {
 describe('StockSelectors', () => {
   const stateFactory = (
     stockLevel?: Partial<StockState['stockLevel']>,
-    hideOutOfStock?: StockState['hideOutOfStock']
+    hideOutOfStock?: StockState['hideOutOfStock'],
+    browserLocation?: StockState['browserLocation']
   ): StateWithStock => ({
     stock: {
       stockLevel: {
@@ -24,6 +25,7 @@ describe('StockSelectors', () => {
         value: stockLevel?.value ?? {},
       },
       hideOutOfStock: hideOutOfStock ?? false,
+      browserLocation: browserLocation ?? { latitude: null, longitude: null },
     },
   });
 
