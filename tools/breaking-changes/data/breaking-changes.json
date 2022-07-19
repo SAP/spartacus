@@ -26917,7 +26917,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutService' was removed from Class 'OrderConfirmationOrderEntriesContext'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'orderFacade' instead.",
         "topLevelApiElementName": "OrderConfirmationOrderEntriesContext"
       }
     ]

@@ -257,13 +257,6 @@ Variable checkoutShippingSteps
 
 - [ ]  Variable checkoutShippingSteps is DELETED
 
-
-Class OrderConfirmationOrderEntriesContext
---------------------------
-@spartacus/checkout/root
-
-- [ ]  Property checkoutService is DELETED
-
 Variable defaultB2bCheckoutConfig
 --------------------------
 @spartacus/setup
