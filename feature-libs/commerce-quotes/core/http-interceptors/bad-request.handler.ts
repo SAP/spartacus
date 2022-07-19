@@ -2,10 +2,10 @@ import { HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   Config,
-  ErrorModel,
   GlobalMessageService,
   GlobalMessageType,
   HttpErrorHandler,
+  ErrorModel,
   HttpResponseStatus,
   Priority,
 } from '@spartacus/core';
@@ -25,13 +25,13 @@ export class CommerceQuotesBadRequestHandler extends HttpErrorHandler {
   handleError(_request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.getErrors(response).forEach(({ message }: ErrorModel) => {
       // Handle unknown conflict
-      this.handleQuoteThresholdErrors(message);
+      this.handleQuoteThresholdErrors(message as string);
     });
   }
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error) => error.type === 'QuoteUnderThresholdError'
+      (error: ErrorModel) => error.type === 'QuoteUnderThresholdError'
     );
   }
 

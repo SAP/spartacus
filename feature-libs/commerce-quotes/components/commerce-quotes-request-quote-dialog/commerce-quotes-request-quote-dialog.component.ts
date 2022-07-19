@@ -6,12 +6,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CQConfig } from '@spartacus/commerce-quotes/core';
 import {
   CommerceQuotesFacade,
   QuoteAction,
   QuoteMetadata,
 } from '@spartacus/commerce-quotes/root';
-import { Config, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { FocusConfig, ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 
@@ -47,7 +48,7 @@ export class CommerceQuotesRequestQuoteDialogComponent implements OnInit {
     protected modalService: ModalService,
     protected commerceQuotesFacade: CommerceQuotesFacade,
     protected routingService: RoutingService,
-    protected config: Config
+    protected config: CQConfig
   ) {}
 
   ngOnInit(): void {}
