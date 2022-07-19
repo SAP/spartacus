@@ -8,10 +8,10 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { CustomerTicketMessagesComponent } from './customer-ticket-messages.component';
-import { IconModule } from '@spartacus/storefront';
+import { MessagingModule } from '@spartacus/storefront';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, UrlModule, IconModule],
+  imports: [CommonModule, I18nModule, UrlModule, MessagingModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

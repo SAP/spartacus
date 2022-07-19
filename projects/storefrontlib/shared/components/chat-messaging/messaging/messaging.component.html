@@ -1,0 +1,70 @@
+<ng-container *ngIf="ticketDetails$ | async as ticket">
+  <div class="message-body">
+    <div class="container">
+      <div class="avatar-line"></div>
+      <div class="cx-messages">
+        <ng-container *ngFor="let event of ticket.ticketEvents">
+          <div
+            class="cx-message-card"
+            [ngClass]="event.author !== 'Mark Rivers' ? 'padding-left' : ''"
+          >
+            <div
+              class="cx-avatar"
+              [ngClass]="event.author !== 'Mark Rivers' ? 'solution' : ''"
+            >
+              <h1 *ngIf="event.author === 'Mark Rivers'">
+                {{ getIntitials(event?.author) }}
+              </h1>
+
+              <cx-icon
+                *ngIf="event.author !== 'Mark Rivers'"
+                [type]="iconTypes.HEADSET"
+              ></cx-icon>
+            </div>
+            <div>
+              <label>{{
+                event.createdAt | cxDate: 'MMMM d, YYYY h:mm aa'
+              }}</label>
+              <div
+                [ngClass]="
+                  event.author === 'Mark Rivers'
+                    ? 'cx-message-issue-text'
+                    : 'cx-message-solution-text'
+                "
+              >
+                {{ event.message }}
+              </div>
+              <p *ngIf="event.attachments" class="cx-attachment">
+                <cx-icon [type]="iconTypes.ATTACHMENT"></cx-icon>
+                {{ event.attachments[0].filename }}
+              </p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="message-footer padding-left">
+    <div class="message-box">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Add New Message"
+        [maxLength]="messageTextLimit"
+        [(ngModel)]="messageText"
+      />
+      <p>
+        {{
+          'customerTicketing.charactersLeft'
+            | cxTranslate: { count: inputCharacterLeft }
+        }}
+      </p>
+    </div>
+    <div class="col-xs-12 col-md-3 col-lg-2">
+      <button class="btn btn-block btn-primary">
+        {{ 'customerTicketing.send' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-container>

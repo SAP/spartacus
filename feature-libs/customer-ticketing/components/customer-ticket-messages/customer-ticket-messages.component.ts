@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
 import { of } from 'rxjs';
 
 @Component({
@@ -7,16 +6,6 @@ import { of } from 'rxjs';
   templateUrl: './customer-ticket-messages.component.html',
 })
 export class CustomerTicketMessagesComponent implements OnInit {
-  iconTypes = ICON_TYPE;
-  messageTextLimit: number = 2000;
-
-  // get inputCharacterLeft(): number {
-  //   return (
-  //     this.messageTextLimit -
-  //     (this.form.get('message')?.value?.length || 0)
-  //   );
-  // }
-
   constructor() {}
 
   ticketDetails$ = of({
@@ -48,6 +37,12 @@ export class CustomerTicketMessagesComponent implements OnInit {
         author: 'Mark Rivers',
         createdAt: '2022-06-22T20:25:02+0000',
         message: 'This is the way',
+        attachments: [
+          {
+            filename: 'screenshot.png',
+            URL: 'https://ccv2.domain.com/occ/v2/electronics/users/0001/tickets/0013/events/0007PC/attachments/0034-034-24589',
+          },
+        ],
       },
       {
         author: 'Admin',

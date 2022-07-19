@@ -43,6 +43,8 @@ export const fontawesomeIconConfig: IconConfig = {
       EYE: 'fas fa-eye',
       EYE_SLASH: 'fas fa-eye-slash',
       HEADSET: 'fas fa-headset',
+      ATTACHMENT: 'fas fa-paperclip',
+      UPLOAD: 'fas fa-upload',
     },
     resources: [
       {

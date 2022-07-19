@@ -1,4 +1,4 @@
-cx-customer-ticket-messages {
+%cx-messaging {
   .message-body {
     min-height: 400px;
     padding-bottom: 2rem;
@@ -86,29 +86,6 @@ cx-customer-ticket-messages {
           margin: 0;
         }
       }
-    }
-  }
-
-  @include media-breakpoint-up(md) {
-    .padding-left {
-      padding-left: 4.875rem;
-    }
-  }
-
-  .message-footer {
-    display: flex;
-    height: 3rem;
-    textarea {
-      height: 3rem;
-    }
-    .message-box {
-      width: 100%;
-    }
-    p {
-      font-size: 0.75rem;
-      font-style: italic;
-      text-align: end;
-      margin: 0;
     }
   }
 }

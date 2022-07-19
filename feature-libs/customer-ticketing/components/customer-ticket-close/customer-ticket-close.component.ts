@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { STATUS_OPEN } from 'feature-libs/customer-ticketing/root/customer-ticketing-constants';
+import { STATUS_OPEN } from '@spartacus/customer-ticketing/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CustomerTicketingService } from '../customer-ticketing.service';

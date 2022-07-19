@@ -42,6 +42,8 @@ export enum ICON_TYPE {
   EYE = 'EYE',
   EYE_SLASH = 'EYE_SLASH',
   HEADSET = 'HEADSET',
+  ATTACHMENT = 'ATTACHMENT',
+  UPLOAD = 'UPLOAD',
 }
 
 @Injectable({
