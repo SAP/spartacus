@@ -53055,7 +53055,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_ORDER_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by ORDER_DETAILS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53076,7 +53076,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_ORDERS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by ORDERS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53097,7 +53097,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_REPLENISHMENT_ORDER_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by REPLENISHMENT_ORDER_DETAILS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53118,7 +53118,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_REPLENISHMENT_ORDERS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by REPLENISHMENT_ORDERS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53139,7 +53139,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_RETURN_REQUEST_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by RETURN_REQUEST_DETAILS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53160,7 +53160,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_RETURN_REQUESTS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by RETURN_REQUESTS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53189,7 +53189,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserAccountFacadeTransitionalToken has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use UserAccountFacade instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -57703,7 +57703,7 @@
     "members": [],
     "isDeleted": true,
     "deletedComment": "Class UserOccTransitional_4_2_Module has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use UserOccModule instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -57994,7 +57994,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use OrderAdapter in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -58280,7 +58280,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserOrderConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use OrderConnector in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -58519,7 +58519,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserOrderService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use OrderFacade in @spartacus/order/root instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -58875,7 +58875,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserReplenishmentOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use ReplenishmentOrderAdapter in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -59053,7 +59053,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserReplenishmentOrderConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use ReplenishmentOrderConnector in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -59275,7 +59275,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserReplenishmentOrderService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use ReplenishmentOrderFacade in @spartacus/order/root instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -59488,7 +59488,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'get' was removed from Class 'UserService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'UserAccountFacade.get()' from '@spartacus/user' instead.",
         "topLevelApiElementName": "UserService"
       },
       {
@@ -59508,7 +59508,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'userAccountFacade' was removed from Class 'UserService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "UserService"
       },
       {
@@ -60671,7 +60671,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'consignmentTracking' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60691,7 +60691,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'order' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60711,7 +60711,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturn' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60731,7 +60731,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturnList' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60751,7 +60751,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orders' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60771,7 +60771,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrder' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60791,7 +60791,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrders' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       }
     ]
@@ -60811,7 +60811,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserTransitional_4_2_Module has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use UserModule instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
