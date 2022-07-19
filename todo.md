@@ -10,24 +10,6 @@ if it's a rename →
     regenerate doc + all appropriate schematics, at least deleted symbols schematics and renamed api schematics (maybe others if a deleted class was renamed and then has other breaking changes).
 
 
-Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
-
-
-Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
-
-
-
-This property is used internally only.
-
-
-
-
-TypeAlias CheckoutDetails
---------------------------
-@spartacus/checkout/core
-
-- [ ]  TypeAlias CheckoutDetails is DELETED
-
 Variable getAllCardTypes
 --------------------------
 @spartacus/checkout/core

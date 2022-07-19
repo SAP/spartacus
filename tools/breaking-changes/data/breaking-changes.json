@@ -20044,7 +20044,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Replaced with 'CheckoutState' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",
