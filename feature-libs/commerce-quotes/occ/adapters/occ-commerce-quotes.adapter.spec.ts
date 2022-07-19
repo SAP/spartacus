@@ -72,7 +72,7 @@ const MockOccModuleConfig: OccConfig = {
         createQuote: '/users/${userId}/quotes',
         getQuote: '/users/${userId}/quotes/${quoteCode}',
         editQuote: '/users/${userId}/quotes/${quoteCode}',
-        performActionQuote: '/users/${userId}/quotes/${quoteCode}/action',
+        performQuoteAction: '/users/${userId}/quotes/${quoteCode}/action',
         addComment: '/users/${userId}/quotes/${quoteCode}/comments',
         addDiscount: '/users/${userId}/quotes/${quoteCode}/discounts',
         addCartEntryComment:

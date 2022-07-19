@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   CommerceQuotesFacade,
   CommerceQuotesListReloadQueryEvent,
@@ -65,7 +65,7 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     (payload) =>
       combineLatest([
         this.userIdService.takeUserId(),
-        this.activeCartFacade.takeActiveCartId(),
+        this.activeCartService.takeActiveCartId(),
       ]).pipe(
         take(1),
         switchMap(([userId, cartId]) =>
@@ -88,11 +88,20 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
                 payload.quoteComment
               ),
             ]),
+            of(userId),
             of(quote)
           )
         ),
-        map(([_, quote]) => quote),
-        tap(() => this.activeCartFacade.reloadActiveCart())
+        tap(([_, userId, quote]) =>
+          this.multiCartService.loadCart({
+            cartId: quote.cartId as string,
+            userId,
+            extraData: {
+              active: true,
+            },
+          })
+        ),
+        map(([_, _userId, quote]) => quote)
       ),
     {
       strategy: CommandStrategy.CancelPrevious,
@@ -196,9 +205,10 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     protected queryService: QueryService,
     protected config: ViewConfig,
     protected commandService: CommandService,
-    protected activeCartFacade: ActiveCartFacade,
+    protected activeCartService: ActiveCartFacade,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected multiCartService: MultiCartFacade
   ) {}
 
   setCurrentPage(page: number): void {

@@ -75,6 +75,12 @@
 
         <div class="notes">
           <p>{{ 'commerceQuotes.requestDialog.form.note' | cxTranslate }}</p>
+          <p *ngIf="minRequestInitiationValue">
+            {{
+              'commerceQuotes.requestDialog.form.minRequestInitiationNote'
+                | cxTranslate: { minValue: minRequestInitiationValue }
+            }}
+          </p>
           <p>
             {{
               'commerceQuotes.requestDialog.form.requestSubmitNote'

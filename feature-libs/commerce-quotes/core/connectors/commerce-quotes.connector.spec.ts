@@ -43,11 +43,11 @@ class MockCommerceQuotesAdapter implements Partial<CommerceQuotesAdapter> {
     (userId: string, quoteCode: string, quoteMetadata: QuoteMetadata) =>
       of(`editQuote-${userId}-${quoteCode}-${quoteMetadata}`)
   );
-  performActionQuote = createSpy(
-    'CommerceQuotesAdapter.performActionQuote'
+  performQuoteAction = createSpy(
+    'CommerceQuotesAdapter.performQuoteAction'
   ).and.callFake(
     (userId: string, quoteCode: string, quoteAction: QuoteAction) =>
-      of(`performActionQuote-${userId}-${quoteCode}-${quoteAction}`)
+      of(`performQuoteAction-${userId}-${quoteCode}-${quoteAction}`)
   );
   addComment = createSpy('CommerceQuotesAdapter.addComment').and.callFake(
     (userId: string, quoteCode: string, quoteComment: Comment) =>
@@ -150,7 +150,7 @@ describe('CommerceQuotesConnector', () => {
       .pipe(take(1))
       .subscribe((res) => (result = res));
     expect(result).toBe(
-      `performActionQuote-${userId}-${quoteCode}-${action.toString()}`
+      `performQuoteAction-${userId}-${quoteCode}-${action.toString()}`
     );
     expect(adapter.performQuoteAction).toHaveBeenCalledWith(
       userId,
