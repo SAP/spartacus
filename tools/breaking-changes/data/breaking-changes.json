@@ -21499,7 +21499,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'actionAllowed' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Removed. Replaced with an internal protected 'checkoutPreconditions()' method in the 'CheckoutPaymentService' (from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -21519,7 +21519,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -21539,7 +21539,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutStore' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Removed, as checkout no longer uses ngrx store.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -21605,7 +21605,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' instead.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -21627,7 +21627,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentDetailsState()' instead.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -21671,7 +21671,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'loadSupportedCardTypes' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' or 'getPaymentCardTypesState()' instead.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {

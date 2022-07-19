@@ -28,20 +28,6 @@ TypeAlias CheckoutDetails
 
 - [ ]  TypeAlias CheckoutDetails is DELETED
 
-
-Class CheckoutPaymentService
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Method actionAllowed is DELETED
-- [ ]  Property activeCartService is DELETED
-- [ ]  Property checkoutStore is DELETED
-- [ ]  Method getCardTypes is DELETED
-- [ ]  Method getPaymentDetails is DELETED
-- [ ]  Method loadSupportedCardTypes is DELETED
-
-
-
 Variable getAllCardTypes
 --------------------------
 @spartacus/checkout/core
