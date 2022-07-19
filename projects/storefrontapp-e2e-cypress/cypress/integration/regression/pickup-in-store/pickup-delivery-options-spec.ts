@@ -1,17 +1,18 @@
-import { configureApparelProduct } from '../../../helpers/product-details';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-function mockLocation(latitude, longitude) {
+function mockLocation(
+  latitude: number,
+  longitude: number
+): Partial<Cypress.VisitOptions> {
   return {
     onBeforeLoad(win) {
       cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake(
-        (cb, err) => {
-          console.log('Inside the getCurrentPosition callback')
-          if ((latitude || latitude === 0) && (longitude || longitude === 0)) {
-            return cb({ coords: { latitude, longitude } });
+        (successCallback, errorCallback, _options) => {
+          if (typeof latitude === 'number' && typeof longitude === 'number') {
+            return successCallback({ coords: { latitude, longitude } });
           }
 
-          throw err({ code: 1 });
+          throw errorCallback({ code: 1 });
         }
       );
     },
@@ -21,7 +22,6 @@ function mockLocation(latitude, longitude) {
 describe('Pickup delivery options', () => {
   viewportContext(['desktop'], () => {
     before(() => {
-
       cy.window().then((win) => win.sessionStorage.clear());
       cy.cxConfig({
         context: {
@@ -32,6 +32,11 @@ describe('Pickup delivery options', () => {
       cy.visit('/product/300310300', mockLocation(53, 0));
     });
 
-    it('test', () => {});
+    it('should open the pickup locations dialog', () => {
+      cy.get('cx-pickup-delivery-options').should('exist');
+      cy.get('#delivery').should('have.attr', 'aria-checked', 'true');
+      cy.get('#pickup').click();
+      cy.get('cx-delivery-pickup-options-dialog').should('exist');
+    });
   });
 });
