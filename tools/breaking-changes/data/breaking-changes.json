@@ -22261,7 +22261,7 @@
     "type": "MemoizedSelector<StateWithCheckout, OrderTypesState>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getOrderTypesState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, it has been moved to 'currentOrderType' in 'CheckoutScheduledReplenishmentPlaceOrderComponent' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22415,7 +22415,7 @@
     "type": "MemoizedSelector<StateWithCheckout, ORDER_TYPE>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSelectedOrderType has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, it has been moved to 'currentOrderType' in 'CheckoutScheduledReplenishmentPlaceOrderComponent' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22437,7 +22437,7 @@
     "type": "(state: OrderTypesState) => ORDER_TYPE",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSelectedOrderTypeSelector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, it has been moved to 'currentOrderType' in 'CheckoutScheduledReplenishmentPlaceOrderComponent' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22459,7 +22459,7 @@
     "type": "MemoizedSelector<StateWithCheckout, string | undefined>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSelectedPaymentType has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSelectedPaymentTypeState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22481,7 +22481,7 @@
     "type": "MemoizedSelector<StateWithCheckout, DeliveryMode[]>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSupportedDeliveryModes has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22812,7 +22812,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderType' was removed from Interface 'CheckoutState'.",
-        "migrationComment": "",
+        "migrationComment": "Removed. You can Use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
         "topLevelApiElementName": "CheckoutState"
       },
       {
@@ -22832,7 +22832,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'paymentTypes' was removed from Interface 'CheckoutState'.",
-        "migrationComment": "",
+        "migrationComment": "No direct replacement. Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').",
         "topLevelApiElementName": "CheckoutState"
       },
       {

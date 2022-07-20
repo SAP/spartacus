@@ -30,45 +30,6 @@ Variable getCheckoutStepsState
 - [ ]  Variable getCheckoutStepsState is DELETED
 
 
-Variable getOrderTypesState
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getOrderTypesState is DELETED
-
-
-
-Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
-
-
-Variable getSelectedOrderType
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getSelectedOrderType is DELETED
-
-
-Variable getSelectedOrderTypeSelector
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getSelectedOrderTypeSelector is DELETED
-
-
-Variable getSelectedPaymentType
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getSelectedPaymentType is DELETED
-
-
-Variable getSupportedDeliveryModes
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getSupportedDeliveryModes is DELETED
-
-
 Interface CheckoutState
 --------------------------
 @spartacus/checkout/core
@@ -79,32 +40,16 @@ Interface CheckoutState
 - [ ]  PropertySignature steps is DELETED
 
 
-Interface CheckoutStepsState
 --------------------------
 @spartacus/checkout/core
 
 - [ ]  Interface CheckoutStepsState is DELETED
-
-
-Interface OrderTypesState
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Interface OrderTypesState is DELETED
-
 
 Variable PAYMENT_TYPE_NORMALIZER
 --------------------------
 @spartacus/checkout/core
 
 - [ ]  Variable PAYMENT_TYPE_NORMALIZER is DELETED
-
-
-Interface PaymentTypesState
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Interface PaymentTypesState is DELETED
 
 
 Interface CheckoutOccEndpoints
