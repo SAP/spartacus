@@ -201,3 +201,12 @@
 <ng-template #loading>
   <div class="cx-spinner"><cx-spinner></cx-spinner></div>
 </ng-template>
+
+<div class="light-box" *ngIf="showPasswordError">
+  <div class="my-modal">
+    <div class="close-my-modal" (click)="closeModal()">x</div>
+    <div>
+      Your username or password appears in a list of compromised credentials
+    </div>
+  </div>
+</div>

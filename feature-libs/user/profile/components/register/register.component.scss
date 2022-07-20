@@ -1,0 +1,35 @@
+.light-box {
+  background-color: rgba($color: #000000, $alpha: 0.3);
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  display: flex;
+  justify-content: center;
+
+  .my-modal{
+    background-color: white;
+
+    height: 200px;
+    line-height: 200px;
+    top: 25%;
+    width: 50%;
+    position: absolute;
+    text-align: center;
+
+    .close-my-modal{
+      background-color: red;
+      height: 20px;
+      line-height: 20px;
+      text-align: right;
+      padding-right: 5px;
+    }
+
+  }
+}
+
+
+::ng-deep .body-with-modal{
+ overflow: hidden;
+}

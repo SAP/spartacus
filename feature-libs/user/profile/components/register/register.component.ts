@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -29,11 +30,14 @@ import { filter, map } from 'rxjs/operators';
 @Component({
   selector: 'cx-register',
   templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable<Title[]>;
 
   isLoading$ = new BehaviorSubject(false);
+
+  showPasswordError = false;
 
   private subscription = new Subscription();
 
@@ -74,7 +78,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
     protected anonymousConsentsConfig: AnonymousConsentsConfig,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit() {
@@ -149,6 +155,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
+        error: (_err) => {
+          this.isLoading$.next(false);
+          this.onRegisterUserError();
+        },
         complete: () => this.isLoading$.next(false),
       });
   }
@@ -199,6 +209,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
   }
 
+  private onRegisterUserError(): void {
+    this.document.body.scrollTo(0, 0);
+    this.showPasswordError = true;
+    this.renderer.addClass(this.document.body, 'body-with-modal');
+  }
+
   toggleAnonymousConsent(): void {
     const registerConsent =
       this.anonymousConsentsConfig?.anonymousConsents?.registerConsent;
@@ -211,6 +227,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.anonymousConsentsService.withdrawConsent(registerConsent);
       }
     }
+  }
+
+  closeModal(): void {
+    this.document.body.scrollTo(0, 0);
+    this.showPasswordError = false;
+    this.renderer.removeClass(this.document.body, 'body-with-modal');
   }
 
   ngOnDestroy() {
