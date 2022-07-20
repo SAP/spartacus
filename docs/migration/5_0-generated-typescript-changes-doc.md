@@ -2171,8 +2171,8 @@ Class ScheduleReplenishmentOrderComponent has been removed and is no longer part
 # Class ScheduleReplenishmentOrderModule 
 ## @spartacus/checkout/components
 
-
-Class ScheduleReplenishmentOrderModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/scheduled-replenishment/components
+renamed to CheckoutScheduledReplenishmentPlaceOrderModule
 
 
 

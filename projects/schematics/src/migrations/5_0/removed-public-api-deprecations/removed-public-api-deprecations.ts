@@ -77,12 +77,6 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
       'Class ScheduleReplenishmentOrderComponent has been removed and is no longer part of the public API. ',
   },
   {
-    node: 'ScheduleReplenishmentOrderModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class ScheduleReplenishmentOrderModule has been removed and is no longer part of the public API. ',
-  },
-  {
     node: 'ShippingAddressComponent',
     importPath: '@spartacus/checkout/components',
     comment:

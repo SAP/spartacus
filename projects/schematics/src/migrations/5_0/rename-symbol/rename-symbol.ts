@@ -238,6 +238,12 @@ export const GENERATED_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newImportPath: '@spartacus/checkout/base/components',
   },
   {
+    previousNode: 'ScheduleReplenishmentOrderModule',
+    previousImportPath: '@spartacus/checkout/components',
+    newNode: 'CheckoutScheduledReplenishmentPlaceOrderModule',
+    newImportPath: '@spartacus/checkout/scheduled-replenishment/components',
+  },
+  {
     previousNode: 'CARD_TYPE_NORMALIZER',
     previousImportPath: '@spartacus/checkout/core',
     newNode: 'PAYMENT_CARD_TYPE_NORMALIZER',
