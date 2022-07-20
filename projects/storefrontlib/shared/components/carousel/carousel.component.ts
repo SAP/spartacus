@@ -1,16 +1,63 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
   isDevMode,
   OnInit,
   TemplateRef,
+  ViewChild,
 } from '@angular/core';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, fromEvent } from 'rxjs';
+import { switchMap, map, take, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import { CarouselService } from './carousel.service';
+
+enum Swipe {
+  UP = 'up',
+  RIGHT = 'right',
+  DOWN = 'down',
+  LEFT = 'left',
+}
+
+const getSwipe = function (
+  element: HTMLElement
+): Observable<{ horizontal: Swipe | undefined; vertical: Swipe | undefined }> {
+  return fromEvent(element, 'touchstart', { passive: true }).pipe(
+    switchMap((touchstart) =>
+      fromEvent(element, 'touchend', { passive: true }).pipe(
+        take(1),
+        map((touchend) => [touchstart as TouchEvent, touchend as TouchEvent])
+      )
+    ),
+    map(([touchstart, touchend]) => {
+      const origin = touchstart.changedTouches[0];
+      const end = touchend.changedTouches[0];
+
+      const xDiff = end.clientX - origin.clientX;
+      const yDiff = end.clientY - origin.clientY;
+
+      let horizontal: Swipe | undefined;
+      let vertical: Swipe | undefined;
+
+      if (xDiff > 0) {
+        horizontal = Swipe.LEFT;
+      } else if (xDiff < 0) {
+        horizontal = Swipe.RIGHT;
+      }
+
+      if (yDiff > 0) {
+        vertical = Swipe.UP;
+      } else if (yDiff < 0) {
+        vertical = Swipe.DOWN;
+      }
+
+      return { horizontal, vertical };
+    })
+  );
+};
 
 /**
  * Generic carousel component that can be used to render any carousel items,
@@ -32,7 +79,14 @@ import { CarouselService } from './carousel.service';
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements AfterViewChecked, OnInit {
+  /*
+  @ViewChild('example', { static: true })
+  exampleHtml: ElementRef<HTMLElement>;
+  */
+  @ViewChild('carousel')
+  carouselElement: ElementRef<HTMLElement>;
+
   /**
    * The title is rendered as the carousel heading.
    */
@@ -77,9 +131,22 @@ export class CarouselComponent implements OnInit {
   activeSlide: number;
   size$: Observable<number>;
 
-  constructor(protected el: ElementRef, protected service: CarouselService) {}
+  private slideInitialized = false;
+  private carouselInitialized = false;
+
+  constructor(
+    protected el: ElementRef,
+    protected service: CarouselService,
+    protected changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
+    /*
+    getSwipe(this.exampleHtml.nativeElement).subscribe(({ horizontal, vertical }) => {
+      this.exampleHtml.nativeElement.textContent = `horizontal: ${horizontal} vertical: ${vertical}`;
+    });
+    */
+
     if (!this.template && isDevMode()) {
       console.error(
         'No template reference provided to render the carousel items for the `cx-carousel`'
@@ -88,7 +155,41 @@ export class CarouselComponent implements OnInit {
     }
     this.size$ = this.service
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
-      .pipe(tap(() => (this.activeSlide = 0)));
+      .pipe(
+        tap(() => {
+          if (!this.slideInitialized) {
+            this.activeSlide = 0;
+            this.slideInitialized = true;
+          }
+        })
+      );
+  }
+
+  ngAfterViewChecked(): void {
+    if (!this.carouselInitialized && this.carouselElement) {
+      this.carouselInitialized = true;
+
+      getSwipe(this.carouselElement.nativeElement)
+        .pipe(
+          switchMap(({ horizontal }) =>
+            this.size$.pipe(
+              map((size) => [horizontal, size] as [Swipe, number])
+            )
+          )
+        )
+        .subscribe(([horizontal, size]) => {
+          if (horizontal === Swipe.RIGHT) {
+            this.activeSlide = Math.min(
+              this.activeSlide + size,
+              this.items.length - 1
+            );
+            this.changeDetectorRef.markForCheck();
+          } else if (horizontal === Swipe.LEFT) {
+            this.activeSlide = Math.max(this.activeSlide - size, 0);
+            this.changeDetectorRef.markForCheck();
+          }
+        });
+    }
   }
 
   getSlideNumber(size: number, currentIndex: number): number {
