@@ -4897,7 +4897,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'.",
-        "migrationComment": "Cart deletion event is now triggered from CartEventBuilder in @spartacus/cart/base/core",
+        "migrationComment": "Use 'registerDeleteCart' Method from Class 'CartEventBuilder' from @spartacus/cart/base/core instead.",
         "topLevelApiElementName": "SavedCartEventBuilder"
       }
     ]
@@ -29089,7 +29089,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleExpiredToken' was removed from Class 'AuthHttpHeaderService'.",
-        "migrationComment": "Use `getValidToken()` instead.",
+        "migrationComment": "Use 'getValidToken' instead.",
         "topLevelApiElementName": "AuthHttpHeaderService"
       },
       {
@@ -29109,7 +29109,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'refreshInProgress' was removed from Class 'AuthHttpHeaderService'.",
-        "migrationComment": "Use `AuthService.refreshInProgress$` instead.",
+        "migrationComment": "Use 'refreshInProgress$' Observable instead from 'AuthService'.",
         "topLevelApiElementName": "AuthHttpHeaderService"
       },
       {
@@ -29285,7 +29285,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'reportAuthGuard' was removed from Class 'AuthRedirectService'.",
-        "migrationComment": "Use `saveCurrentNavigationUrl` method instead.",
+        "migrationComment": "Use 'saveCurrentNavigationUrl' method instead.",
         "topLevelApiElementName": "AuthRedirectService"
       },
       {
@@ -29307,7 +29307,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'reportNotAuthGuard' was removed from Class 'AuthRedirectService'.",
-        "migrationComment": "Method not needed anymore. Every visited URL is now remembered automatically as redirect URL on 'NavigationEnd' event.",
+        "migrationComment": "No replacement needed. Every visited URL is now remembered automatically as redirect URL on 'NavigationEnd' event.",
         "topLevelApiElementName": "AuthRedirectService"
       }
     ]
@@ -29756,7 +29756,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'.",
-        "migrationComment": "The voucher error handling logic is moved to the new handler `BadVoucherRequestHandler` in cart-lib",
+        "migrationComment": "It is now being handled in 'BadVoucherRequestHandler' from @spartacus/cart/base/core",
         "topLevelApiElementName": "BadRequestHandler"
       }
     ]
@@ -83131,7 +83131,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/product-configurator/rulebased",
         "deletedComment": "// TODO:Spartacus - Method 'isMultiSelection' was removed from Class 'ConfiguratorAttributeHeaderComponent'.",
-        "migrationComment": "",
+        "migrationComment": "It has been converted to a getter instead.",
         "topLevelApiElementName": "ConfiguratorAttributeHeaderComponent"
       }
     ]
@@ -85087,7 +85087,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/product-configurator/rulebased",
         "deletedComment": "// TODO:Spartacus - Method 'removeObsoleteProductBoundConfiguration' was removed from Class 'ConfiguratorCommonsService'.",
-        "migrationComment": "",
+        "migrationComment": "It is no longer needed because an obsolete product bound configuration is handled within action `RemoveCartBoundConfigurations`. So in case you called `removeObsoleteProductBoundConfiguration` before, consider to raise that action, which will clear all cart bound configurations, and in addition delete the obsolete product bound configuration that is predecessor of a cart bound configuration.",
         "topLevelApiElementName": "ConfiguratorCommonsService"
       }
     ]
@@ -86113,7 +86113,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/product-configurator/rulebased",
         "deletedComment": "// TODO:Spartacus - Property 'configuration$' was removed from Class 'ConfiguratorGroupTitleComponent'.",
-        "migrationComment": "",
+        "migrationComment": "In case you use it in a sub component, consider to declare it there via `configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService .extractRouterData() .pipe( switchMap((routerData) => this.configuratorCommonsService.getConfiguration(routerData.owner) ) );`",
         "topLevelApiElementName": "ConfiguratorGroupTitleComponent"
       }
     ]
@@ -86660,7 +86660,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/product-configurator/rulebased",
         "deletedComment": "// TODO:Spartacus - Method 'isInViewport' was removed from Class 'ConfiguratorStorefrontUtilsService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not needed anymore as scrolling is always executed on navigation regardless of position of element.",
         "topLevelApiElementName": "ConfiguratorStorefrontUtilsService"
       }
     ]
@@ -99534,7 +99534,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Method 'reinitalizeMenu' was removed from Class 'NavigationUIComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'reinitializeMenu' instead.",
         "topLevelApiElementName": "NavigationUIComponent"
       },
       {
@@ -105560,7 +105560,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Property 'reviewsTabAvailable' was removed from Class 'ProductIntroComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'areReviewsAvailable$' instead.",
         "topLevelApiElementName": "ProductIntroComponent"
       }
     ]
@@ -106514,7 +106514,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Property 'clikEvent' was removed from Class 'ProgressButtonComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'clickEvent' instead.",
         "topLevelApiElementName": "ProgressButtonComponent"
       }
     ]

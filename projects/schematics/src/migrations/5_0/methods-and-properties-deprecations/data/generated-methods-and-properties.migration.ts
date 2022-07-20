@@ -171,7 +171,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'registerDeleteSavedCartEvents',
       comment:
-        "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'. ",
+        "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'. Use 'registerDeleteCart' Method from Class 'CartEventBuilder' instead.",
     },
     {
       class: 'SavedCartService',
@@ -976,14 +976,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'handleExpiredToken',
       comment:
-        "// TODO:Spartacus - Method 'handleExpiredToken' was removed from Class 'AuthHttpHeaderService'. ",
+        "// TODO:Spartacus - Method 'handleExpiredToken' was removed from Class 'AuthHttpHeaderService'. Use 'getValidToken' instead.",
     },
     {
       class: 'AuthHttpHeaderService',
       importPath: '@spartacus/core',
       deprecatedNode: 'refreshInProgress',
       comment:
-        "// TODO:Spartacus - Property 'refreshInProgress' was removed from Class 'AuthHttpHeaderService'. ",
+        "// TODO:Spartacus - Property 'refreshInProgress' was removed from Class 'AuthHttpHeaderService'. Use 'refreshInProgress$' Observable instead from 'AuthService'.",
     },
     {
       class: 'AuthHttpHeaderService',
@@ -1004,14 +1004,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'reportAuthGuard',
       comment:
-        "// TODO:Spartacus - Method 'reportAuthGuard' was removed from Class 'AuthRedirectService'. ",
+        "// TODO:Spartacus - Method 'reportAuthGuard' was removed from Class 'AuthRedirectService'. Use 'saveCurrentNavigationUrl' method instead.",
     },
     {
       class: 'AuthRedirectService',
       importPath: '@spartacus/core',
       deprecatedNode: 'reportNotAuthGuard',
       comment:
-        "// TODO:Spartacus - Method 'reportNotAuthGuard' was removed from Class 'AuthRedirectService'. ",
+        "// TODO:Spartacus - Method 'reportNotAuthGuard' was removed from Class 'AuthRedirectService'. No replacement needed. Every visited URL is now remembered automatically as redirect URL on 'NavigationEnd' event.",
     },
     {
       class: 'AuthStatePersistenceService',
@@ -1032,7 +1032,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'handleVoucherOperationError',
       comment:
-        "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'. ",
+        "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'. It is now being handled in 'BadVoucherRequestHandler' from @spartacus/cart/base/core",
     },
     {
       class: 'CreateWishList',
@@ -3195,7 +3195,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'isMultiSelection',
       comment:
-        "// TODO:Spartacus - Method 'isMultiSelection' was removed from Class 'ConfiguratorAttributeHeaderComponent'. ",
+        "// TODO:Spartacus - Method 'isMultiSelection' was removed from Class 'ConfiguratorAttributeHeaderComponent'. It has been converted to a getter instead.",
     },
     {
       class: 'ConfiguratorAttributeMultiSelectionBundleComponent',
@@ -3237,7 +3237,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'removeObsoleteProductBoundConfiguration',
       comment:
-        "// TODO:Spartacus - Method 'removeObsoleteProductBoundConfiguration' was removed from Class 'ConfiguratorCommonsService'. ",
+        "// TODO:Spartacus - Method 'removeObsoleteProductBoundConfiguration' was removed from Class 'ConfiguratorCommonsService'. It is no longer needed because an obsolete product bound configuration is handled within action `RemoveCartBoundConfigurations`. So in case you called `removeObsoleteProductBoundConfiguration` before, consider to raise that action, which will clear all cart bound configurations, and in addition delete the obsolete product bound configuration that is predecessor of a cart bound configuration.",
     },
     {
       class: 'ConfiguratorExitButtonComponent',
@@ -3251,7 +3251,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'configuration$',
       comment:
-        "// TODO:Spartacus - Property 'configuration$' was removed from Class 'ConfiguratorGroupTitleComponent'. ",
+        "// TODO:Spartacus - Property 'configuration$' was removed from Class 'ConfiguratorGroupTitleComponent'. In case you use it in a sub component, consider to declare it there via `configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService .extractRouterData() .pipe( switchMap((routerData) => this.configuratorCommonsService.getConfiguration(routerData.owner) ) );`",
     },
     {
       class: 'ConfiguratorOverviewNotificationBannerComponent',
@@ -3272,7 +3272,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'isInViewport',
       comment:
-        "// TODO:Spartacus - Method 'isInViewport' was removed from Class 'ConfiguratorStorefrontUtilsService'. ",
+        "// TODO:Spartacus - Method 'isInViewport' was removed from Class 'ConfiguratorStorefrontUtilsService'. It is not needed anymore as scrolling is always executed on navigation regardless of position of element.",
     },
     {
       class: 'OccConfiguratorVariantNormalizer',
@@ -3965,7 +3965,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/storefront',
       deprecatedNode: 'reinitalizeMenu',
       comment:
-        "// TODO:Spartacus - Method 'reinitalizeMenu' was removed from Class 'NavigationUIComponent'. ",
+        "// TODO:Spartacus - Method 'reinitalizeMenu' was removed from Class 'NavigationUIComponent'. Use 'reinitializeMenu' instead.",
     },
     {
       class: 'NavigationUIComponent',
@@ -4266,7 +4266,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/storefront',
       deprecatedNode: 'reviewsTabAvailable',
       comment:
-        "// TODO:Spartacus - Property 'reviewsTabAvailable' was removed from Class 'ProductIntroComponent'. ",
+        "// TODO:Spartacus - Property 'reviewsTabAvailable' was removed from Class 'ProductIntroComponent'. Use 'areReviewsAvailable$' instead.",
     },
     {
       class: 'ProductListComponent',
@@ -4336,7 +4336,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/storefront',
       deprecatedNode: 'clikEvent',
       comment:
-        "// TODO:Spartacus - Property 'clikEvent' was removed from Class 'ProgressButtonComponent'. ",
+        "// TODO:Spartacus - Property 'clikEvent' was removed from Class 'ProgressButtonComponent'. Use 'clickEvent' instead.",
     },
     {
       class: 'ReplenishmentOrderCancellationComponent',

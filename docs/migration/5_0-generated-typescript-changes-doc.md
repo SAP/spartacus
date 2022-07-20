@@ -751,7 +751,7 @@ multiCartService: MultiCartFacade
 
 ### Method registerDeleteSavedCartEvents is removed.
 
-
+Use 'registerDeleteCart' Method from Class 'CartEventBuilder' instead.
 
 
 
@@ -5206,11 +5206,11 @@ handleExpiredAccessToken(
 
 ### Method handleExpiredToken is removed.
 
-
+Use 'getValidToken' instead.
 
 ### Property refreshInProgress is removed.
 
-
+Use 'refreshInProgress$' Observable instead from 'AuthService'.
 
 ### Property stopProgress$ changed.
 
@@ -5254,11 +5254,11 @@ tokenToRetryRequest$: Observable<AuthToken | undefined>
 
 ### Method reportAuthGuard is removed.
 
-
+Use 'saveCurrentNavigationUrl' method instead.
 
 ### Method reportNotAuthGuard is removed.
 
-
+No replacement needed. Every visited URL is now remembered automatically as redirect URL on 'NavigationEnd' event.
 
 
 
@@ -5307,7 +5307,7 @@ moved to @spartacus/checkout/b2b/root
 
 ### Method handleVoucherOperationError is removed.
 
-
+It is now being handled in 'BadVoucherRequestHandler' from @spartacus/cart/base/core
 
 
 
@@ -18550,7 +18550,7 @@ isAttributeGroup(): boolean
 
 ### Method isMultiSelection is removed.
 
-
+It has been converted to a getter instead.
 
 
 
@@ -18872,7 +18872,7 @@ activeCartService: ActiveCartFacade
 
 ### Method removeObsoleteProductBoundConfiguration is removed.
 
-
+It is no longer needed because an obsolete product bound configuration is handled within action `RemoveCartBoundConfigurations`. So in case you called `removeObsoleteProductBoundConfiguration` before, consider to raise that action, which will clear all cart bound configurations, and in addition delete the obsolete product bound configuration that is predecessor of a cart bound configuration.
 
 
 
@@ -18972,7 +18972,7 @@ constructor(
 
 ### Property configuration$ is removed.
 
-
+In case you use it in a sub component, consider to declare it there via `configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService .extractRouterData() .pipe( switchMap((routerData) => this.configuratorCommonsService.getConfiguration(routerData.owner) ) );`
 
 
 
@@ -19047,7 +19047,7 @@ product$: Observable<Product | undefined>
 
 ### Method isInViewport is removed.
 
-
+It is not needed anymore as scrolling is always executed on navigation regardless of position of element.
 
 
 
@@ -22161,7 +22161,7 @@ node: NavigationNode | null
 
 ### Method reinitalizeMenu is removed.
 
-
+Use 'reinitializeMenu' instead.
 
 ### Property resetMenuOnClose changed.
 
@@ -23619,7 +23619,7 @@ product$: Observable<Product | null>
 
 ### Property reviewsTabAvailable is removed.
 
-
+Use 'areReviewsAvailable$' instead.
 
 
 
@@ -23862,7 +23862,7 @@ modeChange: EventEmitter<ViewModes>
 
 ### Property clikEvent is removed.
 
-
+Use 'clickEvent' instead.
 
 
 
