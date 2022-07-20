@@ -2126,8 +2126,8 @@ Class PlaceOrderComponent has been removed and is no longer part of the public A
 # Class PlaceOrderModule 
 ## @spartacus/checkout/components
 
-
-Class PlaceOrderModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPlaceOrderModule
 
 
 
