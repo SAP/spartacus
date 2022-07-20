@@ -22132,7 +22132,7 @@
     "type": "MemoizedSelector<StateWithCheckout, CheckoutStepsState>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutSteps has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCheckoutDetails' from 'CheckoutOccEndpoints' (imported from '@spartacus/checkout/base/occ')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23712,7 +23712,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'paymentTypes' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "By leveraging TS' type augmentation, it's part of the 'OccEndpoints'.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       },
       {
@@ -23732,7 +23732,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'placeOrder' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "Moved to the order. Because of TS' type augmentation, it will be part of the 'OccEndpoints'.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       },
       {
@@ -23752,7 +23752,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'setCartCostCenter' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "By leveraging TS' type augmentation, it's part of the 'OccEndpoints'.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       },
       {
@@ -23772,7 +23772,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'setCartPaymentType' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "Moved to the b2b-checkout. Because of TS' type augmentation, it will be part of the 'OccEndpoints'.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       }
     ]
@@ -87383,7 +87383,7 @@
     "type": "CheckoutConfig",
     "isDeleted": true,
     "deletedComment": "Variable defaultB2bCheckoutConfig has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'defaultB2BCheckoutConfig' instead (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",

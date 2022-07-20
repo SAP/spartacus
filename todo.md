@@ -22,13 +22,11 @@ Variable getCheckoutSteps
 
 - [ ]  Variable getCheckoutSteps is DELETED
 
-
 Variable getCheckoutStepsState
 --------------------------
 @spartacus/checkout/core
 
 - [ ]  Variable getCheckoutStepsState is DELETED
-
 
 Interface CheckoutState
 --------------------------
@@ -38,7 +36,6 @@ Interface CheckoutState
 - [ ]  PropertySignature orderType is DELETED
 - [ ]  PropertySignature paymentTypes is DELETED
 - [ ]  PropertySignature steps is DELETED
-
 
 --------------------------
 @spartacus/checkout/core
@@ -50,17 +47,6 @@ Variable PAYMENT_TYPE_NORMALIZER
 @spartacus/checkout/core
 
 - [ ]  Variable PAYMENT_TYPE_NORMALIZER is DELETED
-
-
-Interface CheckoutOccEndpoints
---------------------------
-@spartacus/checkout/occ
-
-- [ ]  PropertySignature loadCheckoutDetails is DELETED
-- [ ]  PropertySignature paymentTypes is DELETED
-- [ ]  PropertySignature placeOrder is DELETED
-- [ ]  PropertySignature setCartCostCenter is DELETED
-- [ ]  PropertySignature setCartPaymentType is DELETED
 
 Variable checkoutPaymentSteps
 --------------------------
@@ -74,9 +60,3 @@ Variable checkoutShippingSteps
 @spartacus/checkout/root
 
 - [ ]  Variable checkoutShippingSteps is DELETED
-
-Variable defaultB2bCheckoutConfig
---------------------------
-@spartacus/setup
-
-- [ ]  Variable defaultB2bCheckoutConfig is DELETED
