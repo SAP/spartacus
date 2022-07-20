@@ -1,8 +1,8 @@
 x (A) data structure
 centre camera on sensible location
-add labels for locations
+x add labels for locations
 place globe correctly on the page
-flesh out the sample data
+x flesh out the sample data
 swap labels for custom html pins
 
 # optional:
