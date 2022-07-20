@@ -49,33 +49,34 @@ export class CheckoutPaymentTypeComponent {
     ),
     this.paymentTypes$,
   ]).pipe(
-    map(([prevSelected, availablePaymentTypes]) => {
-      if (prevSelected) {
+    map(
+      ([selectedPaymentType, availablePaymentTypes]: [
+        PaymentType | undefined,
+        PaymentType[]
+      ]) => {
         if (
+          selectedPaymentType &&
           availablePaymentTypes.find((availablePaymentType) => {
-            return availablePaymentType.code === prevSelected.code;
+            return availablePaymentType.code === selectedPaymentType.code;
           })
         ) {
-          return prevSelected;
+          return selectedPaymentType;
+        }
+        if (availablePaymentTypes.length) {
+          this.busy$.next(true);
+          this.checkoutPaymentTypeFacade
+            .setPaymentType(
+              availablePaymentTypes[0].code as string,
+              this.poNumberInputElement?.nativeElement?.value
+            )
+            .subscribe({
+              complete: () => this.onSuccess(),
+              error: () => this.onError(),
+            });
+          return availablePaymentTypes[0];
         }
       }
-      if (availablePaymentTypes.length !== 0) {
-        this.busy$.next(true);
-        this.checkoutPaymentTypeFacade
-          .setPaymentType(
-            availablePaymentTypes[0].code as string,
-            this.poNumberInputElement?.nativeElement?.value
-          )
-          .subscribe({
-            complete: () => this.onSuccess(),
-            error: () => this.onError(),
-          });
-        return availablePaymentTypes[0];
-      }
-      // } else {
-      //   return availablePaymentTypes[1];
-      // }
-    }),
+    ),
     filter(isNotUndefined),
     distinctUntilChanged(),
     tap((selected) => {
