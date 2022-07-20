@@ -1,0 +1,12 @@
+.card-body {
+  @extend .container !optional;
+
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr;
+
+  .card-title {
+    grid-column: 1 / 3;
+  }
+}

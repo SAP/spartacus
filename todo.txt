@@ -1,7 +1,7 @@
 x (A) data structure
 x centre camera on sensible location
 x add labels for locations
-place globe correctly on the page
+x place globe correctly on the page
 x flesh out the sample data
 swap labels for custom html pins
 
