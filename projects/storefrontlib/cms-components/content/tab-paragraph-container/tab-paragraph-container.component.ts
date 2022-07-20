@@ -2,10 +2,8 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   OnInit,
   QueryList,
-  ViewChild,
   ViewChildren,
 } from '@angular/core';
 import {
@@ -13,10 +11,6 @@ import {
   CMSTabParagraphContainer,
   WindowRef,
 } from '@spartacus/core';
-// import Globe from 'globe.gl';
-import * as THREE from 'three';
-import ThreeGlobe from 'three-globe';
-// import TrackballControls from 'three-trackballcontrols';
 
 import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
@@ -36,9 +30,6 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   children!: QueryList<ComponentWrapperDirective>;
 
   tabTitleParams: (Observable<any> | null)[] = [];
-
-  @ViewChild('globeViz') globeViz: ElementRef<HTMLElement>;
-  // myGlobe = Globe();
 
   constructor(
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
@@ -103,84 +94,6 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
     }
-
-    // const N = 300;
-    // const gData = [1,1,1,1,1,1,1,1,1,1,1,1,].map(() => ({
-    //   lat: (Math.random() - 0.5) * 180,
-    //   lng: (Math.random() - 0.5) * 360,
-    //   size: Math.random() / 3,
-    //   color: ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)]
-    // }));
-
-    // console.log(this.globeViz);
-    // Globe()
-    //   .globeImageUrl('http://unpkg.com/three-globe/example/img/earth-night.jpg')
-    //   .pointsData(gData)
-    //   .pointAltitude('size')
-    //   .pointColor('color')
-    // (this.globeViz.nativeElement);
-
-    // this.myGlobe(this.globeViz.nativeElement).globeImageUrl(
-    //   'https://unpkg.com/three-globe/example/img/earth-night.jpg'
-    // ).pointsData([]);
-
-    // const myGlobe = new ThreeGlobe().globeImageUrl(
-    //   'http://unpkg.com/three-globe/example/img/earth-night.jpg'
-    // );
-    // .pointsData(myData);
-
-    // const myScene = new THREE.Scene();
-    // myScene.add(myGlobe);
-
-    const gData = [1, 2, 3, 4, 5, 5, 6].map(() => ({
-      lat: (Math.random() - 0.5) * 180,
-      lng: (Math.random() - 0.5) * 360,
-      size: Math.random() / 3,
-      color: ['red', 'white', 'blue', 'green'][Math.round(Math.random() * 3)],
-    }));
-
-    const Globe = new ThreeGlobe()
-      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-dark.jpg')
-      .pointsData(gData)
-      .pointAltitude('size')
-      .pointColor('color');
-
-    setTimeout(() => {
-      gData.forEach((d) => (d.size = Math.random()));
-      Globe.pointsData(gData);
-    }, 4000);
-
-    // Setup renderer
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    this.globeViz.nativeElement.appendChild(renderer.domElement);
-
-    // Setup scene
-    const scene = new THREE.Scene();
-    scene.add(Globe);
-    scene.add(new THREE.AmbientLight(0xbbbbbb));
-    scene.add(new THREE.DirectionalLight(0xffffff, 0.6));
-
-    // Setup camera
-    const camera = new THREE.PerspectiveCamera();
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    camera.position.z = 500;
-
-    // Add camera controls
-    const tbControls = new TrackballControls(camera, renderer.domElement)();
-    tbControls.minDistance = 101;
-    tbControls.rotateSpeed = 5;
-    tbControls.zoomSpeed = 0.8;
-
-    // Kick-off renderer
-    (function animate() {
-      // IIFE
-      // Frame cycle
-      tbControls.update();
-      renderer.render(scene, camera);
-      requestAnimationFrame(animate);
-    })();
   }
 
   tabCompLoaded(componentRef: any): void {
