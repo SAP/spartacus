@@ -2090,8 +2090,8 @@ Class PaymentMethodComponent has been removed and is no longer part of the publi
 # Class PaymentMethodModule 
 ## @spartacus/checkout/components
 
-
-Class PaymentMethodModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentMethodModule
 
 
 
@@ -2209,7 +2209,7 @@ renamed to PAYMENT_CARD_TYPE_NORMALIZER
 
 
 Interface CardTypesState has been removed and is no longer part of the public API.
-
+The card types is no longer found in the NgRX store. You can finf
 
 
 

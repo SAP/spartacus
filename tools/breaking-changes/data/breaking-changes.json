@@ -13050,9 +13050,10 @@
     "kind": "Class",
     "name": "PaymentMethodModule",
     "members": [],
-    "isDeleted": true,
-    "deletedComment": "Class PaymentMethodModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPaymentMethodModule",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -14430,7 +14431,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Interface CardTypesState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "The card types is no longer found in the NgRX store. You can finf",
     "breakingChanges": [
       {
         "change": "INTERFACE_DELETED",

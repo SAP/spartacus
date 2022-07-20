@@ -47,12 +47,6 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
       'Class PaymentMethodComponent has been removed and is no longer part of the public API. ',
   },
   {
-    node: 'PaymentMethodModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PaymentMethodModule has been removed and is no longer part of the public API. ',
-  },
-  {
     node: 'PlaceOrderComponent',
     importPath: '@spartacus/checkout/components',
     comment:
@@ -110,7 +104,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CardTypesState',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Interface CardTypesState has been removed and is no longer part of the public API. ',
+      'Interface CardTypesState has been removed and is no longer part of the public API. The card types is no longer found in the NgRX store. You can finf',
   },
   {
     node: 'CHECKOUT_DETAILS',
