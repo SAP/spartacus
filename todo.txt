@@ -1,0 +1,12 @@
+x (A) data structure
+centre camera on sensible location
+add labels for locations
+place globe correctly on the page
+flesh out the sample data
+swap labels for custom html pins
+
+# optional:
+"real" api to serve the data
+use cms/outlets in spartacus
+calculate the CO2 footprint from the distance between the points
+calculate the CO2 footprint for each component
