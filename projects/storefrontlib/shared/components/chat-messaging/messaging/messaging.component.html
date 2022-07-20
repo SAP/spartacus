@@ -57,7 +57,7 @@
         [maxLength]="messageDetails.characterLimit || messageTextLimit"
         [(ngModel)]="messageText"
       />
-      <p>
+      <p id="message-footer">
         {{
           'chatMessaging.charactersLeft'
             | cxTranslate: { count: inputCharacterLeft | async }

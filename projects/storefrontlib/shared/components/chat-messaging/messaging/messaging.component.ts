@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from 'projects/storefrontlib/cms-components';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -8,8 +9,9 @@ import { MessageDetails } from './messaging.model';
   selector: 'cx-messaging',
   templateUrl: './messaging.component.html',
 })
-export class MessagingComponent implements OnInit {
+export class MessagingComponent implements OnInit, AfterViewInit {
   @Input() messageDetails$: Observable<MessageDetails>;
+  @Input() scrollToInput?: boolean = true;
 
   iconTypes = ICON_TYPE;
   messageTextLimit: number = 2000;
@@ -20,9 +22,19 @@ export class MessagingComponent implements OnInit {
       map((details) => details.characterLimit || this.messageTextLimit)
     );
   }
-  constructor() {}
+  constructor(protected windowRef: WindowRef) {}
 
   ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    if (this.scrollToInput) {
+      setTimeout(() => {
+        this.windowRef.document
+          .getElementById('message-footer')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 500);
+    }
+  }
 
   getIntitials(name: string) {
     const names = name.split(' ');
