@@ -1,5 +1,5 @@
 x (A) data structure
-centre camera on sensible location
+x centre camera on sensible location
 x add labels for locations
 place globe correctly on the page
 x flesh out the sample data
