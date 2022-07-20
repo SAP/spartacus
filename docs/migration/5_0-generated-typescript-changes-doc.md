@@ -2209,7 +2209,7 @@ renamed to PAYMENT_CARD_TYPE_NORMALIZER
 
 
 Interface CardTypesState has been removed and is no longer part of the public API.
-The card types is no longer found in the NgRX store. You can finf
+The card types is no longer found in the NgRX store. You can find the card type 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 

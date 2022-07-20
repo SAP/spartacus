@@ -92,7 +92,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CardTypesState',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Interface CardTypesState has been removed and is no longer part of the public API. The card types is no longer found in the NgRX store. You can finf',
+      "Interface CardTypesState has been removed and is no longer part of the public API. The card types is no longer found in the NgRX store. You can find the card type 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'CHECKOUT_DETAILS',
