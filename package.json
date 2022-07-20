@@ -123,6 +123,7 @@
     "@ngrx/store": "^13.0.2",
     "@nguniversal/express-engine": "^13.1.1",
     "@types/googlemaps": "^3.37.5",
+    "@types/three": "^0.142.0",
     "angular-oauth2-oidc": "^13.0.1",
     "bootstrap": "^4.6.1",
     "comment-json": "^4.1.0",
@@ -133,6 +134,9 @@
     "ngx-infinite-scroll": "^8.0.0",
     "parse5": "^6.0.1",
     "rxjs": "^6.6.0",
+    "three": "^0.142.0",
+    "three-globe": "^2.24.6",
+    "three-trackballcontrols": "^0.9.0",
     "ts-loader": "^6.0.4",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
