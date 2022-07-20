@@ -14454,7 +14454,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is no used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details through 'getCheckoutDetailsState' in CheckoutQueryFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",

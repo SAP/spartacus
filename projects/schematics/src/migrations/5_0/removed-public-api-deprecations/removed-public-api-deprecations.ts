@@ -98,7 +98,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CHECKOUT_DETAILS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API. ',
+      "Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API. It is no used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details through 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'CheckoutActions',

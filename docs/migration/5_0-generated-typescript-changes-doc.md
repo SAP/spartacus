@@ -2218,7 +2218,7 @@ The card types is no longer found in the NgRX store. You can finf
 
 
 Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API.
-
+It is no used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details through 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
