@@ -20,19 +20,19 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'DeleteSavedCartEvent',
     importPath: '@spartacus/cart/saved-cart/root',
     comment:
-      'Class DeleteSavedCartEvent has been removed and is no longer part of the public API. ',
+      "Class DeleteSavedCartEvent has been removed and is no longer part of the public API. Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartEvent.",
   },
   {
     node: 'DeleteSavedCartFailEvent',
     importPath: '@spartacus/cart/saved-cart/root',
     comment:
-      'Class DeleteSavedCartFailEvent has been removed and is no longer part of the public API. ',
+      "Class DeleteSavedCartFailEvent has been removed and is no longer part of the public API. Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartFailEvent.",
   },
   {
     node: 'DeleteSavedCartSuccessEvent',
     importPath: '@spartacus/cart/saved-cart/root',
     comment:
-      'Class DeleteSavedCartSuccessEvent has been removed and is no longer part of the public API. ',
+      "Class DeleteSavedCartSuccessEvent has been removed and is no longer part of the public API. Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartSuccessEvent.",
   },
   {
     node: 'CheckoutDetailsService',
@@ -1310,121 +1310,121 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'RESET_WISH_LIST_DETAILS',
     importPath: '@spartacus/core',
     comment:
-      'Variable CartActions.RESET_WISH_LIST_DETAILS has been removed and is no longer part of the public API. ',
+      'Variable CartActions.RESET_WISH_LIST_DETAILS has been removed and is no longer part of the public API. It is not used anymore.',
   },
   {
     node: 'SET_TEMP_CART',
     importPath: '@spartacus/core',
     comment:
-      'Variable CartActions.SET_TEMP_CART has been removed and is no longer part of the public API. ',
+      'Variable CartActions.SET_TEMP_CART has been removed and is no longer part of the public API. It is not used anymore.',
   },
   {
     node: 'SetTempCart',
     importPath: '@spartacus/core',
     comment:
-      'Class CartActions.SetTempCart has been removed and is no longer part of the public API. ',
+      'Class CartActions.SetTempCart has been removed and is no longer part of the public API. It is not used anymore.',
   },
   {
     node: 'CartModule',
     importPath: '@spartacus/core',
     comment:
-      'Class CartModule has been removed and is no longer part of the public API. ',
+      "Class CartModule has been removed and is no longer part of the public API. While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.",
   },
   {
     node: 'CartOccModule',
     importPath: '@spartacus/core',
     comment:
-      'Class CartOccModule has been removed and is no longer part of the public API. ',
+      "Class CartOccModule has been removed and is no longer part of the public API. While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.",
   },
   {
     node: 'getActiveCartId',
     importPath: '@spartacus/core',
     comment:
-      'Variable MultiCartSelectors.getActiveCartId has been removed and is no longer part of the public API. ',
+      "Variable MultiCartSelectors.getActiveCartId has been removed and is no longer part of the public API. Use 'getCartIdByTypeFactory' instead",
   },
   {
     node: 'getWishListId',
     importPath: '@spartacus/core',
     comment:
-      'Variable MultiCartSelectors.getWishListId has been removed and is no longer part of the public API. ',
+      "Variable MultiCartSelectors.getWishListId has been removed and is no longer part of the public API. Use 'getCartIdByTypeFactory' instead",
   },
   {
     node: 'OccUserOrderAdapter',
     importPath: '@spartacus/core',
     comment:
-      'Class OccUserOrderAdapter has been removed and is no longer part of the public API. ',
+      'Class OccUserOrderAdapter has been removed and is no longer part of the public API. Use OccOrderAdapter in @spartacus/order/occ instead',
   },
   {
     node: 'OccUserReplenishmentOrderAdapter',
     importPath: '@spartacus/core',
     comment:
-      'Class OccUserReplenishmentOrderAdapter has been removed and is no longer part of the public API. ',
+      'Class OccUserReplenishmentOrderAdapter has been removed and is no longer part of the public API. Use OccReplenishmentOrderAdapter in @spartacus/order/occ instead',
   },
   {
     node: 'OrderEntryPromotionsService',
     importPath: '@spartacus/core',
     comment:
-      'Class OrderEntryPromotionsService has been removed and is no longer part of the public API. ',
+      'Class OrderEntryPromotionsService has been removed and is no longer part of the public API. It is not used anymore.',
   },
   {
     node: 'SaveCartAdapter',
     importPath: '@spartacus/core',
     comment:
-      'Class SaveCartAdapter has been removed and is no longer part of the public API. ',
+      "Class SaveCartAdapter has been removed and is no longer part of the public API. Use CartAdapter.save instead from '@spartacus/cart/base/core'",
   },
   {
     node: 'SaveCartConnector',
     importPath: '@spartacus/core',
     comment:
-      'Class SaveCartConnector has been removed and is no longer part of the public API. ',
+      "Class SaveCartConnector has been removed and is no longer part of the public API. Use CartConnector.save instead from '@spartacus/cart/base/core'",
   },
   {
     node: 'USER_ORDER_DETAILS',
     importPath: '@spartacus/core',
     comment:
-      'Variable USER_ORDER_DETAILS has been removed and is no longer part of the public API. ',
+      "Variable USER_ORDER_DETAILS has been removed and is no longer part of the public API. It is replaced by ORDER_DETAILS from '@spartacus/order/core', but the constant value is not the same.",
   },
   {
     node: 'USER_ORDERS',
     importPath: '@spartacus/core',
     comment:
-      'Variable USER_ORDERS has been removed and is no longer part of the public API. ',
+      "Variable USER_ORDERS has been removed and is no longer part of the public API. It is replaced by ORDERS from '@spartacus/order/core', but the constant value is not the same.",
   },
   {
     node: 'USER_REPLENISHMENT_ORDER_DETAILS',
     importPath: '@spartacus/core',
     comment:
-      'Variable USER_REPLENISHMENT_ORDER_DETAILS has been removed and is no longer part of the public API. ',
+      "Variable USER_REPLENISHMENT_ORDER_DETAILS has been removed and is no longer part of the public API. It is replaced by REPLENISHMENT_ORDER_DETAILS from '@spartacus/order/core', but the constant value is not the same.",
   },
   {
     node: 'USER_REPLENISHMENT_ORDERS',
     importPath: '@spartacus/core',
     comment:
-      'Variable USER_REPLENISHMENT_ORDERS has been removed and is no longer part of the public API. ',
+      "Variable USER_REPLENISHMENT_ORDERS has been removed and is no longer part of the public API. It is replaced by REPLENISHMENT_ORDERS from '@spartacus/order/core', but the constant value is not the same.",
   },
   {
     node: 'USER_RETURN_REQUEST_DETAILS',
     importPath: '@spartacus/core',
     comment:
-      'Variable USER_RETURN_REQUEST_DETAILS has been removed and is no longer part of the public API. ',
+      "Variable USER_RETURN_REQUEST_DETAILS has been removed and is no longer part of the public API. It is replaced by RETURN_REQUEST_DETAILS from '@spartacus/order/core', but the constant value is not the same.",
   },
   {
     node: 'USER_RETURN_REQUESTS',
     importPath: '@spartacus/core',
     comment:
-      'Variable USER_RETURN_REQUESTS has been removed and is no longer part of the public API. ',
+      "Variable USER_RETURN_REQUESTS has been removed and is no longer part of the public API. It is replaced by RETURN_REQUESTS from '@spartacus/order/core', but the constant value is not the same.",
   },
   {
     node: 'UserAccountFacadeTransitionalToken',
     importPath: '@spartacus/core',
     comment:
-      'Class UserAccountFacadeTransitionalToken has been removed and is no longer part of the public API. ',
+      'Class UserAccountFacadeTransitionalToken has been removed and is no longer part of the public API. Use UserAccountFacade instead.',
   },
   {
     node: 'UserOccTransitional_4_2_Module',
     importPath: '@spartacus/core',
     comment:
-      'Class UserOccTransitional_4_2_Module has been removed and is no longer part of the public API. ',
+      'Class UserOccTransitional_4_2_Module has been removed and is no longer part of the public API. Use UserOccModule instead.',
   },
   {
     node: 'UserOccTransitionalModule',
@@ -1436,43 +1436,43 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'UserOrderAdapter',
     importPath: '@spartacus/core',
     comment:
-      'Class UserOrderAdapter has been removed and is no longer part of the public API. ',
+      'Class UserOrderAdapter has been removed and is no longer part of the public API. Use OrderAdapter in @spartacus/order/core.',
   },
   {
     node: 'UserOrderConnector',
     importPath: '@spartacus/core',
     comment:
-      'Class UserOrderConnector has been removed and is no longer part of the public API. ',
+      'Class UserOrderConnector has been removed and is no longer part of the public API. Use OrderConnector in @spartacus/order/core.',
   },
   {
     node: 'UserOrderService',
     importPath: '@spartacus/core',
     comment:
-      'Class UserOrderService has been removed and is no longer part of the public API. ',
+      'Class UserOrderService has been removed and is no longer part of the public API. Use OrderFacade in @spartacus/order/root instead.',
   },
   {
     node: 'UserReplenishmentOrderAdapter',
     importPath: '@spartacus/core',
     comment:
-      'Class UserReplenishmentOrderAdapter has been removed and is no longer part of the public API. ',
+      'Class UserReplenishmentOrderAdapter has been removed and is no longer part of the public API. Use ReplenishmentOrderAdapter in @spartacus/order/core.',
   },
   {
     node: 'UserReplenishmentOrderConnector',
     importPath: '@spartacus/core',
     comment:
-      'Class UserReplenishmentOrderConnector has been removed and is no longer part of the public API. ',
+      'Class UserReplenishmentOrderConnector has been removed and is no longer part of the public API. Use ReplenishmentOrderConnector in @spartacus/order/core.',
   },
   {
     node: 'UserReplenishmentOrderService',
     importPath: '@spartacus/core',
     comment:
-      'Class UserReplenishmentOrderService has been removed and is no longer part of the public API. ',
+      'Class UserReplenishmentOrderService has been removed and is no longer part of the public API. Use ReplenishmentOrderFacade in @spartacus/order/root instead.',
   },
   {
     node: 'UserTransitional_4_2_Module',
     importPath: '@spartacus/core',
     comment:
-      'Class UserTransitional_4_2_Module has been removed and is no longer part of the public API. ',
+      'Class UserTransitional_4_2_Module has been removed and is no longer part of the public API. Use UserModule instead.',
   },
   {
     node: 'UserTransitionalModule',

@@ -115,14 +115,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/quick-order/root',
       deprecatedNode: 'removeEntry',
       comment:
-        "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderFacade'. ",
+        "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderFacade'. Use `softDeleteEntry` instead.",
     },
     {
       class: 'QuickOrderFacade',
       importPath: '@spartacus/cart/quick-order/root',
       deprecatedNode: 'search',
       comment:
-        "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderFacade'. ",
+        "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderFacade'. Use `searchProducts` instead.",
     },
     {
       class: 'QuickOrderOrderEntriesContext',
@@ -143,21 +143,21 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/saved-cart/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'AddToSavedCartComponent'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'AddToSavedCartComponent'. Use activeCartFacade instead.",
     },
     {
       class: 'SavedCartAdapter',
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'saveCart',
       comment:
-        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartAdapter'. ",
+        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartAdapter'. Instead, use the method 'save' from class 'CartAdapter' in @spartacus/cart/base/core",
     },
     {
       class: 'SavedCartConnector',
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'saveCart',
       comment:
-        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartConnector'. ",
+        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartConnector'. Instead, use the method 'save' from class 'CartConnector' in @spartacus/cart/base/core",
     },
     {
       class: 'SavedCartEventBuilder',
@@ -171,7 +171,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'registerDeleteSavedCartEvents',
       comment:
-        "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'. Use 'registerDeleteCart' Method from Class 'CartEventBuilder' instead.",
+        "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'. Use 'registerDeleteCart' Method from Class 'CartEventBuilder' from @spartacus/cart/base/core instead.",
     },
     {
       class: 'SavedCartService',
@@ -192,28 +192,28 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'SavedCartService'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'SavedCartService'. It is replaced by userAccountFacade.",
     },
     {
       class: 'OccSavedCartAdapter',
       importPath: '@spartacus/cart/saved-cart/occ',
       deprecatedNode: 'getSaveCartEndpoint',
       comment:
-        "// TODO:Spartacus - Method 'getSaveCartEndpoint' was removed from Class 'OccSavedCartAdapter'. ",
+        "// TODO:Spartacus - Method 'getSaveCartEndpoint' was removed from Class 'OccSavedCartAdapter'. It is not used anymore.  The saved cart request is now done from class 'OccCartAdapter' in '@spartacus/cart/base/occ'",
     },
     {
       class: 'OccSavedCartAdapter',
       importPath: '@spartacus/cart/saved-cart/occ',
       deprecatedNode: 'saveCart',
       comment:
-        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'OccSavedCartAdapter'. ",
+        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'OccSavedCartAdapter'. It is not used anymore.  The saved cart request is now done via method `save` from class 'OccCartAdapter' in '@spartacus/cart/base/occ'",
     },
     {
       class: 'NewSavedCartOrderEntriesContext',
       importPath: '@spartacus/cart/saved-cart/root',
       deprecatedNode: 'actionsSubject',
       comment:
-        "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'NewSavedCartOrderEntriesContext'. ",
+        "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'NewSavedCartOrderEntriesContext'. It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.",
     },
     {
       class: 'NewSavedCartOrderEntriesContext',
@@ -234,7 +234,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/saved-cart/root',
       deprecatedNode: 'actionsSubject',
       comment:
-        "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'SavedCartOrderEntriesContext'. ",
+        "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'SavedCartOrderEntriesContext'. It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.",
     },
     {
       class: 'SavedCartOrderEntriesContext',
@@ -248,14 +248,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cdc/root',
       deprecatedNode: 'authRedirectService',
       comment:
-        "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'CdcLogoutGuard'. ",
+        "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'CdcLogoutGuard'. It is not used anymore.  It was there only to pass to the super() contructor and the super() constructor had this parameter removed.",
     },
     {
       class: 'ProfileTagPushEventsService',
       importPath: '@spartacus/cds',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'ProfileTagPushEventsService'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'ProfileTagPushEventsService'. Use activeCartFacade instead.",
     },
     {
       class: 'CartNotEmptyGuard',
@@ -850,7 +850,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'cartSelector$',
       comment:
-        "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'ActiveCartService'. It is renamed to cartEntity$.",
     },
     {
       class: 'ActiveCartService',
@@ -878,14 +878,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'isEmail',
       comment:
-        "// TODO:Spartacus - Method 'isEmail' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Method 'isEmail' was removed from Class 'ActiveCartService'. Instead, use 'isEmail' util function from '@spartacus/cart/base/core'.",
     },
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'isEmpty',
       comment:
-        "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'ActiveCartService'. Instead, use 'isEmpty' util function from '@spartacus/cart/base/core'.",
     },
     {
       class: 'ActiveCartService',
@@ -899,14 +899,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'isJustLoggedIn',
       comment:
-        "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'ActiveCartService'. Instead, use 'isJustLoggedIn' util function from '@spartacus/cart/base/core'.",
     },
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'multiCartService',
       comment:
-        "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'ActiveCartService'. Use multiCartFacade instead.",
     },
     {
       class: 'ActiveCartService',
@@ -920,21 +920,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'requireLoadedCartForGuestMerge',
       comment:
-        "// TODO:Spartacus - Method 'requireLoadedCartForGuestMerge' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Method 'requireLoadedCartForGuestMerge' was removed from Class 'ActiveCartService'. It is not used anymore.",
     },
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'store',
       comment:
-        "// TODO:Spartacus - Property 'store' was removed from Class 'ActiveCartService'. ",
-    },
-    {
-      class: 'AddUserAddressEvent',
-      importPath: '@spartacus/core',
-      deprecatedNode: 'userId',
-      comment:
-        "// TODO:Spartacus - Property 'userId' was removed from Class 'AddUserAddressEvent'. ",
+        "// TODO:Spartacus - Property 'store' was removed from Class 'ActiveCartService'. It is not used anymore.",
     },
     {
       class: 'AnonymousConsentsService',
@@ -1025,7 +1018,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'handleBadCartRequest',
       comment:
-        "// TODO:Spartacus - Method 'handleBadCartRequest' was removed from Class 'BadRequestHandler'. ",
+        "// TODO:Spartacus - Method 'handleBadCartRequest' was removed from Class 'BadRequestHandler'. 'handleBadCartRequest' is moved to Class 'BadCartRequestHandler' in  '@spartacus/cart/base/core'",
     },
     {
       class: 'BadRequestHandler',
@@ -1081,14 +1074,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'forRoot',
       comment:
-        "// TODO:Spartacus - Method 'forRoot' was removed from Class 'CartPersistenceModule'. ",
+        "// TODO:Spartacus - Method 'forRoot' was removed from Class 'CartPersistenceModule'. The providers previously loaded by 'forRoot' are now loaded with the module.",
     },
     {
       class: 'CartValidationService',
       importPath: '@spartacus/core',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartValidationService'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartValidationService'. Use activeCartFacade instead.",
     },
     {
       class: 'CartVoucherService',
@@ -1210,13 +1203,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "The 'getParams' method's signature changed to: 'getParams(): Observable<{\n        [_: string]: any;\n    } | undefined>'",
     },
     {
-      class: 'DeleteUserAddressEvent',
-      importPath: '@spartacus/core',
-      deprecatedNode: 'userId',
-      comment:
-        "// TODO:Spartacus - Property 'userId' was removed from Class 'DeleteUserAddressEvent'. ",
-    },
-    {
       class: 'ForbiddenHandler',
       importPath: '@spartacus/core',
       deprecatedNode: 'handleError',
@@ -1291,7 +1277,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'authRedirectService',
       comment:
-        "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'NotAuthGuard'. ",
+        "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'NotAuthGuard'. It is not used anymore.",
     },
     {
       class: 'OAuthLibWrapperService',
@@ -1431,35 +1417,35 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'cartConfigService',
       comment:
-        "// TODO:Spartacus - Property 'cartConfigService' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'cartConfigService' was removed from Class 'SelectiveCartService'. It is not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'cartId',
       comment:
-        "// TODO:Spartacus - Property 'cartId' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'cartId' was removed from Class 'SelectiveCartService'. Use getSelectiveCartId() instead.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'cartId$',
       comment:
-        "// TODO:Spartacus - Property 'cartId$' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'cartId$' was removed from Class 'SelectiveCartService'. Use getSelectiveCartId() instead.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'cartSelector$',
       comment:
-        "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'SelectiveCartService'. It is not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'customerId',
       comment:
-        "// TODO:Spartacus - Property 'customerId' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'customerId' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
@@ -1473,21 +1459,21 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'isEmpty',
       comment:
-        "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'isEnabled',
       comment:
-        "// TODO:Spartacus - Method 'isEnabled' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Method 'isEnabled' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'isJustLoggedIn',
       comment:
-        "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
@@ -1501,49 +1487,49 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'load',
       comment:
-        "// TODO:Spartacus - Method 'load' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Method 'load' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'multiCartService',
       comment:
-        "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'SelectiveCartService'. Use multiCartFacade instead.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'PREVIOUS_USER_ID_INITIAL_VALUE',
       comment:
-        "// TODO:Spartacus - Property 'PREVIOUS_USER_ID_INITIAL_VALUE' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'PREVIOUS_USER_ID_INITIAL_VALUE' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'previousUserId',
       comment:
-        "// TODO:Spartacus - Property 'previousUserId' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'previousUserId' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'store',
       comment:
-        "// TODO:Spartacus - Property 'store' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'store' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'userId',
       comment:
-        "// TODO:Spartacus - Property 'userId' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'userId' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SemanticPathService',
@@ -1600,13 +1586,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'getValue',
       comment:
         "The 'getValue' method's signature changed to: 'getValue(  param: string): string | undefined'",
-    },
-    {
-      class: 'UpdateUserAddressEvent',
-      importPath: '@spartacus/core',
-      deprecatedNode: 'userId',
-      comment:
-        "// TODO:Spartacus - Property 'userId' was removed from Class 'UpdateUserAddressEvent'. ",
     },
     {
       class: 'ClaimCustomerCoupon',
@@ -1676,14 +1655,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'get',
       comment:
-        "// TODO:Spartacus - Method 'get' was removed from Class 'UserService'. ",
+        "// TODO:Spartacus - Method 'get' was removed from Class 'UserService'. Use 'UserAccountFacade.get()' from '@spartacus/user' instead.",
     },
     {
       class: 'UserService',
       importPath: '@spartacus/core',
       deprecatedNode: 'userAccountFacade',
       comment:
-        "// TODO:Spartacus - Property 'userAccountFacade' was removed from Class 'UserService'. ",
+        "// TODO:Spartacus - Property 'userAccountFacade' was removed from Class 'UserService'. It is not used anymore.",
     },
     {
       class: 'UserService',
