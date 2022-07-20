@@ -194,13 +194,13 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CLEAR_CHECKOUT_DELIVERY_MODE_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.",
   },
   {
     node: 'CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.",
   },
   {
     node: 'CLEAR_CHECKOUT_DELIVERY_MODE',
