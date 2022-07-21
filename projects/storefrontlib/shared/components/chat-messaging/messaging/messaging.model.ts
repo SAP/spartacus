@@ -6,8 +6,8 @@ export interface MessageDetails {
 
 export interface MessageEvent {
   author: string;
-  createdAt: string;
-  message: string;
+  createdAt?: string;
+  message?: string;
   attachments?: Array<Attachment>;
 }
 

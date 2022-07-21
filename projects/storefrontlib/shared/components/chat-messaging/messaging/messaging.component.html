@@ -8,19 +8,8 @@
             class="cx-message-card"
             [ngClass]="event.author !== 'Mark Rivers' ? 'padding-left' : ''"
           >
-            <div
-              class="cx-avatar"
-              [ngClass]="event.author !== 'Mark Rivers' ? 'solution' : ''"
-            >
-              <h1 *ngIf="event.author === 'Mark Rivers'">
-                {{ getIntitials(event?.author) }}
-              </h1>
+            <cx-avatar [event]="event"> </cx-avatar>
 
-              <cx-icon
-                *ngIf="event.author !== 'Mark Rivers'"
-                [type]="iconTypes.HEADSET"
-              ></cx-icon>
-            </div>
             <div>
               <label>{{
                 event.createdAt | cxDate: 'MMMM d, YYYY h:mm aa'
@@ -28,8 +17,8 @@
               <div
                 [ngClass]="
                   event.author === 'Mark Rivers'
-                    ? 'cx-message-issue-text'
-                    : 'cx-message-solution-text'
+                    ? 'cx-message-left-align-text'
+                    : 'cx-message-right-align-text'
                 "
               >
                 {{ event.message }}

@@ -1,1 +1,14 @@
-<p>avatar works!</p>
+<!-- TODO: Verify current user to display left aligned messages -->
+<div
+  class="cx-avatar"
+  [ngClass]="event.author !== 'Mark Rivers' ? 'right-align' : ''"
+>
+  <h1 *ngIf="event.author === 'Mark Rivers'">
+    {{ getIntitials(event?.author) }}
+  </h1>
+
+  <cx-icon
+    *ngIf="event.author !== 'Mark Rivers'"
+    [type]="iconTypes.HEADSET"
+  ></cx-icon>
+</div>
