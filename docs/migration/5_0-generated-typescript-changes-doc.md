@@ -2749,7 +2749,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2758,7 +2758,7 @@ Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of
 
 
 Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2767,7 +2767,7 @@ Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer par
 
 
 Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 

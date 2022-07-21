@@ -446,19 +446,19 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'LoadPaymentTypes',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LoadPaymentTypesFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LoadPaymentTypesSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LoadSupportedDeliveryModes',
