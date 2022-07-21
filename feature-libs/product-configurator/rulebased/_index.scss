@@ -25,7 +25,7 @@ $configurator-rulebased-components: cx-configurator-template,
   cx-configurator-update-message, cx-configurator-product-title,
   cx-configurator-conflict-suggestion, cx-configurator-conflict-description,
   cx-configurator-overview-notification-banner,
-  cx-configuration-conflict-and-error-messages !default;
+  cx-configuration-conflict-and-error-messages, cx-configurator-variant-carousel !default;
 
 $configurator-rulebased-pages: VariantConfigurationTemplate,
   VariantConfigurationOverviewTemplate, CpqConfigurationTemplate,

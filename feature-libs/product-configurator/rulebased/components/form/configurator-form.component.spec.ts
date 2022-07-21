@@ -126,6 +126,9 @@ class MockConfiguratorGroupsService {
   getPreviousGroup(): Observable<string> {
     return of('');
   }
+  isGroupVisited(): Observable<boolean> {
+    return of(true);
+  }
   subscribeToUpdateConfiguration() {}
   setGroupStatusVisited(): void {}
   navigateToConflictSolver(): void {}
@@ -339,6 +342,32 @@ describe('ConfigurationFormComponent', () => {
       ).toHaveBeenCalledTimes(0);
     });
 
+    it('should go to first incomplete group in case the router requires this - has conflicts, but should be skipped', () => {
+      spyOn(
+        configuratorGroupsService,
+        'navigateToConflictSolver'
+      ).and.callThrough();
+      spyOn(
+        configuratorGroupsService,
+        'navigateToFirstIncompleteGroup'
+      ).and.callThrough();
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { resolveIssues: 'true', skipConflicts: 'true' },
+        },
+      });
+      hasConfigurationConflictsObservable = of(true);
+      createComponent().ngOnInit();
+      expect(
+        configuratorGroupsService.navigateToConflictSolver
+      ).toHaveBeenCalledTimes(0);
+      expect(
+        configuratorGroupsService.navigateToFirstIncompleteGroup
+      ).toHaveBeenCalledTimes(1);
+    });
+
     it('should go to first incomplete group in case the router requires this - has no conflicts', () => {
       spyOn(
         configuratorGroupsService,
@@ -412,6 +441,46 @@ describe('ConfigurationFormComponent', () => {
 
     it('should return group ID string', () => {
       expect(createComponent().createGroupId('1234')).toBe('1234-group');
+    });
+  });
+
+  describe('Rendering', () => {
+    it('should support radio button attribute type', () => {
+      const component = createComponent();
+      component.configuration$ = of(ConfigurationTestData.productConfiguration);
+      component.currentGroup$ = of(
+        ConfigurationTestData.productConfiguration.groups[0]
+      );
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-radio-button',
+        1
+      );
+    });
+
+    it('should display the radio button component for attribute type RADIOBUTTON_ADDITIONAL_INPUT', () => {
+      const component = createComponent();
+      const configurationWithAdditionalValueType =
+        ConfigurationTestData.productConfiguration;
+      configurationWithAdditionalValueType.groups[0].attributes?.push({
+        name: 'AdditionalVal',
+        uiType: Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT,
+      });
+      component.configuration$ = of(configurationWithAdditionalValueType);
+      component.currentGroup$ = of(
+        configurationWithAdditionalValueType.groups[0]
+      );
+      fixture.detectChanges();
+      //now we expect 2 attributes resulting in a radio button component
+      CommonConfiguratorTestUtilsService.expectNumberOfElements(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-radio-button',
+        2
+      );
     });
   });
 });

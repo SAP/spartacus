@@ -6,7 +6,6 @@ import {
   NavigationError,
   NavigationStart,
   Router,
-  RouterEvent,
 } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -98,10 +97,10 @@ export class SiteContextRoutesHandler implements OnDestroy {
               event instanceof NavigationCancel
           )
         )
-        .subscribe((event: RouterEvent) => {
+        .subscribe((event) => {
           this.isNavigating = event instanceof NavigationStart;
           if (this.isNavigating) {
-            this.setContextParamsFromRoute(event.url);
+            this.setContextParamsFromRoute((event as NavigationStart).url);
           }
         })
     );

@@ -25,6 +25,10 @@ export interface CmsComponent {
   styleClasses?: string;
 }
 
+export interface CmsComponentWithChildren extends CmsComponent {
+  children?: string;
+}
+
 export enum PageType {
   CONTENT_PAGE = 'ContentPage',
   PRODUCT_PAGE = 'ProductPage',
@@ -107,6 +111,9 @@ export interface CmsBannerComponent extends CmsComponent {
   media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
   urlLink?: string;
   external?: string | boolean;
+  contentPage?: string;
+  product?: string;
+  category?: string;
 }
 
 export enum CmsBannerCarouselEffect {
@@ -173,6 +180,7 @@ export interface CmsNavigationComponent extends CmsComponent {
   notice?: string;
   showLanguageCurrency?: string;
   navigationNode?: CmsNavigationNode;
+  resetMenuOnClose?: boolean;
 }
 
 export interface CmsProductFacetNavigationComponent extends CmsComponent {
@@ -184,6 +192,16 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
 
 export interface CmsAddToCartComponent extends CmsComponent {
   inventoryDisplay?: boolean;
+}
+
+export interface CmsOrderDetailItemsComponent extends CmsComponent {
+  enableAddToCart?: boolean;
+}
+
+export interface CmsPDFDocumentComponent extends CmsComponent {
+  pdfFile?: CmsBannerComponentMedia;
+  title?: string;
+  height?: number;
 }
 
 export interface CmsVideoComponent extends CmsComponent {

@@ -9,7 +9,7 @@ import { CurrentProductService } from '../../current-product.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductAttributesComponent {
-  product$: Observable<Product> = this.currentProductService.getProduct(
+  product$: Observable<Product | null> = this.currentProductService.getProduct(
     ProductScope.ATTRIBUTES
   );
 

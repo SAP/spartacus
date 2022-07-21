@@ -22,6 +22,23 @@ export function goToConfigurationPage(shopName: string, productId: string) {
 }
 
 /**
+ * Navigates to the configuration overview  page
+ */
+export function navigateToOverviewPage() {
+  cy.get('.cx-tab-bar').within(() => {
+    cy.get('a')
+      .filter((index) => index === 1)
+      .click()
+      .then(() => {
+        cy.location('pathname').should(
+          'contain',
+          '/en/USD/configure-overview/vc/product/entityKey/'
+        );
+      });
+  });
+}
+
+/**
  * Register configuration route.
  */
 export function registerConfigurationRoute() {
@@ -349,4 +366,16 @@ export function clickAddToCartBtn(): void {
       cy.location('pathname').should('contain', 'cartEntry/entityKey/');
       checkGlobalMessageNotDisplayed();
     });
+}
+
+/**
+ * Register configuration update route.
+ */
+export function registerConfigurationUpdateRoute() {
+  cy.intercept({
+    method: 'PATCH',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*`,
+  }).as('updateConfig');
 }

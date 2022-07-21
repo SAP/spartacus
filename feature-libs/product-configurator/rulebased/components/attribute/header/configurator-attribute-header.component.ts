@@ -14,6 +14,7 @@ import {
   ConfiguratorGroupsService,
 } from '../../../core';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
@@ -38,7 +39,7 @@ export class ConfiguratorAttributeHeaderComponent
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    protected configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService
+    protected configuratorUiSettings: ConfiguratorUISettingsConfig
   ) {
     super();
   }
@@ -59,8 +60,10 @@ export class ConfiguratorAttributeHeaderComponent
    */
   getRequiredMessageKey(): string {
     if (this.isSingleSelection()) {
-      return 'configurator.attribute.singleSelectRequiredMessage';
-    } else if (this.isMultiSelection()) {
+      return this.isWithAdditionalValues(this.attribute)
+        ? 'configurator.attribute.singleSelectAdditionalRequiredMessage'
+        : 'configurator.attribute.singleSelectRequiredMessage';
+    } else if (this.isMultiSelection) {
       return 'configurator.attribute.multiSelectRequiredMessage';
     } else {
       //input attribute types
@@ -68,7 +71,7 @@ export class ConfiguratorAttributeHeaderComponent
     }
   }
 
-  protected isMultiSelection(): boolean {
+  protected get isMultiSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.CHECKBOXLIST:
       case Configurator.UiType.CHECKBOXLIST_PRODUCT:
@@ -82,9 +85,11 @@ export class ConfiguratorAttributeHeaderComponent
   protected isSingleSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_ADDITIONAL_INPUT:
       case Configurator.UiType.RADIOBUTTON_PRODUCT:
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN_ADDITIONAL_INPUT:
       case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         return true;
@@ -125,7 +130,9 @@ export class ConfiguratorAttributeHeaderComponent
   getConflictMessageKey(): string {
     return this.groupType === Configurator.GroupType.CONFLICT_GROUP
       ? 'configurator.conflict.viewConfigurationDetails'
-      : 'configurator.conflict.viewConflictDetails';
+      : this.isNavigationToConflictEnabled()
+      ? 'configurator.conflict.viewConflictDetails'
+      : 'configurator.conflict.conflictDetected';
   }
 
   /**
@@ -165,7 +172,7 @@ export class ConfiguratorAttributeHeaderComponent
             configuration,
             groupId
           );
-          this.focusAttribute(this.attribute.name);
+          this.focusValue(this.attribute);
           this.scrollToAttribute(this.attribute.name);
         } else {
           this.logWarning('Attribute was not found in any conflict group');
@@ -207,13 +214,8 @@ export class ConfiguratorAttributeHeaderComponent
     }
   }
 
-  /**
-   * Focus a value of the in conflict involved attribute in the group
-   *
-   * @protected
-   */
-  protected focusAttribute(name: string): void {
-    this.onNavigationCompleted(() => this.configUtils.focusAttribute(name));
+  protected focusValue(attribute: Configurator.Attribute): void {
+    this.onNavigationCompleted(() => this.configUtils.focusValue(attribute));
   }
 
   /**
@@ -241,5 +243,14 @@ export class ConfiguratorAttributeHeaderComponent
         )
       )
       .subscribe(callback);
+  }
+  /**
+   * @returns true only if navigation to conflict groups is enabled.
+   */
+  isNavigationToConflictEnabled(): boolean {
+    return (
+      this.configuratorUiSettings.productConfigurator
+        ?.enableNavigationToConflict ?? false
+    );
   }
 }

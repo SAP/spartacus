@@ -3,6 +3,8 @@ import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-saved-cart';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
+// TODO: Remove 'flaky' from file name when the test is fixed
+// https://jira.tools.sap/browse/CXSPA-638
 context('B2B - Saved Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
@@ -175,7 +177,16 @@ context('B2B - Saved Cart', () => {
       it('should update saved cart name and description, and restore it', () => {
         savedCart.updateSavedCartAndRestore(
           sampleData.products[1],
-          sampleData.savedActiveCartForm[0]
+          sampleData.savedActiveCartForm[0],
+          false
+        );
+      });
+
+      it('should update saved cart name and description, and add to current cart', () => {
+        savedCart.updateSavedCartAndRestore(
+          sampleData.products[1],
+          sampleData.savedActiveCartForm[0],
+          true
         );
       });
     });

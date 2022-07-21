@@ -29,7 +29,6 @@ export class OccConfiguratorVariantOverviewNormalizer
     const resultTarget: Configurator.Overview = {
       ...target,
       configId: source.id,
-      totalNumberOfIssues: source.totalNumberOfIssues,
       groups: source.groups?.flatMap((group) => this.convertGroup(group)),
       priceSummary: this.converterService.convert(
         prices,
@@ -37,6 +36,7 @@ export class OccConfiguratorVariantOverviewNormalizer
       ),
       productCode: source.productCode,
     };
+    this.setIssueCounters(resultTarget, source);
     return resultTarget;
   }
 
@@ -59,6 +59,7 @@ export class OccConfiguratorVariantOverviewNormalizer
               attributeId: characteristic.characteristicId,
               value: characteristic.value,
               valueId: characteristic.valueId,
+              valuePrice: characteristic.price,
             };
           })
         : [],
@@ -86,5 +87,15 @@ export class OccConfiguratorVariantOverviewNormalizer
       .translate('configurator.group.general')
       .pipe(take(1))
       .subscribe((generalText) => (group.groupDescription = generalText));
+  }
+
+  protected setIssueCounters(
+    target: Configurator.Overview,
+    source: OccConfigurator.Overview
+  ) {
+    target.totalNumberOfIssues = source.totalNumberOfIssues;
+    target.numberOfConflicts = source.numberOfConflicts;
+    target.numberOfIncompleteCharacteristics =
+      source.numberOfIncompleteCharacteristics;
   }
 }

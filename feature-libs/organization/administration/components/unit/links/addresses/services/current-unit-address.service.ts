@@ -11,7 +11,7 @@ import { CurrentItemService } from '../../../../shared/current-item.service';
 })
 export class CurrentUnitAddressService extends CurrentItemService<Address> {
   // override item$ as we need to use the unit code as well
-  readonly item$: Observable<Address> = this.b2bUnit$.pipe(
+  readonly item$: Observable<Address | undefined> = this.b2bUnit$.pipe(
     filter((unitUid) => Boolean(unitUid)),
     switchMap((unitUid) =>
       this.key$.pipe(switchMap((code: string) => this.getItem(unitUid, code)))
@@ -33,10 +33,13 @@ export class CurrentUnitAddressService extends CurrentItemService<Address> {
     return ROUTE_PARAMS.addressCode;
   }
 
-  protected getItem(unitUid: string, addressId: string): Observable<Address> {
+  protected getItem(
+    unitUid: string,
+    addressId: string
+  ): Observable<Address | undefined> {
     return addressId
       ? this.unitService.getAddress(unitUid, addressId)
-      : of(null);
+      : of(undefined);
   }
 
   getError(code: string): Observable<boolean> {
