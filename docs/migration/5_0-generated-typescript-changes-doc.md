@@ -8927,7 +8927,7 @@ moved to @spartacus/order/occ
 
 
 Class OccUserOrderAdapter has been removed and is no longer part of the public API.
-Use OccOrderAdapter in @spartacus/order/occ instead
+Use OccOrderHistoryAdapter in @spartacus/order/occ instead
 
 
 
@@ -8936,7 +8936,7 @@ Use OccOrderAdapter in @spartacus/order/occ instead
 
 
 Class OccUserReplenishmentOrderAdapter has been removed and is no longer part of the public API.
-Use OccReplenishmentOrderAdapter in @spartacus/order/occ instead
+Use OccReplenishmentOrderHistoryAdapter in @spartacus/order/occ instead
 
 
 
@@ -12524,7 +12524,7 @@ Class UserOccTransitionalModule has been removed and is no longer part of the pu
 
 
 Class UserOrderAdapter has been removed and is no longer part of the public API.
-Use OrderAdapter in @spartacus/order/core.
+Use OrderHistoryAdapter in @spartacus/order/core.
 
 
 
@@ -12533,7 +12533,7 @@ Use OrderAdapter in @spartacus/order/core.
 
 
 Class UserOrderConnector has been removed and is no longer part of the public API.
-Use OrderConnector in @spartacus/order/core.
+Use OrderHistoryConnector in @spartacus/order/core.
 
 
 
@@ -12542,7 +12542,7 @@ Use OrderConnector in @spartacus/order/core.
 
 
 Class UserOrderService has been removed and is no longer part of the public API.
-Use OrderFacade in @spartacus/order/root instead.
+Use OrderHistoryFacade in @spartacus/order/root instead.
 
 
 
@@ -12601,7 +12601,7 @@ store: Store<StateWithUser>
 
 
 Class UserReplenishmentOrderAdapter has been removed and is no longer part of the public API.
-Use ReplenishmentOrderAdapter in @spartacus/order/core.
+Use ReplenishmentOrderHistoryAdapter in @spartacus/order/core.
 
 
 
@@ -12610,7 +12610,7 @@ Use ReplenishmentOrderAdapter in @spartacus/order/core.
 
 
 Class UserReplenishmentOrderConnector has been removed and is no longer part of the public API.
-Use ReplenishmentOrderConnector in @spartacus/order/core.
+Use ReplenishmentOrderHistoryConnector in @spartacus/order/core.
 
 
 
@@ -12619,7 +12619,7 @@ Use ReplenishmentOrderConnector in @spartacus/order/core.
 
 
 Class UserReplenishmentOrderService has been removed and is no longer part of the public API.
-Use ReplenishmentOrderFacade in @spartacus/order/root instead.
+Use ReplenishmentOrderHistoryFacade in @spartacus/order/root instead.
 
 
 

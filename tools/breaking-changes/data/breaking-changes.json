@@ -45374,7 +45374,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccUserOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "Use OccOrderAdapter in @spartacus/order/occ instead",
+    "migrationComment": "Use OccOrderHistoryAdapter in @spartacus/order/occ instead",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -45570,7 +45570,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccUserReplenishmentOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "Use OccReplenishmentOrderAdapter in @spartacus/order/occ instead",
+    "migrationComment": "Use OccReplenishmentOrderHistoryAdapter in @spartacus/order/occ instead",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -57994,7 +57994,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "Use OrderAdapter in @spartacus/order/core.",
+    "migrationComment": "Use OrderHistoryAdapter in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -58280,7 +58280,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserOrderConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "Use OrderConnector in @spartacus/order/core.",
+    "migrationComment": "Use OrderHistoryConnector in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -58519,7 +58519,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserOrderService has been removed and is no longer part of the public API.",
-    "migrationComment": "Use OrderFacade in @spartacus/order/root instead.",
+    "migrationComment": "Use OrderHistoryFacade in @spartacus/order/root instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -58875,7 +58875,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserReplenishmentOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "Use ReplenishmentOrderAdapter in @spartacus/order/core.",
+    "migrationComment": "Use ReplenishmentOrderHistoryAdapter in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -59053,7 +59053,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserReplenishmentOrderConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "Use ReplenishmentOrderConnector in @spartacus/order/core.",
+    "migrationComment": "Use ReplenishmentOrderHistoryConnector in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -59275,7 +59275,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserReplenishmentOrderService has been removed and is no longer part of the public API.",
-    "migrationComment": "Use ReplenishmentOrderFacade in @spartacus/order/root instead.",
+    "migrationComment": "Use ReplenishmentOrderHistoryFacade in @spartacus/order/root instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

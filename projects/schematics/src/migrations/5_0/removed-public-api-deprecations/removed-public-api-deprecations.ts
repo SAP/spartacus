@@ -1352,13 +1352,13 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'OccUserOrderAdapter',
     importPath: '@spartacus/core',
     comment:
-      'Class OccUserOrderAdapter has been removed and is no longer part of the public API. Use OccOrderAdapter in @spartacus/order/occ instead',
+      'Class OccUserOrderAdapter has been removed and is no longer part of the public API. Use OccOrderHistoryAdapter in @spartacus/order/occ instead',
   },
   {
     node: 'OccUserReplenishmentOrderAdapter',
     importPath: '@spartacus/core',
     comment:
-      'Class OccUserReplenishmentOrderAdapter has been removed and is no longer part of the public API. Use OccReplenishmentOrderAdapter in @spartacus/order/occ instead',
+      'Class OccUserReplenishmentOrderAdapter has been removed and is no longer part of the public API. Use OccReplenishmentOrderHistoryAdapter in @spartacus/order/occ instead',
   },
   {
     node: 'OrderEntryPromotionsService',
@@ -1436,37 +1436,37 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'UserOrderAdapter',
     importPath: '@spartacus/core',
     comment:
-      'Class UserOrderAdapter has been removed and is no longer part of the public API. Use OrderAdapter in @spartacus/order/core.',
+      'Class UserOrderAdapter has been removed and is no longer part of the public API. Use OrderHistoryAdapter in @spartacus/order/core.',
   },
   {
     node: 'UserOrderConnector',
     importPath: '@spartacus/core',
     comment:
-      'Class UserOrderConnector has been removed and is no longer part of the public API. Use OrderConnector in @spartacus/order/core.',
+      'Class UserOrderConnector has been removed and is no longer part of the public API. Use OrderHistoryConnector in @spartacus/order/core.',
   },
   {
     node: 'UserOrderService',
     importPath: '@spartacus/core',
     comment:
-      'Class UserOrderService has been removed and is no longer part of the public API. Use OrderFacade in @spartacus/order/root instead.',
+      'Class UserOrderService has been removed and is no longer part of the public API. Use OrderHistoryFacade in @spartacus/order/root instead.',
   },
   {
     node: 'UserReplenishmentOrderAdapter',
     importPath: '@spartacus/core',
     comment:
-      'Class UserReplenishmentOrderAdapter has been removed and is no longer part of the public API. Use ReplenishmentOrderAdapter in @spartacus/order/core.',
+      'Class UserReplenishmentOrderAdapter has been removed and is no longer part of the public API. Use ReplenishmentOrderHistoryAdapter in @spartacus/order/core.',
   },
   {
     node: 'UserReplenishmentOrderConnector',
     importPath: '@spartacus/core',
     comment:
-      'Class UserReplenishmentOrderConnector has been removed and is no longer part of the public API. Use ReplenishmentOrderConnector in @spartacus/order/core.',
+      'Class UserReplenishmentOrderConnector has been removed and is no longer part of the public API. Use ReplenishmentOrderHistoryConnector in @spartacus/order/core.',
   },
   {
     node: 'UserReplenishmentOrderService',
     importPath: '@spartacus/core',
     comment:
-      'Class UserReplenishmentOrderService has been removed and is no longer part of the public API. Use ReplenishmentOrderFacade in @spartacus/order/root instead.',
+      'Class UserReplenishmentOrderService has been removed and is no longer part of the public API. Use ReplenishmentOrderHistoryFacade in @spartacus/order/root instead.',
   },
   {
     node: 'UserTransitional_4_2_Module',
