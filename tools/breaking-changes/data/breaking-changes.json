@@ -23065,7 +23065,7 @@
     "type": "InjectionToken<Converter<any, PaymentType>>",
     "isDeleted": true,
     "deletedComment": "Variable PAYMENT_TYPE_NORMALIZER has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CHECKOUT_PAYMENT_TYPE_NORMALIZER' from '@spartacus/checkout/b2b/core'",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
