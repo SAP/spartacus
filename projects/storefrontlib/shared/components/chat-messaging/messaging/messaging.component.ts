@@ -19,7 +19,11 @@ export class MessagingComponent implements OnInit, AfterViewInit {
 
   get inputCharacterLeft(): Observable<number> {
     return this.messageDetails$.pipe(
-      map((details) => details.characterLimit || this.messageTextLimit)
+      map(
+        (details) =>
+          (details.characterLimit || this.messageTextLimit) -
+          this.messageText.length
+      )
     );
   }
   constructor(protected windowRef: WindowRef) {}
