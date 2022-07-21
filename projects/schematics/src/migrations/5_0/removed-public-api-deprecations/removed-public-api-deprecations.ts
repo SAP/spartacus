@@ -374,19 +374,19 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'LOAD_PAYMENT_TYPES_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_PAYMENT_TYPES_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_PAYMENT_TYPES_FAIL has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LOAD_PAYMENT_TYPES_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LOAD_PAYMENT_TYPES',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_PAYMENT_TYPES has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_PAYMENT_TYPES has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LOAD_SUPPORTED_DELIVERY_MODES_FAIL',
