@@ -16912,7 +16912,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetLoadPaymentTypesProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch an event to invalidate the payment types by using 'CheckoutPaymentTypesQueryResetEvent'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
