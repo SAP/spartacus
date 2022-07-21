@@ -17,7 +17,7 @@ import { CustomerTicketDetailsComponent } from './customer-ticket-details.compon
       cmsComponents: {
         SupportTicketDetailsComponent: {
           component: CustomerTicketDetailsComponent,
-          gurds: [AuthGuard],
+          guards: [AuthGuard],
         },
       },
     }),

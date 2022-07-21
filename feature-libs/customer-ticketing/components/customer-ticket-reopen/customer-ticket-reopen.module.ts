@@ -16,7 +16,7 @@ import { CustomerTicketReopenComponent } from './customer-ticket-reopen.componen
       cmsComponents: {
         SupportTicketReopenComponent: {
           component: CustomerTicketReopenComponent,
-          gurds: [AuthGuard],
+          guards: [AuthGuard],
         },
       },
     }),

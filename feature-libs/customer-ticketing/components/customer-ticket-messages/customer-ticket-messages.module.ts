@@ -17,7 +17,7 @@ import { MessagingModule } from '@spartacus/storefront';
       cmsComponents: {
         SupportTicketUpdateComponent: {
           component: CustomerTicketMessagesComponent,
-          gurds: [AuthGuard],
+          guards: [AuthGuard],
         },
       },
     }),

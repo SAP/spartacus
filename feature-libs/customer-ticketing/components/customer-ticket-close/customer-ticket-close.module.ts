@@ -16,7 +16,7 @@ import { CustomerTicketCloseComponent } from './customer-ticket-close.component'
       cmsComponents: {
         SupportTicketCloseComponent: {
           component: CustomerTicketCloseComponent,
-          gurds: [AuthGuard],
+          guards: [AuthGuard],
         },
       },
     }),
