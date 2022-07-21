@@ -8,6 +8,12 @@
 # requires docker engine 17.06.0+
 version: '3.8'
 services:
+  spartacus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
   product-supply-chain:
     image: upscale-docker.common.repositories.cloud.sap/upscale/product-supply-chain:0.1
     ports:
