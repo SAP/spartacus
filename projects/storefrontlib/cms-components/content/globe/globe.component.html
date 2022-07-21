@@ -1,23 +1,42 @@
 <div role="region" class="container">
   <div class="card">
     <div class="card-body">
-      <h2 class="card-title">Supply Chain</h2>
+      <h2 class="card-title">Sustainable Supply Chain</h2>
       <div id="globeViz" ngModel #globeViz></div>
-      <div>
+      <div class="carbon-impact">
         <h3>Carbon impact</h3>
-        <ul>
-          <li *ngFor="let arc of arcsData">
-            {{ arc.label }}:
-            {{
-              getDistanceFromLatLonInKm(
-                arc.startLat,
-                arc.startLng,
-                arc.endLat,
-                arc.endLng
-              ) | number: '1.0-0'
-            }}km
-          </li>
-        </ul>
+        <div>
+          <p>
+            The production of an average camera produces 5 tonnes of
+            CO<sub>2</sub>. Because of our use of recycled materials, the Carbon
+            Footprint of a DSC-N1 is only
+            {{ carbonFootprint | number: '1.0-1' }} tonnes of CO<sub>2</sub>.
+          </p>
+        </div>
+
+        <h3>Recycling</h3>
+        <div style="flex-grow: 1">
+          <p>♻️ All our camera straps are mode of 95% recycled plastic.</p>
+          <p>♻️ The glass in our lens is sustainably sourced.</p>
+          <p>
+            ♻️ All of our packaging is recyclable to keep waste out of landfill.
+          </p>
+        </div>
+        <div>
+          <button
+            class="btn btn-outline-primary"
+            type="button"
+            (click)="toggleMoreDetails()"
+          >
+            More details
+          </button>
+          <ul *ngIf="moreDetailsVisible">
+            <li *ngFor="let arc of arcsData">
+              {{ arc.label }}: {{ arc.co2 | number: '1.0-2' }}t CO<sub>2</sub>
+              ({{ arc.distance | number: '1.0-0' }}km)
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>

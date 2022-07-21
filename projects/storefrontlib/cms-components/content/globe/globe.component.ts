@@ -11,6 +11,8 @@ export class GlobeComponent implements AfterViewInit {
   @ViewChild('globeViz') globeViz: ElementRef<HTMLElement>;
 
   arcsData: ArcDatum[] = [];
+  carbonFootprint = 0;
+  moreDetailsVisible = false;
 
   constructor(private readonly globeService: GlobeService) {}
 
@@ -36,12 +38,15 @@ export class GlobeComponent implements AfterViewInit {
                 endLat: path[index + 1].lat,
                 endLng: path[index + 1].long,
                 label: `${label} → ${path[index + 1].label}`,
+                distance: this.getDistanceFromLatLonInKm(lat, long, path[index + 1].lat, path[index + 1].long),
+                co2: this.getDistanceFromLatLonInKm(lat, long, path[index + 1].lat, path[index + 1].long) * 0.0005 / 10,
               })
             );
             return arcs;
           })
           .reduce((acc, val) => acc.concat(val), []);
         this.arcsData = arcsData;
+        this.carbonFootprint = arcsData.reduce((acc, val) => acc + val.co2, 0);
 
         const { lat, lng } = supplyChain.labels.reduce(
           (acc, val) => ({ lat: acc.lat + val.lat, lng: acc.lng + val.long }),
@@ -99,7 +104,11 @@ export class GlobeComponent implements AfterViewInit {
       });
   }
 
-  getDistanceFromLatLonInKm(
+  toggleMoreDetails() {
+    this.moreDetailsVisible = !this.moreDetailsVisible;
+  }
+
+  private getDistanceFromLatLonInKm(
     lat1: number,
     lon1: number,
     lat2: number,
@@ -130,4 +139,6 @@ type ArcDatum = {
   endLat: number;
   endLng: number;
   label: string;
+  distance: number;
+  co2: number;
 };
