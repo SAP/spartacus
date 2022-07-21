@@ -596,7 +596,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'ResetSetCostCenterProcess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ResetSetCostCenterProcess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ResetSetCostCenterProcess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set cost center as well.",
   },
   {
     node: 'ResetSetDeliveryAddressProcess',
