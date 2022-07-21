@@ -2866,7 +2866,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.PlaceOrder has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
 
 
 
@@ -2875,7 +2875,7 @@ Class CheckoutActions.PlaceOrder has been removed and is no longer part of the p
 
 
 Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
 
 
 
@@ -2884,7 +2884,7 @@ Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of t
 
 
 Class CheckoutActions.PlaceOrderSuccess has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
 
 
 
