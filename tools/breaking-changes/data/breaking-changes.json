@@ -22132,7 +22132,7 @@
     "type": "MemoizedSelector<StateWithCheckout, CheckoutStepsState>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutSteps has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'getCheckoutDetails' from 'CheckoutOccEndpoints' (imported from '@spartacus/checkout/base/occ')",
+    "migrationComment": "Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -22154,7 +22154,7 @@
     "type": "MemoizedSelector<StateWithCheckout, StateUtils.LoaderState<CheckoutStepsState>>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutStepsState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",

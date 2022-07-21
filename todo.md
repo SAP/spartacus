@@ -16,17 +16,7 @@ Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (importe
 Use 'getOrderDetails()' from 'OrderFacade' (imported from '@spartacus/order/root')
 
 
-Variable getCheckoutSteps
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getCheckoutSteps is DELETED
-
-Variable getCheckoutStepsState
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Variable getCheckoutStepsState is DELETED
+Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')
 
 Interface CheckoutState
 --------------------------
