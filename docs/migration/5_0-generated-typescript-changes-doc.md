@@ -2219,7 +2219,7 @@ The card types is no longer found in the NgRX store. You can find the card type 
 
 
 Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API.
-It is no used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
+It is not used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2236,7 +2236,7 @@ moved to @spartacus/checkout/base/root
 
 
 Namespace CheckoutActions has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries
 
 
 
@@ -2245,7 +2245,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.
 
 
 
@@ -2254,7 +2254,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.
 
 
 
@@ -2263,7 +2263,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.ADD_DELIVERY_ADDRESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.
 
 
 
@@ -2272,7 +2272,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.AddDeliveryAddress has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.
 
 
 
@@ -2281,7 +2281,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.AddDeliveryAddressFail has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.
 
 
 
@@ -2290,7 +2290,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.AddDeliveryAddressSuccess has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.
 
 
 
@@ -2299,7 +2299,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 TypeAlias CheckoutActions.CardTypesAction has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the query 'getPaymentCardTypesState' in CheckoutPaymentFacade to get the data and state for the card types.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the query 'getPaymentCardTypesState' in CheckoutPaymentFacade to get the data and state for the card types.
 
 
 
@@ -2308,7 +2308,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.
 
 
 
@@ -2317,7 +2317,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2326,7 +2326,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.CheckoutClearMiscsData has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.
 
 
 
@@ -2335,7 +2335,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DATA has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.
 
 
 
@@ -2344,7 +2344,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery address 'state' using the returned observable from 'clearCheckoutDeliveryAddress' in CheckoutDeliveryAddressFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery address 'state' using the returned observable from 'clearCheckoutDeliveryAddress' in CheckoutDeliveryAddressFacade.
 
 
 
@@ -2353,7 +2353,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.
 
 
 
@@ -2362,7 +2362,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery address 'state' using the returned observable from 'clearCheckoutDeliveryAddress' in CheckoutDeliveryAddressFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery address 'state' using the returned observable from 'clearCheckoutDeliveryAddress' in CheckoutDeliveryAddressFacade.
 
 
 
@@ -2371,7 +2371,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.
 
 
 
@@ -2380,7 +2380,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.
 
 
 
@@ -2389,7 +2389,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery modes 'state' using the returned observable from 'clearCheckoutDeliveryMode' in CheckoutDeliveryModesFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery modes 'state' using the returned observable from 'clearCheckoutDeliveryMode' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2407,7 +2407,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_STEP has been removed and is no longer p
 
 
 Variable CheckoutActions.CLEAR_PLACE_ORDER has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearPlacedOrder' from OrderFacade instead.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2416,7 +2416,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CLEAR_SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearPlacedOrder' from OrderFacade instead.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2425,7 +2425,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
 
 
 
@@ -2434,7 +2434,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.ClearCheckoutData has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.
 
 
 
@@ -2443,7 +2443,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearCheckoutDeliveryAddress' from CheckoutDeliveryAddressFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearCheckoutDeliveryAddress' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2452,7 +2452,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.ClearCheckoutDeliveryAddressFail has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery address 'state' using the returned observable from 'clearCheckoutDeliveryAddress' in CheckoutDeliveryAddressFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery address 'state' using the returned observable from 'clearCheckoutDeliveryAddress' in CheckoutDeliveryAddressFacade.
 
 
 
@@ -2461,7 +2461,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.ClearCheckoutDeliveryAddressSuccess has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.
 
 
 
@@ -2470,7 +2470,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.ClearCheckoutDeliveryMode has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
 
 
 
@@ -2479,7 +2479,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.ClearCheckoutDeliveryModeFail has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.
 
 
 
@@ -2488,7 +2488,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.ClearCheckoutDeliveryModeSuccess has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.
 
 
 
@@ -2506,7 +2506,7 @@ Class CheckoutActions.ClearCheckoutStep has been removed and is no longer part o
 
 
 Class CheckoutActions.ClearPlaceOrder has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearPlacedOrder' from OrderFacade instead.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2515,7 +2515,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.ClearScheduleReplenishmentOrderAction has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearPlacedOrder' from OrderFacade instead.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2524,7 +2524,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.ClearSupportedDeliveryModes has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
 
 
 
@@ -2533,7 +2533,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.
 
 
 
@@ -2542,7 +2542,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added
 
 
 
@@ -2551,7 +2551,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.CREATE_PAYMENT_DETAILS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.
 
 
 
@@ -2560,7 +2560,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.CreatePaymentDetails has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.
 
 
 
@@ -2569,7 +2569,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.CreatePaymentDetailsFail has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.
 
 
 
@@ -2578,7 +2578,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.CreatePaymentDetailsSuccess has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added
 
 
 
@@ -2587,7 +2587,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES_FAIL has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2596,7 +2596,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES_SUCCESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2605,7 +2605,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2614,7 +2614,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_FAIL has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2623,7 +2623,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2632,7 +2632,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2641,7 +2641,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_PAYMENT_TYPES_FAIL has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2650,7 +2650,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2659,7 +2659,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_PAYMENT_TYPES has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2668,7 +2668,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2677,7 +2677,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2686,7 +2686,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2695,7 +2695,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadCardTypes has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2704,7 +2704,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadCardTypesFail has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2713,7 +2713,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadCardTypesSuccess has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2722,7 +2722,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2731,7 +2731,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2740,7 +2740,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2749,7 +2749,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2758,7 +2758,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2767,7 +2767,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2776,7 +2776,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadSupportedDeliveryModes has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2785,7 +2785,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadSupportedDeliveryModesFail has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2794,7 +2794,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadSupportedDeliveryModesSuccess has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2803,7 +2803,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use 'setOrderType' from CheckoutReplenishmentFormService.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use 'setOrderType' from CheckoutReplenishmentFormService.
 
 
 
@@ -2812,7 +2812,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.PAYMENT_PROCESS_SUCCESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the setting of payment 'state' using the returned observable from 'setPaymentDetails' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the setting of payment 'state' using the returned observable from 'setPaymentDetails' in CheckoutPaymentFacade.
 
 
 
@@ -2821,7 +2821,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.PaymentProcessSuccess has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the setting of payment 'state' using the returned observable from 'setPaymentDetails' in CheckoutPaymentFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the setting of payment 'state' using the returned observable from 'setPaymentDetails' in CheckoutPaymentFacade.
 
 
 
@@ -2830,7 +2830,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2839,7 +2839,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
 
 
 
@@ -2848,7 +2848,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
 
 
 
@@ -2857,7 +2857,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
 
 
 
@@ -2866,7 +2866,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.PlaceOrder has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
 
 
 
@@ -2875,7 +2875,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
 
 
 
@@ -2884,7 +2884,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.PlaceOrderSuccess has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.
 
 
 
@@ -2893,7 +2893,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no longer part of the public API.
-It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2902,7 +2902,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.RESET_LOAD_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use the EventService to dispatch event to invalidate the loading of payment types using 'CheckoutPaymentTypesQueryResetEvent'.
 
 
 
