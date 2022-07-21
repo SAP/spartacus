@@ -290,7 +290,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'ClearScheduleReplenishmentOrderAction',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearScheduleReplenishmentOrderAction has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearScheduleReplenishmentOrderAction has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearPlacedOrder' from OrderFacade instead.",
   },
   {
     node: 'ClearSupportedDeliveryModes',
