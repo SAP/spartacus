@@ -10,6 +10,8 @@ import { GlobeService } from './globe.service';
 export class GlobeComponent implements AfterViewInit {
   @ViewChild('globeViz') globeViz: ElementRef<HTMLElement>;
 
+  arcsData: ArcDatum[] = [];
+
   constructor(private readonly globeService: GlobeService) {}
 
   ngAfterViewInit(): void {
@@ -33,12 +35,13 @@ export class GlobeComponent implements AfterViewInit {
                 startLng: long,
                 endLat: path[index + 1].lat,
                 endLng: path[index + 1].long,
-                label: `${label} &#8594; ${path[index + 1].label}`,
+                label: `${label} → ${path[index + 1].label}`,
               })
             );
             return arcs;
           })
           .reduce((acc, val) => acc.concat(val), []);
+        this.arcsData = arcsData;
 
         const { lat, lng } = supplyChain.labels.reduce(
           (acc, val) => ({ lat: acc.lat + val.lat, lng: acc.lng + val.long }),
@@ -94,6 +97,30 @@ export class GlobeComponent implements AfterViewInit {
             '//unpkg.com/three-globe/example/img/earth-topology.png'
           )(this.globeViz.nativeElement);
       });
+  }
+
+  getDistanceFromLatLonInKm(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = this.deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = this.deg2rad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(lat1)) *
+        Math.cos(this.deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    return d;
+  }
+
+  private deg2rad(deg: number) {
+    return deg * (Math.PI / 180);
   }
 }
 

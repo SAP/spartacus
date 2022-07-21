@@ -3,7 +3,22 @@
     <div class="card-body">
       <h2 class="card-title">Supply Chain</h2>
       <div id="globeViz" ngModel #globeViz></div>
-      <div>Total carbon footprint of xxx tonnes of CO2</div>
+      <div>
+        <h3>Carbon impact</h3>
+        <ul>
+          <li *ngFor="let arc of arcsData">
+            {{ arc.label }}:
+            {{
+              getDistanceFromLatLonInKm(
+                arc.startLat,
+                arc.startLng,
+                arc.endLat,
+                arc.endLng
+              ) | number: '1.0-0'
+            }}km
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>
