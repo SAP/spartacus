@@ -38,8 +38,21 @@ export class GlobeComponent implements AfterViewInit {
                 endLat: path[index + 1].lat,
                 endLng: path[index + 1].long,
                 label: `${label} → ${path[index + 1].label}`,
-                distance: this.getDistanceFromLatLonInKm(lat, long, path[index + 1].lat, path[index + 1].long),
-                co2: this.getDistanceFromLatLonInKm(lat, long, path[index + 1].lat, path[index + 1].long) * 0.0005 / 10,
+                distance: this.getDistanceFromLatLonInKm(
+                  lat,
+                  long,
+                  path[index + 1].lat,
+                  path[index + 1].long
+                ),
+                co2:
+                  (this.getDistanceFromLatLonInKm(
+                    lat,
+                    long,
+                    path[index + 1].lat,
+                    path[index + 1].long
+                  ) *
+                    0.0005) /
+                  10,
               })
             );
             return arcs;
@@ -71,14 +84,15 @@ export class GlobeComponent implements AfterViewInit {
           .arcDashGap(GAP)
           .arcDashAnimateTime(2000)
           .arcStroke(() => 1)
-          .onArcHover((hoverArc) =>
+          .onArcHover((hoverArc) => {
+            (myGlobe.controls() as any).autoRotate = !hoverArc;
             myGlobe
               .arcColor((d: any) => {
                 const op = !hoverArc || d === hoverArc ? OPACITY : OPACITY / 4;
                 return arcColour(op);
               })
-              .arcDashGap((d: any) => (!hoverArc || d !== hoverArc ? GAP : 0))
-          )
+              .arcDashGap((d: any) => (!hoverArc || d !== hoverArc ? GAP : 0));
+          })
 
           .labelsData(supplyChain.labels)
           .labelLat((d: any) => d.lat)
@@ -101,6 +115,9 @@ export class GlobeComponent implements AfterViewInit {
           .bumpImageUrl(
             '//unpkg.com/three-globe/example/img/earth-topology.png'
           )(this.globeViz.nativeElement);
+
+        (myGlobe.controls() as any).autoRotate = true;
+        (myGlobe.controls() as any).autoRotateSpeed = 0.35;
       });
   }
 
