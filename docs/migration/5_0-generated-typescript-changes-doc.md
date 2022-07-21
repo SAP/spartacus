@@ -2219,7 +2219,7 @@ The card types is no longer found in the NgRX store. You can find the card type 
 
 
 Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API.
-It is no used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details through 'getCheckoutDetailsState' in CheckoutQueryFacade.
+It is no used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2614,7 +2614,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_FAIL has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2623,7 +2623,7 @@ Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_FAIL has been removed and is no l
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2632,7 +2632,7 @@ Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS has been removed and is n
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
