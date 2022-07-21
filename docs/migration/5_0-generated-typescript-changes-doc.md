@@ -2451,7 +2451,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.ClearCheckoutDeliveryAddressFail has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery address 'state' using the returned observable from 'clearCheckoutDeliveryAddress' in CheckoutDeliveryAddressFacade.
 
 
 
