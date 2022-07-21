@@ -2668,7 +2668,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2677,7 +2677,7 @@ Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL has been removed and
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2686,7 +2686,7 @@ Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed 
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
