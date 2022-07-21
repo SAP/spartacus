@@ -6,7 +6,7 @@
 # Url of the hybris backend
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
-BACKEND_URL="https://40.76.109.9:9002"
+BACKEND_URL="https://sap-commerce-cloud-2205.ingress.br6dyjls2q.mikeptest.shoot.canary.k8s-hana.ondemand.com:443"
 
 # A comma separated list of base sites.
 # When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
