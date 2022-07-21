@@ -259,7 +259,20 @@
       "@spartacus/product/variants/root": [
         "../../feature-libs/product/variants/root/public_api"
       ],
+      "@spartacus/punchout/assets": [
+        "../../feature-libs/punchout/assets/public_api"
+      ],
+      "@spartacus/punchout/components": [
+        "../../feature-libs/punchout/components/public_api"
+      ],
+      "@spartacus/punchout/core": [
+        "../../feature-libs/punchout/core/public_api"
+      ],
       "@spartacus/punchout": ["../../feature-libs/punchout/public_api"],
+      "@spartacus/punchout/occ": ["../../feature-libs/punchout/occ/public_api"],
+      "@spartacus/punchout/root": [
+        "../../feature-libs/punchout/root/public_api"
+      ],
       "@spartacus/qualtrics/components": [
         "../../feature-libs/qualtrics/components/public_api"
       ],
