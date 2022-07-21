@@ -66,6 +66,6 @@ export class CustomerTicketDetailsComponent implements OnInit {
   }
 
   getStatusColor(status: string): string {
-    return status === 'Open' ? 'green' : status === 'Close' ? 'grey' : '';
+    return status === 'Open' ? '#38871F' : status === 'Close' ? '#6C7079' : '';
   }
 }

@@ -38,10 +38,7 @@
           <div
             *ngIf="!truncateText; else truncate"
             class="cx-card-label"
-            [ngClass]="{
-              'cx-text-green': content?.textColor === 'green',
-              'cx-text-grey': content?.textColor === 'grey'
-            }"
+            [style.color]="content.textColor"
           >
             {{ line }}
           </div>
