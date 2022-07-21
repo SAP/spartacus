@@ -22886,7 +22886,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Interface CheckoutStepsState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Removed, and no longer used.",
     "breakingChanges": [
       {
         "change": "INTERFACE_DELETED",

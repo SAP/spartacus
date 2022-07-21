@@ -19,11 +19,6 @@ Use 'getOrderDetails()' from 'OrderFacade' (imported from '@spartacus/order/root
 Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')
 
 
---------------------------
-@spartacus/checkout/core
-
-- [ ]  Interface CheckoutStepsState is DELETED
-
 Variable PAYMENT_TYPE_NORMALIZER
 --------------------------
 @spartacus/checkout/core
