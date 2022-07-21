@@ -320,7 +320,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CreatePaymentDetails',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.CreatePaymentDetails has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.CreatePaymentDetails has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.",
   },
   {
     node: 'CreatePaymentDetailsFail',
