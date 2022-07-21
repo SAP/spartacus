@@ -506,19 +506,19 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'PLACE_ORDER_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.",
   },
   {
     node: 'PLACE_ORDER_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.",
   },
   {
     node: 'PLACE_ORDER',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.",
   },
   {
     node: 'PlaceOrder',
