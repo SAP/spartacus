@@ -13,17 +13,24 @@ export class GlobeComponent implements AfterViewInit {
   constructor(private readonly globeService: GlobeService) {}
 
   ngAfterViewInit(): void {
+    const arcColour = (opacity: number) => `rgba(254, 87, 87, ${opacity})`;
+    const OPACITY = 1;
+    const GAP = 0.2;
+
     this.globeService
-      .getSupplyChainForProduct('productCode')
+      .getSupplyChainForProduct('358639')
       .subscribe((supplyChain) => {
         const arcsData = supplyChain.paths
           .map((path) => {
-            const arcs = path.slice(0, -1).map(({ lat, long }, index) => ({
-              startLat: lat,
-              startLng: long,
-              endLat: path[index + 1].lat,
-              endLng: path[index + 1].long,
-            }));
+            const arcs = path.slice(0, -1).map(
+              ({ label, lat, long }, index): ArcDatum => ({
+                startLat: lat,
+                startLng: long,
+                endLat: path[index + 1].lat,
+                endLng: path[index + 1].long,
+                label: `${label} &#8594; ${path[index + 1].label}`,
+              })
+            );
             return arcs;
           })
           .reduce((acc, val) => acc.concat(val), []);
@@ -35,7 +42,7 @@ export class GlobeComponent implements AfterViewInit {
         const averageLocation = {
           lat: lat / supplyChain.labels.length,
           lng: lng / supplyChain.labels.length,
-          altitude: 2.5,
+          altitude: 2,
         };
 
         const myGlobe = Globe();
@@ -45,11 +52,21 @@ export class GlobeComponent implements AfterViewInit {
           .height(545)
           .backgroundColor('rgba(0, 0, 0, 0)')
           .arcsData(arcsData)
-          .arcColor(() => '#FE5757')
-          .arcDashLength(() => Math.random())
-          .arcDashGap(() => Math.random())
-          .arcDashAnimateTime(() => Math.random() * 4000 + 500)
+          .arcLabel((d: any) => `<div class="arc-label">${d.label}</div>`)
+          .arcColor(() => arcColour(OPACITY))
+          .arcDashLength(0.4)
+          .arcDashGap(GAP)
+          .arcDashAnimateTime(2000)
           .arcStroke(() => 1)
+          .onArcHover((hoverArc) =>
+            myGlobe
+              .arcColor((d: any) => {
+                const op = !hoverArc || d === hoverArc ? OPACITY : OPACITY / 4;
+                return arcColour(op);
+              })
+              .arcDashGap((d: any) => (!hoverArc || d !== hoverArc ? GAP : 0))
+          )
+
           .labelsData(supplyChain.labels)
           .labelLat((d: any) => d.lat)
           .labelLng((d: any) => d.long)
@@ -65,3 +82,11 @@ export class GlobeComponent implements AfterViewInit {
       });
   }
 }
+
+type ArcDatum = {
+  startLat: number;
+  startLng: number;
+  endLat: number;
+  endLng: number;
+  label: string;
+};
