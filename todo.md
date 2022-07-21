@@ -18,14 +18,6 @@ Use 'getOrderDetails()' from 'OrderFacade' (imported from '@spartacus/order/root
 
 Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')
 
-Interface CheckoutState
---------------------------
-@spartacus/checkout/core
-
-- [ ]  PropertySignature cardTypes is DELETED
-- [ ]  PropertySignature orderType is DELETED
-- [ ]  PropertySignature paymentTypes is DELETED
-- [ ]  PropertySignature steps is DELETED
 
 --------------------------
 @spartacus/checkout/core

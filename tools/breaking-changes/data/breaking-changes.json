@@ -22792,7 +22792,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cardTypes' was removed from Interface 'CheckoutState'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypesState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root') instead.')",
         "topLevelApiElementName": "CheckoutState"
       },
       {
@@ -22832,7 +22832,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'paymentTypes' was removed from Interface 'CheckoutState'.",
-        "migrationComment": "No direct replacement. Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').",
+        "migrationComment": "Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').",
         "topLevelApiElementName": "CheckoutState"
       },
       {
@@ -22852,7 +22852,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'steps' was removed from Interface 'CheckoutState'.",
-        "migrationComment": "",
+        "migrationComment": "Removed, and there is no replecemenet as it is no longer needed.",
         "topLevelApiElementName": "CheckoutState"
       }
     ]
