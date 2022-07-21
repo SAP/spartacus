@@ -2722,7 +2722,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2731,7 +2731,7 @@ Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part
 
 
 Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2740,7 +2740,7 @@ Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer 
 
 
 Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 

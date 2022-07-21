@@ -428,19 +428,19 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'LoadCheckoutDetails',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'LoadCheckoutDetailsFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'LoadCheckoutDetailsSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'LoadPaymentTypes',
