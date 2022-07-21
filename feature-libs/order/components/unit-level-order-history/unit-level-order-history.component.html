@@ -1,7 +1,8 @@
 <ng-container
   *ngIf="{
     orderHistory: orders$ | async,
-    replenishmentOrder: hasReplenishmentOrder$ | async
+    replenishmentOrder: hasReplenishmentOrder$ | async,
+    showUnitOrders: showUnitOrders$ | async
   } as type"
 >
   <ng-container *ngIf="type.orderHistory">
@@ -30,7 +31,7 @@
           <!-- Select Form and Pagination Top -->
           <div class="cx-order-history-sort top">
             <label class="cx-order-history-form-group form-group"
-            ><span>
+              ><span>
                 {{ 'orderHistory.sortBy' | cxTranslate }}
               </span>
               <cx-sorting
@@ -56,87 +57,130 @@
           <!-- TABLE -->
           <table id="order-history-table" class="table cx-order-history-table">
             <thead class="cx-order-history-thead-mobile">
-            <th scope="col">
-              {{ 'orderHistory.orderId' | cxTranslate }}
-            </th>
-            <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
-            <th scope="col">
-              {{ 'orderHistory.status' | cxTranslate }}
-            </th>
-            <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
+              <th scope="col">
+                {{ 'orderHistory.orderId' | cxTranslate }}
+              </th>
+              <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
+              <th scope="col">
+                {{ 'orderHistory.status' | cxTranslate }}
+              </th>
+              <ng-container
+                *ngIf="!type.replenishmentOrder && type.showUnitOrders"
+              >
+                <th scope="col">{{ 'orderHistory.buyer' | cxTranslate }}</th>
+                <th scope="col">{{ 'orderHistory.unit' | cxTranslate }}</th>
+              </ng-container>
+              <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
             </thead>
             <tbody>
-            <tr
-              *ngFor="let order of type.orderHistory.orders"
-              (click)="goToOrderDetail(order)"
-            >
-              <td class="cx-order-history-code">
-                <div class="cx-order-history-label">
-                  {{ 'orderHistory.orderId' | cxTranslate }}
-                </div>
-                <a
-                  [routerLink]="
+              <tr
+                *ngFor="let order of type.orderHistory.orders"
+                (click)="goToOrderDetail(order)"
+              >
+                <td class="cx-order-history-code">
+                  <div class="cx-order-history-label">
+                    {{ 'orderHistory.orderId' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
                       {
                         cxRoute: 'orderDetails',
                         params: order
                       } | cxUrl
                     "
-                  class="cx-order-history-value"
-                >
-                  {{ order?.code }}</a
-                >
-              </td>
-              <td class="cx-order-history-placed">
-                <div class="cx-order-history-label">
-                  {{ 'orderHistory.date' | cxTranslate }}
-                </div>
-                <a
-                  [routerLink]="
+                    class="cx-order-history-value"
+                  >
+                    {{ order?.code }}</a
+                  >
+                </td>
+                <td class="cx-order-history-placed">
+                  <div class="cx-order-history-label">
+                    {{ 'orderHistory.date' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
                       {
                         cxRoute: 'orderDetails',
                         params: order
                       } | cxUrl
                     "
-                  class="cx-order-history-value"
-                >{{ order?.placed | cxDate: 'longDate' }}</a
-                >
-              </td>
-              <td class="cx-order-history-status">
-                <div class="cx-order-history-label">
-                  {{ 'orderHistory.status' | cxTranslate }}
-                </div>
-                <a
-                  [routerLink]="
+                    class="cx-order-history-value"
+                    >{{ order?.placed | cxDate: 'longDate' }}</a
+                  >
+                </td>
+                <td class="cx-order-history-status">
+                  <div class="cx-order-history-label">
+                    {{ 'orderHistory.status' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
                       {
                         cxRoute: 'orderDetails',
                         params: order
                       } | cxUrl
                     "
-                  class="cx-order-history-value"
+                    class="cx-order-history-value"
+                  >
+                    {{
+                      'orderDetails.statusDisplay_' + order?.statusDisplay
+                        | cxTranslate
+                    }}</a
+                  >
+                </td>
+                <ng-container
+                  *ngIf="!type.replenishmentOrder && type.showUnitOrders"
                 >
-                  {{
-                  'orderDetails.statusDisplay_' + order?.statusDisplay
-                    | cxTranslate
-                  }}</a
-                >
-              </td>
-              <td class="cx-order-history-total">
-                <div class="cx-order-history-label">
-                  {{ 'orderHistory.total' | cxTranslate }}
-                </div>
-                <a
-                  [routerLink]="
+                  <td class="cx-order-history-buyer">
+                    <div class="cx-order-history-label">
+                      {{ 'orderHistory.buyer' | cxTranslate }}
+                    </div>
+                    <a
+                      [routerLink]="
+                        {
+                          cxRoute: 'orderDetails',
+                          params: order
+                        } | cxUrl
+                      "
+                      class="cx-order-history-value"
+                    >
+                      {{ order?.placedBy?.firstName }}
+                      {{ order?.placedBy?.lastName }}</a
+                    >
+                  </td>
+                  <td class="cx-order-history-unit">
+                    <div class="cx-order-history-label">
+                      {{ 'orderHistory.unit' | cxTranslate }}
+                    </div>
+                    <a
+                      [routerLink]="
+                        {
+                          cxRoute: 'orderDetails',
+                          params: order
+                        } | cxUrl
+                      "
+                      class="cx-order-history-value"
+                    >
+                      {{ order?.placedBy?.orgUnitName }}</a
+                    >
+                  </td>
+                </ng-container>
+                <td class="cx-order-history-total">
+                  <div class="cx-order-history-label">
+                    {{ 'orderHistory.total' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
                       {
                         cxRoute: 'orderDetails',
                         params: order
                       } | cxUrl
                     "
-                  class="cx-order-history-value"
-                >
-                  {{ order?.total.formattedValue }}</a
-                >
-              </td>
-            </tr>
+                    class="cx-order-history-value"
+                  >
+                    {{ order?.total.formattedValue }}</a
+                  >
+                </td>
+              </tr>
             </tbody>
           </table>
           <!-- Select Form and Pagination Bottom -->
@@ -174,7 +218,7 @@
                   [routerLink]="{ cxRoute: 'home' } | cxUrl"
                   routerLinkActive="active"
                   class="btn btn-primary btn-block"
-                >{{ 'orderHistory.startShopping' | cxTranslate }}</a
+                  >{{ 'orderHistory.startShopping' | cxTranslate }}</a
                 >
               </ng-template>
             </div>

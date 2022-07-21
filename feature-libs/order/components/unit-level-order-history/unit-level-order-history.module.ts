@@ -11,7 +11,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { ListNavigationModule } from '@spartacus/storefront';
-import { OrderHistoryComponent } from './order-history.component';
+import {UnitLevelOrderHistoryComponent} from "./unit-level-order-history.component";
 
 @NgModule({
   imports: [
@@ -23,17 +23,17 @@ import { OrderHistoryComponent } from './order-history.component';
     UrlModule,
     I18nModule,
   ],
-  declarations: [OrderHistoryComponent],
-  exports: [OrderHistoryComponent],
+  declarations: [UnitLevelOrderHistoryComponent],
+  exports: [UnitLevelOrderHistoryComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountOrderHistoryComponent: {
-          component: OrderHistoryComponent,
+          component: UnitLevelOrderHistoryComponent,
           guards: [AuthGuard]
         },
       },
     }),
   ],
 })
-export class OrderHistoryModule {}
+export class UnitLevelOrderHistoryModule {}

@@ -198,10 +198,6 @@ export interface CmsOrderDetailItemsComponent extends CmsComponent {
   enableAddToCart?: boolean;
 }
 
-export interface CmsOrderHistoryComponent extends CmsComponent {
-  showUnitOrders?: boolean;
-}
-
 export interface CmsPDFDocumentComponent extends CmsComponent {
   pdfFile?: CmsBannerComponentMedia;
   title?: string;
