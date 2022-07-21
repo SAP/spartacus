@@ -17,6 +17,11 @@ export class GlobeComponent implements AfterViewInit {
     const OPACITY = 1;
     const GAP = 0.2;
 
+    const markerSvg = `<svg viewBox="-4 0 36 71">
+    <path fill="currentColor" d="M14,0 C21.732,0 28,5.641 28,12.6 C28,23.963 14,36 14,36 C14,36 0,24.064 0,12.6 C0,5.641 6.268,0 14,0 Z"></path>
+    <circle fill="black" cx="14" cy="14" r="7"></circle>
+  </svg>`;
+
     this.globeService
       .getSupplyChainForProduct('358639')
       .subscribe((supplyChain) => {
@@ -72,9 +77,18 @@ export class GlobeComponent implements AfterViewInit {
           .labelLng((d: any) => d.long)
           .labelText((d: any) => d.label)
           .labelSize(1.5)
-          .labelDotRadius(1)
-          .labelColor(() => 'rgba(255, 165, 0, 0.75)')
           .labelResolution(2)
+          .htmlElementsData(supplyChain.labels)
+          .htmlLat((d: any) => d.lat)
+          .htmlLng((d: any) => d.long)
+          .htmlElement((_d: any) => {
+            const el = document.createElement('div');
+            el.innerHTML = markerSvg;
+            el.style.color = arcColour(1);
+            el.style.width = '20px';
+
+            return el;
+          })
           .pointOfView(averageLocation, 10)
           .bumpImageUrl(
             '//unpkg.com/three-globe/example/img/earth-topology.png'
