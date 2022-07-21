@@ -410,19 +410,19 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'LoadCardTypes',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCardTypes has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCardTypes has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'LoadCardTypesFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCardTypesFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCardTypesFail has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'LoadCardTypesSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCardTypesSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCardTypesSuccess has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'LoadCheckoutDetails',
