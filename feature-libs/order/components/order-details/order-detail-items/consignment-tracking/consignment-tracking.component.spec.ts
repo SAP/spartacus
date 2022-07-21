@@ -1,7 +1,7 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
 import { Consignment, OrderHistoryFacade } from '@spartacus/order/root';
 import { ModalService, SpinnerModule } from '@spartacus/storefront';
