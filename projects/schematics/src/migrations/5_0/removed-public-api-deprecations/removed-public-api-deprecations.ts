@@ -206,7 +206,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CLEAR_CHECKOUT_DELIVERY_MODE',
     importPath: '@spartacus/checkout/core',
     comment:
-      "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery modes 'state' using the returned observable from 'clearCheckoutDeliveryMode' in CheckoutDeliveryModesService.",
+      "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery modes 'state' using the returned observable from 'clearCheckoutDeliveryMode' in CheckoutDeliveryModesFacade.",
   },
   {
     node: 'CLEAR_CHECKOUT_STEP',
@@ -242,7 +242,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'ClearCheckoutDeliveryAddress',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no longer part of the public API. It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearCheckoutDeliveryAddress' from CheckoutDeliveryAddressFacade.",
   },
   {
     node: 'ClearCheckoutDeliveryAddressFail',

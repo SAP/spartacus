@@ -15020,7 +15020,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE has been removed and is no longer part of the public API.",
-    "migrationComment": "It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery modes 'state' using the returned observable from 'clearCheckoutDeliveryMode' in CheckoutDeliveryModesService.",
+    "migrationComment": "It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can leverage the clearing of delivery modes 'state' using the returned observable from 'clearCheckoutDeliveryMode' in CheckoutDeliveryModesFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15174,7 +15174,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. Use 'clearCheckoutDeliveryAddress' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
