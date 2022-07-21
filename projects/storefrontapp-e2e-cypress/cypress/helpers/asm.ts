@@ -80,7 +80,7 @@ export function startCustomerEmulation(customer): void {
     .should('eq', 200);
 
   cy.get('cx-customer-selection div.asm-results button').click();
-  cy.get('button[type="submit"]').click();
+  cy.get('cx-customer-selection button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
   cy.get('cx-customer-emulation input')
