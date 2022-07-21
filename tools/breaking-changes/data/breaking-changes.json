@@ -26531,7 +26531,7 @@
     "type": "CheckoutStepType[]",
     "isDeleted": true,
     "deletedComment": "Variable checkoutPaymentSteps has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Moved to 'getCheckoutPaymentSteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/base/components') and 'getCheckoutPaymentSteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/b2b/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -26578,7 +26578,7 @@
     "type": "CheckoutStepType[]",
     "isDeleted": true,
     "deletedComment": "Variable checkoutShippingSteps has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Moved to 'getCheckoutDeliverySteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/base/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
