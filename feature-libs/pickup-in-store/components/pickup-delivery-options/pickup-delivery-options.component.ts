@@ -60,7 +60,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
       filter(isProductWithCode),
       map((product) => {
         this.productCode = product.code;
-        this.availableForPickup = !!product?.availableForPickup;
+        this.availableForPickup = !!product.availableForPickup;
 
         return this.productCode;
       })

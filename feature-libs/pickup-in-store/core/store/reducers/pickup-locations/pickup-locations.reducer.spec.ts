@@ -1,6 +1,7 @@
 import { PickupLocationActions } from '../../actions';
 import { IntendedPickupLocationsState } from '../../pickup-location-state';
 import * as fromReducer from './pickup-locations.reducer';
+import { getReducers } from './index';
 
 describe('intendedPickupLocationsReducer', () => {
   it('should add a location to the pickup location state', () => {
@@ -46,5 +47,12 @@ describe('intendedPickupLocationsReducer', () => {
       action
     );
     expect(newState).toEqual(initialState);
+  });
+
+  it('getReducer return reducer with property intendedPickupLocations', () => {
+    const reducer = getReducers();
+    expect(reducer).toEqual({
+      intendedPickupLocations: fromReducer.intendedPickupLocationsReducer,
+    });
   });
 });

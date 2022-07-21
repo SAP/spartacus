@@ -26,7 +26,16 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   startSearch = createSpy();
   hasSearchStarted = createSpy();
   isSearchRunning = createSpy();
-  getSearchResults = createSpy().and.returnValue(of([]));
+  getSearchResults = createSpy().and.returnValue(
+    of([
+      {
+        name: 'preferredStore',
+        stockInfo: {
+          stockLevel: 12,
+        },
+      },
+    ])
+  );
   clearSearchResults = createSpy();
   getHideOutOfStock = createSpy();
   setBrowserLocation = createSpy();

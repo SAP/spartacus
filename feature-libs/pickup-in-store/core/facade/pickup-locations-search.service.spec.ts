@@ -8,6 +8,7 @@ import {
 } from 'feature-libs/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
 import {
+  BrowserLocationActions,
   StateWithStock,
   StockLevelActions,
   ToggleHideOutOfStockOptionsAction,
@@ -51,7 +52,7 @@ describe('PickupLocationsSearchService', () => {
 
   const stockLocationSearchParams: StockLocationSearchParams = {
     productCode: 'P0001',
-    location: ''
+    location: '',
   };
 
   beforeEach(() => {
@@ -112,5 +113,16 @@ describe('PickupLocationsSearchService', () => {
   it('getStoresWithStockForProductCode', () => {
     service.getSearchResults('productCode');
     expect(store.pipe).toHaveBeenCalled();
+  });
+  it('Add Browser Location', () => {
+    service.setBrowserLocation(1, 1);
+    expect(store.dispatch).toHaveBeenCalledWith(
+      BrowserLocationActions.AddBrowserLocation({
+        payload: {
+          latitude: 1,
+          longitude: 1,
+        },
+      })
+    );
   });
 });

@@ -44,7 +44,7 @@ describe('PreferredStoreService', () => {
   let consentService: ConsentService;
   let windowRef: WindowRef;
 
-  const configureTestingModule = (withConfig = true) => {
+  const configureTestingModule = (withConfig = true, localStorage = true) => {
     TestBed.configureTestingModule({
       providers: [
         PreferredStoreService,
@@ -53,7 +53,7 @@ describe('PreferredStoreService', () => {
           provide: PickupInStoreConfig,
           useValue: MockPickupInStoreConfig(withConfig),
         },
-        { provide: WindowRef, useValue: MockWindowRef() },
+        { provide: WindowRef, useValue: localStorage ? MockWindowRef() : {} },
       ],
     });
 
@@ -139,6 +139,27 @@ describe('PreferredStoreService', () => {
       );
       expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
     });
+  });
+
+  describe('local Storage is not available', () => {
+    beforeEach(() => configureTestingModule(false, false));
+
+    it('setPreferredStore should not set preferredStore', () => {
+      spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
+        of(true)
+      );
+      expect(
+        preferredStoreService.setPreferredStore('preferredStore')
+      ).not.toBeDefined();
+    });
+
+    it('getPreferred Store to be undefined', () => {
+      expect(preferredStoreService.getPreferredStore()).toBeUndefined();
+    });
+  });
+
+  it('clearPreferredStore should be void', () => {
+    expect(preferredStoreService.clearPreferredStore()).toBeUndefined();
   });
 });
 
