@@ -65,7 +65,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     if (decimalPlaces === undefined) {
       decimalPlaces = 0;
     }
-    let formatted = formatNumber(
+    const formatted = formatNumber(
       intervalValue,
       locale,
       '1.' + decimalPlaces + '-' + decimalPlaces
@@ -85,7 +85,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     const intervals: ConfiguratorAttributeNumericInterval[] = [];
     if (values && values.length > 0) {
       values.forEach((value) => {
-        let interval = this.getInterval(value);
+        const interval = this.getInterval(value);
         if (interval && Object.keys(interval).length !== 0) {
           intervals.push(interval);
         }
@@ -118,7 +118,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
   getInterval(
     value: Configurator.Value
   ): ConfiguratorAttributeNumericInterval | undefined {
-    let interval: ConfiguratorAttributeNumericInterval = {
+    const interval: ConfiguratorAttributeNumericInterval = {
       minValue: undefined,
       maxValue: undefined,
       minValueIncluded: false,
@@ -133,7 +133,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
 
     // standard interval a - b
     if (value.name.includes(' - ')) {
-      let index = value.name.indexOf(' - ');
+      const index = value.name.indexOf(' - ');
       minVal = value.name.substring(0, index);
       maxVal = value.name.substring(index + 3, value.name.length);
       interval.minValueIncluded = true;

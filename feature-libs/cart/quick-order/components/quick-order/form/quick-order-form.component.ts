@@ -65,7 +65,7 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
       this.toggleBodyClass('quick-order-searchbox-is-active', false);
     }
 
-    let product = this.form.get('product')?.value;
+    const product = this.form.get('product')?.value;
 
     if (!!product) {
       this.form.reset();

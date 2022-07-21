@@ -279,11 +279,11 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
   }
 
   extractConfigPrices(configuration: Configurator.Configuration) {
-    let priceSummary = configuration.priceSummary;
-    let basePrice = priceSummary?.basePrice?.formattedValue;
-    let selectedOptions = priceSummary?.selectedOptions?.formattedValue;
-    let totalPrice = priceSummary?.currentTotal?.formattedValue;
-    let prices = {
+    const priceSummary = configuration.priceSummary;
+    const basePrice = priceSummary?.basePrice?.formattedValue;
+    const selectedOptions = priceSummary?.selectedOptions?.formattedValue;
+    const totalPrice = priceSummary?.currentTotal?.formattedValue;
+    const prices = {
       basePrice: basePrice,
       selectedOptions: selectedOptions,
       totalPrice: totalPrice,
