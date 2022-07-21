@@ -3966,7 +3966,7 @@ Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spar
 
 
 Variable CheckoutSelectors.getCheckoutSteps has been removed and is no longer part of the public API.
-Use 'getCheckoutDetails' from 'CheckoutOccEndpoints' (imported from '@spartacus/checkout/base/occ')
+Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3975,7 +3975,7 @@ Use 'getCheckoutDetails' from 'CheckoutOccEndpoints' (imported from '@spartacus/
 
 
 Variable CheckoutSelectors.getCheckoutStepsState has been removed and is no longer part of the public API.
-
+Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -4138,7 +4138,7 @@ moved to @spartacus/checkout/base/root
 
 ### PropertySignature cardTypes is removed.
 
-
+Use 'getPaymentCardTypesState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root') instead.')
 
 ### PropertySignature orderType is removed.
 
@@ -4146,11 +4146,11 @@ Removed. You can Use 'getOrderType()' from 'CheckoutReplenishmentFormService' (i
 
 ### PropertySignature paymentTypes is removed.
 
-No direct replacement. Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').
+Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').
 
 ### PropertySignature steps is removed.
 
-
+Removed, and there is no replecemenet as it is no longer needed.
 
 
 
@@ -4159,7 +4159,7 @@ No direct replacement. Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFac
 
 
 Interface CheckoutStepsState has been removed and is no longer part of the public API.
-
+Removed, and no longer used.
 
 
 
@@ -4211,7 +4211,7 @@ moved to @spartacus/checkout/base/core
 
 
 Variable PAYMENT_TYPE_NORMALIZER has been removed and is no longer part of the public API.
-
+Use 'CHECKOUT_PAYMENT_TYPE_NORMALIZER' from '@spartacus/checkout/b2b/core'
 
 
 
@@ -4635,7 +4635,7 @@ setPaymentDetails(
 
 
 Variable checkoutPaymentSteps has been removed and is no longer part of the public API.
-
+Moved to 'getCheckoutPaymentSteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/base/components') and 'getCheckoutPaymentSteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/b2b/components')
 
 
 
@@ -4652,7 +4652,7 @@ moved to @spartacus/checkout/base/root
 
 
 Variable checkoutShippingSteps has been removed and is no longer part of the public API.
-
+Moved to 'getCheckoutDeliverySteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/base/components')
 
 
 
