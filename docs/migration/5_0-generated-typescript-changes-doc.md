@@ -2587,7 +2587,7 @@ It is no used anymore. Checkout library no longer uses NgRX to dispatch actions.
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES_FAIL has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2596,7 +2596,7 @@ Variable CheckoutActions.LOAD_CARD_TYPES_FAIL has been removed and is no longer 
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES_SUCCESS has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2605,7 +2605,7 @@ Variable CheckoutActions.LOAD_CARD_TYPES_SUCCESS has been removed and is no long
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES has been removed and is no longer part of the public API.
-
+It is no used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
