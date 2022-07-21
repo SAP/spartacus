@@ -48,7 +48,7 @@ constructor(
 
 ### Property userService is removed.
 
-
+Use 'userAccountFacade' instead.
 
 
 
@@ -85,7 +85,7 @@ constructor(
 
 ### Property userService is removed.
 
-
+Use 'userAccountFacade' instead.
 
 
 
@@ -130,7 +130,7 @@ constructor(
 
 ### Property userService is removed.
 
-
+It is replaced by 'userProfileFacade'
 
 
 
@@ -345,7 +345,7 @@ config: Config
 
 ### Property globalMessageService is removed.
 
-
+It is not used anymore.
 
 ### Property winRef changed.
 
@@ -450,7 +450,7 @@ activeCartService: ActiveCartFacade
 
 ### Property productAdapter is removed.
 
-
+It is not used anymore.
 
 ### Property productSearchConnector changed.
 
@@ -523,11 +523,11 @@ quickOrder: {
 
 ### Method removeEntry is removed.
 
-
+Use `softDeleteEntry` instead.
 
 ### Method search is removed.
 
-
+Use `searchProducts` instead.
 
 
 
@@ -634,7 +634,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use activeCartFacade instead.
 
 
 
@@ -684,7 +684,7 @@ constructor(
 
 ### Method saveCart is removed.
 
-
+Instead, use the method 'save' from class 'CartAdapter' in @spartacus/cart/base/core
 
 
 
@@ -694,7 +694,7 @@ constructor(
 
 ### Method saveCart is removed.
 
-
+Instead, use the method 'save' from class 'CartConnector' in @spartacus/cart/base/core
 
 
 
@@ -752,7 +752,7 @@ multiCartService: MultiCartFacade
 
 ### Method registerDeleteSavedCartEvents is removed.
 
-Use 'registerDeleteCart' Method from Class 'CartEventBuilder' instead.
+Use 'registerDeleteCart' Method from Class 'CartEventBuilder' from @spartacus/cart/base/core instead.
 
 
 
@@ -837,7 +837,7 @@ multiCartService: MultiCartFacade
 
 ### Property userService is removed.
 
-
+It is replaced by userAccountFacade.
 
 
 
@@ -847,11 +847,11 @@ multiCartService: MultiCartFacade
 
 ### Method getSaveCartEndpoint is removed.
 
-
+It is not used anymore.  The saved cart request is now done from class 'OccCartAdapter' in '@spartacus/cart/base/occ'
 
 ### Method saveCart is removed.
 
-
+It is not used anymore.  The saved cart request is now done via method `save` from class 'OccCartAdapter' in '@spartacus/cart/base/occ'
 
 
 
@@ -860,7 +860,7 @@ multiCartService: MultiCartFacade
 
 
 Class DeleteSavedCartEvent has been removed and is no longer part of the public API.
-
+Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartEvent.
 
 
 
@@ -869,7 +869,7 @@ Class DeleteSavedCartEvent has been removed and is no longer part of the public 
 
 
 Class DeleteSavedCartFailEvent has been removed and is no longer part of the public API.
-
+Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartFailEvent.
 
 
 
@@ -878,7 +878,7 @@ Class DeleteSavedCartFailEvent has been removed and is no longer part of the pub
 
 
 Class DeleteSavedCartSuccessEvent has been removed and is no longer part of the public API.
-
+Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartSuccessEvent.
 
 
 
@@ -921,7 +921,7 @@ constructor(
 
 ### Property actionsSubject is removed.
 
-
+It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.
 
 ### Property multiCartService changed.
 
@@ -1014,7 +1014,7 @@ constructor(
 
 ### Property actionsSubject is removed.
 
-
+It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.
 
 ### Property multiCartService changed.
 
@@ -1109,7 +1109,7 @@ constructor(
 
 ### Property authRedirectService is removed.
 
-
+It is not used anymore.  It was there only to pass to the super() contructor and the super() constructor had this parameter removed.
 
 
 
@@ -1250,7 +1250,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use activeCartFacade instead.
 
 
 
@@ -4849,7 +4849,7 @@ constructor(
 
 ### Property cartSelector$ is removed.
 
-
+It is renamed to cartEntity$.
 
 ### Method getEntry changed.
 
@@ -4930,11 +4930,11 @@ isCartCreating(
 
 ### Method isEmail is removed.
 
-
+Instead, use 'isEmail' util function from '@spartacus/cart/base/core'.
 
 ### Method isEmpty is removed.
 
-
+Instead, use 'isEmpty' util function from '@spartacus/cart/base/core'.
 
 ### Method isGuestCart changed.
 
@@ -4963,11 +4963,11 @@ isGuestCart(
 
 ### Method isJustLoggedIn is removed.
 
-
+Instead, use 'isJustLoggedIn' util function from '@spartacus/cart/base/core'.
 
 ### Property multiCartService is removed.
 
-
+Use multiCartFacade instead.
 
 ### Method requireLoadedCart changed.
 
@@ -4996,11 +4996,11 @@ requireLoadedCart(
 
 ### Method requireLoadedCartForGuestMerge is removed.
 
-
+It is not used anymore.
 
 ### Property store is removed.
 
-
+It is not used anymore.
 
 
 
@@ -5008,16 +5008,6 @@ requireLoadedCart(
 ## @spartacus/core
 
 moved to @spartacus/cart/base/core
-
-
-
-
-# Class AddUserAddressEvent 
-## @spartacus/core
-
-
-### Property userId is removed.
-
 
 
 
@@ -5304,7 +5294,7 @@ moved to @spartacus/checkout/b2b/root
 
 ### Method handleBadCartRequest is removed.
 
-
+'handleBadCartRequest' is moved to Class 'BadCartRequestHandler' in  '@spartacus/cart/base/core'
 
 ### Method handleVoucherOperationError is removed.
 
@@ -6436,7 +6426,7 @@ moved to namespace CartActions
 
 
 Variable CartActions.RESET_WISH_LIST_DETAILS has been removed and is no longer part of the public API.
-
+It is not used anymore.
 
 
 
@@ -6463,7 +6453,7 @@ moved to namespace CartActions
 
 
 Variable CartActions.SET_TEMP_CART has been removed and is no longer part of the public API.
-
+It is not used anymore.
 
 
 
@@ -6481,7 +6471,7 @@ moved to namespace CartActions
 
 
 Class CartActions.SetTempCart has been removed and is no longer part of the public API.
-
+It is not used anymore.
 
 
 
@@ -6712,7 +6702,7 @@ moved to @spartacus/cart/base/root
 
 
 Class CartModule has been removed and is no longer part of the public API.
-
+While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.
 
 
 
@@ -6721,7 +6711,7 @@ Class CartModule has been removed and is no longer part of the public API.
 
 
 Class CartOccModule has been removed and is no longer part of the public API.
-
+While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.
 
 
 
@@ -6733,7 +6723,7 @@ moved to @spartacus/cart/base/core
 
 ### Method forRoot is removed.
 
-
+The providers previously loaded by 'forRoot' are now loaded with the module.
 
 
 
@@ -6825,7 +6815,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use activeCartFacade instead.
 
 
 
@@ -7625,16 +7615,6 @@ getParams(): Observable<{
 
 
 
-# Class DeleteUserAddressEvent 
-## @spartacus/core
-
-
-### Property userId is removed.
-
-
-
-
-
 # Interface DeliveryMode 
 ## @spartacus/core
 
@@ -8002,7 +7982,7 @@ moved to @spartacus/cart/base/core
 
 
 Variable MultiCartSelectors.getActiveCartId has been removed and is no longer part of the public API.
-
+Use 'getCartIdByTypeFactory' instead
 
 
 
@@ -8140,7 +8120,7 @@ moved to namespace MultiCartSelectors
 
 
 Variable MultiCartSelectors.getWishListId has been removed and is no longer part of the public API.
-
+Use 'getCartIdByTypeFactory' instead
 
 
 
@@ -8278,7 +8258,7 @@ moved to @spartacus/cart/base/core
 
 ### PropertySignature active is removed.
 
-
+Instead, use property 'index' combined with the appropriate 'cartType'.
 
 ### PropertySignature carts changed.
 
@@ -8299,7 +8279,7 @@ carts: StateUtils.EntityProcessesLoaderState<Cart | undefined>
 
 ### PropertySignature wishList is removed.
 
-
+Instead, use property 'index' combined with the appropriate 'cartType'.
 
 
 
@@ -8377,7 +8357,7 @@ constructor(
 
 ### Property authRedirectService is removed.
 
-
+It is not used anymore.
 
 
 
@@ -8595,275 +8575,275 @@ normalizeBoolean(
 
 ### PropertySignature addEmail is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature addEntries is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature b2bUser is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserApprover is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserApprovers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserPermission is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserPermissions is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUsers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserUserGroup is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserUserGroups is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature budget is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature budgets is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature cancelOrder is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature cancelReplenishmentOrder is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature cancelReturn is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature cart is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature carts is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature cartVoucher is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature consignmentTracking is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature costCenter is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature costCenterBudget is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature costCenterBudgets is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature costCenters is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature costCentersAll is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature createCart is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature deleteCart is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature orderApproval is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'
 
 ### PropertySignature orderApprovalDecision is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'
 
 ### PropertySignature orderApprovalPermissionTypes is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orderApprovals is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'
 
 ### PropertySignature orderDetail is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature orderHistory is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature orderReturnDetail is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature orderReturns is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature orgUnit is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitApprover is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitApprovers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnits is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitsAddress is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitsAddresses is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitsApprovalProcesses is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitsAvailable is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitsTree is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitUserRole is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitUserRoles is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitUsers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature permission is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature permissions is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature removeEntries is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature replenishmentOrderDetails is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature replenishmentOrderDetailsHistory is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature replenishmentOrderHistory is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature returnOrder is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature saveCart is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature scheduleReplenishmentOrder is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature store is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/storefinder/occ'
 
 ### PropertySignature stores is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/storefinder/occ'
 
 ### PropertySignature storescounts is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/storefinder/occ'
 
 ### PropertySignature updateEntries is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature userGroup is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupAvailableOrderApprovalPermissions is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupAvailableOrgCustomers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupMember is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupMembers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupOrderApprovalPermission is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupOrderApprovalPermissions is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroups is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature validate is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 
 
@@ -8948,7 +8928,7 @@ moved to @spartacus/order/occ
 
 
 Class OccUserOrderAdapter has been removed and is no longer part of the public API.
-
+Use OccOrderHistoryAdapter in @spartacus/order/occ instead
 
 
 
@@ -8957,7 +8937,7 @@ Class OccUserOrderAdapter has been removed and is no longer part of the public A
 
 
 Class OccUserReplenishmentOrderAdapter has been removed and is no longer part of the public API.
-
+Use OccReplenishmentOrderHistoryAdapter in @spartacus/order/occ instead
 
 
 
@@ -9030,7 +9010,7 @@ moved to @spartacus/cart/base/root
 
 
 Class OrderEntryPromotionsService has been removed and is no longer part of the public API.
-
+It is not used anymore.
 
 
 
@@ -9966,7 +9946,7 @@ moved to @spartacus/cart/base/root
 
 
 Class SaveCartAdapter has been removed and is no longer part of the public API.
-
+Use CartAdapter.save instead from '@spartacus/cart/base/core'
 
 
 
@@ -9975,7 +9955,7 @@ Class SaveCartAdapter has been removed and is no longer part of the public API.
 
 
 Class SaveCartConnector has been removed and is no longer part of the public API.
-
+Use CartConnector.save instead from '@spartacus/cart/base/core'
 
 
 
@@ -10036,23 +10016,23 @@ constructor(
 
 ### Property cartConfigService is removed.
 
-
+It is not used anymore.
 
 ### Property cartId is removed.
 
-
+Use getSelectiveCartId() instead.
 
 ### Property cartId$ is removed.
 
-
+Use getSelectiveCartId() instead.
 
 ### Property cartSelector$ is removed.
 
-
+It is not used anymore.
 
 ### Property customerId is removed.
 
-
+It's not used anymore.
 
 ### Method getEntry changed.
 
@@ -10081,15 +10061,15 @@ getEntry(
 
 ### Method isEmpty is removed.
 
-
+It's not used anymore.
 
 ### Method isEnabled is removed.
 
-
+It's not used anymore.
 
 ### Method isJustLoggedIn is removed.
 
-
+It's not used anymore.
 
 ### Method isLoggedIn is removed.
 
@@ -10097,31 +10077,31 @@ getEntry(
 
 ### Method load is removed.
 
-
+It's not used anymore.
 
 ### Property multiCartService is removed.
 
-
+Use multiCartFacade instead.
 
 ### Property PREVIOUS_USER_ID_INITIAL_VALUE is removed.
 
-
+It's not used anymore.
 
 ### Property previousUserId is removed.
 
-
+It's not used anymore.
 
 ### Property store is removed.
 
-
+It's not used anymore.
 
 ### Property userId is removed.
 
-
+It's not used anymore.
 
 ### Property userService is removed.
 
-
+It's not used anymore.
 
 
 
@@ -11258,22 +11238,12 @@ moved to @spartacus/order/root
 
 
 
-# Class UpdateUserAddressEvent 
-## @spartacus/core
-
-
-### Property userId is removed.
-
-
-
-
-
 # Variable USER_ORDER_DETAILS 
 ## @spartacus/core
 
 
 Variable USER_ORDER_DETAILS has been removed and is no longer part of the public API.
-
+It is replaced by ORDER_DETAILS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11282,7 +11252,7 @@ Variable USER_ORDER_DETAILS has been removed and is no longer part of the public
 
 
 Variable USER_ORDERS has been removed and is no longer part of the public API.
-
+It is replaced by ORDERS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11291,7 +11261,7 @@ Variable USER_ORDERS has been removed and is no longer part of the public API.
 
 
 Variable USER_REPLENISHMENT_ORDER_DETAILS has been removed and is no longer part of the public API.
-
+It is replaced by REPLENISHMENT_ORDER_DETAILS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11300,7 +11270,7 @@ Variable USER_REPLENISHMENT_ORDER_DETAILS has been removed and is no longer part
 
 
 Variable USER_REPLENISHMENT_ORDERS has been removed and is no longer part of the public API.
-
+It is replaced by REPLENISHMENT_ORDERS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11309,7 +11279,7 @@ Variable USER_REPLENISHMENT_ORDERS has been removed and is no longer part of the
 
 
 Variable USER_RETURN_REQUEST_DETAILS has been removed and is no longer part of the public API.
-
+It is replaced by RETURN_REQUEST_DETAILS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11318,7 +11288,7 @@ Variable USER_RETURN_REQUEST_DETAILS has been removed and is no longer part of t
 
 
 Variable USER_RETURN_REQUESTS has been removed and is no longer part of the public API.
-
+It is replaced by RETURN_REQUESTS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11327,7 +11297,7 @@ Variable USER_RETURN_REQUESTS has been removed and is no longer part of the publ
 
 
 Class UserAccountFacadeTransitionalToken has been removed and is no longer part of the public API.
-
+Use UserAccountFacade instead.
 
 
 
@@ -12537,7 +12507,7 @@ store: Store<StateWithUser>
 
 
 Class UserOccTransitional_4_2_Module has been removed and is no longer part of the public API.
-
+Use UserOccModule instead.
 
 
 
@@ -12555,7 +12525,7 @@ Class UserOccTransitionalModule has been removed and is no longer part of the pu
 
 
 Class UserOrderAdapter has been removed and is no longer part of the public API.
-
+Use OrderHistoryAdapter in @spartacus/order/core.
 
 
 
@@ -12564,7 +12534,7 @@ Class UserOrderAdapter has been removed and is no longer part of the public API.
 
 
 Class UserOrderConnector has been removed and is no longer part of the public API.
-
+Use OrderHistoryConnector in @spartacus/order/core.
 
 
 
@@ -12573,7 +12543,7 @@ Class UserOrderConnector has been removed and is no longer part of the public AP
 
 
 Class UserOrderService has been removed and is no longer part of the public API.
-
+Use OrderHistoryFacade in @spartacus/order/root instead.
 
 
 
@@ -12632,7 +12602,7 @@ store: Store<StateWithUser>
 
 
 Class UserReplenishmentOrderAdapter has been removed and is no longer part of the public API.
-
+Use ReplenishmentOrderHistoryAdapter in @spartacus/order/core.
 
 
 
@@ -12641,7 +12611,7 @@ Class UserReplenishmentOrderAdapter has been removed and is no longer part of th
 
 
 Class UserReplenishmentOrderConnector has been removed and is no longer part of the public API.
-
+Use ReplenishmentOrderHistoryConnector in @spartacus/order/core.
 
 
 
@@ -12650,7 +12620,7 @@ Class UserReplenishmentOrderConnector has been removed and is no longer part of 
 
 
 Class UserReplenishmentOrderService has been removed and is no longer part of the public API.
-
+Use ReplenishmentOrderHistoryFacade in @spartacus/order/root instead.
 
 
 
@@ -12690,11 +12660,11 @@ constructor(
 
 ### Method get is removed.
 
-
+Use 'UserAccountFacade.get()' from '@spartacus/user' instead.
 
 ### Property userAccountFacade is removed.
 
-
+It is not used anymore.
 
 ### Property userProfileFacade changed.
 
@@ -13394,31 +13364,31 @@ getReplenishmentOrderState: MemoizedSelector<StateWithOrder, StateUtils.LoaderSt
 
 ### PropertySignature consignmentTracking is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 ### PropertySignature order is removed.
 
-
+It is not used anymore.
 
 ### PropertySignature orderReturn is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 ### PropertySignature orderReturnList is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 ### PropertySignature orders is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 ### PropertySignature replenishmentOrder is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 ### PropertySignature replenishmentOrders is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 
 
@@ -13427,7 +13397,7 @@ getReplenishmentOrderState: MemoizedSelector<StateWithOrder, StateUtils.LoaderSt
 
 
 Class UserTransitional_4_2_Module has been removed and is no longer part of the public API.
-
+Use UserModule instead.
 
 
 
