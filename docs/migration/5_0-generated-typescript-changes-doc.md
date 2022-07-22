@@ -2082,9 +2082,61 @@ renamed to CheckoutPaymentFormModule
 # Class PaymentMethodComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentMethodComponent
 
-Class PaymentMethodComponent has been removed and is no longer part of the public API.
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  userPaymentService: UserPaymentService,
+  checkoutService: CheckoutFacade,
+  checkoutDeliveryService: CheckoutDeliveryFacade,
+  checkoutPaymentService: CheckoutPaymentFacade,
+  globalMessageService: GlobalMessageService,
+  activatedRoute: ActivatedRoute,
+  translation: TranslationService,
+  activeCartService: ActiveCartService,
+  checkoutStepService: CheckoutStepService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  userPaymentService: UserPaymentService,
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  checkoutPaymentFacade: CheckoutPaymentFacade,
+  activatedRoute: ActivatedRoute,
+  translationService: TranslationService,
+  activeCartFacade: ActiveCartFacade,
+  checkoutStepService: CheckoutStepService,
+  globalMessageService: GlobalMessageService
+)
+
+```
+
+
+### Property checkoutService is removed.
+
+
+
+### Property checkoutDeliveryService is removed.
+
+Use 'checkoutDeliveryAddressFacade' instead in @spartacus/checkout/base/root
+
+### Property activeCartService is removed.
+
+Use activeCartFacade instead.
 
 
 

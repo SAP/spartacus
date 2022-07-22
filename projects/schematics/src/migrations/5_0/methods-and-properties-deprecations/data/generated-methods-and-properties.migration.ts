@@ -433,6 +433,27 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'NotCheckoutAuthGuard'. Use 'activeCartFacade' instead.",
     },
     {
+      class: 'PaymentMethodComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutService' was removed from Class 'PaymentMethodComponent'. ",
+    },
+    {
+      class: 'PaymentMethodComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutDeliveryService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'PaymentMethodComponent'. Use 'checkoutDeliveryAddressFacade' instead in @spartacus/checkout/base/root",
+    },
+    {
+      class: 'PaymentMethodComponent',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'PaymentMethodComponent'. Use activeCartFacade instead.",
+    },
+    {
       class: 'PlaceOrderComponent',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'checkoutService',
