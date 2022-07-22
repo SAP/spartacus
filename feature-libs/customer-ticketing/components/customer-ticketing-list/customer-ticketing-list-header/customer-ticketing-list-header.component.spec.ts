@@ -1,14 +1,11 @@
-import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CustomerTicketingListHeaderComponent } from './customer-ticketing-list-header.component';
 
 describe('CustomerTicketingListHeaderComponent should init', () => {
   let component: CustomerTicketingListHeaderComponent;
   let fixture: ComponentFixture<CustomerTicketingListHeaderComponent>;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [CustomerTicketingListHeaderComponent],
     }).compileComponents();
@@ -17,7 +14,6 @@ describe('CustomerTicketingListHeaderComponent should init', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerTicketingListHeaderComponent);
     component = fixture.componentInstance;
-    el = fixture.debugElement;
     fixture.detectChanges();
   });
 
