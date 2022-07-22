@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
+import { COLOR_CLOSE, COLOR_OPEN } from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -60,12 +61,16 @@ export class CustomerTicketingDetailsComponent implements OnInit {
       map((textTitle) => ({
         title: textTitle,
         text: [entity],
-        textColor: this.getStatusColor(entity),
+        customCss: this.getStatusColor(entity),
       }))
     );
   }
 
-  getStatusColor(status: string): string {
-    return status === 'Open' ? '#38871F' : status === 'Close' ? '#6C7079' : '';
+  getStatusColor(status: string): { color: string } | undefined {
+    return status === 'Open'
+      ? { color: COLOR_OPEN }
+      : status === 'Close'
+      ? { color: COLOR_CLOSE }
+      : undefined;
   }
 }

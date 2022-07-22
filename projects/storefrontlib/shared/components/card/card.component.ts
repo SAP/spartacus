@@ -22,7 +22,7 @@ export interface Card {
   deleteMsg?: string;
   label?: string;
   role?: string;
-  textColor?: string;
+  customCss?: { color?: string } | undefined;
 }
 
 @Component({
@@ -103,6 +103,10 @@ export class CardComponent implements OnInit {
     action: CardAction | CardLinkAction
   ): action is CardLinkAction {
     return (action as CardLinkAction).link !== undefined;
+  }
+
+  getCustomStyle() {
+    return this.content?.customCss;
   }
 
   constructor() {}

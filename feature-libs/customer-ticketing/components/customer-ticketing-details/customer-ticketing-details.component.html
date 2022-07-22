@@ -4,7 +4,7 @@
       <div class="cx-details-card">
         <cx-card
           [content]="
-            prepareCardContent(ticket?.id, 'customerTicketing.ticketId') | async
+            prepareCardContent(ticket.id, 'customerTicketing.ticketId') | async
           "
         ></cx-card>
       </div>
@@ -13,7 +13,7 @@
         <cx-card
           [content]="
             prepareCardContent(
-              ticket?.createdAt | cxDate: 'MMMM d, YYYY h:mm aa',
+              ticket.createdAt | cxDate: 'MMMM d, YYYY h:mm aa',
               'customerTicketing.createdOn'
             ) | async
           "
@@ -24,7 +24,7 @@
         <cx-card
           [content]="
             prepareCardContent(
-              ticket?.modifiedAt | cxDate: 'MMMM d, YYYY h:mm aa',
+              ticket.modifiedAt | cxDate: 'MMMM d, YYYY h:mm aa',
               'customerTicketing.changedOn'
             ) | async
           "
@@ -34,7 +34,7 @@
       <div class="cx-details-card">
         <cx-card
           [content]="
-            prepareCardContent(ticket?.status?.name, 'customerTicketing.status')
+            prepareCardContent(ticket.status.name, 'customerTicketing.status')
               | async
           "
         ></cx-card>
