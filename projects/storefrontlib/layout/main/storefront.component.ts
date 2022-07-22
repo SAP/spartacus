@@ -29,6 +29,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
 
   @HostBinding('class.start-navigating') startNavigating: boolean;
   @HostBinding('class.stop-navigating') stopNavigating: boolean;
+  @HostBinding('attr.role') role = 'presentation';
 
   // required by esc focus
   @HostBinding('tabindex') tabindex = '0';
