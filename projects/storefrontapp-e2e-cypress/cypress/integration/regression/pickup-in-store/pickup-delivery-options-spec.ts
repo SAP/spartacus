@@ -39,7 +39,7 @@ describe('Pickup delivery options', () => {
       cy.visit('/product/300310300', mockLocation(53, 0));
     });
 
-    xit('should open the pickup locations dialog, and dialog should be closeable', () => {
+    it('should open the pickup locations dialog, and dialog should be closeable', () => {
       cy.get('cx-pickup-delivery-options').should('exist');
       cy.get('#delivery').should('have.attr', 'aria-checked', 'true');
       cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
@@ -48,7 +48,7 @@ describe('Pickup delivery options', () => {
       cy.get(PICKUP_IN_STORE_MODAL).should('not.exist');
     });
 
-    xit('should filter out stores with no stock when "Hide out of stock options" is checked', () => {
+    it('should filter out stores with no stock when "Hide out of stock options" is checked', () => {
       cy.get('cx-pickup-delivery-options').should('exist');
       cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(PICKUP_IN_STORE_MODAL).should('exist');
@@ -57,7 +57,7 @@ describe('Pickup delivery options', () => {
       cy.get('cx-store').should('have.length', 11);
     });
 
-    xit('uses the search term entered if Find Stores button clicked ', () => {
+    it('uses the search term entered if Find Stores button clicked ', () => {
       cy.get('cx-pickup-delivery-options').should('exist');
       cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(PICKUP_IN_STORE_MODAL).should('exist');
