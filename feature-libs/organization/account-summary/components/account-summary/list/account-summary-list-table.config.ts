@@ -1,6 +1,6 @@
-import { OrganizationTableType } from "@spartacus/organization/administration/components";
-import { BREAKPOINT, TableConfig, TableLayout } from "@spartacus/storefront";
-import { AccountSummaryCellLinkComponent } from "../cell-link";
+import { OrganizationTableType } from '@spartacus/organization/administration/components';
+import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
+import { AccountSummaryCellLinkComponent } from '../cell-link';
 
 export function accountSummaryUnitsTableConfigFactory(): TableConfig {
   return accountSummaryUnitsTableConfig;
@@ -15,7 +15,7 @@ export const accountSummaryUnitsTableConfig: TableConfig = {
         cells: {
           name: {
             dataComponent: AccountSummaryCellLinkComponent,
-          }
+          },
         },
       },
       [BREAKPOINT.lg]: {

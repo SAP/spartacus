@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { ItemService, ListService } from '@spartacus/organization/administration/components';
+import {
+  ItemService,
+  ListService,
+} from '@spartacus/organization/administration/components';
 import { UnitTreeService } from '@spartacus/organization/administration/components';
 import { AccountSummaryItemService } from '../../services/account-summary-item.service';
 import { AccountSummaryListService } from '../../services/account-summary-list.service';
-
 @Component({
   selector: 'cx-account-summary-list',
   templateUrl: './account-summary-list.component.html',
@@ -17,11 +19,10 @@ import { AccountSummaryListService } from '../../services/account-summary-list.s
       provide: ItemService,
       useExisting: AccountSummaryItemService,
     },
-  ]
+  ],
 })
 export class AccountSummaryListComponent {
-
-  constructor(protected unitTreeService: UnitTreeService) { }
+  constructor(protected unitTreeService: UnitTreeService) {}
 
   expandAll() {
     this.unitTreeService.expandAll();

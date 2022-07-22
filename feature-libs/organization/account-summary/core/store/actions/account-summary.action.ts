@@ -2,8 +2,10 @@ import { StateUtils } from '@spartacus/core';
 import { ACCOUNT_SUMMARY_ENTITIES } from '../account-summary-state';
 
 export const LOAD_ACCOUNT_SUMMARY = '[AccountSummary] Load Account Summary';
-export const LOAD_ACCOUNT_SUMMARY_FAIL = '[AccountSummary] Load Account Summary Data Fail';
-export const LOAD_ACCOUNT_SUMMARY_SUCCESS = '[AccountSummary] Load Account Summary Data Success';
+export const LOAD_ACCOUNT_SUMMARY_FAIL =
+  '[AccountSummary] Load Account Summary Data Fail';
+export const LOAD_ACCOUNT_SUMMARY_SUCCESS =
+  '[AccountSummary] Load Account Summary Data Success';
 
 export class LoadAccountSummary extends StateUtils.EntityLoadAction {
   readonly type = LOAD_ACCOUNT_SUMMARY;
@@ -18,7 +20,6 @@ export class LoadAccountSummaryFail extends StateUtils.EntityFailAction {
   constructor(public payload: { budgetCode: string; error: any }) {
     super(ACCOUNT_SUMMARY_ENTITIES, payload.budgetCode, payload.error);
     console.log(this.type);
-
   }
 }
 
@@ -29,7 +30,6 @@ export class LoadAccountSummarySuccess extends StateUtils.EntitySuccessAction {
     console.log(this.type);
   }
 }
-
 
 export type AccountSummaryAction =
   | LoadAccountSummary

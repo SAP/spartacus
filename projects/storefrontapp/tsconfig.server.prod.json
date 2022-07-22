@@ -101,6 +101,24 @@
       "@spartacus/order": ["../../dist/order"],
       "@spartacus/order/occ": ["../../dist/order/occ"],
       "@spartacus/order/root": ["../../dist/order/root"],
+      "@spartacus/organization/account-summary/assets": [
+        "../../dist/organization/account-summary/assets"
+      ],
+      "@spartacus/organization/account-summary/components": [
+        "../../dist/organization/account-summary/components"
+      ],
+      "@spartacus/organization/account-summary/core": [
+        "../../dist/organization/account-summary/core"
+      ],
+      "@spartacus/organization/account-summary": [
+        "../../dist/organization/account-summary"
+      ],
+      "@spartacus/organization/account-summary/occ": [
+        "../../dist/organization/account-summary/occ"
+      ],
+      "@spartacus/organization/account-summary/root": [
+        "../../dist/organization/account-summary/root"
+      ],
       "@spartacus/organization/administration/assets": [
         "../../dist/organization/administration/assets"
       ],
@@ -120,15 +138,6 @@
         "../../dist/organization/administration/root"
       ],
       "@spartacus/organization": ["../../dist/organization"],
-      "@spartacus/organization/account-summary/assets": [
-        "../../dist/organization/account-summary/assets"
-      ],
-      "@spartacus/organization/account-summary": [
-        "../../dist/organization/account-summary"
-      ],
-      "@spartacus/organization/account-summary/root": [
-        "../../dist/organization/account-summary/root"
-      ],
       "@spartacus/organization/order-approval/assets": [
         "../../dist/organization/order-approval/assets"
       ],
@@ -250,14 +259,11 @@
         "../../dist/digital-payments/assets"
       ],
       "@spartacus/digital-payments": ["../../dist/digital-payments"],
-      "@spartacus/epd-visualization/components": [
-        "../../dist/epd-visualization/components"
-      ],
       "@spartacus/epd-visualization/assets": [
         "../../dist/epd-visualization/assets"
       ],
-      "@spartacus/epd-visualization/root": [
-        "../../dist/epd-visualization/root"
+      "@spartacus/epd-visualization/components": [
+        "../../dist/epd-visualization/components"
       ],
       "@spartacus/epd-visualization/core": [
         "../../dist/epd-visualization/core"
@@ -266,6 +272,9 @@
         "../../dist/epd-visualization/epd-visualization-api"
       ],
       "@spartacus/epd-visualization": ["../../dist/epd-visualization"],
+      "@spartacus/epd-visualization/root": [
+        "../../dist/epd-visualization/root"
+      ],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"]

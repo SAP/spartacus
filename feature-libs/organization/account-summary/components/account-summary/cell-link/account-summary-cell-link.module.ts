@@ -3,7 +3,7 @@ import { UnitListModule } from '@spartacus/organization/administration/component
 import { AccountSummaryCellLinkComponent } from './account-summary-cell-link.component';
 
 @NgModule({
-    imports: [UnitListModule],
-    declarations: [AccountSummaryCellLinkComponent],
+  imports: [UnitListModule],
+  declarations: [AccountSummaryCellLinkComponent],
 })
-export class AccountSummaryCellLinkModule { }
+export class AccountSummaryCellLinkModule {}

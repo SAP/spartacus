@@ -4,22 +4,23 @@
       <th>{{ 'orgAccountSummary.document.id' | cxTranslate }}</th>
       <th>{{ 'orgAccountSummary.document.type' | cxTranslate }}</th>
       <th>{{ 'orgAccountSummary.document.date' | cxTranslate }}</th>
-      <th>{{ 'orgAccountSummary.document.dueDate' | cxTranslate }}
+      <th>{{ 'orgAccountSummary.document.dueDate' | cxTranslate }}</th>
       <th>{{ 'orgAccountSummary.document.originalAmount' | cxTranslate }}t</th>
       <th>{{ 'orgAccountSummary.document.openAmount' | cxTranslate }}</th>
       <th>{{ 'orgAccountSummary.document.status' | cxTranslate }}</th>
       <th>{{ 'orgAccountSummary.document.attachment' | cxTranslate }}</th>
     </tr>
     <tr *ngFor="let document of documents">
-      <td style="border: 1px solid black">{{document?.documentNumber}}</td>
-      <td style="border: 1px solid black">{{document?.documentType?.name}}</td>
-      <td style="border: 1px solid black">{{document?.date}}</td>
-      <td style="border: 1px solid black">{{document?.dueDate}}</td>
-      <td style="border: 1px solid black">{{document?.amount}}</td>
-      <td style="border: 1px solid black">{{document?.openAmount}}</td>
-      <td style="border: 1px solid black">{{document?.status}}</td>
+      <td style="border: 1px solid black">{{ document?.documentNumber }}</td>
+      <td style="border: 1px solid black">
+        {{ document?.documentType?.name }}
+      </td>
+      <td style="border: 1px solid black">{{ document?.date }}</td>
+      <td style="border: 1px solid black">{{ document?.dueDate }}</td>
+      <td style="border: 1px solid black">{{ document?.amount }}</td>
+      <td style="border: 1px solid black">{{ document?.openAmount }}</td>
+      <td style="border: 1px solid black">{{ document?.status }}</td>
       <td style="border: 1px solid black">&nbsp;</td>
     </tr>
-
   </table>
 </div>

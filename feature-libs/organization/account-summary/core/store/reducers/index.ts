@@ -7,11 +7,11 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { AuthActions, ListModel, StateUtils } from '@spartacus/core';
+import { ACCOUNT_SUMMARY_FEATURE } from '@spartacus/organization/account-summary/root';
 import { AccountSummary } from '../../model/account-summary';
 import {
   AccountSummaryState,
   ACCOUNT_SUMMARY_ENTITIES,
-  ACCOUNT_SUMMARY_FEATURE,
   ACCOUNT_SUMMARY_LIST,
 } from '../account-summary-state';
 import {

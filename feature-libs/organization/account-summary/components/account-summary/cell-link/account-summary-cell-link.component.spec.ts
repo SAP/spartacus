@@ -8,9 +8,8 @@ describe('AccountSummaryCellLinkComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccountSummaryCellLinkComponent ]
-    })
-    .compileComponents();
+      declarations: [AccountSummaryCellLinkComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

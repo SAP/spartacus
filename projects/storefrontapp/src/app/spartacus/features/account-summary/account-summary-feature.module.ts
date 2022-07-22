@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
-import { accountSummaryTranslationChunksConfig, accountSummaryTranslations } from '@spartacus/organization/account-summary/assets';
+import {
+  accountSummaryTranslationChunksConfig,
+  accountSummaryTranslations,
+} from '@spartacus/organization/account-summary/assets';
 import {
   AccountSummaryRootModule,
-  ACCOUNT_SUMMARY_FEATURE
+  ACCOUNT_SUMMARY_FEATURE,
 } from '@spartacus/organization/account-summary/root';
 // DUMMY CHANGE FOR TESTING
 
@@ -29,5 +32,4 @@ import {
     }),
   ],
 })
-export class AccountSummaryFeatureModule { }
-
+export class AccountSummaryFeatureModule {}

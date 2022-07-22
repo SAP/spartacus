@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 // import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { ACCOUNT_SUMMARY_FEATURE } from './account-summary-state';
+import { ACCOUNT_SUMMARY_FEATURE } from '@spartacus/organization/account-summary/root';
 // import { effects } from './effects/index';
 import { metaReducers, reducerProvider, reducerToken } from './reducers/index';
 

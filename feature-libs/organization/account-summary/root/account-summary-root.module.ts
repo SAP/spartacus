@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   provideDefaultConfig,
-  provideDefaultConfigFactory
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { ORGANIZATION_ADMINISTRATION_FEATURE } from '@spartacus/organization/administration/root';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultAccountSummaryRoutingConfig } from './config/default-account-summary-routing.config';
 import { ACCOUNT_SUMMARY_FEATURE } from './feature-name';
 
@@ -16,11 +18,9 @@ export function defaultAccountSummaryComponentsConfig(): CmsConfig {
         cmsComponents: [
           'AccountSummaryListComponent',
           'AccountSummaryHeaderComponent',
-          'AccountSummaryDocumentComponent'
+          'AccountSummaryDocumentComponent',
         ],
-        dependencies: [
-          ORGANIZATION_ADMINISTRATION_FEATURE
-        ]
+        dependencies: [ORGANIZATION_ADMINISTRATION_FEATURE],
       },
     },
   };
@@ -29,12 +29,20 @@ export function defaultAccountSummaryComponentsConfig(): CmsConfig {
 }
 
 @NgModule({
+  imports: [
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'orgAccountSummaryDetails' },
+      },
+    ]),
+  ],
   providers: [
-    // provideDefaultConfig(defaultOrganizationLayoutConfig),
     provideDefaultConfig(defaultAccountSummaryRoutingConfig),
-    provideDefaultConfigFactory(
-      defaultAccountSummaryComponentsConfig
-    ),
+    provideDefaultConfigFactory(defaultAccountSummaryComponentsConfig),
   ],
 })
-export class AccountSummaryRootModule { }
+export class AccountSummaryRootModule {}

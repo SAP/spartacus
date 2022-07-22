@@ -84,4 +84,4 @@ if (!environment.production) {
   ],
   bootstrap: [StorefrontComponent],
 })
-export class AppModule { }
+export class AppModule {}

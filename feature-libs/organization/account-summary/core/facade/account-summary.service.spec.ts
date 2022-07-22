@@ -1,13 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { AccountSummaryDetailsService } from './account-summary-details.service';
-
+import { AccountSummaryService } from './account-summary.service';
 
 describe('AccountSummaryDetailsService', () => {
-  let service: AccountSummaryDetailsService;
+  let service: AccountSummaryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AccountSummaryDetailsService);
+    service = TestBed.inject(AccountSummaryService);
   });
 
   it('should be created', () => {

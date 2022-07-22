@@ -20,10 +20,10 @@ export const accountSummary = {
       originalAmount: 'Original Amount',
       openAmount: 'Open Amount',
       status: 'Status',
-      attachment: 'Attachment'
+      attachment: 'Attachment',
     },
     //TODO
-    hint: ""
+    hint: '',
   },
 
   breadcrumbs: {

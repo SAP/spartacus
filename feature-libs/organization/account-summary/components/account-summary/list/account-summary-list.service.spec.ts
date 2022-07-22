@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AccountSummaryListService } from '../../services/account-summary-list.service';
 
-
 describe('AccountSummaryListService', () => {
   let service: AccountSummaryListService;
 

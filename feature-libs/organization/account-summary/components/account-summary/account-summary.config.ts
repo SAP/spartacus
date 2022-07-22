@@ -1,9 +1,8 @@
-import { AuthGuard, CmsConfig } from "@spartacus/core";
-import { ROUTE_PARAMS } from "@spartacus/organization/administration/root";
-import { AdminGuard } from "@spartacus/organization/administration/core";
-import { AccountSummaryListComponent } from "./list/account-summary-list.component";
-import { AccountSummaryDocumentComponent } from "./details";
-
+import { AuthGuard, CmsConfig } from '@spartacus/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
+import { AdminGuard } from '@spartacus/organization/administration/core';
+import { AccountSummaryListComponent } from './list/account-summary-list.component';
+import { AccountSummaryDocumentComponent } from './document';
 
 export const accountSummaryCmsConfig: CmsConfig = {
   cmsComponents: {
@@ -23,7 +22,7 @@ export const accountSummaryCmsConfig: CmsConfig = {
             component: AccountSummaryDocumentComponent,
             data: {
               cxPageMeta: {
-                breadcrumb: 'accountSummary.breadcrumbs.details'
+                breadcrumb: 'accountSummary.breadcrumbs.details',
               },
             },
           },

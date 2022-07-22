@@ -1,13 +1,7 @@
-import { ParamsMapping, RoutingConfig } from '@spartacus/core';
-import { ROUTE_PARAMS } from '../route-params';
+import { RoutingConfig } from '@spartacus/core';
 
 //rename to /organization/account-summary-units/
 const listPath = `organization/account-summary`;
-const paramsMapping: ParamsMapping = {
-  unitCode: 'uid',
-  addressId: 'id',
-  userCode: 'customerId',
-};
 
 export const defaultAccountSummaryRoutingConfig: RoutingConfig = {
   routing: {
@@ -16,8 +10,8 @@ export const defaultAccountSummaryRoutingConfig: RoutingConfig = {
         paths: [`${listPath}`],
       },
       orgAccountSummaryDetails: {
-        paths: [`${listPath}/details/:${ROUTE_PARAMS.unitCode}`],
-        paramsMapping,
+        paths: [`${listPath}/details/:unitCode`],
+        paramsMapping: { unitCode: 'uid' },
       },
     },
   },

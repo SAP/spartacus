@@ -1,4 +1,10 @@
-import { Address, B2BUnit, Currency, PaginationModel, SortModel } from '@spartacus/core';
+import {
+  Address,
+  B2BUnit,
+  Currency,
+  PaginationModel,
+  SortModel,
+} from '@spartacus/core';
 
 interface MediaData {
   downloadURL?: string;
@@ -28,6 +34,9 @@ export interface AccountSummaryDetails {
   billingAddress?: Address;
   formattedCreditLimit?: string;
 }
+export interface AccountSummary {
+  accountSummaryList: AccountSummaryList;
+}
 
 export interface AccountSummaryDocument {
   amount?: number;
@@ -36,7 +45,7 @@ export interface AccountSummaryDocument {
   documentMedia: MediaData;
   documentNumber?: string;
   documentType?: B2BDocumentTypeData;
-  dueDate?:	string;
+  dueDate?: string;
   formattedAmount?: string;
   formattedOpenAmount?: string;
   openAmount?: number;

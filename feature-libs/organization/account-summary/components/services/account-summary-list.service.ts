@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
-import { OrganizationTableType, UnitItemService, UnitListService } from '@spartacus/organization/administration/components';
+import {
+  OrganizationTableType,
+  UnitItemService,
+  UnitListService,
+} from '@spartacus/organization/administration/components';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { UnitTreeService } from '@spartacus/organization/administration/components';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AccountSummaryListService extends UnitListService {
   protected tableType = OrganizationTableType.ACCOUNT_SUMMARY_UNIT;

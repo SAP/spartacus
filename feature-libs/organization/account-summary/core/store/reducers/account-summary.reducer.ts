@@ -11,7 +11,7 @@ export function accountSummaryEntitiesReducer(
 ): AccountSummary | undefined {
   switch (action.type) {
     case AccountSummaryActions.LOAD_ACCOUNT_SUMMARY:
-      console.log("ACCOUNT SUMMARY LOADED");
+      console.log('ACCOUNT SUMMARY LOADED');
   }
   return state;
 }
@@ -22,7 +22,7 @@ export function accountSummaryListReducer(
 ): ListModel | undefined {
   switch (action.type) {
     case AccountSummaryActions.LOAD_ACCOUNT_SUMMARY_SUCCESS:
-      console.log("ACCOUNT SUMMARY LOAD SUCCESS");
+      console.log('ACCOUNT SUMMARY LOAD SUCCESS');
   }
   return state;
 }

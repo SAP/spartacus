@@ -7,14 +7,7 @@ import { accountSummaryDocumentCmsConfig } from './account-summary-document.conf
 
 @NgModule({
   declarations: [AccountSummaryDocumentComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    UrlModule,
-    I18nModule,
-  ],
-  providers: [
-    provideDefaultConfig(accountSummaryDocumentCmsConfig)
-  ]
+  imports: [CommonModule, RouterModule, UrlModule, I18nModule],
+  providers: [provideDefaultConfig(accountSummaryDocumentCmsConfig)],
 })
-export class AccountSummaryDocumentModule { }
+export class AccountSummaryDocumentModule {}

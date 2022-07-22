@@ -5,8 +5,4 @@ import { ToggleLinkCellComponent } from '@spartacus/organization/administration/
   selector: 'cx-account-summary-cell-link',
   templateUrl: './account-summary-cell-link.component.html',
 })
-export class AccountSummaryCellLinkComponent extends ToggleLinkCellComponent {
-
-
-
-}
+export class AccountSummaryCellLinkComponent extends ToggleLinkCellComponent {}
