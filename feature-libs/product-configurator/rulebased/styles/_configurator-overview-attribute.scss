@@ -10,7 +10,7 @@
     font-weight: 600;
     line-break: anywhere;
     padding-inline-end: 10px;
-    @include forVersion(6.0) {
+    @include forVersion(6) {
       z-index: -6;
     }
 
@@ -24,7 +24,7 @@
     padding-inline-end: 10px;
     line-break: anywhere;
     color: var(--cx-color-secondary);
-    @include forVersion(6.0) {
+    @include forVersion(6) {
       z-index: -6;
     }
 
@@ -37,7 +37,7 @@
     align-self: flex-start;
     color: var(--cx-color-secondary);
     width: 50%;
-    @include forVersion(6.0) {
+    @include forVersion(6) {
       z-index: -6;
     }
 
