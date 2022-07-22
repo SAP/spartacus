@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { CostCenter } from '@spartacus/core';
 import { OrganizationItemStatus } from '@spartacus/organization/administration/core';
+import { Observable } from 'rxjs';
 import { CostCenterItemService } from '../../../../cost-center/services/cost-center-item.service';
 
 @Injectable({
@@ -15,7 +15,7 @@ export class UnitCostCenterItemService extends CostCenterItemService {
   ): Observable<OrganizationItemStatus<CostCenter>> {
     // we enable the unit so that the underlying
     // save method can read the complete form.value.
-    form.get('unit').enable();
+    form.get('unit')?.enable();
     return super.save(form, key);
   }
 
@@ -28,6 +28,6 @@ export class UnitCostCenterItemService extends CostCenterItemService {
   }
 
   protected buildRouteParams(item: CostCenter) {
-    return { uid: item.unit.uid };
+    return { uid: item.unit?.uid };
   }
 }

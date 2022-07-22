@@ -54,7 +54,7 @@ export class MessageComponent implements AfterViewInit, OnDestroy {
 
     this.subscription.add(
       msg.events
-        .pipe(filter((event: MessageEventData) => !!event.close))
+        ?.pipe(filter((event: MessageEventData) => !!event.close))
         .subscribe(() => this.terminate(ref))
     );
   }
