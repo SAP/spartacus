@@ -13,6 +13,7 @@ export const accountSummary = {
       pastDueBalance: 'Past Due Balance',
     },
     document: {
+      header: 'Documents',
       id: 'Document #',
       type: 'Document Type',
       date: 'Document Date',
