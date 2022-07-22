@@ -2256,8 +2256,140 @@ Use 'OrderConfirmationModule' instead as the cms mapping has been consolidated i
 # Class ReviewSubmitComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutReviewSubmitComponent
 
-Class ReviewSubmitComponent has been removed and is no longer part of the public API.
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  checkoutDeliveryService: CheckoutDeliveryFacade,
+  checkoutPaymentService: CheckoutPaymentFacade,
+  userAddressService: UserAddressService,
+  activeCartService: ActiveCartService,
+  translation: TranslationService,
+  checkoutStepService: CheckoutStepService,
+  paymentTypeService: PaymentTypeFacade,
+  checkoutCostCenterService: CheckoutCostCenterFacade,
+  userCostCenterService: UserCostCenterService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  checkoutPaymentFacade: CheckoutPaymentFacade,
+  activeCartFacade: ActiveCartFacade,
+  translationService: TranslationService,
+  checkoutStepService: CheckoutStepService,
+  checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+)
+
+```
+
+
+### Property checkoutDeliveryService is removed.
+
+It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.
+
+### Property userAddressService is removed.
+
+It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.
+
+### Property activeCartService changed.
+
+
+Previous version: 
+
+```
+activeCartService: ActiveCartService
+```
+
+
+Current version: 
+
+```
+activeCartFacade: ActiveCartFacade
+```
+
+
+### Property paymentTypeService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property checkoutCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property userCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property countryName$ is removed.
+
+It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.
+
+### Property poNumber$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'poNumber$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property paymentType$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'paymentType$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property isAccountPayment$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'isAccountPayment$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property costCenter$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'costCenter$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Method getCostCenterCard is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.
+
+### Method getPoNumberCard is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.
+
+### Method getPaymentTypeCard is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.
+
+### Method shippingSteps changed.
+
+
+Previous version: 
+
+```
+
+shippingSteps(
+  steps: CheckoutStep[]
+): CheckoutStep[]
+
+```
+
+
+Current version: 
+
+```
+
+deliverySteps(
+  steps: CheckoutStep[]
+): CheckoutStep[]
+
+```
 
 
 

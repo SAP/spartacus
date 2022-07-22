@@ -475,6 +475,111 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'PlaceOrderComponent'. It is not used anymore as the checkout base (b2c) entrypoint does not need the OnInit lifecycle hook, however you can find it being a dependency for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.",
     },
     {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutDeliveryService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ReviewSubmitComponent'. It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'userAddressService',
+      comment:
+        "// TODO:Spartacus - Property 'userAddressService' was removed from Class 'ReviewSubmitComponent'. It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartFacade: ActiveCartFacade' ",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'paymentTypeService',
+      comment:
+        "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'checkoutCostCenterService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'userCostCenterService',
+      comment:
+        "// TODO:Spartacus - Property 'userCostCenterService' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'countryName$',
+      comment:
+        "// TODO:Spartacus - Property 'countryName$' was removed from Class 'ReviewSubmitComponent'. It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'poNumber$',
+      comment:
+        "// TODO:Spartacus - Property 'poNumber$' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'poNumber$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'paymentType$',
+      comment:
+        "// TODO:Spartacus - Property 'paymentType$' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'paymentType$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'isAccountPayment$',
+      comment:
+        "// TODO:Spartacus - Property 'isAccountPayment$' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'isAccountPayment$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'costCenter$',
+      comment:
+        "// TODO:Spartacus - Property 'costCenter$' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'costCenter$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getCostCenterCard',
+      comment:
+        "// TODO:Spartacus - Method 'getCostCenterCard' was removed from Class 'ReviewSubmitComponent'. It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getPoNumberCard',
+      comment:
+        "// TODO:Spartacus - Method 'getPoNumberCard' was removed from Class 'ReviewSubmitComponent'. It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getPaymentTypeCard',
+      comment:
+        "// TODO:Spartacus - Method 'getPaymentTypeCard' was removed from Class 'ReviewSubmitComponent'. It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'CheckoutCostCenterService',
+      importPath: '@spartacus/checkout/core',
+      deprecatedNode: 'shippingSteps',
+      comment:
+        "The 'shippingSteps' method's signature changed to: 'deliverySteps(  steps: CheckoutStep[]): CheckoutStep[]'",
+    },
+    {
       class: 'CheckoutAdapter',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'clearCheckoutDeliveryAddress',
