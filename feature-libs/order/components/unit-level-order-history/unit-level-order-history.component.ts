@@ -29,7 +29,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
 
-  orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
+  unitLevelOrders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
     .getUnitLevelOrderHistoryList(this.PAGE_SIZE)
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
@@ -51,7 +51,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
    * When "Order Return" feature is enabled, this component becomes one tab in
    * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
    */
-  tabTitleParam$: Observable<number> = this.orders$.pipe(
+  tabTitleParam$: Observable<number> = this.unitLevelOrders$.pipe(
     map((order) => order?.pagination?.totalResults),
     filter(isNotUndefined),
     take(1)

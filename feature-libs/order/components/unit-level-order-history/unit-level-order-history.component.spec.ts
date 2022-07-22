@@ -132,10 +132,6 @@ class MockReplenishmentOrderHistoryFacade
   }
 }
 
-const mockData: CmsOrderHistoryComponent = {
-  showUnitOrders: false,
-};
-
 const MockCmsComponentData = <CmsComponentData<CmsOrderHistoryComponent>>{
   data$: of(mockData),
 };

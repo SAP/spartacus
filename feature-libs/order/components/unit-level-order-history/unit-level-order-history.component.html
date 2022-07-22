@@ -1,11 +1,10 @@
 <ng-container
   *ngIf="{
-    orderHistory: orders$ | async,
-    replenishmentOrder: hasReplenishmentOrder$ | async,
-    showUnitOrders: showUnitOrders$ | async
+    unitLevelOrderHistory: unitLevelOrders$ | async,
+    replenishmentOrder: hasReplenishmentOrder$ | async
   } as type"
 >
-  <ng-container *ngIf="type.orderHistory">
+  <ng-container *ngIf="type.unitLevelOrderHistory">
     <div>
       <!-- HEADER -->
       <div
@@ -26,7 +25,7 @@
       <!-- BODY -->
       <div class="cx-order-history-body">
         <ng-container
-          *ngIf="type.orderHistory.pagination.totalResults > 0; else noOrder"
+          *ngIf="type.unitLevelOrderHistory.pagination.totalResults > 0; else noOrder"
         >
           <!-- Select Form and Pagination Top -->
           <div class="cx-order-history-sort top">
@@ -35,21 +34,21 @@
                 {{ 'orderHistory.sortBy' | cxTranslate }}
               </span>
               <cx-sorting
-                [sortOptions]="type.orderHistory.sorts"
+                [sortOptions]="type.unitLevelOrderHistory.sorts"
                 [sortLabels]="getSortLabels() | async"
                 (sortListEvent)="changeSortCode($event)"
-                [selectedOption]="type.orderHistory.pagination.sort"
+                [selectedOption]="type.unitLevelOrderHistory.pagination.sort"
                 placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
                 [ariaLabel]="'orderHistory.sortOrders' | cxTranslate"
                 ariaControls="order-history-table"
               ></cx-sorting>
             </label>
             <div
-              *ngIf="type.orderHistory.pagination.totalPages > 1"
+              *ngIf="type.unitLevelOrderHistory.pagination.totalPages > 1"
               class="cx-order-history-pagination"
             >
               <cx-pagination
-                [pagination]="type.orderHistory.pagination"
+                [pagination]="type.unitLevelOrderHistory.pagination"
                 (viewPageEvent)="pageChange($event)"
               ></cx-pagination>
             </div>
@@ -64,17 +63,13 @@
               <th scope="col">
                 {{ 'orderHistory.status' | cxTranslate }}
               </th>
-              <ng-container
-                *ngIf="!type.replenishmentOrder && type.showUnitOrders"
-              >
-                <th scope="col">{{ 'orderHistory.buyer' | cxTranslate }}</th>
-                <th scope="col">{{ 'orderHistory.unit' | cxTranslate }}</th>
-              </ng-container>
+              <th scope="col">{{ 'orderHistory.buyer' | cxTranslate }}</th>
+              <th scope="col">{{ 'orderHistory.unit' | cxTranslate }}</th>
               <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
             </thead>
             <tbody>
               <tr
-                *ngFor="let order of type.orderHistory.orders"
+                *ngFor="let order of type.unitLevelOrderHistory.orders"
                 (click)="goToOrderDetail(order)"
               >
                 <td class="cx-order-history-code">
@@ -143,8 +138,7 @@
                       "
                       class="cx-order-history-value"
                     >
-                      {{ order?.placedBy?.firstName }}
-                      {{ order?.placedBy?.lastName }}</a
+                      {{ order?.orgCustomer?.name }}</a
                     >
                   </td>
                   <td class="cx-order-history-unit">
@@ -160,7 +154,7 @@
                       "
                       class="cx-order-history-value"
                     >
-                      {{ order?.placedBy?.orgUnitName }}</a
+                      {{ order?.orgUnit?.name }}</a
                     >
                   </td>
                 </ng-container>
@@ -186,11 +180,11 @@
           <!-- Select Form and Pagination Bottom -->
           <div class="cx-order-history-sort bottom">
             <div
-              *ngIf="type.orderHistory.pagination.totalPages > 1"
+              *ngIf="type.unitLevelOrderHistory.pagination.totalPages > 1"
               class="cx-order-history-pagination"
             >
               <cx-pagination
-                [pagination]="type.orderHistory.pagination"
+                [pagination]="type.unitLevelOrderHistory.pagination"
                 (viewPageEvent)="pageChange($event)"
               ></cx-pagination>
             </div>

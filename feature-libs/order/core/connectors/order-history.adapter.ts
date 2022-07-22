@@ -20,7 +20,7 @@ export abstract class OrderHistoryAdapter {
   abstract load(userId: string, orderCode: string): Observable<Order>;
 
   /**
-   * Abstract method used to load order history for an user or unit.
+   * Abstract method used to load order history for a user.
    *
    * @param userId The `userId` for given user
    * @param pageSize
