@@ -1,5 +1,1 @@
-/*
- * Public API Surface of punchout
- */
-
-export {};
+export * from './index';

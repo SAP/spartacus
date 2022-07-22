@@ -980,12 +980,13 @@
     "punchout": {
       "projectType": "library",
       "root": "feature-libs/punchout",
-      "sourceRoot": "feature-libs/punchout/src",
+      "sourceRoot": "feature-libs/punchout",
       "prefix": "cx",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
+            "tsConfig": "feature-libs/punchout/tsconfig.lib.json",
             "project": "feature-libs/punchout/ng-package.json"
           },
           "configurations": {
@@ -995,8 +996,7 @@
             "development": {
               "tsConfig": "feature-libs/punchout/tsconfig.lib.json"
             }
-          },
-          "defaultConfiguration": "production"
+          }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
@@ -1004,6 +1004,15 @@
             "main": "feature-libs/punchout/test.ts",
             "tsConfig": "feature-libs/punchout/tsconfig.spec.json",
             "karmaConfig": "feature-libs/punchout/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/punchout/**/*.ts",
+              "feature-libs/punchout/**/*.html"
+            ]
           }
         }
       }

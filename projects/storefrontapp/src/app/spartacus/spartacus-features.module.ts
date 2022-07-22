@@ -71,6 +71,7 @@ import { ProductConfiguratorTextfieldFeatureModule } from './features/product-co
 import { BulkPricingFeatureModule } from './features/product/product-bulk-pricing-feature.module';
 import { ImageZoomFeatureModule } from './features/product/product-image-zoom-feature.module';
 import { VariantsFeatureModule } from './features/product/product-variants-feature.module';
+import { PunchoutFeatureModule } from './features/punchout/punchout-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics/qualtrics-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder/storefinder-feature.module';
@@ -83,7 +84,8 @@ if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
     BulkPricingFeatureModule,
-    OrderApprovalFeatureModule
+    OrderApprovalFeatureModule,
+    PunchoutFeatureModule
   );
 }
 
