@@ -13,7 +13,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
   constructor(
     private routingService: RoutingService
   ) // private accountSummaryFacade: AccountSummaryFacade
-  {}
+  { }
 
   ngOnInit(): void {
     this.routingService.getRouterState().subscribe((value) => {

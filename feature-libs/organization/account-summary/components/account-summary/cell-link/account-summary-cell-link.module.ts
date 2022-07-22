@@ -6,4 +6,4 @@ import { AccountSummaryCellLinkComponent } from './account-summary-cell-link.com
   imports: [UnitListModule],
   declarations: [AccountSummaryCellLinkComponent],
 })
-export class AccountSummaryCellLinkModule {}
+export class AccountSummaryCellLinkModule { }

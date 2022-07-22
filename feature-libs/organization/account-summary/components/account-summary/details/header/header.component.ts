@@ -1,34 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
-import { AccountSummaryDetailsService } from '../../../services';
+import { AccountSummaryDetails } from '@spartacus/organization/account-summary/core';
+import { AccountSummaryFacade } from '@spartacus/organization/account-summary/root';
 import { Observable } from 'rxjs';
-import { AccountSummaryDetails } from '../../../../core';
-
 @Component({
   selector: 'cx-account-summary-header',
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit {
-  currentUnitCode: string;
+
   headerDetails$: Observable<AccountSummaryDetails>;
-  response: any;
+  currentUnitCode: string;
 
   constructor(
     private routingService: RoutingService,
-    private accountSummaryDetailsService: AccountSummaryDetailsService
-  ) {}
+    private accountSummaryFacade: AccountSummaryFacade) { }
 
   ngOnInit(): void {
+    this.accountSummaryFacade.getAccountSummary();
+
     this.routingService.getRouterState().subscribe((value) => {
       const urlArr = value.state.context.id.split('/');
       this.currentUnitCode = urlArr[urlArr.length - 1];
     });
 
-    this.headerDetails$ = this.accountSummaryDetailsService.getHeaderData(
-      this.currentUnitCode
-    );
-    this.accountSummaryDetailsService
-      .getDocumentData(this.currentUnitCode)
-      .subscribe((res) => console.log(res));
+    this.headerDetails$ = this.accountSummaryFacade.getAccountSummary();
+
+
   }
 }

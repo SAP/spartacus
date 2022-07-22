@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { PageMetaResolver, provideDefaultConfig } from '@spartacus/core';
+import { AccountSummaryPageMetaResolver } from '../core/account-summary-page-meta.resolver';
 import { accountSummaryCmsConfig } from './account-summary/account-summary.config';
 import { AccountSummaryCellLinkModule } from './account-summary/cell-link/account-summary-cell-link.module';
-import { AccountSummaryDocumentModule } from './account-summary/document/account-summary-document.module';
-import { AccountSummaryHeaderModule } from './account-summary/header/account-summary-header.module';
+import { AccountSummaryDocumentModule } from './account-summary/details/document/account-summary-document.module';
+import { AccountSummaryHeaderModule } from './account-summary/details/header/account-summary-header.module';
 import { AccountSummaryListModule } from './account-summary/list/account-summary-list.module';
 
 @NgModule({
@@ -14,6 +15,11 @@ import { AccountSummaryListModule } from './account-summary/list/account-summary
     AccountSummaryCellLinkModule,
   ],
   declarations: [],
-  providers: [provideDefaultConfig(accountSummaryCmsConfig)],
+  providers: [provideDefaultConfig(accountSummaryCmsConfig),
+  {
+    provide: PageMetaResolver,
+    useExisting: AccountSummaryPageMetaResolver,
+    multi: true,
+  },],
 })
-export class AccountSummaryComponentsModule {}
+export class AccountSummaryComponentsModule { }
