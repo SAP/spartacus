@@ -22,7 +22,7 @@ export interface Card {
   deleteMsg?: string;
   label?: string;
   role?: string;
-  customCss?: { color?: string } | undefined;
+  customCss?: { color?: string } | null;
 }
 
 @Component({
