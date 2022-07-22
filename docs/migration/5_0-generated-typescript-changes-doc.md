@@ -2118,9 +2118,68 @@ renamed to CheckoutPaymentTypeModule
 # Class PlaceOrderComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPlaceOrderComponent
 
-Class PlaceOrderComponent has been removed and is no longer part of the public API.
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  checkoutService: CheckoutFacade,
+  routingService: RoutingService,
+  fb: FormBuilder,
+  checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  orderFacade: OrderFacade,
+  routingService: RoutingService,
+  fb: FormBuilder,
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+### Property checkoutService changed.
+
+
+Previous version: 
+
+```
+checkoutService: CheckoutFacade
+```
+
+
+Current version: 
+
+```
+orderFacade: OrderFacade
+```
+
+
+### Property checkoutReplenishmentFormService is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint does not contain b2b logic / dependency. You can find the same dependencies for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.
+
+### Method ngOnInit is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint does not need the OnInit lifecycle hook, however you can find it being a dependency for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.
 
 
 

@@ -13347,19 +13347,194 @@
       },
       { "kind": "Property", "name": "vcr", "type": "ViewContainerRef" }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class PlaceOrderComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPlaceOrderComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
-        "change": "CLASS_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Class",
-        "changeLabel": "deleted",
-        "changeElementName": "PlaceOrderComponent",
-        "changeElementCategory": "TOP_LEVEL_API",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  checkoutService: CheckoutFacade,\n  routingService: RoutingService,\n  fb: FormBuilder,\n  checkoutReplenishmentFormService: CheckoutReplenishmentFormService,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
+        "currentStateDoc": "\nconstructor(\n  orderFacade: OrderFacade,\n  routingService: RoutingService,\n  fb: FormBuilder,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "checkoutService",
+              "type": "CheckoutFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutFacade:class",
+              "shortType": "CheckoutFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "routingService",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "checkoutReplenishmentFormService",
+              "type": "CheckoutReplenishmentFormService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutReplenishmentFormService:class",
+              "shortType": "CheckoutReplenishmentFormService",
+              "importPath": "@spartacus/checkout/components"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "orderFacade",
+              "type": "OrderFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!OrderFacade:class",
+              "shortType": "OrderFacade",
+              "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "routingService",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "checkoutReplenishmentFormService",
+              "type": "CheckoutReplenishmentFormService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutReplenishmentFormService:class",
+              "shortType": "CheckoutReplenishmentFormService",
+              "importPath": "@spartacus/checkout/components"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "orderFacade",
+              "type": "OrderFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!OrderFacade:class",
+              "shortType": "OrderFacade",
+              "importPath": "@spartacus/order/root"
+            }
+          ]
+        },
         "topLevelApiElementName": "PlaceOrderComponent",
         "entryPoint": "@spartacus/checkout/components"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "checkoutService",
+        "changeElementCategory": "MEMBER",
+        "oldType": "CheckoutFacade",
+        "newType": "OrderFacade",
+        "previousStateDoc": "checkoutService: CheckoutFacade",
+        "currentStateDoc": "orderFacade: OrderFacade",
+        "topLevelApiElementName": "PlaceOrderComponent",
+        "entryPoint": "@spartacus/checkout/root"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "checkoutReplenishmentFormService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "checkoutReplenishmentFormService",
+          "type": "CheckoutReplenishmentFormService"
+        },
+        "apiElementName": "PlaceOrderComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/root",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutReplenishmentFormService' was removed from Class 'PlaceOrderComponent'.",
+        "migrationComment": "It is not used anymore as the checkout base (b2c) entrypoint does not contain b2b logic / dependency. You can find the same dependencies for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.",
+        "topLevelApiElementName": "PlaceOrderComponent"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "ngOnInit",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "ngOnInit",
+          "overloadIndex": 1,
+          "parameters": [],
+          "returnType": "void"
+        },
+        "apiElementName": "PlaceOrderComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'PlaceOrderComponent'.",
+        "migrationComment": "It is not used anymore as the checkout base (b2c) entrypoint does not need the OnInit lifecycle hook, however you can find it being a dependency for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.",
+        "topLevelApiElementName": "PlaceOrderComponent"
       }
     ]
   },

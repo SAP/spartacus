@@ -1862,6 +1862,84 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'PlaceOrderComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedParams: [
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'CheckoutReplenishmentFormService',
+          importPath: '@spartacus/checkout/components',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
+          importPath: '@angular/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'CheckoutReplenishmentFormService',
+          importPath: '@spartacus/checkout/components',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
+          importPath: '@angular/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'OrderFacade',
+          importPath: '@spartacus/order/root',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
+          importPath: '@angular/core',
+        },
+      ],
+    },
+    {
       class: 'CheckoutCostCenterService',
       importPath: '@spartacus/checkout/core',
       deprecatedParams: [

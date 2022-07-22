@@ -433,6 +433,27 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'NotCheckoutAuthGuard'. Use 'activeCartFacade' instead.",
     },
     {
+      class: 'PlaceOrderComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutService',
+      comment:
+        "The type of property 'checkoutService: CheckoutFacade' changed to: 'orderFacade: OrderFacade' ",
+    },
+    {
+      class: 'PlaceOrderComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutReplenishmentFormService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutReplenishmentFormService' was removed from Class 'PlaceOrderComponent'. It is not used anymore as the checkout base (b2c) entrypoint does not contain b2b logic / dependency. You can find the same dependencies for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.",
+    },
+    {
+      class: 'PlaceOrderComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'ngOnInit',
+      comment:
+        "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'PlaceOrderComponent'. It is not used anymore as the checkout base (b2c) entrypoint does not need the OnInit lifecycle hook, however you can find it being a dependency for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.",
+    },
+    {
       class: 'CheckoutAdapter',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'clearCheckoutDeliveryAddress',

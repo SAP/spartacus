@@ -232,6 +232,12 @@ export const GENERATED_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newImportPath: '@spartacus/checkout/base/components',
   },
   {
+    previousNode: 'PlaceOrderComponent',
+    previousImportPath: '@spartacus/checkout/components',
+    newNode: 'CheckoutPlaceOrderComponent',
+    newImportPath: '@spartacus/checkout/base/components',
+  },
+  {
     previousNode: 'PlaceOrderModule',
     previousImportPath: '@spartacus/checkout/components',
     newNode: 'CheckoutPlaceOrderModule',
