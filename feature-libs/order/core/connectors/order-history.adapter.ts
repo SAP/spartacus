@@ -26,14 +26,27 @@ export abstract class OrderHistoryAdapter {
    * @param pageSize
    * @param currentPage
    * @param sort Sorting method
-   * @param showUnitOrders flag to return unit orders
    */
   abstract loadHistory(
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string,
-    showUnitOrders?: boolean
+    sort?: string
+  ): Observable<OrderHistoryList>;
+
+  /**
+   * Abstract method used to load order history for units.
+   *
+   * @param userId The `userId` for given user
+   * @param pageSize
+   * @param currentPage
+   * @param sort Sorting method
+   */
+  abstract loadUnitLevelHistory(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
   ): Observable<OrderHistoryList>;
 
   /**

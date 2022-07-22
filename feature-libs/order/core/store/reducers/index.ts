@@ -17,6 +17,7 @@ import {
   REPLENISHMENT_ORDER_DETAILS,
   RETURN_REQUESTS,
   RETURN_REQUEST_DETAILS,
+  UNIT_LEVEL_ORDERS,
 } from '../order-state';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
 import * as fromOrderDetailsReducer from './order-details.reducer';
@@ -27,6 +28,10 @@ import * as fromUserReplenishmentOrdersReducer from './replenishment-orders.redu
 
 export function getReducers(): ActionReducerMap<OrderState, any> {
   return {
+    unitLevelOrders: StateUtils.loaderReducer<OrderHistoryList, any>(
+      UNIT_LEVEL_ORDERS,
+      fromUserOrdersReducer.reducer
+    ),
     orders: StateUtils.loaderReducer<OrderHistoryList, any>(
       ORDERS,
       fromUserOrdersReducer.reducer

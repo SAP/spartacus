@@ -16,7 +16,7 @@ import {
   CONSIGNMENT_TRACKING_NORMALIZER,
   Order,
   OrderHistoryList,
-  OrderScope,
+  // OrderScope,
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
   ORDER_RETURNS_NORMALIZER,
@@ -57,8 +57,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string,
-    showUnitOrders?: boolean
+    sort?: string
   ): Observable<OrderHistoryList> {
     const params: { [key: string]: string } = {};
     if (pageSize) {
@@ -70,11 +69,35 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     if (sort) {
       params['sort'] = sort.toString();
     }
-    if (showUnitOrders) {
-      params['scope'] = OrderScope.BRANCH;
-    }
 
     const url = this.occEndpoints.buildUrl('orderHistory', {
+      urlParams: { userId },
+      queryParams: params,
+    });
+
+    return this.http
+      .get<Occ.OrderHistoryList>(url)
+      .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
+  }
+
+  public loadUnitLevelHistory(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<OrderHistoryList> {
+    const params: { [key: string]: string } = {};
+    if (pageSize) {
+      params['pageSize'] = pageSize.toString();
+    }
+    if (currentPage) {
+      params['currentPage'] = currentPage.toString();
+    }
+    if (sort) {
+      params['sort'] = sort.toString();
+    }
+
+    const url = this.occEndpoints.buildUrl('unitLevelOrderHistory', {
       urlParams: { userId },
       queryParams: params,
     });

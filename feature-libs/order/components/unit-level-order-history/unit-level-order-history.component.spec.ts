@@ -23,7 +23,7 @@ import {
 } from '@spartacus/order/root';
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import {UnitLevelOrderHistoryComponent} from "./unit-level-order-history.component";
+import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
 
 const mockOrders: OrderHistoryList = {
   orders: [

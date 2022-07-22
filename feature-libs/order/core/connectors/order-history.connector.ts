@@ -24,15 +24,22 @@ export class OrderHistoryConnector {
     userId: string,
     pageSize?: number,
     currentPage?: number,
-    sort?: string,
-    showUnitOrders?: boolean
+    sort?: string
   ): Observable<OrderHistoryList> {
-    return this.adapter.loadHistory(
+    return this.adapter.loadHistory(userId, pageSize, currentPage, sort);
+  }
+
+  public getUnitLevelHistory(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<OrderHistoryList> {
+    return this.adapter.loadUnitLevelHistory(
       userId,
       pageSize,
       currentPage,
-      sort,
-      showUnitOrders
+      sort
     );
   }
 

@@ -30,7 +30,7 @@ import { OrderHistoryComponent } from './order-history.component';
       cmsComponents: {
         AccountOrderHistoryComponent: {
           component: OrderHistoryComponent,
-          guards: [AuthGuard]
+          guards: [AuthGuard],
         },
       },
     }),

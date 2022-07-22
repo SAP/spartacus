@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
-  CmsOrderHistoryComponent,
   isNotUndefined,
   RoutingService,
   TranslationService,
@@ -11,7 +10,6 @@ import {
   OrderHistoryList,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { CmsComponentData } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 
@@ -25,26 +23,14 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     protected routing: RoutingService,
     protected orderHistoryFacade: OrderHistoryFacade,
     protected translation: TranslationService,
-    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
-    protected component: CmsComponentData<CmsOrderHistoryComponent>
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
   ) {}
 
   private PAGE_SIZE = 5;
   sortType: string;
-  showUnitOrders = false;
-
-  showUnitOrders$: Observable<boolean | undefined> = this.component.data$.pipe(
-    map((data) => data.showUnitOrders),
-    tap((value) => {
-      if (value !== this.showUnitOrders) {
-        this.showUnitOrders = value ? value : false;
-        this.pageChange(0);
-      }
-    })
-  );
 
   orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
-    .getOrderHistoryList(this.PAGE_SIZE, this.showUnitOrders)
+    .getUnitLevelOrderHistoryList(this.PAGE_SIZE)
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
         if (orders?.pagination?.sort) {
@@ -114,17 +100,10 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-    this.showUnitOrders
-      ? this.orderHistoryFacade.loadUnitOrderList(
-          this.PAGE_SIZE,
-          event.currentPage,
-          event.sortCode,
-          this.showUnitOrders
-        )
-      : this.orderHistoryFacade.loadOrderList(
-          this.PAGE_SIZE,
-          event.currentPage,
-          event.sortCode
-        );
+    this.orderHistoryFacade.loadUnitOrderList(
+      this.PAGE_SIZE,
+      event.currentPage,
+      event.sortCode
+    );
   }
 }

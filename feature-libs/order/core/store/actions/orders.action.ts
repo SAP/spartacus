@@ -1,8 +1,9 @@
 import { StateUtils } from '@spartacus/core';
 import { OrderHistoryList } from '@spartacus/order/root';
-import { ORDERS } from '../order-state';
+import { ORDERS, UNIT_LEVEL_ORDERS } from '../order-state';
 
 export const LOAD_USER_ORDERS = '[Order] Load User Orders';
+export const LOAD_UNIT_LEVEL_ORDERS = '[Order] Load Unit Level Orders';
 export const LOAD_USER_ORDERS_FAIL = '[Order] Load User Orders Fail';
 export const LOAD_USER_ORDERS_SUCCESS = '[Order] Load User Orders Success';
 export const CLEAR_USER_ORDERS = '[Order] Clear User Orders';
@@ -16,10 +17,23 @@ export class LoadUserOrders extends StateUtils.LoaderLoadAction {
       currentPage?: number;
       sort?: string;
       replenishmentOrderCode?: string;
-      showUnitOrders?: boolean;
     }
   ) {
     super(ORDERS);
+  }
+}
+
+export class LoadUnitLevelOrders extends StateUtils.LoaderLoadAction {
+  readonly type = LOAD_UNIT_LEVEL_ORDERS;
+  constructor(
+    public payload: {
+      userId: string;
+      pageSize?: number;
+      currentPage?: number;
+      sort?: string;
+    }
+  ) {
+    super(UNIT_LEVEL_ORDERS);
   }
 }
 

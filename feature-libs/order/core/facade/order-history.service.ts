@@ -62,8 +62,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * Returns order history list
    */
   getOrderHistoryList(
-    pageSize: number,
-    showUnitOrders?: boolean
+    pageSize: number
   ): Observable<OrderHistoryList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrdersState),
@@ -73,9 +72,28 @@ export class OrderHistoryService implements OrderHistoryFacade {
           orderListState.success ||
           orderListState.error;
         if (!attemptedLoad) {
-          showUnitOrders
-            ? this.loadUnitOrderList(pageSize)
-            : this.loadOrderList(pageSize);
+          this.loadOrderList(pageSize);
+        }
+      }),
+      map((orderListState) => orderListState.value)
+    );
+  }
+
+  /**
+   * Returns unit-level order history list
+   */
+  getUnitLevelOrderHistoryList(
+    pageSize: number
+  ): Observable<OrderHistoryList | undefined> {
+    return this.store.pipe(
+      select(OrderSelectors.getOrdersState),
+      tap((orderListState) => {
+        const attemptedLoad =
+          orderListState.loading ||
+          orderListState.success ||
+          orderListState.error;
+        if (!attemptedLoad) {
+          this.loadUnitOrderList(pageSize);
         }
       }),
       map((orderListState) => orderListState.value)
@@ -126,7 +144,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
   }
 
   /**
-   * Retrieves an unit order list
+   * Retrieves a unit order list
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
@@ -139,12 +157,11 @@ export class OrderHistoryService implements OrderHistoryFacade {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
         this.store.dispatch(
-          new OrderActions.LoadUserOrders({
+          new OrderActions.LoadUnitLevelOrders({
             userId,
             pageSize,
             currentPage,
             sort,
-            showUnitOrders: true,
           })
         );
       },

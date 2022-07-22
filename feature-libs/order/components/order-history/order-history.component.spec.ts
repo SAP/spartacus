@@ -10,7 +10,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CmsOrderHistoryComponent,
   I18nTestingModule,
   RoutingService,
   TranslationService,
@@ -21,7 +20,6 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
-import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
 
@@ -32,22 +30,12 @@ const mockOrders: OrderHistoryList = {
       placed: new Date('2018-01-01'),
       statusDisplay: 'test',
       total: { formattedValue: '1' },
-      placedBy: {
-        firstName: 'John',
-        lastName: 'Doe',
-        orgUnitName: 'Rustic Services',
-      },
     },
     {
       code: '2',
       placed: new Date('2018-01-02'),
       statusDisplay: 'test2',
       total: { formattedValue: '2' },
-      placedBy: {
-        firstName: 'Jane',
-        lastName: 'Roe',
-        orgUnitName: 'Rustic Retail',
-      },
     },
   ],
   pagination: { totalResults: 1, totalPages: 2, sort: 'byDate' },
@@ -132,14 +120,6 @@ class MockReplenishmentOrderHistoryFacade
   }
 }
 
-const mockData: CmsOrderHistoryComponent = {
-  showUnitOrders: false,
-};
-
-const MockCmsComponentData = <CmsComponentData<CmsOrderHistoryComponent>>{
-  data$: of(mockData),
-};
-
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
@@ -164,7 +144,6 @@ describe('OrderHistoryComponent', () => {
             provide: ReplenishmentOrderHistoryFacade,
             useClass: MockReplenishmentOrderHistoryFacade,
           },
-          { provide: CmsComponentData, useValue: MockCmsComponentData },
         ],
       }).compileComponents();
 
