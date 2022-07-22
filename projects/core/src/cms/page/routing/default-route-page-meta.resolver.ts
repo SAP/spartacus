@@ -67,7 +67,7 @@ export abstract class DefaultRoutePageMetaResolver
   /**
    * Resolves dynamic data for the whole resolver.
    */
-  protected getParams(): Observable<{ [_: string]: any }> {
+  protected getParams(): Observable<{ [_: string]: any } | undefined> {
     return of({});
   }
 }

@@ -46,13 +46,43 @@ describe('Budget Actions', () => {
     });
 
     describe('LoadBudgetSuccess', () => {
-      it('should create the action', () => {
+      it('should create the action: payload is an array', () => {
         const action = new BudgetActions.LoadBudgetSuccess([budget]);
 
         expect({ ...action }).toEqual({
           type: BudgetActions.LOAD_BUDGET_SUCCESS,
           payload: [budget],
           meta: StateUtils.entitySuccessMeta(BUDGET_ENTITIES, [budgetCode]),
+        });
+      });
+
+      it('should create the action: payload has list of undefined budeget code', () => {
+        const action = new BudgetActions.LoadBudgetSuccess([{}]);
+
+        expect({ ...action }).toEqual({
+          type: BudgetActions.LOAD_BUDGET_SUCCESS,
+          payload: [{}],
+          meta: StateUtils.entitySuccessMeta(BUDGET_ENTITIES, ['']),
+        });
+      });
+
+      it('should create the action: payload is not an array', () => {
+        const action = new BudgetActions.LoadBudgetSuccess(budget);
+
+        expect({ ...action }).toEqual({
+          type: BudgetActions.LOAD_BUDGET_SUCCESS,
+          payload: budget,
+          meta: StateUtils.entitySuccessMeta(BUDGET_ENTITIES, budgetCode),
+        });
+      });
+
+      it('should create the action: payload has  undefined budeget code', () => {
+        const action = new BudgetActions.LoadBudgetSuccess({});
+
+        expect({ ...action }).toEqual({
+          type: BudgetActions.LOAD_BUDGET_SUCCESS,
+          payload: {},
+          meta: StateUtils.entitySuccessMeta(BUDGET_ENTITIES, ''),
         });
       });
     });

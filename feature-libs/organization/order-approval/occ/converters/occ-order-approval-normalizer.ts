@@ -13,7 +13,7 @@ export class OccOrderApprovalNormalizer
 
   convert(source: Occ.OrderApproval, target?: OrderApproval): OrderApproval {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as OrderApproval;
     }
     if (source.order) {
       target.order = this.converter.convert(source.order, ORDER_NORMALIZER);
