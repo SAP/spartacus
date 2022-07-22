@@ -17,7 +17,6 @@ export class HeaderComponent implements OnInit {
     private accountSummaryFacade: AccountSummaryFacade) { }
 
   ngOnInit(): void {
-    this.accountSummaryFacade.getAccountSummary();
 
     this.routingService.getRouterState().subscribe((value) => {
       const urlArr = value.state.context.id.split('/');

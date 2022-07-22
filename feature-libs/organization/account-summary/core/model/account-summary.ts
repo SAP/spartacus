@@ -34,9 +34,6 @@ export interface AccountSummaryDetails {
   billingAddress?: Address;
   formattedCreditLimit?: string;
 }
-export interface AccountSummary {
-  accountSummaryList: AccountSummaryList;
-}
 
 export interface AccountSummaryDocument {
   amount?: number;

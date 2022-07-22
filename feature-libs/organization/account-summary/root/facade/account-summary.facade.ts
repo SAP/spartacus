@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { facadeFactory } from '@spartacus/core';
 import { ACCOUNT_SUMMARY_FEATURE } from '../feature-name';
+import { AccountSummary, AccountSummaryDetails } from '../../core/model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +15,10 @@ import { ACCOUNT_SUMMARY_FEATURE } from '../feature-name';
     }),
 })
 export abstract class AccountSummaryFacade {
-  abstract getAccountSummary(): Observable<any | undefined>;
-  // userId: string,
-  // unitCode: string
+  abstract getAccountSummary(): Observable<AccountSummaryDetails>;
 
   abstract getAccountSummaryDocument(
     userId: string,
     unitCode: string
-  ): Observable<any | undefined>;
+  ): Observable<AccountSummary>;
 }

@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs';
+import { AccountSummary, AccountSummaryDetails } from '../model';
 
 export abstract class AccountSummaryAdapter {
 
@@ -8,7 +9,7 @@ export abstract class AccountSummaryAdapter {
    * @param unitCode
    */
 
-  abstract getAccountSummary(userId: string, unitCode: string): Observable<any>;
+  abstract getAccountSummary(userId: string, unitCode: string): Observable<AccountSummaryDetails>;
 
   /**
    * Abstract method to load account summary document list for given
@@ -16,5 +17,5 @@ export abstract class AccountSummaryAdapter {
    * @param unitCode
    */
 
-  abstract getDocumentList(userId: string, unitCode: string): Observable<any>;
+  abstract getDocumentList(userId: string, unitCode: string): Observable<AccountSummary>;
 }
