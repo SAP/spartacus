@@ -11,15 +11,9 @@ import { FutureStock } from '../../root/models/future-stock.model';
 })
 export class FutureStockAccordionComponent {
 
-  /** Define the header text */
   @Input() header: string;
-
-  /** Determine the expanded state */
   @Input() expanded: boolean = false;
-
   @Input() content: FutureStock[] | string;
-
-  /** Emit whenever the output has changed */
   @Output() expandedChange = new EventEmitter<boolean>();
 
   iconType = ICON_TYPE;

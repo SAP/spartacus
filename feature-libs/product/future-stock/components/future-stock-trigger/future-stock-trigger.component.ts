@@ -15,7 +15,7 @@ export class FutureStockTriggerComponent implements OnInit {
   futureStocks: FutureStock[] | string;
 
   ngOnInit() {
-    // TODO: get stocks from API when API ticket is merged
+    // TODO: replace with get stocks from API from CXSPA-418 when this ticket is merged
     if(Math.random() > 0.5) {
       this.futureStocks = [
         {
