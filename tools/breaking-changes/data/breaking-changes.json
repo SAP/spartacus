@@ -347,7 +347,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/asm/components",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'AsmMainUiComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'userAccountFacade' instead.",
         "topLevelApiElementName": "AsmMainUiComponent"
       }
     ]
@@ -505,7 +505,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/asm/components",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'CustomerEmulationComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'userAccountFacade' instead.",
         "topLevelApiElementName": "CustomerEmulationComponent"
       }
     ]
@@ -807,7 +807,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/asm/root",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'CsAgentAuthService'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by 'userProfileFacade'",
         "topLevelApiElementName": "CsAgentAuthService"
       }
     ]
@@ -2187,7 +2187,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/components",
         "deletedComment": "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'QuickOrderFormComponent'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "QuickOrderFormComponent"
       },
       {
@@ -2936,7 +2936,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/core",
         "deletedComment": "// TODO:Spartacus - Property 'productAdapter' was removed from Class 'QuickOrderService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "QuickOrderService"
       },
       {
@@ -3368,7 +3368,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/root",
         "deletedComment": "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use `softDeleteEntry` instead.",
         "topLevelApiElementName": "QuickOrderFacade"
       },
       {
@@ -3399,7 +3399,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/quick-order/root",
         "deletedComment": "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use `searchProducts` instead.",
         "topLevelApiElementName": "QuickOrderFacade"
       }
     ]
@@ -3946,7 +3946,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'AddToSavedCartComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use activeCartFacade instead.",
         "topLevelApiElementName": "AddToSavedCartComponent"
       }
     ]
@@ -4387,7 +4387,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use the method 'save' from class 'CartAdapter' in @spartacus/cart/base/core",
         "topLevelApiElementName": "SavedCartAdapter"
       }
     ]
@@ -4603,7 +4603,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartConnector'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use the method 'save' from class 'CartConnector' in @spartacus/cart/base/core",
         "topLevelApiElementName": "SavedCartConnector"
       }
     ]
@@ -4897,7 +4897,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'.",
-        "migrationComment": "Use 'registerDeleteCart' Method from Class 'CartEventBuilder' instead.",
+        "migrationComment": "Use 'registerDeleteCart' Method from Class 'CartEventBuilder' from @spartacus/cart/base/core instead.",
         "topLevelApiElementName": "SavedCartEventBuilder"
       }
     ]
@@ -5458,7 +5458,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'SavedCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by userAccountFacade.",
         "topLevelApiElementName": "SavedCartService"
       }
     ]
@@ -5832,7 +5832,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getSaveCartEndpoint' was removed from Class 'OccSavedCartAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.  The saved cart request is now done from class 'OccCartAdapter' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccSavedCartAdapter"
       },
       {
@@ -5887,7 +5887,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/occ",
         "deletedComment": "// TODO:Spartacus - Method 'saveCart' was removed from Class 'OccSavedCartAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.  The saved cart request is now done via method `save` from class 'OccCartAdapter' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccSavedCartAdapter"
       }
     ]
@@ -5899,7 +5899,7 @@
     "members": [{ "kind": "Property", "name": "type", "type": "" }],
     "isDeleted": true,
     "deletedComment": "Class DeleteSavedCartEvent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartEvent.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -5920,7 +5920,7 @@
     "members": [{ "kind": "Property", "name": "type", "type": "" }],
     "isDeleted": true,
     "deletedComment": "Class DeleteSavedCartFailEvent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartFailEvent.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -5941,7 +5941,7 @@
     "members": [{ "kind": "Property", "name": "type", "type": "" }],
     "isDeleted": true,
     "deletedComment": "Class DeleteSavedCartSuccessEvent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartSuccessEvent.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -6221,7 +6221,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/root",
         "deletedComment": "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'NewSavedCartOrderEntriesContext'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.",
         "topLevelApiElementName": "NewSavedCartOrderEntriesContext"
       },
       {
@@ -6842,7 +6842,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/root",
         "deletedComment": "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'SavedCartOrderEntriesContext'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.",
         "topLevelApiElementName": "SavedCartOrderEntriesContext"
       },
       {
@@ -7202,7 +7202,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cdc/root",
         "deletedComment": "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'CdcLogoutGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.  It was there only to pass to the super() contructor and the super() constructor had this parameter removed.",
         "topLevelApiElementName": "CdcLogoutGuard"
       }
     ]
@@ -7923,7 +7923,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cds",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'ProfileTagPushEventsService'.",
-        "migrationComment": "",
+        "migrationComment": "Use activeCartFacade instead.",
         "topLevelApiElementName": "ProfileTagPushEventsService"
       }
     ]
@@ -27673,7 +27673,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is renamed to cartEntity$.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -27852,7 +27852,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isEmail' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use 'isEmail' util function from '@spartacus/cart/base/core'.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -27883,7 +27883,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use 'isEmpty' util function from '@spartacus/cart/base/core'.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -27966,7 +27966,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use 'isJustLoggedIn' util function from '@spartacus/cart/base/core'.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -27986,7 +27986,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Use multiCartFacade instead.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -28052,7 +28052,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'requireLoadedCartForGuestMerge' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "ActiveCartService"
       },
       {
@@ -28072,7 +28072,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'store' was removed from Class 'ActiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "ActiveCartService"
       }
     ]
@@ -28097,38 +28097,6 @@
         "to": { "entryPoint": "@spartacus/cart/base/core", "namespace": "" },
         "topLevelApiElementName": "ADD_VOUCHER_PROCESS_ID",
         "entryPoint": "@spartacus/core"
-      }
-    ]
-  },
-  {
-    "entryPoint": "@spartacus/core",
-    "kind": "Class",
-    "name": "AddUserAddressEvent",
-    "members": [
-      { "kind": "Property", "name": "address", "type": "Address" },
-      { "kind": "Property", "name": "type", "type": "" },
-      { "kind": "Property", "name": "userId", "type": "string" }
-    ],
-    "breakingChanges": [
-      {
-        "change": "PROPERTY_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Property",
-        "changeLabel": "deleted",
-        "changeElementName": "userId",
-        "changeElementCategory": "MEMBER",
-        "isDeletedMember": true,
-        "deletedMember": {
-          "kind": "Property",
-          "name": "userId",
-          "type": "string"
-        },
-        "apiElementName": "AddUserAddressEvent",
-        "apiElementKind": "Class",
-        "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'AddUserAddressEvent'.",
-        "migrationComment": "",
-        "topLevelApiElementName": "AddUserAddressEvent"
       }
     ]
   },
@@ -29764,7 +29732,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleBadCartRequest' was removed from Class 'BadRequestHandler'.",
-        "migrationComment": "",
+        "migrationComment": "'handleBadCartRequest' is moved to Class 'BadCartRequestHandler' in  '@spartacus/cart/base/core'",
         "topLevelApiElementName": "BadRequestHandler"
       },
       {
@@ -33787,7 +33755,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CartActions.RESET_WISH_LIST_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -33871,7 +33839,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CartActions.SET_TEMP_CART has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -33960,7 +33928,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CartActions.SetTempCart has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -35317,7 +35285,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CartModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -35338,7 +35306,7 @@
     "members": [],
     "isDeleted": true,
     "deletedComment": "Class CartOccModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -35400,7 +35368,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'forRoot' was removed from Class 'CartPersistenceModule'.",
-        "migrationComment": "",
+        "migrationComment": "The providers previously loaded by 'forRoot' are now loaded with the module.",
         "topLevelApiElementName": "CartPersistenceModule"
       }
     ]
@@ -35849,7 +35817,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartValidationService'.",
-        "migrationComment": "",
+        "migrationComment": "Use activeCartFacade instead.",
         "topLevelApiElementName": "CartValidationService"
       }
     ]
@@ -39164,38 +39132,6 @@
   },
   {
     "entryPoint": "@spartacus/core",
-    "kind": "Class",
-    "name": "DeleteUserAddressEvent",
-    "members": [
-      { "kind": "Property", "name": "addressId", "type": "string" },
-      { "kind": "Property", "name": "type", "type": "" },
-      { "kind": "Property", "name": "userId", "type": "string" }
-    ],
-    "breakingChanges": [
-      {
-        "change": "PROPERTY_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Property",
-        "changeLabel": "deleted",
-        "changeElementName": "userId",
-        "changeElementCategory": "MEMBER",
-        "isDeletedMember": true,
-        "deletedMember": {
-          "kind": "Property",
-          "name": "userId",
-          "type": "string"
-        },
-        "apiElementName": "DeleteUserAddressEvent",
-        "apiElementKind": "Class",
-        "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'DeleteUserAddressEvent'.",
-        "migrationComment": "",
-        "topLevelApiElementName": "DeleteUserAddressEvent"
-      }
-    ]
-  },
-  {
-    "entryPoint": "@spartacus/core",
     "kind": "Interface",
     "name": "DeliveryMode",
     "members": [
@@ -40318,7 +40254,7 @@
     "type": "MemoizedSelector<StateWithMultiCart, string>",
     "isDeleted": true,
     "deletedComment": "Variable MultiCartSelectors.getActiveCartId has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCartIdByTypeFactory' instead",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -40625,7 +40561,7 @@
     "type": "MemoizedSelector<StateWithMultiCart, string>",
     "isDeleted": true,
     "deletedComment": "Variable MultiCartSelectors.getWishListId has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCartIdByTypeFactory' instead",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -41344,7 +41280,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'active' was removed from Interface 'MultiCartState'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use property 'index' combined with the appropriate 'cartType'.",
         "topLevelApiElementName": "MultiCartState"
       },
       {
@@ -41378,7 +41314,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'wishList' was removed from Interface 'MultiCartState'.",
-        "migrationComment": "",
+        "migrationComment": "Instead, use property 'index' combined with the appropriate 'cartType'.",
         "topLevelApiElementName": "MultiCartState"
       }
     ]
@@ -41722,7 +41658,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'NotAuthGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "NotAuthGuard"
       }
     ]
@@ -43499,7 +43435,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'addEmail' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43519,7 +43455,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'addEntries' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43539,7 +43475,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUser' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43559,7 +43495,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserApprover' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43579,7 +43515,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserApprovers' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43599,7 +43535,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserPermission' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43619,7 +43555,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserPermissions' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43639,7 +43575,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUsers' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43659,7 +43595,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserUserGroup' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43679,7 +43615,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'b2bUserUserGroups' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43699,7 +43635,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'budget' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43719,7 +43655,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'budgets' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43739,7 +43675,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cancelOrder' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43759,7 +43695,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cancelReplenishmentOrder' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43779,7 +43715,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cancelReturn' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43799,7 +43735,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cart' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43819,7 +43755,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'carts' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43839,7 +43775,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cartVoucher' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43859,7 +43795,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'consignmentTracking' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43879,7 +43815,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'costCenter' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43899,7 +43835,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'costCenterBudget' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43919,7 +43855,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'costCenterBudgets' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43939,7 +43875,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'costCenters' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43959,7 +43895,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'costCentersAll' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43979,7 +43915,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'createCart' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -43999,7 +43935,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'deleteCart' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44019,7 +43955,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderApproval' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44039,7 +43975,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderApprovalDecision' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44059,7 +43995,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderApprovalPermissionTypes' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44079,7 +44015,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderApprovals' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44099,7 +44035,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderDetail' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44119,7 +44055,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderHistory' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44139,7 +44075,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturnDetail' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44159,7 +44095,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturns' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44179,7 +44115,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnit' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44199,7 +44135,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnitApprover' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44219,7 +44155,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnitApprovers' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44239,7 +44175,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnits' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44259,7 +44195,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnitsAddress' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44279,7 +44215,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnitsAddresses' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44299,7 +44235,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnitsApprovalProcesses' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44319,7 +44255,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnitsAvailable' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44339,7 +44275,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnitsTree' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44359,7 +44295,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnitUserRole' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44379,7 +44315,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnitUserRoles' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44399,7 +44335,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orgUnitUsers' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44419,7 +44355,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'permission' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44439,7 +44375,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'permissions' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44459,7 +44395,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'removeEntries' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44479,7 +44415,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrderDetails' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44499,7 +44435,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrderDetailsHistory' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44519,7 +44455,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrderHistory' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44539,7 +44475,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'returnOrder' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44559,7 +44495,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'saveCart' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44579,7 +44515,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'scheduleReplenishmentOrder' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44599,7 +44535,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'store' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/storefinder/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44619,7 +44555,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'stores' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/storefinder/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44639,7 +44575,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'storescounts' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/storefinder/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44659,7 +44595,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'updateEntries' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44679,7 +44615,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'userGroup' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44699,7 +44635,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'userGroupAvailableOrderApprovalPermissions' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44719,7 +44655,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'userGroupAvailableOrgCustomers' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44739,7 +44675,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'userGroupMember' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44759,7 +44695,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'userGroupMembers' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44779,7 +44715,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'userGroupOrderApprovalPermission' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44799,7 +44735,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'userGroupOrderApprovalPermissions' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44819,7 +44755,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'userGroups' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'",
         "topLevelApiElementName": "OccEndpoints"
       },
       {
@@ -44839,7 +44775,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'validate' was removed from Interface 'OccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'",
         "topLevelApiElementName": "OccEndpoints"
       }
     ]
@@ -45453,7 +45389,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccUserOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use OccOrderHistoryAdapter in @spartacus/order/occ instead",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -45649,7 +45585,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccUserReplenishmentOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use OccReplenishmentOrderHistoryAdapter in @spartacus/order/occ instead",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -46079,7 +46015,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OrderEntryPromotionsService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -49219,7 +49155,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class SaveCartAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use CartAdapter.save instead from '@spartacus/cart/base/core'",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -49297,7 +49233,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class SaveCartConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use CartConnector.save instead from '@spartacus/cart/base/core'",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -49841,7 +49777,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'cartConfigService' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49861,7 +49797,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'cartId' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Use getSelectiveCartId() instead.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49881,7 +49817,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'cartId$' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Use getSelectiveCartId() instead.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49901,7 +49837,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49921,7 +49857,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'customerId' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -49996,7 +49932,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50018,7 +49954,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isEnabled' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50049,7 +49985,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50102,7 +50038,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'load' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50122,7 +50058,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "Use multiCartFacade instead.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50142,7 +50078,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'PREVIOUS_USER_ID_INITIAL_VALUE' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50162,7 +50098,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'previousUserId' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50182,7 +50118,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'store' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50202,7 +50138,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       },
       {
@@ -50222,7 +50158,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'SelectiveCartService'.",
-        "migrationComment": "",
+        "migrationComment": "It's not used anymore.",
         "topLevelApiElementName": "SelectiveCartService"
       }
     ]
@@ -53129,45 +53065,12 @@
   },
   {
     "entryPoint": "@spartacus/core",
-    "kind": "Class",
-    "name": "UpdateUserAddressEvent",
-    "members": [
-      { "kind": "Property", "name": "address", "type": "Address" },
-      { "kind": "Property", "name": "addressId", "type": "string" },
-      { "kind": "Property", "name": "type", "type": "" },
-      { "kind": "Property", "name": "userId", "type": "string" }
-    ],
-    "breakingChanges": [
-      {
-        "change": "PROPERTY_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Property",
-        "changeLabel": "deleted",
-        "changeElementName": "userId",
-        "changeElementCategory": "MEMBER",
-        "isDeletedMember": true,
-        "deletedMember": {
-          "kind": "Property",
-          "name": "userId",
-          "type": "string"
-        },
-        "apiElementName": "UpdateUserAddressEvent",
-        "apiElementKind": "Class",
-        "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'UpdateUserAddressEvent'.",
-        "migrationComment": "",
-        "topLevelApiElementName": "UpdateUserAddressEvent"
-      }
-    ]
-  },
-  {
-    "entryPoint": "@spartacus/core",
     "kind": "Variable",
     "name": "USER_ORDER_DETAILS",
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_ORDER_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by ORDER_DETAILS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53188,7 +53091,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_ORDERS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by ORDERS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53209,7 +53112,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_REPLENISHMENT_ORDER_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by REPLENISHMENT_ORDER_DETAILS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53230,7 +53133,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_REPLENISHMENT_ORDERS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by REPLENISHMENT_ORDERS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53251,7 +53154,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_RETURN_REQUEST_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by RETURN_REQUEST_DETAILS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53272,7 +53175,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable USER_RETURN_REQUESTS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is replaced by RETURN_REQUESTS from '@spartacus/order/core', but the constant value is not the same.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -53301,7 +53204,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserAccountFacadeTransitionalToken has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use UserAccountFacade instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -57815,7 +57718,7 @@
     "members": [],
     "isDeleted": true,
     "deletedComment": "Class UserOccTransitional_4_2_Module has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use UserOccModule instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -58106,7 +58009,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use OrderHistoryAdapter in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -58392,7 +58295,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserOrderConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use OrderHistoryConnector in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -58631,7 +58534,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserOrderService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use OrderHistoryFacade in @spartacus/order/root instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -58987,7 +58890,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserReplenishmentOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use ReplenishmentOrderHistoryAdapter in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -59165,7 +59068,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserReplenishmentOrderConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use ReplenishmentOrderHistoryConnector in @spartacus/order/core.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -59387,7 +59290,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserReplenishmentOrderService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use ReplenishmentOrderHistoryFacade in @spartacus/order/root instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -59600,7 +59503,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'get' was removed from Class 'UserService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'UserAccountFacade.get()' from '@spartacus/user' instead.",
         "topLevelApiElementName": "UserService"
       },
       {
@@ -59620,7 +59523,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'userAccountFacade' was removed from Class 'UserService'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "UserService"
       },
       {
@@ -60783,7 +60686,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'consignmentTracking' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60803,7 +60706,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'order' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used anymore.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60823,7 +60726,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturn' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60843,7 +60746,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturnList' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60863,7 +60766,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orders' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60883,7 +60786,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrder' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       },
       {
@@ -60903,7 +60806,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrders' was removed from Interface 'UserState'.",
-        "migrationComment": "",
+        "migrationComment": "It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.",
         "topLevelApiElementName": "UserState"
       }
     ]
@@ -60923,7 +60826,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class UserTransitional_4_2_Module has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use UserModule instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
