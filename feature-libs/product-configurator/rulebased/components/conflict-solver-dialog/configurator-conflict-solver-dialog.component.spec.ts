@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ConfiguratorConflictSolverDialogComponent } from './configurator-conflict-solver-dialog.component';
 
-
 describe('ConfiguratorConflictSolverDialogComponent', () => {
   let component: ConfiguratorConflictSolverDialogComponent;
   let fixture: ComponentFixture<ConfiguratorConflictSolverDialogComponent>;
