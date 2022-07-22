@@ -164,6 +164,10 @@
     "@spartacus/styles": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
+  "@spartacus/punchout": {
+    "@angular/core": "^13.3.0",
+    "@spartacus/core": "4.1.0-next.0"
+  },
   "@spartacus/qualtrics": {
     "@angular-devkit/schematics": "^13.3.0",
     "@angular/common": "^13.3.0",

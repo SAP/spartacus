@@ -187,6 +187,12 @@
       "@spartacus/product/variants": ["../../dist/product/variants"],
       "@spartacus/product/variants/occ": ["../../dist/product/variants/occ"],
       "@spartacus/product/variants/root": ["../../dist/product/variants/root"],
+      "@spartacus/punchout/assets": ["../../dist/punchout/assets"],
+      "@spartacus/punchout/components": ["../../dist/punchout/components"],
+      "@spartacus/punchout/core": ["../../dist/punchout/core"],
+      "@spartacus/punchout": ["../../dist/punchout"],
+      "@spartacus/punchout/occ": ["../../dist/punchout/occ"],
+      "@spartacus/punchout/root": ["../../dist/punchout/root"],
       "@spartacus/qualtrics/components": ["../../dist/qualtrics/components"],
       "@spartacus/qualtrics": ["../../dist/qualtrics"],
       "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
@@ -241,14 +247,11 @@
         "../../dist/digital-payments/assets"
       ],
       "@spartacus/digital-payments": ["../../dist/digital-payments"],
-      "@spartacus/epd-visualization/components": [
-        "../../dist/epd-visualization/components"
-      ],
       "@spartacus/epd-visualization/assets": [
         "../../dist/epd-visualization/assets"
       ],
-      "@spartacus/epd-visualization/root": [
-        "../../dist/epd-visualization/root"
+      "@spartacus/epd-visualization/components": [
+        "../../dist/epd-visualization/components"
       ],
       "@spartacus/epd-visualization/core": [
         "../../dist/epd-visualization/core"
@@ -257,6 +260,9 @@
         "../../dist/epd-visualization/epd-visualization-api"
       ],
       "@spartacus/epd-visualization": ["../../dist/epd-visualization"],
+      "@spartacus/epd-visualization/root": [
+        "../../dist/epd-visualization/root"
+      ],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/storefront": ["../../dist/storefrontlib"]

@@ -119,6 +119,8 @@ export const SPARTACUS_QUALTRICS_ROOT = `@spartacus/qualtrics/root`;
 export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 export const SPARTACUS_SMARTEDIT_ROOT = `@spartacus/smartedit/root`;
 
+export const SPARTACUS_PUNCHOUT = `@spartacus/punchout`;
+
 export const SPARTACUS_STOREFINDER = `@spartacus/storefinder`;
 export const SPARTACUS_STOREFINDER_ROOT = `@spartacus/storefinder/root`;
 export const SPARTACUS_STOREFINDER_ASSETS = `@spartacus/storefinder/assets`;
