@@ -9,7 +9,7 @@
 <div *ngIf="expanded">
   <div *ngIf="!isString(content); else contentString">
     <div class="cx-future-stock-accordion-content" *ngFor = "let elem of content">
-      {{elem.formattedDate}} - {{'futureStockAccordion.quantity' | cxTranslate}} {{elem.stock.stockLevel}}
+      {{elem.formattedDate}} - {{'futureStockTrigger.quantity' | cxTranslate}} {{elem.stock.stockLevel}}
     </div>
   </div>
 
