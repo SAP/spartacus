@@ -2435,7 +2435,7 @@ Class ShippingAddressComponent has been removed and is no longer part of the pub
 
 
 Class ShippingAddressModule has been removed and is no longer part of the public API.
-
+It has been renamed to CheckoutDeliveryAddressModule and moved to @spartacus/checkout/base/components. If it is for a b2b storefront, please use B2BCheckoutDeliveryAddressModule in @spartacus/checkout/b2b/components
 
 
 
