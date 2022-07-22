@@ -15056,17 +15056,63 @@
         "type": "Observable<ORDER_TYPE>"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class ScheduleReplenishmentOrderComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutScheduleReplenishmentOrderComponent",
+    "newEntryPoint": "@spartacus/checkout/scheduled-replenishment/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
-        "change": "CLASS_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Class",
-        "changeLabel": "deleted",
-        "changeElementName": "ScheduleReplenishmentOrderComponent",
-        "changeElementCategory": "TOP_LEVEL_API",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  checkoutService: CheckoutFacade,\n checkoutReplenishmentFormService: CheckoutReplenishmentFormService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  checkoutReplenishmentFormService: CheckoutReplenishmentFormService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "checkoutService",
+              "type": "CheckoutFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_root!CheckoutFacade:class",
+              "shortType": "CheckoutFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutReplenishmentFormService",
+              "type": "CheckoutReplenishmentFormService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutReplenishmentFormService:class",
+              "shortType": "CheckoutReplenishmentFormService",
+              "importPath": "@spartacus/checkout/components"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "checkoutReplenishmentFormService",
+              "type": "CheckoutReplenishmentFormService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_scheduled-replenishment_components!CheckoutReplenishmentFormService:class",
+              "shortType": "CheckoutReplenishmentFormService",
+              "importPath": "@spartacus/checkout/scheduled-replenishment/components"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "checkoutService",
+              "type": "CheckoutFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_root!CheckoutFacade:class",
+              "shortType": "CheckoutFacade",
+              "importPath": "@spartacus/checkout/root"
+            }
+          ],
+          "addedParams": []
+        },
         "topLevelApiElementName": "ScheduleReplenishmentOrderComponent",
         "entryPoint": "@spartacus/checkout/components"
       }

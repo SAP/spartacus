@@ -53,12 +53,6 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
       'Class ReviewSubmitModule has been removed and is no longer part of the public API. It has been renamed to CheckoutReviewSubmitModule and moved to @spartacus/checkout/base/components. If it is for a b2b storefront, please use B2BCheckoutReviewSubmitModule in @spartacus/checkout/b2b/components',
   },
   {
-    node: 'ScheduleReplenishmentOrderComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class ScheduleReplenishmentOrderComponent has been removed and is no longer part of the public API. ',
-  },
-  {
     node: 'ShippingAddressComponent',
     importPath: '@spartacus/checkout/components',
     comment:

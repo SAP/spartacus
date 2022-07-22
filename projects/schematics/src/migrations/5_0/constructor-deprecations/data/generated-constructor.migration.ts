@@ -2160,6 +2160,36 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'ScheduleReplenishmentOrderComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedParams: [
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutReplenishmentFormService',
+          importPath: '@spartacus/checkout/components',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutReplenishmentFormService',
+          importPath: '@spartacus/checkout/components',
+        },
+      ],
+      addParams: [
+        {
+          className: 'CheckoutReplenishmentFormService',
+          importPath: '@spartacus/checkout/scheduled-replenishment/components',
+        },
+      ],
+    },
+    {
       class: 'CheckoutCostCenterService',
       importPath: '@spartacus/checkout/core',
       deprecatedParams: [

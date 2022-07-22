@@ -2406,8 +2406,34 @@ It has been renamed to CheckoutReviewSubmitModule and moved to @spartacus/checko
 # Class ScheduleReplenishmentOrderComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/scheduled-replenishment/components
+renamed to CheckoutScheduleReplenishmentOrderComponent
 
-Class ScheduleReplenishmentOrderComponent has been removed and is no longer part of the public API.
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  checkoutService: CheckoutFacade,
+ checkoutReplenishmentFormService: CheckoutReplenishmentFormService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  checkoutReplenishmentFormService: CheckoutReplenishmentFormService
+)
+
+```
 
 
 
