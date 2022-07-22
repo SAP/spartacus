@@ -94,17 +94,6 @@ export function cancelReplenishmentDetails() {
       .should('be.visible')
       .click();
 
-    cy.get(`${replenishmentCancelDialogSelector} .close`)
-      .should('exist')
-      .click();
-
-    cy.get(`${replenishmentCancelDialogSelector}`).should('not.exist');
-
-    cy.get(cancellationSelector)
-      .contains('Cancel')
-      .should('be.visible')
-      .click();
-
     verifyReplenishmentIsCancelled(orderData.body.replenishmentOrderCode);
 
     cancellationButtons(1);
