@@ -15455,19 +15455,426 @@
         "type": "UserCostCenterService | undefined"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class ShippingAddressComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutDeliveryAddressComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
-        "change": "CLASS_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Class",
-        "changeLabel": "deleted",
-        "changeElementName": "ShippingAddressComponent",
-        "changeElementCategory": "TOP_LEVEL_API",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  userAddressService: UserAddressService,\n  checkoutDeliveryService: CheckoutDeliveryFacade,\n  activatedRoute: ActivatedRoute,\n  translation: TranslationService,\n  activeCartService: ActiveCartService,\n  checkoutStepService: CheckoutStepService,\n  paymentTypeService: PaymentTypeFacade,\n  userCostCenterService: UserCostCenterService,\n  checkoutCostCenterService: CheckoutCostCenterFacade\n)\n",
+        "currentStateDoc": "\nconstructor(\n  userAddressService: UserAddressService,\n  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,\n  activatedRoute: ActivatedRoute,\n  translationService: TranslationService,\n  activeCartFacade: ActiveCartFacade,\n  checkoutStepService: CheckoutStepService,\n  checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,\n  globalMessageService: GlobalMessageService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutDeliveryService",
+              "type": "CheckoutDeliveryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutDeliveryFacade:class",
+              "shortType": "CheckoutDeliveryFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "activatedRoute",
+              "type": "ActivatedRoute",
+              "isOptional": false,
+              "canonicalReference": "@angular/router!ActivatedRoute:class",
+              "shortType": "ActivatedRoute",
+              "importPath": "@angular/router"
+            },
+            {
+              "name": "translation",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutStepService",
+              "type": "CheckoutStepService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutStepService:class",
+              "shortType": "CheckoutStepService",
+              "importPath": "@spartacus/checkout/components"
+            },
+            {
+              "name": "paymentTypeService",
+              "type": "PaymentTypeFacade | undefined",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!PaymentTypeFacade:class",
+              "shortType": "PaymentTypeFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "userCostCenterService",
+              "type": "UserCostCenterService | undefined",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!UserCostCenterService:class",
+              "shortType": "UserCostCenterService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutCostCenterService",
+              "type": "CheckoutCostCenterFacade | undefined",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutCostCenterFacade:class",
+              "shortType": "CheckoutCostCenterFacade",
+              "importPath": "@spartacus/checkout/root"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutDeliveryAddressFacade",
+              "type": "CheckoutDeliveryAddressFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryAddressFacade:class",
+              "shortType": "CheckoutDeliveryAddressFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "activatedRoute",
+              "type": "ActivatedRoute",
+              "isOptional": false,
+              "canonicalReference": "@angular/router!ActivatedRoute:class",
+              "shortType": "ActivatedRoute",
+              "importPath": "@angular/router"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartFacade",
+              "type": "ActiveCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_b2b_core!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "checkoutStepService",
+              "type": "CheckoutStepService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutStepService:class",
+              "shortType": "CheckoutStepService",
+              "importPath": "@spartacus/checkout/base/components"
+            },
+            {
+              "name": "checkoutDeliveryModesFacade",
+              "type": "CheckoutDeliveryModesFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryModesFacade:class",
+              "shortType": "CheckoutDeliveryModesFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/core!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "checkoutDeliveryService",
+              "type": "CheckoutDeliveryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutDeliveryFacade:class",
+              "shortType": "CheckoutDeliveryFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutPaymentService",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "paymentTypeService",
+              "type": "PaymentTypeFacade",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!PaymentTypeFacade:class",
+              "shortType": "PaymentTypeFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "userCostCenterService",
+              "type": "UserCostCenterService",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!UserCostCenterService:class",
+              "shortType": "UserCostCenterService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutCostCenterService",
+              "type": "CheckoutCostCenterFacade",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutCostCenterFacade:class",
+              "shortType": "CheckoutCostCenterFacade",
+              "importPath": "@spartacus/checkout/root"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "checkoutDeliveryAddressFacade",
+              "type": "CheckoutDeliveryAddressFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryAddressFacade:class",
+              "shortType": "CheckoutDeliveryAddressFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "activeCartFacade",
+              "type": "ActiveCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_b2b_core!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "checkoutDeliveryModesFacade",
+              "type": "CheckoutDeliveryModesFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryModesFacade:class",
+              "shortType": "CheckoutDeliveryModesFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/core!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            }
+          ]
+        },
         "topLevelApiElementName": "ShippingAddressComponent",
         "entryPoint": "@spartacus/checkout/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "checkoutDeliveryService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "checkoutDeliveryService",
+          "type": "CheckoutDeliveryFacade"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/root",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "activeCartService",
+        "changeElementCategory": "MEMBER",
+        "oldType": "ActiveCartService",
+        "newType": "ActiveCartFacade",
+        "previousStateDoc": "activeCartService: ActiveCartService",
+        "currentStateDoc": "activeCartFacade: ActiveCartFacade",
+        "topLevelApiElementName": "ShippingAddressComponent",
+        "entryPoint": "@spartacus/core"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "paymentTypeService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "paymentTypeService",
+          "type": "PaymentTypeFacade"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "userCostCenterService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "userCostCenterService",
+          "type": "UserCostCenterService"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'userCostCenterService' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "checkoutCostCenterService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "checkoutCostCenterService",
+          "type": "CheckoutCostCenterFacade"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "forceLoader",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "forceLoader",
+          "type": "boolean"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'forceLoader' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "selectedAddress",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "selectedAddress",
+          "type": "Address"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'selectedAddress' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "isAccountPayment",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "isAccountPayment",
+          "type": "boolean"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'isAccountPayment' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'isAccountPayment' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "ngOnDestroy",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "ngOnDestroy",
+          "overloadIndex": 1,
+          "parameters": [],
+          "returnType": "void"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'ngOnDestroy' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "ShippingAddressComponent"
       }
     ]
   },

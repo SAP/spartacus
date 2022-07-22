@@ -2450,8 +2450,97 @@ renamed to CheckoutScheduledReplenishmentPlaceOrderModule
 # Class ShippingAddressComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutDeliveryAddressComponent
 
-Class ShippingAddressComponent has been removed and is no longer part of the public API.
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  userAddressService: UserAddressService,
+  checkoutDeliveryService: CheckoutDeliveryFacade,
+  activatedRoute: ActivatedRoute,
+  translation: TranslationService,
+  activeCartService: ActiveCartService,
+  checkoutStepService: CheckoutStepService,
+  paymentTypeService: PaymentTypeFacade,
+  userCostCenterService: UserCostCenterService,
+  checkoutCostCenterService: CheckoutCostCenterFacade
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  userAddressService: UserAddressService,
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  activatedRoute: ActivatedRoute,
+  translationService: TranslationService,
+  activeCartFacade: ActiveCartFacade,
+  checkoutStepService: CheckoutStepService,
+  checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+  globalMessageService: GlobalMessageService
+)
+
+```
+
+
+### Property checkoutDeliveryService is removed.
+
+It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.
+
+### Property activeCartService changed.
+
+
+Previous version: 
+
+```
+activeCartService: ActiveCartService
+```
+
+
+Current version: 
+
+```
+activeCartFacade: ActiveCartFacade
+```
+
+
+### Property paymentTypeService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Property userCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Property checkoutCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Property forceLoader is removed.
+
+
+
+### Property selectedAddress is removed.
+
+
+
+### Property isAccountPayment is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'isAccountPayment' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Method ngOnDestroy is removed.
+
 
 
 
