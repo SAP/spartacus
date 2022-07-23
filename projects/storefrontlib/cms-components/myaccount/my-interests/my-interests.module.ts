@@ -4,10 +4,12 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { AtMessageModule } from '../../../shared/components/assistive-technology-message/assistive-technology-message.module';
 import { CmsPageGuard } from '../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../cms-structure/page/page-layout/page-layout.component';
 import { ListNavigationModule } from '../../../shared/components/list-navigation/list-navigation.module';
@@ -18,6 +20,7 @@ import { MyInterestsComponent } from './my-interests.component';
 @NgModule({
   declarations: [MyInterestsComponent],
   imports: [
+    AtMessageModule,
     CommonModule,
     I18nModule,
     ListNavigationModule,
@@ -34,6 +37,7 @@ import { MyInterestsComponent } from './my-interests.component';
         data: { cxRoute: 'myInterests' },
       },
     ]),
+    FeaturesConfigModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

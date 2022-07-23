@@ -1,6 +1,7 @@
 <ng-template [cxOutlet]="StorefrontOutlets.STOREFRONT" cxPageTemplateStyle>
   <ng-template cxOutlet="cx-header">
     <header
+      id="cx-header"
       cxSkipLink="cx-header"
       [cxFocus]="{ disableMouseFocus: true }"
       [class.is-expanded]="isExpanded$ | async"
