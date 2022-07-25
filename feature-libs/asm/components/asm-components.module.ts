@@ -7,6 +7,7 @@ import {
   PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
+import { PrototypeComponent } from './asm-main-ui/prototype/prototype.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
 import { AsmToggleUiComponent } from './asm-toggle-ui/asm-toggle-ui.component';
@@ -31,6 +32,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     FormatTimerPipe,
     CustomerEmulationComponent,
     AsmToggleUiComponent,
+    PrototypeComponent,
   ],
   exports: [
     AsmMainUiComponent,
@@ -40,6 +42,7 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     FormatTimerPipe,
     CustomerEmulationComponent,
     AsmToggleUiComponent,
+    PrototypeComponent,
   ],
   providers: [provideConfig(defaultAsmLayoutConfig)],
 })
