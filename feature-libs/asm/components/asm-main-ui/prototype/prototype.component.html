@@ -1,40 +1,24 @@
-<div class="store-count">1 - 5 from 5 stores found</div>
+<div class="store-count">1 - 5 from {{ storeData.total }} stores found</div>
 
 <div>
-  <div class="store-listing-item selected">
+  <div class="store-listing-item" [class.selected]="selectedStore.id === store.id" *ngFor="let store of storeData.data">
     <div class="store-listing-item-details">
-      <div class="store-listing-item-text bold">Boston</div>
-      <div class="store-listing-item-text bold">53 STATE ST, BOSTON, MA 02109 FLOOR 16</div>
-      <div class="store-listing-item-text">Boston</div>
+      <div class="store-listing-item-text bold">{{ store.displayName }}</div>
+      <div class="store-listing-item-text bold">{{ store.line1 }}, {{ store.line2 }}</div>
+      <div class="store-listing-item-text">{{ store.town }}</div>
     </div>
-    <div class="store-listing-item-distance store-listing-item-text bold">2 miles</div>
-  </div>
-  <div class="store-listing-item">
-    <div class="store-listing-item-details">
-      <div class="store-listing-item-text bold">Burlington</div>
-      <div class="store-listing-item-text bold">15 WAYSIDE RD, BURLINGTON, MA 01803</div>
-      <div class="store-listing-item-text">Burlington</div>
-    </div>
-    <div class="store-listing-item-distance store-listing-item-text bold">5 miles</div>
-  </div>
-  <div class="store-listing-item">
-    <div class="store-listing-item-details">
-      <div class="store-listing-item-text bold">Palo Alto</div>
-      <div class="store-listing-item-text bold">3410 HILLVIEW AVENUE, PALO ALTO, CA 94304, USA</div>
-      <div class="store-listing-item-text">Palo Alto</div>
-    </div>
-    <div class="store-listing-item-distance store-listing-item-text bold">200 miles</div>
+    <div class="store-listing-item-distance store-listing-item-text bold">{{ store.formattedDistance }}</div>
   </div>
 </div>
 
 <div>
   <div class="store-details">
-    <img src="https://s36700.pcdn.co/wp-content/uploads/2015/05/dachshund-puppies-03.jpg.optimal.jpg" width="110px" height="110px" />
+    <img [src]="selectedStore.image" width="110px" height="110px" />
     <div class="store-details-info">
-      <div class="bold">Boston</div>
-      <div>53 State St, Boston, MA 02109</div>
-      <div>Floor 16</div>
-      <div>Boston</div>
+      <div class="bold">{{ selectedStore.displayName }}</div>
+      <div>{{ selectedStore.line1 }}</div>
+      <div>{{ selectedStore.line2 }}</div>
+      <div>{{ selectedStore.town }}</div>
     </div>
   </div>
   <iframe
@@ -48,13 +32,12 @@
   </iframe>
   <div class="store-openings">
     <div class="store-openings-dates">
-      <div class="store-openings-date"><span class="store-openings-day bold">Mon - Sat</span>09:00 - 20:00</div>
-      <div class="store-openings-date"><span class="store-openings-day bold">Sun</span>09:00 - 17:00</div>
+      <div class="store-openings-date" *ngFor="let opening of selectedStore.openings | keyvalue">
+        <span class="store-openings-day bold">{{ opening.key }}</span>{{ opening.value }}
+      </div>
     </div>
     <div class="store-openings-features">
-      <div>Features</div>
-      <div>Wheelchair accessible</div>
-      <div>Taco Tuesday</div>
+      <div *ngFor="let feature of selectedStore.features">{{ feature }}</div>
     </div>
   </div>
 </div>

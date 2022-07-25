@@ -32,6 +32,7 @@ import { AsmCustomerOverviewComponent } from './asm-customer-360/asm-customer-ov
 import { AsmProductItemComponent } from './asm-customer-360/asm-customer-overview/asm-product-item/asm-product-item.component';
 import { AsmCustomerProfileComponent } from './asm-customer-360/asm-customer-profile/asm-customer-profile.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
+import { PrototypeComponent } from './asm-main-ui/prototype/prototype.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
 import { AsmToggleUiComponent } from './asm-toggle-ui/asm-toggle-ui.component';
@@ -78,6 +79,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmCustomerProfileComponent,
     AsmCustomerOverviewComponent,
     AsmProductItemComponent
+    PrototypeComponent,
   ],
   exports: [
     AsmMainUiComponent,
@@ -90,6 +92,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmToggleUiComponent,
     AsmBindCartComponent,
     DotSpinnerComponent,
+    PrototypeComponent,
   ],
   providers: [
     provideConfig(defaultAsmLayoutConfig),
