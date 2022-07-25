@@ -5,12 +5,10 @@ cx-future-stock-accordion {
 	.cx-future-stock-accordion-header {
 		border: none;
 		background-color: transparent;
-		padding-left: 20px;
-    height: 24px;
+		padding: 0 0 0 1.3em;
     margin: 0.5em auto;
-		cursor: pointer;
-		transition: background-color 250ms ease-in-out;
 		text-decoration: underline;
+		cursor: pointer;
 
 		&:hover {
 			color: var(--cx-color-primary);
@@ -22,6 +20,6 @@ cx-future-stock-accordion {
 	}
 
 	.cx-future-stock-accordion-content {
-		padding-left: 20px;
+		padding: 0 0 0 1.3em;
 	}
 }

@@ -3,7 +3,7 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-import { FutureStock } from '../../root/models/future-stock.model';
+import { FutureStock } from '@spartacus/product/future-stock/root';
 
 @Component({
   selector: 'cx-future-stock',
