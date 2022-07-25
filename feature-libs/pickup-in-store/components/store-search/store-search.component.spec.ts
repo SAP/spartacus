@@ -14,7 +14,12 @@ describe('StoreSearchComponent', () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [StoreSearchComponent],
-      providers: [{ provide: CurrentLocationService, useClass: MockCurrentLocationService }],
+      providers: [
+        {
+          provide: CurrentLocationService,
+          useClass: MockCurrentLocationService,
+        },
+      ],
     }).compileComponents();
   });
 

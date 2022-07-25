@@ -51,7 +51,7 @@ describe('PickupLocationsSearchService', () => {
 
   const stockLocationSearchParams: StockLocationSearchParams = {
     productCode: 'P0001',
-    location: ''
+    location: '',
   };
 
   beforeEach(() => {
