@@ -1,8 +1,8 @@
 <div class="store-count">1 - 5 from {{ storeData.total }} stores found</div>
 
 <div>
-  <div class="store-listing-item" [class.selected]="selectedStore.id === store.id" *ngFor="let store of storeData.data"
-  (click)="selectedStore = store">
+  <div class="store-listing-item" [class.selected]="selectedStore.id === selectStore.id" *ngFor="let store of storeData.data"
+  (click)="selectStore(store)">
     <div class="store-listing-item-details">
       <div class="store-listing-item-text bold">{{ store.displayName }}</div>
       <div class="store-listing-item-text bold">{{ store.line1 }}, {{ store.line2 }}</div>
@@ -24,8 +24,8 @@
   </div>
   <iframe
     class="store-map"
-    width="460"
-    height="200"
+    width="600"
+    height="400"
     loading="lazy"
     allowfullscreen
     referrerpolicy="no-referrer-when-downgrade"

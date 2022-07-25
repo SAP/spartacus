@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { MapData, StoreData } from './map-types';
@@ -77,23 +78,48 @@ export class PrototypeComponent implements OnInit {
     ],
   };
 
+  currentLocation: string;
+
+  googleMapsUrl: SafeResourceUrl;
+
   selectedStore: StoreData;
 
-  get encodedStoreLocation(): string {
-    return encodeURIComponent(this.selectedStore.line1);
-  }
-
-  get googleMapsUrl(): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.google.com/maps/embed/v1/place?key=AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8&q=${ this.encodedStoreLocation }&center=${this.selectedStore.latitude},${this.selectedStore.longitude}&zoom=10`
-    );
-  }
-
-  constructor(protected sanitizer: DomSanitizer) {
+  constructor(
+    protected changeDetectorRef: ChangeDetectorRef,
+    protected sanitizer: DomSanitizer
+  ) {
     this.selectedStore = this.storeData.data[0];
   }
 
   ngOnInit(): void {
+    navigator.geolocation.getCurrentPosition(position => {
+      this.currentLocation = `${position.coords.latitude},${position.coords.longitude}`;
+
+      this.updateGoogleMapsUrl();
+
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  updateGoogleMapsUrl(): void {
+    if (this.currentLocation) {
+      const coordinates = `${this.selectedStore.latitude},${this.selectedStore.longitude}`;
+
+      const params = new HttpParams()
+        .append('key', 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8')
+        .append('origin', this.currentLocation)
+        .append('destination', coordinates);
+
+      this.googleMapsUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        `https://www.google.com/maps/embed/v1/directions?${params.toString()}`
+      );
+    }
+  }
+
+  selectStore(store: StoreData): void {
+    this.selectedStore = store;
+
+    this.updateGoogleMapsUrl();
   }
 
 }
