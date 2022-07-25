@@ -34,9 +34,9 @@ export class UserIdInterceptor implements HttpInterceptor {
   }
 
   intercept(
-    httpRequest: HttpRequest<any>,
+    httpRequest: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     return iif(
       () => this.validateUrl(httpRequest.url) ?? false,
       this.userIdService.getUserId().pipe(
