@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FutureStockTriggerModule } from './future-stock-trigger/future-stock-trigger.module';
+import { FutureStockAccordionModule } from './future-stock-accordion/future-stock-accordion.module';
+import { FutureStockModule } from './future-stock/future-stock.module';
 
 @NgModule({
-  imports: [CommonModule, FutureStockTriggerModule],
+  imports: [CommonModule, FutureStockModule, FutureStockAccordionModule],
 })
 export class FutureStockComponentsModule {}

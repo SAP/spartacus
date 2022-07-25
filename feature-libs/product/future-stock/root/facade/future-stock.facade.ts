@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
-import {  Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PRODUCT_FUTURE_STOCK_CORE_FEATURE } from '../feature-name';
 
 export function futureStockFacadeFactory() {
   return facadeFactory({
     facade: FutureStockFacade,
     feature: PRODUCT_FUTURE_STOCK_CORE_FEATURE,
-    methods: [
-      'getFutureStock',
-    ],
+    methods: ['getFutureStock'],
   });
 }
 

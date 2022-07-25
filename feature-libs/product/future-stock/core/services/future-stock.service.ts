@@ -7,7 +7,7 @@ export class FutureStockService implements FutureStockFacade {
   /**
    * Get future stock
    */
- getFutureStock(): Observable<any> {
-   return of({});
- }
+  getFutureStock(): Observable<any> {
+    return of({});
+  }
 }
