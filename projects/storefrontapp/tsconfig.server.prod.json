@@ -196,9 +196,7 @@
       "@spartacus/product/future-stock/core": [
         "../../dist/product/future-stock/core"
       ],
-      "@spartacus/product/future-stock": [
-        "../../dist/product/future-stock"
-      ],
+      "@spartacus/product/future-stock": ["../../dist/product/future-stock"],
       "@spartacus/product/future-stock/root": [
         "../../dist/product/future-stock/root"
       ],

@@ -5,12 +5,8 @@ import { IconModule } from '@spartacus/storefront';
 import { I18nModule } from '@spartacus/core';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    IconModule
-  ],
+  imports: [CommonModule, I18nModule, IconModule],
   declarations: [FutureStockAccordionComponent],
-  exports: [FutureStockAccordionComponent]
+  exports: [FutureStockAccordionComponent],
 })
-export class FutureStockAccordionModule { }
+export class FutureStockAccordionModule {}

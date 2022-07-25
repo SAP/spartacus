@@ -6,11 +6,10 @@ import { FutureStock } from '../../root/models/future-stock.model';
   selector: 'cx-future-stock-accordion',
   templateUrl: './future-stock-accordion.component.html',
   host: {
-    '[class.collapsed]': '!expanded'
-  }
+    '[class.collapsed]': '!expanded',
+  },
 })
 export class FutureStockAccordionComponent {
-
   @Input() header: string;
   @Input() expanded: boolean = false;
   @Input() content: FutureStock[] | string;
@@ -24,6 +23,6 @@ export class FutureStockAccordionComponent {
   }
 
   isString(param: FutureStock[] | string): boolean {
-      return typeof(param) === 'string';
+    return typeof param === 'string';
   }
 }

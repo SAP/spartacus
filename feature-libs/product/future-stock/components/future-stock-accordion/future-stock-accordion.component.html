@@ -1,6 +1,6 @@
 <button class="cx-future-stock-accordion-header" (click)="toggle()">
   <span>
-    {{header}}
+    {{ header }}
     <cx-icon *ngIf="expanded" [type]="iconType.CARET_UP"></cx-icon>
     <cx-icon *ngIf="!expanded" [type]="iconType.CARET_DOWN"></cx-icon>
   </span>
@@ -8,14 +8,16 @@
 
 <div *ngIf="expanded">
   <div *ngIf="!isString(content); else contentString">
-    <div class="cx-future-stock-accordion-content" *ngFor = "let elem of content">
-      {{elem.formattedDate}} - {{'futureStockTrigger.quantity' | cxTranslate}} {{elem.stock.stockLevel}}
+    <div class="cx-future-stock-accordion-content" *ngFor="let elem of content">
+      {{ elem.formattedDate }} -
+      {{ 'futureStockTrigger.quantity' | cxTranslate }}
+      {{ elem.stock.stockLevel }}
     </div>
   </div>
 
   <ng-template #contentString>
     <div class="cx-future-stock-accordion-content">
-      {{content}}
+      {{ content }}
     </div>
   </ng-template>
 </div>

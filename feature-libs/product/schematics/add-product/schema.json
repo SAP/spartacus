@@ -25,7 +25,12 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Bulk-Pricing", "Product-Variants", "Image-Zoom", "Future-Stock"],
+        "enum": [
+          "Bulk-Pricing",
+          "Product-Variants",
+          "Image-Zoom",
+          "Future-Stock"
+        ],
         "type": "string"
       },
       "default": ["Product-Variants", "Image-Zoom", "Future-Stock"],
