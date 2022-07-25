@@ -1,7 +1,8 @@
 <div class="store-count">1 - 5 from {{ storeData.total }} stores found</div>
 
 <div>
-  <div class="store-listing-item" [class.selected]="selectedStore.id === store.id" *ngFor="let store of storeData.data">
+  <div class="store-listing-item" [class.selected]="selectedStore.id === store.id" *ngFor="let store of storeData.data"
+  (click)="selectedStore = store">
     <div class="store-listing-item-details">
       <div class="store-listing-item-text bold">{{ store.displayName }}</div>
       <div class="store-listing-item-text bold">{{ store.line1 }}, {{ store.line2 }}</div>
@@ -28,7 +29,7 @@
     loading="lazy"
     allowfullscreen
     referrerpolicy="no-referrer-when-downgrade"
-    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8&q=Space+Needle,Seattle+WA">
+    [src]="googleMapsUrl">
   </iframe>
   <div class="store-openings">
     <div class="store-openings-dates">
