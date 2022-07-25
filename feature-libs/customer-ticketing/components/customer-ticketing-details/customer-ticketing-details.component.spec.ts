@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import { CardModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
 
@@ -15,7 +16,7 @@ describe('CustomerTicketingDetailsComponent', () => {
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, CardModule],
       declarations: [CustomerTicketingDetailsComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
