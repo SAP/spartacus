@@ -1,0 +1,62 @@
+cx-customer-ticketing-reopen-dialog {
+  background-color: rgba(0, 0, 0, 0.5);
+
+  .cx-customer-ticket-form-dialog {
+    @extend .modal-dialog;
+    @extend .modal-dialog-centered;
+
+    .cx-customer-ticket-form-container {
+      @extend .modal-content;
+
+      .cx-customer-ticket-form-header {
+        .cx-customer-ticket-form-title {
+          font-size: var(--cx-font-size, 1.375rem);
+          font-weight: var(--cx-font-weight-semi);
+          line-height: var(--cx-line-height, 1.2222222222);
+        }
+      }
+
+      .cx-customer-ticket-form-body {
+        @extend .modal-body;
+
+        .cx-customer-ticket-form-row {
+          margin-bottom: 1.5rem;
+
+          .cx-customer-ticket-label {
+            font-weight: bold;
+          }
+
+          .cx-customer-ticket-label-optional {
+            font-weight: normal;
+          }
+
+          .cx-customer-ticket-input-hint {
+            font-size: 0.75rem;
+            font-style: italic;
+            text-align: end;
+          }
+        }
+      }
+
+      .cx-customer-ticket-form-footer {
+        display: flex;
+
+        button {
+          flex: 0 0 calc(50% - 0.5rem);
+
+          &:first-child {
+            margin-inline-end: 0.5rem;
+          }
+
+          &:last-child {
+            margin-inline-start: 0.5rem;
+          }
+
+          &:focus {
+            @include visible-focus();
+          }
+        }
+      }
+    }
+  }
+}

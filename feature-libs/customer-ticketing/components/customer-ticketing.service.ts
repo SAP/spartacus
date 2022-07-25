@@ -24,7 +24,7 @@ export class CustomerTicketingService {
     id: '00000001',
     modifiedAt: '2022-06-22T20:25:02+0000',
     status: {
-      id: 'OPEN',
+      id: 'CLOSE',
       name: 'Open',
     },
     subject: 'test ticket again',

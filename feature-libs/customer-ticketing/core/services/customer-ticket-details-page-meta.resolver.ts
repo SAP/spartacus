@@ -32,7 +32,6 @@ export class CustomerTicketDetailsPageMetaResolver
     protected customerTicketingService: CustomerTicketingService
   ) {
     super();
-    console.log('constructor');
     this.pageType = PageType.CONTENT_PAGE;
     // need to add one more validation to reflect changes just on customer ticket details page
     // either by introducing a new page template or adding a check for page url
