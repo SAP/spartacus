@@ -1,8 +1,8 @@
-export const futureStockTrigger = {
+export const futureStockDropdown = {
   open: 'Future Availability',
   quantity: 'Qty',
 };
 
 export const futureStock = {
-  futureStockTrigger,
+  futureStockDropdown,
 };

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { FutureStockAccordionModule } from '../future-stock-accordion/future-stock-accordion.module';
 
-import { FutureStockTriggerComponent } from './future-stock-trigger.component';
+import { FutureStockComponent } from './future-stock.component';
 
 @NgModule({
   imports: [CommonModule, I18nModule, FutureStockAccordionModule],
@@ -11,12 +11,12 @@ import { FutureStockTriggerComponent } from './future-stock-trigger.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         FutureStockComponent: {
-          component: FutureStockTriggerComponent,
+          component: FutureStockComponent,
         },
       },
     }),
   ],
-  declarations: [FutureStockTriggerComponent],
-  exports: [FutureStockTriggerComponent],
+  declarations: [FutureStockComponent],
+  exports: [FutureStockComponent],
 })
-export class FutureStockTriggerModule {}
+export class FutureStockModule {}

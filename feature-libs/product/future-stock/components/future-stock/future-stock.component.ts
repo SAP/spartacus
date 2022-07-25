@@ -3,10 +3,10 @@ import { FutureStock } from '@spartacus/product/future-stock/root';
 
 @Component({
   selector: 'cx-future-stock',
-  templateUrl: './future-stock-trigger.component.html',
+  templateUrl: './future-stock.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FutureStockTriggerComponent implements OnInit {
+export class FutureStockComponent implements OnInit {
   futureStocks: FutureStock[] | string;
 
   ngOnInit() {

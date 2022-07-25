@@ -7,5 +7,5 @@ export const futureStockTranslations: TranslationResources = {
 
 // expose all translation chunk mapping for FutureStock feature
 export const futureStockTranslationChunksConfig: TranslationChunksConfig = {
-  futureStock: ['futureStockTrigger'],
+  futureStock: ['futureStockDropdown'],
 };
