@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { MapData, StoreData } from './map-types';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-prototype',
   templateUrl: './prototype.component.html',
   styleUrls: ['./prototype.component.scss'],
@@ -77,7 +79,17 @@ export class PrototypeComponent implements OnInit {
 
   selectedStore: StoreData;
 
-  constructor() {
+  get encodedStoreLocation(): string {
+    return encodeURIComponent(this.selectedStore.line1);
+  }
+
+  get googleMapsUrl(): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://www.google.com/maps/embed/v1/place?key=AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8&q=${ this.encodedStoreLocation }&center=${this.selectedStore.latitude},${this.selectedStore.longitude}&zoom=10`
+    );
+  }
+
+  constructor(protected sanitizer: DomSanitizer) {
     this.selectedStore = this.storeData.data[0];
   }
 
