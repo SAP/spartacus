@@ -202,5 +202,3 @@ export function addFutureStockFeature(options: SpartacusProductOptions): Rule {
     },
   });
 }
-
-
