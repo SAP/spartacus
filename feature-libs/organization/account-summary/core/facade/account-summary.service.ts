@@ -4,7 +4,7 @@ import { AccountSummaryFacade } from '@spartacus/organization/account-summary/ro
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AccountSummaryConnector } from '../connector/account-summary-connector';
-import { AccountSummary, AccountSummaryDetails } from '../model';
+import { AccountSummary, AccountSummaryDetails, DocumentQueryParams } from '../model';
 @Injectable({
   providedIn: 'root',
 })
@@ -34,9 +34,11 @@ export class AccountSummaryService implements AccountSummaryFacade {
     );
   }
 
-  getAccountSummaryDocument(): Observable<AccountSummary> {
-    console.log('GET ACCOUNT SUMMARY DOCUMENT');
-    //TODO
-    return new Observable<any>();
+  getDocumentList(params: DocumentQueryParams): Observable<AccountSummary> {
+    return this.accountSummaryConnector.getDocumentList(
+      this.userId,
+      this.unitCode,
+      params
+    );
   }
 }

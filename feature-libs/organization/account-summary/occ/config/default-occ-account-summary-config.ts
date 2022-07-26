@@ -6,14 +6,14 @@ interface AccountSummaryDocumentEndpoints {
   accountSummaryDocument?: string | OccEndpoint;
 }
 declare module '@spartacus/core' {
-  interface OccEndpoints extends AccountSummaryDocumentEndpoints {}
+  interface OccEndpoints extends AccountSummaryDocumentEndpoints { }
 }
 
 export interface AccountSummaryHeaderEndpoints {
   accountSummary?: string | OccEndpoint;
 }
 declare module '@spartacus/core' {
-  interface OccEndpoints extends AccountSummaryHeaderEndpoints {}
+  interface OccEndpoints extends AccountSummaryHeaderEndpoints { }
 }
 
 export const defaultOccAccountSummaryConfig: OccConfig = {
@@ -21,8 +21,7 @@ export const defaultOccAccountSummaryConfig: OccConfig = {
     occ: {
       endpoints: {
         accountSummary: 'users/${userId}/accountSummary',
-        accountSummaryDocument:
-          'users/${userId}/accountSummary/${unitCode}/document',
+        accountSummaryDocument: 'users/${userId}/documents'
       },
     },
   },

@@ -59,3 +59,14 @@ export interface AccountSummaryList {
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
+
+export interface DocumentQueryParams {
+  b2bDocumentStatus?: string;
+  currentPage?: number;
+  pageSize?: number;
+  sort?: string;
+  startRange?: string;
+  endRange?: string;
+  filterKey?: string;
+  filterValue?: string;
+}

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
-import { AccountSummaryDocument } from '@spartacus/organization/account-summary/core';
+import { AccountSummary, DocumentQueryParams } from '@spartacus/organization/account-summary/core';
+import { AccountSummaryFacade } from '@spartacus/organization/account-summary/root';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-account-summary-document',
@@ -8,25 +9,23 @@ import { AccountSummaryDocument } from '@spartacus/organization/account-summary/
 })
 export class AccountSummaryDocumentComponent implements OnInit {
   currentUnitCode: string;
-  documents: Array<AccountSummaryDocument> = [];
+  accountSummary$: Observable<AccountSummary>;
 
-  constructor(
-    private routingService: RoutingService
-  ) // private accountSummaryFacade: AccountSummaryFacade
-  { }
+  constructor(private accountSummaryFacade: AccountSummaryFacade) { }
 
   ngOnInit(): void {
-    this.routingService.getRouterState().subscribe((value) => {
-      const urlArr = value.state.context.id.split('/');
-      this.currentUnitCode = urlArr[urlArr.length - 1];
-    });
 
-    // this.accountSummaryFacade.getDocumentData(this.currentUnitCode).subscribe(response => {
-    //   if (response) {
-    //     this.documents = response.documents;
-    // response.pagination ToDo: add form control for pages
-    // response.sorts ToDo: add form control for sort
-    //   }
-    // });
+    let params: DocumentQueryParams = {
+      b2bDocumentStatus: 'open',
+      currentPage: 0,
+      pageSize: 10,
+      sort: 'byDocumentDateAsc',
+      startRange: '',
+      endRange: '',
+      filterKey: '',
+      filterValue: ''
+    };
+
+    this.accountSummary$ = this.accountSummaryFacade.getDocumentList(params);
   }
 }
