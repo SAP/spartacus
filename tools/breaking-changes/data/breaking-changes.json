@@ -22716,7 +22716,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutService has been removed and is no longer part of the public API.",
-    "migrationComment": "Please check migration instrictions for each of the methods you use from this class.",
+    "migrationComment": "Please check the comment instructions above each of the methods you use from this class.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
