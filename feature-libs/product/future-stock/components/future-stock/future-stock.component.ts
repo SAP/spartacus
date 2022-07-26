@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FutureStock } from '@spartacus/product/future-stock/root';
+import { FutureStock } from '@spartacus/core';
 
 @Component({
   selector: 'cx-future-stock',

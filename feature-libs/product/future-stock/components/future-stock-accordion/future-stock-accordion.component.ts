@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { FutureStock } from '../../root/models/future-stock.model';
+import { FutureStock } from '@spartacus/core';
 
 @Component({
   selector: 'cx-future-stock-accordion',
