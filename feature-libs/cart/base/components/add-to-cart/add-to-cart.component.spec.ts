@@ -17,6 +17,7 @@ import {
 import {
   CmsAddToCartComponent,
   EventService,
+  FeaturesConfigModule,
   I18nTestingModule,
   Product,
 } from '@spartacus/core';
@@ -132,6 +133,7 @@ describe('AddToCartComponent', () => {
         SpinnerModule,
         I18nTestingModule,
         ReactiveFormsModule,
+        FeaturesConfigModule,
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [

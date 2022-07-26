@@ -3,18 +3,30 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  Optional,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { AddToCartContainerContext } from '@spartacus/cart/base/components/add-to-cart';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Product } from '@spartacus/core';
+import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
+  IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
+} from '@spartacus/pickup-in-store/root';
+import {
+  CurrentProductService,
   LaunchDialogService,
   LAUNCH_CALLER,
-  OutletContextData,
 } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { CurrentLocationService } from '../services/current-location.service';
+
+function isProductWithCode(
+  product: Product | null
+): product is Required<Pick<Product, 'code'>> & Product {
+  return !!product?.code;
+}
 
 @Component({
   selector: 'cx-pickup-delivery-options',
@@ -24,17 +36,88 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   @ViewChild('open') element: ElementRef;
   subscription = new Subscription();
 
+  deliveryOptionsForm = new FormGroup({
+    deliveryOption: new FormControl('delivery'),
+  });
+
+  availableForPickup = false;
+  intendedPickupLocation$: Observable<string>;
+
   private productCode: string;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
-    @Optional() protected outlet?: OutletContextData<AddToCartContainerContext>
+    protected intendedPickupLocationService: IntendedPickupLocationFacade,
+    protected currentProductService: CurrentProductService,
+    protected currentLocationService: CurrentLocationService,
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected preferredStoreService: PreferredStoreService
   ) {}
 
   ngOnInit() {
-    this.outlet?.context$.subscribe(
-      ({ productCode }) => (this.productCode = productCode)
+    const productCode$ = this.currentProductService.getProduct().pipe(
+      filter(isProductWithCode),
+      map((product) => {
+        this.productCode = product.code;
+        this.availableForPickup = !!product.availableForPickup;
+
+        return this.productCode;
+      })
+    );
+
+    this.intendedPickupLocation$ = this.currentProductService.getProduct().pipe(
+      filter(isProductWithCode),
+      map((product) => product.code),
+      tap((productCode) => {
+        this.currentLocationService.getCurrentLocation(
+          ({ coords: { latitude, longitude } }) => {
+            this.pickupLocationsSearchService.setBrowserLocation(
+              latitude,
+              longitude
+            );
+
+            this.pickupLocationsSearchService.startSearch({
+              productCode,
+              latitude,
+              longitude,
+            });
+          }
+        );
+      }),
+      switchMap((productCode) =>
+        this.pickupLocationsSearchService.getSearchResults(productCode)
+      ),
+      map((stores) => stores.filter((store) => !!store?.stockInfo?.stockLevel)),
+      map((stores) => {
+        const preferredStore = this.preferredStoreService.getPreferredStore();
+
+        return (
+          stores.find((store) => store.name === preferredStore) ?? stores[0]
+        );
+      }),
+      map((store) => store?.name ?? '')
+    );
+
+    this.subscription.add(
+      combineLatest([
+        productCode$,
+        this.launchDialogService.dialogClose.pipe(
+          filter((reason) => reason !== undefined),
+          startWith(undefined)
+        ),
+      ])
+        .pipe(
+          switchMap(([productCode]) =>
+            this.intendedPickupLocationService.getIntendedLocation(productCode)
+          ),
+          tap((intendedLocation) =>
+            this.deliveryOptionsForm
+              .get('deliveryOption')
+              ?.setValue(intendedLocation ? 'pickup' : 'delivery')
+          )
+        )
+        .subscribe()
     );
   }
 
@@ -53,5 +136,9 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
     if (dialog) {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
+  }
+
+  clearIntendedPickupLocation(): void {
+    this.intendedPickupLocationService.removeIntendedLocation(this.productCode);
   }
 }

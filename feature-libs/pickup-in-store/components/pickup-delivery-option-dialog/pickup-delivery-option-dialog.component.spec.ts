@@ -6,11 +6,12 @@ import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
-  LocationSearchParams,
-  PickupInStoreFacade,
+  IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { IconTestingModule, LaunchDialogService } from '@spartacus/storefront';
-import { MockPickupInStoreService } from 'feature-libs/pickup-in-store/core/facade/pickup-in-store.service.spec';
+import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
+import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
 import { StoreListModule } from '../store-list/index';
@@ -19,7 +20,7 @@ import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-di
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
-    return of({});
+    return of({ productCode: 'testProductCode' });
   }
 
   closeDialog(_reason: string): void {}
@@ -29,7 +30,7 @@ describe('PickupDeliveryOptionDialogComponent', () => {
   let component: PickupDeliveryOptionDialogComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionDialogComponent>;
   let launchDialogService: LaunchDialogService;
-  let pickupInStoreFacade: PickupInStoreFacade;
+  let pickupLocationsSearchService: PickupLocationsSearchFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -45,15 +46,22 @@ describe('PickupDeliveryOptionDialogComponent', () => {
       declarations: [PickupDeliveryOptionDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: PickupInStoreFacade, useClass: MockPickupInStoreService },
+        {
+          provide: PickupLocationsSearchFacade,
+          useClass: MockPickupLocationsSearchService,
+        },
         { provide: PreferredStoreService, useClass: MockPreferredStoreService },
+        {
+          provide: IntendedPickupLocationFacade,
+          useClass: MockIntendedPickupLocationService,
+        },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PickupDeliveryOptionDialogComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
-    pickupInStoreFacade = TestBed.inject(PickupInStoreFacade);
+    pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
 
     fixture.detectChanges();
   });
@@ -63,23 +71,26 @@ describe('PickupDeliveryOptionDialogComponent', () => {
   });
 
   it('ngOnInit should call appropriate methods', () => {
-    spyOn(pickupInStoreFacade, 'clearStockData');
+    spyOn(pickupLocationsSearchService, 'getHideOutOfStock');
     component.ngOnInit();
-    expect(pickupInStoreFacade.clearStockData).toHaveBeenCalled();
+    expect(pickupLocationsSearchService.getHideOutOfStock).toHaveBeenCalled();
   });
 
   it('onFindStores calls appropriate service method', () => {
-    spyOn(pickupInStoreFacade, 'getStock');
-    component.onFindStores({ productCode: 'P001' } as LocationSearchParams);
-    expect(pickupInStoreFacade.getStock).toHaveBeenCalledWith({
-      productCode: 'P001',
+    spyOn(pickupLocationsSearchService, 'startSearch');
+    component.onFindStores({ location: '' });
+    expect(pickupLocationsSearchService.startSearch).toHaveBeenCalledWith({
+      productCode: 'testProductCode',
+      location: '',
     });
   });
 
   it('onHideOutOfStock calls appropriate service method', () => {
-    spyOn(pickupInStoreFacade, 'hideOutOfStock');
+    spyOn(pickupLocationsSearchService, 'toggleHideOutOfStock');
     component.onHideOutOfStock();
-    expect(pickupInStoreFacade.hideOutOfStock).toHaveBeenCalled();
+    expect(
+      pickupLocationsSearchService.toggleHideOutOfStock
+    ).toHaveBeenCalled();
   });
 
   it('should close dialog on close method', () => {
@@ -90,5 +101,12 @@ describe('PickupDeliveryOptionDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       mockCloseReason
     );
+  });
+
+  it('should set loading when showSpinner is called', () => {
+    component.showSpinner(true);
+    expect(component.loading).toEqual(true);
+    component.showSpinner(false);
+    expect(component.loading).toEqual(false);
   });
 });

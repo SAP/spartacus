@@ -1,11 +1,20 @@
 import { Provider } from '@angular/core';
-import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
-import { PickupInStoreService } from './pickup-in-store.service';
+import {
+  IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
+} from '@spartacus/pickup-in-store/root';
+import { IntendedPickupLocationService } from './intended-pickup-location.service';
+import { PickupLocationsSearchService } from './pickup-locations-search.service';
 
 export const facadeProviders: Provider[] = [
-  PickupInStoreService,
+  IntendedPickupLocationService,
   {
-    provide: PickupInStoreFacade,
-    useExisting: PickupInStoreService,
+    provide: IntendedPickupLocationFacade,
+    useExisting: IntendedPickupLocationService,
+  },
+  PickupLocationsSearchService,
+  {
+    provide: PickupLocationsSearchFacade,
+    useExisting: PickupLocationsSearchService,
   },
 ];

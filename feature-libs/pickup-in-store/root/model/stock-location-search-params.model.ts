@@ -1,11 +1,16 @@
-export type StockLocationSearchParams = {
-  productCode: string;
-  latitude?: number;
-  longitude?: number;
-  location?: string;
+type BrowserLocationSearchParameters = {
+  latitude: number;
+  longitude: number;
 };
 
-export type LocationSearchParams = Omit<
-  StockLocationSearchParams,
-  'productCode'
->;
+type FreeTextSearchParameters = {
+  location: string;
+};
+
+export type LocationSearchParams =
+  | BrowserLocationSearchParameters
+  | FreeTextSearchParameters;
+
+export type StockLocationSearchParams = {
+  productCode: string;
+} & LocationSearchParams;

@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PointOfServiceStock } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
-import { PickupInStoreFacade } from '@spartacus/pickup-in-store/root';
+import {
+  IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
+} from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,23 +12,38 @@ import { Observable } from 'rxjs';
   templateUrl: 'store-list.component.html',
 })
 export class StoreListComponent implements OnInit {
-  isLoading$: Observable<boolean>;
+  @Input()
+  productCode: string;
+  @Output()
+  storeSelected: EventEmitter<null> = new EventEmitter<null>();
+
   stores$: Observable<PointOfServiceStock[]>;
-  searchHasBeenPerformed$: Observable<boolean>;
+  hasSearchStarted$: Observable<boolean>;
+  isSearchRunning$: Observable<boolean>;
 
   constructor(
-    private readonly pickupInStoreService: PickupInStoreFacade,
-    private readonly preferredStoreService: PreferredStoreService
+    private readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
+    private readonly preferredStoreService: PreferredStoreService,
+    private readonly intendedPickupLocationService: IntendedPickupLocationFacade
   ) {}
 
   ngOnInit() {
-    this.stores$ = this.pickupInStoreService.getStores();
-    this.isLoading$ = this.pickupInStoreService.getStockLoading();
-    this.searchHasBeenPerformed$ =
-      this.pickupInStoreService.getSearchHasBeenPerformed();
+    this.stores$ = this.pickupLocationsSearchService.getSearchResults(
+      this.productCode
+    );
+    this.hasSearchStarted$ = this.pickupLocationsSearchService.hasSearchStarted(
+      this.productCode
+    );
+    this.isSearchRunning$ = this.pickupLocationsSearchService.isSearchRunning();
   }
 
-  onSelectStore(storeName: string) {
-    this.preferredStoreService.setPreferredStore(storeName);
+  onSelectStore(store: PointOfServiceStock) {
+    const { stockInfo: _, ...pointOfService } = store;
+    this.preferredStoreService.setPreferredStore(pointOfService.name ?? '');
+    this.intendedPickupLocationService.setIntendedLocation(
+      this.productCode,
+      pointOfService
+    );
+    this.storeSelected.emit();
   }
 }

@@ -20,7 +20,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     userId: string,
     cartId: string,
     productCode: string,
-    quantity: number = 1
+    quantity: number = 1,
+    pickupStore?: string
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl('addEntries', {
       urlParams: { userId, cartId, quantity },
@@ -44,6 +45,7 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     const toAdd = {
       quantity,
       product: { code: productCode },
+      ...(pickupStore && { deliveryPointOfService: { name: pickupStore } }),
     };
 
     const headers = new HttpHeaders({

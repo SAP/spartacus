@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   LocationSearchParams,
-  PickupInStoreFacade,
+  PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -12,39 +12,41 @@ import { Observable } from 'rxjs';
 })
 export class PickupDeliveryOptionDialogComponent implements OnInit {
   productCode: string;
-
   getHideOutOfStockState$: Observable<boolean>;
+  loading: boolean;
 
   readonly iconTypes = ICON_TYPE;
-  loading: boolean;
+  readonly CLOSE_WITHOUT_SELECTION = 'CLOSE_WITHOUT_SELECTION';
+  readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected pickupInStoreFacade: PickupInStoreFacade
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade
   ) {}
 
   ngOnInit() {
-    this.pickupInStoreFacade.clearStockData();
     this.launchDialogService.data$.subscribe(({ productCode }) => {
       this.productCode = productCode;
     });
     this.getHideOutOfStockState$ =
-      this.pickupInStoreFacade.getHideOutOfStockState();
+      this.pickupLocationsSearchService.getHideOutOfStock();
   }
 
   onFindStores(locationSearchParams: LocationSearchParams): void {
-    this.pickupInStoreFacade.getStock({
+    this.pickupLocationsSearchService.startSearch({
       productCode: this.productCode,
       ...locationSearchParams,
     });
   }
 
   onHideOutOfStock(): void {
-    this.pickupInStoreFacade.hideOutOfStock();
+    this.pickupLocationsSearchService.toggleHideOutOfStock();
   }
+
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
+
   showSpinner(showSpinner: boolean): void {
     this.loading = showSpinner;
   }

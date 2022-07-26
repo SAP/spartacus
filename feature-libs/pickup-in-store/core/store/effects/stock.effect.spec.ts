@@ -1,23 +1,29 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
-import * as fromEffects from './stock.effect';
-import { StockConnector } from '../../connectors/index';
 import { provideMockActions } from '@ngrx/effects/testing';
-// import { StockLevelActions } from '../actions/index';
-import { Observable, of } from 'rxjs';
-import { StockLevel, StockLevelSuccess } from '../actions/stock.action';
+import { StoreModule } from '@ngrx/store';
+import { normalizeHttpError } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
-import createSpy = jasmine.createSpy;
+import { Observable, of, throwError } from 'rxjs';
+import { StockConnector } from '../../connectors/index';
+import {
+  StockLevel,
+  StockLevelFail,
+  StockLevelSuccess,
+} from '../actions/stock.action';
+import { StockEffect } from './stock.effect';
+
+class MockStockConnector {
+  loadStockLevels = () => of({});
+}
 
 describe('StockEffect', () => {
-  let stockEffects: fromEffects.StockEffect;
+  let stockEffects: StockEffect;
   let actions$: Observable<any>;
-  beforeEach(() => {
-    class MockStockConnector {
-      loadStockLevels = createSpy().and.returnValue(of({}));
-    }
+  let stockConnector: StockConnector;
 
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, StoreModule.forRoot({})],
 
@@ -26,23 +32,45 @@ describe('StockEffect', () => {
           provide: StockConnector,
           useClass: MockStockConnector,
         },
-        fromEffects.StockEffect,
+        StockEffect,
 
         provideMockActions(() => actions$),
       ],
     });
 
-    stockEffects = TestBed.inject(fromEffects.StockEffect);
+    stockEffects = TestBed.inject(StockEffect);
+    stockConnector = TestBed.inject(StockConnector);
   });
 
-  it('loadStockLevels$', () => {
-    const action = new StockLevel({ productCode: 'P0001' });
-    const actionSuccess = new StockLevelSuccess({});
+  it('should call the connector on the StockLevel action and create success action', () => {
+    spyOn(stockConnector, 'loadStockLevels').and.callThrough();
+    const action = new StockLevel({ productCode: 'P0001', location: '' });
+    const actionSuccess = new StockLevelSuccess({
+      productCode: 'P0001',
+      stockLevels: {},
+    });
 
     actions$ = hot('-a', { a: action });
-    const expected = cold('-(b)', {
-      b: actionSuccess,
+    const expected = cold('-(b)', { b: actionSuccess });
+
+    expect(stockEffects.loadStockLevels$).toBeObservable(expected);
+    expect(stockConnector.loadStockLevels).toHaveBeenCalledWith('P0001', {
+      location: '',
     });
+  });
+
+  it('should create a fail action on connector error', () => {
+    const error = new HttpErrorResponse({
+      status: 404,
+      statusText: 'Not Found',
+      error: 'Error',
+    });
+    spyOn(stockConnector, 'loadStockLevels').and.returnValue(throwError(error));
+    const action = new StockLevel({ productCode: 'P0001', location: '' });
+    const actionFail = new StockLevelFail(normalizeHttpError(error));
+
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-b', { b: actionFail });
 
     expect(stockEffects.loadStockLevels$).toBeObservable(expected);
   });

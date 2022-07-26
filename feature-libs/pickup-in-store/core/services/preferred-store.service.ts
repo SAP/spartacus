@@ -10,7 +10,7 @@ import { PickupInStoreConfig } from '../config';
  */
 @Injectable()
 export class PreferredStoreService implements OnDestroy {
-  subscription: Subscription;
+  subscription?: Subscription;
 
   constructor(
     protected readonly consentService: ConsentService,
@@ -55,6 +55,6 @@ export class PreferredStoreService implements OnDestroy {
    * Unsubscribes to dangling subscriptions before destroying the service.
    */
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 }

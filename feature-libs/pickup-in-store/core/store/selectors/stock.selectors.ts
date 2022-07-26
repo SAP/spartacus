@@ -1,7 +1,7 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { PointOfServiceStock, StateUtils } from '@spartacus/core';
 import { StateWithStock, StockLevelState } from '../stock-state';
-import { getStockState } from './feature.selector';
+import { getStockState } from './feature.selectors';
 import { getHideOutOfStockState } from './hide-out-of-stock.selectors';
 
 export const getStockLevelState: MemoizedSelector<
@@ -31,25 +31,34 @@ export const getStockError: MemoizedSelector<StateWithStock, boolean> =
     StateUtils.loaderErrorSelector(state)
   );
 
-export const getSearchHasBeenPerformed: MemoizedSelector<
-  StateWithStock,
-  boolean
-> = createSelector(
-  getStockLoading,
-  getStockSuccess,
-  getStockError,
-  (_getStockLoading, _getStockSuccess, _getStockError) =>
-    _getStockLoading || _getStockSuccess || _getStockError
-);
+export const hasSearchStarted: MemoizedSelector<StateWithStock, boolean> =
+  createSelector(
+    getStockLoading,
+    getStockSuccess,
+    getStockError,
+    (_getStockLoading, _getStockSuccess, _getStockError) =>
+      _getStockLoading || _getStockSuccess || _getStockError
+  );
 
-export const getStores: MemoizedSelector<
-  StateWithStock,
-  PointOfServiceStock[]
-> = createSelector(
-  getStockEntities,
-  getHideOutOfStockState,
-  (stockEntities, hideOutOfStock) =>
-    (stockEntities.findStockLevelByCode.stores ?? []).filter(
-      (store) => (store.stockInfo?.stockLevel ?? 0) > 0 || !hideOutOfStock
-    )
-);
+export const hasSearchStartedForProductCode = (
+  productCode: string
+): MemoizedSelector<StateWithStock, boolean> =>
+  createSelector(
+    hasSearchStarted,
+    getStockEntities,
+    (hasSearchBeenStarted, stockEntities) => {
+      return hasSearchBeenStarted && !!stockEntities[productCode];
+    }
+  );
+
+export const getStoresWithStockForProductCode = (
+  productCode: string
+): MemoizedSelector<StateWithStock, PointOfServiceStock[]> =>
+  createSelector(
+    getStockEntities,
+    getHideOutOfStockState,
+    (stockEntities, hideOutOfStock) =>
+      stockEntities[productCode]?.stores?.filter(
+        (store) => (store.stockInfo?.stockLevel ?? 0) > 0 || !hideOutOfStock
+      ) ?? []
+  );
