@@ -7,6 +7,5 @@ import { VisualViewerAnimationSliderComponent } from './visual-viewer-animation-
   imports: [CommonModule, I18nModule],
   declarations: [VisualViewerAnimationSliderComponent],
   exports: [VisualViewerAnimationSliderComponent],
-  entryComponents: [VisualViewerAnimationSliderComponent],
 })
 export class VisualViewerAnimationSliderModule {}
