@@ -1,7 +1,8 @@
 import { createAction } from '@ngrx/store';
 
-export const HIDE_OUT_OF_STOCK_OPTIONS = '[Stock] Hide Out Of Stock';
+export const TOGGLE_HIDE_OUT_OF_STOCK_OPTIONS =
+  '[Stock] Toggle Hide Out Of Stock Options';
 
-export const HideOutOfStockOptionsAction = createAction(
-  HIDE_OUT_OF_STOCK_OPTIONS
+export const ToggleHideOutOfStockOptionsAction = createAction(
+  TOGGLE_HIDE_OUT_OF_STOCK_OPTIONS
 );

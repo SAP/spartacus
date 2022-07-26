@@ -4,7 +4,7 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { PickupLocationsState } from '../../pickup-location-state';
 import { intendedPickupLocationsReducer } from './pickup-locations.reducer';
 
-function getReducers(): ActionReducerMap<PickupLocationsState> {
+export function getReducers(): ActionReducerMap<PickupLocationsState> {
   return {
     intendedPickupLocations: intendedPickupLocationsReducer,
   };

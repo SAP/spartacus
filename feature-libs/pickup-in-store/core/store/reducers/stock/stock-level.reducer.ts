@@ -1,32 +1,28 @@
 import { Action, createAction, createReducer, on, props } from '@ngrx/store';
-import { StoreFinderStockSearchPage } from '@spartacus/core';
 import { StockLevelActions } from '../../actions/index';
+import { StockLevelSuccessPayload } from '../../actions/stock.action';
 import { StockLevelState } from '../../stock-state';
 
-export const initialState: StockLevelState = {
-  findStockLevelByCode: {},
-};
+export const initialState: StockLevelState = {};
 
 const _stockReducer = createReducer(
   initialState,
   on(
     createAction(
       StockLevelActions.STOCK_LEVEL_SUCCESS,
-      props<{
-        payload: StoreFinderStockSearchPage;
-      }>()
+      props<{ payload: StockLevelSuccessPayload }>()
     ),
-    (state: StockLevelState, action): StockLevelState => ({
+    (
+      state: StockLevelState,
+      { payload: { productCode, stockLevels } }
+    ): StockLevelState => ({
       ...state,
-      findStockLevelByCode: action.payload,
+      [productCode]: stockLevels,
     })
   ),
   on(
     createAction(StockLevelActions.CLEAR_STOCK_DATA),
-    (state: StockLevelState): StockLevelState => ({
-      ...state,
-      findStockLevelByCode: {},
-    })
+    (_state: StockLevelState): StockLevelState => ({})
   )
 );
 

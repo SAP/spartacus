@@ -4,31 +4,42 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Product } from '@spartacus/core';
+import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
-  PickupInStoreFacade,
+  PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
+import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of, Subscription } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../core/facade/intended-pickup-location.service.spec';
+import { CurrentLocationService } from '../services/current-location.service';
 import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.component';
 
 import createSpy = jasmine.createSpy;
 
-class MockPickupInStoreFacade implements PickupInStoreFacade {
-  getStock = createSpy();
-  clearStockData = createSpy();
-  hideOutOfStock = createSpy();
-  getHideOutOfStockState = createSpy();
-  getStockLoading = createSpy();
-  getStockSuccess = createSpy();
-  getSearchHasBeenPerformed = createSpy();
-  getStockEntities = createSpy();
-  getStores = createSpy();
+class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
+  startSearch = createSpy();
+  hasSearchStarted = createSpy();
+  isSearchRunning = createSpy();
+  getSearchResults = createSpy().and.returnValue(
+    of([
+      {
+        name: 'preferredStore',
+        stockInfo: {
+          stockLevel: 12,
+        },
+      },
+    ])
+  );
+  clearSearchResults = createSpy();
+  getHideOutOfStock = createSpy();
+  setBrowserLocation = createSpy();
+  toggleHideOutOfStock = createSpy();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -52,12 +63,34 @@ class MockCurrentProductService {
   }
 }
 
+class MockCurrentLocationService {
+  getCurrentLocation(
+    successCallback: PositionCallback,
+    _errorCallback?: PositionErrorCallback | null,
+    _options?: PositionOptions
+  ): void {
+    successCallback({
+      coords: {
+        latitude: 0,
+        longitude: 0,
+        accuracy: 0,
+        altitude: 0,
+        altitudeAccuracy: 0,
+        heading: 0,
+        speed: 0,
+      },
+      timestamp: 0,
+    });
+  }
+}
+
 describe('PickupDeliveryOptionsComponent', () => {
   let component: PickupDeliveryOptionsComponent;
   let fixture: ComponentFixture<PickupDeliveryOptionsComponent>;
   let launchDialogService: LaunchDialogService;
   let intendedPickupLocationService: IntendedPickupLocationFacade;
   let currentProductService: CurrentProductService;
+  let pickupLocationsSearchService: PickupLocationsSearchFacade;
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
@@ -65,8 +98,8 @@ describe('PickupDeliveryOptionsComponent', () => {
       providers: [
         PickupDeliveryOptionsComponent,
         {
-          provide: PickupInStoreFacade,
-          useClass: MockPickupInStoreFacade,
+          provide: PickupLocationsSearchFacade,
+          useClass: MockPickupLocationsSearchFacade,
         },
         {
           provide: LaunchDialogService,
@@ -77,6 +110,14 @@ describe('PickupDeliveryOptionsComponent', () => {
           useClass: MockIntendedPickupLocationService,
         },
         { provide: CurrentProductService, useClass: MockCurrentProductService },
+        {
+          provide: PreferredStoreService,
+          useClass: MockPreferredStoreService,
+        },
+        {
+          provide: CurrentLocationService,
+          useClass: MockCurrentLocationService,
+        },
       ],
       declarations: [PickupDeliveryOptionsComponent],
     });
@@ -89,6 +130,7 @@ describe('PickupDeliveryOptionsComponent', () => {
       IntendedPickupLocationFacade
     );
     currentProductService = TestBed.inject(CurrentProductService);
+    pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
 
     spyOn(currentProductService, 'getProduct').and.callThrough();
     spyOn(launchDialogService, 'openDialog').and.callThrough();
@@ -147,6 +189,14 @@ describe('PickupDeliveryOptionsComponent', () => {
       expect(
         intendedPickupLocationService.getIntendedLocation
       ).toHaveBeenCalledWith('productCode');
+      expect(
+        pickupLocationsSearchService.setBrowserLocation
+      ).toHaveBeenCalledWith(0, 0);
+      expect(pickupLocationsSearchService.startSearch).toHaveBeenCalledWith({
+        productCode: 'productCode',
+        latitude: 0,
+        longitude: 0,
+      });
       expect(component.availableForPickup).toBe(true);
     });
 

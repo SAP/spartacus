@@ -1,72 +1,101 @@
 import { PointOfServiceStock } from '@spartacus/core';
-import { StateWithStock } from '../stock-state';
+import { StateWithStock, StockState } from '../stock-state';
 import {
-  getSearchHasBeenPerformed,
   getStockEntities,
   getStockError,
   getStockLevelState,
   getStockLoading,
   getStockSuccess,
-  getStores,
+  getStoresWithStockForProductCode,
+  hasSearchStarted,
+  hasSearchStartedForProductCode,
 } from './stock.selectors';
 
-describe('stock-selector', () => {
-  const state: StateWithStock = {
+describe('StockSelectors', () => {
+  const stateFactory = (
+    stockLevel?: Partial<StockState['stockLevel']>,
+    hideOutOfStock?: StockState['hideOutOfStock'],
+    browserLocation?: StockState['browserLocation']
+  ): StateWithStock => ({
     stock: {
       stockLevel: {
-        loading: false,
-        error: false,
-        success: false,
-        value: {
-          findStockLevelByCode: {},
-        },
+        loading: stockLevel?.loading ?? false,
+        error: stockLevel?.error ?? false,
+        success: stockLevel?.success ?? false,
+        value: stockLevel?.value ?? {},
       },
-      hideOutOfStock: false,
+      hideOutOfStock: hideOutOfStock ?? false,
+      browserLocation: browserLocation ?? { latitude: null, longitude: null },
     },
-  };
+  });
 
-  it('getStockLevelState', () => {
-    const result = getStockLevelState(state);
-    const exptectedResult = {
+  it('should get the stock level state', () => {
+    const result = getStockLevelState(stateFactory());
+    const expectedResult = {
       loading: false,
       error: false,
       success: false,
-      value: { findStockLevelByCode: {} },
+      value: {},
     };
-    expect(result).toEqual(exptectedResult);
-  });
-
-  it('getStockEntities', () => {
-    const result = getStockEntities(state);
-    const expectedResult = { findStockLevelByCode: {} };
     expect(result).toEqual(expectedResult);
   });
 
-  it('getStockLoading', () => {
-    const result = getStockLoading(state);
-    const expectedResult = false;
-    expect(result).toEqual(expectedResult);
+  it('should get the stock entities state', () => {
+    const result = getStockEntities(stateFactory());
+    expect(result).toEqual({});
   });
 
-  it('getStockSuccess', () => {
-    const result = getStockSuccess(state);
-    const expectedResult = false;
-    expect(result).toEqual(expectedResult);
+  it('should get the stock loading state', () => {
+    const result = getStockLoading(stateFactory());
+    expect(result).toEqual(false);
   });
 
-  it('getStockError', () => {
-    const result = getStockError(state);
-    const expectedResult = false;
-    expect(result).toEqual(expectedResult);
+  it('should get the stock success state', () => {
+    const result = getStockSuccess(stateFactory());
+    expect(result).toEqual(false);
   });
 
-  it('getSearchHasBeenPerformed', () => {
-    const result = getSearchHasBeenPerformed(state);
-    const expectedResult = false;
-    expect(result).toEqual(expectedResult);
+  it('should get the stock error state', () => {
+    const result = getStockError(stateFactory());
+    expect(result).toEqual(false);
   });
 
-  describe('getStores', () => {
+  describe('hasSearchStarted', () => {
+    it('should infer that the search has not been performed', () => {
+      const result = hasSearchStarted(stateFactory());
+      expect(result).toEqual(false);
+    });
+    it('should infer that the search has been performed while loading', () => {
+      const result = hasSearchStarted(stateFactory({ loading: true }));
+      expect(result).toEqual(true);
+    });
+    it('should infer that the search has been performed after a success', () => {
+      const result = hasSearchStarted(stateFactory({ success: true }));
+      expect(result).toEqual(true);
+    });
+    it('should infer that the search has been performed after an error', () => {
+      const result = hasSearchStarted(stateFactory({ error: true }));
+      expect(result).toEqual(true);
+    });
+  });
+
+  describe('hasSearchStartedForProductCode', () => {
+    it('should return true if the result is for the product code', () => {
+      const result = hasSearchStartedForProductCode('productCode')(
+        stateFactory({ success: true, value: { productCode: {} } })
+      );
+      expect(result).toEqual(true);
+    });
+
+    it('should return false if the result is not for the product code', () => {
+      const result = hasSearchStartedForProductCode('productCode')(
+        stateFactory({ success: true, value: { productCode2: {} } })
+      );
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('getStoresWithStockForProductCode', () => {
     const storeWithoutStockInfo: PointOfServiceStock = {
       name: 'store without stock info',
     };
@@ -84,50 +113,31 @@ describe('stock-selector', () => {
       storeWithStockInfoAndNoStock,
       storeWithStockInfoAndStock,
     ];
-    const stateWithStores: StateWithStock = {
-      ...state,
-      stock: {
-        ...state.stock,
-        hideOutOfStock: true,
-        stockLevel: {
-          loading: false,
-          error: false,
-          success: false,
-          value: { findStockLevelByCode: { stores } },
-        },
-      },
-    };
 
-    it('getStores without store data', () => {
-      const result = getStores(state);
+    it('should return an empty list for a product without store data', () => {
+      const result = getStoresWithStockForProductCode('productCode')(
+        stateFactory()
+      );
       const expectedResult: PointOfServiceStock[] = [];
       expect(result).toEqual(expectedResult);
     });
 
-    it('getStores with store data hiding out of stock', () => {
-      const result = getStores({
-        ...stateWithStores,
-        stock: {
-          ...stateWithStores.stock,
-          hideOutOfStock: true,
-        },
-      });
-      const expectedResult: PointOfServiceStock[] = [
-        storeWithStockInfoAndStock,
-      ];
-      expect(result).toEqual(expectedResult);
+    it('should return the store data hiding out of stock', () => {
+      const state: StateWithStock = stateFactory(
+        { value: { productCode: { stores } } },
+        true
+      );
+      const result = getStoresWithStockForProductCode('productCode')(state);
+      expect(result).toEqual([storeWithStockInfoAndStock]);
     });
 
-    it('getStores with store data showing out of stock', () => {
-      const result = getStores({
-        ...stateWithStores,
-        stock: {
-          ...stateWithStores.stock,
-          hideOutOfStock: false,
-        },
-      });
-      const expectedResult: PointOfServiceStock[] = stores;
-      expect(result).toEqual(expectedResult);
+    it('should return the store data showing out of stock', () => {
+      const state: StateWithStock = stateFactory(
+        { value: { productCode: { stores } } },
+        false
+      );
+      const result = getStoresWithStockForProductCode('productCode')(state);
+      expect(result).toEqual(stores);
     });
   });
 });

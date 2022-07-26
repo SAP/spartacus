@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
+import { CurrentLocationService } from '../services/current-location.service';
 
 @Component({
   selector: 'cx-store-search',
@@ -12,7 +13,7 @@ export class StoreSearchComponent {
 
   @Input() hideOutOfStock: boolean = false;
 
-  constructor() {}
+  constructor(protected currentLocationService: CurrentLocationService) {}
 
   onFindStores(location: string): boolean {
     this.findStores.emit({ location });
@@ -25,7 +26,7 @@ export class StoreSearchComponent {
 
   useMyLocation(): void {
     this.showSpinner.emit(true);
-    window.navigator.geolocation.getCurrentPosition(
+    this.currentLocationService.getCurrentLocation(
       ({ coords: { latitude, longitude } }) => {
         this.findStores.emit({ latitude, longitude });
         this.showSpinner.emit(false);

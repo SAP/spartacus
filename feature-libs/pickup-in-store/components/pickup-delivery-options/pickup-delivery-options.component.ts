@@ -8,14 +8,19 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Product } from '@spartacus/core';
-import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
+import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
+import {
+  IntendedPickupLocationFacade,
+  PickupLocationsSearchFacade,
+} from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { CurrentLocationService } from '../services/current-location.service';
 
 function isProductWithCode(
   product: Product | null
@@ -36,6 +41,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   });
 
   availableForPickup = false;
+  intendedPickupLocation$: Observable<string>;
 
   private productCode: string;
 
@@ -43,7 +49,10 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected currentProductService: CurrentProductService
+    protected currentProductService: CurrentProductService,
+    protected currentLocationService: CurrentLocationService,
+    protected pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected preferredStoreService: PreferredStoreService
   ) {}
 
   ngOnInit() {
@@ -51,10 +60,43 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
       filter(isProductWithCode),
       map((product) => {
         this.productCode = product.code;
-        this.availableForPickup = !!product?.availableForPickup;
+        this.availableForPickup = !!product.availableForPickup;
 
         return this.productCode;
       })
+    );
+
+    this.intendedPickupLocation$ = this.currentProductService.getProduct().pipe(
+      filter(isProductWithCode),
+      map((product) => product.code),
+      tap((productCode) => {
+        this.currentLocationService.getCurrentLocation(
+          ({ coords: { latitude, longitude } }) => {
+            this.pickupLocationsSearchService.setBrowserLocation(
+              latitude,
+              longitude
+            );
+
+            this.pickupLocationsSearchService.startSearch({
+              productCode,
+              latitude,
+              longitude,
+            });
+          }
+        );
+      }),
+      switchMap((productCode) =>
+        this.pickupLocationsSearchService.getSearchResults(productCode)
+      ),
+      map((stores) => stores.filter((store) => !!store?.stockInfo?.stockLevel)),
+      map((stores) => {
+        const preferredStore = this.preferredStoreService.getPreferredStore();
+
+        return (
+          stores.find((store) => store.name === preferredStore) ?? stores[0]
+        );
+      }),
+      map((store) => store?.name ?? '')
     );
 
     this.subscription.add(

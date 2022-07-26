@@ -1,20 +1,20 @@
 import { STOCK_DATA } from '../stock-state';
 import {
-  StockLevel,
-  StockLevelOnHold,
-  StockLevelFail,
-  StockLevelSuccess,
   ClearStockData,
-  STOCK_LEVEL,
-  STOCK_LEVEL_ON_HOLD,
-  STOCK_LEVEL_FAIL,
-  STOCK_LEVEL_SUCCESS,
   CLEAR_STOCK_DATA,
+  StockLevel,
+  StockLevelFail,
+  StockLevelOnHold,
+  StockLevelSuccess,
+  STOCK_LEVEL,
+  STOCK_LEVEL_FAIL,
+  STOCK_LEVEL_ON_HOLD,
+  STOCK_LEVEL_SUCCESS,
 } from './stock.action';
 
 describe('[Stock] Actions', () => {
   it('StockLevel', () => {
-    const RESULT = new StockLevel({ productCode: 'P0001' });
+    const RESULT = new StockLevel({ productCode: 'P0001', location: '' });
     const EXPECTED: StockLevel = {
       type: STOCK_LEVEL,
       meta: {
@@ -25,6 +25,7 @@ describe('[Stock] Actions', () => {
       },
       payload: {
         productCode: 'P0001',
+        location: '',
       },
     };
 
@@ -67,14 +68,17 @@ describe('[Stock] Actions', () => {
   });
 
   it('StockLevelSuccess', () => {
-    const RESULT = new StockLevelSuccess({});
+    const RESULT = new StockLevelSuccess({
+      productCode: 'P0001',
+      stockLevels: {},
+    });
     const EXPECTED: StockLevelSuccess = {
       type: STOCK_LEVEL_SUCCESS,
       meta: {
         entityType: STOCK_DATA,
         loader: { success: true },
       },
-      payload: {},
+      payload: { productCode: 'P0001', stockLevels: {} },
     };
 
     expect(RESULT.type).toEqual(EXPECTED.type);
