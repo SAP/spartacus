@@ -17091,7 +17091,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/checkout/scheduled-replenisment/root')",
+    "migrationComment": "Listen to 'ReplenishmentOrderScheduledEvent' imported from '@spartacus/order/root'.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17237,7 +17237,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ScheduleReplenishmentOrderSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/checkout/scheduled-replenisment/root')",
+    "migrationComment": "Listen to 'ReplenishmentOrderScheduledEvent' imported from '@spartacus/order/root'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
