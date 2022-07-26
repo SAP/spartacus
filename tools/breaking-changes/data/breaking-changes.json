@@ -20100,7 +20100,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutEventBuilder has been removed and is no longer part of the public API.",
-    "migrationComment": "The class was refactorred and removed. Please check migrations for the events you are using.",
+    "migrationComment": "The events are now split to different listeners across the Base, B2B and Scheduled-Replenishment libraries. All listeners have the following naming convention: 'Checkout*EventListener'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -20186,7 +20186,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutEventListener has been removed and is no longer part of the public API.",
-    "migrationComment": "The class was refactorred and removed. Please check migrations for the events you are using.",
+    "migrationComment": "The events are now split to different listeners across the Base, B2B and Scheduled-Replenishment libraries. All listeners have the following naming convention: 'Checkout*EventListener'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
