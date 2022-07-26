@@ -17347,7 +17347,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'setDeliveryAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')",
+    "migrationComment": "Listen to 'CheckoutDeliveryAddressSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17413,7 +17413,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
+    "migrationComment": "Listen to 'CheckoutDeliveryModeSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17501,7 +17501,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
+    "migrationComment": "Listen to 'CheckoutPaymentDetailsSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17567,7 +17567,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_TYPE_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
+    "migrationComment": "Listen to 'CheckoutPaymentTypeSetEvent' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17903,7 +17903,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryAddressSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'setDeliveryAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')",
+    "migrationComment": "Listen to 'CheckoutDeliveryAddressSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18027,7 +18027,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryModeSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
+    "migrationComment": "Listen to 'CheckoutDeliveryModeSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18191,7 +18191,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentDetailsSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
+    "migrationComment": "Listen to 'CheckoutPaymentDetailsSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18315,7 +18315,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentTypeSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
+    "migrationComment": "Listen to 'CheckoutPaymentTypeSetEvent' (imported from '@spartacus/checkout/b2b/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
