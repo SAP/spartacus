@@ -22261,7 +22261,7 @@
     "type": "MemoizedSelector<StateWithCheckout, OrderTypesState>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getOrderTypesState has been removed and is no longer part of the public API.",
-    "migrationComment": "If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, it has been moved to 'currentOrderType' in 'CheckoutScheduledReplenishmentPlaceOrderComponent' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
+    "migrationComment": "If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
