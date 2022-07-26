@@ -19349,7 +19349,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutCostCenterService'.",
-        "migrationComment": "This property is used internally only",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutCostCenterService"
       },
       {
