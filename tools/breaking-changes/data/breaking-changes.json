@@ -17281,7 +17281,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_COST_CENTER_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
+    "migrationComment": "Listen to 'CheckoutCostCenterSetEvent' imported from '@spartacus/checkout/b2b/root'.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17779,7 +17779,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetCostCenterSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "Use 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
+    "migrationComment": "Listen to 'CheckoutCostCenterSetEvent' imported from '@spartacus/checkout/b2b/root'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
