@@ -26700,7 +26700,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class ClearCheckoutFacade has been removed and is no longer part of the public API.",
-    "migrationComment": "The processes are no longer used, therefore the class was removed.",
+    "migrationComment": "You can use 'CheckoutQueryResetEvent' (imported from '@spartacus/checkout/base/root') to reset the checkout state.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
