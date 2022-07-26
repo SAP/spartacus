@@ -17197,7 +17197,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ScheduleReplenishmentOrderFail has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17259,7 +17259,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_COST_CENTER_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17325,7 +17325,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of either 'setDeliveryAddress()' or 'createAndSetAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17391,7 +17391,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17479,7 +17479,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17545,7 +17545,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_TYPE_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17611,7 +17611,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of either 'getSupportedDeliveryModes()' or 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17739,7 +17739,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetCostCenterFail has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17863,7 +17863,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryAddressFail has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of either 'setDeliveryAddress()' or 'createAndSetAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17987,7 +17987,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryModeFail has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18151,7 +18151,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentDetailsFail has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18275,7 +18275,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentTypeFail has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
