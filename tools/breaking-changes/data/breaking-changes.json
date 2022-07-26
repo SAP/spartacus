@@ -17069,7 +17069,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "Instead, use the Observer's `error` property of the corresponding command",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
