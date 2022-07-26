@@ -26453,7 +26453,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'paymentProcessSuccess' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "After switching to commands & queries, processes are no longer used.",
+        "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
