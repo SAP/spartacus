@@ -23772,7 +23772,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'setCartPaymentType' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "Moved to the b2b-checkout. Because of TS' type augmentation, it will be part of the 'OccEndpoints'.",
+        "migrationComment": "Moved to the B2B-Checkout library. Because of TS' type augmentation, it will be part of the 'OccEndpoints'.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       }
     ]
