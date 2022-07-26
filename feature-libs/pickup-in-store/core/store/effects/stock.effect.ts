@@ -6,6 +6,8 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { StockConnector } from '../../connectors/index';
 import { StockLevelActions } from '../actions/index';
 
+// TODO add effect for stock level at store here
+
 @Injectable()
 export class StockEffect {
   constructor(

@@ -5,6 +5,7 @@ export const defaultOccStockConfig: OccConfig = {
     occ: {
       endpoints: {
         stock: 'products/${productCode}/stock',
+        stockAtStore: 'products/${productCode}/stock/{storeName}',
       },
     },
   },
