@@ -8,7 +8,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, iif } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 
-import { OccConfig } from '../../../../../core/src/occ/config/occ-config';
+import { GlobService } from '../../../../../core/src/util/glob.service';
 import { OCC_USER_ID_CONSTANTS_TOKEN } from '../../../../../core/src/occ/utils/occ-constants';
 
 import { UserIdService } from '../facade/user-id.service';
@@ -18,19 +18,21 @@ import { UserIdPathAllowListInjectionToken } from './user-id-allow-list.const';
 export class UserIdInterceptor implements HttpInterceptor {
   private readonly userIdHeader = 'sap-commerce-cloud-user-id';
 
-  private readonly occBaseUrl: string | undefined;
   private readonly uniqueUserIdConstants: Set<string>;
-  private readonly uniquePaths: RegExp;
+
+  private validateUrl: (url: string) => boolean;
 
   constructor(
     protected userIdService: UserIdService,
-    occConfig: OccConfig,
+    globService: GlobService,
     @Inject(OCC_USER_ID_CONSTANTS_TOKEN) userIdConstants: Array<string>,
     @Inject(UserIdPathAllowListInjectionToken) paths: Array<string>
   ) {
-    this.occBaseUrl = occConfig.backend?.occ?.baseUrl;
     this.uniqueUserIdConstants = new Set(userIdConstants);
-    this.uniquePaths = new RegExp(paths.join('|'));
+
+    this.validateUrl = globService.getValidator(
+      paths.map((path) => `**${path}*`)
+    );
   }
 
   intercept(
@@ -41,7 +43,7 @@ export class UserIdInterceptor implements HttpInterceptor {
       () => this.validateUrl(httpRequest.url) ?? false,
       this.userIdService.getUserId().pipe(
         take(1),
-        concatMap((userId) => {
+        concatMap((userId: string) => {
           let request = httpRequest;
 
           if (userId && !this.uniqueUserIdConstants.has(userId)) {
@@ -55,18 +57,5 @@ export class UserIdInterceptor implements HttpInterceptor {
       ),
       next.handle(httpRequest)
     );
-  }
-
-  /**
-   * @returns true if the call is to the OCC and the URL contains the specific path.
-   */
-  private validateUrl(url: string): boolean {
-    let baseUrl: string | undefined;
-
-    if ((baseUrl = this.occBaseUrl)) {
-      return url.startsWith(baseUrl) && this.uniquePaths.test(url);
-    } else {
-      return false;
-    }
   }
 }
