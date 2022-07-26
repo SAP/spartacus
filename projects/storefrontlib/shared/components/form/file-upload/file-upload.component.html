@@ -7,6 +7,7 @@
   #fileInput
 />
 <button
+  *ngIf="!customButton"
   [attr.aria-label]="'common.selectFile' | cxTranslate"
   class="btn btn-action"
   type="button"
@@ -14,6 +15,9 @@
 >
   <ng-content></ng-content>
 </button>
+<div *ngIf="customButton" (click)="fileInput.click()">
+  <ng-content></ng-content>
+</div>
 <p *ngFor="let file of selectedFiles">
   {{ file?.name }}
 </p>

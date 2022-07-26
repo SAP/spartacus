@@ -78,7 +78,32 @@
     }
     .message-box {
       width: 100%;
+
+      cx-file-upload {
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        width: 100%;
+        .cx-message-footer-text {
+          text-decoration: underline;
+          cursor: pointer;
+        }
+        cx-icon {
+          padding-right: 0.5rem;
+          color: #a1aabf;
+          cursor: pointer;
+        }
+      }
+
+      .cx-message-footer-labels {
+        display: flex;
+        justify-content: space-between;
+        .cx-message-footer-label {
+          width: 100%;
+        }
+      }
     }
+
     p {
       font-size: 0.75rem;
       font-style: italic;

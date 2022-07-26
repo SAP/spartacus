@@ -15,3 +15,9 @@ export interface Attachment {
   filename: string;
   URL: string;
 }
+
+export interface AttachmentValidity {
+  maxSize: number;
+  maxEntries: number;
+  allowedTypes: Array<string>;
+}

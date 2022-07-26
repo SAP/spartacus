@@ -3,7 +3,7 @@ import { WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from 'projects/storefrontlib/cms-components';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MessageDetails } from './messaging.model';
+import { MessageDetails, AttachmentValidity } from './messaging.model';
 
 @Component({
   selector: 'cx-messaging',
@@ -12,6 +12,7 @@ import { MessageDetails } from './messaging.model';
 export class MessagingComponent implements OnInit, AfterViewInit {
   @Input() messageDetails$: Observable<MessageDetails>;
   @Input() scrollToInput?: boolean = true;
+  @Input() attachmentValidity?: AttachmentValidity;
 
   iconTypes = ICON_TYPE;
   messageTextLimit: number = 2000;
@@ -28,7 +29,20 @@ export class MessagingComponent implements OnInit, AfterViewInit {
   }
   constructor(protected windowRef: WindowRef) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.attachmentValidity = this.attachmentValidity ?? {
+      maxSize: 1,
+      maxEntries: 1,
+      allowedTypes: [
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        'application/vnd.ms-excel',
+        'text/csv',
+        '.csv',
+        '.pdf',
+        '.doc',
+      ],
+    };
+  }
 
   ngAfterViewInit(): void {
     if (this.scrollToInput) {

@@ -39,9 +39,7 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
-  ) {
-    console.log('Dialog');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.build();

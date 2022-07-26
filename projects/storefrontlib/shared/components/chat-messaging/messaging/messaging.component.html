@@ -46,13 +46,23 @@
         [maxLength]="messageDetails.characterLimit || messageTextLimit"
         [(ngModel)]="messageText"
       />
-      <p id="message-footer">
-        {{
-          'chatMessaging.charactersLeft'
-            | cxTranslate: { count: inputCharacterLeft | async }
-        }}
-      </p>
+      <div class="cx-message-footer-labels">
+        <cx-file-upload
+          customButton="true"
+          [accept]="attachmentValidity.allowedTypes"
+        >
+          <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
+          <span class="cx-message-footer-text">Upload File</span>
+        </cx-file-upload>
+        <p class="cx-message-footer-label">
+          {{
+            'chatMessaging.charactersLeft'
+              | cxTranslate: { count: inputCharacterLeft | async }
+          }}
+        </p>
+      </div>
     </div>
+
     <div class="col-xs-12 col-md-3 col-lg-2">
       <button class="btn btn-block btn-primary">
         {{ 'chatMessaging.send' | cxTranslate }}
