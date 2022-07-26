@@ -20616,7 +20616,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPageMetaResolver'.",
-        "migrationComment": "Use 'activeCartFacade' instead.",
+        "migrationComment": "No replacement.",
         "topLevelApiElementName": "CheckoutPageMetaResolver"
       },
       {
