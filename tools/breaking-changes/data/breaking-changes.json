@@ -23732,7 +23732,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'placeOrder' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "Moved to the order. Because of TS' type augmentation, it will be part of the 'OccEndpoints'.",
+        "migrationComment": "Moved to the Order library. Because of TS' type augmentation, it will be part of the 'OccEndpoints'.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       },
       {
