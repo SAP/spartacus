@@ -1,7 +1,12 @@
 x (A) close pickup dialog on selection
-(A) Figure out how to default the intended store to the nearest store
+x (A) Figure out how to default the intended store to the nearest store
 x (B) default options to pickup if they have an intended location for that product in the store
 x (C) if user closes pickup dialog without a store being selected then change radio back to delivery
-(H) When adding to cart, check for intended pickup location for BOPIS, otherwise use keep using delivery
+(Z) When adding to cart, check for intended pickup location for BOPIS, otherwise use keep using delivery
 x disable "Pick Up From Here" if store does not stock for product
 x only show pickup delivery options on products marked availableForPickup: true
+
+(A) Decide the user journey we want to cover with cypress
+(B) Implement the cypress tests to cover the agreed user journey
+(C) Push it to a PR to see if the cypress tests pass in the pipeline (cannot merge yet)
+(D) link up or test with Gek's ticketing thing

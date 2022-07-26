@@ -54,7 +54,9 @@ describe('StockEffect', () => {
     const expected = cold('-(b)', { b: actionSuccess });
 
     expect(stockEffects.loadStockLevels$).toBeObservable(expected);
-    expect(stockConnector.loadStockLevels).toHaveBeenCalledWith('P0001', { location:'' });
+    expect(stockConnector.loadStockLevels).toHaveBeenCalledWith('P0001', {
+      location: '',
+    });
   });
 
   it('should create a fail action on connector error', () => {

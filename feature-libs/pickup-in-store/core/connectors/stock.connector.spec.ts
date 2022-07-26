@@ -28,6 +28,8 @@ describe('StockConnector', () => {
 
   it('loadStockLevels calls loadStockLevels', () => {
     service.loadStockLevels('P0001', { location: '' });
-    expect(adapter.loadStockLevels).toHaveBeenCalledWith('P0001', { location: '' });
+    expect(adapter.loadStockLevels).toHaveBeenCalledWith('P0001', {
+      location: '',
+    });
   });
 });
