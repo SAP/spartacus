@@ -16987,7 +16987,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetSetDeliveryAddressProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "After switching to commands & queries, processes are no longer used.",
+    "migrationComment": "After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17017,7 +17017,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetSetDeliveryModeProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "After switching to commands & queries, processes are no longer used.",
+    "migrationComment": "After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17047,7 +17047,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetSetPaymentDetailsProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "After switching to commands & queries, processes are no longer used.",
+    "migrationComment": "After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
