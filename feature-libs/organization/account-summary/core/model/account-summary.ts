@@ -39,7 +39,7 @@ export interface AccountSummaryDocument {
   amount?: number;
   currency?: Currency;
   date?: Date;
-  documentMedia: MediaData;
+  documentMedia?: MediaData;
   documentNumber?: string;
   documentType?: B2BDocumentTypeData;
   dueDate?: string;

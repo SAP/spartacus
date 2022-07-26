@@ -3,6 +3,7 @@ export const accountSummary = {
     header: 'All account summary units ({{count}})',
     name: 'Name',
     details: {
+      header: 'Account Summary Details',
       uid: 'ID',
       name: 'Name',
       address: 'Address',
@@ -14,14 +15,14 @@ export const accountSummary = {
     },
     document: {
       header: 'Documents',
-      id: 'Document #',
+      id: 'Document Number',
       type: 'Document Type',
-      date: 'Document Date',
-      dueDate: 'Due Date',
+      date: 'Created On',
+      dueDate: 'Due On',
       originalAmount: 'Original Amount',
       openAmount: 'Open Amount',
       status: 'Status',
-      attachment: 'Attachment',
+      attachment: ''
     },
     //TODO
     hint: '',

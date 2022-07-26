@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { facadeFactory } from '@spartacus/core';
 import { ACCOUNT_SUMMARY_FEATURE } from '../feature-name';
-import { AccountSummary, AccountSummaryDetails, DocumentQueryParams } from '../../core/model';
+import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams } from '../../core/model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,5 +17,5 @@ import { AccountSummary, AccountSummaryDetails, DocumentQueryParams } from '../.
 export abstract class AccountSummaryFacade {
   abstract getAccountSummary(): Observable<AccountSummaryDetails>;
 
-  abstract getDocumentList(params: DocumentQueryParams): Observable<AccountSummary>;
+  abstract getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList>;
 }

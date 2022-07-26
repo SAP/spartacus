@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { AccountSummary, AccountSummaryDetails, DocumentQueryParams } from '@spartacus/organization/account-summary/core';
+import { AccountSummaryList, AccountSummaryDetails, DocumentQueryParams } from '@spartacus/organization/account-summary/core';
 import { Observable } from 'rxjs';
 import { AccountSummaryAdapter } from '../../core/connector/account-summary-adapter';
 import { ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER, ACCOUNT_SUMMARY_NORMALIZER } from '../../core/connector/converters';
@@ -20,8 +20,8 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
     );
   }
 
-  getDocumentList(userId: string, unitCode: string, params: DocumentQueryParams): Observable<AccountSummary> {
-    return this.http.get<AccountSummary>(this.getDocumentListEndPoint(userId, unitCode, params)).pipe(
+  getDocumentList(userId: string, unitCode: string, params: DocumentQueryParams): Observable<AccountSummaryList> {
+    return this.http.get<AccountSummaryList>(this.getDocumentListEndPoint(userId, unitCode, params)).pipe(
       this.converter.pipeable(ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER)
     );
   }

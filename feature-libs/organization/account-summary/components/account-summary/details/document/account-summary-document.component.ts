@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountSummary, DocumentQueryParams } from '@spartacus/organization/account-summary/core';
+import { AccountSummaryList, DocumentQueryParams } from '@spartacus/organization/account-summary/core';
 import { AccountSummaryFacade } from '@spartacus/organization/account-summary/root';
 import { Observable } from 'rxjs';
 
@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
   templateUrl: './account-summary-document.component.html',
 })
 export class AccountSummaryDocumentComponent implements OnInit {
-  currentUnitCode: string;
-  accountSummary$: Observable<AccountSummary>;
+  accountSummary$: Observable<AccountSummaryList>;
 
   constructor(private accountSummaryFacade: AccountSummaryFacade) { }
 
