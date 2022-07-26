@@ -99,4 +99,13 @@ export abstract class RulebasedConfiguratorAdapter {
    * @param owner configuration owner
    */
   abstract getConfiguratorType(): string;
+
+  /**
+   * Searches for variants that are matching the configuration identified by its id.
+   * Matches will be close to the attribute assignments of the configuration, but
+   * don't need to match it 100%
+   * @param configId Configuration identifier
+   * @returns List of product variants that match the configuration
+   */
+  abstract searchVariants(configId: string): Observable<Configurator.Variant[]>;
 }

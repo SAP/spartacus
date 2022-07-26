@@ -1,10 +1,10 @@
-import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
+const testProduct = 'CONF_CAMERA_SL';
 
 // UI types
 const radioGroup = 'radioGroup';
@@ -28,6 +28,7 @@ const Conflict_msg_gaming_console =
 // List of attributes
 const PROJECTOR_TYPE = 'PROJECTOR_TYPE';
 const GAMING_CONSOLE = 'GAMING_CONSOLE';
+const CAMERA_MODE = 'CAMERA_MODE';
 
 // List of attribute values
 const PROJECTOR_LCD = 'PROJECTOR_LCD';
@@ -53,7 +54,6 @@ context('Product Configuration - 2205', () => {
 
   describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
-      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
@@ -111,6 +111,47 @@ context('Product Configuration - 2205', () => {
       configurationVc.checkConflictDescriptionDisplayed(
         Conflict_msg_gaming_console
       );
+    });
+  });
+});
+
+context('Variant Carousel for Product Configuration', () => {
+  let configUISettings: any;
+
+  beforeEach(() => {
+    configUISettings = {
+      productConfigurator: {
+        enableVariantSearch: false, // disable variant search
+      },
+    };
+    cy.cxConfig(configUISettings);
+  });
+
+  afterEach(() => {
+    configUISettings.productConfigurator.enableVariantSearch = false; // disable variant search
+  });
+
+  describe.only('Disable variant search', () => {
+    it('should not display any variant carousel', () => {
+      //Go to the configuration
+      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      // Verify whether attribute is displayed
+      configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
+      // Verify whether variant carousel is not displayed
+      configuration.checkVariantCarouselNotDisplayed();
+    });
+  });
+
+  describe.only('Enable variant search', () => {
+    it('should display variant carousel', () => {
+      configUISettings.productConfigurator.enableVariantSearch = true; // enable variant search
+      cy.cxConfig(configUISettings);
+      //Go to the configuration
+      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      // Verify whether attribute is displayed
+      configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
+      // Verify whether variant carousel is displayed
+      configuration.checkVariantCarouselDisplayed();
     });
   });
 });
