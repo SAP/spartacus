@@ -23712,7 +23712,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'paymentTypes' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "By leveraging TS' type augmentation, it's part of the 'OccEndpoints'.",
+        "migrationComment": "If you are not using B2B-Checkout, you can remove it. Otherwise, it should be present.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       },
       {
