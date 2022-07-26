@@ -48,7 +48,7 @@ export class MessagingComponent implements OnInit, AfterViewInit {
     if (this.scrollToInput) {
       setTimeout(() => {
         this.windowRef.document
-          .getElementById('message-footer')
+          .getElementsByClassName('cx-message-footer-label')[0]
           ?.scrollIntoView({ behavior: 'smooth', block: 'end' });
       }, 500);
     }
