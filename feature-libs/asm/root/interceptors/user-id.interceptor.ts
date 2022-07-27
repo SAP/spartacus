@@ -8,11 +8,11 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable, iif } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 
-import { GlobService } from '../../../../../core/src/util/glob.service';
-import { OCC_USER_ID_CONSTANTS_TOKEN } from '../../../../../core/src/occ/utils/occ-constants';
+import { GlobService } from '../../../../projects/core/src/util/glob.service';
+import { OCC_USER_ID_CONSTANTS } from '../../../../projects/core/src/occ/utils';
 
-import { UserIdService } from '../facade/user-id.service';
-import { UserIdPathAllowListInjectionToken } from './user-id-allow-list.const';
+import { UserIdService } from '../../../../projects/core/src/auth/user-auth/facade/user-id.service';
+import { AsmConfig } from '../../core/config/asm-config';
 
 @Injectable({ providedIn: 'root' })
 export class UserIdInterceptor implements HttpInterceptor {
@@ -20,19 +20,16 @@ export class UserIdInterceptor implements HttpInterceptor {
 
   private readonly uniqueUserIdConstants: Set<string>;
 
-  private validateUrl: (url: string) => boolean;
+  private validateUrlFn: (url: string) => boolean | undefined;
 
   constructor(
+    protected asmConfig: AsmConfig,
+    protected globService: GlobService,
     protected userIdService: UserIdService,
-    globService: GlobService,
-    @Inject(OCC_USER_ID_CONSTANTS_TOKEN) userIdConstants: Array<string>,
-    @Inject(UserIdPathAllowListInjectionToken) paths: Array<string>
+    @Inject(OCC_USER_ID_CONSTANTS)
+    userIdConstants: { [identifier: string]: string }
   ) {
-    this.uniqueUserIdConstants = new Set(userIdConstants);
-
-    this.validateUrl = globService.getValidator(
-      paths.map((path) => `**${path}*`)
-    );
+    this.uniqueUserIdConstants = new Set(Object.values(userIdConstants));
   }
 
   intercept(
@@ -57,5 +54,14 @@ export class UserIdInterceptor implements HttpInterceptor {
       ),
       next.handle(httpRequest)
     );
+  }
+
+  private validateUrl(url: string): boolean {
+    // The AsmConfig is lazy-loaded. This conditional is in case the config is not available when the interceptor is constructed.
+    if (!this.validateUrlFn && this.asmConfig.asm) {
+      const paths = this.asmConfig.asm?.userIdInterceptor?.patterns ?? [];
+      this.validateUrlFn = this.globService.getValidator(paths);
+    }
+    return this.validateUrlFn?.(url) ?? false;
   }
 }

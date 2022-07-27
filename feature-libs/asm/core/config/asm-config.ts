@@ -13,6 +13,11 @@ export abstract class AsmConfig extends OccConfig {
     customerSearch?: {
       maxResults?: number;
     };
+    /** @see UserIdInterceptor */
+    userIdInterceptor?: {
+      /** List of paths (in glob pattern) that should have the header "sap-commerce-cloud-user-id" when a user is emulated. */
+      patterns?: Array<string>;
+    };
   };
 }
 

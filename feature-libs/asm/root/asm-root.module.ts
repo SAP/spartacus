@@ -1,3 +1,4 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import {
   AuthHttpHeaderService,
@@ -5,6 +6,7 @@ import {
   AuthStorageService,
 } from '@spartacus/core';
 import { AsmLoaderModule } from './asm-loader.module';
+import { UserIdInterceptor } from './interceptors/user-id.interceptor';
 import { AsmAuthHttpHeaderService } from './services/asm-auth-http-header.service';
 import { AsmAuthStorageService } from './services/asm-auth-storage.service';
 import { AsmAuthService } from './services/asm-auth.service';
@@ -23,6 +25,11 @@ import { AsmAuthService } from './services/asm-auth.service';
     {
       provide: AuthHttpHeaderService,
       useExisting: AsmAuthHttpHeaderService,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useExisting: UserIdInterceptor,
+      multi: true,
     },
   ],
 })

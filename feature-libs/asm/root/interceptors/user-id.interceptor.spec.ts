@@ -4,11 +4,11 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ/utils/occ-constants';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { UserIdService } from '../facade';
+import { OCC_USER_ID_CURRENT } from '../../../../projects/core/src/occ/utils/occ-constants';
+import { UserIdService } from '../../../../projects/core/src/auth/user-auth/facade';
 import { UserIdInterceptor } from './user-id.interceptor';
 
 describe('UserIdInterceptor', () => {

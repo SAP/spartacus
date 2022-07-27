@@ -8,7 +8,7 @@ import { CmsOccModule } from './adapters/cms/cms-occ.module';
 import { SiteContextOccModule } from './adapters/site-context/site-context-occ.module';
 import { provideDefaultConfig } from '../config/config-providers';
 
-import { OCC_USER_ID_CONSTANTS, OCC_USER_ID_CONSTANTS_TOKEN } from './utils';
+import { OCC_USER_ID_CONSTANTS, OCC_USER_IDS } from './utils';
 
 @NgModule({
   imports: [CmsOccModule, SiteContextOccModule],
@@ -24,8 +24,8 @@ export class BaseOccModule {
           multi: true,
         },
         {
-          provide: OCC_USER_ID_CONSTANTS_TOKEN,
-          useValue: OCC_USER_ID_CONSTANTS,
+          provide: OCC_USER_ID_CONSTANTS,
+          useValue: OCC_USER_IDS,
         },
         provideDefaultConfig(defaultOccConfig),
         provideConfigValidator(occConfigValidator),
