@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import {
   ItemService,
   ListService,
+  UnitListComponent,
 } from '@spartacus/organization/administration/components';
-import { UnitTreeService } from '@spartacus/organization/administration/components';
 import { AccountSummaryItemService } from '../../services/account-summary-item.service';
 import { AccountSummaryListService } from '../../services/account-summary-list.service';
 @Component({
@@ -21,14 +21,4 @@ import { AccountSummaryListService } from '../../services/account-summary-list.s
     },
   ],
 })
-export class AccountSummaryListComponent {
-  constructor(protected unitTreeService: UnitTreeService) {}
-
-  expandAll() {
-    this.unitTreeService.expandAll();
-  }
-
-  collapseAll() {
-    this.unitTreeService.collapseAll();
-  }
-}
+export class AccountSummaryListComponent extends UnitListComponent { }
