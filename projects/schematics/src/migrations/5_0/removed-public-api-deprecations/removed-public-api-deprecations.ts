@@ -572,85 +572,85 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'ResetSetDeliveryAddressProcess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ResetSetDeliveryAddressProcess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ResetSetDeliveryAddressProcess has been removed and is no longer part of the public API. After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root').",
   },
   {
     node: 'ResetSetDeliveryModeProcess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ResetSetDeliveryModeProcess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ResetSetDeliveryModeProcess has been removed and is no longer part of the public API. After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root').",
   },
   {
     node: 'ResetSetPaymentDetailsProcess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ResetSetPaymentDetailsProcess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ResetSetPaymentDetailsProcess has been removed and is no longer part of the public API. After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SCHEDULE_REPLENISHMENT_ORDER_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_FAIL has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of the 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root').",
   },
   {
     node: 'SCHEDULE_REPLENISHMENT_ORDER_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS has been removed and is no longer part of the public API. Listen to 'ReplenishmentOrderScheduledEvent' imported from '@spartacus/order/root'.",
   },
   {
     node: 'SCHEDULE_REPLENISHMENT_ORDER',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API. Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root')",
   },
   {
     node: 'ScheduleReplenishmentOrder',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ScheduleReplenishmentOrder has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ScheduleReplenishmentOrder has been removed and is no longer part of the public API. Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root')",
   },
   {
     node: 'ScheduleReplenishmentOrderFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ScheduleReplenishmentOrderFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ScheduleReplenishmentOrderFail has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of the 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root').",
   },
   {
     node: 'ScheduleReplenishmentOrderSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ScheduleReplenishmentOrderSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ScheduleReplenishmentOrderSuccess has been removed and is no longer part of the public API. Listen to 'ReplenishmentOrderScheduledEvent' imported from '@spartacus/order/root'.",
   },
   {
     node: 'SET_COST_CENTER_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_COST_CENTER_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_COST_CENTER_FAIL has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of the 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root').",
   },
   {
     node: 'SET_COST_CENTER_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_COST_CENTER_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_COST_CENTER_SUCCESS has been removed and is no longer part of the public API. Listen to 'CheckoutCostCenterSetEvent' imported from '@spartacus/checkout/b2b/root'.",
   },
   {
     node: 'SET_COST_CENTER',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_COST_CENTER has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_COST_CENTER has been removed and is no longer part of the public API. Use 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'SET_DELIVERY_ADDRESS_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of either 'setDeliveryAddress()' or 'createAndSetAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root').",
   },
   {
     node: 'SET_DELIVERY_ADDRESS_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API. Listen to 'CheckoutDeliveryAddressSetEvent' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SET_DELIVERY_ADDRESS',
@@ -662,223 +662,223 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'SET_DELIVERY_MODE_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of the 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').",
   },
   {
     node: 'SET_DELIVERY_MODE_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API. Listen to 'CheckoutDeliveryModeSetEvent' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SET_DELIVERY_MODE',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_DELIVERY_MODE has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_DELIVERY_MODE has been removed and is no longer part of the public API. Use 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SET_ORDER_TYPE',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_ORDER_TYPE has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_ORDER_TYPE has been removed and is no longer part of the public API. Use 'setOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
   },
   {
     node: 'SET_PAYMENT_DETAILS_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of the 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root').",
   },
   {
     node: 'SET_PAYMENT_DETAILS_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API. Listen to 'CheckoutPaymentDetailsSetEvent' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SET_PAYMENT_DETAILS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_PAYMENT_DETAILS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_PAYMENT_DETAILS has been removed and is no longer part of the public API. Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SET_PAYMENT_TYPE_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_PAYMENT_TYPE_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_PAYMENT_TYPE_FAIL has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of the 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').",
   },
   {
     node: 'SET_PAYMENT_TYPE_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_PAYMENT_TYPE_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_PAYMENT_TYPE_SUCCESS has been removed and is no longer part of the public API. Listen to 'CheckoutPaymentTypeSetEvent' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'SET_PAYMENT_TYPE',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_PAYMENT_TYPE has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_PAYMENT_TYPE has been removed and is no longer part of the public API. Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'SET_SUPPORTED_DELIVERY_MODES_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of either 'getSupportedDeliveryModes()' or 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').",
   },
   {
     node: 'SET_SUPPORTED_DELIVERY_MODES_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API. Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SET_SUPPORTED_DELIVERY_MODES',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API. Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SetCostCenter',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetCostCenter has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetCostCenter has been removed and is no longer part of the public API. Use 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'SetCostCenterFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetCostCenterFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetCostCenterFail has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of the 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root').",
   },
   {
     node: 'SetCostCenterSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetCostCenterSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetCostCenterSuccess has been removed and is no longer part of the public API. Listen to 'CheckoutCostCenterSetEvent' imported from '@spartacus/checkout/b2b/root'.",
   },
   {
     node: 'SetDeliveryAddress',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetDeliveryAddress has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetDeliveryAddress has been removed and is no longer part of the public API. Use 'setDeliveryAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SetDeliveryAddressFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetDeliveryAddressFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetDeliveryAddressFail has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of either 'setDeliveryAddress()' or 'createAndSetAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root').",
   },
   {
     node: 'SetDeliveryAddressSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetDeliveryAddressSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetDeliveryAddressSuccess has been removed and is no longer part of the public API. Listen to 'CheckoutDeliveryAddressSetEvent' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SetDeliveryMode',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetDeliveryMode has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetDeliveryMode has been removed and is no longer part of the public API. Use 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SetDeliveryModeFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetDeliveryModeFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetDeliveryModeFail has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of the 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').",
   },
   {
     node: 'SetDeliveryModeSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetDeliveryModeSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetDeliveryModeSuccess has been removed and is no longer part of the public API. Listen to 'CheckoutDeliveryModeSetEvent' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SetOrderType',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetOrderType has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetOrderType has been removed and is no longer part of the public API. Use 'setOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
   },
   {
     node: 'SetPaymentDetails',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetPaymentDetails has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetPaymentDetails has been removed and is no longer part of the public API. Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SetPaymentDetailsFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetPaymentDetailsFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetPaymentDetailsFail has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of the 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root').",
   },
   {
     node: 'SetPaymentDetailsSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetPaymentDetailsSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetPaymentDetailsSuccess has been removed and is no longer part of the public API. Listen to 'CheckoutPaymentDetailsSetEvent' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'SetPaymentType',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetPaymentType has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetPaymentType has been removed and is no longer part of the public API. Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'SetPaymentTypeFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetPaymentTypeFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetPaymentTypeFail has been removed and is no longer part of the public API. Instead, use the Observer's `error` property of the 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').",
   },
   {
     node: 'SetPaymentTypeSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.SetPaymentTypeSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.SetPaymentTypeSuccess has been removed and is no longer part of the public API. Listen to 'CheckoutPaymentTypeSetEvent' (imported from '@spartacus/checkout/b2b/root').",
   },
   {
     node: 'CheckoutDeliveryAdapter',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutDeliveryAdapter has been removed and is no longer part of the public API. ',
+      "Class CheckoutDeliveryAdapter has been removed and is no longer part of the public API. Use 'CheckoutDeliveryAddressAdapter' or 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')",
   },
   {
     node: 'CheckoutDeliveryConnector',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutDeliveryConnector has been removed and is no longer part of the public API. ',
+      "Class CheckoutDeliveryConnector has been removed and is no longer part of the public API. Use 'CheckoutDeliveryModesConnector' or 'CheckoutDeliveryAddressConnector' (imported from '@spartacus/checkout/base/core')",
   },
   {
     node: 'CheckoutDeliveryService',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutDeliveryService has been removed and is no longer part of the public API. ',
+      "Class CheckoutDeliveryService has been removed and is no longer part of the public API. Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'CheckoutDetails',
     importPath: '@spartacus/checkout/core',
     comment:
-      'TypeAlias CheckoutDetails has been removed and is no longer part of the public API. ',
+      "TypeAlias CheckoutDetails has been removed and is no longer part of the public API. Replaced with 'CheckoutState' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'CheckoutEventBuilder',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutEventBuilder has been removed and is no longer part of the public API. ',
+      "Class CheckoutEventBuilder has been removed and is no longer part of the public API. The events are now split to different listeners across the Base, B2B and Scheduled-Replenishment libraries. All listeners have the following naming convention: 'Checkout*EventListener'.",
   },
   {
     node: 'CheckoutEventListener',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutEventListener has been removed and is no longer part of the public API. ',
+      "Class CheckoutEventListener has been removed and is no longer part of the public API. The events are now split to different listeners across the Base, B2B and Scheduled-Replenishment libraries. All listeners have the following naming convention: 'Checkout*EventListener'.",
   },
   {
     node: 'CheckoutReplenishmentOrderAdapter',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API. ',
+      "Class CheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API. Use 'ScheduledReplenishmentOrderAdapter' (imported from '@spartacus/order/core')",
   },
   {
     node: 'CheckoutReplenishmentOrderConnector',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutReplenishmentOrderConnector has been removed and is no longer part of the public API. ',
+      "Class CheckoutReplenishmentOrderConnector has been removed and is no longer part of the public API. Use 'ScheduledReplenishmentOrderConnector' (imported from '@spartacus/order/core')",
   },
   {
     node: 'CheckoutSelectors',
@@ -890,19 +890,19 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'getAllCardTypes',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getAllCardTypes has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getAllCardTypes has been removed and is no longer part of the public API. Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getAllPaymentTypes',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getAllPaymentTypes has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getAllPaymentTypes has been removed and is no longer part of the public API. Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getCardTypesEntites',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getCardTypesEntites has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getCardTypesEntites has been removed and is no longer part of the public API. Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getCardTypesState',
@@ -914,139 +914,139 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'getCheckoutDetailsLoaded',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getCheckoutDetailsLoaded has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getCheckoutDetailsLoaded has been removed and is no longer part of the public API. Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getCheckoutLoading',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getCheckoutLoading has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getCheckoutLoading has been removed and is no longer part of the public API. Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getCheckoutOrderDetails',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getCheckoutOrderDetails has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getCheckoutOrderDetails has been removed and is no longer part of the public API. Use 'getOrderDetails()' from 'OrderFacade' (imported from '@spartacus/order/root')",
   },
   {
     node: 'getCheckoutState',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getCheckoutState has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getCheckoutState has been removed and is no longer part of the public API. Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getCheckoutSteps',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getCheckoutSteps has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getCheckoutSteps has been removed and is no longer part of the public API. Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getCheckoutStepsState',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getCheckoutStepsState has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getCheckoutStepsState has been removed and is no longer part of the public API. Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getDeliveryAddress',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getDeliveryAddress has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getDeliveryAddress has been removed and is no longer part of the public API. Use 'getDeliveryAddressState()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getDeliveryMode',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getDeliveryMode has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getDeliveryMode has been removed and is no longer part of the public API. Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getOrderTypesState',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getOrderTypesState has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getOrderTypesState has been removed and is no longer part of the public API. If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
   },
   {
     node: 'getPaymentDetails',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getPaymentDetails has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getPaymentDetails has been removed and is no longer part of the public API. Use 'getPaymentDetailsState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getPaymentTypesEntites',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getPaymentTypesEntites has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getPaymentTypesEntites has been removed and is no longer part of the public API. Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'getPaymentTypesState',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getPaymentTypesState has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getPaymentTypesState has been removed and is no longer part of the public API. Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'getPoNumer',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getPoNumer has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getPoNumer has been removed and is no longer part of the public API. Use 'getPurchaseOrderNumberState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'getSelectedDeliveryMode',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getSelectedDeliveryMode has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getSelectedDeliveryMode has been removed and is no longer part of the public API. Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getSelectedDeliveryModeCode',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getSelectedDeliveryModeCode has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getSelectedDeliveryModeCode has been removed and is no longer part of the public API. Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' and deduce the code (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'getSelectedOrderType',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getSelectedOrderType has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getSelectedOrderType has been removed and is no longer part of the public API. If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
   },
   {
     node: 'getSelectedOrderTypeSelector',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getSelectedOrderTypeSelector has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getSelectedOrderTypeSelector has been removed and is no longer part of the public API. If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
   },
   {
     node: 'getSelectedPaymentType',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getSelectedPaymentType has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getSelectedPaymentType has been removed and is no longer part of the public API. Use 'getSelectedPaymentTypeState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'getSupportedDeliveryModes',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutSelectors.getSupportedDeliveryModes has been removed and is no longer part of the public API. ',
+      "Variable CheckoutSelectors.getSupportedDeliveryModes has been removed and is no longer part of the public API. Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'CheckoutService',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutService has been removed and is no longer part of the public API. ',
+      'Class CheckoutService has been removed and is no longer part of the public API. Please check the comment instructions above each of the methods you use from this class.',
   },
   {
     node: 'CheckoutStepsState',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Interface CheckoutStepsState has been removed and is no longer part of the public API. ',
+      'Interface CheckoutStepsState has been removed and is no longer part of the public API. Removed, and no longer used.',
   },
   {
     node: 'ClearCheckoutService',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class ClearCheckoutService has been removed and is no longer part of the public API. ',
+      "Class ClearCheckoutService has been removed and is no longer part of the public API. You can use 'CheckoutQueryResetEvent' (imported from '@spartacus/checkout/base/root') to reset the checkout state.",
   },
   {
     node: 'GET_PAYMENT_TYPES_PROCESS_ID',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable GET_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API. ',
+      'Variable GET_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API. After switching to commands & queries, processes are no longer used.',
   },
   {
     node: 'OrderTypesState',
@@ -1058,25 +1058,25 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'PAYMENT_TYPE_NORMALIZER',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable PAYMENT_TYPE_NORMALIZER has been removed and is no longer part of the public API. ',
+      "Variable PAYMENT_TYPE_NORMALIZER has been removed and is no longer part of the public API. Use 'CHECKOUT_PAYMENT_TYPE_NORMALIZER' from '@spartacus/checkout/b2b/core'",
   },
   {
     node: 'PaymentTypeAdapter',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class PaymentTypeAdapter has been removed and is no longer part of the public API. ',
+      "Class PaymentTypeAdapter has been removed and is no longer part of the public API. Use 'CheckoutPaymentTypeAdapter' (imported from '@spartacus/checkout/b2b/core')",
   },
   {
     node: 'PaymentTypeConnector',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class PaymentTypeConnector has been removed and is no longer part of the public API. ',
+      "Class PaymentTypeConnector has been removed and is no longer part of the public API. Use 'CheckoutPaymentTypeConnector' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'PaymentTypeService',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class PaymentTypeService has been removed and is no longer part of the public API. ',
+      "Class PaymentTypeService has been removed and is no longer part of the public API. Use 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'PaymentTypesState',
@@ -1088,13 +1088,13 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'PLACED_ORDER_PROCESS_ID',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable PLACED_ORDER_PROCESS_ID has been removed and is no longer part of the public API. ',
+      'Variable PLACED_ORDER_PROCESS_ID has been removed and is no longer part of the public API. After switching to commands & queries, processes are no longer used.',
   },
   {
     node: 'SET_COST_CENTER_PROCESS_ID',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable SET_COST_CENTER_PROCESS_ID has been removed and is no longer part of the public API. ',
+      'Variable SET_COST_CENTER_PROCESS_ID has been removed and is no longer part of the public API. After switching to commands & queries, processes are no longer used.',
   },
   {
     node: 'SET_DELIVERY_ADDRESS_PROCESS_ID',
@@ -1106,79 +1106,79 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'SET_DELIVERY_MODE_PROCESS_ID',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable SET_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of the public API. ',
+      'Variable SET_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of the public API. After switching to commands & queries, processes are no longer used.',
   },
   {
     node: 'SET_PAYMENT_DETAILS_PROCESS_ID',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable SET_PAYMENT_DETAILS_PROCESS_ID has been removed and is no longer part of the public API. ',
+      'Variable SET_PAYMENT_DETAILS_PROCESS_ID has been removed and is no longer part of the public API. After switching to commands & queries, processes are no longer used.',
   },
   {
     node: 'SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of the public API. ',
+      'Variable SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of the public API. After switching to commands & queries, processes are no longer used.',
   },
   {
     node: 'StateWithCheckout',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Interface StateWithCheckout has been removed and is no longer part of the public API. ',
+      "Interface StateWithCheckout has been removed and is no longer part of the public API. No direct replacement. Check the 'CheckoutState' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'OccCheckoutDeliveryAdapter',
     importPath: '@spartacus/checkout/occ',
     comment:
-      'Class OccCheckoutDeliveryAdapter has been removed and is no longer part of the public API. ',
+      "Class OccCheckoutDeliveryAdapter has been removed and is no longer part of the public API. Use 'OccCheckoutDeliveryAddressAdapter' or 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')",
   },
   {
     node: 'OccCheckoutReplenishmentOrderAdapter',
     importPath: '@spartacus/checkout/occ',
     comment:
-      'Class OccCheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API. ',
+      "Class OccCheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API. Use 'OccScheduledReplenishmentOrderAdapter' (imported from '@spartacus/order/core')",
   },
   {
     node: 'OccReplenishmentOrderFormSerializer',
     importPath: '@spartacus/checkout/occ',
     comment:
-      'Class OccReplenishmentOrderFormSerializer has been removed and is no longer part of the public API. ',
+      "Class OccReplenishmentOrderFormSerializer has been removed and is no longer part of the public API. Use 'OccScheduledReplenishmentOrderFormSerializer' (imported from '@spartacus/order/occ')",
   },
   {
     node: 'CheckoutDeliveryFacade',
     importPath: '@spartacus/checkout/root',
     comment:
-      'Class CheckoutDeliveryFacade has been removed and is no longer part of the public API. ',
+      "Class CheckoutDeliveryFacade has been removed and is no longer part of the public API. Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
   },
   {
     node: 'CheckoutFacade',
     importPath: '@spartacus/checkout/root',
     comment:
-      'Class CheckoutFacade has been removed and is no longer part of the public API. ',
+      "Class CheckoutFacade has been removed and is no longer part of the public API. The class' functionality is scattered, please check the migration instruction for each of the methods you use from this class.",
   },
   {
     node: 'checkoutPaymentSteps',
     importPath: '@spartacus/checkout/root',
     comment:
-      'Variable checkoutPaymentSteps has been removed and is no longer part of the public API. ',
+      "Variable checkoutPaymentSteps has been removed and is no longer part of the public API. Moved to 'getCheckoutPaymentSteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/base/components') and 'getCheckoutPaymentSteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/b2b/components')",
   },
   {
     node: 'checkoutShippingSteps',
     importPath: '@spartacus/checkout/root',
     comment:
-      'Variable checkoutShippingSteps has been removed and is no longer part of the public API. ',
+      "Variable checkoutShippingSteps has been removed and is no longer part of the public API. Moved to 'getCheckoutDeliverySteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/base/components')",
   },
   {
     node: 'ClearCheckoutFacade',
     importPath: '@spartacus/checkout/root',
     comment:
-      'Class ClearCheckoutFacade has been removed and is no longer part of the public API. ',
+      "Class ClearCheckoutFacade has been removed and is no longer part of the public API. You can use 'CheckoutQueryResetEvent' (imported from '@spartacus/checkout/base/root') to reset the checkout state.",
   },
   {
     node: 'PaymentTypeFacade',
     importPath: '@spartacus/checkout/root',
     comment:
-      'Class PaymentTypeFacade has been removed and is no longer part of the public API. ',
+      "Class PaymentTypeFacade has been removed and is no longer part of the public API. Use 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'RESET_WISH_LIST_DETAILS',
@@ -1424,7 +1424,7 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'defaultB2bCheckoutConfig',
     importPath: '@spartacus/setup',
     comment:
-      'Variable defaultB2bCheckoutConfig has been removed and is no longer part of the public API. ',
+      "Variable defaultB2bCheckoutConfig has been removed and is no longer part of the public API. Use 'defaultB2BCheckoutConfig' instead (imported from '@spartacus/checkout/b2b/root')",
   },
   {
     node: 'CartComponentModule',

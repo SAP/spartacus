@@ -18503,7 +18503,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetSetDeliveryAddressProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18533,7 +18533,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetSetDeliveryModeProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18563,7 +18563,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetSetPaymentDetailsProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18585,7 +18585,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18607,7 +18607,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'ReplenishmentOrderScheduledEvent' imported from '@spartacus/order/root'.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18629,7 +18629,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18673,7 +18673,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ScheduleReplenishmentOrder has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18713,7 +18713,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ScheduleReplenishmentOrderFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18753,7 +18753,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ScheduleReplenishmentOrderSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'ReplenishmentOrderScheduledEvent' imported from '@spartacus/order/root'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18775,7 +18775,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_COST_CENTER_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18797,7 +18797,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_COST_CENTER_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'CheckoutCostCenterSetEvent' imported from '@spartacus/checkout/b2b/root'.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18819,7 +18819,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_COST_CENTER has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18841,7 +18841,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of either 'setDeliveryAddress()' or 'createAndSetAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18863,7 +18863,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'CheckoutDeliveryAddressSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18907,7 +18907,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18929,7 +18929,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'CheckoutDeliveryModeSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18951,7 +18951,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_DELIVERY_MODE has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18973,7 +18973,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_ORDER_TYPE has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18995,7 +18995,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -19017,7 +19017,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'CheckoutPaymentDetailsSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -19039,7 +19039,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -19061,7 +19061,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_TYPE_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -19083,7 +19083,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_TYPE_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'CheckoutPaymentTypeSetEvent' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -19105,7 +19105,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_PAYMENT_TYPE has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -19127,7 +19127,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of either 'getSupportedDeliveryModes()' or 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -19149,7 +19149,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -19171,7 +19171,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -19215,7 +19215,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetCostCenter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19255,7 +19255,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetCostCenterFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19295,7 +19295,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetCostCenterSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'CheckoutCostCenterSetEvent' imported from '@spartacus/checkout/b2b/root'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19339,7 +19339,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryAddress has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setDeliveryAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19379,7 +19379,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryAddressFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of either 'setDeliveryAddress()' or 'createAndSetAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19419,7 +19419,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryAddressSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'CheckoutDeliveryAddressSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19463,7 +19463,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryMode has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19503,7 +19503,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryModeFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19543,7 +19543,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetDeliveryModeSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'CheckoutDeliveryModeSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19583,7 +19583,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetOrderType has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19627,7 +19627,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19667,7 +19667,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentDetailsFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19707,7 +19707,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentDetailsSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'CheckoutPaymentDetailsSetEvent' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19751,7 +19751,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentType has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19791,7 +19791,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentTypeFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Instead, use the Observer's `error` property of the 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -19831,7 +19831,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.SetPaymentTypeSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Listen to 'CheckoutPaymentTypeSetEvent' (imported from '@spartacus/checkout/b2b/root').",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -20010,7 +20010,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'CheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'clearCheckoutDeliveryAddress()' from 'CheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutAdapter"
       },
       {
@@ -20049,7 +20049,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'CheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'clearCheckoutDeliveryMode()' from 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutAdapter"
       },
       {
@@ -20088,7 +20088,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'CheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getCheckoutDetails()' from 'CheckoutAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutAdapter"
       },
       {
@@ -20135,7 +20135,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'CheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'placeOrder()' from 'OrderAdapter' (imported from '@spartacus/order/core')",
         "topLevelApiElementName": "CheckoutAdapter"
       }
     ]
@@ -20321,7 +20321,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'CheckoutConnector'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'clearCheckoutDeliveryAddress()' from 'CheckoutDeliveryAddressConnector' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutConnector"
       },
       {
@@ -20360,7 +20360,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'CheckoutConnector'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'clearCheckoutDeliveryMode()' from 'CheckoutDeliveryModesConnector' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutConnector"
       },
       {
@@ -20399,7 +20399,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'CheckoutConnector'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getCheckoutDetails()' from 'CheckoutConnector' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutConnector"
       },
       {
@@ -20446,7 +20446,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'CheckoutConnector'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'placeOrder()' from 'OrderConnector' (imported from '@spartacus/order/core')",
         "topLevelApiElementName": "CheckoutConnector"
       }
     ]
@@ -20865,7 +20865,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutCostCenterService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutCostCenterService"
       },
       {
@@ -20885,7 +20885,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutStore' was removed from Class 'CheckoutCostCenterService'.",
-        "migrationComment": "",
+        "migrationComment": "This property is used internally only.",
         "topLevelApiElementName": "CheckoutCostCenterService"
       },
       {
@@ -20907,7 +20907,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getCostCenterState' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
         "topLevelApiElementName": "CheckoutCostCenterService"
       },
       {
@@ -21108,7 +21108,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutDeliveryAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutDeliveryAddressAdapter' or 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -21294,7 +21294,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutDeliveryConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutDeliveryModesConnector' or 'CheckoutDeliveryAddressConnector' (imported from '@spartacus/checkout/base/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -21531,7 +21531,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutDeliveryService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -21560,7 +21560,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Replaced with 'CheckoutState' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",
@@ -21616,7 +21616,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutEventBuilder has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "The events are now split to different listeners across the Base, B2B and Scheduled-Replenishment libraries. All listeners have the following naming convention: 'Checkout*EventListener'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -21702,7 +21702,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutEventListener has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "The events are now split to different listeners across the Base, B2B and Scheduled-Replenishment libraries. All listeners have the following naming convention: 'Checkout*EventListener'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -22132,7 +22132,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPageMetaResolver'.",
-        "migrationComment": "",
+        "migrationComment": "No replacement.",
         "topLevelApiElementName": "CheckoutPageMetaResolver"
       },
       {
@@ -22152,7 +22152,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'cart$' was removed from Class 'CheckoutPageMetaResolver'.",
-        "migrationComment": "",
+        "migrationComment": "No replacement.",
         "topLevelApiElementName": "CheckoutPageMetaResolver"
       },
       {
@@ -22198,7 +22198,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'translation' was removed from Class 'CheckoutPageMetaResolver'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'translationService' instead.",
         "topLevelApiElementName": "CheckoutPageMetaResolver"
       }
     ]
@@ -22343,7 +22343,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'create' was removed from Class 'CheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'createPaymentDetails()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentAdapter"
       },
       {
@@ -22365,7 +22365,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'loadCardTypes' was removed from Class 'CheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentAdapter"
       },
       {
@@ -22412,7 +22412,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'set' was removed from Class 'CheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentAdapter"
       }
     ]
@@ -22577,7 +22577,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'create' was removed from Class 'CheckoutPaymentConnector'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'createPaymentDetails()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentConnector"
       },
       {
@@ -22599,7 +22599,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentConnector'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentConnector"
       },
       {
@@ -22646,7 +22646,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'set' was removed from Class 'CheckoutPaymentConnector'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentConnector"
       }
     ]
@@ -23015,7 +23015,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'actionAllowed' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Removed. Replaced with an internal protected 'checkoutPreconditions()' method in the 'CheckoutPaymentService' (from '@spartacus/checkout/base/core')",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -23035,7 +23035,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -23055,7 +23055,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutStore' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Removed, as checkout no longer uses ngrx store.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -23121,7 +23121,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' instead.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -23143,7 +23143,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentDetailsState()' instead.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -23165,7 +23165,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'getSetPaymentDetailsResultProcess' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "After switching to commands & queries, processes are no longer used.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -23187,7 +23187,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'loadSupportedCardTypes' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' or 'getPaymentCardTypesState()' instead.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -23229,7 +23229,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Property 'processStateStore' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "After switching to commands & queries, processes are no longer used.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -23251,7 +23251,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentService'.",
-        "migrationComment": "",
+        "migrationComment": "After switching to commands & queries, processes are no longer used.",
         "topLevelApiElementName": "CheckoutPaymentService"
       },
       {
@@ -23348,7 +23348,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'ScheduledReplenishmentOrderAdapter' (imported from '@spartacus/order/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -23430,7 +23430,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutReplenishmentOrderConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'ScheduledReplenishmentOrderConnector' (imported from '@spartacus/order/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -23472,7 +23472,7 @@
     "type": "MemoizedSelector<StateWithCheckout, CardType[]>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getAllCardTypes has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23494,7 +23494,7 @@
     "type": "MemoizedSelector<StateWithCheckout, PaymentType[]>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getAllPaymentTypes has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23516,7 +23516,7 @@
     "type": "MemoizedSelector<StateWithCheckout, {\n    [code: string]: CardType;\n}>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCardTypesEntites has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23560,7 +23560,7 @@
     "type": "MemoizedSelector<StateWithCheckout, boolean>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutDetailsLoaded has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23582,7 +23582,7 @@
     "type": "MemoizedSelector<StateWithCheckout, boolean>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutLoading has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23604,7 +23604,7 @@
     "type": "MemoizedSelector<StateWithCheckout, Order | ReplenishmentOrder>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutOrderDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getOrderDetails()' from 'OrderFacade' (imported from '@spartacus/order/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23626,7 +23626,7 @@
     "type": "MemoizedSelector<StateWithCheckout, CheckoutState>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23648,7 +23648,7 @@
     "type": "MemoizedSelector<StateWithCheckout, CheckoutStepsState>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutSteps has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23670,7 +23670,7 @@
     "type": "MemoizedSelector<StateWithCheckout, StateUtils.LoaderState<CheckoutStepsState>>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getCheckoutStepsState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23733,7 +23733,7 @@
     "type": "MemoizedSelector<StateWithCheckout, Address>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getDeliveryAddress has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getDeliveryAddressState()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23755,7 +23755,7 @@
     "type": "MemoizedSelector<StateWithCheckout, {\n    supported: {\n        [code: string]: DeliveryMode;\n    };\n    selected: string;\n}>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getDeliveryMode has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23777,7 +23777,7 @@
     "type": "MemoizedSelector<StateWithCheckout, OrderTypesState>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getOrderTypesState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23799,7 +23799,7 @@
     "type": "MemoizedSelector<StateWithCheckout, PaymentDetails>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getPaymentDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentDetailsState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23821,7 +23821,7 @@
     "type": "MemoizedSelector<StateWithCheckout, {\n    [code: string]: PaymentType;\n}>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getPaymentTypesEntites has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23843,7 +23843,7 @@
     "type": "MemoizedSelector<StateWithCheckout, PaymentTypesState>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getPaymentTypesState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23865,7 +23865,7 @@
     "type": "MemoizedSelector<StateWithCheckout, string | undefined>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getPoNumer has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getPurchaseOrderNumberState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23887,7 +23887,7 @@
     "type": "MemoizedSelector<StateWithCheckout, DeliveryMode | undefined | null>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSelectedDeliveryMode has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23909,7 +23909,7 @@
     "type": "MemoizedSelector<StateWithCheckout, string>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSelectedDeliveryModeCode has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' and deduce the code (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23931,7 +23931,7 @@
     "type": "MemoizedSelector<StateWithCheckout, ORDER_TYPE>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSelectedOrderType has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23953,7 +23953,7 @@
     "type": "(state: OrderTypesState) => ORDER_TYPE",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSelectedOrderTypeSelector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23975,7 +23975,7 @@
     "type": "MemoizedSelector<StateWithCheckout, string | undefined>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSelectedPaymentType has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSelectedPaymentTypeState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -23997,7 +23997,7 @@
     "type": "MemoizedSelector<StateWithCheckout, DeliveryMode[]>",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutSelectors.getSupportedDeliveryModes has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -24232,7 +24232,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Please check the comment instructions above each of the methods you use from this class.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -24308,7 +24308,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'cardTypes' was removed from Interface 'CheckoutState'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypesState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root') instead.')",
         "topLevelApiElementName": "CheckoutState"
       },
       {
@@ -24328,7 +24328,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'orderType' was removed from Interface 'CheckoutState'.",
-        "migrationComment": "",
+        "migrationComment": "Removed. You can Use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')",
         "topLevelApiElementName": "CheckoutState"
       },
       {
@@ -24348,7 +24348,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'paymentTypes' was removed from Interface 'CheckoutState'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').",
         "topLevelApiElementName": "CheckoutState"
       },
       {
@@ -24368,7 +24368,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'steps' was removed from Interface 'CheckoutState'.",
-        "migrationComment": "",
+        "migrationComment": "Removed, and there is no replecemenet as it is no longer needed.",
         "topLevelApiElementName": "CheckoutState"
       }
     ]
@@ -24402,7 +24402,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Interface CheckoutStepsState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Removed, and no longer used.",
     "breakingChanges": [
       {
         "change": "INTERFACE_DELETED",
@@ -24464,7 +24464,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class ClearCheckoutService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "You can use 'CheckoutQueryResetEvent' (imported from '@spartacus/checkout/base/root') to reset the checkout state.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -24511,7 +24511,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable GET_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -24581,7 +24581,7 @@
     "type": "InjectionToken<Converter<any, PaymentType>>",
     "isDeleted": true,
     "deletedComment": "Variable PAYMENT_TYPE_NORMALIZER has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CHECKOUT_PAYMENT_TYPE_NORMALIZER' from '@spartacus/checkout/b2b/core'",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -24650,7 +24650,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class PaymentTypeAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutPaymentTypeAdapter' (imported from '@spartacus/checkout/b2b/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -24735,7 +24735,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class PaymentTypeConnector has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutPaymentTypeConnector' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -24871,7 +24871,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class PaymentTypeService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -24920,7 +24920,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable PLACED_ORDER_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -24964,7 +24964,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable SET_COST_CENTER_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -25006,7 +25006,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable SET_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -25027,7 +25027,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable SET_PAYMENT_DETAILS_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -25048,7 +25048,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "After switching to commands & queries, processes are no longer used.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -25075,7 +25075,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Interface StateWithCheckout has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "No direct replacement. Check the 'CheckoutState' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "INTERFACE_DELETED",
@@ -25228,7 +25228,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'paymentTypes' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "If you are not using B2B-Checkout, you can remove it. Otherwise, it should be present.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       },
       {
@@ -25248,7 +25248,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'placeOrder' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "Moved to the Order library. Because of TS' type augmentation, it will be part of the 'OccEndpoints'.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       },
       {
@@ -25268,7 +25268,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'setCartCostCenter' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "By leveraging TS' type augmentation, it's part of the 'OccEndpoints'.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       },
       {
@@ -25288,7 +25288,7 @@
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - PropertySignature 'setCartPaymentType' was removed from Interface 'CheckoutOccEndpoints'.",
-        "migrationComment": "",
+        "migrationComment": "Moved to the B2B-Checkout library. Because of TS' type augmentation, it will be part of the 'OccEndpoints'.",
         "topLevelApiElementName": "CheckoutOccEndpoints"
       }
     ]
@@ -25620,7 +25620,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'clearCheckoutDeliveryAddress()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -25659,7 +25659,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'clearCheckoutDeliveryMode()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -25698,7 +25698,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getClearDeliveryModeEndpoint' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getClearDeliveryModeEndpoint()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -25737,7 +25737,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getLoadCheckoutDetailsEndpoint' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getGetCheckoutDetailsEndpoint()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -25784,7 +25784,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getPlaceOrderEndpoint' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPlaceOrderEndpoint()' from 'OccOrderAdapter' (imported from '@spartacus/order/core')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -25823,7 +25823,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getRemoveDeliveryAddressEndpoint' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getRemoveDeliveryAddressEndpoint()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -25862,7 +25862,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getCheckoutDetails()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       },
       {
@@ -25909,7 +25909,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'OccCheckoutAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'placeOrder()' from 'OccOrderAdapter' (imported from '@spartacus/order/core')",
         "topLevelApiElementName": "OccCheckoutAdapter"
       }
     ]
@@ -26366,7 +26366,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccCheckoutDeliveryAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'OccCheckoutDeliveryAddressAdapter' or 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -26722,7 +26722,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'create' was removed from Class 'OccCheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'createPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutPaymentAdapter"
       },
       {
@@ -26744,7 +26744,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'getCardTypesEndpoint' was removed from Class 'OccCheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutPaymentAdapter"
       },
       {
@@ -26813,7 +26813,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'set' was removed from Class 'OccCheckoutPaymentAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'setPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')",
         "topLevelApiElementName": "OccCheckoutPaymentAdapter"
       }
     ]
@@ -26991,7 +26991,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
         "deletedComment": "// TODO:Spartacus - Method 'loadPaymentTypes' was removed from Class 'OccCheckoutPaymentTypeAdapter'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentTypes()' from 'OccCheckoutPaymentTypeAdapter' (imported from '@spartacus/checkout/b2b/occ')",
         "topLevelApiElementName": "OccCheckoutPaymentTypeAdapter"
       }
     ]
@@ -27114,7 +27114,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccCheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'OccScheduledReplenishmentOrderAdapter' (imported from '@spartacus/order/core')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -27160,7 +27160,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OccReplenishmentOrderFormSerializer has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'OccScheduledReplenishmentOrderFormSerializer' (imported from '@spartacus/order/occ')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -27322,7 +27322,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getCostCenterState()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
         "topLevelApiElementName": "CheckoutCostCenterFacade"
       },
       {
@@ -27532,7 +27532,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutDeliveryFacade has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -27705,7 +27705,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutFacade has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "The class' functionality is scattered, please check the migration instruction for each of the methods you use from this class.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -27881,7 +27881,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
@@ -27903,7 +27903,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentDetailsState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
@@ -27925,7 +27925,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'getSetPaymentDetailsResultProcess' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
@@ -27947,7 +27947,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'loadSupportedCardTypes' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
@@ -27969,7 +27969,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'paymentProcessSuccess' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
@@ -27991,7 +27991,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentFacade'.",
-        "migrationComment": "",
+        "migrationComment": "After switching to commands & queries, processes are no longer used.",
         "topLevelApiElementName": "CheckoutPaymentFacade"
       },
       {
@@ -28047,7 +28047,7 @@
     "type": "CheckoutStepType[]",
     "isDeleted": true,
     "deletedComment": "Variable checkoutPaymentSteps has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Moved to 'getCheckoutPaymentSteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/base/components') and 'getCheckoutPaymentSteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/b2b/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -28094,7 +28094,7 @@
     "type": "CheckoutStepType[]",
     "isDeleted": true,
     "deletedComment": "Variable checkoutShippingSteps has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Moved to 'getCheckoutDeliverySteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/base/components')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -28216,7 +28216,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class ClearCheckoutFacade has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "You can use 'CheckoutQueryResetEvent' (imported from '@spartacus/checkout/base/root') to reset the checkout state.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -28433,7 +28433,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutService' was removed from Class 'OrderConfirmationOrderEntriesContext'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'orderFacade' instead.",
         "topLevelApiElementName": "OrderConfirmationOrderEntriesContext"
       }
     ]
@@ -28479,7 +28479,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
         "deletedComment": "// TODO:Spartacus - Property 'code' was removed from Class 'OrderPlacedEvent'.",
-        "migrationComment": "",
+        "migrationComment": "Please use the 'order' property instead.",
         "topLevelApiElementName": "OrderPlacedEvent"
       }
     ]
@@ -28551,7 +28551,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class PaymentTypeFacade has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -88802,7 +88802,7 @@
     "type": "CheckoutConfig",
     "isDeleted": true,
     "deletedComment": "Variable defaultB2bCheckoutConfig has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'defaultB2BCheckoutConfig' instead (imported from '@spartacus/checkout/b2b/root')",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
