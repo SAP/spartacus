@@ -13,7 +13,7 @@ export interface ActivatedRouterStateSnapshot {
   url: string;
   queryParams: Params;
   params: Params;
-  context: PageContext;
+  context: PageContext | undefined;
   cmsRequired: boolean;
   semanticRoute?: string;
 }

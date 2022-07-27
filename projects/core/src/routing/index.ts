@@ -8,6 +8,7 @@ export * from './protected-routes/index';
 export * from './routing.module';
 export * from './services/index';
 export * from './store/actions/index';
+export { CustomSerializer } from './store/reducers/router.reducer';
 export * from './store/routing-state';
 export * from './store/selectors/index';
 export * from './url-matcher/index';
