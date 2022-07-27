@@ -22,7 +22,7 @@
       role="radio"
       id="pickup"
       value="pickup"
-      (click)="openDialog()"
+      (click)="selectPickupInStore()"
       formControlName="deliveryOption"
       [attr.aria-label]="'deliveryOptions.pickup' | cxTranslate"
       [attr.aria-checked]="
@@ -39,10 +39,14 @@
           "
         >
           <strong>{{ displayPickupLocation }}</strong> |
-          <a role="button">{{ 'deliveryOptions.changeStore' | cxTranslate }}</a>
+          <a role="button" class="cx-action-link" (click)="openDialog()">{{
+            'deliveryOptions.changeStore' | cxTranslate
+          }}</a>
         </ng-container>
         <ng-template #selectStore>
-          <a role="button">{{ 'deliveryOptions.selectStore' | cxTranslate }}</a>
+          <a role="button" class="cx-action-link">{{
+            'deliveryOptions.selectStore' | cxTranslate
+          }}</a>
         </ng-template>
       </p>
     </label>

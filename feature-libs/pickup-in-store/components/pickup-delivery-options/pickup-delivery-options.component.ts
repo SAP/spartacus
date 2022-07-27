@@ -53,6 +53,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   displayPickupLocation$: Observable<string | undefined>;
 
   private productCode: string;
+  private displayNameIsSet = false;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -105,7 +106,8 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
             )
           )
         )
-      )
+      ),
+      tap(() => (this.displayNameIsSet = true))
     );
 
     this.subscription.add(
@@ -149,5 +151,16 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
 
   clearIntendedPickupLocation(): void {
     this.intendedPickupLocationService.removeIntendedLocation(this.productCode);
+  }
+
+  selectPickupInStore(): void {
+    if (!this.displayNameIsSet) {
+      this.openDialog();
+    } else {
+      this.intendedPickupLocationService.setIntendedLocation(
+        this.productCode,
+        this.preferredStoreService.getPreferredStore() ?? {}
+      );
+    }
   }
 }
