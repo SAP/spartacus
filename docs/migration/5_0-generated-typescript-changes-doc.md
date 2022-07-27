@@ -3032,7 +3032,7 @@ Listen to 'ReplenishmentOrderScheduledEvent' imported from '@spartacus/order/roo
 
 
 Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API.
-Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/checkout/scheduled-replenisment/root')
+Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root')
 
 
 
@@ -3041,7 +3041,7 @@ Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imp
 
 
 Class CheckoutActions.ScheduleReplenishmentOrder has been removed and is no longer part of the public API.
-Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/checkout/scheduled-replenisment/root')
+Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root')
 
 
 
@@ -3490,7 +3490,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-This property is used internally only
+Use 'activeCartFacade' instead.
 
 ### Property checkoutStore is removed.
 

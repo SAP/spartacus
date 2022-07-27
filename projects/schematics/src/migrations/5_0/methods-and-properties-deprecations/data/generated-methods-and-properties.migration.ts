@@ -493,7 +493,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutCostCenterService'. This property is used internally only",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutCostCenterService'. Use 'activeCartFacade' instead.",
     },
     {
       class: 'CheckoutCostCenterService',
