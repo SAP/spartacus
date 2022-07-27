@@ -8561,7 +8561,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'CheckoutAuthGuard'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'GlobalMessageService' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'GlobalMessageService' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
         "topLevelApiElementName": "CheckoutAuthGuard"
       },
       {
@@ -8627,7 +8627,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Method 'handleUserRole' was removed from Class 'CheckoutAuthGuard'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. The method is found when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method is found when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
         "topLevelApiElementName": "CheckoutAuthGuard"
       },
       {
@@ -8647,7 +8647,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'CheckoutAuthGuard'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'UserAccountFacade' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserAccountFacade' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
         "topLevelApiElementName": "CheckoutAuthGuard"
       }
     ]
@@ -10935,7 +10935,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'CheckoutStepsSetGuard'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
         "topLevelApiElementName": "CheckoutStepsSetGuard"
       },
       {
@@ -10986,7 +10986,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Method 'isPaymentTypeSet' was removed from Class 'CheckoutStepsSetGuard'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. The method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
         "topLevelApiElementName": "CheckoutStepsSetGuard"
       },
       {
@@ -11025,7 +11025,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Method 'isShippingAddressAndCostCenterSet' was removed from Class 'CheckoutStepsSetGuard'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. The method 'isShippingAddressAndCostCenterSet' has been renamed accordingly for 'base' and 'b2b' entrypoint. Base is using the 'isDeliveryAddress' method and B2B is using the 'isDeliveryAddressAndCostCenterSet'. 'isDeliveryAddressAndCostCenterSet' method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method 'isShippingAddressAndCostCenterSet' has been renamed accordingly for 'base' and 'b2b' entrypoint. Base is using the 'isDeliveryAddress' method and B2B is using the 'isDeliveryAddressAndCostCenterSet'. 'isDeliveryAddressAndCostCenterSet' method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
         "topLevelApiElementName": "CheckoutStepsSetGuard"
       },
       {
@@ -11097,7 +11097,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'CheckoutStepsSetGuard'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
         "topLevelApiElementName": "CheckoutStepsSetGuard"
       }
     ]
@@ -14532,7 +14532,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'ReviewSubmitComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
         "topLevelApiElementName": "ReviewSubmitComponent"
       },
       {
@@ -14552,7 +14552,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'ReviewSubmitComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
         "topLevelApiElementName": "ReviewSubmitComponent"
       },
       {
@@ -14572,7 +14572,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'userCostCenterService' was removed from Class 'ReviewSubmitComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
         "topLevelApiElementName": "ReviewSubmitComponent"
       },
       {
@@ -14612,7 +14612,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'poNumber$' was removed from Class 'ReviewSubmitComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'poNumber$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'poNumber$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
         "topLevelApiElementName": "ReviewSubmitComponent"
       },
       {
@@ -14632,7 +14632,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'paymentType$' was removed from Class 'ReviewSubmitComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'paymentType$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'paymentType$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
         "topLevelApiElementName": "ReviewSubmitComponent"
       },
       {
@@ -14652,7 +14652,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'isAccountPayment$' was removed from Class 'ReviewSubmitComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'isAccountPayment$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'isAccountPayment$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
         "topLevelApiElementName": "ReviewSubmitComponent"
       },
       {
@@ -14672,7 +14672,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'costCenter$' was removed from Class 'ReviewSubmitComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'costCenter$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'costCenter$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
         "topLevelApiElementName": "ReviewSubmitComponent"
       },
       {
@@ -15751,7 +15751,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'ShippingAddressComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
         "topLevelApiElementName": "ShippingAddressComponent"
       },
       {
@@ -15771,7 +15771,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'userCostCenterService' was removed from Class 'ShippingAddressComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
         "topLevelApiElementName": "ShippingAddressComponent"
       },
       {
@@ -15791,7 +15791,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'ShippingAddressComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
         "topLevelApiElementName": "ShippingAddressComponent"
       },
       {
@@ -15851,7 +15851,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'isAccountPayment' was removed from Class 'ShippingAddressComponent'.",
-        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and replenishment. 'isAccountPayment' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'isAccountPayment' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
         "topLevelApiElementName": "ShippingAddressComponent"
       },
       {
