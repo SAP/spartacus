@@ -1315,7 +1315,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.'
 
 
 
@@ -1364,11 +1364,11 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 ### Property globalMessageService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'GlobalMessageService' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.
 
 ### Method handleAnonymousUser changed.
 
@@ -1395,11 +1395,11 @@ handleAnonymousUser(): boolean | UrlTree
 
 ### Method handleUserRole is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method is found when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.
 
 ### Property userService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserAccountFacade' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.
 
 
 
@@ -1422,8 +1422,8 @@ moved to @spartacus/checkout/base/components
 # Class CheckoutDetailsService 
 ## @spartacus/checkout/components
 
-
-Class CheckoutDetailsService has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/core
+renamed to CheckoutQueryService
 
 
 
@@ -1471,7 +1471,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 
 
@@ -1512,7 +1512,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 
 
@@ -1573,7 +1573,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 
 
@@ -1644,11 +1644,11 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 ### Method ngOnInit is removed.
 
-
+It has been removed because we are no longer initializing the 'cart$' observable during Angular's initialization lifecycle, but it has been declared and initialized directly through the class property.
 
 
 
@@ -1803,19 +1803,19 @@ canActivate(
 
 ### Property checkoutCostCenterService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 ### Property checkoutDetailsService is removed.
 
-
+Use 'checkoutQueryFacade' instead.
 
 ### Method isPaymentTypeSet is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 ### Method isShippingAddressAndCostCenterSet is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method 'isShippingAddressAndCostCenterSet' has been renamed accordingly for 'base' and 'b2b' entrypoint. Base is using the 'isDeliveryAddress' method and B2B is using the 'isDeliveryAddressAndCostCenterSet'. 'isDeliveryAddressAndCostCenterSet' method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 ### Method isStepSet changed.
 
@@ -1845,15 +1845,15 @@ isStepSet(
 
 ### Property paymentTypeService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 
 
 # Class DeliveryModeComponent 
 ## @spartacus/checkout/components
 
-
-Class DeliveryModeComponent has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutDeliveryModeComponent
 
 
 
@@ -1861,8 +1861,8 @@ Class DeliveryModeComponent has been removed and is no longer part of the public
 # Class DeliveryModeModule 
 ## @spartacus/checkout/components
 
-
-Class DeliveryModeModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutDeliveryModeModule
 
 
 
@@ -1911,15 +1911,15 @@ constructor(
 
 ### Property checkoutDeliveryService is removed.
 
-
+'CheckoutDeliveryService' has been splitted and renamed to 'CheckoutDeliveryAddressFacde' and 'CheckoutDeliveryModesFacade'. Use 'checkoutDeliveryAdressFacade' and 'checkoutDeliveryModesFacade' instead.
 
 ### Property checkoutDetailsService is removed.
 
-
+Use 'checkoutQueryFacade' instead.
 
 ### Property checkoutPaymentService is removed.
 
-
+Use 'checkoutPaymentFacade' instead.
 
 ### Property clearCheckoutService is removed.
 
@@ -1927,15 +1927,15 @@ constructor(
 
 ### Method setShippingAddress is removed.
 
-
+Use 'setDeliveryAddress' instead.
 
 
 
 # Class GuestRegisterFormComponent 
 ## @spartacus/checkout/components
 
-
-Class GuestRegisterFormComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
+renamed to OrderGuestRegisterFormComponent
 
 
 
@@ -1979,7 +1979,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 
 
@@ -2023,8 +2023,7 @@ constructor(
 # Class OrderConfirmationItemsComponent 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationItemsComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
@@ -2032,8 +2031,7 @@ Class OrderConfirmationItemsComponent has been removed and is no longer part of 
 # Class OrderConfirmationModule 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationModule has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
@@ -2043,15 +2041,14 @@ Class OrderConfirmationModule has been removed and is no longer part of the publ
 
 
 Class OrderConfirmationOverviewComponent has been removed and is no longer part of the public API.
-
+Use 'OrderDetailShippingComponent' instead from @spartacus/order/components
 
 
 
 # Class OrderConfirmationThankYouMessageComponent 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationThankYouMessageComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
@@ -2059,8 +2056,7 @@ Class OrderConfirmationThankYouMessageComponent has been removed and is no longe
 # Class OrderConfirmationTotalsComponent 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationTotalsComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
@@ -2068,8 +2064,8 @@ Class OrderConfirmationTotalsComponent has been removed and is no longer part of
 # Class PaymentFormComponent 
 ## @spartacus/checkout/components
 
-
-Class PaymentFormComponent has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentFormComponent
 
 
 
@@ -2077,8 +2073,8 @@ Class PaymentFormComponent has been removed and is no longer part of the public 
 # Class PaymentFormModule 
 ## @spartacus/checkout/components
 
-
-Class PaymentFormModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentFormModule
 
 
 
@@ -2086,17 +2082,69 @@ Class PaymentFormModule has been removed and is no longer part of the public API
 # Class PaymentMethodComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentMethodComponent
 
-Class PaymentMethodComponent has been removed and is no longer part of the public API.
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  userPaymentService: UserPaymentService,
+  checkoutService: CheckoutFacade,
+  checkoutDeliveryService: CheckoutDeliveryFacade,
+  checkoutPaymentService: CheckoutPaymentFacade,
+  globalMessageService: GlobalMessageService,
+  activatedRoute: ActivatedRoute,
+  translation: TranslationService,
+  activeCartService: ActiveCartService,
+  checkoutStepService: CheckoutStepService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  userPaymentService: UserPaymentService,
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  checkoutPaymentFacade: CheckoutPaymentFacade,
+  activatedRoute: ActivatedRoute,
+  translationService: TranslationService,
+  activeCartFacade: ActiveCartFacade,
+  checkoutStepService: CheckoutStepService,
+  globalMessageService: GlobalMessageService
+)
+
+```
+
+
+### Property checkoutService is removed.
+
+
+
+### Property checkoutDeliveryService is removed.
+
+Use 'checkoutDeliveryAddressFacade' instead in @spartacus/checkout/base/root
+
+### Property activeCartService is removed.
+
+Use activeCartFacade instead.
 
 
 
 # Class PaymentMethodModule 
 ## @spartacus/checkout/components
 
-
-Class PaymentMethodModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentMethodModule
 
 
 
@@ -2104,8 +2152,8 @@ Class PaymentMethodModule has been removed and is no longer part of the public A
 # Class PaymentTypeComponent 
 ## @spartacus/checkout/components
 
-
-Class PaymentTypeComponent has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentTypeComponent
 
 
 
@@ -2113,8 +2161,8 @@ Class PaymentTypeComponent has been removed and is no longer part of the public 
 # Class PaymentTypeModule 
 ## @spartacus/checkout/components
 
-
-Class PaymentTypeModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentTypeModule
 
 
 
@@ -2122,17 +2170,76 @@ Class PaymentTypeModule has been removed and is no longer part of the public API
 # Class PlaceOrderComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPlaceOrderComponent
 
-Class PlaceOrderComponent has been removed and is no longer part of the public API.
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  checkoutService: CheckoutFacade,
+  routingService: RoutingService,
+  fb: FormBuilder,
+  checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  orderFacade: OrderFacade,
+  routingService: RoutingService,
+  fb: FormBuilder,
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+### Property checkoutService changed.
+
+
+Previous version: 
+
+```
+checkoutService: CheckoutFacade
+```
+
+
+Current version: 
+
+```
+orderFacade: OrderFacade
+```
+
+
+### Property checkoutReplenishmentFormService is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint does not contain b2b logic / dependency. You can find the same dependencies for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.
+
+### Method ngOnInit is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint does not need the OnInit lifecycle hook, however you can find it being a dependency for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.
 
 
 
 # Class PlaceOrderModule 
 ## @spartacus/checkout/components
 
-
-Class PlaceOrderModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPlaceOrderModule
 
 
 
@@ -2142,15 +2249,147 @@ Class PlaceOrderModule has been removed and is no longer part of the public API.
 
 
 Class ReplenishmentOrderConfirmationModule has been removed and is no longer part of the public API.
-
+Use 'OrderConfirmationModule' instead as the cms mapping has been consolidated into one module.
 
 
 
 # Class ReviewSubmitComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutReviewSubmitComponent
 
-Class ReviewSubmitComponent has been removed and is no longer part of the public API.
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  checkoutDeliveryService: CheckoutDeliveryFacade,
+  checkoutPaymentService: CheckoutPaymentFacade,
+  userAddressService: UserAddressService,
+  activeCartService: ActiveCartService,
+  translation: TranslationService,
+  checkoutStepService: CheckoutStepService,
+  paymentTypeService: PaymentTypeFacade,
+  checkoutCostCenterService: CheckoutCostCenterFacade,
+  userCostCenterService: UserCostCenterService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  checkoutPaymentFacade: CheckoutPaymentFacade,
+  activeCartFacade: ActiveCartFacade,
+  translationService: TranslationService,
+  checkoutStepService: CheckoutStepService,
+  checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+)
+
+```
+
+
+### Property checkoutDeliveryService is removed.
+
+It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.
+
+### Property userAddressService is removed.
+
+It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.
+
+### Property activeCartService changed.
+
+
+Previous version: 
+
+```
+activeCartService: ActiveCartService
+```
+
+
+Current version: 
+
+```
+activeCartFacade: ActiveCartFacade
+```
+
+
+### Property paymentTypeService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property checkoutCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property userCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property countryName$ is removed.
+
+It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.
+
+### Property poNumber$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'poNumber$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property paymentType$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'paymentType$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property isAccountPayment$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'isAccountPayment$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property costCenter$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'costCenter$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Method getCostCenterCard is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.
+
+### Method getPoNumberCard is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.
+
+### Method getPaymentTypeCard is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.
+
+### Method shippingSteps changed.
+
+
+Previous version: 
+
+```
+
+shippingSteps(
+  steps: CheckoutStep[]
+): CheckoutStep[]
+
+```
+
+
+Current version: 
+
+```
+
+deliverySteps(
+  steps: CheckoutStep[]
+): CheckoutStep[]
+
+```
 
 
 
@@ -2160,15 +2399,41 @@ Class ReviewSubmitComponent has been removed and is no longer part of the public
 
 
 Class ReviewSubmitModule has been removed and is no longer part of the public API.
-
+It has been renamed to CheckoutReviewSubmitModule and moved to @spartacus/checkout/base/components. If it is for a b2b storefront, please use B2BCheckoutReviewSubmitModule in @spartacus/checkout/b2b/components
 
 
 
 # Class ScheduleReplenishmentOrderComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/scheduled-replenishment/components
+renamed to CheckoutScheduleReplenishmentOrderComponent
 
-Class ScheduleReplenishmentOrderComponent has been removed and is no longer part of the public API.
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  checkoutService: CheckoutFacade,
+ checkoutReplenishmentFormService: CheckoutReplenishmentFormService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  checkoutReplenishmentFormService: CheckoutReplenishmentFormService
+)
+
+```
 
 
 
@@ -2176,8 +2441,8 @@ Class ScheduleReplenishmentOrderComponent has been removed and is no longer part
 # Class ScheduleReplenishmentOrderModule 
 ## @spartacus/checkout/components
 
-
-Class ScheduleReplenishmentOrderModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/scheduled-replenishment/components
+renamed to CheckoutScheduledReplenishmentPlaceOrderModule
 
 
 
@@ -2185,8 +2450,97 @@ Class ScheduleReplenishmentOrderModule has been removed and is no longer part of
 # Class ShippingAddressComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutDeliveryAddressComponent
 
-Class ShippingAddressComponent has been removed and is no longer part of the public API.
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  userAddressService: UserAddressService,
+  checkoutDeliveryService: CheckoutDeliveryFacade,
+  activatedRoute: ActivatedRoute,
+  translation: TranslationService,
+  activeCartService: ActiveCartService,
+  checkoutStepService: CheckoutStepService,
+  paymentTypeService: PaymentTypeFacade,
+  userCostCenterService: UserCostCenterService,
+  checkoutCostCenterService: CheckoutCostCenterFacade
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  userAddressService: UserAddressService,
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  activatedRoute: ActivatedRoute,
+  translationService: TranslationService,
+  activeCartFacade: ActiveCartFacade,
+  checkoutStepService: CheckoutStepService,
+  checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+  globalMessageService: GlobalMessageService
+)
+
+```
+
+
+### Property checkoutDeliveryService is removed.
+
+It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.
+
+### Property activeCartService changed.
+
+
+Previous version: 
+
+```
+activeCartService: ActiveCartService
+```
+
+
+Current version: 
+
+```
+activeCartFacade: ActiveCartFacade
+```
+
+
+### Property paymentTypeService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Property userCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Property checkoutCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Property forceLoader is removed.
+
+
+
+### Property selectedAddress is removed.
+
+
+
+### Property isAccountPayment is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'isAccountPayment' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Method ngOnDestroy is removed.
+
 
 
 
@@ -2196,15 +2550,15 @@ Class ShippingAddressComponent has been removed and is no longer part of the pub
 
 
 Class ShippingAddressModule has been removed and is no longer part of the public API.
-
+It has been renamed to CheckoutDeliveryAddressModule and moved to @spartacus/checkout/base/components. If it is for a b2b storefront, please use B2BCheckoutDeliveryAddressModule in @spartacus/checkout/b2b/components
 
 
 
 # Variable CARD_TYPE_NORMALIZER 
 ## @spartacus/checkout/core
 
-
-Variable CARD_TYPE_NORMALIZER has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/core
+renamed to PAYMENT_CARD_TYPE_NORMALIZER
 
 
 
@@ -2214,7 +2568,7 @@ Variable CARD_TYPE_NORMALIZER has been removed and is no longer part of the publ
 
 
 Interface CardTypesState has been removed and is no longer part of the public API.
-
+The card types is no longer found in the NgRX store. You can find the card type 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2223,7 +2577,7 @@ Interface CardTypesState has been removed and is no longer part of the public AP
 
 
 Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API.
-
+It is not used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2240,7 +2594,7 @@ moved to @spartacus/checkout/base/root
 
 
 Namespace CheckoutActions has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2249,7 +2603,7 @@ Namespace CheckoutActions has been removed and is no longer part of the public A
 
 
 Variable CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2258,7 +2612,7 @@ Variable CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL has been removed and is no lo
 
 
 Variable CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.
 
 
 
@@ -2267,7 +2621,7 @@ Variable CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS has been removed and is no
 
 
 Variable CheckoutActions.ADD_DELIVERY_ADDRESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2276,7 +2630,7 @@ Variable CheckoutActions.ADD_DELIVERY_ADDRESS has been removed and is no longer 
 
 
 Class CheckoutActions.AddDeliveryAddress has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2285,7 +2639,7 @@ Class CheckoutActions.AddDeliveryAddress has been removed and is no longer part 
 
 
 Class CheckoutActions.AddDeliveryAddressFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2294,7 +2648,7 @@ Class CheckoutActions.AddDeliveryAddressFail has been removed and is no longer p
 
 
 Class CheckoutActions.AddDeliveryAddressSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.
 
 
 
@@ -2303,7 +2657,7 @@ Class CheckoutActions.AddDeliveryAddressSuccess has been removed and is no longe
 
 
 TypeAlias CheckoutActions.CardTypesAction has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the query 'getPaymentCardTypesState' in CheckoutPaymentFacade to get the data and state for the card types.
 
 
 
@@ -2312,7 +2666,7 @@ TypeAlias CheckoutActions.CardTypesAction has been removed and is no longer part
 
 
 Variable CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.
 
 
 
@@ -2321,7 +2675,7 @@ Variable CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA has been removed and is no lo
 
 
 TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2330,7 +2684,7 @@ TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part 
 
 
 Class CheckoutActions.CheckoutClearMiscsData has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.
 
 
 
@@ -2339,7 +2693,7 @@ Class CheckoutActions.CheckoutClearMiscsData has been removed and is no longer p
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DATA has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.
 
 
 
@@ -2348,7 +2702,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DATA has been removed and is no longer p
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2357,7 +2711,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL has been removed a
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.
 
 
 
@@ -2366,7 +2720,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS has been remove
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2375,7 +2729,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS has been removed and is
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.
 
 
 
@@ -2384,7 +2738,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL has been removed and 
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.
 
 
 
@@ -2393,7 +2747,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS has been removed a
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode()' from CheckoutDeliveryModesFacade.
 
 
 
@@ -2411,7 +2765,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_STEP has been removed and is no longer p
 
 
 Variable CheckoutActions.CLEAR_PLACE_ORDER has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2420,7 +2774,7 @@ Variable CheckoutActions.CLEAR_PLACE_ORDER has been removed and is no longer par
 
 
 Variable CheckoutActions.CLEAR_SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2429,7 +2783,7 @@ Variable CheckoutActions.CLEAR_SCHEDULE_REPLENISHMENT_ORDER has been removed and
 
 
 Variable CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
 
 
 
@@ -2438,7 +2792,7 @@ Variable CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES has been removed and is 
 
 
 Class CheckoutActions.ClearCheckoutData has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.
 
 
 
@@ -2447,7 +2801,7 @@ Class CheckoutActions.ClearCheckoutData has been removed and is no longer part o
 
 
 Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryAddress' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2456,7 +2810,7 @@ Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no lo
 
 
 Class CheckoutActions.ClearCheckoutDeliveryAddressFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2465,7 +2819,7 @@ Class CheckoutActions.ClearCheckoutDeliveryAddressFail has been removed and is n
 
 
 Class CheckoutActions.ClearCheckoutDeliveryAddressSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.
 
 
 
@@ -2474,7 +2828,7 @@ Class CheckoutActions.ClearCheckoutDeliveryAddressSuccess has been removed and i
 
 
 Class CheckoutActions.ClearCheckoutDeliveryMode has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
 
 
 
@@ -2483,7 +2837,7 @@ Class CheckoutActions.ClearCheckoutDeliveryMode has been removed and is no longe
 
 
 Class CheckoutActions.ClearCheckoutDeliveryModeFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.
 
 
 
@@ -2492,7 +2846,7 @@ Class CheckoutActions.ClearCheckoutDeliveryModeFail has been removed and is no l
 
 
 Class CheckoutActions.ClearCheckoutDeliveryModeSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.
 
 
 
@@ -2510,7 +2864,7 @@ Class CheckoutActions.ClearCheckoutStep has been removed and is no longer part o
 
 
 Class CheckoutActions.ClearPlaceOrder has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2519,7 +2873,7 @@ Class CheckoutActions.ClearPlaceOrder has been removed and is no longer part of 
 
 
 Class CheckoutActions.ClearScheduleReplenishmentOrderAction has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2528,7 +2882,7 @@ Class CheckoutActions.ClearScheduleReplenishmentOrderAction has been removed and
 
 
 Class CheckoutActions.ClearSupportedDeliveryModes has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
 
 
 
@@ -2537,7 +2891,7 @@ Class CheckoutActions.ClearSupportedDeliveryModes has been removed and is no lon
 
 
 Variable CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createPaymentDetails()' from CheckoutPaymentFacade.
 
 
 
@@ -2546,7 +2900,7 @@ Variable CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL has been removed and is no 
 
 
 Variable CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added
 
 
 
@@ -2555,7 +2909,7 @@ Variable CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS has been removed and is 
 
 
 Variable CheckoutActions.CREATE_PAYMENT_DETAILS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use'createPaymentDetails()' from CheckoutPaymentFacade.
 
 
 
@@ -2564,7 +2918,7 @@ Variable CheckoutActions.CREATE_PAYMENT_DETAILS has been removed and is no longe
 
 
 Class CheckoutActions.CreatePaymentDetails has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createPaymentDetails()' from CheckoutPaymentFacade.
 
 
 
@@ -2573,7 +2927,7 @@ Class CheckoutActions.CreatePaymentDetails has been removed and is no longer par
 
 
 Class CheckoutActions.CreatePaymentDetailsFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createPaymentDetails()' from CheckoutPaymentFacade.
 
 
 
@@ -2582,7 +2936,7 @@ Class CheckoutActions.CreatePaymentDetailsFail has been removed and is no longer
 
 
 Class CheckoutActions.CreatePaymentDetailsSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added
 
 
 
@@ -2591,7 +2945,7 @@ Class CheckoutActions.CreatePaymentDetailsSuccess has been removed and is no lon
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2600,7 +2954,7 @@ Variable CheckoutActions.LOAD_CARD_TYPES_FAIL has been removed and is no longer 
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2609,7 +2963,7 @@ Variable CheckoutActions.LOAD_CARD_TYPES_SUCCESS has been removed and is no long
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2618,7 +2972,7 @@ Variable CheckoutActions.LOAD_CARD_TYPES has been removed and is no longer part 
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2627,7 +2981,7 @@ Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_FAIL has been removed and is no l
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2636,7 +2990,7 @@ Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS has been removed and is n
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2645,7 +2999,7 @@ Variable CheckoutActions.LOAD_CHECKOUT_DETAILS has been removed and is no longer
 
 
 Variable CheckoutActions.LOAD_PAYMENT_TYPES_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2654,7 +3008,7 @@ Variable CheckoutActions.LOAD_PAYMENT_TYPES_FAIL has been removed and is no long
 
 
 Variable CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2663,7 +3017,7 @@ Variable CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS has been removed and is no l
 
 
 Variable CheckoutActions.LOAD_PAYMENT_TYPES has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2672,7 +3026,7 @@ Variable CheckoutActions.LOAD_PAYMENT_TYPES has been removed and is no longer pa
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2681,7 +3035,7 @@ Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL has been removed and
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2690,7 +3044,7 @@ Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed 
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2699,7 +3053,7 @@ Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES has been removed and is n
 
 
 Class CheckoutActions.LoadCardTypes has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2708,7 +3062,7 @@ Class CheckoutActions.LoadCardTypes has been removed and is no longer part of th
 
 
 Class CheckoutActions.LoadCardTypesFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2717,7 +3071,7 @@ Class CheckoutActions.LoadCardTypesFail has been removed and is no longer part o
 
 
 Class CheckoutActions.LoadCardTypesSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2726,7 +3080,7 @@ Class CheckoutActions.LoadCardTypesSuccess has been removed and is no longer par
 
 
 Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2735,7 +3089,7 @@ Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part
 
 
 Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2744,7 +3098,7 @@ Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer 
 
 
 Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2753,7 +3107,7 @@ Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no long
 
 
 Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2762,7 +3116,7 @@ Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of
 
 
 Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2771,7 +3125,7 @@ Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer par
 
 
 Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2780,7 +3134,7 @@ Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer 
 
 
 Class CheckoutActions.LoadSupportedDeliveryModes has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2789,7 +3143,7 @@ Class CheckoutActions.LoadSupportedDeliveryModes has been removed and is no long
 
 
 Class CheckoutActions.LoadSupportedDeliveryModesFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2798,7 +3152,7 @@ Class CheckoutActions.LoadSupportedDeliveryModesFail has been removed and is no 
 
 
 Class CheckoutActions.LoadSupportedDeliveryModesSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2807,7 +3161,7 @@ Class CheckoutActions.LoadSupportedDeliveryModesSuccess has been removed and is 
 
 
 TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use 'setOrderType' from CheckoutReplenishmentFormService.
 
 
 
@@ -2816,7 +3170,7 @@ TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer pa
 
 
 Variable CheckoutActions.PAYMENT_PROCESS_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsSetEvent', which gets fired when the payment has been successfully processed.
 
 
 
@@ -2825,7 +3179,7 @@ Variable CheckoutActions.PAYMENT_PROCESS_SUCCESS has been removed and is no long
 
 
 Class CheckoutActions.PaymentProcessSuccess has been removed and is no longer part of the public API.
-After switching to commands & queries, processes are no longer used.
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsSetEvent', which gets fired when the payment has been successfully processed.
 
 
 
@@ -2834,7 +3188,7 @@ After switching to commands & queries, processes are no longer used.
 
 
 TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2843,7 +3197,7 @@ TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer p
 
 
 Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'placeOrder()' from OrderFacade.
 
 
 
@@ -2852,7 +3206,7 @@ Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part
 
 
 Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'OrderPlacedEvent', which gets fired when checkout has been successful.
 
 
 
@@ -2861,7 +3215,7 @@ Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer p
 
 
 Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'placeOrder()' from OrderFacade.
 
 
 
@@ -2870,7 +3224,7 @@ Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of t
 
 
 Class CheckoutActions.PlaceOrder has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'placeOrder()' from OrderFacade.
 
 
 
@@ -2879,7 +3233,7 @@ Class CheckoutActions.PlaceOrder has been removed and is no longer part of the p
 
 
 Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'placeOrder()' from OrderFacade.
 
 
 
@@ -2888,7 +3242,7 @@ Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of t
 
 
 Class CheckoutActions.PlaceOrderSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'OrderPlacedEvent', which gets fired when checkout has been successful.
 
 
 
@@ -2897,7 +3251,7 @@ Class CheckoutActions.PlaceOrderSuccess has been removed and is no longer part o
 
 
 TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2906,7 +3260,7 @@ TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no l
 
 
 Variable CheckoutActions.RESET_LOAD_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch event to invalidate the loading of payment types using 'CheckoutPaymentTypesQueryResetEvent'.
 
 
 
@@ -2915,7 +3269,7 @@ Variable CheckoutActions.RESET_LOAD_PAYMENT_TYPES_PROCESS_ID has been removed an
 
 
 Variable CheckoutActions.RESET_SET_COST_CENTER_PROCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set cost center as well.
 
 
 
@@ -2924,7 +3278,7 @@ Variable CheckoutActions.RESET_SET_COST_CENTER_PROCESS has been removed and is n
 
 
 Variable CheckoutActions.RESET_SET_DELIVERY_ADDRESS_PROCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set delivery address as well.
 
 
 
@@ -2933,7 +3287,7 @@ Variable CheckoutActions.RESET_SET_DELIVERY_ADDRESS_PROCESS has been removed and
 
 
 Variable CheckoutActions.RESET_SET_DELIVERY_MODE_PROCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set delivery mode as well.
 
 
 
@@ -2942,7 +3296,7 @@ Variable CheckoutActions.RESET_SET_DELIVERY_MODE_PROCESS has been removed and is
 
 
 Variable CheckoutActions.RESET_SET_PAYMENT_DETAILS_PROCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set payment details as well.
 
 
 
@@ -2951,7 +3305,7 @@ Variable CheckoutActions.RESET_SET_PAYMENT_DETAILS_PROCESS has been removed and 
 
 
 Variable CheckoutActions.RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the supported delivery modes by using 'CheckoutSupportedDeliveryModesQueryResetEvent'.
 
 
 
@@ -2960,7 +3314,7 @@ Variable CheckoutActions.RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS has been rem
 
 
 Class CheckoutActions.ResetLoadPaymentTypesProcess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the payment types by using 'CheckoutPaymentTypesQueryResetEvent'.
 
 
 
@@ -2969,7 +3323,7 @@ Class CheckoutActions.ResetLoadPaymentTypesProcess has been removed and is no lo
 
 
 Class CheckoutActions.ResetLoadSupportedDeliveryModesProcess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the supported delivery modes by using 'CheckoutSupportedDeliveryModesQueryResetEvent'.
 
 
 
@@ -2978,7 +3332,7 @@ Class CheckoutActions.ResetLoadSupportedDeliveryModesProcess has been removed an
 
 
 Class CheckoutActions.ResetSetCostCenterProcess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set cost center as well.
 
 
 

@@ -35,274 +35,148 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
       "Class DeleteSavedCartSuccessEvent has been removed and is no longer part of the public API. Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartSuccessEvent.",
   },
   {
-    node: 'CheckoutDetailsService',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class CheckoutDetailsService has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'DeliveryModeComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class DeliveryModeComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'DeliveryModeModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class DeliveryModeModule has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'GuestRegisterFormComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class GuestRegisterFormComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'OrderConfirmationItemsComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class OrderConfirmationItemsComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'OrderConfirmationModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class OrderConfirmationModule has been removed and is no longer part of the public API. ',
-  },
-  {
     node: 'OrderConfirmationOverviewComponent',
     importPath: '@spartacus/checkout/components',
     comment:
-      'Class OrderConfirmationOverviewComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'OrderConfirmationThankYouMessageComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class OrderConfirmationThankYouMessageComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'OrderConfirmationTotalsComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class OrderConfirmationTotalsComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'PaymentFormComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PaymentFormComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'PaymentFormModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PaymentFormModule has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'PaymentMethodComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PaymentMethodComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'PaymentMethodModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PaymentMethodModule has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'PaymentTypeComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PaymentTypeComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'PaymentTypeModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PaymentTypeModule has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'PlaceOrderComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PlaceOrderComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'PlaceOrderModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class PlaceOrderModule has been removed and is no longer part of the public API. ',
+      "Class OrderConfirmationOverviewComponent has been removed and is no longer part of the public API. Use 'OrderDetailShippingComponent' instead from @spartacus/order/components",
   },
   {
     node: 'ReplenishmentOrderConfirmationModule',
     importPath: '@spartacus/checkout/components',
     comment:
-      'Class ReplenishmentOrderConfirmationModule has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'ReviewSubmitComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class ReviewSubmitComponent has been removed and is no longer part of the public API. ',
+      "Class ReplenishmentOrderConfirmationModule has been removed and is no longer part of the public API. Use 'OrderConfirmationModule' instead as the cms mapping has been consolidated into one module.",
   },
   {
     node: 'ReviewSubmitModule',
     importPath: '@spartacus/checkout/components',
     comment:
-      'Class ReviewSubmitModule has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'ScheduleReplenishmentOrderComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class ScheduleReplenishmentOrderComponent has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'ScheduleReplenishmentOrderModule',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class ScheduleReplenishmentOrderModule has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'ShippingAddressComponent',
-    importPath: '@spartacus/checkout/components',
-    comment:
-      'Class ShippingAddressComponent has been removed and is no longer part of the public API. ',
+      'Class ReviewSubmitModule has been removed and is no longer part of the public API. It has been renamed to CheckoutReviewSubmitModule and moved to @spartacus/checkout/base/components. If it is for a b2b storefront, please use B2BCheckoutReviewSubmitModule in @spartacus/checkout/b2b/components',
   },
   {
     node: 'ShippingAddressModule',
     importPath: '@spartacus/checkout/components',
     comment:
-      'Class ShippingAddressModule has been removed and is no longer part of the public API. ',
-  },
-  {
-    node: 'CARD_TYPE_NORMALIZER',
-    importPath: '@spartacus/checkout/core',
-    comment:
-      'Variable CARD_TYPE_NORMALIZER has been removed and is no longer part of the public API. ',
+      'Class ShippingAddressModule has been removed and is no longer part of the public API. It has been renamed to CheckoutDeliveryAddressModule and moved to @spartacus/checkout/base/components. If it is for a b2b storefront, please use B2BCheckoutDeliveryAddressModule in @spartacus/checkout/b2b/components',
   },
   {
     node: 'CardTypesState',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Interface CardTypesState has been removed and is no longer part of the public API. ',
+      "Interface CardTypesState has been removed and is no longer part of the public API. The card types is no longer found in the NgRX store. You can find the card type 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'CHECKOUT_DETAILS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API. ',
+      "Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API. It is not used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'CheckoutActions',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Namespace CheckoutActions has been removed and is no longer part of the public API. ',
+      'Namespace CheckoutActions has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.',
   },
   {
     node: 'ADD_DELIVERY_ADDRESS_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
   },
   {
     node: 'ADD_DELIVERY_ADDRESS_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.",
   },
   {
     node: 'ADD_DELIVERY_ADDRESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.ADD_DELIVERY_ADDRESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.ADD_DELIVERY_ADDRESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
   },
   {
     node: 'AddDeliveryAddress',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.AddDeliveryAddress has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.AddDeliveryAddress has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
   },
   {
     node: 'AddDeliveryAddressFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.AddDeliveryAddressFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.AddDeliveryAddressFail has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
   },
   {
     node: 'AddDeliveryAddressSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.AddDeliveryAddressSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.AddDeliveryAddressSuccess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.",
   },
   {
     node: 'CardTypesAction',
     importPath: '@spartacus/checkout/core',
     comment:
-      'TypeAlias CheckoutActions.CardTypesAction has been removed and is no longer part of the public API. ',
+      "TypeAlias CheckoutActions.CardTypesAction has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the query 'getPaymentCardTypesState' in CheckoutPaymentFacade to get the data and state for the card types.",
   },
   {
     node: 'CHECKOUT_CLEAR_MISCS_DATA',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.",
   },
   {
     node: 'CheckoutAction',
     importPath: '@spartacus/checkout/core',
     comment:
-      'TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part of the public API. ',
+      'TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.',
   },
   {
     node: 'CheckoutClearMiscsData',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.CheckoutClearMiscsData has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.CheckoutClearMiscsData has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.",
   },
   {
     node: 'CLEAR_CHECKOUT_DATA',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_CHECKOUT_DATA has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_CHECKOUT_DATA has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.",
   },
   {
     node: 'CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.",
   },
   {
     node: 'CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.",
   },
   {
     node: 'CLEAR_CHECKOUT_DELIVERY_ADDRESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.",
   },
   {
     node: 'CLEAR_CHECKOUT_DELIVERY_MODE_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.",
   },
   {
     node: 'CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.",
   },
   {
     node: 'CLEAR_CHECKOUT_DELIVERY_MODE',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode()' from CheckoutDeliveryModesFacade.",
   },
   {
     node: 'CLEAR_CHECKOUT_STEP',
@@ -314,61 +188,61 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'CLEAR_PLACE_ORDER',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_PLACE_ORDER has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_PLACE_ORDER has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.",
   },
   {
     node: 'CLEAR_SCHEDULE_REPLENISHMENT_ORDER',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.",
   },
   {
     node: 'CLEAR_SUPPORTED_DELIVERY_MODES',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.",
   },
   {
     node: 'ClearCheckoutData',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearCheckoutData has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearCheckoutData has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.",
   },
   {
     node: 'ClearCheckoutDeliveryAddress',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryAddress' from CheckoutDeliveryAddressFacade.",
   },
   {
     node: 'ClearCheckoutDeliveryAddressFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearCheckoutDeliveryAddressFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearCheckoutDeliveryAddressFail has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.",
   },
   {
     node: 'ClearCheckoutDeliveryAddressSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearCheckoutDeliveryAddressSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearCheckoutDeliveryAddressSuccess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.",
   },
   {
     node: 'ClearCheckoutDeliveryMode',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearCheckoutDeliveryMode has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearCheckoutDeliveryMode has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.",
   },
   {
     node: 'ClearCheckoutDeliveryModeFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearCheckoutDeliveryModeFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearCheckoutDeliveryModeFail has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.",
   },
   {
     node: 'ClearCheckoutDeliveryModeSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearCheckoutDeliveryModeSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearCheckoutDeliveryModeSuccess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.",
   },
   {
     node: 'ClearCheckoutStep',
@@ -380,319 +254,319 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'ClearPlaceOrder',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearPlaceOrder has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearPlaceOrder has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.",
   },
   {
     node: 'ClearScheduleReplenishmentOrderAction',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearScheduleReplenishmentOrderAction has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearScheduleReplenishmentOrderAction has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.",
   },
   {
     node: 'ClearSupportedDeliveryModes',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ClearSupportedDeliveryModes has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ClearSupportedDeliveryModes has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.",
   },
   {
     node: 'CREATE_PAYMENT_DETAILS_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createPaymentDetails()' from CheckoutPaymentFacade.",
   },
   {
     node: 'CREATE_PAYMENT_DETAILS_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added",
   },
   {
     node: 'CREATE_PAYMENT_DETAILS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.CREATE_PAYMENT_DETAILS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.CREATE_PAYMENT_DETAILS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use'createPaymentDetails()' from CheckoutPaymentFacade.",
   },
   {
     node: 'CreatePaymentDetails',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.CreatePaymentDetails has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.CreatePaymentDetails has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createPaymentDetails()' from CheckoutPaymentFacade.",
   },
   {
     node: 'CreatePaymentDetailsFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.CreatePaymentDetailsFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.CreatePaymentDetailsFail has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createPaymentDetails()' from CheckoutPaymentFacade.",
   },
   {
     node: 'CreatePaymentDetailsSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.CreatePaymentDetailsSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.CreatePaymentDetailsSuccess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added",
   },
   {
     node: 'LOAD_CARD_TYPES_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_CARD_TYPES_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_CARD_TYPES_FAIL has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'LOAD_CARD_TYPES_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_CARD_TYPES_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_CARD_TYPES_SUCCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'LOAD_CARD_TYPES',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_CARD_TYPES has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_CARD_TYPES has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'LOAD_CHECKOUT_DETAILS_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_FAIL has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'LOAD_CHECKOUT_DETAILS_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'LOAD_CHECKOUT_DETAILS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_CHECKOUT_DETAILS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_CHECKOUT_DETAILS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'LOAD_PAYMENT_TYPES_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_PAYMENT_TYPES_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_PAYMENT_TYPES_FAIL has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LOAD_PAYMENT_TYPES_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LOAD_PAYMENT_TYPES',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_PAYMENT_TYPES has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_PAYMENT_TYPES has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LOAD_SUPPORTED_DELIVERY_MODES_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
   },
   {
     node: 'LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
   },
   {
     node: 'LOAD_SUPPORTED_DELIVERY_MODES',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
   },
   {
     node: 'LoadCardTypes',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCardTypes has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCardTypes has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'LoadCardTypesFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCardTypesFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCardTypesFail has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'LoadCardTypesSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCardTypesSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCardTypesSuccess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
   },
   {
     node: 'LoadCheckoutDetails',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'LoadCheckoutDetailsFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'LoadCheckoutDetailsSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
   },
   {
     node: 'LoadPaymentTypes',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LoadPaymentTypesFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LoadPaymentTypesSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
   },
   {
     node: 'LoadSupportedDeliveryModes',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadSupportedDeliveryModes has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadSupportedDeliveryModes has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
   },
   {
     node: 'LoadSupportedDeliveryModesFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadSupportedDeliveryModesFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadSupportedDeliveryModesFail has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
   },
   {
     node: 'LoadSupportedDeliveryModesSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.LoadSupportedDeliveryModesSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.LoadSupportedDeliveryModesSuccess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
   },
   {
     node: 'OrderTypesActions',
     importPath: '@spartacus/checkout/core',
     comment:
-      'TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer part of the public API. ',
+      "TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use 'setOrderType' from CheckoutReplenishmentFormService.",
   },
   {
     node: 'PAYMENT_PROCESS_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.PAYMENT_PROCESS_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.PAYMENT_PROCESS_SUCCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsSetEvent', which gets fired when the payment has been successfully processed.",
   },
   {
     node: 'PaymentProcessSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.PaymentProcessSuccess has been removed and is no longer part of the public API. After switching to commands & queries, processes are no longer used.',
+      "Class CheckoutActions.PaymentProcessSuccess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsSetEvent', which gets fired when the payment has been successfully processed.",
   },
   {
     node: 'PaymentTypesAction',
     importPath: '@spartacus/checkout/core',
     comment:
-      'TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer part of the public API. ',
+      'TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.',
   },
   {
     node: 'PLACE_ORDER_FAIL',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'placeOrder()' from OrderFacade.",
   },
   {
     node: 'PLACE_ORDER_SUCCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'OrderPlacedEvent', which gets fired when checkout has been successful.",
   },
   {
     node: 'PLACE_ORDER',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'placeOrder()' from OrderFacade.",
   },
   {
     node: 'PlaceOrder',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.PlaceOrder has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.PlaceOrder has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'placeOrder()' from OrderFacade.",
   },
   {
     node: 'PlaceOrderFail',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'placeOrder()' from OrderFacade.",
   },
   {
     node: 'PlaceOrderSuccess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.PlaceOrderSuccess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.PlaceOrderSuccess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'OrderPlacedEvent', which gets fired when checkout has been successful.",
   },
   {
     node: 'ReplenishmentOrderActions',
     importPath: '@spartacus/checkout/core',
     comment:
-      'TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no longer part of the public API. ',
+      'TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.',
   },
   {
     node: 'RESET_LOAD_PAYMENT_TYPES_PROCESS_ID',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.RESET_LOAD_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.RESET_LOAD_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch event to invalidate the loading of payment types using 'CheckoutPaymentTypesQueryResetEvent'.",
   },
   {
     node: 'RESET_SET_COST_CENTER_PROCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.RESET_SET_COST_CENTER_PROCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.RESET_SET_COST_CENTER_PROCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set cost center as well.",
   },
   {
     node: 'RESET_SET_DELIVERY_ADDRESS_PROCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.RESET_SET_DELIVERY_ADDRESS_PROCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.RESET_SET_DELIVERY_ADDRESS_PROCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set delivery address as well.",
   },
   {
     node: 'RESET_SET_DELIVERY_MODE_PROCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.RESET_SET_DELIVERY_MODE_PROCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.RESET_SET_DELIVERY_MODE_PROCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set delivery mode as well.",
   },
   {
     node: 'RESET_SET_PAYMENT_DETAILS_PROCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.RESET_SET_PAYMENT_DETAILS_PROCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.RESET_SET_PAYMENT_DETAILS_PROCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set payment details as well.",
   },
   {
     node: 'RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Variable CheckoutActions.RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS has been removed and is no longer part of the public API. ',
+      "Variable CheckoutActions.RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the supported delivery modes by using 'CheckoutSupportedDeliveryModesQueryResetEvent'.",
   },
   {
     node: 'ResetLoadPaymentTypesProcess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ResetLoadPaymentTypesProcess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ResetLoadPaymentTypesProcess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the payment types by using 'CheckoutPaymentTypesQueryResetEvent'.",
   },
   {
     node: 'ResetLoadSupportedDeliveryModesProcess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ResetLoadSupportedDeliveryModesProcess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ResetLoadSupportedDeliveryModesProcess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the supported delivery modes by using 'CheckoutSupportedDeliveryModesQueryResetEvent'.",
   },
   {
     node: 'ResetSetCostCenterProcess',
     importPath: '@spartacus/checkout/core',
     comment:
-      'Class CheckoutActions.ResetSetCostCenterProcess has been removed and is no longer part of the public API. ',
+      "Class CheckoutActions.ResetSetCostCenterProcess has been removed and is no longer part of the public API. It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set cost center as well.",
   },
   {
     node: 'ResetSetDeliveryAddressProcess',

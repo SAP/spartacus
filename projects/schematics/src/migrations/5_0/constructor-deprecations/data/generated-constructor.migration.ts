@@ -1862,6 +1862,448 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'PaymentMethodComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedParams: [
+        {
+          className: 'UserPaymentService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutDeliveryFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutPaymentFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ActivatedRoute',
+          importPath: '@angular/router',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutStepService',
+          importPath: '@spartacus/checkout/components',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'UserPaymentService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutDeliveryFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutPaymentFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ActivatedRoute',
+          importPath: '@angular/router',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutStepService',
+          importPath: '@spartacus/checkout/components',
+        },
+      ],
+      addParams: [
+        {
+          className: 'UserPaymentService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutDeliveryAddressFacade',
+          importPath: '@spartacus/checkout/base/root',
+        },
+        {
+          className: 'CheckoutPaymentFacade',
+          importPath: '@spartacus/checkout/base/root',
+        },
+        {
+          className: 'ActivatedRoute',
+          importPath: '@angular/router',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutStepService',
+          importPath: '@spartacus/checkout/base/components',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+      ],
+    },
+    {
+      class: 'PlaceOrderComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedParams: [
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'CheckoutReplenishmentFormService',
+          importPath: '@spartacus/checkout/components',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
+          importPath: '@angular/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'CheckoutReplenishmentFormService',
+          importPath: '@spartacus/checkout/components',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
+          importPath: '@angular/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'OrderFacade',
+          importPath: '@spartacus/order/root',
+        },
+        {
+          className: 'RoutingService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'FormBuilder',
+          importPath: '@angular/forms',
+        },
+        {
+          className: 'LaunchDialogService',
+          importPath: '@spartacus/storefront',
+        },
+        {
+          className: 'ViewContainerRef',
+          importPath: '@angular/core',
+        },
+      ],
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedParams: [
+        {
+          className: 'CheckoutDeliveryFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutPaymentFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutStepService',
+          importPath: '@spartacus/checkout/components',
+        },
+        {
+          className: 'PaymentTypeFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutCostCenterFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'UserCostCenterService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'CheckoutDeliveryFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutPaymentFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutStepService',
+          importPath: '@spartacus/checkout/components',
+        },
+        {
+          className: 'PaymentTypeFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutCostCenterFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'UserCostCenterService',
+          importPath: '@spartacus/core',
+        },
+      ],
+      addParams: [
+        {
+          className: 'CheckoutDeliveryAddressFacade',
+          importPath: '@spartacus/checkout/base/root',
+        },
+        {
+          className: 'CheckoutPaymentFacade',
+          importPath: '@spartacus/checkout/base/root',
+        },
+        {
+          className: 'ActiveCartFacade',
+          importPath: '@spartacus/cart/base/root',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutStepService',
+          importPath: '@spartacus/checkout/base/components',
+        },
+        {
+          className: 'CheckoutDeliveryModesFacade',
+          importPath: '@spartacus/checkout/base/root',
+        },
+      ],
+    },
+    {
+      class: 'ScheduleReplenishmentOrderComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedParams: [
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutReplenishmentFormService',
+          importPath: '@spartacus/checkout/components',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'CheckoutReplenishmentFormService',
+          importPath: '@spartacus/checkout/components',
+        },
+      ],
+      addParams: [
+        {
+          className: 'CheckoutReplenishmentFormService',
+          importPath: '@spartacus/checkout/scheduled-replenishment/components',
+        },
+      ],
+    },
+    {
+      class: 'ShippingAddressComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedParams: [
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutDeliveryFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'ActivatedRoute',
+          importPath: '@angular/router',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutStepService',
+          importPath: '@spartacus/checkout/components',
+        },
+        {
+          className: 'PaymentTypeFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'UserCostCenterService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutCostCenterFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutDeliveryFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'ActivatedRoute',
+          importPath: '@angular/router',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ActiveCartService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutStepService',
+          importPath: '@spartacus/checkout/components',
+        },
+        {
+          className: 'PaymentTypeFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+        {
+          className: 'UserCostCenterService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutCostCenterFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+      ],
+      addParams: [
+        {
+          className: 'UserAddressService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'CheckoutDeliveryAddressFacade',
+          importPath: '@spartacus/checkout/base/root',
+        },
+        {
+          className: 'ActivatedRoute',
+          importPath: '@angular/router',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'ActiveCartFacade',
+          importPath: '@spartacus/cart/base/root',
+        },
+        {
+          className: 'CheckoutStepService',
+          importPath: '@spartacus/checkout/base/components',
+        },
+        {
+          className: 'CheckoutDeliveryModesFacade',
+          importPath: '@spartacus/checkout/base/root',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+      ],
+    },
+    {
       class: 'CheckoutCostCenterService',
       importPath: '@spartacus/checkout/core',
       deprecatedParams: [

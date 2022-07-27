@@ -8188,7 +8188,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartNotEmptyGuard'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.'",
         "topLevelApiElementName": "CartNotEmptyGuard"
       }
     ]
@@ -8541,7 +8541,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutAuthGuard'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutAuthGuard"
       },
       {
@@ -8561,7 +8561,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'CheckoutAuthGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'GlobalMessageService' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
         "topLevelApiElementName": "CheckoutAuthGuard"
       },
       {
@@ -8627,7 +8627,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Method 'handleUserRole' was removed from Class 'CheckoutAuthGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method is found when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
         "topLevelApiElementName": "CheckoutAuthGuard"
       },
       {
@@ -8647,7 +8647,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'CheckoutAuthGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserAccountFacade' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
         "topLevelApiElementName": "CheckoutAuthGuard"
       }
     ]
@@ -8890,9 +8890,9 @@
         "returnType": "Observable<string>"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class CheckoutDetailsService has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutQueryService",
+    "newEntryPoint": "@spartacus/checkout/base/core",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -9172,7 +9172,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutGuard'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutGuard"
       }
     ]
@@ -9365,7 +9365,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutLoginComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutLoginComponent"
       }
     ]
@@ -9574,7 +9574,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutOrderSummaryComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutOrderSummaryComponent"
       }
     ]
@@ -9961,7 +9961,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutProgressMobileTopComponent'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "CheckoutProgressMobileTopComponent"
       },
       {
@@ -9983,7 +9983,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'CheckoutProgressMobileTopComponent'.",
-        "migrationComment": "",
+        "migrationComment": "It has been removed because we are no longer initializing the 'cart$' observable during Angular's initialization lifecycle, but it has been declared and initialized directly through the class property.",
         "topLevelApiElementName": "CheckoutProgressMobileTopComponent"
       }
     ]
@@ -10935,7 +10935,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'CheckoutStepsSetGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
         "topLevelApiElementName": "CheckoutStepsSetGuard"
       },
       {
@@ -10955,7 +10955,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'CheckoutStepsSetGuard'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'checkoutQueryFacade' instead.",
         "topLevelApiElementName": "CheckoutStepsSetGuard"
       },
       {
@@ -10986,7 +10986,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Method 'isPaymentTypeSet' was removed from Class 'CheckoutStepsSetGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
         "topLevelApiElementName": "CheckoutStepsSetGuard"
       },
       {
@@ -11025,7 +11025,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Method 'isShippingAddressAndCostCenterSet' was removed from Class 'CheckoutStepsSetGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method 'isShippingAddressAndCostCenterSet' has been renamed accordingly for 'base' and 'b2b' entrypoint. Base is using the 'isDeliveryAddress' method and B2B is using the 'isDeliveryAddressAndCostCenterSet'. 'isDeliveryAddressAndCostCenterSet' method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
         "topLevelApiElementName": "CheckoutStepsSetGuard"
       },
       {
@@ -11097,7 +11097,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'CheckoutStepsSetGuard'.",
-        "migrationComment": "",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
         "topLevelApiElementName": "CheckoutStepsSetGuard"
       }
     ]
@@ -11223,9 +11223,10 @@
         "type": "Observable<DeliveryMode[]>"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class DeliveryModeComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutDeliveryModeComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -11244,9 +11245,10 @@
     "kind": "Class",
     "name": "DeliveryModeModule",
     "members": [],
-    "isDeleted": true,
-    "deletedComment": "Class DeliveryModeModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutDeliveryModeModule",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -11612,7 +11614,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ExpressCheckoutService'.",
-        "migrationComment": "",
+        "migrationComment": "'CheckoutDeliveryService' has been splitted and renamed to 'CheckoutDeliveryAddressFacde' and 'CheckoutDeliveryModesFacade'. Use 'checkoutDeliveryAdressFacade' and 'checkoutDeliveryModesFacade' instead.",
         "topLevelApiElementName": "ExpressCheckoutService"
       },
       {
@@ -11632,7 +11634,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'ExpressCheckoutService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'checkoutQueryFacade' instead.",
         "topLevelApiElementName": "ExpressCheckoutService"
       },
       {
@@ -11652,7 +11654,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutPaymentService' was removed from Class 'ExpressCheckoutService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'checkoutPaymentFacade' instead.",
         "topLevelApiElementName": "ExpressCheckoutService"
       },
       {
@@ -11694,7 +11696,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Method 'setShippingAddress' was removed from Class 'ExpressCheckoutService'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'setDeliveryAddress' instead.",
         "topLevelApiElementName": "ExpressCheckoutService"
       }
     ]
@@ -11774,9 +11776,10 @@
         "type": "UserRegisterFacade"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class GuestRegisterFormComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "OrderGuestRegisterFormComponent",
+    "newEntryPoint": "@spartacus/order/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -11994,7 +11997,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'NotCheckoutAuthGuard'.",
-        "migrationComment": "",
+        "migrationComment": "Use 'activeCartFacade' instead.",
         "topLevelApiElementName": "NotCheckoutAuthGuard"
       }
     ]
@@ -12195,9 +12198,10 @@
         "type": "PromotionLocation"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class OrderConfirmationItemsComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "",
+    "newEntryPoint": "@spartacus/order/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -12216,9 +12220,10 @@
     "kind": "Class",
     "name": "OrderConfirmationModule",
     "members": [],
-    "isDeleted": true,
-    "deletedComment": "Class OrderConfirmationModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "",
+    "newEntryPoint": "@spartacus/order/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -12275,7 +12280,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class OrderConfirmationOverviewComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'OrderDetailShippingComponent' instead from @spartacus/order/components",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -12337,9 +12342,10 @@
       { "kind": "Property", "name": "order$", "type": "Observable<any>" },
       { "kind": "Property", "name": "orderGuid", "type": "string" }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class OrderConfirmationThankYouMessageComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "",
+    "newEntryPoint": "@spartacus/order/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -12394,9 +12400,10 @@
       },
       { "kind": "Property", "name": "order$", "type": "Observable<Order>" }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class OrderConfirmationTotalsComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "",
+    "newEntryPoint": "@spartacus/order/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -12685,9 +12692,10 @@
       },
       { "kind": "Property", "name": "years", "type": "number[]" }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class PaymentFormComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPaymentFormComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -12706,9 +12714,10 @@
     "kind": "Class",
     "name": "PaymentFormModule",
     "members": [],
-    "isDeleted": true,
-    "deletedComment": "Class PaymentFormModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPaymentFormModule",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -13020,19 +13029,302 @@
         "type": "UserPaymentService"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class PaymentMethodComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPaymentMethodComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
-        "change": "CLASS_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Class",
-        "changeLabel": "deleted",
-        "changeElementName": "PaymentMethodComponent",
-        "changeElementCategory": "TOP_LEVEL_API",
-        "topLevelApiElementName": "PaymentMethodComponent",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  userPaymentService: UserPaymentService,\n  checkoutService: CheckoutFacade,\n  checkoutDeliveryService: CheckoutDeliveryFacade,\n  checkoutPaymentService: CheckoutPaymentFacade,\n  globalMessageService: GlobalMessageService,\n  activatedRoute: ActivatedRoute,\n  translation: TranslationService,\n  activeCartService: ActiveCartService,\n  checkoutStepService: CheckoutStepService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  userPaymentService: UserPaymentService,\n  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,\n  checkoutPaymentFacade: CheckoutPaymentFacade,\n  activatedRoute: ActivatedRoute,\n  translationService: TranslationService,\n  activeCartFacade: ActiveCartFacade,\n  checkoutStepService: CheckoutStepService,\n  globalMessageService: GlobalMessageService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "userPaymentService",
+              "type": "UserPaymentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserPaymentService:class",
+              "shortType": "UserPaymentService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutService",
+              "type": "CheckoutFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutFacade:class",
+              "shortType": "CheckoutFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutDeliveryService",
+              "type": "CheckoutDeliveryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutDeliveryFacade:class",
+              "shortType": "CheckoutDeliveryFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutPaymentService",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activatedRoute",
+              "type": "ActivatedRoute",
+              "isOptional": false,
+              "canonicalReference": "@angular/router!ActivatedRoute:class",
+              "shortType": "ActivatedRoute",
+              "importPath": "@angular/router"
+            },
+            {
+              "name": "translation",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutStepService",
+              "type": "CheckoutStepService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutStepService:class",
+              "shortType": "CheckoutStepService",
+              "importPath": "@spartacus/checkout/components"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "userPaymentService",
+              "type": "UserPaymentService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!UserPaymentService:class",
+              "shortType": "UserPaymentService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutDeliveryAddressFacade",
+              "type": "CheckoutDeliveryAddressFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryAddressFacade:class",
+              "shortType": "CheckoutDeliveryAddressFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "checkoutPaymentFacade",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "activatedRoute",
+              "type": "ActivatedRoute",
+              "isOptional": false,
+              "canonicalReference": "@angular/router!ActivatedRoute:class",
+              "shortType": "ActivatedRoute",
+              "importPath": "@angular/router"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartFacade",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutStepService",
+              "type": "CheckoutStepService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutStepService:class",
+              "shortType": "CheckoutStepService",
+              "importPath": "@spartacus/checkout/base/components"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "checkoutService",
+              "type": "CheckoutFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutFacade:class",
+              "shortType": "CheckoutFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutDeliveryService",
+              "type": "CheckoutDeliveryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutDeliveryFacade:class",
+              "shortType": "CheckoutDeliveryFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutPaymentService",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "translation",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "checkoutDeliveryAddressFacade",
+              "type": "CheckoutDeliveryAddressFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryAddressFacade:class",
+              "shortType": "CheckoutDeliveryAddressFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "checkoutPaymentFacade",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartFacade",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            }
+          ]
+        },
+        "topLevelApiElementName": "PlaceOrderComponent",
         "entryPoint": "@spartacus/checkout/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "checkoutService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "checkoutService",
+          "type": "CheckoutFacade"
+        },
+        "apiElementName": "PaymentMethodComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/root",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutService' was removed from Class 'PaymentMethodComponent'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "PaymentMethodComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "checkoutDeliveryService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "checkoutDeliveryService",
+          "type": "CheckoutDeliveryFacade"
+        },
+        "apiElementName": "PaymentMethodComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/root",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'PaymentMethodComponent'.",
+        "migrationComment": "Use 'checkoutDeliveryAddressFacade' instead in @spartacus/checkout/base/root",
+        "topLevelApiElementName": "PaymentMethodComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "activeCartService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "activeCartService",
+          "type": "ActiveCartService"
+        },
+        "apiElementName": "PaymentMethodComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/core",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'PaymentMethodComponent'.",
+        "migrationComment": "Use activeCartFacade instead.",
+        "topLevelApiElementName": "PaymentMethodComponent"
       }
     ]
   },
@@ -13041,9 +13333,10 @@
     "kind": "Class",
     "name": "PaymentMethodModule",
     "members": [],
-    "isDeleted": true,
-    "deletedComment": "Class PaymentMethodModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPaymentMethodModule",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -13156,9 +13449,10 @@
         "type": "Observable<string>"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class PaymentTypeComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPaymentTypeComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -13177,9 +13471,10 @@
     "kind": "Class",
     "name": "PaymentTypeModule",
     "members": [],
-    "isDeleted": true,
-    "deletedComment": "Class PaymentTypeModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPaymentTypeModule",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -13335,19 +13630,194 @@
       },
       { "kind": "Property", "name": "vcr", "type": "ViewContainerRef" }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class PlaceOrderComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPlaceOrderComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
-        "change": "CLASS_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Class",
-        "changeLabel": "deleted",
-        "changeElementName": "PlaceOrderComponent",
-        "changeElementCategory": "TOP_LEVEL_API",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  checkoutService: CheckoutFacade,\n  routingService: RoutingService,\n  fb: FormBuilder,\n  checkoutReplenishmentFormService: CheckoutReplenishmentFormService,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
+        "currentStateDoc": "\nconstructor(\n  orderFacade: OrderFacade,\n  routingService: RoutingService,\n  fb: FormBuilder,\n  launchDialogService: LaunchDialogService,\n  vcr: ViewContainerRef\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "checkoutService",
+              "type": "CheckoutFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutFacade:class",
+              "shortType": "CheckoutFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "routingService",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "checkoutReplenishmentFormService",
+              "type": "CheckoutReplenishmentFormService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutReplenishmentFormService:class",
+              "shortType": "CheckoutReplenishmentFormService",
+              "importPath": "@spartacus/checkout/components"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "orderFacade",
+              "type": "OrderFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!OrderFacade:class",
+              "shortType": "OrderFacade",
+              "importPath": "@spartacus/order/root"
+            },
+            {
+              "name": "routingService",
+              "type": "RoutingService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!RoutingService:class",
+              "shortType": "RoutingService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "fb",
+              "type": "FormBuilder",
+              "isOptional": false,
+              "canonicalReference": "@angular/forms!FormBuilder:class",
+              "shortType": "FormBuilder",
+              "importPath": "@angular/forms"
+            },
+            {
+              "name": "launchDialogService",
+              "type": "LaunchDialogService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!LaunchDialogService:class",
+              "shortType": "LaunchDialogService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "vcr",
+              "type": "ViewContainerRef",
+              "isOptional": false,
+              "canonicalReference": "@angular/core!ViewContainerRef:class",
+              "shortType": "ViewContainerRef",
+              "importPath": "@angular/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "checkoutReplenishmentFormService",
+              "type": "CheckoutReplenishmentFormService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutReplenishmentFormService:class",
+              "shortType": "CheckoutReplenishmentFormService",
+              "importPath": "@spartacus/checkout/components"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "orderFacade",
+              "type": "OrderFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!OrderFacade:class",
+              "shortType": "OrderFacade",
+              "importPath": "@spartacus/order/root"
+            }
+          ]
+        },
         "topLevelApiElementName": "PlaceOrderComponent",
         "entryPoint": "@spartacus/checkout/components"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "checkoutService",
+        "changeElementCategory": "MEMBER",
+        "oldType": "CheckoutFacade",
+        "newType": "OrderFacade",
+        "previousStateDoc": "checkoutService: CheckoutFacade",
+        "currentStateDoc": "orderFacade: OrderFacade",
+        "topLevelApiElementName": "PlaceOrderComponent",
+        "entryPoint": "@spartacus/checkout/root"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "checkoutReplenishmentFormService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "checkoutReplenishmentFormService",
+          "type": "CheckoutReplenishmentFormService"
+        },
+        "apiElementName": "PlaceOrderComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/root",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutReplenishmentFormService' was removed from Class 'PlaceOrderComponent'.",
+        "migrationComment": "It is not used anymore as the checkout base (b2c) entrypoint does not contain b2b logic / dependency. You can find the same dependencies for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.",
+        "topLevelApiElementName": "PlaceOrderComponent"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "ngOnInit",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "ngOnInit",
+          "overloadIndex": 1,
+          "parameters": [],
+          "returnType": "void"
+        },
+        "apiElementName": "PlaceOrderComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'PlaceOrderComponent'.",
+        "migrationComment": "It is not used anymore as the checkout base (b2c) entrypoint does not need the OnInit lifecycle hook, however you can find it being a dependency for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.",
+        "topLevelApiElementName": "PlaceOrderComponent"
       }
     ]
   },
@@ -13356,9 +13826,10 @@
     "kind": "Class",
     "name": "PlaceOrderModule",
     "members": [],
-    "isDeleted": true,
-    "deletedComment": "Class PlaceOrderModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutPlaceOrderModule",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -13379,7 +13850,7 @@
     "members": [],
     "isDeleted": true,
     "deletedComment": "Class ReplenishmentOrderConfirmationModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Use 'OrderConfirmationModule' instead as the cms mapping has been consolidated into one module.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -13737,19 +14208,609 @@
         "type": "UserCostCenterService"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class ReviewSubmitComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutReviewSubmitComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
-        "change": "CLASS_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Class",
-        "changeLabel": "deleted",
-        "changeElementName": "ReviewSubmitComponent",
-        "changeElementCategory": "TOP_LEVEL_API",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  checkoutDeliveryService: CheckoutDeliveryFacade,\n  checkoutPaymentService: CheckoutPaymentFacade,\n  userAddressService: UserAddressService,\n  activeCartService: ActiveCartService,\n  translation: TranslationService,\n  checkoutStepService: CheckoutStepService,\n  paymentTypeService: PaymentTypeFacade,\n  checkoutCostCenterService: CheckoutCostCenterFacade,\n  userCostCenterService: UserCostCenterService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,\n  checkoutPaymentFacade: CheckoutPaymentFacade,\n  activeCartFacade: ActiveCartFacade,\n  translationService: TranslationService,\n  checkoutStepService: CheckoutStepService,\n  checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "checkoutDeliveryService",
+              "type": "CheckoutDeliveryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutDeliveryFacade:class",
+              "shortType": "CheckoutDeliveryFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutPaymentService",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "translation",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutStepService",
+              "type": "CheckoutStepService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutStepService:class",
+              "shortType": "CheckoutStepService",
+              "importPath": "@spartacus/checkout/components"
+            },
+            {
+              "name": "paymentTypeService",
+              "type": "PaymentTypeFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!PaymentTypeFacade:class",
+              "shortType": "PaymentTypeFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutCostCenterService",
+              "type": "CheckoutCostCenterFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutCostCenterFacade:class",
+              "shortType": "CheckoutCostCenterFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "userCostCenterService",
+              "type": "UserCostCenterService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserCostCenterService:class",
+              "shortType": "UserCostCenterService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "checkoutDeliveryAddressFacade",
+              "type": "CheckoutDeliveryAddressFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryAddressFacade:class",
+              "shortType": "CheckoutDeliveryAddressFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "checkoutPaymentFacade",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "activeCartFacade",
+              "type": "ActiveCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_b2b_core!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutStepService",
+              "type": "CheckoutStepService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutStepService:class",
+              "shortType": "CheckoutStepService",
+              "importPath": "@spartacus/checkout/base/components"
+            },
+            {
+              "name": "checkoutDeliveryModesFacade",
+              "type": "CheckoutDeliveryModesFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryModesFacade:class",
+              "shortType": "CheckoutDeliveryModesFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "checkoutDeliveryService",
+              "type": "CheckoutDeliveryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutDeliveryFacade:class",
+              "shortType": "CheckoutDeliveryFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutPaymentService",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutStepService",
+              "type": "CheckoutStepService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutStepService:class",
+              "shortType": "CheckoutStepService",
+              "importPath": "@spartacus/checkout/components"
+            },
+            {
+              "name": "paymentTypeService",
+              "type": "PaymentTypeFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!PaymentTypeFacade:class",
+              "shortType": "PaymentTypeFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutCostCenterService",
+              "type": "CheckoutCostCenterFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutCostCenterFacade:class",
+              "shortType": "CheckoutCostCenterFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "userCostCenterService",
+              "type": "UserCostCenterService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserCostCenterService:class",
+              "shortType": "UserCostCenterService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "checkoutDeliveryAddressFacade",
+              "type": "CheckoutDeliveryAddressFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryAddressFacade:class",
+              "shortType": "CheckoutDeliveryAddressFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "checkoutPaymentFacade",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "activeCartFacade",
+              "type": "ActiveCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_b2b_core!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "checkoutStepService",
+              "type": "CheckoutStepService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutStepService:class",
+              "shortType": "CheckoutStepService",
+              "importPath": "@spartacus/checkout/base/components"
+            },
+            {
+              "name": "checkoutDeliveryModesFacade",
+              "type": "CheckoutDeliveryModesFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryModesFacade:class",
+              "shortType": "CheckoutDeliveryModesFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            }
+          ]
+        },
         "topLevelApiElementName": "ReviewSubmitComponent",
         "entryPoint": "@spartacus/checkout/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "checkoutDeliveryService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "checkoutDeliveryService",
+          "type": "CheckoutDeliveryFacade"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/root",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "userAddressService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "userAddressService",
+          "type": "UserAddressService"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/root",
+        "deletedComment": "// TODO:Spartacus - Property 'userAddressService' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "activeCartService",
+        "changeElementCategory": "MEMBER",
+        "oldType": "ActiveCartService",
+        "newType": "ActiveCartFacade",
+        "previousStateDoc": "activeCartService: ActiveCartService",
+        "currentStateDoc": "activeCartFacade: ActiveCartFacade",
+        "topLevelApiElementName": "ReviewSubmitComponent",
+        "entryPoint": "@spartacus/core"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "paymentTypeService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "paymentTypeService",
+          "type": "PaymentTypeFacade"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "checkoutCostCenterService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "checkoutCostCenterService",
+          "type": "CheckoutCostCenterFacade"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "userCostCenterService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "userCostCenterService",
+          "type": "UserCostCenterService"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'userCostCenterService' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "countryName$",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "countryName$",
+          "type": "Observable<string | undefined>"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'countryName$' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "poNumber$",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "poNumber$",
+          "type": "Observable<string | undefined>"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'poNumber$' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'poNumber$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "paymentType$",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "paymentType$",
+          "type": "Observable<string | undefined>"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'paymentType$' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'paymentType$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "isAccountPayment$",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "isAccountPayment$",
+          "type": "Observable<string | undefined>"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'isAccountPayment$' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'isAccountPayment$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "costCenter$",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "costCenter$",
+          "type": "Observable<string | undefined>"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'costCenter$' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'costCenter$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "getCostCenterCard",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "getCostCenterCard",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "costCenter",
+              "type": "CostCenter",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!CostCenter:interface",
+              "shortType": "CostCenter",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "returnType": "Observable<Card>"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'getCostCenterCard' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "getPoNumberCard",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "getPoNumberCard",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "poNumber",
+              "type": "string | null",
+              "isOptional": true,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "Observable<Card>"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'getPoNumberCard' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "getPaymentTypeCard",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "getPaymentTypeCard",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "paymentType",
+              "type": "string",
+              "isOptional": true,
+              "canonicalReference": "",
+              "shortType": "",
+              "importPath": ""
+            }
+          ],
+          "returnType": "Observable<Card>"
+        },
+        "apiElementName": "ReviewSubmitComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'getPaymentTypeCard' was removed from Class 'ReviewSubmitComponent'.",
+        "migrationComment": "It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.",
+        "topLevelApiElementName": "ReviewSubmitComponent"
+      },
+      {
+        "change": "METHOD_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Method",
+        "changeLabel": "changed",
+        "changeElementName": "shippingSteps",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nshippingSteps(\n  steps: CheckoutStep[]\n): CheckoutStep[]\n",
+        "currentStateDoc": "\ndeliverySteps(\n  steps: CheckoutStep[]\n): CheckoutStep[]\n",
+        "oldElement": {
+          "kind": "Method",
+          "name": "shippingSteps",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "steps",
+              "type": "CheckoutStep[]",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutStep:class",
+              "shortType": "CheckoutStep",
+              "importPath": "@spartacus/checkout/root"
+            }
+          ],
+          "returnType": "CheckoutStep[]"
+        },
+        "newElement": {
+          "kind": "Method",
+          "name": "deliverySteps",
+          "overloadIndex": 1,
+          "parameters": [
+            {
+              "name": "steps",
+              "type": "CheckoutStep[]",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutStep:class",
+              "shortType": "CheckoutStep",
+              "importPath": "@spartacus/checkout/base/root"
+            }
+          ],
+          "returnType": "CheckoutStep[]"
+        },
+        "topLevelApiElementName": "CheckoutCostCenterService",
+        "entryPoint": "@spartacus/checkout/core"
       }
     ]
   },
@@ -13760,7 +14821,7 @@
     "members": [],
     "isDeleted": true,
     "deletedComment": "Class ReviewSubmitModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It has been renamed to CheckoutReviewSubmitModule and moved to @spartacus/checkout/base/components. If it is for a b2b storefront, please use B2BCheckoutReviewSubmitModule in @spartacus/checkout/b2b/components",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -13995,17 +15056,63 @@
         "type": "Observable<ORDER_TYPE>"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class ScheduleReplenishmentOrderComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutScheduleReplenishmentOrderComponent",
+    "newEntryPoint": "@spartacus/checkout/scheduled-replenishment/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
-        "change": "CLASS_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Class",
-        "changeLabel": "deleted",
-        "changeElementName": "ScheduleReplenishmentOrderComponent",
-        "changeElementCategory": "TOP_LEVEL_API",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  checkoutService: CheckoutFacade,\n checkoutReplenishmentFormService: CheckoutReplenishmentFormService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  checkoutReplenishmentFormService: CheckoutReplenishmentFormService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "checkoutService",
+              "type": "CheckoutFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_root!CheckoutFacade:class",
+              "shortType": "CheckoutFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutReplenishmentFormService",
+              "type": "CheckoutReplenishmentFormService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutReplenishmentFormService:class",
+              "shortType": "CheckoutReplenishmentFormService",
+              "importPath": "@spartacus/checkout/components"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "checkoutReplenishmentFormService",
+              "type": "CheckoutReplenishmentFormService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_scheduled-replenishment_components!CheckoutReplenishmentFormService:class",
+              "shortType": "CheckoutReplenishmentFormService",
+              "importPath": "@spartacus/checkout/scheduled-replenishment/components"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "checkoutService",
+              "type": "CheckoutFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_root!CheckoutFacade:class",
+              "shortType": "CheckoutFacade",
+              "importPath": "@spartacus/checkout/root"
+            }
+          ],
+          "addedParams": []
+        },
         "topLevelApiElementName": "ScheduleReplenishmentOrderComponent",
         "entryPoint": "@spartacus/checkout/components"
       }
@@ -14016,9 +15123,10 @@
     "kind": "Class",
     "name": "ScheduleReplenishmentOrderModule",
     "members": [],
-    "isDeleted": true,
-    "deletedComment": "Class ScheduleReplenishmentOrderModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutScheduledReplenishmentPlaceOrderModule",
+    "newEntryPoint": "@spartacus/checkout/scheduled-replenishment/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -14347,19 +15455,426 @@
         "type": "UserCostCenterService | undefined"
       }
     ],
-    "isDeleted": true,
-    "deletedComment": "Class ShippingAddressComponent has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "CheckoutDeliveryAddressComponent",
+    "newEntryPoint": "@spartacus/checkout/base/components",
+    "newNamespace": "",
     "breakingChanges": [
       {
-        "change": "CLASS_DELETED",
-        "changeType": "DELETED",
-        "changeKind": "Class",
-        "changeLabel": "deleted",
-        "changeElementName": "ShippingAddressComponent",
-        "changeElementCategory": "TOP_LEVEL_API",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Constructor",
+        "changeLabel": "changed",
+        "changeElementName": "constructor",
+        "changeElementCategory": "MEMBER",
+        "previousStateDoc": "\nconstructor(\n  userAddressService: UserAddressService,\n  checkoutDeliveryService: CheckoutDeliveryFacade,\n  activatedRoute: ActivatedRoute,\n  translation: TranslationService,\n  activeCartService: ActiveCartService,\n  checkoutStepService: CheckoutStepService,\n  paymentTypeService: PaymentTypeFacade,\n  userCostCenterService: UserCostCenterService,\n  checkoutCostCenterService: CheckoutCostCenterFacade\n)\n",
+        "currentStateDoc": "\nconstructor(\n  userAddressService: UserAddressService,\n  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,\n  activatedRoute: ActivatedRoute,\n  translationService: TranslationService,\n  activeCartFacade: ActiveCartFacade,\n  checkoutStepService: CheckoutStepService,\n  checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,\n  globalMessageService: GlobalMessageService\n)\n",
+        "details": {
+          "kind": "Constructor",
+          "name": "constructor",
+          "oldParams": [
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutDeliveryService",
+              "type": "CheckoutDeliveryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutDeliveryFacade:class",
+              "shortType": "CheckoutDeliveryFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "activatedRoute",
+              "type": "ActivatedRoute",
+              "isOptional": false,
+              "canonicalReference": "@angular/router!ActivatedRoute:class",
+              "shortType": "ActivatedRoute",
+              "importPath": "@angular/router"
+            },
+            {
+              "name": "translation",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutStepService",
+              "type": "CheckoutStepService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutStepService:class",
+              "shortType": "CheckoutStepService",
+              "importPath": "@spartacus/checkout/components"
+            },
+            {
+              "name": "paymentTypeService",
+              "type": "PaymentTypeFacade | undefined",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!PaymentTypeFacade:class",
+              "shortType": "PaymentTypeFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "userCostCenterService",
+              "type": "UserCostCenterService | undefined",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!UserCostCenterService:class",
+              "shortType": "UserCostCenterService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutCostCenterService",
+              "type": "CheckoutCostCenterFacade | undefined",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutCostCenterFacade:class",
+              "shortType": "CheckoutCostCenterFacade",
+              "importPath": "@spartacus/checkout/root"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "userAddressService",
+              "type": "UserAddressService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!UserAddressService:class",
+              "shortType": "UserAddressService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutDeliveryAddressFacade",
+              "type": "CheckoutDeliveryAddressFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryAddressFacade:class",
+              "shortType": "CheckoutDeliveryAddressFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "activatedRoute",
+              "type": "ActivatedRoute",
+              "isOptional": false,
+              "canonicalReference": "@angular/router!ActivatedRoute:class",
+              "shortType": "ActivatedRoute",
+              "importPath": "@angular/router"
+            },
+            {
+              "name": "translationService",
+              "type": "TranslationService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!TranslationService:class",
+              "shortType": "TranslationService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "activeCartFacade",
+              "type": "ActiveCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_b2b_core!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "checkoutStepService",
+              "type": "CheckoutStepService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutStepService:class",
+              "shortType": "CheckoutStepService",
+              "importPath": "@spartacus/checkout/base/components"
+            },
+            {
+              "name": "checkoutDeliveryModesFacade",
+              "type": "CheckoutDeliveryModesFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryModesFacade:class",
+              "shortType": "CheckoutDeliveryModesFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/core!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "checkoutDeliveryService",
+              "type": "CheckoutDeliveryFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutDeliveryFacade:class",
+              "shortType": "CheckoutDeliveryFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "checkoutPaymentService",
+              "type": "CheckoutPaymentFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutPaymentFacade:class",
+              "shortType": "CheckoutPaymentFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_components!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "paymentTypeService",
+              "type": "PaymentTypeFacade",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!PaymentTypeFacade:class",
+              "shortType": "PaymentTypeFacade",
+              "importPath": "@spartacus/checkout/root"
+            },
+            {
+              "name": "userCostCenterService",
+              "type": "UserCostCenterService",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!UserCostCenterService:class",
+              "shortType": "UserCostCenterService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "checkoutCostCenterService",
+              "type": "CheckoutCostCenterFacade",
+              "isOptional": true,
+              "canonicalReference": "@spartacus/checkout_components!CheckoutCostCenterFacade:class",
+              "shortType": "CheckoutCostCenterFacade",
+              "importPath": "@spartacus/checkout/root"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "checkoutDeliveryAddressFacade",
+              "type": "CheckoutDeliveryAddressFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryAddressFacade:class",
+              "shortType": "CheckoutDeliveryAddressFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "activeCartFacade",
+              "type": "ActiveCartFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_b2b_core!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "checkoutDeliveryModesFacade",
+              "type": "CheckoutDeliveryModesFacade",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/checkout_base_components!CheckoutDeliveryModesFacade:class",
+              "shortType": "CheckoutDeliveryModesFacade",
+              "importPath": "@spartacus/checkout/base/root"
+            },
+            {
+              "name": "globalMessageService",
+              "type": "GlobalMessageService",
+              "isOptional": false,
+              "canonicalReference": "@spartacus/core!GlobalMessageService:class",
+              "shortType": "GlobalMessageService",
+              "importPath": "@spartacus/core"
+            }
+          ]
+        },
         "topLevelApiElementName": "ShippingAddressComponent",
         "entryPoint": "@spartacus/checkout/components"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "checkoutDeliveryService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "checkoutDeliveryService",
+          "type": "CheckoutDeliveryFacade"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/root",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_CHANGED",
+        "changeType": "CHANGED",
+        "changeKind": "Property",
+        "changeLabel": "changed",
+        "changeElementName": "activeCartService",
+        "changeElementCategory": "MEMBER",
+        "oldType": "ActiveCartService",
+        "newType": "ActiveCartFacade",
+        "previousStateDoc": "activeCartService: ActiveCartService",
+        "currentStateDoc": "activeCartFacade: ActiveCartFacade",
+        "topLevelApiElementName": "ShippingAddressComponent",
+        "entryPoint": "@spartacus/core"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "paymentTypeService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "paymentTypeService",
+          "type": "PaymentTypeFacade"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "userCostCenterService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "userCostCenterService",
+          "type": "UserCostCenterService"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'userCostCenterService' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "checkoutCostCenterService",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "checkoutCostCenterService",
+          "type": "CheckoutCostCenterFacade"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "forceLoader",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "forceLoader",
+          "type": "boolean"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'forceLoader' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "selectedAddress",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "selectedAddress",
+          "type": "Address"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'selectedAddress' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "PROPERTY_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Property",
+        "changeLabel": "deleted",
+        "changeElementName": "isAccountPayment",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Property",
+          "name": "isAccountPayment",
+          "type": "boolean"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/checkout/components",
+        "deletedComment": "// TODO:Spartacus - Property 'isAccountPayment' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'isAccountPayment' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+        "topLevelApiElementName": "ShippingAddressComponent"
+      },
+      {
+        "change": "METHOD_DELETED",
+        "changeType": "DELETED",
+        "changeKind": "Method",
+        "changeLabel": "deleted",
+        "changeElementName": "ngOnDestroy",
+        "changeElementCategory": "MEMBER",
+        "isDeletedMember": true,
+        "deletedMember": {
+          "kind": "Method",
+          "name": "ngOnDestroy",
+          "overloadIndex": 1,
+          "parameters": [],
+          "returnType": "void"
+        },
+        "apiElementName": "ShippingAddressComponent",
+        "apiElementKind": "Class",
+        "entryPoint": "@spartacus/storefront",
+        "deletedComment": "// TODO:Spartacus - Method 'ngOnDestroy' was removed from Class 'ShippingAddressComponent'.",
+        "migrationComment": "",
+        "topLevelApiElementName": "ShippingAddressComponent"
       }
     ]
   },
@@ -14370,7 +15885,7 @@
     "members": [],
     "isDeleted": true,
     "deletedComment": "Class ShippingAddressModule has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It has been renamed to CheckoutDeliveryAddressModule and moved to @spartacus/checkout/base/components. If it is for a b2b storefront, please use B2BCheckoutDeliveryAddressModule in @spartacus/checkout/b2b/components",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -14389,9 +15904,10 @@
     "kind": "Variable",
     "name": "CARD_TYPE_NORMALIZER",
     "type": "InjectionToken<Converter<any, CardType>>",
-    "isDeleted": true,
-    "deletedComment": "Variable CARD_TYPE_NORMALIZER has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "isMoved": true,
+    "newName": "PAYMENT_CARD_TYPE_NORMALIZER",
+    "newEntryPoint": "@spartacus/checkout/base/core",
+    "newNamespace": "",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14418,7 +15934,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Interface CardTypesState has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "The card types is no longer found in the NgRX store. You can find the card type 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "INTERFACE_DELETED",
@@ -14439,7 +15955,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14485,7 +16001,7 @@
     "name": "CheckoutActions",
     "isDeleted": true,
     "deletedComment": "Namespace CheckoutActions has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.",
     "breakingChanges": [
       {
         "change": "NAMESPACE_DELETED",
@@ -14507,7 +16023,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14529,7 +16045,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14551,7 +16067,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.ADD_DELIVERY_ADDRESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14595,7 +16111,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.AddDeliveryAddress has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -14635,7 +16151,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.AddDeliveryAddressFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -14675,7 +16191,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.AddDeliveryAddressSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -14703,7 +16219,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutActions.CardTypesAction has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the query 'getPaymentCardTypesState' in CheckoutPaymentFacade to get the data and state for the card types.",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",
@@ -14725,7 +16241,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14829,7 +16345,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",
@@ -14851,7 +16367,7 @@
     "members": [{ "kind": "Property", "name": "type", "type": "" }],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.CheckoutClearMiscsData has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -14873,7 +16389,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DATA has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14895,7 +16411,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14917,7 +16433,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14939,7 +16455,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14961,7 +16477,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -14983,7 +16499,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15005,7 +16521,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode()' from CheckoutDeliveryModesFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15049,7 +16565,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_PLACE_ORDER has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15071,7 +16587,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15093,7 +16609,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15115,7 +16631,7 @@
     "members": [{ "kind": "Property", "name": "type", "type": "" }],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearCheckoutData has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15159,7 +16675,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryAddress' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15199,7 +16715,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearCheckoutDeliveryAddressFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15229,7 +16745,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearCheckoutDeliveryAddressSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15273,7 +16789,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearCheckoutDeliveryMode has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15317,7 +16833,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearCheckoutDeliveryModeFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15361,7 +16877,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearCheckoutDeliveryModeSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15431,7 +16947,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearPlaceOrder has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15461,7 +16977,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearScheduleReplenishmentOrderAction has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15483,7 +16999,7 @@
     "members": [{ "kind": "Property", "name": "type", "type": "" }],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearSupportedDeliveryModes has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15505,7 +17021,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createPaymentDetails()' from CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15527,7 +17043,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15549,7 +17065,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CREATE_PAYMENT_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use'createPaymentDetails()' from CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15593,7 +17109,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.CreatePaymentDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createPaymentDetails()' from CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15633,7 +17149,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.CreatePaymentDetailsFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createPaymentDetails()' from CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15673,7 +17189,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.CreatePaymentDetailsSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -15695,7 +17211,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_CARD_TYPES_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15717,7 +17233,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_CARD_TYPES_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15739,7 +17255,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_CARD_TYPES has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15761,7 +17277,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15783,7 +17299,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15805,7 +17321,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_CHECKOUT_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15827,7 +17343,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_PAYMENT_TYPES_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15849,7 +17365,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15871,7 +17387,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_PAYMENT_TYPES has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15893,7 +17409,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15915,7 +17431,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15937,7 +17453,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -15967,7 +17483,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadCardTypes has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16007,7 +17523,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadCardTypesFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16047,7 +17563,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadCardTypesSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16091,7 +17607,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16131,7 +17647,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16171,7 +17687,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16201,7 +17717,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16241,7 +17757,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16281,7 +17797,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16325,7 +17841,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadSupportedDeliveryModes has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16365,7 +17881,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadSupportedDeliveryModesFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16405,7 +17921,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.LoadSupportedDeliveryModesSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16427,7 +17943,7 @@
     "members": ["SetOrderType"],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use 'setOrderType' from CheckoutReplenishmentFormService.",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",
@@ -16449,7 +17965,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.PAYMENT_PROCESS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsSetEvent', which gets fired when the payment has been successfully processed.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16479,7 +17995,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.PaymentProcessSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "After switching to commands & queries, processes are no longer used.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsSetEvent', which gets fired when the payment has been successfully processed.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16515,7 +18031,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",
@@ -16537,7 +18053,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'placeOrder()' from OrderFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16559,7 +18075,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'OrderPlacedEvent', which gets fired when checkout has been successful.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16581,7 +18097,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'placeOrder()' from OrderFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16625,7 +18141,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.PlaceOrder has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'placeOrder()' from OrderFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16665,7 +18181,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'placeOrder()' from OrderFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16705,7 +18221,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.PlaceOrderSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'OrderPlacedEvent', which gets fired when checkout has been successful.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16735,7 +18251,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.",
     "breakingChanges": [
       {
         "change": "TYPEALIAS_DELETED",
@@ -16757,7 +18273,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.RESET_LOAD_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch event to invalidate the loading of payment types using 'CheckoutPaymentTypesQueryResetEvent'.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16779,7 +18295,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.RESET_SET_COST_CENTER_PROCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set cost center as well.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16801,7 +18317,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.RESET_SET_DELIVERY_ADDRESS_PROCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set delivery address as well.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16823,7 +18339,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.RESET_SET_DELIVERY_MODE_PROCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set delivery mode as well.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16845,7 +18361,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.RESET_SET_PAYMENT_DETAILS_PROCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set payment details as well.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16867,7 +18383,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the supported delivery modes by using 'CheckoutSupportedDeliveryModesQueryResetEvent'.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16897,7 +18413,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetLoadPaymentTypesProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the payment types by using 'CheckoutPaymentTypesQueryResetEvent'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16927,7 +18443,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetLoadSupportedDeliveryModesProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the supported delivery modes by using 'CheckoutSupportedDeliveryModesQueryResetEvent'.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16957,7 +18473,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ResetSetCostCenterProcess has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set cost center as well.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
