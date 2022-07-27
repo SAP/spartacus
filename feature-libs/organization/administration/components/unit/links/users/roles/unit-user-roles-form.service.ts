@@ -14,7 +14,7 @@ export class UnitUserRolesFormService extends FormService<B2BUser> {
     super();
   }
 
-  getForm(item?: B2BUser): FormGroup {
+  getForm(item?: B2BUser): FormGroup | null {
     // if form already exist, while switching between users
     // it didn't patchData again, so used force rebuild
     this.form = null;
@@ -33,7 +33,7 @@ export class UnitUserRolesFormService extends FormService<B2BUser> {
     super.patchData(item);
     if (item) {
       item.roles?.forEach((role) => {
-        this.form.get(role).setValue(true);
+        this.form?.get(role)?.setValue(true);
       });
     }
   }

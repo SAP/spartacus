@@ -24,7 +24,9 @@ import { OnNavigateService } from './on-navigate.service';
 })
 export class AppRoutingModule {}
 
-export function onNavigateFactory(onNavigateService: OnNavigateService) {
+export function onNavigateFactory(
+  onNavigateService: OnNavigateService
+): () => void {
   const isReady = () => onNavigateService.initializeWithConfig();
   return isReady;
 }

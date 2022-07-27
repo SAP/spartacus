@@ -21,15 +21,17 @@ export const getLanguagesState: MemoizedSelector<
 
 export const getLanguagesEntities: MemoizedSelector<
   StateWithSiteContext,
-  LanguagesEntities
+  LanguagesEntities | null
 > = createSelector(getLanguagesState, languagesEntitiesSelector);
 
-export const getActiveLanguage: MemoizedSelector<StateWithSiteContext, string> =
-  createSelector(getLanguagesState, activeLanguageSelector);
+export const getActiveLanguage: MemoizedSelector<
+  StateWithSiteContext,
+  string | null
+> = createSelector(getLanguagesState, activeLanguageSelector);
 
 export const getAllLanguages: MemoizedSelector<
   StateWithSiteContext,
-  Language[]
+  Language[] | null
 > = createSelector(getLanguagesEntities, (entities) => {
   return entities
     ? Object.keys(entities).map((isocode) => entities[isocode])

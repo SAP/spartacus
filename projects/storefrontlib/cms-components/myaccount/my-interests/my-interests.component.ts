@@ -3,8 +3,11 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  Optional,
 } from '@angular/core';
 import {
+  GlobalMessageService,
+  GlobalMessageType,
   PaginationModel,
   Product,
   ProductInterestEntryRelation,
@@ -19,7 +22,7 @@ import { map, tap } from 'rxjs/operators';
 
 interface ProductInterestSearchResultUI extends ProductInterestSearchResult {
   results?: (ProductInterestEntryRelation & {
-    product$?: Observable<Product>;
+    product$?: Observable<Product | undefined>;
   })[];
 }
 
@@ -34,6 +37,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
     byNameAsc: 'name:asc',
     byNameDesc: 'name:desc',
   };
+  private sortChanged = false;
 
   sort = 'byNameAsc';
   sortOptions = [
@@ -53,10 +57,27 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
   getInterestsloading$: Observable<boolean>;
   sortLabels: Observable<{ byNameAsc: string; byNameDesc: string }>;
 
+  // TODO(#499): make asmService and modalService are required dependency
+  constructor(
+    productInterestService: UserInterestsService,
+    translationService: TranslationService,
+    productService: ProductService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    globalMessageService: GlobalMessageService
+  );
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    productInterestService: UserInterestsService,
+    translationService: TranslationService,
+    productService: ProductService
+  );
   constructor(
     private productInterestService: UserInterestsService,
     private translationService: TranslationService,
-    private productService: ProductService
+    private productService: ProductService,
+    @Optional() private globalMessageService?: GlobalMessageService
   ) {}
 
   ngOnInit() {
@@ -73,6 +94,16 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
               sort: 'byNameAsc',
             })
         ),
+        tap(() => {
+          if (this.sortChanged) {
+            this.sortChanged = false;
+            this.globalMessageService?.add(
+              { key: 'sorting.pageViewUpdated' },
+              GlobalMessageType.MSG_TYPE_ASSISTIVE,
+              500
+            );
+          }
+        }),
         map((interest) => ({
           ...interest,
           results: interest.results
@@ -113,7 +144,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   private getProduct(
     interest: ProductInterestEntryRelation
-  ): Observable<Product> {
+  ): Observable<Product | undefined> {
     return this.productService.get(
       interest.product?.code ?? '',
       ProductScope.DETAILS
@@ -122,7 +153,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   removeInterest(
     relation: ProductInterestEntryRelation & {
-      product$?: Observable<Product>;
+      product$?: Observable<Product | undefined>;
     }
   ): void {
     this.productInterestService.removeProdutInterest({
@@ -133,6 +164,7 @@ export class MyInterestsComponent implements OnInit, OnDestroy {
 
   sortChange(sort: string): void {
     this.sort = sort;
+    this.sortChanged = true;
     this.productInterestService.loadProductInterests(
       this.DEFAULT_PAGE_SIZE,
       0,

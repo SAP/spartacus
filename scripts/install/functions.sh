@@ -86,7 +86,7 @@ function create_shell_app {
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
         ng add --skip-confirmation @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        ng add --skip-confirmation @spartacus/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-Scheduled-Replenishment"
+        ng add --skip-confirmation @spartacus/checkout@${SPARTACUS_VERSION} --interactive false --features="Checkout-B2B" --features="Checkout-Scheduled-Replenishment"
     fi
 }
 
@@ -103,13 +103,11 @@ function add_epd_visualization {
 }
 
 function add_product_configurator {
-    local FEATURES=(--features="Textfield-Configurator");
+    ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="Textfield-Configurator" --features="VC-Configurator"
 
     if [ "$ADD_CPQ" = true ] ; then
-        FEATURES+=(--features="CPQ-Configurator");
+        ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false --features="CPQ-Configurator"
     fi
-
-    ng add --skip-confirmation @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false "${FEATURES[@]}"
 }
 
 # Don't install b2b features here (use add_b2b function for that)
