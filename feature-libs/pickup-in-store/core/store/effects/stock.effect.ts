@@ -6,8 +6,6 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import { StockConnector } from '../../connectors/index';
 import { StockLevelActions } from '../actions/index';
 
-// TODO add effect for stock level at store here
-
 @Injectable()
 export class StockEffect {
   constructor(
@@ -30,6 +28,22 @@ export class StockEffect {
           ),
           catchError((error) =>
             of(new StockLevelActions.StockLevelFail(normalizeHttpError(error)))
+          )
+        )
+      )
+    )
+  );
+
+  loadStockLevelAtStore$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(StockLevelActions.STOCK_LEVEL_AT_STORE),
+      map(({ payload }: StockLevelActions.StockLevelAtStoreAction) => payload),
+      switchMap(({ productCode, storeName }) =>
+        this.stockConnector.loadStockLevelAtStore(productCode, storeName).pipe(
+          map((stockLevel) =>
+            StockLevelActions.StockLevelAtStoreSuccess({
+              payload: { productCode, storeName, stockLevel },
+            })
           )
         )
       )

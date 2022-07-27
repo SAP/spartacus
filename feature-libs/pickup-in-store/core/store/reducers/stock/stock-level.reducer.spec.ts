@@ -8,7 +8,7 @@ import * as fromReducer from './stock-level.reducer';
 
 describe('stockReducer', () => {
   it('should populate the slice of state with payload data', () => {
-    const initialState: StockLevelState = fromReducer.initialState;
+    const initialState: StockLevelState = fromReducer.initialStockLevelState;
     const stockEntities: StockLevelSuccessPayload = {
       productCode: 'productCode',
       stockLevels: {},
@@ -19,7 +19,7 @@ describe('stockReducer', () => {
   });
 
   it('should clear the slice of state of data', () => {
-    const initialState: StockLevelState = fromReducer.initialState;
+    const initialState: StockLevelState = fromReducer.initialStockLevelState;
     const action = new ClearStockData();
     const newState = fromReducer.stockReducer(initialState, action);
     expect(newState).toEqual({});

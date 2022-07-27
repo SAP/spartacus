@@ -2,6 +2,7 @@
 create connector/adapter/facade/store layers for API: /{baseSiteId}/products/{productCode}/stock/{storeName}
 remove user's current position fetching on page load (and unused code after that)
 get stock level for user's preferred store and only show if it has stock
+add store's display name to local preferred store
 
 (B) CXSPA-798:
 cypress test preferred store defaulting
