@@ -9,9 +9,8 @@
 
     <!-- BODY -->
     <div class="cx-account-summary-document-body">
-      <ng-container
-        *ngIf="true; else noDocument"
-      >
+      <ng-container *ngIf="accountSummary?.pagination?.totalCount > 0; else noDocument">
+
         <!-- TABLE -->
         <table id="order-history-table" class="table cx-account-summary-document-table">
           <thead class="cx-account-summary-document-thead-mobile">
@@ -41,7 +40,7 @@
           </th>
           </thead>
           <tbody>
-          <tr *ngFor="let document of accountSummary.documents">
+          <tr *ngFor="let document of accountSummary?.documents">
             <td class="cx-account-summary-document-code">
               <div class="cx-account-summary-document-label">
                 {{ 'orgAccountSummary.document.id' | cxTranslate }}
@@ -86,13 +85,17 @@
               <div class="cx-account-summary-document-label">
                 {{ 'orgAccountSummary.document.status' | cxTranslate }}
               </div>
-              <div class="cx-account-summary-document-value">{{ document?.status }}</div>
+              <div class="cx-account-summary-document-value">
+                <span [ngClass]="{'open': 'status-open', 'closed': 'status-closed'}[document?.status]">
+                  {{ document?.status }}
+                </span>
+              </div>
             </td>
             <td class="cx-account-summary-document-attachment">
               <div class="cx-account-summary-document-label">
                 {{ 'orgAccountSummary.document.attachment' | cxTranslate }}
               </div>
-              <div class="cx-account-summary-document-value">{{ document?.documentMedia ? 'View' : '&nbsp;'}}</div>
+              <div class="cx-account-summary-document-value">{{ document?.documentMedia ? 'View' : ' '}}</div>
             </td>
           </tr>
           </tbody>

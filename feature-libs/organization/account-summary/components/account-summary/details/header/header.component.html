@@ -51,7 +51,8 @@
     </div>
 
     <div class="cx-summary-card">
-      <div [class.past-due-section]="pastDue?.length > 0">
+
+      <div *ngIf="headerDetails?.amountBalanceData?.dueBalance as pastDue; else noDueRange" [class.past-due-section]="pastDue?.length > 0">
         <div *ngIf="pastDue?.length > 0" class="past-due-range-block">
           <div *ngFor="let rangeBalance of pastDue" class="past-due-range-container">
             <div class="past-due-range-date">
@@ -68,6 +69,12 @@
         <div class="past-due-balance-text cx-card-title">{{ 'orgAccountSummary.details.pastDueBalance' | cxTranslate }}</div>
         <div>{{headerDetails?.amountBalanceData?.openBalance}}</div>
       </div>
+
+      <ng-template #noDueRange>
+        <cx-card
+          [content]="getPastDueBalanceCardContent(headerDetails?.amountBalanceData?.openBalance) | async"
+        ></cx-card>
+      </ng-template>
 
     </div>
 

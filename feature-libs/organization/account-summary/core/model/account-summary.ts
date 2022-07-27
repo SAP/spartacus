@@ -26,6 +26,12 @@ interface B2BAmountBalanceData {
   pastDueBalance?: string;
 }
 
+ enum DocumentStatus {
+  OPEN = 'open',
+  CLOSED = 'closed',
+  ALL = 'all',
+ }
+
 export interface AccountSummaryDetails {
   accountManagerEmail?: string;
   accountManagerName?: string;
@@ -47,7 +53,7 @@ export interface AccountSummaryDocument {
   formattedOpenAmount?: string;
   openAmount?: number;
   selectable?: boolean;
-  status?: string;
+  status?: DocumentStatus;
 }
 
 export interface AccountSummary {

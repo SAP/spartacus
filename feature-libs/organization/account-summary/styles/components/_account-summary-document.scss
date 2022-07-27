@@ -83,6 +83,8 @@ cx-account-summary-document {
   .cx-account-summary-document-attachment {
     .cx-account-summary-document-value {
       text-decoration: underline;
+      font-weight: 600;
+      color: #FE5757;
     }
   }
 
@@ -96,9 +98,18 @@ cx-account-summary-document {
 
   .cx-account-summary-document-status {
     text-align: center;
+    text-transform: capitalize;
 
     @include media-breakpoint-down(sm) {
       text-align: start;
+    }
+
+    .status-open {
+      color: #38871F;
+    }
+
+    .status-closed {
+      color: #6C7079;
     }
   }
 
