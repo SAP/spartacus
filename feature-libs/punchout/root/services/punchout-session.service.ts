@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { FeatureModulesService, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { delay, take, tap } from 'rxjs/operators';
 
@@ -16,7 +16,6 @@ export class PunchoutSessionService {
 
   constructor(
     protected location: Location,
-    protected featureModules: FeatureModulesService,
     protected routing: RoutingService
   ) {}
 
@@ -24,11 +23,10 @@ export class PunchoutSessionService {
    * Lazy loads modules and start punchout session
    */
   start(): Observable<any> {
-    if (this.isFromAriba() && this.featureModules.isConfigured('punchout')) {
+    if (this.isFromAriba()) {
       return this.getPunchoutSession(this.sessionId as string).pipe(
         take(1),
         tap((sessionData) => {
-          this.featureModules.resolveFeature('punchout').subscribe();
           if (sessionData.punchoutLevel === 'product') {
             this.routing.go({
               cxRoute: 'product',
@@ -73,6 +71,6 @@ export class PunchoutSessionService {
         tokenType: 'bearer',
       },
       userId: 'punchout.customer@punchoutorg.com',
-    }).pipe(delay(20000));
+    }).pipe(delay(200));
   }
 }
