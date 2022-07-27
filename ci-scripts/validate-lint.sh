@@ -40,12 +40,12 @@ else
     exit 1
 fi
 
-echo "Validating that no 'decsribe.only(' occurrences are present in tests..."
+echo "Validating that no 'describe.only(' occurrences are present in tests..."
 results=$(grep -rl --include "*spec.ts" 'decsribe.only(' projects feature-libs intergration-libs core-libs || true)
 if [[ -z "$results" ]]; then
-    echo "Success: No 'decsribe.only(' occurrences detected in tests."
+    echo "Success: No 'describe.only(' occurrences detected in tests."
 else
-    echo "ERROR: Detected 'decsribe.only(' occurrence(s) in these files:"
+    echo "ERROR: Detected 'describe.only(' occurrence(s) in these files:"
     echo "$results"
     exit 1
 fi

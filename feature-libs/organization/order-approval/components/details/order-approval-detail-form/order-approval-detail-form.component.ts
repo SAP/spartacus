@@ -34,7 +34,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
   protected decisionResultLoading$ =
     this.orderApprovalService.getMakeDecisionResultLoading();
 
-  loading$ = combineLatest([
+  loading$: Observable<boolean> = combineLatest([
     this.orderApprovalLoading$,
     this.decisionResultLoading$,
   ]).pipe(

@@ -352,22 +352,20 @@ describe('Configurator reducer', () => {
     });
   });
 
-  describe('GetConfigurationOverviewSuccess action', () => {
-    it('should put configuration overview into the state', () => {
-      const priceSummary: Configurator.PriceSummary = {};
-      const overview: Configurator.Overview = {
-        configId: CONFIG_ID,
-        productCode: PRODUCT_CODE,
-        priceSummary: priceSummary,
-      };
-      const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
+  describe('SearchVariantsSuccess action', () => {
+    it('should put the variants list into the state', () => {
+      const variants: Configurator.Variant[] = [
+        {
+          productCode: PRODUCT_CODE,
+        },
+      ];
+      const action = new ConfiguratorActions.SearchVariantsSuccess({
         ownerKey: configuration.owner.key,
-        overview: overview,
+        variants: variants,
       });
       const state = StateReduce.configuratorReducer(undefined, action);
 
-      expect(state.overview).toEqual(overview);
-      expect(state.priceSummary).toBe(priceSummary);
+      expect(state.variants).toEqual(variants);
     });
   });
 
