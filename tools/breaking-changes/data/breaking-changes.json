@@ -16023,7 +16023,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16067,7 +16067,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.ADD_DELIVERY_ADDRESS has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16111,7 +16111,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.AddDeliveryAddress has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16151,7 +16151,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.AddDeliveryAddressFail has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the creation of delivery address 'state' using the returned observable from 'createAndSetAddress' in CheckoutDeliveryAddressFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -16411,7 +16411,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the clearing of delivery address 'state' using the returned observable from 'clearCheckoutDeliveryAddress' in CheckoutDeliveryAddressFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16455,7 +16455,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the clearing of delivery address 'state' using the returned observable from 'clearCheckoutDeliveryAddress' in CheckoutDeliveryAddressFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16521,7 +16521,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the clearing of delivery modes 'state' using the returned observable from 'clearCheckoutDeliveryMode' in CheckoutDeliveryModesFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode()' from CheckoutDeliveryModesFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -16715,7 +16715,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.ClearCheckoutDeliveryAddressFail has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the clearing of delivery address 'state' using the returned observable from 'clearCheckoutDeliveryAddress' in CheckoutDeliveryAddressFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17021,7 +17021,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createPaymentDetails()' from CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17065,7 +17065,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.CREATE_PAYMENT_DETAILS has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use'createPaymentDetails()' from CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17109,7 +17109,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.CreatePaymentDetails has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createPaymentDetails()' from CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17149,7 +17149,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.CreatePaymentDetailsFail has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the creation of payment details 'state' using the returned observable from 'createPaymentDetails' in CheckoutPaymentFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createPaymentDetails()' from CheckoutPaymentFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -17965,7 +17965,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.PAYMENT_PROCESS_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can leverage the setting of payment 'state' using the returned observable from 'setPaymentDetails' in CheckoutPaymentFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsSetEvent', which gets fired when the payment has been successfully processed.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -17995,7 +17995,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.PaymentProcessSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can leverage the setting of payment 'state' using the returned observable from 'setPaymentDetails' in CheckoutPaymentFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsSetEvent', which gets fired when the payment has been successfully processed.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18053,7 +18053,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'placeOrder()' from OrderFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18075,7 +18075,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'OrderPlacedEvent', which gets fired when checkout has been successful.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18097,7 +18097,7 @@
     "type": "",
     "isDeleted": true,
     "deletedComment": "Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'placeOrder()' from OrderFacade.",
     "breakingChanges": [
       {
         "change": "VARIABLE_DELETED",
@@ -18141,7 +18141,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.PlaceOrder has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'placeOrder()' from OrderFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18181,7 +18181,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'placeOrder()' from OrderFacade.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
@@ -18221,7 +18221,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class CheckoutActions.PlaceOrderSuccess has been removed and is no longer part of the public API.",
-    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage the place order 'state' using the returned observable from 'placeOrder' in OrderFacade.",
+    "migrationComment": "It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'OrderPlacedEvent', which gets fired when checkout has been successful.",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",
