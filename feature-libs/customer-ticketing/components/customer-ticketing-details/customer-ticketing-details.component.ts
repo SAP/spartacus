@@ -1,11 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
-import {
-  COLOR_CLOSE,
-  COLOR_OPEN,
-  STATUS_CLOSE,
-  STATUS_OPEN,
-} from '@spartacus/customer-ticketing/root';
+import { COLOR, STATUS } from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -14,7 +9,7 @@ import { filter, map } from 'rxjs/operators';
   selector: 'cx-customer-ticketing-details',
   templateUrl: './customer-ticketing-details.component.html',
 })
-export class CustomerTicketingDetailsComponent implements OnInit {
+export class CustomerTicketingDetailsComponent {
   constructor(protected translation: TranslationService) {}
 
   ticketDetails$ = of({
@@ -55,8 +50,6 @@ export class CustomerTicketingDetailsComponent implements OnInit {
     ],
   });
 
-  ngOnInit(): void {}
-
   prepareCardContent(
     entity: string,
     titleTranslation: string
@@ -72,10 +65,10 @@ export class CustomerTicketingDetailsComponent implements OnInit {
   }
 
   getStatusColor(status: string): { color: string } | null {
-    return status === STATUS_OPEN
-      ? { color: COLOR_OPEN }
-      : status === STATUS_CLOSE
-      ? { color: COLOR_CLOSE }
+    return status === STATUS.OPEN
+      ? { color: COLOR.OPEN }
+      : status === STATUS.CLOSE
+      ? { color: COLOR.CLOSE }
       : null;
   }
 }

@@ -1,3 +1,5 @@
-export * from './customer-ticketing-root.module';
-export * from './feature-name';
-export * from './customer-ticketing-constants';
+export * from './index';
+
+/** AUGMENTABLE_TYPES_START */
+export { COLOR, STATUS } from './model/customer-ticketing.model';
+/** AUGMENTABLE_TYPES_END */
