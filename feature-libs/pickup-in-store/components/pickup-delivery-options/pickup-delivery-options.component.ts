@@ -8,7 +8,10 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Product } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
+import {
+  PointOfServiceNames,
+  PreferredStoreService,
+} from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
@@ -26,6 +29,12 @@ function isProductWithCode(
   product: Product | null
 ): product is Required<Pick<Product, 'code'>> & Product {
   return !!product?.code;
+}
+
+function hasNames(
+  store: PointOfServiceNames | undefined
+): store is Required<PointOfServiceNames> {
+  return !!store?.name && !!store?.displayName;
 }
 
 @Component({
@@ -77,23 +86,21 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
       switchMap(({ intendedLocation, productCode }) =>
         iif(
           () => !!intendedLocation,
-          of(intendedLocation?.name),
+          of(intendedLocation?.displayName),
           of(this.preferredStoreService.getPreferredStore()).pipe(
-            filter(
-              (preferredStore): preferredStore is string => !!preferredStore
-            ),
+            filter(hasNames),
             tap((preferredStore) => {
               this.pickupLocationsSearchService.stockLevelAtStore(
                 productCode,
-                preferredStore
+                preferredStore.name
               );
             }),
             switchMap((preferredStore) =>
               this.pickupLocationsSearchService
-                .getStockLevelAtStore(productCode, preferredStore)
+                .getStockLevelAtStore(productCode, preferredStore.name)
                 .pipe(
                   filter((stock) => !!stock?.stockLevel),
-                  map((_) => preferredStore)
+                  map((_) => preferredStore.displayName)
                 )
             )
           )
