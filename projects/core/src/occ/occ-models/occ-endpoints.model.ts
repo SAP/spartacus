@@ -214,6 +214,12 @@ export interface OccEndpoints {
    */
   getVariantConfigurationOverview?: string;
   /**
+   * Endpoint for configurator variant search
+   *
+   * @member {string}
+   */
+  searchConfiguratorVariants?: string;
+  /**
    * Endpoint for coupons
    *
    * @member {string}
