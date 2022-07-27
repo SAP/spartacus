@@ -4,6 +4,7 @@
 This is a list of breaking changes or potentially breaking changes for Spartacus 5.0.
 
 
+
 # Class AsmMainUiComponent 
 ## @spartacus/asm/components
 
@@ -47,7 +48,7 @@ constructor(
 
 ### Property userService is removed.
 
-
+Use 'userAccountFacade' instead.
 
 
 
@@ -84,7 +85,7 @@ constructor(
 
 ### Property userService is removed.
 
-
+Use 'userAccountFacade' instead.
 
 
 
@@ -129,7 +130,7 @@ constructor(
 
 ### Property userService is removed.
 
-
+It is replaced by 'userProfileFacade'
 
 
 
@@ -344,7 +345,7 @@ config: Config
 
 ### Property globalMessageService is removed.
 
-
+It is not used anymore.
 
 ### Property winRef changed.
 
@@ -449,7 +450,7 @@ activeCartService: ActiveCartFacade
 
 ### Property productAdapter is removed.
 
-
+It is not used anymore.
 
 ### Property productSearchConnector changed.
 
@@ -522,11 +523,11 @@ quickOrder: {
 
 ### Method removeEntry is removed.
 
-
+Use `softDeleteEntry` instead.
 
 ### Method search is removed.
 
-
+Use `searchProducts` instead.
 
 
 
@@ -633,7 +634,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use activeCartFacade instead.
 
 
 
@@ -683,7 +684,7 @@ constructor(
 
 ### Method saveCart is removed.
 
-
+Instead, use the method 'save' from class 'CartAdapter' in @spartacus/cart/base/core
 
 
 
@@ -693,7 +694,7 @@ constructor(
 
 ### Method saveCart is removed.
 
-
+Instead, use the method 'save' from class 'CartConnector' in @spartacus/cart/base/core
 
 
 
@@ -751,7 +752,7 @@ multiCartService: MultiCartFacade
 
 ### Method registerDeleteSavedCartEvents is removed.
 
-Use 'registerDeleteCart' Method from Class 'CartEventBuilder' instead.
+Use 'registerDeleteCart' Method from Class 'CartEventBuilder' from @spartacus/cart/base/core instead.
 
 
 
@@ -836,7 +837,7 @@ multiCartService: MultiCartFacade
 
 ### Property userService is removed.
 
-
+It is replaced by userAccountFacade.
 
 
 
@@ -846,11 +847,11 @@ multiCartService: MultiCartFacade
 
 ### Method getSaveCartEndpoint is removed.
 
-
+It is not used anymore.  The saved cart request is now done from class 'OccCartAdapter' in '@spartacus/cart/base/occ'
 
 ### Method saveCart is removed.
 
-
+It is not used anymore.  The saved cart request is now done via method `save` from class 'OccCartAdapter' in '@spartacus/cart/base/occ'
 
 
 
@@ -859,7 +860,7 @@ multiCartService: MultiCartFacade
 
 
 Class DeleteSavedCartEvent has been removed and is no longer part of the public API.
-
+Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartEvent.
 
 
 
@@ -868,7 +869,7 @@ Class DeleteSavedCartEvent has been removed and is no longer part of the public 
 
 
 Class DeleteSavedCartFailEvent has been removed and is no longer part of the public API.
-
+Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartFailEvent.
 
 
 
@@ -877,7 +878,7 @@ Class DeleteSavedCartFailEvent has been removed and is no longer part of the pub
 
 
 Class DeleteSavedCartSuccessEvent has been removed and is no longer part of the public API.
-
+Event was moved to 'cart.events.ts' in @spartacus/cart/base/root, and renamed to DeleteCartSuccessEvent.
 
 
 
@@ -920,7 +921,7 @@ constructor(
 
 ### Property actionsSubject is removed.
 
-
+It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.
 
 ### Property multiCartService changed.
 
@@ -1013,7 +1014,7 @@ constructor(
 
 ### Property actionsSubject is removed.
 
-
+It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.
 
 ### Property multiCartService changed.
 
@@ -1108,7 +1109,7 @@ constructor(
 
 ### Property authRedirectService is removed.
 
-
+It is not used anymore.  It was there only to pass to the super() contructor and the super() constructor had this parameter removed.
 
 
 
@@ -1249,7 +1250,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use activeCartFacade instead.
 
 
 
@@ -1314,7 +1315,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.'
 
 
 
@@ -1363,11 +1364,11 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 ### Property globalMessageService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'GlobalMessageService' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.
 
 ### Method handleAnonymousUser changed.
 
@@ -1394,11 +1395,11 @@ handleAnonymousUser(): boolean | UrlTree
 
 ### Method handleUserRole is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method is found when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.
 
 ### Property userService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserAccountFacade' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.
 
 
 
@@ -1421,8 +1422,8 @@ moved to @spartacus/checkout/base/components
 # Class CheckoutDetailsService 
 ## @spartacus/checkout/components
 
-
-Class CheckoutDetailsService has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/core
+renamed to CheckoutQueryService
 
 
 
@@ -1470,7 +1471,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 
 
@@ -1511,7 +1512,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 
 
@@ -1572,7 +1573,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 
 
@@ -1643,11 +1644,11 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 ### Method ngOnInit is removed.
 
-
+It has been removed because we are no longer initializing the 'cart$' observable during Angular's initialization lifecycle, but it has been declared and initialized directly through the class property.
 
 
 
@@ -1802,19 +1803,19 @@ canActivate(
 
 ### Property checkoutCostCenterService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 ### Property checkoutDetailsService is removed.
 
-
+Use 'checkoutQueryFacade' instead.
 
 ### Method isPaymentTypeSet is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 ### Method isShippingAddressAndCostCenterSet is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method 'isShippingAddressAndCostCenterSet' has been renamed accordingly for 'base' and 'b2b' entrypoint. Base is using the 'isDeliveryAddress' method and B2B is using the 'isDeliveryAddressAndCostCenterSet'. 'isDeliveryAddressAndCostCenterSet' method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 ### Method isStepSet changed.
 
@@ -1844,15 +1845,15 @@ isStepSet(
 
 ### Property paymentTypeService is removed.
 
-
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.
 
 
 
 # Class DeliveryModeComponent 
 ## @spartacus/checkout/components
 
-
-Class DeliveryModeComponent has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutDeliveryModeComponent
 
 
 
@@ -1860,8 +1861,8 @@ Class DeliveryModeComponent has been removed and is no longer part of the public
 # Class DeliveryModeModule 
 ## @spartacus/checkout/components
 
-
-Class DeliveryModeModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutDeliveryModeModule
 
 
 
@@ -1910,15 +1911,15 @@ constructor(
 
 ### Property checkoutDeliveryService is removed.
 
-
+'CheckoutDeliveryService' has been splitted and renamed to 'CheckoutDeliveryAddressFacde' and 'CheckoutDeliveryModesFacade'. Use 'checkoutDeliveryAdressFacade' and 'checkoutDeliveryModesFacade' instead.
 
 ### Property checkoutDetailsService is removed.
 
-
+Use 'checkoutQueryFacade' instead.
 
 ### Property checkoutPaymentService is removed.
 
-
+Use 'checkoutPaymentFacade' instead.
 
 ### Property clearCheckoutService is removed.
 
@@ -1926,15 +1927,15 @@ constructor(
 
 ### Method setShippingAddress is removed.
 
-
+Use 'setDeliveryAddress' instead.
 
 
 
 # Class GuestRegisterFormComponent 
 ## @spartacus/checkout/components
 
-
-Class GuestRegisterFormComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
+renamed to OrderGuestRegisterFormComponent
 
 
 
@@ -1978,7 +1979,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 
 
@@ -2022,8 +2023,7 @@ constructor(
 # Class OrderConfirmationItemsComponent 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationItemsComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
@@ -2031,8 +2031,7 @@ Class OrderConfirmationItemsComponent has been removed and is no longer part of 
 # Class OrderConfirmationModule 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationModule has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
@@ -2042,15 +2041,14 @@ Class OrderConfirmationModule has been removed and is no longer part of the publ
 
 
 Class OrderConfirmationOverviewComponent has been removed and is no longer part of the public API.
-
+Use 'OrderDetailShippingComponent' instead from @spartacus/order/components
 
 
 
 # Class OrderConfirmationThankYouMessageComponent 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationThankYouMessageComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
@@ -2058,8 +2056,7 @@ Class OrderConfirmationThankYouMessageComponent has been removed and is no longe
 # Class OrderConfirmationTotalsComponent 
 ## @spartacus/checkout/components
 
-
-Class OrderConfirmationTotalsComponent has been removed and is no longer part of the public API.
+moved to @spartacus/order/components
 
 
 
@@ -2067,8 +2064,8 @@ Class OrderConfirmationTotalsComponent has been removed and is no longer part of
 # Class PaymentFormComponent 
 ## @spartacus/checkout/components
 
-
-Class PaymentFormComponent has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentFormComponent
 
 
 
@@ -2076,8 +2073,8 @@ Class PaymentFormComponent has been removed and is no longer part of the public 
 # Class PaymentFormModule 
 ## @spartacus/checkout/components
 
-
-Class PaymentFormModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentFormModule
 
 
 
@@ -2085,17 +2082,69 @@ Class PaymentFormModule has been removed and is no longer part of the public API
 # Class PaymentMethodComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentMethodComponent
 
-Class PaymentMethodComponent has been removed and is no longer part of the public API.
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  userPaymentService: UserPaymentService,
+  checkoutService: CheckoutFacade,
+  checkoutDeliveryService: CheckoutDeliveryFacade,
+  checkoutPaymentService: CheckoutPaymentFacade,
+  globalMessageService: GlobalMessageService,
+  activatedRoute: ActivatedRoute,
+  translation: TranslationService,
+  activeCartService: ActiveCartService,
+  checkoutStepService: CheckoutStepService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  userPaymentService: UserPaymentService,
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  checkoutPaymentFacade: CheckoutPaymentFacade,
+  activatedRoute: ActivatedRoute,
+  translationService: TranslationService,
+  activeCartFacade: ActiveCartFacade,
+  checkoutStepService: CheckoutStepService,
+  globalMessageService: GlobalMessageService
+)
+
+```
+
+
+### Property checkoutService is removed.
+
+
+
+### Property checkoutDeliveryService is removed.
+
+Use 'checkoutDeliveryAddressFacade' instead in @spartacus/checkout/base/root
+
+### Property activeCartService is removed.
+
+Use activeCartFacade instead.
 
 
 
 # Class PaymentMethodModule 
 ## @spartacus/checkout/components
 
-
-Class PaymentMethodModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentMethodModule
 
 
 
@@ -2103,8 +2152,8 @@ Class PaymentMethodModule has been removed and is no longer part of the public A
 # Class PaymentTypeComponent 
 ## @spartacus/checkout/components
 
-
-Class PaymentTypeComponent has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentTypeComponent
 
 
 
@@ -2112,8 +2161,8 @@ Class PaymentTypeComponent has been removed and is no longer part of the public 
 # Class PaymentTypeModule 
 ## @spartacus/checkout/components
 
-
-Class PaymentTypeModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPaymentTypeModule
 
 
 
@@ -2121,17 +2170,76 @@ Class PaymentTypeModule has been removed and is no longer part of the public API
 # Class PlaceOrderComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPlaceOrderComponent
 
-Class PlaceOrderComponent has been removed and is no longer part of the public API.
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  checkoutService: CheckoutFacade,
+  routingService: RoutingService,
+  fb: FormBuilder,
+  checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  orderFacade: OrderFacade,
+  routingService: RoutingService,
+  fb: FormBuilder,
+  launchDialogService: LaunchDialogService,
+  vcr: ViewContainerRef
+)
+
+```
+
+
+### Property checkoutService changed.
+
+
+Previous version: 
+
+```
+checkoutService: CheckoutFacade
+```
+
+
+Current version: 
+
+```
+orderFacade: OrderFacade
+```
+
+
+### Property checkoutReplenishmentFormService is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint does not contain b2b logic / dependency. You can find the same dependencies for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.
+
+### Method ngOnInit is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint does not need the OnInit lifecycle hook, however you can find it being a dependency for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.
 
 
 
 # Class PlaceOrderModule 
 ## @spartacus/checkout/components
 
-
-Class PlaceOrderModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/components
+renamed to CheckoutPlaceOrderModule
 
 
 
@@ -2141,15 +2249,147 @@ Class PlaceOrderModule has been removed and is no longer part of the public API.
 
 
 Class ReplenishmentOrderConfirmationModule has been removed and is no longer part of the public API.
-
+Use 'OrderConfirmationModule' instead as the cms mapping has been consolidated into one module.
 
 
 
 # Class ReviewSubmitComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutReviewSubmitComponent
 
-Class ReviewSubmitComponent has been removed and is no longer part of the public API.
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  checkoutDeliveryService: CheckoutDeliveryFacade,
+  checkoutPaymentService: CheckoutPaymentFacade,
+  userAddressService: UserAddressService,
+  activeCartService: ActiveCartService,
+  translation: TranslationService,
+  checkoutStepService: CheckoutStepService,
+  paymentTypeService: PaymentTypeFacade,
+  checkoutCostCenterService: CheckoutCostCenterFacade,
+  userCostCenterService: UserCostCenterService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  checkoutPaymentFacade: CheckoutPaymentFacade,
+  activeCartFacade: ActiveCartFacade,
+  translationService: TranslationService,
+  checkoutStepService: CheckoutStepService,
+  checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+)
+
+```
+
+
+### Property checkoutDeliveryService is removed.
+
+It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.
+
+### Property userAddressService is removed.
+
+It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.
+
+### Property activeCartService changed.
+
+
+Previous version: 
+
+```
+activeCartService: ActiveCartService
+```
+
+
+Current version: 
+
+```
+activeCartFacade: ActiveCartFacade
+```
+
+
+### Property paymentTypeService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property checkoutCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property userCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property countryName$ is removed.
+
+It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.
+
+### Property poNumber$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'poNumber$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property paymentType$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'paymentType$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property isAccountPayment$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'isAccountPayment$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Property costCenter$ is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'costCenter$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.
+
+### Method getCostCenterCard is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.
+
+### Method getPoNumberCard is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.
+
+### Method getPaymentTypeCard is removed.
+
+It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.
+
+### Method shippingSteps changed.
+
+
+Previous version: 
+
+```
+
+shippingSteps(
+  steps: CheckoutStep[]
+): CheckoutStep[]
+
+```
+
+
+Current version: 
+
+```
+
+deliverySteps(
+  steps: CheckoutStep[]
+): CheckoutStep[]
+
+```
 
 
 
@@ -2159,15 +2399,41 @@ Class ReviewSubmitComponent has been removed and is no longer part of the public
 
 
 Class ReviewSubmitModule has been removed and is no longer part of the public API.
-
+It has been renamed to CheckoutReviewSubmitModule and moved to @spartacus/checkout/base/components. If it is for a b2b storefront, please use B2BCheckoutReviewSubmitModule in @spartacus/checkout/b2b/components
 
 
 
 # Class ScheduleReplenishmentOrderComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/scheduled-replenishment/components
+renamed to CheckoutScheduleReplenishmentOrderComponent
 
-Class ScheduleReplenishmentOrderComponent has been removed and is no longer part of the public API.
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  checkoutService: CheckoutFacade,
+ checkoutReplenishmentFormService: CheckoutReplenishmentFormService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  checkoutReplenishmentFormService: CheckoutReplenishmentFormService
+)
+
+```
 
 
 
@@ -2175,8 +2441,8 @@ Class ScheduleReplenishmentOrderComponent has been removed and is no longer part
 # Class ScheduleReplenishmentOrderModule 
 ## @spartacus/checkout/components
 
-
-Class ScheduleReplenishmentOrderModule has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/scheduled-replenishment/components
+renamed to CheckoutScheduledReplenishmentPlaceOrderModule
 
 
 
@@ -2184,8 +2450,97 @@ Class ScheduleReplenishmentOrderModule has been removed and is no longer part of
 # Class ShippingAddressComponent 
 ## @spartacus/checkout/components
 
+moved to @spartacus/checkout/base/components
+renamed to CheckoutDeliveryAddressComponent
 
-Class ShippingAddressComponent has been removed and is no longer part of the public API.
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  userAddressService: UserAddressService,
+  checkoutDeliveryService: CheckoutDeliveryFacade,
+  activatedRoute: ActivatedRoute,
+  translation: TranslationService,
+  activeCartService: ActiveCartService,
+  checkoutStepService: CheckoutStepService,
+  paymentTypeService: PaymentTypeFacade,
+  userCostCenterService: UserCostCenterService,
+  checkoutCostCenterService: CheckoutCostCenterFacade
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  userAddressService: UserAddressService,
+  checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+  activatedRoute: ActivatedRoute,
+  translationService: TranslationService,
+  activeCartFacade: ActiveCartFacade,
+  checkoutStepService: CheckoutStepService,
+  checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+  globalMessageService: GlobalMessageService
+)
+
+```
+
+
+### Property checkoutDeliveryService is removed.
+
+It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.
+
+### Property activeCartService changed.
+
+
+Previous version: 
+
+```
+activeCartService: ActiveCartService
+```
+
+
+Current version: 
+
+```
+activeCartFacade: ActiveCartFacade
+```
+
+
+### Property paymentTypeService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Property userCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Property checkoutCostCenterService is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Property forceLoader is removed.
+
+
+
+### Property selectedAddress is removed.
+
+
+
+### Property isAccountPayment is removed.
+
+It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'isAccountPayment' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.
+
+### Method ngOnDestroy is removed.
+
 
 
 
@@ -2195,15 +2550,15 @@ Class ShippingAddressComponent has been removed and is no longer part of the pub
 
 
 Class ShippingAddressModule has been removed and is no longer part of the public API.
-
+It has been renamed to CheckoutDeliveryAddressModule and moved to @spartacus/checkout/base/components. If it is for a b2b storefront, please use B2BCheckoutDeliveryAddressModule in @spartacus/checkout/b2b/components
 
 
 
 # Variable CARD_TYPE_NORMALIZER 
 ## @spartacus/checkout/core
 
-
-Variable CARD_TYPE_NORMALIZER has been removed and is no longer part of the public API.
+moved to @spartacus/checkout/base/core
+renamed to PAYMENT_CARD_TYPE_NORMALIZER
 
 
 
@@ -2213,7 +2568,7 @@ Variable CARD_TYPE_NORMALIZER has been removed and is no longer part of the publ
 
 
 Interface CardTypesState has been removed and is no longer part of the public API.
-
+The card types is no longer found in the NgRX store. You can find the card type 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2222,7 +2577,7 @@ Interface CardTypesState has been removed and is no longer part of the public AP
 
 
 Variable CHECKOUT_DETAILS has been removed and is no longer part of the public API.
-
+It is not used anymore. Please adapt your checkout library to use Commands & Queries instead of NgRX. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2239,7 +2594,7 @@ moved to @spartacus/checkout/base/root
 
 
 Namespace CheckoutActions has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2248,7 +2603,7 @@ Namespace CheckoutActions has been removed and is no longer part of the public A
 
 
 Variable CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2257,7 +2612,7 @@ Variable CheckoutActions.ADD_DELIVERY_ADDRESS_FAIL has been removed and is no lo
 
 
 Variable CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.
 
 
 
@@ -2266,7 +2621,7 @@ Variable CheckoutActions.ADD_DELIVERY_ADDRESS_SUCCESS has been removed and is no
 
 
 Variable CheckoutActions.ADD_DELIVERY_ADDRESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2275,7 +2630,7 @@ Variable CheckoutActions.ADD_DELIVERY_ADDRESS has been removed and is no longer 
 
 
 Class CheckoutActions.AddDeliveryAddress has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2284,7 +2639,7 @@ Class CheckoutActions.AddDeliveryAddress has been removed and is no longer part 
 
 
 Class CheckoutActions.AddDeliveryAddressFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createAndSetAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2293,7 +2648,7 @@ Class CheckoutActions.AddDeliveryAddressFail has been removed and is no longer p
 
 
 Class CheckoutActions.AddDeliveryAddressSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressCreatedEvent', which gets fired when the address has been successfully added.
 
 
 
@@ -2302,7 +2657,7 @@ Class CheckoutActions.AddDeliveryAddressSuccess has been removed and is no longe
 
 
 TypeAlias CheckoutActions.CardTypesAction has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the query 'getPaymentCardTypesState' in CheckoutPaymentFacade to get the data and state for the card types.
 
 
 
@@ -2311,7 +2666,7 @@ TypeAlias CheckoutActions.CardTypesAction has been removed and is no longer part
 
 
 Variable CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.
 
 
 
@@ -2320,7 +2675,7 @@ Variable CheckoutActions.CHECKOUT_CLEAR_MISCS_DATA has been removed and is no lo
 
 
 TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2329,7 +2684,7 @@ TypeAlias CheckoutActions.CheckoutAction has been removed and is no longer part 
 
 
 Class CheckoutActions.CheckoutClearMiscsData has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch events to clear miscellanous data like the payment types with 'CheckoutPaymentTypesQueryResetEvent', supported delivery modes with 'CheckoutSupportedDeliveryModesQueryResetEvent', and card types with 'CheckoutPaymentCardTypesQueryResetEvent'.
 
 
 
@@ -2338,7 +2693,7 @@ Class CheckoutActions.CheckoutClearMiscsData has been removed and is no longer p
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DATA has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.
 
 
 
@@ -2347,7 +2702,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DATA has been removed and is no longer p
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2356,7 +2711,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_FAIL has been removed a
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.
 
 
 
@@ -2365,7 +2720,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS_SUCCESS has been remove
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2374,7 +2729,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS has been removed and is
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.
 
 
 
@@ -2383,7 +2738,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_FAIL has been removed and 
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.
 
 
 
@@ -2392,7 +2747,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE_SUCCESS has been removed a
 
 
 Variable CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode()' from CheckoutDeliveryModesFacade.
 
 
 
@@ -2410,7 +2765,7 @@ Variable CheckoutActions.CLEAR_CHECKOUT_STEP has been removed and is no longer p
 
 
 Variable CheckoutActions.CLEAR_PLACE_ORDER has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2419,7 +2774,7 @@ Variable CheckoutActions.CLEAR_PLACE_ORDER has been removed and is no longer par
 
 
 Variable CheckoutActions.CLEAR_SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2428,7 +2783,7 @@ Variable CheckoutActions.CLEAR_SCHEDULE_REPLENISHMENT_ORDER has been removed and
 
 
 Variable CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
 
 
 
@@ -2437,7 +2792,7 @@ Variable CheckoutActions.CLEAR_SUPPORTED_DELIVERY_MODES has been removed and is 
 
 
 Class CheckoutActions.ClearCheckoutData has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent'.
 
 
 
@@ -2446,7 +2801,7 @@ Class CheckoutActions.ClearCheckoutData has been removed and is no longer part o
 
 
 Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryAddress' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2455,7 +2810,7 @@ Class CheckoutActions.ClearCheckoutDeliveryAddress has been removed and is no lo
 
 
 Class CheckoutActions.ClearCheckoutDeliveryAddressFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'clearCheckoutDeliveryAddress()' from CheckoutDeliveryAddressFacade.
 
 
 
@@ -2464,7 +2819,7 @@ Class CheckoutActions.ClearCheckoutDeliveryAddressFail has been removed and is n
 
 
 Class CheckoutActions.ClearCheckoutDeliveryAddressSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryAddressClearedEvent', which gets fired when the address has been successfully cleared.
 
 
 
@@ -2473,7 +2828,7 @@ Class CheckoutActions.ClearCheckoutDeliveryAddressSuccess has been removed and i
 
 
 Class CheckoutActions.ClearCheckoutDeliveryMode has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
 
 
 
@@ -2482,7 +2837,7 @@ Class CheckoutActions.ClearCheckoutDeliveryMode has been removed and is no longe
 
 
 Class CheckoutActions.ClearCheckoutDeliveryModeFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedErrorEvent', which gets fired when the delivery mode has failed to clear.
 
 
 
@@ -2491,7 +2846,7 @@ Class CheckoutActions.ClearCheckoutDeliveryModeFail has been removed and is no l
 
 
 Class CheckoutActions.ClearCheckoutDeliveryModeSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutDeliveryModeClearedEvent', which gets fired when the delivery mode has successfully cleared.
 
 
 
@@ -2509,7 +2864,7 @@ Class CheckoutActions.ClearCheckoutStep has been removed and is no longer part o
 
 
 Class CheckoutActions.ClearPlaceOrder has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2518,7 +2873,7 @@ Class CheckoutActions.ClearPlaceOrder has been removed and is no longer part of 
 
 
 Class CheckoutActions.ClearScheduleReplenishmentOrderAction has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearPlacedOrder' from OrderFacade instead.
 
 
 
@@ -2527,7 +2882,7 @@ Class CheckoutActions.ClearScheduleReplenishmentOrderAction has been removed and
 
 
 Class CheckoutActions.ClearSupportedDeliveryModes has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'clearCheckoutDeliveryMode' from CheckoutDeliveryModesFacade instead.
 
 
 
@@ -2536,7 +2891,7 @@ Class CheckoutActions.ClearSupportedDeliveryModes has been removed and is no lon
 
 
 Variable CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createPaymentDetails()' from CheckoutPaymentFacade.
 
 
 
@@ -2545,7 +2900,7 @@ Variable CheckoutActions.CREATE_PAYMENT_DETAILS_FAIL has been removed and is no 
 
 
 Variable CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added
 
 
 
@@ -2554,7 +2909,7 @@ Variable CheckoutActions.CREATE_PAYMENT_DETAILS_SUCCESS has been removed and is 
 
 
 Variable CheckoutActions.CREATE_PAYMENT_DETAILS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use'createPaymentDetails()' from CheckoutPaymentFacade.
 
 
 
@@ -2563,7 +2918,7 @@ Variable CheckoutActions.CREATE_PAYMENT_DETAILS has been removed and is no longe
 
 
 Class CheckoutActions.CreatePaymentDetails has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'createPaymentDetails()' from CheckoutPaymentFacade.
 
 
 
@@ -2572,7 +2927,7 @@ Class CheckoutActions.CreatePaymentDetails has been removed and is no longer par
 
 
 Class CheckoutActions.CreatePaymentDetailsFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'createPaymentDetails()' from CheckoutPaymentFacade.
 
 
 
@@ -2581,7 +2936,7 @@ Class CheckoutActions.CreatePaymentDetailsFail has been removed and is no longer
 
 
 Class CheckoutActions.CreatePaymentDetailsSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsCreatedEvent', which gets fired when the payment details has successfully added
 
 
 
@@ -2590,7 +2945,7 @@ Class CheckoutActions.CreatePaymentDetailsSuccess has been removed and is no lon
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2599,7 +2954,7 @@ Variable CheckoutActions.LOAD_CARD_TYPES_FAIL has been removed and is no longer 
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2608,7 +2963,7 @@ Variable CheckoutActions.LOAD_CARD_TYPES_SUCCESS has been removed and is no long
 
 
 Variable CheckoutActions.LOAD_CARD_TYPES has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2617,7 +2972,7 @@ Variable CheckoutActions.LOAD_CARD_TYPES has been removed and is no longer part 
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2626,7 +2981,7 @@ Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_FAIL has been removed and is no l
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2635,7 +2990,7 @@ Variable CheckoutActions.LOAD_CHECKOUT_DETAILS_SUCCESS has been removed and is n
 
 
 Variable CheckoutActions.LOAD_CHECKOUT_DETAILS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2644,7 +2999,7 @@ Variable CheckoutActions.LOAD_CHECKOUT_DETAILS has been removed and is no longer
 
 
 Variable CheckoutActions.LOAD_PAYMENT_TYPES_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2653,7 +3008,7 @@ Variable CheckoutActions.LOAD_PAYMENT_TYPES_FAIL has been removed and is no long
 
 
 Variable CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2662,7 +3017,7 @@ Variable CheckoutActions.LOAD_PAYMENT_TYPES_SUCCESS has been removed and is no l
 
 
 Variable CheckoutActions.LOAD_PAYMENT_TYPES has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2671,7 +3026,7 @@ Variable CheckoutActions.LOAD_PAYMENT_TYPES has been removed and is no longer pa
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2680,7 +3035,7 @@ Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_FAIL has been removed and
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2689,7 +3044,7 @@ Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed 
 
 
 Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2698,7 +3053,7 @@ Variable CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES has been removed and is n
 
 
 Class CheckoutActions.LoadCardTypes has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2707,7 +3062,7 @@ Class CheckoutActions.LoadCardTypes has been removed and is no longer part of th
 
 
 Class CheckoutActions.LoadCardTypesFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2716,7 +3071,7 @@ Class CheckoutActions.LoadCardTypesFail has been removed and is no longer part o
 
 
 Class CheckoutActions.LoadCardTypesSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the card types 'state' from the query 'getPaymentCardTypesState' in CheckoutPaymentFacade.
 
 
 
@@ -2725,7 +3080,7 @@ Class CheckoutActions.LoadCardTypesSuccess has been removed and is no longer par
 
 
 Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2734,7 +3089,7 @@ Class CheckoutActions.LoadCheckoutDetails has been removed and is no longer part
 
 
 Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2743,7 +3098,7 @@ Class CheckoutActions.LoadCheckoutDetailsFail has been removed and is no longer 
 
 
 Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can get the checkout details 'state' through the query 'getCheckoutDetailsState' in CheckoutQueryFacade.
 
 
 
@@ -2752,7 +3107,7 @@ Class CheckoutActions.LoadCheckoutDetailsSuccess has been removed and is no long
 
 
 Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2761,7 +3116,7 @@ Class CheckoutActions.LoadPaymentTypes has been removed and is no longer part of
 
 
 Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2770,7 +3125,7 @@ Class CheckoutActions.LoadPaymentTypesFail has been removed and is no longer par
 
 
 Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the payment types 'state' from the query 'getPaymentTypesState' in CheckoutPaymentTypeFacade.
 
 
 
@@ -2779,7 +3134,7 @@ Class CheckoutActions.LoadPaymentTypesSuccess has been removed and is no longer 
 
 
 Class CheckoutActions.LoadSupportedDeliveryModes has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2788,7 +3143,7 @@ Class CheckoutActions.LoadSupportedDeliveryModes has been removed and is no long
 
 
 Class CheckoutActions.LoadSupportedDeliveryModesFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2797,7 +3152,7 @@ Class CheckoutActions.LoadSupportedDeliveryModesFail has been removed and is no 
 
 
 Class CheckoutActions.LoadSupportedDeliveryModesSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can find the supported delivery modes 'state' from the query 'getSupportedDeliveryModesState' in CheckoutDeliveryModesFacade.
 
 
 
@@ -2806,7 +3161,7 @@ Class CheckoutActions.LoadSupportedDeliveryModesSuccess has been removed and is 
 
 
 TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries. You can use 'setOrderType' from CheckoutReplenishmentFormService.
 
 
 
@@ -2815,7 +3170,7 @@ TypeAlias CheckoutActions.OrderTypesActions has been removed and is no longer pa
 
 
 Variable CheckoutActions.PAYMENT_PROCESS_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsSetEvent', which gets fired when the payment has been successfully processed.
 
 
 
@@ -2824,7 +3179,7 @@ Variable CheckoutActions.PAYMENT_PROCESS_SUCCESS has been removed and is no long
 
 
 Class CheckoutActions.PaymentProcessSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'CheckoutPaymentDetailsSetEvent', which gets fired when the payment has been successfully processed.
 
 
 
@@ -2833,7 +3188,7 @@ Class CheckoutActions.PaymentProcessSuccess has been removed and is no longer pa
 
 
 TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2842,7 +3197,7 @@ TypeAlias CheckoutActions.PaymentTypesAction has been removed and is no longer p
 
 
 Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'placeOrder()' from OrderFacade.
 
 
 
@@ -2851,7 +3206,7 @@ Variable CheckoutActions.PLACE_ORDER_FAIL has been removed and is no longer part
 
 
 Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'OrderPlacedEvent', which gets fired when checkout has been successful.
 
 
 
@@ -2860,7 +3215,7 @@ Variable CheckoutActions.PLACE_ORDER_SUCCESS has been removed and is no longer p
 
 
 Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'placeOrder()' from OrderFacade.
 
 
 
@@ -2869,7 +3224,7 @@ Variable CheckoutActions.PLACE_ORDER has been removed and is no longer part of t
 
 
 Class CheckoutActions.PlaceOrder has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Use 'placeOrder()' from OrderFacade.
 
 
 
@@ -2878,7 +3233,7 @@ Class CheckoutActions.PlaceOrder has been removed and is no longer part of the p
 
 
 Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can leverage RxJS' error handling when calling the 'placeOrder()' from OrderFacade.
 
 
 
@@ -2887,7 +3242,7 @@ Class CheckoutActions.PlaceOrderFail has been removed and is no longer part of t
 
 
 Class CheckoutActions.PlaceOrderSuccess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. You can use the EventService to listen for 'OrderPlacedEvent', which gets fired when checkout has been successful.
 
 
 
@@ -2896,7 +3251,7 @@ Class CheckoutActions.PlaceOrderSuccess has been removed and is no longer part o
 
 
 TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions. Please take a look at Commands & Queries documentation on how we handle state https://sap.github.io/spartacus-docs/commands-and-queries.
 
 
 
@@ -2905,7 +3260,7 @@ TypeAlias CheckoutActions.ReplenishmentOrderActions has been removed and is no l
 
 
 Variable CheckoutActions.RESET_LOAD_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch event to invalidate the loading of payment types using 'CheckoutPaymentTypesQueryResetEvent'.
 
 
 
@@ -2914,7 +3269,7 @@ Variable CheckoutActions.RESET_LOAD_PAYMENT_TYPES_PROCESS_ID has been removed an
 
 
 Variable CheckoutActions.RESET_SET_COST_CENTER_PROCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set cost center as well.
 
 
 
@@ -2923,7 +3278,7 @@ Variable CheckoutActions.RESET_SET_COST_CENTER_PROCESS has been removed and is n
 
 
 Variable CheckoutActions.RESET_SET_DELIVERY_ADDRESS_PROCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set delivery address as well.
 
 
 
@@ -2932,7 +3287,7 @@ Variable CheckoutActions.RESET_SET_DELIVERY_ADDRESS_PROCESS has been removed and
 
 
 Variable CheckoutActions.RESET_SET_DELIVERY_MODE_PROCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set delivery mode as well.
 
 
 
@@ -2941,7 +3296,7 @@ Variable CheckoutActions.RESET_SET_DELIVERY_MODE_PROCESS has been removed and is
 
 
 Variable CheckoutActions.RESET_SET_PAYMENT_DETAILS_PROCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set payment details as well.
 
 
 
@@ -2950,7 +3305,7 @@ Variable CheckoutActions.RESET_SET_PAYMENT_DETAILS_PROCESS has been removed and 
 
 
 Variable CheckoutActions.RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the supported delivery modes by using 'CheckoutSupportedDeliveryModesQueryResetEvent'.
 
 
 
@@ -2959,7 +3314,7 @@ Variable CheckoutActions.RESET_SUPPORTED_SET_DELIVERY_MODES_PROCESS has been rem
 
 
 Class CheckoutActions.ResetLoadPaymentTypesProcess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the payment types by using 'CheckoutPaymentTypesQueryResetEvent'.
 
 
 
@@ -2968,7 +3323,7 @@ Class CheckoutActions.ResetLoadPaymentTypesProcess has been removed and is no lo
 
 
 Class CheckoutActions.ResetLoadSupportedDeliveryModesProcess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to invalidate the supported delivery modes by using 'CheckoutSupportedDeliveryModesQueryResetEvent'.
 
 
 
@@ -2977,7 +3332,7 @@ Class CheckoutActions.ResetLoadSupportedDeliveryModesProcess has been removed an
 
 
 Class CheckoutActions.ResetSetCostCenterProcess has been removed and is no longer part of the public API.
-
+It is not used anymore. Checkout library no longer uses NgRX to dispatch actions.  You can use the EventService to dispatch an event to clear checkout data by using 'CheckoutQueryResetEvent', which removes the set cost center as well.
 
 
 
@@ -2986,7 +3341,7 @@ Class CheckoutActions.ResetSetCostCenterProcess has been removed and is no longe
 
 
 Class CheckoutActions.ResetSetDeliveryAddressProcess has been removed and is no longer part of the public API.
-
+After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root').
 
 
 
@@ -2995,7 +3350,7 @@ Class CheckoutActions.ResetSetDeliveryAddressProcess has been removed and is no 
 
 
 Class CheckoutActions.ResetSetDeliveryModeProcess has been removed and is no longer part of the public API.
-
+After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root').
 
 
 
@@ -3004,7 +3359,7 @@ Class CheckoutActions.ResetSetDeliveryModeProcess has been removed and is no lon
 
 
 Class CheckoutActions.ResetSetPaymentDetailsProcess has been removed and is no longer part of the public API.
-
+After switching to commands & queries, processes are no longer used. If you need to manually reset the state (in 'CheckoutQueryService' imported from '@spartacus/checkout/base/core'), you can fire 'CheckoutQueryResetEvent' event (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3013,7 +3368,7 @@ Class CheckoutActions.ResetSetPaymentDetailsProcess has been removed and is no l
 
 
 Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_FAIL has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of the 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root').
 
 
 
@@ -3022,7 +3377,7 @@ Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_FAIL has been removed and 
 
 
 Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS has been removed and is no longer part of the public API.
-
+Listen to 'ReplenishmentOrderScheduledEvent' imported from '@spartacus/order/root'.
 
 
 
@@ -3031,7 +3386,7 @@ Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER_SUCCESS has been removed a
 
 
 Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER has been removed and is no longer part of the public API.
-
+Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root')
 
 
 
@@ -3040,7 +3395,7 @@ Variable CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER has been removed and is no
 
 
 Class CheckoutActions.ScheduleReplenishmentOrder has been removed and is no longer part of the public API.
-
+Use 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root')
 
 
 
@@ -3049,7 +3404,7 @@ Class CheckoutActions.ScheduleReplenishmentOrder has been removed and is no long
 
 
 Class CheckoutActions.ScheduleReplenishmentOrderFail has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of the 'scheduleReplenishmentOrder()' from 'ScheduledReplenishmentOrderFacade' (imported from '@spartacus/order/root').
 
 
 
@@ -3058,7 +3413,7 @@ Class CheckoutActions.ScheduleReplenishmentOrderFail has been removed and is no 
 
 
 Class CheckoutActions.ScheduleReplenishmentOrderSuccess has been removed and is no longer part of the public API.
-
+Listen to 'ReplenishmentOrderScheduledEvent' imported from '@spartacus/order/root'.
 
 
 
@@ -3067,7 +3422,7 @@ Class CheckoutActions.ScheduleReplenishmentOrderSuccess has been removed and is 
 
 
 Variable CheckoutActions.SET_COST_CENTER_FAIL has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of the 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root').
 
 
 
@@ -3076,7 +3431,7 @@ Variable CheckoutActions.SET_COST_CENTER_FAIL has been removed and is no longer 
 
 
 Variable CheckoutActions.SET_COST_CENTER_SUCCESS has been removed and is no longer part of the public API.
-
+Listen to 'CheckoutCostCenterSetEvent' imported from '@spartacus/checkout/b2b/root'.
 
 
 
@@ -3085,7 +3440,7 @@ Variable CheckoutActions.SET_COST_CENTER_SUCCESS has been removed and is no long
 
 
 Variable CheckoutActions.SET_COST_CENTER has been removed and is no longer part of the public API.
-
+Use 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -3094,7 +3449,7 @@ Variable CheckoutActions.SET_COST_CENTER has been removed and is no longer part 
 
 
 Variable CheckoutActions.SET_DELIVERY_ADDRESS_FAIL has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of either 'setDeliveryAddress()' or 'createAndSetAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root').
 
 
 
@@ -3103,7 +3458,7 @@ Variable CheckoutActions.SET_DELIVERY_ADDRESS_FAIL has been removed and is no lo
 
 
 Variable CheckoutActions.SET_DELIVERY_ADDRESS_SUCCESS has been removed and is no longer part of the public API.
-
+Listen to 'CheckoutDeliveryAddressSetEvent' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3121,7 +3476,7 @@ Variable CheckoutActions.SET_DELIVERY_ADDRESS has been removed and is no longer 
 
 
 Variable CheckoutActions.SET_DELIVERY_MODE_FAIL has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of the 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').
 
 
 
@@ -3130,7 +3485,7 @@ Variable CheckoutActions.SET_DELIVERY_MODE_FAIL has been removed and is no longe
 
 
 Variable CheckoutActions.SET_DELIVERY_MODE_SUCCESS has been removed and is no longer part of the public API.
-
+Listen to 'CheckoutDeliveryModeSetEvent' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3139,7 +3494,7 @@ Variable CheckoutActions.SET_DELIVERY_MODE_SUCCESS has been removed and is no lo
 
 
 Variable CheckoutActions.SET_DELIVERY_MODE has been removed and is no longer part of the public API.
-
+Use 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3148,7 +3503,7 @@ Variable CheckoutActions.SET_DELIVERY_MODE has been removed and is no longer par
 
 
 Variable CheckoutActions.SET_ORDER_TYPE has been removed and is no longer part of the public API.
-
+Use 'setOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')
 
 
 
@@ -3157,7 +3512,7 @@ Variable CheckoutActions.SET_ORDER_TYPE has been removed and is no longer part o
 
 
 Variable CheckoutActions.SET_PAYMENT_DETAILS_FAIL has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of the 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root').
 
 
 
@@ -3166,7 +3521,7 @@ Variable CheckoutActions.SET_PAYMENT_DETAILS_FAIL has been removed and is no lon
 
 
 Variable CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS has been removed and is no longer part of the public API.
-
+Listen to 'CheckoutPaymentDetailsSetEvent' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3175,7 +3530,7 @@ Variable CheckoutActions.SET_PAYMENT_DETAILS_SUCCESS has been removed and is no 
 
 
 Variable CheckoutActions.SET_PAYMENT_DETAILS has been removed and is no longer part of the public API.
-
+Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3184,7 +3539,7 @@ Variable CheckoutActions.SET_PAYMENT_DETAILS has been removed and is no longer p
 
 
 Variable CheckoutActions.SET_PAYMENT_TYPE_FAIL has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of the 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').
 
 
 
@@ -3193,7 +3548,7 @@ Variable CheckoutActions.SET_PAYMENT_TYPE_FAIL has been removed and is no longer
 
 
 Variable CheckoutActions.SET_PAYMENT_TYPE_SUCCESS has been removed and is no longer part of the public API.
-
+Listen to 'CheckoutPaymentTypeSetEvent' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -3202,7 +3557,7 @@ Variable CheckoutActions.SET_PAYMENT_TYPE_SUCCESS has been removed and is no lon
 
 
 Variable CheckoutActions.SET_PAYMENT_TYPE has been removed and is no longer part of the public API.
-
+Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -3211,7 +3566,7 @@ Variable CheckoutActions.SET_PAYMENT_TYPE has been removed and is no longer part
 
 
 Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_FAIL has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of either 'getSupportedDeliveryModes()' or 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').
 
 
 
@@ -3220,7 +3575,7 @@ Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_FAIL has been removed and 
 
 
 Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed and is no longer part of the public API.
-
+Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3229,7 +3584,7 @@ Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES_SUCCESS has been removed a
 
 
 Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES has been removed and is no longer part of the public API.
-
+Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3238,7 +3593,7 @@ Variable CheckoutActions.SET_SUPPORTED_DELIVERY_MODES has been removed and is no
 
 
 Class CheckoutActions.SetCostCenter has been removed and is no longer part of the public API.
-
+Use 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -3247,7 +3602,7 @@ Class CheckoutActions.SetCostCenter has been removed and is no longer part of th
 
 
 Class CheckoutActions.SetCostCenterFail has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of the 'setCostCenter()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root').
 
 
 
@@ -3256,7 +3611,7 @@ Class CheckoutActions.SetCostCenterFail has been removed and is no longer part o
 
 
 Class CheckoutActions.SetCostCenterSuccess has been removed and is no longer part of the public API.
-
+Listen to 'CheckoutCostCenterSetEvent' imported from '@spartacus/checkout/b2b/root'.
 
 
 
@@ -3265,7 +3620,7 @@ Class CheckoutActions.SetCostCenterSuccess has been removed and is no longer par
 
 
 Class CheckoutActions.SetDeliveryAddress has been removed and is no longer part of the public API.
-
+Use 'setDeliveryAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3274,7 +3629,7 @@ Class CheckoutActions.SetDeliveryAddress has been removed and is no longer part 
 
 
 Class CheckoutActions.SetDeliveryAddressFail has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of either 'setDeliveryAddress()' or 'createAndSetAddress()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root').
 
 
 
@@ -3283,7 +3638,7 @@ Class CheckoutActions.SetDeliveryAddressFail has been removed and is no longer p
 
 
 Class CheckoutActions.SetDeliveryAddressSuccess has been removed and is no longer part of the public API.
-
+Listen to 'CheckoutDeliveryAddressSetEvent' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3292,7 +3647,7 @@ Class CheckoutActions.SetDeliveryAddressSuccess has been removed and is no longe
 
 
 Class CheckoutActions.SetDeliveryMode has been removed and is no longer part of the public API.
-
+Use 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3301,7 +3656,7 @@ Class CheckoutActions.SetDeliveryMode has been removed and is no longer part of 
 
 
 Class CheckoutActions.SetDeliveryModeFail has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of the 'setDeliveryMode()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root').
 
 
 
@@ -3310,7 +3665,7 @@ Class CheckoutActions.SetDeliveryModeFail has been removed and is no longer part
 
 
 Class CheckoutActions.SetDeliveryModeSuccess has been removed and is no longer part of the public API.
-
+Listen to 'CheckoutDeliveryModeSetEvent' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3319,7 +3674,7 @@ Class CheckoutActions.SetDeliveryModeSuccess has been removed and is no longer p
 
 
 Class CheckoutActions.SetOrderType has been removed and is no longer part of the public API.
-
+Use 'setOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')
 
 
 
@@ -3328,7 +3683,7 @@ Class CheckoutActions.SetOrderType has been removed and is no longer part of the
 
 
 Class CheckoutActions.SetPaymentDetails has been removed and is no longer part of the public API.
-
+Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3337,7 +3692,7 @@ Class CheckoutActions.SetPaymentDetails has been removed and is no longer part o
 
 
 Class CheckoutActions.SetPaymentDetailsFail has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of the 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root').
 
 
 
@@ -3346,7 +3701,7 @@ Class CheckoutActions.SetPaymentDetailsFail has been removed and is no longer pa
 
 
 Class CheckoutActions.SetPaymentDetailsSuccess has been removed and is no longer part of the public API.
-
+Listen to 'CheckoutPaymentDetailsSetEvent' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3355,7 +3710,7 @@ Class CheckoutActions.SetPaymentDetailsSuccess has been removed and is no longer
 
 
 Class CheckoutActions.SetPaymentType has been removed and is no longer part of the public API.
-
+Use 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -3364,7 +3719,7 @@ Class CheckoutActions.SetPaymentType has been removed and is no longer part of t
 
 
 Class CheckoutActions.SetPaymentTypeFail has been removed and is no longer part of the public API.
-
+Instead, use the Observer's `error` property of the 'setPaymentType()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').
 
 
 
@@ -3373,7 +3728,7 @@ Class CheckoutActions.SetPaymentTypeFail has been removed and is no longer part 
 
 
 Class CheckoutActions.SetPaymentTypeSuccess has been removed and is no longer part of the public API.
-
+Listen to 'CheckoutPaymentTypeSetEvent' (imported from '@spartacus/checkout/b2b/root').
 
 
 
@@ -3385,19 +3740,19 @@ moved to @spartacus/checkout/base/core
 
 ### Method clearCheckoutDeliveryAddress is removed.
 
-
+Use 'clearCheckoutDeliveryAddress()' from 'CheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/core')
 
 ### Method clearCheckoutDeliveryMode is removed.
 
-
+Use 'clearCheckoutDeliveryMode()' from 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')
 
 ### Method loadCheckoutDetails is removed.
 
-
+Use 'getCheckoutDetails()' from 'CheckoutAdapter' (imported from '@spartacus/checkout/base/core')
 
 ### Method placeOrder is removed.
 
-
+Use 'placeOrder()' from 'OrderAdapter' (imported from '@spartacus/order/core')
 
 
 
@@ -3409,19 +3764,19 @@ moved to @spartacus/checkout/base/core
 
 ### Method clearCheckoutDeliveryAddress is removed.
 
-
+Use 'clearCheckoutDeliveryAddress()' from 'CheckoutDeliveryAddressConnector' (imported from '@spartacus/checkout/base/core')
 
 ### Method clearCheckoutDeliveryMode is removed.
 
-
+Use 'clearCheckoutDeliveryMode()' from 'CheckoutDeliveryModesConnector' (imported from '@spartacus/checkout/base/core')
 
 ### Method loadCheckoutDetails is removed.
 
-
+Use 'getCheckoutDetails()' from 'CheckoutConnector' (imported from '@spartacus/checkout/base/core')
 
 ### Method placeOrder is removed.
 
-
+Use 'placeOrder()' from 'OrderConnector' (imported from '@spartacus/order/core')
 
 
 
@@ -3489,15 +3844,15 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 ### Property checkoutStore is removed.
 
-
+This property is used internally only.
 
 ### Method getCostCenter is removed.
 
-
+Use 'getCostCenterState' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')
 
 ### Method setCostCenter changed.
 
@@ -3531,7 +3886,7 @@ setCostCenter(
 
 
 Class CheckoutDeliveryAdapter has been removed and is no longer part of the public API.
-
+Use 'CheckoutDeliveryAddressAdapter' or 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')
 
 
 
@@ -3540,7 +3895,7 @@ Class CheckoutDeliveryAdapter has been removed and is no longer part of the publ
 
 
 Class CheckoutDeliveryConnector has been removed and is no longer part of the public API.
-
+Use 'CheckoutDeliveryModesConnector' or 'CheckoutDeliveryAddressConnector' (imported from '@spartacus/checkout/base/core')
 
 
 
@@ -3549,7 +3904,7 @@ Class CheckoutDeliveryConnector has been removed and is no longer part of the pu
 
 
 Class CheckoutDeliveryService has been removed and is no longer part of the public API.
-
+Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3558,7 +3913,7 @@ Class CheckoutDeliveryService has been removed and is no longer part of the publ
 
 
 TypeAlias CheckoutDetails has been removed and is no longer part of the public API.
-
+Replaced with 'CheckoutState' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3567,7 +3922,7 @@ TypeAlias CheckoutDetails has been removed and is no longer part of the public A
 
 
 Class CheckoutEventBuilder has been removed and is no longer part of the public API.
-
+The events are now split to different listeners across the Base, B2B and Scheduled-Replenishment libraries. All listeners have the following naming convention: 'Checkout*EventListener'.
 
 
 
@@ -3576,7 +3931,7 @@ Class CheckoutEventBuilder has been removed and is no longer part of the public 
 
 
 Class CheckoutEventListener has been removed and is no longer part of the public API.
-
+The events are now split to different listeners across the Base, B2B and Scheduled-Replenishment libraries. All listeners have the following naming convention: 'Checkout*EventListener'.
 
 
 
@@ -3656,11 +4011,11 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+No replacement.
 
 ### Property cart$ is removed.
 
-
+No replacement.
 
 ### Method resolveTitle changed.
 
@@ -3685,7 +4040,7 @@ resolveTitle(): Observable<string | undefined>
 
 ### Property translation is removed.
 
-
+Use 'translationService' instead.
 
 
 
@@ -3697,15 +4052,15 @@ moved to @spartacus/checkout/base/core
 
 ### Method create is removed.
 
-
+Use 'createPaymentDetails()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')
 
 ### Method loadCardTypes is removed.
 
-
+Use 'getPaymentCardTypes()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')
 
 ### Method set is removed.
 
-
+Use 'setPaymentDetails()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')
 
 
 
@@ -3717,15 +4072,15 @@ moved to @spartacus/checkout/base/core
 
 ### Method create is removed.
 
-
+Use 'createPaymentDetails()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')
 
 ### Method getCardTypes is removed.
 
-
+Use 'getPaymentCardTypes()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')
 
 ### Method set is removed.
 
-
+Use 'setPaymentDetails()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')
 
 
 
@@ -3771,15 +4126,15 @@ constructor(
 
 ### Method actionAllowed is removed.
 
-
+Removed. Replaced with an internal protected 'checkoutPreconditions()' method in the 'CheckoutPaymentService' (from '@spartacus/checkout/base/core')
 
 ### Property activeCartService is removed.
 
-
+Use 'activeCartFacade' instead.
 
 ### Property checkoutStore is removed.
 
-
+Removed, as checkout no longer uses ngrx store.
 
 ### Method createPaymentDetails changed.
 
@@ -3808,19 +4163,19 @@ createPaymentDetails(
 
 ### Method getCardTypes is removed.
 
-
+Use 'getPaymentCardTypes()' instead.
 
 ### Method getPaymentDetails is removed.
 
-
+Use 'getPaymentDetailsState()' instead.
 
 ### Method getSetPaymentDetailsResultProcess is removed.
 
-
+After switching to commands & queries, processes are no longer used.
 
 ### Method loadSupportedCardTypes is removed.
 
-
+Use 'getPaymentCardTypes()' or 'getPaymentCardTypesState()' instead.
 
 ### Method paymentProcessSuccess is removed.
 
@@ -3828,11 +4183,11 @@ createPaymentDetails(
 
 ### Property processStateStore is removed.
 
-
+After switching to commands & queries, processes are no longer used.
 
 ### Method resetSetPaymentDetailsProcess is removed.
 
-
+After switching to commands & queries, processes are no longer used.
 
 ### Method setPaymentDetails changed.
 
@@ -3866,7 +4221,7 @@ setPaymentDetails(
 
 
 Class CheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API.
-
+Use 'ScheduledReplenishmentOrderAdapter' (imported from '@spartacus/order/core')
 
 
 
@@ -3875,7 +4230,7 @@ Class CheckoutReplenishmentOrderAdapter has been removed and is no longer part o
 
 
 Class CheckoutReplenishmentOrderConnector has been removed and is no longer part of the public API.
-
+Use 'ScheduledReplenishmentOrderConnector' (imported from '@spartacus/order/core')
 
 
 
@@ -3893,7 +4248,7 @@ Namespace CheckoutSelectors has been removed and is no longer part of the public
 
 
 Variable CheckoutSelectors.getAllCardTypes has been removed and is no longer part of the public API.
-
+Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3902,7 +4257,7 @@ Variable CheckoutSelectors.getAllCardTypes has been removed and is no longer par
 
 
 Variable CheckoutSelectors.getAllPaymentTypes has been removed and is no longer part of the public API.
-
+Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3911,7 +4266,7 @@ Variable CheckoutSelectors.getAllPaymentTypes has been removed and is no longer 
 
 
 Variable CheckoutSelectors.getCardTypesEntites has been removed and is no longer part of the public API.
-
+Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3929,7 +4284,7 @@ Variable CheckoutSelectors.getCardTypesState has been removed and is no longer p
 
 
 Variable CheckoutSelectors.getCheckoutDetailsLoaded has been removed and is no longer part of the public API.
-
+Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3938,7 +4293,7 @@ Variable CheckoutSelectors.getCheckoutDetailsLoaded has been removed and is no l
 
 
 Variable CheckoutSelectors.getCheckoutLoading has been removed and is no longer part of the public API.
-
+Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3947,7 +4302,7 @@ Variable CheckoutSelectors.getCheckoutLoading has been removed and is no longer 
 
 
 Variable CheckoutSelectors.getCheckoutOrderDetails has been removed and is no longer part of the public API.
-
+Use 'getOrderDetails()' from 'OrderFacade' (imported from '@spartacus/order/root')
 
 
 
@@ -3956,7 +4311,7 @@ Variable CheckoutSelectors.getCheckoutOrderDetails has been removed and is no lo
 
 
 Variable CheckoutSelectors.getCheckoutState has been removed and is no longer part of the public API.
-
+Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3965,7 +4320,7 @@ Variable CheckoutSelectors.getCheckoutState has been removed and is no longer pa
 
 
 Variable CheckoutSelectors.getCheckoutSteps has been removed and is no longer part of the public API.
-
+Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -3974,7 +4329,7 @@ Variable CheckoutSelectors.getCheckoutSteps has been removed and is no longer pa
 
 
 Variable CheckoutSelectors.getCheckoutStepsState has been removed and is no longer part of the public API.
-
+Use 'getCheckoutDetailsState()' from 'CheckoutQueryFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -4008,7 +4363,7 @@ getCostCenter: (costCenterCode: string) => MemoizedSelector<StateWithOrganizatio
 
 
 Variable CheckoutSelectors.getDeliveryAddress has been removed and is no longer part of the public API.
-
+Use 'getDeliveryAddressState()' from 'CheckoutDeliveryAddressFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -4017,7 +4372,7 @@ Variable CheckoutSelectors.getDeliveryAddress has been removed and is no longer 
 
 
 Variable CheckoutSelectors.getDeliveryMode has been removed and is no longer part of the public API.
-
+Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -4026,7 +4381,7 @@ Variable CheckoutSelectors.getDeliveryMode has been removed and is no longer par
 
 
 Variable CheckoutSelectors.getOrderTypesState has been removed and is no longer part of the public API.
-
+If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')
 
 
 
@@ -4035,7 +4390,7 @@ Variable CheckoutSelectors.getOrderTypesState has been removed and is no longer 
 
 
 Variable CheckoutSelectors.getPaymentDetails has been removed and is no longer part of the public API.
-
+Use 'getPaymentDetailsState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -4044,7 +4399,7 @@ Variable CheckoutSelectors.getPaymentDetails has been removed and is no longer p
 
 
 Variable CheckoutSelectors.getPaymentTypesEntites has been removed and is no longer part of the public API.
-
+Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -4053,7 +4408,7 @@ Variable CheckoutSelectors.getPaymentTypesEntites has been removed and is no lon
 
 
 Variable CheckoutSelectors.getPaymentTypesState has been removed and is no longer part of the public API.
-
+Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -4062,7 +4417,7 @@ Variable CheckoutSelectors.getPaymentTypesState has been removed and is no longe
 
 
 Variable CheckoutSelectors.getPoNumer has been removed and is no longer part of the public API.
-
+Use 'getPurchaseOrderNumberState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -4071,7 +4426,7 @@ Variable CheckoutSelectors.getPoNumer has been removed and is no longer part of 
 
 
 Variable CheckoutSelectors.getSelectedDeliveryMode has been removed and is no longer part of the public API.
-
+Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -4080,7 +4435,7 @@ Variable CheckoutSelectors.getSelectedDeliveryMode has been removed and is no lo
 
 
 Variable CheckoutSelectors.getSelectedDeliveryModeCode has been removed and is no longer part of the public API.
-
+Use 'getSelectedDeliveryModeState()' from 'CheckoutDeliveryModesFacade' and deduce the code (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -4089,7 +4444,7 @@ Variable CheckoutSelectors.getSelectedDeliveryModeCode has been removed and is n
 
 
 Variable CheckoutSelectors.getSelectedOrderType has been removed and is no longer part of the public API.
-
+If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')
 
 
 
@@ -4098,7 +4453,7 @@ Variable CheckoutSelectors.getSelectedOrderType has been removed and is no longe
 
 
 Variable CheckoutSelectors.getSelectedOrderTypeSelector has been removed and is no longer part of the public API.
-
+If you are not using scheduled-replenishment feature, you don't need this variable any longer. Otherwise, use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')
 
 
 
@@ -4107,7 +4462,7 @@ Variable CheckoutSelectors.getSelectedOrderTypeSelector has been removed and is 
 
 
 Variable CheckoutSelectors.getSelectedPaymentType has been removed and is no longer part of the public API.
-
+Use 'getSelectedPaymentTypeState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -4116,7 +4471,7 @@ Variable CheckoutSelectors.getSelectedPaymentType has been removed and is no lon
 
 
 Variable CheckoutSelectors.getSupportedDeliveryModes has been removed and is no longer part of the public API.
-
+Use 'getSupportedDeliveryModesState()' from 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -4125,7 +4480,7 @@ Variable CheckoutSelectors.getSupportedDeliveryModes has been removed and is no 
 
 
 Class CheckoutService has been removed and is no longer part of the public API.
-
+Please check the comment instructions above each of the methods you use from this class.
 
 
 
@@ -4137,19 +4492,19 @@ moved to @spartacus/checkout/base/root
 
 ### PropertySignature cardTypes is removed.
 
-
+Use 'getPaymentCardTypesState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root') instead.')
 
 ### PropertySignature orderType is removed.
 
-
+Removed. You can Use 'getOrderType()' from 'CheckoutReplenishmentFormService' (imported from '@spartacus/checkout/scheduled-replenishment/components')
 
 ### PropertySignature paymentTypes is removed.
 
-
+Use 'getPaymentTypesState()' from 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root').
 
 ### PropertySignature steps is removed.
 
-
+Removed, and there is no replecemenet as it is no longer needed.
 
 
 
@@ -4158,7 +4513,7 @@ moved to @spartacus/checkout/base/root
 
 
 Interface CheckoutStepsState has been removed and is no longer part of the public API.
-
+Removed, and no longer used.
 
 
 
@@ -4167,7 +4522,7 @@ Interface CheckoutStepsState has been removed and is no longer part of the publi
 
 
 Class ClearCheckoutService has been removed and is no longer part of the public API.
-
+You can use 'CheckoutQueryResetEvent' (imported from '@spartacus/checkout/base/root') to reset the checkout state.
 
 
 
@@ -4184,7 +4539,7 @@ moved to @spartacus/checkout/base/core
 
 
 Variable GET_PAYMENT_TYPES_PROCESS_ID has been removed and is no longer part of the public API.
-
+After switching to commands & queries, processes are no longer used.
 
 
 
@@ -4210,7 +4565,7 @@ moved to @spartacus/checkout/base/core
 
 
 Variable PAYMENT_TYPE_NORMALIZER has been removed and is no longer part of the public API.
-
+Use 'CHECKOUT_PAYMENT_TYPE_NORMALIZER' from '@spartacus/checkout/b2b/core'
 
 
 
@@ -4219,7 +4574,7 @@ Variable PAYMENT_TYPE_NORMALIZER has been removed and is no longer part of the p
 
 
 Class PaymentTypeAdapter has been removed and is no longer part of the public API.
-
+Use 'CheckoutPaymentTypeAdapter' (imported from '@spartacus/checkout/b2b/core')
 
 
 
@@ -4228,7 +4583,7 @@ Class PaymentTypeAdapter has been removed and is no longer part of the public AP
 
 
 Class PaymentTypeConnector has been removed and is no longer part of the public API.
-
+Use 'CheckoutPaymentTypeConnector' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -4237,7 +4592,7 @@ Class PaymentTypeConnector has been removed and is no longer part of the public 
 
 
 Class PaymentTypeService has been removed and is no longer part of the public API.
-
+Use 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -4255,7 +4610,7 @@ Interface PaymentTypesState has been removed and is no longer part of the public
 
 
 Variable PLACED_ORDER_PROCESS_ID has been removed and is no longer part of the public API.
-
+After switching to commands & queries, processes are no longer used.
 
 
 
@@ -4272,7 +4627,7 @@ moved to @spartacus/order/root
 
 
 Variable SET_COST_CENTER_PROCESS_ID has been removed and is no longer part of the public API.
-
+After switching to commands & queries, processes are no longer used.
 
 
 
@@ -4290,7 +4645,7 @@ Variable SET_DELIVERY_ADDRESS_PROCESS_ID has been removed and is no longer part 
 
 
 Variable SET_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of the public API.
-
+After switching to commands & queries, processes are no longer used.
 
 
 
@@ -4299,7 +4654,7 @@ Variable SET_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of 
 
 
 Variable SET_PAYMENT_DETAILS_PROCESS_ID has been removed and is no longer part of the public API.
-
+After switching to commands & queries, processes are no longer used.
 
 
 
@@ -4308,7 +4663,7 @@ Variable SET_PAYMENT_DETAILS_PROCESS_ID has been removed and is no longer part o
 
 
 Variable SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID has been removed and is no longer part of the public API.
-
+After switching to commands & queries, processes are no longer used.
 
 
 
@@ -4317,7 +4672,7 @@ Variable SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID has been removed and is no longe
 
 
 Interface StateWithCheckout has been removed and is no longer part of the public API.
-
+No direct replacement. Check the 'CheckoutState' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -4333,19 +4688,19 @@ moved to @spartacus/checkout/base/occ
 
 ### PropertySignature paymentTypes is removed.
 
-
+If you are not using B2B-Checkout, you can remove it. Otherwise, it should be present.
 
 ### PropertySignature placeOrder is removed.
 
-
+Moved to the Order library. Because of TS' type augmentation, it will be part of the 'OccEndpoints'.
 
 ### PropertySignature setCartCostCenter is removed.
 
-
+By leveraging TS' type augmentation, it's part of the 'OccEndpoints'.
 
 ### PropertySignature setCartPaymentType is removed.
 
-
+Moved to the B2B-Checkout library. Because of TS' type augmentation, it will be part of the 'OccEndpoints'.
 
 
 
@@ -4365,35 +4720,35 @@ moved to @spartacus/checkout/base/occ
 
 ### Method clearCheckoutDeliveryAddress is removed.
 
-
+Use 'clearCheckoutDeliveryAddress()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method clearCheckoutDeliveryMode is removed.
 
-
+Use 'clearCheckoutDeliveryMode()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method getClearDeliveryModeEndpoint is removed.
 
-
+Use 'getClearDeliveryModeEndpoint()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method getLoadCheckoutDetailsEndpoint is removed.
 
-
+Use 'getGetCheckoutDetailsEndpoint()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method getPlaceOrderEndpoint is removed.
 
-
+Use 'getPlaceOrderEndpoint()' from 'OccOrderAdapter' (imported from '@spartacus/order/core')
 
 ### Method getRemoveDeliveryAddressEndpoint is removed.
 
-
+Use 'getRemoveDeliveryAddressEndpoint()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method loadCheckoutDetails is removed.
 
-
+Use 'getCheckoutDetails()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method placeOrder is removed.
 
-
+Use 'placeOrder()' from 'OccOrderAdapter' (imported from '@spartacus/order/core')
 
 
 
@@ -4410,7 +4765,7 @@ moved to @spartacus/checkout/b2b/occ
 
 
 Class OccCheckoutDeliveryAdapter has been removed and is no longer part of the public API.
-
+Use 'OccCheckoutDeliveryAddressAdapter' or 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')
 
 
 
@@ -4422,11 +4777,11 @@ moved to @spartacus/checkout/base/occ
 
 ### Method create is removed.
 
-
+Use 'createPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method getCardTypesEndpoint is removed.
 
-
+Use 'getPaymentCardTypes()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')
 
 ### Method loadCardTypes is removed.
 
@@ -4434,7 +4789,7 @@ moved to @spartacus/checkout/base/occ
 
 ### Method set is removed.
 
-
+Use 'setPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')
 
 
 
@@ -4446,7 +4801,7 @@ moved to @spartacus/checkout/b2b/occ
 
 ### Method loadPaymentTypes is removed.
 
-
+Use 'getPaymentTypes()' from 'OccCheckoutPaymentTypeAdapter' (imported from '@spartacus/checkout/b2b/occ')
 
 
 
@@ -4455,7 +4810,7 @@ moved to @spartacus/checkout/b2b/occ
 
 
 Class OccCheckoutReplenishmentOrderAdapter has been removed and is no longer part of the public API.
-
+Use 'OccScheduledReplenishmentOrderAdapter' (imported from '@spartacus/order/core')
 
 
 
@@ -4464,7 +4819,7 @@ Class OccCheckoutReplenishmentOrderAdapter has been removed and is no longer par
 
 
 Class OccReplenishmentOrderFormSerializer has been removed and is no longer part of the public API.
-
+Use 'OccScheduledReplenishmentOrderFormSerializer' (imported from '@spartacus/order/occ')
 
 
 
@@ -4500,7 +4855,7 @@ moved to @spartacus/checkout/b2b/root
 
 ### Method getCostCenter is removed.
 
-
+Use 'getCostCenterState()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')
 
 ### Method setCostCenter changed.
 
@@ -4534,7 +4889,7 @@ setCostCenter(
 
 
 Class CheckoutDeliveryFacade has been removed and is no longer part of the public API.
-
+Use 'CheckoutDeliveryAddressFacade' or 'CheckoutDeliveryModesFacade' (imported from '@spartacus/checkout/base/root')
 
 
 
@@ -4543,7 +4898,7 @@ Class CheckoutDeliveryFacade has been removed and is no longer part of the publi
 
 
 Class CheckoutFacade has been removed and is no longer part of the public API.
-
+The class' functionality is scattered, please check the migration instruction for each of the methods you use from this class.
 
 
 
@@ -4580,27 +4935,27 @@ createPaymentDetails(
 
 ### Method getCardTypes is removed.
 
-
+Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 ### Method getPaymentDetails is removed.
 
-
+Use 'getPaymentDetailsState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 ### Method getSetPaymentDetailsResultProcess is removed.
 
-
+Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 ### Method loadSupportedCardTypes is removed.
 
-
+Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 ### Method paymentProcessSuccess is removed.
 
-
+Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')
 
 ### Method resetSetPaymentDetailsProcess is removed.
 
-
+After switching to commands & queries, processes are no longer used.
 
 ### Method setPaymentDetails changed.
 
@@ -4634,7 +4989,7 @@ setPaymentDetails(
 
 
 Variable checkoutPaymentSteps has been removed and is no longer part of the public API.
-
+Moved to 'getCheckoutPaymentSteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/base/components') and 'getCheckoutPaymentSteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/b2b/components')
 
 
 
@@ -4651,7 +5006,7 @@ moved to @spartacus/checkout/base/root
 
 
 Variable checkoutShippingSteps has been removed and is no longer part of the public API.
-
+Moved to 'getCheckoutDeliverySteps()' in 'CheckoutReviewSubmitComponent' (imported from '@spartacus/checkout/base/components')
 
 
 
@@ -4699,7 +5054,7 @@ REVIEW_ORDER
 
 
 Class ClearCheckoutFacade has been removed and is no longer part of the public API.
-
+You can use 'CheckoutQueryResetEvent' (imported from '@spartacus/checkout/base/root') to reset the checkout state.
 
 
 
@@ -4779,7 +5134,7 @@ constructor(
 
 ### Property checkoutService is removed.
 
-
+Use 'orderFacade' instead.
 
 
 
@@ -4791,7 +5146,7 @@ moved to @spartacus/order/root
 
 ### Property code is removed.
 
-
+Please use the 'order' property instead.
 
 
 
@@ -4800,7 +5155,7 @@ moved to @spartacus/order/root
 
 
 Class PaymentTypeFacade has been removed and is no longer part of the public API.
-
+Use 'CheckoutPaymentTypeFacade' (imported from '@spartacus/checkout/b2b/root')
 
 
 
@@ -4848,7 +5203,7 @@ constructor(
 
 ### Property cartSelector$ is removed.
 
-
+It is renamed to cartEntity$.
 
 ### Method getEntry changed.
 
@@ -4929,11 +5284,11 @@ isCartCreating(
 
 ### Method isEmail is removed.
 
-
+Instead, use 'isEmail' util function from '@spartacus/cart/base/core'.
 
 ### Method isEmpty is removed.
 
-
+Instead, use 'isEmpty' util function from '@spartacus/cart/base/core'.
 
 ### Method isGuestCart changed.
 
@@ -4962,11 +5317,11 @@ isGuestCart(
 
 ### Method isJustLoggedIn is removed.
 
-
+Instead, use 'isJustLoggedIn' util function from '@spartacus/cart/base/core'.
 
 ### Property multiCartService is removed.
 
-
+Use multiCartFacade instead.
 
 ### Method requireLoadedCart changed.
 
@@ -4995,11 +5350,11 @@ requireLoadedCart(
 
 ### Method requireLoadedCartForGuestMerge is removed.
 
-
+It is not used anymore.
 
 ### Property store is removed.
 
-
+It is not used anymore.
 
 
 
@@ -5007,16 +5362,6 @@ requireLoadedCart(
 ## @spartacus/core
 
 moved to @spartacus/cart/base/core
-
-
-
-
-# Class AddUserAddressEvent 
-## @spartacus/core
-
-
-### Property userId is removed.
-
 
 
 
@@ -5303,7 +5648,7 @@ moved to @spartacus/checkout/b2b/root
 
 ### Method handleBadCartRequest is removed.
 
-
+'handleBadCartRequest' is moved to Class 'BadCartRequestHandler' in  '@spartacus/cart/base/core'
 
 ### Method handleVoucherOperationError is removed.
 
@@ -6435,7 +6780,7 @@ moved to namespace CartActions
 
 
 Variable CartActions.RESET_WISH_LIST_DETAILS has been removed and is no longer part of the public API.
-
+It is not used anymore.
 
 
 
@@ -6462,7 +6807,7 @@ moved to namespace CartActions
 
 
 Variable CartActions.SET_TEMP_CART has been removed and is no longer part of the public API.
-
+It is not used anymore.
 
 
 
@@ -6480,7 +6825,7 @@ moved to namespace CartActions
 
 
 Class CartActions.SetTempCart has been removed and is no longer part of the public API.
-
+It is not used anymore.
 
 
 
@@ -6711,7 +7056,7 @@ moved to @spartacus/cart/base/root
 
 
 Class CartModule has been removed and is no longer part of the public API.
-
+While it's not identical, the new module 'CartBaseCoreModule' in '@spartacus/cart/base/core' is the closest equivalent in the new cart library.
 
 
 
@@ -6720,7 +7065,7 @@ Class CartModule has been removed and is no longer part of the public API.
 
 
 Class CartOccModule has been removed and is no longer part of the public API.
-
+While it's not identical, the new module 'CartBaseOccModule' in '@spartacus/cart/base/occ' is the closest equivalent in the new cart library.
 
 
 
@@ -6732,7 +7077,7 @@ moved to @spartacus/cart/base/core
 
 ### Method forRoot is removed.
 
-
+The providers previously loaded by 'forRoot' are now loaded with the module.
 
 
 
@@ -6824,7 +7169,7 @@ constructor(
 
 ### Property activeCartService is removed.
 
-
+Use activeCartFacade instead.
 
 
 
@@ -7624,16 +7969,6 @@ getParams(): Observable<{
 
 
 
-# Class DeleteUserAddressEvent 
-## @spartacus/core
-
-
-### Property userId is removed.
-
-
-
-
-
 # Interface DeliveryMode 
 ## @spartacus/core
 
@@ -8001,7 +8336,7 @@ moved to @spartacus/cart/base/core
 
 
 Variable MultiCartSelectors.getActiveCartId has been removed and is no longer part of the public API.
-
+Use 'getCartIdByTypeFactory' instead
 
 
 
@@ -8139,7 +8474,7 @@ moved to namespace MultiCartSelectors
 
 
 Variable MultiCartSelectors.getWishListId has been removed and is no longer part of the public API.
-
+Use 'getCartIdByTypeFactory' instead
 
 
 
@@ -8277,7 +8612,7 @@ moved to @spartacus/cart/base/core
 
 ### PropertySignature active is removed.
 
-
+Instead, use property 'index' combined with the appropriate 'cartType'.
 
 ### PropertySignature carts changed.
 
@@ -8298,7 +8633,7 @@ carts: StateUtils.EntityProcessesLoaderState<Cart | undefined>
 
 ### PropertySignature wishList is removed.
 
-
+Instead, use property 'index' combined with the appropriate 'cartType'.
 
 
 
@@ -8376,7 +8711,7 @@ constructor(
 
 ### Property authRedirectService is removed.
 
-
+It is not used anymore.
 
 
 
@@ -8594,275 +8929,275 @@ normalizeBoolean(
 
 ### PropertySignature addEmail is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature addEntries is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature b2bUser is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserApprover is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserApprovers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserPermission is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserPermissions is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUsers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserUserGroup is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature b2bUserUserGroups is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature budget is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature budgets is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature cancelOrder is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature cancelReplenishmentOrder is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature cancelReturn is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature cart is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature carts is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature cartVoucher is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature consignmentTracking is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature costCenter is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature costCenterBudget is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature costCenterBudgets is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature costCenters is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature costCentersAll is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature createCart is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature deleteCart is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature orderApproval is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'
 
 ### PropertySignature orderApprovalDecision is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'
 
 ### PropertySignature orderApprovalPermissionTypes is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orderApprovals is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/order-approval/occ'
 
 ### PropertySignature orderDetail is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature orderHistory is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature orderReturnDetail is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature orderReturns is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature orgUnit is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitApprover is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitApprovers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnits is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitsAddress is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitsAddresses is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitsApprovalProcesses is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitsAvailable is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitsTree is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitUserRole is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitUserRoles is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature orgUnitUsers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature permission is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature permissions is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature removeEntries is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature replenishmentOrderDetails is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature replenishmentOrderDetailsHistory is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature replenishmentOrderHistory is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature returnOrder is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature saveCart is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature scheduleReplenishmentOrder is removed.
 
-
+It is moved to interface 'OrderOccEndpoints' in '@spartacus/order/occ'
 
 ### PropertySignature store is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/storefinder/occ'
 
 ### PropertySignature stores is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/storefinder/occ'
 
 ### PropertySignature storescounts is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/storefinder/occ'
 
 ### PropertySignature updateEntries is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 ### PropertySignature userGroup is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupAvailableOrderApprovalPermissions is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupAvailableOrgCustomers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupMember is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupMembers is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupOrderApprovalPermission is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroupOrderApprovalPermissions is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature userGroups is removed.
 
-
+It is moved to interface 'OccEndpoints' in '@spartacus/organization/administration/occ'
 
 ### PropertySignature validate is removed.
 
-
+It is moved to interface 'CartOccEndpoints' in '@spartacus/cart/base/occ'
 
 
 
@@ -8947,7 +9282,7 @@ moved to @spartacus/order/occ
 
 
 Class OccUserOrderAdapter has been removed and is no longer part of the public API.
-
+Use OccOrderHistoryAdapter in @spartacus/order/occ instead
 
 
 
@@ -8956,7 +9291,7 @@ Class OccUserOrderAdapter has been removed and is no longer part of the public A
 
 
 Class OccUserReplenishmentOrderAdapter has been removed and is no longer part of the public API.
-
+Use OccReplenishmentOrderHistoryAdapter in @spartacus/order/occ instead
 
 
 
@@ -9029,7 +9364,7 @@ moved to @spartacus/cart/base/root
 
 
 Class OrderEntryPromotionsService has been removed and is no longer part of the public API.
-
+It is not used anymore.
 
 
 
@@ -9965,7 +10300,7 @@ moved to @spartacus/cart/base/root
 
 
 Class SaveCartAdapter has been removed and is no longer part of the public API.
-
+Use CartAdapter.save instead from '@spartacus/cart/base/core'
 
 
 
@@ -9974,7 +10309,7 @@ Class SaveCartAdapter has been removed and is no longer part of the public API.
 
 
 Class SaveCartConnector has been removed and is no longer part of the public API.
-
+Use CartConnector.save instead from '@spartacus/cart/base/core'
 
 
 
@@ -10035,23 +10370,23 @@ constructor(
 
 ### Property cartConfigService is removed.
 
-
+It is not used anymore.
 
 ### Property cartId is removed.
 
-
+Use getSelectiveCartId() instead.
 
 ### Property cartId$ is removed.
 
-
+Use getSelectiveCartId() instead.
 
 ### Property cartSelector$ is removed.
 
-
+It is not used anymore.
 
 ### Property customerId is removed.
 
-
+It's not used anymore.
 
 ### Method getEntry changed.
 
@@ -10080,15 +10415,15 @@ getEntry(
 
 ### Method isEmpty is removed.
 
-
+It's not used anymore.
 
 ### Method isEnabled is removed.
 
-
+It's not used anymore.
 
 ### Method isJustLoggedIn is removed.
 
-
+It's not used anymore.
 
 ### Method isLoggedIn is removed.
 
@@ -10096,31 +10431,31 @@ getEntry(
 
 ### Method load is removed.
 
-
+It's not used anymore.
 
 ### Property multiCartService is removed.
 
-
+Use multiCartFacade instead.
 
 ### Property PREVIOUS_USER_ID_INITIAL_VALUE is removed.
 
-
+It's not used anymore.
 
 ### Property previousUserId is removed.
 
-
+It's not used anymore.
 
 ### Property store is removed.
 
-
+It's not used anymore.
 
 ### Property userId is removed.
 
-
+It's not used anymore.
 
 ### Property userService is removed.
 
-
+It's not used anymore.
 
 
 
@@ -11257,22 +11592,12 @@ moved to @spartacus/order/root
 
 
 
-# Class UpdateUserAddressEvent 
-## @spartacus/core
-
-
-### Property userId is removed.
-
-
-
-
-
 # Variable USER_ORDER_DETAILS 
 ## @spartacus/core
 
 
 Variable USER_ORDER_DETAILS has been removed and is no longer part of the public API.
-
+It is replaced by ORDER_DETAILS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11281,7 +11606,7 @@ Variable USER_ORDER_DETAILS has been removed and is no longer part of the public
 
 
 Variable USER_ORDERS has been removed and is no longer part of the public API.
-
+It is replaced by ORDERS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11290,7 +11615,7 @@ Variable USER_ORDERS has been removed and is no longer part of the public API.
 
 
 Variable USER_REPLENISHMENT_ORDER_DETAILS has been removed and is no longer part of the public API.
-
+It is replaced by REPLENISHMENT_ORDER_DETAILS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11299,7 +11624,7 @@ Variable USER_REPLENISHMENT_ORDER_DETAILS has been removed and is no longer part
 
 
 Variable USER_REPLENISHMENT_ORDERS has been removed and is no longer part of the public API.
-
+It is replaced by REPLENISHMENT_ORDERS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11308,7 +11633,7 @@ Variable USER_REPLENISHMENT_ORDERS has been removed and is no longer part of the
 
 
 Variable USER_RETURN_REQUEST_DETAILS has been removed and is no longer part of the public API.
-
+It is replaced by RETURN_REQUEST_DETAILS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11317,7 +11642,7 @@ Variable USER_RETURN_REQUEST_DETAILS has been removed and is no longer part of t
 
 
 Variable USER_RETURN_REQUESTS has been removed and is no longer part of the public API.
-
+It is replaced by RETURN_REQUESTS from '@spartacus/order/core', but the constant value is not the same.
 
 
 
@@ -11326,7 +11651,7 @@ Variable USER_RETURN_REQUESTS has been removed and is no longer part of the publ
 
 
 Class UserAccountFacadeTransitionalToken has been removed and is no longer part of the public API.
-
+Use UserAccountFacade instead.
 
 
 
@@ -12536,7 +12861,7 @@ store: Store<StateWithUser>
 
 
 Class UserOccTransitional_4_2_Module has been removed and is no longer part of the public API.
-
+Use UserOccModule instead.
 
 
 
@@ -12554,7 +12879,7 @@ Class UserOccTransitionalModule has been removed and is no longer part of the pu
 
 
 Class UserOrderAdapter has been removed and is no longer part of the public API.
-
+Use OrderHistoryAdapter in @spartacus/order/core.
 
 
 
@@ -12563,7 +12888,7 @@ Class UserOrderAdapter has been removed and is no longer part of the public API.
 
 
 Class UserOrderConnector has been removed and is no longer part of the public API.
-
+Use OrderHistoryConnector in @spartacus/order/core.
 
 
 
@@ -12572,7 +12897,7 @@ Class UserOrderConnector has been removed and is no longer part of the public AP
 
 
 Class UserOrderService has been removed and is no longer part of the public API.
-
+Use OrderHistoryFacade in @spartacus/order/root instead.
 
 
 
@@ -12631,7 +12956,7 @@ store: Store<StateWithUser>
 
 
 Class UserReplenishmentOrderAdapter has been removed and is no longer part of the public API.
-
+Use ReplenishmentOrderHistoryAdapter in @spartacus/order/core.
 
 
 
@@ -12640,7 +12965,7 @@ Class UserReplenishmentOrderAdapter has been removed and is no longer part of th
 
 
 Class UserReplenishmentOrderConnector has been removed and is no longer part of the public API.
-
+Use ReplenishmentOrderHistoryConnector in @spartacus/order/core.
 
 
 
@@ -12649,7 +12974,7 @@ Class UserReplenishmentOrderConnector has been removed and is no longer part of 
 
 
 Class UserReplenishmentOrderService has been removed and is no longer part of the public API.
-
+Use ReplenishmentOrderHistoryFacade in @spartacus/order/root instead.
 
 
 
@@ -12689,11 +13014,11 @@ constructor(
 
 ### Method get is removed.
 
-
+Use 'UserAccountFacade.get()' from '@spartacus/user' instead.
 
 ### Property userAccountFacade is removed.
 
-
+It is not used anymore.
 
 ### Property userProfileFacade changed.
 
@@ -13393,31 +13718,31 @@ getReplenishmentOrderState: MemoizedSelector<StateWithOrder, StateUtils.LoaderSt
 
 ### PropertySignature consignmentTracking is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 ### PropertySignature order is removed.
 
-
+It is not used anymore.
 
 ### PropertySignature orderReturn is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 ### PropertySignature orderReturnList is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 ### PropertySignature orders is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 ### PropertySignature replenishmentOrder is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 ### PropertySignature replenishmentOrders is removed.
 
-
+It is replaced by its counterpart in Interface 'OrderState' from '@spartacus/order/core'.
 
 
 
@@ -13426,7 +13751,7 @@ getReplenishmentOrderState: MemoizedSelector<StateWithOrder, StateUtils.LoaderSt
 
 
 Class UserTransitional_4_2_Module has been removed and is no longer part of the public API.
-
+Use UserModule instead.
 
 
 
@@ -19165,7 +19490,7 @@ Class RulebasedConfiguratorEventModule has been removed and is no longer part of
 
 
 Variable defaultB2bCheckoutConfig has been removed and is no longer part of the public API.
-
+Use 'defaultB2BCheckoutConfig' instead (imported from '@spartacus/checkout/b2b/root')
 
 
 

@@ -10,21 +10,21 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/asm/components',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'AsmMainUiComponent'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'AsmMainUiComponent'. Use 'userAccountFacade' instead.",
     },
     {
       class: 'CustomerEmulationComponent',
       importPath: '@spartacus/asm/components',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'CustomerEmulationComponent'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'CustomerEmulationComponent'. Use 'userAccountFacade' instead.",
     },
     {
       class: 'CsAgentAuthService',
       importPath: '@spartacus/asm/root',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'CsAgentAuthService'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'CsAgentAuthService'. It is replaced by 'userProfileFacade'",
     },
     {
       class: 'CartQuickOrderFormComponent',
@@ -59,7 +59,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/quick-order/components',
       deprecatedNode: 'globalMessageService',
       comment:
-        "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'QuickOrderFormComponent'. ",
+        "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'QuickOrderFormComponent'. It is not used anymore.",
     },
     {
       class: 'QuickOrderFormComponent',
@@ -80,7 +80,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/quick-order/core',
       deprecatedNode: 'productAdapter',
       comment:
-        "// TODO:Spartacus - Property 'productAdapter' was removed from Class 'QuickOrderService'. ",
+        "// TODO:Spartacus - Property 'productAdapter' was removed from Class 'QuickOrderService'. It is not used anymore.",
     },
     {
       class: 'QuickOrderService',
@@ -115,14 +115,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/quick-order/root',
       deprecatedNode: 'removeEntry',
       comment:
-        "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderFacade'. ",
+        "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderFacade'. Use `softDeleteEntry` instead.",
     },
     {
       class: 'QuickOrderFacade',
       importPath: '@spartacus/cart/quick-order/root',
       deprecatedNode: 'search',
       comment:
-        "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderFacade'. ",
+        "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderFacade'. Use `searchProducts` instead.",
     },
     {
       class: 'QuickOrderOrderEntriesContext',
@@ -143,21 +143,21 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/saved-cart/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'AddToSavedCartComponent'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'AddToSavedCartComponent'. Use activeCartFacade instead.",
     },
     {
       class: 'SavedCartAdapter',
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'saveCart',
       comment:
-        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartAdapter'. ",
+        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartAdapter'. Instead, use the method 'save' from class 'CartAdapter' in @spartacus/cart/base/core",
     },
     {
       class: 'SavedCartConnector',
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'saveCart',
       comment:
-        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartConnector'. ",
+        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartConnector'. Instead, use the method 'save' from class 'CartConnector' in @spartacus/cart/base/core",
     },
     {
       class: 'SavedCartEventBuilder',
@@ -171,7 +171,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'registerDeleteSavedCartEvents',
       comment:
-        "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'. Use 'registerDeleteCart' Method from Class 'CartEventBuilder' instead.",
+        "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'. Use 'registerDeleteCart' Method from Class 'CartEventBuilder' from @spartacus/cart/base/core instead.",
     },
     {
       class: 'SavedCartService',
@@ -192,28 +192,28 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'SavedCartService'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'SavedCartService'. It is replaced by userAccountFacade.",
     },
     {
       class: 'OccSavedCartAdapter',
       importPath: '@spartacus/cart/saved-cart/occ',
       deprecatedNode: 'getSaveCartEndpoint',
       comment:
-        "// TODO:Spartacus - Method 'getSaveCartEndpoint' was removed from Class 'OccSavedCartAdapter'. ",
+        "// TODO:Spartacus - Method 'getSaveCartEndpoint' was removed from Class 'OccSavedCartAdapter'. It is not used anymore.  The saved cart request is now done from class 'OccCartAdapter' in '@spartacus/cart/base/occ'",
     },
     {
       class: 'OccSavedCartAdapter',
       importPath: '@spartacus/cart/saved-cart/occ',
       deprecatedNode: 'saveCart',
       comment:
-        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'OccSavedCartAdapter'. ",
+        "// TODO:Spartacus - Method 'saveCart' was removed from Class 'OccSavedCartAdapter'. It is not used anymore.  The saved cart request is now done via method `save` from class 'OccCartAdapter' in '@spartacus/cart/base/occ'",
     },
     {
       class: 'NewSavedCartOrderEntriesContext',
       importPath: '@spartacus/cart/saved-cart/root',
       deprecatedNode: 'actionsSubject',
       comment:
-        "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'NewSavedCartOrderEntriesContext'. ",
+        "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'NewSavedCartOrderEntriesContext'. It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.",
     },
     {
       class: 'NewSavedCartOrderEntriesContext',
@@ -234,7 +234,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cart/saved-cart/root',
       deprecatedNode: 'actionsSubject',
       comment:
-        "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'SavedCartOrderEntriesContext'. ",
+        "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'SavedCartOrderEntriesContext'. It is not used anymore.  Results are pulled from 'importInfoService' instead of extenting 'CartOrderEntriesContext' and relying on 'actionsSubject'.",
     },
     {
       class: 'SavedCartOrderEntriesContext',
@@ -248,35 +248,35 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/cdc/root',
       deprecatedNode: 'authRedirectService',
       comment:
-        "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'CdcLogoutGuard'. ",
+        "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'CdcLogoutGuard'. It is not used anymore.  It was there only to pass to the super() contructor and the super() constructor had this parameter removed.",
     },
     {
       class: 'ProfileTagPushEventsService',
       importPath: '@spartacus/cds',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'ProfileTagPushEventsService'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'ProfileTagPushEventsService'. Use activeCartFacade instead.",
     },
     {
       class: 'CartNotEmptyGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartNotEmptyGuard'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartNotEmptyGuard'. Use 'activeCartFacade' instead.'",
     },
     {
       class: 'CheckoutAuthGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutAuthGuard'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutAuthGuard'. Use 'activeCartFacade' instead.",
     },
     {
       class: 'CheckoutAuthGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'globalMessageService',
       comment:
-        "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'CheckoutAuthGuard'. ",
+        "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'CheckoutAuthGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'GlobalMessageService' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
     },
     {
       class: 'CheckoutAuthGuard',
@@ -290,49 +290,49 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'handleUserRole',
       comment:
-        "// TODO:Spartacus - Method 'handleUserRole' was removed from Class 'CheckoutAuthGuard'. ",
+        "// TODO:Spartacus - Method 'handleUserRole' was removed from Class 'CheckoutAuthGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method is found when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
     },
     {
       class: 'CheckoutAuthGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'CheckoutAuthGuard'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'CheckoutAuthGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserAccountFacade' is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BAuthGuard.",
     },
     {
       class: 'CheckoutGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutGuard'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutGuard'. Use 'activeCartFacade' instead.",
     },
     {
       class: 'CheckoutLoginComponent',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutLoginComponent'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutLoginComponent'. Use 'activeCartFacade' instead.",
     },
     {
       class: 'CheckoutOrderSummaryComponent',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutOrderSummaryComponent'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutOrderSummaryComponent'. Use 'activeCartFacade' instead.",
     },
     {
       class: 'CheckoutProgressMobileTopComponent',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutProgressMobileTopComponent'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutProgressMobileTopComponent'. Use 'activeCartFacade' instead.",
     },
     {
       class: 'CheckoutProgressMobileTopComponent',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'ngOnInit',
       comment:
-        "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'CheckoutProgressMobileTopComponent'. ",
+        "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'CheckoutProgressMobileTopComponent'. It has been removed because we are no longer initializing the 'cart$' observable during Angular's initialization lifecycle, but it has been declared and initialized directly through the class property.",
     },
     {
       class: 'CheckoutStepService',
@@ -353,28 +353,28 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutCostCenterService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'CheckoutStepsSetGuard'. ",
+        "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'CheckoutStepsSetGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
     },
     {
       class: 'CheckoutStepsSetGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutDetailsService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'CheckoutStepsSetGuard'. ",
+        "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'CheckoutStepsSetGuard'. Use 'checkoutQueryFacade' instead.",
     },
     {
       class: 'CheckoutStepsSetGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'isPaymentTypeSet',
       comment:
-        "// TODO:Spartacus - Method 'isPaymentTypeSet' was removed from Class 'CheckoutStepsSetGuard'. ",
+        "// TODO:Spartacus - Method 'isPaymentTypeSet' was removed from Class 'CheckoutStepsSetGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
     },
     {
       class: 'CheckoutStepsSetGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'isShippingAddressAndCostCenterSet',
       comment:
-        "// TODO:Spartacus - Method 'isShippingAddressAndCostCenterSet' was removed from Class 'CheckoutStepsSetGuard'. ",
+        "// TODO:Spartacus - Method 'isShippingAddressAndCostCenterSet' was removed from Class 'CheckoutStepsSetGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. The method 'isShippingAddressAndCostCenterSet' has been renamed accordingly for 'base' and 'b2b' entrypoint. Base is using the 'isDeliveryAddress' method and B2B is using the 'isDeliveryAddressAndCostCenterSet'. 'isDeliveryAddressAndCostCenterSet' method is still used when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
     },
     {
       class: 'CheckoutStepsSetGuard',
@@ -388,28 +388,28 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'paymentTypeService',
       comment:
-        "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'CheckoutStepsSetGuard'. ",
+        "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'CheckoutStepsSetGuard'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'CheckoutB2BStepsSetGuard.",
     },
     {
       class: 'ExpressCheckoutService',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutDeliveryService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ExpressCheckoutService'. ",
+        "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ExpressCheckoutService'. 'CheckoutDeliveryService' has been splitted and renamed to 'CheckoutDeliveryAddressFacde' and 'CheckoutDeliveryModesFacade'. Use 'checkoutDeliveryAdressFacade' and 'checkoutDeliveryModesFacade' instead.",
     },
     {
       class: 'ExpressCheckoutService',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutDetailsService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'ExpressCheckoutService'. ",
+        "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'ExpressCheckoutService'. Use 'checkoutQueryFacade' instead.",
     },
     {
       class: 'ExpressCheckoutService',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutPaymentService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutPaymentService' was removed from Class 'ExpressCheckoutService'. ",
+        "// TODO:Spartacus - Property 'checkoutPaymentService' was removed from Class 'ExpressCheckoutService'. Use 'checkoutPaymentFacade' instead.",
     },
     {
       class: 'ExpressCheckoutService',
@@ -423,91 +423,301 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'setShippingAddress',
       comment:
-        "// TODO:Spartacus - Method 'setShippingAddress' was removed from Class 'ExpressCheckoutService'. ",
+        "// TODO:Spartacus - Method 'setShippingAddress' was removed from Class 'ExpressCheckoutService'. Use 'setDeliveryAddress' instead.",
     },
     {
       class: 'NotCheckoutAuthGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'NotCheckoutAuthGuard'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'NotCheckoutAuthGuard'. Use 'activeCartFacade' instead.",
+    },
+    {
+      class: 'PaymentMethodComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutService' was removed from Class 'PaymentMethodComponent'. ",
+    },
+    {
+      class: 'PaymentMethodComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutDeliveryService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'PaymentMethodComponent'. Use 'checkoutDeliveryAddressFacade' instead in @spartacus/checkout/base/root",
+    },
+    {
+      class: 'PaymentMethodComponent',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'PaymentMethodComponent'. Use activeCartFacade instead.",
+    },
+    {
+      class: 'PlaceOrderComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutService',
+      comment:
+        "The type of property 'checkoutService: CheckoutFacade' changed to: 'orderFacade: OrderFacade' ",
+    },
+    {
+      class: 'PlaceOrderComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutReplenishmentFormService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutReplenishmentFormService' was removed from Class 'PlaceOrderComponent'. It is not used anymore as the checkout base (b2c) entrypoint does not contain b2b logic / dependency. You can find the same dependencies for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.",
+    },
+    {
+      class: 'PlaceOrderComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'ngOnInit',
+      comment:
+        "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'PlaceOrderComponent'. It is not used anymore as the checkout base (b2c) entrypoint does not need the OnInit lifecycle hook, however you can find it being a dependency for CheckoutScheduledReplenishmentPlaceOrderComponent, which is the B2B component for CheckoutPlaceOrder.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutDeliveryService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ReviewSubmitComponent'. It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'userAddressService',
+      comment:
+        "// TODO:Spartacus - Property 'userAddressService' was removed from Class 'ReviewSubmitComponent'. It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartFacade: ActiveCartFacade' ",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'paymentTypeService',
+      comment:
+        "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'checkoutCostCenterService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'userCostCenterService',
+      comment:
+        "// TODO:Spartacus - Property 'userCostCenterService' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'countryName$',
+      comment:
+        "// TODO:Spartacus - Property 'countryName$' was removed from Class 'ReviewSubmitComponent'. It is not used anymore because we are taking the country name from the delivery address state 'getDeliveryAddressState' in CheckoutDeliveryAddressFacade.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'poNumber$',
+      comment:
+        "// TODO:Spartacus - Property 'poNumber$' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'poNumber$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'paymentType$',
+      comment:
+        "// TODO:Spartacus - Property 'paymentType$' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'paymentType$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'isAccountPayment$',
+      comment:
+        "// TODO:Spartacus - Property 'isAccountPayment$' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'isAccountPayment$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'costCenter$',
+      comment:
+        "// TODO:Spartacus - Property 'costCenter$' was removed from Class 'ReviewSubmitComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'costCenter$' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getCostCenterCard',
+      comment:
+        "// TODO:Spartacus - Method 'getCostCenterCard' was removed from Class 'ReviewSubmitComponent'. It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getPoNumberCard',
+      comment:
+        "// TODO:Spartacus - Method 'getPoNumberCard' was removed from Class 'ReviewSubmitComponent'. It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'ReviewSubmitComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getPaymentTypeCard',
+      comment:
+        "// TODO:Spartacus - Method 'getPaymentTypeCard' was removed from Class 'ReviewSubmitComponent'. It is not used anymore as the checkout base (b2c) entrypoint, however you can find the method in the checkout b2b entrypoint in the b2b component of ReviewSubmitComponent, which is B2BCheckoutReviewSubmitComponent.",
+    },
+    {
+      class: 'CheckoutCostCenterService',
+      importPath: '@spartacus/checkout/core',
+      deprecatedNode: 'shippingSteps',
+      comment:
+        "The 'shippingSteps' method's signature changed to: 'deliverySteps(  steps: CheckoutStep[]): CheckoutStep[]'",
+    },
+    {
+      class: 'ShippingAddressComponent',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'checkoutDeliveryService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ShippingAddressComponent'. It is not used anymore as the 'CheckoutDeliveryFacade' has been decoupled and splitted into 'CheckoutDeliveryAddressFacade' and 'CheckoutDeliveryModesFacade'.",
+    },
+    {
+      class: 'ShippingAddressComponent',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService: ActiveCartService' changed to: 'activeCartFacade: ActiveCartFacade' ",
+    },
+    {
+      class: 'ShippingAddressComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'paymentTypeService',
+      comment:
+        "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'ShippingAddressComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'PaymentTypeService' has been renamed to 'CheckoutPaymentTypeFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+    },
+    {
+      class: 'ShippingAddressComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'userCostCenterService',
+      comment:
+        "// TODO:Spartacus - Property 'userCostCenterService' was removed from Class 'ShippingAddressComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'UserCostCenterService' is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+    },
+    {
+      class: 'ShippingAddressComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'checkoutCostCenterService',
+      comment:
+        "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'ShippingAddressComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'CheckoutCostCenterService' has been renamed to 'CheckoutCostCenterFacade', and is still a dependency when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+    },
+    {
+      class: 'ShippingAddressComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'forceLoader',
+      comment:
+        "// TODO:Spartacus - Property 'forceLoader' was removed from Class 'ShippingAddressComponent'. ",
+    },
+    {
+      class: 'ShippingAddressComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'selectedAddress',
+      comment:
+        "// TODO:Spartacus - Property 'selectedAddress' was removed from Class 'ShippingAddressComponent'. ",
+    },
+    {
+      class: 'ShippingAddressComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'isAccountPayment',
+      comment:
+        "// TODO:Spartacus - Property 'isAccountPayment' was removed from Class 'ShippingAddressComponent'. It is not used in the base checkout entrypoint (b2c) as checkout has been decoupled into base (b2c), b2b, and scheduled replenishment. 'isAccountPayment' is still a property when b2b checkout is used instead, which uses the new class 'B2BCheckoutDeliveryAddressComponent.",
+    },
+    {
+      class: 'ShippingAddressComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'ngOnDestroy',
+      comment:
+        "// TODO:Spartacus - Method 'ngOnDestroy' was removed from Class 'ShippingAddressComponent'. ",
     },
     {
       class: 'CheckoutAdapter',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'clearCheckoutDeliveryAddress',
       comment:
-        "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'CheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'CheckoutAdapter'. Use 'clearCheckoutDeliveryAddress()' from 'CheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutAdapter',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'clearCheckoutDeliveryMode',
       comment:
-        "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'CheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'CheckoutAdapter'. Use 'clearCheckoutDeliveryMode()' from 'CheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutAdapter',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'loadCheckoutDetails',
       comment:
-        "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'CheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'CheckoutAdapter'. Use 'getCheckoutDetails()' from 'CheckoutAdapter' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutAdapter',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'placeOrder',
       comment:
-        "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'CheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'CheckoutAdapter'. Use 'placeOrder()' from 'OrderAdapter' (imported from '@spartacus/order/core')",
     },
     {
       class: 'CheckoutConnector',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'clearCheckoutDeliveryAddress',
       comment:
-        "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'CheckoutConnector'. ",
+        "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'CheckoutConnector'. Use 'clearCheckoutDeliveryAddress()' from 'CheckoutDeliveryAddressConnector' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutConnector',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'clearCheckoutDeliveryMode',
       comment:
-        "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'CheckoutConnector'. ",
+        "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'CheckoutConnector'. Use 'clearCheckoutDeliveryMode()' from 'CheckoutDeliveryModesConnector' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutConnector',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'loadCheckoutDetails',
       comment:
-        "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'CheckoutConnector'. ",
+        "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'CheckoutConnector'. Use 'getCheckoutDetails()' from 'CheckoutConnector' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutConnector',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'placeOrder',
       comment:
-        "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'CheckoutConnector'. ",
+        "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'CheckoutConnector'. Use 'placeOrder()' from 'OrderConnector' (imported from '@spartacus/order/core')",
     },
     {
       class: 'CheckoutCostCenterService',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutCostCenterService'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutCostCenterService'. Use 'activeCartFacade' instead.",
     },
     {
       class: 'CheckoutCostCenterService',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'checkoutStore',
       comment:
-        "// TODO:Spartacus - Property 'checkoutStore' was removed from Class 'CheckoutCostCenterService'. ",
+        "// TODO:Spartacus - Property 'checkoutStore' was removed from Class 'CheckoutCostCenterService'. This property is used internally only.",
     },
     {
       class: 'CheckoutCostCenterService',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'getCostCenter',
       comment:
-        "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterService'. ",
+        "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterService'. Use 'getCostCenterState' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
     },
     {
       class: 'CheckoutCostCenterService',
@@ -521,14 +731,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPageMetaResolver'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPageMetaResolver'. No replacement.",
     },
     {
       class: 'CheckoutPageMetaResolver',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'cart$',
       comment:
-        "// TODO:Spartacus - Property 'cart$' was removed from Class 'CheckoutPageMetaResolver'. ",
+        "// TODO:Spartacus - Property 'cart$' was removed from Class 'CheckoutPageMetaResolver'. No replacement.",
     },
     {
       class: 'CheckoutPageMetaResolver',
@@ -542,70 +752,70 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'translation',
       comment:
-        "// TODO:Spartacus - Property 'translation' was removed from Class 'CheckoutPageMetaResolver'. ",
+        "// TODO:Spartacus - Property 'translation' was removed from Class 'CheckoutPageMetaResolver'. Use 'translationService' instead.",
     },
     {
       class: 'CheckoutPaymentAdapter',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'create',
       comment:
-        "// TODO:Spartacus - Method 'create' was removed from Class 'CheckoutPaymentAdapter'. ",
+        "// TODO:Spartacus - Method 'create' was removed from Class 'CheckoutPaymentAdapter'. Use 'createPaymentDetails()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutPaymentAdapter',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'loadCardTypes',
       comment:
-        "// TODO:Spartacus - Method 'loadCardTypes' was removed from Class 'CheckoutPaymentAdapter'. ",
+        "// TODO:Spartacus - Method 'loadCardTypes' was removed from Class 'CheckoutPaymentAdapter'. Use 'getPaymentCardTypes()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutPaymentAdapter',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'set',
       comment:
-        "// TODO:Spartacus - Method 'set' was removed from Class 'CheckoutPaymentAdapter'. ",
+        "// TODO:Spartacus - Method 'set' was removed from Class 'CheckoutPaymentAdapter'. Use 'setPaymentDetails()' from 'CheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutPaymentConnector',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'create',
       comment:
-        "// TODO:Spartacus - Method 'create' was removed from Class 'CheckoutPaymentConnector'. ",
+        "// TODO:Spartacus - Method 'create' was removed from Class 'CheckoutPaymentConnector'. Use 'createPaymentDetails()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutPaymentConnector',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'getCardTypes',
       comment:
-        "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentConnector'. ",
+        "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentConnector'. Use 'getPaymentCardTypes()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutPaymentConnector',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'set',
       comment:
-        "// TODO:Spartacus - Method 'set' was removed from Class 'CheckoutPaymentConnector'. ",
+        "// TODO:Spartacus - Method 'set' was removed from Class 'CheckoutPaymentConnector'. Use 'setPaymentDetails()' from 'CheckoutPaymentConnector' (imported from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutPaymentService',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'actionAllowed',
       comment:
-        "// TODO:Spartacus - Method 'actionAllowed' was removed from Class 'CheckoutPaymentService'. ",
+        "// TODO:Spartacus - Method 'actionAllowed' was removed from Class 'CheckoutPaymentService'. Removed. Replaced with an internal protected 'checkoutPreconditions()' method in the 'CheckoutPaymentService' (from '@spartacus/checkout/base/core')",
     },
     {
       class: 'CheckoutPaymentService',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPaymentService'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPaymentService'. Use 'activeCartFacade' instead.",
     },
     {
       class: 'CheckoutPaymentService',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'checkoutStore',
       comment:
-        "// TODO:Spartacus - Property 'checkoutStore' was removed from Class 'CheckoutPaymentService'. ",
+        "// TODO:Spartacus - Property 'checkoutStore' was removed from Class 'CheckoutPaymentService'. Removed, as checkout no longer uses ngrx store.",
     },
     {
       class: 'CheckoutPaymentService',
@@ -619,28 +829,28 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'getCardTypes',
       comment:
-        "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentService'. ",
+        "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentService'. Use 'getPaymentCardTypes()' instead.",
     },
     {
       class: 'CheckoutPaymentService',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'getPaymentDetails',
       comment:
-        "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentService'. ",
+        "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentService'. Use 'getPaymentDetailsState()' instead.",
     },
     {
       class: 'CheckoutPaymentService',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'getSetPaymentDetailsResultProcess',
       comment:
-        "// TODO:Spartacus - Method 'getSetPaymentDetailsResultProcess' was removed from Class 'CheckoutPaymentService'. ",
+        "// TODO:Spartacus - Method 'getSetPaymentDetailsResultProcess' was removed from Class 'CheckoutPaymentService'. After switching to commands & queries, processes are no longer used.",
     },
     {
       class: 'CheckoutPaymentService',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'loadSupportedCardTypes',
       comment:
-        "// TODO:Spartacus - Method 'loadSupportedCardTypes' was removed from Class 'CheckoutPaymentService'. ",
+        "// TODO:Spartacus - Method 'loadSupportedCardTypes' was removed from Class 'CheckoutPaymentService'. Use 'getPaymentCardTypes()' or 'getPaymentCardTypesState()' instead.",
     },
     {
       class: 'CheckoutPaymentService',
@@ -654,14 +864,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'processStateStore',
       comment:
-        "// TODO:Spartacus - Property 'processStateStore' was removed from Class 'CheckoutPaymentService'. ",
+        "// TODO:Spartacus - Property 'processStateStore' was removed from Class 'CheckoutPaymentService'. After switching to commands & queries, processes are no longer used.",
     },
     {
       class: 'CheckoutPaymentService',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'resetSetPaymentDetailsProcess',
       comment:
-        "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentService'. ",
+        "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentService'. After switching to commands & queries, processes are no longer used.",
     },
     {
       class: 'CheckoutPaymentService',
@@ -675,70 +885,70 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'clearCheckoutDeliveryAddress',
       comment:
-        "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'OccCheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'OccCheckoutAdapter'. Use 'clearCheckoutDeliveryAddress()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/occ')",
     },
     {
       class: 'OccCheckoutAdapter',
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'clearCheckoutDeliveryMode',
       comment:
-        "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'OccCheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'OccCheckoutAdapter'. Use 'clearCheckoutDeliveryMode()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')",
     },
     {
       class: 'OccCheckoutAdapter',
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'getClearDeliveryModeEndpoint',
       comment:
-        "// TODO:Spartacus - Method 'getClearDeliveryModeEndpoint' was removed from Class 'OccCheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'getClearDeliveryModeEndpoint' was removed from Class 'OccCheckoutAdapter'. Use 'getClearDeliveryModeEndpoint()' from 'OccCheckoutDeliveryModesAdapter' (imported from '@spartacus/checkout/base/occ')",
     },
     {
       class: 'OccCheckoutAdapter',
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'getLoadCheckoutDetailsEndpoint',
       comment:
-        "// TODO:Spartacus - Method 'getLoadCheckoutDetailsEndpoint' was removed from Class 'OccCheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'getLoadCheckoutDetailsEndpoint' was removed from Class 'OccCheckoutAdapter'. Use 'getGetCheckoutDetailsEndpoint()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/occ')",
     },
     {
       class: 'OccCheckoutAdapter',
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'getPlaceOrderEndpoint',
       comment:
-        "// TODO:Spartacus - Method 'getPlaceOrderEndpoint' was removed from Class 'OccCheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'getPlaceOrderEndpoint' was removed from Class 'OccCheckoutAdapter'. Use 'getPlaceOrderEndpoint()' from 'OccOrderAdapter' (imported from '@spartacus/order/core')",
     },
     {
       class: 'OccCheckoutAdapter',
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'getRemoveDeliveryAddressEndpoint',
       comment:
-        "// TODO:Spartacus - Method 'getRemoveDeliveryAddressEndpoint' was removed from Class 'OccCheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'getRemoveDeliveryAddressEndpoint' was removed from Class 'OccCheckoutAdapter'. Use 'getRemoveDeliveryAddressEndpoint()' from 'OccCheckoutDeliveryAddressAdapter' (imported from '@spartacus/checkout/base/occ')",
     },
     {
       class: 'OccCheckoutAdapter',
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'loadCheckoutDetails',
       comment:
-        "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'OccCheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'OccCheckoutAdapter'. Use 'getCheckoutDetails()' from 'OccCheckoutAdapter' (imported from '@spartacus/checkout/base/occ')",
     },
     {
       class: 'OccCheckoutAdapter',
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'placeOrder',
       comment:
-        "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'OccCheckoutAdapter'. ",
+        "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'OccCheckoutAdapter'. Use 'placeOrder()' from 'OccOrderAdapter' (imported from '@spartacus/order/core')",
     },
     {
       class: 'OccCheckoutPaymentAdapter',
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'create',
       comment:
-        "// TODO:Spartacus - Method 'create' was removed from Class 'OccCheckoutPaymentAdapter'. ",
+        "// TODO:Spartacus - Method 'create' was removed from Class 'OccCheckoutPaymentAdapter'. Use 'createPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')",
     },
     {
       class: 'OccCheckoutPaymentAdapter',
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'getCardTypesEndpoint',
       comment:
-        "// TODO:Spartacus - Method 'getCardTypesEndpoint' was removed from Class 'OccCheckoutPaymentAdapter'. ",
+        "// TODO:Spartacus - Method 'getCardTypesEndpoint' was removed from Class 'OccCheckoutPaymentAdapter'. Use 'getPaymentCardTypes()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')",
     },
     {
       class: 'OccCheckoutPaymentAdapter',
@@ -752,21 +962,21 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'set',
       comment:
-        "// TODO:Spartacus - Method 'set' was removed from Class 'OccCheckoutPaymentAdapter'. ",
+        "// TODO:Spartacus - Method 'set' was removed from Class 'OccCheckoutPaymentAdapter'. Use 'setPaymentDetails()' from 'OccCheckoutPaymentAdapter' (imported from '@spartacus/checkout/base/occ')",
     },
     {
       class: 'OccCheckoutPaymentTypeAdapter',
       importPath: '@spartacus/checkout/occ',
       deprecatedNode: 'loadPaymentTypes',
       comment:
-        "// TODO:Spartacus - Method 'loadPaymentTypes' was removed from Class 'OccCheckoutPaymentTypeAdapter'. ",
+        "// TODO:Spartacus - Method 'loadPaymentTypes' was removed from Class 'OccCheckoutPaymentTypeAdapter'. Use 'getPaymentTypes()' from 'OccCheckoutPaymentTypeAdapter' (imported from '@spartacus/checkout/b2b/occ')",
     },
     {
       class: 'CheckoutCostCenterFacade',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'getCostCenter',
       comment:
-        "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterFacade'. ",
+        "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterFacade'. Use 'getCostCenterState()' from 'CheckoutCostCenterFacade' (imported from '@spartacus/checkout/b2b/root')",
     },
     {
       class: 'CheckoutCostCenterFacade',
@@ -787,42 +997,42 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'getCardTypes',
       comment:
-        "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentFacade'. ",
+        "// TODO:Spartacus - Method 'getCardTypes' was removed from Class 'CheckoutPaymentFacade'. Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     },
     {
       class: 'CheckoutPaymentFacade',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'getPaymentDetails',
       comment:
-        "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentFacade'. ",
+        "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentFacade'. Use 'getPaymentDetailsState()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     },
     {
       class: 'CheckoutPaymentFacade',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'getSetPaymentDetailsResultProcess',
       comment:
-        "// TODO:Spartacus - Method 'getSetPaymentDetailsResultProcess' was removed from Class 'CheckoutPaymentFacade'. ",
+        "// TODO:Spartacus - Method 'getSetPaymentDetailsResultProcess' was removed from Class 'CheckoutPaymentFacade'. Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     },
     {
       class: 'CheckoutPaymentFacade',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'loadSupportedCardTypes',
       comment:
-        "// TODO:Spartacus - Method 'loadSupportedCardTypes' was removed from Class 'CheckoutPaymentFacade'. ",
+        "// TODO:Spartacus - Method 'loadSupportedCardTypes' was removed from Class 'CheckoutPaymentFacade'. Use 'getPaymentCardTypes()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     },
     {
       class: 'CheckoutPaymentFacade',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'paymentProcessSuccess',
       comment:
-        "// TODO:Spartacus - Method 'paymentProcessSuccess' was removed from Class 'CheckoutPaymentFacade'. ",
+        "// TODO:Spartacus - Method 'paymentProcessSuccess' was removed from Class 'CheckoutPaymentFacade'. Use 'setPaymentDetails()' from 'CheckoutPaymentFacade' (imported from '@spartacus/checkout/base/root')",
     },
     {
       class: 'CheckoutPaymentFacade',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'resetSetPaymentDetailsProcess',
       comment:
-        "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentFacade'. ",
+        "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentFacade'. After switching to commands & queries, processes are no longer used.",
     },
     {
       class: 'CheckoutPaymentFacade',
@@ -836,21 +1046,21 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'checkoutService',
       comment:
-        "// TODO:Spartacus - Property 'checkoutService' was removed from Class 'OrderConfirmationOrderEntriesContext'. ",
+        "// TODO:Spartacus - Property 'checkoutService' was removed from Class 'OrderConfirmationOrderEntriesContext'. Use 'orderFacade' instead.",
     },
     {
       class: 'OrderPlacedEvent',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'code',
       comment:
-        "// TODO:Spartacus - Property 'code' was removed from Class 'OrderPlacedEvent'. ",
+        "// TODO:Spartacus - Property 'code' was removed from Class 'OrderPlacedEvent'. Please use the 'order' property instead.",
     },
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'cartSelector$',
       comment:
-        "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'ActiveCartService'. It is renamed to cartEntity$.",
     },
     {
       class: 'ActiveCartService',
@@ -878,14 +1088,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'isEmail',
       comment:
-        "// TODO:Spartacus - Method 'isEmail' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Method 'isEmail' was removed from Class 'ActiveCartService'. Instead, use 'isEmail' util function from '@spartacus/cart/base/core'.",
     },
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'isEmpty',
       comment:
-        "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'ActiveCartService'. Instead, use 'isEmpty' util function from '@spartacus/cart/base/core'.",
     },
     {
       class: 'ActiveCartService',
@@ -899,14 +1109,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'isJustLoggedIn',
       comment:
-        "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'ActiveCartService'. Instead, use 'isJustLoggedIn' util function from '@spartacus/cart/base/core'.",
     },
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'multiCartService',
       comment:
-        "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'ActiveCartService'. Use multiCartFacade instead.",
     },
     {
       class: 'ActiveCartService',
@@ -920,21 +1130,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'requireLoadedCartForGuestMerge',
       comment:
-        "// TODO:Spartacus - Method 'requireLoadedCartForGuestMerge' was removed from Class 'ActiveCartService'. ",
+        "// TODO:Spartacus - Method 'requireLoadedCartForGuestMerge' was removed from Class 'ActiveCartService'. It is not used anymore.",
     },
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'store',
       comment:
-        "// TODO:Spartacus - Property 'store' was removed from Class 'ActiveCartService'. ",
-    },
-    {
-      class: 'AddUserAddressEvent',
-      importPath: '@spartacus/core',
-      deprecatedNode: 'userId',
-      comment:
-        "// TODO:Spartacus - Property 'userId' was removed from Class 'AddUserAddressEvent'. ",
+        "// TODO:Spartacus - Property 'store' was removed from Class 'ActiveCartService'. It is not used anymore.",
     },
     {
       class: 'AnonymousConsentsService',
@@ -1025,7 +1228,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'handleBadCartRequest',
       comment:
-        "// TODO:Spartacus - Method 'handleBadCartRequest' was removed from Class 'BadRequestHandler'. ",
+        "// TODO:Spartacus - Method 'handleBadCartRequest' was removed from Class 'BadRequestHandler'. 'handleBadCartRequest' is moved to Class 'BadCartRequestHandler' in  '@spartacus/cart/base/core'",
     },
     {
       class: 'BadRequestHandler',
@@ -1081,14 +1284,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'forRoot',
       comment:
-        "// TODO:Spartacus - Method 'forRoot' was removed from Class 'CartPersistenceModule'. ",
+        "// TODO:Spartacus - Method 'forRoot' was removed from Class 'CartPersistenceModule'. The providers previously loaded by 'forRoot' are now loaded with the module.",
     },
     {
       class: 'CartValidationService',
       importPath: '@spartacus/core',
       deprecatedNode: 'activeCartService',
       comment:
-        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartValidationService'. ",
+        "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartValidationService'. Use activeCartFacade instead.",
     },
     {
       class: 'CartVoucherService',
@@ -1210,13 +1413,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
         "The 'getParams' method's signature changed to: 'getParams(): Observable<{\n        [_: string]: any;\n    } | undefined>'",
     },
     {
-      class: 'DeleteUserAddressEvent',
-      importPath: '@spartacus/core',
-      deprecatedNode: 'userId',
-      comment:
-        "// TODO:Spartacus - Property 'userId' was removed from Class 'DeleteUserAddressEvent'. ",
-    },
-    {
       class: 'ForbiddenHandler',
       importPath: '@spartacus/core',
       deprecatedNode: 'handleError',
@@ -1291,7 +1487,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'authRedirectService',
       comment:
-        "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'NotAuthGuard'. ",
+        "// TODO:Spartacus - Property 'authRedirectService' was removed from Class 'NotAuthGuard'. It is not used anymore.",
     },
     {
       class: 'OAuthLibWrapperService',
@@ -1431,35 +1627,35 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'cartConfigService',
       comment:
-        "// TODO:Spartacus - Property 'cartConfigService' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'cartConfigService' was removed from Class 'SelectiveCartService'. It is not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'cartId',
       comment:
-        "// TODO:Spartacus - Property 'cartId' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'cartId' was removed from Class 'SelectiveCartService'. Use getSelectiveCartId() instead.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'cartId$',
       comment:
-        "// TODO:Spartacus - Property 'cartId$' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'cartId$' was removed from Class 'SelectiveCartService'. Use getSelectiveCartId() instead.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'cartSelector$',
       comment:
-        "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'SelectiveCartService'. It is not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'customerId',
       comment:
-        "// TODO:Spartacus - Property 'customerId' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'customerId' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
@@ -1473,21 +1669,21 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'isEmpty',
       comment:
-        "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'isEnabled',
       comment:
-        "// TODO:Spartacus - Method 'isEnabled' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Method 'isEnabled' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'isJustLoggedIn',
       comment:
-        "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
@@ -1501,49 +1697,49 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'load',
       comment:
-        "// TODO:Spartacus - Method 'load' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Method 'load' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'multiCartService',
       comment:
-        "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'SelectiveCartService'. Use multiCartFacade instead.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'PREVIOUS_USER_ID_INITIAL_VALUE',
       comment:
-        "// TODO:Spartacus - Property 'PREVIOUS_USER_ID_INITIAL_VALUE' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'PREVIOUS_USER_ID_INITIAL_VALUE' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'previousUserId',
       comment:
-        "// TODO:Spartacus - Property 'previousUserId' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'previousUserId' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'store',
       comment:
-        "// TODO:Spartacus - Property 'store' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'store' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'userId',
       comment:
-        "// TODO:Spartacus - Property 'userId' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'userId' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SelectiveCartService',
       importPath: '@spartacus/core',
       deprecatedNode: 'userService',
       comment:
-        "// TODO:Spartacus - Property 'userService' was removed from Class 'SelectiveCartService'. ",
+        "// TODO:Spartacus - Property 'userService' was removed from Class 'SelectiveCartService'. It's not used anymore.",
     },
     {
       class: 'SemanticPathService',
@@ -1600,13 +1796,6 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       deprecatedNode: 'getValue',
       comment:
         "The 'getValue' method's signature changed to: 'getValue(  param: string): string | undefined'",
-    },
-    {
-      class: 'UpdateUserAddressEvent',
-      importPath: '@spartacus/core',
-      deprecatedNode: 'userId',
-      comment:
-        "// TODO:Spartacus - Property 'userId' was removed from Class 'UpdateUserAddressEvent'. ",
     },
     {
       class: 'ClaimCustomerCoupon',
@@ -1676,14 +1865,14 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/core',
       deprecatedNode: 'get',
       comment:
-        "// TODO:Spartacus - Method 'get' was removed from Class 'UserService'. ",
+        "// TODO:Spartacus - Method 'get' was removed from Class 'UserService'. Use 'UserAccountFacade.get()' from '@spartacus/user' instead.",
     },
     {
       class: 'UserService',
       importPath: '@spartacus/core',
       deprecatedNode: 'userAccountFacade',
       comment:
-        "// TODO:Spartacus - Property 'userAccountFacade' was removed from Class 'UserService'. ",
+        "// TODO:Spartacus - Property 'userAccountFacade' was removed from Class 'UserService'. It is not used anymore.",
     },
     {
       class: 'UserService',
