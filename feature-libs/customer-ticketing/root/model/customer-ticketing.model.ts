@@ -1,6 +1,6 @@
-export const enum COLOR {
-  CLOSE = '#6C7079',
-  OPEN = '#38871F',
+export const enum CUSTOM_CLASS {
+  CLOSE = 'cx-text-gray',
+  OPEN = 'cx-text-green',
 }
 
 export const enum STATUS {

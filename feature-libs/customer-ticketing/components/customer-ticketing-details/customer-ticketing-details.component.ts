@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
-import { COLOR, STATUS } from '@spartacus/customer-ticketing/root';
+import { STATUS, CUSTOM_CLASS } from '@spartacus/customer-ticketing/root';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -59,16 +59,16 @@ export class CustomerTicketingDetailsComponent {
       map((textTitle) => ({
         title: textTitle,
         text: [entity],
-        customCss: this.getStatusColor(entity),
+        customClass: this.getStatusClass(entity),
       }))
     );
   }
 
-  getStatusColor(status: string): { color: string } | null {
+  getStatusClass(status: string): string {
     return status === STATUS.OPEN
-      ? { color: COLOR.OPEN }
+      ? CUSTOM_CLASS.OPEN
       : status === STATUS.CLOSE
-      ? { color: COLOR.CLOSE }
-      : null;
+      ? CUSTOM_CLASS.CLOSE
+      : '';
   }
 }
