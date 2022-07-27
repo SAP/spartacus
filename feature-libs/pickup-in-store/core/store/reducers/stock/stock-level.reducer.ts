@@ -33,15 +33,13 @@ export function stockReducer(
   return _stockReducer(state, action);
 }
 
-export const initialStockLevelAtStoreState: StockState['stockLevelAtStore'] = {};
+export const initialStockLevelAtStoreState: StockState['stockLevelAtStore'] =
+  {};
 
 export const stockAtStoreReducer = createReducer(
   initialStockLevelAtStoreState,
   on(StockLevelActions.StockLevelAtStoreSuccess, (state, { payload }) => ({
     ...state,
-    stockLevelAtStore: {
-      ...state?.stockLevelAtStore,
-      [payload.productCode]: { [payload.storeName]: payload.stockLevel },
-    },
+    [payload.productCode]: { [payload.storeName]: payload.stockLevel },
   }))
 );

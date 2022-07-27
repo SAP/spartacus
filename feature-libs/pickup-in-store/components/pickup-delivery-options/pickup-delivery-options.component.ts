@@ -28,6 +28,13 @@ function isProductWithCode(
   return !!product?.code;
 }
 
+function isStoreWithCode(store: {
+  preferredStore: string | null | undefined;
+  productCode: string;
+}): store is { preferredStore: string; productCode: string } {
+  return !!store.preferredStore;
+}
+
 @Component({
   selector: 'cx-pickup-delivery-options',
   templateUrl: './pickup-delivery-options.component.html',
@@ -69,34 +76,25 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
     this.intendedPickupLocation$ = this.currentProductService.getProduct().pipe(
       filter(isProductWithCode),
       map((product) => product.code),
-      tap((productCode) => {
-        this.currentLocationService.getCurrentLocation(
-          ({ coords: { latitude, longitude } }) => {
-            this.pickupLocationsSearchService.setBrowserLocation(
-              latitude,
-              longitude
-            );
-
-            this.pickupLocationsSearchService.startSearch({
-              productCode,
-              latitude,
-              longitude,
-            });
-          }
-        );
-      }),
-      switchMap((productCode) =>
-        this.pickupLocationsSearchService.getSearchResults(productCode)
-      ),
-      map((stores) => stores.filter((store) => !!store?.stockInfo?.stockLevel)),
-      map((stores) => {
+      map((productCode) => {
         const preferredStore = this.preferredStoreService.getPreferredStore();
-
-        return (
-          stores.find((store) => store.name === preferredStore) ?? stores[0]
+        return { preferredStore, productCode };
+      }),
+      filter(isStoreWithCode),
+      tap(({ productCode, preferredStore }) => {
+        this.pickupLocationsSearchService.stockLevelAtStore(
+          productCode,
+          preferredStore
         );
       }),
-      map((store) => store?.name ?? '')
+      switchMap(({ productCode, preferredStore }) =>
+        this.pickupLocationsSearchService
+          .getStockLevelAtStore(productCode, preferredStore)
+          .pipe(
+            filter((stock) => !!stock?.stockLevel),
+            map((_) => preferredStore)
+          )
+      )
     );
 
     this.subscription.add(

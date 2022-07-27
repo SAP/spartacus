@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { PointOfServiceStock } from '@spartacus/core';
+import { PointOfServiceStock, Stock } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
   StockLocationSearchParams,
@@ -22,6 +22,23 @@ export class PickupLocationsSearchService
   implements PickupLocationsSearchFacade
 {
   constructor(protected readonly store: Store<StateWithStock>) {}
+
+  stockLevelAtStore(productCode: string, storeName: string): void {
+    this.store.dispatch(
+      StockLevelActions.StockLevelAtStore({
+        payload: { productCode, storeName },
+      })
+    );
+  }
+
+  getStockLevelAtStore(
+    productCode: string,
+    storeName: string
+  ): Observable<Stock | undefined> {
+    return this.store.pipe(
+      select(StockSelectors.getStockAtStore(productCode, storeName))
+    );
+  }
 
   startSearch(searchParams: StockLocationSearchParams): void {
     this.store.dispatch(new StockLevelActions.StockLevel(searchParams));
