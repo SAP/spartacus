@@ -11614,7 +11614,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
         "deletedComment": "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ExpressCheckoutService'.",
-        "migrationComment": "'CheckoutDeliveryService' has been splitted and renamed to 'CheckoutDeliveryAddressFacde' and 'checkoutDeliveryModesFacade'. Use 'checkoutDeliveryAdressFacade' and 'checkoutDeliveryModesFacade' instead.",
+        "migrationComment": "'CheckoutDeliveryService' has been splitted and renamed to 'CheckoutDeliveryAddressFacde' and 'CheckoutDeliveryModesFacade'. Use 'checkoutDeliveryAdressFacade' and 'checkoutDeliveryModesFacade' instead.",
         "topLevelApiElementName": "ExpressCheckoutService"
       },
       {
