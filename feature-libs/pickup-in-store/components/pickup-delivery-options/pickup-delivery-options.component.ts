@@ -18,7 +18,7 @@ import {
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { CurrentLocationService } from '../services/current-location.service';
 
@@ -26,13 +26,6 @@ function isProductWithCode(
   product: Product | null
 ): product is Required<Pick<Product, 'code'>> & Product {
   return !!product?.code;
-}
-
-function isStoreWithCode(store: {
-  preferredStore: string | null | undefined;
-  productCode: string;
-}): store is { preferredStore: string; productCode: string } {
-  return !!store.preferredStore;
 }
 
 @Component({
@@ -48,7 +41,7 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   });
 
   availableForPickup = false;
-  intendedPickupLocation$: Observable<string>;
+  displayPickupLocation$: Observable<string | undefined>;
 
   private productCode: string;
 
@@ -73,27 +66,38 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.intendedPickupLocation$ = this.currentProductService.getProduct().pipe(
+    this.displayPickupLocation$ = this.currentProductService.getProduct().pipe(
       filter(isProductWithCode),
       map((product) => product.code),
-      map((productCode) => {
-        const preferredStore = this.preferredStoreService.getPreferredStore();
-        return { preferredStore, productCode };
-      }),
-      filter(isStoreWithCode),
-      tap(({ productCode, preferredStore }) => {
-        this.pickupLocationsSearchService.stockLevelAtStore(
-          productCode,
-          preferredStore
-        );
-      }),
-      switchMap(({ productCode, preferredStore }) =>
-        this.pickupLocationsSearchService
-          .getStockLevelAtStore(productCode, preferredStore)
-          .pipe(
-            filter((stock) => !!stock?.stockLevel),
-            map((_) => preferredStore)
+      switchMap((productCode) =>
+        this.intendedPickupLocationService
+          .getIntendedLocation(productCode)
+          .pipe(map((intendedLocation) => ({ intendedLocation, productCode })))
+      ),
+      switchMap(({ intendedLocation, productCode }) =>
+        iif(
+          () => !!intendedLocation,
+          of(intendedLocation?.name),
+          of(this.preferredStoreService.getPreferredStore()).pipe(
+            filter(
+              (preferredStore): preferredStore is string => !!preferredStore
+            ),
+            tap((preferredStore) => {
+              this.pickupLocationsSearchService.stockLevelAtStore(
+                productCode,
+                preferredStore
+              );
+            }),
+            switchMap((preferredStore) =>
+              this.pickupLocationsSearchService
+                .getStockLevelAtStore(productCode, preferredStore)
+                .pipe(
+                  filter((stock) => !!stock?.stockLevel),
+                  map((_) => preferredStore)
+                )
+            )
           )
+        )
       )
     );
 

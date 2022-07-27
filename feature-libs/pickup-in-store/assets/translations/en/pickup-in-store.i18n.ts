@@ -2,6 +2,7 @@ const deliveryOptions = {
   changeStore: 'Change Store',
   delivery: 'Ship It (Free Return)',
   pickup: 'Free Pickup In Store',
+  selectStore: 'Select Store',
 };
 
 export const pickupInStoreDialog = {
