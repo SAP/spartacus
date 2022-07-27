@@ -4,6 +4,7 @@ x remove user's current position fetching on page load (and unused code after th
 x get stock level for user's preferred store and only show if it has stock
 x add store's display name to local preferred store
 x change behaviour of radio button. If we are in select store case then open the dialog. If we have a display then only open if they click Change Store
+write unit tests
 
 (B) CXSPA-798:
 cypress test preferred store defaulting
