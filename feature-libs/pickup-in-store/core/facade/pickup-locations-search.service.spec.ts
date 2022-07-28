@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { PointOfServiceStock, ProcessModule } from '@spartacus/core';
+import { PointOfServiceStock, ProcessModule, Stock } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
   StockLocationSearchParams,
@@ -20,6 +20,15 @@ export class MockPickupLocationsSearchService
   implements PickupLocationsSearchFacade
 {
   constructor(protected store: Store<StateWithStock>) {}
+
+  stockLevelAtStore(_productCode: string, _storeName: string): void {}
+
+  getStockLevelAtStore(
+    _productCode: string,
+    _storeName: string
+  ): Observable<Stock | undefined> {
+    return of(undefined);
+  }
 
   startSearch(_params: StockLocationSearchParams): void {}
 

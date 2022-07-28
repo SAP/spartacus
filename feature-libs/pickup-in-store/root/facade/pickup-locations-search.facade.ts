@@ -22,14 +22,17 @@ import { StockLocationSearchParams } from '../model';
         'setBrowserLocation',
         'toggleHideOutOfStock',
         'stockLevelAtStore',
-        'getStockLevelAtStore'
+        'getStockLevelAtStore',
       ],
       async: true,
     }),
 })
 export abstract class PickupLocationsSearchFacade {
   abstract stockLevelAtStore(productCode: string, storeName: string): void;
-  abstract getStockLevelAtStore(productCode: string, storeName: string): Observable<Stock | undefined>;
+  abstract getStockLevelAtStore(
+    productCode: string,
+    storeName: string
+  ): Observable<Stock | undefined>;
   abstract startSearch(searchParams: StockLocationSearchParams): void;
   abstract hasSearchStarted(productCode: string): Observable<boolean>;
   abstract isSearchRunning(): Observable<boolean>;

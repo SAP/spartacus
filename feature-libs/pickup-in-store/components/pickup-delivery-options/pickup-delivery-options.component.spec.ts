@@ -40,6 +40,8 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   getHideOutOfStock = createSpy();
   setBrowserLocation = createSpy();
   toggleHideOutOfStock = createSpy();
+  stockLevelAtStore = createSpy();
+  getStockLevelAtStore = createSpy();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

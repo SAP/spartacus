@@ -9,7 +9,10 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { PickupInStoreConfig } from '../config';
 
-export type PointOfServiceNames = Pick<PointOfServiceStock, 'name' | 'displayName'>;
+export type PointOfServiceNames = Pick<
+  PointOfServiceStock,
+  'name' | 'displayName'
+>;
 
 /**
  * Service to store the user's preferred store for Pickup in Store in local storage.

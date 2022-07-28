@@ -67,4 +67,7 @@ export const getStockAtStore = (
   productCode: string,
   storeName: string
 ): MemoizedSelector<StateWithStock, Stock | undefined> =>
-  createSelector(getStockState, (stockState) => stockState?.stockLevelAtStore?.[productCode]?.[storeName]);
+  createSelector(
+    getStockState,
+    (stockState) => stockState?.stockLevelAtStore?.[productCode]?.[storeName]
+  );
