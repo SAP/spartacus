@@ -3937,7 +3937,7 @@ export const GENERATED_METHODS_AND_PROPERTIES_MIGRATION: MethodPropertyDeprecati
       importPath: '@spartacus/storefront',
       deprecatedNode: 'errors$',
       comment:
-        "// TODO:Spartacus - Property 'errors$' was removed from Class 'FormErrorsComponent'. ",
+        "// TODO:Spartacus - Property 'errors$' was removed from Class 'FormErrorsComponent'. Use 'errorsDetails$' instead.",
     },
     {
       class: 'FormErrorsComponent',
