@@ -72,10 +72,16 @@
 
   .message-footer {
     display: flex;
-    height: 3rem;
-    textarea {
-      height: 3rem;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+      gap: 1rem;
+      button {
+        width: 50%;
+        float: right;
+      }
     }
+
     .message-box {
       width: 100%;
 
