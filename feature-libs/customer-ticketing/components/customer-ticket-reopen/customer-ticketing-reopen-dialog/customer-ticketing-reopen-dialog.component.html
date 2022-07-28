@@ -44,6 +44,11 @@
         </label>
       </div>
 
+      <cx-file-upload customButton="true" [accept]="">
+        <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
+        <span class="cx-message-footer-text">Upload File</span>
+      </cx-file-upload>
+
       <div class="cx-customer-ticket-form-footer">
         <button
           (click)="close('Close Reopen Request Dialog')"

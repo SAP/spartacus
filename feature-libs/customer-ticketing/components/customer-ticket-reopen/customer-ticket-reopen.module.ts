@@ -9,6 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
+  FileUploadModule,
   FormErrorsModule,
   IconModule,
   KeyboardFocusModule,
@@ -25,6 +26,7 @@ import { CustomerTicketingReopenDialogComponent } from './customer-ticketing-reo
     KeyboardFocusModule,
     ReactiveFormsModule,
     FormErrorsModule,
+    FileUploadModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
