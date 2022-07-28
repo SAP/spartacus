@@ -32,10 +32,10 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
     });
   }
 
-  private getDocumentListEndPoint(userId: string, orgUnitId: string, params: DocumentQueryParams): string {
+  private getDocumentListEndPoint(userId: string, orgUnitId: string, queryParams: DocumentQueryParams): string {
     return this.occEndpoints.buildUrl('accountSummaryDocument', {
       urlParams: { userId, orgUnitId },
-      queryParams: { params },
+      queryParams,
     });
   }
 }

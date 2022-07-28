@@ -11,6 +11,16 @@
     <div class="cx-account-summary-document-body">
       <ng-container *ngIf="accountSummary?.pagination?.totalResults > 0; else noDocument">
 
+        <!-- Select Form and Pagination Top -->
+        <div class="cx-account-summary-document-sort top">
+          <div *ngIf="accountSummary?.pagination?.totalPages > 1" class="cx-account-summary-document-pagination">
+            <cx-pagination
+              [pagination]="accountSummary.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+
         <!-- TABLE -->
         <table id="account-summary-document-table" class="table cx-account-summary-document-table">
           <thead class="cx-account-summary-document-thead-mobile">
@@ -98,6 +108,17 @@
           </tr>
           </tbody>
         </table>
+
+        <!-- Select Form and Pagination Bottom -->
+        <div class="cx-account-summary-document-sort bottom">
+          <div *ngIf="accountSummary.pagination.totalPages > 1" class="cx-account-summary-document-pagination">
+            <cx-pagination
+              [pagination]="accountSummary.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+
       </ng-container>
 
       <!-- NO DOCUMENT CONTAINER -->

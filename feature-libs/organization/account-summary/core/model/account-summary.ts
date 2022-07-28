@@ -67,12 +67,12 @@ export interface AccountSummaryList {
 }
 
 export interface DocumentQueryParams {
-  b2bDocumentStatus?: string;
-  currentPage?: number;
+  status?: string;
+  page?: number;
   pageSize?: number;
   sort?: string;
   startRange?: string;
   endRange?: string;
-  filterKey?: string;
-  filterValue?: string;
+  filterByKey?: string;
+  filterByValue?: string;
 }

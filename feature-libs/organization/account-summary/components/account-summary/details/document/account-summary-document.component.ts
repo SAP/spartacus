@@ -13,18 +13,37 @@ export class AccountSummaryDocumentComponent implements OnInit {
   constructor(private accountSummaryFacade: AccountSummaryFacade) { }
 
   ngOnInit(): void {
+    this.fetchDocuments({
+      sortCode: '',
+      currentPage: 0
+    });
+  }
 
+  pageChange(page: number): void {
+    const event: { sortCode: string; currentPage: number } = {
+      sortCode: '',
+      currentPage: page,
+    };
+    this.fetchDocuments(event);
+  }
+
+  private fetchDocuments(event: { sortCode: string; currentPage: number }): void {
     let params: DocumentQueryParams = {
-      b2bDocumentStatus: 'open',
-      currentPage: 0,
+      status: 'all',
+      page: 0,
       pageSize: 10,
       sort: 'byDocumentDateAsc',
       startRange: '',
       endRange: '',
-      filterKey: '',
-      filterValue: ''
+      filterByKey: '',
+      filterByValue: ''
     };
+
+    if (event?.currentPage) {
+      params.page = event.currentPage;
+    }
 
     this.accountSummary$ = this.accountSummaryFacade.getDocumentList(params);
   }
+
 }
