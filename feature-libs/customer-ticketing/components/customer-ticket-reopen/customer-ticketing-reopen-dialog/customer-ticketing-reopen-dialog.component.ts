@@ -1,5 +1,6 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomerTicketingConfig } from '@spartacus/customer-ticketing/core';
 import {
   FocusConfig,
   FormUtils,
@@ -29,6 +30,11 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
     );
   }
 
+  get allowedTypes(): string[] | undefined {
+    return this.customerTicketingConfig.customerTicketing?.attachmentValidity
+      ?.allowedTypes;
+  }
+
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
     if ((event.target as any).tagName === this.el.nativeElement.tagName) {
@@ -38,7 +44,8 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
 
   constructor(
     protected launchDialogService: LaunchDialogService,
-    protected el: ElementRef
+    protected el: ElementRef,
+    protected customerTicketingConfig: CustomerTicketingConfig
   ) {}
 
   ngOnInit(): void {

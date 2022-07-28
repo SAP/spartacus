@@ -44,7 +44,7 @@
         </label>
       </div>
 
-      <cx-file-upload customButton="true" [accept]="">
+      <cx-file-upload customButton="true" [accept]="allowedTypes">
         <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
         <span class="cx-message-footer-text">Upload File</span>
       </cx-file-upload>

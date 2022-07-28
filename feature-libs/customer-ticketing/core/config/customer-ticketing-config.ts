@@ -10,6 +10,11 @@ export abstract class CustomerTicketingConfig extends OccConfig {
     agentSessionTimer?: {
       startingDelayInSeconds?: number;
     };
+    attachmentValidity?: {
+      maxSize?: number;
+      maxEntries?: number;
+      allowedTypes?: string[];
+    };
   };
 }
 
