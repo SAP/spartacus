@@ -1,6 +1,6 @@
 cx-account-summary-document {
   .cx-account-summary-document {
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       max-width: 100%;
       padding: 0;
     }
@@ -25,15 +25,8 @@ cx-account-summary-document {
       //width: 25%;
       padding: 1.625rem 0;
 
-      @include media-breakpoint-up(md) {
-        text-align: start;
 
-        &:last-child {
-          text-align: end;
-        }
-      }
-
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         width: 100%;
         display: flex;
         border-width: 0;
@@ -54,7 +47,7 @@ cx-account-summary-document {
     padding: 40px 0 0 0;
     color: var(--cx-color-text);
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       padding-top: 40px;
       padding-inline-end: 20px;
       padding-bottom: 0;
@@ -63,7 +56,7 @@ cx-account-summary-document {
   }
 
   .cx-account-summary-document-thead-mobile {
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       display: none;
     }
   }
@@ -91,7 +84,7 @@ cx-account-summary-document {
   .cx-account-summary-document-date {
     text-align: center;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       text-align: start;
     }
   }
@@ -100,7 +93,7 @@ cx-account-summary-document {
     text-align: center;
     text-transform: capitalize;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       text-align: start;
     }
 
@@ -116,30 +109,30 @@ cx-account-summary-document {
   .cx-account-summary-document-monetary {
     text-align: end;
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       text-align: start;
     }
   }
 
   .cx-account-summary-document-label {
-    text-transform: uppercase;
     color: var(--cx-color-secondary);
 
-    @include media-breakpoint-up(md) {
+    @include media-breakpoint-up(lg) {
       display: none;
     }
 
-    @include media-breakpoint-down(sm) {
-      //@include type('8');
-      min-width: 110px;
+    @include media-breakpoint-down(md) {
+      @include type('8');
+      min-width: 200px;
+      min-height: 48px;
     }
   }
 
   .cx-account-summary-document-value {
     color: var(--cx-color-text);
 
-    @include media-breakpoint-down(sm) {
-      //@include type('5');
+    @include media-breakpoint-down(md) {
+      @include type('5');
       font-weight: $font-weight-normal;
     }
   }
@@ -160,7 +153,7 @@ cx-account-summary-document {
       width: 100%;
     }
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       padding: 1.25rem;
       width: 100%;
     }
@@ -173,7 +166,7 @@ cx-account-summary-document {
       padding: 1rem 0;
       margin: 0;
 
-      @include media-breakpoint-down(sm) {
+      @include media-breakpoint-down(md) {
         flex-direction: column;
         padding-top: 0;
       }
@@ -192,7 +185,7 @@ cx-account-summary-document {
   }
 
   .cx-account-summary-document-pagination {
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       margin: 0 auto;
     }
   }
@@ -200,7 +193,7 @@ cx-account-summary-document {
   .cx-account-summary-document-no-document {
     display: flex;
     flex-wrap: wrap;
-    //@include type('5');
+    @include type('5');
     font-weight: $font-weight-normal;
     min-height: 415px;
 
@@ -233,5 +226,13 @@ cx-account-summary-document {
 
     padding: 40px 0 0 0;
     min-height: 0;
+  }
+
+  .cx-account-summary-document-row {
+    &:nth-child(odd) {
+      @include media-breakpoint-down(md) {
+        background-color: var(--cx-color-background);
+      }
+    }
   }
 }

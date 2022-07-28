@@ -12,7 +12,7 @@
       <ng-container *ngIf="accountSummary?.pagination?.totalCount > 0; else noDocument">
 
         <!-- TABLE -->
-        <table id="order-history-table" class="table cx-account-summary-document-table">
+        <table id="account-summary-document-table" class="table cx-account-summary-document-table">
           <thead class="cx-account-summary-document-thead-mobile">
           <th scope="col">
             {{ 'orgAccountSummary.document.id' | cxTranslate }}
@@ -35,12 +35,10 @@
           <th scope="col">
             {{ 'orgAccountSummary.document.status' | cxTranslate }}
           </th>
-          <th scope="col">
-            {{ 'orgAccountSummary.document.attachment' | cxTranslate }}
-          </th>
+          <th scope="col"> </th>
           </thead>
           <tbody>
-          <tr *ngFor="let document of accountSummary?.documents">
+          <tr *ngFor="let document of accountSummary?.documents" class="cx-account-summary-document-row">
             <td class="cx-account-summary-document-code">
               <div class="cx-account-summary-document-label">
                 {{ 'orgAccountSummary.document.id' | cxTranslate }}

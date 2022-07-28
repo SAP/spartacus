@@ -3,6 +3,11 @@ cx-account-summary-header {
   .past-due-section {
     border: 1px solid black;
     padding: 1rem; margin-top: 1rem;
+
+    @include media-breakpoint-down(md) {
+      border: none;
+    }
+
   }
 
   .past-due-range-block {
@@ -10,35 +15,70 @@ cx-account-summary-header {
   }
 
   .past-due-range-container {
-    display: grid;
-    grid-template-columns: auto auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding-bottom: 1rem;
 
     .past-due-range-date {
-      text-align: start;
       font-weight: bold;
     }
 
     .past-due-range-value {
-      text-align: end;
+      //text-align: end;
     }
   }
 
-  .past-due-balance-text {
+  .past-due-balance-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     padding-top: 1rem;
+  }
+
+  .past-due-balance-text {
+    //padding-top: 1rem;
     font-size: $font-size-base * 1.125;
   }
+
+  .grid-item-name { grid-area: name }
+  .grid-item-address { grid-area: address }
+  .grid-item-credit { grid-area: credit }
+  .grid-item-balance { grid-area: balance }
+  .grid-item-due { grid-area: due }
 
   .cx-account-summary {
     background-color: var(--cx-color-background);
 
-    @include media-breakpoint-down(sm) {
+    @include media-breakpoint-down(md) {
       background-color: var(--cx-color-inverse);
     }
 
     .container {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-areas:
+        "name credit balance due"
+        "address credit balance due";
+
+      @include media-breakpoint-down(md) {
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 20px;
+        grid-template-areas:
+          "name address"
+          "credit balance"
+          "due due";
+      }
+      @include media-breakpoint-down(sm) {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "name"
+          "address"
+          "credit"
+          "balance"
+          "due";
+      }
+
       padding: 15px 0;
 
       @include media-breakpoint-down(md) {
@@ -47,20 +87,13 @@ cx-account-summary-header {
         padding: 0 1.25rem;
       }
       @include media-breakpoint-down(sm) {
-        flex-direction: column;
         padding: 1.25rem;
       }
 
       .cx-summary-card {
-        flex: 1;
         padding: 0 15px;
 
         @include media-breakpoint-down(md) {
-          flex: 0 0 33%;
-        }
-
-        @include media-breakpoint-down(sm) {
-          flex: 1;
           background-color: var(--cx-color-inverse);
           border-width: 1px;
           border-style: solid;
@@ -69,7 +102,7 @@ cx-account-summary-header {
         }
 
         .cx-card-title {
-          //@include type('4');
+          @include type('4');
           font-weight: bold;
           margin-bottom: 0.5rem;
         }

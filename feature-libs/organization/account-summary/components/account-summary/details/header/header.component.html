@@ -6,7 +6,7 @@
 <div class="cx-account-summary" *ngIf="headerDetails$ | async as headerDetails">
   <div class="container">
 
-    <div class="cx-summary-card">
+    <div class="cx-summary-card grid-item-name">
 
       <cx-card
         [content]="getIdCardContent(headerDetails?.b2BUnitWsDTO?.uid) | async"
@@ -15,6 +15,10 @@
       <cx-card
         [content]="getNameCardContent(headerDetails?.b2BUnitWsDTO?.name) | async"
       ></cx-card>
+
+    </div>
+
+    <div class="cx-summary-card grid-item-address">
 
       <cx-card
         [content]="getAddressCardContent(
@@ -26,7 +30,7 @@
 
     </div>
 
-    <div class="cx-summary-card">
+    <div class="cx-summary-card grid-item-credit">
 
       <cx-card
         [content]="getCreditRepCardContent(headerDetails?.accountManagerName) | async"
@@ -38,7 +42,7 @@
 
     </div>
 
-    <div class="cx-summary-card">
+    <div class="cx-summary-card grid-item-balance">
 
       <cx-card
         [content]="getCurrentBalanceCardContent(headerDetails?.amountBalanceData?.currentBalance) | async"
@@ -50,7 +54,7 @@
 
     </div>
 
-    <div class="cx-summary-card">
+    <div class="cx-summary-card grid-item-due">
 
       <div *ngIf="headerDetails?.amountBalanceData?.dueBalance as pastDue; else noDueRange" [class.past-due-section]="pastDue?.length > 0">
         <div *ngIf="pastDue?.length > 0" class="past-due-range-block">
@@ -66,8 +70,10 @@
           </div>
         </div>
 
-        <div class="past-due-balance-text cx-card-title">{{ 'orgAccountSummary.details.pastDueBalance' | cxTranslate }}</div>
-        <div>{{headerDetails?.amountBalanceData?.openBalance}}</div>
+        <div class="past-due-balance-container">
+          <div class="past-due-balance-text cx-card-title">{{ 'orgAccountSummary.details.pastDueBalance' | cxTranslate }}</div>
+          <div>{{headerDetails?.amountBalanceData?.openBalance}}</div>
+        </div>
       </div>
 
       <ng-template #noDueRange>

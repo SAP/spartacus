@@ -22,7 +22,7 @@ export const accountSummary = {
       originalAmount: 'Original Amount',
       openAmount: 'Open Amount',
       status: 'Status',
-      attachment: ''
+      attachment: 'Attachment'
     },
     //TODO
     hint: '',
