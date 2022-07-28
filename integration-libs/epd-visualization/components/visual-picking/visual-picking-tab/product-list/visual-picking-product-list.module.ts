@@ -27,6 +27,5 @@ import { VisualPickingProductListComponent } from './visual-picking-product-list
   ],
   declarations: [VisualPickingProductListComponent],
   exports: [VisualPickingProductListComponent],
-  entryComponents: [VisualPickingProductListComponent],
 })
 export class VisualPickingProductListModule {}
