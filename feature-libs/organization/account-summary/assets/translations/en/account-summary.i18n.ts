@@ -22,7 +22,8 @@ export const accountSummary = {
       originalAmount: 'Original Amount',
       openAmount: 'Open Amount',
       status: 'Status',
-      attachment: 'Attachment'
+      attachment: 'Attachment',
+      noneFound: 'No Documents Found',
     },
     //TODO
     hint: '',

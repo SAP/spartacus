@@ -9,7 +9,7 @@
 
     <!-- BODY -->
     <div class="cx-account-summary-document-body">
-      <ng-container *ngIf="accountSummary?.pagination?.totalCount > 0; else noDocument">
+      <ng-container *ngIf="accountSummary?.pagination?.totalResults > 0; else noDocument">
 
         <!-- TABLE -->
         <table id="account-summary-document-table" class="table cx-account-summary-document-table">
@@ -102,7 +102,9 @@
 
       <!-- NO DOCUMENT CONTAINER -->
       <ng-template #noDocument>
-        No Documents
+        <div class="cx-account-summary-document-no-document" >
+          {{ 'orgAccountSummary.document.noneFound' | cxTranslate }}
+        </div>
       </ng-template>
     </div>
   </div>

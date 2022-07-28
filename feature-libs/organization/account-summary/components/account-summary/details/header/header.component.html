@@ -9,11 +9,11 @@
     <div class="cx-summary-card grid-item-name">
 
       <cx-card
-        [content]="getIdCardContent(headerDetails?.b2BUnitWsDTO?.uid) | async"
+        [content]="getIdCardContent(headerDetails?.unit?.uid) | async"
       ></cx-card>
 
       <cx-card
-        [content]="getNameCardContent(headerDetails?.b2BUnitWsDTO?.name) | async"
+        [content]="getNameCardContent(headerDetails?.unit?.name) | async"
       ></cx-card>
 
     </div>
@@ -21,11 +21,7 @@
     <div class="cx-summary-card grid-item-address">
 
       <cx-card
-        [content]="getAddressCardContent(
-          headerDetails?.billingAddress?.fullnameWithTitle,
-          headerDetails?.billingAddress?.formattedAddress,
-          headerDetails?.billingAddress?.country?.name
-        ) | async"
+        [content]="getAddressCardContent(headerDetails?.billingAddress) | async"
       ></cx-card>
 
     </div>
@@ -72,13 +68,13 @@
 
         <div class="past-due-balance-container">
           <div class="past-due-balance-text cx-card-title">{{ 'orgAccountSummary.details.pastDueBalance' | cxTranslate }}</div>
-          <div>{{headerDetails?.amountBalanceData?.openBalance}}</div>
+          <div>{{headerDetails?.amountBalanceData?.pastDueBalance}}</div>
         </div>
       </div>
 
       <ng-template #noDueRange>
         <cx-card
-          [content]="getPastDueBalanceCardContent(headerDetails?.amountBalanceData?.openBalance) | async"
+          [content]="getPastDueBalanceCardContent(headerDetails?.amountBalanceData?.pastDueBalance) | async"
         ></cx-card>
       </ng-template>
 

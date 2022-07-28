@@ -36,7 +36,7 @@ export interface AccountSummaryDetails {
   accountManagerEmail?: string;
   accountManagerName?: string;
   amountBalanceData?: B2BAmountBalanceData;
-  b2BUnitWsDTO?: B2BUnit;
+  unit?: B2BUnit;
   billingAddress?: Address;
   formattedCreditLimit?: string;
 }

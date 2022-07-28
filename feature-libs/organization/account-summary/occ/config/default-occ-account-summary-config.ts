@@ -20,8 +20,8 @@ export const defaultOccAccountSummaryConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        accountSummary: 'users/${userId}/accountSummary',
-        accountSummaryDocument: 'users/${userId}/documents'
+        accountSummary: 'users/${userId}/orgUnits/${orgUnitId}/accountSummary',
+        accountSummaryDocument: 'users/${userId}/orgUnits/${orgUnitId}/documents'
       },
     },
   },

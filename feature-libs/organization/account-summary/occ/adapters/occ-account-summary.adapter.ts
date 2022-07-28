@@ -26,20 +26,16 @@ export class OccAccountSummaryAdapter implements AccountSummaryAdapter {
     );
   }
 
-  private getAccountSummaryEndPoint(userId: string, unitCode: string): string {
+  private getAccountSummaryEndPoint(userId: string, orgUnitId: string): string {
     return this.occEndpoints.buildUrl('accountSummary', {
-      urlParams: { userId },
-      queryParams: { unit: unitCode },
+      urlParams: { userId, orgUnitId },
     });
   }
 
-  private getDocumentListEndPoint(userId: string, unit: string, params: DocumentQueryParams): string {
+  private getDocumentListEndPoint(userId: string, orgUnitId: string, params: DocumentQueryParams): string {
     return this.occEndpoints.buildUrl('accountSummaryDocument', {
-      urlParams: { userId },
-      queryParams: {
-        b2bUnitCode: unit,
-        params
-      },
+      urlParams: { userId, orgUnitId },
+      queryParams: { params },
     });
   }
 }
