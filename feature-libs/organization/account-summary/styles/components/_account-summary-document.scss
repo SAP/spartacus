@@ -25,6 +25,13 @@ cx-account-summary-document {
       //width: 25%;
       padding: 1.625rem 0;
 
+      @include media-breakpoint-up(md) {
+        text-align: start;
+
+        &:last-child {
+          text-align: end;
+        }
+      }
 
       @include media-breakpoint-down(md) {
         width: 100%;
