@@ -2051,6 +2051,33 @@ Use 'OrderDetailShippingComponent' instead from @spartacus/order/components
 moved to @spartacus/order/components
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  checkoutService: CheckoutFacade
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  orderFacade: OrderFacade,
+  globalMessageService: GlobalMessageService,
+  translationService: TranslationService
+)
+
+```
+
+
 
 
 # Class OrderConfirmationTotalsComponent 

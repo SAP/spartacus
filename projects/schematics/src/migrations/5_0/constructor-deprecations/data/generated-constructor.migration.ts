@@ -1862,6 +1862,36 @@ export const GENERATED_CONSTRUCTOR_MIGRATIONS: ConstructorDeprecation[] =
       ],
     },
     {
+      class: 'OrderConfirmationThankYouMessageComponent',
+      importPath: '@spartacus/checkout/components',
+      deprecatedParams: [
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+      ],
+      removeParams: [
+        {
+          className: 'CheckoutFacade',
+          importPath: '@spartacus/checkout/root',
+        },
+      ],
+      addParams: [
+        {
+          className: 'OrderFacade',
+          importPath: '@spartacus/order/root',
+        },
+        {
+          className: 'GlobalMessageService',
+          importPath: '@spartacus/core',
+        },
+        {
+          className: 'TranslationService',
+          importPath: '@spartacus/core',
+        },
+      ],
+    },
+    {
       class: 'PaymentMethodComponent',
       importPath: '@spartacus/checkout/components',
       deprecatedParams: [
