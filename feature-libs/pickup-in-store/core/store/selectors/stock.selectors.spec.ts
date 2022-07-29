@@ -1,6 +1,7 @@
 import { PointOfServiceStock } from '@spartacus/core';
 import { StateWithStock, StockState } from '../stock-state';
 import {
+  getStockAtStore,
   getStockEntities,
   getStockError,
   getStockLevelState,
@@ -15,7 +16,8 @@ describe('StockSelectors', () => {
   const stateFactory = (
     stockLevel?: Partial<StockState['stockLevel']>,
     hideOutOfStock?: StockState['hideOutOfStock'],
-    browserLocation?: StockState['browserLocation']
+    browserLocation?: StockState['browserLocation'],
+    stockLevelAtStore?: StockState['stockLevelAtStore']
   ): StateWithStock => ({
     stock: {
       stockLevel: {
@@ -26,6 +28,7 @@ describe('StockSelectors', () => {
       },
       hideOutOfStock: hideOutOfStock ?? false,
       browserLocation: browserLocation ?? { latitude: null, longitude: null },
+      stockLevelAtStore: stockLevelAtStore ?? {},
     },
   });
 
@@ -138,6 +141,25 @@ describe('StockSelectors', () => {
       );
       const result = getStoresWithStockForProductCode('productCode')(state);
       expect(result).toEqual(stores);
+    });
+
+    it('should return stock level for productCode and storeName', () => {
+      const state: StateWithStock = stateFactory(
+        undefined,
+        undefined,
+        undefined,
+        { productCode: { storeName: { stockLevel: 10 } } }
+      );
+      const result = getStockAtStore('productCode', 'storeName')(state);
+      expect(result).toEqual({ stockLevel: 10 });
+    });
+
+    it('should return undefined for missing productCode and storeName', () => {
+      const result = getStockAtStore(
+        'productCode',
+        'storeName'
+      )({} as StateWithStock);
+      expect(result).toEqual(undefined);
     });
   });
 });

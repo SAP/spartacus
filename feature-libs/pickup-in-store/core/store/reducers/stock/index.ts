@@ -11,7 +11,7 @@ import { StockLevelActions } from '../../actions/index';
 import { StockLevelState, StockState, STOCK_DATA } from '../../stock-state';
 import { browserLocationReducer } from './browser-location.reducer';
 import { hideOutOfStockReducer } from './hide-out-of-stock.reducer';
-import { stockReducer } from './stock-level.reducer';
+import { stockAtStoreReducer, stockReducer } from './stock-level.reducer';
 
 function getReducers(): ActionReducerMap<StockState> {
   return {
@@ -19,6 +19,7 @@ function getReducers(): ActionReducerMap<StockState> {
       STOCK_DATA,
       stockReducer
     ),
+    stockLevelAtStore: stockAtStoreReducer,
     hideOutOfStock: hideOutOfStockReducer,
     browserLocation: browserLocationReducer,
   };

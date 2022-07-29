@@ -40,6 +40,10 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   getHideOutOfStock = createSpy();
   setBrowserLocation = createSpy();
   toggleHideOutOfStock = createSpy();
+  stockLevelAtStore = createSpy();
+  getStockLevelAtStore = createSpy().and.returnValue(
+    of({ stockLevel: { displayName: 'London School' } })
+  );
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -90,7 +94,6 @@ describe('PickupDeliveryOptionsComponent', () => {
   let launchDialogService: LaunchDialogService;
   let intendedPickupLocationService: IntendedPickupLocationFacade;
   let currentProductService: CurrentProductService;
-  let pickupLocationsSearchService: PickupLocationsSearchFacade;
 
   const configureTestingModule = () =>
     TestBed.configureTestingModule({
@@ -130,7 +133,6 @@ describe('PickupDeliveryOptionsComponent', () => {
       IntendedPickupLocationFacade
     );
     currentProductService = TestBed.inject(CurrentProductService);
-    pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
 
     spyOn(currentProductService, 'getProduct').and.callThrough();
     spyOn(launchDialogService, 'openDialog').and.callThrough();
@@ -138,6 +140,7 @@ describe('PickupDeliveryOptionsComponent', () => {
       intendedPickupLocationService,
       'removeIntendedLocation'
     ).and.callThrough();
+    spyOn(intendedPickupLocationService, 'setIntendedLocation');
 
     fixture.detectChanges();
   };
@@ -189,14 +192,6 @@ describe('PickupDeliveryOptionsComponent', () => {
       expect(
         intendedPickupLocationService.getIntendedLocation
       ).toHaveBeenCalledWith('productCode');
-      expect(
-        pickupLocationsSearchService.setBrowserLocation
-      ).toHaveBeenCalledWith(0, 0);
-      expect(pickupLocationsSearchService.startSearch).toHaveBeenCalledWith({
-        productCode: 'productCode',
-        latitude: 0,
-        longitude: 0,
-      });
       expect(component.availableForPickup).toBe(true);
     });
 
@@ -231,6 +226,28 @@ describe('PickupDeliveryOptionsComponent', () => {
       expect(
         intendedPickupLocationService.removeIntendedLocation
       ).toHaveBeenCalledWith('productCode');
+    });
+
+    it('should open the dialog if the display name is not set', () => {
+      component['displayNameIsSet'] = false;
+
+      component.openDialog = createSpy();
+      component.selectPickupInStore();
+
+      expect(component.openDialog).toHaveBeenCalled();
+    });
+
+    it('should set the intended location if display name is set', () => {
+      component['displayNameIsSet'] = true;
+      component['productCode'] = 'P001';
+      component.selectPickupInStore();
+
+      expect(
+        intendedPickupLocationService.setIntendedLocation
+      ).toHaveBeenCalledWith(component['productCode'], {
+        name: 'London School',
+        displayName: 'London School',
+      });
     });
   });
 

@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { PointOfServiceStock, StateUtils } from '@spartacus/core';
+import { PointOfServiceStock, StateUtils, Stock } from '@spartacus/core';
 import { StateWithStock, StockLevelState } from '../stock-state';
 import { getStockState } from './feature.selectors';
 import { getHideOutOfStockState } from './hide-out-of-stock.selectors';
@@ -61,4 +61,13 @@ export const getStoresWithStockForProductCode = (
       stockEntities[productCode]?.stores?.filter(
         (store) => (store.stockInfo?.stockLevel ?? 0) > 0 || !hideOutOfStock
       ) ?? []
+  );
+
+export const getStockAtStore = (
+  productCode: string,
+  storeName: string
+): MemoizedSelector<StateWithStock, Stock | undefined> =>
+  createSelector(
+    getStockState,
+    (stockState) => stockState?.stockLevelAtStore?.[productCode]?.[storeName]
   );

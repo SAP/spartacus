@@ -13,6 +13,7 @@ describe('Stock meta-reducer', () => {
     },
     hideOutOfStock: false,
     browserLocation: { latitude: null, longitude: null },
+    stockLevelAtStore: {},
   };
 
   it('should clear stock state for ClearStockData action', () => {

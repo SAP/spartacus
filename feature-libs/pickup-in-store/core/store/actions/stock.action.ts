@@ -1,4 +1,5 @@
-import { StateUtils, StoreFinderStockSearchPage } from '@spartacus/core';
+import { createAction, props } from '@ngrx/store';
+import { StateUtils, Stock, StoreFinderStockSearchPage } from '@spartacus/core';
 import { StockLocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { STOCK_DATA } from '../stock-state';
 
@@ -7,6 +8,10 @@ export const STOCK_LEVEL_ON_HOLD = '[Stock] On Hold';
 export const STOCK_LEVEL_FAIL = '[Stock] Get Stock Level Fail';
 export const STOCK_LEVEL_SUCCESS = '[Stock] Get Stock Level Success';
 export const CLEAR_STOCK_DATA = '[Stock] Clear Data';
+
+export const STOCK_LEVEL_AT_STORE = '[Stock] Get Stock Level at Store';
+export const STOCK_LEVEL_AT_STORE_SUCCESS =
+  '[Stock] Get Stock Level at Store Success';
 
 export class StockLevel extends StateUtils.LoaderLoadAction {
   readonly type = STOCK_LEVEL;
@@ -54,3 +59,27 @@ export type StockLevelAction =
   | StockLevelFail
   | StockLevelSuccess
   | ClearStockData;
+
+type StockLevelAtStorePayload = { productCode: string; storeName: string };
+
+/**
+ * Add a proposed pickup location for a product code.
+ */
+export const StockLevelAtStore = createAction(
+  STOCK_LEVEL_AT_STORE,
+  props<{ payload: StockLevelAtStorePayload }>()
+);
+
+export type StockLevelAtStoreAction = ReturnType<typeof StockLevelAtStore>;
+
+type StockLevelAtStoreSuccessPayload = StockLevelAtStorePayload & {
+  stockLevel: Stock;
+};
+
+/**
+ * Add the stock level for a product at a store.
+ */
+export const StockLevelAtStoreSuccess = createAction(
+  STOCK_LEVEL_AT_STORE_SUCCESS,
+  props<{ payload: StockLevelAtStoreSuccessPayload }>()
+);

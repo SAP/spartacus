@@ -10,6 +10,7 @@ describe('StockConnector', () => {
 
   const MockStockAdapter = {
     loadStockLevels: createSpy(),
+    loadStockLevelAtStore: createSpy(),
   };
 
   beforeEach(() => {
@@ -31,5 +32,13 @@ describe('StockConnector', () => {
     expect(adapter.loadStockLevels).toHaveBeenCalledWith('P0001', {
       location: '',
     });
+  });
+
+  it('loadStockLevelAtStore calls loadStockLevelAtStore', () => {
+    service.loadStockLevelAtStore('productCode', 'storeName');
+    expect(adapter.loadStockLevelAtStore).toHaveBeenCalledWith(
+      'productCode',
+      'storeName'
+    );
   });
 });

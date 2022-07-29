@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StoreFinderStockSearchPage } from '@spartacus/core';
+import { Stock, StoreFinderStockSearchPage } from '@spartacus/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { StockAdapter } from './stock.adapter';
@@ -13,5 +13,12 @@ export class StockConnector {
     location: LocationSearchParams
   ): Observable<StoreFinderStockSearchPage> {
     return this.adapter.loadStockLevels(productCode, location);
+  }
+
+  loadStockLevelAtStore(
+    productCode: string,
+    storeName: string
+  ): Observable<Stock> {
+    return this.adapter.loadStockLevelAtStore(productCode, storeName);
   }
 }

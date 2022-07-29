@@ -9,6 +9,8 @@ import { Observable, of, throwError } from 'rxjs';
 import { StockConnector } from '../../connectors/index';
 import {
   StockLevel,
+  StockLevelAtStore,
+  StockLevelAtStoreSuccess,
   StockLevelFail,
   StockLevelSuccess,
 } from '../actions/stock.action';
@@ -16,6 +18,7 @@ import { StockEffect } from './stock.effect';
 
 class MockStockConnector {
   loadStockLevels = () => of({});
+  loadStockLevelAtStore = () => of({});
 }
 
 describe('StockEffect', () => {
@@ -73,5 +76,28 @@ describe('StockEffect', () => {
     const expected = cold('-b', { b: actionFail });
 
     expect(stockEffects.loadStockLevels$).toBeObservable(expected);
+  });
+
+  it('should call the connector on the StockLevelAtStore action and create StockLevelAtStoreSuccess action', () => {
+    spyOn(stockConnector, 'loadStockLevelAtStore').and.callThrough();
+    const action = StockLevelAtStore({
+      payload: { productCode: 'P0001', storeName: 'London School' },
+    });
+    const actionSuccess = StockLevelAtStoreSuccess({
+      payload: {
+        productCode: 'P0001',
+        storeName: 'London School',
+        stockLevel: {},
+      },
+    });
+
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-(b)', { b: actionSuccess });
+
+    expect(stockEffects.loadStockLevelAtStore$).toBeObservable(expected);
+    expect(stockConnector.loadStockLevelAtStore).toHaveBeenCalledWith(
+      'P0001',
+      'London School'
+    );
   });
 });

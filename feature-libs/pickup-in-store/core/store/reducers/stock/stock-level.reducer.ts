@@ -1,12 +1,12 @@
 import { Action, createAction, createReducer, on, props } from '@ngrx/store';
 import { StockLevelActions } from '../../actions/index';
 import { StockLevelSuccessPayload } from '../../actions/stock.action';
-import { StockLevelState } from '../../stock-state';
+import { StockLevelState, StockState } from '../../stock-state';
 
-export const initialState: StockLevelState = {};
+export const initialStockLevelState: StockLevelState = {};
 
 const _stockReducer = createReducer(
-  initialState,
+  initialStockLevelState,
   on(
     createAction(
       StockLevelActions.STOCK_LEVEL_SUCCESS,
@@ -32,3 +32,14 @@ export function stockReducer(
 ) {
   return _stockReducer(state, action);
 }
+
+export const initialStockLevelAtStoreState: StockState['stockLevelAtStore'] =
+  {};
+
+export const stockAtStoreReducer = createReducer(
+  initialStockLevelAtStoreState,
+  on(StockLevelActions.StockLevelAtStoreSuccess, (state, { payload }) => ({
+    ...state,
+    [payload.productCode]: { [payload.storeName]: payload.stockLevel },
+  }))
+);

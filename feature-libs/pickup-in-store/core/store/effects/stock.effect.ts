@@ -33,4 +33,20 @@ export class StockEffect {
       )
     )
   );
+
+  loadStockLevelAtStore$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(StockLevelActions.STOCK_LEVEL_AT_STORE),
+      map(({ payload }: StockLevelActions.StockLevelAtStoreAction) => payload),
+      switchMap(({ productCode, storeName }) =>
+        this.stockConnector.loadStockLevelAtStore(productCode, storeName).pipe(
+          map((stockLevel) =>
+            StockLevelActions.StockLevelAtStoreSuccess({
+              payload: { productCode, storeName, stockLevel },
+            })
+          )
+        )
+      )
+    )
+  );
 }

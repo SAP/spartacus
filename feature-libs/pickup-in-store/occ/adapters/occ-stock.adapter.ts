@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   ConverterService,
   OccEndpointsService,
+  Stock,
   StoreFinderStockSearchPage,
 } from '@spartacus/core';
 import { StockAdapter } from '@spartacus/pickup-in-store/core';
@@ -25,6 +26,17 @@ export class OccStockAdapter implements StockAdapter {
       this.occEndpointsService.buildUrl('stock', {
         urlParams: { productCode },
         queryParams: { ...location, fields: 'FULL' },
+      })
+    );
+  }
+
+  loadStockLevelAtStore(
+    productCode: string,
+    storeName: string
+  ): Observable<Stock> {
+    return this.http.get<Stock>(
+      this.occEndpointsService.buildUrl('stockAtStore', {
+        urlParams: { productCode, storeName },
       })
     );
   }

@@ -1,4 +1,4 @@
-import { StateUtils, StoreFinderStockSearchPage } from '@spartacus/core';
+import { StateUtils, Stock, StoreFinderStockSearchPage } from '@spartacus/core';
 
 export const STOCK_FEATURE = 'stock';
 export const STOCK_DATA = '[Stock] Stock Data';
@@ -11,10 +11,12 @@ export interface BrowserLocation {
   latitude: number | null;
   longitude: number | null;
 }
+
 export interface StockState {
   stockLevel: StateUtils.LoaderState<StockLevelState>;
   hideOutOfStock: boolean;
   browserLocation: BrowserLocation;
+  stockLevelAtStore: Record<string, Record<string, Stock | undefined>>;
 }
 
 export type StockLevelState = Record<string, StoreFinderStockSearchPage>;

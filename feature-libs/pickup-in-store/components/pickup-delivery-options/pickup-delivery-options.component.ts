@@ -8,7 +8,10 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Product } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
+import {
+  PointOfServiceNames,
+  PreferredStoreService,
+} from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
@@ -18,7 +21,7 @@ import {
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { CurrentLocationService } from '../services/current-location.service';
 
@@ -26,6 +29,12 @@ function isProductWithCode(
   product: Product | null
 ): product is Required<Pick<Product, 'code'>> & Product {
   return !!product?.code;
+}
+
+function hasNames(
+  store: PointOfServiceNames | undefined
+): store is Required<PointOfServiceNames> {
+  return !!store?.name && !!store?.displayName;
 }
 
 @Component({
@@ -41,9 +50,10 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   });
 
   availableForPickup = false;
-  intendedPickupLocation$: Observable<string>;
+  displayPickupLocation$: Observable<string | undefined>;
 
   private productCode: string;
+  private displayNameIsSet = false;
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -66,37 +76,38 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.intendedPickupLocation$ = this.currentProductService.getProduct().pipe(
+    this.displayPickupLocation$ = this.currentProductService.getProduct().pipe(
       filter(isProductWithCode),
       map((product) => product.code),
-      tap((productCode) => {
-        this.currentLocationService.getCurrentLocation(
-          ({ coords: { latitude, longitude } }) => {
-            this.pickupLocationsSearchService.setBrowserLocation(
-              latitude,
-              longitude
-            );
-
-            this.pickupLocationsSearchService.startSearch({
-              productCode,
-              latitude,
-              longitude,
-            });
-          }
-        );
-      }),
       switchMap((productCode) =>
-        this.pickupLocationsSearchService.getSearchResults(productCode)
+        this.intendedPickupLocationService
+          .getIntendedLocation(productCode)
+          .pipe(map((intendedLocation) => ({ intendedLocation, productCode })))
       ),
-      map((stores) => stores.filter((store) => !!store?.stockInfo?.stockLevel)),
-      map((stores) => {
-        const preferredStore = this.preferredStoreService.getPreferredStore();
-
-        return (
-          stores.find((store) => store.name === preferredStore) ?? stores[0]
-        );
-      }),
-      map((store) => store?.name ?? '')
+      switchMap(({ intendedLocation, productCode }) =>
+        iif(
+          () => !!intendedLocation,
+          of(intendedLocation?.displayName),
+          of(this.preferredStoreService.getPreferredStore()).pipe(
+            filter(hasNames),
+            tap((preferredStore) => {
+              this.pickupLocationsSearchService.stockLevelAtStore(
+                productCode,
+                preferredStore.name
+              );
+            }),
+            switchMap((preferredStore) =>
+              this.pickupLocationsSearchService
+                .getStockLevelAtStore(productCode, preferredStore.name)
+                .pipe(
+                  filter((stock) => !!stock?.stockLevel),
+                  map((_) => preferredStore.displayName)
+                )
+            )
+          )
+        )
+      ),
+      tap(() => (this.displayNameIsSet = true))
     );
 
     this.subscription.add(
@@ -140,5 +151,17 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
 
   clearIntendedPickupLocation(): void {
     this.intendedPickupLocationService.removeIntendedLocation(this.productCode);
+  }
+
+  selectPickupInStore(): void {
+    const preferredStore = this.preferredStoreService.getPreferredStore();
+    if (!this.displayNameIsSet) {
+      this.openDialog();
+    } else if (preferredStore) {
+      this.intendedPickupLocationService.setIntendedLocation(
+        this.productCode,
+        preferredStore
+      );
+    }
   }
 }
