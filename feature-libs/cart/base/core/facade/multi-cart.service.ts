@@ -220,8 +220,7 @@ export class MultiCartService implements MultiCartFacade {
     userId: string,
     cartId: string,
     productCode: string,
-    quantity: number,
-    pickupStore?: string
+    quantity: number
   ): void {
     this.store.dispatch(
       new CartActions.CartAddEntry({
@@ -229,7 +228,6 @@ export class MultiCartService implements MultiCartFacade {
         cartId,
         productCode,
         quantity,
-        pickupStore,
       })
     );
   }
