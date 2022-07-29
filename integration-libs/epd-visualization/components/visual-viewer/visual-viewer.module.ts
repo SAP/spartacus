@@ -18,6 +18,5 @@ import { VisualViewerComponent } from './visual-viewer.component';
   ],
   declarations: [VisualViewerComponent],
   exports: [VisualViewerComponent],
-  entryComponents: [VisualViewerComponent],
 })
 export class VisualViewerModule {}
