@@ -19,12 +19,16 @@ function mockLocation(
   };
 }
 
+const BOPIS_TAG = 'cx-pickup-delivery-options';
 const PICKUP_IN_STORE_MODAL = 'cx-delivery-pickup-options-dialog';
+const DELIVERY_RADIO_BUTTON = '#delivery';
 const PICKUP_IN_STORE_RADIO_BUTTON = '#pickup';
 const HIDE_OUT_OF_STOCK_CHECK_BOX = '#chkHideOutOfStock';
 const SEARCH_LOCATION_TEXTBOX = '#txtFindAStore';
 const FIND_STORES_BUTTON = '#btnFindStores';
 const USE_MY_LOCATION = '#lnkUseMyLocation';
+const SELECT_STORE_LINK = `${BOPIS_TAG} a.cx-action-link`;
+const PICKUP_FROM_HERE_BUTTON_MANCHESTER = `[data-pickup-in-store-button="Manchester"]`;
 
 describe('Pickup delivery options', () => {
   viewportContext(['desktop'], () => {
@@ -39,9 +43,24 @@ describe('Pickup delivery options', () => {
       cy.visit('/product/300310300', mockLocation(53, 0));
     });
 
+    it('No store is selected, clicking on BOPIS radio button opens modal, can pick a store, clicking on BOPIS radio no longer opens modal, but clicking on "Select Store" link does open modal', () => {
+      cy.get(BOPIS_TAG).should('exist');
+      cy.get(SELECT_STORE_LINK).should('have.text', 'Select Store');
+      cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
+      cy.get(USE_MY_LOCATION).click();
+      cy.get(PICKUP_FROM_HERE_BUTTON_MANCHESTER).click();
+      cy.get(SELECT_STORE_LINK).should('have.text', 'Change Store');
+      cy.get(SELECT_STORE_LINK).should('not.have.text', 'Select Store');
+      cy.get(DELIVERY_RADIO_BUTTON).click();
+      cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
+      cy.get(PICKUP_IN_STORE_MODAL).should('not.exist');
+      cy.get(SELECT_STORE_LINK).click();
+      cy.get(PICKUP_IN_STORE_MODAL).should('exist');
+    });
+
     it('should open the pickup locations dialog, and dialog should be closeable', () => {
-      cy.get('cx-pickup-delivery-options').should('exist');
-      cy.get('#delivery').should('have.attr', 'aria-checked', 'true');
+      cy.get(BOPIS_TAG).should('exist');
+      cy.get(DELIVERY_RADIO_BUTTON).should('have.attr', 'aria-checked', 'true');
       cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(PICKUP_IN_STORE_MODAL).should('exist');
       cy.get('button.cx-dialog-close').click();
@@ -49,16 +68,17 @@ describe('Pickup delivery options', () => {
     });
 
     it('should filter out stores with no stock when "Hide out of stock options" is checked', () => {
-      cy.get('cx-pickup-delivery-options').should('exist');
+      cy.get(BOPIS_TAG).should('exist');
       cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(PICKUP_IN_STORE_MODAL).should('exist');
+      cy.get(USE_MY_LOCATION).click();
       cy.get('cx-store').should('have.length', 20);
       cy.get(HIDE_OUT_OF_STOCK_CHECK_BOX).click();
       cy.get('cx-store').should('have.length', 11);
     });
 
     it('uses the search term entered if Find Stores button clicked ', () => {
-      cy.get('cx-pickup-delivery-options').should('exist');
+      cy.get(BOPIS_TAG).should('exist');
       cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(PICKUP_IN_STORE_MODAL).should('exist');
       cy.get(SEARCH_LOCATION_TEXTBOX).type('Maidenhead');
@@ -73,7 +93,7 @@ describe('Pickup delivery options', () => {
     });
 
     it('uses the location if "Use My Location" link clicked ', () => {
-      cy.get('cx-pickup-delivery-options').should('exist');
+      cy.get(BOPIS_TAG).should('exist');
       cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(PICKUP_IN_STORE_MODAL).should('exist');
 
