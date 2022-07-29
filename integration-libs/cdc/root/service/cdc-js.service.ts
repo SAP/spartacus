@@ -4,16 +4,17 @@ import {
   Injectable,
   NgZone,
   OnDestroy,
-  PLATFORM_ID
+  PLATFORM_ID,
 } from '@angular/core';
 import {
   AuthService,
   BaseSiteService,
   GlobalMessageService,
   GlobalMessageType,
-  LanguageService, ScriptLoader,
+  LanguageService,
+  ScriptLoader,
   User,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
@@ -26,7 +27,6 @@ import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 })
 export class CdcJsService implements OnDestroy {
   protected loaded$ = new ReplaySubject<boolean>(1);
-  protected errorLoading$ = new ReplaySubject<boolean>(1);
   protected subscription: Subscription = new Subscription();
 
   constructor(
@@ -61,7 +61,7 @@ export class CdcJsService implements OnDestroy {
    * Returns observable with the information if CDC script failed to load.
    */
   didScriptFailToLoad(): Observable<boolean> {
-    return this.errorLoading$.asObservable();
+    return this.loaded$.asObservable();
   }
 
   /**
@@ -90,7 +90,7 @@ export class CdcJsService implements OnDestroy {
                   this.loaded$.next(true);
                 },
                 errorCallback: () => {
-                  this.errorLoading$.next(true);
+                  this.loaded$.next(false);
                 },
               });
               if (this.winRef?.nativeWindow !== undefined) {
@@ -193,11 +193,12 @@ export class CdcJsService implements OnDestroy {
           lastName: user.lastName,
         },
         regToken: response.regToken,
+        finalizeRegistration: true,
         ignoreInterruptions: true,
         callback: (response: any) => {
           this.zone.run(() => {
-            if (user.uid && user.password) {
-              this.loginUserWithoutScreenSet(user.uid, user.password, response);
+            if (response && response.status === 'FAIL') {
+              this.handleRegisterError(response);
             }
           });
         },
@@ -218,30 +219,46 @@ export class CdcJsService implements OnDestroy {
         loginID: email,
         password: password,
         callback: (response: any) => {
-          this.zone.run(() => this.handleLoginResponse(response));
+          this.zone.run(() => this.handleLoginError(response));
         },
       });
     }
   }
 
   /**
-   * Show success / failure message to the user after login.
+   * Show failure message to the user in case registration fails.
    *
    * @param response
    */
-  handleLoginResponse(response: any) {
-    if (response) {
-      if (response.status === 'FAIL') {
-        this.globalMessageService.add(
-          {
-            key: 'httpHandlers.badRequestPleaseLoginAgain',
-            params: {
-              errorMessage: response.statusMessage,
-            },
+  handleRegisterError(response: any) {
+    if (response && response.status === 'FAIL') {
+      let errorMessage =
+        response.validationErrors &&
+        response.validationErrors.length > 0 &&
+        response.validationErrors[0].message || "Error";
+      this.globalMessageService.add(
+        errorMessage,
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+  }
+
+  /**
+   * Show failure message to the user in case login fails.
+   *
+   * @param response
+   */
+  handleLoginError(response: any) {
+    if (response && response.status === 'FAIL') {
+      this.globalMessageService.add(
+        {
+          key: 'httpHandlers.badRequestPleaseLoginAgain',
+          params: {
+            errorMessage: response.statusMessage,
           },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      }
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     }
   }
 
@@ -265,4 +282,3 @@ export class CdcJsService implements OnDestroy {
     }
   }
 }
-

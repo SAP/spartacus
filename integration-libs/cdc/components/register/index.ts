@@ -1,2 +1,2 @@
-export * from './cdc-user-register.module';
 export * from './facade/index';
+export * from './cdc-user-profile.module';

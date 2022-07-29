@@ -3,7 +3,7 @@ import { AuthService, OCC_USER_ID_CURRENT, User } from '@spartacus/core';
 
 import { Observable, of } from 'rxjs';
 import { UserSignUp } from '@spartacus/user/profile/root';
-import { UserProfileConnector, UserProfileService } from '@spartacus/user/profile/core';
+import { UserProfileConnector, UserProfileService, UserRegisterService } from '@spartacus/user/profile/core';
 import { Store } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 import { RegisterComponentService } from './register-component.service';
@@ -15,8 +15,17 @@ class MockUserProfileService implements Partial<UserProfileService> {
   getTitles = createSpy().and.returnValue(of([]));
 }
 
+class MockUserRegisterService implements Partial<UserRegisterService> {
+  get(): Observable<User> {
+    return of({ uid: OCC_USER_ID_CURRENT });
+  }
+  getTitles = createSpy().and.returnValue(of([]));
+
+  register = createSpy().and.callFake((user: any) => of(user));
+}
+
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
-  register = createSpy().and.callFake((user) => of(user));
+  register = createSpy().and.callFake((user: any) => of(user));
 }
 
 class MockAuthService implements Partial<AuthService> {
@@ -25,7 +34,7 @@ class MockAuthService implements Partial<AuthService> {
 
 describe('RegisterComponentService', () => {
   let service: RegisterComponentService;
-  let connector: UserProfileConnector;
+  let userRegService: UserRegisterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,12 +46,13 @@ describe('RegisterComponentService', () => {
           useClass: MockUserProfileConnector,
         },
         { provide: UserProfileService, useClass: MockUserProfileService },
+        { provide: UserRegisterService, useClass: MockUserRegisterService },
         RegisterComponentService,
       ],
     });
 
     service = TestBed.inject(RegisterComponentService);
-    connector = TestBed.inject(UserProfileConnector);
+    userRegService = TestBed.inject(UserRegisterService);
   });
 
   it('should inject RegisterComponentService', inject(
@@ -52,7 +62,7 @@ describe('RegisterComponentService', () => {
     }
   ));
 
-  it('should be able to register user', () => {
+  it('should be able to register user from UserRegisterService', () => {
     const userRegisterFormData: UserSignUp = {
       titleCode: 'Mr.',
       firstName: 'firstName',
@@ -61,7 +71,7 @@ describe('RegisterComponentService', () => {
       password: 'password',
     };
     service.register(userRegisterFormData);
-    expect(connector.register).toHaveBeenCalledWith({
+    expect(userRegService.register).toHaveBeenCalledWith({
       titleCode: 'Mr.',
       firstName: 'firstName',
       lastName: 'lastName',
@@ -71,9 +81,8 @@ describe('RegisterComponentService', () => {
   });
 
 
-  it('should get titles from profileService', () => {
-    const userProfileService = TestBed.inject(UserProfileService);
+  it('should get titles from UserRegisterService', () => {
     service.getTitles().subscribe().unsubscribe();
-    expect(userProfileService.getTitles).toHaveBeenCalled();
+    expect(userRegService.getTitles).toHaveBeenCalled();
   });
 });

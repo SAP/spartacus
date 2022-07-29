@@ -1,1 +1,1 @@
-export * from './cdc-login-component.service';
+export * from './cdc-login-form-component.service';

@@ -1,17 +1,19 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Store } from '@ngrx/store';
 import {
-    AuthService,
-    GlobalMessageService,
-    I18nTestingModule,
-    WindowRef
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  WindowRef
 } from '@spartacus/core';
 import { LoginFormComponentService } from 'feature-libs/user/account/components/login-form/login-form-component.service';
 import { CdcJsService } from 'integration-libs/cdc/root';
 import { FormErrorsModule } from 'projects/storefrontlib/shared';
 import { of } from 'rxjs';
-import { CdcLoginComponentService } from './cdc-login-component.service';
+import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
 import createSpy = jasmine.createSpy;
 
 class MockWinRef {
@@ -31,20 +33,24 @@ class MockGlobalMessageService {
 }
 
 class MockCDCJsService implements Partial<CdcJsService> {
-  didLoad = createSpy().and.returnValue(of(true));
-  registerUserWithoutScreenSet = createSpy().and.callFake((user: any) => of(user));
+  didLoad = createSpy().and.returnValues(of(true), of(false));
+  registerUserWithoutScreenSet = createSpy().and.callFake((user: any) =>
+    of(user)
+  );
   loginUserWithoutScreenSet = createSpy();
 }
 
-class MockLoginFormComponentService implements Partial<LoginFormComponentService> {
+class MockLoginFormComponentService
+  implements Partial<LoginFormComponentService>
+{
   login = createSpy();
 }
 
 describe('CdcLoginComponentService', () => {
-  let cdcLoginService: CdcLoginComponentService;
-  let loginFormService: LoginFormComponentService;
+  let cdcLoginService: CdcLoginFormComponentService;
+  // let loginFormService: LoginFormComponentService;
   let cdcJsService: CdcJsService;
-  // let winRef: WindowRef;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -57,31 +63,33 @@ describe('CdcLoginComponentService', () => {
         ],
         declarations: [],
         providers: [
-          CdcLoginComponentService,
+          CdcLoginFormComponentService,
           { provide: WindowRef, useClass: MockWinRef },
           { provide: AuthService, useClass: MockAuthService },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: Store, useValue: { dispatch: () => {} } },
           { provide: CdcJsService, useClass: MockCDCJsService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           {
             provide: LoginFormComponentService,
             useClass: MockLoginFormComponentService,
           },
         ],
-      }).compileComponents();
+      });
     })
   );
 
   beforeEach(() => {
-    cdcLoginService = TestBed.inject(CdcLoginComponentService);
+    cdcLoginService = TestBed.inject(CdcLoginFormComponentService);
     cdcJsService = TestBed.inject(CdcJsService);
-    loginFormService = TestBed.inject(LoginFormComponentService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
+    TestBed.compileComponents();
   });
 
   it('should create service', () => {
     expect(cdcLoginService).toBeTruthy();
   });
 
-  describe('login', () => {
+  describe('Login', () => {
     const userId = 'test@email.com';
     const password = 'secret';
 
@@ -98,16 +106,20 @@ describe('CdcLoginComponentService', () => {
       );
     });
 
-    it('should happen without CDC', () => {
+    it('should NOT happen without CDC, should show error', () => {
       cdcLoginService.form.setValue({
         userId: userId,
         password: password,
       });
       cdcJsService.didLoad = createSpy().and.returnValue(of(false));
-      Object.setPrototypeOf(cdcLoginService, loginFormService);
       cdcLoginService.login();
       expect(cdcJsService.loginUserWithoutScreenSet).not.toHaveBeenCalled();
-      expect(loginFormService.login).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'errorHandlers.scriptFailedToLoad',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
     });
   });
 });

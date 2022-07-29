@@ -90,7 +90,7 @@ const mockedWindowRef = {
 const mockedGlobalMessageService =  {
   add: () => {},
   remove: () => {},
-}
+};
 
 describe('CdcJsService', () => {
   let service: CdcJsService;
@@ -177,7 +177,7 @@ describe('CdcJsService', () => {
   describe('didScriptFailToLoad', () => {
     it('should return CDC script loading error state', (done) => {
       spyOn(scriptLoader, 'embedScript').and.callFake(() => {
-        (service as any)['errorLoading$'].next(true);
+        (service as any)['loaded$'].next(true);
       });
 
       spyOn(baseSiteService, 'getActive').and.returnValue(
@@ -187,7 +187,7 @@ describe('CdcJsService', () => {
 
       const results: Array<boolean> = [];
 
-      (service as any)['errorLoading$'].next(false);
+      (service as any)['loaded$'].next(false);
 
       service
         .didScriptFailToLoad()
@@ -345,6 +345,7 @@ describe('CdcJsService', () => {
         },
         regToken: 'TOKEN',
         ignoreInterruptions: true,
+        finalizeRegistration: true,
         callback: jasmine.any(Function),
       });
     });
@@ -378,11 +379,11 @@ describe('CdcJsService', () => {
     });
   });
 
-  describe('handleLoginResponse', () => {
+  describe('handleLoginError', () => {
     it('should not show anything with no response', () => {
       spyOn(globalMessageService, "remove");
       spyOn(globalMessageService, "add");
-      service.handleLoginResponse(null);
+      service.handleLoginError(null);
       expect(globalMessageService.add).not.toHaveBeenCalled();
       expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
@@ -390,7 +391,7 @@ describe('CdcJsService', () => {
     it('should not show error messages on success', () => {
       spyOn(globalMessageService, "remove");
       spyOn(globalMessageService, "add");
-      service.handleLoginResponse({
+      service.handleLoginError({
         status: 'OK',
       });
       expect(globalMessageService.remove).not.toHaveBeenCalled();
@@ -400,7 +401,7 @@ describe('CdcJsService', () => {
     it('should show error', () => {
       spyOn(globalMessageService, 'remove');
       spyOn(globalMessageService, 'add');
-      service.handleLoginResponse({
+      service.handleLoginError({
         status: 'FAIL',
         statusMessage: 'Error',
       });
@@ -412,6 +413,45 @@ describe('CdcJsService', () => {
             errorMessage: 'Error',
           },
         },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    });
+  });
+
+  describe('handleRegisterError', () => {
+    it('should not show anything with no response', () => {
+      spyOn(globalMessageService, "remove");
+      spyOn(globalMessageService, "add");
+      service.handleRegisterError(null);
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+    });
+
+    it('should not show error messages on success', () => {
+      spyOn(globalMessageService, "remove");
+      spyOn(globalMessageService, "add");
+      service.handleRegisterError({
+        status: 'OK',
+      });
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+    });
+
+    it('should show error', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service.handleRegisterError({
+        status: 'FAIL',
+        statusMessage: 'Error',
+        validationErrors: [
+          {
+            message: 'Error'
+          }
+        ]
+      });
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        'Error',
         GlobalMessageType.MSG_TYPE_ERROR
       );
     });

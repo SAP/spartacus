@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
 import { CmsConfig, provideConfig } from '@spartacus/core';
 import { USER_ACCOUNT_FEATURE } from '@spartacus/user/account/root';
-import { USER_PROFILE_FEATURE } from 'feature-libs/user/profile/root';
+import { USER_PROFILE_FEATURE } from '@spartacus/user/profile/root';
 
 @NgModule({
   imports: [CdcRootModule],
@@ -44,7 +44,7 @@ import { USER_PROFILE_FEATURE } from 'feature-libs/user/profile/root';
       featureModules: {
         [USER_ACCOUNT_FEATURE]: {
           module: () =>
-            import('@spartacus/cdc/components/login').then((m) => m.CDCUserLoginModule),
+            import('@spartacus/cdc/components/login').then((m) => m.CDCLoginFormModule),
         },
       },
     }),
@@ -52,7 +52,7 @@ import { USER_PROFILE_FEATURE } from 'feature-libs/user/profile/root';
       featureModules: {
         [USER_PROFILE_FEATURE]: {
           module: () =>
-            import('@spartacus/cdc/components/register').then((m) => m.CDCUserRegisterModule),
+            import('@spartacus/cdc/components/register').then((m) => m.CDCUserProfileModule),
         },
       },
     })

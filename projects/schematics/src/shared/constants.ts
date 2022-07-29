@@ -1073,3 +1073,5 @@ export const CSS_V5_DOCS_URL =
 export const BANNER_COMPONENT = 'BannerComponent';
 export const GENERIC_LINK_COMPONENT = 'GenericLinkComponent';
 export const GENERIC_LINK_COMPONENT_SERVICE = 'GenericLinkComponentService';
+
+export const CDC_JS_SERVICE = 'CdcJsService';

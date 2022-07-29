@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
+import { CdcJsService } from "@spartacus/cdc/root";
 import { LoginFormComponentService } from "@spartacus/user/account/components";
-import { CdcJsService } from "integration-libs/cdc/root";
 import { AuthService } from "projects/core/src/auth";
 import { GlobalMessageService, GlobalMessageType } from "projects/core/src/global-message";
 import { WindowRef } from "projects/core/src/window";
@@ -9,7 +9,7 @@ import { BehaviorSubject } from "rxjs";
 @Injectable({
   providedIn: 'root',
 })
-export class CdcLoginComponentService extends LoginFormComponentService {
+export class CdcLoginFormComponentService extends LoginFormComponentService {
   constructor(
     protected auth: AuthService,
     protected globalMessageService: GlobalMessageService,
@@ -39,6 +39,7 @@ export class CdcLoginComponentService extends LoginFormComponentService {
           },
           GlobalMessageType.MSG_TYPE_ERROR
         );
+        this.busy$.next(false);
       }
     });
   }

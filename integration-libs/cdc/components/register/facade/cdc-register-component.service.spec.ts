@@ -2,15 +2,19 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
 import { Store } from '@ngrx/store';
 import {
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  OCC_USER_ID_CURRENT,
+} from '@spartacus/core';
+import { User } from '@spartacus/user/account/root';
+import {
   UserProfileConnector,
   UserProfileService,
-  UserRegisterService
-} from 'feature-libs/user/profile/core';
-import { UserSignUp } from 'feature-libs/user/profile/root';
+  UserRegisterService,
+} from '@spartacus/user/profile/core';
+import { UserSignUp } from '@spartacus/user/profile/root';
 import { CdcJsService } from 'integration-libs/cdc/root';
-import { AuthService } from 'projects/core/src/auth';
-import { User } from 'projects/core/src/model';
-import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
 import { Observable, of } from 'rxjs';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
 import createSpy = jasmine.createSpy;
@@ -30,6 +34,10 @@ class MockUserProfileService implements Partial<UserProfileService> {
   getTitles = createSpy().and.returnValue(of([]));
 }
 
+class MockUserRegisterService implements Partial<UserRegisterService> {
+  getTitles = createSpy().and.returnValue(of([]));
+}
+
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
   register = createSpy().and.callFake((user: any) => of(user));
 }
@@ -40,15 +48,18 @@ class MockAuthService implements Partial<AuthService> {
 
 class MockCDCJsService implements Partial<CdcJsService> {
   didLoad = createSpy().and.returnValue(of(false));
-  registerUserWithoutScreenSet = createSpy().and.callFake((user: any) => of(user));
+  registerUserWithoutScreenSet = createSpy().and.callFake((user: any) =>
+    of(user)
+  );
   onLoginEventHandler = createSpy();
 }
 
-
-describe('CdcLoginComponentService', () => {
+describe('CdcRegisterComponentService', () => {
   let cdcUserRegisterService: CDCRegisterComponentService;
   let connector: UserProfileConnector;
   let cdcJsService: CdcJsService;
+  let globalMessageService: GlobalMessageService;
+  let userRegisterService: UserRegisterService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -62,13 +73,16 @@ describe('CdcLoginComponentService', () => {
         },
         { provide: UserProfileService, useClass: MockUserProfileService },
         { provide: CdcJsService, useClass: MockCDCJsService },
+        { provide: UserRegisterService, useClass: MockUserRegisterService },
         CDCRegisterComponentService,
       ],
     });
 
+    globalMessageService = TestBed.inject(GlobalMessageService);
     cdcUserRegisterService = TestBed.inject(CDCRegisterComponentService);
     connector = TestBed.inject(UserProfileConnector);
     cdcJsService = TestBed.inject(CdcJsService);
+    userRegisterService = TestBed.inject(UserRegisterService);
   });
 
   it('should be created', () => {
@@ -82,41 +96,43 @@ describe('CdcLoginComponentService', () => {
     }
   ));
 
-  it('should be able to register user through CDC', () => {
-    cdcUserRegisterService.register(userRegisterFormData);
-    expect(connector.register).not.toHaveBeenCalled();
-    expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
-      titleCode: 'Mr.',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      uid: 'uid',
-      password: 'password',
-    });
-  });
-
-  fit('should be able to register user without CDC', () => {
-    cdcJsService.didLoad = createSpy().and.returnValue(of(false));
-    cdcUserRegisterService.register(userRegisterFormData);
-    expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
-      titleCode: 'Mr.',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      uid: 'uid',
-      password: 'password',
-    });
-    expect(connector.register).not.toHaveBeenCalled();
-    expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
-      titleCode: 'Mr.',
-      firstName: 'firstName',
-      lastName: 'lastName',
-      uid: 'uid',
-      password: 'password',
-    });
-  });
-
   it('should get titles from profileService', () => {
-    const userProfileService = TestBed.inject(UserProfileService);
-    cdcUserRegisterService.getTitles().subscribe().unsubscribe();
-    expect(userProfileService.getTitles).toHaveBeenCalled();
+    cdcUserRegisterService.getTitles();
+    expect(userRegisterService.getTitles).toHaveBeenCalled();
+  });
+
+  describe('Register', () => {
+    it('should be able to register user through CDC', () => {
+      cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
+        expect(connector.register).not.toHaveBeenCalled();
+        expect(cdcJsService.registerUserWithoutScreenSet).toHaveBeenCalledWith({
+          titleCode: 'Mr.',
+          firstName: 'firstName',
+          lastName: 'lastName',
+          uid: 'uid',
+          password: 'password',
+        });
+      });
+      expect(cdcJsService.didLoad).toHaveBeenCalled();
+    });
+
+    it('should NOT happen without CDC, should show error', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      cdcJsService.didLoad = createSpy().and.returnValue(of(false));
+      cdcUserRegisterService.register(userRegisterFormData).subscribe(() => {
+        expect(
+          cdcJsService.registerUserWithoutScreenSet
+        ).not.toHaveBeenCalled();
+        expect(connector.register).not.toHaveBeenCalled();
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'errorHandlers.scriptFailedToLoad',
+          },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+      expect(cdcJsService.didLoad).toHaveBeenCalled();
+    });
   });
 });
