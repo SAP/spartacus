@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
-import { AccountSummaryOccModule } from './occ/account-summary-occ.module';
-import { AccountSummaryCoreModule } from './core/account-summary-core.module';
-import { AccountSummaryComponentsModule } from './components/account-summary-components.module';
+import { AccountSummaryCoreModule } from '@spartacus/organization/account-summary/core';
+import { AccountSummaryOccModule } from '@spartacus/organization/account-summary/occ';
+import { AccountSummaryComponentsModule } from '@spartacus/organization/account-summary/components';
 
 @NgModule({
   imports: [
-    AccountSummaryCoreModule.forRoot(),
+    AccountSummaryCoreModule,
     AccountSummaryOccModule,
-    AccountSummaryComponentsModule,
+    AccountSummaryComponentsModule
   ],
   declarations: [],
 })
-export class AccountSummaryModule {}
+export class AccountSummaryModule { }

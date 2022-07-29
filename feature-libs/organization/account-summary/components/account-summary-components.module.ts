@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PageMetaResolver, provideDefaultConfig } from '@spartacus/core';
-import { AccountSummaryPageMetaResolver } from '../core/account-summary-page-meta.resolver';
+import { AccountSummaryPageMetaResolver } from '@spartacus/organization/account-summary/core';
 import { accountSummaryCmsConfig } from './account-summary/account-summary.config';
 import { AccountSummaryCellLinkModule } from './account-summary/cell-link/account-summary-cell-link.module';
 import { AccountSummaryDocumentModule } from './account-summary/details/document/account-summary-document.module';

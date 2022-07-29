@@ -1,5 +1,5 @@
 import { ListModel, StateUtils } from '@spartacus/core';
-import { AccountSummary } from '../../model/account-summary';
+import { AccountSummary } from '../../../root/model/account-summary';
 import { AccountSummaryActions } from '../actions';
 
 export const accountSummaryInitialState: AccountSummary | undefined = undefined;

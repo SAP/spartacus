@@ -40,28 +40,28 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
     switchMap((semanticRoute) => {
       return semanticRoute === 'orgAccountSummary'
         ? this.translation.translate(this.ORGANIZATION_TRANSLATION_KEY).pipe(
-            map((label) => [
-              {
-                label,
-                link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
-              },
-            ])
-          )
+          map((label) => [
+            {
+              label,
+              link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
+            },
+          ])
+        )
         : combineLatest([
-            this.translation.translate(this.ORGANIZATION_TRANSLATION_KEY),
-            this.translation.translate('accountSummary.breadcrumbs.list'),
-          ]).pipe(
-            map(([orgLabel, _label]) => [
-              {
-                label: orgLabel,
-                link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
-              },
-              {
-                label: 'All Account Summary',
-                link: this.semanticPath.get('orgAccountSummary'),
-              },
-            ])
-          );
+          this.translation.translate(this.ORGANIZATION_TRANSLATION_KEY),
+          this.translation.translate('accountSummary.breadcrumbs.list'),
+        ]).pipe(
+          map(([orgLabel, _label]) => [
+            {
+              label: orgLabel,
+              link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
+            },
+            {
+              label: 'All Account Summary',
+              link: this.semanticPath.get('orgAccountSummary'),
+            },
+          ])
+        );
     })
   );
 

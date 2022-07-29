@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { RoutingService, UserIdService } from '@spartacus/core';
-import { AccountSummaryFacade } from '@spartacus/organization/account-summary/root';
+import { AccountSummaryDetails, AccountSummaryFacade, AccountSummaryList, DocumentQueryParams } from '@spartacus/organization/account-summary/root';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
-import { AccountSummaryConnector } from '../connector/account-summary-connector';
-import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams } from '../model';
+import { AccountSummaryConnector } from '../connectors';
 @Injectable({
   providedIn: 'root',
 })

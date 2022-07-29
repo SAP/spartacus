@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
-import { AccountSummaryList, AccountSummaryDetails } from '../model';
+import { AccountSummaryDetails, AccountSummaryList } from '@spartacus/organization/account-summary/root';
 
 export const ACCOUNT_SUMMARY_NORMALIZER = new InjectionToken<
   Converter<any, AccountSummaryDetails>

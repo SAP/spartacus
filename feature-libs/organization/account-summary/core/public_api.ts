@@ -1,3 +1,4 @@
-export * from './model/index';
 export * from './facade/index';
-export * from './connector/index';
+export * from './connectors/index';
+export * from './services/index';
+export * from './account-summary-core.module';

@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams } from '../model';
+import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams } from '../../root/model';
 
 export abstract class AccountSummaryAdapter {
 

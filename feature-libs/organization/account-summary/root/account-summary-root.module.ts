@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { ORGANIZATION_ADMINISTRATION_FEATURE } from '@spartacus/organization/administration/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { defaultAccountSummaryRoutingConfig } from './config/default-account-summary-routing.config';
+import { defaultAccountSummaryRoutingConfig } from './config';
 import { ACCOUNT_SUMMARY_FEATURE } from './feature-name';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
@@ -45,4 +45,4 @@ export function defaultAccountSummaryComponentsConfig(): CmsConfig {
     provideDefaultConfigFactory(defaultAccountSummaryComponentsConfig),
   ],
 })
-export class AccountSummaryRootModule {}
+export class AccountSummaryRootModule { }

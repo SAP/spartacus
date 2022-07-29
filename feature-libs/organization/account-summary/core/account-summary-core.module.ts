@@ -1,5 +1,5 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { AccountSummaryConnector } from './connector';
+import { NgModule } from '@angular/core';
+import { AccountSummaryConnector } from './connectors';
 import { facadeProviders } from './facade/facade-providers';
 
 @NgModule({
@@ -7,10 +7,4 @@ import { facadeProviders } from './facade/facade-providers';
     [AccountSummaryConnector, ...facadeProviders],
   ],
 })
-export class AccountSummaryCoreModule {
-  static forRoot(): ModuleWithProviders<AccountSummaryCoreModule> {
-    return {
-      ngModule: AccountSummaryCoreModule,
-    };
-  }
-}
+export class AccountSummaryCoreModule { }

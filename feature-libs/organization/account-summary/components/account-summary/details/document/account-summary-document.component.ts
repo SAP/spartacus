@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountSummaryList, DocumentQueryParams } from '@spartacus/organization/account-summary/core';
-import { AccountSummaryFacade } from '@spartacus/organization/account-summary/root';
+import { AccountSummaryFacade, AccountSummaryList, DocumentQueryParams, FIELDS_TYPE } from '@spartacus/organization/account-summary/root';
 import { Observable, combineLatest } from 'rxjs';
-import { FIELDS_TYPE } from "../../../../core/model";
 import { SortModel, TranslationService } from '@spartacus/core';
 import { map } from "rxjs/operators";
 

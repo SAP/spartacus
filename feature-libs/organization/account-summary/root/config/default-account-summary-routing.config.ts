@@ -1,6 +1,5 @@
 import { RoutingConfig } from '@spartacus/core';
 
-//rename to /organization/account-summary-units/
 const listPath = `organization/account-summary`;
 
 export const defaultAccountSummaryRoutingConfig: RoutingConfig = {

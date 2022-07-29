@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { AccountSummaryList, AccountSummaryDetails, DocumentQueryParams } from '@spartacus/organization/account-summary/core';
+import { AccountSummaryAdapter, ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER, ACCOUNT_SUMMARY_NORMALIZER } from '@spartacus/organization/account-summary/core';
+import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams } from '@spartacus/organization/account-summary/root';
 import { Observable } from 'rxjs';
-import { AccountSummaryAdapter } from '../../core/connector/account-summary-adapter';
-import { ACCOUNT_SUMMARY_DOCUMENT_NORMALIZER, ACCOUNT_SUMMARY_NORMALIZER } from '../../core/connector/converters';
 
 @Injectable()
 export class OccAccountSummaryAdapter implements AccountSummaryAdapter {

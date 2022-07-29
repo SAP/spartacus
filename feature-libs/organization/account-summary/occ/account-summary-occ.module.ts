@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { AccountSummaryAdapter } from '../core/connector';
+import { AccountSummaryAdapter } from '@spartacus/organization/account-summary/core';
 import { OccAccountSummaryAdapter } from './adapters/occ-account-summary.adapter';
 import { defaultOccAccountSummaryConfig } from './config/default-occ-account-summary-config';
 
@@ -12,4 +12,4 @@ import { defaultOccAccountSummaryConfig } from './config/default-occ-account-sum
     { provide: AccountSummaryAdapter, useClass: OccAccountSummaryAdapter },
   ],
 })
-export class AccountSummaryOccModule {}
+export class AccountSummaryOccModule { }

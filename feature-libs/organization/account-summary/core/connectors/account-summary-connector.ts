@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams } from '../model';
+import { AccountSummaryDetails, AccountSummaryList, DocumentQueryParams } from '../../root/model/account-summary';
 import { AccountSummaryAdapter } from './account-summary-adapter';
 
 @Injectable()
