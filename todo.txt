@@ -7,7 +7,7 @@ x change behaviour of radio button. If we are in select store case then open the
 x write unit tests
 
 (B) CXSPA-798:
-cypress test preferred store defaulting
+x cypress test preferred store defaulting
 link up or test with Gek's ticketing thing (see Gek)
 
 (C) CXSPA-752:
