@@ -65,6 +65,7 @@
     (click)="selectStore()"
     class="btn btn-outline-secondary btn-block"
     [disabled]="!storeDetails?.stockInfo?.stockLevel"
+    [attr.data-pickup-in-store-button]="storeDetails.name"
   >
     {{ 'store.pickupFromHere' | cxTranslate }}
   </button>
