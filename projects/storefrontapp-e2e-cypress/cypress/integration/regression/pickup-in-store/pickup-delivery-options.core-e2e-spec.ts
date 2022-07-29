@@ -28,7 +28,7 @@ const SEARCH_LOCATION_TEXTBOX = '#txtFindAStore';
 const FIND_STORES_BUTTON = '#btnFindStores';
 const USE_MY_LOCATION = '#lnkUseMyLocation';
 const SELECT_STORE_LINK = `${BOPIS_TAG} a.cx-action-link`;
-const PICKUP_FROM_HERE_BUTTON_MANCHESTER  = `[data-pickup-in-store-button="Manchester"]`;
+const PICKUP_FROM_HERE_BUTTON_MANCHESTER = `[data-pickup-in-store-button="Manchester"]`;
 
 describe('Pickup delivery options', () => {
   viewportContext(['desktop'], () => {
