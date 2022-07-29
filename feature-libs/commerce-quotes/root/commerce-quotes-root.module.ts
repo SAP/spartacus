@@ -18,6 +18,7 @@ export function defaultCommerceQuotesComponentsConfig() {
           'AccountMyQuotesComponent',
           'CommerceQuotesRequestComponent',
           'CommerceQuotesDetailsOverviewComponent',
+          'CommerceQuotesActionLinksComponent',
         ],
       },
     },

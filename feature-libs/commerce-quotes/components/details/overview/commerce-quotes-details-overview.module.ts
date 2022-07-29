@@ -7,16 +7,10 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import { CardModule } from '@spartacus/storefront';
-import { CommerceQuotesActionLinksModule } from '../../commerce-quotes-action-links/commerce-quotes-action-links.module';
 import { CommerceQuotesDetailsOverviewComponent } from './commerce-quotes-details-overview.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    CardModule,
-    CommerceQuotesActionLinksModule,
-  ],
+  imports: [CommonModule, I18nModule, CardModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
