@@ -1,9 +1,10 @@
 import {
   ClearStockData,
+  StockLevelAtStoreSuccess,
   StockLevelSuccess,
   StockLevelSuccessPayload,
 } from '../../actions/stock.action';
-import { StockLevelState } from '../../stock-state';
+import { StockLevelState, StockState } from '../../stock-state';
 import * as fromReducer from './stock-level.reducer';
 
 describe('stockReducer', () => {
@@ -23,5 +24,24 @@ describe('stockReducer', () => {
     const action = new ClearStockData();
     const newState = fromReducer.stockReducer(initialState, action);
     expect(newState).toEqual({});
+  });
+});
+
+describe('stockAtStoreReducer', () => {
+  it('should set the stock level at a store', () => {
+    const initialState: StockState['stockLevelAtStore'] =
+      fromReducer.initialStockLevelAtStoreState;
+    const action = StockLevelAtStoreSuccess({
+      payload: {
+        productCode: 'productCode',
+        stockLevel: { stockLevel: 10 },
+        storeName: 'storeName',
+      },
+    });
+    const result = fromReducer.stockAtStoreReducer(initialState, action);
+    expect(result).toEqual({
+      ...initialState,
+      productCode: { storeName: { stockLevel: 10 } },
+    });
   });
 });

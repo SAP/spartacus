@@ -4,7 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
-import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
+import {
+  PointOfServiceNames,
+  PreferredStoreService,
+} from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
@@ -21,6 +24,10 @@ describe('StoreListComponent', () => {
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
   let preferredStoreService: PreferredStoreService;
   let intendedPickupLocationService: IntendedPickupLocationFacade;
+  const preferredStore: PointOfServiceNames = {
+    name: 'London School',
+    displayName: 'London School',
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -80,13 +87,13 @@ describe('StoreListComponent', () => {
     spyOn(intendedPickupLocationService, 'setIntendedLocation');
     spyOn(component.storeSelected, 'emit');
 
-    component.onSelectStore({ name: 'storeName' });
+    component.onSelectStore(preferredStore);
     expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith(
-      'storeName'
+      preferredStore
     );
     expect(
       intendedPickupLocationService.setIntendedLocation
-    ).toHaveBeenCalledWith('productCode', { name: 'storeName' });
+    ).toHaveBeenCalledWith('productCode', preferredStore);
     expect(component.storeSelected.emit).toHaveBeenCalledWith();
   });
 
@@ -94,6 +101,9 @@ describe('StoreListComponent', () => {
     spyOn(preferredStoreService, 'setPreferredStore');
 
     component.onSelectStore({ storeContent: 'storeContent' });
-    expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith('');
+    expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith({
+      name: undefined,
+      displayName: undefined,
+    });
   });
 });

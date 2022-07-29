@@ -2,7 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { ConsentService, WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PickupInStoreConfig } from '../config';
-import { PreferredStoreService } from './preferred-store.service';
+import {
+  PointOfServiceNames,
+  PreferredStoreService,
+} from './preferred-store.service';
 
 class MockConsentService {
   checkConsentGivenByTemplateId(_templateId: string): Observable<boolean> {
@@ -43,6 +46,10 @@ describe('PreferredStoreService', () => {
   let preferredStoreService: PreferredStoreService;
   let consentService: ConsentService;
   let windowRef: WindowRef;
+  const preferredStore: PointOfServiceNames = {
+    name: 'London School',
+    displayName: 'London School',
+  };
 
   const configureTestingModule = (withConfig = true, localStorage = true) => {
     TestBed.configureTestingModule({
@@ -73,8 +80,10 @@ describe('PreferredStoreService', () => {
 
     describe('getPreferredStore', () => {
       it('should return the preferred store', () => {
-        const preferredStore = 'preferredStore';
-        windowRef.localStorage?.setItem('preferred_store', preferredStore);
+        windowRef.localStorage?.setItem(
+          'preferred_store',
+          JSON.stringify(preferredStore)
+        );
         expect(preferredStoreService.getPreferredStore()).toEqual(
           preferredStore
         );
@@ -86,18 +95,19 @@ describe('PreferredStoreService', () => {
         spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
           of(true)
         );
-        const preferredStore = 'preferredStore';
         preferredStoreService.setPreferredStore(preferredStore);
-        expect(windowRef.localStorage?.getItem('preferred_store')).toEqual(
-          preferredStore
+        const result = JSON.parse(
+          windowRef.localStorage?.getItem('preferred_store') as string
         );
+        expect(result.name).toEqual(preferredStore.name);
+        expect(result.displayName).toEqual(preferredStore.displayName);
+        expect(result).toEqual(preferredStore);
       });
 
       it('should not set the preferred store if consent is not', () => {
         spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
           of(false)
         );
-        const preferredStore = 'preferredStore';
         preferredStoreService.setPreferredStore(preferredStore);
         expect(windowRef.localStorage?.getItem('preferred_store')).toBeNull();
       });
@@ -113,7 +123,7 @@ describe('PreferredStoreService', () => {
 
     describe('onDestroy', () => {
       it('should unsubscribe onDestroy', () => {
-        preferredStoreService.setPreferredStore('preferredStore');
+        preferredStoreService.setPreferredStore(preferredStore);
         spyOn(preferredStoreService.subscription, 'unsubscribe');
         preferredStoreService.ngOnDestroy();
         expect(
@@ -132,7 +142,6 @@ describe('PreferredStoreService', () => {
       spyOn(consentService, 'checkConsentGivenByTemplateId').and.returnValue(
         of(false)
       );
-      const preferredStore = 'preferredStore';
       preferredStoreService.setPreferredStore(preferredStore);
       expect(consentService.checkConsentGivenByTemplateId).toHaveBeenCalledWith(
         ''
@@ -149,7 +158,10 @@ describe('PreferredStoreService', () => {
         of(true)
       );
       expect(
-        preferredStoreService.setPreferredStore('preferredStore')
+        preferredStoreService.setPreferredStore({
+          name: 'London School',
+          displayName: 'London School',
+        })
       ).not.toBeDefined();
     });
 
@@ -164,9 +176,9 @@ describe('PreferredStoreService', () => {
 });
 
 export class MockPreferredStoreService {
-  getPreferredStore(): string {
-    return 'preferredStore';
+  getPreferredStore(): PointOfServiceNames | undefined {
+    return { name: 'London School', displayName: 'London School' };
   }
-  setPreferredStore(_preferredStore: string): void {}
+  setPreferredStore(_preferredStore: PointOfServiceNames): void {}
   clearPreferredStore(): void {}
 }

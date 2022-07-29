@@ -154,12 +154,13 @@ export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
   }
 
   selectPickupInStore(): void {
+    const preferredStore = this.preferredStoreService.getPreferredStore();
     if (!this.displayNameIsSet) {
       this.openDialog();
-    } else {
+    } else if (preferredStore) {
       this.intendedPickupLocationService.setIntendedLocation(
         this.productCode,
-        this.preferredStoreService.getPreferredStore() ?? {}
+        preferredStore
       );
     }
   }
