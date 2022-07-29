@@ -4,7 +4,7 @@ import {
   AuthGuard,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-  RoutingConfig
+  RoutingConfig,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { CommerceQuotesEventModule } from './events/commerce-quotes-event.module';
@@ -18,7 +18,7 @@ export function defaultCommerceQuotesComponentsConfig() {
           'AccountMyQuotesComponent',
           'CommerceQuotesRequestComponent',
           'CommerceQuotesDetailsOverviewComponent',
-          'CommerceQuotesActionLinksComponent'
+          'CommerceQuotesActionLinksComponent',
         ],
       },
     },

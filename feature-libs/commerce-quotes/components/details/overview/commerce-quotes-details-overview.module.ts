@@ -4,7 +4,7 @@ import {
   AuthGuard,
   CmsConfig,
   I18nModule,
-  provideDefaultConfig
+  provideDefaultConfig,
 } from '@spartacus/core';
 import { CardModule } from '@spartacus/storefront';
 import { CommerceQuotesDetailsOverviewComponent } from './commerce-quotes-details-overview.component';
