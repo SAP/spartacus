@@ -86,16 +86,7 @@
 
   <ng-container *cxFeatureLevel="'6.0'">
     <ng-container *ngFor="let group of overviewGroups">
-      <div
-        class="cx-group"
-        [class.topLevel]="level === 1"
-        [class.subgroupTopLevel]="level === 1 && group.subGroups?.length > 0"
-        [class.subgroup]="level > 1"
-        [class.subgroupLevel2]="level === 2"
-        [class.subgroupLevel3]="level === 3"
-        [class.subgroupLevel4]="level === 4"
-        [class.subgroupLevel5]="level === 5"
-      >
+      <div [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)">
         <span class="cx-visually-hidden">
           {{
             'configurator.a11y.group'

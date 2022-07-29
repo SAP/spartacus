@@ -144,10 +144,10 @@
   }
 
   @include forVersion(6) {
-      $subgroupLevel2Top: 60px;
-      $subgroupLevel3Top: 112px;
-      $subgroupLevel4Top: 164px;
-      $subgroupLevel5Top: 216px;
+    $subgroupLevel2Top: 60px;
+    $subgroupLevel3Top: 112px;
+    $subgroupLevel4Top: 164px;
+    $subgroupLevel5Top: 216px;
 
     .cx-group {
       padding-inline-start: 0px;
