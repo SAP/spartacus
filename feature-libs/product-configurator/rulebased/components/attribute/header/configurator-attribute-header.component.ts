@@ -175,7 +175,9 @@ export class ConfiguratorAttributeHeaderComponent
           this.focusValue(this.attribute);
           this.scrollToAttribute(this.attribute.name);
         } else {
-          this.logError('Attribute was not found in any conflict group. Note that for this navigation, commerce 22.05 or later is required. Consider to disable setting "enableNavigationToConflict"');
+          this.logError(
+            'Attribute was not found in any conflict group. Note that for this navigation, commerce 22.05 or later is required. Consider to disable setting "enableNavigationToConflict"'
+          );
         }
       });
   }
