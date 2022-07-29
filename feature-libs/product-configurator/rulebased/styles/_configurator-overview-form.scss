@@ -144,6 +144,11 @@
   }
 
   @include forVersion(6) {
+      $subgroupLevel2Top: 60px;
+      $subgroupLevel3Top: 112px;
+      $subgroupLevel4Top: 164px;
+      $subgroupLevel5Top: 216px;
+
     .cx-group {
       padding-inline-start: 0px;
       padding-inline-end: 0px;
@@ -238,28 +243,28 @@
 
       &.subgroupLevel2 {
         h2 {
-          top: 60px;
+          top: $subgroupLevel2Top;
           z-index: -2;
         }
       }
 
       &.subgroupLevel3 {
         h2 {
-          top: 112px;
+          top: $subgroupLevel3Top;
           z-index: -3;
         }
       }
 
       &.subgroupLevel4 {
         h2 {
-          top: 164px;
+          top: $subgroupLevel4Top;
           z-index: -4;
         }
       }
 
       &.subgroupLevel5 {
         h2 {
-          top: 216px;
+          top: $subgroupLevel5Top;
           z-index: -5;
         }
       }
