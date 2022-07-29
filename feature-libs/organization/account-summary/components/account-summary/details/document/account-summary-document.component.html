@@ -10,9 +10,24 @@
     <!-- BODY -->
     <div class="cx-account-summary-document-body">
       <ng-container *ngIf="accountSummary?.pagination?.totalResults > 0; else noDocument">
+        <div></div>
 
         <!-- Select Form and Pagination Top -->
         <div class="cx-account-summary-document-sort top">
+          <label class="cx-account-summary-document-form-group form-group"
+          ><span>
+              {{ 'orgAccountSummary.sortBy' | cxTranslate }}
+            </span>
+            <cx-sorting
+              [sortOptions]="accountSummary.sorts"
+              [sortLabels]="getSortLabels(accountSummary.sorts) | async"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="accountSummary.pagination.sort"
+              placeholder="{{ 'orgAccountSummary.sortBy' | cxTranslate }}"
+              [ariaLabel]="'orgAccountSummary.sortDocuments' | cxTranslate"
+              ariaControls="account-summary-document-table"
+            ></cx-sorting>
+          </label>
           <div *ngIf="accountSummary?.pagination?.totalPages > 1" class="cx-account-summary-document-pagination">
             <cx-pagination
               [pagination]="accountSummary.pagination"

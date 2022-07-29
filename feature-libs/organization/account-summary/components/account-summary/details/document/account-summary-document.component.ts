@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountSummaryList, DocumentQueryParams } from '@spartacus/organization/account-summary/core';
 import { AccountSummaryFacade } from '@spartacus/organization/account-summary/root';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
+import { FIELDS_TYPE } from "../../../../core/model";
+import { SortModel, TranslationService } from '@spartacus/core';
+import { map } from "rxjs/operators";
 
 @Component({
   selector: 'cx-account-summary-document',
@@ -10,7 +13,10 @@ import { Observable } from 'rxjs';
 export class AccountSummaryDocumentComponent implements OnInit {
   accountSummary$: Observable<AccountSummaryList>;
 
-  constructor(private accountSummaryFacade: AccountSummaryFacade) { }
+  constructor(
+    private accountSummaryFacade: AccountSummaryFacade,
+    protected translation: TranslationService
+  ) { }
 
   ngOnInit(): void {
     this.fetchDocuments({
@@ -29,6 +35,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
 
   private fetchDocuments(event: { sortCode: string; currentPage: number }): void {
     let params: DocumentQueryParams = {
+      fields: FIELDS_TYPE.FULL,
       status: 'all',
       page: 0,
       pageSize: 10,
@@ -43,7 +50,36 @@ export class AccountSummaryDocumentComponent implements OnInit {
       params.page = event.currentPage;
     }
 
+    if (event?.sortCode) {
+      params.sort = event.sortCode;
+    }
+
     this.accountSummary$ = this.accountSummaryFacade.getDocumentList(params);
+  }
+
+  getSortLabels(sorts: SortModel[]): Observable<any> {
+    const sortCodes: string[] = sorts.map(sort => sort.code);
+    const translations = sortCodes.map(sortCode =>
+      this.translation.translate(`orgAccountSummary.sorts.${sortCode}`));
+
+    return combineLatest(translations).pipe(
+      map(translations => {
+        const keyValue: { [key: string]: string } = {};
+        sortCodes.forEach((sortCode, i) => {
+          // @ts-ignore
+          keyValue[sortCode] = translations[i];
+        })
+        return keyValue;
+      })
+    );
+  }
+
+  changeSortCode(sortCode: string): void {
+    const event: { sortCode: string; currentPage: number } = {
+      sortCode,
+      currentPage: 0,
+    };
+    this.fetchDocuments(event);
   }
 
 }

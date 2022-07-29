@@ -56,21 +56,36 @@ export interface AccountSummaryDocument {
   status?: DocumentStatus;
 }
 
+export interface AccountSummaryDocumentType {
+  code?: string;
+  displayInAllList?: boolean;
+  includeInOpenBalance?: boolean;
+  name?: string;
+}
+
 export interface AccountSummary {
   accountSummaryList: AccountSummaryList;
 }
 
 export interface AccountSummaryList {
+  documentTypes?: AccountSummaryDocumentType[];
   documents?: AccountSummaryDocument[];
   pagination?: PaginationModel;
   sorts?: SortModel[];
 }
 
+export enum FIELDS_TYPE {
+  BASIC = 'BASIC',
+  DEFAULT = 'DEFAULT',
+  FULL = 'FULL',
+}
+
 export interface DocumentQueryParams {
-  status?: string;
   page?: number;
   pageSize?: number;
   sort?: string;
+  fields?: FIELDS_TYPE;
+  status?: string;
   startRange?: string;
   endRange?: string;
   filterByKey?: string;
