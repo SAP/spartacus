@@ -143,7 +143,7 @@
     }
   }
 
-  @include forVersion(6) {
+  @include forVersion(5.1) {
     $subgroupLevel2Top: 60px;
     $subgroupLevel3Top: 112px;
     $subgroupLevel4Top: 164px;

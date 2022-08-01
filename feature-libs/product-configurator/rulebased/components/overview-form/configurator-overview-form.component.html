@@ -24,7 +24,7 @@
   <span class="cx-visually-hidden">
     {{ 'configurator.a11y.listOfAttributesAndValues' | cxTranslate }}
   </span>
-  <ng-container *cxFeatureLevel="'!6.0'">
+  <ng-container *cxFeatureLevel="'!5.1'">
     <ng-container *ngFor="let group of overviewGroups">
       <div
         class="cx-group"
@@ -84,7 +84,7 @@
     </ng-container>
   </ng-container>
 
-  <ng-container *cxFeatureLevel="'6.0'">
+  <ng-container *cxFeatureLevel="'5.1'">
     <ng-container *ngFor="let group of overviewGroups">
       <div [ngClass]="getGroupLevelStyleClasses(level, group.subGroups)">
         <span class="cx-visually-hidden">
