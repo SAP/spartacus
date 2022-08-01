@@ -60,6 +60,7 @@ class MockTranslationService {
 }
 
 const productCode = 'CONF_LAPTOP';
+let expMode = true;
 const cartEntryNo = '1';
 const configId = '1234-56-7890';
 const groupId = 'GROUP1';
@@ -167,6 +168,7 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call createConfiguration endpoint', (done) => {
+    expMode = false;
     spyOn(converterService, 'pipeable').and.callThrough();
 
     occConfiguratorVariantAdapter
@@ -191,6 +193,41 @@ describe('OccConfigurationVariantAdapter', () => {
         urlParams: {
           productCode,
         },
+        queryParams: { expMode },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(productConfigurationOcc);
+  });
+
+  it('should call createConfiguration endpoint for expert mode', (done) => {
+    spyOn(converterService, 'pipeable').and.callThrough();
+
+    occConfiguratorVariantAdapter
+      .createConfiguration(configuration.owner, expMode)
+      .subscribe((resultConfiguration) => {
+        expect(resultConfiguration.configId).toEqual(configId);
+        done();
+      });
+
+    //this call doesn't do the actual mapping but retrieves the map function,
+    //therefore expectation is valid here outside the subscribe
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      VARIANT_CONFIGURATOR_NORMALIZER
+    );
+    const mockReq = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === 'createVariantConfiguration';
+    });
+
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+      'createVariantConfiguration',
+      {
+        urlParams: {
+          productCode,
+        },
+        queryParams: { expMode },
       }
     );
 
@@ -200,6 +237,7 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call readConfiguration endpoint', (done) => {
+    expMode = false;
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
       .readConfiguration(configId, groupId, configuration.owner)
@@ -216,7 +254,36 @@ describe('OccConfigurationVariantAdapter', () => {
       'readVariantConfiguration',
       {
         urlParams: { configId },
-        queryParams: { groupId },
+        queryParams: { groupId, expMode },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      VARIANT_CONFIGURATOR_NORMALIZER
+    );
+    mockReq.flush(productConfigurationOcc);
+  });
+
+  it('should call readConfiguration endpoint for expert mode', (done) => {
+    spyOn(converterService, 'pipeable').and.callThrough();
+    occConfiguratorVariantAdapter
+      .readConfiguration(configId, groupId, configuration.owner, expMode)
+      .subscribe((resultConfiguration) => {
+        expect(resultConfiguration.configId).toEqual(configId);
+        done();
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return req.method === 'GET' && req.url === 'readVariantConfiguration';
+    });
+
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+      'readVariantConfiguration',
+      {
+        urlParams: { configId },
+        queryParams: { groupId, expMode },
       }
     );
 
@@ -229,6 +296,7 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should call updateConfiguration endpoint', (done) => {
+    expMode = false;
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
       .updateConfiguration(configuration)
@@ -247,6 +315,42 @@ describe('OccConfigurationVariantAdapter', () => {
         urlParams: {
           configId,
         },
+        queryParams: { expMode },
+      }
+    );
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      VARIANT_CONFIGURATOR_NORMALIZER
+    );
+    expect(converterService.convert).toHaveBeenCalledWith(
+      configuration,
+      VARIANT_CONFIGURATOR_SERIALIZER
+    );
+    mockReq.flush(productConfigurationOcc);
+  });
+
+  it('should call updateConfiguration endpoint for expert mode', (done) => {
+    spyOn(converterService, 'pipeable').and.callThrough();
+    occConfiguratorVariantAdapter
+      .updateConfiguration(configuration, expMode)
+      .subscribe((resultConfiguration) => {
+        expect(resultConfiguration.configId).toEqual(configId);
+        done();
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return req.method === 'PATCH' && req.url === 'updateVariantConfiguration';
+    });
+
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+      'updateVariantConfiguration',
+      {
+        urlParams: {
+          configId,
+        },
+        queryParams: { expMode },
       }
     );
 

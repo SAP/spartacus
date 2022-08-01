@@ -8,9 +8,11 @@ export abstract class RulebasedConfiguratorAdapter {
    * Abstract method used to create a configuration
    *
    * @param productCode Root product code
+   * @param expMode expert mode
    */
   abstract createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    expMode?: boolean
   ): Observable<Configurator.Configuration>;
 
   /**
@@ -20,20 +22,25 @@ export abstract class RulebasedConfiguratorAdapter {
    *
    * @param configId configuration id
    * @param groupId group id
+   * @param configurationOwner configuration owner
+   * @param expMode expert mode
    */
   abstract readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner,
+    expMode?: boolean
   ): Observable<Configurator.Configuration>;
 
   /**
    * Abstract method to update a configuration
    *
    * @param configuration updated configuration object
+   * @param expMode expert mode
    */
   abstract updateConfiguration(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
+    expMode?: boolean
   ): Observable<Configurator.Configuration>;
 
   /**

@@ -22,27 +22,33 @@ export class RulebasedConfiguratorConnector {
   ) {}
 
   createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    expMode?: boolean
   ): Observable<Configurator.Configuration> {
-    return this.getAdapter(owner.configuratorType).createConfiguration(owner);
+    return this.getAdapter(owner.configuratorType).createConfiguration(
+      owner,
+      expMode
+    );
   }
 
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner,
+    expMode?: boolean
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
       configurationOwner.configuratorType
-    ).readConfiguration(configId, groupId, configurationOwner);
+    ).readConfiguration(configId, groupId, configurationOwner, expMode);
   }
 
   updateConfiguration(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
+    expMode?: boolean
   ): Observable<Configurator.Configuration> {
     return this.getAdapter(
       configuration.owner.configuratorType
-    ).updateConfiguration(configuration);
+    ).updateConfiguration(configuration, expMode);
   }
 
   addToCart(

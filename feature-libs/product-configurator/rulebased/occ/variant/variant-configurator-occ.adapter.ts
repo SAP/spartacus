@@ -39,13 +39,15 @@ export class VariantConfiguratorOccAdapter
   }
 
   createConfiguration(
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner,
+    expMode = false
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
           urlParams: { productCode },
+          queryParams: { expMode },
         })
       )
       .pipe(
@@ -62,13 +64,14 @@ export class VariantConfiguratorOccAdapter
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner
+    configurationOwner: CommonConfigurator.Owner,
+    expMode = false
   ): Observable<Configurator.Configuration> {
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.buildUrl('readVariantConfiguration', {
           urlParams: { configId },
-          queryParams: { groupId },
+          queryParams: { groupId, expMode },
         })
       )
       .pipe(
@@ -83,13 +86,15 @@ export class VariantConfiguratorOccAdapter
   }
 
   updateConfiguration(
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
+    expMode = false
   ): Observable<Configurator.Configuration> {
     const configId = configuration.configId;
     const url = this.occEndpointsService.buildUrl(
       'updateVariantConfiguration',
       {
         urlParams: { configId },
+        queryParams: { expMode },
       }
     );
     const occConfiguration = this.converterService.convert(

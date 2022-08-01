@@ -181,6 +181,18 @@ describe('ConfigRouterExtractorService', () => {
         })
         .unsubscribe();
     });
+
+    it('should tell from the URL if we need to fetch a configuration for an expert mode', () => {
+      mockRouterState.state.queryParams = { expMode: 'true' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.expMode).toBe(true);
+        })
+        .unsubscribe();
+    });
   });
 
   describe('createOwnerFromRouterState', () => {
