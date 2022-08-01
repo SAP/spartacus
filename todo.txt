@@ -6,12 +6,12 @@ x add store's display name to local preferred store
 x change behaviour of radio button. If we are in select store case then open the dialog. If we have a display then only open if they click Change Store
 x write unit tests
 
-(B) CXSPA-798:
+x (B) CXSPA-798:
 x cypress test preferred store defaulting
-link up or test with Gek's ticketing thing (see Gek)
+x link up or test with Gek's ticketing thing (see Gek)
 
 (C) CXSPA-752:
 Implement buddy's new architecture for adding product to cart with pickup location
 
-(D) CXSPA-21:
-Make sure look and feel match the wires
+x (D) CXSPA-21:
+x Make sure look and feel match the wires
