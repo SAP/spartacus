@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { IconComponent } from './icon.component';
-import { ICON_TYPE } from './icon.model';
+import { ICON_TYPE, IconResourceType } from './icon.model';
 import { IconModule } from './icon.module';
 
 @Component({
@@ -19,12 +19,44 @@ import { IconModule } from './icon.module';
 class MockIconTestComponent {}
 
 export class MockIconLoaderService {
+
   getStyleClasses(iconType: ICON_TYPE) {
     return iconType;
   }
-  getHtml(icon: ICON_TYPE) {
-    return `<p>${icon}</p>`;
+
+  isResourceType(iconType: ICON_TYPE | string, resourceType: IconResourceType): boolean {
+    if (iconType === ICON_TYPE.STAR && resourceType === IconResourceType.SVG) {
+        return true;
+    };
+    if (iconType === ICON_TYPE.EXPAND && resourceType === IconResourceType.LINK) {
+        return true;
+    };
+    if (iconType === ICON_TYPE.COLLAPSE && resourceType === IconResourceType.LINK) {
+        return true;
+    };
+    if (iconType === ICON_TYPE.CART && resourceType === IconResourceType.TEXT) {
+        return true;
+    };
+    if (iconType === ICON_TYPE.VISA && resourceType === IconResourceType.TEXT) {
+        return true;
+    };
+    if (iconType === ICON_TYPE.AMEX && resourceType === IconResourceType.TEXT) {
+        return true;
+    };
+    if (iconType === 'HAPPY' && resourceType === IconResourceType.TEXT) {
+        return true;
+    };
+    return false;
   }
+
+  getSvgPath() {
+    return null;
+  }
+
+  getSymbol() {
+    return null;
+  }
+
   addLinkResource() {}
 
   getFlipDirection() {
@@ -32,7 +64,7 @@ export class MockIconLoaderService {
   }
 }
 
-describe('IconComponent', () => {
+fdescribe('IconComponent', () => {
   let component: IconComponent;
   let fixture: ComponentFixture<IconComponent>;
   let service: IconLoaderService;
@@ -66,22 +98,25 @@ describe('IconComponent', () => {
     });
 
     it('should create an icon based on type input', () => {
+      spyOn(service, 'getSymbol').and.returnValue('CART');
       expect(component.icon).toBeFalsy();
       component.type = ICON_TYPE.CART;
-      expect(component.icon).toEqual('<p>CART</p>');
+      expect(component.icon).toEqual('CART');
     });
 
     it('should create an icon based on cxIcon input', () => {
+      spyOn(service, 'getSymbol').and.returnValue('AMEX');
       expect(component.icon).toBeFalsy();
       component.cxIcon = ICON_TYPE.AMEX;
-      expect(component.icon).toEqual('<p>AMEX</p>');
+      expect(component.icon).toEqual('AMEX');
     });
 
     it('should create an icon based multiple inputs', () => {
+      spyOn(service, 'getSymbol').and.returnValue('AMEX');
       expect(component.icon).toBeFalsy();
       component.type = ICON_TYPE.CART;
       component.cxIcon = ICON_TYPE.AMEX;
-      expect(component.icon).toEqual('<p>AMEX</p>');
+      expect(component.icon).toEqual('AMEX');
     });
 
     it('should not create an icon for null value', () => {
@@ -175,10 +210,70 @@ describe('IconComponent', () => {
       expect(classList).not.toContain('flip-at-rtl');
       expect(classList).not.toContain('flip-at-ltr');
     });
+
+    it('should generate a font icon', () => {
+      spyOn(service, 'getSymbol').and.returnValue('😊');
+      component.type = 'HAPPY';
+      fixture.detectChanges();
+      const element = (debugElement.nativeElement as HTMLElement);
+      expect(element.textContent).toEqual('😊');
+      expect(element.childElementCount).toEqual(0);
+    });
+
+    it('should generate a text icon', () => {
+      spyOn(service, 'getSymbol').and.returnValue('visa');
+      component.type = ICON_TYPE.VISA;
+      fixture.detectChanges();
+      const element = (debugElement.nativeElement as HTMLElement);
+      expect(element.textContent).toEqual('visa');
+      expect(element.childElementCount).toEqual(0);
+    });
+
+    it('should generate a sprited SVG', () => {
+      spyOn(service, 'getSvgPath').and.returnValue('./assets/sprite.svg#starSymbol');
+      component.type = ICON_TYPE.STAR;
+      fixture.detectChanges();
+      const element = (debugElement.nativeElement as HTMLElement);
+      expect(element.childElementCount).toEqual(1);
+      const svgElement = element.children[0];
+      expect(svgElement.nodeName).toEqual('svg');
+      expect(svgElement.childElementCount).toEqual(1);
+      const useElement = svgElement.children[0];
+      expect(useElement.nodeName).toEqual('use');
+      expect(useElement.getAttribute('xlink:href')).toEqual('./assets/sprite.svg#starSymbol');
+    });
+
+    it('should generate non-sprited SVG', () => {
+      spyOn(service, 'getSvgPath').and.returnValue('#starSymbol');
+      component.type = ICON_TYPE.STAR;
+      fixture.detectChanges();
+      const element = (debugElement.nativeElement as HTMLElement);
+      expect(element.childElementCount).toEqual(1);
+      const svgElement = element.children[0];
+      expect(svgElement.nodeName).toEqual('svg');
+      expect(svgElement.childElementCount).toEqual(1);
+      const useElement = svgElement.children[0];
+      expect(useElement.nodeName).toEqual('use');
+      expect(useElement.getAttribute('xlink:href')).toEqual('#starSymbol');
+    });
+
+    it('should generate a sprited SVG with a sanitized javascript url', () => {
+      spyOn(service, 'getSvgPath').and.returnValue('javascript:alert(1)');
+      component.type = ICON_TYPE.STAR;
+      fixture.detectChanges();
+      const element = (debugElement.nativeElement as HTMLElement);
+      expect(element.childElementCount).toEqual(1);
+      const svgElement = element.children[0];
+      expect(svgElement.nodeName).toEqual('svg');
+      expect(svgElement.childElementCount).toEqual(1);
+      const useElement = svgElement.children[0];
+      expect(useElement.nodeName).toEqual('use');
+      expect(useElement.getAttribute('xlink:href')).toEqual('unsafe:javascript:alert(1)');
+    });
   });
 });
 
-describe('host icon components', () => {
+fdescribe('host icon components', () => {
   let hostComponent: MockIconTestComponent;
   let service: IconLoaderService;
   let fixture: ComponentFixture<MockIconTestComponent>;

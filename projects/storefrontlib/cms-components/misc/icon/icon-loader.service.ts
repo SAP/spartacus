@@ -39,7 +39,7 @@ export class IconLoaderService {
    * Indicates whether the given `ICON_TYPE` is configured for
    * the given `IconResourceType`.
    */
-  public isResourceType(
+  isResourceType(
     iconType: ICON_TYPE | string,
     resourceType: IconResourceType
   ): boolean {
@@ -54,11 +54,11 @@ export class IconLoaderService {
 
   /**
    * Returns the path to the svg link. The link supports path names
-   * as well, if the config a[[s been setup to support a svg file path.
+   * as well, if the config has been setup to support a svg file path.
    * Additionally, the icon prefix will be taken into account to prefix the
    * icon IDs in the SVG.
    */
-  public getSvgPath(iconType: ICON_TYPE | string): string | undefined {
+  getSvgPath(iconType: ICON_TYPE | string): string | null {
     const svgResource = this.config?.resources?.find(
       (res) =>
         res.type === IconResourceType.SVG &&
@@ -70,6 +70,7 @@ export class IconLoaderService {
         ? `${svgResource.url}#${this.getSymbol(iconType)}`
         : `#${this.getSymbol(iconType)}`;
     }
+    return null;
   }
 
   /**
@@ -95,7 +96,7 @@ export class IconLoaderService {
       const link = this.winRef.document.createElement('link');
       link.rel = 'stylesheet';
       link.type = 'text/css';
-      link.href = resource.url;
+      link.href = resource.url; // XXX bypasses angular url sanitization
       head.appendChild(link);
     }
   }
@@ -121,10 +122,11 @@ export class IconLoaderService {
     return resource;
   }
 
-  getSymbol(iconType: ICON_TYPE | string) {
+  public getSymbol(iconType: ICON_TYPE | string) {
     if (this.config && this.config.symbols && this.config.symbols[iconType]) {
       return this.config.symbols[iconType];
     }
+    return null;
   }
 
   private get config(): IconOptions | undefined {

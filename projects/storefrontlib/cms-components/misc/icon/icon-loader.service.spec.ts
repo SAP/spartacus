@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { DomSanitizer } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
@@ -122,37 +121,14 @@ describe('IconLoaderService', () => {
     });
   });
 
-  describe('sanitize HTML for icons', () => {
-    it(`should not have bypassed HTML sanitizing for font icon`, () => {
-      const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
-      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
-      service.getHtml(ICON_TYPE.VISA);
-      expect(domSanitizer.bypassSecurityTrustHtml).not.toHaveBeenCalled();
+  describe('SVG icons', () => {
+
+    it('should return svg path for sprited SVG', () => {
+      expect(service.getSvgPath(ICON_TYPE.CART)).toEqual('./assets/sprite.svg#cartSymbol');
     });
 
-    it(`should have bypassed HTML sanitizing for text icon`, () => {
-      const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
-      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
-      service.getHtml('HAPPY');
-      expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalled();
-    });
-
-    it('should have bypassed HTML sanitizing for sprited SVG', () => {
-      const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
-      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
-      service.getHtml(ICON_TYPE.CART);
-      expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
-        '<svg><use xlink:href="./assets/sprite.svg#cartSymbol"></use></svg>'
-      );
-    });
-
-    it('should have bypassed HTML sanitizing for non-sprited SVG', () => {
-      const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
-      spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
-      service.getHtml(ICON_TYPE.INFO);
-      expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
-        '<svg><use xlink:href="#infoSymbol"></use></svg>'
-      );
+    it('should return svg path for non-sprited SVG', () => {
+      expect(service.getSvgPath(ICON_TYPE.INFO)).toEqual('#infoSymbol');
     });
   });
 });

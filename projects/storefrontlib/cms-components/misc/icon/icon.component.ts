@@ -4,10 +4,12 @@ import {
   HostBinding,
   Input,
   Renderer2,
+  SecurityContext
 } from '@angular/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { IconResourceType, ICON_TYPE as DEFAULT_ICON_TYPE } from './icon.model';
+import { DomSanitizer } from '@angular/platform-browser';
 
 type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 
@@ -55,7 +57,7 @@ export class IconComponent {
   /**
    * the icon provides an html fragment that is used to add SVG or text based icons.
    */
-  icon: string | undefined;
+  icon: string | null;
 
   isSvg: boolean;
 
@@ -78,7 +80,8 @@ export class IconComponent {
   constructor(
     protected iconLoader: IconLoaderService,
     protected elementRef: ElementRef<HTMLElement>,
-    protected renderer: Renderer2
+    protected renderer: Renderer2,
+    protected sanitizer: DomSanitizer
   ) {}
 
   protected setIcon(type: ICON_TYPE): void {
@@ -86,11 +89,17 @@ export class IconComponent {
       return;
     }
     if (this.iconLoader.isResourceType(type, IconResourceType.SVG)) {
-        this.icon = this.iconLoader.getSvgPath(type);
+        this.icon = this.sanitizer.sanitize(SecurityContext.URL, this.iconLoader.getSvgPath(type));
         this.isSvg = true;
-    } else {
+    } else if (this.iconLoader.isResourceType(type, IconResourceType.TEXT)) {
         this.icon = this.iconLoader.getSymbol(type);
         this.isSvg = false;
+    } else if (this.iconLoader.isResourceType(type, IconResourceType.LINK)) {
+        this.icon = null;
+        this.isSvg = false;
+    } else {
+        return;
+        // TODO log unsupported IconResourceType?
     }
     this.addStyleClasses(type);
     this.iconLoader.addLinkResource(type);
