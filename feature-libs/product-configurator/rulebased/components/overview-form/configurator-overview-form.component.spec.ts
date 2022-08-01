@@ -426,7 +426,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     });
   });
 
-  describe('getGropuLevelStyleClasses', () => {
+  describe('getGroupLevelStyleClasses', () => {
     const group: Configurator.GroupOverview = {
       id: 'G1',
       groupDescription: 'Group 1',
