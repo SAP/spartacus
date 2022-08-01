@@ -14,6 +14,11 @@ import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.compon
       position: OutletPosition.REPLACE,
       component: PickupDeliveryOptionsComponent,
     }),
+    provideOutlet({
+      id: CartOutlets.ITEM_DELIVERY_DETAILS,
+      position: OutletPosition.REPLACE,
+      component: PickupDeliveryOptionsComponent,
+    }),
   ],
   declarations: [PickupDeliveryOptionsComponent],
   exports: [PickupDeliveryOptionsComponent],
