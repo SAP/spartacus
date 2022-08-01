@@ -9,6 +9,7 @@ import {
 import { ConfiguratorOverviewAttributeModule } from '../overview-attribute/configurator-overview-attribute.module';
 import { ConfiguratorOverviewBundleAttributeModule } from '../overview-bundle-attribute/configurator-overview-bundle-attribute.module';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
+import { ProductFacetNavigationModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.
     ConfiguratorOverviewBundleAttributeModule,
     I18nModule,
     FeaturesConfigModule,
+    ProductFacetNavigationModule
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
