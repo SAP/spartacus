@@ -55,8 +55,8 @@ export class AccountSummaryDocumentComponent implements OnInit {
     this.accountSummary$ = this.accountSummaryFacade.getDocumentList(params);
   }
 
-  getSortLabels(sorts: SortModel[]): Observable<any> {
-    const sortCodes: string[] = sorts.map(sort => sort.code);
+  getSortLabels(sorts?: SortModel[]): Observable<any> {
+    const sortCodes: Array<string> = sorts?.map(sort => sort.code) as Array<string>;
     const translations = sortCodes.map(sortCode =>
       this.translation.translate(`orgAccountSummary.sorts.${sortCode}`));
 
@@ -66,7 +66,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
         sortCodes.forEach((sortCode, i) => {
           // @ts-ignore
           keyValue[sortCode] = translations[i];
-        })
+        });
         return keyValue;
       })
     );

@@ -26,25 +26,25 @@ export class HeaderComponent implements OnInit {
     this.headerDetails$.subscribe(hd => this.pastDue = hd?.amountBalanceData?.dueBalance);
   }
 
-  getIdCardContent(id: string): Observable<Card> {
+  getIdCardContent(id?: string): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.uid').pipe(
       map((idTitle) => ({
         title: idTitle,
-        text: [id],
+        text: [id || notApplicable]
       }))
     );
   }
 
-  getNameCardContent(name: string): Observable<Card> {
+  getNameCardContent(name?: string): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.name').pipe(
       map((nameTitle) => ({
         title: nameTitle,
-        text: [name],
+        text: [name || notApplicable]
       }))
     );
   }
 
-  getAddressCardContent(billingAddress: Address | any): Observable<Card> {
+  getAddressCardContent(billingAddress?: Address | any): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.address').pipe(
       map((addressTitle) => {
         const name = billingAddress?.fullnameWithTitle ?? // sometimes fullnameWithTitle is not set
@@ -54,12 +54,12 @@ export class HeaderComponent implements OnInit {
         return {
           title: addressTitle,
           text: Boolean(billingAddress) ? [name, address, country] : [notApplicable],
-        }
+        };
       })
     );
   }
 
-  getCreditRepCardContent(creditRep: string): Observable<Card> {
+  getCreditRepCardContent(creditRep?: string): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.creditRep').pipe(
       map((creditRepTitle) => ({
         title: creditRepTitle,
@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  getCreditLineCardContent(creditLine: string): Observable<Card> {
+  getCreditLineCardContent(creditLine?: string): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.creditLine').pipe(
       map((creditLineTitle) => ({
         title: creditLineTitle,
@@ -77,7 +77,7 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  getCurrentBalanceCardContent(currentBalance: string): Observable<Card> {
+  getCurrentBalanceCardContent(currentBalance?: string): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.currentBalance').pipe(
       map((currentBalanceTitle) => ({
         title: currentBalanceTitle,
@@ -86,7 +86,7 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  getOpenBalanceCardContent(openBalance: string): Observable<Card> {
+  getOpenBalanceCardContent(openBalance?: string): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.openBalance').pipe(
       map((openBalanceTitle) => ({
         title: openBalanceTitle,
@@ -95,7 +95,7 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  getPastDueBalanceCardContent(pastDueBalance: string): Observable<Card> {
+  getPastDueBalanceCardContent(pastDueBalance?: string): Observable<Card> {
     return this.translation.translate('orgAccountSummary.details.pastDueBalance').pipe(
       map((pastDueBalanceTitle) => ({
         title: pastDueBalanceTitle,
