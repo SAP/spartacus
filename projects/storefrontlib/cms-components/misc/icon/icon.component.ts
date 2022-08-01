@@ -5,10 +5,9 @@ import {
   Input,
   Renderer2,
 } from '@angular/core';
-import { SafeHtml } from '@angular/platform-browser';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
-import { ICON_TYPE as DEFAULT_ICON_TYPE } from './icon.model';
+import { IconResourceType, ICON_TYPE as DEFAULT_ICON_TYPE } from './icon.model';
 
 type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 
@@ -56,7 +55,9 @@ export class IconComponent {
   /**
    * the icon provides an html fragment that is used to add SVG or text based icons.
    */
-  icon: SafeHtml | undefined;
+  icon: string | undefined;
+
+  isSvg: boolean;
 
   /**
    * The `flip-at-rtl` class is added to the DOM for the style layer to flip the icon in RTL direction.
@@ -84,7 +85,13 @@ export class IconComponent {
     if (!type || <string>type === '') {
       return;
     }
-    this.icon = this.iconLoader.getHtml(type);
+    if (this.iconLoader.isResourceType(type, IconResourceType.SVG)) {
+        this.icon = this.iconLoader.getSvgPath(type);
+        this.isSvg = true;
+    } else {
+        this.icon = this.iconLoader.getSymbol(type);
+        this.isSvg = false;
+    }
     this.addStyleClasses(type);
     this.iconLoader.addLinkResource(type);
     this.flipIcon(type);

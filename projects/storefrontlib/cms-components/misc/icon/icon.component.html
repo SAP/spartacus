@@ -1,1 +1,3 @@
-<i [outerHTML]="icon"></i><ng-content></ng-content>
+<ng-container *ngIf="isSvg; then svgBlock else textBlock"></ng-container><ng-content></ng-content>
+<ng-template #svgBlock><svg><use [xlink:href]="icon"></use></svg></ng-template>
+<ng-template #textBlock>{{ icon }}</ng-template>

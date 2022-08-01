@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import {
@@ -17,26 +16,8 @@ export class IconLoaderService {
   private loadedResources: string[] = [];
   constructor(
     protected winRef: WindowRef,
-    protected iconConfig: IconConfig,
-    protected sanitizer: DomSanitizer
+    protected iconConfig: IconConfig
   ) {}
-
-  /**
-   * Returns an html fragment which can be added to the DOM in a safe way.
-   */
-  getHtml(type: ICON_TYPE | string): SafeHtml | undefined {
-    if (this.isResourceType(type, IconResourceType.SVG)) {
-      return this.sanitizer.bypassSecurityTrustHtml(
-        `<svg><use xlink:href="${this.getSvgPath(type)}"></use></svg>`
-      );
-    }
-    if (this.isResourceType(type, IconResourceType.TEXT)) {
-      const symbol = this.getSymbol(type);
-      if (symbol) {
-        return this.sanitizer.bypassSecurityTrustHtml(symbol);
-      }
-    }
-  }
 
   /**
    * Return the direction for which the icon should mirror (ltr vs rtl). The icon direction
@@ -58,7 +39,7 @@ export class IconLoaderService {
    * Indicates whether the given `ICON_TYPE` is configured for
    * the given `IconResourceType`.
    */
-  private isResourceType(
+  public isResourceType(
     iconType: ICON_TYPE | string,
     resourceType: IconResourceType
   ): boolean {
@@ -77,7 +58,7 @@ export class IconLoaderService {
    * Additionally, the icon prefix will be taken into account to prefix the
    * icon IDs in the SVG.
    */
-  private getSvgPath(iconType: ICON_TYPE | string): string | undefined {
+  public getSvgPath(iconType: ICON_TYPE | string): string | undefined {
     const svgResource = this.config?.resources?.find(
       (res) =>
         res.type === IconResourceType.SVG &&
