@@ -22,8 +22,8 @@ export function getApparelCheckoutUser() {
       card: 'Visa',
       number: '4111111111111111',
       expires: {
-        month: '07',
-        year: '2022',
+        month: '12',
+        year: '2125',
       },
       cvv: '123',
     },
