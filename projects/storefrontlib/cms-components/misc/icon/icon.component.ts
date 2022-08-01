@@ -6,10 +6,11 @@ import {
   Renderer2,
   SecurityContext
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
-import { IconResourceType, ICON_TYPE as DEFAULT_ICON_TYPE } from './icon.model';
-import { DomSanitizer } from '@angular/platform-browser';
+import { IconResourceType, IconConfigResource, ICON_TYPE as DEFAULT_ICON_TYPE } from './icon.model';
 
 type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 
@@ -61,6 +62,8 @@ export class IconComponent {
 
   isSvg: boolean;
 
+  private loadedResources: string[] = [];
+
   /**
    * The `flip-at-rtl` class is added to the DOM for the style layer to flip the icon in RTL direction.
    */
@@ -80,6 +83,7 @@ export class IconComponent {
   constructor(
     protected iconLoader: IconLoaderService,
     protected elementRef: ElementRef<HTMLElement>,
+    protected winRef: WindowRef,
     protected renderer: Renderer2,
     protected sanitizer: DomSanitizer
   ) {}
@@ -102,8 +106,36 @@ export class IconComponent {
         // TODO log unsupported IconResourceType?
     }
     this.addStyleClasses(type);
-    this.iconLoader.addLinkResource(type);
+    this.addLinkResource(type);
     this.flipIcon(type);
+  }
+
+  /**
+   * Loads the resource url (if any) for the given icon.
+   * The icon will only be loaded once.
+   *
+   * NOTE: this is not working when the shadow is used as there's
+   * no head element available and the link must be loaded for every
+   * web component.
+   */
+  addLinkResource(iconType: ICON_TYPE | string): void {
+    const resource: IconConfigResource | undefined = this.iconLoader.findResource(
+      iconType,
+      IconResourceType.LINK
+    );
+    if (
+      resource &&
+      resource.url &&
+      !this.loadedResources.includes(resource.url)
+    ) {
+      this.loadedResources.push(resource.url);
+      const head = this.winRef.document.getElementsByTagName('head')[0];
+      const link = this.winRef.document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = resource.url; // XXX bypasses angular url sanitization
+      head.appendChild(link);
+    }
   }
 
   /**

@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { IconConfig, IconResourceType, ICON_TYPE } from './icon.model';
@@ -56,7 +55,6 @@ const MockFontIconConfig: IconConfig = {
 
 describe('IconLoaderService', () => {
   let service: IconLoaderService;
-  let winRef: WindowRef;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -64,7 +62,6 @@ describe('IconLoaderService', () => {
     });
 
     service = TestBed.inject(IconLoaderService);
-    winRef = TestBed.inject(WindowRef);
   });
 
   it('should inject service', () => {
@@ -83,35 +80,6 @@ describe('IconLoaderService', () => {
 
   it('should not return any flip direction', () => {
     expect(service.getFlipDirection(ICON_TYPE.CART)).toBeFalsy();
-  });
-
-  describe('Linked resources', () => {
-    it('should add the font resource', () => {
-      spyOn<any>(winRef.document, 'createElement').and.callThrough();
-      service.addLinkResource(ICON_TYPE.VISA);
-      expect(winRef.document.createElement).toHaveBeenCalledWith('link');
-    });
-
-    it('should not add the font resource for the same font icon', () => {
-      spyOn<any>(winRef.document, 'createElement').and.callThrough();
-      service.addLinkResource(ICON_TYPE.VISA);
-      service.addLinkResource(ICON_TYPE.VISA);
-      expect(winRef.document.createElement).toHaveBeenCalledTimes(1);
-    });
-
-    it('should not add the same font resource for fonts with the same font resource', () => {
-      spyOn<any>(winRef.document, 'createElement').and.callThrough();
-      service.addLinkResource(ICON_TYPE.VISA);
-      service.addLinkResource('PAYPAL');
-      expect(winRef.document.createElement).toHaveBeenCalledTimes(1);
-    });
-
-    it('should add 2 fonts resources for the different fonts', () => {
-      spyOn<any>(winRef.document, 'createElement').and.callThrough();
-      service.addLinkResource(ICON_TYPE.VISA);
-      service.addLinkResource('MASTERCARD');
-      expect(winRef.document.createElement).toHaveBeenCalledTimes(2);
-    });
   });
 
   describe('Styles', () => {

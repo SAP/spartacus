@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import {
   IconConfig,
@@ -13,9 +12,7 @@ import {
   providedIn: 'root',
 })
 export class IconLoaderService {
-  private loadedResources: string[] = [];
   constructor(
-    protected winRef: WindowRef,
     protected iconConfig: IconConfig
   ) {}
 
@@ -73,35 +70,7 @@ export class IconLoaderService {
     return null;
   }
 
-  /**
-   * Loads the resource url (if any) for the given icon.
-   * The icon will only be loaded once.
-   *
-   * NOTE: this is not working when the shadow is used as there's
-   * no head element available and the link must be loaded for every
-   * web component.
-   */
-  addLinkResource(iconType: ICON_TYPE | string): void {
-    const resource: IconConfigResource | undefined = this.findResource(
-      iconType,
-      IconResourceType.LINK
-    );
-    if (
-      resource &&
-      resource.url &&
-      !this.loadedResources.includes(resource.url)
-    ) {
-      this.loadedResources.push(resource.url);
-      const head = this.winRef.document.getElementsByTagName('head')[0];
-      const link = this.winRef.document.createElement('link');
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = resource.url; // XXX bypasses angular url sanitization
-      head.appendChild(link);
-    }
-  }
-
-  private findResource(
+  findResource(
     iconType: ICON_TYPE | string,
     resourceType: IconResourceType
   ): IconConfigResource | undefined {

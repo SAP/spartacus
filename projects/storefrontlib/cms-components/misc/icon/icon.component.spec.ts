@@ -1,10 +1,11 @@
 import { Component, DebugElement } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { IconComponent } from './icon.component';
-import { ICON_TYPE, IconResourceType } from './icon.model';
+import { ICON_TYPE, IconResourceType, IconConfigResource } from './icon.model';
 import { IconModule } from './icon.module';
 
 @Component({
@@ -17,6 +18,14 @@ import { IconModule } from './icon.module';
   `,
 })
 class MockIconTestComponent {}
+
+export class MockIconConfigResource implements IconConfigResource {
+
+    constructor(
+        public types: string[] | undefined,
+        public url: string | undefined,
+        public type: string) {}
+}
 
 export class MockIconLoaderService {
 
@@ -32,6 +41,12 @@ export class MockIconLoaderService {
         return true;
     };
     if (iconType === ICON_TYPE.COLLAPSE && resourceType === IconResourceType.LINK) {
+        return true;
+    };
+    if (iconType === 'PAYPAL' && resourceType === IconResourceType.LINK) {
+        return true;
+    };
+    if (iconType === 'MASTERCARD' && resourceType === IconResourceType.LINK) {
         return true;
     };
     if (iconType === ICON_TYPE.CART && resourceType === IconResourceType.TEXT) {
@@ -57,17 +72,20 @@ export class MockIconLoaderService {
     return null;
   }
 
-  addLinkResource() {}
-
   getFlipDirection() {
+    return;
+  }
+
+  findResource() {
     return;
   }
 }
 
-fdescribe('IconComponent', () => {
+describe('IconComponent', () => {
   let component: IconComponent;
   let fixture: ComponentFixture<IconComponent>;
   let service: IconLoaderService;
+  let winRef: WindowRef;
 
   beforeEach(
     waitForAsync(() => {
@@ -85,7 +103,7 @@ fdescribe('IconComponent', () => {
     fixture = TestBed.createComponent(IconComponent);
     component = fixture.componentInstance;
     service = TestBed.inject(IconLoaderService);
-    spyOn(service, 'addLinkResource').and.callThrough();
+    winRef = TestBed.inject(WindowRef);
   });
 
   describe('controller', () => {
@@ -143,6 +161,54 @@ fdescribe('IconComponent', () => {
     });
   });
 
+  describe('Linked resources', () => {
+    it('should add the font resource', () => {
+      spyOn<any>(winRef.document, 'createElement').and.callThrough();
+      spyOn(service, 'findResource').and.returnValue(new MockIconConfigResource(['foo'], 'bar', 'baz'));
+      component.type = ICON_TYPE.EXPAND;
+      fixture.detectChanges();
+      expect(service.findResource).toHaveBeenCalledWith(ICON_TYPE.EXPAND, IconResourceType.LINK);
+      expect(winRef.document.createElement).toHaveBeenCalledWith('link');
+    });
+
+    it('should not add the font resource for the same font icon', () => {
+      spyOn<any>(winRef.document, 'createElement').and.callThrough();
+      spyOn(service, 'findResource').and.returnValue(new MockIconConfigResource(['foo'], 'bar', 'baz'));
+      component.type = ICON_TYPE.EXPAND;
+      component.type = ICON_TYPE.EXPAND;
+      fixture.detectChanges();
+      expect(service.findResource).toHaveBeenCalledWith(ICON_TYPE.EXPAND, IconResourceType.LINK);
+      expect(winRef.document.createElement).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not add the same font resource for fonts with the same font resource', () => {
+      spyOn<any>(winRef.document, 'createElement').and.callThrough();
+      spyOn(service, 'findResource').and.returnValue(new MockIconConfigResource(['foo'], 'bar', 'baz'));
+      component.type = ICON_TYPE.EXPAND;
+      fixture.detectChanges();
+      expect(service.findResource).toHaveBeenCalledWith(ICON_TYPE.EXPAND, IconResourceType.LINK);
+      component.type = 'PAYPAL';
+      fixture.detectChanges();
+      expect(service.findResource).toHaveBeenCalledWith('PAYPAL', IconResourceType.LINK);
+      expect(winRef.document.createElement).toHaveBeenCalledTimes(1);
+    });
+
+    it('should add 2 fonts resources for the different fonts', () => {
+      spyOn<any>(winRef.document, 'createElement').and.callThrough();
+      spyOn(service, 'findResource').and.returnValues(
+        new MockIconConfigResource(['foo'], 'bar1', 'baz'),
+        new MockIconConfigResource(['foo'], 'bar2', 'baz'),
+        );
+      component.type = ICON_TYPE.EXPAND;
+      fixture.detectChanges();
+      expect(service.findResource).toHaveBeenCalledWith(ICON_TYPE.EXPAND, IconResourceType.LINK);
+      component.type = 'MASTERCARD';
+      fixture.detectChanges();
+      expect(service.findResource).toHaveBeenCalledWith('MASTERCARD', IconResourceType.LINK);
+      expect(winRef.document.createElement).toHaveBeenCalledTimes(2);
+    });
+  });
+
   describe('UI tests', () => {
     let debugElement: DebugElement;
 
@@ -168,10 +234,11 @@ fdescribe('IconComponent', () => {
       expect(classList).toContain('classes');
     });
 
-    it('should call addLinkResource', () => {
+    it('should call findResource', () => {
+      spyOn(service, 'findResource').and.returnValue(new MockIconConfigResource(['foo'], 'bar', 'baz'));
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
-      expect(service.addLinkResource).toHaveBeenCalled();
+      expect(service.findResource).toHaveBeenCalled();
     });
 
     it('should remove former CSS classes when changing the icon type', () => {
@@ -273,7 +340,7 @@ fdescribe('IconComponent', () => {
   });
 });
 
-fdescribe('host icon components', () => {
+describe('host icon components', () => {
   let hostComponent: MockIconTestComponent;
   let service: IconLoaderService;
   let fixture: ComponentFixture<MockIconTestComponent>;
@@ -296,7 +363,7 @@ fdescribe('host icon components', () => {
     service = TestBed.inject(IconLoaderService);
 
     spyOn(service, 'getStyleClasses').and.returnValue('font based');
-    spyOn(service, 'addLinkResource').and.callThrough();
+    spyOn(service, 'findResource').and.callThrough();
     fixture = TestBed.createComponent(MockIconTestComponent);
     hostComponent = fixture.componentInstance;
   });
@@ -319,7 +386,7 @@ fdescribe('host icon components', () => {
     });
 
     it('should add resource for all icons (4 times)', () => {
-      expect(service.addLinkResource).toHaveBeenCalledTimes(4);
+      expect(service.findResource).toHaveBeenCalledTimes(4);
     });
 
     it('should add the symbol classes for the icon component classlist', () => {
