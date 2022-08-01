@@ -33,6 +33,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'AccountOrderDetailsTotalsComponent',
           'AccountOrderDetailsShippingComponent',
           'AccountOrderHistoryComponent',
+          'UnitLevelOrderHistoryComponent',
           'ReplenishmentDetailItemsComponent',
           'ReplenishmentDetailTotalsComponent',
           'ReplenishmentDetailShippingComponent',
@@ -117,6 +118,13 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'orders' },
+      },
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'unitLevelOrders' },
       },
       {
         // @ts-ignore

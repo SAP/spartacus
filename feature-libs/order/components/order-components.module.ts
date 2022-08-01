@@ -12,10 +12,12 @@ import { ReplenishmentOrderDetailsModule } from './replenishment-order-details/r
 import { ReplenishmentOrderHistoryModule } from './replenishment-order-history/replenishment-order-history.module';
 import { ReturnRequestDetailModule } from './return-request-detail/return-request-detail.module';
 import { ReturnRequestListModule } from './return-request-list/order-return-request-list.module';
+import {UnitLevelOrderHistoryModule} from "./unit-level-order-history/unit-level-order-history.module";
 
 @NgModule({
   imports: [
     OrderHistoryModule,
+    UnitLevelOrderHistoryModule,
     OrderDetailsModule,
     ReplenishmentOrderDetailsModule,
     OrderCancellationModule,

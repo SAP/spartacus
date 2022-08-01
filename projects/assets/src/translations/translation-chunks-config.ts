@@ -44,6 +44,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'notificationPreference',
     'myInterests',
     'AccountOrderHistoryTabContainer',
+    'UnitLevelOrderHistoryTabContainer',
     'returnRequestList',
     'returnRequest',
   ],
