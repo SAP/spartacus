@@ -7,20 +7,28 @@ import {
   normalizeHttpError,
 } from '@spartacus/core';
 
-import { FutureStockAdapter, FUTURE_STOCK_NORMALIZER } from '@spartacus/future-stock/core';
+import {
+  FutureStockAdapter,
+  FUTURE_STOCK_NORMALIZER,
+  FUTURE_STOCK_LIST_NORMALIZER,
+  ProductFutureStock,
+  ProductFutureStockList,
+} from '@spartacus/product/future-stock/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ProductFutureStock } from '../../core/model/future-stock.model';
 
 @Injectable()
 export class OccFutureStockAdapter implements FutureStockAdapter {
-	constructor(
+  constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 
-  getFutureStock(userId: string, productCode: string): Observable<ProductFutureStock> {
+  getFutureStock(
+    userId: string,
+    productCode: string
+  ): Observable<ProductFutureStock> {
     return this.http
       .get<ProductFutureStock>(this.getFutureStockEndpoint(userId, productCode))
       .pipe(
@@ -29,9 +37,42 @@ export class OccFutureStockAdapter implements FutureStockAdapter {
       );
   }
 
-  protected getFutureStockEndpoint(userId: string, productCode: string): string {
+  getFutureStocks(
+    userId: string,
+    productCodes: string
+  ): Observable<ProductFutureStockList> {
+    return this.http
+      .get<ProductFutureStockList>(
+        this.getFutureStocksEndpoint(userId, productCodes)
+      )
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(FUTURE_STOCK_LIST_NORMALIZER)
+      );
+  }
+
+  protected getFutureStockEndpoint(
+    userId: string,
+    productCode: string
+  ): string {
     return this.occEndpoints.buildUrl('getFutureStock', {
       urlParams: { userId, productCode },
+    });
+  }
+
+  protected getFutureStocksEndpoint(
+    userId: string,
+    productCodes: string
+  ): string {
+    let params = <any>{};
+
+    if (productCodes) {
+      params['productCodes'] = productCodes;
+    }
+
+    return this.occEndpoints.buildUrl('getFutureStocks', {
+      urlParams: { userId },
+      queryParams: params,
     });
   }
 }

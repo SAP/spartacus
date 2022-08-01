@@ -5,9 +5,9 @@ import { FutureStockOccModule } from './occ/future-stock-occ.module';
 
 @NgModule({
   imports: [
-    FutureStockCoreModule,
+    FutureStockCoreModule.forRoot(),
     FutureStockComponentsModule,
-    FutureStockOccModule
+    FutureStockOccModule,
   ],
 })
 export class FutureStockModule {}
