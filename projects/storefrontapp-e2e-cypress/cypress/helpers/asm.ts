@@ -35,6 +35,14 @@ export function listenForUserDetailsRequest(): string {
   return interceptGet('userDetails', '/users/*');
 }
 
+export function listenForCartBindingRequest(): string {
+  return interceptPost(
+    'cartBinding',
+    '/assistedservicewebservices/bind-cart?*',
+    false
+  );
+}
+
 export function listenForListOfAddressesRequest(): string {
   return interceptGet('addresses', '/users/**/addresses?*');
 }
@@ -83,9 +91,10 @@ export function startCustomerEmulation(customer): void {
   cy.get('button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
-  cy.get('cx-customer-emulation input')
-    .invoke('attr', 'placeholder')
-    .should('contain', customer.fullName);
+  cy.get('cx-customer-emulation div.customerInfo label.name').should(
+    'contain',
+    customer.fullName
+  );
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('not.exist');
   cy.get('cx-customer-emulation').should('be.visible');
@@ -255,4 +264,12 @@ export function testCustomerEmulation() {
 
     checkout.signOutUser();
   });
+}
+
+export function bindCart() {
+  const bindingRequest = listenForCartBindingRequest();
+  //click button
+  cy.get('.bindCartToCustomer').click();
+  //make call
+  cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
 }

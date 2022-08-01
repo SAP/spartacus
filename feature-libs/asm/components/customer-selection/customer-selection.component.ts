@@ -8,7 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
+import { AsmConfig } from '@spartacus/asm/core';
+import { AsmFacade, CustomerSearchPage } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -35,7 +36,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
 
   constructor(
     protected fb: FormBuilder,
-    protected asmService: AsmService,
+    protected asmFacade: AsmFacade,
     protected config: AsmConfig
   ) {}
 
@@ -43,10 +44,10 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.customerSelectionForm = this.fb.group({
       searchTerm: ['', Validators.required],
     });
-    this.asmService.customerSearchReset();
+    this.asmFacade.customerSearchReset();
     this.searchResultsLoading$ =
-      this.asmService.getCustomerSearchResultsLoading();
-    this.searchResults = this.asmService.getCustomerSearchResults();
+      this.asmFacade.getCustomerSearchResultsLoading();
+    this.searchResults = this.asmFacade.getCustomerSearchResults();
 
     this.subscription.add(
       this.customerSelectionForm.controls.searchTerm.valueChanges
@@ -67,9 +68,9 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     if (Boolean(this.selectedCustomer)) {
       return;
     }
-    this.asmService.customerSearchReset();
+    this.asmFacade.customerSearchReset();
     if (searchTermValue.trim().length >= 3) {
-      this.asmService.customerSearch({
+      this.asmFacade.customerSearch({
         query: searchTermValue,
         pageSize: this.config.asm?.customerSearch?.maxResults,
       });
@@ -81,7 +82,7 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
     this.customerSelectionForm.controls.searchTerm.setValue(
       this.selectedCustomer.name
     );
-    this.asmService.customerSearchReset();
+    this.asmFacade.customerSearchReset();
   }
 
   onSubmit(): void {
@@ -100,17 +101,17 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       ) {
         return;
       } else {
-        this.asmService.customerSearchReset();
+        this.asmFacade.customerSearchReset();
       }
     }
   }
 
   closeResults() {
-    this.asmService.customerSearchReset();
+    this.asmFacade.customerSearchReset();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.asmService.customerSearchReset();
+    this.asmFacade.customerSearchReset();
   }
 }

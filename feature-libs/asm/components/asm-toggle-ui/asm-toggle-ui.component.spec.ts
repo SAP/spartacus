@@ -1,7 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmService, AsmUi } from '@spartacus/asm/core';
+import { AsmFacade, AsmUi } from '@spartacus/asm/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmToggleUiComponent } from './asm-toggle-ui.component';
@@ -11,7 +11,7 @@ class MockAsmService {
     return of(mockAsmUi);
   }
 
-  updateAsmUiState(_asmUi): void {}
+  updateAsmUiState(_asmUi: unknown): void {}
 }
 
 const mockAsmUi: AsmUi = {
@@ -21,7 +21,7 @@ const mockAsmUi: AsmUi = {
 describe('AsmToggleuUiComponent', () => {
   let component: AsmToggleUiComponent;
   let fixture: ComponentFixture<AsmToggleUiComponent>;
-  let asmService: AsmService;
+  let asmFacade: AsmFacade;
   let el: DebugElement;
 
   beforeEach(
@@ -29,7 +29,7 @@ describe('AsmToggleuUiComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [AsmToggleUiComponent],
-        providers: [{ provide: AsmService, useClass: MockAsmService }],
+        providers: [{ provide: AsmFacade, useClass: MockAsmService }],
       }).compileComponents();
     })
   );
@@ -37,7 +37,7 @@ describe('AsmToggleuUiComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AsmToggleUiComponent);
     component = fixture.componentInstance;
-    asmService = TestBed.inject(AsmService);
+    asmFacade = TestBed.inject(AsmFacade);
     el = fixture.debugElement;
     fixture.detectChanges();
   });
@@ -47,7 +47,7 @@ describe('AsmToggleuUiComponent', () => {
   });
 
   it('should display expandIcon when AsmUi collapse state is true', () => {
-    spyOn(asmService, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
+    spyOn(asmFacade, 'getAsmUiState').and.returnValue(of({ collapsed: true }));
 
     component.ngOnInit();
     fixture.detectChanges();
@@ -65,7 +65,7 @@ describe('AsmToggleuUiComponent', () => {
   });
 
   it('should call toggleUi() and toggle the collapse value', () => {
-    spyOn(asmService, 'updateAsmUiState').and.stub();
+    spyOn(asmFacade, 'updateAsmUiState').and.stub();
 
     el.query(By.css('.toggleUi')).nativeElement.dispatchEvent(
       new MouseEvent('click')
@@ -73,7 +73,7 @@ describe('AsmToggleuUiComponent', () => {
 
     fixture.detectChanges();
 
-    expect(asmService.updateAsmUiState).toHaveBeenCalledWith({
+    expect(asmFacade.updateAsmUiState).toHaveBeenCalledWith({
       collapsed: true,
     });
   });

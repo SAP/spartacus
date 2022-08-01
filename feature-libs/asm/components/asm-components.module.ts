@@ -1,13 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { I18nModule, provideConfig } from '@spartacus/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import {
+  FeaturesConfigModule,
+  I18nModule,
+  provideConfig,
+} from '@spartacus/core';
 import {
   FormErrorsModule,
+  IconModule,
+  ModalModule,
   PasswordVisibilityToggleModule,
+  PopoverModule,
 } from '@spartacus/storefront';
+import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
+import { AsmCustomer360Component } from './asm-customer-360/asm-customer-360.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
-import { PrototypeComponent } from './asm-main-ui/prototype/prototype.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
 import { AsmToggleUiComponent } from './asm-toggle-ui/asm-toggle-ui.component';
@@ -15,6 +24,7 @@ import { CSAgentLoginFormComponent } from './csagent-login-form/csagent-login-fo
 import { CustomerEmulationComponent } from './customer-emulation/customer-emulation.component';
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
+import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
 
 @NgModule({
   imports: [
@@ -23,6 +33,12 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     I18nModule,
     FormErrorsModule,
     PasswordVisibilityToggleModule,
+    IconModule,
+    PopoverModule,
+    ModalModule,
+    NgSelectModule,
+    FormsModule,
+    FeaturesConfigModule,
   ],
   declarations: [
     AsmMainUiComponent,
@@ -32,7 +48,9 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     FormatTimerPipe,
     CustomerEmulationComponent,
     AsmToggleUiComponent,
-    PrototypeComponent,
+    AsmBindCartComponent,
+    AsmCustomer360Component,
+    DotSpinnerComponent,
   ],
   exports: [
     AsmMainUiComponent,
@@ -42,7 +60,9 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     FormatTimerPipe,
     CustomerEmulationComponent,
     AsmToggleUiComponent,
-    PrototypeComponent,
+    AsmBindCartComponent,
+    AsmCustomer360Component,
+    DotSpinnerComponent,
   ],
   providers: [provideConfig(defaultAsmLayoutConfig)],
 })

@@ -11,7 +11,7 @@
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
   </label>
-  <button type="submit">
+  <button type="submit" [class.active]="selectedCustomer">
     {{ 'asm.customerSearch.submit' | cxTranslate }}
   </button>
 </form>

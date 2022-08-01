@@ -1,6 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
-import { AsmService, AsmUi } from '@spartacus/asm/core';
-import { CsAgentAuthService } from '@spartacus/asm/root';
+import { AsmFacade, AsmUi, CsAgentAuthService } from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,
@@ -9,11 +8,9 @@ import {
   User,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
-import { ModalService } from 'projects/storefrontlib/shared';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
-import { PrototypeComponent } from './prototype/prototype.component';
 
 @Component({
   selector: 'cx-asm-main-ui',
@@ -35,9 +32,8 @@ export class AsmMainUiComponent implements OnInit {
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected asmService: AsmService,
-    protected userAccountFacade: UserAccountFacade,
-    protected modalService: ModalService
+    protected asmFacade: AsmFacade,
+    protected userAccountFacade: UserAccountFacade
   ) {}
 
   ngOnInit(): void {
@@ -55,7 +51,7 @@ export class AsmMainUiComponent implements OnInit {
         }
       })
     );
-    this.isCollapsed$ = this.asmService
+    this.isCollapsed$ = this.asmFacade
       .getAsmUiState()
       .pipe(
         map((uiState: AsmUi) =>
@@ -106,9 +102,5 @@ export class AsmMainUiComponent implements OnInit {
   hideUi(): void {
     this.disabled = true;
     this.asmComponentService.unload();
-  }
-
-  open360(): void {
-    this.modalService.open(PrototypeComponent);
   }
 }
