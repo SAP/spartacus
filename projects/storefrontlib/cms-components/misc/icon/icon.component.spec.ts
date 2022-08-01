@@ -33,36 +33,7 @@ export class MockIconLoaderService {
     return iconType;
   }
 
-  isResourceType(iconType: ICON_TYPE | string, resourceType: IconResourceType): boolean {
-    if (iconType === ICON_TYPE.STAR && resourceType === IconResourceType.SVG) {
-        return true;
-    };
-    if (iconType === ICON_TYPE.EXPAND && resourceType === IconResourceType.LINK) {
-        return true;
-    };
-    if (iconType === ICON_TYPE.COLLAPSE && resourceType === IconResourceType.LINK) {
-        return true;
-    };
-    if (iconType === 'PAYPAL' && resourceType === IconResourceType.LINK) {
-        return true;
-    };
-    if (iconType === 'MASTERCARD' && resourceType === IconResourceType.LINK) {
-        return true;
-    };
-    if (iconType === ICON_TYPE.CART && resourceType === IconResourceType.TEXT) {
-        return true;
-    };
-    if (iconType === ICON_TYPE.VISA && resourceType === IconResourceType.TEXT) {
-        return true;
-    };
-    if (iconType === ICON_TYPE.AMEX && resourceType === IconResourceType.TEXT) {
-        return true;
-    };
-    if (iconType === 'HAPPY' && resourceType === IconResourceType.TEXT) {
-        return true;
-    };
-    return false;
-  }
+  isResourceType() {}
 
   getSvgPath() {
     return null;
@@ -72,13 +43,25 @@ export class MockIconLoaderService {
     return null;
   }
 
-  getFlipDirection() {
-    return;
-  }
+  getFlipDirection() {}
 
-  findResource() {
-    return;
-  }
+  findResource() {}
+}
+
+function createIsResourceTypeFake(
+    fakeIconType: ICON_TYPE | string,
+    fakeResourceType: IconResourceType): (iconType: string, resourceType: IconResourceType) => boolean {
+  return (iconType: ICON_TYPE | string, resourceType: IconResourceType) => {
+        return iconType === fakeIconType && resourceType === fakeResourceType;
+      };
+}
+
+function createIsResourceTypeFakeForTypes(
+    fakeIconTypes: Array<ICON_TYPE | string>,
+    fakeResourceType: IconResourceType): (iconType: string, resourceType: IconResourceType) => boolean {
+  return (iconType: ICON_TYPE | string, resourceType: IconResourceType) => {
+        return fakeIconTypes.includes(iconType) && resourceType === fakeResourceType;
+      };
 }
 
 describe('IconComponent', () => {
@@ -116,6 +99,7 @@ describe('IconComponent', () => {
     });
 
     it('should create an icon based on type input', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.CART,IconResourceType.TEXT));
       spyOn(service, 'getSymbol').and.returnValue('CART');
       expect(component.icon).toBeFalsy();
       component.type = ICON_TYPE.CART;
@@ -123,6 +107,7 @@ describe('IconComponent', () => {
     });
 
     it('should create an icon based on cxIcon input', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake('AMEX',IconResourceType.TEXT));
       spyOn(service, 'getSymbol').and.returnValue('AMEX');
       expect(component.icon).toBeFalsy();
       component.cxIcon = ICON_TYPE.AMEX;
@@ -130,6 +115,7 @@ describe('IconComponent', () => {
     });
 
     it('should create an icon based multiple inputs', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake('AMEX',IconResourceType.TEXT));
       spyOn(service, 'getSymbol').and.returnValue('AMEX');
       expect(component.icon).toBeFalsy();
       component.type = ICON_TYPE.CART;
@@ -148,12 +134,14 @@ describe('IconComponent', () => {
     });
 
     it(`should not have a flip direction by default`, () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake('',IconResourceType.TEXT));
       component.type = <any>'';
       expect(component.flipAtLtr).toBeFalsy();
       expect(component.flipAtRtl).toBeFalsy();
     });
 
     it(`should store the flip direction for the given icon`, () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.CART,IconResourceType.TEXT));
       spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.RTL);
       component.type = ICON_TYPE.CART;
       expect(component.flipAtRtl).toBeTruthy();
@@ -163,6 +151,7 @@ describe('IconComponent', () => {
 
   describe('Linked resources', () => {
     it('should add the font resource', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.EXPAND,IconResourceType.LINK));
       spyOn<any>(winRef.document, 'createElement').and.callThrough();
       spyOn(service, 'findResource').and.returnValue(new MockIconConfigResource(['foo'], 'bar', 'baz'));
       component.type = ICON_TYPE.EXPAND;
@@ -172,6 +161,7 @@ describe('IconComponent', () => {
     });
 
     it('should not add the font resource for the same font icon', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.EXPAND,IconResourceType.LINK));
       spyOn<any>(winRef.document, 'createElement').and.callThrough();
       spyOn(service, 'findResource').and.returnValue(new MockIconConfigResource(['foo'], 'bar', 'baz'));
       component.type = ICON_TYPE.EXPAND;
@@ -182,6 +172,7 @@ describe('IconComponent', () => {
     });
 
     it('should not add the same font resource for fonts with the same font resource', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFakeForTypes([ICON_TYPE.EXPAND, 'PAYPAL'],IconResourceType.LINK));
       spyOn<any>(winRef.document, 'createElement').and.callThrough();
       spyOn(service, 'findResource').and.returnValue(new MockIconConfigResource(['foo'], 'bar', 'baz'));
       component.type = ICON_TYPE.EXPAND;
@@ -194,6 +185,7 @@ describe('IconComponent', () => {
     });
 
     it('should add 2 fonts resources for the different fonts', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFakeForTypes([ICON_TYPE.EXPAND, 'MASTERCARD'],IconResourceType.LINK));
       spyOn<any>(winRef.document, 'createElement').and.callThrough();
       spyOn(service, 'findResource').and.returnValues(
         new MockIconConfigResource(['foo'], 'bar1', 'baz'),
@@ -217,6 +209,7 @@ describe('IconComponent', () => {
     });
 
     it('should add CSS class to host element', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.CART,IconResourceType.TEXT));
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
       const classList = (debugElement.nativeElement as HTMLElement).classList;
@@ -225,6 +218,7 @@ describe('IconComponent', () => {
     });
 
     it('should add multiple CSS classes to host element', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.CART,IconResourceType.TEXT));
       spyOn(service, 'getStyleClasses').and.returnValue('multiple classes');
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
@@ -235,6 +229,7 @@ describe('IconComponent', () => {
     });
 
     it('should call findResource', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.CART,IconResourceType.TEXT));
       spyOn(service, 'findResource').and.returnValue(new MockIconConfigResource(['foo'], 'bar', 'baz'));
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
@@ -242,6 +237,7 @@ describe('IconComponent', () => {
     });
 
     it('should remove former CSS classes when changing the icon type', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFakeForTypes([ICON_TYPE.EXPAND, ICON_TYPE.COLLAPSE],IconResourceType.LINK));
       component.type = ICON_TYPE.EXPAND;
       component.type = ICON_TYPE.COLLAPSE;
       fixture.detectChanges();
@@ -252,6 +248,7 @@ describe('IconComponent', () => {
     });
 
     it('should have flip-at-rtl class', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.CART,IconResourceType.TEXT));
       spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.RTL);
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
@@ -261,6 +258,7 @@ describe('IconComponent', () => {
     });
 
     it('should have flip-at-ltr class', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.CART,IconResourceType.TEXT));
       spyOn(service, 'getFlipDirection').and.returnValue(DirectionMode.LTR);
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
@@ -270,6 +268,7 @@ describe('IconComponent', () => {
     });
 
     it('should not have flip-at-ltr and flip-at-rtl class', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.CART,IconResourceType.TEXT));
       spyOn(service, 'getFlipDirection').and.returnValue(undefined);
       component.type = ICON_TYPE.CART;
       fixture.detectChanges();
@@ -279,6 +278,7 @@ describe('IconComponent', () => {
     });
 
     it('should generate a font icon', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake('HAPPY',IconResourceType.TEXT));
       spyOn(service, 'getSymbol').and.returnValue('😊');
       component.type = 'HAPPY';
       fixture.detectChanges();
@@ -288,6 +288,7 @@ describe('IconComponent', () => {
     });
 
     it('should generate a text icon', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.VISA,IconResourceType.TEXT));
       spyOn(service, 'getSymbol').and.returnValue('visa');
       component.type = ICON_TYPE.VISA;
       fixture.detectChanges();
@@ -297,6 +298,7 @@ describe('IconComponent', () => {
     });
 
     it('should generate a sprited SVG', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.STAR,IconResourceType.SVG));
       spyOn(service, 'getSvgPath').and.returnValue('./assets/sprite.svg#starSymbol');
       component.type = ICON_TYPE.STAR;
       fixture.detectChanges();
@@ -311,6 +313,7 @@ describe('IconComponent', () => {
     });
 
     it('should generate non-sprited SVG', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.STAR,IconResourceType.SVG));
       spyOn(service, 'getSvgPath').and.returnValue('#starSymbol');
       component.type = ICON_TYPE.STAR;
       fixture.detectChanges();
@@ -325,6 +328,7 @@ describe('IconComponent', () => {
     });
 
     it('should generate a sprited SVG with a sanitized javascript url', () => {
+      spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.STAR,IconResourceType.SVG));
       spyOn(service, 'getSvgPath').and.returnValue('javascript:alert(1)');
       component.type = ICON_TYPE.STAR;
       fixture.detectChanges();
@@ -362,6 +366,7 @@ describe('host icon components', () => {
     fixture = TestBed.createComponent(IconComponent);
     service = TestBed.inject(IconLoaderService);
 
+    spyOn(service, 'isResourceType').and.callFake(createIsResourceTypeFake(ICON_TYPE.CART,IconResourceType.LINK));
     spyOn(service, 'getStyleClasses').and.returnValue('font based');
     spyOn(service, 'findResource').and.callThrough();
     fixture = TestBed.createComponent(MockIconTestComponent);
