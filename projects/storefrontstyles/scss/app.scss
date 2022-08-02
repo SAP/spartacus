@@ -23,7 +23,7 @@
 @import 'cxbase/blocks/alert';
 @import 'cxbase/blocks/message';
 // @import 'cxbase/blocks/tooltip';
-// @import 'cxbase/blocks/tables';
+@import 'cxbase/blocks/tables';
 @import 'cxbase/blocks/card';
 // @import 'cxbase/blocks/accordion';
 // @import 'cxbase/blocks/tabs';
@@ -31,7 +31,7 @@
 @import 'cxbase/blocks/link';
 // @import 'cxbase/blocks/dropdown';
 //layout
-@import 'cxbase/layout/app';
+// @import 'cxbase/layout/app';
 @import 'cxbase/layout/page';
 @import 'cxbase/layout/section';
 //non-bootstrap blocks and components here below
