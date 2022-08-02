@@ -15,7 +15,7 @@ import {
   PopoverModule,
 } from '@spartacus/storefront';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
-import { AsmCustomer360Component } from './asm-customer-360/asm-customer-360.component';
+import { AsmCustomer360ComponentModule } from './asm-customer-360/asm-customer-360.component.module';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -39,6 +39,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     NgSelectModule,
     FormsModule,
     FeaturesConfigModule,
+    AsmCustomer360ComponentModule,
   ],
   declarations: [
     AsmMainUiComponent,
@@ -49,7 +50,6 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     CustomerEmulationComponent,
     AsmToggleUiComponent,
     AsmBindCartComponent,
-    AsmCustomer360Component,
     DotSpinnerComponent,
   ],
   exports: [
@@ -61,7 +61,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     CustomerEmulationComponent,
     AsmToggleUiComponent,
     AsmBindCartComponent,
-    AsmCustomer360Component,
+    AsmCustomer360ComponentModule,
     DotSpinnerComponent,
   ],
   providers: [provideConfig(defaultAsmLayoutConfig)],

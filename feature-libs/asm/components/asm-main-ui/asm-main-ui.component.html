@@ -44,7 +44,6 @@
   >
     <ng-container *ngIf="customer$ | async; else showCustomerSelection">
       <cx-customer-emulation *ngIf="notCollapsed"></cx-customer-emulation>
-      <button (click)="open360()">Open 360</button>
     </ng-container>
     <ng-template #showCustomerSelection>
       <cx-customer-selection

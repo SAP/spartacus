@@ -20,7 +20,7 @@
     </div>
 
     <!-- Modal Body -->
-    <div class="cx-dialog-body modal-body">
+    <div class="cx-dialog-body">
       <div class="cx-dialog-row">
         <div class="cx-dialog-item">
           <div class="cx-tab-container">
@@ -35,8 +35,13 @@
           </div>
         </div>
       </div>
-      <div class="cx-tab-content">
-         {{ getActiveTabContent() }}
+      <div class="cx-tab-content modal-body">
+        <ng-container [ngSwitch]="activeTab">
+          <cx-asm-customer-map *ngSwitchCase=4></cx-asm-customer-map>
+          <span *ngSwitchDefault>
+          {{ getActiveTabContent() }}
+          </span>
+        </ng-container>
       </div>
     </div>
   </ng-container>

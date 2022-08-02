@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrototypeComponent } from './prototype.component';
+import { AsmCustomerMapComponent } from './asm-customer-map.component';
 
-describe('PrototypeComponent', () => {
-  let component: PrototypeComponent;
-  let fixture: ComponentFixture<PrototypeComponent>;
+describe('AsmCustomerMapComponent', () => {
+  let component: AsmCustomerMapComponent;
+  let fixture: ComponentFixture<AsmCustomerMapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PrototypeComponent ]
+      declarations: [ AsmCustomerMapComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PrototypeComponent);
+    fixture = TestBed.createComponent(AsmCustomerMapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
