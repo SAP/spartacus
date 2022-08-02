@@ -115,6 +115,11 @@
           text-transform: uppercase;
           color: var(--cx-color-primary);
           padding-inline-start: 0;
+          @include forVersion(5.1) {
+            @include type('7');
+            text-transform: var(--cx-button-text-transform);
+            color: var(--cx-color-text);
+          }
         }
 
         @include media-breakpoint-down(sm) {
