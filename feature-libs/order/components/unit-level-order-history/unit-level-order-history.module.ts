@@ -11,7 +11,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { ListNavigationModule } from '@spartacus/storefront';
-import {UnitLevelOrderHistoryComponent} from "./unit-level-order-history.component";
+import { UnitLevelOrderHistoryComponent } from './unit-level-order-history.component';
 
 @NgModule({
   imports: [

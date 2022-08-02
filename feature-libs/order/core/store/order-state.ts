@@ -14,6 +14,7 @@ export const CANCEL_ORDER_PROCESS_ID = 'cancelOrder';
 export const CANCEL_RETURN_PROCESS_ID = 'cancelReturn';
 export const CANCEL_REPLENISHMENT_ORDER_PROCESS_ID = 'cancelReplenishmentOrder';
 export const ORDERS = '[Order] User Orders';
+export const UNIT_LEVEL_ORDERS = '[Order] Unit Level Orders';
 export const RETURN_REQUESTS = '[Order] Order Return Requests';
 export const RETURN_REQUEST_DETAILS = '[Order] Return Request Details';
 export const ORDER_DETAILS = '[Order] User Order Details';
@@ -27,6 +28,7 @@ export interface StateWithOrder {
 
 export interface OrderState {
   orders: StateUtils.LoaderState<OrderHistoryList>;
+  unitLevelOrders: StateUtils.LoaderState<OrderHistoryList>;
   orderDetail: StateUtils.LoaderState<Order>;
   replenishmentOrders: StateUtils.LoaderState<ReplenishmentOrderList>;
   orderReturn: StateUtils.LoaderState<ReturnRequest>;

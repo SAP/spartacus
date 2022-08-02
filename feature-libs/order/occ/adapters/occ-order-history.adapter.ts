@@ -28,6 +28,7 @@ import {
 } from '@spartacus/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { UNIT_LEVEL_ORDER_HISTORY_NORMALIZER } from '../../root';
 
 @Injectable()
 export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
@@ -77,6 +78,33 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
     return this.http
       .get<Occ.OrderHistoryList>(url)
       .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
+  }
+
+  public loadUnitLevelHistory(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<OrderHistoryList> {
+    const params: { [key: string]: string } = {};
+    if (pageSize) {
+      params['pageSize'] = pageSize.toString();
+    }
+    if (currentPage) {
+      params['currentPage'] = currentPage.toString();
+    }
+    if (sort) {
+      params['sort'] = sort.toString();
+    }
+
+    const url = this.occEndpoints.buildUrl('unitLevelOrderHistory', {
+      urlParams: { userId },
+      queryParams: params,
+    });
+
+    return this.http
+      .get<Occ.OrderHistoryList>(url)
+      .pipe(this.converter.pipeable(UNIT_LEVEL_ORDER_HISTORY_NORMALIZER));
   }
 
   public getConsignmentTracking(

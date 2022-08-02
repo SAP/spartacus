@@ -51,6 +51,33 @@ export class OrdersEffect {
       )
   );
 
+  loadUnitLevelOrders$: Observable<OrderActions.UserOrdersAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(OrderActions.LOAD_UNIT_LEVEL_ORDERS),
+        map((action: OrderActions.LoadUnitLevelOrders) => action.payload),
+        switchMap((payload) => {
+          return this.orderConnector
+            .getUnitLevelHistory(
+              payload.userId,
+              payload.pageSize,
+              payload.currentPage,
+              payload.sort
+            )
+            .pipe(
+              map((orders: OrderHistoryList) => {
+                return new OrderActions.LoadUserOrdersSuccess(orders);
+              }),
+              catchError((error) =>
+                of(
+                  new OrderActions.LoadUserOrdersFail(normalizeHttpError(error))
+                )
+              )
+            );
+        })
+      )
+    );
+
   resetUserOrders$: Observable<OrderActions.ClearUserOrders> = createEffect(
     () =>
       this.actions$.pipe(
