@@ -584,4 +584,14 @@ export class ConfiguratorGroupMenuComponent {
       })
     );
   }
+
+  protected getGroupMenuTitle(group: Configurator.Group): string | undefined {
+    let title = group.description;
+    this.routerData$.pipe(take(1)).subscribe((routingData) => {
+      if (routingData.expMode) {
+        title += ' / [' + group.name + ']';
+      }
+    });
+    return title;
+  }
 }
