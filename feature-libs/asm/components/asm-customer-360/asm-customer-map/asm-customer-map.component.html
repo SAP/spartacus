@@ -1,9 +1,14 @@
 <div class="store-count">1 - 5 from {{ storeData.total }} stores found</div>
 
+<div class="pagination">
+  <button class="pagination-arrow"><<</button>
+  <button class="pagination-arrow pagination-arrow-right">>></button>
+</div>
+
 <div>
   <div
     class="store-listing-item"
-    [class.selected]="selectedStore.id === selectStore.id"
+    [class.selected]="selectedStore.id === store.id"
     *ngFor="let store of storeData.data"
     (click)="selectStore(store)"
   >
