@@ -10,7 +10,6 @@ import { VisualPickingProductFilterService } from './visual-picking-product-filt
   imports: [CommonModule, FormsModule, IconModule, UrlModule, I18nModule],
   providers: [VisualPickingProductFilterService],
   declarations: [VisualPickingProductFilterComponent],
-  entryComponents: [VisualPickingProductFilterComponent],
   exports: [VisualPickingProductFilterComponent],
 })
 export class VisualPickingProductFilterModule {}
