@@ -8,10 +8,10 @@
 @import './_dot-spinner.component.scss';
 @import './_asm-customer-360.component.scss';
 
-
 $asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
   cx-asm-bind-cart, cx-asm-toggle-ui, cx-csagent-login-form,
-  cx-customer-emulation, cx-customer-selection, cx-dot-spinner, cx-asm-customer-360 !default;
+  cx-customer-emulation, cx-customer-selection, cx-dot-spinner,
+  cx-asm-customer-360 !default;
 
 $skipComponentStyles: () !default;
 

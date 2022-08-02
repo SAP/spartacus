@@ -10,7 +10,7 @@ export interface StoreData {
   longitude: number;
   image: string;
   productcode: string;
-  openings: { [opening: string]: string },
+  openings: { [opening: string]: string };
   features: Array<string>;
 }
 
