@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { PointOfService } from '@spartacus/core';
+import { AugmentedPointOfService } from '@spartacus/pickup-in-store/core';
 
 export const ADD_LOCATION = '[Pickup Locations] Add Location';
 export const REMOVE_LOCATION = '[Pickup Locations] Remove Location';
@@ -7,7 +7,7 @@ export const REMOVE_LOCATION = '[Pickup Locations] Remove Location';
 export type AddLocationProps = {
   payload: {
     productCode: string;
-    location: PointOfService;
+    location: AugmentedPointOfService;
   };
 };
 

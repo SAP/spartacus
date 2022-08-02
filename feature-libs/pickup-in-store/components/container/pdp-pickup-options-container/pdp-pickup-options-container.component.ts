@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 import {
+  PickupOption,
   PointOfServiceNames,
   PreferredStoreService,
 } from '@spartacus/pickup-in-store/core';
@@ -20,17 +21,9 @@ import {
   LaunchDialogService,
   LAUNCH_CALLER,
 } from '@spartacus/storefront';
-import {
-  combineLatest,
-  iif,
-  Observable,
-  of,
-  ReplaySubject,
-  Subject,
-  Subscription,
-} from 'rxjs';
+import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
-import { PickupOption } from '../../presentational';
+
 import { CurrentLocationService } from '../../services/current-location.service';
 
 function isProductWithCode(
@@ -55,7 +48,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
 
   availableForPickup = false;
   displayPickupLocation$: Observable<string | undefined>;
-  pickupOption$: Subject<PickupOption> = new ReplaySubject(1);
+  pickupOption$: Observable<PickupOption>;
 
   private productCode: string;
   private displayNameIsSet = false;
@@ -76,9 +69,13 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       map((product) => {
         this.productCode = product.code;
         this.availableForPickup = !!product.availableForPickup;
-
         return this.productCode;
-      })
+      }),
+      tap(
+        (productCode) =>
+          (this.pickupOption$ =
+            this.intendedPickupLocationService.getPickupOption(productCode))
+      )
     );
 
     this.displayPickupLocation$ = this.currentProductService.getProduct().pipe(
@@ -91,7 +88,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       ),
       switchMap(({ intendedLocation, productCode }) =>
         iif(
-          () => !!intendedLocation,
+          () => intendedLocation?.pickupOption === 'pickup',
           of(intendedLocation?.displayName),
           of(this.preferredStoreService.getPreferredStore()).pipe(
             filter(hasNames),
@@ -126,10 +123,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
         .pipe(
           switchMap(([productCode]) =>
             this.intendedPickupLocationService.getIntendedLocation(productCode)
-          ),
-          tap((intendedLocation) => {
-            this.pickupOption$.next(intendedLocation ? 'pickup' : 'delivery');
-          })
+          )
         )
         .subscribe()
     );
@@ -164,10 +158,10 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     if (!this.displayNameIsSet) {
       this.openDialog();
     } else if (preferredStore) {
-      this.intendedPickupLocationService.setIntendedLocation(
-        this.productCode,
-        preferredStore
-      );
+      this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
+        ...preferredStore,
+        pickupOption: 'pickup',
+      });
     }
   }
 

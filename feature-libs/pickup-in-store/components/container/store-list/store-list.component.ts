@@ -41,10 +41,10 @@ export class StoreListComponent implements OnInit {
     const { stockInfo: _, ...pointOfService } = store;
     const { name, displayName } = pointOfService;
     this.preferredStoreService.setPreferredStore({ name, displayName });
-    this.intendedPickupLocationService.setIntendedLocation(
-      this.productCode,
-      pointOfService
-    );
+    this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
+      ...pointOfService,
+      pickupOption: 'pickup',
+    });
     this.storeSelected.emit();
   }
 }

@@ -3,37 +3,34 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnInit,
+  OnChanges,
   Output,
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable, Subscription } from 'rxjs';
-
-export type PickupOption = 'delivery' | 'pickup';
+import { PickupOption } from '@spartacus/pickup-in-store/core';
 
 @Component({
   selector: 'cx-pickup-delivery-options',
   templateUrl: './pickup-options.component.html',
 })
-export class PickupOptionsComponent implements OnInit {
-  @Input() selectedOption: Observable<PickupOption>;
+export class PickupOptionsComponent implements OnChanges {
+  @Input() selectedOption: PickupOption;
   @Input() displayPickupLocation: string;
 
   @Output() pickupOptionChange = new EventEmitter<PickupOption>();
   @Output() pickupLocationChange = new EventEmitter<undefined>();
 
   @ViewChild('open') element: ElementRef;
-  subscription = new Subscription();
 
   deliveryOptionsForm = new FormGroup({
     deliveryOption: new FormControl(),
   });
 
-  ngOnInit() {
-    this.selectedOption.subscribe((option) => {
-      this.deliveryOptionsForm.get('deliveryOption')?.setValue(option);
-    });
+  ngOnChanges(): void {
+    this.deliveryOptionsForm
+      .get('deliveryOption')
+      ?.setValue(this.selectedOption);
   }
 
   onPickupOptionChange(option: PickupOption): void {

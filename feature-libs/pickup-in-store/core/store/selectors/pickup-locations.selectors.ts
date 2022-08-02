@@ -1,7 +1,8 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { PointOfService } from '@spartacus/core';
 import {
+  AugmentedPointOfService,
   PickupLocationsState,
+  PickupOption,
   StateWithPickupLocations,
 } from '../pickup-location-state';
 import { getPickupLocationsState } from './feature.selectors';
@@ -24,10 +25,22 @@ export const getIntendedPickupLocations: MemoizedSelector<
  */
 export const getIntendedPickupLocationByProductCodeFactory = (
   productCode: string
-): MemoizedSelector<StateWithPickupLocations, PointOfService | undefined> =>
+): MemoizedSelector<
+  StateWithPickupLocations,
+  AugmentedPointOfService | undefined
+> =>
   createSelector(
     getIntendedPickupLocations,
     (
       state: PickupLocationsState['intendedPickupLocations']
-    ): PointOfService | undefined => state[productCode]
+    ): AugmentedPointOfService | undefined => state[productCode]
+  );
+
+export const getPickupOptionByProductCode = (
+  productCode: string
+): MemoizedSelector<StateWithPickupLocations, PickupOption> =>
+  createSelector(
+    getIntendedPickupLocationByProductCodeFactory(productCode),
+    (_getIntendedPickupLocationByProductCodeFactory) =>
+      _getIntendedPickupLocationByProductCodeFactory?.pickupOption ?? 'delivery'
   );

@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, PointOfService } from '@spartacus/core';
+import { facadeFactory } from '@spartacus/core';
+import {
+  AugmentedPointOfService,
+  PickupOption,
+} from '@spartacus/pickup-in-store/core';
 import { Observable } from 'rxjs';
 import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
 
@@ -27,7 +31,7 @@ export abstract class IntendedPickupLocationFacade {
    */
   abstract getIntendedLocation(
     productCode: string
-  ): Observable<PointOfService | undefined>;
+  ): Observable<AugmentedPointOfService | undefined>;
   /**
    * Set the Point of Service a user wants to collect a product from before it is added to the cart.
    * @param productCode The product code of the product the user wants to collect.
@@ -35,11 +39,17 @@ export abstract class IntendedPickupLocationFacade {
    */
   abstract setIntendedLocation(
     productCode: string,
-    location: PointOfService
+    location: AugmentedPointOfService
   ): void;
   /**
    * Remove the Point of Service a user wanted to collect a product from before it was to be added to the cart.
    * @param productCode The product code of the product the user wants to collect.
    */
   abstract removeIntendedLocation(productCode: string): void;
+
+  /**
+   * Set the Pickup Option ('pickup' or 'delivery') a user wants
+   * @param productCode The product code of the product the user wants to collect.
+   */
+  abstract getPickupOption(productCode: string): Observable<PickupOption>;
 }

@@ -1,6 +1,6 @@
 <ng-container *ngIf="true">
   <cx-pickup-delivery-options
-    [selectedOption]="pickupOption$"
+    [selectedOption]="pickupOption$ | async"
     [displayPickupLocation]="displayPickupLocation$ | async"
     (pickupOptionChange)="onPickupOptionChange($event)"
     (pickupLocationChange)="onPickupLocationChange()"
