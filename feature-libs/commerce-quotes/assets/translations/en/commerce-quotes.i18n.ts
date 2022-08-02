@@ -25,6 +25,17 @@ export const commerceQuotes = {
       CANCELLED: 'Cancelled',
       EXPIRED: 'Expired',
     },
+    actions: {
+      VIEW: 'View Quote',
+      SUBMIT: 'Submit Quote',
+      SAVE: 'Save Quote',
+      EDIT: 'Edit Quote',
+      CANCEL: 'Cancel Quote',
+      CHECKOUT: 'Accept and Checkout',
+      APPROVE: 'Approve Quote',
+      REJECT: 'Reject Quote',
+      REQUOTE: 'Requote',
+    },
     commons: {
       id: 'Quote ID',
       status: 'Status',

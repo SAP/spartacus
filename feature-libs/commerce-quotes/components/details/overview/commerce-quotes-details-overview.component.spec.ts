@@ -2,8 +2,16 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Quote } from '@spartacus/commerce-quotes/root';
-import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import {
+  Quote,
+  QuoteAction,
+  QuoteState,
+} from '@spartacus/commerce-quotes/root';
+import {
+  I18nTestingModule,
+  QueryState,
+  TranslationService,
+} from '@spartacus/core';
 import { CardModule } from '@spartacus/storefront';
 import { CommerceQuotesFacade } from 'feature-libs/commerce-quotes/root/facade/commerce-quotes.facade';
 import { Observable, of } from 'rxjs';
@@ -12,7 +20,7 @@ import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
 const mockQuote: Quote = {
-  allowedActions: ['EDIT'],
+  allowedActions: [QuoteAction.EDIT],
   cartId: mockCartId,
   code: '00001233',
   creationTime: new Date('2022-06-07T11:45:42+0000'),
@@ -24,12 +32,12 @@ const mockQuote: Quote = {
     formattedValue: '$0.00',
     value: 0,
   },
-  state: 'BUYER_ORDERED',
+  state: QuoteState.BUYER_ORDERED,
 };
 
 class MockCommerceQuotesFacade implements Partial<CommerceQuotesFacade> {
-  getQuoteDetails(): Observable<Quote> {
-    return of(mockQuote);
+  getQuoteDetails(): Observable<QueryState<Quote>> {
+    return of({ data: mockQuote, loading: false, error: false });
   }
   setSort = createSpy();
   setCurrentPage = createSpy();

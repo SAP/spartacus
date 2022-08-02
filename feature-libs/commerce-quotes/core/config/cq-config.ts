@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import {
+  QuoteAction,
+  QuoteActionsByState,
+} from '@spartacus/commerce-quotes/root';
 import { Config } from '@spartacus/core';
 
 export interface CommerceQuotesTresholdsConfig {
@@ -18,6 +22,8 @@ export abstract class CQConfig {
    */
   commerceQuotes?: {
     tresholds?: CommerceQuotesTresholdsConfig;
+    primaryActions?: QuoteAction[];
+    actionsOrderByState?: Partial<QuoteActionsByState>;
   };
 }
 

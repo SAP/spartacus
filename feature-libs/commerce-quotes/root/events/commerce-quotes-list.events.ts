@@ -6,3 +6,10 @@ export class CommerceQuotesListReloadQueryEvent extends CxEvent {
    */
   static readonly type = 'CommerceQuotesListReloadQueryEvent';
 }
+
+export class QuoteDetailsReloadQueryEvent extends CxEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'QuoteDetailsReloadQueryEvent';
+}

@@ -2,7 +2,7 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import { PaginationModel, Price, Principal, SortModel } from '@spartacus/core';
 
 export interface Quote {
-  allowedActions?: string[];
+  allowedActions?: QuoteAction[];
   cartId?: string;
   code: string;
   comments?: Comment[];
@@ -15,7 +15,7 @@ export interface Quote {
   previousEstimatedTotal?: Price;
   productDiscounts?: Price;
   quoteDiscounts?: Price;
-  state?: string;
+  state?: QuoteState;
   subTotalWithDiscounts?: Price;
   threshold?: number;
   totalItems?: number;
@@ -48,6 +48,24 @@ export enum QuoteAction {
   REQUOTE = 'REQUOTE',
 }
 
+export enum QuoteState {
+  BUYER_DRAFT = 'BUYER_DRAFT',
+  BUYER_SUBMITTED = 'BUYER_SUBMITTED',
+  BUYER_ACCEPTED = 'BUYER_ACCEPTED',
+  BUYER_APPROVED = 'BUYER_APPROVED',
+  BUYER_REJECTED = 'BUYER_REJECTED',
+  BUYER_OFFER = 'BUYER_OFFER',
+  BUYER_ORDERED = 'BUYER_ORDERED',
+  SELLER_DRAFT = 'SELLER_DRAFT',
+  SELLER_REQUEST = 'SELLER_REQUEST',
+  SELLER_SUBMITTED = 'SELLER_SUBMITTED',
+  SELLERAPPROVER_PENDING = 'SELLERAPPROVER_PENDING',
+  SELLERAPPROVER_APPROVED = 'SELLERAPPROVER_APPROVED',
+  SELLERAPPROVER_REJECTED = 'SELLERAPPROVER_REJECTED',
+  CANCELLED = 'CANCELLED',
+  EXPIRED = 'EXPIRED',
+}
+
 export interface QuoteDiscount {
   discountRate: number;
   discountType: string;
@@ -69,3 +87,5 @@ export interface QuoteStarter {
   cartId?: string;
   quoteCode?: string;
 }
+
+export type QuoteActionsByState = { [key in QuoteState]: QuoteAction[] };

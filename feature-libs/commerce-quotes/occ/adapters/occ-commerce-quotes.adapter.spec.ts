@@ -28,7 +28,7 @@ import { OccCommerceQuotesAdapter } from './occ-commerce-quotes.adapter';
 const userId = '111111';
 const cartId = '222222';
 const mockQuote: Quote = {
-  allowedActions: ['EDIT'],
+  allowedActions: [QuoteAction.EDIT],
   cartId: cartId,
   code: '333333',
 };

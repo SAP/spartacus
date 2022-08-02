@@ -28,13 +28,14 @@ import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = '1234';
+const mockAction = QuoteAction.EDIT;
 const mockPagination: PaginationModel = {
   currentPage: 0,
   pageSize: 5,
   sort: 'byCode',
 };
 const mockQuote: Quote = {
-  allowedActions: ['EDIT'],
+  allowedActions: [mockAction],
   cartId: mockCartId,
   code: '333333',
 };
@@ -60,6 +61,7 @@ class MockRoutingService implements Partial<RoutingService> {
   getRouterState() {
     return mockRouterState$.asObservable() as Observable<RouterState>;
   }
+  go = createSpy();
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -88,12 +90,14 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   reloadActiveCart = createSpy().and.stub();
   takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
 }
-class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
-}
 
 class MockMultiCartFacade implements Partial<MultiCartFacade> {
   loadCart = createSpy();
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  remove() {}
+  add() {}
 }
 
 describe('CommerceQuotesService', () => {
@@ -102,6 +106,7 @@ describe('CommerceQuotesService', () => {
   let eventService: EventService;
   let config: ViewConfig;
   let multiCartFacade: MultiCartFacade;
+  let routingService: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -126,6 +131,7 @@ describe('CommerceQuotesService', () => {
     eventService = TestBed.inject(EventService);
     config = TestBed.inject(ViewConfig);
     multiCartFacade = TestBed.inject(MultiCartFacade);
+    routingService = TestBed.inject(RoutingService);
   });
 
   it('should inject CommerceQuotesService', inject(
@@ -228,7 +234,7 @@ describe('CommerceQuotesService', () => {
           mockUserId,
           mockParams.quoteId
         );
-        expect(details).toEqual(mockQuote);
+        expect(details.data).toEqual(mockQuote);
       });
   });
 
@@ -242,6 +248,7 @@ describe('CommerceQuotesService', () => {
         expect(connector.editQuote).toHaveBeenCalled();
         expect(connector.addComment).toHaveBeenCalled();
         expect(multiCartFacade.loadCart).toHaveBeenCalled();
+        expect(eventService.dispatch).toHaveBeenCalled();
       });
   });
 
@@ -271,16 +278,30 @@ describe('CommerceQuotesService', () => {
       });
   });
 
-  it('should call performQuoteAction command', () => {
+  it('should call performQuoteAcion command', (done) => {
+    service.performQuoteAction(mockQuote.code, mockAction).subscribe(() => {
+      expect(connector.performQuoteAction).toHaveBeenCalledWith(
+        mockUserId,
+        mockQuote.code,
+        mockAction
+      );
+      done();
+    });
+  });
+
+  it('should call requote command and return new quote', () => {
     service
-      .performQuoteAction(mockQuote.code, QuoteAction.EDIT)
+      .requote(mockQuote.code)
       .pipe(take(1))
-      .subscribe(() => {
-        expect(connector.performQuoteAction).toHaveBeenCalledWith(
-          mockUserId,
-          mockQuote.code,
-          QuoteAction.EDIT
-        );
+      .subscribe((quote) => {
+        expect(connector.createQuote).toHaveBeenCalledWith(mockUserId, {
+          quoteCode: mockQuote.code,
+        });
+        expect(routingService.go).toHaveBeenCalledWith({
+          cxRoute: 'quoteDetails',
+          params: { quoteId: quote.code },
+        });
+        expect(quote.code).toEqual(mockQuote.code);
       });
   });
 });
