@@ -7,8 +7,8 @@ import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
-  ConfiguratorType,
+  ConfiguratorModelUtils, ConfiguratorRouter, ConfiguratorRouterExtractorService,
+  ConfiguratorType
 } from '@spartacus/product-configurator/common';
 import {
   DirectionMode,
@@ -187,6 +187,17 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
+const mockRouterData: ConfiguratorRouter.Data = {
+  owner:  mockProductConfiguration.owner,
+  expMode: false
+};
+
+class MockConfiguratorRouterExtractorService {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return of(mockRouterData);
+  }
+}
+
 let component: ConfiguratorGroupMenuComponent;
 let fixture: ComponentFixture<ConfiguratorGroupMenuComponent>;
 let configuratorGroupsService: ConfiguratorGroupsService;
@@ -243,6 +254,10 @@ describe('ConfigurationGroupMenuComponent', () => {
           {
             provide: DirectionService,
             useClass: MockDirectionService,
+          },
+          {
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
           },
         ],
       });
@@ -1513,6 +1528,28 @@ describe('ConfigurationGroupMenuComponent', () => {
         'aria-label',
         'configurator.a11y.iconComplete'
       );
+    });
+  });
+
+  describe('getGroupMenuTitle', () => {
+    it('should return group title', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      initialize();
+
+      expect(component['getGroupMenuTitle'](mockProductConfiguration.groups[0])).toEqual(mockProductConfiguration.groups[0].description);
+    });
+
+    it('should return group title for expert mode', () => {
+      mockRouterData.expMode = true;
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      initialize();
+
+      const groupMenuTitel = mockProductConfiguration.groups[0].description + ' / [' + mockProductConfiguration.groups[0].name + ']';
+      expect(component['getGroupMenuTitle'](mockProductConfiguration.groups[0])).toEqual(groupMenuTitel);
     });
   });
 });

@@ -427,6 +427,7 @@ export const productConfiguration: Configurator.Configuration = {
       id: GROUP_ID_1,
       configurable: true,
       description: 'Description for ' + GROUP_ID_1,
+      name: GROUP_ID_1,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [attributeCheckbox],
       subGroups: [],

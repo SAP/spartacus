@@ -4,7 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
+import {
+  CommonConfiguratorUtilsService,
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService
+} from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -52,6 +56,17 @@ export class MockIconFontLoaderService {
   getFlipDirection(): void {}
 }
 
+const mockRouterData: ConfiguratorRouter.Data = {
+  owner:  config.owner,
+  expMode: false
+};
+
+class MockConfiguratorRouterExtractorService {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return of(mockRouterData);
+  }
+}
+
 describe('ConfigurationGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
   let fixture: ComponentFixture<ConfiguratorGroupTitleComponent>;
@@ -83,6 +98,10 @@ describe('ConfigurationGroupTitleComponent', () => {
             useClass: MockConfiguratorGroupService,
           },
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          {
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
+          },
         ],
       });
     })
@@ -108,6 +127,18 @@ describe('ConfigurationGroupTitleComponent', () => {
   it('should get group id as part of group', () => {
     component.displayedGroup$.subscribe((data: Configurator.Group) => {
       expect(data.id).toEqual(group.id);
+    });
+  });
+
+  describe('getGroupTitle', () => {
+    it('should return group title', () => {
+      expect(component['getGroupTitle'](config.groups[0])).toEqual(config.groups[0].description);
+    });
+
+    it('should return group title for expert mode', () => {
+      mockRouterData.expMode = true;
+      const groupMenuTitel = config.groups[0].description + ' / [' + config.groups[0].name + ']';
+      expect(component['getGroupTitle'](config.groups[0])).toEqual(groupMenuTitel);
     });
   });
 });
