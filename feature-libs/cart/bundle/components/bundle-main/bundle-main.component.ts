@@ -6,7 +6,12 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { EntryGroup, MultiCartFacade } from '@spartacus/cart/base/root';
+import {
+  ActiveCartFacade,
+  EntryGroup,
+  MultiCartFacade,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import {
   BundleSelectors,
   BundleService,
@@ -31,10 +36,24 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BundleMainComponent implements OnInit, OnDestroy {
-  cartId$: Observable<string>;
+  cartId$: Observable<string> = this.activeCartService.getActiveCartId();
+  entryGroupNo$: Observable<number> = this.route.queryParams.pipe(
+    map((params) => Number.parseInt(params.edit, 10))
+  );
 
-  bundle$: Observable<EntryGroup>;
-  bundleSections$: Observable<EntryGroup[]>;
+  bundle$: Observable<EntryGroup | undefined> = combineLatest([
+    this.activeCartService.getEntryGroups(),
+    this.entryGroupNo$,
+  ]).pipe(
+    map(([entryGroups, entryGroupNo]) => {
+      return entryGroups.find(
+        (entryGroup) => entryGroup.entryGroupNumber === entryGroupNo
+      );
+    })
+  );
+  bundleSections$: Observable<EntryGroup[]> = this.bundle$.pipe(
+    map((bundle) => bundle?.entryGroups ?? [])
+  );
 
   activeSectionProducts$: Observable<Product[]>;
   allSelectedProducts$: Observable<Product[]>;
@@ -55,12 +74,13 @@ export class BundleMainComponent implements OnInit, OnDestroy {
     protected userIdService: UserIdService,
     protected store: Store<StateWithBundle>,
     protected routingService: RoutingService,
-    protected route: ActivatedRoute
+    protected route: ActivatedRoute,
+    protected activeCartService: ActiveCartFacade
   ) {}
 
   ngOnInit() {
-    this.cartId$ = this.route.queryParams.pipe(map((params) => params.cartId));
-    this.initBundle();
+    this.bundle$.subscribe(console.log);
+
     this.initActiveSectionProducts();
     this.initSelectedProducts();
     this.isPreview$ = this.bundleProgress.activeStep$.pipe(
@@ -71,20 +91,13 @@ export class BundleMainComponent implements OnInit, OnDestroy {
   }
 
   toggleProductSelection(
-    { isSelected, product }: ProductSelectionState,
-    sectionId?: number
+    { product }: ProductSelectionState,
+    sectionId: number
   ) {
-    combineLatest([this.bundle$, this.cartId$])
-      .pipe(take(1))
-      .subscribe(([bundle, cartId]) => {
-        this.cartBundleService.toggleProductSelection(
-          isSelected,
-          cartId,
-          bundle.entryGroupNumber as number,
-          sectionId ? sectionId : (this.activeStep.key as number),
-          product
-        );
-      });
+    this.activeCartService.addToEntryGroup(
+      sectionId ? sectionId : (this.activeStep.key as number),
+      product as OrderEntry
+    );
   }
 
   get activeStep() {
@@ -104,37 +117,6 @@ export class BundleMainComponent implements OnInit, OnDestroy {
     });
   }
 
-  addToCart() {
-    combineLatest([
-      this.selectedProductsPerSection$,
-      this.cartId$,
-      this.userIdService.getUserId(),
-      this.bundleSections$,
-    ])
-      .pipe(take(1))
-      .subscribe(([productsPerSection, cartId, userId, bundleSections]) => {
-        const addedProductsCodes = bundleSections.flatMap((section) =>
-          section.entries?.map((entry) => entry.product?.code)
-        );
-        const entries = Object.entries(productsPerSection).flatMap(
-          ([sectionId, products]) =>
-            products
-              .filter((product) => !addedProductsCodes.includes(product.code))
-              .map((product) => ({
-                entryGroupNumber: Number(sectionId),
-                entry: {
-                  product: {
-                    code: product.code,
-                  },
-                  // @TODO: Quantity should not be hardcoded
-                  quantity: 1,
-                },
-              }))
-        );
-        this.multiCartService.addEntriesToEntryGroups(cartId, userId, entries);
-      });
-  }
-
   onNext() {
     this.bundleProgress.onNext();
   }
@@ -144,19 +126,7 @@ export class BundleMainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
-
-  private initBundle(): void {
-    this.bundle$ = this.cartId$.pipe(
-      switchMap((cartId) => this.cartBundleService.getBundle(cartId))
-    );
-
-    this.bundleSections$ = this.bundle$.pipe(
-      map((bundle) => bundle?.entryGroups ?? [])
-    );
+    this.subscription?.unsubscribe();
   }
 
   private initActiveSectionProducts(): void {
@@ -204,26 +174,14 @@ export class BundleMainComponent implements OnInit, OnDestroy {
         .pipe(withLatestFrom(this.cartId$, this.userIdService.getUserId()))
         .subscribe(([bundle, cartId, userId]) => {
           bundle?.entryGroups?.forEach((section) => {
-            section.entries?.forEach((entry) => {
-              if (entry.product) {
-                this.toggleProductSelection(
-                  {
-                    isSelected: false,
-                    product: entry.product,
-                  },
-                  section.entryGroupNumber
-                );
-              }
-            });
-            if (section.entryGroupNumber) {
-              this.bundleService.getBundleAllowedProducts(
-                cartId,
-                userId,
-                section.entryGroupNumber as number
-              );
-            }
+            this.bundleService.getBundleAllowedProducts(
+              cartId,
+              userId,
+              section.entryGroupNumber as number
+            );
           });
         })
+        .unsubscribe()
     );
   }
 

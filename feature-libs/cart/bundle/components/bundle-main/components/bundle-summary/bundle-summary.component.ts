@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { EntryGroup } from '@spartacus/cart/base/root';
-import { Product } from '@spartacus/core';
+import { Product, RoutingService } from '@spartacus/core';
 
 @Component({
   selector: 'cx-bundle-summary',
@@ -20,7 +20,11 @@ export class BundleSummaryComponent {
 
   @Output() readonly addToCart = new EventEmitter<void>();
 
+  constructor(protected routingService: RoutingService) {}
+
   onAddToCart(): void {
     this.addToCart.next();
+
+    this.routingService.go('cart');
   }
 }

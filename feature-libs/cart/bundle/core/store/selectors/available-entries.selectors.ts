@@ -28,8 +28,9 @@ export const getAvailableEntryGroupEntries = (
 ): MemoizedSelector<StateWithBundle, Product[]> =>
   createSelector(
     getAvailableEntriesEntities,
-    (state) =>
-      state.availableEntriesEntities[cartId]?.[entryGroupNumber]?.products ?? []
+    (state: any) =>
+      state.availableEntriesEntities[cartId]?.[entryGroupNumber]?.data
+        .products ?? []
   );
 
 export const getAvailableEntriesLoading: MemoizedSelector<

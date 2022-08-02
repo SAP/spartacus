@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
   ActiveCartFacade,
@@ -27,12 +28,21 @@ export class CartDetailsComponent implements OnInit {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   selectiveCartEnabled: boolean;
 
+  // TODO: Remove, for testing only
+  editingBundle$ = this.routeService.queryParams.pipe(
+    map((params) => {
+      return !!params.edit;
+    })
+  );
+
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected selectiveCartService: SelectiveCartFacade,
     protected authService: AuthService,
     protected routingService: RoutingService,
-    protected cartConfig: CartConfigService
+    protected cartConfig: CartConfigService,
+    // TODO: Remove, for testing only
+    protected routeService: ActivatedRoute
   ) {}
 
   ngOnInit() {
