@@ -11,6 +11,14 @@
     flex-grow: 2;
   }
 
+  .cx-text-green {
+    color: #38871f;
+  }
+
+  .cx-text-gray {
+    color: #6c7079;
+  }
+
   .cx-card-title {
     @include type('4');
     font-weight: var(--cx-font-weight-normal);
