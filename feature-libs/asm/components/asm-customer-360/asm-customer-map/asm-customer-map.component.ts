@@ -1,5 +1,10 @@
 import { HttpParams } from '@angular/common/http';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 import { MapData, StoreData } from './map-types';
@@ -8,7 +13,7 @@ import { MapData, StoreData } from './map-types';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'cx-asm-customer-map',
   templateUrl: './asm-customer-map.component.html',
-  styleUrls: ['./asm-customer-map.component.scss']
+  styleUrls: ['./asm-customer-map.component.scss'],
 })
 export class AsmCustomerMapComponent implements OnInit {
   storeData: MapData = {
@@ -24,15 +29,14 @@ export class AsmCustomerMapComponent implements OnInit {
         formattedDistance: '2 miles',
         latitude: 42.358856201171875,
         longitude: -71.05696868896484,
-        image: 'https://s36700.pcdn.co/wp-content/uploads/2015/05/dachshund-puppies-03.jpg.optimal.jpg',
+        image:
+          'https://s36700.pcdn.co/wp-content/uploads/2015/05/dachshund-puppies-03.jpg.optimal.jpg',
         productcode: 'productcode 1',
         openings: {
           'Mon - Sat': '09:00 - 20:00',
-          'Sun': '09:00 - 17:00',
+          Sun: '09:00 - 17:00',
         },
-        features: [
-          'Wheelchair accessible',
-        ],
+        features: ['Wheelchair accessible'],
       },
       {
         id: '2',
@@ -44,15 +48,14 @@ export class AsmCustomerMapComponent implements OnInit {
         formattedDistance: '5 miles',
         latitude: 42.485267639160156,
         longitude: -71.19204711914062,
-        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWApY7vpCoiyrYKL1FUsfNDwYUSNPTG5TZlQ&usqp=CAU',
+        image:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWApY7vpCoiyrYKL1FUsfNDwYUSNPTG5TZlQ&usqp=CAU',
         productcode: 'productcode 2',
         openings: {
           'Mon - Sat': '09:00 - 20:00',
-          'Sun': '09:00 - 17:00',
+          Sun: '09:00 - 17:00',
         },
-        features: [
-          'Wheelchair accessible',
-        ],
+        features: ['Wheelchair accessible'],
       },
       {
         id: '3',
@@ -64,16 +67,14 @@ export class AsmCustomerMapComponent implements OnInit {
         formattedDistance: '200 miles',
         latitude: 37.4443293,
         longitude: -122.1598465,
-        image: 'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retreiver-puppy-appears-on-nbc-news-today-show-on-news-photo-164288748-1551895571.jpg?crop=0.85948xw:1xh;center,top&resize=480:*',
+        image:
+          'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retreiver-puppy-appears-on-nbc-news-today-show-on-news-photo-164288748-1551895571.jpg?crop=0.85948xw:1xh;center,top&resize=480:*',
         productcode: 'productcode 3',
         openings: {
           'Mon - Sat': '09:00 - 20:00',
-          'Sun': '09:00 - 17:00',
+          Sun: '09:00 - 17:00',
         },
-        features: [
-          'Wheelchair accessible',
-          'Taco Tuesday',
-        ],
+        features: ['Wheelchair accessible', 'Taco Tuesday'],
       },
     ],
   };
@@ -92,7 +93,7 @@ export class AsmCustomerMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    navigator.geolocation.getCurrentPosition(position => {
+    navigator.geolocation.getCurrentPosition((position) => {
       this.currentLocation = `${position.coords.latitude},${position.coords.longitude}`;
 
       this.updateGoogleMapsUrl();

@@ -8,9 +8,8 @@ describe('AsmCustomerMapComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AsmCustomerMapComponent ]
-    })
-    .compileComponents();
+      declarations: [AsmCustomerMapComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

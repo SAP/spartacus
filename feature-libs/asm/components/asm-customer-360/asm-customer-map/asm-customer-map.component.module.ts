@@ -4,15 +4,8 @@ import { NgModule } from '@angular/core';
 import { AsmCustomerMapComponent } from './asm-customer-map.component';
 
 @NgModule({
-    imports: [
-        CommonModule,
-    ],
-    declarations: [
-        AsmCustomerMapComponent,
-    ],
-    exports: [
-        AsmCustomerMapComponent,
-    ],
+  imports: [CommonModule],
+  declarations: [AsmCustomerMapComponent],
+  exports: [AsmCustomerMapComponent],
 })
-export class AsmCustomerMapComponentModule {
-}
+export class AsmCustomerMapComponentModule {}

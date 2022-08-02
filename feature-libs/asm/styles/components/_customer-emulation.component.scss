@@ -60,6 +60,17 @@
         width: 100%;
       }
     }
+
+    .cx-360-button {
+      background-color: #0070f2;
+      border: 1px solid #0070f2;
+      color: #ffffff;
+    }
+    .cx-logout-button {
+      color: #aa0808;
+      background-color: #ffd6ea;
+      border: 1px solid #ffd6ea;
+      margin-left: 15px;
   }
 
   @include forVersion(5.1) {

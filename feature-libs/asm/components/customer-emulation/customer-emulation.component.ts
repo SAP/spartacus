@@ -40,6 +40,15 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     this.asmComponentService.logoutCustomer();
   }
 
+  openCustomer360() {
+    /*
+    this.modalRef = this.modalService?.open(AsmCustomer360Component, {
+      size: 'xl',
+    });
+    this.modalRef.componentInstance.customer = this.customer;
+    */
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

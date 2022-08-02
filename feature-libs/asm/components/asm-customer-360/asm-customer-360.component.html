@@ -1,7 +1,4 @@
-<div
-  class="cx-asm-customer-360"
-  (esc)="closeModal('Escape clicked')"
->
+<div class="cx-asm-customer-360" (esc)="closeModal('Escape clicked')">
   <!-- Modal Header -->
   <ng-container>
     <div class="cx-dialog-header modal-header">
@@ -9,13 +6,13 @@
         {{ getAvatar() }}
       </div>
       <div class="cx-customer-info">
-      <h2 class="cx-title modal-title">
-        {{ customer.firstName }} Customer 360&#176; View
-      </h2>
-      <h6 class="cx-customer-email">
-        {{ customer.uid }}
-      </h6>
-    </div>
+        <h2 class="cx-title modal-title">
+          {{ customer.firstName }} Customer 360&#176; View
+        </h2>
+        <h6 class="cx-customer-email">
+          {{ customer.uid }}
+        </h6>
+      </div>
       <ng-template *ngTemplateOutlet="closeButton"></ng-template>
     </div>
 
@@ -29,8 +26,8 @@
               *ngFor="let tab of tabs; let i = index"
               (click)="selectTab(i)"
               [class.active]="activeTab === i"
-              >
-                {{tab.sectionTitle}}
+            >
+              {{ tab.sectionTitle }}
             </a>
           </div>
         </div>
@@ -52,7 +49,7 @@
     cxModal="dismiss"
     cxModalReason="Cross click"
   >
-    <span >
+    <span>
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
     </span>
   </button>

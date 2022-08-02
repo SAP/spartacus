@@ -13,7 +13,7 @@
     padding-bottom: 3rem;
     display: flex;
     .cx-avatar {
-      font-size:56px;
+      font-size: 56px;
       width: 110px;
       height: 110px;
       line-height: 100px;
@@ -42,7 +42,7 @@
     .close {
       font-size: 1rem;
       color: var(--cx-color-dark);
-      top:-100px;
+      top: -100px;
     }
   }
   .cx-dialog-body {
@@ -62,7 +62,7 @@
     }
     .cx-tab {
       padding: 10px 20px;
-      color: var(--cx-color-light);;
+      color: var(--cx-color-light);
       border-bottom: 1px solid #dddddd;
       &:hover {
         border-color: #556b82;
@@ -71,11 +71,11 @@
         text-decoration: none;
       }
       &:active,
-      &:focus{
+      &:focus {
         color: var(--cx-color-visual-focus);
         border-width: 0 0 2px;
         text-decoration: none;
-        border-color: var(--cx-color-visual-focus) ;
+        border-color: var(--cx-color-visual-focus);
       }
     }
     .cx-tab-content {
@@ -92,7 +92,7 @@
         color: var(--cx-color-visual-focus);
         border-width: 0 0 2px;
         text-decoration: none;
-        border-color: var(--cx-color-visual-focus) ;
+        border-color: var(--cx-color-visual-focus);
       }
     }
   }

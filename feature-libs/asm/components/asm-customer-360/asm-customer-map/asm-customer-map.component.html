@@ -1,14 +1,22 @@
 <div class="store-count">1 - 5 from {{ storeData.total }} stores found</div>
 
 <div>
-  <div class="store-listing-item" [class.selected]="selectedStore.id === selectStore.id" *ngFor="let store of storeData.data"
-  (click)="selectStore(store)">
+  <div
+    class="store-listing-item"
+    [class.selected]="selectedStore.id === selectStore.id"
+    *ngFor="let store of storeData.data"
+    (click)="selectStore(store)"
+  >
     <div class="store-listing-item-details">
       <div class="store-listing-item-text bold">{{ store.displayName }}</div>
-      <div class="store-listing-item-text bold">{{ store.line1 }}, {{ store.line2 }}</div>
+      <div class="store-listing-item-text bold">
+        {{ store.line1 }}, {{ store.line2 }}
+      </div>
       <div class="store-listing-item-text">{{ store.town }}</div>
     </div>
-    <div class="store-listing-item-distance store-listing-item-text bold">{{ store.formattedDistance }}</div>
+    <div class="store-listing-item-distance store-listing-item-text bold">
+      {{ store.formattedDistance }}
+    </div>
   </div>
 </div>
 
@@ -28,12 +36,17 @@
     loading="lazy"
     allowfullscreen
     referrerpolicy="no-referrer-when-downgrade"
-    [src]="googleMapsUrl">
+    [src]="googleMapsUrl"
+  >
   </iframe>
   <div class="store-openings">
     <div class="store-openings-dates">
-      <div class="store-openings-date" *ngFor="let opening of selectedStore.openings | keyvalue">
-        <span class="store-openings-day bold">{{ opening.key }}</span>{{ opening.value }}
+      <div
+        class="store-openings-date"
+        *ngFor="let opening of selectedStore.openings | keyvalue"
+      >
+        <span class="store-openings-day bold">{{ opening.key }}</span
+        >{{ opening.value }}
       </div>
     </div>
     <div class="store-openings-features">
