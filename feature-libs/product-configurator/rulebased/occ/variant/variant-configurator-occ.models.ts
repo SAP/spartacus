@@ -21,6 +21,14 @@ export namespace OccConfigurator {
     totalNumberOfIssues?: number;
     groups?: Group[];
     rootProduct: string;
+    kbKey?: KB;
+  }
+
+  export interface KB {
+    kbName?: string;
+    kbLogsys?: string;
+    kbVersion?: string;
+    kbBuildNumber?: string;
   }
 
   export interface Prices {

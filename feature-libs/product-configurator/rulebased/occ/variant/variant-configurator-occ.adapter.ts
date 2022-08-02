@@ -11,7 +11,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../../core/model/configurator.model';
 import {
@@ -23,6 +23,7 @@ import {
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Injectable()
 export class VariantConfiguratorOccAdapter
@@ -31,18 +32,28 @@ export class VariantConfiguratorOccAdapter
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
+    protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
   getConfiguratorType(): string {
     return ConfiguratorType.VARIANT;
   }
 
+  protected getExpMode(): boolean {
+    let expMode = false;
+    this.configExpertModeService
+      .getExpMode()
+      .pipe(take(1))
+      .subscribe((mode) => (expMode = mode));
+    return expMode;
+  }
+
   createConfiguration(
-    owner: CommonConfigurator.Owner,
-    expMode = false
+    owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
+    const expMode = this.getExpMode();
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
@@ -64,9 +75,9 @@ export class VariantConfiguratorOccAdapter
   readConfiguration(
     configId: string,
     groupId: string,
-    configurationOwner: CommonConfigurator.Owner,
-    expMode = false
+    configurationOwner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
+    const expMode = this.getExpMode();
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.buildUrl('readVariantConfiguration', {
@@ -86,10 +97,10 @@ export class VariantConfiguratorOccAdapter
   }
 
   updateConfiguration(
-    configuration: Configurator.Configuration,
-    expMode = false
+    configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
     const configId = configuration.configId;
+    const expMode = this.getExpMode();
     const url = this.occEndpointsService.buildUrl(
       'updateVariantConfiguration',
       {

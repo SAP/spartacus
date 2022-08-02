@@ -211,6 +211,12 @@ const configuration: OccConfigurator.Configuration = {
       id: '2',
     },
   ],
+  kbKey: {
+    kbName: 'CONF_PRODUCT_KB',
+    kbLogsys: 'RR5CLNT910',
+    kbVersion: '1',
+    kbBuildNumber: '2',
+  },
 };
 
 const group: OccConfigurator.Group = {
@@ -398,6 +404,27 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(target.interactionState).toBe(
         targetFromPredecessor.interactionState
       );
+    });
+
+    it('should convert a configuration with kb key', () => {
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.kbKey).toBeDefined();
+      expect(result.kbKey.kbName).toEqual(configuration.kbKey.kbName);
+      expect(result.kbKey.kbLogsys).toEqual(configuration.kbKey.kbLogsys);
+      expect(result.kbKey.kbVersion).toEqual(configuration.kbKey.kbVersion);
+      expect(result.kbKey.kbBuildNumber).toEqual(
+        configuration.kbKey.kbBuildNumber
+      );
+    });
+
+    it('should convert a configuration with undefined kb key', () => {
+      configuration.kbKey = {};
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
+      expect(result.kbKey).toBeDefined();
+      expect(result.kbKey.kbName).toBeUndefined();
+      expect(result.kbKey.kbLogsys).toBeUndefined();
+      expect(result.kbKey.kbVersion).toBeUndefined();
+      expect(result.kbKey.kbBuildNumber).toBeUndefined();
     });
   });
 

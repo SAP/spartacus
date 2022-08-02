@@ -38,6 +38,7 @@ import {
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 class MockOccEndpointsService {
   buildUrl(
@@ -115,6 +116,7 @@ describe('OccConfigurationVariantAdapter', () => {
   let converterService: ConverterService;
   let occEndpointsService: OccEndpointsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
+  let configExpertModeService: ConfiguratorExpertModeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -158,6 +160,10 @@ describe('OccConfigurationVariantAdapter', () => {
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(configuration.owner);
+    configExpertModeService = TestBed.inject(
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+    );
+    configExpertModeService.setExpMode(expMode);
 
     spyOn(converterService, 'convert').and.callThrough();
     spyOn(occEndpointsService, 'buildUrl').and.callThrough();
@@ -169,6 +175,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call createConfiguration endpoint', (done) => {
     expMode = false;
+    configExpertModeService.setExpMode(expMode);
     spyOn(converterService, 'pipeable').and.callThrough();
 
     occConfiguratorVariantAdapter
@@ -206,7 +213,7 @@ describe('OccConfigurationVariantAdapter', () => {
     spyOn(converterService, 'pipeable').and.callThrough();
 
     occConfiguratorVariantAdapter
-      .createConfiguration(configuration.owner, expMode)
+      .createConfiguration(configuration.owner)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
         done();
@@ -238,6 +245,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call readConfiguration endpoint', (done) => {
     expMode = false;
+    configExpertModeService.setExpMode(expMode);
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
       .readConfiguration(configId, groupId, configuration.owner)
@@ -269,7 +277,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call readConfiguration endpoint for expert mode', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
-      .readConfiguration(configId, groupId, configuration.owner, expMode)
+      .readConfiguration(configId, groupId, configuration.owner)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
         done();
@@ -297,6 +305,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call updateConfiguration endpoint', (done) => {
     expMode = false;
+    configExpertModeService.setExpMode(expMode);
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
       .updateConfiguration(configuration)
@@ -334,7 +343,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call updateConfiguration endpoint for expert mode', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
-      .updateConfiguration(configuration, expMode)
+      .updateConfiguration(configuration)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
         done();

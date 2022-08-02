@@ -34,6 +34,12 @@ export class OccConfiguratorVariantNormalizer
       productCode: source.rootProduct,
       groups: [],
       flatGroups: [],
+      kbKey: {
+        kbName: source.kbKey?.kbName,
+        kbLogsys: source.kbKey?.kbLogsys,
+        kbVersion: source.kbKey?.kbVersion,
+        kbBuildNumber: source.kbKey?.kbBuildNumber,
+      },
     };
     const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>

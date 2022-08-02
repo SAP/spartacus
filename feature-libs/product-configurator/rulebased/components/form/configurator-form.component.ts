@@ -11,6 +11,7 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfigFormUpdateEvent } from './configurator-form.event';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
   selector: 'cx-configurator-form',
@@ -48,7 +49,8 @@ export class ConfiguratorFormComponent implements OnInit {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected languageService: LanguageService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
+    protected configUtils: ConfiguratorStorefrontUtilsService,
+    protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +77,9 @@ export class ConfiguratorFormComponent implements OnInit {
                 );
               }
             });
+        }
+        if (routingData.expMode) {
+          this.configExpertModeService.setExpMode(routingData.expMode);
         }
       });
   }
