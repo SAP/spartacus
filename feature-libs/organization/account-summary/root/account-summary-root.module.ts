@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  AuthGuard,
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
@@ -34,7 +35,7 @@ export function defaultAccountSummaryComponentsConfig(): CmsConfig {
       {
         // @ts-ignore
         path: null,
-        canActivate: [CmsPageGuard],
+        canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'orgAccountSummaryDetails' },
       },
