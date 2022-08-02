@@ -6,11 +6,11 @@ import { MapData, StoreData } from './map-types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'cx-prototype',
-  templateUrl: './prototype.component.html',
-  styleUrls: ['./prototype.component.scss'],
+  selector: 'cx-asm-customer-map',
+  templateUrl: './asm-customer-map.component.html',
+  styleUrls: ['./asm-customer-map.component.scss']
 })
-export class PrototypeComponent implements OnInit {
+export class AsmCustomerMapComponent implements OnInit {
   storeData: MapData = {
     total: 3,
     data: [
@@ -121,5 +121,4 @@ export class PrototypeComponent implements OnInit {
 
     this.updateGoogleMapsUrl();
   }
-
 }
