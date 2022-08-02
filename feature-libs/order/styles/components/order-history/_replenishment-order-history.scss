@@ -85,6 +85,9 @@
         .#{$block}-value {
           text-decoration: underline;
           color: var(--cx-color-primary);
+          @include forVersion(5.1) {
+            color: var(--cx-color-text);
+          }
         }
       }
 
