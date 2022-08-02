@@ -5,7 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-  PointOfServiceNames,
+  AugmentedPointOfService,
   PreferredStoreService,
 } from '@spartacus/pickup-in-store/core';
 import {
@@ -24,9 +24,10 @@ describe('StoreListComponent', () => {
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
   let preferredStoreService: PreferredStoreService;
   let intendedPickupLocationService: IntendedPickupLocationFacade;
-  const preferredStore: PointOfServiceNames = {
+  const preferredStore: AugmentedPointOfService = {
     name: 'London School',
     displayName: 'London School',
+    pickupOption: 'pickup',
   };
 
   beforeEach(() => {

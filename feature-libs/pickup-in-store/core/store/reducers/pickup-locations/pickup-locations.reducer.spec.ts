@@ -8,21 +8,24 @@ describe('intendedPickupLocationsReducer', () => {
     const { intendedPickupLocationsInitialState } = fromReducer;
     expect(intendedPickupLocationsInitialState).toEqual({});
     const action = PickupLocationActions.AddLocation({
-      payload: { productCode: 'P0001', location: { name: 'Store Name' } },
+      payload: {
+        productCode: 'P0001',
+        location: { name: 'Store Name', pickupOption: 'pickup' },
+      },
     });
     const newState = fromReducer.intendedPickupLocationsReducer(
       intendedPickupLocationsInitialState,
       action
     );
     const expected: IntendedPickupLocationsState = {
-      P0001: { name: 'Store Name' },
+      P0001: { name: 'Store Name', pickupOption: 'pickup' },
     };
     expect(newState).toEqual(expected);
   });
 
   it('should remove a location to the pickup location state', () => {
-    const intendedPickupLocationsInitialState = {
-      P0001: { name: 'Store Name' },
+    const intendedPickupLocationsInitialState: IntendedPickupLocationsState = {
+      P0001: { name: 'Store Name', pickupOption: 'pickup' },
     };
     const action = PickupLocationActions.RemoveLocation({
       payload: 'P0001',
@@ -36,8 +39,8 @@ describe('intendedPickupLocationsReducer', () => {
   });
 
   it('should not alter the state when trying to remove non-existent product code', () => {
-    const initialState = {
-      P0001: { name: 'Store Name' },
+    const initialState: IntendedPickupLocationsState = {
+      P0001: { name: 'Store Name', pickupOption: 'pickup' },
     };
     const action = PickupLocationActions.RemoveLocation({
       payload: 'P0002',
