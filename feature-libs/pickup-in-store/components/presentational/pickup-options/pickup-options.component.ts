@@ -23,7 +23,7 @@ import {
 } from '@spartacus/storefront';
 import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
-import { CurrentLocationService } from '../services/current-location.service';
+import { CurrentLocationService } from '../../services/current-location.service';
 
 function isProductWithCode(
   product: Product | null
@@ -39,9 +39,9 @@ function hasNames(
 
 @Component({
   selector: 'cx-pickup-delivery-options',
-  templateUrl: './pickup-delivery-options.component.html',
+  templateUrl: './pickup-options.component.html',
 })
-export class PickupDeliveryOptionsComponent implements OnInit, OnDestroy {
+export class PickupOptionsComponent implements OnInit, OnDestroy {
   @ViewChild('open') element: ElementRef;
   subscription = new Subscription();
 

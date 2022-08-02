@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
-import { CurrentLocationService } from '../services/current-location.service';
+import { CurrentLocationService } from '../../services/current-location.service';
 
 @Component({
   selector: 'cx-store-search',

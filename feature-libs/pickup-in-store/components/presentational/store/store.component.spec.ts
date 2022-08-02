@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from '@spartacus/storefront';
-import { StoreScheduleComponent } from './store-schedule';
+import { StoreScheduleComponent } from './store-schedule/index';
 import { StoreComponent } from './store.component';
 
 describe('StoreComponent', () => {

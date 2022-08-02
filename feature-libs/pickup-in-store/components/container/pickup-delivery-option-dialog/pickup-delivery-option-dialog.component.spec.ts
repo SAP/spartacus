@@ -15,7 +15,7 @@ import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/c
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of } from 'rxjs';
 import { StoreListModule } from '../store-list/index';
-import { StoreSearchModule } from '../store-search/store-search.module';
+import { StoreSearchModule } from '../store-search/index';
 import { PickupDeliveryOptionDialogComponent } from './pickup-delivery-option-dialog.component';
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

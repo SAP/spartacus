@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { CurrentLocationService } from '../services/current-location.service';
-import { MockCurrentLocationService } from '../services/current-location.service.spec';
+import { CurrentLocationService } from '../../services/current-location.service';
+import { MockCurrentLocationService } from '../../services/current-location.service.spec';
 
 import { StoreSearchComponent } from './store-search.component';
 

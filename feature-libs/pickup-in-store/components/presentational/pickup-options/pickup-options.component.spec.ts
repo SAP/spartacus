@@ -16,9 +16,9 @@ import {
 } from '@spartacus/storefront';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
 import { Observable, of, Subscription } from 'rxjs';
-import { MockIntendedPickupLocationService } from '../../core/facade/intended-pickup-location.service.spec';
-import { CurrentLocationService } from '../services/current-location.service';
-import { PickupDeliveryOptionsComponent } from './pickup-delivery-options.component';
+import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
+import { CurrentLocationService } from '../../services/current-location.service';
+import { PickupOptionsComponent } from './pickup-options.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -88,9 +88,9 @@ class MockCurrentLocationService {
   }
 }
 
-describe('PickupDeliveryOptionsComponent', () => {
-  let component: PickupDeliveryOptionsComponent;
-  let fixture: ComponentFixture<PickupDeliveryOptionsComponent>;
+describe('PickupOptionsComponent', () => {
+  let component: PickupOptionsComponent;
+  let fixture: ComponentFixture<PickupOptionsComponent>;
   let launchDialogService: LaunchDialogService;
   let intendedPickupLocationService: IntendedPickupLocationFacade;
   let currentProductService: CurrentProductService;
@@ -99,7 +99,7 @@ describe('PickupDeliveryOptionsComponent', () => {
     TestBed.configureTestingModule({
       imports: [CommonModule, I18nTestingModule, ReactiveFormsModule],
       providers: [
-        PickupDeliveryOptionsComponent,
+        PickupOptionsComponent,
         {
           provide: PickupLocationsSearchFacade,
           useClass: MockPickupLocationsSearchFacade,
@@ -122,11 +122,11 @@ describe('PickupDeliveryOptionsComponent', () => {
           useClass: MockCurrentLocationService,
         },
       ],
-      declarations: [PickupDeliveryOptionsComponent],
+      declarations: [PickupOptionsComponent],
     });
 
   const stubServiceAndCreateComponent = () => {
-    fixture = TestBed.createComponent(PickupDeliveryOptionsComponent);
+    fixture = TestBed.createComponent(PickupOptionsComponent);
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     intendedPickupLocationService = TestBed.inject(
