@@ -175,6 +175,10 @@ export const configurator = {
       productName: 'Product Name',
       productCode: 'Product Code',
       productDescription: 'Product description',
+      kbKeyName: 'Kb name',
+      kbKeyLogsys: 'Kb logical system',
+      kbKeyVersion: 'Kb version',
+      kbKeyBuildNr: 'Kb build number',
       configurationPage: 'You are on the configuration page.',
       configurationPageLink: 'Navigate to configuration  page.',
       overviewPage:
