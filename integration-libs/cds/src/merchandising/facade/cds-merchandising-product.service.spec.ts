@@ -7,7 +7,7 @@ import {
   MerchandisingUserContext,
   CdsMerchandisingProductService,
   CdsMerchandisingSiteContextService,
-  CdsMerchandisingUserContextService
+  CdsMerchandisingUserContextService, StrategyResponse
 } from '@spartacus/cds';
 import createSpy = jasmine.createSpy;
 
@@ -107,14 +107,15 @@ describe('CdsMerchandisingProductService', () => {
       of(userContext)
     );
 
-    let actualStartegyProducts: StrategyProducts;
+    let actualStrategyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
-        actualStartegyProducts = productsForStrategy;
+        actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStartegyProducts).toEqual(strategyProducts);
+    expect(actualStrategyProducts.products).toEqual(strategyProducts);
+    expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
@@ -147,14 +148,15 @@ describe('CdsMerchandisingProductService', () => {
       of(userContext)
     );
 
-    let actualStartegyProducts: StrategyProducts;
+    let actualStrategyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
-        actualStartegyProducts = productsForStrategy;
+        actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStartegyProducts).toEqual(strategyProducts);
+    expect(actualStrategyProducts.products).toEqual(strategyProducts);
+    expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
@@ -188,14 +190,15 @@ describe('CdsMerchandisingProductService', () => {
       of(userContext)
     );
 
-    let actualStartegyProducts: StrategyProducts;
+    let actualStartegyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
         actualStartegyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStartegyProducts).toEqual(strategyProducts);
+    expect(actualStartegyProducts.products).toEqual(strategyProducts);
+    expect(actualStartegyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
@@ -225,14 +228,15 @@ describe('CdsMerchandisingProductService', () => {
       of({ products: ['123456'] })
     );
 
-    let actualStrategyProducts: StrategyProducts;
+    let actualStrategyProducts: StrategyResponse;
     cdsMerchandisingPrductService
       .loadProductsForStrategy(STRATEGY_ID, 10)
       .subscribe((productsForStrategy) => {
         actualStrategyProducts = productsForStrategy;
       })
       .unsubscribe();
-    expect(actualStrategyProducts).toEqual(strategyProducts);
+    expect(actualStrategyProducts.products).toEqual(strategyProducts);
+    expect(actualStrategyProducts.request).toEqual(strategyRequest);
     expect(strategyConnector.loadProductsForStrategy).toHaveBeenCalledWith(
       STRATEGY_ID,
       strategyRequest
