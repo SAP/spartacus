@@ -1,0 +1,26 @@
+<a
+  tabindex="0"
+  [attr.aria-label]="product?.name"
+  role="link"
+  (click)="selectProduct.emit(product)"
+>
+  <cx-media
+    [container]="product?.images?.PRIMARY"
+    format="product"
+    [alt]="product?.name ?? ''"
+  ></cx-media>
+</a>
+<div class="asm-product-item-content">
+  <a tabindex="0"
+  [attr.aria-label]="product?.name"
+  role="link"
+  (click)="selectProduct.emit(product)"
+  class="cx-overview-product-name"><span title="{{product?.name}}">{{
+    product?.name
+  }}</span></a>
+  <div *ngIf="isOrderEntry">{{ product?.code }}</div>
+  <div *ngIf="isOrderEntry">{{ price?.formattedValue }}</div>
+  <div class="cx-overview-out-of-stock" *ngIf="!isOrderEntry && product.stock?.stockLevelStatus === 'outOfStock'">
+    {{ 'asm.customerOverview.outOfStock' | cxTranslate }}
+  </div>
+</div>

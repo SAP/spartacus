@@ -1,0 +1,176 @@
+<!-- active cart -->
+<div
+  class="container mt-5"
+  *ngIf="activeCart$ | async as activeCart; else emptyActiveCart"
+>
+  <div class="row mb-3">
+    <div class="col-md-4 offset-md-4">
+      <h3>
+        {{ 'asm.customerOverview.activeCart' | cxTranslate }}
+        <a
+          tabindex="0"
+          [attr.aria-label]="
+            'asm.customerOverview.activeCartCode'
+              | cxTranslate: { code: activeCart.code }
+          "
+          role="link"
+          class="cx-overview-title-link"
+          (click)="onSelectCart()"
+        >
+          {{ activeCart.code }}
+        </a>
+      </h3>
+    </div>
+    <div class="col-md-2">
+      {{
+        'asm.customerOverview.totalNoItems'
+          | cxTranslate: { count: activeCart.totalItems }
+      }}
+    </div>
+    <div class="col-md-2">
+      {{
+        'asm.customerOverview.totalPrice'
+          | cxTranslate: { price: activeCart.totalPrice.formattedValue }
+      }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col cx-asm-overview-items cx-asm-overview-order-items">
+      <cx-asm-product-item
+        *ngFor="let entry of activeCart.entries"
+        [product]="entry.product"
+        [price]="entry.basePrice"
+        (selectProduct)="onSelectProduct($event)"
+      ></cx-asm-product-item>
+    </div>
+  </div>
+</div>
+<!-- saved cart -->
+<div
+  class="container mt-5"
+  *ngIf="savedCart$ | async as savedCart; else emptySavedCart"
+>
+  <div class="row mb-3">
+    <div class="col-md-4 offset-md-4">
+      <h3>
+        {{ 'asm.customerOverview.savedCart' | cxTranslate }}
+        <a
+          tabindex="0"
+          [attr.aria-label]="
+            'asm.customerOverview.savedCartCode'
+              | cxTranslate: { code: savedCart.code }
+          "
+          role="link"
+          class="cx-overview-title-link"
+          (click)="onSelectCart()"
+        >
+          {{ savedCart.code }}
+        </a>
+      </h3>
+    </div>
+    <div class="col-md-2">
+      {{
+        'asm.customerOverview.totalNoItems'
+          | cxTranslate: { count: savedCart.totalItems }
+      }}
+    </div>
+    <div class="col-md-2">
+      {{
+        'asm.customerOverview.totalPrice'
+          | cxTranslate: { price: savedCart.totalPrice.formattedValue }
+      }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col cx-asm-overview-items cx-asm-overview-order-items">
+      <cx-asm-product-item
+        *ngFor="let entry of savedCart.entries"
+        [product]="entry.product"
+        [price]="entry.basePrice"
+        (selectProduct)="onSelectProduct($event)"
+      ></cx-asm-product-item>
+    </div>
+  </div>
+</div>
+
+<!-- Interest -->
+<div
+  class="container mt-5"
+  *ngIf="interests$ | async as interests; else emptyInterests"
+>
+  <div class="row mb-3">
+    <div class="col-md-8 offset-md-4">
+      <h3>
+        <a
+          tabindex="0"
+          [attr.aria-label]="
+            'asm.customerOverview.interests'
+              | cxTranslate
+          "
+          role="link"
+          class="cx-overview-title-link"
+          (click)="goToMyInterests()"
+        >
+        {{ 'asm.customerOverview.interests' | cxTranslate }}
+        </a>
+      </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col cx-asm-overview-items cx-asm-overview-interests-items">
+      <cx-asm-product-item
+        *ngFor="let product of interests.products"
+        [product]="product"
+        [isOrderEntry]="false"
+        (selectProduct)="onSelectProduct($event)"
+      ></cx-asm-product-item>
+    </div>
+  </div>
+</div>
+
+<ng-template #emptySavedCart>
+  <ng-template
+    *ngTemplateOutlet="
+      emptyResult;
+      context: {
+        title: 'asm.customerOverview.savedCart' | cxTranslate,
+        description: 'asm.customerOverview.noSavedCart' | cxTranslate
+      }
+    "
+  ></ng-template>
+</ng-template>
+
+<ng-template #emptyActiveCart>
+  <ng-template
+    *ngTemplateOutlet="
+      emptyResult;
+      context: {
+        title: 'asm.customerOverview.activeCart' | cxTranslate,
+        description: 'asm.customerOverview.noActiveCart' | cxTranslate
+      }
+    "
+  ></ng-template>
+</ng-template>
+
+<ng-template #emptyInterests>
+  <ng-template
+    *ngTemplateOutlet="
+      emptyResult;
+      context: {
+        title: 'asm.customerOverview.interests' | cxTranslate,
+        description: 'asm.customerOverview.noInterests' | cxTranslate
+      }
+    "
+  ></ng-template>
+</ng-template>
+
+<ng-template #emptyResult let-title="title" let-description="description">
+  <div class="container cx-overview-empty mb-4">
+    <div class="cx-overview-empty-title mt-4 mb-2">
+      {{ title }}
+    </div>
+    <div class="cx-overview-empty-desc">
+      {{ description }}
+    </div>
+  </div>
+</ng-template>
