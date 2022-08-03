@@ -28,7 +28,7 @@ export interface StateWithOrder {
 
 export interface OrderState {
   orders: StateUtils.LoaderState<OrderHistoryList>;
-  unitLevelOrders: StateUtils.LoaderState<OrderHistoryList>;
+  // unitLevelOrders: StateUtils.LoaderState<OrderHistoryList>;
   orderDetail: StateUtils.LoaderState<Order>;
   replenishmentOrders: StateUtils.LoaderState<ReplenishmentOrderList>;
   orderReturn: StateUtils.LoaderState<ReturnRequest>;

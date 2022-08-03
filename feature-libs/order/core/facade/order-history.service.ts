@@ -62,7 +62,8 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * Returns order history list
    */
   getOrderHistoryList(
-    pageSize: number
+    pageSize: number,
+    unitLevelOrderCode?: string
   ): Observable<OrderHistoryList | undefined> {
     return this.store.pipe(
       select(OrderSelectors.getOrdersState),
@@ -72,33 +73,33 @@ export class OrderHistoryService implements OrderHistoryFacade {
           orderListState.success ||
           orderListState.error;
         if (!attemptedLoad) {
-          this.loadOrderList(pageSize);
+          this.loadOrderList(pageSize, undefined, undefined, unitLevelOrderCode);
         }
       }),
       map((orderListState) => orderListState.value)
     );
   }
 
-  /**
-   * Returns unit-level order history list
-   */
-  getUnitLevelOrderHistoryList(
-    pageSize: number
-  ): Observable<OrderHistoryList | undefined> {
-    return this.store.pipe(
-      select(OrderSelectors.getOrdersState),
-      tap((orderListState) => {
-        const attemptedLoad =
-          orderListState.loading ||
-          orderListState.success ||
-          orderListState.error;
-        if (!attemptedLoad) {
-          this.loadUnitOrderList(pageSize);
-        }
-      }),
-      map((orderListState) => orderListState.value)
-    );
-  }
+  // /**
+  //  * Returns unit-level order history list
+  //  */
+  // getUnitLevelOrderHistoryList(
+  //   pageSize: number
+  // ): Observable<OrderHistoryList | undefined> {
+  //   return this.store.pipe(
+  //     select(OrderSelectors.getOrdersState),
+  //     tap((orderListState) => {
+  //       const attemptedLoad =
+  //         orderListState.loading ||
+  //         orderListState.success ||
+  //         orderListState.error;
+  //       if (!attemptedLoad) {
+  //         this.loadUnitOrderList(pageSize);
+  //       }
+  //     }),
+  //     map((orderListState) => orderListState.value)
+  //   );
+  // }
 
   /**
    * Returns a loaded flag for order history list
@@ -107,20 +108,21 @@ export class OrderHistoryService implements OrderHistoryFacade {
     return this.store.pipe(select(OrderSelectors.getOrdersLoaded));
   }
 
-  /**
-   * Returns a loaded flag for unit-level order history list
-   */
-  getUnitLevelOrderHistoryListLoaded(): Observable<boolean> {
-    return this.store.pipe(select(OrderSelectors.getOrdersLoaded));
-  }
+  // /**
+  //  * Returns a loaded flag for unit-level order history list
+  //  */
+  // getUnitLevelOrderHistoryListLoaded(): Observable<boolean> {
+  //   return this.store.pipe(select(OrderSelectors.getOrdersLoaded));
+  // }
 
   /**
    * Retrieves an order list
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
+   * @param unitLevelOrderCode
    */
-  loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
+  loadOrderList(pageSize: number, currentPage?: number, sort?: string, unitLevelOrderCode?: string): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
         let replenishmentOrderCode: string | undefined;
@@ -141,6 +143,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
             currentPage,
             sort,
             replenishmentOrderCode,
+            unitLevelOrderCode
           })
         );
       },
@@ -150,33 +153,33 @@ export class OrderHistoryService implements OrderHistoryFacade {
     );
   }
 
-  /**
-   * Retrieves a unit order list
-   * @param pageSize page size
-   * @param currentPage current page
-   * @param sort sort
-   */
-  loadUnitOrderList(
-    pageSize: number,
-    currentPage?: number,
-    sort?: string
-  ): void {
-    this.userIdService.takeUserId(true).subscribe(
-      (userId) => {
-        this.store.dispatch(
-          new OrderActions.LoadUnitLevelOrders({
-            userId,
-            pageSize,
-            currentPage,
-            sort,
-          })
-        );
-      },
-      () => {
-        // TODO: for future releases, refactor this part to thrown errors
-      }
-    );
-  }
+  // /**
+  //  * Retrieves a unit order list
+  //  * @param pageSize page size
+  //  * @param currentPage current page
+  //  * @param sort sort
+  //  */
+  // loadUnitOrderList(
+  //   pageSize: number,
+  //   currentPage?: number,
+  //   sort?: string
+  // ): void {
+  //   this.userIdService.takeUserId(true).subscribe(
+  //     (userId) => {
+  //       this.store.dispatch(
+  //         new OrderActions.LoadUnitLevelOrders({
+  //           userId,
+  //           pageSize,
+  //           currentPage,
+  //           sort,
+  //         })
+  //       );
+  //     },
+  //     () => {
+  //       // TODO: for future releases, refactor this part to thrown errors
+  //     }
+  //   );
+  // }
 
   /**
    * Cleaning order list

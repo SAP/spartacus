@@ -30,7 +30,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   ) {}
 
   orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
-    .getOrderHistoryList(this.PAGE_SIZE)
+    .getOrderHistoryList(this.PAGE_SIZE, "TSD")
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
         if (orders?.pagination?.sort) {
@@ -40,7 +40,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     );
 
   isLoaded$: Observable<boolean> =
-    this.orderHistoryFacade.getUnitLevelOrderHistoryListLoaded();
+    this.orderHistoryFacade.getOrderHistoryListLoaded();
 
   /**
    * When "Order Return" feature is enabled, this component becomes one tab in
@@ -95,7 +95,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-    this.orderHistoryFacade.loadUnitOrderList(
+    this.orderHistoryFacade.loadOrderList(
       this.PAGE_SIZE,
       event.currentPage,
       event.sortCode

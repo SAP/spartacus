@@ -59,49 +59,52 @@ export abstract class OrderHistoryFacade {
    * Returns order history list
    */
   abstract getOrderHistoryList(
-    pageSize: number
+    pageSize: number,
+    unitLevelOrderCode?: string
   ): Observable<OrderHistoryList | undefined>;
 
-  /**
-   * Returns unit-level order history list
-   */
-  abstract getUnitLevelOrderHistoryList(
-    pageSize: number
-  ): Observable<OrderHistoryList | undefined>;
+  // /**
+  //  * Returns unit-level order history list
+  //  */
+  // abstract getUnitLevelOrderHistoryList(
+  //   pageSize: number
+  // ): Observable<OrderHistoryList | undefined>;
 
   /**
    * Returns a loaded flag for order history list
    */
   abstract getOrderHistoryListLoaded(): Observable<boolean>;
-
-  /**
-   * Returns a loaded flag for unit-level order history list
-   */
-  abstract getUnitLevelOrderHistoryListLoaded(): Observable<boolean>;
+  //
+  // /**
+  //  * Returns a loaded flag for unit-level order history list
+  //  */
+  // abstract getUnitLevelOrderHistoryListLoaded(): Observable<boolean>;
 
   /**
    * Retrieves an order list
    * @param pageSize page size
    * @param currentPage current page
    * @param sort sort
+   * @param unitLevelOrderCode
    */
   abstract loadOrderList(
     pageSize: number,
     currentPage?: number,
-    sort?: string
+    sort?: string,
+    unitLevelOrderCode?: string
   ): void;
 
-  /**
-   * Retrieves a unit-level order list
-   * @param pageSize page size
-   * @param currentPage current page
-   * @param sort sort
-   */
-  abstract loadUnitOrderList(
-    pageSize: number,
-    currentPage?: number,
-    sort?: string
-  ): void;
+  // /**
+  //  * Retrieves a unit-level order list
+  //  * @param pageSize page size
+  //  * @param currentPage current page
+  //  * @param sort sort
+  //  */
+  // abstract loadUnitOrderList(
+  //   pageSize: number,
+  //   currentPage?: number,
+  //   sort?: string
+  // ): void;
 
   /**
    * Cleaning order list

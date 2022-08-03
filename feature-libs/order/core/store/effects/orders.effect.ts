@@ -24,7 +24,19 @@ export class OrdersEffect {
         ofType(OrderActions.LOAD_USER_ORDERS),
         map((action: OrderActions.LoadUserOrders) => action.payload),
         switchMap((payload) => {
+          this.orderConnector.getHistory(
+            payload.userId,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
+          ).subscribe(a => console.log(a));
           return (
+            Boolean(payload.unitLevelOrderCode) ? this.orderConnector.getUnitLevelHistory(
+            payload.userId,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
+          ) : (
             Boolean(payload.replenishmentOrderCode)
               ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
                   payload.userId,
@@ -39,6 +51,7 @@ export class OrdersEffect {
                   payload.currentPage,
                   payload.sort
                 )
+            )
           ).pipe(
             map((orders: OrderHistoryList) => {
               return new OrderActions.LoadUserOrdersSuccess(orders);
@@ -51,32 +64,37 @@ export class OrdersEffect {
       )
   );
 
-  loadUnitLevelOrders$: Observable<OrderActions.UserOrdersAction> =
-    createEffect(() =>
-      this.actions$.pipe(
-        ofType(OrderActions.LOAD_UNIT_LEVEL_ORDERS),
-        map((action: OrderActions.LoadUnitLevelOrders) => action.payload),
-        switchMap((payload) => {
-          return this.orderConnector
-            .getUnitLevelHistory(
-              payload.userId,
-              payload.pageSize,
-              payload.currentPage,
-              payload.sort
-            )
-            .pipe(
-              map((orders: OrderHistoryList) => {
-                return new OrderActions.LoadUserOrdersSuccess(orders);
-              }),
-              catchError((error) =>
-                of(
-                  new OrderActions.LoadUserOrdersFail(normalizeHttpError(error))
-                )
-              )
-            );
-        })
-      )
-    );
+  // loadUnitLevelOrders$: Observable<OrderActions.UnitLevelOrdersAction> =
+  //   createEffect(() =>
+  //     this.actions$.pipe(
+  //       ofType(OrderActions.LOAD_UNIT_LEVEL_ORDERS),
+  //       map((action: OrderActions.LoadUnitLevelOrders) => action.payload),
+  //       switchMap((payload) => {
+  //         this.orderConnector.getUnitLevelHistory(
+  //           payload.userId,
+  //           payload.pageSize,
+  //           payload.currentPage,
+  //           payload.sort
+  //         ).subscribe(a => console.log("in orders.effects.ts", a));
+  //         return this.orderConnector.getUnitLevelHistory(
+  //             payload.userId,
+  //             payload.pageSize,
+  //             payload.currentPage,
+  //             payload.sort
+  //           )
+  //           .pipe(
+  //             map((orders: OrderHistoryList) => {
+  //               return new OrderActions.LoadUnitLevelOrdersSuccess(orders);
+  //             }),
+  //             catchError((error) =>
+  //               of(
+  //                 new OrderActions.LoadUnitLevelOrdersFail(normalizeHttpError(error))
+  //               )
+  //             )
+  //           );
+  //       })
+  //     )
+  //   );
 
   resetUserOrders$: Observable<OrderActions.ClearUserOrders> = createEffect(
     () =>
