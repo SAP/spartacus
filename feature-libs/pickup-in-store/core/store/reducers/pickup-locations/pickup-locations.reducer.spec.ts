@@ -30,15 +30,18 @@ describe('intendedPickupLocationsReducer', () => {
     const action = PickupLocationActions.RemoveLocation({
       payload: 'P0001',
     });
-    const newState = fromReducer.intendedPickupLocationsReducer(
-      intendedPickupLocationsInitialState,
-      action
-    );
-    const expected: IntendedPickupLocationsState = {};
+    const newState: IntendedPickupLocationsState =
+      fromReducer.intendedPickupLocationsReducer(
+        intendedPickupLocationsInitialState,
+        action
+      );
+    const expected: IntendedPickupLocationsState = {
+      P0001: { pickupOption: 'delivery' },
+    };
     expect(newState).toEqual(expected);
   });
 
-  it('should not alter the state when trying to remove non-existent product code', () => {
+  it('should set property to be object with single property of pickupOption with value delivery', () => {
     const initialState: IntendedPickupLocationsState = {
       P0001: { name: 'Store Name', pickupOption: 'pickup' },
     };
@@ -49,7 +52,11 @@ describe('intendedPickupLocationsReducer', () => {
       initialState,
       action
     );
-    expect(newState).toEqual(initialState);
+
+    expect(newState).toEqual({
+      ...initialState,
+      P0002: { pickupOption: 'delivery' },
+    });
   });
 
   it('getReducer return reducer with property intendedPickupLocations', () => {
