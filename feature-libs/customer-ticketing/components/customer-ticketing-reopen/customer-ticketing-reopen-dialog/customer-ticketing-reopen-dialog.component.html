@@ -54,6 +54,14 @@
         <span class="cx-message-footer-text">{{
           'customerTicketing.uploadFile' | cxTranslate
         }}</span>
+        <p class="cx-customer-ticket-input-hint">
+          {{
+            'customerTicketing.fileSizeLimit' | cxTranslate: { count: maxSize }
+          }}
+        </p>
+        <p class="cx-customer-ticket-input-hint" *ngIf="maxEntries == 1">
+          {{ 'customerTicketing.maximumAttachment' | cxTranslate }}
+        </p>
       </cx-file-upload>
 
       <cx-form-errors

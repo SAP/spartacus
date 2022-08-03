@@ -1,6 +1,9 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CustomerTicketingConfig } from '@spartacus/customer-ticketing/core';
+import {
+  CustomerTicketingConfig,
+  MAX_INPUT_CHARACTERS,
+} from '@spartacus/customer-ticketing/core';
 import {
   FilesFormValidators,
   FocusConfig,
@@ -39,7 +42,7 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
   get getInputCharactersLimit(): number {
     return (
       this.customerTicketingConfig.customerTicketing?.inputCharactersLimit ||
-      2000
+      MAX_INPUT_CHARACTERS
     );
   }
 

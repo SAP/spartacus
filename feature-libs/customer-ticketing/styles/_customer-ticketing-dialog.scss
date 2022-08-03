@@ -27,16 +27,18 @@ cx-customer-ticketing-reopen-dialog {
             font-weight: bold;
           }
 
+          .cx-customer-ticket-input-hint {
+            text-align: end;
+          }
+
           .cx-customer-ticket-label-optional {
             font-weight: normal;
           }
-
-          .cx-customer-ticket-input-hint {
-            font-size: 0.75rem;
-            font-style: italic;
-            text-align: end;
-            margin-bottom: 0;
-          }
+        }
+        .cx-customer-ticket-input-hint {
+          font-size: 0.75rem;
+          font-style: italic;
+          margin-bottom: 0;
         }
       }
 
@@ -44,6 +46,7 @@ cx-customer-ticketing-reopen-dialog {
         display: flex;
         align-items: flex-start;
         width: 100%;
+        text-align: start;
         .cx-message-footer-text {
           text-decoration: underline;
           cursor: pointer;

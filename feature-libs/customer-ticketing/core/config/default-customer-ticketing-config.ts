@@ -3,7 +3,7 @@ import { CustomerTicketingConfig } from './customer-ticketing-config';
 export const defaultCustomerTicketingConfig: CustomerTicketingConfig = {
   customerTicketing: {
     attachmentValidity: {
-      maxSize: 1,
+      maxSize: 10,
       maxEntries: 1,
       allowedTypes: [
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

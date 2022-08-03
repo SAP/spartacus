@@ -13,5 +13,7 @@ export const customerTicketing = {
     submit: 'Submit',
     charactersLeft: 'Characters Left: {{count}}',
     uploadFile: 'Upload File',
+    fileSizeLimit: 'File Size Limit: {{count}}MB',
+    maximumAttachment: 'Maximum of one attachment per message',
   },
 };
