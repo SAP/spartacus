@@ -15,6 +15,7 @@ export abstract class CustomerTicketingConfig extends OccConfig {
       maxEntries?: number;
       allowedTypes?: string[];
     };
+    inputCharactersLimit?: number;
   };
 }
 

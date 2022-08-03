@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomerTicketingConfig } from '@spartacus/customer-ticketing/core';
 import {
+  FilesFormValidators,
   FocusConfig,
   FormUtils,
   ICON_TYPE,
@@ -15,7 +16,7 @@ import {
 export class CustomerTicketingReopenDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
   form: FormGroup;
-  messageMaxLength: number = 5000;
+  inputCharactersLimit: number = this.getInputCharactersLimit;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -26,13 +27,34 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
 
   get messagesCharacterLeft(): number {
     return (
-      this.messageMaxLength - (this.form.get('message')?.value?.length || 0)
+      this.inputCharactersLimit - (this.form.get('message')?.value?.length || 0)
     );
   }
 
   get allowedTypes(): string[] | undefined {
     return this.customerTicketingConfig.customerTicketing?.attachmentValidity
       ?.allowedTypes;
+  }
+
+  get getInputCharactersLimit(): number {
+    return (
+      this.customerTicketingConfig.customerTicketing?.inputCharactersLimit ||
+      5000
+    );
+  }
+
+  get maxSize(): number {
+    return (
+      this.customerTicketingConfig.customerTicketing?.attachmentValidity
+        ?.maxSize || 10
+    );
+  }
+
+  get maxEntries(): number {
+    return (
+      this.customerTicketingConfig.customerTicketing?.attachmentValidity
+        ?.maxEntries || 1
+    );
   }
 
   @HostListener('click', ['$event'])
@@ -45,11 +67,12 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
-    protected customerTicketingConfig: CustomerTicketingConfig
+    protected customerTicketingConfig: CustomerTicketingConfig,
+    protected filesFormValidators: FilesFormValidators
   ) {}
 
   ngOnInit(): void {
-    this.build();
+    this.buildForm();
   }
 
   close(reason: string): void {
@@ -63,14 +86,18 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
     }
   }
 
-  protected build() {
+  protected buildForm() {
     const form = new FormGroup({});
     form.setControl(
       'message',
       new FormControl('', [
         Validators.required,
-        Validators.maxLength(this.messageMaxLength),
+        Validators.maxLength(this.inputCharactersLimit),
       ])
+    );
+    form.setControl(
+      'file',
+      new FormControl('', [this.filesFormValidators.maxSize(this.maxSize)])
     );
     this.form = form;
   }

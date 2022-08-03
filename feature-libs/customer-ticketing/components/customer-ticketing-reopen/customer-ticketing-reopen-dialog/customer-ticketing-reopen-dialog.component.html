@@ -27,7 +27,7 @@
             {{ 'customerTicketing.message' | cxTranslate }}
           </span>
           <textarea
-            [maxLength]="messageMaxLength"
+            [maxLength]="inputCharactersLimit"
             class="form-control"
             formControlName="message"
             rows="5"
@@ -44,10 +44,19 @@
         </label>
       </div>
 
-      <cx-file-upload customButton="true" [accept]="allowedTypes">
+      <cx-file-upload
+        [formControl]="form.get('file')"
+        customButton="true"
+        [accept]="allowedTypes"
+      >
         <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
         <span class="cx-message-footer-text">Upload File</span>
       </cx-file-upload>
+
+      <cx-form-errors
+        [control]="form.get('file')"
+        prefix="formErrors.file"
+      ></cx-form-errors>
 
       <div class="cx-customer-ticket-form-footer">
         <button
