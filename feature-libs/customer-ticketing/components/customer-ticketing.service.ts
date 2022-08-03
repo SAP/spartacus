@@ -67,7 +67,7 @@ export class CustomerTicketingService {
     ],
   });
 
-  getTciketSubject(): Observable<string> {
+  getTicketSubject(): Observable<string> {
     return this.ticketDetails$.pipe(map((details) => details.subject));
   }
 
