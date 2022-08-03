@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 
 import { CustomerTicketingCloseComponent } from './customer-ticketing-close.component';
 
@@ -8,9 +9,9 @@ describe('CustomerTicketingCloseComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CustomerTicketingCloseComponent ]
-    })
-    .compileComponents();
+      imports: [I18nTestingModule],
+      declarations: [CustomerTicketingCloseComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
