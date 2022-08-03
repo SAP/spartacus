@@ -5,6 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
 import {
+  AugmentedPointOfService,
   PointOfServiceNames,
   PreferredStoreService,
 } from '@spartacus/pickup-in-store/core';
@@ -24,9 +25,11 @@ describe('StoreListComponent', () => {
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
   let preferredStoreService: PreferredStoreService;
   let intendedPickupLocationService: IntendedPickupLocationFacade;
-  const preferredStore: PointOfServiceNames = {
+
+  const preferredStore: AugmentedPointOfService = {
     name: 'London School',
     displayName: 'London School',
+    pickupOption: 'pickup',
   };
 
   beforeEach(() => {
@@ -88,8 +91,14 @@ describe('StoreListComponent', () => {
     spyOn(component.storeSelected, 'emit');
 
     component.onSelectStore(preferredStore);
+
+    const expectedPreferredStore: PointOfServiceNames = {
+      name: 'London School',
+      displayName: 'London School',
+    };
+
     expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith(
-      preferredStore
+      expectedPreferredStore
     );
     expect(
       intendedPickupLocationService.setIntendedLocation

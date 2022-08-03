@@ -12,6 +12,7 @@ describe('PickupLocationSelectors', () => {
           intendedPickupLocations: {
             P0001: {
               name: 'Test',
+              pickupOption: 'pickup',
             },
           },
         },
@@ -28,6 +29,7 @@ describe('PickupLocationSelectors', () => {
           intendedPickupLocations: {
             P0001: {
               name: 'Test',
+              pickupOption: 'pickup',
             },
           },
         },

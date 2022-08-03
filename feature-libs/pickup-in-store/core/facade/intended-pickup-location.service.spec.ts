@@ -1,9 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { PointOfService, ProcessModule } from '@spartacus/core';
+import { ProcessModule } from '@spartacus/core';
 import { IntendedPickupLocationFacade } from 'feature-libs/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
-import { PickupLocationActions } from '../store';
+import {
+  AugmentedPointOfService,
+  PickupLocationActions,
+  PickupOption,
+} from '../store';
 import { IntendedPickupLocationService } from './intended-pickup-location.service';
 
 describe('IntendedPickupLocationService', () => {
@@ -34,6 +38,7 @@ describe('IntendedPickupLocationService', () => {
   it('setIntendedLocation', () => {
     service.setIntendedLocation('P0001', {
       name: 'Test',
+      pickupOption: 'delivery',
     });
     expect(store.dispatch).toHaveBeenCalledWith(
       PickupLocationActions.AddLocation({
@@ -41,6 +46,7 @@ describe('IntendedPickupLocationService', () => {
           productCode: 'P0001',
           location: {
             name: 'Test',
+            pickupOption: 'delivery',
           },
         },
       })
@@ -62,9 +68,16 @@ export class MockIntendedPickupLocationService
 {
   getIntendedLocation(
     _productCode: string
-  ): Observable<PointOfService | undefined> {
+  ): Observable<AugmentedPointOfService | undefined> {
     return of(undefined);
   }
-  setIntendedLocation(_productCode: string, _location: PointOfService): void {}
+  setIntendedLocation(
+    _productCode: string,
+    _location: AugmentedPointOfService
+  ): void {}
   removeIntendedLocation(_productCode: string): void {}
+
+  getPickupOption(_productCode: string): Observable<PickupOption> {
+    return of('delivery');
+  }
 }
