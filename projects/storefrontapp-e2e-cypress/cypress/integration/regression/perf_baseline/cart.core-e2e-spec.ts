@@ -6,6 +6,11 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { login } from '../../../support/utils/login';
 
 describe('Cart', () => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+  });
   viewportContext(['desktop'], () => {
     context('Anonymous user', () => {
       it('should add and remove products', () => {
