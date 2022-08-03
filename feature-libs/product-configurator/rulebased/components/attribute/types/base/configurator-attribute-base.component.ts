@@ -135,6 +135,21 @@ export class ConfiguratorAttributeBaseComponent {
   }
 
   /**
+   * Retrieves label with or without technical name depending whether the expert mode is set or not.
+   *
+   * @param expMode - Is expert mode set?
+   * @param label - value label
+   * @param techName - value technical name
+   */
+  getLabel(expMode: boolean, label: string, techName: string): string {
+    let title = label ? label : '';
+    if (expMode && techName) {
+      title += ' / [' + techName + ']';
+    }
+    return title;
+  }
+
+  /**
    * Get code from attribute.
    * The code is not a mandatory attribute (since not available for VC flavour),
    * still it is mandatory in the context of CPQ. Calling this method therefore only

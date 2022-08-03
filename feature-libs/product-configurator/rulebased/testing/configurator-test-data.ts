@@ -598,12 +598,14 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
       id: GROUP_ID_CONFLICT_HEADER,
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       attributes: [],
+      description: GROUP_ID_CONFLICT_HEADER,
       subGroups: [
         {
           id: GROUP_ID_CONFLICT_3,
           groupType: Configurator.GroupType.CONFLICT_GROUP,
           subGroups: [],
           attributes: undefined,
+          description: GROUP_ID_CONFLICT_3,
         },
         {
           id: GROUP_ID_CONFLICT_1,

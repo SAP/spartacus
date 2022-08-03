@@ -11,7 +11,7 @@
   ><span
     [class.cx-required-icon]="attribute.required"
     [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-    >{{ attribute.label }}</span
+    >{{ getLabel(expMode, attribute.label, attribute.name) }}</span
   ></label
 >
 <div

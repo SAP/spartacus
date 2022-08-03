@@ -4,11 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
-import {
-  CommonConfiguratorUtilsService,
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService
-} from '@spartacus/product-configurator/common';
+import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -17,6 +13,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorGroupTitleComponent } from './configurator-group-title.component';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
@@ -56,22 +53,12 @@ export class MockIconFontLoaderService {
   getFlipDirection(): void {}
 }
 
-const mockRouterData: ConfiguratorRouter.Data = {
-  owner:  config.owner,
-  expMode: false
-};
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(mockRouterData);
-  }
-}
-
 describe('ConfigurationGroupTitleComponent', () => {
   let component: ConfiguratorGroupTitleComponent;
   let fixture: ComponentFixture<ConfiguratorGroupTitleComponent>;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
+  let configExpertModeService: ConfiguratorExpertModeService;
 
   beforeEach(
     waitForAsync(() => {
@@ -98,10 +85,6 @@ describe('ConfigurationGroupTitleComponent', () => {
             useClass: MockConfiguratorGroupService,
           },
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
         ],
       });
     })
@@ -118,6 +101,10 @@ describe('ConfigurationGroupTitleComponent', () => {
     );
     configuratorUtils.setOwnerKey(config.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
+
+    configExpertModeService = TestBed.inject(
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+    );
   });
 
   it('should create component', () => {
@@ -132,13 +119,29 @@ describe('ConfigurationGroupTitleComponent', () => {
 
   describe('getGroupTitle', () => {
     it('should return group title', () => {
-      expect(component['getGroupTitle'](config.groups[0])).toEqual(config.groups[0].description);
+      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(false));
+      expect(component['getGroupTitle'](config.groups[0])).toEqual(
+        config.groups[0].description
+      );
     });
 
     it('should return group title for expert mode', () => {
-      mockRouterData.expMode = true;
-      const groupMenuTitel = config.groups[0].description + ' / [' + config.groups[0].name + ']';
-      expect(component['getGroupTitle'](config.groups[0])).toEqual(groupMenuTitel);
+      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
+      const groupMenuTitel =
+        config.groups[0].description + ' / [' + config.groups[0].name + ']';
+      expect(component['getGroupTitle'](config.groups[0])).toEqual(
+        groupMenuTitel
+      );
+    });
+
+    it('should return conflict group title for expert mode', () => {
+      const configForExpMode =
+        ConfigurationTestData.productConfigurationWithConflicts;
+      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
+      fixture.detectChanges();
+      expect(
+        component['getGroupTitle'](configForExpMode.groups[0].subGroups[0])
+      ).toEqual(configForExpMode.groups[0].subGroups[0].description);
     });
   });
 });

@@ -31,6 +31,7 @@ export class ConfiguratorAttributeHeaderComponent
   @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;
   @Input() groupType: Configurator.GroupType;
+  @Input() expMode: boolean;
 
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;

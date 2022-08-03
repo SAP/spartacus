@@ -9,4 +9,5 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 export class ConfiguratorAttributeReadOnlyComponent extends ConfiguratorAttributeBaseComponent {
   @Input() attribute: Configurator.Attribute;
   @Input() group: String;
+  @Input() expMode: boolean;
 }

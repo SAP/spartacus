@@ -23,6 +23,7 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 @Component({
   selector: 'cx-configurator-group-menu',
@@ -109,7 +110,8 @@ export class ConfiguratorGroupMenuComponent {
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configGroupMenuService: ConfiguratorGroupMenuService,
     protected directionService: DirectionService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
   click(group: Configurator.Group): void {
@@ -587,11 +589,16 @@ export class ConfiguratorGroupMenuComponent {
 
   protected getGroupMenuTitle(group: Configurator.Group): string | undefined {
     let title = group.description;
-    this.routerData$.pipe(take(1)).subscribe((routingData) => {
-      if (routingData.expMode) {
-        title += ' / [' + group.name + ']';
-      }
-    });
+    if (!this.isConflictHeader(group) && !this.isConflictGroup(group)) {
+      this.configExpertModeService
+        .getExpMode()
+        .pipe(take(1))
+        .subscribe((expMode) => {
+          if (expMode) {
+            title += ' / [' + group.name + ']';
+          }
+        });
+    }
     return title;
   }
 }

@@ -7,8 +7,8 @@ import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils, ConfiguratorRouter, ConfiguratorRouterExtractorService,
-  ConfiguratorType
+  ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
   DirectionMode,
@@ -38,6 +38,8 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
@@ -187,17 +189,6 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-const mockRouterData: ConfiguratorRouter.Data = {
-  owner:  mockProductConfiguration.owner,
-  expMode: false
-};
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(mockRouterData);
-  }
-}
-
 let component: ConfiguratorGroupMenuComponent;
 let fixture: ComponentFixture<ConfiguratorGroupMenuComponent>;
 let configuratorGroupsService: ConfiguratorGroupsService;
@@ -212,6 +203,7 @@ let isConflictGroupType: boolean;
 let directionService: DirectionService;
 let direction: DirectionMode;
 let configUtils: ConfiguratorStorefrontUtilsService;
+let configExpertModeService: ConfiguratorExpertModeService;
 
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
@@ -255,10 +247,6 @@ describe('ConfigurationGroupMenuComponent', () => {
             provide: DirectionService,
             useClass: MockDirectionService,
           },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
         ],
       });
     })
@@ -300,6 +288,10 @@ describe('ConfigurationGroupMenuComponent', () => {
       DirectionService as Type<DirectionService>
     );
     spyOn(directionService, 'getDirection').and.callThrough();
+
+    configExpertModeService = TestBed.inject(
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+    );
   });
 
   it('should create component', () => {
@@ -1533,23 +1525,48 @@ describe('ConfigurationGroupMenuComponent', () => {
 
   describe('getGroupMenuTitle', () => {
     it('should return group title', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
+      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(false));
       initialize();
 
-      expect(component['getGroupMenuTitle'](mockProductConfiguration.groups[0])).toEqual(mockProductConfiguration.groups[0].description);
+      expect(
+        component['getGroupMenuTitle'](mockProductConfiguration.groups[0])
+      ).toEqual(mockProductConfiguration.groups[0].description);
     });
 
     it('should return group title for expert mode', () => {
-      mockRouterData.expMode = true;
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      mockGroupVisited = true;
+      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
       initialize();
 
-      const groupMenuTitel = mockProductConfiguration.groups[0].description + ' / [' + mockProductConfiguration.groups[0].name + ']';
-      expect(component['getGroupMenuTitle'](mockProductConfiguration.groups[0])).toEqual(groupMenuTitel);
+      const groupMenuTitel =
+        mockProductConfiguration.groups[0].description +
+        ' / [' +
+        mockProductConfiguration.groups[0].name +
+        ']';
+      expect(
+        component['getGroupMenuTitle'](mockProductConfiguration.groups[0])
+      ).toEqual(groupMenuTitel);
+    });
+
+    it('should return conflict header group title for expert mode', () => {
+      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
+      const configForExpMode =
+        ConfigurationTestData.productConfigurationWithConflicts;
+      initialize();
+
+      expect(
+        component['getGroupMenuTitle'](configForExpMode.groups[0])
+      ).toEqual(configForExpMode.groups[0].description);
+    });
+
+    it('should return conflict group title for expert mode', () => {
+      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
+      const configForExpMode =
+        ConfigurationTestData.productConfigurationWithConflicts;
+      initialize();
+
+      expect(
+        component['getGroupMenuTitle'](configForExpMode.groups[0].subGroups[0])
+      ).toEqual(configForExpMode.groups[0].subGroups[0].description);
     });
   });
 });

@@ -105,4 +105,8 @@ export class ConfiguratorFormComponent implements OnInit {
   createGroupId(groupId?: string): string | undefined {
     return this.configUtils.createGroupId(groupId);
   }
+
+  get expMode(): Observable<boolean> {
+    return this.configExpertModeService.getExpMode();
+  }
 }

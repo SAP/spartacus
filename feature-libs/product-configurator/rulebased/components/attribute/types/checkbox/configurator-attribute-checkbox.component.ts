@@ -24,6 +24,7 @@ export class ConfiguratorAttributeCheckBoxComponent
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
+  @Input() expMode: boolean;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   attributeCheckBoxForm = new FormControl('');
