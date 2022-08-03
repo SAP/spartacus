@@ -39,22 +39,18 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
   get getInputCharactersLimit(): number {
     return (
       this.customerTicketingConfig.customerTicketing?.inputCharactersLimit ||
-      5000
+      2000
     );
   }
 
-  get maxSize(): number {
-    return (
-      this.customerTicketingConfig.customerTicketing?.attachmentValidity
-        ?.maxSize || 10
-    );
+  get maxSize(): number | undefined {
+    return this.customerTicketingConfig.customerTicketing?.attachmentValidity
+      ?.maxSize;
   }
 
-  get maxEntries(): number {
-    return (
-      this.customerTicketingConfig.customerTicketing?.attachmentValidity
-        ?.maxEntries || 1
-    );
+  get maxEntries(): number | undefined {
+    return this.customerTicketingConfig.customerTicketing?.attachmentValidity
+      ?.maxEntries;
   }
 
   @HostListener('click', ['$event'])
@@ -97,7 +93,10 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
     );
     form.setControl(
       'file',
-      new FormControl('', [this.filesFormValidators.maxSize(this.maxSize)])
+      new FormControl('', [
+        this.filesFormValidators.maxSize(this.maxSize),
+        this.filesFormValidators.maxEntries(this.maxEntries),
+      ])
     );
     this.form = form;
   }

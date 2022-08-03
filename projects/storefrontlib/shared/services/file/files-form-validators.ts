@@ -30,4 +30,24 @@ export class FilesFormValidators {
       return Object.keys(errors).length === 0 ? null : errors;
     };
   }
+
+  /**
+   * Checks maximum entries
+   *
+   * @param {number} maxEntries Max number of entries
+   * @returns Uses 'tooManyEntries' validator error with maxEntries property
+   * @memberOf FilesFormValidators
+   */
+  maxEntries(maxEntries?: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const errors: ValidationErrors = {};
+      if (maxEntries) {
+        const files: File[] = Array.from(control.value);
+        if (files.length > maxEntries) {
+          errors.tooManyEntries = { maxEntries };
+        }
+      }
+      return Object.keys(errors).length === 0 ? null : errors;
+    };
+  }
 }

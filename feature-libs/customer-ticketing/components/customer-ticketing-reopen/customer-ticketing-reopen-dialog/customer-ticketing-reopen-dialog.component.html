@@ -48,6 +48,7 @@
         [formControl]="form.get('file')"
         customButton="true"
         [accept]="allowedTypes"
+        [multiple]="maxEntries > 1"
       >
         <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
         <span class="cx-message-footer-text">{{

@@ -1,7 +1,8 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { provideDefaultConfig } from '@spartacus/core';
+import { defaultCustomerTicketingConfig } from './config';
 
 @NgModule({
-  imports: [CommonModule],
+  providers: [provideDefaultConfig(defaultCustomerTicketingConfig)],
 })
 export class CustomerTicketingCoreModule {}
