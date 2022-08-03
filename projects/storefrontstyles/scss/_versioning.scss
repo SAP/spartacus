@@ -22,11 +22,11 @@
 // Indicates the current major/minor version, which is used to avoid breaking changes.
 // Any CSS added later than this version is omitted by default, unless the `$useLatestStyles`
 // or `$styleVersion` are enabled.
-$_fullVersion: 4.2;
+$_fullVersion: 5.1;
 
 // The _global_ major version. Any (left over) styles from previous stable versions
 // are processed to the final CSS.
-$_majorVersion: 4;
+$_majorVersion: 5;
 
 // The `$styleVersion` can be used by customers to explicitly opt-in to breaking style
 // changes till the given style version. It must contain a floating number, such as `2.1`.
@@ -35,7 +35,7 @@ $styleVersion: $_majorVersion !default;
 // For Spartacus development or demo's, the usage of latest styles is recommended.
 // To avoid frequent changes of the $minorVersion in the application, we offer a
 // flag that can be used to keep up with the latest version at any time.
-$useLatestStyles: false !default;
+$useLatestStyles: true !default;
 
 // The `forVersion` mixin is used during development of the style layer. Breaking style
 // changes can be added for a specific version, and customers can only use those styles if

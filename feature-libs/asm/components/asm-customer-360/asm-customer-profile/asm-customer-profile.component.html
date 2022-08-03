@@ -1,0 +1,88 @@
+<div class="container cx-asm-customer-profile">
+  <ng-container *ngIf="customerProfileData$ | async as customerProfileData">
+    <div>
+      <div class="row">
+        <div class="col">
+          <div class="cx-asm-profile-header">
+            {{ 'asm.profileAddresses.billingAddress' | cxTranslate }}
+          </div>
+          <div class="cx-asm-profile-container">
+            <ng-container
+              *ngTemplateOutlet="
+                address;
+                context: { address: customerProfileData?.billingAddress }
+              "
+            ></ng-container>
+          </div>
+        </div>
+        <div class="col">
+          <div class="cx-asm-profile-header">
+            {{ 'asm.profileAddresses.deliveryAddress' | cxTranslate }}
+          </div>
+          <div class="cx-asm-profile-container">
+            <ng-container
+              *ngTemplateOutlet="
+                address;
+                context: { address: customerProfileData?.deliveryAddress }
+              "
+            ></ng-container>
+          </div>
+        </div>
+        <div class="w-100 d-lg-none"></div>
+        <div class="col">
+          <div class="cx-asm-profile-header">
+            {{ 'asm.profileAddresses.phone1' | cxTranslate }}
+          </div>
+          <div class="cx-asm-profile-container">
+            {{ customerProfileData?.phone1 }}
+          </div>
+        </div>
+        <div class="col">
+          <div class="cx-asm-profile-header">
+            {{ 'asm.profileAddresses.phone2' | cxTranslate }}
+          </div>
+          <div class="cx-asm-profile-container">
+            {{ customerProfileData?.phone2 }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cx-asm-profile-header">
+      {{ 'asm.profileAddresses.paymentMethodHeader' | cxTranslate }}
+    </div>
+    <div class="cx-asm-profile-cards">
+      <div
+        class="cx-asm-profile-card"
+        *ngFor="
+          let paymentInfoList of customerProfileData.paymentInfoList;
+          let i = index
+        "
+      >
+        <cx-card
+          [index]="i"
+          [border]="true"
+          [fitToContainer]="true"
+          [content]="getCardContent(paymentInfoList) | async"
+        ></cx-card>
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #address let-address="address">
+    <div class="cx-asm-profile-address-cell">
+      <div>
+        {{ address?.line1 }}
+      </div>
+      <div>
+        {{ address?.line2 }}
+      </div>
+      <div>
+        {{ address?.town }}
+        {{ address?.region?.isocode }}
+        {{ address?.country?.isocode }}
+      </div>
+      <div>
+        {{ address?.postalCode }}
+      </div>
+    </div>
+  </ng-template>
+</div>

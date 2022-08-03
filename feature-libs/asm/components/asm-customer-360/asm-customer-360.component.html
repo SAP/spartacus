@@ -36,7 +36,9 @@
         </div>
       </div>
       <div class="cx-tab-content">
-         {{ getActiveTabContent() }}
+        <cx-asm-customer-overview *ngIf="activeTab === 0" [customer]="customer"></cx-asm-customer-overview>
+        <cx-asm-customer-profile *ngIf="activeTab === 1" [customer]="customer"></cx-asm-customer-profile>
+
       </div>
     </div>
   </ng-container>

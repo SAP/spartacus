@@ -1,21 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeaturesConfigModule,
   I18nModule,
   provideConfig,
+  UrlModule,
 } from '@spartacus/core';
 import {
+  CardModule,
   FormErrorsModule,
   IconModule,
+  MediaModule,
   ModalModule,
   PasswordVisibilityToggleModule,
   PopoverModule,
 } from '@spartacus/storefront';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import { AsmCustomer360Component } from './asm-customer-360/asm-customer-360.component';
+import { AsmCustomerOverviewComponent } from './asm-customer-360/asm-customer-overview/asm-customer-overview.component';
+import { AsmProductItemComponent } from './asm-customer-360/asm-customer-overview/asm-product-item/asm-product-item.component';
+import { AsmCustomerProfileComponent } from './asm-customer-360/asm-customer-profile/asm-customer-profile.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -39,6 +46,10 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     NgSelectModule,
     FormsModule,
     FeaturesConfigModule,
+    CardModule,
+    MediaModule,
+    RouterModule,
+    UrlModule,
   ],
   declarations: [
     AsmMainUiComponent,
@@ -51,6 +62,9 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     AsmBindCartComponent,
     AsmCustomer360Component,
     DotSpinnerComponent,
+    AsmCustomerProfileComponent,
+    AsmCustomerOverviewComponent,
+    AsmProductItemComponent
   ],
   exports: [
     AsmMainUiComponent,

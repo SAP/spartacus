@@ -32,6 +32,28 @@ export const asm = {
       success: 'Cart has been successfully assigned',
       error: 'Cart failed to be assigned',
     },
+    profileAddresses: {
+      billingAddress: 'Billing Address',
+      deliveryAddress: 'Delivery Address',
+      phone1: 'Phone1',
+      phone2: 'Phone2',
+      paymentMethodHeader: 'Saved Payment Methods'
+    },
+    customerOverview: {
+      activeCart: 'Active Cart',
+      activeCartCode: 'Active Cart {{code}}',
+      totalNoItems: 'Total No. Items {{count}}',
+      totalPrice: 'Total Price {{price}}',
+      noActiveCart: 'There are currently no Active Cart Items',
+      savedCartCode: 'Last Saved Cart {{code}}',
+      savedCart: 'Last Saved Cart',
+      noSavedCart: 'There are currently no Saved Cart items',
+      interests: 'Interests',
+      noInterests: 'There are currently no Interest items',
+      inStock: 'In Stock',
+      lowStock: 'Low Stock',
+      outOfStock: 'Out of Stock',
+    },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
     agentSessionTimer: {

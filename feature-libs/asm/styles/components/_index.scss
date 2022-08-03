@@ -1,3 +1,4 @@
+@import '~@spartacus/styles/scss/core';
 @import './_asm-main-ui.component.scss';
 @import './_asm-session-timer.component.scss';
 @import './_asm-toggle-ui.component.scss';
@@ -7,11 +8,13 @@
 @import './_asm-bind-cart.component.scss';
 @import './_dot-spinner.component.scss';
 @import './_asm-customer-360.component.scss';
-
+@import './_asm-customer-profile.scss';
+@import './_asm-customer-overview.scss';
 
 $asm-components-allowlist: cx-asm-main-ui, cx-asm-session-timer,
   cx-asm-bind-cart, cx-asm-toggle-ui, cx-csagent-login-form,
-  cx-customer-emulation, cx-customer-selection, cx-dot-spinner, cx-asm-customer-360 !default;
+  cx-customer-emulation, cx-customer-selection, cx-dot-spinner,
+  cx-asm-customer-360, cx-asm-customer-profile, cx-asm-customer-overview !default;
 
 $skipComponentStyles: () !default;
 
