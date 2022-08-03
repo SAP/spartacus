@@ -1,6 +1,11 @@
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import * as asm from '../../../../helpers/asm';
 import { ELECTRONICS_BASESITE } from '../../../../helpers/checkout-flow';
 import { POWERTOOLS_BASESITE } from '../../../../sample-data/b2b-checkout';
+import { user } from '../../../../sample-data/checkout-flow';
+import { register } from '../../../../helpers/auth-forms';
+import { addB2bProductToCartAndCheckout } from '../../../../helpers/b2b/b2b-checkout';
+import { interceptGet } from '../../../../support/utils/intercept';
 
 /**
  * TODO
@@ -26,6 +31,26 @@ context('B2B - Assisted Service Module', () => {
           currency: ['USD'],
         },
       });
+
+      cy.visit('/', { qs: { asm: true } });
+
+      cy.visit('/login/register');
+
+      register(user, true);
+
+      asm.agentLogin();
+
+      asm.startCustomerEmulation(user, true);
+
+      addB2bProductToCartAndCheckout();
+
+      cy.get('input[type=radio]#paymentType-ACCOUNT').click();
+
+      interceptGet('getCostCenters', '/costcenters*');
+
+      cy.findByText(/Continue/i).click();
+
+      cy.wait('@getCostCenters');
     });
   });
 });
