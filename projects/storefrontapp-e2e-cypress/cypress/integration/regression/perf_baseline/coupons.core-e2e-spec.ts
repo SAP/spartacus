@@ -2,7 +2,7 @@ import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Cart Coupon', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop'], () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();

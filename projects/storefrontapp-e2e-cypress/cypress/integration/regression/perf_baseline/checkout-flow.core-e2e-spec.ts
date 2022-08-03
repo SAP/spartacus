@@ -9,7 +9,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser, product } from '../../../sample-data/checkout-flow';
 
 context('Checkout flow', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop'], () => {
     beforeEach(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();

@@ -6,7 +6,7 @@ import { signOut } from '../../../helpers/register';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Cart Coupon', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop'], () => {
     describe('Logged user', () => {
       beforeEach(() => {
         cy.window().then((win) => win.sessionStorage.clear());
