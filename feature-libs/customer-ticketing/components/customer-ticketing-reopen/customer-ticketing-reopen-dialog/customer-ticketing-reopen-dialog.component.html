@@ -50,7 +50,9 @@
         [accept]="allowedTypes"
       >
         <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
-        <span class="cx-message-footer-text">Upload File</span>
+        <span class="cx-message-footer-text">{{
+          'customerTicketing.uploadFile' | cxTranslate
+        }}</span>
       </cx-file-upload>
 
       <cx-form-errors

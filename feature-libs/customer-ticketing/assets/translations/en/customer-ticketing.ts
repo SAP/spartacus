@@ -12,5 +12,6 @@ export const customerTicketing = {
     cancel: 'Cancel',
     submit: 'Submit',
     charactersLeft: 'Characters Left: {{count}}',
+    uploadFile: 'Upload File',
   },
 };
