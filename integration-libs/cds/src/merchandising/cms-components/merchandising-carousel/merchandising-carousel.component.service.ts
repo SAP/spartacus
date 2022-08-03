@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
 import { ProductService } from '@spartacus/core';
-import { combineLatest, EMPTY, Observable, of } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
-import { CmsMerchandisingCarouselComponent } from '../../../cds-models/cms.model';
-import { CdsConfig } from '../../../config/index';
-import { ProfileTagEventService } from '../../../profiletag/index';
-import { CdsMerchandisingProductService } from '../../facade/cds-merchandising-product.service';
+import { EMPTY, Observable } from 'rxjs';
+import { filter, map, tap} from 'rxjs/operators';
+import { CmsMerchandisingCarouselComponent } from '../../../cds-models';
+import { CdsConfig } from '../../../config';
+import { ProfileTagEventService } from '../../../profiletag';
+import { CdsMerchandisingProductService } from '../../facade';
 import {
   MerchandisingMetadata,
   MerchandisingProduct,
   StrategyProduct,
   StrategyProducts,
-} from '../../model/index';
+} from '../../model';
 import {
   CarouselEvent,
   MerchandisingCarouselClickedEvent,
   MerchandisingCarouselModel,
   MerchandisingCarouselViewedEvent,
-} from './model/index';
+} from './model';
+import {StrategyRequest} from "../../../cds-models";
 
 const DEFAULT_CAROUSEL_VIEWPORT_THRESHOLD = 80;
 
@@ -48,26 +49,16 @@ export class MerchandisingCarouselComponentService {
   getMerchandisingCarouselModel(
     cmsComponent: CmsMerchandisingCarouselComponent
   ): Observable<MerchandisingCarouselModel> {
-    return combineLatest([
-      of(cmsComponent),
-      this.cdsMerchandisingProductService.loadProductsForStrategy(
-        cmsComponent.strategy,
-        cmsComponent.numberToDisplay
-      ),
-    ]).pipe(
-      map(([componentData, strategyProducts]) => {
+
+    return this.cdsMerchandisingProductService.loadProductsForStrategy(cmsComponent.strategy, cmsComponent.numberToDisplay).pipe(
+      map( (strategy) => {
         const metadata = this.getCarouselMetadata(
-          strategyProducts,
-          componentData
+          strategy.products,
+          cmsComponent
         );
-        const items$ =
-          this.mapStrategyProductsToCarouselItems(strategyProducts);
-        const productIds =
-          this.mapStrategyProductsToProductIds(strategyProducts);
-        const id = this.getMerchandisingCarouselModelId(
-          componentData,
-          productIds
-        );
+        const items$ = this.mapStrategyProductsToCarouselItems(strategy.products);
+        const productIds = this.mapStrategyProductsToProductIds(strategy.products);
+        const id = this.getMerchandisingCarouselModelId(cmsComponent, strategy.request);
 
         return {
           id,
@@ -89,8 +80,7 @@ export class MerchandisingCarouselComponentService {
     return merchandisingCarouselModel$.pipe(
       filter((model) => model.id !== lastSendModelId),
       tap((merchandisingCarouselModel) => {
-        const carouselEvent: CarouselEvent =
-          this.getCarouselEventFromCarouselModel(merchandisingCarouselModel);
+        const carouselEvent: CarouselEvent = this.getCarouselEventFromCarouselModel(merchandisingCarouselModel);
         this.profileTagEventService.notifyProfileTagOfEventOccurence(
           new MerchandisingCarouselViewedEvent(
             carouselEvent,
@@ -169,10 +159,9 @@ export class MerchandisingCarouselComponentService {
 
   private getMerchandisingCarouselModelId(
     cmsComponent: CmsMerchandisingCarouselComponent,
-    productsIds: string[]
+    request: StrategyRequest,
   ): string {
-    const products = productsIds.reduce((acc, pId) => acc + '_' + pId, '');
-    return cmsComponent.uid + '_' + cmsComponent.strategy + products;
+    return cmsComponent.uid + '_' + cmsComponent.strategy +'_'+ JSON.stringify(request.queryParams)
   }
 
   private getCarouselItemMetadata(

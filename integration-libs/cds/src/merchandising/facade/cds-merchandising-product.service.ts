@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { debounceTime, map, mergeMap } from 'rxjs/operators';
-import { MerchandisingUserContext, StrategyProducts, MerchandisingSiteContext } from '../model';
+import { MerchandisingUserContext, MerchandisingSiteContext, StrategyResponse } from '../model';
 import { MerchandisingStrategyConnector } from '../connectors';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
@@ -19,7 +19,7 @@ export class CdsMerchandisingProductService {
   loadProductsForStrategy(
     strategyId: string,
     numberToDisplay?: number
-  ): Observable<StrategyProducts> {
+  ): Observable<StrategyResponse> {
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
       this.merchandisingUserContextService.getUserContext(),
@@ -47,7 +47,11 @@ export class CdsMerchandisingProductService {
           };
         }
       ),
-      mergeMap((context) => this.strategyConnector.loadProductsForStrategy(strategyId, context))
+      mergeMap(
+        (request) => this.strategyConnector
+          .loadProductsForStrategy(strategyId, request)
+          .pipe(map((products) => ({request, products})))
+      )
     );
   }
 }
