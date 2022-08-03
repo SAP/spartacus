@@ -120,7 +120,7 @@ describe('ConfigurationGroupTitleComponent', () => {
   describe('getGroupTitle', () => {
     it('should return group title', () => {
       spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(false));
-      expect(component['getGroupTitle'](config.groups[0])).toEqual(
+      expect(component.getGroupTitle(config.groups[0])).toEqual(
         config.groups[0].description
       );
     });
@@ -129,9 +129,7 @@ describe('ConfigurationGroupTitleComponent', () => {
       spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
       const groupMenuTitel =
         config.groups[0].description + ' / [' + config.groups[0].name + ']';
-      expect(component['getGroupTitle'](config.groups[0])).toEqual(
-        groupMenuTitel
-      );
+      expect(component.getGroupTitle(config.groups[0])).toEqual(groupMenuTitel);
     });
 
     it('should return conflict group title for expert mode', () => {
@@ -140,7 +138,7 @@ describe('ConfigurationGroupTitleComponent', () => {
       spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
       fixture.detectChanges();
       expect(
-        component['getGroupTitle'](configForExpMode.groups[0].subGroups[0])
+        component.getGroupTitle(configForExpMode.groups[0].subGroups[0])
       ).toEqual(configForExpMode.groups[0].subGroups[0].description);
     });
   });

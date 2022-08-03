@@ -1529,7 +1529,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       initialize();
 
       expect(
-        component['getGroupMenuTitle'](mockProductConfiguration.groups[0])
+        component.getGroupMenuTitl(mockProductConfiguration.groups[0])
       ).toEqual(mockProductConfiguration.groups[0].description);
     });
 
@@ -1543,7 +1543,7 @@ describe('ConfigurationGroupMenuComponent', () => {
         mockProductConfiguration.groups[0].name +
         ']';
       expect(
-        component['getGroupMenuTitle'](mockProductConfiguration.groups[0])
+        component.getGroupMenuTitle(mockProductConfiguration.groups[0])
       ).toEqual(groupMenuTitel);
     });
 
@@ -1553,9 +1553,9 @@ describe('ConfigurationGroupMenuComponent', () => {
         ConfigurationTestData.productConfigurationWithConflicts;
       initialize();
 
-      expect(
-        component['getGroupMenuTitle'](configForExpMode.groups[0])
-      ).toEqual(configForExpMode.groups[0].description);
+      expect(component.getGroupMenuTitle(configForExpMode.groups[0])).toEqual(
+        configForExpMode.groups[0].description
+      );
     });
 
     it('should return conflict group title for expert mode', () => {
@@ -1565,7 +1565,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       initialize();
 
       expect(
-        component['getGroupMenuTitle'](configForExpMode.groups[0].subGroups[0])
+        component.getGroupMenuTitle(configForExpMode.groups[0].subGroups[0])
       ).toEqual(configForExpMode.groups[0].subGroups[0].description);
     });
   });

@@ -36,7 +36,7 @@ export class ConfiguratorGroupTitleComponent {
     protected configExpertModeService: ConfiguratorExpertModeService
   ) {}
 
-  protected getGroupTitle(group: Configurator.Group): string | undefined {
+  getGroupTitle(group: Configurator.Group): string | undefined {
     let title = group.description;
     if (group.groupType !== Configurator.GroupType.CONFLICT_GROUP) {
       this.configExpertModeService

@@ -587,7 +587,7 @@ export class ConfiguratorGroupMenuComponent {
     );
   }
 
-  protected getGroupMenuTitle(group: Configurator.Group): string | undefined {
+  getGroupMenuTitle(group: Configurator.Group): string | undefined {
     let title = group.description;
     if (!this.isConflictHeader(group) && !this.isConflictGroup(group)) {
       this.configExpertModeService
