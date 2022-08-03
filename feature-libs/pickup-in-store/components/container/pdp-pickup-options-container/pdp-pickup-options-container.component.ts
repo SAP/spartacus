@@ -164,8 +164,4 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       });
     }
   }
-
-  onPickupLocationChange() {
-    this.openDialog();
-  }
 }

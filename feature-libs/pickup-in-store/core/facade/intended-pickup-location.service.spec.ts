@@ -3,15 +3,11 @@ import { Store, StoreModule } from '@ngrx/store';
 import { ProcessModule } from '@spartacus/core';
 import { IntendedPickupLocationFacade } from 'feature-libs/pickup-in-store/root';
 import { Observable, of } from 'rxjs';
-<<<<<<< HEAD
-import { AugmentedPointOfService, PickupLocationActions, PickupOption } from '../store';
-=======
 import {
   AugmentedPointOfService,
   PickupLocationActions,
   PickupOption,
 } from '../store';
->>>>>>> 342e649095776f0486fc113a6dc05409dc7e1547
 import { IntendedPickupLocationService } from './intended-pickup-location.service';
 
 describe('IntendedPickupLocationService', () => {
@@ -80,13 +76,8 @@ export class MockIntendedPickupLocationService
     _location: AugmentedPointOfService
   ): void {}
   removeIntendedLocation(_productCode: string): void {}
-<<<<<<< HEAD
-  getPickupOption(_productCode: string): Observable<PickupOption> {
-      return of('delivery')
-=======
 
   getPickupOption(_productCode: string): Observable<PickupOption> {
     return of('delivery');
->>>>>>> 342e649095776f0486fc113a6dc05409dc7e1547
   }
 }

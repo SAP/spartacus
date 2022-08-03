@@ -6,10 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   AugmentedPointOfService,
-<<<<<<< HEAD
-=======
   PointOfServiceNames,
->>>>>>> 342e649095776f0486fc113a6dc05409dc7e1547
   PreferredStoreService,
 } from '@spartacus/pickup-in-store/core';
 import {
@@ -28,10 +25,6 @@ describe('StoreListComponent', () => {
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
   let preferredStoreService: PreferredStoreService;
   let intendedPickupLocationService: IntendedPickupLocationFacade;
-<<<<<<< HEAD
-=======
-
->>>>>>> 342e649095776f0486fc113a6dc05409dc7e1547
   const preferredStore: AugmentedPointOfService = {
     name: 'London School',
     displayName: 'London School',
