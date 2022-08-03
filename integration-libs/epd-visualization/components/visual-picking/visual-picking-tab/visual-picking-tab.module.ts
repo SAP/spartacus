@@ -27,6 +27,5 @@ import { VisualPickingTabComponent } from './visual-picking-tab.component';
   ],
   declarations: [VisualPickingTabComponent],
   exports: [VisualPickingTabComponent],
-  entryComponents: [VisualPickingTabComponent],
 })
 export class VisualPickingTabModule {}
