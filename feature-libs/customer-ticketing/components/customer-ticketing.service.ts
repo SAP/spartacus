@@ -72,7 +72,6 @@ export class CustomerTicketingService {
   }
 
   getTicketStatus(): Observable<string> {
-    console.log('getTicketStatusgetTicketStatus');
     return this.ticketDetails$.pipe(map((details) => details.status.name));
   }
 }
