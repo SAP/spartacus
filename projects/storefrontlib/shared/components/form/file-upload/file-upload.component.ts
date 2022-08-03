@@ -34,6 +34,10 @@ export class FileUploadComponent implements ControlValueAccessor {
    * Allows selecting multiple files.
    */
   @Input() multiple?: boolean = false;
+  /**
+   * Use custom button html passed from parent.
+   */
+  @Input() customButton?: boolean = false;
 
   // TODO: remove this event. Now it's used only to trigger some logic in the parent component.
   // Prerequisites (changes in the parent component):

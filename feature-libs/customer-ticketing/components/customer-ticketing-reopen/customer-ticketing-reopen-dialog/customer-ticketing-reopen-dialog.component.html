@@ -1,0 +1,66 @@
+<div
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  class="cx-customer-ticket-form-dialog"
+>
+  <form [formGroup]="form" class="cx-customer-ticket-form-container">
+    <div class="modal-header cx-customer-ticket-form-header">
+      <div class="cx-customer-ticket-form-title modal-title">
+        {{ 'customerTicketing.reopenRequest' | cxTranslate }}
+      </div>
+      <button
+        (click)="close('Close Reopen Request Dialog')"
+        [attr.aria-label]="'common.close' | cxTranslate"
+        class="cx-customer-ticket-form-close close"
+        type="button"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+
+    <div class="cx-customer-ticket-form-body">
+      <div class="cx-customer-ticket-form-row">
+        <label>
+          <span class="cx-customer-ticket-label label-content">
+            {{ 'customerTicketing.message' | cxTranslate }}
+          </span>
+          <textarea
+            [maxLength]="messageMaxLength"
+            class="form-control"
+            formControlName="message"
+            rows="5"
+          ></textarea>
+
+          <cx-form-errors [control]="form.get('message')"></cx-form-errors>
+
+          <p class="cx-customer-ticket-input-hint">
+            {{
+              'customerTicketing.charactersLeft'
+                | cxTranslate: { count: messagesCharacterLeft }
+            }}
+          </p>
+        </label>
+      </div>
+
+      <cx-file-upload customButton="true" [accept]="allowedTypes">
+        <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
+        <span class="cx-message-footer-text">Upload File</span>
+      </cx-file-upload>
+
+      <div class="cx-customer-ticket-form-footer">
+        <button
+          (click)="close('Close Reopen Request Dialog')"
+          class="btn btn-action"
+          type="button"
+        >
+          {{ 'customerTicketing.cancel' | cxTranslate }}
+        </button>
+        <button (click)="reopenRequest()" class="btn btn-primary" type="button">
+          {{ 'customerTicketing.submit' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

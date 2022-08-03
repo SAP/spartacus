@@ -8,7 +8,9 @@ export const customerTicketing = {
     status: 'Status',
     reopenRequest: 'Reopen Request',
     closeRequest: 'Close Request',
-    charactersLeft: 'characters left: {{count}}',
-    send: 'Send',
+    message: 'Message',
+    cancel: 'Cancel',
+    submit: 'Submit',
+    charactersLeft: 'Characters Left: {{count}}',
   },
 };
