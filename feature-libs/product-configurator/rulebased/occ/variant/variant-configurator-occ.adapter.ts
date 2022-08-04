@@ -262,4 +262,14 @@ export class VariantConfiguratorOccAdapter
         this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
       );
   }
+
+  searchVariants(configId: string): Observable<Configurator.Variant[]> {
+    const url = this.occEndpointsService.buildUrl(
+      'searchConfiguratorVariants',
+      { urlParams: { configId } }
+    );
+    //no need to work with a converter here, as Configurator.Variant is a projection of the OCC
+    //variant representation
+    return this.http.get<Configurator.Variant[]>(url);
+  }
 }

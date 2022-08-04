@@ -1,0 +1,44 @@
+<ng-container *ngIf="ticketDetails$ | async as ticket">
+  <div class="cx-ticket-details">
+    <div class="container">
+      <div class="cx-details-card">
+        <cx-card
+          [content]="
+            prepareCardContent(ticket.id, 'customerTicketing.ticketId') | async
+          "
+        ></cx-card>
+      </div>
+
+      <div class="cx-details-card">
+        <cx-card
+          [content]="
+            prepareCardContent(
+              ticket.createdAt | cxDate: 'MMMM d, YYYY h:mm aa',
+              'customerTicketing.createdOn'
+            ) | async
+          "
+        ></cx-card>
+      </div>
+
+      <div class="cx-details-card">
+        <cx-card
+          [content]="
+            prepareCardContent(
+              ticket.modifiedAt | cxDate: 'MMMM d, YYYY h:mm aa',
+              'customerTicketing.changedOn'
+            ) | async
+          "
+        ></cx-card>
+      </div>
+
+      <div class="cx-details-card">
+        <cx-card
+          [content]="
+            prepareCardContent(ticket.status.name, 'customerTicketing.status')
+              | async
+          "
+        ></cx-card>
+      </div>
+    </div>
+  </div>
+</ng-container>

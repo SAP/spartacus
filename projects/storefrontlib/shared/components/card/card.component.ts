@@ -22,6 +22,7 @@ export interface Card {
   deleteMsg?: string;
   label?: string;
   role?: string;
+  customClass?: string;
 }
 
 @Component({
