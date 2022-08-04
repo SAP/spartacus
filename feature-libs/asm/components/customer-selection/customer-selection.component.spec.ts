@@ -130,7 +130,7 @@ describe('CustomerSelectionComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(el.query(By.css('div.spinner'))).toBeTruthy();
+    expect(el.query(By.css('cx-dot-spinner'))).toBeTruthy();
     expect(el.query(By.css('form'))).toBeTruthy();
   });
 

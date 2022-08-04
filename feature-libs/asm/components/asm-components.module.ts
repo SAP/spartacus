@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
 import {
   FeaturesConfigModule,
   I18nModule,
@@ -10,9 +9,6 @@ import {
 import {
   FormErrorsModule,
   IconModule,
-  ModalModule,
-  PasswordVisibilityToggleModule,
-  PopoverModule,
 } from '@spartacus/storefront';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
@@ -31,11 +27,7 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     ReactiveFormsModule,
     I18nModule,
     FormErrorsModule,
-    PasswordVisibilityToggleModule,
     IconModule,
-    PopoverModule,
-    ModalModule,
-    NgSelectModule,
     FormsModule,
     FeaturesConfigModule,
   ],

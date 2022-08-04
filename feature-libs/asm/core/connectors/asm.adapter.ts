@@ -13,5 +13,8 @@ export abstract class AsmAdapter {
     options: CustomerSearchOptions
   ): Observable<CustomerSearchPage>;
 
+  /**
+   * Used to bind an anonymous cart to a registered user.
+   */
   abstract bindCart(options: BindCartParams): Observable<unknown>;
 }
