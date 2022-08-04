@@ -30,6 +30,12 @@ describe('Order History with orders', () => {
 });
 
 describe('Order details page', () => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+  });
+  
   viewportContext(['desktop'], () => {
     beforeEach(() => {
       cy.requireLoggedIn();

@@ -9,6 +9,11 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser, product } from '../../../sample-data/checkout-flow';
 
 context('Checkout flow', () => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+  });
   viewportContext(['desktop'], () => {
     beforeEach(() => {
       cy.window().then((win) => {

@@ -6,6 +6,11 @@ import { signOut } from '../../../helpers/register';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Cart Coupon', () => {
+  Cypress.on('uncaught:exception', (err, runnable) => {
+    // returning false here prevents Cypress from
+    // failing the test
+    return false
+  });
   viewportContext(['desktop'], () => {
     describe('Logged user', () => {
       beforeEach(() => {
