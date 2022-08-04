@@ -1,3 +1,7 @@
+<div *ngIf="!attribute.visible" class="cx-hidden-msg">
+  <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
+  {{ 'configurator.attribute.notVisibleMsg' | cxTranslate }}
+</div>
 <label
   id="{{ createAttributeUiKey('label', attribute.name) }}"
   [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
@@ -35,7 +39,7 @@
   <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
     <ng-container *ngIf="isNavigationToConflictEnabled(); else withoutLink">
       <a
-        class="cx-conflict-msg link cx-action-link"
+        class="link cx-action-link"
         (click)="navigateToGroup()"
         (keydown.enter)="navigateToGroup()"
         tabindex="0"

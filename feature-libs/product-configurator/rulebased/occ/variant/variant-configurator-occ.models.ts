@@ -100,6 +100,7 @@ export namespace OccConfigurator {
     intervalInDomain?: boolean;
     retractBlocked?: boolean;
     validationType?: string;
+    visible?: boolean;
   }
 
   export interface Value {

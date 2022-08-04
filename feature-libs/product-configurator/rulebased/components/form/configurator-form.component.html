@@ -8,6 +8,7 @@
       </ng-container>
       <div
         class="cx-group-attribute"
+        [class.cx-hidden]="!attribute.visible"
         *ngFor="
           let attribute of currentGroup.attributes;
           let indexOfAttribute = index

@@ -49,6 +49,7 @@ export const configurator = {
         'Add a different product before removing this one',
       dropDownSelectMsg: 'Make a selection',
       noOptionSelectedMsg: 'No option selected',
+      notVisibleMsg: 'This attribute is not visible to the user',
     },
     button: {
       previous: 'Previous',

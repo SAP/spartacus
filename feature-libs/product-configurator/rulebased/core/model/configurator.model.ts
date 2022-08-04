@@ -30,6 +30,7 @@ export namespace Configurator {
     intervalInDomain?: boolean;
     key?: string;
     validationType?: string;
+    visible?: boolean;
   }
 
   export interface Value {

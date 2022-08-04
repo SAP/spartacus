@@ -21,6 +21,13 @@
     }
   }
 
+  .cx-group-attribute {
+    border-bottom: 1px solid var(--cx-color-light);
+  }
+  .cx-hidden {
+    background-color: var(--cx-color-background);
+  }
+
   .cx-ghost-attribute {
     @include media-breakpoint-down(sm) {
       padding-inline-start: 10px;
