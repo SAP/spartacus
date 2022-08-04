@@ -10,12 +10,8 @@ import {
 } from '@spartacus/core';
 
 import { CustomerTicketingListTableComponent } from './customer-ticketing-list-table/customer-ticketing-list-table.component';
-import { CustomerTicketingListHeaderComponent } from './customer-ticketing-list-header/customer-ticketing-list-header.component';
 
-const moduleComponents = [
-  CustomerTicketingListTableComponent,
-  CustomerTicketingListHeaderComponent,
-];
+const moduleComponents = [CustomerTicketingListTableComponent];
 
 @NgModule({
   imports: [CommonModule, I18nModule, UrlModule, RouterModule],
