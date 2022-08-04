@@ -26,10 +26,6 @@ export const ORDER_HISTORY_NORMALIZER = new InjectionToken<
   Converter<any, OrderHistoryList>
 >('OrderHistoryNormalizer');
 
-export const UNIT_LEVEL_ORDER_HISTORY_NORMALIZER = new InjectionToken<
-  Converter<any, OrderHistoryList>
->('UnitLevelOrderHistoryNormalizer');
-
 export const CONSIGNMENT_TRACKING_NORMALIZER = new InjectionToken<
   Converter<any, ConsignmentTracking>
 >('ConsignmentTrackingNormalizer');

@@ -73,7 +73,12 @@ export class OrderHistoryService implements OrderHistoryFacade {
           orderListState.success ||
           orderListState.error;
         if (!attemptedLoad) {
-          this.loadOrderList(pageSize, undefined, undefined, unitLevelOrderCode);
+          this.loadOrderList(
+            pageSize,
+            undefined,
+            undefined,
+            unitLevelOrderCode
+          );
         }
       }),
       map((orderListState) => orderListState.value)
@@ -122,7 +127,12 @@ export class OrderHistoryService implements OrderHistoryFacade {
    * @param sort sort
    * @param unitLevelOrderCode
    */
-  loadOrderList(pageSize: number, currentPage?: number, sort?: string, unitLevelOrderCode?: string): void {
+  loadOrderList(
+    pageSize: number,
+    currentPage?: number,
+    sort?: string,
+    unitLevelOrderCode?: string
+  ): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
         let replenishmentOrderCode: string | undefined;
@@ -143,7 +153,7 @@ export class OrderHistoryService implements OrderHistoryFacade {
             currentPage,
             sort,
             replenishmentOrderCode,
-            unitLevelOrderCode
+            unitLevelOrderCode,
           })
         );
       },

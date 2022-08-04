@@ -30,7 +30,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   ) {}
 
   orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
-    .getOrderHistoryList(this.PAGE_SIZE, "TSD")
+    .getOrderHistoryList(this.PAGE_SIZE, 'TSD')
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
         if (orders?.pagination?.sort) {

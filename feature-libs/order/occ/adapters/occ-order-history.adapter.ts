@@ -28,7 +28,6 @@ import {
 } from '@spartacus/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { UNIT_LEVEL_ORDER_HISTORY_NORMALIZER } from '../../root';
 
 @Injectable()
 export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
@@ -104,7 +103,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
 
     return this.http
       .get<Occ.OrderHistoryList>(url)
-      .pipe(this.converter.pipeable(UNIT_LEVEL_ORDER_HISTORY_NORMALIZER));
+      .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
   }
 
   public getConsignmentTracking(

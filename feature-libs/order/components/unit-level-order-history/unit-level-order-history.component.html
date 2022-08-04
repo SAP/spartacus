@@ -6,7 +6,7 @@
   <ng-container *ngIf="type.orderHistory">
     <div>
       <!-- HEADER -->
-      <div [ngClass]="'cx-order-history-header'">
+      <div style="padding: 40px 0 0 0">
         <h2>
           {{ 'orderHistory.orderHistory' | cxTranslate }}
         </h2>
@@ -19,11 +19,21 @@
         >
           <!-- Select Form and Pagination Top -->
           <div class="cx-order-history-sort top">
-            <label class="cx-order-history-form-group form-group"
-              ><span>
+            <label
+              class="form-group"
+              style="
+                display: flex;
+                justify-content: space-between;
+                padding: 1rem 0;
+                margin: 0;
+                align-items: center;
+                width: 40%;
+              "
+              ><span style="margin-inline-end: 0.5rem; flex: none">
                 {{ 'orderHistory.sortBy' | cxTranslate }}
               </span>
               <cx-sorting
+                style="width: 100%"
                 [sortOptions]="type.orderHistory.sorts"
                 [sortLabels]="getSortLabels() | async"
                 (sortListEvent)="changeSortCode($event)"
@@ -44,26 +54,58 @@
             </div>
           </div>
           <!-- TABLE -->
-          <table id="order-history-table" class="table cx-order-history-table">
+          <table
+            id="order-history-table"
+            class="table"
+            style="
+              padding: 1.5rem 0 1.125rem 0;
+              margin-bottom: 0;
+              border-top: 1px solid;
+              border-bottom: 1px solid;
+            "
+          >
             <thead class="cx-order-history-thead-mobile">
-              <th scope="col">
+              <th
+                scope="col"
+                style="padding: 1.5rem 0 1.125rem 0; text-align: start"
+              >
                 {{ 'orderHistory.orderId' | cxTranslate }}
               </th>
-              <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
+              <th
+                scope="col"
+                style="padding: 1.5rem 0 1.125rem 0; text-align: start"
+              >
+                {{ 'orderHistory.date' | cxTranslate }}
+              </th>
               <th scope="col">
                 {{ 'orderHistory.status' | cxTranslate }}
               </th>
-              <th scope="col">{{ 'orderHistory.buyer' | cxTranslate }}</th>
-              <th scope="col">{{ 'orderHistory.unit' | cxTranslate }}</th>
-              <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
+              <th
+                scope="col"
+                style="padding: 1.5rem 0 1.125rem 0; text-align: start"
+              >
+                {{ 'orderHistory.buyer' | cxTranslate }}
+              </th>
+              <th
+                scope="col"
+                style="padding: 1.5rem 0 1.125rem 0; text-align: start"
+              >
+                {{ 'orderHistory.unit' | cxTranslate }}
+              </th>
+              <th
+                scope="col"
+                style="padding: 1.5rem 0 1.125rem 0; text-align: end"
+              >
+                {{ 'orderHistory.total' | cxTranslate }}
+              </th>
             </thead>
             <tbody>
               <tr
                 *ngFor="let order of type.orderHistory.orders"
                 (click)="goToOrderDetail(order)"
               >
-                <td class="cx-order-history-code">
-                  <div class="cx-order-history-label">
+                <td style="text-align: start; width: 15%; padding: 1.625rem 0">
+                  <div style="text-transform: uppercase; display: none">
                     {{ 'orderHistory.orderId' | cxTranslate }}
                   </div>
                   <a
@@ -73,13 +115,13 @@
                         params: order
                       } | cxUrl
                     "
-                    class="cx-order-history-value"
+                    style="text-decoration: underline; color: #212738"
                   >
                     {{ order?.code }}</a
                   >
                 </td>
-                <td class="cx-order-history-placed">
-                  <div class="cx-order-history-label">
+                <td style="text-align: start; width: 15%; padding: 1.625rem 0">
+                  <div style="text-transform: uppercase; display: none">
                     {{ 'orderHistory.date' | cxTranslate }}
                   </div>
                   <a
@@ -89,12 +131,19 @@
                         params: order
                       } | cxUrl
                     "
-                    class="cx-order-history-value"
+                    style="text-decoration: none; color: #212738"
                     >{{ order?.placed | cxDate: 'longDate' }}</a
                   >
                 </td>
-                <td class="cx-order-history-status">
-                  <div class="cx-order-history-label">
+                <td
+                  style="
+                    text-align: start;
+                    width: 25%;
+                    padding: 1.625rem 0;
+                    display: inline-block;
+                  "
+                >
+                  <div style="text-transform: uppercase; display: none">
                     {{ 'orderHistory.status' | cxTranslate }}
                   </div>
                   <a
@@ -104,7 +153,7 @@
                         params: order
                       } | cxUrl
                     "
-                    class="cx-order-history-value"
+                    style="text-decoration: none; color: #212738"
                   >
                     {{
                       'orderDetails.statusDisplay_' + order?.statusDisplay
@@ -112,8 +161,8 @@
                     }}</a
                   >
                 </td>
-                <td class="cx-order-history-buyer">
-                  <div class="cx-order-history-label">
+                <td style="text-align: start; width: 15%; padding: 1.625rem 0">
+                  <div style="text-transform: uppercase; display: none">
                     {{ 'orderHistory.buyer' | cxTranslate }}
                   </div>
                   <a
@@ -123,13 +172,13 @@
                         params: order
                       } | cxUrl
                     "
-                    class="cx-order-history-value"
+                    style="text-decoration: none; color: #212738"
                   >
                     {{ order?.orgCustomer?.name }}</a
                   >
                 </td>
-                <td class="cx-order-history-unit">
-                  <div class="cx-order-history-label">
+                <td style="text-align: start; width: 15%; padding: 1.625rem 0">
+                  <div style="text-transform: uppercase; display: none">
                     {{ 'orderHistory.unit' | cxTranslate }}
                   </div>
                   <a
@@ -139,13 +188,13 @@
                         params: order
                       } | cxUrl
                     "
-                    class="cx-order-history-value"
+                    style="text-decoration: none; color: #212738"
                   >
                     {{ order?.orgUnit?.name }}</a
                   >
                 </td>
-                <td class="cx-order-history-total">
-                  <div class="cx-order-history-label">
+                <td style="width: 15%; padding: 1.625rem 0; text-align: end">
+                  <div style="text-transform: uppercase; display: none">
                     {{ 'orderHistory.total' | cxTranslate }}
                   </div>
                   <a
@@ -155,7 +204,7 @@
                         params: order
                       } | cxUrl
                     "
-                    class="cx-order-history-value"
+                    style="text-decoration: none; color: #212738"
                   >
                     {{ order?.total.formattedValue }}</a
                   >
@@ -181,7 +230,7 @@
         <ng-template #noOrder>
           <div
             *ngIf="isLoaded$ | async"
-            [ngClass]="'cx-order-history-no-order'"
+            style="display: flex; flex-wrap: wrap; min-height: 415px"
           >
             <div>
               <div>{{ 'orderHistory.noOrders' | cxTranslate }}</div>
@@ -189,6 +238,7 @@
                 [routerLink]="{ cxRoute: 'home' } | cxUrl"
                 routerLinkActive="active"
                 class="btn btn-primary btn-block"
+                style="margin: 1.25rem 0"
                 >{{ 'orderHistory.startShopping' | cxTranslate }}</a
               >
             </div>
