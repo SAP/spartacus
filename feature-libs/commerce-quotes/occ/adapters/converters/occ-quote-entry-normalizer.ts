@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
-export class OccQuoteNormalizer implements Converter<Quote, Quote> {
+export class OccQuoteEntryNormalizer implements Converter<Quote, Quote> {
   constructor(private converter: ConverterService) {}
 
   convert(source: Quote, target?: Quote): Quote {
