@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
-import { Observable } from 'rxjs';
-import { PickupLocationActions, PickupLocationsSelectors } from '../store';
 import {
   AugmentedPointOfService,
+  IntendedPickupLocationFacade,
   PickupOption,
-  StateWithPickupLocations,
-} from '../store/pickup-location-state';
+} from '@spartacus/pickup-in-store/root';
+import { Observable } from 'rxjs';
+import { PickupLocationActions, PickupLocationsSelectors } from '../store';
+import { StateWithPickupLocations } from '../store/pickup-location-state';
 
 /**
  * Store the Point of Service a user wants to collect a product from before it is added to the cart.

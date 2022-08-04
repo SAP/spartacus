@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import { Product } from '@spartacus/core';
 import {
-  PickupOption,
   PointOfServiceNames,
   PreferredStoreService,
 } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
+  PickupOption,
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,

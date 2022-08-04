@@ -1,8 +1,10 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import {
   AugmentedPointOfService,
-  PickupLocationsState,
   PickupOption,
+} from '@spartacus/pickup-in-store/root';
+import {
+  PickupLocationsState,
   StateWithPickupLocations,
 } from '../pickup-location-state';
 import { getPickupLocationsState } from './feature.selectors';

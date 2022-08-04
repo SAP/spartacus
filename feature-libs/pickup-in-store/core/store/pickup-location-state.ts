@@ -1,10 +1,6 @@
-import { PointOfService } from '@spartacus/core';
+import { AugmentedPointOfService } from '@spartacus/pickup-in-store/root';
 
 export const PICKUP_LOCATIONS_FEATURE = 'pickup-locations';
-export type PickupOption = 'delivery' | 'pickup';
-export type AugmentedPointOfService = PointOfService & {
-  pickupOption: PickupOption;
-};
 
 export interface StateWithPickupLocations {
   [PICKUP_LOCATIONS_FEATURE]: PickupLocationsState;

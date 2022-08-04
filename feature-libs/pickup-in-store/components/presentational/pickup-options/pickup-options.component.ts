@@ -8,7 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { PickupOption } from '@spartacus/pickup-in-store/core';
+import { PickupOption } from '@spartacus/pickup-in-store/root';
 
 @Component({
   selector: 'cx-pickup-delivery-options',
