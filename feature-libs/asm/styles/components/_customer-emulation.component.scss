@@ -49,13 +49,13 @@
     // }
 
     // @include forVersion(5.1) {
-      font-weight: 700;
-      border-radius: 8px;
-      padding: 6px 10px;
+    font-weight: 700;
+    border-radius: 8px;
+    padding: 6px 10px;
 
-      @media (max-width: 940px) {
-        width: 100%;
-      }
+    @media (max-width: 940px) {
+      width: 100%;
+    }
 
     // }
   }
@@ -63,7 +63,6 @@
     background-color: #0070f2;
     border: 1px solid #0070f2;
     color: #ffffff;
-
   }
   .cx-logout-button {
     color: #aa0808;

@@ -14,10 +14,12 @@
     </div>
     <cx-asm-bind-cart></cx-asm-bind-cart>
   </ng-container>
-  <button class="cx-360-button" (click)="openCustomer360()">
-    Customer360
-  </button>
-  <button class="cx-logout-button" formcontrolname="logoutCustomer" (click)="logoutCustomer()">
+  <button class="cx-360-button" (click)="openCustomer360()">Customer360</button>
+  <button
+    class="cx-logout-button"
+    formcontrolname="logoutCustomer"
+    (click)="logoutCustomer()"
+  >
     {{ 'asm.endSession' | cxTranslate }}
   </button>
 </ng-container>

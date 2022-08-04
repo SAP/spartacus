@@ -1,4 +1,7 @@
-import { Customer360Section, CUSTOMER_360_SECTION_TITLE } from "@spartacus/asm/root";
+import {
+  Customer360Section,
+  CUSTOMER_360_SECTION_TITLE,
+} from '@spartacus/asm/root';
 
 export const Customer360Sections: Customer360Section[] = [
   {
@@ -21,5 +24,4 @@ export const Customer360Sections: Customer360Section[] = [
     sectionTitle: CUSTOMER_360_SECTION_TITLE.MAPS,
     sectionContent: 'Placeholer content for Maps tab',
   },
-
-]
+];

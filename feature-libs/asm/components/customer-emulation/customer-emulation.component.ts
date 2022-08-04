@@ -41,7 +41,6 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
       size: 'xl',
     });
     this.modalRef.componentInstance.customer = this.customer;
-
   }
 
   ngOnDestroy(): void {
