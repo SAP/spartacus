@@ -1,0 +1,52 @@
+<div class="table-heading" *ngIf="fragment.text">
+  <div class="table-heading-text">
+    {{ fragment.text }}
+  </div>
+  <div class="table-heading-pages" *ngIf="fragment.entryPages">
+    <ng-container *ngFor="let page of fragment.entryPages; let pageNumber = index">
+      <div *ngIf="fragment.entryPages.length > 1" (click)="fragment.setPageNumber(pageNumber)"
+        class="table-heading-page" [class.active]="fragment.currentPage === pageNumber">
+        {{ pageNumber + 1 }}
+      </div>
+    </ng-container>
+  </div>
+</div>
+<hr class="table-separator" />
+<ng-container *ngIf="fragment.entryPages?.length && fragment.columns?.length">
+  <table class="table">
+    <tr class="table-row-header">
+      <th *ngFor="let column of fragment.columns" (click)="fragment.sortEntriesAndUpdatePages(column.property)"
+        [class]="
+          fragment.currentSort?.property === column.property
+            ? 'active ' + fragment.currentSort?.sortOrder
+            : ''
+        ">
+        {{ column.text }}
+      </th>
+    </tr>
+    <tr class="table-row" *ngFor="let entry of fragment.entryPages?.[fragment.currentPage]">
+      <td *ngFor="let column of fragment.columns">
+        <a *ngIf="entry[column.property]?.details?.url; else starRating"
+          [href]="entry[column.property].details.url">{{
+          entry[column.property].text ||
+          entry[column.property].value ||
+          '---'
+          }}</a>
+        <ng-template #starRating>
+          <cx-star-rating *ngIf="
+              entry[column.property]?.details?.starRating;
+              else tableCell
+            " [rating]="entry[column.property].value"></cx-star-rating>
+        </ng-template>
+        <ng-template #tableCell>
+          <ng-container>{{
+            entry[column.property].text ||
+            entry[column.property].value ||
+            '---'
+            }}</ng-container>
+        </ng-template>
+      </td>
+    </tr>
+  </table>
+</ng-container>
+<div class="table-empty" *ngIf="!fragment.entryPages?.length">{{fragment.emptyText}}</div>

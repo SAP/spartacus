@@ -1,0 +1,81 @@
+<div class="listing-header" *ngIf="fragment.text">
+  {{ fragment.text }}
+</div>
+<hr class="listing-separator" />
+<ng-container *ngIf="fragment.tabs; else listingContainer">
+  <ng-container *ngTemplateOutlet="tabs; context: { fragment: this.fragment }"></ng-container>
+</ng-container>
+<ng-template #listingContainer>
+  <ng-container *ngTemplateOutlet="
+      listing;
+      context: {
+        fragment: this.fragment,
+        items: fragment.items,
+        emptyText: fragment.emptyText
+      }
+    ">
+  </ng-container>
+</ng-template>
+
+<ng-template #tabs let-fragment="fragment">
+  <div class="listing-tab-container">
+    <ng-container *ngFor="let tab of fragment.tabs; let tabNumber = index">
+      <div class="listing-tab-item" (click)="fragment.setCurrentTab(tabNumber)"
+        [class.active]="fragment.currentTab === tabNumber">
+        {{ tab.tabName }}
+      </div>
+    </ng-container>
+  </div>
+  <ng-container *ngFor="let tab of fragment.tabs; let tabNumber = index">
+    <ng-container *ngIf="fragment.currentTab === tabNumber">
+      <ng-container *ngTemplateOutlet="
+          listing;
+          context: {
+            fragment: this.fragment,
+            items: tab.items,
+            emptyText: tab.emptyText
+          }
+        ">
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #listing let-fragment="fragment" let-items="items" let-emptyText="emptyText">
+  <ng-container *ngIf="fragment.searchAction">
+    <form class="listing-input-group" (ngSubmit)="fragment.searchAction(fragment.searchTerm)">
+      <input name="searchTerm" [(ngModel)]="fragment.searchTerm" (blur)="fragment.searchAction(fragment.searchTerm)" />
+      <button type="submit">
+        <cx-icon [type]="'SEARCH'"></cx-icon>
+      </button>
+    </form>
+  </ng-container>
+  <ng-container *ngFor="let item of items">
+    <div class="listing-item-text">
+      <div class="listing-item-title">{{ item.title }}</div>
+      <div class="listing-item-subtitle">
+        <div class="listing-item-description">{{ item.description }}</div>
+        <div class="listing-item-status">
+          <button *ngIf="item.buttonText && !item.textButton" (click)="fragment.buttonAction(item)">
+            {{ item.buttonText }}
+          </button>
+          <div class="listing-item-applied" *ngIf="item.appliedText || item.textButton">
+            <cx-icon [type]="'SUCCESS'"></cx-icon>
+            <div class="listing-item-applied-text" *ngIf="item.appliedText">
+              {{ item.appliedText }}
+            </div>
+            <ng-container *ngIf="item.buttonText && item.textButton">
+              <div *ngIf="item.appliedText" class="listing-item-applied-pipe">
+                |
+              </div>
+              <a class="listing-item-applied-text-button" (click)="fragment.buttonAction(item)">{{ item.buttonText
+                }}</a>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="listing-separator" />
+  </ng-container>
+  <div class="listing-empty" *ngIf="!items?.length">{{ emptyText }}</div>
+</ng-template>

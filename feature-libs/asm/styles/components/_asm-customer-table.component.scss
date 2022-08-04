@@ -1,0 +1,114 @@
+%cx-asm-customer-table {
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-top: 14px;
+
+    &-heading {
+      width: 100%;
+      font-size: 16px;
+      justify-content: space-between;
+      display: flex;
+      color: #19212b;
+
+      &-text {
+        padding-top: 30px;
+        padding-bottom: 7px;
+      }
+
+      &-pages {
+        display: flex;
+        font-size: 14px;
+        align-self: flex-end;
+      }
+
+      &-page {
+        color: #0486e0;
+        cursor: pointer;
+        padding-left: 14px;
+        padding-right: 14px;
+        font-weight: bold;
+
+        &.active {
+          color: #7f90a4;
+          cursor: default;
+        }
+      }
+    }
+
+    &-separator {
+      border: none;
+      border-bottom: 1px solid #d4d7dc;
+      margin: 0;
+    }
+
+    &-empty {
+      padding-top: 14px;
+    }
+
+    &-row {
+      border: none;
+      border-top: 1px solid #e5e5e5;
+
+      &-header {
+        border: none;
+      }
+
+      &:nth-child(2n + 2) {
+        background: #eef3f7;
+      }
+    }
+
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 10px;
+    }
+
+    td {
+      color: #313440;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 15px;
+
+      a {
+        font-weight: bold;
+        color: #0486e0;
+        text-decoration: none;
+      }
+    }
+
+    th {
+      font-size: 13px;
+      color: #7f90a4;
+      cursor: pointer;
+      user-select: none;
+
+      &:hover, &.active {
+        color: #454a5d;
+      }
+
+      &.active {
+        &.desc::after, &.asc::after {
+          content: '';
+          margin-left: 8px;
+          border-left: 5px solid transparent;
+          border-right: 5px solid transparent;
+          position: relative;
+        }
+
+        &.desc::after {
+          border-bottom: 5px solid #7f90a4;
+          bottom: 11px;
+        }
+
+        &.asc::after {
+          border-top: 5px solid #7f90a4;
+          top: 13px;
+        }
+      }
+    }
+  }
+}

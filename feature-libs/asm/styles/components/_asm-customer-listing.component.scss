@@ -1,0 +1,167 @@
+%cx-asm-customer-listing {
+  .listing {
+    &-header {
+      font-size: 22px;
+      font-family: Dosis, sans-serif;
+      font-weight: 500;
+      width: 100%;
+      padding-top: 50px;
+      padding-bottom: 14px;
+      text-align: center;
+    }
+
+    &-separator {
+      border: none;
+      border-bottom: 1px solid #d4d7dc;
+      margin: 0;
+    }
+
+    &-empty {
+      font-size: 15px;
+      padding-top: 14px;
+    }
+
+    &-item {
+      &-text {
+        padding: 26px 0 26px 30px;
+      }
+
+      &-title {
+        margin-bottom: 3px;
+        font-weight: bold;
+        font-size: 17px;
+        color: #313440;
+      }
+
+      &-subtitle {
+        display: flex;
+      }
+
+      &-description {
+        font-size: 15px;
+        color: #313440;
+        width: 100%;
+      }
+
+      &-status {
+        flex: none;
+        width: 250px;
+        line-height: 24px;
+        text-align: right;
+
+        button {
+          font-family: Dosis, sans-serif;
+          font-size: 18px;
+          padding: 10px 35px;
+          background: #3f5875;
+          border: none;
+          color: #ffffff;
+          flex: none;
+          margin-top: -6px;
+        }
+      }
+
+      &-applied {
+        display: flex;
+        white-space: nowrap;
+        font-size: 13px;
+        justify-content: flex-end;
+        margin-top: 1px;
+
+        cx-icon {
+          background: radial-gradient(#18bc33 50%, #ffffff 0);
+          color: #ffffff;
+          font-size: 20px;
+          margin-right: 5px;
+        }
+
+        &-text {
+          color: #18bc33;
+        }
+
+        &-text-button {
+          all: unset;
+          color: #ff3a35;
+          text-decoration: none;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        &-pipe {
+          padding-left: 15px;
+          padding-right: 15px;
+          color: #d5dee8;
+        }
+      }
+    }
+
+    &-tab {
+      &-container {
+        display: flex;
+        margin-top: 14px;
+        border-bottom: solid 1px #dddddd;
+      }
+
+      &-item {
+        padding: 10px 15px;
+        color: #a1aebd;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 14px;
+        margin-right: 1px;
+        margin-bottom: -1px;
+
+        &.active, &:hover, &:focus {
+          color: #0486e0;
+          border-bottom: solid;
+          border-width: 2px;
+        }
+
+        &:hover {
+          border-bottom-color: #dddddd;
+        }
+
+        &.active {
+          border-bottom-color: #0486e0;
+          cursor: default;
+        }
+      }
+    }
+
+    &-input-group {
+      display: flex;
+      border: 1px solid #cccccc;
+      margin-top: 16px;
+      height: 44px;
+
+      button {
+        all: unset;
+      }
+
+      input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        outline: none;
+        border-radius: 0;
+        box-shadow: none;
+        padding-left: 8px;
+      }
+
+      cx-icon {
+        height: 100%;
+        width: 44px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ec7205;
+        cursor: pointer;
+        font-size: 16px;
+
+        &:hover {
+          color: #154259;
+        }
+      }
+    }
+  }
+}
