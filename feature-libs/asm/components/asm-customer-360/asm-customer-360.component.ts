@@ -10,17 +10,21 @@ import { Customer360Sections } from './asm-customer-360.model';
   styles: [
     `
       ::ng-deep ngb-modal-window {
-        overflow-y: hidden !important;
+        padding: 20px 10%;
       }
 
       ::ng-deep .modal-dialog {
         display: flex;
-        max-height: 80vh !important;
-        max-width: 80vw !important;
+        width: 100%;
+        max-height: 100%;
+        min-height: unset;
+        min-width: unset !important;
+        max-width: unset !important;
+        margin: unset;
       }
 
-      ::ng-deep .modal-content {
-        max-height: 100%;
+      ::ng-deep .modal-body {
+        padding-top: 0;
       }
     `,
   ],
