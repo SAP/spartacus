@@ -17,7 +17,9 @@ import {
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { normalizeHttpError } from '../../../../projects/core/src/util/normalize-http-error';
 
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
@@ -89,6 +91,8 @@ export class OccAsmAdapter implements AsmAdapter {
       }
     );
 
-    return this.http.post<void>(url, {}, { headers, params });
+    return this.http
+      .post<void>(url, {}, { headers, params })
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 }

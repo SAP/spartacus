@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AsmFacade } from '@spartacus/asm/root';
@@ -12,6 +11,7 @@ import {
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { HttpErrorModel } from '../../../../projects/core/src/model/misc.model';
 
 @Component({
   selector: 'cx-asm-bind-cart',
@@ -81,9 +81,9 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
               userId: customerId,
             });
           },
-          (error: HttpErrorResponse) => {
+          (error: HttpErrorModel) => {
             this.globalMessageService.add(
-              error.error.errors[0].message,
+              error.details?.[0].message ?? '',
               GlobalMessageType.MSG_TYPE_ERROR
             );
           }
