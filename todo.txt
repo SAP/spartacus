@@ -15,3 +15,11 @@ Implement buddy's new architecture for adding product to cart with pickup locati
 
 x (D) CXSPA-21:
 x Make sure look and feel match the wires
+
+(E) CXSPA-921:
+[] adapter
+[] occ module
+[] connector
+[] call cart entries with fields full
+[] patch cart entries
+[] radio buttons should result in API calls
