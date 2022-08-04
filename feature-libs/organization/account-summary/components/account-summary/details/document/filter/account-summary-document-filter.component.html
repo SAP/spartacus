@@ -1,0 +1,120 @@
+<!--<div>-->
+  <!--Using ng-option and for loop-->
+
+
+<!--  <ng-select [(ngModel)]="selectedCar">-->
+<!--    <ng-option *ngFor="let car of cars" [value]="car.id">{{car.name}}</ng-option>-->
+<!--  </ng-select>-->
+
+
+
+<!--  &lt;!&ndash;Using items input&ndash;&gt;-->
+<!--  <ng-select [items]="cars"-->
+<!--             bindLabel="name"-->
+<!--             bindValue="id"-->
+<!--             [(ngModel)]="selectedCar">-->
+<!--  </ng-select>-->
+<!--</div>-->
+<!--<div>Filter by</div>-->
+
+<div class="cx-account-summary-document-filter-body">
+
+  <div class="cx-account-summary-document-filter-field top">
+    <label class="cx-account-summary-document-filter-form-group form-group">
+      <span>Status</span>
+      <ng-select
+        [searchable]="false"
+        [clearable]="false"
+        placeholder="{{ placeholder }}"
+        (change)="filters.status = $event.code"
+        [ngModel]="filters.status"
+        [items]="statusOptions"
+        bindLabel="name"
+        bindValue="code"
+      >
+      </ng-select>
+    </label>
+
+    <label class="cx-account-summary-document-filter-form-group form-group">
+      <span>Filter By</span>
+      <ng-select
+        [searchable]="false"
+        [clearable]="false"
+        placeholder="{{ placeholder }}"
+        (change)="changeFilterBy($event)"
+        [ngModel]="filters.filterByKey"
+        [items]="filterByOptions"
+        bindLabel="name"
+        bindValue="code"
+      >
+      </ng-select>
+    </label>
+
+    <label class="cx-account-summary-document-filter-form-group form-group"
+           *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_NUMBER">
+      <span>Document Number</span>
+      <input [value]="filters.filterByValue" (change)="filters.filterByValue = $event.target.value" />
+    </label>
+
+    <label class="cx-account-summary-document-filter-form-group form-group"
+           *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_NUMBER_RANGE">
+      <span>From</span>
+      <input [value]="filters.startRange" (change)="filters.startRange = $event.target.value" />
+    </label>
+
+    <label class="cx-account-summary-document-filter-form-group form-group"
+           *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_NUMBER_RANGE">
+      <span>To</span>
+      <input [value]="filters.endRange" (change)="filters.endRange = $event.target.value" />
+    </label>
+
+    <label class="cx-account-summary-document-filter-form-group form-group"
+           *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_TYPE">
+      <span>Document Type</span>
+      <ng-select
+        [searchable]="false"
+        [clearable]="false"
+        placeholder="{{ placeholder }}"
+        (change)="filters.filterByValue = $event.code"
+        [ngModel]="filters.filterByKey"
+        [items]="documentTypeOptions"
+        bindLabel="name"
+        bindValue="code"
+      >
+      </ng-select>
+    </label>
+
+    <label class="cx-account-summary-document-filter-form-group form-group"
+           *ngIf="filters.filterByKey === FilterByOptions.DATE_RANGE || filters.filterByKey === FilterByOptions.DUE_DATE_RANGE">
+      <span>From</span>
+      <input type="date" [value]="filters.startRange" (change)="filters.startRange = $event.target.value" />
+    </label>
+
+    <label class="cx-account-summary-document-filter-form-group form-group"
+           *ngIf="filters.filterByKey === FilterByOptions.DATE_RANGE || filters.filterByKey === FilterByOptions.DUE_DATE_RANGE">
+      <span>To</span>
+      <input type="date" [value]="filters.endRange" (change)="filters.endRange = $event.target.value" />
+    </label>
+
+    <label class="cx-account-summary-document-filter-form-group form-group"
+           *ngIf="filters.filterByKey === FilterByOptions.AMOUNT_RANGE || filters.filterByKey === FilterByOptions.OPEN_AMOUNT_RANGE">
+      <span>From</span>
+      <input type="number" [value]="filters.startRange" (change)="filters.startRange = $event.target.value" />
+    </label>
+
+    <label class="cx-account-summary-document-filter-form-group form-group"
+           *ngIf="filters.filterByKey === FilterByOptions.AMOUNT_RANGE || filters.filterByKey === FilterByOptions.OPEN_AMOUNT_RANGE">
+      <span>To</span>
+      <input type="number" [value]="filters.endRange" (change)="filters.endRange = $event.target.value" />
+    </label>
+
+    <button class="search-btn" (click)="search()">Search</button>
+  </div>
+
+</div>
+
+
+<!--[cxNgSelectA11y]="{-->
+<!--ariaLabel: ariaLabel || ('productList.sortResults' | cxTranslate),-->
+<!--ariaControls: ariaControls-->
+<!--}"-->

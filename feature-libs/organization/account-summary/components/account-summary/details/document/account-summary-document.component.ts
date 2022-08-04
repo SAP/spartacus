@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountSummaryFacade, AccountSummaryList, DocumentQueryParams, FIELDS_TYPE } from '@spartacus/organization/account-summary/root';
+import {
+  AccountSummaryFacade,
+  AccountSummaryList,
+  DocumentQueryParams,
+  DocumentFields,
+  DocumentStatus,
+} from '@spartacus/organization/account-summary/root';
 import { Observable, combineLatest } from 'rxjs';
 import { SortModel, TranslationService } from '@spartacus/core';
 import { map } from "rxjs/operators";
+import {FilterByOptions} from "../../../../root/model";
 
 @Component({
   selector: 'cx-account-summary-document',
@@ -10,6 +17,14 @@ import { map } from "rxjs/operators";
 })
 export class AccountSummaryDocumentComponent implements OnInit {
   accountSummary$: Observable<AccountSummaryList>;
+  queryParams: DocumentQueryParams = {
+    fields: DocumentFields.FULL,
+    status: DocumentStatus.ALL,
+    filterByKey: FilterByOptions.DOCUMENT_NUMBER,
+    page: 0,
+    pageSize: 10,
+    sort: 'byDocumentDateAsc',
+  };
 
   constructor(
     private accountSummaryFacade: AccountSummaryFacade,
@@ -17,67 +32,62 @@ export class AccountSummaryDocumentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.fetchDocuments({
-      sortCode: '',
-      currentPage: 0
-    });
+    this.fetchDocuments();
   }
 
   pageChange(page: number): void {
-    const event: { sortCode: string; currentPage: number } = {
-      sortCode: '',
-      currentPage: page,
-    };
-    this.fetchDocuments(event);
+    this.queryParams.page = page;
+    this.fetchDocuments();
   }
 
-  private fetchDocuments(event: { sortCode: string; currentPage: number }): void {
-    let params: DocumentQueryParams = {
-      fields: FIELDS_TYPE.FULL,
-      status: 'all',
-      page: 0,
-      pageSize: 10,
-      sort: 'byDocumentDateAsc',
-      startRange: '',
-      endRange: '',
-      filterByKey: '',
-      filterByValue: ''
-    };
-
-    if (event?.currentPage) {
-      params.page = event.currentPage;
-    }
-
-    if (event?.sortCode) {
-      params.sort = event.sortCode;
-    }
-
-    this.accountSummary$ = this.accountSummaryFacade.getDocumentList(params);
+  changeSortCode(sortCode: string): void {
+    this.queryParams.sort = sortCode;
+    this.queryParams.page = 0;
+    this.fetchDocuments();
   }
 
-  getSortLabels(sorts?: SortModel[]): Observable<any> {
+  filterChange(newFilters: DocumentQueryParams): void {
+    this.queryParams.page = 0;
+    // this.queryParams.fields = newFilters.fields;
+    this.queryParams.status = newFilters.status;
+    this.queryParams.startRange = newFilters.startRange;
+    this.queryParams.endRange = newFilters.endRange;
+    this.queryParams.filterByKey = newFilters.filterByKey;
+    this.queryParams.filterByValue = newFilters.filterByValue;
+    this.fetchDocuments();
+  }
+
+  addNamesToSortModel(sorts: SortModel[]): Observable<Array<SortModel>> {
+    console.log('test test');
     const sortCodes: Array<string> = sorts?.map(sort => sort.code) as Array<string>;
-    const translations = sortCodes.map(sortCode =>
-      this.translation.translate(`orgAccountSummary.sorts.${sortCode}`));
+    const translations = sortCodes?.map(sortCode =>
+      this.translation.translate(`orgAccountSummary.sorts.${sortCode}`)) ?? [];
 
     return combineLatest(translations).pipe(
       map(translations => {
-        const keyValue: { [key: string]: string } = {};
-        sortCodes.forEach((sortCode, i) => {
-          // @ts-ignore
-          keyValue[sortCode] = translations[i];
-        });
-        return keyValue;
+        sorts?.forEach((sort, index) => sort.name = translations[index]);
+        return sorts;
       })
     );
   }
 
-  changeSortCode(sortCode: string): void {
-    const event: { sortCode: string; currentPage: number } = {
-      sortCode,
-      currentPage: 0,
-    };
-    this.fetchDocuments(event);
-  }
+  // getSortLabels(sorts?: SortModel[]): Observable<any> {
+  //   const sortCodes: Array<string> = sorts?.map(sort => sort.code) as Array<string>;
+  //   const translations = sortCodes.map(sortCode =>
+  //     this.translation.translate(`orgAccountSummary.sorts.${sortCode}`));
+  //
+  //   return combineLatest(translations).pipe(
+  //     map(translations =>
+  //       translations.reduce((keyValue, translation, index) => {
+  //         // @ts-ignore
+  //         keyValue[sortCodes[index]] = translation;
+  //         return keyValue;
+  //       }, {})
+  //     )
+  //   );
+  // }
 
+  private fetchDocuments(): void {
+    this.accountSummary$ = this.accountSummaryFacade.getDocumentList(this.queryParams);
+  }
 }

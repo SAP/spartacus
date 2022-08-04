@@ -26,10 +26,26 @@ interface B2BAmountBalanceData {
   pastDueBalance?: string;
 }
 
-enum DocumentStatus {
+export enum DocumentStatus {
   OPEN = 'open',
   CLOSED = 'closed',
   ALL = 'all',
+}
+
+export enum DocumentFields {
+  BASIC = 'BASIC',
+  DEFAULT = 'DEFAULT',
+  FULL = 'FULL',
+}
+
+export enum FilterByOptions {
+  DOCUMENT_NUMBER = 'documentNumber',
+  DOCUMENT_NUMBER_RANGE = 'documentNumberRange',
+  DOCUMENT_TYPE = 'documentType',
+  DATE_RANGE = 'dateRange',
+  DUE_DATE_RANGE = 'dueDateRange',
+  AMOUNT_RANGE = 'amountRange',
+  OPEN_AMOUNT_RANGE = 'openAmountRange',
 }
 
 export interface AccountSummaryDetails {
@@ -74,18 +90,12 @@ export interface AccountSummaryList {
   sorts?: SortModel[];
 }
 
-export enum FIELDS_TYPE {
-  BASIC = 'BASIC',
-  DEFAULT = 'DEFAULT',
-  FULL = 'FULL',
-}
-
 export interface DocumentQueryParams {
   page?: number;
   pageSize?: number;
   sort?: string;
-  fields?: FIELDS_TYPE;
-  status?: string;
+  fields?: DocumentFields;
+  status?: DocumentStatus;
   startRange?: string;
   endRange?: string;
   filterByKey?: string;

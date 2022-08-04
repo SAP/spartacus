@@ -41,6 +41,21 @@ export const accountSummary = {
       byDocumentNumberAsc: 'Document Number Ascending',
       byDocumentNumberDesc: 'Document Number Descending',
     },
+    statuses: {
+      open: 'Open',
+      closed: 'Closed',
+      all: 'All',
+    },
+    filterByOptions: {
+      documentNumber: 'Document Number',
+      documentNumberRange: 'Document Number Range',
+      documentType: 'Document Type',
+      dateRange: 'Document Date Range',
+      dueDateRange: 'Due Date Range',
+      amountRange: 'Original Amount Range',
+      openAmountRange: 'Open Amount Range',
+
+    },
     sortBy: 'Sort by',
     sortDocuments: 'Sort documents',
     //TODO
