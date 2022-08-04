@@ -38,7 +38,7 @@ const mockStrategyProducts: StrategyResponse = {
       'custom-metadata-field-1': 'custom-metadata-data-value-1',
     },
   },
-  request: {}
+  request: {},
 };
 
 const mockProducts = {
@@ -87,7 +87,8 @@ const mockCdsConfig: CdsConfig = {
   },
 };
 
-const mockCarouselId = mockComponentData.uid + '_' + mockComponentData.strategy + '_undefined';
+const mockCarouselId =
+  mockComponentData.uid + '_' + mockComponentData.strategy + '_undefined';
 const mockMerchandisingCarouselModel: MerchandisingCarouselModel = {
   id: mockCarouselId,
   title: mockComponentData.title,
@@ -227,7 +228,6 @@ describe('MerchandisingCarouselComponentService', () => {
       let actualProductIds: string[];
       let actualModelId: string;
 
-
       componentService
         .getMerchandisingCarouselModel(mockComponentData)
         .subscribe((model) => {
@@ -243,8 +243,12 @@ describe('MerchandisingCarouselComponentService', () => {
 
       expect(actualModelId).toEqual(mockCarouselId);
       expect(actualProductIds).toEqual(expectedProductIds);
-      expect(actualCarouselMetadata).toEqual(expectedMerchandisingCarouselModelMetadata);
-      expect(actualCarouselProducts).toEqual(expectedMerchandisingCarouselModelProducts);
+      expect(actualCarouselMetadata).toEqual(
+        expectedMerchandisingCarouselModelMetadata
+      );
+      expect(actualCarouselProducts).toEqual(
+        expectedMerchandisingCarouselModelProducts
+      );
     });
   });
 

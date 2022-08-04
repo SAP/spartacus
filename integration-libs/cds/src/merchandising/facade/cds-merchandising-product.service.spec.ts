@@ -7,7 +7,8 @@ import {
   MerchandisingUserContext,
   CdsMerchandisingProductService,
   CdsMerchandisingSiteContextService,
-  CdsMerchandisingUserContextService, StrategyResponse
+  CdsMerchandisingUserContextService,
+  StrategyResponse,
 } from '@spartacus/cds';
 import createSpy = jasmine.createSpy;
 
@@ -181,7 +182,7 @@ describe('CdsMerchandisingProductService', () => {
     };
     const userContext: MerchandisingUserContext = {
       category: '574',
-      searchPhrase: searchPhrase
+      searchPhrase: searchPhrase,
     };
     spyOn(siteContextService, 'getSiteContext').and.returnValue(
       of(siteContext)

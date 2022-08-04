@@ -6,15 +6,18 @@ import {
   ProductSearchPage,
 } from '@spartacus/core';
 import { FacetService, FacetList } from '@spartacus/storefront';
-import {combineLatest, Observable, of} from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   map,
   startWith,
   switchMap,
 } from 'rxjs/operators';
-import { ProfileTagEventService, ProfileTagLifecycleService} from "../../profiletag";
-import { MerchandisingUserContext } from "../model";
+import {
+  ProfileTagEventService,
+  ProfileTagLifecycleService,
+} from '../../profiletag';
+import { MerchandisingUserContext } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +28,7 @@ export class CdsMerchandisingUserContextService {
     private productSearchService: ProductSearchService,
     private profileTagEventService: ProfileTagEventService,
     private profileTagLifecycleService: ProfileTagLifecycleService,
-    private facetService: FacetService,
+    private facetService: FacetService
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
@@ -40,20 +43,21 @@ export class CdsMerchandisingUserContextService {
           ...pageContext,
         };
 
-        if(!pageContext.products){
+        if (!pageContext.products) {
           result['facets'] = searchContext.facets;
           result['searchPhrase'] = searchContext.searchPhrase;
         }
 
         return result;
       }),
-      distinctUntilChanged((prev, curr) =>
-        prev.facets === curr.facets
-        && prev.searchPhrase === curr.searchPhrase
-        && prev.consentReference === curr.consentReference
-        && prev.category === curr.category
-        && prev.products === curr.products
-      ),
+      distinctUntilChanged(
+        (prev, curr) =>
+          prev.facets === curr.facets &&
+          prev.searchPhrase === curr.searchPhrase &&
+          prev.consentReference === curr.consentReference &&
+          prev.category === curr.category &&
+          prev.products === curr.products
+      )
     );
   }
 
@@ -77,7 +81,7 @@ export class CdsMerchandisingUserContextService {
       map((pageContext) => {
         const result = {} as MerchandisingUserContext;
 
-        if(pageContext.type === PageType.PRODUCT_PAGE){
+        if (pageContext.type === PageType.PRODUCT_PAGE) {
           result.products = [pageContext.id];
         } else if (pageContext.type === PageType.CATEGORY_PAGE) {
           result.category = pageContext.id;
@@ -89,20 +93,25 @@ export class CdsMerchandisingUserContextService {
 
   private getSearchContext(): Observable<MerchandisingUserContext> {
     return combineLatest([
-      this.productSearchService.getResults().pipe(startWith({} as ProductSearchPage)),
+      this.productSearchService
+        .getResults()
+        .pipe(startWith({} as ProductSearchPage)),
       this.facetService.facetList$.pipe(startWith({} as FacetList)),
     ]).pipe(
       map(([searchResult, facetList]) => {
-        const facets = facetList?.activeFacets?.map(
-          (facet) => `${facet.facetCode}:${facet.facetValueCode}`
-        ).join(':');
+        const facets = facetList?.activeFacets
+          ?.map((facet) => `${facet.facetCode}:${facet.facetValueCode}`)
+          .join(':');
 
         return {
           facets: facets || undefined,
           searchPhrase: searchResult.freeTextSearch || undefined,
         } as MerchandisingUserContext;
       }),
-      distinctUntilChanged((prev, curr) => prev.facets === curr.facets && prev.searchPhrase === curr.searchPhrase)
+      distinctUntilChanged(
+        (prev, curr) =>
+          prev.facets === curr.facets && prev.searchPhrase === curr.searchPhrase
+      )
     );
   }
 }

@@ -16,7 +16,6 @@ import {
 } from '@spartacus/cds';
 import { FacetService, FacetList } from '@spartacus/storefront';
 
-
 const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const emptyPageSearchResults: ProductSearchPage = {};
 const consentNotGrantedEvent: ConsentChangedPushEvent =
@@ -216,7 +215,7 @@ describe('CdsMerchandisingUserContextService', () => {
     };
 
     const pageSearchResults: ProductSearchPage = {
-      freeTextSearch: 'something'
+      freeTextSearch: 'something',
     };
 
     const merchandisingFacets = {
@@ -236,7 +235,6 @@ describe('CdsMerchandisingUserContextService', () => {
       ],
     } as FacetList;
     facetService.facetList$ = of(merchandisingFacets);
-
 
     spyOn(routingService, 'getPageContext').and.returnValue(
       of(new PageContext('homepage', PageType.CONTENT_PAGE))

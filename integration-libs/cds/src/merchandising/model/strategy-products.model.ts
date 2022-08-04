@@ -1,4 +1,4 @@
-import {StrategyRequest} from "../../cds-models";
+import { StrategyRequest } from '../../cds-models';
 
 export interface StrategyProduct {
   id?: string;

@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { debounceTime, map, mergeMap } from 'rxjs/operators';
-import { MerchandisingUserContext, MerchandisingSiteContext, StrategyResponse } from '../model';
+import {
+  MerchandisingUserContext,
+  MerchandisingSiteContext,
+  StrategyResponse,
+} from '../model';
 import { MerchandisingStrategyConnector } from '../connectors';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
@@ -13,7 +17,7 @@ export class CdsMerchandisingProductService {
   constructor(
     protected strategyConnector: MerchandisingStrategyConnector,
     protected merchandisingUserContextService: CdsMerchandisingUserContextService,
-    protected merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+    protected merchandisingSiteContextService: CdsMerchandisingSiteContextService
   ) {}
 
   loadProductsForStrategy(
@@ -25,10 +29,10 @@ export class CdsMerchandisingProductService {
       this.merchandisingUserContextService.getUserContext(),
     ]).pipe(
       debounceTime(0),
-      map((
-        [siteContext, userContext,]: [
+      map(
+        ([siteContext, userContext]: [
           MerchandisingSiteContext,
-          MerchandisingUserContext,
+          MerchandisingUserContext
         ]) => {
           return {
             queryParams: {
@@ -47,10 +51,10 @@ export class CdsMerchandisingProductService {
           };
         }
       ),
-      mergeMap(
-        (request) => this.strategyConnector
+      mergeMap((request) =>
+        this.strategyConnector
           .loadProductsForStrategy(strategyId, request)
-          .pipe(map((products) => ({request, products})))
+          .pipe(map((products) => ({ request, products })))
       )
     );
   }

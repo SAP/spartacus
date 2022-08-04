@@ -26,9 +26,10 @@ context('Merchandising Carousel - events', () => {
         win.localStorage.clear();
       });
 
-      cy.intercept('/edge/clickstreamEvents', { method: 'POST'}, (req) => {
-        let header = req.headers['hybris-schema']
-        req.alias = merchandisingCarousel.carouselEventRequestAlias+"-"+header;
+      cy.intercept('/edge/clickstreamEvents', { method: 'POST' }, (req) => {
+        const header = req.headers['hybris-schema'];
+        req.alias =
+          merchandisingCarousel.carouselEventRequestAlias + '-' + header;
       });
 
       const homePage = waitForPage('homepage', 'getHomePage');
