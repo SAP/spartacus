@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import {
   IconConfig,
@@ -12,9 +14,33 @@ import {
   providedIn: 'root',
 })
 export class IconLoaderService {
+
+  private loadedResources: string[] = [];
+
   constructor(
-    protected iconConfig: IconConfig
+    protected winRef: WindowRef,
+    protected iconConfig: IconConfig,
+    protected sanitizer: DomSanitizer
   ) {}
+
+  /**
+   * Returns an html fragment which can be added to the DOM in a safe way.
+   *
+   * @deprecated only exists for backwards compatibility, html generation has been moved to icon component
+   */
+  getHtml(type: ICON_TYPE | string): SafeHtml | undefined {
+    if (this.isResourceType(type, IconResourceType.SVG)) {
+      return this.sanitizer.bypassSecurityTrustHtml(
+        `<svg><use xlink:href="${this.getSvgPath(type)}"></use></svg>`
+      );
+    }
+    if (this.isResourceType(type, IconResourceType.TEXT)) {
+      const symbol = this.getSymbol(type);
+      if (symbol) {
+        return this.sanitizer.bypassSecurityTrustHtml(symbol);
+      }
+    }
+  }
 
   /**
    * Return the direction for which the icon should mirror (ltr vs rtl). The icon direction
@@ -68,6 +94,36 @@ export class IconLoaderService {
         : `#${this.getSymbol(iconType)}`;
     }
     return null;
+  }
+
+  /**
+   * Loads the resource url (if any) for the given icon.
+   * The icon will only be loaded once.
+   *
+   * NOTE: this is not working when the shadow is used as there's
+   * no head element available and the link must be loaded for every
+   * web component.
+   * 
+   * @deprecated only exists for backwards compatibility, resource loading has been moved to icon component
+   */
+  addLinkResource(iconType: ICON_TYPE | string): void {
+    const resource: IconConfigResource | undefined = this.findResource(
+      iconType,
+      IconResourceType.LINK
+    );
+    if (
+      resource &&
+      resource.url &&
+      !this.loadedResources.includes(resource.url)
+    ) {
+      this.loadedResources.push(resource.url);
+      const head = this.winRef.document.getElementsByTagName('head')[0];
+      const link = this.winRef.document.createElement('link');
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = resource.url;
+      head.appendChild(link);
+    }
   }
 
   findResource(
