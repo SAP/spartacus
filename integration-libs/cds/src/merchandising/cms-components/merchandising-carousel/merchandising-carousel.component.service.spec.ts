@@ -39,7 +39,7 @@ const mockStrategyProducts: StrategyResponse = {
     },
   },
   request: {}
-}
+};
 
 const mockProducts = {
   1: {

@@ -14,7 +14,7 @@ import {
   ConsentChangedPushEvent,
   ProfileTagLifecycleService,
 } from '@spartacus/cds';
-import { FacetService, FacetList } from '@spartacus/storefront'
+import { FacetService, FacetList } from '@spartacus/storefront';
 
 
 const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
@@ -234,8 +234,8 @@ describe('CdsMerchandisingUserContextService', () => {
           facetValueName: '$200-$499.99',
         },
       ],
-    } as FacetList
-    facetService.facetList$ = of(merchandisingFacets)
+    } as FacetList;
+    facetService.facetList$ = of(merchandisingFacets);
 
 
     spyOn(routingService, 'getPageContext').and.returnValue(

@@ -161,7 +161,7 @@ export class MerchandisingCarouselComponentService {
     cmsComponent: CmsMerchandisingCarouselComponent,
     request: StrategyRequest,
   ): string {
-    return cmsComponent.uid + '_' + cmsComponent.strategy +'_'+ JSON.stringify(request.queryParams)
+    return cmsComponent.uid + '_' + cmsComponent.strategy +'_'+ JSON.stringify(request.queryParams);
   }
 
   private getCarouselItemMetadata(
