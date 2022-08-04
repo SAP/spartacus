@@ -63,30 +63,31 @@ export class AsmBindCartComponent implements OnInit, OnDestroy {
     if (customerId && this.cartId.valid && !this.loading) {
       this.loading = true;
 
-      const subscription = this.asmFacade.bindCart({
-        cartId: this.cartId.value,
-        customerId,
-      })
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe(
-        () => {
-          this.globalMessageService.add(
-            { key: 'asm.bindCart.success' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
+      const subscription = this.asmFacade
+        .bindCart({
+          cartId: this.cartId.value,
+          customerId,
+        })
+        .pipe(finalize(() => (this.loading = false)))
+        .subscribe(
+          () => {
+            this.globalMessageService.add(
+              { key: 'asm.bindCart.success' },
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            );
 
-          this.multiCartFacade.loadCart({
-            cartId: OCC_CART_ID_CURRENT,
-            userId: customerId,
-          });
-        },
-        (error: HttpErrorResponse) => {
-          this.globalMessageService.add(
-            error.error.errors[0].message,
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        }
-      );
+            this.multiCartFacade.loadCart({
+              cartId: OCC_CART_ID_CURRENT,
+              userId: customerId,
+            });
+          },
+          (error: HttpErrorResponse) => {
+            this.globalMessageService.add(
+              error.error.errors[0].message,
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+          }
+        );
 
       this.subscription.add(subscription);
     }

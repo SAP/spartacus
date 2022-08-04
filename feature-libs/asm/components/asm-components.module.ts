@@ -6,10 +6,7 @@ import {
   I18nModule,
   provideConfig,
 } from '@spartacus/core';
-import {
-  FormErrorsModule,
-  IconModule,
-} from '@spartacus/storefront';
+import { FormErrorsModule, IconModule } from '@spartacus/storefront';
 import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';

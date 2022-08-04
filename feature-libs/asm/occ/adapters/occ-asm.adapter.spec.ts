@@ -195,17 +195,22 @@ describe('OccAsmAdapter', () => {
     );
   });
 
-  it('should bind an anonymous cart to a registered user', done => {
-    occAsmAdapter.bindCart({ cartId: 'cart001', customerId: 'customer001' }).subscribe(response => {
-      expect(response).toBeFalsy();
-      done();
-    });
+  it('should bind an anonymous cart to a registered user', (done) => {
+    occAsmAdapter
+      .bindCart({ cartId: 'cart001', customerId: 'customer001' })
+      .subscribe((response) => {
+        expect(response).toBeFalsy();
+        done();
+      });
 
     const mockReq: TestRequest = httpMock.expectOne((req) => {
-      return req.url === 'asmBindCart'
-        && req.params.get('cartId') === 'cart001' && req.params.get('customerId') === 'customer001'
-        && req.headers.get(USE_CUSTOMER_SUPPORT_AGENT_TOKEN) === 'true'
-        && req.method === 'POST';
+      return (
+        req.url === 'asmBindCart' &&
+        req.params.get('cartId') === 'cart001' &&
+        req.params.get('customerId') === 'customer001' &&
+        req.headers.get(USE_CUSTOMER_SUPPORT_AGENT_TOKEN) === 'true' &&
+        req.method === 'POST'
+      );
     });
 
     mockReq.flush(null);
