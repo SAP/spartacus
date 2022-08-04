@@ -26,9 +26,10 @@ export interface Customer360Section {
 }
 
 export enum CUSTOMER_360_SECTION_TITLE {
-  OVERVIEW = 'Overview',
-  PROFILE = 'Profile',
-  ACTIVITY = 'Activity',
-  FEEDBACK = 'Feedback',
-  MAPS = 'Maps',
+  OVERVIEW = 'OVERVIEW',
+  PROFILE = 'PROFILE',
+  ACTIVITY = 'ACTIVITY',
+  FEEDBACK = 'FEEDBACK',
+  PROMOTIONS = 'PROMOTIONS',
+  MAPS = 'MAPS',
 }
