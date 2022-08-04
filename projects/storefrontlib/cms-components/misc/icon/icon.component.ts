@@ -1,9 +1,7 @@
 import {
   Component,
-  ElementRef,
   HostBinding,
   Input,
-  Renderer2,
   SecurityContext
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -65,6 +63,12 @@ export class IconComponent {
   private loadedResources: string[] = [];
 
   /**
+   * Maintains the applied style classes so we can remove them when the
+   * icon type changes at run time.
+   */
+  @HostBinding('class') styleClasses: string[] = [];
+
+  /**
    * The `flip-at-rtl` class is added to the DOM for the style layer to flip the icon in RTL direction.
    */
   @HostBinding('class.flip-at-rtl') flipAtRtl: boolean;
@@ -74,17 +78,9 @@ export class IconComponent {
    */
   @HostBinding('class.flip-at-ltr') flipAtLtr: boolean;
 
-  /**
-   * Maintains the applied style classes so we can remove them when the
-   * icon type changes at run time.
-   */
-  protected styleClasses: string[];
-
   constructor(
     protected iconLoader: IconLoaderService,
-    protected elementRef: ElementRef<HTMLElement>,
     protected winRef: WindowRef,
-    protected renderer: Renderer2,
     protected sanitizer: DomSanitizer
   ) {}
 
@@ -155,21 +151,15 @@ export class IconComponent {
    * Adds the style classes and the link resource (if available).
    */
   protected addStyleClasses(type: ICON_TYPE): void {
-    this.renderer.addClass(this.host, 'cx-icon');
+    // TODO keep classes that have nothing to do with the icon?
+    this.styleClasses = [];
+    this.styleClasses.push('cx-icon');
 
-    this.styleClasses?.forEach((cls) =>
-      this.renderer.removeClass(this.host, cls)
-    );
-
-    this.styleClasses = this.iconLoader.getStyleClasses(type)?.split(' ');
-    this.styleClasses?.forEach((cls) => {
-      if (cls !== '') {
-        this.renderer.addClass(this.host, cls);
+    const iconClasses = this.iconLoader.getStyleClasses(type)?.split(/\s+/);
+    iconClasses.forEach((iconClass) => {
+      if (iconClass !== ''.trim()) {
+        this.styleClasses.push(iconClass);
       }
     });
-  }
-
-  protected get host() {
-    return this.elementRef.nativeElement;
   }
 }
