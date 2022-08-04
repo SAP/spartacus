@@ -6,22 +6,38 @@ import {
 export const Customer360Sections: Customer360Section[] = [
   {
     sectionTitle: CUSTOMER_360_SECTION_TITLE.OVERVIEW,
-    sectionContent: 'Placeholer content for Overview tab',
+    sectionContent: 'Placeholder content for Overview tab',
   },
   {
     sectionTitle: CUSTOMER_360_SECTION_TITLE.PROFILE,
-    sectionContent: 'Placeholer content for Profile tab',
+    sectionContent: 'Placeholder content for Profile tab',
   },
   {
     sectionTitle: CUSTOMER_360_SECTION_TITLE.ACTIVITY,
-    sectionContent: 'Placeholer content for Activity tab',
+    sectionContent: 'Placeholder content for Activity tab',
   },
   {
     sectionTitle: CUSTOMER_360_SECTION_TITLE.FEEDBACK,
-    sectionContent: 'Placeholer content for Feedback tab',
+    sectionContent: 'Placeholder content for Feedback tab',
+  },
+  {
+    sectionTitle: CUSTOMER_360_SECTION_TITLE.PROMOTIONS,
+    sectionContent: 'Placeholder content for Promotions tab',
   },
   {
     sectionTitle: CUSTOMER_360_SECTION_TITLE.MAPS,
-    sectionContent: 'Placeholer content for Maps tab',
+    sectionContent: 'Placeholder content for Maps tab',
   },
 ];
+
+export interface Fragment {
+  type: string;
+  text: string;
+}
+
+export interface keyValuePair {
+  key: string;
+  value: string;
+}
+
+export type Class<T, U> = new (arg: U) => T;
