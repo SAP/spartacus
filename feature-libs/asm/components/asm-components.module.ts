@@ -7,15 +7,14 @@ import {
   I18nModule,
   provideConfig,
 } from '@spartacus/core';
+import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
 import {
   FormErrorsModule,
   IconModule,
   ModalModule,
-  PasswordVisibilityToggleModule,
   PopoverModule,
+  PasswordVisibilityToggleModule,
 } from '@spartacus/storefront';
-import { AsmBindCartComponent } from './asm-bind-cart/asm-bind-cart.component';
-import { AsmCustomer360ComponentModule } from './asm-customer-360/asm-customer-360.component.module';
 import { AsmMainUiComponent } from './asm-main-ui/asm-main-ui.component';
 import { AsmSessionTimerComponent } from './asm-session-timer/asm-session-timer.component';
 import { FormatTimerPipe } from './asm-session-timer/format-timer.pipe';
@@ -25,6 +24,7 @@ import { CustomerEmulationComponent } from './customer-emulation/customer-emulat
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
+import { AsmCustomer360ComponentModule } from './asm-customer-360/asm-customer-360.component.module';
 
 @NgModule({
   imports: [
