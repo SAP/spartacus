@@ -5,6 +5,7 @@ import { CommerceQuotesRequestQuoteButtonModule } from './commerce-quotes-reques
 import { CommerceQuotesRequestQuoteDialogModule } from './commerce-quotes-request-quote-dialog/commerce-quotes-request-quote-dialog.module';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CommerceQuotesCartModule } from './commerce-quotes-cart/commerce-quotes-cart.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,8 @@ import { NgModule } from '@angular/core';
     CommerceQuotesRequestQuoteButtonModule,
     CommerceQuotesRequestQuoteDialogModule,
     ListNavigationModule,
+    CommerceQuotesCartModule,
   ],
+  declarations: [],
 })
 export class CommerceQuotesComponentsModule {}

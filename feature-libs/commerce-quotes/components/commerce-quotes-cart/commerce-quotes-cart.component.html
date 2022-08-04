@@ -1,0 +1,6 @@
+<ng-container *ngIf="quoteDetails$ | async as quote">
+  <cx-cart-item-list
+    [items]="quote.entries"
+    [cartId]="quote.cartId"
+  ></cx-cart-item-list>
+</ng-container>
