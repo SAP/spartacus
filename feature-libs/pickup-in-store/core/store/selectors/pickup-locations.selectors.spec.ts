@@ -1,6 +1,6 @@
 import { StateWithPickupLocations } from '../pickup-location-state';
 import {
-  getIntendedPickupLocationByProductCodeFactory,
+  getIntendedPickupLocationByProductCode,
   getIntendedPickupLocations,
   getPickupOptionByProductCode,
 } from './pickup-locations.selectors';
@@ -23,7 +23,7 @@ describe('PickupLocationSelectors', () => {
     });
   });
 
-  describe('getIntendedPickupLocationByProductCodeFactory', () => {
+  describe('getIntendedPickupLocationByProductCode', () => {
     it('should return the intended pickup location for a given product', () => {
       const state: StateWithPickupLocations = {
         'pickup-locations': {
@@ -36,7 +36,7 @@ describe('PickupLocationSelectors', () => {
         },
       };
       const result =
-        getIntendedPickupLocationByProductCodeFactory('P0001')(state);
+        getIntendedPickupLocationByProductCode('P0001')(state);
       expect(result).toEqual(
         state['pickup-locations'].intendedPickupLocations['P0001']
       );

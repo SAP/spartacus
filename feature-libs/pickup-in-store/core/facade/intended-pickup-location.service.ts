@@ -6,6 +6,7 @@ import {
   PickupOption,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
+
 import { PickupLocationActions, PickupLocationsSelectors } from '../store';
 import { StateWithPickupLocations } from '../store/pickup-location-state';
 
@@ -23,7 +24,7 @@ export class IntendedPickupLocationService
   ): Observable<AugmentedPointOfService | undefined> {
     return this.store.pipe(
       select(
-        PickupLocationsSelectors.getIntendedPickupLocationByProductCodeFactory(
+        PickupLocationsSelectors.getIntendedPickupLocationByProductCode(
           productCode
         )
       )
@@ -33,6 +34,14 @@ export class IntendedPickupLocationService
   getPickupOption(productCode: string): Observable<PickupOption> {
     return this.store.pipe(
       select(PickupLocationsSelectors.getPickupOptionByProductCode(productCode))
+    );
+  }
+
+  setPickupOption(productCode: string, pickupOption: PickupOption): void {
+    this.store.dispatch(
+      PickupLocationActions.SetPickupOption({
+        payload: { productCode, pickupOption },
+      })
     );
   }
 

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ProcessModule } from '@spartacus/core';
-import { IntendedPickupLocationFacade } from 'feature-libs/pickup-in-store/root';
-import { Observable, of } from 'rxjs';
 import {
   AugmentedPointOfService,
-  PickupLocationActions,
+  IntendedPickupLocationFacade,
   PickupOption,
-} from '../store';
+} from 'feature-libs/pickup-in-store/root';
+import { Observable, of } from 'rxjs';
+import { PickupLocationActions } from '../store';
 import { IntendedPickupLocationService } from './intended-pickup-location.service';
 
 describe('IntendedPickupLocationService', () => {
@@ -61,6 +61,19 @@ describe('IntendedPickupLocationService', () => {
       })
     );
   });
+
+  it('getPickupOption', () => {
+    service.getPickupOption('productCode');
+    expect(store.pipe).toHaveBeenCalled();
+  });
+
+  it('setPickupOption', () => {
+    service.setPickupOption('productCode', 'delivery');
+    const action = PickupLocationActions.SetPickupOption({
+      payload: { productCode: 'productCode', pickupOption: 'delivery' },
+    });
+    expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
 });
 
 export class MockIntendedPickupLocationService
@@ -80,4 +93,5 @@ export class MockIntendedPickupLocationService
   getPickupOption(_productCode: string): Observable<PickupOption> {
     return of('delivery');
   }
+  setPickupOption(_productCode: string, _pickupOption: PickupOption): void {}
 }

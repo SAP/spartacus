@@ -31,6 +31,7 @@ describe('PickupDeliveryOptionDialogComponent', () => {
   let fixture: ComponentFixture<PickupDeliveryOptionDialogComponent>;
   let launchDialogService: LaunchDialogService;
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
+  let intendedPickupLocationFacade: IntendedPickupLocationFacade;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -62,6 +63,7 @@ describe('PickupDeliveryOptionDialogComponent', () => {
     component = fixture.componentInstance;
     launchDialogService = TestBed.inject(LaunchDialogService);
     pickupLocationsSearchService = TestBed.inject(PickupLocationsSearchFacade);
+    intendedPickupLocationFacade = TestBed.inject(IntendedPickupLocationFacade);
 
     fixture.detectChanges();
   });
@@ -101,6 +103,26 @@ describe('PickupDeliveryOptionDialogComponent', () => {
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       mockCloseReason
     );
+  });
+
+  it('should close dialog on close method no selection', () => {
+    const mockCloseReason = 'CLOSE_WITHOUT_SELECTION';
+    component.productCode = 'productCode';
+    spyOn(launchDialogService, 'closeDialog');
+    spyOn(
+      intendedPickupLocationFacade,
+      'getIntendedLocation'
+    ).and.callThrough();
+    spyOn(intendedPickupLocationFacade, 'setPickupOption').and.callThrough();
+    component.close(mockCloseReason);
+
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      mockCloseReason
+    );
+
+    expect(
+      intendedPickupLocationFacade.getIntendedLocation
+    ).toHaveBeenCalledWith('productCode');
   });
 
   it('should set loading when showSpinner is called', () => {

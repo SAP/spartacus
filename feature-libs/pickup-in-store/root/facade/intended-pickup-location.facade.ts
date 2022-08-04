@@ -45,8 +45,14 @@ export abstract class IntendedPickupLocationFacade {
   abstract removeIntendedLocation(productCode: string): void;
 
   /**
-   * Set the Pickup Option ('pickup' or 'delivery') a user wants
+   * Get the Pickup Option ('pickup' or 'delivery') a user wants
    * @param productCode The product code of the product the user wants to collect.
    */
-  abstract getPickupOption(productCode: string): Observable<PickupOption>;
+   abstract getPickupOption(productCode: string): Observable<PickupOption>;
+
+   /**
+   * Set the Pickup Option ('pickup' or 'delivery') a user wants
+   * @param productCode The product code of the product the user wants to set the pickup location for.
+   */
+  abstract setPickupOption(productCode: string, pickupOption: PickupOption): void;
 }

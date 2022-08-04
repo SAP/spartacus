@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  IntendedPickupLocationFacade,
   LocationSearchParams,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
 import { ICON_TYPE, LaunchDialogService } from '@spartacus/storefront';
+
 import { Observable } from 'rxjs';
+import { filter, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-delivery-pickup-options-dialog',
@@ -20,8 +23,9 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
   readonly LOCATION_SELECTED = 'LOCATION_SELECTED';
 
   constructor(
-    protected launchDialogService: LaunchDialogService,
-    protected pickupLocationsSearchService: PickupLocationsSearchFacade
+    protected readonly launchDialogService: LaunchDialogService,
+    protected readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
+    protected readonly intendedPickupLocationService: IntendedPickupLocationFacade
   ) {}
 
   ngOnInit() {
@@ -45,6 +49,21 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
 
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
+    if (reason === 'CLOSE_WITHOUT_SELECTION') {
+      this.intendedPickupLocationService
+        .getIntendedLocation(this.productCode)
+        .pipe(
+          filter((store) => !store?.name),
+          take(1),
+          tap(() =>
+            this.intendedPickupLocationService.setPickupOption(
+              this.productCode,
+              'delivery'
+            )
+          )
+        )
+        .subscribe();
+    }
   }
 
   showSpinner(showSpinner: boolean): void {

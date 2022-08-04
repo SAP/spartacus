@@ -25,7 +25,7 @@ export const getIntendedPickupLocations: MemoizedSelector<
  * @param productCode The product code of the product to get the intended pickup location for.
  * @returns The intended pickup location for the product.
  */
-export const getIntendedPickupLocationByProductCodeFactory = (
+export const getIntendedPickupLocationByProductCode = (
   productCode: string
 ): MemoizedSelector<
   StateWithPickupLocations,
@@ -42,7 +42,7 @@ export const getPickupOptionByProductCode = (
   productCode: string
 ): MemoizedSelector<StateWithPickupLocations, PickupOption> =>
   createSelector(
-    getIntendedPickupLocationByProductCodeFactory(productCode),
-    (_getIntendedPickupLocationByProductCodeFactory) =>
-      _getIntendedPickupLocationByProductCodeFactory?.pickupOption ?? 'delivery'
+    getIntendedPickupLocationByProductCode(productCode),
+    (_getIntendedPickupLocationByProductCode) =>
+      _getIntendedPickupLocationByProductCode?.pickupOption ?? 'delivery'
   );

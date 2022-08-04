@@ -5,11 +5,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-  AugmentedPointOfService,
   PointOfServiceNames,
   PreferredStoreService,
 } from '@spartacus/pickup-in-store/core';
 import {
+  AugmentedPointOfService,
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';

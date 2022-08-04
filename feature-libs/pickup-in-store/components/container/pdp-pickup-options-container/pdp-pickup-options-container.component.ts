@@ -88,7 +88,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
       ),
       switchMap(({ intendedLocation, productCode }) =>
         iif(
-          () => intendedLocation?.pickupOption === 'pickup',
+          () =>
+            intendedLocation?.pickupOption === 'pickup' &&
+            !!intendedLocation?.displayName,
           of(intendedLocation?.displayName),
           of(this.preferredStoreService.getPreferredStore()).pipe(
             filter(hasNames),
@@ -147,13 +149,16 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
   }
 
   onPickupOptionChange(option: PickupOption) {
+    this.intendedPickupLocationService.setPickupOption(
+      this.productCode,
+      option
+    );
     if (option === 'delivery') {
       this.intendedPickupLocationService.removeIntendedLocation(
         this.productCode
       );
       return;
     }
-
     const preferredStore = this.preferredStoreService.getPreferredStore();
     if (!this.displayNameIsSet) {
       this.openDialog();
