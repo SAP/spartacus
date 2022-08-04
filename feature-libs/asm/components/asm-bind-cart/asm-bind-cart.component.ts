@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { AsmFacade } from '@spartacus/asm/root';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   GlobalMessageService,
@@ -11,7 +10,9 @@ import {
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+
 import { HttpErrorModel } from '../../../../projects/core/src/model/misc.model';
+import { AsmFacade } from '../../root';
 
 @Component({
   selector: 'cx-asm-bind-cart',

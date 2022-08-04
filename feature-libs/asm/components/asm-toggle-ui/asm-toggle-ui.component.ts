@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AsmFacade, AsmUi } from '@spartacus/asm/root';
 import { Subscription } from 'rxjs';
+
+import { AsmFacade, AsmUi } from '../../root';
 
 @Component({
   selector: 'cx-asm-toggle-ui',
