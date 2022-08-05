@@ -162,7 +162,7 @@ describe('CompactAddToCartComponent', () => {
 
     addToCartComponent.addToCart();
 
-    expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
+    expect(service.addEntry).toHaveBeenCalledWith({ productCode, quantity: 1 });
     expect(listener['openModal']).toHaveBeenCalledTimes(1);
   });
 

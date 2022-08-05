@@ -45,8 +45,11 @@ export class SaveForLaterComponent implements OnInit {
     );
   }
 
-  moveToCart(item: OrderEntry) {
+  moveToCart(item: OrderEntry): void {
     this.selectiveCartService.removeEntry(item);
-    this.cartService.addEntry(item.product?.code ?? '', item.quantity ?? 0);
+    this.cartService.addEntry({
+      productCode: item.product?.code ?? '',
+      quantity: item.quantity ?? 0,
+    });
   }
 }

@@ -138,7 +138,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       .getEntries()
       .pipe(take(1))
       .subscribe((cartEntries) => {
-        this.activeCartService.addEntry(this.productCode, quantity);
+        this.activeCartService.addEntry({
+          productCode: this.productCode,
+          quantity,
+        });
 
         // A CartUiEventAddToCart is dispatched.  This event is intended for the UI
         // responsible to provide feedback about what was added to the cart, like

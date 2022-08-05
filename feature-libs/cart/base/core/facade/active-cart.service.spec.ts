@@ -409,7 +409,7 @@ describe('ActiveCartService', () => {
       spyOn(multiCartFacade, 'addEntry').and.callThrough();
       userId$.next(OCC_USER_ID_ANONYMOUS);
 
-      service.addEntry('productCode', 2);
+      service.addEntry({ productCode: 'productCode', quantity: 2 });
 
       expect(multiCartFacade['addEntry']).toHaveBeenCalledWith(
         OCC_USER_ID_ANONYMOUS,

@@ -264,7 +264,10 @@ describe('AddToCartComponent', () => {
       addToCartComponent.quantity = 1;
 
       addToCartComponent.addToCart();
-      expect(activeCartFacade.addEntry).toHaveBeenCalledWith(productCode, 1);
+      expect(activeCartFacade.addEntry).toHaveBeenCalledWith({
+        productCode,
+        quantity: 1,
+      });
     });
 
     describe('addToCart ', () => {
@@ -281,10 +284,10 @@ describe('AddToCartComponent', () => {
         addToCartComponent.productCode = mockProductCode;
         spyOn(activeCartFacade, 'addEntry').and.stub();
         addToCartComponent.addToCart();
-        expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
-          mockProductCode,
-          1
-        );
+        expect(activeCartFacade.addEntry).toHaveBeenCalledWith({
+          productCode: mockProductCode,
+          quantity: 1,
+        });
       });
       it('should dispatch the add to cart UI event', () => {
         spyOn(activeCartFacade, 'getEntries').and.returnValue(
