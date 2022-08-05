@@ -18,6 +18,11 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     protected converterService: ConverterService
   ) {}
 
+  /**
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `add(options: BaseCartOptions<AddEntryOptions>)`.
+   */
   // TODO:#object-extensibility-deprecation - remove
   public add(
     userId: string,

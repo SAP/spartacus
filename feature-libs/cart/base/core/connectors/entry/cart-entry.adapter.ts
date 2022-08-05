@@ -9,6 +9,9 @@ export abstract class CartEntryAdapter {
   /**
    * Abstract method used to add entry to cart
    *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `add(options: BaseCartOptions<AddEntryOptions>)`.
+   *
    * @param userId
    * @param cartId
    * @param productCode

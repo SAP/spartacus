@@ -85,6 +85,9 @@ export abstract class ActiveCartFacade {
    *
    * @param productCode
    * @param quantity
+   *
+   * @deprecated since 5.1.0, and will be removed in the future major version.
+   * Instead, use `add(options: AddEntryOptions)`.
    */
   // TODO:#object-extensibility-deprecation - remove
   abstract addEntry(productCode: string, quantity: number): void;
