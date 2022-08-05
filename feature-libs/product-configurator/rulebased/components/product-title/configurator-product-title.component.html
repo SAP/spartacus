@@ -78,10 +78,11 @@
                     <span
                       class="cx-label"
                       [attr.aria-label]="
-                        'configurator.a11y.kbKeyName' | cxTranslate
+                        'configurator.a11y.kbKeyName'
+                          | cxTranslate: { name: configuration.kbKey.kbName }
                       "
                     >
-                      {{ 'configurator.a11y.kbKeyName' | cxTranslate }}
+                      {{ 'configurator.header.kbKeyName' | cxTranslate }}
                     </span>
                     <span class="cx-value">
                       {{ configuration.kbKey.kbName }}
@@ -93,10 +94,12 @@
                     <span
                       class="cx-label"
                       [attr.aria-label]="
-                        'configurator.a11y.kbKeyLogsys' | cxTranslate
+                        'configurator.a11y.kbKeyLogsys'
+                          | cxTranslate
+                            : { logsys: configuration.kbKey.kbLogsys }
                       "
                     >
-                      {{ 'configurator.a11y.kbKeyLogsys' | cxTranslate }}
+                      {{ 'configurator.header.kbKeyLogsys' | cxTranslate }}
                     </span>
                     <span class="cx-value">
                       {{ configuration.kbKey.kbLogsys }}
@@ -108,10 +111,12 @@
                     <span
                       class="cx-label"
                       [attr.aria-label]="
-                        'configurator.a11y.kbKeyVersion' | cxTranslate
+                        'configurator.a11y.kbKeyVersion'
+                          | cxTranslate
+                            : { version: configuration.kbKey.kbVersion }
                       "
                     >
-                      {{ 'configurator.a11y.kbKeyVersion' | cxTranslate }}
+                      {{ 'configurator.header.kbKeyVersion' | cxTranslate }}
                     </span>
                     <span class="cx-value">
                       {{ configuration.kbKey.kbVersion }}
@@ -123,10 +128,12 @@
                     <span
                       class="cx-label"
                       [attr.aria-label]="
-                        'configurator.a11y.kbKeyBuildNr' | cxTranslate
+                        'configurator.a11y.kbKeyBuildNr'
+                          | cxTranslate
+                            : { number: configuration.kbKey.kbBuildNumber }
                       "
                     >
-                      {{ 'configurator.a11y.kbKeyBuildNr' | cxTranslate }}
+                      {{ 'configurator.header.kbKeyBuildNr' | cxTranslate }}
                     </span>
                     <span class="cx-value">
                       {{ configuration.kbKey.kbBuildNumber }}
