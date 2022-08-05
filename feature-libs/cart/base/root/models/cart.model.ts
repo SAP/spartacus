@@ -203,6 +203,4 @@ export type BaseCartOptions<T> = BaseUserOptions<T & { cartId: string }>;
 export interface AddEntryOptions {
   productCode: string;
   quantity?: number;
-  // TODO:#extensible-options - augment in BOPIS?
-  deliveryPointOfServiceName?: string;
 }
