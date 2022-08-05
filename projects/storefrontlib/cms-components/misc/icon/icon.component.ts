@@ -98,11 +98,12 @@ export class IconComponent {
         this.icon = null;
         this.isSvg = false;
     } else {
-        return;
-        // TODO log unsupported IconResourceType?
+        // TODO seems to be same as for LINK, consolidate?
+        this.icon = null;
+        this.isSvg = false;
     }
-    this.addStyleClasses(type);
     this.addLinkResource(type);
+    this.addStyleClasses(type);
     this.flipIcon(type);
   }
 
