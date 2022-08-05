@@ -6,6 +6,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { AdminGuard } from '@spartacus/organization/administration/core';
 import { ORGANIZATION_ADMINISTRATION_FEATURE } from '@spartacus/organization/administration/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultAccountSummaryRoutingConfig } from './config';
@@ -35,7 +36,7 @@ export function defaultAccountSummaryComponentsConfig(): CmsConfig {
       {
         // @ts-ignore
         path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
+        canActivate: [AuthGuard, AdminGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'orgAccountSummaryDetails' },
       },
