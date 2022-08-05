@@ -153,22 +153,22 @@ export class ConfiguratorAttributeNumericInputFieldService {
       if (value.name.includes('>')) {
         minVal = value.name;
         interval.minValueIncluded = false;
-        minVal = minVal.replace('>', '');
+        minVal = minVal.replace(/>/g, '');
       }
       if (value.name.includes('<')) {
         maxVal = value.name;
         interval.maxValueIncluded = false;
-        maxVal = maxVal.replace('<', '');
+        maxVal = maxVal.replace(/</g, '');
       }
       if (value.name.includes('≥')) {
         minVal = value.name;
         interval.minValueIncluded = true;
-        minVal = minVal.replace('≥', '');
+        minVal = minVal.replace(/≥/g, '');
       }
       if (value.name.includes('≤')) {
         maxVal = value.name;
         interval.maxValueIncluded = true;
-        maxVal = maxVal.replace('≤', '');
+        maxVal = maxVal.replace(/≤/g, '');
       }
       if (
         !value.name.includes('>') &&
