@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { CustomerTicketingDetailsModule } from './customer-ticketing-details';
+import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
 
 @NgModule({
   imports: [
@@ -12,8 +13,9 @@ import { CustomerTicketingDetailsModule } from './customer-ticketing-details';
     I18nModule,
     FormErrorsModule,
     CustomerTicketingDetailsModule,
+    CustomerTicketingDetailsModule,
   ],
   exports: [],
   providers: [],
 })
-export class CustomerTicketingComponentsModule {}
+export class CustomerTicketingListComponentsModule {}
