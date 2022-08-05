@@ -53,6 +53,7 @@ const occAttribute: OccConfigurator.Attribute = {
 };
 const occAttributeWithValues: OccConfigurator.Attribute = {
   name: attributeName,
+  visible: true,
   required: requiredFlag,
   type: OccConfigurator.UiType.RADIO_BUTTON,
   key: groupKey,
@@ -385,6 +386,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attribute.required).toBe(requiredFlag);
       expect(attribute.selectedSingleValue).toBe(valueKey2);
       expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON);
+      expect(attribute.visible).toBeTruthy();
       const values = attribute.values;
       expect(values?.length).toBe(2);
     });

@@ -1529,7 +1529,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       initialize();
 
       expect(
-        component.getGroupMenuTitl(mockProductConfiguration.groups[0])
+        component.getGroupMenuTitle(mockProductConfiguration.groups[0])
       ).toEqual(mockProductConfiguration.groups[0].description);
     });
 
@@ -1537,14 +1537,14 @@ describe('ConfigurationGroupMenuComponent', () => {
       spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
       initialize();
 
-      const groupMenuTitel =
+      const groupMenuTitle =
         mockProductConfiguration.groups[0].description +
         ' / [' +
         mockProductConfiguration.groups[0].name +
         ']';
       expect(
         component.getGroupMenuTitle(mockProductConfiguration.groups[0])
-      ).toEqual(groupMenuTitel);
+      ).toEqual(groupMenuTitle);
     });
 
     it('should return conflict header group title for expert mode', () => {

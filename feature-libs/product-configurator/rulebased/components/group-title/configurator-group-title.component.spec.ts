@@ -127,9 +127,9 @@ describe('ConfigurationGroupTitleComponent', () => {
 
     it('should return group title for expert mode', () => {
       spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
-      const groupMenuTitel =
+      const groupMenuTitle =
         config.groups[0].description + ' / [' + config.groups[0].name + ']';
-      expect(component.getGroupTitle(config.groups[0])).toEqual(groupMenuTitel);
+      expect(component.getGroupTitle(config.groups[0])).toEqual(groupMenuTitle);
     });
 
     it('should return conflict group title for expert mode', () => {

@@ -148,6 +148,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     component.attribute = currentAttribute;
     component.attribute.label = 'label of attribute';
     component.attribute.name = '123';
+    component.attribute.visible = true;
     component.owner = owner;
     component.groupId = 'testGroup';
     component.attribute.required = false;
@@ -235,6 +236,31 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Render corresponding part of the component', () => {
+    it('should not render message for not visible attribute', () => {
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg'
+      );
+    });
+
+    it('should render message for not visible attribute', () => {
+      component.attribute.visible = false;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        'div.cx-hidden-msg',
+        'configurator.attribute.notVisibleAttributeMsg'
+      );
+    });
+
     it('should render a label', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,

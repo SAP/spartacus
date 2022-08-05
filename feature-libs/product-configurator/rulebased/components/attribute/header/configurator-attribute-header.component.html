@@ -1,6 +1,6 @@
 <div *ngIf="!attribute.visible" class="cx-hidden-msg">
   <cx-icon [type]="iconTypes.WARNING" aria-hidden="true"></cx-icon>
-  {{ 'configurator.attribute.notVisibleMsg' | cxTranslate }}
+  {{ 'configurator.attribute.notVisibleAttributeMsg' | cxTranslate }}
 </div>
 <label
   id="{{ createAttributeUiKey('label', attribute.name) }}"
