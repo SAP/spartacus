@@ -2,5 +2,8 @@
   <cx-cart-item-list
     [items]="quote.entries"
     [cartId]="quote.cartId"
+    [readonly]="
+      !(quote.state === 'BUYER_DRAFT' || quote.state === 'SELLER_DRAFT')
+    "
   ></cx-cart-item-list>
 </ng-container>
