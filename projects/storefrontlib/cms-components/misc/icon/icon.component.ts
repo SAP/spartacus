@@ -157,7 +157,7 @@ export class IconComponent {
     this.styleClasses.push('cx-icon');
 
     const iconClasses = this.iconLoader.getStyleClasses(type)?.split(/\s+/);
-    iconClasses.forEach((iconClass) => {
+    iconClasses?.forEach((iconClass) => {
       if (iconClass !== ''.trim()) {
         this.styleClasses.push(iconClass);
       }

@@ -18,6 +18,10 @@ export class MockIconLoaderService {
   getStyleClasses() {}
   addStyleClasses() {}
   addLinkResource() {}
+  isResourceType() {}
+  getSvgPath() {}
+  findResource() {}
+  getSymbol() {}
 }
 
 @NgModule({
