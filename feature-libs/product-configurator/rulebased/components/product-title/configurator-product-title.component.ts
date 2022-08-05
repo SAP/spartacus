@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Optional,
+} from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -53,18 +58,36 @@ export class ConfiguratorProductTitleComponent {
   showMore = false;
   iconTypes = ICON_TYPE;
 
+  //TODO(CXSPA-1014): take care about constructor deprecation
+  constructor(
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    productService: ProductService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configExpertModeService: ConfiguratorExpertModeService
+  );
+
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    productService: ProductService
+  );
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected productService: ProductService,
-    protected configExpertModeService: ConfiguratorExpertModeService
+    @Optional()
+    protected configExpertModeService?: ConfiguratorExpertModeService
   ) {}
 
   triggerDetails(): void {
     this.showMore = !this.showMore;
   }
 
-  get expMode(): Observable<boolean> {
-    return this.configExpertModeService.getExpMode();
+  get expMode(): Observable<boolean> | undefined {
+    return this.configExpertModeService?.getExpMode();
   }
 }

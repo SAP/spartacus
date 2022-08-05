@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Optional,
+} from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -29,18 +34,37 @@ export class ConfiguratorGroupTitleComponent {
 
   iconTypes = ICON_TYPE;
 
+  //TODO(CXSPA-1014): take care about constructor deprecation
+  constructor(
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configExpertModeService: ConfiguratorExpertModeService
+  );
+
+  /**
+   * @deprecated since 5.1
+   */
+  constructor(
+    configuratorCommonsService: ConfiguratorCommonsService,
+    configuratorGroupsService: ConfiguratorGroupsService,
+    configRouterExtractorService: ConfiguratorRouterExtractorService
+  );
+
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configExpertModeService: ConfiguratorExpertModeService
+    @Optional()
+    protected configExpertModeService?: ConfiguratorExpertModeService
   ) {}
 
   getGroupTitle(group: Configurator.Group): string | undefined {
     let title = group.description;
     if (group.groupType !== Configurator.GroupType.CONFLICT_GROUP) {
       this.configExpertModeService
-        .getExpMode()
+        ?.getExpMode()
         .pipe(take(1))
         .subscribe((expMode) => {
           if (expMode) {
