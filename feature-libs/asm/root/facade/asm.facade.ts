@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ASM_FEATURE } from '../feature-name';
-import { CustomerListsPage } from '../model/customer-lists-page.model';
+import { CustomerListsPage } from '../model/customer-list.model';
 import { CustomerSearchOptions } from '../model/customer-search-options.model';
 import { CustomerSearchPage } from '../model/customer-search-page.model';
 
@@ -10,12 +10,12 @@ import { CustomerSearchPage } from '../model/customer-search-page.model';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: AsmFacadeService,
+      facade: AsmFacade,
       feature: ASM_FEATURE,
       methods: ['getCustomerLists', 'getCustomers'],
     }),
 })
-export abstract class AsmFacadeService {
+export abstract class AsmFacade {
   abstract getCustomerLists(): Observable<QueryState<CustomerListsPage>>;
 
   abstract getCustomers(

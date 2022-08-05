@@ -1,4 +1,15 @@
-import { UserGroup } from './user-group.model';
+export interface Member {
+  name?: string;
+  uid?: string;
+}
+
+export interface UserGroup {
+  members?: Array<Member>;
+  membersCount?: number;
+  name?: string;
+  subGroups?: Array<UserGroup>;
+  uid?: string;
+}
 
 export interface CustomerListsPage {
   currentPage?: number;

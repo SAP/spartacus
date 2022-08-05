@@ -288,4 +288,38 @@ describe('OccAsmAdapter', () => {
       }
     );
   });
+
+  it('should not include default sort if customerListId is passed', () => {
+    let result: CustomerSearchPage;
+    const searchOptions: CustomerSearchOptions = {
+      customerListId: 'instoreCustomers',
+    };
+    occAsmAdapter.customerSearch(searchOptions).subscribe((data) => {
+      result = data;
+    });
+    const mockReq: TestRequest = httpMock.expectOne((req) => {
+      return req.method === 'GET';
+    });
+
+    expect(mockReq.request.params.get('baseSite')).toBe(baseSite);
+    expect(mockReq.request.params.get('sort')).toBeNull();
+    expect(mockReq.request.params.get('query')).toBeNull();
+    expect(mockReq.request.params.get('pageSize')).toBeNull();
+
+    expect(mockReq.cancelled).toBeFalsy();
+    expect(mockReq.request.responseType).toEqual('json');
+    mockReq.flush(mockCustomerSearchPage);
+    expect(result).toEqual(mockCustomerSearchPage);
+    expect(converterService.pipeable).toHaveBeenCalledWith(
+      CUSTOMER_SEARCH_PAGE_NORMALIZER
+    );
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'asmCustomerSearch',
+      {},
+      {
+        baseSite: false,
+        prefix: false,
+      }
+    );
+  });
 });

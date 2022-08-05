@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
-  AsmFacadeService,
+  AsmFacade,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 import { AsmConnector } from '../connectors/asm.connector';
 
 @Injectable()
-export class AsmQueryService implements AsmFacadeService {
+export class AsmQueryService implements AsmFacade {
   protected customerListQuery$: Query<CustomerListsPage> =
     this.queryService.create(() => this.asmConnector.customerLists(), {
       reloadOn: undefined,

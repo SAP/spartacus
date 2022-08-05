@@ -22,7 +22,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CustomerListComponent } from '../customer-list/customer-list.component';
-import { CustomerListActionEvent } from '../customer-list/customer-list.model';
+import { CustomerListAction } from '../customer-list/customer-list.model';
 import { AsmComponentService } from '../services/asm-component.service';
 @Component({
   selector: 'cx-asm-main-ui',
@@ -163,7 +163,7 @@ export class AsmMainUiComponent implements OnInit {
       ariaDescribedBy: 'asm-customer-list-desc',
     });
     this.modalRef?.result
-      .then(({ selectedUser, actionType }: CustomerListActionEvent) => {
+      .then(({ selectedUser, actionType }: CustomerListAction) => {
         if (selectedUser) {
           this.startCustomerEmulationSession(selectedUser);
           if (actionType === CustomerListColumnActionType.ORDER_HISTORY) {

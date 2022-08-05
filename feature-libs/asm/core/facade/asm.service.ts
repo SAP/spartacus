@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
-  AsmFacadeService,
+  AsmFacade,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -19,17 +19,17 @@ import { AsmSelectors } from '../store/index';
 export class AsmService {
   constructor(
     protected store: Store<StateWithAsm>,
-    protected asmFacadeService: AsmFacadeService
+    protected asmFacade: AsmFacade
   ) {}
 
   getCustomerLists(): Observable<QueryState<CustomerListsPage>> {
-    return this.asmFacadeService.getCustomerLists();
+    return this.asmFacade.getCustomerLists();
   }
 
   searchCustomers(
     options?: CustomerSearchOptions
   ): Observable<CustomerSearchPage> {
-    return this.asmFacadeService.getCustomers(options);
+    return this.asmFacade.getCustomers(options);
   }
 
   /**

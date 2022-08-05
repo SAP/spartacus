@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-  AsmFacadeService,
+  AsmFacade,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -27,7 +27,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
 };
 
-class MockAsmFacadeService implements Partial<AsmFacadeService> {
+class MockAsmFacade implements Partial<AsmFacade> {
   getCustomerLists() {
     return NEVER;
   }
@@ -39,7 +39,7 @@ class MockAsmFacadeService implements Partial<AsmFacadeService> {
 describe('AsmService', () => {
   let service: AsmService;
   let store: Store<AsmState>;
-  let asmFacadeService: AsmFacadeService;
+  let asmFacade: AsmFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,15 +47,12 @@ describe('AsmService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
-      providers: [
-        AsmService,
-        { provide: AsmFacadeService, useClass: MockAsmFacadeService },
-      ],
+      providers: [AsmService, { provide: AsmFacade, useClass: MockAsmFacade }],
     });
 
     service = TestBed.inject(AsmService);
     store = TestBed.inject(Store);
-    asmFacadeService = TestBed.inject(AsmFacadeService);
+    asmFacade = TestBed.inject(AsmFacade);
   });
 
   it('should be created', () => {
@@ -129,12 +126,12 @@ describe('AsmService', () => {
       error: false,
       loading: false,
     };
-    spyOn(asmFacadeService, 'getCustomerLists').and.returnValue(of(expected));
+    spyOn(asmFacade, 'getCustomerLists').and.returnValue(of(expected));
 
     service.getCustomerLists().subscribe((result) => (actual = result));
 
     expect(actual).toEqual(expected);
-    expect(asmFacadeService.getCustomerLists).toHaveBeenCalled();
+    expect(asmFacade.getCustomerLists).toHaveBeenCalled();
   });
 
   it('should retrieve customers', () => {
@@ -142,7 +139,7 @@ describe('AsmService', () => {
     const expected: CustomerSearchPage = {
       entries: [],
     };
-    spyOn(asmFacadeService, 'getCustomers').and.returnValue(of(expected));
+    spyOn(asmFacade, 'getCustomers').and.returnValue(of(expected));
     const input: CustomerSearchOptions = {
       customerListId: 'mock-list-uid',
     };
@@ -150,6 +147,6 @@ describe('AsmService', () => {
     service.searchCustomers(input).subscribe((result) => (actual = result));
 
     expect(actual).toEqual(expected);
-    expect(asmFacadeService.getCustomers).toHaveBeenCalledWith(input);
+    expect(asmFacade.getCustomers).toHaveBeenCalledWith(input);
   });
 });

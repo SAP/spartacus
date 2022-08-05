@@ -14,9 +14,9 @@ import {
   ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
-import { CustomerListActionEvent } from './customer-list.model';
+import { combineLatest, defer, Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
+import { CustomerListAction } from './customer-list.model';
 
 @Component({
   selector: 'cx-customer-list',
@@ -103,25 +103,24 @@ export class CustomerListComponent implements OnInit {
       if (this.sortCode) {
         options.sort = this.sortCode;
       }
-      this.customerSearchPage$ = of(options)
-        .pipe(
-          tap(() => (this.loaded = false)),
-          switchMap((options) => this.asmService.searchCustomers(options))
-        )
-        .pipe(
-          tap((result) => {
-            this.loaded = true;
-            if (result.sorts) {
-              this.sorts = result.sorts;
-              this.sortCode = result.pagination?.sort;
-            }
-            if (result.entries.length < pageSize) {
-              this.maxPage = result.pagination?.currentPage || 0;
-            } else {
-              this.maxPage = this.currentPage + 1;
-            }
-          })
-        );
+
+      this.customerSearchPage$ = defer(() => {
+        this.loaded = false;
+        return this.asmService.searchCustomers(options);
+      }).pipe(
+        tap((result) => {
+          this.loaded = true;
+          if (result.sorts) {
+            this.sorts = result.sorts;
+            this.sortCode = result.pagination?.sort;
+          }
+          if (result.entries.length < pageSize) {
+            this.maxPage = result.pagination?.currentPage || 0;
+          } else {
+            this.maxPage = this.currentPage + 1;
+          }
+        })
+      );
     }
   }
 
@@ -154,7 +153,7 @@ export class CustomerListComponent implements OnInit {
     action: CustomerListColumnActionType
   ): void {
     this.selectedCustomer = customerEntry;
-    let closeValue: CustomerListActionEvent = {
+    let closeValue: CustomerListAction = {
       actionType: action,
       selectedUser: customerEntry,
     };

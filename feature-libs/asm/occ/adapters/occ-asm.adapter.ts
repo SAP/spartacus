@@ -36,12 +36,16 @@ export class OccAsmAdapter implements AsmAdapter {
       .subscribe((value) => (this.activeBaseSite = value)); // TODO: Concurrency issue?
   }
 
-  customerLists(): Observable<CustomerListsPage> {
-    const headers = InterceptorUtil.createHeader(
+  protected getHeaders(): HttpHeaders {
+    return InterceptorUtil.createHeader(
       USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
       true,
       new HttpHeaders()
     );
+  }
+
+  customerLists(): Observable<CustomerListsPage> {
+    const headers = this.getHeaders();
     const params: HttpParams = new HttpParams().set(
       'baseSite',
       this.activeBaseSite
@@ -64,36 +68,34 @@ export class OccAsmAdapter implements AsmAdapter {
   customerSearch(
     options: CustomerSearchOptions
   ): Observable<CustomerSearchPage> {
-    const headers = InterceptorUtil.createHeader(
-      USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-      true,
-      new HttpHeaders()
-    );
+    const headers = this.getHeaders();
     let params: HttpParams = new HttpParams().set(
       'baseSite',
       this.activeBaseSite
     );
 
-    if (typeof options['sort'] !== 'undefined') {
-      params = params.set('sort', '' + options.sort);
+    if (options.sort !== undefined) {
+      params = params.set('sort', options.sort);
     } else {
-      params = params.set('sort', 'byNameAsc');
+      if (!options.customerListId) {
+        params = params.set('sort', 'byNameAsc');
+      }
     }
 
-    if (typeof options['query'] !== 'undefined') {
-      params = params.set('query', '' + options.query);
+    if (options.query !== undefined) {
+      params = params.set('query', options.query);
     }
 
-    if (typeof options['pageSize'] !== 'undefined') {
-      params = params.set('pageSize', '' + options.pageSize);
+    if (options.pageSize !== undefined) {
+      params = params.set('pageSize', options.pageSize.toString());
     }
 
-    if (typeof options['currentPage'] !== 'undefined') {
-      params = params.set('currentPage', '' + options.currentPage);
+    if (options.currentPage !== undefined) {
+      params = params.set('currentPage', options.currentPage.toString());
     }
 
-    if (typeof options['customerListId'] !== 'undefined') {
-      params = params.set('customerListId', '' + options.customerListId);
+    if (options.customerListId !== undefined) {
+      params = params.set('customerListId', options.customerListId);
     }
 
     const url = this.occEndpointsService.buildUrl(
