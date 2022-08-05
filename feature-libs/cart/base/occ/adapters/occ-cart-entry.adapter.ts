@@ -35,7 +35,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     options: BaseCartOptions<AddEntryOptions>
   ): Observable<CartModification>;
   public add(
-    options:
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrUserId:
       | BaseCartOptions<AddEntryOptions>
       // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
       | string,
@@ -43,70 +44,44 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     productCode?: string,
     quantity?: number
   ): Observable<CartModification> {
-    let toAdd = {};
-
+    let options: Omit<
+      AddEntryOptions,
+      'userId' | 'cartId' | 'productCode' | 'quantity'
+    > = {};
     let userId: string;
-    // TODO:#object-extensibility-deprecation - remove the 'if' part
-    if (typeof options === 'string') {
-      userId = options;
-      // temporary, to make TS happy
-      productCode = productCode ?? '';
-    } else {
-      userId = options.userId;
-      cartId = options.cartId;
-      productCode = options.productCode;
-      quantity = options.quantity;
 
-      // pickup any augmented data
-      for (const key in options) {
-        if (
-          key !== 'userId' &&
-          key !== 'cartId' &&
-          key !== 'productCode' &&
-          key !== 'quantity'
-        ) {
-          // TODO:#object-extensibility-deprecation - improve
-          (toAdd as any)[key] = (options as any)[key];
-        }
-      }
+    // TODO:#object-extensibility-deprecation - remove the `if` part
+    if (typeof optionsOrUserId === 'string') {
+      userId = optionsOrUserId;
+    } else {
+      ({ userId, cartId, productCode, quantity, ...options } = optionsOrUserId);
     }
+
     quantity = quantity || 1;
 
-    const url = this.occEndpointsService.buildUrl('addEntries', {
-      urlParams: { userId, cartId, quantity },
+    // TODO:#object-extensibility-deprecation - should be able to remove `cartId!` assertion and the `eslint-disable-next-line` rule below
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const urlParams = { userId, cartId: cartId!, quantity };
+    const url = this.occEndpointsService.buildUrl('addEntries', { urlParams });
+
+    // TODO:#object-extensibility-deprecation - should be able to remove  and the `productCode!` assertion and the `eslint-disable-next-line` rule below
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const body: any = { ...options, product: { code: productCode! }, quantity };
+    let headers = new HttpHeaders({
+      'Content-Type': 'application/json',
     });
 
     // Handle b2b case where the x-www-form-urlencoded is still used
     if (url.includes(`quantity=${quantity}`)) {
-      const httpHeaders = new HttpHeaders({
+      headers = new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
       });
-
-      return this.http
-        .post<CartModification>(
-          url,
-          {},
-          {
-            headers: httpHeaders,
-            params: {
-              code: productCode,
-            },
-          }
-        )
-        .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+      // we don't want to send the quantity twice
+      delete body.quantity;
     }
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
-    toAdd = {
-      ...toAdd,
-      quantity,
-      product: { code: productCode },
-    };
     return this.http
-      .post<CartModification>(url, toAdd, { headers })
+      .post<CartModification>(url, body, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
