@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CartEntryAdapter } from '@spartacus/cart/base/core';
 import {
+  AddEntryOptions,
+  BaseCartOptions,
   CartModification,
   CART_MODIFICATION_NORMALIZER,
 } from '@spartacus/cart/base/root';
@@ -16,12 +18,55 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     protected converterService: ConverterService
   ) {}
 
+  // TODO:#object-extensibility-deprecation - remove
   public add(
     userId: string,
     cartId: string,
     productCode: string,
-    quantity: number = 1
+    quantity?: number
+  ): Observable<CartModification>;
+  // TODO:#object-extensibility-deprecation - remove
+  public add(
+    options: BaseCartOptions<AddEntryOptions>
+  ): Observable<CartModification>;
+  public add(
+    options:
+      | BaseCartOptions<AddEntryOptions>
+      // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
+      | string,
+    cartId?: string,
+    productCode?: string,
+    quantity?: number
   ): Observable<CartModification> {
+    let toAdd = {};
+
+    let userId: string;
+    // TODO:#object-extensibility-deprecation - remove the 'if' part
+    if (typeof options === 'string') {
+      userId = options;
+      // temporary, to make TS happy
+      productCode = productCode ?? '';
+    } else {
+      userId = options.userId;
+      cartId = options.cartId;
+      productCode = options.productCode;
+      quantity = options.quantity;
+
+      // pickup any augmented data
+      for (const key in options) {
+        if (
+          key !== 'userId' &&
+          key !== 'cartId' &&
+          key !== 'productCode' &&
+          key !== 'quantity'
+        ) {
+          // TODO:#object-extensibility-deprecation - improve
+          (toAdd as any)[key] = (options as any)[key];
+        }
+      }
+    }
+    quantity = quantity || 1;
+
     const url = this.occEndpointsService.buildUrl('addEntries', {
       urlParams: { userId, cartId, quantity },
     });
@@ -36,20 +81,25 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
         .post<CartModification>(
           url,
           {},
-          { headers: httpHeaders, params: { code: productCode } }
+          {
+            headers: httpHeaders,
+            params: {
+              code: productCode,
+            },
+          }
         )
         .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
     }
-
-    const toAdd = {
-      quantity,
-      product: { code: productCode },
-    };
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
+    toAdd = {
+      ...toAdd,
+      quantity,
+      product: { code: productCode },
+    };
     return this.http
       .post<CartModification>(url, toAdd, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));

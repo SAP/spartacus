@@ -8,6 +8,7 @@ import {
   Product,
   Promotion,
 } from '@spartacus/core';
+import { BaseUserOptions } from '@spartacus/user/account/root';
 
 export interface PromotionResult {
   consumedEntries?: PromotionOrderEntryConsumed[];
@@ -192,4 +193,16 @@ export enum CartValidationStatusCode {
   REVIEW_CONFIGURATION = 'reviewConfiguration',
   PRICING_ERROR = 'pricingError',
   UNRESOLVABLE_ISSUES = 'unresolvableIssues',
+}
+
+/**
+ * Base Cart options, used for extensibility.
+ */
+export type BaseCartOptions<T> = BaseUserOptions<T & { cartId: string }>;
+
+export interface AddEntryOptions {
+  productCode: string;
+  quantity?: number;
+  // TODO:#extensible-options - augment in BOPIS?
+  deliveryPointOfServiceName?: string;
 }

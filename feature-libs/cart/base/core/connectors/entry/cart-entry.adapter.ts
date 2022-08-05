@@ -1,4 +1,8 @@
-import { CartModification } from '@spartacus/cart/base/root';
+import {
+  AddEntryOptions,
+  BaseCartOptions,
+  CartModification,
+} from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 
 export abstract class CartEntryAdapter {
@@ -10,11 +14,18 @@ export abstract class CartEntryAdapter {
    * @param productCode
    * @param quantity
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract add(
     userId: string,
     cartId: string,
     productCode: string,
     quantity?: number
+  ): Observable<CartModification>;
+  /**
+   * Abstract method used to add entry to cart
+   */
+  abstract add(
+    options: BaseCartOptions<AddEntryOptions>
   ): Observable<CartModification>;
 
   /**

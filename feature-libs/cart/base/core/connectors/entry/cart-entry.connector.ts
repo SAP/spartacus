@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { CartModification } from '@spartacus/cart/base/root';
+import {
+  AddEntryOptions,
+  BaseCartOptions,
+  CartModification,
+} from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { CartEntryAdapter } from './cart-entry.adapter';
 
@@ -9,13 +13,32 @@ import { CartEntryAdapter } from './cart-entry.adapter';
 export class CartEntryConnector {
   constructor(protected adapter: CartEntryAdapter) {}
 
+  // TODO:#object-extensibility-deprecation - remove
   public add(
     userId: string,
     cartId: string,
     productCode: string,
     quantity?: number
+  ): Observable<CartModification>;
+  // TODO:#object-extensibility-deprecation - remove
+  public add(
+    options: BaseCartOptions<AddEntryOptions>
+  ): Observable<CartModification>;
+  add(
+    options:
+      | BaseCartOptions<AddEntryOptions>
+      // TODO:#object-extensibility-deprecation - remove the "| string" part, and everything that follows it.
+      | string,
+    cartId?: string,
+    productCode?: string,
+    quantity?: number
   ): Observable<CartModification> {
-    return this.adapter.add(userId, cartId, productCode, quantity);
+    // TODO:#object-extensibility-deprecation - remove the 'if' part
+    if (typeof options !== 'string') {
+      return this.adapter.add(options);
+    }
+    // TODO:#object-extensibility-deprecation - remove this return statement
+    return this.adapter.add(options, cartId ?? '', productCode ?? '', quantity);
   }
 
   public update(

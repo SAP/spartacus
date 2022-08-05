@@ -5,3 +5,8 @@ export interface User {
   name?: string;
   uid?: string;
 }
+
+/**
+ * Base User options, used for extensibility.
+ */
+export type BaseUserOptions<T> = T & { userId: string };
