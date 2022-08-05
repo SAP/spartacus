@@ -52,9 +52,12 @@ cx-account-summary-document-filter {
   input {
     padding: 0.5rem;
     width: 100%;
+    //line-height: 2;
+    height: 50px;
     border-width: 1px;
     border-style: solid;
     border-color: var(--cx-color-light);
+    border-radius: 4px;
   }
 
   .search-btn {
@@ -76,12 +79,12 @@ cx-account-summary-document-filter {
     //flex-wrap: wrap;
 
     flex-flow: row wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .ck-flex-item {
     flex-direction: column;
-    flex-basis: 32%;
+    flex-basis: 25%;
     padding: 0.5rem;
 
     @include media-breakpoint-down(md) {
@@ -100,11 +103,15 @@ cx-account-summary-document-filter {
   }
 
   .ck-flex-buttons {
-    display: flex;
-    flex-direction: row;
+    flex-basis: 100%;
+    justify-content: flex-end;
     margin-left: auto;
     margin-right: 0.5rem;
+    margin-bottom: 2rem;
     align-self: center;
+
+    display: flex;
+    flex-direction: row;
   }
 
   .clear-btn {
