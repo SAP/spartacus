@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_BASE_CORE_FEATURE } from '../feature-name';
-import { Cart, OrderEntry } from '../models/cart.model';
+import { AddEntryOptions, Cart, OrderEntry } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -86,7 +86,12 @@ export abstract class ActiveCartFacade {
    * @param productCode
    * @param quantity
    */
+  // TODO:#object-extensibility-deprecation - remove
   abstract addEntry(productCode: string, quantity: number): void;
+  /**
+   * Add entry to active cart
+   */
+  abstract addEntry(options: AddEntryOptions): void;
 
   /**
    * Remove entry

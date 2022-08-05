@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   ActiveCartFacade,
+  AddEntryOptions,
   Cart,
   CartType,
   MultiCartFacade,
@@ -381,7 +382,24 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * @param productCode
    * @param quantity
    */
-  addEntry(productCode: string, quantity: number): void {
+  // TODO:#object-extensibility-deprecation - remove
+  addEntry(productCode: string, quantity: number): void;
+  // TODO:#object-extensibility-deprecation - remove
+  addEntry(options: AddEntryOptions): void;
+  addEntry(
+    options: string | AddEntryOptions,
+    // TODO:#object-extensibility-deprecation - remove
+    quantity?: number
+  ): void {
+    let productCode: string;
+    // TODO:#object-extensibility-deprecation - remove the 'if' part
+    if (typeof options === 'string') {
+      productCode = options;
+    } else {
+      productCode = options.productCode;
+      quantity = options.quantity;
+    }
+
     // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
@@ -390,7 +408,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
           userId,
           getCartIdByUserId(cart, userId),
           productCode,
-          quantity
+          quantity || 1
         );
       });
   }
