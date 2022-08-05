@@ -58,7 +58,6 @@ export class AccountSummaryDocumentComponent implements OnInit {
   }
 
   addNamesToSortModel(sorts: SortModel[]): Observable<Array<SortModel>> {
-    console.log('test test');
     const sortCodes: Array<string> = sorts?.map(sort => sort.code) as Array<string>;
     const translations = sortCodes?.map(sortCode =>
       this.translation.translate(`orgAccountSummary.sorts.${sortCode}`)) ?? [];

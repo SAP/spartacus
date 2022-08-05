@@ -28,9 +28,9 @@ cx-account-summary-document {
       @include media-breakpoint-up(md) {
         text-align: start;
 
-        &:last-child {
-          text-align: end;
-        }
+        //&:last-child {
+        //  text-align: end;
+        //}
       }
 
       @include media-breakpoint-down(md) {
@@ -241,5 +241,9 @@ cx-account-summary-document {
         background-color: var(--cx-color-background);
       }
     }
+  }
+
+  .spacer {
+    min-width: 1rem;
   }
 }

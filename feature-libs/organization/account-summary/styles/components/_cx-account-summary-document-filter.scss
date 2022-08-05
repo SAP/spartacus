@@ -51,6 +51,10 @@ cx-account-summary-document-filter {
 
   input {
     padding: 0.5rem;
+    width: 100%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--cx-color-light);
   }
 
   .search-btn {
@@ -60,5 +64,57 @@ cx-account-summary-document-filter {
     opacity: 1;
     font-weight: var(--cx-font-weight-bold);
     padding: 0.5rem 1rem;
+    //margin-block-end: auto;
+  }
+
+
+  .ck-main-container {
+    //background: black;
+    display: flex;
+    //flex-direction: row;
+    //flex-wrap: wrap;
+
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+
+  .ck-flex-item {
+    //background: pink;
+    flex-direction: column;
+    width: 32%;
+    padding: 0.5rem;
+
+    @include media-breakpoint-down(md) {
+      width: 50%;
+      padding: 0.5rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+      padding: 0.5rem;
+    }
+  }
+
+  .ck-flex-label {
+    //margin-right: 2rem;
+  }
+
+  .ck-flex-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: 0.5rem;
+    align-self: center;
+  }
+
+  .clear-btn {
+    margin-right: 1rem;
+    align-self: center;
+    border: none;
+    background-color: inherit;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
   }
 }

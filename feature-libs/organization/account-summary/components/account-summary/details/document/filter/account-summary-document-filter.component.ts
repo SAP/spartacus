@@ -1,10 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DocumentQueryParams, DocumentStatus } from '@spartacus/organization/account-summary/root';
+import { DocumentQueryParams, DocumentStatus, AccountSummaryDocumentType, FilterByOptions } from '@spartacus/organization/account-summary/root';
 import { combineLatest } from 'rxjs';
-// import { map } from "rxjs/operators";
 import { TranslationService } from '@spartacus/core';
-import {AccountSummaryDocumentType, FilterByOptions} from "../../../../../root/model";
-// import {DocumentFields} from "../../../../../root/model";
 
 interface ItemType {
   code: string;
@@ -130,6 +127,15 @@ export class AccountSummaryDocumentFilterComponent implements OnInit {
         translationText.forEach((text, index) => this._filterByOptions[index].name = text));
     }
     return this._filterByOptions;
+  }
+
+  clear(): void {
+    this.filters.status = DocumentStatus.ALL
+    this.filters.filterByKey = FilterByOptions.DOCUMENT_NUMBER;
+    this.filters.filterByValue = '';
+    this.filters.startRange = undefined
+    this.filters.endRange = undefined;
+    this.search();
   }
 
   search(): void {

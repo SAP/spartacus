@@ -9,6 +9,13 @@
 
     <!-- BODY -->
     <div class="cx-account-summary-document-body">
+
+      <cx-account-summary-document-filter
+        [documentTypeOptions]="accountSummary.documentTypes"
+        [initialFilters]="queryParams"
+        (filterListEvent)="filterChange($event)">
+      </cx-account-summary-document-filter>
+
       <ng-container
         *ngIf="
           accountSummary.pagination &&
@@ -16,22 +23,6 @@
             accountSummary.pagination.totalResults > 0;
         else noDocument"
       >
-
-        <!-- Select Form and Pagination Top -->
-
-        <div class="cx-account-summary-document-sort top">
-<!--        <div class="cx-account-summary-document-sort top">-->
-<!--          <label class="cx-account-summary-document-form-group form-group">-->
-<!--            <span>-->
-<!--              Filter By-->
-<!--            </span>-->
-            <cx-account-summary-document-filter
-              [documentTypeOptions]="accountSummary?.documentTypes"
-              [initialFilters]="queryParams"
-              (filterListEvent)="filterChange($event)">
-            </cx-account-summary-document-filter>
-<!--          </label>-->
-        </div>
 
         <div class="cx-account-summary-document-sort top">
           <label class="cx-account-summary-document-form-group form-group">
@@ -166,7 +157,7 @@
                 <div class="cx-account-summary-document-label">
                   {{ 'orgAccountSummary.document.attachment' | cxTranslate }}
                 </div>
-                <div class="cx-account-summary-document-value">
+                <div class="cx-account-summary-document-value spacer">
                   {{ document?.documentMedia ? 'View' : ' ' }}
                 </div>
               </td>
