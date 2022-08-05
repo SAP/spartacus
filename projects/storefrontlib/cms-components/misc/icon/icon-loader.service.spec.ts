@@ -5,9 +5,9 @@ import { DirectionMode } from '../../../layout/direction/config/direction.model'
 import { IconLoaderService } from './icon-loader.service';
 import { IconConfig, IconResourceType, ICON_TYPE } from './icon.model';
 
-const FONT_AWESOME_RESOURCE =
-  'https://use.fontawesome.com/releases/v5.8.1/css/all.css';
-const MockFontIconConfig: IconConfig = {
+const FONT_AWESOME_RESOURCE = 'https://use.fontawesome.com/releases/v5.8.1/css/all.css';
+
+export const MockIconConfig: IconConfig = {
   icon: {
     symbols: {
       SEARCH: 'fas fa-search',
@@ -61,7 +61,7 @@ describe('IconLoaderService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: IconConfig, useValue: MockFontIconConfig }],
+      providers: [{ provide: IconConfig, useValue: MockIconConfig }],
     });
 
     service = TestBed.inject(IconLoaderService);
