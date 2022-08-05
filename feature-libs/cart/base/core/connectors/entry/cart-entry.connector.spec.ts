@@ -28,9 +28,17 @@ describe('CartEntryConnector', () => {
   });
 
   it('add should call adapter', () => {
+    const userId = '1';
+    const cartId = '2';
+    const productCode = '3';
+
     const adapter = TestBed.inject(CartEntryAdapter);
-    service.add('1', '2', '3').subscribe();
-    expect(adapter.add).toHaveBeenCalledWith('1', '2', '3', undefined);
+    service.add({ userId, cartId, productCode }).subscribe();
+    expect(adapter.add).toHaveBeenCalledWith({
+      userId,
+      cartId,
+      productCode,
+    });
   });
 
   it('update should call adapter', () => {

@@ -117,9 +117,9 @@ describe('SaveForLaterComponent', () => {
     };
     component.moveToCart(mockItem);
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(mockItem);
-    expect(mockActiveCartService.addEntry).toHaveBeenCalledWith(
-      mockItem.product.code,
-      mockItem.quantity
-    );
+    expect(mockActiveCartService.addEntry).toHaveBeenCalledWith({
+      productCode: mockItem.product.code,
+      quantity: mockItem.quantity,
+    });
   });
 });
