@@ -7,27 +7,6 @@ import { Customer360Sections } from './asm-customer-360.model';
 @Component({
   selector: 'cx-asm-customer-360',
   templateUrl: './asm-customer-360.component.html',
-  styles: [
-    `
-      ::ng-deep ngb-modal-window {
-        padding: 20px 10%;
-      }
-
-      ::ng-deep .modal-dialog {
-        display: flex;
-        width: 100%;
-        max-height: 100%;
-        min-height: unset;
-        min-width: unset !important;
-        max-width: unset !important;
-        margin: unset;
-      }
-
-      ::ng-deep .modal-body {
-        padding-top: 0;
-      }
-    `,
-  ],
 })
 export class AsmCustomer360Component implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;

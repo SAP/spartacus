@@ -44,6 +44,9 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     /*
     this.modalRef = this.modalService?.open(AsmCustomer360Component, {
       size: 'xl',
+      windowClass: 'asm-customer-360',
+      ariaLabelledBy: 'asm-customer-360-title',
+      ariaDescribedBy: 'asm-customer-360-desc',
     });
     this.modalRef.componentInstance.customer = this.customer;
     */
