@@ -6,13 +6,17 @@
         {{ getAvatar() }}
       </div>
       <div class="cx-customer-info">
-        <h2 class="cx-title modal-title">
+        <h2 id="asm-customer-360-title" class="cx-title modal-title">
           {{ customer.firstName }} Customer 360&#176; View
         </h2>
         <h6 class="cx-customer-email">
           {{ customer.uid }}
         </h6>
+        <div id="asm-customer-360-desc" class="cx-visually-hidden">
+          Customer 360&#176; View
+        </div>
       </div>
+
       <ng-template *ngTemplateOutlet="closeButton"></ng-template>
     </div>
 
