@@ -158,8 +158,9 @@ export class IconComponent {
 
     const iconClasses = this.iconLoader.getStyleClasses(type)?.split(/\s+/);
     iconClasses?.forEach((iconClass) => {
-      if (iconClass !== ''.trim()) {
-        this.styleClasses.push(iconClass);
+      const trimmedIconClass = iconClass.trim();
+      if (trimmedIconClass !== '') {
+        this.styleClasses.push(trimmedIconClass);
       }
     });
   }
