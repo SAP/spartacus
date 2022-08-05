@@ -1,21 +1,17 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { I18nModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { CustomerTicketingDetailsModule } from './customer-ticketing-details';
-import { CustomerTicketingListComponent } from './customer-ticketing-list.component';
+import { CustomerTicketingListModule } from './customer-ticketing-list';
 
 @NgModule({
   imports: [
-    CommonModule,
     ReactiveFormsModule,
-    I18nModule,
     FormErrorsModule,
     CustomerTicketingDetailsModule,
-    CustomerTicketingDetailsModule,
+    CustomerTicketingListModule,
   ],
   exports: [],
   providers: [],
 })
-export class CustomerTicketingListComponentsModule {}
+export class CustomerTicketingComponentsModule {}
