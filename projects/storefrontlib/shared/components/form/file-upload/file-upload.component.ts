@@ -1,10 +1,12 @@
 import {
   Component,
+  ContentChild,
   ElementRef,
   EventEmitter,
   forwardRef,
   Input,
   Output,
+  TemplateRef,
   ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -37,7 +39,7 @@ export class FileUploadComponent implements ControlValueAccessor {
   /**
    * Use custom button html passed from parent.
    */
-  @Input() customButton?: boolean = false;
+  @ContentChild(TemplateRef) customButton: any;
 
   // TODO: remove this event. Now it's used only to trigger some logic in the parent component.
   // Prerequisites (changes in the parent component):

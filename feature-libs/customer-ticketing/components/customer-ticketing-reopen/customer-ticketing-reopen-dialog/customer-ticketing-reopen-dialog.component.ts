@@ -1,9 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  CustomerTicketingConfig,
-  MAX_INPUT_CHARACTERS,
-} from '@spartacus/customer-ticketing/core';
+import { MAX_INPUT_CHARACTERS } from '@spartacus/customer-ticketing/core';
+import { CustomerTicketingConfig } from '@spartacus/customer-ticketing/root';
 import {
   FilesFormValidators,
   FocusConfig,

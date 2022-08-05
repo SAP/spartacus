@@ -46,22 +46,24 @@
 
       <cx-file-upload
         [formControl]="form.get('file')"
-        customButton="true"
         [accept]="allowedTypes"
         [multiple]="maxEntries > 1"
       >
-        <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
-        <span class="cx-message-footer-text">{{
-          'customerTicketing.uploadFile' | cxTranslate
-        }}</span>
-        <p class="cx-customer-ticket-input-hint">
-          {{
-            'customerTicketing.fileSizeLimit' | cxTranslate: { count: maxSize }
-          }}
-        </p>
-        <p class="cx-customer-ticket-input-hint" *ngIf="maxEntries === 1">
-          {{ 'customerTicketing.maximumAttachment' | cxTranslate }}
-        </p>
+        <ng-template>
+          <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
+          <span class="cx-message-footer-text">{{
+            'customerTicketing.uploadFile' | cxTranslate
+          }}</span>
+          <p class="cx-customer-ticket-input-hint">
+            {{
+              'customerTicketing.fileSizeLimit'
+                | cxTranslate: { count: maxSize }
+            }}
+          </p>
+          <p class="cx-customer-ticket-input-hint" *ngIf="maxEntries === 1">
+            {{ 'customerTicketing.maximumAttachment' | cxTranslate }}
+          </p>
+        </ng-template>
       </cx-file-upload>
 
       <cx-form-errors
