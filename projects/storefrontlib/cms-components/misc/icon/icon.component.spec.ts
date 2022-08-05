@@ -197,6 +197,8 @@ describe('IconComponent', () => {
       // XXX check text contents? should only TEXT icons contain icon text?
     });
 
+    // TODO test XSS attack payload in css classes
+
     it('should have flip-at-rtl class', () => {
       const classList = (debugElement.nativeElement as HTMLElement).classList;
       component.type = 'CARET_RIGHT';
@@ -227,6 +229,8 @@ describe('IconComponent', () => {
       expect(classList).not.toContain('flip-at-rtl');
       expect(classList).not.toContain('flip-at-ltr');
     });
+
+    // TODO check interactions between LTR/RTL classes, icon style classes, and original host element classes
 
     it('should generate a font icon', () => {
       component.type = 'HAPPY';
