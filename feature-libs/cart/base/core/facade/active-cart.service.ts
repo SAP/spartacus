@@ -390,17 +390,17 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   // TODO:#object-extensibility-deprecation - remove
   addEntry(options: AddEntryOptions): void;
   addEntry(
-    options: string | AddEntryOptions,
+    // TODO:#object-extensibility-deprecation - rename to `options`
+    optionsOrProductCode: string | AddEntryOptions,
     // TODO:#object-extensibility-deprecation - remove
     quantity?: number
   ): void {
     let productCode: string;
     // TODO:#object-extensibility-deprecation - remove the 'if' part
-    if (typeof options === 'string') {
-      productCode = options;
+    if (typeof optionsOrProductCode === 'string') {
+      productCode = optionsOrProductCode;
     } else {
-      productCode = options.productCode;
-      quantity = options.quantity;
+      ({ productCode, quantity } = optionsOrProductCode);
     }
 
     // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
