@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { PointOfServiceStock, Stock } from '@spartacus/core';
+import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
   StockLocationSearchParams,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
+import { GetStoreDetailsById } from '../store/actions/pickup-location.action';
 import {
   BrowserLocationActions,
   HideOutOfStockSelectors,
+  PickupLocationsSelectors,
+  StateWithPickupLocations,
   StateWithStock,
   StockLevelActions,
   StockSelectors,
@@ -21,7 +24,9 @@ import {
 export class PickupLocationsSearchService
   implements PickupLocationsSearchFacade
 {
-  constructor(protected readonly store: Store<StateWithStock>) {}
+  constructor(
+    protected readonly store: Store<StateWithStock & StateWithPickupLocations>
+  ) {}
 
   stockLevelAtStore(productCode: string, storeName: string): void {
     this.store.dispatch(
@@ -80,5 +85,15 @@ export class PickupLocationsSearchService
 
   toggleHideOutOfStock(): void {
     this.store.dispatch(ToggleHideOutOfStockOptionsAction());
+  }
+
+  loadStoreDetails(storeName: string): void {
+    this.store.dispatch(GetStoreDetailsById({ payload: storeName }));
+  }
+
+  getStoreDetails(name: string): Observable<PointOfService> {
+    return this.store.pipe(
+      select(PickupLocationsSelectors.getStoreDetailsByName(name))
+    );
   }
 }

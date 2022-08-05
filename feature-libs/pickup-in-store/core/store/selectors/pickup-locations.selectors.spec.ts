@@ -35,8 +35,7 @@ describe('PickupLocationSelectors', () => {
           },
         },
       };
-      const result =
-        getIntendedPickupLocationByProductCode('P0001')(state);
+      const result = getIntendedPickupLocationByProductCode('P0001')(state);
       expect(result).toEqual(
         state['pickup-locations'].intendedPickupLocations['P0001']
       );

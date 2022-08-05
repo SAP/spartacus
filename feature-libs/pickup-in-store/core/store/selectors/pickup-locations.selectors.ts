@@ -1,4 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
+import { PointOfService } from '@spartacus/core';
 import {
   AugmentedPointOfService,
   PickupOption,
@@ -45,4 +46,12 @@ export const getPickupOptionByProductCode = (
     getIntendedPickupLocationByProductCode(productCode),
     (_getIntendedPickupLocationByProductCode) =>
       _getIntendedPickupLocationByProductCode?.pickupOption ?? 'delivery'
+  );
+
+export const getStoreDetailsByName = (
+  storeName: string
+): MemoizedSelector<StateWithPickupLocations, PointOfService> =>
+  createSelector(
+    getPickupLocationsState,
+    (state: PickupLocationsState) => state.storeDetails[storeName]
   );

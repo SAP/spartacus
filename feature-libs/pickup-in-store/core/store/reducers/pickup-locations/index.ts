@@ -3,10 +3,12 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 
 import { PickupLocationsState } from '../../pickup-location-state';
 import { intendedPickupLocationsReducer } from './pickup-locations.reducer';
+import { storeDetailsReducer } from './storeDetailsReducer.reducer';
 
 export function getReducers(): ActionReducerMap<PickupLocationsState> {
   return {
     intendedPickupLocations: intendedPickupLocationsReducer,
+    storeDetails: storeDetailsReducer,
   };
 }
 
