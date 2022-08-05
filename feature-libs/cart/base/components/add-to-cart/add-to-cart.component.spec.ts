@@ -74,8 +74,8 @@ class MockProductListItemContext implements Partial<ProductListItemContext> {
   product$ = of(mockProduct);
 }
 
-class MockActiveCartService {
-  addEntry(_productCode: string, _quantity: number): void {}
+class MockActiveCartService implements Partial<ActiveCartFacade> {
+  addEntry(_options: unknown): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }

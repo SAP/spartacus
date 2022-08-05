@@ -39,8 +39,8 @@ const mockNoStockProduct: Product = {
   stock: { stockLevel: 0, stockLevelStatus: 'outOfStock' },
 };
 
-class MockActiveCartService {
-  addEntry(_productCode: string, _quantity: number): void {}
+class MockActiveCartService implements Partial<ActiveCartFacade> {
+  addEntry(_options: unknown): void {}
   getEntry(_productCode: string): Observable<OrderEntry> {
     return of();
   }
