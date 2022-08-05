@@ -19,7 +19,11 @@ import {
 import { CommerceQuotesFacade } from 'feature-libs/commerce-quotes/root/facade/commerce-quotes.facade';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Quote, QuoteAction, QuoteList } from '@spartacus/commerce-quotes/root';
+import {
+  Quote,
+  QuoteActionType,
+  QuoteList,
+} from '@spartacus/commerce-quotes/root';
 import { CommerceQuotesListComponent } from './commerce-quotes-list.component';
 import createSpy = jasmine.createSpy;
 
@@ -29,8 +33,9 @@ const mockPagination: PaginationModel = {
   pageSize: 5,
   sort: 'byCode',
 };
+const mockAction = { type: QuoteActionType.EDIT, isPrimary: true };
 const mockQuote: Quote = {
-  allowedActions: [QuoteAction.EDIT],
+  allowedActions: [mockAction],
   cartId: mockCartId,
   code: '333333',
 };

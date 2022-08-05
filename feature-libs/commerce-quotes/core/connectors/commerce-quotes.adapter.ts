@@ -5,7 +5,7 @@ import {
   QuoteStarter,
   Quote,
   QuoteMetadata,
-  QuoteAction,
+  QuoteActionType,
   Comment,
   QuoteDiscount,
 } from '@spartacus/commerce-quotes/root';
@@ -61,7 +61,7 @@ export abstract class CommerceQuotesAdapter {
   abstract performQuoteAction(
     userId: string,
     quoteCode: string,
-    quoteAction: QuoteAction
+    quoteAction: QuoteActionType
   ): Observable<unknown>;
 
   /**

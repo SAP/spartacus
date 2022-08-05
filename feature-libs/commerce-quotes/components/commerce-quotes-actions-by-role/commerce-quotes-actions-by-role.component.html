@@ -4,16 +4,14 @@
       <button
         *ngFor="let action of quoteDetailsState.data.allowedActions"
         class="btn"
-        [ngClass]="
-          primaryActions.includes(action) ? 'btn-primary' : 'btn-action'
-        "
+        [ngClass]="action.isPrimary ? 'btn-primary' : 'btn-action'"
         (click)="
-          action === QuoteAction.REQUOTE
+          action.type === QuoteActionType.REQUOTE
             ? requote(quoteDetailsState.data.code)
-            : performAction(quoteDetailsState.data.code, action)
+            : performAction(quoteDetailsState.data.code, action.type)
         "
       >
-        {{ 'commerceQuotes.actions.' + action | cxTranslate }}
+        {{ 'commerceQuotes.actions.' + action.type | cxTranslate }}
       </button>
     </section>
   </ng-container>

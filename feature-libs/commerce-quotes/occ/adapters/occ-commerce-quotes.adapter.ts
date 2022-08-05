@@ -1,12 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  OccEndpointsService,
-  ConverterService,
-  normalizeHttpError,
-  PaginationModel,
-} from '@spartacus/core';
-import {
   CommerceQuotesAdapter,
   QUOTE_ACTION_SERIALIZER,
   QUOTE_COMMENT_SERIALIZER,
@@ -16,17 +10,24 @@ import {
   QUOTE_NORMALIZER,
   QUOTE_STARTER_SERIALIZER,
 } from '@spartacus/commerce-quotes/core';
+import {
+  Comment,
+  OccQuote,
+  Quote,
+  QuoteActionType,
+  QuoteDiscount,
+  QuoteList,
+  QuoteMetadata,
+  QuoteStarter,
+} from '@spartacus/commerce-quotes/root';
+import {
+  ConverterService,
+  normalizeHttpError,
+  OccEndpointsService,
+  PaginationModel,
+} from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import {
-  Quote,
-  QuoteList,
-  QuoteStarter,
-  QuoteMetadata,
-  QuoteAction,
-  QuoteDiscount,
-  Comment,
-} from '@spartacus/commerce-quotes/root';
 
 @Injectable()
 export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
@@ -76,7 +77,7 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
     );
 
     return this.http
-      .post<Quote>(this.getCreateQuoteEndpoint(userId), quoteStarter)
+      .post<OccQuote>(this.getCreateQuoteEndpoint(userId), quoteStarter)
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
         this.converter.pipeable(QUOTE_NORMALIZER)
@@ -91,7 +92,7 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
 
   getQuote(userId: string, quoteCode: string): Observable<Quote> {
     return this.http
-      .get<QuoteList>(this.getQuoteEndpoint(userId, quoteCode))
+      .get<OccQuote>(this.getQuoteEndpoint(userId, quoteCode))
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
         this.converter.pipeable(QUOTE_NORMALIZER)
@@ -128,7 +129,7 @@ export class OccCommerceQuotesAdapter implements CommerceQuotesAdapter {
   performQuoteAction(
     userId: string,
     quoteCode: string,
-    quoteAction: QuoteAction
+    quoteAction: QuoteActionType
   ): Observable<unknown> {
     quoteAction = this.converter.convert(quoteAction, QUOTE_ACTION_SERIALIZER);
 

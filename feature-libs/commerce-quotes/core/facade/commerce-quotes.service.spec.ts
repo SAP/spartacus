@@ -5,7 +5,7 @@ import {
   Comment,
   CommerceQuotesListReloadQueryEvent,
   Quote,
-  QuoteAction,
+  QuoteActionType,
   QuoteList,
   QuoteMetadata,
 } from '@spartacus/commerce-quotes/root';
@@ -28,7 +28,7 @@ import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = '1234';
-const mockAction = QuoteAction.EDIT;
+const mockAction = { type: QuoteActionType.EDIT, isPrimary: true };
 const mockPagination: PaginationModel = {
   currentPage: 0,
   pageSize: 5,
@@ -279,14 +279,16 @@ describe('CommerceQuotesService', () => {
   });
 
   it('should call performQuoteAcion command', (done) => {
-    service.performQuoteAction(mockQuote.code, mockAction).subscribe(() => {
-      expect(connector.performQuoteAction).toHaveBeenCalledWith(
-        mockUserId,
-        mockQuote.code,
-        mockAction
-      );
-      done();
-    });
+    service
+      .performQuoteAction(mockQuote.code, mockAction.type)
+      .subscribe(() => {
+        expect(connector.performQuoteAction).toHaveBeenCalledWith(
+          mockUserId,
+          mockQuote.code,
+          mockAction.type
+        );
+        done();
+      });
   });
 
   it('should call requote command and return new quote', () => {

@@ -3,7 +3,7 @@ import { PaginationModel } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   Quote,
-  QuoteAction,
+  QuoteActionType,
   QuoteDiscount,
   QuoteList,
   QuoteMetadata,
@@ -45,7 +45,7 @@ export class CommerceQuotesConnector {
   public performQuoteAction(
     userId: string,
     quoteCode: string,
-    quoteAction: QuoteAction
+    quoteAction: QuoteActionType
   ): Observable<unknown> {
     return this.adapter.performQuoteAction(userId, quoteCode, quoteAction);
   }

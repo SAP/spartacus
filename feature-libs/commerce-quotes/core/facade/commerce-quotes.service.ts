@@ -5,7 +5,7 @@ import {
   CommerceQuotesFacade,
   CommerceQuotesListReloadQueryEvent,
   Quote,
-  QuoteAction,
+  QuoteActionType,
   QuoteDetailsReloadQueryEvent,
   QuoteList,
   QuoteMetadata,
@@ -39,7 +39,11 @@ import { CommerceQuotesConnector } from '../connectors/commerce-quotes.connector
 export class CommerceQuotesService implements CommerceQuotesFacade {
   protected currentPage$ = new BehaviorSubject<number>(0);
   protected sortBy$ = new BehaviorSubject<string>('byCode');
-  protected isLoading$ = new BehaviorSubject<boolean>(false);
+
+  /**
+   * Indicator whether an action is currently performing.
+   */
+  protected isActionPerforming$ = new BehaviorSubject<boolean>(false);
 
   protected createQuoteCommand: Command<
     { quoteMetadata: QuoteMetadata; quoteComment: Comment },
@@ -142,14 +146,15 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
   );
 
   protected performQuoteActionCommand: Command<
-    { quoteCode: string; quoteAction: QuoteAction },
+    { quoteCode: string; quoteAction: QuoteActionType },
     unknown
   > = this.commandService.create<
-    { quoteCode: string; quoteAction: QuoteAction },
+    { quoteCode: string; quoteAction: QuoteActionType },
     unknown
   >(
-    (payload) =>
-      this.userIdService.takeUserId().pipe(
+    (payload) => {
+      this.isActionPerforming$.next(true);
+      return this.userIdService.takeUserId().pipe(
         take(1),
         switchMap((userId) =>
           this.commerceQuotesConnector.performQuoteAction(
@@ -159,9 +164,11 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
           )
         ),
         tap(() => {
+          this.isActionPerforming$.next(false);
           this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         })
-      ),
+      );
+    },
     {
       strategy: CommandStrategy.CancelPrevious,
     }
@@ -170,7 +177,7 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
   protected requoteCommand: Command<{ quoteStarter: QuoteStarter }, Quote> =
     this.commandService.create<{ quoteStarter: QuoteStarter }, Quote>(
       (payload) => {
-        this.isLoading$.next(true);
+        this.isActionPerforming$.next(true);
         return this.userIdService.takeUserId().pipe(
           take(1),
           switchMap((userId) =>
@@ -182,7 +189,7 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
                     cxRoute: 'quoteDetails',
                     params: { quoteId: quote.code },
                   });
-                  this.isLoading$.next(false);
+                  this.isActionPerforming$.next(false);
                 })
               )
           )
@@ -277,7 +284,7 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
 
   performQuoteAction(
     quoteCode: string,
-    quoteAction: QuoteAction
+    quoteAction: QuoteActionType
   ): Observable<unknown> {
     return this.performQuoteActionCommand.execute({ quoteCode, quoteAction });
   }
@@ -288,7 +295,7 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
 
   getQuoteDetails(): Observable<QueryState<Quote | undefined>> {
     return combineLatest([
-      this.isLoading$,
+      this.isActionPerforming$,
       this.quoteDetailsState$.getState(),
     ]).pipe(
       map(([isLoading, state]) => ({

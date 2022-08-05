@@ -1,8 +1,8 @@
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { PaginationModel, Price, Principal, SortModel } from '@spartacus/core';
 
-export interface Quote {
-  allowedActions?: QuoteAction[];
+export interface OccQuote {
+  allowedActions?: QuoteActionType[];
   cartId?: string;
   code: string;
   comments?: Comment[];
@@ -25,6 +25,15 @@ export interface Quote {
   version?: number;
 }
 
+export type Quote = Omit<OccQuote, 'allowedActions'> & {
+  allowedActions: QuoteAction[];
+};
+
+export interface QuoteAction {
+  type: QuoteActionType;
+  isPrimary: boolean;
+}
+
 export interface Comment {
   author?: Principal;
   creationDate?: Date;
@@ -32,7 +41,7 @@ export interface Comment {
   text?: string;
 }
 
-export enum QuoteAction {
+export enum QuoteActionType {
   CREATE = 'CREATE',
   VIEW = 'VIEW',
   SUBMIT = 'SUBMIT',
@@ -88,4 +97,4 @@ export interface QuoteStarter {
   quoteCode?: string;
 }
 
-export type QuoteActionsByState = { [key in QuoteState]: QuoteAction[] };
+export type QuoteActionsByState = { [key in QuoteState]: QuoteActionType[] };

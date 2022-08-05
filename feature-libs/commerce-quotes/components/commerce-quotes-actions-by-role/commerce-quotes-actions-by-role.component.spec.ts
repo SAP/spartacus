@@ -2,12 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Quote,
-  QuoteAction,
+  QuoteActionType,
   QuoteState,
 } from '@spartacus/commerce-quotes/root';
 import {
-  Config,
-  ConfigurationService,
   I18nTestingModule,
   QueryState,
   TranslationService,
@@ -20,8 +18,12 @@ import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
 const mockCode = '3333';
+
 const mockQuote: Quote = {
-  allowedActions: [QuoteAction.EDIT, QuoteAction.REQUOTE],
+  allowedActions: [
+    { type: QuoteActionType.EDIT, isPrimary: false },
+    { type: QuoteActionType.REQUOTE, isPrimary: true },
+  ],
   state: QuoteState.BUYER_DRAFT,
   cartId: mockCartId,
   code: mockCode,
@@ -31,7 +33,6 @@ const mockQuoteDetailsState: QueryState<Quote> = {
   error: false,
   data: mockQuote,
 };
-const mockQuoteActionsOrderByState = [QuoteAction.REQUOTE, QuoteAction.EDIT];
 
 const mockQuoteDetailsState$ = new BehaviorSubject<QueryState<Quote>>(
   mockQuoteDetailsState
@@ -50,22 +51,11 @@ class MockTranslationService implements Partial<TranslationService> {
   }
 }
 
-class MockConfigurationService implements Partial<ConfigurationService> {
-  config = {
-    commerceQuotes: {
-      actionsOrderByState: {
-        [QuoteState.BUYER_DRAFT]: [...mockQuoteActionsOrderByState],
-      },
-    },
-  } as Config;
-}
-
 describe('CommerceQuotesActionsByRoleComponent', () => {
   let fixture: ComponentFixture<CommerceQuotesActionsByRoleComponent>;
   let component: CommerceQuotesActionsByRoleComponent;
 
   let facade: CommerceQuotesFacade;
-  let configService: ConfigurationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -77,7 +67,6 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
           useClass: MockCommerceQuotesFacade,
         },
         { provide: TranslationService, useClass: MockTranslationService },
-        { provide: ConfigurationService, useClass: MockConfigurationService },
       ],
     }).compileComponents();
   });
@@ -87,7 +76,6 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
     component = fixture.componentInstance;
 
     facade = TestBed.inject(CommerceQuotesFacade);
-    configService = TestBed.inject(ConfigurationService);
     mockQuoteDetailsState$.next(mockQuoteDetailsState);
   });
 
@@ -96,89 +84,84 @@ describe('CommerceQuotesActionsByRoleComponent', () => {
     expect(facade).toBeDefined();
   });
 
-  it('should read quote details and change order of allowedActions', (done) => {
-    const expected = {
-      ...mockQuoteDetailsState,
-      data: { ...mockQuote, allowedActions: mockQuoteActionsOrderByState },
-    };
-
+  it('should read quote details state', (done) => {
     component.quoteDetailsState$.pipe(take(1)).subscribe((state) => {
-      expect(state).toEqual(expected);
+      expect(state).toEqual(mockQuoteDetailsState);
       done();
     });
   });
 
-  it('should read quote details and return original data if state or allower actions are not present', (done) => {
-    const mockQuoteDetailseWithoutState: Quote = {
-      code: mockCode,
-      cartId: mockCartId,
-      allowedActions: [QuoteAction.EDIT, QuoteAction.REQUOTE],
-    };
-    const expected: QueryState<Quote> = {
-      error: false,
-      loading: false,
-      data: mockQuoteDetailseWithoutState,
-    };
-    mockQuoteDetailsState$.next(expected);
+  // it('should read quote details and return original data if state or allower actions are not present', (done) => {
+  //   const mockQuoteDetailseWithoutState: Quote = {
+  //     code: mockCode,
+  //     cartId: mockCartId,
+  //     allowedActions: [QuoteActionType.EDIT, QuoteActionType.REQUOTE],
+  //   };
+  //   const expected: QueryState<Quote> = {
+  //     error: false,
+  //     loading: false,
+  //     data: mockQuoteDetailseWithoutState,
+  //   };
+  //   mockQuoteDetailsState$.next(expected);
 
-    component.quoteDetailsState$.pipe(take(1)).subscribe((state) => {
-      expect(state).toEqual(expected);
-      done();
-    });
-  });
+  //   component.quoteDetailsState$.pipe(take(1)).subscribe((state) => {
+  //     expect(state).toEqual(expected);
+  //     done();
+  //   });
+  // });
 
-  it('should return list if commerce quotes config or actions order is not present', () => {
-    Object.defineProperty(configService, 'config', {
-      value: {
-        commerceQuotes: null,
-      },
-    });
-    expect(
-      component['getOrderedList'](
-        QuoteState.BUYER_DRAFT,
-        mockQuote.allowedActions as QuoteAction[]
-      )
-    ).toEqual(mockQuote.allowedActions);
+  // it('should return list if commerce quotes config or actions order is not present', () => {
+  //   Object.defineProperty(configService, 'config', {
+  //     value: {
+  //       commerceQuotes: null,
+  //     },
+  //   });
+  //   expect(
+  //     component['getOrderedList'](
+  //       QuoteState.BUYER_DRAFT,
+  //       mockQuote.allowedActions as QuoteActionType[]
+  //     )
+  //   ).toEqual(mockQuote.allowedActions);
 
-    Object.defineProperty(configService, 'config', {
-      value: {
-        commerceQuotes: { actionsOrderByState: null },
-      },
-    });
-    expect(
-      component['getOrderedList'](
-        QuoteState.BUYER_DRAFT,
-        mockQuote.allowedActions as QuoteAction[]
-      )
-    ).toEqual(mockQuote.allowedActions);
-  });
+  //   Object.defineProperty(configService, 'config', {
+  //     value: {
+  //       commerceQuotes: { actionsOrderByState: null },
+  //     },
+  //   });
+  //   expect(
+  //     component['getOrderedList'](
+  //       QuoteState.BUYER_DRAFT,
+  //       mockQuote.allowedActions as QuoteActionType[]
+  //     )
+  //   ).toEqual(mockQuote.allowedActions);
+  // });
 
-  it('should return empty array if commerce quotes config is not set', () => {
-    Object.defineProperty(configService, 'config', {
-      value: {
-        commerceQuotes: null,
-      },
-    });
-    fixture = TestBed.createComponent(CommerceQuotesActionsByRoleComponent);
-    component = fixture.componentInstance;
+  // it('should return empty array if commerce quotes config is not set', () => {
+  //   Object.defineProperty(configService, 'config', {
+  //     value: {
+  //       commerceQuotes: null,
+  //     },
+  //   });
+  //   fixture = TestBed.createComponent(CommerceQuotesActionsByRoleComponent);
+  //   component = fixture.componentInstance;
 
-    expect(component.primaryActions).toEqual([]);
-  });
+  //   expect(component.primaryActions).toEqual([]);
+  // });
 
   it('should generate buttons with actions and trigger proper method (requote if allowed action is REQUOTE)', () => {
     fixture.detectChanges();
     const actionButtons = fixture.debugElement.queryAll(By.css('.btn'));
 
     expect(actionButtons).toBeDefined();
-    actionButtons.filter((button, idx) => {
+    actionButtons.filter((button, index) => {
       expect(button.nativeElement.textContent.trim()).toEqual(
-        `commerceQuotes.actions.${mockQuoteActionsOrderByState[idx]}`
+        `commerceQuotes.actions.${mockQuote.allowedActions[index].type}`
       );
       button.nativeElement.click();
     });
     expect(facade.performQuoteAction).toHaveBeenCalledWith(
       mockQuote.code,
-      QuoteAction.EDIT
+      QuoteActionType.EDIT
     );
     expect(facade.requote).toHaveBeenCalledWith(mockQuote.code);
   });

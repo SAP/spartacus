@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CQConfig } from '@spartacus/commerce-quotes/core';
-import { QuoteAction } from '@spartacus/commerce-quotes/root';
+import { QuoteActionType } from '@spartacus/commerce-quotes/root';
 import {
   AuthGuard,
   CmsConfig,
@@ -15,20 +15,22 @@ import { CommerceQuotesActionsByRoleComponent } from './commerce-quotes-actions-
   providers: [
     provideDefaultConfig(<CQConfig>{
       commerceQuotes: {
-        primaryActions: [
-          QuoteAction.APPROVE,
-          QuoteAction.CHECKOUT,
-          QuoteAction.SUBMIT,
-        ],
-        actionsOrderByState: {
-          BUYER_DRAFT: [QuoteAction.CANCEL, QuoteAction.SUBMIT],
-          CANCELLED: [QuoteAction.REQUOTE],
-          SELLER_REQUEST: [QuoteAction.EDIT, QuoteAction.SUBMIT],
-          BUYER_OFFER: [
-            QuoteAction.CANCEL,
-            QuoteAction.EDIT,
-            QuoteAction.CHECKOUT,
+        actions: {
+          primaryActions: [
+            QuoteActionType.APPROVE,
+            QuoteActionType.CHECKOUT,
+            QuoteActionType.SUBMIT,
           ],
+          actionsOrderByState: {
+            BUYER_DRAFT: [QuoteActionType.CANCEL, QuoteActionType.SUBMIT],
+            CANCELLED: [QuoteActionType.REQUOTE],
+            SELLER_REQUEST: [QuoteActionType.EDIT, QuoteActionType.SUBMIT],
+            BUYER_OFFER: [
+              QuoteActionType.CANCEL,
+              QuoteActionType.EDIT,
+              QuoteActionType.CHECKOUT,
+            ],
+          },
         },
       },
     }),

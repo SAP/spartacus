@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Quote,
-  QuoteAction,
+  QuoteActionType,
   QuoteState,
 } from '@spartacus/commerce-quotes/root';
 import {
@@ -19,8 +19,9 @@ import { CommerceQuotesDetailsOverviewComponent } from './commerce-quotes-detail
 import createSpy = jasmine.createSpy;
 
 const mockCartId = '1234';
+const mockAction = { type: QuoteActionType.CREATE, isPrimary: true };
 const mockQuote: Quote = {
-  allowedActions: [QuoteAction.EDIT],
+  allowedActions: [mockAction],
   cartId: mockCartId,
   code: '00001233',
   creationTime: new Date('2022-06-07T11:45:42+0000'),
