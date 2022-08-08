@@ -131,4 +131,17 @@ describe('PickupDeliveryOptionDialogComponent', () => {
     component.showSpinner(false);
     expect(component.loading).toEqual(false);
   });
+
+  it('should filter if store name is defined', () => {
+    const mockCloseReason = 'CLOSE_WITHOUT_SELECTION';
+    spyOn(intendedPickupLocationFacade, 'getIntendedLocation').and.returnValue(
+      of({ name: 'testStoreName', pickupOption: 'pickup' })
+    );
+    spyOn(launchDialogService, 'closeDialog');
+
+    component.close(mockCloseReason);
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      mockCloseReason
+    );
+  });
 });

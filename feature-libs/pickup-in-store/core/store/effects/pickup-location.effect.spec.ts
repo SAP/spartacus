@@ -1,10 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { normalizeHttpError, PointOfService } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { PickupLocationConnector } from '../../connectors';
 import {
   GetStoreDetailsById,
@@ -21,8 +22,8 @@ class MockPickupLocationConnector {
 
 class MockPickupLocationConnectorWithError {
   getStoreDetails(_storeName: string): Observable<PointOfService> {
-    console.log('+++++++I am run');
-    return throwError(normalizeHttpError({ payload: {} }));
+    const error = new HttpErrorResponse({ error: 'error' });
+    return new Observable((subscriber) => subscriber.error(error));
   }
 }
 
@@ -87,8 +88,11 @@ describe('PickupLocationEffect with Error', () => {
   it('should call the connection on the GET_STORE_DETAILS action and create SetStoreDetailsFailure action', () => {
     spyOn(pickupLocationConnector, 'getStoreDetails').and.callThrough();
     const action = GetStoreDetailsById({ payload: 'storeId' });
-    const actionFailure = SetStoreDetailsFailure({ payload: {} });
-    console.log('*********actionFailure', actionFailure);
+    const error = new HttpErrorResponse({ error: 'error' });
+
+    const actionFailure = SetStoreDetailsFailure({
+      payload: normalizeHttpError(error),
+    });
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionFailure });
     expect(pickupLocationEffects.storeDetails$).toBeObservable(expected);

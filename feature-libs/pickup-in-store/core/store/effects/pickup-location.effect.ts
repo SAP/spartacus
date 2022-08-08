@@ -24,16 +24,14 @@ export class PickupLocationEffect {
       switchMap((storeName) =>
         this.pickupLocationConnector.getStoreDetails(storeName).pipe(
           map((storeDetails) => {
-            console.log('###########Not running error code');
             return PickupLocationActions.SetStoreDetailsSuccess({
               payload: storeDetails,
             });
           }),
           catchError((error) => {
-            console.log('--------------Error in effect:', error);
             return of(
               PickupLocationActions.SetStoreDetailsFailure({
-                payload: error,
+                payload: normalizeHttpError(error),
               })
             );
           })
