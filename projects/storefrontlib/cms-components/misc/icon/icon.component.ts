@@ -54,15 +54,6 @@ export class IconComponent {
   }
 
   /**
-   * the icon provides an html fragment that is used to add SVG or text based icons.
-   */
-  icon: string | null;
-
-  isSvg: boolean;
-
-  private loadedResources: string[] = [];
-
-  /**
    * Maintains the applied style classes so we can remove them when the
    * icon type changes at run time.
    */
@@ -78,6 +69,15 @@ export class IconComponent {
    */
   @HostBinding('class.flip-at-ltr') flipAtLtr: boolean;
 
+  /**
+   * A text for text based icons or a (relative) SVG URL (fragment) for SVG icons.
+   */
+  private iconValue: string | null;
+
+  private iconResourceType: IconResourceType;
+
+  private loadedResources: string[] = [];
+
   constructor(
     protected iconLoader: IconLoaderService,
     protected winRef: WindowRef,
@@ -89,22 +89,34 @@ export class IconComponent {
       return;
     }
     if (this.iconLoader.isResourceType(type, IconResourceType.SVG)) {
-        this.icon = this.sanitizer.sanitize(SecurityContext.URL, this.iconLoader.getSvgPath(type));
-        this.isSvg = true;
+        this.iconResourceType = IconResourceType.SVG;
+        this.iconValue = this.sanitizer.sanitize(SecurityContext.URL, this.iconLoader.getSvgPath(type));
     } else if (this.iconLoader.isResourceType(type, IconResourceType.TEXT)) {
-        this.icon = this.iconLoader.getSymbol(type);
-        this.isSvg = false;
+        this.iconResourceType = IconResourceType.TEXT;
+        this.iconValue = this.iconLoader.getSymbol(type);
     } else if (this.iconLoader.isResourceType(type, IconResourceType.LINK)) {
-        this.icon = null;
-        this.isSvg = false;
+        this.iconResourceType = IconResourceType.LINK;
+        this.iconValue = null;
     } else {
         // TODO seems to be same as for LINK, consolidate?
-        this.icon = null;
-        this.isSvg = false;
+        this.iconResourceType = IconResourceType.LINK;
+        this.iconValue = null;
     }
     this.addLinkResource(type);
     this.addStyleClasses(type);
     this.flipIcon(type);
+  }
+
+  public get icon(): string | null {
+    return this.iconValue;
+}
+
+  public isSvgIcon(): boolean {
+    return this.iconResourceType == IconResourceType.SVG;
+  }
+
+  public isTextIcon(): boolean {
+    return this.iconResourceType == IconResourceType.TEXT;
   }
 
   /**
@@ -115,7 +127,7 @@ export class IconComponent {
    * no head element available and the link must be loaded for every
    * web component.
    */
-  addLinkResource(iconType: ICON_TYPE | string): void {
+  protected addLinkResource(iconType: ICON_TYPE | string): void {
     const resource: IconConfigResource | undefined = this.iconLoader.findResource(
       iconType,
       IconResourceType.LINK

@@ -1,3 +1,1 @@
-<ng-container *ngIf="isSvg; then svgBlock else textBlock"></ng-container><ng-content></ng-content>
-<ng-template #svgBlock><svg><use [attr.xlink:href]="icon"></use></svg></ng-template>
-<ng-template #textBlock>{{ icon }}</ng-template>
+<ng-container *ngIf="isTextIcon()">{{ icon }}</ng-container><svg *ngIf="isSvgIcon()"><use [attr.xlink:href]="icon"></use></svg><ng-content></ng-content>
