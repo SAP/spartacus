@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CdcJsService } from '@spartacus/cdc/root';
 import {
   AuthService,
   CmsConfig,
   GlobalMessageService,
   I18nModule,
-  NotAuthGuard, provideDefaultConfig,
+  provideDefaultConfig,
   UrlModule,
   WindowRef
 } from '@spartacus/core';
@@ -17,7 +18,6 @@ import {
   LoginFormComponent,
   LoginFormComponentService
 } from '@spartacus/user/account/components';
-import { CdcJsService } from 'integration-libs/cdc/root';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
 
 @NgModule({
@@ -37,12 +37,16 @@ import { CdcLoginFormComponentService } from './cdc-login-form-component.service
       cmsComponents: {
         ReturningCustomerLoginComponent: {
           component: LoginFormComponent,
-          guards: [NotAuthGuard],
           providers: [
             {
               provide: LoginFormComponentService,
               useClass: CdcLoginFormComponentService,
-              deps: [AuthService, GlobalMessageService, WindowRef, CdcJsService],
+              deps: [
+                AuthService,
+                GlobalMessageService,
+                WindowRef,
+                CdcJsService,
+              ],
             },
           ],
         },

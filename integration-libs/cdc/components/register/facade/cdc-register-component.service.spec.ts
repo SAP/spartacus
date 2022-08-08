@@ -5,15 +5,15 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
-  OCC_USER_ID_CURRENT,
+  OCC_USER_ID_CURRENT
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import {
   UserProfileConnector,
   UserProfileService,
-  UserRegisterService,
+  UserRegisterService
 } from '@spartacus/user/profile/core';
-import { UserSignUp } from '@spartacus/user/profile/root';
+import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { CdcJsService } from 'integration-libs/cdc/root';
 import { Observable, of } from 'rxjs';
 import { CDCRegisterComponentService } from './cdc-register-component.service';
@@ -34,7 +34,7 @@ class MockUserProfileService implements Partial<UserProfileService> {
   getTitles = createSpy().and.returnValue(of([]));
 }
 
-class MockUserRegisterService implements Partial<UserRegisterService> {
+class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
   getTitles = createSpy().and.returnValue(of([]));
 }
 
@@ -59,7 +59,7 @@ describe('CdcRegisterComponentService', () => {
   let connector: UserProfileConnector;
   let cdcJsService: CdcJsService;
   let globalMessageService: GlobalMessageService;
-  let userRegisterService: UserRegisterService;
+  let userRegisterFacde: UserRegisterFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -73,7 +73,7 @@ describe('CdcRegisterComponentService', () => {
         },
         { provide: UserProfileService, useClass: MockUserProfileService },
         { provide: CdcJsService, useClass: MockCDCJsService },
-        { provide: UserRegisterService, useClass: MockUserRegisterService },
+        { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
         CDCRegisterComponentService,
       ],
     });
@@ -82,7 +82,7 @@ describe('CdcRegisterComponentService', () => {
     cdcUserRegisterService = TestBed.inject(CDCRegisterComponentService);
     connector = TestBed.inject(UserProfileConnector);
     cdcJsService = TestBed.inject(CdcJsService);
-    userRegisterService = TestBed.inject(UserRegisterService);
+    userRegisterFacde = TestBed.inject(UserRegisterFacade);
   });
 
   it('should be created', () => {
@@ -98,7 +98,7 @@ describe('CdcRegisterComponentService', () => {
 
   it('should get titles from profileService', () => {
     cdcUserRegisterService.getTitles();
-    expect(userRegisterService.getTitles).toHaveBeenCalled();
+    expect(userRegisterFacde.getTitles).toHaveBeenCalled();
   });
 
   describe('Register', () => {

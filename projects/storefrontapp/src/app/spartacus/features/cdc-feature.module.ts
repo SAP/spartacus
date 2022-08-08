@@ -14,23 +14,12 @@ import { USER_PROFILE_FEATURE } from '@spartacus/user/profile/root';
           javascriptUrl: '',
           sessionExpiration: 3600,
         },
-        // {
-        //   baseSite: 'electronics-spa',
-        //   javascriptUrl:
-        //     'https://cdns.us1.gigya.com/JS/gigya.js?apikey=4_Ds_nEtQ8W58KZt0ckVVwvQ',
-        //   sessionExpiration: 3600,
-        // },
-        {
-          baseSite: 'powertools-spa',
-          javascriptUrl: 'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=3__pAj9UsaNXJAaDi-d8xvhzNBvGXDYx0GlTg1R9YQWVgTIQbdBZzR98_y-nFZWUNl',
-          sessionExpiration: 3600,
-        },
         {
           baseSite: 'electronics-spa',
           javascriptUrl:
             'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=3_k_wG-sllOhu2rjDEWHjG9-ncnnGAMHfkIcUKzl94weJU1Y18hITRgnTDp1LP8QdC',
           sessionExpiration: 3600,
-        }
+        },
       ],
     }),
     provideConfig(<CmsConfig>{

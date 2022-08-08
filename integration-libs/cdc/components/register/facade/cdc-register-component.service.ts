@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { CdcJsService } from '@spartacus/cdc/root';
 import {
   Command,
   CommandService,
   GlobalMessageService,
   GlobalMessageType,
-  UserActions
+  UserActions,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { RegisterComponentService } from '@spartacus/user/profile/components';
-import { UserRegisterService } from '@spartacus/user/profile/core';
-import { UserSignUp } from '@spartacus/user/profile/root';
-import { CdcJsService } from 'integration-libs/cdc/root';
+import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 
@@ -31,19 +30,19 @@ export class CDCRegisterComponentService extends RegisterComponentService {
     );
 
   constructor(
-    protected userRegisterService: UserRegisterService,
+    protected userRegisterFacade: UserRegisterFacade,
     protected command: CommandService,
     protected store: Store,
     protected cdcJSService: CdcJsService,
     protected globalMessageService: GlobalMessageService
   ) {
-    super(userRegisterService);
+    super(userRegisterFacade);
   }
 
   /**
-   * Register a new user.
+   * Register a new user using CDC SDK.
    *
-   * @param submitFormData as UserRegisterFormData
+   * @param user as UserSignUp
    */
   register(user: UserSignUp): Observable<User> {
     return this.cdcJSService.didLoad().pipe(
@@ -59,7 +58,7 @@ export class CDCRegisterComponentService extends RegisterComponentService {
             },
             GlobalMessageType.MSG_TYPE_ERROR
           );
-          return new Observable<User>(userNotRegistered => {
+          return new Observable<User>((userNotRegistered) => {
             userNotRegistered.complete();
           });
         }

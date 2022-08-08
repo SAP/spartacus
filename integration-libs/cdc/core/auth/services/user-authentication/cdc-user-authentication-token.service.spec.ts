@@ -7,10 +7,10 @@ import { TestBed } from '@angular/core/testing';
 import { AuthConfigService, AuthToken } from '@spartacus/core';
 import { CdcUserAuthenticationTokenService } from './cdc-user-authentication-token.service';
 
-const UID = 'sampleUID';
-const UIDSignature = 'sampleUIDSignature';
-const idToken = 'sampleIdToken';
-const signatureTimestamp = 'sampleSignatureTimestamp';
+const UID = 'sample UID';
+const UIDSignature = 'sample UID Signature';
+const idToken = 'sample+ Id . - Token';
+const signatureTimestamp = 'sample Signature Timestamp';
 const baseSite = 'sampleBaseSite';
 
 const loginEndpoint = '/authorizationserver/oauth/token';
@@ -90,6 +90,39 @@ describe('CdcUserAuthenticationTokenService', () => {
       expect(authConfigService.getTokenEndpoint).toHaveBeenCalled();
       expect(authConfigService.getClientId).toHaveBeenCalled();
       expect(authConfigService.getClientSecret).toHaveBeenCalled();
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+    });
+
+    it('should encode request parameters', () => {
+      authTokenService
+        .loadTokenUsingCustomFlow(
+          UID,
+          UIDSignature,
+          signatureTimestamp,
+          idToken,
+          baseSite
+        )
+        .subscribe((result) => {
+          expect(result).toEqual(token);
+        });
+
+      const mockReq = httpMock.expectOne((req) => {
+        expect(req.url).toBe(loginEndpoint);
+        expect(req.method).toBe('POST');
+        expect(req.body.get('UIDSignature')).toEqual(
+          encodeURIComponent(UIDSignature)
+        );
+        expect(req.body.get('id_token')).toEqual(encodeURIComponent(idToken));
+        expect(req.body.get('baseSite')).toEqual(encodeURIComponent(baseSite));
+
+        return true;
+      });
+
+      expect(authConfigService.getTokenEndpoint).toHaveBeenCalled();
+      expect(authConfigService.getClientId).toHaveBeenCalled();
+      expect(authConfigService.getClientSecret).toHaveBeenCalled();
+
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
     });

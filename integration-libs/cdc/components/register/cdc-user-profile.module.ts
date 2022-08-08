@@ -1,21 +1,11 @@
 import { NgModule } from '@angular/core';
 import { UserProfileModule } from '@spartacus/user';
-import {
-  UserRegisterFacade
-} from '@spartacus/user/profile/root';
-import { CDCRegisterComponentService } from './facade/cdc-register-component.service';
+import { CDCRegisterModule } from './facade/cdc-register.module';
 
 @NgModule({
   imports: [
     UserProfileModule,
-  ],
-  providers: [
-
-    CDCRegisterComponentService,
-    {
-      provide: UserRegisterFacade,
-      useExisting: CDCRegisterComponentService,
-    },
+    CDCRegisterModule,
   ],
 })
 export class CDCUserProfileModule {}

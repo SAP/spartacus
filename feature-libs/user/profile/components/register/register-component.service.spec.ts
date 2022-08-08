@@ -1,12 +1,15 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { AuthService, OCC_USER_ID_CURRENT, User } from '@spartacus/core';
-
-import { Observable, of } from 'rxjs';
-import { UserSignUp } from '@spartacus/user/profile/root';
-import { UserProfileConnector, UserProfileService, UserRegisterService } from '@spartacus/user/profile/core';
 import { Store } from '@ngrx/store';
-import createSpy = jasmine.createSpy;
+import { AuthService, OCC_USER_ID_CURRENT, User } from '@spartacus/core';
+import {
+  UserProfileConnector,
+  UserProfileService
+} from '@spartacus/user/profile/core';
+import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
+import { Observable, of } from 'rxjs';
 import { RegisterComponentService } from './register-component.service';
+
+import createSpy = jasmine.createSpy;
 
 class MockUserProfileService implements Partial<UserProfileService> {
   get(): Observable<User> {
@@ -15,12 +18,8 @@ class MockUserProfileService implements Partial<UserProfileService> {
   getTitles = createSpy().and.returnValue(of([]));
 }
 
-class MockUserRegisterService implements Partial<UserRegisterService> {
-  get(): Observable<User> {
-    return of({ uid: OCC_USER_ID_CURRENT });
-  }
+class MockUserRegisterFacade implements Partial<UserRegisterFacade> {
   getTitles = createSpy().and.returnValue(of([]));
-
   register = createSpy().and.callFake((user: any) => of(user));
 }
 
@@ -33,12 +32,13 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 describe('RegisterComponentService', () => {
-  let service: RegisterComponentService;
-  let userRegService: UserRegisterService;
+  let regComponentService: RegisterComponentService;
+  let userRegFacade: UserRegisterFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        RegisterComponentService,
         { provide: AuthService, useClass: MockAuthService },
         { provide: Store, useValue: { dispatch: () => {} } },
         {
@@ -46,13 +46,12 @@ describe('RegisterComponentService', () => {
           useClass: MockUserProfileConnector,
         },
         { provide: UserProfileService, useClass: MockUserProfileService },
-        { provide: UserRegisterService, useClass: MockUserRegisterService },
-        RegisterComponentService,
+        { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
       ],
     });
 
-    service = TestBed.inject(RegisterComponentService);
-    userRegService = TestBed.inject(UserRegisterService);
+    userRegFacade = TestBed.inject(UserRegisterFacade);
+    regComponentService = TestBed.inject(RegisterComponentService);
   });
 
   it('should inject RegisterComponentService', inject(
@@ -70,8 +69,8 @@ describe('RegisterComponentService', () => {
       uid: 'uid',
       password: 'password',
     };
-    service.register(userRegisterFormData);
-    expect(userRegService.register).toHaveBeenCalledWith({
+    regComponentService.register(userRegisterFormData);
+    expect(userRegFacade.register).toHaveBeenCalledWith({
       titleCode: 'Mr.',
       firstName: 'firstName',
       lastName: 'lastName',
@@ -80,9 +79,8 @@ describe('RegisterComponentService', () => {
     });
   });
 
-
   it('should get titles from UserRegisterService', () => {
-    service.getTitles().subscribe().unsubscribe();
-    expect(userRegService.getTitles).toHaveBeenCalled();
+    regComponentService.getTitles().subscribe().unsubscribe();
+    expect(userRegFacade.getTitles).toHaveBeenCalled();
   });
 });

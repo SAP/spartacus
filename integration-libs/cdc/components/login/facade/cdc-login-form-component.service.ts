@@ -1,15 +1,14 @@
-import { Injectable } from "@angular/core";
-import { CdcJsService } from "@spartacus/cdc/root";
-import { LoginFormComponentService } from "@spartacus/user/account/components";
-import { AuthService } from "projects/core/src/auth";
-import { GlobalMessageService, GlobalMessageType } from "projects/core/src/global-message";
-import { WindowRef } from "projects/core/src/window";
-import { BehaviorSubject } from "rxjs";
+import { Injectable, OnDestroy } from '@angular/core';
+import { CdcJsService } from '@spartacus/cdc/root';
+import { AuthService, GlobalMessageService, GlobalMessageType, WindowRef } from '@spartacus/core';
+import { LoginFormComponentService } from '@spartacus/user/account/components';
+import { Subscription } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class CdcLoginFormComponentService extends LoginFormComponentService {
+@Injectable()
+export class CdcLoginFormComponentService
+  extends LoginFormComponentService
+  implements OnDestroy
+{
   constructor(
     protected auth: AuthService,
     protected globalMessageService: GlobalMessageService,
@@ -19,28 +18,37 @@ export class CdcLoginFormComponentService extends LoginFormComponentService {
     super(auth, globalMessageService, winRef);
   }
 
-  protected busy$ = new BehaviorSubject(false);
+  protected subscription: Subscription = new Subscription();
 
   login() {
     this.busy$.next(true);
-    this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
-      if (cdcLoaded) {
-        // Logging in using CDC Gigya SDK
-        this.cdcJsService.loginUserWithoutScreenSet(
-          this.form.value.userId.toLowerCase(),
-          this.form.value.password,
-          true
-        );
-      } else {
-        // CDC Gigya SDK not loaded, show error to the user
-        this.globalMessageService.add(
-          {
-            key: 'errorHandlers.scriptFailedToLoad',
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-        this.busy$.next(false);
-      }
-    });
+    this.subscription.add(
+      this.cdcJsService.didLoad().subscribe((cdcLoaded) => {
+        if (cdcLoaded) {
+          // Logging in using CDC Gigya SDK
+          this.cdcJsService.loginUserWithoutScreenSet(
+            this.form.value.userId.toLowerCase(),
+            this.form.value.password,
+            true
+          );
+          this.busy$.next(false);
+        } else {
+          // CDC Gigya SDK not loaded, show error to the user
+          this.globalMessageService.add(
+            {
+              key: 'errorHandlers.scriptFailedToLoad',
+            },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+          this.busy$.next(false);
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

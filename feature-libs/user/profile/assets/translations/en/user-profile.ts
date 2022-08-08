@@ -57,7 +57,6 @@ export const userProfile = {
     bothPasswordMustMatch: 'Both password must match',
     titleRequired: 'Title is required.',
     postRegisterMessage: 'Please log in with provided credentials.',
-    loginSuccessful: 'Login Success',
   },
   forgottenPassword: {
     resetPassword: 'Reset password',

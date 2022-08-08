@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Title, User } from '@spartacus/core';
-import { UserRegisterService } from '@spartacus/user/profile/core';
-import { UserSignUp } from '@spartacus/user/profile/root';
+import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class RegisterComponentService {
-  constructor(protected userRegisterService: UserRegisterService) {}
+  constructor(protected userRegisterFacade: UserRegisterFacade) {}
 
   /**
    * Register a new user.
@@ -14,13 +13,13 @@ export class RegisterComponentService {
    * @param submitFormData as UserRegisterFormData
    */
   register(user: UserSignUp): Observable<User> {
-    return this.userRegisterService.register(user);
+    return this.userRegisterFacade.register(user);
   }
 
   /**
    * Returns titles that can be used for the user profiles.
    */
   getTitles(): Observable<Title[]> {
-    return this.userRegisterService.getTitles();
+    return this.userRegisterFacade.getTitles();
   }
 }
