@@ -17,9 +17,8 @@ x (D) CXSPA-21:
 x Make sure look and feel match the wires
 
 (E) CXSPA-921:
-[] adapter
-[] occ module
-[] connector
-[] call cart entries with fields full
-[] patch cart entries
-[] radio buttons should result in API calls
+x adapter
+x occ module
+x connector
+add PATCH to occ, adapter, connector, facade
+radio buttons should call PATCH on change
