@@ -33,8 +33,8 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
   }
 
   get allowedTypes(): string[] | undefined {
-    return this.customerTicketingConfig.customerTicketing?.attachmentRestrictions
-      ?.allowedTypes;
+    return this.customerTicketingConfig.customerTicketing
+      ?.attachmentRestrictions?.allowedTypes;
   }
 
   get getInputCharactersLimit(): number {
@@ -45,13 +45,13 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
   }
 
   get maxSize(): number | undefined {
-    return this.customerTicketingConfig.customerTicketing?.attachmentRestrictions
-      ?.maxSize;
+    return this.customerTicketingConfig.customerTicketing
+      ?.attachmentRestrictions?.maxSize;
   }
 
   get maxEntries(): number | undefined {
-    return this.customerTicketingConfig.customerTicketing?.attachmentRestrictions
-      ?.maxEntries;
+    return this.customerTicketingConfig.customerTicketing
+      ?.attachmentRestrictions?.maxEntries;
   }
 
   @HostListener('click', ['$event'])
