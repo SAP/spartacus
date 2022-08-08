@@ -71,7 +71,7 @@ module.exports = function (config) {
     },
    reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
-      outputFile: 'TEST-unit.xml',
+      outputFile: 'unit-test-results.xml',
       outputDir: require('path').join(__dirname, '../../unit-tests/storefront'),      
       classNameFormatter: undefined,
       useBrowserName: false,
