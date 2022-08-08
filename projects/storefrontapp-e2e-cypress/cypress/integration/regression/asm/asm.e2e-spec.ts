@@ -17,12 +17,14 @@ context('Assisted Service Module', () => {
 
     it('should checkout as customer', () => {
       const customer = getSampleUser();
-      checkout.registerUser(false, customer);
 
       cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
+
+      cy.log('--> Register user');
+      checkout.registerUser(false, customer);
 
       asm.agentLogin();
 
@@ -51,9 +53,13 @@ context('Assisted Service Module', () => {
     });
 
     it('agent should be able to bind anonymous cart to customer', () => {
+      const customer = getSampleUser();
+
       let assignedCartId: string;
       checkout.visitHomePage();
       cy.get('cx-asm-main-ui').should('not.exist');
+
+      checkout.registerUser(false, customer);
 
       cy.log('--> Add to cart as an anonymous user');
       cart.addProductAsAnonymous();
@@ -99,7 +105,6 @@ context('Assisted Service Module', () => {
       asm.agentSignOut();
 
       cy.get('cx-asm-main-ui').should('exist');
-      cy.get('cx-asm-main-ui').should('not.be.visible');
     });
   });
 

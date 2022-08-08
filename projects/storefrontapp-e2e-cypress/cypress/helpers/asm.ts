@@ -88,10 +88,10 @@ export function startCustomerEmulation(customer): void {
     .should('eq', 200);
 
   cy.get('cx-customer-selection div.asm-results button').click();
-  cy.get('button[type="submit"]').click();
+  cy.get('cx-customer-selection button[type="submit"]').click();
 
   cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
-  cy.get('cx-customer-emulation div.customerInfo label.name').should(
+  cy.get('cx-customer-emulation .cx-asm-customerInfo label.cx-asm-name').should(
     'contain',
     customer.fullName
   );
@@ -183,7 +183,9 @@ export function testCustomerEmulation() {
     consent.giveConsent();
 
     cy.log('--> Stop customer emulation');
-    cy.get('cx-customer-emulation button').click();
+    cy.get('cx-customer-emulation')
+      .findByText(/End Session/i)
+      .click();
     cy.get('cx-csagent-login-form').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
 
@@ -204,7 +206,9 @@ export function testCustomerEmulation() {
     cy.log(
       '--> Stop customer emulation using the end session button in the ASM UI'
     );
-    cy.get('cx-customer-emulation button').click();
+    cy.get('cx-customer-emulation')
+      .findByText(/End Session/i)
+      .click();
     cy.get('cx-customer-emulation').should('not.exist');
     cy.get('cx-customer-selection').should('be.visible');
 
@@ -269,7 +273,7 @@ export function testCustomerEmulation() {
 export function bindCart() {
   const bindingRequest = listenForCartBindingRequest();
   //click button
-  cy.get('.bindCartToCustomer').click();
+  cy.findByText(/Assign Cart to Customer/i).click();
   //make call
   cy.wait(bindingRequest).its('response.statusCode').should('eq', 200);
 }
