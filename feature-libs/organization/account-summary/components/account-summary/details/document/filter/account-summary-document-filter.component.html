@@ -1,44 +1,44 @@
 <ng-template #rangeInput let-formGroup="formGroup" let-type="type">
   <ng-container [formGroup]="formGroup">
-    <label class="ck-flex-item ck-flex-label">
+    <label class="flex-item">
       <span>{{ 'orgAccountSummary.filter.startRange' | cxTranslate }}</span>
-      <input class="ck-input" [type]="type" formControlName="from"/>
+      <input class="input-field" [type]="type" formControlName="from"/>
     </label>
 
-    <label class="ck-flex-item ck-flex-label">
+    <label class="flex-item">
       <span>{{ 'orgAccountSummary.filter.endRange' | cxTranslate }}</span>
-      <input class="ck-input" [type]="type" formControlName="to"/>
+      <input class="input-field" [type]="type" formControlName="to"/>
     </label>
   </ng-container>
 </ng-template>
 
 <form (ngSubmit)="formSearch()" [formGroup]="filterForm">
-  <div class="ck-main-container" *ngIf="filterForm.get('filterBy').value as filterBy">
+  <div class="flex-container" *ngIf="filterForm.get('filterBy').value as filterBy">
 
-    <label class="ck-flex-item ck-flex-label">
+    <label class="flex-item">
       <span>{{ 'orgAccountSummary.filter.status' | cxTranslate }}</span>
       <ng-select [searchable]="false" [clearable]="false" [items]="statusOptions"
                  bindLabel="name" bindValue="code" formControlName="status">
       </ng-select>
     </label>
 
-    <label class="ck-flex-item ck-flex-label">
+    <label class="flex-item">
       <span>{{ 'orgAccountSummary.filter.filterBy' | cxTranslate }}</span>
       <ng-select [searchable]="false" [clearable]="false" [items]="filterByOptions"
                  bindLabel="name" bindValue="code" formControlName="filterBy">
       </ng-select>
     </label>
 
-    <label class="ck-flex-item ck-flex-label" *ngIf="filterBy === FilterByOptions.DOCUMENT_TYPE">
+    <label class="flex-item" *ngIf="filterBy === FilterByOptions.DOCUMENT_TYPE">
       <span>{{ 'orgAccountSummary.filter.documentType' | cxTranslate }}</span>
       <ng-select [searchable]="false" [clearable]="false" [items]="documentTypeOptions"
                  bindLabel="name" bindValue="code" formControlName="documentType">
       </ng-select>
     </label>
 
-    <label class="ck-flex-item ck-flex-label" *ngIf="filterBy === FilterByOptions.DOCUMENT_NUMBER">
+    <label class="flex-item" *ngIf="filterBy === FilterByOptions.DOCUMENT_NUMBER">
       <span>{{ 'orgAccountSummary.filter.documentNumber' | cxTranslate }}</span>
-      <input class="ck-input" formControlName="documentNumber"/>
+      <input class="input-field" formControlName="documentNumber"/>
     </label>
 
     <ng-template [ngIf]="filterBy === FilterByOptions.DOCUMENT_NUMBER_RANGE">
@@ -66,7 +66,7 @@
       </ng-container>
     </ng-template>
 
-    <div class="ck-flex-buttons">
+    <div class="button-block">
       <button class="clear-btn" type="button" (click)="resetForm(true)">
         {{ 'orgAccountSummary.filter.clear' | cxTranslate }}
       </button>

@@ -1,88 +1,12 @@
 cx-account-summary-document-filter {
 
-  width: 100%;
-
-  .cx-account-summary-document-filter-field {
-    &.top {
-      display: flex;
-      justify-content: space-between;
-      padding: 1rem 0;
-      margin: 0;
-
-      @include media-breakpoint-down(md) {
-        flex-direction: column;
-        padding-top: 0;
-      }
-    }
-
-    &.bottom {
-      display: flex;
-      justify-content: flex-end;
-      padding: 1rem 0 1rem 0;
-      margin: 0;
-
-      @include media-breakpoint-down(sm) {
-        flex-direction: column;
-      }
-    }
-  }
-
-  .cx-account-summary-document-filter-form-group {
-    padding: 0;
-    margin-bottom: 0;
-    align-items: center;
+  .flex-container {
     display: flex;
-    width: 25%;
-
-    span {
-      margin-inline-end: 0.5rem;
-      flex: none;
-    }
-
-    @include media-breakpoint-down(md) {
-      padding: 1.25rem;
-      width: 100%;
-    }
-  }
-
-  ng-select {
-    width: 100%;
-  }
-
-  .ck-input {
-    padding: 0.5rem;
-    width: 100%;
-    //line-height: 2;
-    height: 50px;
-    border-width: 1px;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-    border-radius: 4px;
-  }
-
-  .search-btn {
-    background-color: var(--cx-color-primary);
-    border-color: var(--cx-color-primary);
-    color: var(--cx-color-inverse);
-    opacity: 1;
-    font-weight: var(--cx-font-weight-bold);
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    //margin-block-end: auto;
-  }
-
-
-  .ck-main-container {
-    //background: black;
-    display: flex;
-    //flex-direction: row;
-    //flex-wrap: wrap;
-
     flex-flow: row wrap;
     justify-content: flex-start;
   }
 
-  .ck-flex-item {
+  .flex-item {
     flex-direction: column;
     flex-basis: 25%;
     padding: 0.5rem;
@@ -98,11 +22,17 @@ cx-account-summary-document-filter {
     }
   }
 
-  .ck-flex-label {
-    //margin-right: 2rem;
+  .input-field {
+    padding: 0.5rem;
+    width: 100%;
+    height: 50px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+    border-radius: 4px;
   }
 
-  .ck-flex-buttons {
+  .button-block {
     flex-basis: 100%;
     justify-content: flex-end;
     margin-left: auto;
@@ -112,6 +42,16 @@ cx-account-summary-document-filter {
 
     display: flex;
     flex-direction: row;
+  }
+
+  .search-btn {
+    background-color: var(--cx-color-primary);
+    border-color: var(--cx-color-primary);
+    color: var(--cx-color-inverse);
+    opacity: 1;
+    font-weight: var(--cx-font-weight-bold);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
   }
 
   .clear-btn {
