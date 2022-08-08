@@ -134,9 +134,3 @@ export interface Order {
   returnable?: boolean;
   cancellable?: boolean;
 }
-
-export interface OrderUser {
-  firstName?: string;
-  lastName?: string;
-  orgUnitName?: string;
-}
