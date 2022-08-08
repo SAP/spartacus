@@ -57,7 +57,7 @@ export class AccountSummaryPageMetaResolver extends OrganizationPageMetaResolver
               link: this.semanticPath.get(this.ORGANIZATION_SEMANTIC_ROUTE),
             },
             {
-              label: 'All Account Summary',
+              label: 'Account Summaries',
               link: this.semanticPath.get('orgAccountSummary'),
             },
           ])

@@ -49,6 +49,7 @@ cx-account-summary-header {
 
   .cx-account-summary {
     background-color: var(--cx-color-background);
+    margin-top: 1.5rem;
 
     @include media-breakpoint-down(md) {
       background-color: var(--cx-color-inverse);

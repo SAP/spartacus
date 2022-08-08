@@ -1,11 +1,11 @@
 export const accountSummary = {
   orgAccountSummary: {
-    header: 'All account summary units ({{count}})',
-    name: 'Name',
+    header: 'All Account Summaries ({{count}})',
+    name: 'Unit',
     details: {
       header: 'Account Summary Details',
-      uid: 'ID',
-      name: 'Name',
+      uid: 'Unit ID',
+      name: 'Unit Name',
       address: 'Address',
       creditRep: 'Credit Rep',
       creditLine: 'Credit Line',
@@ -67,12 +67,11 @@ export const accountSummary = {
       clear: 'Clear All',
       search: 'Search',
     },
-    //TODO
-    hint: '',
+    hint: 'Account summaries allows you to review general information about the unit, including balances and aging summary of invoices. Here, you can also browse through a list of transaction documents for the unit.',
   },
 
   breadcrumbs: {
-    list: 'All account summary',
+    list: 'Account Summaries',
     details: '{{name}}',
   },
 };

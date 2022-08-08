@@ -203,6 +203,9 @@ cx-account-summary-document {
     @include type('5');
     font-weight: $font-weight-normal;
     min-height: 415px;
+    padding-top: 2rem;
+    border-top: 1px solid var(--cx-color-light);
+    justify-content: center;
 
     @include media-breakpoint-down(sm) {
       min-height: 474px;
