@@ -12,6 +12,7 @@ import {
   CUSTOMER_TICKETING_CORE_FEATURE,
   CUSTOMER_TICKETING_FEATURE,
 } from './feature-name';
+import { CustomerTicketingEventModule } from './events/customer-ticketing-event.module';
 
 export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
@@ -33,6 +34,7 @@ export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
 }
 @NgModule({
   imports: [
+    CustomerTicketingEventModule,
     RouterModule.forChild([
       {
         // @ts-ignore

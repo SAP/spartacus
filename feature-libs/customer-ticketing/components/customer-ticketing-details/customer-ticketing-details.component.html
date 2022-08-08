@@ -34,8 +34,11 @@
       <div class="cx-details-card">
         <cx-card
           [content]="
-            prepareCardContent(ticket.status.name, 'customerTicketing.status')
-              | async
+            prepareCardContent(
+              ticket.status.name,
+              'customerTicketing.status',
+              ticket.status.id
+            ) | async
           "
         ></cx-card>
       </div>
