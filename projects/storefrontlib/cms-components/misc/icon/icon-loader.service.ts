@@ -28,7 +28,7 @@ export class IconLoaderService {
    *
    * @deprecated only exists for backwards compatibility, html generation has been moved to icon component
    */
-  getHtml(type: ICON_TYPE | string): SafeHtml | undefined {
+  public getHtml(type: ICON_TYPE | string): SafeHtml | undefined {
     if (this.isResourceType(type, IconResourceType.SVG)) {
       return this.sanitizer.bypassSecurityTrustHtml(
         `<svg><use xlink:href="${this.getSvgPath(type)}"></use></svg>`
@@ -46,7 +46,7 @@ export class IconLoaderService {
    * Return the direction for which the icon should mirror (ltr vs rtl). The icon direction
    * is configurable, but optional, as only a few icons should be flipped for rtl direction.
    */
-  getFlipDirection(type: ICON_TYPE | string): DirectionMode | undefined {
+  public getFlipDirection(type: ICON_TYPE | string): DirectionMode | undefined {
     return this.config?.flipDirection?.[type];
   }
 
@@ -54,7 +54,7 @@ export class IconLoaderService {
    *
    * Returns the symbol class(es) for the icon type.
    */
-  getStyleClasses(iconType: ICON_TYPE | string): string {
+  public getStyleClasses(iconType: ICON_TYPE | string): string {
     return this.getSymbol(iconType) || '';
   }
 
@@ -62,7 +62,7 @@ export class IconLoaderService {
    * Indicates whether the given `ICON_TYPE` is configured for
    * the given `IconResourceType`.
    */
-  isResourceType(
+  public isResourceType(
     iconType: ICON_TYPE | string,
     resourceType: IconResourceType
   ): boolean {
@@ -81,7 +81,7 @@ export class IconLoaderService {
    * Additionally, the icon prefix will be taken into account to prefix the
    * icon IDs in the SVG.
    */
-  getSvgPath(iconType: ICON_TYPE | string): string | null {
+  public getSvgPath(iconType: ICON_TYPE | string): string | null {
     const svgResource = this.config?.resources?.find(
       (res) =>
         res.type === IconResourceType.SVG &&
@@ -106,7 +106,7 @@ export class IconLoaderService {
    * 
    * @deprecated only exists for backwards compatibility, resource loading has been moved to icon component
    */
-  addLinkResource(iconType: ICON_TYPE | string): void {
+  public addLinkResource(iconType: ICON_TYPE | string): void {
     const resource: IconConfigResource | undefined = this.findResource(
       iconType,
       IconResourceType.LINK
@@ -126,7 +126,7 @@ export class IconLoaderService {
     }
   }
 
-  findResource(
+  public findResource(
     iconType: ICON_TYPE | string,
     resourceType: IconResourceType
   ): IconConfigResource | undefined {
