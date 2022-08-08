@@ -14,13 +14,17 @@ export function deepMerge(
   if (isObject(source)) {
     for (const key in source) {
       if (source[key] instanceof Date) {
-        target[key] = source[key];
+        if (key === "__proto__" || key === "constructor") continue;
+        else{
+          target[key] = source[key];
+        }
       } else if (isObject(source[key])) {
         if (!target[key] || !isObject(target[key])) {
           target[key] = {};
         }
         deepMerge(target[key] as Record<string, unknown>, source[key]);
-      } else {
+      } else if (key === "__proto__" || key === "constructor") continue;
+      else {
         target[key] = source[key];
       }
     }
