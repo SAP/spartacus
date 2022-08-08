@@ -18,6 +18,7 @@ export const MockIconConfig: IconConfig = {
       CART: 'cartSymbol',
       INFO: 'infoSymbol',
       HAPPY: '😊',
+      BAD_SVG: 'badSvg'
     },
     resources: [
       {
@@ -28,6 +29,11 @@ export const MockIconConfig: IconConfig = {
       {
         type: IconResourceType.SVG,
         types: [ICON_TYPE.INFO],
+      },
+      {
+        type: IconResourceType.SVG,
+        url: 'javascript:alert(1)',
+        types: ['BAD_SVG'],
       },
       {
         type: IconResourceType.LINK,
