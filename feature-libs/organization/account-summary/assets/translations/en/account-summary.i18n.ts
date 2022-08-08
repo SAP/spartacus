@@ -54,10 +54,19 @@ export const accountSummary = {
       dueDateRange: 'Due Date Range',
       amountRange: 'Original Amount Range',
       openAmountRange: 'Open Amount Range',
-
     },
     sortBy: 'Sort by',
     sortDocuments: 'Sort documents',
+    filter: {
+      status: 'Status',
+      filterBy: 'Filter By',
+      documentNumber: 'Document Number',
+      documentType: 'Document Type',
+      startRange: 'From',
+      endRange: 'To',
+      clear: 'Clear All',
+      search: 'Search',
+    },
     //TODO
     hint: '',
   },

@@ -1,204 +1,79 @@
-<!--<div class="cx-account-summary-document-filter-body">-->
+<ng-template #rangeInput let-formGroup="formGroup" let-type="type">
+  <ng-container [formGroup]="formGroup">
+    <label class="ck-flex-item ck-flex-label">
+      <span>{{ 'orgAccountSummary.filter.startRange' | cxTranslate }}</span>
+      <input class="ck-input" [type]="type" formControlName="from"/>
+    </label>
 
-<!--  <div class="cx-account-summary-document-filter-field top">-->
-<!--    <label class="cx-account-summary-document-filter-form-group form-group">-->
-<!--      <span>Status</span>-->
-<!--      <ng-select-->
-<!--        [searchable]="false"-->
-<!--        [clearable]="false"-->
-<!--        placeholder="{{ placeholder }}"-->
-<!--        (change)="filters.status = $event.code"-->
-<!--        [ngModel]="filters.status"-->
-<!--        [items]="statusOptions"-->
-<!--        bindLabel="name"-->
-<!--        bindValue="code"-->
-<!--      >-->
-<!--      </ng-select>-->
-<!--    </label>-->
+    <label class="ck-flex-item ck-flex-label">
+      <span>{{ 'orgAccountSummary.filter.endRange' | cxTranslate }}</span>
+      <input class="ck-input" [type]="type" formControlName="to"/>
+    </label>
+  </ng-container>
+</ng-template>
 
-<!--    <label class="cx-account-summary-document-filter-form-group form-group">-->
-<!--      <span>Filter By</span>-->
-<!--      <ng-select-->
-<!--        [searchable]="false"-->
-<!--        [clearable]="false"-->
-<!--        placeholder="{{ placeholder }}"-->
-<!--        (change)="changeFilterBy($event)"-->
-<!--        [ngModel]="filters.filterByKey"-->
-<!--        [items]="filterByOptions"-->
-<!--        bindLabel="name"-->
-<!--        bindValue="code"-->
-<!--      >-->
-<!--      </ng-select>-->
-<!--    </label>-->
+<form (ngSubmit)="formSearch()" [formGroup]="filterForm">
+  <div class="ck-main-container" *ngIf="filterForm.get('filterBy').value as filterBy">
 
-<!--    <label class="cx-account-summary-document-filter-form-group form-group"-->
-<!--           *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_NUMBER">-->
-<!--      <span>Document Number</span>-->
-<!--      <input [value]="filters.filterByValue" (change)="filters.filterByValue = $event.target.value" />-->
-<!--    </label>-->
-
-<!--    <label class="cx-account-summary-document-filter-form-group form-group"-->
-<!--           *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_NUMBER_RANGE">-->
-<!--      <span>From</span>-->
-<!--      <input [value]="filters.startRange" (change)="filters.startRange = $event.target.value" />-->
-<!--    </label>-->
-
-<!--    <label class="cx-account-summary-document-filter-form-group form-group"-->
-<!--           *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_NUMBER_RANGE">-->
-<!--      <span>To</span>-->
-<!--      <input [value]="filters.endRange" (change)="filters.endRange = $event.target.value" />-->
-<!--    </label>-->
-
-<!--    <label class="cx-account-summary-document-filter-form-group form-group"-->
-<!--           *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_TYPE">-->
-<!--      <span>Document Type</span>-->
-<!--      <ng-select-->
-<!--        [searchable]="false"-->
-<!--        [clearable]="false"-->
-<!--        placeholder="{{ placeholder }}"-->
-<!--        (change)="filters.filterByValue = $event.code"-->
-<!--        [ngModel]="filters.filterByKey"-->
-<!--        [items]="documentTypeOptions"-->
-<!--        bindLabel="name"-->
-<!--        bindValue="code"-->
-<!--      >-->
-<!--      </ng-select>-->
-<!--    </label>-->
-
-<!--    <label class="cx-account-summary-document-filter-form-group form-group"-->
-<!--           *ngIf="filters.filterByKey === FilterByOptions.DATE_RANGE || filters.filterByKey === FilterByOptions.DUE_DATE_RANGE">-->
-<!--      <span>From</span>-->
-<!--      <input type="date" [value]="filters.startRange" (change)="filters.startRange = $event.target.value" />-->
-<!--    </label>-->
-
-<!--    <label class="cx-account-summary-document-filter-form-group form-group"-->
-<!--           *ngIf="filters.filterByKey === FilterByOptions.DATE_RANGE || filters.filterByKey === FilterByOptions.DUE_DATE_RANGE">-->
-<!--      <span>To</span>-->
-<!--      <input type="date" [value]="filters.endRange" (change)="filters.endRange = $event.target.value" />-->
-<!--    </label>-->
-
-<!--    <label class="cx-account-summary-document-filter-form-group form-group"-->
-<!--           *ngIf="filters.filterByKey === FilterByOptions.AMOUNT_RANGE || filters.filterByKey === FilterByOptions.OPEN_AMOUNT_RANGE">-->
-<!--      <span>From</span>-->
-<!--      <input type="number" [value]="filters.startRange" (change)="filters.startRange = $event.target.value" />-->
-<!--    </label>-->
-
-<!--    <label class="cx-account-summary-document-filter-form-group form-group"-->
-<!--           *ngIf="filters.filterByKey === FilterByOptions.AMOUNT_RANGE || filters.filterByKey === FilterByOptions.OPEN_AMOUNT_RANGE">-->
-<!--      <span>To</span>-->
-<!--      <input type="number" [value]="filters.endRange" (change)="filters.endRange = $event.target.value" />-->
-<!--    </label>-->
-
-<!--    <button class="search-btn" (click)="search()">Search</button>-->
-<!--  </div>-->
-
-<!--</div>-->
-
-<div class="ck-main-container">
-
-  <div class="ck-flex-item">
-    <label class="ck-flex-label">
-      <span>Status</span>
-      <ng-select
-        [searchable]="false"
-        [clearable]="false"
-        placeholder="{{ placeholder }}"
-        (change)="filters.status = $event.code"
-        [ngModel]="filters.status"
-        [items]="statusOptions"
-        bindLabel="name"
-        bindValue="code"
-      >
+    <label class="ck-flex-item ck-flex-label">
+      <span>{{ 'orgAccountSummary.filter.status' | cxTranslate }}</span>
+      <ng-select [searchable]="false" [clearable]="false" [items]="statusOptions"
+                 bindLabel="name" bindValue="code" formControlName="status">
       </ng-select>
     </label>
-  </div>
 
-  <div class="ck-flex-item">
-    <label class="ck-flex-label">
-      <span>Filter By</span>
-      <ng-select
-        [searchable]="false"
-        [clearable]="false"
-        placeholder="{{ placeholder }}"
-        (change)="changeFilterBy($event)"
-        [ngModel]="filters.filterByKey"
-        [items]="filterByOptions"
-        bindLabel="name"
-        bindValue="code"
-      >
+    <label class="ck-flex-item ck-flex-label">
+      <span>{{ 'orgAccountSummary.filter.filterBy' | cxTranslate }}</span>
+      <ng-select [searchable]="false" [clearable]="false" [items]="filterByOptions"
+                 bindLabel="name" bindValue="code" formControlName="filterBy">
       </ng-select>
     </label>
-  </div>
 
-  <div class="ck-flex-item" *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_NUMBER">
-    <label class="ck-flex-label">
-      <span>Document Number</span>
-      <input [value]="filters.filterByValue" (change)="filters.filterByValue = $event.target.value" />
-    </label>
-  </div>
-
-  <div class="ck-flex-item" *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_NUMBER_RANGE">
-    <label class="ck-flex-label">
-      <div>From</div>
-      <input [value]="filters.startRange" (change)="filters.startRange = $event.target.value" />
-    </label>
-  </div>
-
-  <div class="ck-flex-item" *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_NUMBER_RANGE">
-    <label class="ck-flex-label">
-      <div>To</div>
-      <input [value]="filters.endRange" (change)="filters.endRange = $event.target.value" />
-    </label>
-  </div>
-
-  <div class="ck-flex-item" *ngIf="filters.filterByKey === FilterByOptions.DOCUMENT_TYPE">
-    <label class="ck-flex-label">
-      <span>Document Type</span>
-      <ng-select
-        [searchable]="false"
-        [clearable]="false"
-        placeholder="{{ placeholder }}"
-        (change)="filters.filterByValue = $event.code"
-        [ngModel]="filters.filterByKey"
-        [items]="documentTypeOptions"
-        bindLabel="name"
-        bindValue="code"
-      >
+    <label class="ck-flex-item ck-flex-label" *ngIf="filterBy === FilterByOptions.DOCUMENT_TYPE">
+      <span>{{ 'orgAccountSummary.filter.documentType' | cxTranslate }}</span>
+      <ng-select [searchable]="false" [clearable]="false" [items]="documentTypeOptions"
+                 bindLabel="name" bindValue="code" formControlName="documentType">
       </ng-select>
     </label>
-  </div>
 
-  <div class="ck-flex-item" *ngIf="filters.filterByKey === FilterByOptions.DATE_RANGE || filters.filterByKey === FilterByOptions.DUE_DATE_RANGE">
-    <label class="ck-flex-label">
-      <div>From</div>
-      <input type="date" [value]="filters.startRange" (change)="filters.startRange = $event.target.value" />
+    <label class="ck-flex-item ck-flex-label" *ngIf="filterBy === FilterByOptions.DOCUMENT_NUMBER">
+      <span>{{ 'orgAccountSummary.filter.documentNumber' | cxTranslate }}</span>
+      <input class="ck-input" formControlName="documentNumber"/>
     </label>
-  </div>
 
-  <div class="ck-flex-item" *ngIf="filters.filterByKey === FilterByOptions.DATE_RANGE || filters.filterByKey === FilterByOptions.DUE_DATE_RANGE">
-    <label class="ck-flex-label">
-      <div>To</div>
-      <input type="date" [value]="filters.endRange" (change)="filters.endRange = $event.target.value" />
-    </label>
-  </div>
+    <ng-template [ngIf]="filterBy === FilterByOptions.DOCUMENT_NUMBER_RANGE">
+      <ng-container *ngTemplateOutlet="rangeInput; context: { formGroup: filterForm.get('documentNumberRange'), type: 'text' }">
+      </ng-container>
+    </ng-template>
 
-  <div class="ck-flex-item" *ngIf="filters.filterByKey === FilterByOptions.AMOUNT_RANGE || filters.filterByKey === FilterByOptions.OPEN_AMOUNT_RANGE">
-    <label class="ck-flex-label">
-      <span>From</span>
-      <input type="number" [value]="filters.startRange" (change)="filters.startRange = $event.target.value" />
-    </label>
-  </div>
+    <ng-template [ngIf]="filterBy === FilterByOptions.DATE_RANGE">
+      <ng-container *ngTemplateOutlet="rangeInput; context: { formGroup: filterForm.get('documentDateRange'), type: 'date' }">
+      </ng-container>
+    </ng-template>
 
-  <div class="ck-flex-item" *ngIf="filters.filterByKey === FilterByOptions.AMOUNT_RANGE || filters.filterByKey === FilterByOptions.OPEN_AMOUNT_RANGE">
-    <label class="ck-flex-label">
-      <span>To</span>
-      <input type="number" [value]="filters.endRange" (change)="filters.endRange = $event.target.value" />
-    </label>
-  </div>
+    <ng-template [ngIf]="filterBy === FilterByOptions.DUE_DATE_RANGE">
+      <ng-container *ngTemplateOutlet="rangeInput; context: { formGroup: filterForm.get('dueDateRange'), type: 'date' }">
+      </ng-container>
+    </ng-template>
 
-  <div class="ck-flex-buttons">
-    <button class="clear-btn" (click)="clear()">Clear All</button>
-    <button class="search-btn" (click)="search()">Search</button>
-  </div>
+    <ng-template [ngIf]="filterBy === FilterByOptions.AMOUNT_RANGE">
+      <ng-container *ngTemplateOutlet="rangeInput; context: { formGroup: filterForm.get('originalAmountRange'), type: 'number' }">
+      </ng-container>
+    </ng-template>
 
-</div>
+    <ng-template [ngIf]="filterBy === FilterByOptions.OPEN_AMOUNT_RANGE">
+      <ng-container *ngTemplateOutlet="rangeInput; context: { formGroup: filterForm.get('openAmountRange'), type: 'number' }">
+      </ng-container>
+    </ng-template>
+
+    <div class="ck-flex-buttons">
+      <button class="clear-btn" type="button" (click)="resetForm(true)">
+        {{ 'orgAccountSummary.filter.clear' | cxTranslate }}
+      </button>
+      <button class="search-btn" type="submit">
+        {{ 'orgAccountSummary.filter.search' | cxTranslate }}
+      </button>
+    </div>
+
+  </div>
+</form>

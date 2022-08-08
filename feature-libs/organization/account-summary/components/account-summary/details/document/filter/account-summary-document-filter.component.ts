@@ -1,7 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DocumentQueryParams, DocumentStatus, AccountSummaryDocumentType, FilterByOptions } from '@spartacus/organization/account-summary/root';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  AccountSummaryDocumentType,
+  DocumentQueryParams,
+  DocumentStatus,
+  FilterByOptions,
+} from '@spartacus/organization/account-summary/root';
 import { combineLatest } from 'rxjs';
 import { TranslationService } from '@spartacus/core';
+
+import { FormBuilder, FormGroup } from '@angular/forms'
 
 interface ItemType {
   code: string;
@@ -12,97 +19,103 @@ interface ItemType {
   selector: 'cx-account-summary-document-filter',
   templateUrl: './account-summary-document-filter.component.html',
 })
-export class AccountSummaryDocumentFilterComponent implements OnInit {
+export class AccountSummaryDocumentFilterComponent {
 
   @Input()
   documentTypeOptions: Array<AccountSummaryDocumentType>;
   @Input()
-  ariaControls: string;
-  @Input()
-  ariaLabel: string | undefined;
-  @Input()
-  selectedOption: string | undefined;
-  @Input()
-  placeholder: string;
-  @Input()
-  filterLabels: { [code: string]: string } | null;
-  @Input()
   set initialFilters(initialFilters: DocumentQueryParams) {
-    this.filters.status = initialFilters.status;
-    this.filters.filterByKey = initialFilters.filterByKey;
-
-    if (
-      initialFilters.filterByKey === FilterByOptions.DOCUMENT_NUMBER ||
-      initialFilters.filterByKey === FilterByOptions.DOCUMENT_TYPE) {
-
-      this.filters.filterByValue = initialFilters.filterByValue ?? '';
-    }
-
-    if (
-      initialFilters.filterByKey === FilterByOptions.DOCUMENT_NUMBER_RANGE ||
-      initialFilters.filterByKey === FilterByOptions.AMOUNT_RANGE ||
-      initialFilters.filterByKey === FilterByOptions.OPEN_AMOUNT_RANGE) {
-
-      this.filters.startRange = initialFilters.startRange ?? '';
-      this.filters.endRange = initialFilters.endRange ?? '';
-    }
-
-    if (
-      initialFilters.filterByKey === FilterByOptions.DATE_RANGE ||
-      initialFilters.filterByKey === FilterByOptions.DUE_DATE_RANGE) {
-
-      this.filters.startRange = initialFilters.startRange ? this.decodeDate(initialFilters.startRange) : '';
-      this.filters.endRange = initialFilters.endRange ? this.decodeDate(initialFilters.endRange) : '';
-    }
+    this.initializeForm(initialFilters);
   }
-
-  /* For Enum use in HTML */
-  FilterByOptions = FilterByOptions
-
-  private _statusOptions: Array<ItemType>;
-  private _filterByOptions: Array<ItemType>;
 
   @Output()
   filterListEvent: EventEmitter<DocumentQueryParams>;
 
-  filters: DocumentQueryParams = {
-    //   sort: undefined,
-    //   fields: undefined,
-    status: DocumentStatus.ALL,
-    //   startRange: undefined,
-    //   endRange: undefined,
-    //   filterByKey: undefined,
-    //   filterByValue: undefined,
-  };
+  /* For Enum use in HTML */
+  FilterByOptions = FilterByOptions
 
-  constructor(protected translation: TranslationService) {
+  filterForm: FormGroup;
+
+  private _statusOptions: Array<ItemType>;
+  private _filterByOptions: Array<ItemType>;
+
+  constructor(
+    protected translation: TranslationService,
+    private fb: FormBuilder
+  ) {
     this.filterListEvent = new EventEmitter<DocumentQueryParams>();
   }
 
-  ngOnInit(): void {
-  }
+  formSearch(): void {
+    const status = this.filterForm.get('status')?.value as DocumentStatus;
+    const filterByKey = this.filterForm.get('filterBy')?.value as FilterByOptions;
+    let filterByValue;
+    let startRange;
+    let endRange;
 
-  changeFilterBy(event: ItemType): void {
-    this.filters.filterByKey = event.code;
-    if (event.code === FilterByOptions.DOCUMENT_NUMBER || event.code === FilterByOptions.DOCUMENT_TYPE) {
-      this.filters.filterByValue = '';
-      this.filters.startRange = undefined;
-      this.filters.endRange = undefined;
-    } else { // range filters
-      this.filters.filterByValue = undefined;
-      this.filters.startRange = '';
-      this.filters.endRange = '';
+    switch (filterByKey) {
+      case FilterByOptions.DOCUMENT_TYPE: {
+        filterByValue = this.filterForm.get('documentType')?.value;
+        break;
+      }
+      case FilterByOptions.DOCUMENT_NUMBER: {
+        filterByValue = this.filterForm.get('documentNumber')?.value;
+        break;
+      }
+      case FilterByOptions.DOCUMENT_NUMBER_RANGE: {
+        startRange = this.filterForm.get('documentNumberRange.from')?.value;
+        endRange = this.filterForm.get('documentNumberRange.to')?.value;
+        break;
+      }
+      case FilterByOptions.DATE_RANGE: {
+        const from = this.filterForm.get('documentDateRange.from')?.value;
+        const to = this.filterForm.get('documentDateRange.to')?.value;
+        startRange = from ? this.encodeDate(from) : '';
+        endRange = to ? this.encodeDate(to) : '';
+        break;
+      }
+      case FilterByOptions.DUE_DATE_RANGE: {
+        const from = this.filterForm.get('dueDateRange.from')?.value;
+        const to = this.filterForm.get('dueDateRange.to')?.value;
+        startRange = from ? this.encodeDate(from) : '';
+        endRange = to ? this.encodeDate(to) : '';
+        break;
+      }
+      case FilterByOptions.AMOUNT_RANGE: {
+        startRange = this.filterForm.get('originalAmountRange.from')?.value;
+        endRange = this.filterForm.get('originalAmountRange.to')?.value;
+        break;
+      }
+      case FilterByOptions.OPEN_AMOUNT_RANGE: {
+        startRange = this.filterForm.get('openAmountRange.from')?.value;
+        endRange = this.filterForm.get('openAmountRange.to')?.value;
+        break;
+      }
     }
+    this.filterListEvent.emit({ status, filterByKey, filterByValue, startRange, endRange });
   }
 
-  encodeDate(inputDate: string): string {
-    const [year, month, day] = inputDate.split('-');
-    return `${month}/${day}/${year}`;
-  }
+  resetForm(andSearch = false): void {
+    const defaults = {
+      documentType: '',
+      documentNumber: '',
+      documentNumberRange: { from: '', to: '' },
+      documentDateRange: { from: '', to: '' },
+      dueDateRange: { from: '', to: '' },
+      originalAmountRange: { from: '', to: '' },
+      openAmountRange: { from: '', to: '' },
+    };
 
-  decodeDate(inputDate: string): string {
-    const [month, day, year] = inputDate.split('/');
-    return `${year}-${month}-${day}`;
+    if (andSearch) { // if set, clear all fields and perform search
+      this.filterForm.patchValue({
+        ...defaults,
+        status: DocumentStatus.ALL,
+        filterBy: FilterByOptions.DOCUMENT_NUMBER,
+      });
+      this.formSearch();
+    } else { // otherwise just clear all fields except status and filterBy
+      this.filterForm.patchValue(defaults);
+    }
   }
 
   get statusOptions(): Array<ItemType> {
@@ -129,43 +142,48 @@ export class AccountSummaryDocumentFilterComponent implements OnInit {
     return this._filterByOptions;
   }
 
-  clear(): void {
-    this.filters.status = DocumentStatus.ALL
-    this.filters.filterByKey = FilterByOptions.DOCUMENT_NUMBER;
-    this.filters.filterByValue = '';
-    this.filters.startRange = undefined
-    this.filters.endRange = undefined;
-    this.search();
+  private initializeForm({ status, filterByKey, filterByValue, startRange, endRange }: DocumentQueryParams): void {
+
+    const generateRangeGroup = (filterByOption: FilterByOptions): FormGroup => {
+      return this.fb.group({
+        from: filterByKey === filterByOption && startRange ? startRange : '',
+        to: filterByKey === filterByOption && endRange ? endRange : '',
+      })
+    }
+
+    const generateDateRangeGroup = (filterByOption: FilterByOptions): FormGroup => {
+      return this.fb.group({
+        from: filterByKey === filterByOption && startRange ? this.decodeDate(startRange) : '',
+        to: filterByKey === filterByOption && endRange ? this.decodeDate(endRange) : '',
+      })
+    }
+
+    this.filterForm = this.fb.group({
+      status: status || DocumentStatus.ALL,
+      filterBy: filterByKey || FilterByOptions.DOCUMENT_NUMBER,
+      documentType: filterByKey === FilterByOptions.DOCUMENT_TYPE && filterByValue ? filterByValue : '',
+      documentNumber: filterByKey === FilterByOptions.DOCUMENT_NUMBER && filterByValue ? filterByValue : '',
+      documentNumberRange: generateRangeGroup(FilterByOptions.DOCUMENT_NUMBER_RANGE),
+      documentDateRange: generateDateRangeGroup(FilterByOptions.DATE_RANGE),
+      dueDateRange: generateDateRangeGroup(FilterByOptions.DUE_DATE_RANGE),
+      originalAmountRange: generateRangeGroup(FilterByOptions.AMOUNT_RANGE),
+      openAmountRange: generateRangeGroup(FilterByOptions.OPEN_AMOUNT_RANGE)
+    });
+
+    this.filterForm.get('filterBy')?.valueChanges.subscribe(() => this.filterByChanged());
   }
 
-  search(): void {
-    switch (this.filters.filterByKey) {
-      case FilterByOptions.DATE_RANGE:
-      case FilterByOptions.DUE_DATE_RANGE: {
-        const startRange = this.encodeDate(this.filters.startRange);
-        const endRange = this.encodeDate(this.filters.endRange);
-        const filterByValue = undefined;
-        this.filterListEvent.emit({...this.filters, startRange, endRange, filterByValue});
-        break;
-      }
-      case FilterByOptions.DOCUMENT_NUMBER_RANGE:
-      case FilterByOptions.AMOUNT_RANGE:
-      case FilterByOptions.OPEN_AMOUNT_RANGE: {
-        const filterByValue = undefined;
-        this.filterListEvent.emit({...this.filters, filterByValue});
-        break;
-      }
-      case FilterByOptions.DOCUMENT_NUMBER:
-      case FilterByOptions.DOCUMENT_TYPE: {
-        const startRange = undefined;
-        const endRange = undefined;
-        this.filterListEvent.emit({...this.filters, startRange, endRange});
-        break;
-      }
-      default: {
-        this.filterListEvent.emit(this.filters);
-        break;
-      }
-    }
+  private filterByChanged() {
+    this.resetForm(false);
+  }
+
+  private encodeDate(inputDate: string): string {
+    const [year, month, day] = inputDate.split('-');
+    return `${month}/${day}/${year}`;
+  }
+
+  private decodeDate(inputDate: string): string {
+    const [month, day, year] = inputDate.split('/');
+    return `${year}-${month}-${day}`;
   }
 }

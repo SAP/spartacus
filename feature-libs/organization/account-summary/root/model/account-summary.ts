@@ -98,6 +98,6 @@ export interface DocumentQueryParams {
   status?: DocumentStatus;
   startRange?: string;
   endRange?: string;
-  filterByKey?: string;
+  filterByKey?: FilterByOptions;
   filterByValue?: string;
 }

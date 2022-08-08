@@ -4,7 +4,10 @@ import { RouterModule } from '@angular/router';
 import { I18nModule } from '@spartacus/core';
 import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormsModule } from '@angular/forms';
+import {
+  FormsModule, // no longer needed
+  ReactiveFormsModule
+} from '@angular/forms';
 
 @NgModule({
   declarations: [AccountSummaryDocumentFilterComponent],
@@ -13,7 +16,8 @@ import { FormsModule } from '@angular/forms';
     RouterModule,
     I18nModule,
     NgSelectModule,
-    FormsModule,
+    FormsModule, // no longer needed
+    ReactiveFormsModule,
   ],
   exports: [AccountSummaryDocumentFilterComponent]
 })
