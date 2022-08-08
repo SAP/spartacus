@@ -373,8 +373,7 @@ export class ProfileTagPushEventsService {
       this.eventService.get(CartUpdateEntrySuccessEvent),
       this.eventService.get(CartRemoveEntrySuccessEvent),
       this.eventService.get(MergeCartSuccessEvent)
-    ).
-    pipe(
+    ).pipe(
       switchMapTo(this.activeCartFacade.takeActive()),
       map(
         (cart) =>

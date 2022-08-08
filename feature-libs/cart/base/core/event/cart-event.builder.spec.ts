@@ -468,11 +468,13 @@ describe('CartEventBuilder', () => {
           .pipe(take(1))
           .subscribe((value) => (result = value));
 
-        actions$.next(new CartActions.MergeCartSuccess({
-          oldCartId: 'old-cart-id',
-          tempCartId: 'abc',
-          ...MOCK_ACTIVE_CART_EVENT
-        }));
+        actions$.next(
+          new CartActions.MergeCartSuccess({
+            oldCartId: 'old-cart-id',
+            tempCartId: 'abc',
+            ...MOCK_ACTIVE_CART_EVENT,
+          })
+        );
 
         expect(result).toEqual(jasmine.objectContaining(eventData));
 

@@ -592,7 +592,9 @@ function goToProductPage(): Cypress.Chainable<number> {
     .should('eq', 200);
 }
 
-function gotToProductPageWithProductCode(productCode: string): Cypress.Chainable<number> {
+function gotToProductPageWithProductCode(
+  productCode: string
+): Cypress.Chainable<number> {
   const productPage = checkoutFlow.waitForProductPage(
     productCode,
     'getProductPage'
@@ -606,7 +608,7 @@ function gotToProductPageWithProductCode(productCode: string): Cypress.Chainable
 
 function verifyCartSnapshotEventNumberOfEntries(
   cy: Cypress.cy,
-  expectedNumberOfEntries: number,
+  expectedNumberOfEntries: number
 ) {
   cy.window().should((win) => {
     expect(
@@ -619,6 +621,8 @@ function verifyCartSnapshotEventNumberOfEntries(
       win,
       profileTagHelper.EventNames.CART_SNAPSHOT
     )[0];
-    expect(cartSnapshotEvent.data.cart.entries.length).to.eq(expectedNumberOfEntries);
+    expect(cartSnapshotEvent.data.cart.entries.length).to.eq(
+      expectedNumberOfEntries
+    );
   });
 }
