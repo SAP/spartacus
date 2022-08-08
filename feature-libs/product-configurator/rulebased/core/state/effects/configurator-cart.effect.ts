@@ -121,6 +121,7 @@ export class ConfiguratorCartEffects {
   readConfigurationForCartEntry$: Observable<
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
     | ConfiguratorActions.UpdatePriceSummary
+    | ConfiguratorActions.SearchVariants
     | ConfiguratorActions.ReadCartEntryConfigurationFail
   > = createEffect(() =>
     this.actions$.pipe(
@@ -134,6 +135,7 @@ export class ConfiguratorCartEffects {
             switchMap((result: Configurator.Configuration) => [
               new ConfiguratorActions.ReadCartEntryConfigurationSuccess(result),
               new ConfiguratorActions.UpdatePriceSummary(result),
+              new ConfiguratorActions.SearchVariants(result),
             ]),
             catchError((error) => [
               new ConfiguratorActions.ReadCartEntryConfigurationFail({
