@@ -1,8 +1,10 @@
 import { Provider } from '@angular/core';
 import {
+  CartFacade,
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
+import { CartService } from './cart.service';
 import { IntendedPickupLocationService } from './intended-pickup-location.service';
 import { PickupLocationsSearchService } from './pickup-locations-search.service';
 
@@ -16,5 +18,10 @@ export const facadeProviders: Provider[] = [
   {
     provide: PickupLocationsSearchFacade,
     useExisting: PickupLocationsSearchService,
+  },
+  CartService,
+  {
+    provide: CartFacade,
+    useExisting: CartService,
   },
 ];

@@ -10,8 +10,15 @@ export const intendedPickupLocationsReducer = createReducer(
     ...state,
     [payload.productCode]: payload.location,
   })),
-  on(PickupLocationActions.RemoveLocation, (state, { payload }) => {
-    const { [payload]: _, ...newState } = state;
-    return newState;
-  })
+  on(PickupLocationActions.RemoveLocation, (state, { payload }) => ({
+    ...state,
+    [payload]: { pickupOption: 'delivery' },
+  })),
+  on(PickupLocationActions.SetPickupOption, (state, { payload }) => ({
+    ...state,
+    [payload.productCode]: {
+      ...state[payload.productCode],
+      pickupOption: payload.pickupOption,
+    },
+  }))
 );

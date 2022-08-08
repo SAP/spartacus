@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, PointOfServiceStock, Stock } from '@spartacus/core';
+import {
+  facadeFactory,
+  PointOfService,
+  PointOfServiceStock,
+  Stock,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
 import { StockLocationSearchParams } from '../model';
@@ -43,4 +48,6 @@ export abstract class PickupLocationsSearchFacade {
   abstract getHideOutOfStock(): Observable<boolean>;
   abstract setBrowserLocation(latitude: number, longitude: number): void;
   abstract toggleHideOutOfStock(): void;
+  abstract getStoreDetails(name: string): Observable<PointOfService>;
+  abstract loadStoreDetails(name: string): void;
 }

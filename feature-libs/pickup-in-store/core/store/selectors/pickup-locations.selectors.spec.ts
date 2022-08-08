@@ -1,7 +1,8 @@
 import { StateWithPickupLocations } from '../pickup-location-state';
 import {
-  getIntendedPickupLocationByProductCodeFactory,
+  getIntendedPickupLocationByProductCode,
   getIntendedPickupLocations,
+  getPickupOptionByProductCode,
 } from './pickup-locations.selectors';
 
 describe('PickupLocationSelectors', () => {
@@ -12,8 +13,10 @@ describe('PickupLocationSelectors', () => {
           intendedPickupLocations: {
             P0001: {
               name: 'Test',
+              pickupOption: 'pickup',
             },
           },
+          storeDetails: {},
         },
       };
       const result = getIntendedPickupLocations(state);
@@ -21,22 +24,56 @@ describe('PickupLocationSelectors', () => {
     });
   });
 
-  describe('getIntendedPickupLocationByProductCodeFactory', () => {
+  describe('getIntendedPickupLocationByProductCode', () => {
     it('should return the intended pickup location for a given product', () => {
       const state: StateWithPickupLocations = {
         'pickup-locations': {
           intendedPickupLocations: {
             P0001: {
               name: 'Test',
+              pickupOption: 'pickup',
             },
           },
+          storeDetails: {},
         },
       };
-      const result =
-        getIntendedPickupLocationByProductCodeFactory('P0001')(state);
+      const result = getIntendedPickupLocationByProductCode('P0001')(state);
       expect(result).toEqual(
         state['pickup-locations'].intendedPickupLocations['P0001']
       );
+    });
+  });
+
+  describe('getPickupOptionByProductCode', () => {
+    it('should return a pickup option for product code', () => {
+      const state: StateWithPickupLocations = {
+        'pickup-locations': {
+          intendedPickupLocations: {
+            P0001: {
+              name: 'Test',
+              pickupOption: 'pickup',
+            },
+            P0002: {
+              pickupOption: 'delivery',
+            },
+          },
+          storeDetails: {},
+        },
+      };
+
+      const state2: StateWithPickupLocations = {
+        'pickup-locations': {
+          intendedPickupLocations: {},
+          storeDetails: {},
+        },
+      };
+
+      const result = getPickupOptionByProductCode('P0001')(state);
+      const result2 = getPickupOptionByProductCode('P0002')(state);
+      const result3 = getPickupOptionByProductCode('P0002')(state2);
+      expect(result).toEqual('pickup');
+      expect(result2).toEqual('delivery');
+      expect(result3).toEqual('delivery');
     });
   });
 });

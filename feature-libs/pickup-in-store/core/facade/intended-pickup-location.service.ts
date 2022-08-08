@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { PointOfService } from '@spartacus/core';
-import { IntendedPickupLocationFacade } from '@spartacus/pickup-in-store/root';
+import {
+  AugmentedPointOfService,
+  IntendedPickupLocationFacade,
+  PickupOption,
+} from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
+
 import { PickupLocationActions, PickupLocationsSelectors } from '../store';
 import { StateWithPickupLocations } from '../store/pickup-location-state';
 
@@ -17,17 +21,34 @@ export class IntendedPickupLocationService
 
   getIntendedLocation(
     productCode: string
-  ): Observable<PointOfService | undefined> {
+  ): Observable<AugmentedPointOfService | undefined> {
     return this.store.pipe(
       select(
-        PickupLocationsSelectors.getIntendedPickupLocationByProductCodeFactory(
+        PickupLocationsSelectors.getIntendedPickupLocationByProductCode(
           productCode
         )
       )
     );
   }
 
-  setIntendedLocation(productCode: string, location: PointOfService): void {
+  getPickupOption(productCode: string): Observable<PickupOption> {
+    return this.store.pipe(
+      select(PickupLocationsSelectors.getPickupOptionByProductCode(productCode))
+    );
+  }
+
+  setPickupOption(productCode: string, pickupOption: PickupOption): void {
+    this.store.dispatch(
+      PickupLocationActions.SetPickupOption({
+        payload: { productCode, pickupOption },
+      })
+    );
+  }
+
+  setIntendedLocation(
+    productCode: string,
+    location: AugmentedPointOfService
+  ): void {
     this.store.dispatch(
       PickupLocationActions.AddLocation({ payload: { productCode, location } })
     );

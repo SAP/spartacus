@@ -1,3 +1,3 @@
 export * from './adapters/index';
-export * from './stock-occ.module';
+export * from './pickup-in-store-occ.module';
 export * from './model/index';
