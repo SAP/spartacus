@@ -2,7 +2,7 @@ import { CustomerTicketingConfig } from './customer-ticketing-config';
 
 export const defaultCustomerTicketingConfig: CustomerTicketingConfig = {
   customerTicketing: {
-    attachmentValidity: {
+    attachmentRestrictions: {
       maxSize: 10,
       maxEntries: 1,
       allowedTypes: [

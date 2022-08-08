@@ -33,7 +33,7 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
   }
 
   get allowedTypes(): string[] | undefined {
-    return this.customerTicketingConfig.customerTicketing?.attachmentValidity
+    return this.customerTicketingConfig.customerTicketing?.attachmentRestrictions
       ?.allowedTypes;
   }
 
@@ -45,12 +45,12 @@ export class CustomerTicketingReopenDialogComponent implements OnInit {
   }
 
   get maxSize(): number | undefined {
-    return this.customerTicketingConfig.customerTicketing?.attachmentValidity
+    return this.customerTicketingConfig.customerTicketing?.attachmentRestrictions
       ?.maxSize;
   }
 
   get maxEntries(): number | undefined {
-    return this.customerTicketingConfig.customerTicketing?.attachmentValidity
+    return this.customerTicketingConfig.customerTicketing?.attachmentRestrictions
       ?.maxEntries;
   }
 
