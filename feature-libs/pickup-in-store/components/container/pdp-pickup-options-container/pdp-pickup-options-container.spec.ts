@@ -44,6 +44,8 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   getStockLevelAtStore = createSpy().and.returnValue(
     of({ stockLevel: { displayName: 'London School' } })
   );
+  getStoreDetails = createSpy();
+  loadStoreDetails = createSpy();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {

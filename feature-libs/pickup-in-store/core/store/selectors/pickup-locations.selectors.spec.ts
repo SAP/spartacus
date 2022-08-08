@@ -16,6 +16,7 @@ describe('PickupLocationSelectors', () => {
               pickupOption: 'pickup',
             },
           },
+          storeDetails: {},
         },
       };
       const result = getIntendedPickupLocations(state);
@@ -33,6 +34,7 @@ describe('PickupLocationSelectors', () => {
               pickupOption: 'pickup',
             },
           },
+          storeDetails: {},
         },
       };
       const result = getIntendedPickupLocationByProductCode('P0001')(state);
@@ -55,12 +57,14 @@ describe('PickupLocationSelectors', () => {
               pickupOption: 'delivery',
             },
           },
+          storeDetails: {},
         },
       };
 
       const state2: StateWithPickupLocations = {
         'pickup-locations': {
           intendedPickupLocations: {},
+          storeDetails: {},
         },
       };
 

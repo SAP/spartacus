@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { PointOfServiceStock, ProcessModule, Stock } from '@spartacus/core';
+import {
+  PointOfService,
+  PointOfServiceStock,
+  ProcessModule,
+  Stock,
+} from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
   StockLocationSearchParams,
 } from 'feature-libs/pickup-in-store/root';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import {
   BrowserLocationActions,
   StateWithStock,
@@ -53,6 +58,12 @@ export class MockPickupLocationsSearchService
   setBrowserLocation(_latitude: number, _longitude: number): void {}
 
   toggleHideOutOfStock(): void {}
+
+  getStoreDetails(_name: string): Observable<PointOfService> {
+    return EMPTY;
+  }
+
+  loadStoreDetails(_name: string): void {}
 }
 
 describe('PickupLocationsSearchService', () => {

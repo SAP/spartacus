@@ -1,11 +1,14 @@
 import { PickupLocationActions } from '../../actions';
 import { IntendedPickupLocationsState } from '../../pickup-location-state';
-import * as fromReducer from './pickup-locations.reducer';
 import { getReducers } from './index';
+import {
+  intendedPickupLocationsInitialState,
+  intendedPickupLocationsReducer,
+} from './pickup-locations.reducer';
+import { storeDetailsReducer } from './store-details.reducer';
 
 describe('intendedPickupLocationsReducer', () => {
   it('should add a location to the pickup location state', () => {
-    const { intendedPickupLocationsInitialState } = fromReducer;
     expect(intendedPickupLocationsInitialState).toEqual({});
     const action = PickupLocationActions.AddLocation({
       payload: {
@@ -13,7 +16,7 @@ describe('intendedPickupLocationsReducer', () => {
         location: { name: 'Store Name', pickupOption: 'pickup' },
       },
     });
-    const newState = fromReducer.intendedPickupLocationsReducer(
+    const newState = intendedPickupLocationsReducer(
       intendedPickupLocationsInitialState,
       action
     );
@@ -31,7 +34,7 @@ describe('intendedPickupLocationsReducer', () => {
       payload: 'P0001',
     });
     const newState: IntendedPickupLocationsState =
-      fromReducer.intendedPickupLocationsReducer(
+      intendedPickupLocationsReducer(
         intendedPickupLocationsInitialState,
         action
       );
@@ -48,10 +51,7 @@ describe('intendedPickupLocationsReducer', () => {
     const action = PickupLocationActions.RemoveLocation({
       payload: 'P0002',
     });
-    const newState = fromReducer.intendedPickupLocationsReducer(
-      initialState,
-      action
-    );
+    const newState = intendedPickupLocationsReducer(initialState, action);
 
     expect(newState).toEqual({
       ...initialState,
@@ -59,10 +59,13 @@ describe('intendedPickupLocationsReducer', () => {
     });
   });
 
-  it('getReducer return reducer with property intendedPickupLocations', () => {
+  it('getReducer return reducer with all reducers', () => {
     const reducer = getReducers();
     expect(reducer).toEqual({
-      intendedPickupLocations: fromReducer.intendedPickupLocationsReducer,
+      intendedPickupLocations: intendedPickupLocationsReducer,
+      storeDetails: storeDetailsReducer,
     });
   });
 });
+
+// TODO cover the store details reducer

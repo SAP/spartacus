@@ -3,7 +3,7 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 
 import { PickupLocationsState } from '../../pickup-location-state';
 import { intendedPickupLocationsReducer } from './pickup-locations.reducer';
-import { storeDetailsReducer } from './storeDetailsReducer.reducer';
+import { storeDetailsReducer } from './store-details.reducer';
 
 export function getReducers(): ActionReducerMap<PickupLocationsState> {
   return {
@@ -24,3 +24,5 @@ export const pickupLocationsReducersProvider: Provider = {
 };
 
 export const pickupLocationsMetaReducers: MetaReducer<any>[] = [];
+
+// TODO ensure we have reducer tokens for the store details
