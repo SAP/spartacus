@@ -46,8 +46,8 @@ export class IconLoaderService {
    * Return the direction for which the icon should mirror (ltr vs rtl). The icon direction
    * is configurable, but optional, as only a few icons should be flipped for rtl direction.
    */
-  public getFlipDirection(type: ICON_TYPE | string): DirectionMode | undefined {
-    return this.config?.flipDirection?.[type];
+  public getFlipDirection(type: ICON_TYPE | string): DirectionMode | null {
+    return this.config?.flipDirection?.[type] || null;
   }
 
   /**
@@ -62,17 +62,9 @@ export class IconLoaderService {
    * Indicates whether the given `ICON_TYPE` is configured for
    * the given `IconResourceType`.
    */
-  public isResourceType(
-    iconType: ICON_TYPE | string,
-    resourceType: IconResourceType
-  ): boolean {
-    return (
-      this.config?.resources !== undefined &&
-      !!this.config.resources.find(
-        (res) =>
-          res.types && res.type === resourceType && res.types.includes(iconType)
-      )
-    );
+  public isResourceType(iconType: ICON_TYPE | string, resourceType: IconResourceType): boolean {
+    return !!this.config?.resources
+        ?.find(res => res.type === resourceType && res.types?.includes(iconType));
   }
 
   /**
@@ -82,12 +74,8 @@ export class IconLoaderService {
    * icon IDs in the SVG.
    */
   public getSvgPath(iconType: ICON_TYPE | string): string | null {
-    const svgResource = this.config?.resources?.find(
-      (res) =>
-        res.type === IconResourceType.SVG &&
-        res.types &&
-        res.types.includes(iconType)
-    );
+    const svgResource = this.config?.resources
+        ?.find(res => res.type === IconResourceType.SVG && res.types?.includes(iconType));
     if (svgResource) {
       return svgResource.url
         ? `${svgResource.url}#${this.getSymbol(iconType)}`
@@ -107,13 +95,9 @@ export class IconLoaderService {
    * @deprecated only exists for backwards compatibility, resource loading has been moved to icon component
    */
   public addLinkResource(iconType: ICON_TYPE | string): void {
-    const resource: IconConfigResource | undefined = this.findResource(
-      iconType,
-      IconResourceType.LINK
-    );
+    const resource = this.findResource(iconType, IconResourceType.LINK);
     if (
-      resource &&
-      resource.url &&
+      resource?.url &&
       !this.loadedResources.includes(resource.url)
     ) {
       this.loadedResources.push(resource.url);
@@ -126,20 +110,20 @@ export class IconLoaderService {
     }
   }
 
-  public findResource(iconType: ICON_TYPE | string, resourceType: IconResourceType): IconConfigResource | undefined {
-    // first try to find a specific resource, otherwise find a one-size-fits-all resource
+  public findResource(iconType: ICON_TYPE | string, resourceType: IconResourceType): IconConfigResource | null {
+    // first try to find a specific resource,
+    // otherwise find a one-size-fits-all resource,
+    // otherwise return null
     return this.config?.resources?.find(res => res.type === resourceType && res.types?.includes(iconType))
-        || this.config?.resources?.find(res => res.type === resourceType && !res.types);
+        || this.config?.resources?.find(res => res.type === resourceType && !res.types)
+        || null;
   }
 
-  public getSymbol(iconType: ICON_TYPE | string) {
-    if (this.config && this.config.symbols && this.config.symbols[iconType]) {
-      return this.config.symbols[iconType];
-    }
-    return null;
+  public getSymbol(iconType: ICON_TYPE | string): string | null {
+      return this.config?.symbols?.[iconType] || null;
   }
 
-  private get config(): IconOptions | undefined {
-    return this.iconConfig.icon;
+  private get config(): IconOptions | null {
+    return this.iconConfig.icon || null;
   }
 }
