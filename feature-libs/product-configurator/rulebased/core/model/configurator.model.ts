@@ -87,6 +87,7 @@ export namespace Configurator {
     updateType?: UpdateType;
     errorMessages?: string[];
     warningMessages?: string[];
+    variants?: Variant[];
   }
 
   export interface InteractionState {
@@ -167,6 +168,10 @@ export namespace Configurator {
     url?: string;
     altText?: string;
     galleryIndex?: number;
+  }
+
+  export interface Variant {
+    productCode: string;
   }
 
   export enum GroupType {
