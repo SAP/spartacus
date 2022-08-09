@@ -1,13 +1,34 @@
-<h2 class="cx-title d-none d-lg-block d-xl-block">
-  <!-- {{ 'title' | cxTranslate }} -->
-</h2>
-
 <ng-container>
-  <div class="cx-header-actions">
-    <!-- <cx-customer-ticketing-list-actions></cx-customer-ticketing-list-actions> -->
-  </div>
+  <ng-container *ngIf="tickets | async as tickets">
+    <ng-container class="cx-ticket-list" *ngIf="tickets.length > 0">
+      <table class="table cx-table">
+        <thead>
+          <tr>
+            <th scope="col">{{ 'customerTicketing.ticketId' | cxTranslate }}</th>
+            <th scope="col">{{ 'customerTicketing.subject' | cxTranslate }}</th>
+            <th scope="col">{{ 'customerTicketing.ticketCategory' | cxTranslate }}</th>
+            <th scope="col">{{ 'customerTicketing.createdOn' | cxTranslate }}</th>
+            <th scope="col">{{ 'customerTicketing.changedOn' | cxTranslate }}</th>
+            <th scope="col">{{ 'customerTicketing.status' | cxTranslate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ticket of tickets">
+            <td>
+              <a [routerLink]="['/my-account/customer-ticketing', ticket.id]">{{ ticket.id }}</a>
+            </td>
+            <td>{{ ticket.subject }}</td>
+            <td>{{ ticket.ticketCategory }}</td>
+            <td>{{ ticket.createdAt | cxDate }}</td>
+            <td>{{ ticket.modifiedAt | cxDate }}</td>
+            <td>{{ ticket.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+    <ng-container *ngIf="tickets.length === 0">
+      <div class="text-center">
+        <h3>{{ 'customerTicketing.noTickets' | cxTranslate }}</h3>
+      </div>
+    </ng-container>
 </ng-container>
-
-<ng-template>
-  <div class="cx-"></div>
-</ng-template>
