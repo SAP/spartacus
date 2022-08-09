@@ -43,6 +43,8 @@ export enum ICON_TYPE {
   EYE_SLASH = 'EYE_SLASH',
 }
 
+export type ICON_TYPE_STRING = ICON_TYPE | string;
+
 @Injectable({
   providedIn: 'root',
   useExisting: Config,

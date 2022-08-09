@@ -8,10 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
-import { IconResourceType, ICON_TYPE as DEFAULT_ICON_TYPE } from './icon.model';
-
-// TODO this type is used both here and inline in icon loader service, therefore extract to icon model
-type ICON_TYPE = DEFAULT_ICON_TYPE | string;
+import { IconResourceType, ICON_TYPE_STRING } from './icon.model';
 
 /**
  *
@@ -42,7 +39,7 @@ export class IconComponent {
    * The cxIcon directive is bound to the icon type. You can feed the `ICON_TYPE` to
    * accomplish a configurable button in the UI.
    */
-  @Input() set cxIcon(type: ICON_TYPE) {
+  @Input() set cxIcon(type: ICON_TYPE_STRING) {
     this.setIcon(type);
   }
 
@@ -50,7 +47,7 @@ export class IconComponent {
    * The type input parameter is bound to the icon type. You can feed the `ICON_TYPE` to
    * accomplish a configurable button in the UI.
    */
-  @Input() set type(type: ICON_TYPE) {
+  @Input() set type(type: ICON_TYPE_STRING) {
     this.setIcon(type);
   }
 
@@ -70,7 +67,7 @@ export class IconComponent {
     protected sanitizer: DomSanitizer
   ) {}
 
-  protected setIcon(type: ICON_TYPE): void {
+  protected setIcon(type: ICON_TYPE_STRING): void {
     if (!type || <string>type === '') {
       return;
     }
@@ -111,7 +108,7 @@ export class IconComponent {
    * no head element available and the link must be loaded for every
    * web component.
    */
-  protected addLinkResource(type: ICON_TYPE | string): void {
+  protected addLinkResource(type: ICON_TYPE_STRING): void {
     const resource = this.iconLoader.findResource(type, IconResourceType.LINK);
 
     if (resource?.url && !this.loadedResources.includes(resource.url)) {
@@ -131,7 +128,7 @@ export class IconComponent {
   /**
    * The icons supports flipping for some icons to support rtl and ltr directions.
    */
-  protected flipIcon(type: ICON_TYPE) {
+  protected flipIcon(type: ICON_TYPE_STRING) {
     // TODO: this check can be dropped with the next major release.
     if (!this.iconLoader.getFlipDirection) {
       return;
@@ -147,7 +144,7 @@ export class IconComponent {
   /**
    * Adds the style classes and the link resource (if available).
    */
-  protected addStyleClasses(type: ICON_TYPE): void {
+  protected addStyleClasses(type: ICON_TYPE_STRING): void {
     this.styleClasses.push('cx-icon');
 
     const iconClasses = this.iconLoader.getStyleClasses(type)?.split(/\s+/);
