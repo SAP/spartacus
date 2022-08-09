@@ -110,15 +110,21 @@ export class IconLoaderService {
     }
   }
 
+  /**
+   * Find the IconConfigResource configured for given iconType and resourceType.
+   * Try to find a resource, specific to both the iconType and the resourceType.
+   * Otherwise, try to find a one-size-fits-all resource for the resourceType, if any.
+   */
   public findResource(iconType: ICON_TYPE | string, resourceType: IconResourceType): IconConfigResource | null {
-    // first try to find a specific resource,
-    // otherwise find a one-size-fits-all resource,
-    // otherwise return null
+    
     return this.config?.resources?.find(res => res.type === resourceType && res.types?.includes(iconType))
         || this.config?.resources?.find(res => res.type === resourceType && !res.types)
         || null;
   }
 
+  /**
+   * Get the symbol configured for given iconType, if any.
+   */
   public getSymbol(iconType: ICON_TYPE | string): string | null {
       return this.config?.symbols?.[iconType] || null;
   }
