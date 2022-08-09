@@ -21,7 +21,9 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription.add(
       this.userAccountFacade.get().subscribe((user) => {
-        if (user) this.customer = user;
+        if (user) {
+          this.customer = user;
+        }
       })
     );
     this.isCustomerEmulationSessionInProgress$ =
