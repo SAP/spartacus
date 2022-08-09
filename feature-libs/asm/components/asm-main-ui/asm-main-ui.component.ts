@@ -1,4 +1,5 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
+import { AsmFacade, AsmUi, CsAgentAuthService } from '@spartacus/asm/root';
 import {
   AuthService,
   GlobalMessageService,
@@ -10,7 +11,6 @@ import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
-import { AsmFacade, AsmUi, CsAgentAuthService } from '../../root';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({

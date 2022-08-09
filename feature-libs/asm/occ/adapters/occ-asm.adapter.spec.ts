@@ -17,7 +17,7 @@ import {
   OccEndpointsService,
   User,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-} from '../../../../projects/core/public_api';
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OccAsmAdapter } from './occ-asm.adapter';
 

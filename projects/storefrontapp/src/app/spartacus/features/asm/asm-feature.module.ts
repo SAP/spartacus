@@ -5,7 +5,10 @@ import {
 } from '@spartacus/asm/assets';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 
-import { AsmRootModule, ASM_FEATURE } from '../../../../../../../feature-libs/asm/root';
+import {
+  AsmRootModule,
+  ASM_FEATURE,
+} from '../../../../../../../feature-libs/asm/root';
 
 @NgModule({
   imports: [AsmRootModule],

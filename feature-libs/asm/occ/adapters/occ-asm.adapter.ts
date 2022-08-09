@@ -16,10 +16,10 @@ import {
   InterceptorUtil,
   OccEndpointsService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
+  normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { normalizeHttpError } from '../../../../projects/core/src/util/normalize-http-error';
 
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {

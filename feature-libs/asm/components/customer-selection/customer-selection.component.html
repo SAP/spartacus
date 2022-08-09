@@ -39,7 +39,6 @@
 
 <div class="asm-results" *ngIf="searchResultsLoading$ | async">
   <cx-dot-spinner
-    [attr.aria-hidden]="!loading"
     [attr.aria-label]="'common.loading' | cxTranslate"
   ></cx-dot-spinner>
 </div>

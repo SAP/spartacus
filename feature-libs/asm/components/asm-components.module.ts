@@ -48,7 +48,6 @@ import { DotSpinnerComponent } from './dot-spinner/dot-spinner.component';
     CustomerEmulationComponent,
     AsmToggleUiComponent,
     AsmBindCartComponent,
-    DotSpinnerComponent,
   ],
   providers: [provideConfig(defaultAsmLayoutConfig)],
 })
