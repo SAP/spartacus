@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   CmsNavigationComponent,
+  CmsNavigationNode,
   CmsService,
   SemanticPathService,
 } from '@spartacus/core';
@@ -22,12 +23,10 @@ export class NavigationService {
   ): Observable<NavigationNode> {
     return combineLatest([data$, this.getNavigationNode(data$)]).pipe(
       map(([data, nav]) => {
-        return data
-          ? {
-              title: data.name,
-              children: [nav],
-            }
-          : undefined;
+        return {
+          title: data.name,
+          children: [nav],
+        };
       })
     );
   }
@@ -47,31 +46,36 @@ export class NavigationService {
       filter((data) => !!data),
       switchMap((data) => {
         const navigation = data.navigationNode ? data.navigationNode : data;
-        return this.cmsService.getNavigationEntryItems(navigation.uid).pipe(
-          tap((items) => {
-            if (items === undefined) {
-              this.loadNavigationEntryItems(navigation, true);
-            } else {
-              // we should check whether the existing node items are what expected
-              const expectedItems = [];
-              this.loadNavigationEntryItems(navigation, false, expectedItems);
-              const existingItems = Object.keys(items).map(
-                (key) => items[key].uid
-              );
-              const missingItems = expectedItems.filter(
-                (it) => !existingItems.includes(it.id)
-              );
-              if (missingItems.length > 0) {
-                this.cmsService.loadNavigationItems(
-                  navigation.uid,
-                  missingItems
+        return this.cmsService
+          .getNavigationEntryItems(navigation.uid ?? '')
+          .pipe(
+            tap((items) => {
+              if (items === undefined) {
+                this.loadNavigationEntryItems(navigation, true);
+              } else {
+                // we should check whether the existing node items are what expected
+                const expectedItems: {
+                  superType: string | undefined;
+                  id: string | undefined;
+                }[] = [];
+                this.loadNavigationEntryItems(navigation, false, expectedItems);
+                const existingItems = Object.keys(items).map(
+                  (key) => items[key].uid ?? ''
                 );
+                const missingItems = expectedItems.filter(
+                  (it) => it.id && !existingItems.includes(it.id)
+                );
+                if (missingItems.length > 0) {
+                  this.cmsService.loadNavigationItems(
+                    navigation.uid ?? '',
+                    missingItems
+                  );
+                }
               }
-            }
-          }),
-          filter(Boolean),
-          map((items) => this.populateNavigationNode(navigation, items))
-        );
+            }),
+            filter(Boolean),
+            map((items) => this.populateNavigationNode(navigation, items) ?? {})
+          );
       })
     );
   }
@@ -83,9 +87,9 @@ export class NavigationService {
    * @param itemsList
    */
   private loadNavigationEntryItems(
-    nodeData: any,
+    nodeData: CmsNavigationNode,
     root: boolean,
-    itemsList = []
+    itemsList: { superType: string | undefined; id: string | undefined }[] = []
   ): void {
     if (nodeData.entries && nodeData.entries.length > 0) {
       nodeData.entries.forEach((entry) => {
@@ -102,7 +106,7 @@ export class NavigationService {
       );
     }
 
-    if (root) {
+    if (root && nodeData.uid) {
       this.cmsService.loadNavigationItems(nodeData.uid, itemsList);
     }
   }
@@ -112,7 +116,10 @@ export class NavigationService {
    * @param nodeData
    * @param items
    */
-  private populateNavigationNode(nodeData: any, items: any): NavigationNode {
+  private populateNavigationNode(
+    nodeData: any,
+    items: any
+  ): NavigationNode | null {
     const node: NavigationNode = {};
 
     if (nodeData.title) {
@@ -136,7 +143,7 @@ export class NavigationService {
 
     if (nodeData.children?.length > 0) {
       const children = nodeData.children
-        .map((child) => this.populateNavigationNode(child, items))
+        .map((child: any) => this.populateNavigationNode(child, items))
         .filter(Boolean);
       if (children.length > 0) {
         node.children = children;
@@ -150,7 +157,7 @@ export class NavigationService {
   /**
    * The node link is driven by the first entry.
    */
-  private populateLink(node: NavigationNode, entry, items) {
+  private populateLink(node: NavigationNode, entry: any, items: any) {
     const item = items[`${entry.itemId}_${entry.itemSuperType}`];
 
     // now we only consider CMSLinkComponent
@@ -185,7 +192,7 @@ export class NavigationService {
    * also taking into account content pages (contentPageLabelOrId)
    * and product pages (productCode)
    */
-  protected getLink(item): string | string[] {
+  protected getLink(item: any): string | string[] | undefined {
     if (item.url) {
       return item.url;
     } else if (item.contentPageLabelOrId) {

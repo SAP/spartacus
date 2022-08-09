@@ -13,9 +13,9 @@ import {
 import {
   FormErrorsModule,
   NgSelectA11yModule,
+  PasswordVisibilityToggleModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { RegisterComponentService } from './register-component.service';
 import { RegisterComponent } from './register.component';
 
@@ -30,6 +30,7 @@ import { RegisterComponent } from './register.component';
     FormErrorsModule,
     NgSelectModule,
     NgSelectA11yModule,
+    PasswordVisibilityToggleModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -39,8 +40,8 @@ import { RegisterComponent } from './register.component';
           guards: [NotAuthGuard],
           providers: [
             {
-              provide: UserRegisterFacade,
-              useExisting: RegisterComponentService,
+              provide: RegisterComponentService,
+              useClass: RegisterComponentService,
             },
           ],
         },

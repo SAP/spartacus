@@ -278,6 +278,28 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       );
   }
 
+  extractConfigPrices(configuration: Configurator.Configuration) {
+    let priceSummary = configuration.priceSummary;
+    let basePrice = priceSummary?.basePrice?.formattedValue;
+    let selectedOptions = priceSummary?.selectedOptions?.formattedValue;
+    let totalPrice = priceSummary?.currentTotal?.formattedValue;
+    let prices = {
+      basePrice: basePrice,
+      selectedOptions: selectedOptions,
+      totalPrice: totalPrice,
+    };
+    if (!basePrice || basePrice === '-') {
+      prices.basePrice = '0';
+    }
+    if (!selectedOptions || selectedOptions === '-') {
+      prices.selectedOptions = '0';
+    }
+    if (!totalPrice || totalPrice === '-') {
+      prices.totalPrice = '0';
+    }
+    return prices;
+  }
+
   protected makeAddToCartButtonSticky(): void {
     const options: IntersectionOptions = { rootMargin: '0px 0px -100px 0px' };
 
@@ -311,7 +333,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
         })
     );
   }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

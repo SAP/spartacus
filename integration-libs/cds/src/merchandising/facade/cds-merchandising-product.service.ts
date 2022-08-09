@@ -7,6 +7,7 @@ import { MerchandisingStrategyConnector } from './../connectors/strategy/merchan
 import { MerchandisingSiteContext } from './../model/merchandising-site-context.model';
 import { CdsMerchandisingSiteContextService } from './cds-merchandising-site-context.service';
 import { CdsMerchandisingUserContextService } from './cds-merchandising-user-context.service';
+import { CdsMerchandisingSearchContextService } from './cds-merchandising-search-context.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ export class CdsMerchandisingProductService {
   constructor(
     protected strategyConnector: MerchandisingStrategyConnector,
     protected merchandisingUserContextService: CdsMerchandisingUserContextService,
-    protected merchandisingSiteContextService: CdsMerchandisingSiteContextService
+    protected merchandisingSiteContextService: CdsMerchandisingSiteContextService,
+    protected merchandisingSearchContextService: CdsMerchandisingSearchContextService
   ) {}
 
   loadProductsForStrategy(
@@ -25,12 +27,14 @@ export class CdsMerchandisingProductService {
     return combineLatest([
       this.merchandisingSiteContextService.getSiteContext(),
       this.merchandisingUserContextService.getUserContext(),
+      this.merchandisingSearchContextService.getSearchPhrase(),
     ]).pipe(
       debounceTime(0),
       map(
-        ([siteContext, userContext]: [
+        ([siteContext, userContext, searchPhrase]: [
           MerchandisingSiteContext,
-          MerchandisingUserContext
+          MerchandisingUserContext,
+          string
         ]) => {
           return {
             queryParams: {
@@ -39,6 +43,7 @@ export class CdsMerchandisingProductService {
               facets: userContext.facets,
               category: userContext.category,
               pageSize: numberToDisplay,
+              searchPhrase: searchPhrase,
             },
             headers: {
               consentReference: userContext.consentReference,

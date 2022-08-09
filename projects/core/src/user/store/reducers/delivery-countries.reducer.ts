@@ -17,7 +17,7 @@ export function reducer(
         (countryEntities: { [isocode: string]: Country }, country: Country) => {
           return {
             ...countryEntities,
-            [country.isocode]: country,
+            [country.isocode ?? '']: country,
           };
         },
         {

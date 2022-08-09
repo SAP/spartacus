@@ -1,7 +1,7 @@
 export interface SearchBoxConfig {
-  displaySuggestions?: boolean;
-  displayProducts?: boolean;
-  displayProductImages?: boolean;
+  displaySuggestions?: boolean | string;
+  displayProducts?: boolean | string;
+  displayProductImages?: boolean | string;
   maxProducts?: number;
   maxSuggestions?: number;
   minCharactersBeforeRequest?: number;

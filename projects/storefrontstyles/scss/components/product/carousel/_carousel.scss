@@ -114,5 +114,9 @@
     &:not(:disabled):hover {
       color: var(--cx-color-primary);
     }
+
+    @include media-breakpoint-down(sm) {
+      min-width: 48px;
+    }
   }
 }

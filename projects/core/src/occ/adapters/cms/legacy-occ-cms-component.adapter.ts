@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 import { CMS_COMPONENT_NORMALIZER } from '../../../cms/connectors/component/converters';
 import { CmsComponent } from '../../../model/cms.model';
 import { PageContext } from '../../../routing';
@@ -46,6 +46,7 @@ export class LegacyOccCmsComponentAdapter extends OccCmsComponentAdapter {
       )
       .pipe(
         pluck('component'),
+        map((components) => components ?? []),
         this.converter.pipeableMany(CMS_COMPONENT_NORMALIZER)
       );
   }

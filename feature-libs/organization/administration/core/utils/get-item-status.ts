@@ -12,7 +12,7 @@ export function getItemStatus<T>(
   return itemState.pipe(
     observeOn(queueScheduler),
     pairwise(),
-    filter(([previousState]) => previousState.loading),
+    filter(([previousState]) => previousState.loading ?? false),
     map(([_previousState, currentState]) => ({
       status: currentState.success
         ? LoadStatus.SUCCESS

@@ -23,6 +23,7 @@
           [class.active]="i === activeTabNum"
           class="cx-tab-paragraph-content"
           tabindex="0"
+          role="presentation"
         >
           <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
             <ng-container

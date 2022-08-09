@@ -91,6 +91,7 @@ export namespace OccConfigurator {
     retractTriggered?: boolean;
     intervalInDomain?: boolean;
     retractBlocked?: boolean;
+    validationType?: string;
   }
 
   export interface Value {
@@ -150,6 +151,7 @@ export namespace OccConfigurator {
     characteristicId?: string;
     value: string;
     valueId?: string;
+    price?: PriceDetails;
   }
   export interface Image {
     imageType: ImageType;
