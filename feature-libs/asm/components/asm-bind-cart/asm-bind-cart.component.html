@@ -2,7 +2,7 @@
   <label for="cartNumber">{{ 'asm.bindCart.cartNumber' | cxTranslate }} </label>
   <div
     role="search"
-    aria-label="Assign a cart id to customer"
+    [attr.aria-label]="'asm.bindCart.aria.assignCartId' | cxTranslate"
     class="cx-asm-assignCart"
     [class.active]="cartId.valid"
     (click)="cartIdElement.focus()"
@@ -13,11 +13,11 @@
       formcontrolname="cartNumber"
       [formControl]="cartId"
       (keydown.enter)="bindCartToCustomer()"
-      aria-label="Enter cart id"
+      [attr.aria-label]="'asm.bindCart.aria.enterCartId' | cxTranslate"
     />
     <button
       class="cx-asm-reset"
-      aria-label="Reset"
+      [attr.aria-label]="'asm.bindCart.aria.resetCartId' | cxTranslate"
       [class.visible]="cartId.value?.length > 0"
       (click)="clearText()"
     >

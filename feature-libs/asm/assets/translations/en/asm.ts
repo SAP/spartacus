@@ -30,6 +30,11 @@ export const asm = {
       cartNumber: 'Cart Number',
       bindCartToCustomer: 'Assign Cart to Customer',
       success: 'Cart has been successfully assigned',
+      aria: {
+        assignCartId: 'Assign a cart id to customer',
+        enterCartId: 'Enter cart id',
+        resetCartId: 'Reset',
+      },
     },
     csagentTokenExpired: 'Your customer support agent session is expired.',
     endSession: 'End Session',
