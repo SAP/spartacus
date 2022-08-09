@@ -1,0 +1,30 @@
+@import '~@spartacus/styles/scss/core';
+@import '~@spartacus/styles/scss/cxbase/blocks/modal';
+
+@import './customer-ticketing-actions.component';
+@import './customer-ticketing-details.component';
+@import './customer-ticketing-dialog.component';
+
+$customer-ticketing-components-allowlist: cx-customer-ticketing-reopen-dialog,
+  cx-customer-ticketing-reopen, cx-customer-ticketing-close,
+  cx-customer-ticketing-details !default;
+
+$skipComponentStyles: () !default;
+
+@each $selector in $customer-ticketing-components-allowlist {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $customer-ticketing-components-allowlist {
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector}__body !optional;
+    }
+  }
+}
