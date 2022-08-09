@@ -126,25 +126,10 @@ export class IconLoaderService {
     }
   }
 
-  public findResource(
-    iconType: ICON_TYPE | string,
-    resourceType: IconResourceType
-  ): IconConfigResource | undefined {
-    if (!this.config?.resources) {
-      return;
-    }
-
-    let resource = this.config.resources.find(
-      (res) =>
-        res.type === resourceType && res.types && res.types.includes(iconType)
-    );
-    // no specific resource found, let's try to find a one-size-fits-all resource
-    if (!resource) {
-      resource = this.config.resources.find(
-        (res) => (res.type === resourceType && !res.types) || res.types === []
-      );
-    }
-    return resource;
+  public findResource(iconType: ICON_TYPE | string, resourceType: IconResourceType): IconConfigResource | undefined {
+    // first try to find a specific resource, otherwise find a one-size-fits-all resource
+    return this.config?.resources?.find(res => res.type === resourceType && res.types?.includes(iconType))
+        || this.config?.resources?.find(res => res.type === resourceType && !res.types);
   }
 
   public getSymbol(iconType: ICON_TYPE | string) {
