@@ -236,7 +236,7 @@ describe('IconComponent', () => {
 
     describe('TEXT icons', () => {
 
-      it('should contain font symbol', () => {
+      it('should contain a font symbol', () => {
         component.type = 'HAPPY';
         fixture.detectChanges();
 
@@ -250,7 +250,7 @@ describe('IconComponent', () => {
         expect(hostClassList).not.toContain('HAPPY');
       });
 
-      it('should generate a text', () => {
+      it('should contain a text', () => {
         // XXX what is the difference between a text icon and a font icon?
         component.type = 'HAPPY';
         fixture.detectChanges();
@@ -332,6 +332,23 @@ describe('IconComponent', () => {
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('flip-at-ltr');
         expect(hostClassList).not.toContain('flip-at-rtl');
+        expect(hostChildren.length).toEqual(0);
+      });
+
+      it('should generate safe class attribute for bogus classes', () => {
+        component.type = 'BAD_CLASS';
+        fixture.detectChanges();
+
+        const hostClassList = nativeDebugElement.classList;
+        const hostChildren = nativeDebugElement.children;
+        expect(nativeDebugElement.getAttribute('class')).not.toBeFalsy();
+        expect(nativeDebugElement.getAttribute('onmouseover')).toBeNull();
+        expect(nativeDebugElement.getAttribute('data-foo')).toBeNull();
+        expect(hostClassList.length).toEqual(4);
+        expect(hostClassList).toContain('cx-icon');
+        expect(hostClassList).toContain('"');
+        expect(hostClassList).toContain('onmouseover="alert(0)"');
+        expect(hostClassList).toContain('data-foo="');
         expect(hostChildren.length).toEqual(0);
       });
     });

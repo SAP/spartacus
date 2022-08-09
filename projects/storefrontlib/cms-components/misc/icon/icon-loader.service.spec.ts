@@ -18,7 +18,8 @@ export const MockIconConfig: IconConfig = {
       CART: 'cartSymbol',
       INFO: 'infoSymbol',
       HAPPY: '😊',
-      BAD_SVG: 'badSvg'
+      BAD_SVG: 'badSvg',
+      BAD_CLASS: '" onmouseover="alert(0)" data-foo="',
     },
     resources: [
       {
