@@ -1,10 +1,10 @@
 import {
   CDC_JS_SERVICE,
-  GLOBAL_MESSAGE_SERVICE
+  GLOBAL_MESSAGE_SERVICE,
 } from '../../../../shared/constants';
 import {
   SPARTACUS_CDC,
-  SPARTACUS_CORE
+  SPARTACUS_CORE,
 } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -15,5 +15,5 @@ export const CDC_JS_SERVICE_CONSTRUCTOR_MIGRATION: ConstructorDeprecation = {
   addParams: [
     { className: GLOBAL_MESSAGE_SERVICE, importPath: SPARTACUS_CORE },
   ],
-  deprecatedParams: []
+  deprecatedParams: [],
 };

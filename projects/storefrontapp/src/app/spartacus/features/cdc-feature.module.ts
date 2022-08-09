@@ -33,7 +33,9 @@ import { USER_PROFILE_FEATURE } from '@spartacus/user/profile/root';
       featureModules: {
         [USER_ACCOUNT_FEATURE]: {
           module: () =>
-            import('@spartacus/cdc/components/login').then((m) => m.CDCLoginFormModule),
+            import('@spartacus/cdc/components/login').then(
+              (m) => m.CDCLoginFormModule
+            ),
         },
       },
     }),
@@ -41,10 +43,12 @@ import { USER_PROFILE_FEATURE } from '@spartacus/user/profile/root';
       featureModules: {
         [USER_PROFILE_FEATURE]: {
           module: () =>
-            import('@spartacus/cdc/components/register').then((m) => m.CDCUserProfileModule),
+            import('@spartacus/cdc/components/register').then(
+              (m) => m.CDCUserProfileModule
+            ),
         },
       },
-    })
+    }),
   ],
 })
 export class CdcFeatureModule {}

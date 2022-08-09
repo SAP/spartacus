@@ -1,6 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { CdcJsService } from '@spartacus/cdc/root';
-import { AuthService, GlobalMessageService, GlobalMessageType, WindowRef } from '@spartacus/core';
+import {
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  WindowRef,
+} from '@spartacus/core';
 import { LoginFormComponentService } from '@spartacus/user/account/components';
 import { Subscription } from 'rxjs';
 

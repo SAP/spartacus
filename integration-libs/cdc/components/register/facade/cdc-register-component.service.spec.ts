@@ -5,13 +5,13 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
-  OCC_USER_ID_CURRENT
+  OCC_USER_ID_CURRENT,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import {
   UserProfileConnector,
   UserProfileService,
-  UserRegisterService
+  UserRegisterService,
 } from '@spartacus/user/profile/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { CdcJsService } from 'integration-libs/cdc/root';

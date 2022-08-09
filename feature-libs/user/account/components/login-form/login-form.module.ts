@@ -10,7 +10,7 @@ import {
   NotAuthGuard,
   provideDefaultConfig,
   UrlModule,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { LoginFormComponentService } from './login-form-component.service';

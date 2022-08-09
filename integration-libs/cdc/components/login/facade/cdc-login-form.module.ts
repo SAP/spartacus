@@ -10,13 +10,13 @@ import {
   I18nModule,
   provideDefaultConfig,
   UrlModule,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserAccountModule } from '@spartacus/user';
 import {
   LoginFormComponent,
-  LoginFormComponentService
+  LoginFormComponentService,
 } from '@spartacus/user/account/components';
 import { CdcLoginFormComponentService } from './cdc-login-form-component.service';
 

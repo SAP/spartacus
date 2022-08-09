@@ -129,7 +129,10 @@ describe('RegisterComponent', () => {
         ],
         declarations: [RegisterComponent, MockUrlPipe, MockSpinnerComponent],
         providers: [
-          { provide: RegisterComponentService, useClass: MockUserRegisterFacade },
+          {
+            provide: RegisterComponentService,
+            useClass: MockUserRegisterFacade,
+          },
           {
             provide: GlobalMessageService,
             useClass: MockGlobalMessageService,

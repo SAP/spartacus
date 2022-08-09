@@ -8,10 +8,12 @@ import {
   I18nModule,
   NotAuthGuard,
   provideDefaultConfig,
-  UrlModule
+  UrlModule,
 } from '@spartacus/core';
 import {
-  FormErrorsModule, NgSelectA11yModule, SpinnerModule
+  FormErrorsModule,
+  NgSelectA11yModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { RegisterComponentService } from './register-component.service';

@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AuthService, OCC_USER_ID_CURRENT, User } from '@spartacus/core';
 import {
   UserProfileConnector,
-  UserProfileService
+  UserProfileService,
 } from '@spartacus/user/profile/core';
 import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';

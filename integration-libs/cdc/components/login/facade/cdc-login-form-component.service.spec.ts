@@ -7,7 +7,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { LoginFormComponentService } from 'feature-libs/user/account/components/login-form/login-form-component.service';
 import { CdcJsService } from 'integration-libs/cdc/root';

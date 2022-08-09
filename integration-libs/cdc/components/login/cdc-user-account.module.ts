@@ -3,9 +3,6 @@ import { UserAccountModule } from '@spartacus/user';
 import { CDCLoginFormModule } from './facade/cdc-login-form.module';
 
 @NgModule({
-  imports: [
-    UserAccountModule,
-    CDCLoginFormModule
-  ],
+  imports: [UserAccountModule, CDCLoginFormModule],
 })
 export class CDCUserAccountModule {}

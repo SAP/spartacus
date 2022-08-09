@@ -233,9 +233,10 @@ export class CdcJsService implements OnDestroy {
   handleRegisterError(response: any) {
     if (response && response.status === 'FAIL') {
       let errorMessage =
-        response.validationErrors &&
-        response.validationErrors.length > 0 &&
-        response.validationErrors[0].message || "Error";
+        (response.validationErrors &&
+          response.validationErrors.length > 0 &&
+          response.validationErrors[0].message) ||
+        'Error';
       this.globalMessageService.add(
         errorMessage,
         GlobalMessageType.MSG_TYPE_ERROR
