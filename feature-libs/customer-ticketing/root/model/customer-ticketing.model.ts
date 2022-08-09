@@ -9,7 +9,7 @@ export const enum STATUS {
 }
 
 export interface TicketDetails {
-  availableStatusTransitions: Array<Status>;
+  availableStatusTransitions?: Array<Status>;
   id?: string;
   createdAt?: string;
   modifiedAt?: string;
