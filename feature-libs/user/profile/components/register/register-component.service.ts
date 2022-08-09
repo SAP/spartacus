@@ -10,7 +10,7 @@ export class RegisterComponentService {
   /**
    * Register a new user.
    *
-   * @param submitFormData as UserRegisterFormData
+   * @param user as UserSignUp
    */
   register(user: UserSignUp): Observable<User> {
     return this.userRegisterFacade.register(user);
