@@ -23,7 +23,6 @@ module.exports = function (config) {
     junitReporter: {
       outputFile: 'unit-test-results.xml',
       outputDir: require('path').join(__dirname, '../../unit-tests/storefront'),
-      classNameFormatter: undefined,
       useBrowserName: false,
     },
     coverageReporter: {
