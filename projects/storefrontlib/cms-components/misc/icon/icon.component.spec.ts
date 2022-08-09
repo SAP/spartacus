@@ -346,7 +346,7 @@ describe('host icon components', () => {
   let hostComponent: MockIconTestComponent;
   let service: IconLoaderService;
   let fixture: ComponentFixture<MockIconTestComponent>;
-  let debugElement;
+  let debugElement: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -369,18 +369,15 @@ describe('host icon components', () => {
     fixture = TestBed.createComponent(MockIconTestComponent);
     hostComponent = fixture.componentInstance;
     debugElement = fixture.debugElement;
+
+    fixture.detectChanges();
   });
 
   it('should be created', () => {
-    fixture.detectChanges();
     expect(hostComponent).toBeTruthy();
   });
 
   describe('font based icons', () => {
-
-    beforeEach(() => {
-      fixture.detectChanges();
-    });
 
     it('should not render an inline svg object', () => {
       const element = debugElement.query(By.css('svg'));
@@ -392,38 +389,42 @@ describe('host icon components', () => {
     });
 
     it('should add the symbol classes for the icon component classlist', () => {
-      const element = debugElement.query(By.css('cx-icon'));
-      expect(element.nativeElement.classList.length).toEqual(3);
-      expect(element.nativeElement.classList).toContain('cx-icon');
-      expect(element.nativeElement.classList).toContain('fab');
-      expect(element.nativeElement.classList).toContain('fa-cc-visa');
+      const hostElement = debugElement.query(By.css('cx-icon'));
+      const hostClassList = hostElement.nativeElement.classList
+      expect(hostClassList.length).toEqual(3);
+      expect(hostClassList).toContain('cx-icon');
+      expect(hostClassList).toContain('fab');
+      expect(hostClassList).toContain('fa-cc-visa');
     });
 
     it('should add the symbol classes to a button with cxIcon attribute', () => {
-      const element = debugElement.query(By.css('button'));
-      expect(element.nativeElement.classList.length).toEqual(3);
-      expect(element.nativeElement.classList).toContain('cx-icon');
-      expect(element.nativeElement.classList).toContain('fab');
-      expect(element.nativeElement.classList).toContain('fa-cc-visa');
+      const hostElement = debugElement.query(By.css('button'));
+      const hostClassList = hostElement.nativeElement.classList
+      expect(hostClassList.length).toEqual(3);
+      expect(hostClassList).toContain('cx-icon');
+      expect(hostClassList).toContain('fab');
+      expect(hostClassList).toContain('fa-cc-visa');
     });
 
     it('should use type attribute as an input for cxIcon directive', () => {
-      const element = debugElement.query(By.css('div'));
-      expect(element.nativeElement.classList.length).toEqual(3);
-      expect(element.nativeElement.classList).toContain('cx-icon');
-      expect(element.nativeElement.classList).toContain('fab');
-      expect(element.nativeElement.classList).toContain('fa-cc-visa');
+      const hostElement = debugElement.query(By.css('div'));
+      const hostClassList = hostElement.nativeElement.classList
+      expect(hostClassList.length).toEqual(3);
+      expect(hostClassList).toContain('cx-icon');
+      expect(hostClassList).toContain('fab');
+      expect(hostClassList).toContain('fa-cc-visa');
     });
 
     it('should remain existing classes on the host element', () => {
-      const element = debugElement.query(By.css('p'));
-      expect(element.nativeElement.classList.length).toEqual(4);
-      expect(element.nativeElement.classList).toContain('cx-icon');
-      expect(element.nativeElement.classList).toContain('fab');
-      expect(element.nativeElement.classList).toContain('fa-cc-visa');
-      expect(element.nativeElement.classList).toContain('original');
+      const hostElement = debugElement.query(By.css('p'));
+      const hostClassList = hostElement.nativeElement.classList
+      expect(hostClassList.length).toEqual(4);
+      expect(hostClassList).toContain('cx-icon');
+      expect(hostClassList).toContain('fab');
+      expect(hostClassList).toContain('fa-cc-visa');
+      expect(hostClassList).toContain('original');
     });
 
-      // TODO check icon component with projection, that is nested elements
+    // TODO check icon component with projection, that is nested elements
   });
 });
