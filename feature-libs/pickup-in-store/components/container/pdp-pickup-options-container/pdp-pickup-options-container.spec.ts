@@ -6,8 +6,10 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
+  AugmentedPointOfService,
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
+  PickupOption,
 } from '@spartacus/pickup-in-store/root';
 import {
   CurrentProductService,
@@ -264,6 +266,46 @@ describe('PickupOptionsComponent', () => {
 
       expect(preferredStoreService.getPreferredStore).toHaveBeenCalled();
       expect(component.openDialog).toHaveBeenCalled();
+    });
+  });
+
+  describe('with current product and intended Location', () => {
+    beforeEach(() => {
+      configureTestingModule()
+        .overrideProvider(IntendedPickupLocationFacade, {
+          useValue: {
+            setIntendedLocation: (
+              _productCode: string,
+              _location: AugmentedPointOfService
+            ) => {},
+            removeIntendedLocation: (_productCode: string) => {},
+
+            getPickupOption: (
+              _productCode: string
+            ): Observable<PickupOption> => {
+              return of('delivery');
+            },
+            setPickupOption: (
+              _productCode: string,
+              _pickupOption: PickupOption
+            ): void => {},
+
+            getIntendedLocation: () =>
+              of({
+                name: 'preferredStore',
+                displayName: 'London School',
+                pickupOption: 'pickupOptions',
+              }),
+          },
+        })
+        .compileComponents();
+      stubServiceAndCreateComponent();
+    });
+
+    it('should not call getPreferredStore if display name is set', () => {
+      spyOn(preferredStoreService, 'getPreferredStore');
+
+      expect(preferredStoreService.getPreferredStore).not.toHaveBeenCalled();
     });
   });
 });
