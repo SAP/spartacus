@@ -20,5 +20,7 @@ x Make sure look and feel match the wires
 x adapter
 x occ module
 x connector
-add PATCH to occ, adapter, connector, facade
-radio buttons should call PATCH on change
+x add PATCH to occ, adapter, connector, facade
+x radio buttons should call PATCH on change
+
+(F) Modal Window to select store is not firing up on selection of Pick up in Store

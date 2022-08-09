@@ -4,3 +4,13 @@ export type PickupOption = 'delivery' | 'pickup';
 export type AugmentedPointOfService = PointOfService & {
   pickupOption: PickupOption;
 };
+
+export type PatchDeliveryOptionPayload = {
+  cartId: string;
+  pickupOption: PickupOption;
+  name: string;
+  entryNumber: number;
+  userId: string;
+  productCode?: string;
+  quantity?: number;
+};

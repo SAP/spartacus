@@ -7,7 +7,10 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
-import { StockLocationSearchParams } from '../model';
+import {
+  PatchDeliveryOptionPayload,
+  StockLocationSearchParams,
+} from '../model';
 
 // TODO jsdoc
 
@@ -50,4 +53,7 @@ export abstract class PickupLocationsSearchFacade {
   abstract toggleHideOutOfStock(): void;
   abstract getStoreDetails(name: string): Observable<PointOfService>;
   abstract loadStoreDetails(name: string): void;
+  abstract patchDeliveryOption(
+    patchDeliveryOptionPayload: PatchDeliveryOptionPayload
+  ): void;
 }

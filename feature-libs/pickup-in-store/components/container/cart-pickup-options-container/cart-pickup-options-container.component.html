@@ -1,4 +1,6 @@
 <cx-pickup-delivery-options
   [displayPickupLocation]="displayName$ | async"
   [selectedOption]="pickupOption$ | async"
+  (pickupOptionChange)="onPickupOptionChange($event)"
+  (pickupLocationChange)="onPickupLocationChange($event)"
 ></cx-pickup-delivery-options>

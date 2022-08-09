@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
+  PatchDeliveryOptionPayload,
   PickupLocationsSearchFacade,
   StockLocationSearchParams,
 } from '@spartacus/pickup-in-store/root';
@@ -10,6 +11,7 @@ import { GetStoreDetailsById } from '../store/actions/pickup-location.action';
 import {
   BrowserLocationActions,
   HideOutOfStockSelectors,
+  PickupLocationActions,
   PickupLocationsSelectors,
   StateWithPickupLocations,
   StateWithStock,
@@ -94,6 +96,18 @@ export class PickupLocationsSearchService
   getStoreDetails(name: string): Observable<PointOfService> {
     return this.store.pipe(
       select(PickupLocationsSelectors.getStoreDetailsByName(name))
+    );
+  }
+
+  patchDeliveryOption(
+    patchDeliveryOptionPayload: PatchDeliveryOptionPayload
+  ): void {
+    this.store.dispatch(
+      PickupLocationActions.PatchDeliveryOption({
+        payload: {
+          ...patchDeliveryOptionPayload,
+        },
+      })
     );
   }
 }

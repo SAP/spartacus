@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { PointOfService } from '@spartacus/core';
 import {
   AugmentedPointOfService,
+  PatchDeliveryOptionPayload,
   PickupOption,
 } from '@spartacus/pickup-in-store/root';
 
@@ -11,8 +12,11 @@ export const SET_PICKUP_OPTION = '[Pickup Locations] Set Pickup Option';
 export const GET_STORE_DETAILS = '[Pickup Locations] Get Store Details';
 export const STORE_DETAILS_SUCCESS =
   '[Pickup Locations] Get Store Details Success';
-
 export const STORE_DETAILS_FAIL = '[Pickup Locations] Get Store Details Fail';
+
+export const PATCH_DELIVERY_OPTION = '[Pickup Locations] Patch Delivery Option';
+export const PATCH_DELIVERY_OPTION_SUCCESS =
+  '[Pickup Locations] Patch Delivery Option Success';
 
 export type AddLocationProps = {
   payload: {
@@ -65,5 +69,15 @@ export const SetStoreDetailsSuccess = createAction(
 
 export const SetStoreDetailsFailure = createAction(
   STORE_DETAILS_FAIL,
+  props<{ payload: any }>()
+);
+
+export const PatchDeliveryOption = createAction(
+  PATCH_DELIVERY_OPTION,
+  props<{ payload: PatchDeliveryOptionPayload }>()
+);
+
+export const PatchDeliveryOptionSuccess = createAction(
+  PATCH_DELIVERY_OPTION_SUCCESS,
   props<{ payload: any }>()
 );
