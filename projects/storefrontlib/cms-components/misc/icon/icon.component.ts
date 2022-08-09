@@ -145,7 +145,7 @@ export class IconComponent {
    * The icons supports flipping for some icons to support rtl and ltr directions.
    */
   protected flipIcon(type: ICON_TYPE) {
-    // TODO: this can be dropped with the next major release.
+    // TODO: this check can be dropped with the next major release.
     if (!this.iconLoader.getFlipDirection) {
       return;
     }
