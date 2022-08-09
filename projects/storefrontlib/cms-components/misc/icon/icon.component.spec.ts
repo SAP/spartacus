@@ -341,7 +341,7 @@ describe('IconComponent', () => {
 
         const hostClassList = nativeDebugElement.classList;
         const hostChildren = nativeDebugElement.children;
-        expect(nativeDebugElement.getAttribute('class')).not.toBeFalsy();
+        expect(nativeDebugElement.getAttribute('class')).toBeTruthy();
         expect(nativeDebugElement.getAttribute('onmouseover')).toBeNull();
         expect(nativeDebugElement.getAttribute('data-foo')).toBeNull();
         expect(hostClassList.length).toEqual(4);
@@ -352,8 +352,6 @@ describe('IconComponent', () => {
         expect(hostChildren.length).toEqual(0);
       });
     });
-
-    // TODO test XSS attack payload in css classes
 
     // TODO check interactions between LTR/RTL classes, icon style classes, and original host element classes
   });
