@@ -47,6 +47,7 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
       deliveryPointOfService: {
         name,
       },
+      quantity,
     };
     const payload = pickupOption === 'pickup' ? patchPayload : putPayload;
     const verb = pickupOption === 'pickup' ? 'patch' : 'put';
