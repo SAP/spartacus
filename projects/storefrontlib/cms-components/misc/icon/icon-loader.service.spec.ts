@@ -56,7 +56,7 @@ export const MockIconConfig: IconConfig = {
     ],
     flipDirection: {
       CARET_RIGHT: DirectionMode.RTL,
-      CARET_LEFT: DirectionMode.RTL, // XXX this one is not used. shouldn't it be LTR instead and get tested?
+      CARET_LEFT: DirectionMode.LTR,
     },
   },
 };

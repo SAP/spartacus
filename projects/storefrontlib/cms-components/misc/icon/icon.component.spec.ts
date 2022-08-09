@@ -330,8 +330,8 @@ describe('IconComponent', () => {
         const hostChildren = nativeDebugElement.children;
         expect(hostClassList.length).toEqual(2);
         expect(hostClassList).toContain('cx-icon');
-        expect(hostClassList).toContain('flip-at-rtl');
-        expect(hostClassList).not.toContain('flip-at-ltr');
+        expect(hostClassList).toContain('flip-at-ltr');
+        expect(hostClassList).not.toContain('flip-at-rtl');
         expect(hostChildren.length).toEqual(0);
       });
     });
