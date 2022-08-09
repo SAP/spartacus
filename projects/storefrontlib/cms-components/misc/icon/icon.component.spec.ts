@@ -111,7 +111,6 @@ describe('IconComponent', () => {
       spyOn<any>(winRef.document, 'createElement').and.callThrough();
       component.type = 'PAYPAL';
       fixture.detectChanges();
-      expect(service.isResourceType).toHaveBeenCalledWith('PAYPAL', IconResourceType.LINK);
       expect(service.findResource).toHaveBeenCalledWith('PAYPAL', IconResourceType.LINK);
       expect(winRef.document.createElement).toHaveBeenCalledWith('link');
     });

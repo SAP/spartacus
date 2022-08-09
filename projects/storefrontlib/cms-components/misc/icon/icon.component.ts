@@ -94,11 +94,7 @@ export class IconComponent {
     } else if (this.iconLoader.isResourceType(type, IconResourceType.TEXT)) {
         this.iconResourceType = IconResourceType.TEXT;
         this.iconValue = this.iconLoader.getSymbol(type);
-    } else if (this.iconLoader.isResourceType(type, IconResourceType.LINK)) {
-        this.iconResourceType = IconResourceType.LINK;
-        this.iconValue = null;
-    } else {
-        // TODO seems to be same as for LINK, consolidate?
+    } else { // assume IconResourceType.LINK by default
         this.iconResourceType = IconResourceType.LINK;
         this.iconValue = null;
     }
