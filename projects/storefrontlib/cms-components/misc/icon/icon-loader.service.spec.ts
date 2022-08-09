@@ -19,6 +19,8 @@ export const MockIconConfig: IconConfig = {
       INFO: 'infoSymbol',
       HAPPY: '😊',
       SAD: ':-(',
+      RIGHT: 'someRight otherRight',
+      LEFT: 'someLeft otherLeft',
       BAD_SVG: 'badSvg',
       BAD_CLASS: '" onmouseover="alert(0)" data-foo="',
     },
@@ -59,6 +61,8 @@ export const MockIconConfig: IconConfig = {
     flipDirection: {
       CARET_RIGHT: DirectionMode.RTL,
       CARET_LEFT: DirectionMode.LTR,
+      RIGHT: DirectionMode.RTL,
+      LEFT: DirectionMode.LTR,
     },
   },
 };

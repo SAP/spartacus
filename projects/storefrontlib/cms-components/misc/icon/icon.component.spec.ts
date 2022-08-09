@@ -333,6 +333,45 @@ describe('IconComponent', () => {
         expect(hostChildren.length).toEqual(0);
       });
 
+      it('should change flip direction when changing the icon type', () => {
+        component.type = 'LEFT';
+        fixture.detectChanges();
+
+        const hostClassList1 = nativeDebugElement.classList;
+        const hostChildren1 = nativeDebugElement.children;
+        expect(hostClassList1.length).toEqual(4);
+        expect(hostClassList1).toContain('cx-icon');
+        expect(hostClassList1).toContain('someLeft');
+        expect(hostClassList1).toContain('otherLeft');
+        expect(hostClassList1).toContain('flip-at-ltr');
+        expect(hostChildren1.length).toEqual(0);
+
+        component.type = 'RIGHT';
+        fixture.detectChanges();
+
+        const hostClassList2 = nativeDebugElement.classList;
+        const hostChildren2 = nativeDebugElement.children;
+        expect(hostClassList2.length).toEqual(4);
+        expect(hostClassList2).toContain('cx-icon');
+        expect(hostClassList1).toContain('someRight');
+        expect(hostClassList1).toContain('otherRight');
+        expect(hostClassList1).toContain('flip-at-rtl');
+        expect(hostChildren2.length).toEqual(0);
+
+        component.type = 'PAYPAL';
+        fixture.detectChanges();
+
+        const hostClassList3 = nativeDebugElement.classList;
+        const hostChildren3 = nativeDebugElement.children;
+        expect(hostClassList3.length).toEqual(3);
+        expect(hostClassList3).toContain('cx-icon');
+        expect(hostClassList3).toContain('fab');
+        expect(hostClassList3).toContain('fa-paypal');
+        expect(hostClassList3).not.toContain('flip-at-rtl');
+        expect(hostClassList1).not.toContain('flip-at-ltr');
+        expect(hostChildren3.length).toEqual(0);
+      });
+
       it('should generate safe class attribute for bogus classes', () => {
         component.type = 'BAD_CLASS';
         fixture.detectChanges();
