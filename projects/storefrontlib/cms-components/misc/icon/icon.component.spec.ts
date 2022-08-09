@@ -85,14 +85,14 @@ describe('IconComponent', () => {
 
     it('should not have a flip direction by default', () => {
       component.type = <any>'';
-      expect(component.flipAtLtr).toBeFalsy();
-      expect(component.flipAtRtl).toBeFalsy();
+      expect(component.styleClasses).not.toContain('flip-at-rtl');
+      expect(component.styleClasses).not.toContain('flip-at-ltr');
     });
 
     it('should store the flip direction for the given icon', () => {
       component.type = 'CARET_RIGHT';
-      expect(component.flipAtRtl).toBeTruthy();
-      expect(component.flipAtLtr).toBeFalsy();
+      expect(component.styleClasses).toContain('flip-at-rtl');
+      expect(component.styleClasses).not.toContain('flip-at-ltr');
     });
   });
 

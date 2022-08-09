@@ -8,8 +8,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
-import { IconResourceType, IconConfigResource, ICON_TYPE as DEFAULT_ICON_TYPE } from './icon.model';
+import { IconResourceType, ICON_TYPE as DEFAULT_ICON_TYPE } from './icon.model';
 
+// TODO this type is used both here and inline in icon loader service, therefore extract to icon model
 type ICON_TYPE = DEFAULT_ICON_TYPE | string;
 
 /**
@@ -59,23 +60,8 @@ export class IconComponent {
    */
   @HostBinding('class') styleClasses: string[] = [];
 
-  /**
-   * The `flip-at-rtl` class is added to the DOM for the style layer to flip the icon in RTL direction.
-   */
-  @HostBinding('class.flip-at-rtl') flipAtRtl: boolean;
-
-  /**
-   * The `flip-at-ltr` class is added to the DOM for the style layer to flip the icon in LTR direction.
-   */
-  @HostBinding('class.flip-at-ltr') flipAtLtr: boolean;
-
-  /**
-   * A text for text based icons or a (relative) SVG URL (fragment) for SVG icons.
-   */
   private iconValue: string | null;
-
   private iconResourceType: IconResourceType;
-
   private loadedResources: string[] = [];
 
   constructor(
@@ -99,6 +85,8 @@ export class IconComponent {
         this.iconValue = null;
     }
     this.addLinkResource(type);
+    // TODO keep classes that have nothing to do with the icon?
+    this.styleClasses = [];
     this.addStyleClasses(type);
     this.flipIcon(type);
   }
@@ -123,9 +111,8 @@ export class IconComponent {
    * no head element available and the link must be loaded for every
    * web component.
    */
-  protected addLinkResource(iconType: ICON_TYPE | string): void {
-    const resource: IconConfigResource | undefined =
-        this.iconLoader.findResource(iconType, IconResourceType.LINK);
+  protected addLinkResource(type: ICON_TYPE | string): void {
+    const resource = this.iconLoader.findResource(type, IconResourceType.LINK);
 
     if (resource?.url && !this.loadedResources.includes(resource.url)) {
       this.loadedResources.push(resource.url);
@@ -150,16 +137,17 @@ export class IconComponent {
       return;
     }
     const iconDirection = this.iconLoader.getFlipDirection(type);
-    this.flipAtLtr = iconDirection === DirectionMode.LTR;
-    this.flipAtRtl = iconDirection === DirectionMode.RTL;
+    if (iconDirection === DirectionMode.LTR) {
+        this.styleClasses.push('flip-at-ltr');
+    } else if (iconDirection === DirectionMode.RTL) {
+        this.styleClasses.push('flip-at-rtl');
+    }
   }
 
   /**
    * Adds the style classes and the link resource (if available).
    */
   protected addStyleClasses(type: ICON_TYPE): void {
-    // TODO keep classes that have nothing to do with the icon?
-    this.styleClasses = [];
     this.styleClasses.push('cx-icon');
 
     const iconClasses = this.iconLoader.getStyleClasses(type)?.split(/\s+/);
