@@ -251,24 +251,23 @@ describe('IconComponent', () => {
       });
 
       it('should contain a text', () => {
-        // XXX what is the difference between a text icon and a font icon?
-        component.type = 'HAPPY';
+        component.type = 'SAD';
         fixture.detectChanges();
 
-        expect(nativeDebugElement.textContent).toEqual('😊');
+        expect(nativeDebugElement.textContent).toEqual(':-(');
         expect(nativeDebugElement.childElementCount).toEqual(0);
 
         const hostClassList = nativeDebugElement.classList;
         expect(hostClassList.length).toEqual(2);
         expect(hostClassList).toContain('cx-icon');
-        expect(hostClassList).toContain('😊');
-        expect(hostClassList).not.toContain('HAPPY');
+        expect(hostClassList).toContain(':-(');
+        expect(hostClassList).not.toContain('SAD');
       });
     });
 
     describe('LINK icons', () => {
 
-      it('should add multiple CSS classes to host element and be empty', () => {
+      it('should add multiple CSS classes to host element and leave it empty', () => {
         component.type = ICON_TYPE.VISA;
         fixture.detectChanges();
 
@@ -277,7 +276,6 @@ describe('IconComponent', () => {
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('fab');
         expect(hostClassList).toContain('fa-cc-visa');
-
         expect(nativeDebugElement.children.length).toEqual(0);
       });
 

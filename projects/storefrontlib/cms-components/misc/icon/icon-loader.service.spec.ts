@@ -18,6 +18,7 @@ export const MockIconConfig: IconConfig = {
       CART: 'cartSymbol',
       INFO: 'infoSymbol',
       HAPPY: '😊',
+      SAD: ':-(',
       BAD_SVG: 'badSvg',
       BAD_CLASS: '" onmouseover="alert(0)" data-foo="',
     },
@@ -52,7 +53,7 @@ export const MockIconConfig: IconConfig = {
       },
       {
         type: IconResourceType.TEXT,
-        types: ['HAPPY'],
+        types: ['HAPPY', 'SAD'],
       },
     ],
     flipDirection: {
