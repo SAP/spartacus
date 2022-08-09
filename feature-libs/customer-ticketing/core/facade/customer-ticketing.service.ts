@@ -4,6 +4,7 @@ import {
   QueryNotifier,
   QueryService,
   RoutingService,
+  UserIdService,
 } from '@spartacus/core';
 import {
   CustomerTicketingFacade,
@@ -11,7 +12,6 @@ import {
   GetTicketQueryResetEvent,
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CustomerTicketingConnector } from '../connectors';
@@ -47,22 +47,22 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
 
   constructor(
     protected queryService: QueryService,
-    protected userProfileFacade: UserProfileFacade,
+    protected userIdService: UserIdService,
     protected customerTicketingConnector: CustomerTicketingConnector,
     protected routingService: RoutingService
   ) {}
 
   protected checkTicketPreConditions(): Observable<[string, string]> {
     return combineLatest([
-      this.userProfileFacade.get(),
+      this.userIdService.getUserId(),
       this.routingService.getParams(),
     ]).pipe(
       take(1),
-      map(([user, routingParams]) => {
-        if (!user?.customerId || !routingParams) {
+      map(([userId, routingParams]) => {
+        if (!userId || !routingParams) {
           throw new Error('Customer tickets pre conditions not met');
         }
-        return [user.customerId, routingParams.ticketCode];
+        return [userId, routingParams.ticketCode];
       })
     );
   }
