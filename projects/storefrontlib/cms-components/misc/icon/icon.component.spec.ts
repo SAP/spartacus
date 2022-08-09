@@ -267,7 +267,7 @@ describe('IconComponent', () => {
 
     describe('LINK icons', () => {
 
-      it('should add multiple CSS classes to host element and leave it empty', () => {
+      it('should add multiple CSS classes to host element and add stylesheet', () => {
         component.type = ICON_TYPE.VISA;
         fixture.detectChanges();
 
@@ -277,34 +277,53 @@ describe('IconComponent', () => {
         expect(hostClassList).toContain('fab');
         expect(hostClassList).toContain('fa-cc-visa');
         expect(nativeDebugElement.children.length).toEqual(0);
+        const styleSheetLinkElement = nativeDebugElement.ownerDocument.head.lastElementChild;
+        expect(styleSheetLinkElement).not.toBeNull();
+        expect(styleSheetLinkElement?.localName).toEqual('link');
+        expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
+        expect(styleSheetLinkElement?.attributes.length).toEqual(3);
+        expect(styleSheetLinkElement?.getAttribute('rel')).toEqual('stylesheet');
+        expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
+        expect(styleSheetLinkElement?.getAttribute('href')).toEqual('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+        expect(styleSheetLinkElement?.childElementCount).toEqual(0);
       });
 
-      it('should remove former CSS classes when changing the icon type', () => {
+      it('should remove former CSS classes when changing the icon type and add same stylesheet only once', () => {
         component.type = ICON_TYPE.AMEX;
         fixture.detectChanges();
 
         const hostClassList1 = nativeDebugElement.classList;
-        const hostChildren1 = nativeDebugElement.children;
         expect(hostClassList1.length).toEqual(3);
         expect(hostClassList1).toContain('cx-icon');
         expect(hostClassList1).toContain('fa-amex');
         expect(hostClassList1).toContain('fab');
         expect(hostClassList1).not.toContain('fas'); 
         expect(hostClassList1).not.toContain('fa-search');
-        expect(hostChildren1.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toEqual(0);
+        const styleSheetLinkElement1 = nativeDebugElement.ownerDocument.head.lastElementChild;
 
         component.type = ICON_TYPE.SEARCH;
         fixture.detectChanges();
 
         const hostClassList2 = nativeDebugElement.classList;
-        const hostChildren2 = nativeDebugElement.children;
         expect(hostClassList2.length).toEqual(3);
         expect(hostClassList2).toContain('cx-icon');
         expect(hostClassList2).toContain('fas'); 
         expect(hostClassList2).toContain('fa-search');
         expect(hostClassList2).not.toContain('fa-amex');
         expect(hostClassList2).not.toContain('fab');
-        expect(hostChildren2.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toEqual(0);
+        const styleSheetLinkElement2 = nativeDebugElement.ownerDocument.head.lastElementChild;
+
+        expect(styleSheetLinkElement2).toBe(styleSheetLinkElement1);
+        expect(styleSheetLinkElement2).not.toBeNull();
+        expect(styleSheetLinkElement2?.localName).toEqual('link');
+        expect(styleSheetLinkElement2?.nodeName).toEqual('LINK');
+        expect(styleSheetLinkElement2?.attributes.length).toEqual(3);
+        expect(styleSheetLinkElement2?.getAttribute('rel')).toEqual('stylesheet');
+        expect(styleSheetLinkElement2?.getAttribute('type')).toEqual('text/css');
+        expect(styleSheetLinkElement2?.getAttribute('href')).toEqual('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+        expect(styleSheetLinkElement2?.childElementCount).toEqual(0);
       });
 
       it('should have flip-at-rtl class', () => {
@@ -312,12 +331,11 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList = nativeDebugElement.classList;
-        const hostChildren = nativeDebugElement.children;
         expect(hostClassList.length).toEqual(2);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('flip-at-rtl');
         expect(hostClassList).not.toContain('flip-at-ltr');
-        expect(hostChildren.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toEqual(0);
       });
 
       it('should have flip-at-ltr class', () => {
@@ -325,51 +343,61 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList = nativeDebugElement.classList;
-        const hostChildren = nativeDebugElement.children;
         expect(hostClassList.length).toEqual(2);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('flip-at-ltr');
         expect(hostClassList).not.toContain('flip-at-rtl');
-        expect(hostChildren.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toEqual(0);
       });
 
-      it('should change flip direction when changing the icon type', () => {
+      it('should change flip direction when changing the icon type and add same stylesheet', () => {
         component.type = 'LEFT';
         fixture.detectChanges();
 
         const hostClassList1 = nativeDebugElement.classList;
-        const hostChildren1 = nativeDebugElement.children;
         expect(hostClassList1.length).toEqual(4);
         expect(hostClassList1).toContain('cx-icon');
         expect(hostClassList1).toContain('someLeft');
         expect(hostClassList1).toContain('otherLeft');
         expect(hostClassList1).toContain('flip-at-ltr');
-        expect(hostChildren1.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toEqual(0);
+        const styleSheetLinkElement1 = nativeDebugElement.ownerDocument.head.lastElementChild;
 
         component.type = 'RIGHT';
         fixture.detectChanges();
 
         const hostClassList2 = nativeDebugElement.classList;
-        const hostChildren2 = nativeDebugElement.children;
         expect(hostClassList2.length).toEqual(4);
         expect(hostClassList2).toContain('cx-icon');
         expect(hostClassList1).toContain('someRight');
         expect(hostClassList1).toContain('otherRight');
         expect(hostClassList1).toContain('flip-at-rtl');
-        expect(hostChildren2.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toEqual(0);
+        const styleSheetLinkElement2 = nativeDebugElement.ownerDocument.head.lastElementChild;
 
         component.type = 'PAYPAL';
         fixture.detectChanges();
 
         const hostClassList3 = nativeDebugElement.classList;
-        const hostChildren3 = nativeDebugElement.children;
         expect(hostClassList3.length).toEqual(3);
         expect(hostClassList3).toContain('cx-icon');
         expect(hostClassList3).toContain('fab');
         expect(hostClassList3).toContain('fa-paypal');
         expect(hostClassList3).not.toContain('flip-at-rtl');
         expect(hostClassList1).not.toContain('flip-at-ltr');
-        expect(hostChildren3.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toEqual(0);
+        const styleSheetLinkElement3 = nativeDebugElement.ownerDocument.head.lastElementChild;
+
+        expect(styleSheetLinkElement3).toBe(styleSheetLinkElement1);
+        expect(styleSheetLinkElement3).toBe(styleSheetLinkElement2);
+        expect(styleSheetLinkElement3).not.toBeNull();
+        expect(styleSheetLinkElement3?.localName).toEqual('link');
+        expect(styleSheetLinkElement3?.nodeName).toEqual('LINK');
+        expect(styleSheetLinkElement3?.attributes.length).toEqual(3);
+        expect(styleSheetLinkElement3?.getAttribute('rel')).toEqual('stylesheet');
+        expect(styleSheetLinkElement3?.getAttribute('type')).toEqual('text/css');
+        expect(styleSheetLinkElement3?.getAttribute('href')).toEqual('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+        expect(styleSheetLinkElement3?.childElementCount).toEqual(0);
       });
 
       it('should generate safe class attribute for bogus classes', () => {
@@ -377,7 +405,6 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList = nativeDebugElement.classList;
-        const hostChildren = nativeDebugElement.children;
         expect(nativeDebugElement.getAttribute('class')).toBeTruthy();
         expect(nativeDebugElement.getAttribute('onmouseover')).toBeNull();
         expect(nativeDebugElement.getAttribute('data-foo')).toBeNull();
@@ -386,11 +413,29 @@ describe('IconComponent', () => {
         expect(hostClassList).toContain('"');
         expect(hostClassList).toContain('onmouseover="alert(0)"');
         expect(hostClassList).toContain('data-foo="');
-        expect(hostChildren.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toEqual(0);
+      });
+
+      it('should generate safe stylesheet link with sanitized URL', () => {
+        component.type = 'BAD_STYLESHEET';
+        fixture.detectChanges();
+
+        const hostClassList = nativeDebugElement.classList;
+        expect(hostClassList.length).toEqual(2);
+        expect(hostClassList).toContain('cx-icon');
+        expect(hostClassList).toContain('badStylesheet');
+        expect(nativeDebugElement.children.length).toEqual(0);
+        const styleSheetLinkElement = nativeDebugElement.ownerDocument.head.lastElementChild;
+        expect(styleSheetLinkElement).not.toBeNull();
+        expect(styleSheetLinkElement?.localName).toEqual('link');
+        expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
+        expect(styleSheetLinkElement?.attributes.length).toEqual(3);
+        expect(styleSheetLinkElement?.getAttribute('rel')).toEqual('stylesheet');
+        expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
+        expect(styleSheetLinkElement?.getAttribute('href')).toEqual('unsafe:javascript:alert(2)');
+        expect(styleSheetLinkElement?.childElementCount).toEqual(0);
       });
     });
-
-    // TODO check interactions between LTR/RTL classes, icon style classes, and original host element classes
   });
 });
 

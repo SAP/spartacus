@@ -23,6 +23,7 @@ export const MockIconConfig: IconConfig = {
       LEFT: 'someLeft otherLeft',
       BAD_SVG: 'badSvg',
       BAD_CLASS: '" onmouseover="alert(0)" data-foo="',
+      BAD_STYLESHEET: 'badStylesheet',
     },
     resources: [
       {
@@ -52,6 +53,11 @@ export const MockIconConfig: IconConfig = {
         type: IconResourceType.LINK,
         url: 'different-font.css',
         types: ['MASTERCARD'],
+      },
+      {
+        type: IconResourceType.LINK,
+        url: 'javascript:alert(2)',
+        types: ['BAD_STYLESHEET'],
       },
       {
         type: IconResourceType.TEXT,
