@@ -11,7 +11,7 @@
     <div class="cx-account-summary-document-body">
 
       <cx-account-summary-document-filter
-        [documentTypeOptions]="accountSummary.documentTypes"
+        [documentTypeOptions]="accountSummary.documentTypes || []"
         [initialFilters]="queryParams"
         (filterListEvent)="filterChange($event)">
       </cx-account-summary-document-filter>
@@ -30,7 +30,7 @@
               {{ 'orgAccountSummary.sortBy' | cxTranslate }}
             </span>
             <cx-sorting
-              [sortOptions]="addNamesToSortModel(accountSummary?.sorts) | async"
+              [sortOptions]="(addNamesToSortModel(accountSummary.sorts || []) | async) || []"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="accountSummary.pagination.sort"
               placeholder="{{ 'orgAccountSummary.sortBy' | cxTranslate }}"
@@ -167,7 +167,8 @@
 
         <!-- Select Form and Pagination Bottom -->
         <div class="cx-account-summary-document-sort bottom">
-          <div *ngIf="accountSummary.pagination.totalPages > 1" class="cx-account-summary-document-pagination">
+          <div class="cx-account-summary-document-pagination" *ngIf="accountSummary.pagination &&
+            accountSummary.pagination.totalPages && accountSummary.pagination.totalPages > 1">
             <cx-pagination
               [pagination]="accountSummary.pagination"
               (viewPageEvent)="pageChange($event)"

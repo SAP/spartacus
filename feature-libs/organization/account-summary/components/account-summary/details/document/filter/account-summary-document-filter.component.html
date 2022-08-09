@@ -13,7 +13,7 @@
 </ng-template>
 
 <form (ngSubmit)="formSearch()" [formGroup]="filterForm">
-  <div class="flex-container" *ngIf="filterForm.get('filterBy').value as filterBy">
+  <div class="flex-container" *ngIf="filterForm.controls.filterBy.value as filterBy">
 
     <label class="flex-item">
       <span>{{ 'orgAccountSummary.filter.status' | cxTranslate }}</span>

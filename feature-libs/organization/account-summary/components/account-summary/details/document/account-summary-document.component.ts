@@ -5,11 +5,11 @@ import {
   DocumentQueryParams,
   DocumentFields,
   DocumentStatus,
+  FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import { Observable, combineLatest } from 'rxjs';
 import { SortModel, TranslationService } from '@spartacus/core';
 import { map } from "rxjs/operators";
-import {FilterByOptions} from "../../../../root/model";
 
 @Component({
   selector: 'cx-account-summary-document',
