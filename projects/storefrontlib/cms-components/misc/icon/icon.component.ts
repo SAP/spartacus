@@ -124,22 +124,20 @@ export class IconComponent {
    * web component.
    */
   protected addLinkResource(iconType: ICON_TYPE | string): void {
-    const resource: IconConfigResource | undefined = this.iconLoader.findResource(
-      iconType,
-      IconResourceType.LINK
-    );
-    if (
-      resource &&
-      resource.url &&
-      !this.loadedResources.includes(resource.url)
-    ) {
+    const resource: IconConfigResource | undefined =
+        this.iconLoader.findResource(iconType, IconResourceType.LINK);
+
+    if (resource?.url && !this.loadedResources.includes(resource.url)) {
       this.loadedResources.push(resource.url);
-      const head = this.winRef.document.getElementsByTagName('head')[0];
-      const link = this.winRef.document.createElement('link');
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = resource.url; // XXX bypasses angular url sanitization
-      head.appendChild(link);
+      const sanitizedUrl = this.sanitizer.sanitize(SecurityContext.URL, resource.url);
+      if (sanitizedUrl) {
+        const head = this.winRef.document.getElementsByTagName('head')[0];
+        const link = this.winRef.document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = sanitizedUrl;
+        head.appendChild(link);
+      }
     }
   }
 
