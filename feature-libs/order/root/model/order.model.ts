@@ -10,6 +10,7 @@ import {
 } from '@spartacus/cart/base/root';
 import {
   Address,
+  B2BUnit,
   B2BUser,
   CostCenter,
   PaginationModel,
@@ -81,6 +82,8 @@ export interface OrderHistory {
   status?: string;
   statusDisplay?: string;
   total?: Price;
+  orgUnit?: B2BUnit;
+  orgCustomer?: B2BUser;
 }
 
 export interface OrderHistoryList {

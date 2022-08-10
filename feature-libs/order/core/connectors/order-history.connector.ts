@@ -29,6 +29,20 @@ export class OrderHistoryConnector {
     return this.adapter.loadHistory(userId, pageSize, currentPage, sort);
   }
 
+  public getUnitLevelHistory(
+    userId: string,
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<OrderHistoryList> {
+    return this.adapter.loadUnitLevelHistory(
+      userId,
+      pageSize,
+      currentPage,
+      sort
+    );
+  }
+
   public getConsignmentTracking(
     orderCode: string,
     consignmentCode: string,

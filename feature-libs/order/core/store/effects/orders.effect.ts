@@ -25,7 +25,14 @@ export class OrdersEffect {
         map((action: OrderActions.LoadUserOrders) => action.payload),
         switchMap((payload) => {
           return (
-            Boolean(payload.replenishmentOrderCode)
+            Boolean(payload.unitLevelOrderCode)
+              ? this.orderConnector.getUnitLevelHistory(
+                  payload.userId,
+                  payload.pageSize,
+                  payload.currentPage,
+                  payload.sort
+                )
+              : Boolean(payload.replenishmentOrderCode)
               ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
                   payload.userId,
                   payload.replenishmentOrderCode ?? '',

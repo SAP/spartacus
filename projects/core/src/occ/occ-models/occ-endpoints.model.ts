@@ -13,6 +13,7 @@ export interface ProductOccEndpoint extends OccEndpoint {
 }
 
 export interface OccEndpoints {
+  unitLevelOrderHistory?: string | any;
   /**
    * Get product details for scope
    *
