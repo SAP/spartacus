@@ -22,7 +22,7 @@
     }
 
     td {
-      width: 25%;
+      width: 16.6%;
       padding: 1.625rem 0;
 
       @include media-breakpoint-up(md) {
@@ -82,6 +82,8 @@
     }
   }
 
+  .cx-unit-level-order-history-unit
+  .cx-unit-level-order-history-buyer
   .cx-unit-level-order-history-status {
     text-align: center;
 

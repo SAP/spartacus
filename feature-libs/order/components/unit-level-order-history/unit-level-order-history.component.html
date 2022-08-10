@@ -6,7 +6,7 @@
   <ng-container *ngIf="type.orderHistory">
     <div>
       <!-- HEADER -->
-      <div>
+      <div class="cx-unit-level-order-history-header">
         <h2>
           {{ 'orderHistory.orderHistory' | cxTranslate }}
         </h2>
@@ -19,7 +19,7 @@
         >
           <!-- Select Form and Pagination Top -->
           <div class="cx-unit-level-order-history-sort top">
-            <label class="form-group"
+            <label class="cx-unit-level-order-history-form-group form-group"
               ><span>
                 {{ 'orderHistory.sortBy' | cxTranslate }}
               </span>
@@ -44,7 +44,7 @@
             </div>
           </div>
           <!-- TABLE -->
-          <table id="order-history-table" class="table">
+          <table id="order-history-table" class="table cx-unit-level-order-history-table">
             <thead class="cx-unit-level-order-history-thead-mobile">
               <th scope="col">
                 {{ 'orderHistory.orderId' | cxTranslate }}
@@ -70,8 +70,8 @@
                 *ngFor="let order of type.orderHistory.orders"
                 (click)="goToOrderDetail(order)"
               >
-                <td>
-                  <div>
+                <td class="cx-unit-level-order-history-code">
+                  <div class="cx-unit-level-order-history-label">
                     {{ 'orderHistory.orderId' | cxTranslate }}
                   </div>
                   <a
@@ -81,12 +81,13 @@
                         params: order
                       } | cxUrl
                     "
+                    class="cx-unit-level-order-history-value"
                   >
                     {{ order?.code }}</a
                   >
                 </td>
-                <td>
-                  <div>
+                <td class="cx-unit-level-order-history-placed">
+                  <div class="cx-unit-level-order-history-label">
                     {{ 'orderHistory.date' | cxTranslate }}
                   </div>
                   <a
@@ -96,11 +97,12 @@
                         params: order
                       } | cxUrl
                     "
+                    class="cx-unit-level-order-history-value"
                     >{{ order?.placed | cxDate: 'longDate' }}</a
                   >
                 </td>
-                <td>
-                  <div>
+                <td class="cx-unit-level-order-history-status">
+                  <div class="cx-unit-level-order-history-label">
                     {{ 'orderHistory.status' | cxTranslate }}
                   </div>
                   <a
@@ -110,6 +112,7 @@
                         params: order
                       } | cxUrl
                     "
+                    class="cx-unit-level-order-history-value"
                   >
                     {{
                       'orderDetails.statusDisplay_' + order?.statusDisplay
@@ -117,8 +120,8 @@
                     }}</a
                   >
                 </td>
-                <td>
-                  <div>
+                <td class="cx-unit-level-order-history-buyer">
+                  <div class="cx-unit-level-order-history-label">
                     {{ 'orderHistory.buyer' | cxTranslate }}
                   </div>
                   <a
@@ -128,12 +131,13 @@
                         params: order
                       } | cxUrl
                     "
+                    class="cx-unit-level-order-history-value"
                   >
                     {{ order?.orgCustomer?.name }}</a
                   >
                 </td>
-                <td>
-                  <div>
+                <td class="cx-unit-level-order-history-unit">
+                  <div class="cx-unit-level-order-history-label">
                     {{ 'orderHistory.unit' | cxTranslate }}
                   </div>
                   <a
@@ -143,12 +147,13 @@
                         params: order
                       } | cxUrl
                     "
+                    class="cx-unit-level-order-history-value"
                   >
                     {{ order?.orgUnit?.name }}</a
                   >
                 </td>
-                <td>
-                  <div>
+                <td class="cx-unit-level-order-history-total">
+                  <div class="cx-unit-level-order-history-label">
                     {{ 'orderHistory.total' | cxTranslate }}
                   </div>
                   <a
@@ -158,6 +163,7 @@
                         params: order
                       } | cxUrl
                     "
+                    class="cx-unit-level-order-history-value"
                   >
                     {{ order?.total.formattedValue }}</a
                   >
@@ -166,10 +172,10 @@
             </tbody>
           </table>
           <!-- Select Form and Pagination Bottom -->
-          <div class="cx-order-history-sort bottom">
+          <div class="cx-unit-level-order-history-sort bottom">
             <div
               *ngIf="type.orderHistory.pagination.totalPages > 1"
-              class="cx-order-history-pagination"
+              class="cx-unit-level-order-history-pagination"
             >
               <cx-pagination
                 [pagination]="type.orderHistory.pagination"
