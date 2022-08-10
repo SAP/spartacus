@@ -1,13 +1,14 @@
-const deliveryOptions = {
+export const pickupInStoreDialog = {
+  close: 'Close',
+  modalHeader: 'Pickup in Store',
+};
+
+/** Translation keys for the PickupOptionsComponent */
+const pickupOptions = {
   changeStore: 'Change Store',
   delivery: 'Ship It (Free Return)',
   pickup: 'Free Pickup In Store',
   selectStore: 'Select Store',
-};
-
-export const pickupInStoreDialog = {
-  close: 'Close',
-  modalHeader: 'Pickup in Store',
 };
 
 export const store = {
@@ -35,9 +36,10 @@ export const storeSearch = {
   viewAllStores: 'View all stores',
 };
 
+/** All the translation chunks for pickup in store. */
 export const pickupInStore = {
-  deliveryOptions,
   pickupInStoreDialog,
+  pickupOptions,
   store,
   storeList,
   storeSchedule,
