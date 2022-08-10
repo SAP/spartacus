@@ -16,6 +16,7 @@ export abstract class CustomerTicketingConfig extends OccConfig {
       allowedTypes?: string[];
     };
     inputCharactersLimit?: number;
+    inputCharactersLimitForCreateMessage?: number;
   };
 }
 

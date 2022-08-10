@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAX_INPUT_CHARACTERS_FOR_MESSAGE } from '@spartacus/customer-ticketing/core';
+import { MAX_INPUT_CHARACTERS } from '@spartacus/customer-ticketing/core';
 import { CustomerTicketingConfig } from '@spartacus/customer-ticketing/root';
 import {
   FilesFormValidators,
@@ -12,12 +12,12 @@ import {
 
 @Component({
   selector: 'cx-customer-ticketing-dialog',
-  templateUrl: './customer-ticketing-create-dialog.component.html',
+  templateUrl: './customer-ticketing-reopen-dialog.component.html',
 })
-export class CustomerTicketingCreateDialogComponent implements OnInit {
+export class CustomerTicketingReopenDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
   form: FormGroup;
-  inputCharactersLimitForCreateMessage: number = this.getInputCharactersLimit;
+  inputCharactersLimit: number = this.getInputCharactersLimit;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -28,8 +28,7 @@ export class CustomerTicketingCreateDialogComponent implements OnInit {
 
   get messagesCharacterLeft(): number {
     return (
-      this.inputCharactersLimitForCreateMessage -
-      (this.form.get('message')?.value?.length || 0)
+      this.inputCharactersLimit - (this.form.get('message')?.value?.length || 0)
     );
   }
 
@@ -40,9 +39,8 @@ export class CustomerTicketingCreateDialogComponent implements OnInit {
 
   get getInputCharactersLimit(): number {
     return (
-      this.customerTicketingConfig.customerTicketing
-        ?.inputCharactersLimitForCreateMessage ||
-      MAX_INPUT_CHARACTERS_FOR_MESSAGE
+      this.customerTicketingConfig.customerTicketing?.inputCharactersLimit ||
+      MAX_INPUT_CHARACTERS
     );
   }
 
@@ -78,7 +76,7 @@ export class CustomerTicketingCreateDialogComponent implements OnInit {
     this.launchDialogService.closeDialog(reason);
   }
 
-  createTicketRequest(): void {
+  reopenRequest(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       FormUtils.deepUpdateValueAndValidity(this.form);
@@ -91,14 +89,14 @@ export class CustomerTicketingCreateDialogComponent implements OnInit {
       'message',
       new FormControl('', [
         Validators.required,
-        Validators.maxLength(this.inputCharactersLimitForCreateMessage),
+        Validators.maxLength(this.inputCharactersLimit),
       ])
     );
     form.setControl(
       'file',
       new FormControl('', [
         this.filesFormValidators.maxSize(this.maxSize),
-        // this.filesFormValidators.maçççxEntries(this.maxEntries),
+        this.filesFormValidators.maxEntries(this.maxEntries),
       ])
     );
     this.form = form;
