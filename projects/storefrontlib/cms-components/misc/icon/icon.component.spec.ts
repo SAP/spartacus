@@ -477,9 +477,8 @@ describe('host icon components', () => {
 
     it('should add resource for all icons', () => {
       // it's actually just 4 icons, but due to a name clash between the type attribute
-      // of cxIcon and button setIcon gets called twice for one of them'
+      // of cxIcon and button setIcon gets called twice for one of them
       expect(service.findResource).toHaveBeenCalledTimes(5);
-      expect(service.findResource).toHaveBeenCalledWith('FOO', IconResourceType.LINK);
     });
 
     it('should add the symbol classes for the icon component classlist', () => {
