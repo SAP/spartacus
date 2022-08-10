@@ -277,7 +277,7 @@ describe('IconComponent', () => {
         expect(hostClassList).toContain('fab');
         expect(hostClassList).toContain('fa-cc-visa');
         expect(nativeDebugElement.children.length).toEqual(0);
-        const styleSheetLinkElement = nativeDebugElement.ownerDocument.head.lastElementChild;
+        const styleSheetLinkElement = winRef.document.head.lastElementChild;
         expect(styleSheetLinkElement).not.toBeNull();
         expect(styleSheetLinkElement?.localName).toEqual('link');
         expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
@@ -300,7 +300,7 @@ describe('IconComponent', () => {
         expect(hostClassList1).not.toContain('fas'); 
         expect(hostClassList1).not.toContain('fa-search');
         expect(nativeDebugElement.children.length).toEqual(0);
-        const styleSheetLinkElement1 = nativeDebugElement.ownerDocument.head.lastElementChild;
+        const styleSheetLinkElement1 = winRef.document.head.lastElementChild;
 
         component.type = ICON_TYPE.SEARCH;
         fixture.detectChanges();
@@ -313,7 +313,7 @@ describe('IconComponent', () => {
         expect(hostClassList2).not.toContain('fa-amex');
         expect(hostClassList2).not.toContain('fab');
         expect(nativeDebugElement.children.length).toEqual(0);
-        const styleSheetLinkElement2 = nativeDebugElement.ownerDocument.head.lastElementChild;
+        const styleSheetLinkElement2 = winRef.document.head.lastElementChild;
 
         expect(styleSheetLinkElement2).toBe(styleSheetLinkElement1);
         expect(styleSheetLinkElement2).not.toBeNull();
@@ -361,7 +361,7 @@ describe('IconComponent', () => {
         expect(hostClassList1).toContain('otherLeft');
         expect(hostClassList1).toContain('flip-at-ltr');
         expect(nativeDebugElement.children.length).toEqual(0);
-        const styleSheetLinkElement1 = nativeDebugElement.ownerDocument.head.lastElementChild;
+        const styleSheetLinkElement1 = winRef.document.head.lastElementChild;
 
         component.type = 'RIGHT';
         fixture.detectChanges();
@@ -373,7 +373,7 @@ describe('IconComponent', () => {
         expect(hostClassList2).toContain('otherRight');
         expect(hostClassList2).toContain('flip-at-rtl');
         expect(nativeDebugElement.children.length).toEqual(0);
-        const styleSheetLinkElement2 = nativeDebugElement.ownerDocument.head.lastElementChild;
+        const styleSheetLinkElement2 = winRef.document.head.lastElementChild;
 
         component.type = 'PAYPAL';
         fixture.detectChanges();
@@ -386,7 +386,7 @@ describe('IconComponent', () => {
         expect(hostClassList3).not.toContain('flip-at-rtl');
         expect(hostClassList3).not.toContain('flip-at-ltr');
         expect(nativeDebugElement.children.length).toEqual(0);
-        const styleSheetLinkElement3 = nativeDebugElement.ownerDocument.head.lastElementChild;
+        const styleSheetLinkElement3 = winRef.document.head.lastElementChild;
 
         expect(styleSheetLinkElement3).toBe(styleSheetLinkElement1);
         expect(styleSheetLinkElement3).toBe(styleSheetLinkElement2);
@@ -425,7 +425,7 @@ describe('IconComponent', () => {
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('badStylesheet');
         expect(nativeDebugElement.children.length).toEqual(0);
-        const styleSheetLinkElement = nativeDebugElement.ownerDocument.head.lastElementChild;
+        const styleSheetLinkElement = winRef.document.head.lastElementChild;
         expect(styleSheetLinkElement).not.toBeNull();
         expect(styleSheetLinkElement?.localName).toEqual('link');
         expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
@@ -444,6 +444,7 @@ describe('host icon components', () => {
   let service: IconLoaderService;
   let fixture: ComponentFixture<MockIconTestComponent>;
   let debugElement: DebugElement;
+  let winRef: WindowRef;
 
   beforeEach(
     waitForAsync(() => {
@@ -461,6 +462,7 @@ describe('host icon components', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(IconComponent);
     service = TestBed.inject(IconLoaderService);
+    winRef = TestBed.inject(WindowRef);
 
     spyOn(service, 'findResource').and.callThrough();
     fixture = TestBed.createComponent(MockIconTestComponent);
@@ -557,7 +559,7 @@ describe('host icon components', () => {
     });
 
     it('should add LINK icon stylesheet', () => {
-        const styleSheetLinkElement = debugElement.nativeElement.ownerDocument.head.lastElementChild;
+        const styleSheetLinkElement = winRef.document.head.lastElementChild;
 
         expect(styleSheetLinkElement).not.toBeNull();
         expect(styleSheetLinkElement.localName).toEqual('link');
