@@ -4,7 +4,13 @@ import {
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
 } from '@spartacus/asm/root';
-import { AuthService, GlobalMessageService, GlobalMessageType, RoutingService, WindowRef } from '@spartacus/core';
+import {
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -27,8 +33,7 @@ export class AsmComponentService {
     this.authService.logout();
   }
 
-
-  startCustomerEmulationSession(customerId: string ): boolean {
+  startCustomerEmulationSession(customerId: string): boolean {
     if (customerId) {
       this.csAgentAuthService.startCustomerEmulationSession(customerId);
       return true;
@@ -45,17 +50,17 @@ export class AsmComponentService {
     return this.csAgentAuthService.isCustomerEmulated();
   }
 
-// TODO: Find better place for method
+  // TODO: Find better place for method
   handleAsmDialogAction(event: AsmDialogActionEvent): void {
     let selectedUser = event.selectedUser?.customerId;
-    let route = event.route;
+    let { cxRoute, params } = event.route;
     if (event.actionType === 'START_SESSION' && selectedUser) {
       this.startCustomerEmulationSession(selectedUser);
-      if (route) {
-        this.routingService.go({ cxRoute: route });
+      if (cxRoute) {
+        this.routingService.go({ cxRoute, params });
       }
     } else {
-      this.routingService.go({ cxRoute: route });
+      this.routingService.go({ cxRoute, params });
     }
   }
 

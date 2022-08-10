@@ -1,4 +1,4 @@
-import { PaginationModel, SortModel, User } from '@spartacus/core';
+import { PaginationModel, SortModel, UrlCommand, User } from '@spartacus/core';
 
 export enum AsmDialogActionType {
   START_SESSION = 'START_SESSION',
@@ -32,7 +32,7 @@ export interface Customer360Section {
 export interface AsmDialogActionEvent {
   selectedUser: User;
   actionType: AsmDialogActionType;
-  route?: string;
+  route?: UrlCommand;
 }
 
 export enum CUSTOMER_360_SECTION_TITLE {

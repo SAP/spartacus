@@ -61,7 +61,7 @@
     }
     .cx-tab {
       padding: 10px 20px;
-      color: var(--cx-color-light);;
+      color: var(--cx-color-light);
       border-bottom: 1px solid #dddddd;
       cursor: pointer;
       &.active {
@@ -75,7 +75,7 @@
       }
       &:active,
       &:hover,
-      &:focus{
+      &:focus {
         color: var(--cx-color-visual-focus);
         border-width: 0 0 2px;
         text-decoration: none;

@@ -10,7 +10,13 @@ import {
 import { ModalRef, ModalService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take,tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
@@ -37,20 +43,20 @@ export class AsmMainUiComponent implements OnInit {
     protected routingService: RoutingService,
     protected asmFacade: AsmFacade,
     protected userAccountFacade: UserAccountFacade,
-    protected modalService: ModalService,
+    protected modalService: ModalService
   ) {}
 
   ngOnInit(): void {
     this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
-       .isCustomerSupportAgentLoggedIn()
-       .pipe(
-         distinctUntilChanged(),
-         tap((loggedIn) => {
-           if (!loggedIn) {
-             this.closeModal();
-           }
-         })
-       );
+      .isCustomerSupportAgentLoggedIn()
+      .pipe(
+        distinctUntilChanged(),
+        tap((loggedIn) => {
+          if (!loggedIn) {
+            this.closeModal();
+          }
+        })
+      );
     this.csAgentTokenLoading$ =
       this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
     this.customer$ = this.authService.isUserLoggedIn().pipe(

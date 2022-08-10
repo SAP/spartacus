@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { GeneralFragment } from "./asm-customer-activity.model";
+import { Component } from '@angular/core';
+import { GeneralFragment } from './asm-customer-activity.model';
 
 @Component({
   selector: 'cx-asm-customer-activity',

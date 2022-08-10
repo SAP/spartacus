@@ -1,4 +1,4 @@
-import { Address, PaymentDetails } from "@spartacus/core";
+import { Address, PaymentDetails } from '@spartacus/core';
 
 export interface CustomerProfileData {
   billingAddress?: Address;
@@ -6,4 +6,4 @@ export interface CustomerProfileData {
   phone1?: String;
   phone2?: String;
   paymentInfoList?: PaymentDetails[];
-};
+}

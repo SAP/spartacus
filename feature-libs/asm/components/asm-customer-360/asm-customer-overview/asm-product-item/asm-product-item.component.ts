@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { Price, Product } from '@spartacus/core';
 
@@ -15,5 +21,4 @@ export class AsmProductItemComponent {
   @Output() selectProduct = new EventEmitter<Product>();
 
   constructor() {}
-
 }

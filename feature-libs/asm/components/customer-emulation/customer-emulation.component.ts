@@ -46,15 +46,14 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
     });
     this.modalRef.componentInstance.customer = this.customer;
     this.modalRef?.result
-    .then((event: AsmDialogActionEvent) => {
-      this.asmComponentService.handleAsmDialogAction(event);
-      this.modalRef = undefined;
-    })
-    .catch(() => {
-      // this  callback is called when modal is closed with Esc key or clicking backdrop
-      this.modalRef = undefined;
-    });
-
+      .then((event: AsmDialogActionEvent) => {
+        this.asmComponentService.handleAsmDialogAction(event);
+        this.modalRef = undefined;
+      })
+      .catch(() => {
+        // this  callback is called when modal is closed with Esc key or clicking backdrop
+        this.modalRef = undefined;
+      });
   }
 
   ngOnDestroy(): void {

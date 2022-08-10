@@ -1,8 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { AsmDialogActionEvent, AsmDialogActionType } from '@spartacus/asm/root';
-import {
-  User,
-} from '@spartacus/core';
+import { UrlCommand, User } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ModalService } from '@spartacus/storefront';
 
@@ -39,9 +37,13 @@ export class AsmCustomer360Component implements OnDestroy {
   }
 
   // method to navigate screen and close dialog
-  navigateTo(route: string): void {
+  navigateTo(route: UrlCommand): void {
     let event: AsmDialogActionEvent;
-      event = getAsmDialogActionEvent(this.customer, AsmDialogActionType.NAVIGATE, route);
+    event = getAsmDialogActionEvent(
+      this.customer,
+      AsmDialogActionType.NAVIGATE,
+      route
+    );
     this.closeModal(event);
   }
 

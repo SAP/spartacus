@@ -1,6 +1,5 @@
-import { AsmDialogActionEvent, AsmDialogActionType } from "@spartacus/asm/root";
-import { User } from "@spartacus/core";
-
+import { AsmDialogActionEvent, AsmDialogActionType } from '@spartacus/asm/root';
+import { UrlCommand, User } from '@spartacus/core';
 
 /**
  * Return event from ASM dialog action
@@ -8,7 +7,8 @@ import { User } from "@spartacus/core";
 export function getAsmDialogActionEvent(
   customerEntry: User,
   action: AsmDialogActionType,
-  route?: string): AsmDialogActionEvent {
+  route?: UrlCommand
+): AsmDialogActionEvent {
   let event: AsmDialogActionEvent = {
     actionType: action,
     selectedUser: customerEntry,
@@ -16,6 +16,3 @@ export function getAsmDialogActionEvent(
   };
   return event;
 }
-
-
-

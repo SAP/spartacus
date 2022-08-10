@@ -37,7 +37,7 @@ export const asm = {
       deliveryAddress: 'Delivery Address',
       phone1: 'Phone1',
       phone2: 'Phone2',
-      paymentMethodHeader: 'Saved Payment Methods'
+      paymentMethodHeader: 'Saved Payment Methods',
     },
     customerOverview: {
       activeCart: 'Active Cart',
