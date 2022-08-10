@@ -7,9 +7,10 @@ import {
   RoutingService,
   User,
 } from '@spartacus/core';
+import { ModalRef, ModalService } from '@spartacus/storefront';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take,tap } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
 
 @Component({
@@ -26,6 +27,8 @@ export class AsmMainUiComponent implements OnInit {
 
   protected startingCustomerSession = false;
 
+  protected modalRef: ModalRef | undefined;
+
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
@@ -33,12 +36,22 @@ export class AsmMainUiComponent implements OnInit {
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
     protected asmFacade: AsmFacade,
-    protected userAccountFacade: UserAccountFacade
+    protected userAccountFacade: UserAccountFacade,
+    protected modalService: ModalService,
   ) {}
 
   ngOnInit(): void {
-    this.customerSupportAgentLoggedIn$ =
-      this.csAgentAuthService.isCustomerSupportAgentLoggedIn();
+    this.customerSupportAgentLoggedIn$ = this.csAgentAuthService
+       .isCustomerSupportAgentLoggedIn()
+       .pipe(
+         distinctUntilChanged(),
+         tap((loggedIn) => {
+           if (!loggedIn) {
+            console.log('agent logged out')
+             this.closeModal();
+           }
+         })
+       );
     this.csAgentTokenLoading$ =
       this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
     this.customer$ = this.authService.isUserLoggedIn().pipe(
@@ -89,18 +102,19 @@ export class AsmMainUiComponent implements OnInit {
 
   startCustomerEmulationSession({ customerId }: { customerId?: string }): void {
     if (customerId) {
-      this.csAgentAuthService.startCustomerEmulationSession(customerId);
-      this.startingCustomerSession = true;
-    } else {
-      this.globalMessageService.add(
-        { key: 'asm.error.noCustomerId' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    }
+      this.startingCustomerSession = 
+        this.asmComponentService.startCustomerEmulationSession(customerId);
+    } 
   }
 
   hideUi(): void {
     this.disabled = true;
     this.asmComponentService.unload();
+  }
+
+  closeModal(): void {
+    if (this.modalService?.getActiveModal()) {
+      this.modalService?.closeActiveModal();
+    }
   }
 }
