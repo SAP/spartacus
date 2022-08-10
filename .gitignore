@@ -64,3 +64,20 @@ Thumbs.db
 
 **/git-ignore
 
+# Yarn (NOT using zero-installs)
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Yarn (using zero-installs)
+# .yarn/*
+# !.yarn/cache
+# !.yarn/patches
+# !.yarn/plugins
+# !.yarn/releases
+# !.yarn/sdks
+# !.yarn/versions
