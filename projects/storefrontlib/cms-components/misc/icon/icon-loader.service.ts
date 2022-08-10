@@ -91,7 +91,7 @@ export class IconLoaderService {
    * NOTE: this is not working when the shadow is used as there's
    * no head element available and the link must be loaded for every
    * web component.
-   * 
+   *
    * @deprecated only exists for backwards compatibility, resource loading has been moved to icon component
    */
   public addLinkResource(iconType: ICON_TYPE_STRING): void {
@@ -116,7 +116,6 @@ export class IconLoaderService {
    * Otherwise, try to find a one-size-fits-all resource for the resourceType, if any.
    */
   public findResource(iconType: ICON_TYPE_STRING, resourceType: IconResourceType): IconConfigResource | null {
-    
     return this.config?.resources?.find(res => res.type === resourceType && res.types?.includes(iconType))
         || this.config?.resources?.find(res => res.type === resourceType && !res.types)
         || null;
