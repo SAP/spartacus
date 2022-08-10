@@ -1,4 +1,4 @@
-<ng-container *ngIf="accountSummary$ | async as accountSummary">
+<ng-container *ngIf="accountSummary$.asObservable() | async as accountSummary">
   <div>
     <!-- HEADER -->
     <div class="cx-account-summary-document-header">

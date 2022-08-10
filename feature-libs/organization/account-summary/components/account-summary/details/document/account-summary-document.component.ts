@@ -7,16 +7,16 @@ import {
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import { Observable, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { SortModel, TranslationService } from '@spartacus/core';
-import { map } from "rxjs/operators";
+import { map, take } from "rxjs/operators";
 
 @Component({
   selector: 'cx-account-summary-document',
   templateUrl: './account-summary-document.component.html',
 })
 export class AccountSummaryDocumentComponent implements OnInit {
-  accountSummary$: Observable<AccountSummaryList>;
+  accountSummary$: BehaviorSubject<AccountSummaryList> = new BehaviorSubject<AccountSummaryList>({});
   queryParams: DocumentQueryParams = {
     fields: DocumentFields.FULL,
     status: DocumentStatus.ALL,
@@ -70,23 +70,9 @@ export class AccountSummaryDocumentComponent implements OnInit {
     );
   }
 
-  // getSortLabels(sorts?: SortModel[]): Observable<any> {
-  //   const sortCodes: Array<string> = sorts?.map(sort => sort.code) as Array<string>;
-  //   const translations = sortCodes.map(sortCode =>
-  //     this.translation.translate(`orgAccountSummary.sorts.${sortCode}`));
-  //
-  //   return combineLatest(translations).pipe(
-  //     map(translations =>
-  //       translations.reduce((keyValue, translation, index) => {
-  //         // @ts-ignore
-  //         keyValue[sortCodes[index]] = translation;
-  //         return keyValue;
-  //       }, {})
-  //     )
-  //   );
-  // }
-
   private fetchDocuments(): void {
-    this.accountSummary$ = this.accountSummaryFacade.getDocumentList(this.queryParams);
+    this.accountSummaryFacade.getDocumentList(this.queryParams)
+      .pipe(take(1))
+      .subscribe((accountSummaryList: AccountSummaryList) => this.accountSummary$.next(accountSummaryList));
   }
 }
