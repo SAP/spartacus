@@ -55,7 +55,7 @@ export const accountSummary = {
       amountRange: 'Original Amount Range',
       openAmountRange: 'Open Amount Range',
     },
-    sortBy: 'Sort by',
+    sortBy: 'Sort By',
     sortDocuments: 'Sort documents',
     filter: {
       status: 'Status',
@@ -67,7 +67,7 @@ export const accountSummary = {
       clear: 'Clear All',
       search: 'Search',
     },
-    hint: 'Account summaries allows you to review general information about the unit, including balances and aging summary of invoices. Here, you can also browse through a list of transaction documents for the unit.',
+    hint: 'Account summaries allow you to review general information about a unit, including balances and aging summary of invoices. Here, you can also browse through a list of transaction documents for a unit.',
   },
 
   breadcrumbs: {
