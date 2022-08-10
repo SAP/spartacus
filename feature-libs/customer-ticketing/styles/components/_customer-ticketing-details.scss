@@ -1,4 +1,4 @@
-cx-customer-ticketing-details {
+%cx-customer-ticketing-details {
   .cx-ticket-details {
     background-color: var(--cx-color-background);
 
@@ -47,11 +47,6 @@ cx-customer-ticketing-details {
           @include type('4');
           font-weight: bold;
           margin-bottom: 0.5rem;
-        }
-
-        .add-ticket-button {
-          display: flex;
-          float: right;
         }
       }
     }
