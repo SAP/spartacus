@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { AccountSummaryDetails, AccountSummaryFacade, AccountSummaryList, DocumentQueryParams } from '@spartacus/organization/account-summary/root';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, map, shareReplay } from 'rxjs/operators';
 import { AccountSummaryConnector } from '../connectors';
 @Injectable({
   providedIn: 'root',
@@ -30,7 +30,7 @@ export class AccountSummaryService implements AccountSummaryFacade {
     return this.accountSummaryConnector.getAccountSummary(
       this.userId,
       this.unitCode
-    );
+    ).pipe(shareReplay(1));
   }
 
   getDocumentList(params: DocumentQueryParams): Observable<AccountSummaryList> {
@@ -38,6 +38,6 @@ export class AccountSummaryService implements AccountSummaryFacade {
       this.userId,
       this.unitCode,
       params
-    );
+    ).pipe(shareReplay(1));
   }
 }
