@@ -1,9 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { CommerceQuotesAdapter } from '@spartacus/commerce-quotes/core';
+import {
+  CommerceQuotesAdapter,
+  QUOTE_NORMALIZER,
+} from '@spartacus/commerce-quotes/core';
 import { OccCommerceQuotesAdapter } from './adapters/occ-commerce-quotes.adapter';
 import { defaultOccCommerceQuotesConfig } from './config/default-occ-commerce-quotes-config';
+import { OccQuoteActionNormalizer } from './converters/occ-quote-action-normalizer';
 
 @NgModule({
   imports: [CommonModule],
@@ -12,6 +16,11 @@ import { defaultOccCommerceQuotesConfig } from './config/default-occ-commerce-qu
     {
       provide: CommerceQuotesAdapter,
       useClass: OccCommerceQuotesAdapter,
+    },
+    {
+      provide: QUOTE_NORMALIZER,
+      useExisting: OccQuoteActionNormalizer,
+      multi: true,
     },
   ],
 })

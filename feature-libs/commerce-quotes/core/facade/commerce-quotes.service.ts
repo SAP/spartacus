@@ -1,36 +1,37 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
+  Comment,
   CommerceQuotesFacade,
   CommerceQuotesListReloadQueryEvent,
   Quote,
+  QuoteActionType,
+  QuoteDetailsReloadQueryEvent,
   QuoteList,
   QuoteMetadata,
-  Comment,
-  QuoteAction,
+  QuoteStarter,
 } from '@spartacus/commerce-quotes/root';
 import {
   Command,
   CommandService,
   CommandStrategy,
   EventService,
-  GlobalMessageService,
-  GlobalMessageType,
+  LoginEvent,
   Query,
   QueryService,
   QueryState,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { NavigationEvent, ViewConfig } from '@spartacus/storefront';
+import { ViewConfig } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of, zip } from 'rxjs';
 import {
-  switchMap,
-  withLatestFrom,
-  take,
   concatMap,
   map,
+  switchMap,
+  take,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { CommerceQuotesConnector } from '../connectors/commerce-quotes.connector';
 
@@ -39,21 +40,10 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
   protected currentPage$ = new BehaviorSubject<number>(0);
   protected sortBy$ = new BehaviorSubject<string>('byCode');
 
-  protected quotesState$: Query<QuoteList, unknown[]> =
-    this.queryService.create<QuoteList>(
-      () =>
-        this.userIdService.takeUserId().pipe(
-          withLatestFrom(this.currentPage$, this.sortBy$),
-          switchMap(([userId, currentPage, sort]) =>
-            this.commerceQuotesConnector.getQuotes(userId, {
-              currentPage,
-              sort,
-              pageSize: this.config.view?.defaultPageSize,
-            })
-          )
-        ),
-      { reloadOn: [CommerceQuotesListReloadQueryEvent] }
-    );
+  /**
+   * Indicator whether an action is currently performing.
+   */
+  protected isActionPerforming$ = new BehaviorSubject<boolean>(false);
 
   protected createQuoteCommand: Command<
     { quoteMetadata: QuoteMetadata; quoteComment: Comment },
@@ -92,15 +82,16 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
             of(quote)
           )
         ),
-        tap(([_, userId, quote]) =>
+        tap(([_, userId, quote]) => {
           this.multiCartService.loadCart({
             cartId: quote.cartId as string,
             userId,
             extraData: {
               active: true,
             },
-          })
-        ),
+          });
+          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
+        }),
         map(([_, _userId, quote]) => quote)
       ),
     {
@@ -155,14 +146,15 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
   );
 
   protected performQuoteActionCommand: Command<
-    { quoteCode: string; quoteAction: QuoteAction },
+    { quoteCode: string; quoteAction: QuoteActionType },
     unknown
   > = this.commandService.create<
-    { quoteCode: string; quoteAction: QuoteAction },
+    { quoteCode: string; quoteAction: QuoteActionType },
     unknown
   >(
-    (payload) =>
-      this.userIdService.takeUserId().pipe(
+    (payload) => {
+      this.isActionPerforming$.next(true);
+      return this.userIdService.takeUserId().pipe(
         take(1),
         switchMap((userId) =>
           this.commerceQuotesConnector.performQuoteAction(
@@ -172,19 +164,59 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
           )
         ),
         tap(() => {
-          this.globalMessageService.add(
-            {
-              key: 'commerceQuotes.commons.creationSuccess',
-              params: { code: payload.quoteCode },
-            },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
+          this.isActionPerforming$.next(false);
+          this.eventService.dispatch({}, QuoteDetailsReloadQueryEvent);
         })
-      ),
+      );
+    },
     {
       strategy: CommandStrategy.CancelPrevious,
     }
   );
+
+  protected requoteCommand: Command<{ quoteStarter: QuoteStarter }, Quote> =
+    this.commandService.create<{ quoteStarter: QuoteStarter }, Quote>(
+      (payload) => {
+        this.isActionPerforming$.next(true);
+        return this.userIdService.takeUserId().pipe(
+          take(1),
+          switchMap((userId) =>
+            this.commerceQuotesConnector
+              .createQuote(userId, payload.quoteStarter)
+              .pipe(
+                tap((quote) => {
+                  this.routingService.go({
+                    cxRoute: 'quoteDetails',
+                    params: { quoteId: quote.code },
+                  });
+                  this.isActionPerforming$.next(false);
+                })
+              )
+          )
+        );
+      },
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
+
+  protected quotesState$: Query<QuoteList, unknown[]> =
+    this.queryService.create<QuoteList>(
+      () =>
+        this.userIdService.takeUserId().pipe(
+          withLatestFrom(this.currentPage$, this.sortBy$),
+          switchMap(([userId, currentPage, sort]) =>
+            this.commerceQuotesConnector.getQuotes(userId, {
+              currentPage,
+              sort,
+              pageSize: this.config.view?.defaultPageSize,
+            })
+          )
+        ),
+      {
+        reloadOn: [CommerceQuotesListReloadQueryEvent],
+      }
+    );
 
   protected quoteDetailsState$: Query<Quote, unknown[]> =
     this.queryService.create<Quote>(
@@ -195,7 +227,9 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
             this.commerceQuotesConnector.getQuote(userId, state.params.quoteId)
           )
         ),
-      { resetOn: [NavigationEvent] }
+      {
+        reloadOn: [QuoteDetailsReloadQueryEvent, LoginEvent],
+      }
     );
 
   constructor(
@@ -207,7 +241,6 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
     protected commandService: CommandService,
     protected activeCartService: ActiveCartFacade,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
     protected multiCartService: MultiCartFacade
   ) {}
 
@@ -251,12 +284,24 @@ export class CommerceQuotesService implements CommerceQuotesFacade {
 
   performQuoteAction(
     quoteCode: string,
-    quoteAction: QuoteAction
+    quoteAction: QuoteActionType
   ): Observable<unknown> {
     return this.performQuoteActionCommand.execute({ quoteCode, quoteAction });
   }
 
-  getQuoteDetails(): Observable<Quote | undefined> {
-    return this.quoteDetailsState$.get();
+  requote(quoteCode: string): Observable<Quote> {
+    return this.requoteCommand.execute({ quoteStarter: { quoteCode } });
+  }
+
+  getQuoteDetails(): Observable<QueryState<Quote | undefined>> {
+    return combineLatest([
+      this.isActionPerforming$,
+      this.quoteDetailsState$.getState(),
+    ]).pipe(
+      map(([isLoading, state]) => ({
+        ...state,
+        loading: state.loading || isLoading,
+      }))
+    );
   }
 }

@@ -9,7 +9,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CQConfig } from '@spartacus/commerce-quotes/core';
 import {
   CommerceQuotesFacade,
-  QuoteAction,
+  QuoteActionType,
   QuoteMetadata,
 } from '@spartacus/commerce-quotes/root';
 import { RoutingService } from '@spartacus/core';
@@ -83,7 +83,7 @@ export class CommerceQuotesRequestQuoteDialogComponent implements OnInit {
           } else {
             this.commerceQuotesFacade.performQuoteAction(
               quote.code,
-              QuoteAction.SUBMIT
+              QuoteActionType.SUBMIT
             );
           }
 

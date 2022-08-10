@@ -6,7 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CommerceQuotesFacade,
   Quote,
-  QuoteAction,
+  QuoteActionType,
 } from '@spartacus/commerce-quotes/root';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
@@ -22,6 +22,7 @@ import createSpy = jasmine.createSpy;
 
 const quoteCode = 'quote1';
 const mockCreatedQuote: Quote = {
+  allowedActions: [],
   code: quoteCode,
 };
 const testForm = {
@@ -206,7 +207,7 @@ describe('CommerceQuotesRequestQuoteDialogComponent', () => {
 
     expect(commerceQuotesService.performQuoteAction).toHaveBeenCalledWith(
       quoteCode,
-      QuoteAction.SUBMIT
+      QuoteActionType.SUBMIT
     );
     expect(modalService.dismissActiveModal).toHaveBeenCalled();
   });

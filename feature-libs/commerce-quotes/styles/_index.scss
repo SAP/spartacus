@@ -3,10 +3,12 @@
 @import './commerce-quotes-request-quote-dialog';
 @import './commerce-quotes-details-overview';
 @import './commerce-quotes-action-links';
+@import './commerce-quotes-actions-by-role';
 
 $commerce-quotes-components-allowlist: cx-commerce-quotes-list
   cx-commerce-quotes-details-overview cx-commerce-quotes-request-quote-button
-  cx-commerce-quotes-action-links cx-commerce-quotes-request-quote-dialog !default;
+  cx-commerce-quotes-action-links cx-commerce-quotes-request-quote-dialog
+  cx-commerce-quotes-actions-by-role !default;
 
 $skipComponentStyles: () !default;
 

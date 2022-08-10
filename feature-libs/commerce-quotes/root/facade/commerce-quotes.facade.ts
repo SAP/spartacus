@@ -7,7 +7,7 @@ import {
   QuoteList,
   QuoteMetadata,
   Comment,
-  QuoteAction,
+  QuoteActionType,
 } from '../model/commerce-quotes.model';
 
 @Injectable({
@@ -73,11 +73,16 @@ export abstract class CommerceQuotesFacade {
    */
   abstract performQuoteAction(
     quoteCode: string,
-    quoteAction: QuoteAction
+    quoteAction: QuoteActionType
   ): Observable<unknown>;
+
+  /**
+   * Re-quote a quote.
+   */
+  abstract requote(quoteCode: string): Observable<Quote>;
 
   /**
    * Returns the quote details.
    */
-  abstract getQuoteDetails(): Observable<Quote | undefined>;
+  abstract getQuoteDetails(): Observable<QueryState<Quote | undefined>>;
 }

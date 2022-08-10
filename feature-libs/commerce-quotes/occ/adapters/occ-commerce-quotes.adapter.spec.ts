@@ -14,7 +14,7 @@ import {
 } from '@spartacus/commerce-quotes/core';
 import {
   Quote,
-  QuoteAction,
+  QuoteActionType,
   QuoteDiscount,
   QuoteList,
   QuoteMetadata,
@@ -27,8 +27,9 @@ import { OccCommerceQuotesAdapter } from './occ-commerce-quotes.adapter';
 
 const userId = '111111';
 const cartId = '222222';
+const mockAction = { type: QuoteActionType.CREATE, isPrimary: false };
 const mockQuote: Quote = {
-  allowedActions: ['EDIT'],
+  allowedActions: [mockAction],
   cartId: cartId,
   code: '333333',
 };
@@ -49,7 +50,7 @@ const mockQuoteMetadata: QuoteMetadata = {
   description: 'test',
   name: 'Test1',
 };
-const mockQuoteAction = QuoteAction.SUBMIT;
+const mockQuoteAction = QuoteActionType.SUBMIT;
 const mockQuoteComment: Comment = {
   text: 'test',
 };

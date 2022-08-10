@@ -3,7 +3,7 @@ import { PaginationModel } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {
-  QuoteAction,
+  QuoteActionType,
   QuoteDiscount,
   QuoteMetadata,
   QuoteStarter,
@@ -46,7 +46,7 @@ class MockCommerceQuotesAdapter implements Partial<CommerceQuotesAdapter> {
   performQuoteAction = createSpy(
     'CommerceQuotesAdapter.performQuoteAction'
   ).and.callFake(
-    (userId: string, quoteCode: string, quoteAction: QuoteAction) =>
+    (userId: string, quoteCode: string, quoteAction: QuoteActionType) =>
       of(`performQuoteAction-${userId}-${quoteCode}-${quoteAction}`)
   );
   addComment = createSpy('CommerceQuotesAdapter.addComment').and.callFake(
@@ -144,7 +144,7 @@ describe('CommerceQuotesConnector', () => {
 
   it('performQuoteAction should call adapter', () => {
     let result;
-    const action = QuoteAction.EDIT;
+    const action = QuoteActionType.EDIT;
     service
       .performQuoteAction(userId, quoteCode, action)
       .pipe(take(1))

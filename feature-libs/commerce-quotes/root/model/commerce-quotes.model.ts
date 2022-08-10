@@ -1,8 +1,8 @@
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { PaginationModel, Price, Principal, SortModel } from '@spartacus/core';
 
-export interface Quote {
-  allowedActions?: string[];
+export interface OccQuote {
+  allowedActions?: QuoteActionType[];
   cartId?: string;
   code: string;
   comments?: Comment[];
@@ -15,7 +15,7 @@ export interface Quote {
   previousEstimatedTotal?: Price;
   productDiscounts?: Price;
   quoteDiscounts?: Price;
-  state?: string;
+  state?: QuoteState;
   subTotalWithDiscounts?: Price;
   threshold?: number;
   totalItems?: number;
@@ -25,6 +25,15 @@ export interface Quote {
   version?: number;
 }
 
+export type Quote = Omit<OccQuote, 'allowedActions'> & {
+  allowedActions: QuoteAction[];
+};
+
+export interface QuoteAction {
+  type: QuoteActionType;
+  isPrimary: boolean;
+}
+
 export interface Comment {
   author?: Principal;
   creationDate?: Date;
@@ -32,7 +41,7 @@ export interface Comment {
   text?: string;
 }
 
-export enum QuoteAction {
+export enum QuoteActionType {
   CREATE = 'CREATE',
   VIEW = 'VIEW',
   SUBMIT = 'SUBMIT',
@@ -46,6 +55,24 @@ export enum QuoteAction {
   REJECT = 'REJECT',
   EXPIRED = 'EXPIRED',
   REQUOTE = 'REQUOTE',
+}
+
+export enum QuoteState {
+  BUYER_DRAFT = 'BUYER_DRAFT',
+  BUYER_SUBMITTED = 'BUYER_SUBMITTED',
+  BUYER_ACCEPTED = 'BUYER_ACCEPTED',
+  BUYER_APPROVED = 'BUYER_APPROVED',
+  BUYER_REJECTED = 'BUYER_REJECTED',
+  BUYER_OFFER = 'BUYER_OFFER',
+  BUYER_ORDERED = 'BUYER_ORDERED',
+  SELLER_DRAFT = 'SELLER_DRAFT',
+  SELLER_REQUEST = 'SELLER_REQUEST',
+  SELLER_SUBMITTED = 'SELLER_SUBMITTED',
+  SELLERAPPROVER_PENDING = 'SELLERAPPROVER_PENDING',
+  SELLERAPPROVER_APPROVED = 'SELLERAPPROVER_APPROVED',
+  SELLERAPPROVER_REJECTED = 'SELLERAPPROVER_REJECTED',
+  CANCELLED = 'CANCELLED',
+  EXPIRED = 'EXPIRED',
 }
 
 export interface QuoteDiscount {
@@ -69,3 +96,5 @@ export interface QuoteStarter {
   cartId?: string;
   quoteCode?: string;
 }
+
+export type QuoteActionsByState = { [key in QuoteState]: QuoteActionType[] };
