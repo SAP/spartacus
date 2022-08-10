@@ -142,7 +142,7 @@ import {
 export function configValidatorFactory(
   configInitializer: ConfigInitializerService,
   validators: ConfigValidator[]
-) {
+): () &#x3D;&gt; void {
   const validate &#x3D; () &#x3D;&gt; {
     if (isDevMode()) {
       configInitializer

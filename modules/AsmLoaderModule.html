@@ -108,7 +108,7 @@ export class AsmLoaderModule {}
  * to a real component; the router and state aren&#x27;t available in an optimized
  * way during the APP_INITIALIZER.
  */
-export function asmFactory(asmEnablerService: AsmEnablerService) {
+export function asmFactory(asmEnablerService: AsmEnablerService): () &#x3D;&gt; void {
   const isReady &#x3D; () &#x3D;&gt; {
     asmEnablerService.load();
   };

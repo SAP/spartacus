@@ -274,7 +274,7 @@ export class SkipLinkModule {}
 export function skipLinkFactory(
   componentFactoryResolver: ComponentFactoryResolver,
   outletService: OutletService
-) {
+): () &#x3D;&gt; void {
   const isReady &#x3D; () &#x3D;&gt; {
     const factory &#x3D;
       componentFactoryResolver.resolveComponentFactory(SkipLinkComponent);

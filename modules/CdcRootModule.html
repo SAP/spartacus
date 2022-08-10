@@ -75,6 +75,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { APP_INITIALIZER, NgModule } from &#x27;@angular/core&#x27;;
 import {
   CmsConfig,
+  Config,
   ConfigInitializerService,
   provideDefaultConfigFactory,
 } from &#x27;@spartacus/core&#x27;;
@@ -87,7 +88,7 @@ import { CdcJsService } from &#x27;./service/cdc-js.service&#x27;;
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
   configInit: ConfigInitializerService
-) {
+): () &#x3D;&gt; Promise&lt;Config&gt; {
   const func &#x3D; () &#x3D;&gt;
     configInit
       .getStable(&#x27;context&#x27;, &#x27;cdc&#x27;)

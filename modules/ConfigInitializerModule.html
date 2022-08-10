@@ -94,8 +94,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.module.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.module.ts:32</a></div>
                 </td>
             </tr>
 
@@ -116,31 +116,32 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LOCATION_INITIALIZED } from &#x27;@angular/common&#x27;;
+import {
   APP_INITIALIZER,
   ModuleWithProviders,
   NgModule,
   Optional,
 } from &#x27;@angular/core&#x27;;
-import { ConfigInitializerService } from &#x27;./config-initializer.service&#x27;;
+import { Config } from &#x27;../config-tokens&#x27;;
 import {
+  ConfigInitializer,
   CONFIG_INITIALIZER,
   CONFIG_INITIALIZER_FORROOT_GUARD,
-  ConfigInitializer,
 } from &#x27;./config-initializer&#x27;;
-import { LOCATION_INITIALIZED } from &#x27;@angular/common&#x27;;
+import { ConfigInitializerService } from &#x27;./config-initializer.service&#x27;;
 
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService,
   initializers: ConfigInitializer[]
-) {
+): () &#x3D;&gt; Promise&lt;void&gt; {
   const isReady &#x3D; () &#x3D;&gt; configInitializer.initialize(initializers);
   return isReady;
 }
 
 export function locationInitializedFactory(
   configInitializer: ConfigInitializerService
-) {
+): Promise&lt;Config&gt; {
   return configInitializer.getStable().toPromise();
 }
 

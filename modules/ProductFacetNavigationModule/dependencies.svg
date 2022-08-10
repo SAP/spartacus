@@ -14,10 +14,6 @@
 <title>cluster_ProductFacetNavigationModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 866,-230.8 866,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ProductFacetNavigationModule_exports</title>
-<polygon fill="none" stroke="black" points="228,-170.8 228,-222.8 464,-222.8 464,-170.8 228,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_ProductFacetNavigationModule_declarations</title>
 <polygon fill="none" stroke="black" points="624,-40.8 624,-92.8 858,-92.8 858,-40.8 624,-40.8"/>
@@ -25,6 +21,10 @@
 <g id="clust4" class="cluster">
 <title>cluster_ProductFacetNavigationModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 616,-92.8 616,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ProductFacetNavigationModule_exports</title>
+<polygon fill="none" stroke="black" points="228,-170.8 228,-222.8 464,-222.8 464,-170.8 228,-170.8"/>
 </g>
 <!-- ProductFacetNavigationComponent -->
 <g id="node1" class="node">

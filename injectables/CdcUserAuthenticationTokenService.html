@@ -347,11 +347,11 @@ export class CdcUserAuthenticationTokenService {
       .set(&#x27;client_id&#x27;, this.authConfigService.getClientId())
       .set(&#x27;client_secret&#x27;, this.authConfigService.getClientSecret())
       .set(&#x27;grant_type&#x27;, &#x27;custom&#x27;)
-      .set(&#x27;UID&#x27;, UID)
-      .set(&#x27;UIDSignature&#x27;, UIDSignature)
-      .set(&#x27;timeStamp&#x27;, signatureTimestamp)
-      .set(&#x27;idToken&#x27;, idToken)
-      .set(&#x27;baseSite&#x27;, baseSite);
+      .set(&#x27;UID&#x27;, encodeURIComponent(UID))
+      .set(&#x27;UIDSignature&#x27;, encodeURIComponent(UIDSignature))
+      .set(&#x27;signatureTimestamp&#x27;, encodeURIComponent(signatureTimestamp))
+      .set(&#x27;id_token&#x27;, encodeURIComponent(idToken))
+      .set(&#x27;baseSite&#x27;, encodeURIComponent(baseSite));
 
     return this.http
       .post&lt;Partial&lt;AuthToken&gt; &amp; { expires_in?: number }&gt;(url, params)

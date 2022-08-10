@@ -169,7 +169,7 @@ import { AsmStoreModule } from &#x27;./store/asm-store.module&#x27;;
 
 export function asmStatePersistenceFactory(
   asmStatePersistenceService: AsmStatePersistenceService
-) {
+): () &#x3D;&gt; void {
   const result &#x3D; () &#x3D;&gt; asmStatePersistenceService.initSync();
   return result;
 }

@@ -141,7 +141,7 @@ import { htmlLangProvider } from &#x27;./html-lang-provider&#x27;;
 import { SeoMetaService } from &#x27;./seo-meta.service&#x27;;
 import { StructuredDataModule } from &#x27;./structured-data/structured-data.module&#x27;;
 
-export function initSeoService(injector: Injector) {
+export function initSeoService(injector: Injector): () &#x3D;&gt; void {
   const result &#x3D; () &#x3D;&gt; {
     const service &#x3D; injector.get(SeoMetaService);
     service.init();

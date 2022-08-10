@@ -98,7 +98,9 @@ import { OnNavigateService } from &#x27;./on-navigate.service&#x27;;
 })
 export class AppRoutingModule {}
 
-export function onNavigateFactory(onNavigateService: OnNavigateService) {
+export function onNavigateFactory(
+  onNavigateService: OnNavigateService
+): () &#x3D;&gt; void {
   const isReady &#x3D; () &#x3D;&gt; onNavigateService.initializeWithConfig();
   return isReady;
 }

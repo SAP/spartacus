@@ -87,7 +87,7 @@ import { DirectionService } from &#x27;./direction.service&#x27;;
 export function initHtmlDirAttribute(
   directionService: DirectionService,
   featureConfigService: FeatureConfigService
-) {
+): () &#x3D;&gt; void {
   const result &#x3D; () &#x3D;&gt; {
     if (featureConfigService.isLevel(&#x27;2.1&#x27;)) {
       return directionService.initialize();

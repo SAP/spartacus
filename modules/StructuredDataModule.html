@@ -168,7 +168,7 @@ import { StructuredDataFactory } from &#x27;./structured-data.factory&#x27;;
  * Factory to build the structure data
  * without any interaction with the UI.
  */
-export function getStructuredDataFactory(injector: Injector) {
+export function getStructuredDataFactory(injector: Injector): () &#x3D;&gt; void {
   const result &#x3D; () &#x3D;&gt; {
     const factory &#x3D; injector.get(StructuredDataFactory);
     factory.build();

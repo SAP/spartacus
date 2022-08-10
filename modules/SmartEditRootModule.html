@@ -80,7 +80,7 @@ import { SmartEditLauncherService } from &#x27;./services/smart-edit-launcher.se
 
 export function smartEditFactory(
   smartEditLauncherService: SmartEditLauncherService
-) {
+): () &#x3D;&gt; void {
   const isReady &#x3D; () &#x3D;&gt; {
     smartEditLauncherService.load();
   };

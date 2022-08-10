@@ -18,13 +18,13 @@
 <title>cluster_VisualViewerToolbarButtonModule_declarations</title>
 <polygon fill="none" stroke="black" points="124,-40.8 124,-92.8 382,-92.8 382,-40.8 124,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_VisualViewerToolbarButtonModule_exports</title>
-<polygon fill="none" stroke="black" points="68,-170.8 68,-222.8 330,-222.8 330,-170.8 68,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_VisualViewerToolbarButtonModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 116,-92.8 116,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_VisualViewerToolbarButtonModule_exports</title>
+<polygon fill="none" stroke="black" points="68,-170.8 68,-222.8 330,-222.8 330,-170.8 68,-170.8"/>
 </g>
 <!-- VisualViewerToolbarButtonComponent -->
 <g id="node1" class="node">
