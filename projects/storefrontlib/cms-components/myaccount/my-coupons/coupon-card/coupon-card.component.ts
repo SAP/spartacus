@@ -37,10 +37,7 @@ export class CouponCardComponent {
 
   readMore() {
     let modalInstance: any;
-    this.modalRef = this.modalService.open(CouponDialogComponent, {
-      centered: true,
-      size: 'lg',
-    });
+    this.modalRef = this.modalService.open(CouponDialogComponent);
 
     modalInstance = this.modalRef.componentInstance;
     modalInstance.coupon = this.coupon;

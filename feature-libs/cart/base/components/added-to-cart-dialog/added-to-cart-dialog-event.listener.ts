@@ -4,9 +4,9 @@ import {
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
-import { ModalRef, ModalService } from '@spartacus/storefront';
+import { LaunchDialogService, LAUNCH_CALLER, ModalRef, ModalService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,8 @@ export class AddedToCartDialogEventListener implements OnDestroy {
 
   constructor(
     protected eventService: EventService,
-    protected modalService: ModalService
+    protected modalService: ModalService,
+    protected launchDialogService: LaunchDialogService
   ) {
     this.onAddToCart();
   }
@@ -31,30 +32,27 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     );
 
     this.subscription.add(
-      this.eventService.get(CartAddEntryFailEvent).subscribe((event) => {
-        this.closeModal(event);
+      this.eventService.get(CartAddEntryFailEvent).subscribe(() => {
+        this.closeModal();
       })
     );
   }
 
   protected openModal(event: CartUiEventAddToCart): void {
-    this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
-      centered: true,
-      size: 'lg',
-    });
-    const modalInstance = this.modalRef.componentInstance;
-    modalInstance.init(
-      event.productCode,
-      event.quantity,
-      event.numberOfEntriesBeforeAdd
-    );
+    let data = {
+      productCode: event.productCode,
+      quantity: event.quantity,
+      numberOfEntriesBeforeAdd: event.numberOfEntriesBeforeAdd
+    };
+    console.log(event.numberOfEntriesBeforeAdd);
+    const dialog = this.launchDialogService.openDialog(LAUNCH_CALLER.ADDED_TO_CART, undefined, event.vcr, data);
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
+    }
   }
 
-  protected closeModal(event: CartAddEntryFailEvent): void {
-    if (this.modalService.getActiveModal() === this.modalRef) {
-      const modalInstance = this.modalRef.componentInstance;
-      modalInstance.dismissModal(event.error);
-    }
+  protected closeModal(): void {
+    this.launchDialogService.closeDialog("Cross click");
   }
 
   ngOnDestroy(): void {

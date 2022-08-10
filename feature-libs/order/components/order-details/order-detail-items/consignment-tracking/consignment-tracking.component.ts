@@ -46,10 +46,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
       );
     }
     let modalInstance: any;
-    this.modalRef = this.modalService.open(TrackingEventsComponent, {
-      centered: true,
-      size: 'lg',
-    });
+    this.modalRef = this.modalService.open(TrackingEventsComponent);
 
     modalInstance = this.modalRef.componentInstance;
     modalInstance.tracking$ = this.consignmentTracking$;

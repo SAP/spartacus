@@ -154,11 +154,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
 
   private openDialog() {
     const modalInstance = this.modalService.open(
-      StockNotificationDialogComponent,
-      {
-        centered: true,
-        size: 'lg',
-      }
+      StockNotificationDialogComponent
     ).componentInstance;
     modalInstance.subscribeSuccess$ = this.subscribeSuccess$;
     modalInstance.enabledPrefs = this.enabledPrefs;

@@ -12,8 +12,6 @@ export class CloseAccountComponent {
   constructor(protected modalService: ModalService) {}
 
   openModal(): void {
-    this.modal = this.modalService.open(CloseAccountModalComponent, {
-      centered: true,
-    }).componentInstance;
+    this.modal = this.modalService.open(CloseAccountModalComponent).componentInstance;
   }
 }

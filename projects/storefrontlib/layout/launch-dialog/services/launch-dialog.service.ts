@@ -125,6 +125,7 @@ export class LaunchDialogService {
   }
 
   closeDialog(reason: string) {
+    console.log("Service close dialog");
     this._dialogClose.next(reason);
   }
 

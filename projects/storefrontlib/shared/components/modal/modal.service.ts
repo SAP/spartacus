@@ -1,6 +1,5 @@
 import { ApplicationRef, Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalOptions } from './modal-options';
 import { ModalRef } from './modal-ref';
 
 /**
@@ -21,12 +20,12 @@ export class ModalService {
     return this.applicationRef?.components?.[0]?.location?.nativeElement;
   }
 
-  open(content: any, options?: ModalOptions): ModalRef {
+  open(content: any): ModalRef {
     let activeModal: ModalRef;
 
-    options = { container: this.rootComponent, ...options };
+    //options = { container: this.rootComponent, ...options };
 
-    activeModal = this.ngbModalService.open(content, options);
+    activeModal = this.ngbModalService.open(content);
     this.modals.push(activeModal);
     this.handleModalRemoveEvents(activeModal);
 

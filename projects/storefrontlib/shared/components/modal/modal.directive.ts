@@ -1,12 +1,10 @@
 import {
   Directive,
-  HostListener,
   Injectable,
   Input,
   Optional,
 } from '@angular/core';
 import { Router, RouterLink, RouterLinkWithHref } from '@angular/router';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 export interface ModalDirectiveOptions {
   /**
@@ -36,19 +34,12 @@ export class ModalDirectiveService {
    */
   onClick(
     options: ModalDirectiveOptions,
-    activeModal: NgbActiveModal,
     url?: string
   ): void {
     let reason = options.reason;
 
     if (!reason && url) {
       reason = `Link click: ${url}`;
-    }
-
-    if (options.type === 'dismiss') {
-      activeModal.dismiss(reason);
-    } else if (options.type === 'close') {
-      activeModal.close(reason);
     }
   }
 }
@@ -76,9 +67,6 @@ export class ModalDirective {
     protected service: ModalDirectiveService,
     protected router: Router,
 
-    // active modal can be injected only when the directive is projected inside modal
-    @Optional() protected activeModal: NgbActiveModal,
-
     @Optional() protected routerLink: RouterLink,
     @Optional() protected routerLinkWithHref: RouterLinkWithHref
   ) {}
@@ -91,13 +79,6 @@ export class ModalDirective {
     return routerLink && routerLink.urlTree
       ? this.router.serializeUrl(routerLink.urlTree)
       : undefined;
-  }
-
-  @HostListener('click')
-  onClick() {
-    if (this.activeModal) {
-      this.service.onClick(this.options, this.activeModal, this.getUrl());
-    }
   }
 
   /**

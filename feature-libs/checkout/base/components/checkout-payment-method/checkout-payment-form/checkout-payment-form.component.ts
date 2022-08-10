@@ -1,10 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ComponentRef,
   EventEmitter,
   Input,
   OnInit,
   Output,
+  ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
@@ -25,9 +27,8 @@ import {
 import {
   Card,
   ICON_TYPE,
-  ModalRef,
-  ModalService,
-  SuggestedAddressDialogComponent,
+  LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -40,7 +41,7 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 export class CheckoutPaymentFormComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  suggestedAddressModalRef: ModalRef | null;
+  suggestedAddressModalRef: ComponentRef<any> | undefined;
   months: string[] = [];
   years: number[] = [];
 
@@ -106,8 +107,9 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
-    protected modalService: ModalService,
-    protected userAddressService: UserAddressService
+    protected userAddressService: UserAddressService,
+    protected launchDialogService: LaunchDialogService,
+    protected vcr: ViewContainerRef
   ) {}
 
   ngOnInit(): void {
@@ -213,11 +215,21 @@ export class CheckoutPaymentFormComponent implements OnInit {
 
   openSuggestedAddress(results: AddressValidation): void {
     if (!this.suggestedAddressModalRef) {
-      this.suggestedAddressModalRef = this.modalService.open(
-        SuggestedAddressDialogComponent,
-        { centered: true, size: 'lg' }
-      );
-      this.suggestedAddressModalRef.componentInstance.enteredAddress =
+      
+      //Dalvir
+
+      const data = {
+        enteredAddress: this.billingAddressForm.value,
+        suggestedAddress: results.suggestedAddresses
+      };
+      debugger;
+      this.launchDialogService.launch(LAUNCH_CALLER.SUGGESTED_ADDRESS, this.vcr, data);
+
+      //this.suggestedAddressModalRef = this.launchDialogService.launch(LAUNCH_CALLER.CHECKOUT_PAYMENT_FORM, this.vcr);
+      /*this.suggestedAddressModalRef = this.modalService.open(
+        SuggestedAddressDialogComponent
+      );*/
+      /*this.suggestedAddressModalRef.componentInstance.enteredAddress =
         this.billingAddressForm.value;
       this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
         results.suggestedAddresses;
@@ -228,7 +240,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
         .catch(() => {
           // this  callback is called when modal is closed with Esc key or clicking backdrop
           this.suggestedAddressModalRef = null;
-        });
+        }); */
     }
   }
 
@@ -241,6 +253,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
   }
 
   verifyAddress(): void {
+    console.log("Verify address called");
     if (this.sameAsDeliveryAddress) {
       this.next();
     } else {
@@ -253,6 +266,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
   }
 
   protected handleAddressVerificationResults(results: AddressValidation) {
+    debugger;
     if (results.decision === 'ACCEPT') {
       this.next();
     } else if (results.decision === 'REJECT') {
