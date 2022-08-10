@@ -47,7 +47,6 @@ export class AsmMainUiComponent implements OnInit {
          distinctUntilChanged(),
          tap((loggedIn) => {
            if (!loggedIn) {
-            console.log('agent logged out')
              this.closeModal();
            }
          })
@@ -102,9 +101,9 @@ export class AsmMainUiComponent implements OnInit {
 
   startCustomerEmulationSession({ customerId }: { customerId?: string }): void {
     if (customerId) {
-      this.startingCustomerSession = 
+      this.startingCustomerSession =
         this.asmComponentService.startCustomerEmulationSession(customerId);
-    } 
+    }
   }
 
   hideUi(): void {
