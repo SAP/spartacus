@@ -103,7 +103,6 @@
     "dev:cds:ssr": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_CDS=true ng run storefrontapp:serve-ssr",
     "prerender:cds:dev": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 SPARTACUS_CDS=true ng run storefrontapp:prerender --routesFile projects/storefrontapp/prerender.txt"
   },
-  "private": false,
   "dependencies": {
     "@angular/animations": "^13.3.0",
     "@angular/common": "^13.3.0",
@@ -220,5 +219,6 @@
     "ts-node": "~8.3.0",
     "typescript": "^4.6.4",
     "webpack-cli": "^3.3.12"
-  }
+  },
+  "packageManager": "yarn@3.2.2"
 }
