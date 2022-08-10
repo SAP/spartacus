@@ -74,9 +74,17 @@ $modal-min-width-sm: 100% !important;
 // }
 
 //modal styles for removed ng-bootstrap modal
-.modal-dialog {
+.cx-modal-container {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  height: 100%;
+  overflow-y: auto;
+ 
+
   max-width: $modal-max-width;
   min-width: $modal-min-width;
+  
 
   @include media-breakpoint-down(sm) {
     margin: $modal-dialog-margin-sm;
@@ -85,7 +93,6 @@ $modal-min-width-sm: 100% !important;
     overflow-y: initial;
 
     height: 100%;
-    align-items: unset !important;
     overflow-y: auto;
   }
 
@@ -93,5 +100,9 @@ $modal-min-width-sm: 100% !important;
     max-width: $modal-max-width-md;
     min-width: $modal-min-width-md;
   }
-  
+}
+
+.cx-modal-content {
+  background-color: var(--cx-color-inverse);
+  width: 100%;
 }

@@ -1,4 +1,12 @@
 %cx-added-to-cart-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--cx-color, rgba(0, 0, 0, 0.5));
+
   .cx-dialog-header {
     padding-top: 2rem;
     padding-inline-end: 1.75rem;
