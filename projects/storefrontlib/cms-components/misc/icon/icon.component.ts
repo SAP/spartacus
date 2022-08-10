@@ -35,6 +35,7 @@ import { IconResourceType, ICON_TYPE_STRING } from './icon.model';
   templateUrl: './icon.component.html',
 })
 export class IconComponent {
+
   /**
    * The cxIcon directive is bound to the icon type. You can feed the `ICON_TYPE` to
    * accomplish a configurable button in the UI.
@@ -48,6 +49,7 @@ export class IconComponent {
    * accomplish a configurable button in the UI.
    */
   @Input() set type(type: ICON_TYPE_STRING) {
+    // XXX this clashes with the type attribute of some html form elements, e.g. input or button
     this.setIcon(type);
   }
 
@@ -73,6 +75,8 @@ export class IconComponent {
     }
     if (this.iconLoader.isResourceType(type, IconResourceType.SVG)) {
         this.iconResourceType = IconResourceType.SVG;
+        // looks like angular does not sanitize URLs when binding to the xlink:href attribute of svg elements
+        // so we need to sanitze the URL manually
         this.iconValue = this.sanitizer.sanitize(SecurityContext.URL, this.iconLoader.getSvgPath(type));
     } else if (this.iconLoader.isResourceType(type, IconResourceType.TEXT)) {
         this.iconResourceType = IconResourceType.TEXT;
@@ -113,6 +117,7 @@ export class IconComponent {
 
     if (resource?.url && !this.loadedResources.includes(resource.url)) {
       this.loadedResources.push(resource.url);
+      // using DOM APIs, so need to sanitize our URLs manually
       const sanitizedUrl = this.sanitizer.sanitize(SecurityContext.URL, resource.url);
       if (sanitizedUrl) {
         const head = this.winRef.document.getElementsByTagName('head')[0];
