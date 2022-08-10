@@ -3,5 +3,7 @@ import { ConfiguratorRouterListener } from './configurator-router.listener';
 
 @NgModule({})
 export class ConfiguratorRouterModule {
-  constructor(_configuratorRouterListener: ConfiguratorRouterListener) {}
+  constructor(_configuratorRouterListener: ConfiguratorRouterListener) {
+    // Intentional empty constructor
+  }
 }

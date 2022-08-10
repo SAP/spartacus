@@ -3,5 +3,7 @@ import { UserEventBuilder } from './user-event.builder';
 
 @NgModule({})
 export class UserEventModule {
-  constructor(_userEventBuilder: UserEventBuilder) {}
+  constructor(_userEventBuilder: UserEventBuilder) {
+    // Intentional empty constructor
+  }
 }

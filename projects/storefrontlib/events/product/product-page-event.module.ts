@@ -3,5 +3,7 @@ import { ProductPageEventBuilder } from './product-page-event.builder';
 
 @NgModule({})
 export class ProductPageEventModule {
-  constructor(_productPageEventBuilder: ProductPageEventBuilder) {}
+  constructor(_productPageEventBuilder: ProductPageEventBuilder) {
+    // Intentional empty constructor
+  }
 }
