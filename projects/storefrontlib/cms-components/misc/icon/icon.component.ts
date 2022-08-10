@@ -10,6 +10,16 @@ import { DirectionMode } from '../../../layout/direction/config/direction.model'
 import { IconLoaderService } from './icon-loader.service';
 import { IconResourceType, ICON_TYPE_STRING } from './icon.model';
 
+
+/**
+ * Enum with contstants for CSS classes used by the icon component.
+ */
+enum CSS_CLASSES  {
+  CX_ICON = 'cx-icon',
+  LTR = 'flip-at-ltr',
+  RTL = 'flip-at-rtl',
+}
+
 /**
  *
  * The icon component can be added in different ways:
@@ -86,10 +96,7 @@ export class IconComponent {
         this.iconValue = null;
     }
     this.addLinkResource(type);
-    // TODO keep classes that have nothing to do with the icon?
-    this.styleClasses = [];
     this.addStyleClasses(type);
-    this.flipIcon(type);
   }
 
   public get icon(): string | null {
@@ -131,7 +138,7 @@ export class IconComponent {
   }
 
   /**
-   * The icons supports flipping for some icons to support rtl and ltr directions.
+   * If necessary, adds CSS classes for flipping for some icons to support rtl and ltr directions.
    */
   protected flipIcon(type: ICON_TYPE_STRING) {
     // TODO: this check can be dropped with the next major release.
@@ -140,17 +147,18 @@ export class IconComponent {
     }
     const iconDirection = this.iconLoader.getFlipDirection(type);
     if (iconDirection === DirectionMode.LTR) {
-        this.styleClasses.push('flip-at-ltr');
+        this.styleClasses.push(CSS_CLASSES.LTR);
     } else if (iconDirection === DirectionMode.RTL) {
-        this.styleClasses.push('flip-at-rtl');
+        this.styleClasses.push(CSS_CLASSES.RTL);
     }
   }
 
   /**
-   * Adds the style classes and the link resource (if available).
+   * Adds the style classes for the icon.
    */
   protected addStyleClasses(type: ICON_TYPE_STRING): void {
-    this.styleClasses.push('cx-icon');
+    this.styleClasses = [CSS_CLASSES.CX_ICON];
+    this.flipIcon(type);
 
     const iconClasses = this.iconLoader.getStyleClasses(type)?.split(/\s+/);
     iconClasses?.forEach((iconClass) => {
