@@ -297,7 +297,7 @@ describe('IconComponent', () => {
         expect(hostClassList1).toContain('cx-icon');
         expect(hostClassList1).toContain('fa-amex');
         expect(hostClassList1).toContain('fab');
-        expect(hostClassList1).not.toContain('fas'); 
+        expect(hostClassList1).not.toContain('fas');
         expect(hostClassList1).not.toContain('fa-search');
         expect(nativeDebugElement.children.length).toEqual(0);
         const styleSheetLinkElement1 = winRef.document.head.lastElementChild;
@@ -308,7 +308,7 @@ describe('IconComponent', () => {
         const hostClassList2 = nativeDebugElement.classList;
         expect(hostClassList2.length).toEqual(3);
         expect(hostClassList2).toContain('cx-icon');
-        expect(hostClassList2).toContain('fas'); 
+        expect(hostClassList2).toContain('fas');
         expect(hostClassList2).toContain('fa-search');
         expect(hostClassList2).not.toContain('fa-amex');
         expect(hostClassList2).not.toContain('fab');
@@ -509,7 +509,7 @@ describe('host icon components', () => {
       expect(hostClassList.length).toEqual(2);
       expect(hostClassList).toContain('cx-icon');
       expect(hostClassList).toContain('cartSymbol');
-      
+
       expect(hostNativeElement.textContent).toEqual('');
       expect(hostNativeElement.childElementCount).toEqual(1);
       const svgElement = hostNativeElement.children[0];

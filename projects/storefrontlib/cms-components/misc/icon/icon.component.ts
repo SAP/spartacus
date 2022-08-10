@@ -91,7 +91,8 @@ export class IconComponent {
     } else if (this.iconLoader.isResourceType(type, IconResourceType.TEXT)) {
         this.iconResourceType = IconResourceType.TEXT;
         this.iconValue = this.iconLoader.getSymbol(type);
-    } else { // assume IconResourceType.LINK by default
+    } else {
+        // assume IconResourceType.LINK by default
         this.iconResourceType = IconResourceType.LINK;
         this.iconValue = null;
     }
@@ -104,18 +105,18 @@ export class IconComponent {
 }
 
   public isSvgIcon(): boolean {
-    return this.iconResourceType == IconResourceType.SVG;
+    return this.iconResourceType === IconResourceType.SVG;
   }
 
   public isTextIcon(): boolean {
-    return this.iconResourceType == IconResourceType.TEXT;
+    return this.iconResourceType === IconResourceType.TEXT;
   }
 
   /**
    * Loads the resource url (if any) for the given icon.
    * The icon will only be loaded once.
    *
-   * NOTE: this is not working when the shadow is used as there's
+   * NOTE: this is not working when the shadow is used as there is
    * no head element available and the link must be loaded for every
    * web component.
    */
