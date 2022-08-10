@@ -126,7 +126,7 @@ export class CustomerCouponFragment
       .pipe(
         tap(() => {
           item.applied = !item.applied;
-          this.tabs = this.tabulate(this.items);
+          this.searchAction(this.searchTerm);
         })
       )
       .subscribe();
@@ -135,7 +135,7 @@ export class CustomerCouponFragment
   searchAction(term: string): void {
     if (term.length) {
       const filteredItems = this.items.filter((item) =>
-        item.description?.toLowerCase().includes(term.toLowerCase())
+        item.description?.toLowerCase().includes(term.toLowerCase()) || item.title?.toLowerCase().includes(term.toLocaleLowerCase())
       );
       this.tabs = this.tabulate(filteredItems);
     } else {
