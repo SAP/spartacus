@@ -98,7 +98,8 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     this.orderHistoryFacade.loadOrderList(
       this.PAGE_SIZE,
       event.currentPage,
-      event.sortCode
+      event.sortCode,
+      'TSD'
     );
   }
 }
