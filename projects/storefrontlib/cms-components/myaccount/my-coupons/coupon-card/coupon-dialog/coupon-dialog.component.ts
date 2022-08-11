@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ModalService } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/index';

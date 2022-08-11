@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { InjectionToken } from '@angular/core';
 import i18next, { i18n } from 'i18next';
 

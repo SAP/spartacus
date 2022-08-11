@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 // '@sapui5/ts-types-esm' package contains types for sap modules, e.g. 'sap/ui/core/Core'
 /// <reference types="@sapui5/ts-types-esm" />
 import {

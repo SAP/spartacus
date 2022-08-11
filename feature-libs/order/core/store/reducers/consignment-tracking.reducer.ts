@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { ConsignmentTracking } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 import { ConsignmentTrackingState } from '../order-state';

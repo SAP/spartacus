@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { entityReducer } from '../entity/entity.reducer';
 import { LoaderAction } from '../loader/loader.action';
 import { EntityScopedLoaderActions } from './entity-scoped-loader.actions';

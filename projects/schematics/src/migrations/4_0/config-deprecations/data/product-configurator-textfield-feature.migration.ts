@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {
   PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
   PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE,

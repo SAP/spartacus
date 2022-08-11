@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {
   ADDRESS_BOOK_COMPONENT_SERVICE,
   CHECKOUT_DELIVERY_SERVICE,

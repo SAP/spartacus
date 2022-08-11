@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { AbstractType, Injectable, Type } from '@angular/core';
 import { Config, CxEvent } from '@spartacus/core';
 import { TmsCollector } from '../model/tms.model';

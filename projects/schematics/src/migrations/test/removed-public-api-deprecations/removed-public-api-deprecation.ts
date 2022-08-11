@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { CART_EFFECTS, WISHLIST_EFFECTS } from '../../../shared/constants';
 import { SPARTACUS_CORE } from '../../../shared/libs-constants';

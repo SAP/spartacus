@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CmsModule } from './cms/cms.module';
 import { ConfigInitializerModule } from './config/config-initializer/config-initializer.module';

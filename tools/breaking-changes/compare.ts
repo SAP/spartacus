@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
 import { getElementCategory, getSignatureDoc, printStats } from './common';

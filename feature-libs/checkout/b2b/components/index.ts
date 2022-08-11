@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 export * from './checkout-b2b-components.module';
 export * from './checkout-cost-center/checkout-cost-center.component';
 export * from './checkout-cost-center/checkout-cost-center.module';

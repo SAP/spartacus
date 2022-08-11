@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { NgModule } from '@angular/core';
 import { CheckoutDeliveryAddressModule } from './checkout-delivery-address/checkout-delivery-address.module';
 import { CheckoutDeliveryModeModule } from './checkout-delivery-mode/checkout-delivery-mode.module';

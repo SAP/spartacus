@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { Component, Input, OnInit } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { Type } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import { EventService } from '../../../event/event.service';

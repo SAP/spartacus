@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 export * from './product-carousel.model';
 export * from './product-carousel.service';
 export * from './product-carousel/product-carousel.component';

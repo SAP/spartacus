@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { LEGACY_FLAG, TODO_SPARTACUS } from '../../../../shared/constants';
 import { ConfigDeprecation } from '../../../../shared/utils/file-utils';
 

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { PageContext } from '../../../routing/index';
 import { StateUtils } from '../../../state/utils/index';
 import { Page } from '../../model/page.model';

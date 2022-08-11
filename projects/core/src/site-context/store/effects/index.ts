@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { BaseSiteEffects } from './base-site.effect';
 import { CurrenciesEffects } from './currencies.effect';
 import { LanguagesEffects } from './languages.effect';

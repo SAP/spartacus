@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { waitForProductPage } from '../checkout-flow';
 import * as b2bCheckout from './b2b-checkout';
 

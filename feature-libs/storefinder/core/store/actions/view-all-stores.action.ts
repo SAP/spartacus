@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { STORE_FINDER_DATA } from '../store-finder-state';
 import { StateUtils } from '@spartacus/core';
 import { Action } from '@ngrx/store';

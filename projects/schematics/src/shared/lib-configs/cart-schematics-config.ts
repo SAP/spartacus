@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {
   ADD_TO_CART_ENTRY_POINT,
   ADD_TO_WISHLIST_ENTRY_POINT,

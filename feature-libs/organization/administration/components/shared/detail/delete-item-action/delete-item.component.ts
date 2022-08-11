@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { Component, Input, OnDestroy } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';

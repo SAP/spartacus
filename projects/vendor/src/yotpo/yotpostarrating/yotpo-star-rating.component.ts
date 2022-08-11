@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { Component, OnInit, AfterViewInit, ElementRef } from '@angular/core';
 import { YotpoService } from './../service/yotpo.service';
 import { Observable } from 'rxjs';

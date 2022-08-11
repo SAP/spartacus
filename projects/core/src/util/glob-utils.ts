@@ -1,13 +1,7 @@
-/**
- * @license
- * The MIT License
- * Copyright (c) 2010-2019 Google LLC. http://angular.io/license
- *
- * See:
- * - https://github.com/angular/angular/blob/6f5f481fdae03f1d8db36284b64c7b82d9519d85/packages/service-worker/config/src/glob.ts
- * - https://github.com/angular/angular/blob/6f5f481fdae03f1d8db36284b64c7b82d9519d85/aio/tests/deployment/shared/helpers.ts#L17
- * - https://github.com/angular/angular/blob/6f5f481fdae03f1d8db36284b64c7b82d9519d85/packages/service-worker/config/src/generator.ts#L86
- */
+// Copyright (c) 2010-2019 Google LLC. http://angular.io/license
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
 
 const QUESTION_MARK = '[^/]';
 const WILD_SINGLE = '[^/]*';

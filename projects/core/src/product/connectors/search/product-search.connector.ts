@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { Injectable } from '@angular/core';
 import { ProductSearchAdapter } from './product-search.adapter';
 import { SearchConfig } from '../../model/search-config';

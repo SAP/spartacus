@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 export * from './auth-config.service';
 export * from './auth-flow-routes.service';
 export * from './auth-http-header.service';

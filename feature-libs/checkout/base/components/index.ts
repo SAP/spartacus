@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 export * from './checkout-components.module';
 export * from './checkout-delivery-address/checkout-delivery-address.component';
 export * from './checkout-delivery-address/checkout-delivery-address.module';

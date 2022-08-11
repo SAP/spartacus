@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 export * from './budgets/index';
 export * from './cost-center-components.module';
 export * from './cost-center.config';

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {

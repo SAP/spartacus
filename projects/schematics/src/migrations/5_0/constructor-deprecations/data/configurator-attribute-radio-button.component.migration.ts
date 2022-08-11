@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import {
   CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE,
   CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT,

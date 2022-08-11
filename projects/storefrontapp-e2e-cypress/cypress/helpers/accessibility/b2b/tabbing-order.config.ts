@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import * as orderApprovalSampleData from '../../../sample-data/b2b-order-approval';
 import * as savedCartSampleData from '../../../sample-data/b2b-saved-cart';
 import { TabbingOrderConfig, TabbingOrderTypes } from '../tabbing-order.model';

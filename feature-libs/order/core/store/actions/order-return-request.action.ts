@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   ReturnRequest,

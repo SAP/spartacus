@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { carouselEventRequestAlias } from '../../../helpers/vendor/cds/merchandising-carousel';
 
 declare global {

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
 import { Subscription } from 'rxjs';

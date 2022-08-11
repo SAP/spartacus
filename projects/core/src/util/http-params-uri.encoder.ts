@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+//
+// SPDX-License-Identifier: Apache-2.0
+
 /**
  * Angular uses the native encodeURIComponent function,
  * but then un-encoded some characters that are allowed
