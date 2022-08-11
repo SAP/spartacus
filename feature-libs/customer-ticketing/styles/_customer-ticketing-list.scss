@@ -24,4 +24,23 @@ cx-customer-ticketing-list {
       }
     }
   }
+
+  .cx-ticketing-list-select {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 4px;
+    border: 1px solid var(--cx-color-light);
+    margin-bottom: 20px;
+    background-color: var(--cx-color-inverse);
+
+    @include media-breakpoint-down(lg) {
+      @include type(7, $font-weight-normal);
+      height: 36px;
+    }
+
+    &:focus {
+      background-color: var(--cx-color-inverse);
+    }
+  }
 }
