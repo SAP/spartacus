@@ -190,9 +190,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     value: Configurator.Value,
     attribute: Configurator.Attribute
   ): string {
-    let ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
+    const ariaLabel = this.getAriaLabelWithoutAdditionalValue(value, attribute);
     if (this.isWithAdditionalValues(this.attribute)) {
-      let ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
+      const ariaLabelWithAdditionalValue = this.getAdditionalValueAriaLabel();
       return ariaLabel + ' ' + ariaLabelWithAdditionalValue;
     } else {
       return ariaLabel;

@@ -92,7 +92,7 @@ export class CarouselComponent implements OnInit {
   }
 
   getSlideNumber(size: number, currentIndex: number): number {
-    let normalizedCurrentIndex = currentIndex + 1;
+    const normalizedCurrentIndex = currentIndex + 1;
     return Math.ceil(normalizedCurrentIndex / size);
   }
 }

@@ -22,7 +22,7 @@ console.log(`Parsing public API for libs in ${spartacusHomeDir}/temp.`);
 
 const files = glob.sync(`${spartacusHomeDir}/temp/*.api.json`);
 console.log(`Found ${files.length} api.json files.`);
-let publicApiData: any[] = [];
+const publicApiData: any[] = [];
 files.forEach((file) => {
   publicApiData.push(...parseFile(file));
 });

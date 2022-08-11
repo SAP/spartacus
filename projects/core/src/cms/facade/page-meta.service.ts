@@ -90,7 +90,7 @@ export class PageMetaService {
    * relevant during browsing.
    */
   protected getResolverMethods(): { [property: string]: string } {
-    let resolverMethods: Record<string, string> = {};
+    const resolverMethods: Record<string, string> = {};
     // filter the resolvers to avoid unnecessary processing in CSR
     this.pageMetaConfig?.pageMeta?.resolvers
       ?.filter((resolver) => {

@@ -397,6 +397,6 @@ function getChangeDesc(element: any, changeType: string): any {
 }
 
 function getChangeLabel(changeType: string): string {
-  let label = changeType.toLowerCase();
+  const label = changeType.toLowerCase();
   return label.replace(/_/g, ' ');
 }

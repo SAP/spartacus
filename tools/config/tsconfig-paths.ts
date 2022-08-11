@@ -215,7 +215,7 @@ function handleLibConfigs(
       // We collect the dependencies till we have keep adding.
       while (dependencies.size !== previousSize) {
         previousSize = dependencies.size;
-        let subDependencies = new Set<string>();
+        const subDependencies = new Set<string>();
         dependencies.forEach((dependency) => {
           libraries[dependency].spartacusDependencies.forEach(
             (subDependency) => {
@@ -227,12 +227,12 @@ function handleLibConfigs(
           dependencies.add(subDependency);
         });
       }
-      let dependenciesEntryPoints = Array.from(dependencies)
+      const dependenciesEntryPoints = Array.from(dependencies)
         // @spartacus/schematics library should be used only in `tsconfig.schematics.json` file.
         .filter((dependency) => dependency !== SPARTACUS_SCHEMATICS)
         .map((library) => libraries[library])
         .reduce((entryPoints, dependency) => {
-          let dependencyEntryPoints = dependency.entryPoints.reduce(
+          const dependencyEntryPoints = dependency.entryPoints.reduce(
             (acc, entry) => {
               return {
                 ...acc,
