@@ -5,7 +5,6 @@ import {
   SecurityContext
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { IconResourceType, ICON_TYPE_STRING } from './icon.model';
@@ -74,7 +73,6 @@ export class IconComponent {
 
   constructor(
     protected iconLoader: IconLoaderService,
-    protected winRef: WindowRef,
     protected sanitizer: DomSanitizer
   ) {}
 
