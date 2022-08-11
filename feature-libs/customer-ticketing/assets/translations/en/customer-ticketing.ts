@@ -13,5 +13,7 @@ export const customerTicketing = {
     charactersLeft: 'characters left: {{count}}',
     send: 'Send',
     noTickets: `You don't have any request`,
+    requestTitle: 'All Requests',
+    sortSubtitle: 'Sort by',
   },
 };
