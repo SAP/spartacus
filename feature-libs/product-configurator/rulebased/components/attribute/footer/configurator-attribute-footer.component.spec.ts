@@ -17,14 +17,11 @@ import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-s
 import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-footer.component';
 
 export class MockIconFontLoaderService {
-  useSvg(_iconType: ICON_TYPE) {
-    return false;
-  }
-
   getStyleClasses(_iconType: ICON_TYPE): string {
     return 'fas fa-exclamation-circle';
   }
 
+  isResourceType() {}
   addLinkResource() {}
   getHtml(_iconType: ICON_TYPE) {}
   getFlipDirection(): void {}

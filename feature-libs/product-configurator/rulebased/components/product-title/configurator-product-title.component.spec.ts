@@ -132,6 +132,7 @@ class MockConfiguratorCommonsService {
 }
 
 export class MockIconFontLoaderService {
+  isResourceType() {}
   getFlipDirection(): void {}
 }
 

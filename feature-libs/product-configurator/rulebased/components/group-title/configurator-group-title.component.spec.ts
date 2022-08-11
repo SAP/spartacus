@@ -50,6 +50,7 @@ class MockConfiguratorCommonsService {
 
 export class MockIconFontLoaderService {
   getFlipDirection(): void {}
+  isResourceType() {}
 }
 
 describe('ConfigurationGroupTitleComponent', () => {
