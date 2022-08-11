@@ -107,7 +107,6 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
           }
         })
       );
-
     this.csAgentTokenLoading$ =
       this.csAgentAuthService.getCustomerSupportAgentTokenLoading();
     this.customer$ = this.authService.isUserLoggedIn().pipe(
@@ -172,13 +171,8 @@ export class AsmMainUiComponent implements OnInit, OnDestroy {
 
   startCustomerEmulationSession({ customerId }: { customerId?: string }): void {
     if (customerId) {
-      this.csAgentAuthService.startCustomerEmulationSession(customerId);
-      this.startingCustomerSession = true;
-    } else {
-      this.globalMessageService.add(
-        { key: 'asm.error.noCustomerId' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
+      this.startingCustomerSession =
+        this.asmComponentService.startCustomerEmulationSession(customerId);
     }
   }
 

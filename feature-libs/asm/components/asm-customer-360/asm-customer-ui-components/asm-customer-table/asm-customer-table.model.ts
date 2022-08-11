@@ -1,6 +1,5 @@
-
 import { Fragment, Class } from '../../asm-customer-360.model';
-import { keyValuePair } from "../../asm-customer-360.model";
+import { keyValuePair } from '../../asm-customer-360.model';
 
 export abstract class TableFragment implements Fragment {
   entries: Array<TableEntry>;
@@ -124,4 +123,3 @@ export interface TableEntryCell {
     reverseSort?: boolean;
   };
 }
-

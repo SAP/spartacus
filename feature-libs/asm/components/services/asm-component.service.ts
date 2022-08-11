@@ -6,10 +6,17 @@
 
 import { Injectable } from '@angular/core';
 import {
+  AsmDialogActionEvent,
   ASM_ENABLED_LOCAL_STORAGE_KEY,
   CsAgentAuthService,
 } from '@spartacus/asm/root';
-import { AuthService, WindowRef } from '@spartacus/core';
+import {
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  WindowRef,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,6 +26,8 @@ export class AsmComponentService {
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
+    protected globalMessageService: GlobalMessageService,
+    protected routingService: RoutingService,
     protected winRef: WindowRef
   ) {}
 
@@ -30,8 +39,35 @@ export class AsmComponentService {
     this.authService.logout();
   }
 
+  startCustomerEmulationSession(customerId: string): boolean {
+    if (customerId) {
+      this.csAgentAuthService.startCustomerEmulationSession(customerId);
+      return true;
+    } else {
+      this.globalMessageService.add(
+        { key: 'asm.error.noCustomerId' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      return false;
+    }
+  }
+
   isCustomerEmulationSessionInProgress(): Observable<boolean> {
     return this.csAgentAuthService.isCustomerEmulated();
+  }
+
+  // TODO: Find better place for method
+  handleAsmDialogAction(event: AsmDialogActionEvent): void {
+    let selectedUser = event.selectedUser?.customerId;
+    let { cxRoute, params } = event.route;
+    if (event.actionType === 'START_SESSION' && selectedUser) {
+      this.startCustomerEmulationSession(selectedUser);
+      if (cxRoute) {
+        this.routingService.go({ cxRoute, params });
+      }
+    } else {
+      this.routingService.go({ cxRoute, params });
+    }
   }
 
   /**

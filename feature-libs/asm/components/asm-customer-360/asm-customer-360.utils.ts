@@ -1,4 +1,4 @@
-import { keyValuePair } from "./asm-customer-360.model";
+import { keyValuePair } from './asm-customer-360.model';
 
 export function replaceTokens(
   text?: string,

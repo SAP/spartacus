@@ -20,11 +20,7 @@ import { AsmCustomerPromotionsModule } from './asm-customer-promotions/asm-custo
     AsmCustomerPromotionsModule,
     AsmCustomerMapComponentModule,
   ],
-  declarations: [
-    AsmCustomer360Component,
-  ],
-  exports: [
-    AsmCustomer360Component,
-  ],
+  declarations: [AsmCustomer360Component],
+  exports: [AsmCustomer360Component],
 })
 export class AsmCustomer360ComponentModule {}

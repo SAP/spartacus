@@ -1,5 +1,5 @@
-import { Component, Input } from "@angular/core";
-import { TableFragment } from "./asm-customer-table.model";
+import { Component, Input } from '@angular/core';
+import { TableFragment } from './asm-customer-table.model';
 
 @Component({
   selector: 'cx-asm-customer-table',

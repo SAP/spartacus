@@ -1,14 +1,17 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { User } from '@spartacus/core';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { AsmDialogActionEvent, AsmDialogActionType } from '@spartacus/asm/root';
+import { UrlCommand, User } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { ModalService } from 'projects/storefrontlib/shared/components/modal';
+import { ModalService } from '@spartacus/storefront';
+
+import { getAsmDialogActionEvent } from '../../core/utils/utils';
 import { Customer360Sections } from './asm-customer-360.model';
 
 @Component({
   selector: 'cx-asm-customer-360',
   templateUrl: './asm-customer-360.component.html',
 })
-export class AsmCustomer360Component implements OnInit, OnDestroy {
+export class AsmCustomer360Component implements OnDestroy {
   iconTypes = ICON_TYPE;
   loading = false;
   tabs = Customer360Sections;
@@ -18,12 +21,7 @@ export class AsmCustomer360Component implements OnInit, OnDestroy {
 
   @Input() customer: User;
 
-  ngOnInit(): void {
-    console.log(this.customer);
-  }
-
   selectTab(selectedTab: any): void {
-    console.log(selectedTab);
     this.activeTab = selectedTab;
   }
 
@@ -36,6 +34,17 @@ export class AsmCustomer360Component implements OnInit, OnDestroy {
       (this.customer.firstName?.charAt(0) || '') +
       (this.customer.lastName?.charAt(0) || '')
     );
+  }
+
+  // method to navigate screen and close dialog
+  navigateTo(route: UrlCommand): void {
+    let event: AsmDialogActionEvent;
+    event = getAsmDialogActionEvent(
+      this.customer,
+      AsmDialogActionType.NAVIGATE,
+      route
+    );
+    this.closeModal(event);
   }
 
   closeModal(reason?: any): void {

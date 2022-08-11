@@ -1,7 +1,12 @@
 import { formatDate } from '@angular/common';
 import { keyValuePair } from '../asm-customer-360.model';
 import { replaceTokens, combineStrings } from '../asm-customer-360.utils';
-import { RawTableEntry, TableEntry, TableEntryCell, TableFragment } from '../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';
+import {
+  RawTableEntry,
+  TableEntry,
+  TableEntryCell,
+  TableFragment,
+} from '../asm-customer-ui-components/asm-customer-table/asm-customer-table.model';
 
 export interface RawTicketEntry extends RawTableEntry {
   type?: string;

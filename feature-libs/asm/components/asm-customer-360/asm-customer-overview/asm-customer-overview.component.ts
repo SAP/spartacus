@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/core';
 import { Cart } from '@spartacus/cart/base/root';
 
@@ -6,7 +6,7 @@ import {
   ImageType,
   PriceType,
   Product,
-  RoutingService,
+  UrlCommand,
   User,
 } from '@spartacus/core';
 
@@ -20,6 +20,9 @@ import { AsmInterestEntry } from './asm-customer-overview.model';
 export class AsmCustomerOverviewComponent implements OnInit {
   @Input() customer: User;
 
+  @Output()
+  navigate: EventEmitter<UrlCommand> = new EventEmitter();
+
   activeCart$: Observable<Cart>;
 
   savedCart$: Observable<Cart>;
@@ -28,10 +31,7 @@ export class AsmCustomerOverviewComponent implements OnInit {
 
   protected subscription = new Subscription();
 
-  constructor(
-    protected asmConfig: AsmConfig,
-    protected routingService: RoutingService
-  ) {}
+  constructor(protected asmConfig: AsmConfig) {}
 
   ngOnInit(): void {
     if (this.customer?.uid) {
@@ -42,17 +42,14 @@ export class AsmCustomerOverviewComponent implements OnInit {
   }
 
   onSelectProduct(selectedProduct: Product): void {
-    this.routingService.go({ cxRoute: 'product', params: selectedProduct });
-    // TODO: we need to close main dialog
+    this.navigate.emit({ cxRoute: 'product', params: selectedProduct });
   }
 
   onSelectCart(): void {
     // TODO emulate selected user and navigate to cart...
   }
   goToMyInterests(): void {
-    // TODO emulate selected user and navigate to Interests...
-    this.routingService.go({ cxRoute: 'myInterests' });
-
+    this.navigate.emit({ cxRoute: 'myInterests' });
   }
 
   private getMockInterestData(): AsmInterestEntry {

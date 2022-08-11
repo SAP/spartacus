@@ -11,7 +11,6 @@
     flex: none;
     padding-top: 2rem;
     padding-bottom: 3rem;
-    display: flex;
     .cx-avatar {
       font-size: 56px;
       width: 110px;
@@ -50,7 +49,7 @@
     flex: 1;
     flex-direction: column;
     padding-top: 0;
-    overflow: auto;
+    overflow-y: hidden;
     .cx-dialog-row {
       flex: none;
     }
@@ -59,38 +58,46 @@
       border-bottom: 1px solid #dddddd;
       margin-top: 20px;
       padding-bottom: 8px;
-      .cx-tab {
-        padding: 10px 20px;
-        color: var(--cx-color-light);
-        border-bottom: 1px solid #dddddd;
-        margin-right: 1px;
-        cursor: pointer;
-        &.active {
-          cursor: default;
-        }
-        &.active,
-        &:hover,
-        &:focus {
-          border-width: 0 0 2px;
-          padding: 10px 20px 9px 20px;
-          color: var(--cx-color-visual-focus);
-          text-decoration: none;
-        }
-        &:hover {
-          border-color: #556b82;
-        }
+    }
+    .cx-tab {
+      padding: 10px 20px;
+      color: var(--cx-color-light);
+      border-bottom: 1px solid #dddddd;
+      cursor: pointer;
+      &.active {
+        cursor: default;
       }
-      .active {
+      &:hover {
+        border-color: #556b82;
+        color: var(--cx-color-visual-focus);
+        border-width: 0 0 2px;
+        text-decoration: none;
+      }
+      &:active,
+      &:hover,
+      &:focus {
         color: var(--cx-color-visual-focus);
         border-width: 0 0 2px;
         text-decoration: none;
         border-color: var(--cx-color-visual-focus);
-        &:hover {
-          color: var(--cx-color-visual-focus);
-          border-width: 0 0 2px;
-          text-decoration: none;
-          border-color: var(--cx-color-visual-focus);
-        }
+        padding: 10px 20px 9px 20px;
+      }
+    }
+    .cx-tab-content {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+    }
+    .active {
+      color: var(--cx-color-visual-focus);
+      border-width: 0 0 2px;
+      text-decoration: none;
+      border-color: var(--cx-color-visual-focus);
+      &:hover {
+        color: var(--cx-color-visual-focus);
+        border-width: 0 0 2px;
+        text-decoration: none;
+        border-color: var(--cx-color-visual-focus);
       }
     }
   }

@@ -1,7 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AsmConfig } from '@spartacus/asm/core';
 
-import { Address, PaymentDetails, TranslationService, User } from '@spartacus/core';
+import {
+  Address,
+  PaymentDetails,
+  TranslationService,
+  User,
+} from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,

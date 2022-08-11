@@ -5,6 +5,7 @@
  */
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
+// import { AsmDialogActionEvent } from '@spartacus/asm/root';
 import { User } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, Subscription } from 'rxjs';
@@ -49,7 +50,16 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
       ariaDescribedBy: 'asm-customer-360-desc',
     });
     this.modalRef.componentInstance.customer = this.customer;
-    */
+    this.modalRef?.result
+      .then((event: AsmDialogActionEvent) => {
+        this.asmComponentService.handleAsmDialogAction(event);
+        this.modalRef = undefined;
+      })
+      .catch(() => {
+        // this  callback is called when modal is closed with Esc key or clicking backdrop
+        this.modalRef = undefined;
+      });
+      */
   }
 
   ngOnDestroy(): void {

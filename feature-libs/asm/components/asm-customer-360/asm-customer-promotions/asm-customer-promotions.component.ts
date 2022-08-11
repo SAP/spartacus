@@ -1,5 +1,9 @@
-import { Component } from "@angular/core";
-import { CouponFragment, PromotionFragment, CustomerCouponFragment } from "./asm-customer-promotions.model";
+import { Component } from '@angular/core';
+import {
+  CouponFragment,
+  PromotionFragment,
+  CustomerCouponFragment,
+} from './asm-customer-promotions.model';
 
 @Component({
   selector: 'cx-asm-customer-promotions',
@@ -27,12 +31,14 @@ export class AsmCustomerPromotionsComponent {
     items: [
       {
         name: 'This is a 20% off coupon',
-        firedMessage: 'This is a 20% off coupon and you are gonna be so happy with these savings',
+        firedMessage:
+          'This is a 20% off coupon and you are gonna be so happy with these savings',
         fired: true,
       },
       {
         name: 'This is a 1% off coupon',
-        firedMessage: "This is a 1% off coupon and you won't really notice I'm here",
+        firedMessage:
+          "This is a 1% off coupon and you won't really notice I'm here",
         fired: false,
       },
     ],
@@ -63,12 +69,12 @@ export class AsmCustomerPromotionsComponent {
       },
       {
         code: 'This is a 100% off coupon',
-        name: 'It\'s free, what else do you want?',
+        name: "It's free, what else do you want?",
         couponApplied: false,
       },
       {
         code: 'This is a 66.666666% off coupon',
-        name: "This is the devil\'s discount. By accepting this, you accept Satan as your lord and savior :)",
+        name: "This is the devil's discount. By accepting this, you accept Satan as your lord and savior :)",
         couponApplied: true,
       },
     ],
