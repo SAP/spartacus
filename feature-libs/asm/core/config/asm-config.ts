@@ -26,6 +26,9 @@ export abstract class AsmConfig extends OccConfig {
         };
       };
       mapsTab?: {
+        googleMaps?: {
+          apiKey?: string;
+        };
         pageSize?: number;
       };
     };

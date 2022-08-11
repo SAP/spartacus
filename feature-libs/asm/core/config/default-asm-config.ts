@@ -21,6 +21,9 @@ export const defaultAsmConfig: AsmConfig = {
         },
       },
       mapsTab: {
+        googleMaps: {
+          apiKey: 'AIzaSyAEwnpFNr0duKCE0DClFE7RRJJ9zUmJ8u8',
+        },
         pageSize: 10,
       },
     },
