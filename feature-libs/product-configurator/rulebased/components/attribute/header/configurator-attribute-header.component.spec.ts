@@ -828,14 +828,14 @@ describe('ConfigAttributeHeaderComponent', () => {
       component.attribute.groupId = undefined;
 
       spyOn(configurationGroupsService, 'navigateToGroup');
-      spyOn<any>(component, 'logWarning');
+      spyOn<any>(component, 'logError');
       fixture.detectChanges();
 
       component.navigateToGroup();
       expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(
         0
       );
-      expect(component['logWarning']).toHaveBeenCalled();
+      expect(component['logError']).toHaveBeenCalled();
     });
   });
 
