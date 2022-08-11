@@ -48,7 +48,7 @@ export class IconLoaderService {
    */
   public getResourceType(iconType: ICON_TYPE_STRING): IconResourceType {
     const iconResourceType = this.config?.resources?.find(res => res.types?.includes(iconType))?.type;
-    if (!Object.values(IconResourceType).find(val => val === iconResourceType)) {
+    if (!Object.values<any>(IconResourceType).includes(iconResourceType)) {
         return IconResourceType.LINK;
     }
     return <IconResourceType>iconResourceType;
