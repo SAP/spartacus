@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError } from '@spartacus/core';
 import { PatchDeliveryOptionPayload } from '@spartacus/pickup-in-store/root';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PickupLocationConnector } from '../../connectors';
 import * as PickupLocationActions from '../actions/pickup-location.action';
 
@@ -22,7 +22,7 @@ export class PickupLocationEffect {
           action: ReturnType<typeof PickupLocationActions.GetStoreDetailsById>
         ) => action.payload
       ),
-      switchMap((storeName) =>
+      mergeMap((storeName) =>
         this.pickupLocationConnector.getStoreDetails(storeName).pipe(
           map((storeDetails) => {
             return PickupLocationActions.SetStoreDetailsSuccess({
