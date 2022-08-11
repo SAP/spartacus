@@ -14,7 +14,6 @@ import {
   providedIn: 'root',
 })
 export class IconLoaderService {
-
   private loadedResources: string[] = [];
 
   constructor(
@@ -47,9 +46,11 @@ export class IconLoaderService {
    * Defaults to `IconResourceType.LINK`, if an unknown `IconResourceType` is configured or none is configured.
    */
   public getResourceType(iconType: ICON_TYPE_STRING): IconResourceType {
-    const iconResourceType = this.config?.resources?.find(res => res.types?.includes(iconType))?.type;
+    const iconResourceType = this.config?.resources?.find((res) =>
+      res.types?.includes(iconType)
+    )?.type;
     if (!Object.values<any>(IconResourceType).includes(iconResourceType)) {
-        return IconResourceType.LINK;
+      return IconResourceType.LINK;
     }
     return <IconResourceType>iconResourceType;
   }
@@ -77,8 +78,10 @@ export class IconLoaderService {
    * icon IDs in the SVG.
    */
   public getSvgPath(iconType: ICON_TYPE_STRING): string | null {
-    const svgResource = this.config?.resources
-        ?.find(res => res.type === IconResourceType.SVG && res.types?.includes(iconType));
+    const svgResource = this.config?.resources?.find(
+      (res) =>
+        res.type === IconResourceType.SVG && res.types?.includes(iconType)
+    );
     if (svgResource) {
       return svgResource.url
         ? `${svgResource.url}#${this.getSymbol(iconType)}`
@@ -101,7 +104,10 @@ export class IconLoaderService {
     if (resource?.url && !this.loadedResources.includes(resource.url)) {
       this.loadedResources.push(resource.url);
       // using DOM APIs, so need to sanitize our URLs manually
-      const sanitizedUrl = this.sanitizer.sanitize(SecurityContext.URL, resource.url);
+      const sanitizedUrl = this.sanitizer.sanitize(
+        SecurityContext.URL,
+        resource.url
+      );
       if (sanitizedUrl) {
         const head = this.winRef.document.getElementsByTagName('head')[0];
         const link = this.winRef.document.createElement('link');
@@ -118,17 +124,26 @@ export class IconLoaderService {
    * Try to find a resource, specific to both the iconType and the resourceType.
    * Otherwise, try to find a one-size-fits-all resource for the resourceType, if any.
    */
-  public findResource(iconType: ICON_TYPE_STRING, resourceType: IconResourceType): IconConfigResource | null {
-    return this.config?.resources?.find(res => res.type === resourceType && res.types?.includes(iconType))
-        || this.config?.resources?.find(res => res.type === resourceType && !res.types)
-        || null;
+  public findResource(
+    iconType: ICON_TYPE_STRING,
+    resourceType: IconResourceType
+  ): IconConfigResource | null {
+    return (
+      this.config?.resources?.find(
+        (res) => res.type === resourceType && res.types?.includes(iconType)
+      ) ||
+      this.config?.resources?.find(
+        (res) => res.type === resourceType && !res.types
+      ) ||
+      null
+    );
   }
 
   /**
    * Get the symbol configured for given iconType, if any.
    */
   public getSymbol(iconType: ICON_TYPE_STRING): string | null {
-      return this.config?.symbols?.[iconType] || null;
+    return this.config?.symbols?.[iconType] || null;
   }
 
   private get config(): IconOptions | null {

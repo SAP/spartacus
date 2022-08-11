@@ -1,19 +1,13 @@
-import {
-  Component,
-  HostBinding,
-  Input,
-  SecurityContext
-} from '@angular/core';
+import { Component, HostBinding, Input, SecurityContext } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
 import { IconResourceType, ICON_TYPE_STRING } from './icon.model';
 
-
 /**
  * Enum with contstants for CSS classes used by the icon component.
  */
-enum CSS_CLASSES  {
+enum CSS_CLASSES {
   CX_ICON = 'cx-icon',
   LTR = 'flip-at-ltr',
   RTL = 'flip-at-rtl',
@@ -44,7 +38,6 @@ enum CSS_CLASSES  {
   templateUrl: './icon.component.html',
 })
 export class IconComponent {
-
   /**
    * The cxIcon directive is bound to the icon type. You can feed the `ICON_TYPE` to
    * accomplish a configurable button in the UI.
@@ -82,14 +75,17 @@ export class IconComponent {
     }
     this.iconResourceType = this.iconLoader.getResourceType(type);
     if (this.isSvgIcon()) {
-        // looks like angular does not sanitize URLs when binding to the xlink:href attribute of svg elements
-        // so we need to sanitze the URL manually
-        this.iconValue = this.sanitizer.sanitize(SecurityContext.URL, this.iconLoader.getSvgPath(type));
+      // looks like angular does not sanitize URLs when binding to the xlink:href attribute of svg elements
+      // so we need to sanitze the URL manually
+      this.iconValue = this.sanitizer.sanitize(
+        SecurityContext.URL,
+        this.iconLoader.getSvgPath(type)
+      );
     } else if (this.isTextIcon()) {
-        this.iconValue = this.iconLoader.getSymbol(type);
+      this.iconValue = this.iconLoader.getSymbol(type);
     } else {
-        // assume IconResourceType.LINK by default
-        this.iconValue = null;
+      // assume IconResourceType.LINK by default
+      this.iconValue = null;
     }
     this.iconLoader.addLinkResource(type);
     this.addStyleClasses(type);
@@ -97,7 +93,7 @@ export class IconComponent {
 
   public get icon(): string | null {
     return this.iconValue;
-}
+  }
 
   public isSvgIcon(): boolean {
     return this.iconResourceType === IconResourceType.SVG;
@@ -117,9 +113,9 @@ export class IconComponent {
     }
     const iconDirection = this.iconLoader.getFlipDirection(type);
     if (iconDirection === DirectionMode.LTR) {
-        this.styleClasses.push(CSS_CLASSES.LTR);
+      this.styleClasses.push(CSS_CLASSES.LTR);
     } else if (iconDirection === DirectionMode.RTL) {
-        this.styleClasses.push(CSS_CLASSES.RTL);
+      this.styleClasses.push(CSS_CLASSES.RTL);
     }
   }
 

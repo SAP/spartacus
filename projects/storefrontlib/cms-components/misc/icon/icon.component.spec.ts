@@ -13,7 +13,7 @@ import { MockIconConfig } from './icon-loader.service.spec';
   template: `
     <cx-icon type="VISA">projected content</cx-icon>
     <button name="test" type="submit" cxIcon="CART"></button>
-    <div cxIcon type="HAPPY" class="hostClass">more <em>projected content</em></div>
+    <div cxIcon type="HAPPY" class="hostClass">more <em>content</em></div>
     <p class="original and another one" cxIcon="LEFT"></p>
   `,
 })
@@ -32,7 +32,7 @@ describe('IconComponent', () => {
         declarations: [IconComponent],
         providers: [
           { provide: IconConfig, useValue: MockIconConfig },
-          { provide: IconLoaderService, useClass: IconLoaderService }
+          { provide: IconLoaderService, useClass: IconLoaderService },
         ],
       }).compileComponents();
     })
@@ -78,7 +78,7 @@ describe('IconComponent', () => {
       expect(component.icon).toBeFalsy();
     });
 
-    it('should not create an icon for \'\' value', () => {
+    it("should not create an icon for '' value", () => {
       component.type = <any>'';
       expect(component.icon).toBeFalsy();
     });
@@ -97,7 +97,6 @@ describe('IconComponent', () => {
   });
 
   describe('linked resources', () => {
-
     it('should call findResource', () => {
       spyOn(service, 'findResource').and.callThrough();
       component.type = ICON_TYPE.CART;
@@ -110,7 +109,10 @@ describe('IconComponent', () => {
       spyOn<any>(winRef.document, 'createElement').and.callThrough();
       component.type = 'PAYPAL';
       fixture.detectChanges();
-      expect(service.findResource).toHaveBeenCalledWith('PAYPAL', IconResourceType.LINK);
+      expect(service.findResource).toHaveBeenCalledWith(
+        'PAYPAL',
+        IconResourceType.LINK
+      );
       expect(winRef.document.createElement).toHaveBeenCalledWith('link');
     });
 
@@ -155,7 +157,6 @@ describe('IconComponent', () => {
     });
 
     describe('SVG icons', () => {
-
       it('should add CSS class to host element', () => {
         component.type = ICON_TYPE.INFO;
         fixture.detectChanges();
@@ -197,7 +198,7 @@ describe('IconComponent', () => {
       });
 
       it('should generate sprited SVG', () => {
-       component.type = ICON_TYPE.CART;
+        component.type = ICON_TYPE.CART;
         fixture.detectChanges();
 
         expect(nativeDebugElement.childElementCount).toEqual(1);
@@ -210,7 +211,9 @@ describe('IconComponent', () => {
         const useElement = svgElement.children[0];
         expect(useElement.nodeName).toEqual('use');
         expect(useElement.attributes.length).toEqual(1);
-        expect(useElement.getAttribute('xlink:href')).toEqual('./assets/sprite.svg#cartSymbol');
+        expect(useElement.getAttribute('xlink:href')).toEqual(
+          './assets/sprite.svg#cartSymbol'
+        );
         expect(useElement.childElementCount).toEqual(0);
       });
 
@@ -228,13 +231,14 @@ describe('IconComponent', () => {
         const useElement = svgElement.children[0];
         expect(useElement.nodeName).toEqual('use');
         expect(useElement.attributes.length).toEqual(1);
-        expect(useElement.getAttribute('xlink:href')).toEqual('unsafe:javascript:alert(1)#badSvg');
+        expect(useElement.getAttribute('xlink:href')).toEqual(
+          'unsafe:javascript:alert(1)#badSvg'
+        );
         expect(useElement.childElementCount).toEqual(0);
       });
     });
 
     describe('TEXT icons', () => {
-
       it('should contain a font symbol', () => {
         component.type = 'HAPPY';
         fixture.detectChanges();
@@ -265,7 +269,6 @@ describe('IconComponent', () => {
     });
 
     describe('LINK icons', () => {
-
       it('should add multiple CSS classes to host element and add stylesheet', () => {
         component.type = ICON_TYPE.VISA;
         fixture.detectChanges();
@@ -281,9 +284,13 @@ describe('IconComponent', () => {
         expect(styleSheetLinkElement?.localName).toEqual('link');
         expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
         expect(styleSheetLinkElement?.attributes.length).toEqual(3);
-        expect(styleSheetLinkElement?.getAttribute('rel')).toEqual('stylesheet');
+        expect(styleSheetLinkElement?.getAttribute('rel')).toEqual(
+          'stylesheet'
+        );
         expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
-        expect(styleSheetLinkElement?.getAttribute('href')).toEqual('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+        expect(styleSheetLinkElement?.getAttribute('href')).toEqual(
+          'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
+        );
         expect(styleSheetLinkElement?.childElementCount).toEqual(0);
       });
 
@@ -319,9 +326,15 @@ describe('IconComponent', () => {
         expect(styleSheetLinkElement2?.localName).toEqual('link');
         expect(styleSheetLinkElement2?.nodeName).toEqual('LINK');
         expect(styleSheetLinkElement2?.attributes.length).toEqual(3);
-        expect(styleSheetLinkElement2?.getAttribute('rel')).toEqual('stylesheet');
-        expect(styleSheetLinkElement2?.getAttribute('type')).toEqual('text/css');
-        expect(styleSheetLinkElement2?.getAttribute('href')).toEqual('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+        expect(styleSheetLinkElement2?.getAttribute('rel')).toEqual(
+          'stylesheet'
+        );
+        expect(styleSheetLinkElement2?.getAttribute('type')).toEqual(
+          'text/css'
+        );
+        expect(styleSheetLinkElement2?.getAttribute('href')).toEqual(
+          'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
+        );
         expect(styleSheetLinkElement2?.childElementCount).toEqual(0);
       });
 
@@ -393,9 +406,15 @@ describe('IconComponent', () => {
         expect(styleSheetLinkElement3?.localName).toEqual('link');
         expect(styleSheetLinkElement3?.nodeName).toEqual('LINK');
         expect(styleSheetLinkElement3?.attributes.length).toEqual(3);
-        expect(styleSheetLinkElement3?.getAttribute('rel')).toEqual('stylesheet');
-        expect(styleSheetLinkElement3?.getAttribute('type')).toEqual('text/css');
-        expect(styleSheetLinkElement3?.getAttribute('href')).toEqual('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+        expect(styleSheetLinkElement3?.getAttribute('rel')).toEqual(
+          'stylesheet'
+        );
+        expect(styleSheetLinkElement3?.getAttribute('type')).toEqual(
+          'text/css'
+        );
+        expect(styleSheetLinkElement3?.getAttribute('href')).toEqual(
+          'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
+        );
         expect(styleSheetLinkElement3?.childElementCount).toEqual(0);
       });
 
@@ -429,9 +448,13 @@ describe('IconComponent', () => {
         expect(styleSheetLinkElement?.localName).toEqual('link');
         expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
         expect(styleSheetLinkElement?.attributes.length).toEqual(3);
-        expect(styleSheetLinkElement?.getAttribute('rel')).toEqual('stylesheet');
+        expect(styleSheetLinkElement?.getAttribute('rel')).toEqual(
+          'stylesheet'
+        );
         expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
-        expect(styleSheetLinkElement?.getAttribute('href')).toEqual('unsafe:javascript:alert(2)');
+        expect(styleSheetLinkElement?.getAttribute('href')).toEqual(
+          'unsafe:javascript:alert(2)'
+        );
         expect(styleSheetLinkElement?.childElementCount).toEqual(0);
       });
     });
@@ -475,7 +498,6 @@ describe('host icon components', () => {
   });
 
   describe('icons', () => {
-
     it('should add resource for all icons', () => {
       // it's actually just 4 icons, but due to a name clash between the type attribute
       // of cxIcon and button setIcon gets called twice for one of them
@@ -518,7 +540,9 @@ describe('host icon components', () => {
       const useElement = svgElement.children[0];
       expect(useElement.nodeName).toEqual('use');
       expect(useElement.attributes.length).toEqual(1);
-      expect(useElement.getAttribute('xlink:href')).toEqual('./assets/sprite.svg#cartSymbol');
+      expect(useElement.getAttribute('xlink:href')).toEqual(
+        './assets/sprite.svg#cartSymbol'
+      );
       expect(useElement.childElementCount).toEqual(0);
     });
 
@@ -532,13 +556,13 @@ describe('host icon components', () => {
       expect(hostClassList).toContain('😊');
       expect(hostClassList).toContain('hostClass');
 
-      expect(hostNativeElement.textContent).toEqual('😊more projected content');
+      expect(hostNativeElement.textContent).toEqual('😊more content');
       expect(hostNativeElement.childElementCount).toEqual(1);
       const emElement = hostNativeElement.children[0];
       expect(emElement.localName).toEqual('em');
       expect(emElement.attributes.length).toEqual(0);
       expect(emElement.childElementCount).toEqual(0);
-      expect(emElement.textContent).toEqual('projected content');
+      expect(emElement.textContent).toEqual('content');
     });
 
     it('should retain existing classes on the host element', () => {
@@ -558,16 +582,18 @@ describe('host icon components', () => {
     });
 
     it('should add LINK icon stylesheet', () => {
-        const styleSheetLinkElement = winRef.document.head.lastElementChild;
+      const styleSheetLinkElement = winRef.document.head.lastElementChild;
 
-        expect(styleSheetLinkElement).not.toBeNull();
-        expect(styleSheetLinkElement?.localName).toEqual('link');
-        expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
-        expect(styleSheetLinkElement?.attributes.length).toEqual(3);
-        expect(styleSheetLinkElement?.getAttribute('rel')).toEqual('stylesheet');
-        expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
-        expect(styleSheetLinkElement?.getAttribute('href')).toEqual('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
-        expect(styleSheetLinkElement?.childElementCount).toEqual(0);
+      expect(styleSheetLinkElement).not.toBeNull();
+      expect(styleSheetLinkElement?.localName).toEqual('link');
+      expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
+      expect(styleSheetLinkElement?.attributes.length).toEqual(3);
+      expect(styleSheetLinkElement?.getAttribute('rel')).toEqual('stylesheet');
+      expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
+      expect(styleSheetLinkElement?.getAttribute('href')).toEqual(
+        'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
+      );
+      expect(styleSheetLinkElement?.childElementCount).toEqual(0);
     });
   });
 });

@@ -5,7 +5,8 @@ import { DirectionMode } from '../../../layout/direction/config/direction.model'
 import { IconLoaderService } from './icon-loader.service';
 import { IconConfig, IconResourceType, ICON_TYPE } from './icon.model';
 
-const FONT_AWESOME_RESOURCE = 'https://use.fontawesome.com/releases/v5.8.1/css/all.css';
+const FONT_AWESOME_RESOURCE =
+  'https://use.fontawesome.com/releases/v5.8.1/css/all.css';
 
 export const MockIconConfig: IconConfig = {
   icon: {
@@ -24,7 +25,7 @@ export const MockIconConfig: IconConfig = {
       BAD_SVG: 'badSvg',
       BAD_CLASS: '" onmouseover="alert(0)" data-foo="',
       BAD_STYLESHEET: 'badStylesheet',
-      UNKNOWN_RESOURCE_TYPE: 'unknownIconResourceType',
+      UNKNOWN: 'unknownIconResourceType',
     },
     resources: [
       {
@@ -66,8 +67,8 @@ export const MockIconConfig: IconConfig = {
       },
       {
         type: 'foo',
-        types: ['UNKNOWN_RESOURCE_TYPE'],
-      }
+        types: ['UNKNOWN'],
+      },
     ],
     flipDirection: {
       CARET_RIGHT: DirectionMode.RTL,
@@ -100,7 +101,7 @@ describe('IconLoaderService', () => {
     expect(service.getResourceType('MASTERCARD')).toBe(IconResourceType.LINK);
     expect(service.getResourceType('HAPPY')).toBe(IconResourceType.TEXT);
     expect(service.getResourceType(ICON_TYPE.VISA)).toBe(IconResourceType.LINK);
-    expect(service.getResourceType('UNKNOWN_RESOURCE_TYPE')).toBe(IconResourceType.LINK);
+    expect(service.getResourceType('UNKNOWN')).toBe(IconResourceType.LINK);
   });
 
   it('should return symbol', () => {
@@ -191,9 +192,10 @@ describe('IconLoaderService', () => {
   });
 
   describe('SVG icons', () => {
-
     it('should return svg path for sprited SVG', () => {
-      expect(service.getSvgPath(ICON_TYPE.CART)).toEqual('./assets/sprite.svg#cartSymbol');
+      expect(service.getSvgPath(ICON_TYPE.CART)).toEqual(
+        './assets/sprite.svg#cartSymbol'
+      );
     });
 
     it('should return svg path for non-sprited SVG', () => {
