@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  ConverterService,
   OccEndpointsService,
   Stock,
   StoreFinderStockSearchPage,
@@ -17,8 +16,7 @@ import { Observable } from 'rxjs';
 export class OccStockAdapter implements StockAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
+    protected occEndpointsService: OccEndpointsService
   ) {}
 
   loadStockLevels(
