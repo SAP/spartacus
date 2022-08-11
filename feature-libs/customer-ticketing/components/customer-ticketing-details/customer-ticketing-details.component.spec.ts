@@ -1,12 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { CardModule } from '@spartacus/storefront';
+import { Card, CardModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
 
+const mockTicketId = '1';
+
 class MockTranslationService {
-  translate(): Observable<string> {
-    return of();
+  translate(text: string): Observable<string> {
+    return of(text);
   }
 }
 
@@ -32,5 +35,39 @@ describe('CustomerTicketingDetailsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('sohuld prepare content for card', () => {
+    const mockCardContent: Card = {
+      text: ['1'],
+      title: 'ID',
+      customClass: '',
+    };
+    component
+      .prepareCardContent(mockTicketId, 'ID')
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toEqual(mockCardContent);
+      });
+  });
+
+  describe('getStatusClass', () => {
+    it('should return open class when the status is open', () => {
+      let result = component.getStatusClass('OPEN');
+
+      expect(result).toEqual('cx-text-green');
+    });
+
+    it('should return close class when the status is close', () => {
+      let result = component.getStatusClass('CLOSE');
+
+      expect(result).toEqual('cx-text-gray');
+    });
+
+    it('should return empty if the id is not passed', () => {
+      let result = component.getStatusClass('');
+
+      expect(result).toEqual('');
+    });
   });
 });

@@ -33,15 +33,15 @@ export class CustomerTicketingDetailsComponent {
       map((textTitle) => ({
         title: textTitle,
         text: [entity],
-        customClass: this.getStatusClass(entity, id),
+        customClass: this.getStatusClass(id),
       }))
     );
   }
 
-  getStatusClass(status: string, id?: string): string {
+  getStatusClass(id?: string): string {
     return id === STATUS.OPEN
       ? CUSTOM_CLASS.OPEN
-      : status === STATUS.CLOSE
+      : id === STATUS.CLOSE
       ? CUSTOM_CLASS.CLOSE
       : '';
   }
