@@ -21,7 +21,7 @@ export class MockIconFontLoaderService {
     return 'fas fa-exclamation-circle';
   }
 
-  isResourceType() {}
+  getResourceType() {}
   addLinkResource() {}
   getHtml(_iconType: ICON_TYPE) {}
   getFlipDirection(): void {}
