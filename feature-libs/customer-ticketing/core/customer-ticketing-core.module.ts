@@ -5,4 +5,5 @@ import { facadeProviders } from './facade/facade-providers';
 @NgModule({
   providers: [...facadeProviders, CustomerTicketingConnector],
 })
+
 export class CustomerTicketingCoreModule {}

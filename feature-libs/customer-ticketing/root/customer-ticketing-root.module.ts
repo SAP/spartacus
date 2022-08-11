@@ -7,6 +7,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { defaultCustomerTicketingConfig } from './config';
 import { defaultSupportTicketRoutingConfig } from './config/default-support-ticket-routing-config';
 import {
   CUSTOMER_TICKETING_CORE_FEATURE,
@@ -23,6 +24,8 @@ export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
           'SupportTicketCreateComponent',
           'SupportTicketUpdateComponent',
           'SupportTicketDetailsComponent',
+          'SupportTicketReopenComponent',
+          'SupportTicketCloseComponent',
         ],
       },
 
@@ -59,6 +62,7 @@ export function defaultCustomerTicketingComponentsConfig(): CmsConfig {
   providers: [
     provideDefaultConfigFactory(defaultCustomerTicketingComponentsConfig),
     provideDefaultConfig(defaultSupportTicketRoutingConfig),
+    provideDefaultConfig(defaultCustomerTicketingConfig),
   ],
 })
 export class CustomerTicketingRootModule {}
