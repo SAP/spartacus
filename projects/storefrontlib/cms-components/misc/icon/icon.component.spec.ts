@@ -562,13 +562,13 @@ describe('host icon components', () => {
         const styleSheetLinkElement = winRef.document.head.lastElementChild;
 
         expect(styleSheetLinkElement).not.toBeNull();
-        expect(styleSheetLinkElement.localName).toEqual('link');
-        expect(styleSheetLinkElement.nodeName).toEqual('LINK');
-        expect(styleSheetLinkElement.attributes.length).toEqual(3);
-        expect(styleSheetLinkElement.getAttribute('rel')).toEqual('stylesheet');
-        expect(styleSheetLinkElement.getAttribute('type')).toEqual('text/css');
-        expect(styleSheetLinkElement.getAttribute('href')).toEqual('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
-        expect(styleSheetLinkElement.childElementCount).toEqual(0);
+        expect(styleSheetLinkElement?.localName).toEqual('link');
+        expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
+        expect(styleSheetLinkElement?.attributes.length).toEqual(3);
+        expect(styleSheetLinkElement?.getAttribute('rel')).toEqual('stylesheet');
+        expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
+        expect(styleSheetLinkElement?.getAttribute('href')).toEqual('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+        expect(styleSheetLinkElement?.childElementCount).toEqual(0);
     });
   });
 });
