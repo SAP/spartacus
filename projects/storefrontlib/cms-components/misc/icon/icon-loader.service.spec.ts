@@ -24,6 +24,7 @@ export const MockIconConfig: IconConfig = {
       BAD_SVG: 'badSvg',
       BAD_CLASS: '" onmouseover="alert(0)" data-foo="',
       BAD_STYLESHEET: 'badStylesheet',
+      UNKNOWN_RESOURCE_TYPE: 'unknownIconResourceType',
     },
     resources: [
       {
@@ -63,6 +64,10 @@ export const MockIconConfig: IconConfig = {
         type: IconResourceType.TEXT,
         types: ['HAPPY', 'SAD'],
       },
+      {
+        type: 'foo',
+        types: ['UNKNOWN_RESOURCE_TYPE'],
+      }
     ],
     flipDirection: {
       CARET_RIGHT: DirectionMode.RTL,
@@ -90,8 +95,19 @@ describe('IconLoaderService', () => {
     expect(service).toBeTruthy();
   });
 
+  it('should return IconResourceType', () => {
+    expect(service.getResourceType(ICON_TYPE.CART)).toBe(IconResourceType.SVG);
+    expect(service.getResourceType('MASTERCARD')).toBe(IconResourceType.LINK);
+    expect(service.getResourceType('HAPPY')).toBe(IconResourceType.TEXT);
+    expect(service.getResourceType(ICON_TYPE.VISA)).toBe(IconResourceType.LINK);
+    expect(service.getResourceType('UNKNOWN_RESOURCE_TYPE')).toBe(IconResourceType.LINK);
+  });
+
   it('should return symbol', () => {
+    expect(service.getSymbol(ICON_TYPE.CART)).toEqual('cartSymbol');
+    expect(service.getSymbol('MASTERCARD')).toEqual('fab fa-master-card');
     expect(service.getSymbol(ICON_TYPE.VISA)).toEqual('fab fa-cc-visa');
+    expect(service.getSymbol('HAPPY')).toEqual('😊');
   });
 
   it('should return rtl flip direction', () => {

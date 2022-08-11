@@ -14,11 +14,10 @@ export class MockIconComponent {
 const mockComponents = [MockIconComponent];
 
 export class MockIconLoaderService {
-  getHtml() {}
   getStyleClasses() {}
   addStyleClasses() {}
   addLinkResource() {}
-  isResourceType() {}
+  getResourceType() {}
   getSvgPath() {}
   findResource() {}
   getSymbol() {}

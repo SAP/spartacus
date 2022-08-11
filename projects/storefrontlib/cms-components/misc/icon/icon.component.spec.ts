@@ -106,7 +106,6 @@ describe('IconComponent', () => {
     });
 
     it('should add the font resource', () => {
-      spyOn(service, 'isResourceType').and.callThrough();
       spyOn(service, 'findResource').and.callThrough();
       spyOn<any>(winRef.document, 'createElement').and.callThrough();
       component.type = 'PAYPAL';

@@ -29,17 +29,29 @@ export class IconLoaderService {
    * @deprecated only exists for backwards compatibility, html generation has been moved to icon component
    */
   public getHtml(type: ICON_TYPE_STRING): SafeHtml | undefined {
-    if (this.isResourceType(type, IconResourceType.SVG)) {
+    if (this.getResourceType(type) === IconResourceType.SVG) {
       return this.sanitizer.bypassSecurityTrustHtml(
         `<svg><use xlink:href="${this.getSvgPath(type)}"></use></svg>`
       );
     }
-    if (this.isResourceType(type, IconResourceType.TEXT)) {
+    if (this.getResourceType(type) === IconResourceType.TEXT) {
       const symbol = this.getSymbol(type);
       if (symbol) {
         return this.sanitizer.bypassSecurityTrustHtml(symbol);
       }
     }
+  }
+
+  /**
+   * Get the `IconResourceType` that is configured for the given `ICON_TYPE`
+   * Defaults to `IconResourceType.LINK`, if an unknown `IconResourceType` is configured or none is configured.
+   */
+  public getResourceType(iconType: ICON_TYPE_STRING): IconResourceType {
+    const iconResourceType = this.config?.resources?.find(res => res.types?.includes(iconType))?.type;
+    if (!Object.values(IconResourceType).find(val => val === iconResourceType)) {
+        return IconResourceType.LINK;
+    }
+    return <IconResourceType>iconResourceType;
   }
 
   /**
@@ -56,15 +68,6 @@ export class IconLoaderService {
    */
   public getStyleClasses(iconType: ICON_TYPE_STRING): string {
     return this.getSymbol(iconType) || '';
-  }
-
-  /**
-   * Indicates whether the given `ICON_TYPE` is configured for
-   * the given `IconResourceType`.
-   */
-  public isResourceType(iconType: ICON_TYPE_STRING, resourceType: IconResourceType): boolean {
-    return !!this.config?.resources
-        ?.find(res => res.type === resourceType && res.types?.includes(iconType));
   }
 
   /**

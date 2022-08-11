@@ -80,17 +80,15 @@ export class IconComponent {
     if (!type || <string>type === '') {
       return;
     }
-    if (this.iconLoader.isResourceType(type, IconResourceType.SVG)) {
-        this.iconResourceType = IconResourceType.SVG;
+    this.iconResourceType = this.iconLoader.getResourceType(type);
+    if (this.isSvgIcon()) {
         // looks like angular does not sanitize URLs when binding to the xlink:href attribute of svg elements
         // so we need to sanitze the URL manually
         this.iconValue = this.sanitizer.sanitize(SecurityContext.URL, this.iconLoader.getSvgPath(type));
-    } else if (this.iconLoader.isResourceType(type, IconResourceType.TEXT)) {
-        this.iconResourceType = IconResourceType.TEXT;
+    } else if (this.isTextIcon()) {
         this.iconValue = this.iconLoader.getSymbol(type);
     } else {
         // assume IconResourceType.LINK by default
-        this.iconResourceType = IconResourceType.LINK;
         this.iconValue = null;
     }
     this.iconLoader.addLinkResource(type);
