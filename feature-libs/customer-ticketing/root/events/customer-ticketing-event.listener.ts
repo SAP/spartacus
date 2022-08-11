@@ -24,7 +24,6 @@ export class CustomerTicketingEventListener implements OnDestroy {
   }
 
   protected onGetTicketQueryReload(): void {
-    console.log('onGetTicketQueryReload');
     this.subscriptions.add(
       merge(
         this.eventService.get(LanguageSetEvent),
@@ -37,8 +36,10 @@ export class CustomerTicketingEventListener implements OnDestroy {
 
   protected onGetTicketQueryReset(): void {
     this.subscriptions.add(
-      merge().subscribe(() => {
-        this.eventService.get(LogoutEvent), this.eventService.get(LoginEvent);
+      merge(
+        this.eventService.get(LogoutEvent),
+        this.eventService.get(LoginEvent)
+      ).subscribe(() => {
         this.eventService.dispatch({}, GetTicketQueryResetEvent);
       })
     );
