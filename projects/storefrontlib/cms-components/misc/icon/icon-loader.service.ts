@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, SecurityContext } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
@@ -91,22 +91,22 @@ export class IconLoaderService {
    * NOTE: this is not working when the shadow is used as there's
    * no head element available and the link must be loaded for every
    * web component.
-   *
-   * @deprecated only exists for backwards compatibility, resource loading has been moved to icon component
    */
   public addLinkResource(iconType: ICON_TYPE_STRING): void {
     const resource = this.findResource(iconType, IconResourceType.LINK);
-    if (
-      resource?.url &&
-      !this.loadedResources.includes(resource.url)
-    ) {
+
+    if (resource?.url && !this.loadedResources.includes(resource.url)) {
       this.loadedResources.push(resource.url);
-      const head = this.winRef.document.getElementsByTagName('head')[0];
-      const link = this.winRef.document.createElement('link');
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = resource.url;
-      head.appendChild(link);
+      // using DOM APIs, so need to sanitize our URLs manually
+      const sanitizedUrl = this.sanitizer.sanitize(SecurityContext.URL, resource.url);
+      if (sanitizedUrl) {
+        const head = this.winRef.document.getElementsByTagName('head')[0];
+        const link = this.winRef.document.createElement('link');
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = sanitizedUrl;
+        head.appendChild(link);
+      }
     }
   }
 

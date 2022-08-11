@@ -71,7 +71,6 @@ export class IconComponent {
 
   private iconValue: string | null;
   private iconResourceType: IconResourceType;
-  private loadedResources: string[] = [];
 
   constructor(
     protected iconLoader: IconLoaderService,
@@ -96,7 +95,7 @@ export class IconComponent {
         this.iconResourceType = IconResourceType.LINK;
         this.iconValue = null;
     }
-    this.addLinkResource(type);
+    this.iconLoader.addLinkResource(type);
     this.addStyleClasses(type);
   }
 
@@ -110,32 +109,6 @@ export class IconComponent {
 
   public isTextIcon(): boolean {
     return this.iconResourceType === IconResourceType.TEXT;
-  }
-
-  /**
-   * Loads the resource url (if any) for the given icon.
-   * The icon will only be loaded once.
-   *
-   * NOTE: this is not working when the shadow is used as there is
-   * no head element available and the link must be loaded for every
-   * web component.
-   */
-  protected addLinkResource(type: ICON_TYPE_STRING): void {
-    const resource = this.iconLoader.findResource(type, IconResourceType.LINK);
-
-    if (resource?.url && !this.loadedResources.includes(resource.url)) {
-      this.loadedResources.push(resource.url);
-      // using DOM APIs, so need to sanitize our URLs manually
-      const sanitizedUrl = this.sanitizer.sanitize(SecurityContext.URL, resource.url);
-      if (sanitizedUrl) {
-        const head = this.winRef.document.getElementsByTagName('head')[0];
-        const link = this.winRef.document.createElement('link');
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = sanitizedUrl;
-        head.appendChild(link);
-      }
-    }
   }
 
   /**
