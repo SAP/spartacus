@@ -9,6 +9,16 @@ import { map } from 'rxjs/operators';
 export class CustomerTicketingListComponent {
   constructor() {}
 
+  // Create table Headers
+  tableHeaders = [
+    { key: 'ticketId', label: 'ID' },
+    { key: 'subject', label: 'Subject' },
+    { key: 'ticketCategory', label: 'Category' },
+    { key: 'createdOn', label: 'Created On' },
+    { key: 'changedOn', label: 'Changed On' },
+    { key: 'status', label: 'Status' },
+  ];
+
   tickets$ = of({
     pagination: {
       currentPage: 0,
@@ -60,6 +70,44 @@ export class CustomerTicketingListComponent {
             toStatus: {
               id: 'CLOSED',
               name: 'Closed',
+            },
+          },
+        ],
+      },
+      {
+        associatedTo: {
+          code: '00002000',
+          modifiedAt: '2021-01-14T10:06:57+0000',
+          type: 'Cart',
+        },
+        availableStatusTransitions: [
+          {
+            id: 'CLOSED',
+            name: 'Closed',
+          },
+        ],
+        createdAt: '2021-01-14T10:06:57+0000',
+        customerId: 1000001,
+        id: '0000002',
+        modifiedAt: '2021-01-14T10:06:57+0000',
+        status: {
+          id: 'OPEN',
+          name: 'Open',
+        },
+        subject: 'Need fix for my door',
+        ticketCategory: {
+          id: 'ENQUIRY',
+          name: 'Enquiry',
+        },
+        ticketEvents: [
+          {
+            addedByAgent: false,
+            author: 'Bob',
+            createdAt: '2021-01-14T10:06:57+0000',
+            message: 'Door received broken',
+            toStatus: {
+              id: 'OPEN',
+              name: 'Open',
             },
           },
         ],
