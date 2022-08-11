@@ -1,5 +1,26 @@
 <ng-container>
   <ng-container *ngIf="tickets | async as tickets">
+    <h3 class="cx-ticketing-list-title">
+      <span class="cx-ticketing-list-title-text">
+        {{ 'customerTicketing.requestTitle' | cxTranslate }}
+      </span>
+      <span class="cx-ticketing-list-title-count">
+        ({{ tickets.length }})
+      </span>
+    </h3>
+    <div class="cx-ticketing-list-subtitle">
+      {{ 'customerTicketing.sortSubtitle' | cxTranslate }}
+    </div>
+    <select
+      class="cx-ticketing-list-select"
+      [ngModel]="selected"
+      (ngModelChange)="selected = $event"
+    > 
+      <option *ngFor="let heading of tableHeaders" [ngValue]="heading">
+        {{ heading.label }}
+      </option>
+    </select>
+
     <ng-container class="cx-ticket-list" *ngIf="tickets.length > 0">
       <table class="table cx-table">
         <thead>
