@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';

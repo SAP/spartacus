@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { AuthGuard, CmsConfig } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';

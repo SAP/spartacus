@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 /**
  * Clicks on the 'Edit Configuration' link in cart for a certain cart item.
  *

@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { NgModule } from '@angular/core';
 import { ProductAttributesModule } from './product-attributes/product-attributes.module';
 import { ProductDetailsTabModule } from './product-details-tab/product-details-tab.module';

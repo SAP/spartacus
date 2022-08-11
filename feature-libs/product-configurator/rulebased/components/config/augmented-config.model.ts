@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import '@spartacus/product-configurator/common';
 import { ProductConfiguratorCoreConfig } from './../../core/config/configurator-core.config';
 import { ProductConfiguratorMessageConfig } from './configurator-message.config';

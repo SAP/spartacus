@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import {
   CONFIGURATOR_CONVERT_ATTRIBUTE_TYPE,
   OCC_CONFIGURATOR_VARIANT_NORMALIZER,

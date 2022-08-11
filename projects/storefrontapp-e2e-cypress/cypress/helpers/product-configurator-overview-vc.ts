@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import Chainable = Cypress.Chainable;
 import * as configurationOverview from './product-configurator-overview';
 import * as configurationVc from './product-configurator-vc';

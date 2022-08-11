@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 export const quickOrderCartForm = {
   entriesWereAdded: '({{ quantity }}) {{ product }} has been added to the cart',
   entryWasAdded: '{{ product }} has been added to the cart',

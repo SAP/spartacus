@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { ConfigFactory } from './config-factory';
 import { provideConfig, provideConfigFactory } from './config-providers';

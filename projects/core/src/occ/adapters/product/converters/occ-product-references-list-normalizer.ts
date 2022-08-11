@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { Injectable } from '@angular/core';
 import { ProductReference } from '../../../../model/product.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';

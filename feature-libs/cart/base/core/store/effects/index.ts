@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { CartEntryEffects } from './cart-entry.effect';
 import { CartVoucherEffects } from './cart-voucher.effect';
 import { CartEffects } from './cart.effect';

@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { SampleProduct } from '../../sample-data/checkout-flow';
 import * as sampleData from '../../sample-data/b2b-checkout';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';

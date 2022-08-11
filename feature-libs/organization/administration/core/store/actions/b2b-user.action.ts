@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { B2BUser, ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import {
   B2B_USER_APPROVERS,

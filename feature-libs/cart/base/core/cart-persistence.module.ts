@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { NgModule } from '@angular/core';
 import { Action, ActionReducer, MetaReducer, META_REDUCERS } from '@ngrx/store';
 import { CartType } from '@spartacus/cart/base/root';

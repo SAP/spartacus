@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { Translatable } from '../../../i18n/translatable';
 import { GlobalMessageType } from '../../models/global-message.model';

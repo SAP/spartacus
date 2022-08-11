@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 export * from './import-entries/import-order-entries.component';
 export * from './import-entries-dialog/import-entries-dialog.component';
 export * from './import-entries-dialog/import-entries-form/import-entries-form.component';

@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
 import { MOVE_FOCUS, TrapFocusConfig } from '../keyboard-focus.model';
 import { TabFocusDirective } from '../tab/tab-focus.directive';

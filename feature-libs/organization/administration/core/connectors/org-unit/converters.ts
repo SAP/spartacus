@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { InjectionToken } from '@angular/core';
 import { B2BApprovalProcess, B2BUnit, Converter } from '@spartacus/core';
 import { B2BUnitNode } from '../../model/unit-node.model';

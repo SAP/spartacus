@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { Injectable, InjectionToken, Provider } from '@angular/core';
 import { RouterStateSnapshot } from '@angular/router';
 import * as fromNgrxRouter from '@ngrx/router-store';

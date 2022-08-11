@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 /* eslint-disable */
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 

@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { Injectable, NgZone, Renderer2, RendererFactory2 } from '@angular/core';
 import {
   BaseSiteService,

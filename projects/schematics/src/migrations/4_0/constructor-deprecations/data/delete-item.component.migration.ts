@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import {
   DELETE_ITEM_COMPONENT,
   FEATURE_CONFIG_SERVICE,

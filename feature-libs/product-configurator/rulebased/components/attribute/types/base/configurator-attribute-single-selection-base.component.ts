@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { TranslationService } from '@spartacus/core';

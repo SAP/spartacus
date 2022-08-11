@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { Injectable } from '@angular/core';
 import { AutoFocusService } from '../autofocus/auto-focus.service';
 import { MOVE_FOCUS, TabFocusConfig } from '../keyboard-focus.model';

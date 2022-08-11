@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { normalize, resolve } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 import * as path from 'path';

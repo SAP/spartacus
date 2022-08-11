@@ -1,7 +1,3 @@
-// SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
-//
-// SPDX-License-Identifier: Apache-2.0
-
 import { DIALOG_TYPE, LayoutConfig } from '@spartacus/storefront';
 import { SavedCartFormDialogComponent } from './saved-cart-form-dialog.component';
 
