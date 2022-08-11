@@ -10,6 +10,9 @@ import { StockAdapter } from '@spartacus/pickup-in-store/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
+/**
+ * Adapter for finding stock levels of a product in stores from the OCC APIs.
+ */
 @Injectable()
 export class OccStockAdapter implements StockAdapter {
   constructor(

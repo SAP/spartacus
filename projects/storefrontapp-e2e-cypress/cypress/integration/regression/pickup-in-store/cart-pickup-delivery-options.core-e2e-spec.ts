@@ -47,7 +47,7 @@ describe('Pickup delivery options', () => {
       cy.visit('/product/300310300', mockLocation(53, 0));
     });
 
-    it('Delivery selected by default. CLick Pickup. Pickup radio becomes selected. Dismiss dialog witout picking a store. Delivery is selected', () => {
+    it('Delivery selected by default. CLick Pickup. Pickup radio becomes selected. Dismiss dialog without picking a store. Delivery is selected', () => {
       cy.get(DELIVERY_RADIO_BUTTON).should('have.attr', 'aria-checked', 'true');
       cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(USE_MY_LOCATION).click();

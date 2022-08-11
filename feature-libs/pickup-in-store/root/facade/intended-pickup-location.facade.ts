@@ -32,6 +32,7 @@ export abstract class IntendedPickupLocationFacade {
   abstract getIntendedLocation(
     productCode: string
   ): Observable<AugmentedPointOfService | undefined>;
+
   /**
    * Set the Point of Service a user wants to collect a product from before it is added to the cart.
    * @param productCode The product code of the product the user wants to collect.
@@ -41,6 +42,7 @@ export abstract class IntendedPickupLocationFacade {
     productCode: string,
     location: AugmentedPointOfService
   ): void;
+
   /**
    * Remove the Point of Service a user wanted to collect a product from before it was to be added to the cart.
    * @param productCode The product code of the product the user wants to collect.
