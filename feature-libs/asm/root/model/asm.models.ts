@@ -1,5 +1,9 @@
-import { PaginationModel, SortModel, User } from '@spartacus/core';
+import { PaginationModel, SortModel, UrlCommand, User } from '@spartacus/core';
 
+export enum AsmDialogActionType {
+  START_SESSION = 'START_SESSION',
+  NAVIGATE = 'NAVIGATE',
+}
 export interface CustomerSearchPage {
   entries: User[];
   pagination?: PaginationModel;
@@ -23,6 +27,12 @@ export interface BindCartParams {
 export interface Customer360Section {
   sectionTitle: CUSTOMER_360_SECTION_TITLE;
   sectionContent: string;
+}
+
+export interface AsmDialogActionEvent {
+  selectedUser: User;
+  actionType: AsmDialogActionType;
+  route?: UrlCommand;
 }
 
 export enum CUSTOMER_360_SECTION_TITLE {
