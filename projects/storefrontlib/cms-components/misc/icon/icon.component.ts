@@ -61,7 +61,7 @@ export class IconComponent {
    */
   @HostBinding('class') styleClasses: string[] = [];
 
-  private iconValue: string | null;
+  private iconValue?: string;
   private iconResourceType: IconResourceType;
 
   constructor(
@@ -85,13 +85,13 @@ export class IconComponent {
       this.iconValue = this.iconLoader.getSymbol(type);
     } else {
       // assume IconResourceType.LINK by default
-      this.iconValue = null;
+      this.iconValue = undefined;
     }
     this.iconLoader.addLinkResource(type);
     this.addStyleClasses(type);
   }
 
-  public get icon(): string | null {
+  public get icon(): string | undefined {
     return this.iconValue;
   }
 

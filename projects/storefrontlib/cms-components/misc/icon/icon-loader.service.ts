@@ -69,8 +69,8 @@ export class IconLoaderService {
    * Return the direction for which the icon should mirror (ltr vs rtl). The icon direction
    * is configurable, but optional, as only a few icons should be flipped for rtl direction.
    */
-  public getFlipDirection(type: ICON_TYPE_STRING): DirectionMode | null {
-    return this.config?.flipDirection?.[type] || null;
+  public getFlipDirection(type: ICON_TYPE_STRING): DirectionMode | undefined {
+    return this.config?.flipDirection?.[type];
   }
 
   /**
@@ -87,7 +87,7 @@ export class IconLoaderService {
    * Additionally, the icon prefix will be taken into account to prefix the
    * icon IDs in the SVG.
    */
-  public getSvgPath(iconType: ICON_TYPE_STRING): string | null {
+  public getSvgPath(iconType: ICON_TYPE_STRING): string | undefined {
     const svgResource = this.config?.resources?.find(
       (res) =>
         res.type === IconResourceType.SVG && res.types?.includes(iconType)
@@ -97,7 +97,6 @@ export class IconLoaderService {
         ? `${svgResource.url}#${this.getSymbol(iconType)}`
         : `#${this.getSymbol(iconType)}`;
     }
-    return null;
   }
 
   /**
@@ -137,26 +136,25 @@ export class IconLoaderService {
   public findResource(
     iconType: ICON_TYPE_STRING,
     resourceType: IconResourceType
-  ): IconConfigResource | null {
+  ): IconConfigResource | undefined {
     return (
       this.config?.resources?.find(
         (res) => res.type === resourceType && res.types?.includes(iconType)
       ) ||
       this.config?.resources?.find(
         (res) => res.type === resourceType && !res.types
-      ) ||
-      null
+      )
     );
   }
 
   /**
    * Get the symbol configured for given iconType, if any.
    */
-  public getSymbol(iconType: ICON_TYPE_STRING): string | null {
-    return this.config?.symbols?.[iconType] || null;
+  public getSymbol(iconType: ICON_TYPE_STRING): string | undefined {
+    return this.config?.symbols?.[iconType];
   }
 
-  private get config(): IconOptions | null {
-    return this.iconConfig.icon || null;
+  private get config(): IconOptions | undefined {
+    return this.iconConfig.icon;
   }
 }
