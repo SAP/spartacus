@@ -41,7 +41,7 @@ describe('PageMetaResolver', () => {
 
   it('should score -1 for CategoryPage', () => {
     service.pageType = PageType.CATEGORY_PAGE;
-    expect(service.getScore(mockContentPage)).toEqual(-1);
+    expect(service.getScore(mockContentPage)).toEqual(0);
   });
 
   it('should score -2 for non CategoryPage and lacking page template', () => {

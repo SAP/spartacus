@@ -52,7 +52,7 @@ describe('AsmToggleuUiComponent', () => {
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(el.query(By.css('.expandIcon'))).toBeTruthy();
+    expect(el.query(By.css('.break'))).toBeTruthy();
     expect(el.query(By.css('.collapseIcon'))).toBeFalsy();
   });
 
@@ -67,7 +67,7 @@ describe('AsmToggleuUiComponent', () => {
   it('should call toggleUi() and toggle the collapse value', () => {
     spyOn(asmService, 'updateAsmUiState').and.stub();
 
-    el.query(By.css('.toggleUi')).nativeElement.dispatchEvent(
+    el.query(By.css('.break')).nativeElement.dispatchEvent(
       new MouseEvent('click')
     );
 
