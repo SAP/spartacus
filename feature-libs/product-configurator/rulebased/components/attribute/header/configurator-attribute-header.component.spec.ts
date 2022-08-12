@@ -30,7 +30,6 @@ export class MockIconFontLoaderService {
   }
   getResourceType() {}
   addLinkResource() {}
-  getHtml(_iconType: ICON_TYPE) {}
   getFlipDirection(): void {}
 }
 

@@ -14,13 +14,11 @@ export class MockIconComponent {
 const mockComponents = [MockIconComponent];
 
 export class MockIconLoaderService {
-  getStyleClasses() {}
-  addStyleClasses() {}
-  addLinkResource() {}
   getResourceType() {}
+  getStyleClasses() {}
   getSvgPath() {}
-  findResource() {}
   getSymbol() {}
+  addLinkResource() {}
 }
 
 @NgModule({
