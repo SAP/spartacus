@@ -90,10 +90,24 @@ Cypress.Commands.add(
         )
       )
         .filter((element) => element.offsetParent !== null)
-        .map((el) => ({
-          element: el.outerHTML,
-          child: el.innerHTML,
-        }));
+        .map((el) => {
+          return {
+            element: {
+              tagName: el.tagName,
+              attributes: {
+                classes: el.classList?.length
+                  ? Object.values(el.classList)
+                  : undefined,
+                formcontrolname:
+                  el.getAttribute('formcontrolname') ?? undefined,
+                href: el.getAttribute('href') ?? undefined,
+                id: el.id?.length ? el.id : undefined,
+                name: el.getAttribute('name') ?? undefined,
+                type: el.getAttribute('type') ?? undefined,
+              },
+            },
+          };
+        });
 
       cy.task('readFile', SNAPSHOT_FILE).then((file: string) => {
         if (file?.length) {
@@ -103,7 +117,8 @@ Cypress.Commands.add(
           } else {
             cy.writeFile(DRAFT_FILE, JSON.stringify(focusable)).then(() => {
               throw new Error(
-                `DOM not matching snapshot. ${GENERATION_MESSAGE}`
+                `DOM not matching snapshot. ${GENERATION_MESSAGE}\n\n
+                Current DOM: ${JSON.stringify(focusable)}`
               );
             });
           }
