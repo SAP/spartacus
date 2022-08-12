@@ -77,10 +77,11 @@ export class IconComponent {
     if (this.isSvgIcon()) {
       // looks like angular does not sanitize URLs when binding to the xlink:href attribute of svg elements
       // so we need to sanitze the URL manually
-      this.iconValue = this.sanitizer.sanitize(
-        SecurityContext.URL,
-        this.iconLoader.getSvgPath(type) || null
-      ) || undefined;
+      this.iconValue =
+        this.sanitizer.sanitize(
+          SecurityContext.URL,
+          this.iconLoader.getSvgPath(type) || null
+        ) || undefined;
     } else if (this.isTextIcon()) {
       this.iconValue = this.iconLoader.getSymbol(type);
     } else {

@@ -1,5 +1,6 @@
+import { ɵunwrapSafeValue as unwrapSafeValue } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer, SafeValue } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
@@ -79,13 +80,6 @@ export const MockIconConfig: IconConfig = {
     },
   },
 };
-
-function unwrapSafeHtml(html: SafeHtml | undefined): string {
-  if (!html) {
-    return '';
-  }
-  return html['changingThisBreaksApplicationSecurity'];
-}
 
 describe('IconLoaderService', () => {
   let service: IconLoaderService;
@@ -254,7 +248,9 @@ describe('IconLoaderService', () => {
   describe('TEXT icons', () => {
     it('should generate text', () => {
       const nativeDebugElement = winRef.document.createElement('div');
-      nativeDebugElement.innerHTML = unwrapSafeHtml(service.getHtml('SAD'));
+      nativeDebugElement.innerHTML = unwrapSafeValue(
+        service.getHtml('SAD') as SafeValue
+      );
 
       expect(nativeDebugElement.textContent).toBe(':-(');
       expect(nativeDebugElement.childElementCount).toBe(0);
@@ -262,8 +258,8 @@ describe('IconLoaderService', () => {
 
     it('should not generate dangerous html source code', () => {
       const nativeDebugElement = winRef.document.createElement('div');
-      nativeDebugElement.innerHTML = unwrapSafeHtml(
-        service.getHtml('BAD_TEXT')
+      nativeDebugElement.innerHTML = unwrapSafeValue(
+        service.getHtml('BAD_TEXT') as SafeValue
       );
 
       expect(nativeDebugElement.textContent).toBe(
@@ -286,8 +282,8 @@ describe('IconLoaderService', () => {
 
     it('should generate non-sprited SVG code', () => {
       const nativeDebugElement = winRef.document.createElement('div');
-      nativeDebugElement.innerHTML = unwrapSafeHtml(
-        service.getHtml(ICON_TYPE.INFO)
+      nativeDebugElement.innerHTML = unwrapSafeValue(
+        service.getHtml(ICON_TYPE.INFO) as SafeValue
       );
       expect(nativeDebugElement.childElementCount).toBe(1);
 
@@ -305,8 +301,8 @@ describe('IconLoaderService', () => {
 
     it('should generate sprited SVG', () => {
       const nativeDebugElement = winRef.document.createElement('div');
-      nativeDebugElement.innerHTML = unwrapSafeHtml(
-        service.getHtml(ICON_TYPE.CART)
+      nativeDebugElement.innerHTML = unwrapSafeValue(
+        service.getHtml(ICON_TYPE.CART) as SafeValue
       );
       expect(nativeDebugElement.childElementCount).toBe(1);
 
@@ -326,7 +322,9 @@ describe('IconLoaderService', () => {
 
     it('should generate a sprited SVG with a sanitized javascript: url', () => {
       const nativeDebugElement = winRef.document.createElement('div');
-      nativeDebugElement.innerHTML = unwrapSafeHtml(service.getHtml('BAD_SVG'));
+      nativeDebugElement.innerHTML = unwrapSafeValue(
+        service.getHtml('BAD_SVG') as SafeValue
+      );
       expect(nativeDebugElement.childElementCount).toBe(1);
 
       const svgElement = nativeDebugElement.children[0];
