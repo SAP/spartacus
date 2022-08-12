@@ -1,4 +1,6 @@
+import { ADDED_TO_CART_FEEDBACK } from '../models';
 import { CartConfig } from './cart-config';
+import { defaultAddToCartToastConfig } from './default-added-to-cart-toast-config';
 
 export const defaultCartConfig: CartConfig = {
   cart: {
@@ -7,6 +9,10 @@ export const defaultCartConfig: CartConfig = {
     },
     selectiveCart: {
       enabled: false,
+    },
+    addToCartFeedback: {
+      feedback: ADDED_TO_CART_FEEDBACK.MODAL,
+      toast: defaultAddToCartToastConfig,
     },
   },
 };

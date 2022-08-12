@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import { ADDED_TO_CART_FEEDBACK } from '../models';
 // Imported for side effects (module augmentation)
 import '@spartacus/storefront';
 
@@ -15,7 +16,15 @@ export abstract class CartConfig {
     validation?: {
       enabled?: boolean;
     };
+    addToCartFeedback: {
+      feedback: ADDED_TO_CART_FEEDBACK;
+      toast?: AddToCartToastConfig;
+    };
   };
+}
+
+export interface AddToCartToastConfig {
+  timeout?: number;
 }
 
 declare module '@spartacus/core' {

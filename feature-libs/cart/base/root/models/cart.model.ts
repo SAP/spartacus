@@ -2,6 +2,7 @@ import {
   Address,
   CostCenter,
   Currency,
+  Images,
   PointOfService,
   Price,
   Principal,
@@ -192,4 +193,25 @@ export enum CartValidationStatusCode {
   REVIEW_CONFIGURATION = 'reviewConfiguration',
   PRICING_ERROR = 'pricingError',
   UNRESOLVABLE_ISSUES = 'unresolvableIssues',
+}
+
+export enum ADDED_TO_CART_FEEDBACK {
+  MODAL,
+  TOAST,
+  NONE,
+}
+export interface CartToastItem {
+  productName: string;
+  quantity: number;
+  unitPrice: string;
+  baseClass: string;
+  images?: Images;
+  timeoutRef?: ReturnType<typeof setTimeout>;
+  scrollUnlistener?: () => void;
+}
+
+export enum CART_TOAST_STATE {
+  OPENING = 'OPENING',
+  OPENED = 'OPENED',
+  CLOSING = 'CLOSING',
 }

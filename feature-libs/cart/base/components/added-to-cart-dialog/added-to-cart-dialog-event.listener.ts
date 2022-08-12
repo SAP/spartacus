@@ -1,6 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
+  ADDED_TO_CART_FEEDBACK,
   CartAddEntryFailEvent,
+  CartConfig,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
@@ -18,12 +20,18 @@ export class AddedToCartDialogEventListener implements OnDestroy {
 
   constructor(
     protected eventService: EventService,
-    protected modalService: ModalService
+    protected modalService: ModalService,
+    protected cartConfig: CartConfig
   ) {
     this.onAddToCart();
   }
 
   protected onAddToCart() {
+    const feedbackType = this.cartConfig.cart?.addToCartFeedback.feedback;
+    if (feedbackType !== ADDED_TO_CART_FEEDBACK.MODAL) {
+      return;
+    }
+
     this.subscription.add(
       this.eventService.get(CartUiEventAddToCart).subscribe((event) => {
         this.openModal(event);

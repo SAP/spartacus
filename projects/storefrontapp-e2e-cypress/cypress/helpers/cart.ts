@@ -559,3 +559,34 @@ export function verifyCartIdAfterClearCart() {
     expect(cartId).to.not.eq(_cartId);
   });
 }
+
+export function visitFirstCarouselProductPage() {
+  cy.get('cx-carousel').within(() => {
+    cy.get('a').first().click({ force: true });
+  });
+}
+
+export function verifyAddedToCartToast(quantity = 1, productNameEl) {
+  cy.get('cx-added-to-cart-toast').within(() => {
+    cy.get('.added-to-cart-toast-title').should(
+      'contain',
+      `${quantity} ${quantity === 1 ? 'item' : 'items'}`
+    );
+
+    // check for product name
+    cy.get('.product-name').should((el) => {
+      productNameEl.should('have.text', el.text());
+    });
+
+    // check action buttons/links
+    cy.get('button').should('contain.text', 'Continue Shopping');
+    cy.get('.btn-primary')
+      .should('have.attr', 'href')
+      .then(($href) => {
+        expect($href).contain('/cart');
+      });
+  });
+
+  // wait for toast to dismiss
+  cy.get('cx-added-to-cart-toast').should('be.empty');
+}

@@ -1,0 +1,29 @@
+<ng-container *ngIf="cartToasts$ | async as cartToasts">
+  <div *ngFor="let toast of cartToasts" [class]="toast.baseClass">
+    <div
+      class="added-to-cart-toast-title"
+      role="alert"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {{ 'cartToast.entryAdded' | cxTranslate: { count: toast.quantity } }}
+    </div>
+    <div class="added-to-cart-toast-content">
+      <cx-media
+        class="cx-product-image"
+        [container]="toast.images?.PRIMARY"
+        format="product"
+        [alt]="toast.productName"
+      ></cx-media>
+      <div class="added-to-cart-toast-product">
+        <h3 class="product-name">{{ toast.productName }}</h3>
+        <span class="product-row quantity">
+          {{ 'cartToast.quantity' | cxTranslate }}: {{ toast.quantity }}
+        </span>
+        <span class="product-row price">
+          {{ 'cartToast.price' | cxTranslate }}: {{ toast.unitPrice }}
+        </span>
+      </div>
+    </div>
+  </div>
+</ng-container>
