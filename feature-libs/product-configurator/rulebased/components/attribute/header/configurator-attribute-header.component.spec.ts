@@ -24,7 +24,7 @@ import * as ConfigurationTestData from '../../../testing/configurator-test-data'
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
 
-export class MockIconFontLoaderService {
+export class MockIconLoaderService {
   getStyleClasses(_iconType: ICON_TYPE): string {
     return 'fas fa-exclamation-circle';
   }
@@ -109,7 +109,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         imports: [I18nTestingModule, IconModule],
         declarations: [ConfiguratorAttributeHeaderComponent],
         providers: [
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          { provide: IconLoaderService, useClass: MockIconLoaderService },
           {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: MockConfigUtilsService,

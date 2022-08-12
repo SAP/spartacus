@@ -92,7 +92,7 @@ class MockConfiguratorCommonsService {
   }
 }
 
-export class MockIconFontLoaderService {
+export class MockIconLoaderService {
   getResourceType() {}
   getFlipDirection(): void {}
 }
@@ -129,7 +129,7 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
             useClass: MockConfiguratorCommonsService,
           },
 
-          { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          { provide: IconLoaderService, useClass: MockIconLoaderService },
         ],
       });
     })
