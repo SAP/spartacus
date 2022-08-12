@@ -3,7 +3,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { IconModule } from './icon.module';
-import { ICON_TYPE, IconConfig, IconResourceType } from './icon.model';
+import { ICON_TYPE, IconConfig } from './icon.model';
 import { IconLoaderService } from './icon-loader.service';
 import { IconComponent } from './icon.component';
 import { MockIconConfig } from './icon-loader.service.spec';
@@ -22,7 +22,6 @@ class MockIconTestComponent {}
 describe('IconComponent', () => {
   let fixture: ComponentFixture<IconComponent>;
   let component: IconComponent;
-  let service: IconLoaderService;
   let winRef: WindowRef;
 
   beforeEach(
@@ -41,7 +40,6 @@ describe('IconComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(IconComponent);
     component = fixture.componentInstance;
-    service = TestBed.inject(IconLoaderService);
     winRef = TestBed.inject(WindowRef);
   });
 
@@ -97,22 +95,10 @@ describe('IconComponent', () => {
   });
 
   describe('linked resources', () => {
-    it('should call findResource', () => {
-      spyOn(service, 'findResource').and.callThrough();
-      component.type = ICON_TYPE.CART;
-      fixture.detectChanges();
-      expect(service.findResource).toHaveBeenCalled();
-    });
-
     it('should add the font resource', () => {
-      spyOn(service, 'findResource').and.callThrough();
       spyOn<any>(winRef.document, 'createElement').and.callThrough();
       component.type = 'PAYPAL';
       fixture.detectChanges();
-      expect(service.findResource).toHaveBeenCalledWith(
-        'PAYPAL',
-        IconResourceType.LINK
-      );
       expect(winRef.document.createElement).toHaveBeenCalledWith('link');
     });
 
@@ -487,11 +473,10 @@ describe('host icon components', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IconComponent);
-    service = TestBed.inject(IconLoaderService);
     winRef = TestBed.inject(WindowRef);
+    service = TestBed.inject(IconLoaderService);
+    spyOn(service, 'addLinkResource').and.callThrough();
 
-    spyOn(service, 'findResource').and.callThrough();
     fixture = TestBed.createComponent(MockIconTestComponent);
     hostComponent = fixture.componentInstance;
     debugElement = fixture.debugElement;
@@ -506,7 +491,7 @@ describe('host icon components', () => {
     it('should add resource for all icons', () => {
       // it's actually just 4 icons, but due to a name clash between the type attribute
       // of cxIcon and button setIcon gets called twice for one of them
-      expect(service.findResource).toHaveBeenCalledTimes(5);
+      expect(service.addLinkResource).toHaveBeenCalledTimes(5);
     });
 
     it('should add the symbol classes for the icon component classlist', () => {

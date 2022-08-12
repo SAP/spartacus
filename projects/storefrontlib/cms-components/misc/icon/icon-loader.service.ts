@@ -133,7 +133,7 @@ export class IconLoaderService {
    * Try to find a resource, specific to both the iconType and the resourceType.
    * Otherwise, try to find a one-size-fits-all resource for the resourceType, if any.
    */
-  public findResource(
+  private findResource(
     iconType: ICON_TYPE_STRING,
     resourceType: IconResourceType
   ): IconConfigResource | undefined {
