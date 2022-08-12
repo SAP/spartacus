@@ -5,7 +5,7 @@ import { IconLoaderService } from './icon-loader.service';
 import { IconResourceType, ICON_TYPE_STRING } from './icon.model';
 
 /**
- * Enum with contstants for CSS classes used by the icon component.
+ * Enum with contstants for CSS classes.
  */
 enum CSS_CLASSES {
   CX_ICON = 'cx-icon',
@@ -79,8 +79,8 @@ export class IconComponent {
       // so we need to sanitze the URL manually
       this.iconValue = this.sanitizer.sanitize(
         SecurityContext.URL,
-        this.iconLoader.getSvgPath(type)
-      );
+        this.iconLoader.getSvgPath(type) || null
+      ) || undefined;
     } else if (this.isTextIcon()) {
       this.iconValue = this.iconLoader.getSymbol(type);
     } else {

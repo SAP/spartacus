@@ -31,7 +31,7 @@ export class IconLoaderService {
     if (this.getResourceType(type) === IconResourceType.SVG) {
       const url = this.sanitizer.sanitize(
         SecurityContext.URL,
-        this.getSvgPath(type)
+        this.getSvgPath(type) || null
       );
       if (url) {
         const useElement = this.winRef.document.createElement('use');
@@ -93,7 +93,7 @@ export class IconLoaderService {
         res.type === IconResourceType.SVG && res.types?.includes(iconType)
     );
     if (svgResource) {
-      return svgResource.url
+      return svgResource?.url
         ? `${svgResource.url}#${this.getSymbol(iconType)}`
         : `#${this.getSymbol(iconType)}`;
     }
