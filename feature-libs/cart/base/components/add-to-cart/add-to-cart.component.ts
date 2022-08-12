@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
   Optional,
+  ViewContainerRef,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
@@ -64,6 +65,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
+    protected vcr: ViewContainerRef,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
@@ -150,7 +152,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           this.createCartUiEventAddToCart(
             this.productCode,
             quantity,
-            cartEntries.length
+            cartEntries.length,
+            this.vcr
           )
         );
       });
@@ -159,12 +162,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   protected createCartUiEventAddToCart(
     productCode: string,
     quantity: number,
-    numberOfEntriesBeforeAdd: number
+    numberOfEntriesBeforeAdd: number,
+    vcr: ViewContainerRef
   ) {
     const newEvent = new CartUiEventAddToCart();
     newEvent.productCode = productCode;
     newEvent.quantity = quantity;
     newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
+    newEvent.vcr = vcr;
     return newEvent;
   }
 

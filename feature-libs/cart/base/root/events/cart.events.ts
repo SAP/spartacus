@@ -1,3 +1,4 @@
+import { ViewContainerRef } from '@angular/core';
 import { CxEvent } from '@spartacus/core';
 import { OrderEntry } from '../models/cart.model';
 
@@ -120,6 +121,7 @@ export class CartUiEventAddToCart extends CxEvent {
   productCode: string;
   quantity: number;
   numberOfEntriesBeforeAdd: number;
+  vcr: ViewContainerRef;
 }
 
 /**

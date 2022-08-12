@@ -15,7 +15,9 @@
 
   .cx-store-list-order {
     position: absolute;
-    left: -2rem;
+    color: var(--cx-color-primary);
+    font-size: var(--cx-font-size, 1.188rem);
+    font-weight: var(--cx-font-weight-bold);
   }
 
   .cx-store-name {

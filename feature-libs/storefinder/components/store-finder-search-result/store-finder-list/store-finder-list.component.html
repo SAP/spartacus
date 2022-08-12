@@ -1,5 +1,5 @@
 <ng-container *ngIf="locations">
-  <div class="container mb-2" aria-atomic="true" aria-live="assertive">
+  <div class="container" aria-atomic="true" aria-live="assertive">
     <div class="row" *ngIf="locations?.pagination">
       <div class="col-md-12">
         <cx-store-finder-pagination-details
@@ -65,51 +65,50 @@
     <!-- mobile tabs for column set only -->
 
     <div *ngIf="locations?.stores" class="cx-columns-mobile">
-      <ul ngbNav #nav="ngbNav">
-        <li ngbNavItem>
-          <a ngbNavLink>
+      <ul class="cx-nav">
+        <li class="cx-item">
+          <a class="cx-link">
             {{ 'storeFinder.listView' | cxTranslate }}
           </a>
-          <ng-template ngbNavContent>
-            <div class="cx-address-col">
-              <div class="cx-store-details" *ngIf="isDetailsModeVisible">
-                <cx-store-finder-store-description
-                  [location]="storeDetails"
-                  [disableMap]="true"
-                ></cx-store-finder-store-description>
-              </div>
-              <ol class="cx-list" *ngIf="!isDetailsModeVisible">
-                <li
-                  *ngFor="let location of locations?.stores; let i = index"
-                  id="{{ 'item-' + i }}"
-                  [ngClass]="{
-                    'cx-selected-item': selectedStoreIndex === i
-                  }"
-                  class="cx-list-items"
-                >
-                  <cx-store-finder-list-item
-                    [location]="location"
-                    [locationIndex]="i"
-                    [displayDistance]="useMylocation"
-                    [useClickEvent]="true"
-                    (storeItemClick)="centerStoreOnMapByIndex($event, location)"
-                    [listOrderLabel]="
-                      i +
-                      locations.pagination.currentPage *
-                        locations.pagination.pageSize +
-                      1
-                    "
-                  ></cx-store-finder-list-item>
-                </li>
-              </ol>
+          
+          <div class="cx-address-col">
+            <div class="cx-store-details" *ngIf="isDetailsModeVisible">
+              <cx-store-finder-store-description
+                [location]="storeDetails"
+                [disableMap]="true"
+              ></cx-store-finder-store-description>
             </div>
-          </ng-template>
+            <ol class="cx-list" *ngIf="!isDetailsModeVisible">
+              <li
+                *ngFor="let location of locations?.stores; let i = index"
+                id="{{ 'item-' + i }}"
+                [ngClass]="{
+                  'cx-selected-item': selectedStoreIndex === i
+                }"
+                class="cx-list-items"
+              >
+                <cx-store-finder-list-item
+                  [location]="location"
+                  [locationIndex]="i"
+                  [displayDistance]="useMylocation"
+                  [useClickEvent]="true"
+                  (storeItemClick)="centerStoreOnMapByIndex($event, location)"
+                  [listOrderLabel]="
+                    i +
+                    locations.pagination.currentPage *
+                      locations.pagination.pageSize +
+                    1
+                  "
+                ></cx-store-finder-list-item>
+              </li>
+            </ol>
+          </div>
         </li>
-        <li ngbNavItem>
-          <a ngbNavLink>
+        <li class="cx-item">
+          <a class="cx-link">
             {{ 'storeFinder.mapView' | cxTranslate }}
           </a>
-          <ng-template ngbNavContent>
+          
             <div class="cx-map-col">
               <cx-store-finder-map
                 #storeMap
@@ -117,10 +116,8 @@
                 (selectedStoreItem)="selectStoreItemList($event)"
               ></cx-store-finder-map>
             </div>
-          </ng-template>
         </li>
       </ul>
-      <div [ngbNavOutlet]="nav"></div>
     </div>
 
     <!-- mobile tabs end -->

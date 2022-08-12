@@ -10,11 +10,24 @@
   .cx-columns-mobile {
     margin-top: 1rem;
     display: block;
+
     @include media-breakpoint-up(lg) {
       display: none;
     }
 
+    .cx-link {
+      font-size: var(--cx-font-size, 1.188rem);
+      font-weight: var(--cx-font-weight-bold);
+    }
+
+    .cx-nav {
+      padding: 0;
+      list-style: none;
+    }
+
     .cx-list {
+      padding: 0;
+
       li:first-child {
         border: none;
       }
@@ -24,6 +37,7 @@
       height: 70vh;
     }
   }
+
   .cx-address-col {
     height: 100%;
     @include media-breakpoint-up(md) {
@@ -43,7 +57,6 @@
     font-size: var(--cx-font-size, 1rem);
     font-weight: var(--cx-font-weight-semi);
     list-style: none;
-    padding: inherit inherit inherit 0;
   }
 
   %cx-store-finder-list-item {
@@ -59,6 +72,10 @@
     .cx-store-name {
       color: var(--cx-color-primary);
       cursor: default;
+      display: block;
+      margin-inline-start: 15px;
+      font-size: var(--cx-font-size, 1.188rem);
+      font-weight: var(--cx-font-weight-bold);
       a {
         cursor: pointer;
         &:hover {
@@ -104,17 +121,18 @@
   }
 
   .cx-back {
-    font-weight: 600;
+    font-weight: var(--cx-font-weight-bold);
     overflow: hidden;
     white-space: nowrap;
 
     cx-icon {
-      margin: 0 0.2rem 0 0;
+      margin: 0;
+      margin-inline-start : 0.2rem;
     }
   }
 
   ul.nav {
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--cx-color-light);
     justify-content: center;
   }
 }
