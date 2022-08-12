@@ -52,8 +52,6 @@ export class CdcLoginFormComponentService
   }
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 }

@@ -27,6 +27,7 @@ import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 })
 export class CdcJsService implements OnDestroy {
   protected loaded$ = new ReplaySubject<boolean>(1);
+  protected errorLoading$ = new ReplaySubject<boolean>(1);
   protected subscription: Subscription = new Subscription();
 
   constructor(
@@ -61,7 +62,7 @@ export class CdcJsService implements OnDestroy {
    * Returns observable with the information if CDC script failed to load.
    */
   didScriptFailToLoad(): Observable<boolean> {
-    return this.loaded$.asObservable();
+    return this.errorLoading$.asObservable();
   }
 
   /**
@@ -88,8 +89,10 @@ export class CdcJsService implements OnDestroy {
                 callback: () => {
                   this.registerEventListeners(baseSite);
                   this.loaded$.next(true);
+                  this.errorLoading$.next(false);
                 },
                 errorCallback: () => {
+                  this.errorLoading$.next(true);
                   this.loaded$.next(false);
                 },
               });
@@ -262,6 +265,42 @@ export class CdcJsService implements OnDestroy {
       );
     }
   }
+
+  /**
+   * Trigger CDC forgot password using CDC APIs.
+   *
+   * @param email
+   * @param password
+   */
+   resetPasswordWithoutScreenSet(email: string) {
+    if (email && email.length > 0) {
+      (this.winRef.nativeWindow as { [key: string]: any })?.[
+        'gigya'
+      ]?.accounts?.resetPassword({
+        loginID: email,
+        callback: (response: any) => {
+          this.zone.run(() => this.handleResetPassResponse(response));
+        },
+      });
+    }
+  }
+
+  handleResetPassResponse(response: any) {
+    if (response && response.status === 'OK') {
+      this.globalMessageService.add(
+        { key: 'forgottenPassword.passwordResetEmailSent' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    } else {
+      this.globalMessageService.add(
+        {
+          key: 'httpHandlers.unknownError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
+  }
+
 
   /**
    * Updates user details using the existing User API

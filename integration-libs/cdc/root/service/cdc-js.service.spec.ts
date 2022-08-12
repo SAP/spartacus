@@ -78,6 +78,7 @@ const gigya = {
     register: () => {},
     initRegistration: () => {},
     login: () => {},
+    resetPassword: () => {},
   },
 };
 
@@ -177,7 +178,7 @@ describe('CdcJsService', () => {
   describe('didScriptFailToLoad', () => {
     it('should return CDC script loading error state', (done) => {
       spyOn(scriptLoader, 'embedScript').and.callFake(() => {
-        (service as any)['loaded$'].next(true);
+        (service as any)['errorLoading$'].next(true);
       });
 
       spyOn(baseSiteService, 'getActive').and.returnValue(
@@ -187,7 +188,7 @@ describe('CdcJsService', () => {
 
       const results: Array<boolean> = [];
 
-      (service as any)['loaded$'].next(false);
+      (service as any)['errorLoading$'].next(false);
 
       service
         .didScriptFailToLoad()
@@ -386,6 +387,23 @@ describe('CdcJsService', () => {
     });
   });
 
+  describe('resetPasswordWithoutScreenSet', () => {
+    it('should not call register', () => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'resetPassword');
+      service.resetPasswordWithoutScreenSet('');
+      expect(
+        winRef.nativeWindow['gigya'].accounts.resetPassword
+      ).not.toHaveBeenCalled();
+    });
+    it('should call register', () => {
+      spyOn(winRef.nativeWindow['gigya'].accounts, 'resetPassword');
+      service.resetPasswordWithoutScreenSet('test@mail.com');
+      expect(
+        winRef.nativeWindow['gigya'].accounts.resetPassword
+      ).toHaveBeenCalled();
+    });
+  });
+
   describe('handleLoginError', () => {
     it('should not show anything with no response', () => {
       spyOn(globalMessageService, 'remove');
@@ -461,6 +479,49 @@ describe('CdcJsService', () => {
         'Error',
         GlobalMessageType.MSG_TYPE_ERROR
       );
+    });
+  });
+
+  describe('handleResetPassResponse', () => {
+    it('should not show Error with no response', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service.handleResetPassResponse(null);
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'httpHandlers.unknownError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+    });
+
+    it('should not show error messages on success', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service.handleResetPassResponse({
+        status: 'OK',
+      });
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'forgottenPassword.passwordResetEmailSent' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('should show error', () => {
+      spyOn(globalMessageService, 'remove');
+      spyOn(globalMessageService, 'add');
+      service.handleResetPassResponse({
+        status: 'FAIL',
+      });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'httpHandlers.unknownError',
+        },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+      expect(globalMessageService.remove).not.toHaveBeenCalled();
     });
   });
 
