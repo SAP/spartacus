@@ -10,13 +10,17 @@ import { join } from 'path';
 import 'zone.js/node';
 import { AppServerModule } from './src/main.server';
 
+// TODO:#feature/CXSPA-403 - revert this file
+
 // Require is used here, because we can't use `import * as express` together with TS esModuleInterop option.
 // And we need to use esModuleInterop option in ssr dev mode, because i18next enforce usage of this option for cjs module.
 const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
+  debug: true,
+  cache: false,
   concurrency: 20,
-  timeout: Number(process.env['SSR_TIMEOUT'] ?? 3000),
+  timeout: 10000000,
   reuseCurrentRendering: true,
 };
 

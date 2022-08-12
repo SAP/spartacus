@@ -15,10 +15,10 @@ import {
   UserAccountChangedEvent,
   UserAccountFacade,
 } from '@spartacus/user/account/root';
-import { Observable } from 'rxjs';
 import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
-import { UserProfileConnector } from '../connectors/user-profile.connector';
+import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { UserProfileConnector } from '../connectors/user-profile.connector';
 
 @Injectable()
 export class UserProfileService implements UserProfileFacade {
@@ -57,6 +57,7 @@ export class UserProfileService implements UserProfileFacade {
     () => this.userProfileConnector.getTitles(),
     {
       reloadOn: [LanguageSetEvent],
+      transferState: true,
     }
   );
 
