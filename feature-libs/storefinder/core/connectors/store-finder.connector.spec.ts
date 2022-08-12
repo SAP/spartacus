@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import { GeoPoint, SearchConfig } from '@spartacus/core';
 import { of } from 'rxjs';
 import { StoreFinderAdapter } from './store-finder.adapter';
 import { StoreFinderConnector } from './store-finder.connector';
 import createSpy = jasmine.createSpy;
-import { GeoPoint, SearchConfig } from '@spartacus/core';
 
 class MockStoreFinderAdapter implements StoreFinderAdapter {
   search = createSpy('adapter.search').and.returnValue(
@@ -49,7 +49,7 @@ describe('StoreFinderConnector', () => {
       .subscribe((res) => (result = res));
     expect(result).toBe('adapter.search result');
     expect(adapter.search).toHaveBeenCalledWith(
-      'query',
+      'abc',
       searchConfig,
       geoPoint,
       radius

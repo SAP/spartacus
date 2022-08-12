@@ -1,5 +1,5 @@
-import { AbstractStoreItemComponent } from './abstract-store-item.component';
 import { StoreFinderService } from '@spartacus/storefinder/core';
+import { AbstractStoreItemComponent } from './abstract-store-item.component';
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
   getStoreLatitude(): number {
@@ -37,6 +37,6 @@ describe('AbstractStoreItemComponent', () => {
       'flat_num',
       'city',
     ]);
-    expect(result).toEqual('street, flat_num, city');
+    expect(result).toEqual('abc, flat_num, city');
   });
 });
