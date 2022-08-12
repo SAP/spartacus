@@ -122,7 +122,7 @@ describe('PdfComponent', () => {
 
       const textElement = fixture.nativeElement.querySelector('a > span');
       fixture.detectChanges();
-      expect(textElement.textContent).toContain('test titleflo.pdf');
+      expect(textElement.textContent).toContain('test title.pdf');
     });
   });
   describe('url', () => {
