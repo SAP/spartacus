@@ -29,14 +29,24 @@ export class IconLoaderService {
    */
   public getHtml(type: ICON_TYPE_STRING): SafeHtml | undefined {
     if (this.getResourceType(type) === IconResourceType.SVG) {
-      return this.sanitizer.bypassSecurityTrustHtml(
-        `<svg><use xlink:href="${this.getSvgPath(type)}"></use></svg>`
+      const url = this.sanitizer.sanitize(
+        SecurityContext.URL,
+        this.getSvgPath(type)
       );
+      if (url) {
+        const useElement = this.winRef.document.createElement('use');
+        useElement.setAttribute('xlink:href', url);
+        const svgElement = this.winRef.document.createElement('svg');
+        svgElement.appendChild(useElement);
+        return this.sanitizer.bypassSecurityTrustHtml(svgElement.outerHTML);
+      }
     }
     if (this.getResourceType(type) === IconResourceType.TEXT) {
       const symbol = this.getSymbol(type);
       if (symbol) {
-        return this.sanitizer.bypassSecurityTrustHtml(symbol);
+        const helperDiv = this.winRef.document.createElement('div');
+        helperDiv.textContent = symbol;
+        return this.sanitizer.bypassSecurityTrustHtml(helperDiv.innerHTML);
       }
     }
   }

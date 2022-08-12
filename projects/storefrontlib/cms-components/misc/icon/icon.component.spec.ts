@@ -232,7 +232,7 @@ describe('IconComponent', () => {
         expect(useElement.nodeName).toEqual('use');
         expect(useElement.attributes.length).toEqual(1);
         expect(useElement.getAttribute('xlink:href')).toEqual(
-          'unsafe:javascript:alert(1)#badSvg'
+          'unsafe:javascript:alert(1)#<img src="." onerror="alert(5)">'
         );
         expect(useElement.childElementCount).toEqual(0);
       });
@@ -265,6 +265,23 @@ describe('IconComponent', () => {
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain(':-(');
         expect(hostClassList).not.toContain('SAD');
+      });
+
+      it('should not contain dangerous child elements', () => {
+        component.type = 'BAD_TEXT';
+        fixture.detectChanges();
+
+        expect(nativeDebugElement.textContent).toEqual(
+          '<img src="." onerror="alert(4)">'
+        );
+        expect(nativeDebugElement.childElementCount).toEqual(0);
+
+        const hostClassList = nativeDebugElement.classList;
+        expect(hostClassList.length).toEqual(4);
+        expect(hostClassList).toContain('cx-icon');
+        expect(hostClassList).toContain('<img');
+        expect(hostClassList).toContain('src="."');
+        expect(hostClassList).toContain('onerror="alert(4)">');
       });
     });
 
