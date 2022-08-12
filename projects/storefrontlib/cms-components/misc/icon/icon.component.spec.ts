@@ -57,20 +57,20 @@ describe('IconComponent', () => {
     it('should create an icon based on type input', () => {
       expect(component.icon).toBeFalsy();
       component.type = 'HAPPY';
-      expect(component.icon).toEqual('😊');
+      expect(component.icon).toBe('😊');
     });
 
     it('should create an icon based on cxIcon input', () => {
       expect(component.icon).toBeFalsy();
       component.cxIcon = 'HAPPY';
-      expect(component.icon).toEqual('😊');
+      expect(component.icon).toBe('😊');
     });
 
     it('should create an icon based multiple inputs', () => {
       expect(component.icon).toBeFalsy();
       component.type = ICON_TYPE.CART;
       component.cxIcon = 'HAPPY';
-      expect(component.icon).toEqual('😊');
+      expect(component.icon).toBe('😊');
     });
 
     it('should not create an icon for null value', () => {
@@ -162,7 +162,7 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList = nativeDebugElement.classList;
-        expect(hostClassList.length).toEqual(2);
+        expect(hostClassList.length).toBe(2);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('infoSymbol');
       });
@@ -172,7 +172,7 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList = nativeDebugElement.classList;
-        expect(hostClassList.length).toEqual(2);
+        expect(hostClassList.length).toBe(2);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('cartSymbol');
         expect(hostClassList).not.toContain('flip-at-rtl');
@@ -183,58 +183,58 @@ describe('IconComponent', () => {
         component.type = ICON_TYPE.INFO;
         fixture.detectChanges();
 
-        expect(nativeDebugElement.childElementCount).toEqual(1);
+        expect(nativeDebugElement.childElementCount).toBe(1);
 
         const svgElement = nativeDebugElement.children[0];
-        expect(svgElement.nodeName).toEqual('svg');
-        expect(svgElement.attributes.length).toEqual(0);
-        expect(svgElement.childElementCount).toEqual(1);
+        expect(svgElement.nodeName).toBe('svg');
+        expect(svgElement.attributes.length).toBe(0);
+        expect(svgElement.childElementCount).toBe(1);
 
         const useElement = svgElement.children[0];
-        expect(useElement.nodeName).toEqual('use');
-        expect(useElement.attributes.length).toEqual(1);
-        expect(useElement.getAttribute('xlink:href')).toEqual('#infoSymbol');
-        expect(useElement.childElementCount).toEqual(0);
+        expect(useElement.nodeName).toBe('use');
+        expect(useElement.attributes.length).toBe(1);
+        expect(useElement.getAttribute('xlink:href')).toBe('#infoSymbol');
+        expect(useElement.childElementCount).toBe(0);
       });
 
       it('should generate sprited SVG', () => {
         component.type = ICON_TYPE.CART;
         fixture.detectChanges();
 
-        expect(nativeDebugElement.childElementCount).toEqual(1);
+        expect(nativeDebugElement.childElementCount).toBe(1);
 
         const svgElement = nativeDebugElement.children[0];
-        expect(svgElement.nodeName).toEqual('svg');
-        expect(svgElement.attributes.length).toEqual(0);
-        expect(svgElement.childElementCount).toEqual(1);
+        expect(svgElement.nodeName).toBe('svg');
+        expect(svgElement.attributes.length).toBe(0);
+        expect(svgElement.childElementCount).toBe(1);
 
         const useElement = svgElement.children[0];
-        expect(useElement.nodeName).toEqual('use');
-        expect(useElement.attributes.length).toEqual(1);
-        expect(useElement.getAttribute('xlink:href')).toEqual(
+        expect(useElement.nodeName).toBe('use');
+        expect(useElement.attributes.length).toBe(1);
+        expect(useElement.getAttribute('xlink:href')).toBe(
           './assets/sprite.svg#cartSymbol'
         );
-        expect(useElement.childElementCount).toEqual(0);
+        expect(useElement.childElementCount).toBe(0);
       });
 
       it('should generate a sprited SVG with a sanitized javascript: url', () => {
         component.type = 'BAD_SVG';
         fixture.detectChanges();
 
-        expect(nativeDebugElement.childElementCount).toEqual(1);
+        expect(nativeDebugElement.childElementCount).toBe(1);
 
         const svgElement = nativeDebugElement.children[0];
-        expect(svgElement.nodeName).toEqual('svg');
-        expect(svgElement.attributes.length).toEqual(0);
-        expect(svgElement.childElementCount).toEqual(1);
+        expect(svgElement.nodeName).toBe('svg');
+        expect(svgElement.attributes.length).toBe(0);
+        expect(svgElement.childElementCount).toBe(1);
 
         const useElement = svgElement.children[0];
-        expect(useElement.nodeName).toEqual('use');
-        expect(useElement.attributes.length).toEqual(1);
-        expect(useElement.getAttribute('xlink:href')).toEqual(
+        expect(useElement.nodeName).toBe('use');
+        expect(useElement.attributes.length).toBe(1);
+        expect(useElement.getAttribute('xlink:href')).toBe(
           'unsafe:javascript:alert(1)#<img src="." onerror="alert(5)">'
         );
-        expect(useElement.childElementCount).toEqual(0);
+        expect(useElement.childElementCount).toBe(0);
       });
     });
 
@@ -243,11 +243,11 @@ describe('IconComponent', () => {
         component.type = 'HAPPY';
         fixture.detectChanges();
 
-        expect(nativeDebugElement.textContent).toEqual('😊');
-        expect(nativeDebugElement.childElementCount).toEqual(0);
+        expect(nativeDebugElement.textContent).toBe('😊');
+        expect(nativeDebugElement.childElementCount).toBe(0);
 
         const hostClassList = nativeDebugElement.classList;
-        expect(hostClassList.length).toEqual(2);
+        expect(hostClassList.length).toBe(2);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('😊');
         expect(hostClassList).not.toContain('HAPPY');
@@ -257,11 +257,11 @@ describe('IconComponent', () => {
         component.type = 'SAD';
         fixture.detectChanges();
 
-        expect(nativeDebugElement.textContent).toEqual(':-(');
-        expect(nativeDebugElement.childElementCount).toEqual(0);
+        expect(nativeDebugElement.textContent).toBe(':-(');
+        expect(nativeDebugElement.childElementCount).toBe(0);
 
         const hostClassList = nativeDebugElement.classList;
-        expect(hostClassList.length).toEqual(2);
+        expect(hostClassList.length).toBe(2);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain(':-(');
         expect(hostClassList).not.toContain('SAD');
@@ -271,13 +271,13 @@ describe('IconComponent', () => {
         component.type = 'BAD_TEXT';
         fixture.detectChanges();
 
-        expect(nativeDebugElement.textContent).toEqual(
+        expect(nativeDebugElement.textContent).toBe(
           '<img src="." onerror="alert(4)">'
         );
-        expect(nativeDebugElement.childElementCount).toEqual(0);
+        expect(nativeDebugElement.childElementCount).toBe(0);
 
         const hostClassList = nativeDebugElement.classList;
-        expect(hostClassList.length).toEqual(4);
+        expect(hostClassList.length).toBe(4);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('<img');
         expect(hostClassList).toContain('src="."');
@@ -291,24 +291,22 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList = nativeDebugElement.classList;
-        expect(hostClassList.length).toEqual(3);
+        expect(hostClassList.length).toBe(3);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('fab');
         expect(hostClassList).toContain('fa-cc-visa');
-        expect(nativeDebugElement.children.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toBe(0);
         const styleSheetLinkElement = winRef.document.head.lastElementChild;
         expect(styleSheetLinkElement).not.toBeNull();
-        expect(styleSheetLinkElement?.localName).toEqual('link');
-        expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
-        expect(styleSheetLinkElement?.attributes.length).toEqual(3);
-        expect(styleSheetLinkElement?.getAttribute('rel')).toEqual(
-          'stylesheet'
-        );
-        expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
-        expect(styleSheetLinkElement?.getAttribute('href')).toEqual(
+        expect(styleSheetLinkElement?.localName).toBe('link');
+        expect(styleSheetLinkElement?.nodeName).toBe('LINK');
+        expect(styleSheetLinkElement?.attributes.length).toBe(3);
+        expect(styleSheetLinkElement?.getAttribute('rel')).toBe('stylesheet');
+        expect(styleSheetLinkElement?.getAttribute('type')).toBe('text/css');
+        expect(styleSheetLinkElement?.getAttribute('href')).toBe(
           'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
         );
-        expect(styleSheetLinkElement?.childElementCount).toEqual(0);
+        expect(styleSheetLinkElement?.childElementCount).toBe(0);
       });
 
       it('should remove former CSS classes when changing the icon type and add same stylesheet only once', () => {
@@ -316,43 +314,39 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList1 = nativeDebugElement.classList;
-        expect(hostClassList1.length).toEqual(3);
+        expect(hostClassList1.length).toBe(3);
         expect(hostClassList1).toContain('cx-icon');
         expect(hostClassList1).toContain('fa-amex');
         expect(hostClassList1).toContain('fab');
         expect(hostClassList1).not.toContain('fas');
         expect(hostClassList1).not.toContain('fa-search');
-        expect(nativeDebugElement.children.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toBe(0);
         const styleSheetLinkElement1 = winRef.document.head.lastElementChild;
 
         component.type = ICON_TYPE.SEARCH;
         fixture.detectChanges();
 
         const hostClassList2 = nativeDebugElement.classList;
-        expect(hostClassList2.length).toEqual(3);
+        expect(hostClassList2.length).toBe(3);
         expect(hostClassList2).toContain('cx-icon');
         expect(hostClassList2).toContain('fas');
         expect(hostClassList2).toContain('fa-search');
         expect(hostClassList2).not.toContain('fa-amex');
         expect(hostClassList2).not.toContain('fab');
-        expect(nativeDebugElement.children.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toBe(0);
         const styleSheetLinkElement2 = winRef.document.head.lastElementChild;
 
         expect(styleSheetLinkElement2).toBe(styleSheetLinkElement1);
         expect(styleSheetLinkElement2).not.toBeNull();
-        expect(styleSheetLinkElement2?.localName).toEqual('link');
-        expect(styleSheetLinkElement2?.nodeName).toEqual('LINK');
-        expect(styleSheetLinkElement2?.attributes.length).toEqual(3);
-        expect(styleSheetLinkElement2?.getAttribute('rel')).toEqual(
-          'stylesheet'
-        );
-        expect(styleSheetLinkElement2?.getAttribute('type')).toEqual(
-          'text/css'
-        );
-        expect(styleSheetLinkElement2?.getAttribute('href')).toEqual(
+        expect(styleSheetLinkElement2?.localName).toBe('link');
+        expect(styleSheetLinkElement2?.nodeName).toBe('LINK');
+        expect(styleSheetLinkElement2?.attributes.length).toBe(3);
+        expect(styleSheetLinkElement2?.getAttribute('rel')).toBe('stylesheet');
+        expect(styleSheetLinkElement2?.getAttribute('type')).toBe('text/css');
+        expect(styleSheetLinkElement2?.getAttribute('href')).toBe(
           'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
         );
-        expect(styleSheetLinkElement2?.childElementCount).toEqual(0);
+        expect(styleSheetLinkElement2?.childElementCount).toBe(0);
       });
 
       it('should have flip-at-rtl class', () => {
@@ -360,11 +354,11 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList = nativeDebugElement.classList;
-        expect(hostClassList.length).toEqual(2);
+        expect(hostClassList.length).toBe(2);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('flip-at-rtl');
         expect(hostClassList).not.toContain('flip-at-ltr');
-        expect(nativeDebugElement.children.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toBe(0);
       });
 
       it('should have flip-at-ltr class', () => {
@@ -372,11 +366,11 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList = nativeDebugElement.classList;
-        expect(hostClassList.length).toEqual(2);
+        expect(hostClassList.length).toBe(2);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('flip-at-ltr');
         expect(hostClassList).not.toContain('flip-at-rtl');
-        expect(nativeDebugElement.children.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toBe(0);
       });
 
       it('should change flip direction when changing the icon type and add same stylesheet', () => {
@@ -384,55 +378,51 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList1 = nativeDebugElement.classList;
-        expect(hostClassList1.length).toEqual(4);
+        expect(hostClassList1.length).toBe(4);
         expect(hostClassList1).toContain('cx-icon');
         expect(hostClassList1).toContain('someLeft');
         expect(hostClassList1).toContain('otherLeft');
         expect(hostClassList1).toContain('flip-at-ltr');
-        expect(nativeDebugElement.children.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toBe(0);
         const styleSheetLinkElement1 = winRef.document.head.lastElementChild;
 
         component.type = 'RIGHT';
         fixture.detectChanges();
 
         const hostClassList2 = nativeDebugElement.classList;
-        expect(hostClassList2.length).toEqual(4);
+        expect(hostClassList2.length).toBe(4);
         expect(hostClassList2).toContain('cx-icon');
         expect(hostClassList2).toContain('someRight');
         expect(hostClassList2).toContain('otherRight');
         expect(hostClassList2).toContain('flip-at-rtl');
-        expect(nativeDebugElement.children.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toBe(0);
         const styleSheetLinkElement2 = winRef.document.head.lastElementChild;
 
         component.type = 'PAYPAL';
         fixture.detectChanges();
 
         const hostClassList3 = nativeDebugElement.classList;
-        expect(hostClassList3.length).toEqual(3);
+        expect(hostClassList3.length).toBe(3);
         expect(hostClassList3).toContain('cx-icon');
         expect(hostClassList3).toContain('fab');
         expect(hostClassList3).toContain('fa-paypal');
         expect(hostClassList3).not.toContain('flip-at-rtl');
         expect(hostClassList3).not.toContain('flip-at-ltr');
-        expect(nativeDebugElement.children.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toBe(0);
         const styleSheetLinkElement3 = winRef.document.head.lastElementChild;
 
         expect(styleSheetLinkElement3).toBe(styleSheetLinkElement1);
         expect(styleSheetLinkElement3).toBe(styleSheetLinkElement2);
         expect(styleSheetLinkElement3).not.toBeNull();
-        expect(styleSheetLinkElement3?.localName).toEqual('link');
-        expect(styleSheetLinkElement3?.nodeName).toEqual('LINK');
-        expect(styleSheetLinkElement3?.attributes.length).toEqual(3);
-        expect(styleSheetLinkElement3?.getAttribute('rel')).toEqual(
-          'stylesheet'
-        );
-        expect(styleSheetLinkElement3?.getAttribute('type')).toEqual(
-          'text/css'
-        );
-        expect(styleSheetLinkElement3?.getAttribute('href')).toEqual(
+        expect(styleSheetLinkElement3?.localName).toBe('link');
+        expect(styleSheetLinkElement3?.nodeName).toBe('LINK');
+        expect(styleSheetLinkElement3?.attributes.length).toBe(3);
+        expect(styleSheetLinkElement3?.getAttribute('rel')).toBe('stylesheet');
+        expect(styleSheetLinkElement3?.getAttribute('type')).toBe('text/css');
+        expect(styleSheetLinkElement3?.getAttribute('href')).toBe(
           'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
         );
-        expect(styleSheetLinkElement3?.childElementCount).toEqual(0);
+        expect(styleSheetLinkElement3?.childElementCount).toBe(0);
       });
 
       it('should generate safe class attribute for bogus classes', () => {
@@ -443,12 +433,12 @@ describe('IconComponent', () => {
         expect(nativeDebugElement.getAttribute('class')).toBeTruthy();
         expect(nativeDebugElement.getAttribute('onmouseover')).toBeNull();
         expect(nativeDebugElement.getAttribute('data-foo')).toBeNull();
-        expect(hostClassList.length).toEqual(4);
+        expect(hostClassList.length).toBe(4);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('"');
         expect(hostClassList).toContain('onmouseover="alert(0)"');
         expect(hostClassList).toContain('data-foo="');
-        expect(nativeDebugElement.children.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toBe(0);
       });
 
       it('should generate safe stylesheet link with sanitized URL', () => {
@@ -456,23 +446,21 @@ describe('IconComponent', () => {
         fixture.detectChanges();
 
         const hostClassList = nativeDebugElement.classList;
-        expect(hostClassList.length).toEqual(2);
+        expect(hostClassList.length).toBe(2);
         expect(hostClassList).toContain('cx-icon');
         expect(hostClassList).toContain('badStylesheet');
-        expect(nativeDebugElement.children.length).toEqual(0);
+        expect(nativeDebugElement.children.length).toBe(0);
         const styleSheetLinkElement = winRef.document.head.lastElementChild;
         expect(styleSheetLinkElement).not.toBeNull();
-        expect(styleSheetLinkElement?.localName).toEqual('link');
-        expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
-        expect(styleSheetLinkElement?.attributes.length).toEqual(3);
-        expect(styleSheetLinkElement?.getAttribute('rel')).toEqual(
-          'stylesheet'
-        );
-        expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
-        expect(styleSheetLinkElement?.getAttribute('href')).toEqual(
+        expect(styleSheetLinkElement?.localName).toBe('link');
+        expect(styleSheetLinkElement?.nodeName).toBe('LINK');
+        expect(styleSheetLinkElement?.attributes.length).toBe(3);
+        expect(styleSheetLinkElement?.getAttribute('rel')).toBe('stylesheet');
+        expect(styleSheetLinkElement?.getAttribute('type')).toBe('text/css');
+        expect(styleSheetLinkElement?.getAttribute('href')).toBe(
           'unsafe:javascript:alert(2)'
         );
-        expect(styleSheetLinkElement?.childElementCount).toEqual(0);
+        expect(styleSheetLinkElement?.childElementCount).toBe(0);
       });
     });
   });
@@ -526,41 +514,41 @@ describe('host icon components', () => {
       const hostNativeElement = hostElement.nativeElement;
 
       const hostClassList = hostNativeElement.classList;
-      expect(hostClassList.length).toEqual(3);
+      expect(hostClassList.length).toBe(3);
       expect(hostClassList).toContain('cx-icon');
       expect(hostClassList).toContain('fab');
       expect(hostClassList).toContain('fa-cc-visa');
-      expect(hostNativeElement.childElementCount).toEqual(0);
-      expect(hostNativeElement.textContent).toEqual('projected content');
+      expect(hostNativeElement.childElementCount).toBe(0);
+      expect(hostNativeElement.textContent).toBe('projected content');
     });
 
     it('should add the symbol classes to a button with cxIcon attribute', () => {
       const hostElement = debugElement.query(By.css('button'));
       const hostNativeElement = hostElement.nativeElement;
 
-      expect(hostNativeElement.getAttribute('name')).toEqual('test');
-      expect(hostNativeElement.getAttribute('type')).toEqual('submit');
-      expect(hostNativeElement.getAttribute('cxIcon')).toEqual('CART');
+      expect(hostNativeElement.getAttribute('name')).toBe('test');
+      expect(hostNativeElement.getAttribute('type')).toBe('submit');
+      expect(hostNativeElement.getAttribute('cxIcon')).toBe('CART');
       expect(hostNativeElement.getAttribute('class')).toBeTruthy();
 
       const hostClassList = hostNativeElement.classList;
-      expect(hostClassList.length).toEqual(2);
+      expect(hostClassList.length).toBe(2);
       expect(hostClassList).toContain('cx-icon');
       expect(hostClassList).toContain('cartSymbol');
 
-      expect(hostNativeElement.textContent).toEqual('');
-      expect(hostNativeElement.childElementCount).toEqual(1);
+      expect(hostNativeElement.textContent).toBe('');
+      expect(hostNativeElement.childElementCount).toBe(1);
       const svgElement = hostNativeElement.children[0];
-      expect(svgElement.nodeName).toEqual('svg');
-      expect(svgElement.attributes.length).toEqual(0);
-      expect(svgElement.childElementCount).toEqual(1);
+      expect(svgElement.nodeName).toBe('svg');
+      expect(svgElement.attributes.length).toBe(0);
+      expect(svgElement.childElementCount).toBe(1);
       const useElement = svgElement.children[0];
-      expect(useElement.nodeName).toEqual('use');
-      expect(useElement.attributes.length).toEqual(1);
-      expect(useElement.getAttribute('xlink:href')).toEqual(
+      expect(useElement.nodeName).toBe('use');
+      expect(useElement.attributes.length).toBe(1);
+      expect(useElement.getAttribute('xlink:href')).toBe(
         './assets/sprite.svg#cartSymbol'
       );
-      expect(useElement.childElementCount).toEqual(0);
+      expect(useElement.childElementCount).toBe(0);
     });
 
     it('should use type attribute as an input for cxIcon directive', () => {
@@ -568,18 +556,18 @@ describe('host icon components', () => {
       const hostNativeElement = hostElement.nativeElement;
 
       const hostClassList = hostNativeElement.classList;
-      expect(hostClassList.length).toEqual(3);
+      expect(hostClassList.length).toBe(3);
       expect(hostClassList).toContain('cx-icon');
       expect(hostClassList).toContain('😊');
       expect(hostClassList).toContain('hostClass');
 
-      expect(hostNativeElement.textContent).toEqual('😊more content');
-      expect(hostNativeElement.childElementCount).toEqual(1);
+      expect(hostNativeElement.textContent).toBe('😊more content');
+      expect(hostNativeElement.childElementCount).toBe(1);
       const emElement = hostNativeElement.children[0];
-      expect(emElement.localName).toEqual('em');
-      expect(emElement.attributes.length).toEqual(0);
-      expect(emElement.childElementCount).toEqual(0);
-      expect(emElement.textContent).toEqual('content');
+      expect(emElement.localName).toBe('em');
+      expect(emElement.attributes.length).toBe(0);
+      expect(emElement.childElementCount).toBe(0);
+      expect(emElement.textContent).toBe('content');
     });
 
     it('should retain existing classes on the host element', () => {
@@ -587,7 +575,7 @@ describe('host icon components', () => {
       const hostNativeElement = hostElement.nativeElement;
 
       const hostClassList = hostNativeElement.classList;
-      expect(hostClassList.length).toEqual(8);
+      expect(hostClassList.length).toBe(8);
       expect(hostClassList).toContain('cx-icon');
       expect(hostClassList).toContain('original');
       expect(hostClassList).toContain('and');
@@ -602,15 +590,15 @@ describe('host icon components', () => {
       const styleSheetLinkElement = winRef.document.head.lastElementChild;
 
       expect(styleSheetLinkElement).not.toBeNull();
-      expect(styleSheetLinkElement?.localName).toEqual('link');
-      expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
-      expect(styleSheetLinkElement?.attributes.length).toEqual(3);
-      expect(styleSheetLinkElement?.getAttribute('rel')).toEqual('stylesheet');
-      expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
-      expect(styleSheetLinkElement?.getAttribute('href')).toEqual(
+      expect(styleSheetLinkElement?.localName).toBe('link');
+      expect(styleSheetLinkElement?.nodeName).toBe('LINK');
+      expect(styleSheetLinkElement?.attributes.length).toBe(3);
+      expect(styleSheetLinkElement?.getAttribute('rel')).toBe('stylesheet');
+      expect(styleSheetLinkElement?.getAttribute('type')).toBe('text/css');
+      expect(styleSheetLinkElement?.getAttribute('href')).toBe(
         'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
       );
-      expect(styleSheetLinkElement?.childElementCount).toEqual(0);
+      expect(styleSheetLinkElement?.childElementCount).toBe(0);
     });
   });
 });

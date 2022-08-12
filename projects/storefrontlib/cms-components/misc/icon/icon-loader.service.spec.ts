@@ -113,14 +113,14 @@ describe('IconLoaderService', () => {
   });
 
   it('should return symbol', () => {
-    expect(service.getSymbol(ICON_TYPE.CART)).toEqual('cartSymbol');
-    expect(service.getSymbol('MASTERCARD')).toEqual('fab fa-master-card');
-    expect(service.getSymbol(ICON_TYPE.VISA)).toEqual('fab fa-cc-visa');
-    expect(service.getSymbol('HAPPY')).toEqual('😊');
+    expect(service.getSymbol(ICON_TYPE.CART)).toBe('cartSymbol');
+    expect(service.getSymbol('MASTERCARD')).toBe('fab fa-master-card');
+    expect(service.getSymbol(ICON_TYPE.VISA)).toBe('fab fa-cc-visa');
+    expect(service.getSymbol('HAPPY')).toBe('😊');
   });
 
   it('should return rtl flip direction', () => {
-    expect(service.getFlipDirection(ICON_TYPE.CARET_RIGHT)).toEqual(
+    expect(service.getFlipDirection(ICON_TYPE.CARET_RIGHT)).toBe(
       DirectionMode.RTL
     );
   });
@@ -162,15 +162,15 @@ describe('IconLoaderService', () => {
 
       const styleSheetLinkElement = winRef.document.head.lastElementChild;
       expect(styleSheetLinkElement).not.toBeNull();
-      expect(styleSheetLinkElement?.localName).toEqual('link');
-      expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
-      expect(styleSheetLinkElement?.attributes.length).toEqual(3);
-      expect(styleSheetLinkElement?.getAttribute('rel')).toEqual('stylesheet');
-      expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
-      expect(styleSheetLinkElement?.getAttribute('href')).toEqual(
+      expect(styleSheetLinkElement?.localName).toBe('link');
+      expect(styleSheetLinkElement?.nodeName).toBe('LINK');
+      expect(styleSheetLinkElement?.attributes.length).toBe(3);
+      expect(styleSheetLinkElement?.getAttribute('rel')).toBe('stylesheet');
+      expect(styleSheetLinkElement?.getAttribute('type')).toBe('text/css');
+      expect(styleSheetLinkElement?.getAttribute('href')).toBe(
         'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
       );
-      expect(styleSheetLinkElement?.childElementCount).toEqual(0);
+      expect(styleSheetLinkElement?.childElementCount).toBe(0);
     });
 
     it('should add same stylesheet only once', () => {
@@ -182,15 +182,15 @@ describe('IconLoaderService', () => {
 
       expect(styleSheetLinkElement2).toBe(styleSheetLinkElement1);
       expect(styleSheetLinkElement2).not.toBeNull();
-      expect(styleSheetLinkElement2?.localName).toEqual('link');
-      expect(styleSheetLinkElement2?.nodeName).toEqual('LINK');
-      expect(styleSheetLinkElement2?.attributes.length).toEqual(3);
-      expect(styleSheetLinkElement2?.getAttribute('rel')).toEqual('stylesheet');
-      expect(styleSheetLinkElement2?.getAttribute('type')).toEqual('text/css');
-      expect(styleSheetLinkElement2?.getAttribute('href')).toEqual(
+      expect(styleSheetLinkElement2?.localName).toBe('link');
+      expect(styleSheetLinkElement2?.nodeName).toBe('LINK');
+      expect(styleSheetLinkElement2?.attributes.length).toBe(3);
+      expect(styleSheetLinkElement2?.getAttribute('rel')).toBe('stylesheet');
+      expect(styleSheetLinkElement2?.getAttribute('type')).toBe('text/css');
+      expect(styleSheetLinkElement2?.getAttribute('href')).toBe(
         'https://use.fontawesome.com/releases/v5.8.1/css/all.css'
       );
-      expect(styleSheetLinkElement2?.childElementCount).toEqual(0);
+      expect(styleSheetLinkElement2?.childElementCount).toBe(0);
     });
 
     it('should add stylesheet with sanitized URL', () => {
@@ -198,15 +198,15 @@ describe('IconLoaderService', () => {
 
       const styleSheetLinkElement = winRef.document.head.lastElementChild;
       expect(styleSheetLinkElement).not.toBeNull();
-      expect(styleSheetLinkElement?.localName).toEqual('link');
-      expect(styleSheetLinkElement?.nodeName).toEqual('LINK');
-      expect(styleSheetLinkElement?.attributes.length).toEqual(3);
-      expect(styleSheetLinkElement?.getAttribute('rel')).toEqual('stylesheet');
-      expect(styleSheetLinkElement?.getAttribute('type')).toEqual('text/css');
-      expect(styleSheetLinkElement?.getAttribute('href')).toEqual(
+      expect(styleSheetLinkElement?.localName).toBe('link');
+      expect(styleSheetLinkElement?.nodeName).toBe('LINK');
+      expect(styleSheetLinkElement?.attributes.length).toBe(3);
+      expect(styleSheetLinkElement?.getAttribute('rel')).toBe('stylesheet');
+      expect(styleSheetLinkElement?.getAttribute('type')).toBe('text/css');
+      expect(styleSheetLinkElement?.getAttribute('href')).toBe(
         'unsafe:javascript:alert(2)'
       );
-      expect(styleSheetLinkElement?.childElementCount).toEqual(0);
+      expect(styleSheetLinkElement?.childElementCount).toBe(0);
     });
   });
 
@@ -256,8 +256,8 @@ describe('IconLoaderService', () => {
       const nativeDebugElement = winRef.document.createElement('div');
       nativeDebugElement.innerHTML = unwrapSafeHtml(service.getHtml('SAD'));
 
-      expect(nativeDebugElement.textContent).toEqual(':-(');
-      expect(nativeDebugElement.childElementCount).toEqual(0);
+      expect(nativeDebugElement.textContent).toBe(':-(');
+      expect(nativeDebugElement.childElementCount).toBe(0);
     });
 
     it('should not generate dangerous html source code', () => {
@@ -266,22 +266,22 @@ describe('IconLoaderService', () => {
         service.getHtml('BAD_TEXT')
       );
 
-      expect(nativeDebugElement.textContent).toEqual(
+      expect(nativeDebugElement.textContent).toBe(
         '<img src="." onerror="alert(4)">'
       );
-      expect(nativeDebugElement.childElementCount).toEqual(0);
+      expect(nativeDebugElement.childElementCount).toBe(0);
     });
   });
 
   describe('SVG icons', () => {
     it('should return svg path for sprited SVG', () => {
-      expect(service.getSvgPath(ICON_TYPE.CART)).toEqual(
+      expect(service.getSvgPath(ICON_TYPE.CART)).toBe(
         './assets/sprite.svg#cartSymbol'
       );
     });
 
     it('should return svg path for non-sprited SVG', () => {
-      expect(service.getSvgPath(ICON_TYPE.INFO)).toEqual('#infoSymbol');
+      expect(service.getSvgPath(ICON_TYPE.INFO)).toBe('#infoSymbol');
     });
 
     it('should generate non-sprited SVG code', () => {
@@ -289,18 +289,18 @@ describe('IconLoaderService', () => {
       nativeDebugElement.innerHTML = unwrapSafeHtml(
         service.getHtml(ICON_TYPE.INFO)
       );
-      expect(nativeDebugElement.childElementCount).toEqual(1);
+      expect(nativeDebugElement.childElementCount).toBe(1);
 
       const svgElement = nativeDebugElement.children[0];
-      expect(svgElement.nodeName).toEqual('svg');
-      expect(svgElement.attributes.length).toEqual(0);
-      expect(svgElement.childElementCount).toEqual(1);
+      expect(svgElement.nodeName).toBe('svg');
+      expect(svgElement.attributes.length).toBe(0);
+      expect(svgElement.childElementCount).toBe(1);
 
       const useElement = svgElement.children[0];
-      expect(useElement.nodeName).toEqual('use');
-      expect(useElement.attributes.length).toEqual(1);
-      expect(useElement.getAttribute('xlink:href')).toEqual('#infoSymbol');
-      expect(useElement.childElementCount).toEqual(0);
+      expect(useElement.nodeName).toBe('use');
+      expect(useElement.attributes.length).toBe(1);
+      expect(useElement.getAttribute('xlink:href')).toBe('#infoSymbol');
+      expect(useElement.childElementCount).toBe(0);
     });
 
     it('should generate sprited SVG', () => {
@@ -308,39 +308,39 @@ describe('IconLoaderService', () => {
       nativeDebugElement.innerHTML = unwrapSafeHtml(
         service.getHtml(ICON_TYPE.CART)
       );
-      expect(nativeDebugElement.childElementCount).toEqual(1);
+      expect(nativeDebugElement.childElementCount).toBe(1);
 
       const svgElement = nativeDebugElement.children[0];
-      expect(svgElement.nodeName).toEqual('svg');
-      expect(svgElement.attributes.length).toEqual(0);
-      expect(svgElement.childElementCount).toEqual(1);
+      expect(svgElement.nodeName).toBe('svg');
+      expect(svgElement.attributes.length).toBe(0);
+      expect(svgElement.childElementCount).toBe(1);
 
       const useElement = svgElement.children[0];
-      expect(useElement.nodeName).toEqual('use');
-      expect(useElement.attributes.length).toEqual(1);
-      expect(useElement.getAttribute('xlink:href')).toEqual(
+      expect(useElement.nodeName).toBe('use');
+      expect(useElement.attributes.length).toBe(1);
+      expect(useElement.getAttribute('xlink:href')).toBe(
         './assets/sprite.svg#cartSymbol'
       );
-      expect(useElement.childElementCount).toEqual(0);
+      expect(useElement.childElementCount).toBe(0);
     });
 
     it('should generate a sprited SVG with a sanitized javascript: url', () => {
       const nativeDebugElement = winRef.document.createElement('div');
       nativeDebugElement.innerHTML = unwrapSafeHtml(service.getHtml('BAD_SVG'));
-      expect(nativeDebugElement.childElementCount).toEqual(1);
+      expect(nativeDebugElement.childElementCount).toBe(1);
 
       const svgElement = nativeDebugElement.children[0];
-      expect(svgElement.nodeName).toEqual('svg');
-      expect(svgElement.attributes.length).toEqual(0);
-      expect(svgElement.childElementCount).toEqual(1);
+      expect(svgElement.nodeName).toBe('svg');
+      expect(svgElement.attributes.length).toBe(0);
+      expect(svgElement.childElementCount).toBe(1);
 
       const useElement = svgElement.children[0];
-      expect(useElement.nodeName).toEqual('use');
-      expect(useElement.attributes.length).toEqual(1);
-      expect(useElement.getAttribute('xlink:href')).toEqual(
+      expect(useElement.nodeName).toBe('use');
+      expect(useElement.attributes.length).toBe(1);
+      expect(useElement.getAttribute('xlink:href')).toBe(
         'unsafe:javascript:alert(1)#<img src="." onerror="alert(5)">'
       );
-      expect(useElement.childElementCount).toEqual(0);
+      expect(useElement.childElementCount).toBe(0);
     });
   });
 });
