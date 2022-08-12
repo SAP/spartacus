@@ -7,6 +7,8 @@ import {
   CART_BASE_ROOT_MODULE,
   CDC_MODULE,
   CDC_ROOT_MODULE,
+  CDC_USER_ACCOUNT_MODULE,
+  CDC_USER_PROFILE_MODULE,
   CHECKOUT_B2B_MODULE,
   CHECKOUT_B2B_ROOT_MODULE,
   CHECKOUT_B2B_SCHEMATICS_CONFIG,
@@ -74,7 +76,11 @@ describe('schematics-config-mappings', () => {
         [CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE]
       );
       expect(result.get(ORDER_FEATURE_NAME)).toEqual([ORDER_MODULE]);
-      expect(result.get(CDC_FEATURE_NAME)).toEqual([CDC_MODULE]);
+      expect(result.get(CDC_FEATURE_NAME)).toEqual([
+        CDC_MODULE,
+        CDC_USER_ACCOUNT_MODULE,
+        CDC_USER_PROFILE_MODULE,
+      ]);
     });
   });
 

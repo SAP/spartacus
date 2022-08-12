@@ -332,6 +332,12 @@
       "@spartacus/cdc/components": [
         "integration-libs/cdc/components/public_api"
       ],
+      "@spartacus/cdc/components/login": [
+        "integration-libs/cdc/components/login/public_api"
+      ],
+      "@spartacus/cdc/components/register": [
+        "integration-libs/cdc/components/register/public_api"
+      ],
       "@spartacus/cdc/core": ["integration-libs/cdc/core/public_api"],
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
       "@spartacus/cdc/root": ["integration-libs/cdc/root/public_api"],

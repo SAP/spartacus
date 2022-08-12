@@ -59,6 +59,7 @@ import { ImportExportFeatureModule } from './features/cart/cart-import-export-fe
 import { QuickOrderFeatureModule } from './features/cart/cart-quick-order-feature.module';
 import { SavedCartFeatureModule } from './features/cart/cart-saved-cart-feature.module';
 import { WishListFeatureModule } from './features/cart/wish-list-feature.module';
+import { CdcFeatureModule } from './features/cdc/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments/digital-payments-feature.module';
@@ -87,10 +88,12 @@ if (environment.b2b) {
   );
 }
 
+if (environment.cdc) {
+  featureModules.push(CdcFeatureModule);
+}
 if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
-
 if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
 }

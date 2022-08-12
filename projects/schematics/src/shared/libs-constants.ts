@@ -148,6 +148,8 @@ export const SPARTACUS_CDS = `@spartacus/cds`;
 
 export const SPARTACUS_CDC = `@spartacus/cdc`;
 export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;
+export const SPARTACUS_CDC_LOGIN = `@spartacus/cdc/components/login`;
+export const SPARTACUS_CDC_REGISTER = `@spartacus/cdc/components/register`;
 
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;

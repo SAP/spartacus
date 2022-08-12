@@ -3,6 +3,8 @@
 exports[`Spartacus CDC schematics: ng-add CDC feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { CdcModule } from \\"@spartacus/cdc\\";
+import { CDCUserAccountModule } from \\"@spartacus/cdc/components/login\\";
+import { CDCUserProfileModule } from \\"@spartacus/cdc/components/register\\";
 import { CdcConfig, CdcRootModule } from \\"@spartacus/cdc/root\\";
 import { provideConfig } from \\"@spartacus/core\\";
 
@@ -10,7 +12,9 @@ import { provideConfig } from \\"@spartacus/core\\";
   declarations: [],
   imports: [
     CdcRootModule,
-    CdcModule
+    CdcModule,
+    CDCUserAccountModule,
+    CDCUserProfileModule
   ],
   providers: [provideConfig(<CdcConfig>{
     cdc: [
@@ -56,6 +60,38 @@ import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
   ]
 })
 export class CdcFeatureModule { }
+"
+`;
+
+exports[`Spartacus CDC schematics: ng-add CDC feature general setup should install the appropriate dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { CDCUserAccountModule } from \\"@spartacus/cdc/components/login\\";
+import { UserAccountModule } from \\"@spartacus/user/account\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountModule,
+    CDCUserAccountModule
+  ]
+})
+export class UserAccountWrapperModule { }
+"
+`;
+
+exports[`Spartacus CDC schematics: ng-add CDC feature general setup should install the appropriate dependencies 2`] = `
+"import { NgModule } from '@angular/core';
+import { CDCUserProfileModule } from \\"@spartacus/cdc/components/register\\";
+import { UserProfileModule } from \\"@spartacus/user/profile\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserProfileModule,
+    CDCUserProfileModule
+  ]
+})
+export class UserProfileWrapperModule { }
 "
 `;
 

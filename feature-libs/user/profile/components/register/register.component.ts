@@ -18,13 +18,10 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
-import {
-  Title,
-  UserRegisterFacade,
-  UserSignUp,
-} from '@spartacus/user/profile/root';
+import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { RegisterComponentService } from './register-component.service';
 
 @Component({
   selector: 'cx-register',
@@ -68,7 +65,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    protected userRegister: UserRegisterFacade,
+    protected registerComponentService: RegisterComponentService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
     protected router: RoutingService,
@@ -78,7 +75,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.titles$ = this.userRegister.getTitles().pipe(
+    this.titles$ = this.registerComponentService.getTitles().pipe(
       map((titles: Title[]) => {
         return titles.sort(sortTitles);
       })
@@ -145,7 +142,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   registerUser(): void {
     this.isLoading$.next(true);
-    this.userRegister
+    this.registerComponentService
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
         next: () => this.onRegisterUserSuccess(),
