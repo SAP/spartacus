@@ -1,6 +1,6 @@
-import { ɵunwrapSafeValue as unwrapSafeValue } from '@angular/core';
+import { SecurityContext } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { DomSanitizer, SafeValue } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { WindowRef } from '@spartacus/core';
 import { DirectionMode } from '../../../layout/direction/config/direction.model';
 import { IconLoaderService } from './icon-loader.service';
@@ -84,6 +84,7 @@ export const MockIconConfig: IconConfig = {
 describe('IconLoaderService', () => {
   let service: IconLoaderService;
   let winRef: WindowRef;
+  let domSanitizer: DomSanitizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -92,6 +93,7 @@ describe('IconLoaderService', () => {
 
     service = TestBed.inject(IconLoaderService);
     winRef = TestBed.inject(WindowRef);
+    domSanitizer = TestBed.inject(DomSanitizer);
   });
 
   it('should inject service', () => {
@@ -213,21 +215,18 @@ describe('IconLoaderService', () => {
 
   describe('sanitize HTML for icons', () => {
     it(`should not have bypassed HTML sanitizing for font icon`, () => {
-      const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
       spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
       service.getHtml(ICON_TYPE.VISA);
       expect(domSanitizer.bypassSecurityTrustHtml).not.toHaveBeenCalled();
     });
 
     it(`should have bypassed HTML sanitizing for text icon`, () => {
-      const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
       spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
       service.getHtml('HAPPY');
       expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalled();
     });
 
     it('should have bypassed HTML sanitizing for sprited SVG', () => {
-      const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
       spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
       service.getHtml(ICON_TYPE.CART);
       expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
@@ -236,7 +235,6 @@ describe('IconLoaderService', () => {
     });
 
     it('should have bypassed HTML sanitizing for non-sprited SVG', () => {
-      const domSanitizer: DomSanitizer = TestBed.inject(DomSanitizer);
       spyOn(domSanitizer, 'bypassSecurityTrustHtml').and.stub();
       service.getHtml(ICON_TYPE.INFO);
       expect(domSanitizer.bypassSecurityTrustHtml).toHaveBeenCalledWith(
@@ -248,9 +246,11 @@ describe('IconLoaderService', () => {
   describe('TEXT icons', () => {
     it('should generate text', () => {
       const nativeDebugElement = winRef.document.createElement('div');
-      nativeDebugElement.innerHTML = unwrapSafeValue(
-        service.getHtml('SAD') as SafeValue
-      );
+      nativeDebugElement.innerHTML =
+        domSanitizer.sanitize(
+          SecurityContext.HTML,
+          service.getHtml('SAD') || null
+        ) || '';
 
       expect(nativeDebugElement.textContent).toBe(':-(');
       expect(nativeDebugElement.childElementCount).toBe(0);
@@ -258,9 +258,11 @@ describe('IconLoaderService', () => {
 
     it('should not generate dangerous html source code', () => {
       const nativeDebugElement = winRef.document.createElement('div');
-      nativeDebugElement.innerHTML = unwrapSafeValue(
-        service.getHtml('BAD_TEXT') as SafeValue
-      );
+      nativeDebugElement.innerHTML =
+        domSanitizer.sanitize(
+          SecurityContext.HTML,
+          service.getHtml('BAD_TEXT') || null
+        ) || '';
 
       expect(nativeDebugElement.textContent).toBe(
         '<img src="." onerror="alert(4)">'
@@ -282,9 +284,11 @@ describe('IconLoaderService', () => {
 
     it('should generate non-sprited SVG code', () => {
       const nativeDebugElement = winRef.document.createElement('div');
-      nativeDebugElement.innerHTML = unwrapSafeValue(
-        service.getHtml(ICON_TYPE.INFO) as SafeValue
-      );
+      nativeDebugElement.innerHTML =
+        domSanitizer.sanitize(
+          SecurityContext.HTML,
+          service.getHtml(ICON_TYPE.INFO) || null
+        ) || '';
       expect(nativeDebugElement.childElementCount).toBe(1);
 
       const svgElement = nativeDebugElement.children[0];
@@ -301,9 +305,11 @@ describe('IconLoaderService', () => {
 
     it('should generate sprited SVG', () => {
       const nativeDebugElement = winRef.document.createElement('div');
-      nativeDebugElement.innerHTML = unwrapSafeValue(
-        service.getHtml(ICON_TYPE.CART) as SafeValue
-      );
+      nativeDebugElement.innerHTML =
+        domSanitizer.sanitize(
+          SecurityContext.HTML,
+          service.getHtml(ICON_TYPE.CART) || null
+        ) || '';
       expect(nativeDebugElement.childElementCount).toBe(1);
 
       const svgElement = nativeDebugElement.children[0];
@@ -322,9 +328,11 @@ describe('IconLoaderService', () => {
 
     it('should generate a sprited SVG with a sanitized javascript: url', () => {
       const nativeDebugElement = winRef.document.createElement('div');
-      nativeDebugElement.innerHTML = unwrapSafeValue(
-        service.getHtml('BAD_SVG') as SafeValue
-      );
+      nativeDebugElement.innerHTML =
+        domSanitizer.sanitize(
+          SecurityContext.HTML,
+          service.getHtml('BAD_SVG') || null
+        ) || '';
       expect(nativeDebugElement.childElementCount).toBe(1);
 
       const svgElement = nativeDebugElement.children[0];
