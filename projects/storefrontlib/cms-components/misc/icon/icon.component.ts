@@ -42,7 +42,8 @@ export class IconComponent {
    * The cxIcon directive is bound to the icon type. You can feed the `ICON_TYPE` to
    * accomplish a configurable button in the UI.
    */
-  @Input() set cxIcon(type: ICON_TYPE_STRING) {
+  @Input()
+  public set cxIcon(type: ICON_TYPE_STRING) {
     this.setIcon(type);
   }
 
@@ -50,7 +51,8 @@ export class IconComponent {
    * The type input parameter is bound to the icon type. You can feed the `ICON_TYPE` to
    * accomplish a configurable button in the UI.
    */
-  @Input() set type(type: ICON_TYPE_STRING) {
+  @Input()
+  public set type(type: ICON_TYPE_STRING) {
     // XXX this clashes with the type attribute of some html form elements, e.g. input or button
     this.setIcon(type);
   }
@@ -59,7 +61,8 @@ export class IconComponent {
    * Maintains the applied style classes so we can remove them when the
    * icon type changes at run time.
    */
-  @HostBinding('class') styleClasses: string[] = [];
+  @HostBinding('class')
+  public styleClasses: string[] = [];
 
   private iconValue?: string;
   private iconResourceType: IconResourceType;
