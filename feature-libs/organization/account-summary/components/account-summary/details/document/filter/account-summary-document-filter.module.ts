@@ -5,6 +5,7 @@ import { I18nModule } from '@spartacus/core';
 import { AccountSummaryDocumentFilterComponent } from './account-summary-document-filter.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DatePickerModule, FormErrorsModule } from '@spartacus/storefront';
 
 @NgModule({
   declarations: [AccountSummaryDocumentFilterComponent],
@@ -14,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     I18nModule,
     NgSelectModule,
     ReactiveFormsModule,
+    DatePickerModule,
+    FormErrorsModule,
   ],
   exports: [AccountSummaryDocumentFilterComponent]
 })

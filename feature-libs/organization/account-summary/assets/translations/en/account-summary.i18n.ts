@@ -66,6 +66,10 @@ export const accountSummary = {
       endRange: 'To',
       clear: 'Clear All',
       search: 'Search',
+      errors: {
+        toDateMustComeAfterFrom: 'End date must be later than start',
+        toAmountMustBeLargeThanFrom: 'To amount must be larger than from',
+      }
     },
     hint: 'Account summaries allow you to review general information about a unit, including balances and aging summary of invoices. Here, you can also browse through a list of transaction documents for a unit.',
   },

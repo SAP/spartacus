@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import {
   AccountSummaryDocumentType,
   DocumentQueryParams,
@@ -8,16 +8,23 @@ import {
 import { combineLatest } from 'rxjs';
 import { TranslationService } from '@spartacus/core';
 
-import { FormBuilder, FormGroup } from '@angular/forms'
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms'
 
 interface ItemType {
   code: string;
   name?: string;
 }
 
+interface GroupValidator {
+  startRange?: ValidationErrors | null,
+  endRange?: ValidationErrors | null,
+  groupValidator?: ValidationErrors | null,
+}
+
 @Component({
   selector: 'cx-account-summary-document-filter',
   templateUrl: './account-summary-document-filter.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccountSummaryDocumentFilterComponent {
 
@@ -144,18 +151,38 @@ export class AccountSummaryDocumentFilterComponent {
 
   private initializeForm({ status, filterByKey, filterByValue, startRange, endRange }: DocumentQueryParams): void {
 
-    const generateRangeGroup = (filterByOption: FilterByOptions): FormGroup => {
+    const generateRangeGroup = (filterByOption: FilterByOptions, validator?: GroupValidator): FormGroup => {
       return this.fb.group({
-        from: filterByKey === filterByOption && startRange ? startRange : '',
-        to: filterByKey === filterByOption && endRange ? endRange : '',
-      })
+        from: [filterByKey === filterByOption && startRange ? startRange : '', validator?.startRange],
+        to: [filterByKey === filterByOption && endRange ? endRange : '', validator?.endRange],
+      }, { validator: validator?.groupValidator})
     }
 
-    const generateDateRangeGroup = (filterByOption: FilterByOptions): FormGroup => {
+    const generateDateRangeGroup = (filterByOption: FilterByOptions, validator?: GroupValidator | null): FormGroup => {
       return this.fb.group({
-        from: filterByKey === filterByOption && startRange ? this.decodeDate(startRange) : '',
-        to: filterByKey === filterByOption && endRange ? this.decodeDate(endRange) : '',
-      })
+        from: [filterByKey === filterByOption && startRange ? this.decodeDate(startRange) : '', validator?.startRange],
+        to: [filterByKey === filterByOption && endRange ? this.decodeDate(endRange) : '', validator?.endRange],
+      }, { validator: validator?.groupValidator})
+    }
+
+    const validRange = (type: 'date' | 'number'): ValidationErrors => {
+      return (c: AbstractControl): ValidationErrors | null => {
+        const from = c.get('from') as AbstractControl;
+        const to = c.get('to') as AbstractControl;
+
+        if (from.pristine || from.invalid || to.pristine || to.invalid) {
+          return null
+        } else if (type === 'date' && from.value > to.value) {
+          return { toDateMustComeAfterFrom: true };
+        } else if (type === 'number') {
+          const fromValue = parseFloat(from.value) || 0;
+          const toValue = parseFloat(to.value) || 0;
+          console.log(fromValue, toValue);
+          return (!isNaN(from.value) && !isNaN(to.value) && fromValue > toValue) ? { toAmountMustBeLargeThanFrom: true } : null
+        } else {
+          return null;
+        }
+      }
     }
 
     this.filterForm = this.fb.group({
@@ -164,12 +191,15 @@ export class AccountSummaryDocumentFilterComponent {
       documentType: filterByKey === FilterByOptions.DOCUMENT_TYPE && filterByValue ? filterByValue : '',
       documentNumber: filterByKey === FilterByOptions.DOCUMENT_NUMBER && filterByValue ? filterByValue : '',
       documentNumberRange: generateRangeGroup(FilterByOptions.DOCUMENT_NUMBER_RANGE),
-      documentDateRange: generateDateRangeGroup(FilterByOptions.DATE_RANGE),
-      dueDateRange: generateDateRangeGroup(FilterByOptions.DUE_DATE_RANGE),
-      originalAmountRange: generateRangeGroup(FilterByOptions.AMOUNT_RANGE),
-      openAmountRange: generateRangeGroup(FilterByOptions.OPEN_AMOUNT_RANGE)
+      documentDateRange: generateDateRangeGroup(FilterByOptions.DATE_RANGE,
+        { groupValidator: validRange('date') }),
+      dueDateRange: generateDateRangeGroup(FilterByOptions.DUE_DATE_RANGE,
+        { groupValidator: validRange('date') }),
+      originalAmountRange: generateRangeGroup(FilterByOptions.AMOUNT_RANGE,
+        { groupValidator: validRange('number') }),
+      openAmountRange: generateRangeGroup(FilterByOptions.OPEN_AMOUNT_RANGE,
+        { groupValidator: validRange('number') }),
     });
-
     this.filterForm.get('filterBy')?.valueChanges.subscribe(() => this.filterByChanged());
   }
 
