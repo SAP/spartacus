@@ -128,7 +128,7 @@
                   }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  {{ document?.formattedAmount }}
+                  {{ formatCurrency(document.amount, document.currency) }}
                 </div>
               </td>
               <td class="cx-account-summary-document-monetary">
@@ -136,7 +136,7 @@
                   {{ 'orgAccountSummary.document.openAmount' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  {{ document?.formattedOpenAmount }}
+                  {{ formatCurrency(document.openAmount, document.currency) }}
                 </div>
               </td>
               <td class="cx-account-summary-document-status">

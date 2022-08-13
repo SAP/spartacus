@@ -8,7 +8,7 @@ import {
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { SortModel, TranslationService } from '@spartacus/core';
+import { Currency, SortModel, TranslationService } from '@spartacus/core';
 import { map, take } from "rxjs/operators";
 
 @Component({
@@ -68,6 +68,11 @@ export class AccountSummaryDocumentComponent implements OnInit {
         return sorts;
       })
     );
+  }
+
+  formatCurrency(amount?: number, currency?: Currency): string {
+    return amount && currency?.isocode ?
+      amount.toLocaleString(navigator.language, {style: 'currency', currency: currency?.isocode}) : '';
   }
 
   private fetchDocuments(): void {
