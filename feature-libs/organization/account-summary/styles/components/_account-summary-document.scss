@@ -246,7 +246,15 @@ cx-account-summary-document {
     }
   }
 
-  .spacer {
-    min-width: 1rem;
+  .attachment-icon {
+    font-size: 1.5rem;
   }
+
+  .attachment-text {
+    padding-left: 1rem;
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+  }
+
 }

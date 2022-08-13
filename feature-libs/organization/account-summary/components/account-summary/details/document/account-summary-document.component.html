@@ -80,7 +80,9 @@
             <th scope="col">
               {{ 'orgAccountSummary.document.status' | cxTranslate }}
             </th>
-            <th scope="col"></th>
+            <th scope="col">
+              <i class="fas fa-download attachment-icon"></i>
+            </th>
           </thead>
           <tbody>
             <tr
@@ -157,8 +159,14 @@
                 <div class="cx-account-summary-document-label">
                   {{ 'orgAccountSummary.document.attachment' | cxTranslate }}
                 </div>
-                <div class="cx-account-summary-document-value spacer">
-                  {{ document?.documentMedia ? 'View' : ' ' }}
+                <div class="cx-account-summary-document-value">
+                  <a *ngIf="document.documentMedia"
+                     [href]="document.documentMedia"
+                     target="_blank"
+                     rel="noopener noreferrer">
+                    <i class="fas fa-file attachment-icon"></i>
+                    <span class="attachment-text">View</span>
+                  </a>
                 </div>
               </td>
             </tr>
