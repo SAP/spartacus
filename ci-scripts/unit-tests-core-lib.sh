@@ -122,17 +122,3 @@ fi
 echo "Running schematics unit tests and code coverage for smartedit library"
 
 output=$(eval "yarn --cwd feature-libs/smartedit run test:schematics --coverage=true"$target)
-
-
-# if [[ $1 == '-h' ]]; then
-#     echo "Usage: $0 [sonar (to run sonar scan)]"
-#     exit 1
-#     elif [[ $1 == 'sonar' ]]; then
-
-#     echo "Running SonarCloud scan"
-#     sonar-scanner \
-#     -Dsonar.projectKey=sap_cloud-commerce-spartacus-storefront \
-#     -Dsonar.organization=sap \
-#     -Dsonar.host.url=https://sonarcloud.io \
-#     -Dsonar.login=$SONAR_TOKEN
-# fi
