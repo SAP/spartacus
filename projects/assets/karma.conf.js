@@ -17,10 +17,7 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
       outputFile: 'unit-test-assets.xml',
-      outputDir: require('path').join(
-        __dirname,
-        '../../unit-tests-reports/assets'
-      ),
+      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
       useBrowserName: false,
     },
     coverageReporter: {

@@ -19,10 +19,7 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
       outputFile: 'unit-test-cdc.xml',
-      outputDir: require('path').join(
-        __dirname,
-        '../../unit-tests-reports/cdc'
-      ),
+      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
       useBrowserName: false,
     },
     coverageReporter: {

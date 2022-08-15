@@ -22,10 +22,7 @@ module.exports = function (config) {
     reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
       outputFile: 'unit-test-smartedit.xml',
-      outputDir: require('path').join(
-        __dirname,
-        '../../unit-tests-reports/smartedit'
-      ),
+      outputDir: require('path').join(__dirname, '../../unit-tests-reports'),
       useBrowserName: false,
     },
     coverageReporter: {
