@@ -32,7 +32,7 @@ export class PickupInStoreActiveCartService extends ActiveCartService {
           getCartIdByUserId(cart, userId),
           productCode,
           quantity,
-          location?.name
+          location?.pickupOption === 'pickup' ? location.name : undefined
         );
       });
   }
