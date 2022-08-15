@@ -1,6 +1,7 @@
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
+import * as common from './common';
 
 /**
  * This script generated the constructor deprecation schematics entries.
@@ -27,15 +28,7 @@ import stringifyObject from 'stringify-object';
  * -----------
  */
 
-const breakingChangesFile = process.argv[2];
-
-const breakingChangesData = JSON.parse(
-  fs.readFileSync(breakingChangesFile, 'utf-8')
-);
-
-console.log(
-  `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
-);
+ const breakingChangesData = common.readBreakingChangeFile();
 
 const apiElementsWithConstructorChanges = breakingChangesData.filter(
   (apiElement: any) => {

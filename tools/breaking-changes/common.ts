@@ -1,3 +1,21 @@
+import * as fs from 'fs';
+
+// shared configs
+
+export const NEW_MAJOR_VERSION = '6';
+export const BREAKING_CHANGES_FILE_PATH = `data/${NEW_MAJOR_VERSION}_0/breaking-changes.json`;
+
+// Shared Functions
+export function readBreakingChangeFile(): any {
+  const breakingChangesData = JSON.parse(
+    fs.readFileSync(BREAKING_CHANGES_FILE_PATH, 'utf-8')
+  );
+  console.log(
+    `Read: ${BREAKING_CHANGES_FILE_PATH}, ${breakingChangesData.length} entries`
+  );
+  return breakingChangesData;
+}
+
 export function printStats(breakingChangeElements: any[]) {
   console.log(
     `${breakingChangeElements.length} api elements with breaking changes`

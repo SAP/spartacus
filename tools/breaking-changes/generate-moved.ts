@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
+import * as common from './common';
 
 /**
  * This script generates moved api elements schematics code.
@@ -15,16 +16,7 @@ import stringifyObject from 'stringify-object';
  * -----------
  */
 
-const breakingChangesFile = process.argv[2];
-
-const breakingChangesData = JSON.parse(
-  fs.readFileSync(breakingChangesFile, 'utf-8')
-);
-
-console.log(
-  `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
-);
-
+ const breakingChangesData = common.readBreakingChangeFile();
 const movedApiSchematics = [];
 breakingChangesData
   .filter((apiElement: any) => apiElement.isMoved && !apiElement.namespace)

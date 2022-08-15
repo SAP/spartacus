@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
+import * as common from './common';
 import { getSignatureDoc, printStatsForBreakingChangeList } from './common';
 
 /**
@@ -16,16 +17,7 @@ import { getSignatureDoc, printStatsForBreakingChangeList } from './common';
  * -----------
  */
 
-const breakingChangesFile = process.argv[2];
-
-const breakingChangesData = JSON.parse(
-  fs.readFileSync(breakingChangesFile, 'utf-8')
-);
-
-console.log(
-  `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
-);
-
+ const breakingChangesData = common.readBreakingChangeFile();
 const updatedMemberSchematics = [];
 
 const updatedMembers = getUpdatedMembers(breakingChangesData);

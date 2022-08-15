@@ -1,6 +1,6 @@
 import * as fs from 'fs';
+import * as common from './common';
 import { isMember, isTopLevelApi } from './common';
-
 /**
  * This script generates thee breaking changes markdown doc.
  *
@@ -17,15 +17,7 @@ import { isMember, isTopLevelApi } from './common';
 
 const MD_CODEBLOCK = '\n```\n';
 
-const breakingChangesFile = process.argv[2];
-
-const breakingChangesData = JSON.parse(
-  fs.readFileSync(breakingChangesFile, 'utf-8')
-);
-
-console.log(
-  `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
-);
+const breakingChangesData = common.readBreakingChangeFile();
 
 const breakingChangeDoc = [];
 breakingChangesData.forEach((apiElement: any) => {
