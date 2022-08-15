@@ -1547,7 +1547,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       ).toEqual(groupMenuTitle);
     });
 
-    it('should return conflict header group title for expert mode', () => {
+    it('should return only conflict header group description as title even if expert mode is on', () => {
       spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
       const configForExpMode =
         ConfigurationTestData.productConfigurationWithConflicts;
