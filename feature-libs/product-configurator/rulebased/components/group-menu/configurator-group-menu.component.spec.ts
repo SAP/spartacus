@@ -1524,7 +1524,7 @@ describe('ConfigurationGroupMenuComponent', () => {
   });
 
   describe('getGroupMenuTitle', () => {
-    it('should return group title', () => {
+    it('should return only group description as title when expert mode if off', () => {
       spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(false));
       initialize();
 
