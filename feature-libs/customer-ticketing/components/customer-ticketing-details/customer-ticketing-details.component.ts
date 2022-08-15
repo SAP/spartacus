@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslationService } from '@spartacus/core';
 import {
   STATUS,
@@ -13,15 +13,16 @@ import { filter, map } from 'rxjs/operators';
 @Component({
   selector: 'cx-customer-ticketing-details',
   templateUrl: './customer-ticketing-details.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomerTicketingDetailsComponent {
+  ticketDetails$: Observable<TicketDetails | undefined> =
+    this.customerTicketingFacade.getTicket();
+
   constructor(
     protected translation: TranslationService,
     protected customerTicketingFacade: CustomerTicketingFacade
   ) {}
-
-  ticketDetails$: Observable<TicketDetails | undefined> =
-    this.customerTicketingFacade.getTicket();
 
   prepareCardContent(
     entity: string,

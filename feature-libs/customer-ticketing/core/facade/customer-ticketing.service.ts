@@ -13,7 +13,7 @@ import {
   TicketDetails,
 } from '@spartacus/customer-ticketing/root';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
 import { CustomerTicketingConnector } from '../connectors';
 
 @Injectable()
@@ -34,7 +34,7 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
   protected getTicketQuery$: Query<TicketDetails | undefined> =
     this.queryService.create<TicketDetails | undefined>(
       () =>
-        this.checkTicketPreConditions().pipe(
+        this.customerTicketingPreConditions().pipe(
           switchMap(([customerId, ticketId]) =>
             this.customerTicketingConnector.getTicket(customerId, ticketId)
           )
@@ -52,17 +52,20 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
     protected routingService: RoutingService
   ) {}
 
-  protected checkTicketPreConditions(): Observable<[string, string]> {
+  protected customerTicketingPreConditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.getUserId(),
-      this.routingService.getParams(),
+      this.routingService.getParams().pipe(
+        map((params) => params.ticketCode),
+        distinctUntilChanged()
+      ),
     ]).pipe(
       take(1),
-      map(([userId, routingParams]) => {
-        if (!userId || !routingParams) {
+      map(([userId, ticketId]) => {
+        if (!userId || !ticketId) {
           throw new Error('Customer tickets pre conditions not met');
         }
-        return [userId, routingParams.ticketCode];
+        return [userId, ticketId];
       })
     );
   }

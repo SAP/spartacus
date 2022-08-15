@@ -1,16 +1,30 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
+import {
+  CustomerTicketingFacade,
+  TicketDetails,
+} from '@spartacus/customer-ticketing/root';
 import { Card, CardModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingDetailsComponent } from './customer-ticketing-details.component';
+import createSpy = jasmine.createSpy;
 
 const mockTicketId = '1';
+const mockTicketDetails: TicketDetails = {
+  id: mockTicketId,
+  subject: 'mockTicket',
+  status: { id: 'OPEN', name: 'Open' },
+};
 
 class MockTranslationService {
   translate(text: string): Observable<string> {
     return of(text);
   }
+}
+
+class MockCustomerTicketingFacade implements Partial<CustomerTicketingFacade> {
+  getTicket = createSpy().and.returnValue(of(mockTicketDetails));
 }
 
 describe('CustomerTicketingDetailsComponent', () => {
@@ -23,6 +37,10 @@ describe('CustomerTicketingDetailsComponent', () => {
       declarations: [CustomerTicketingDetailsComponent],
       providers: [
         { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: CustomerTicketingFacade,
+          useClass: MockCustomerTicketingFacade,
+        },
       ],
     }).compileComponents();
   });
@@ -37,7 +55,7 @@ describe('CustomerTicketingDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('sohuld prepare content for card', () => {
+  it('should prepare content for card', (done) => {
     const mockCardContent: Card = {
       text: ['1'],
       title: 'ID',
@@ -48,6 +66,7 @@ describe('CustomerTicketingDetailsComponent', () => {
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual(mockCardContent);
+        done();
       });
   });
 

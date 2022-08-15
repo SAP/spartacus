@@ -15,7 +15,7 @@ export interface TicketDetails {
   modifiedAt?: string;
   status?: Status;
   subject?: string;
-  ticketCategory?: Categoty;
+  ticketCategory?: Category;
   ticketEvents?: Array<Event>;
 }
 
@@ -24,7 +24,7 @@ export interface Status {
   name: string;
 }
 
-export interface Categoty {
+export interface Category {
   id: string;
   name: string;
 }

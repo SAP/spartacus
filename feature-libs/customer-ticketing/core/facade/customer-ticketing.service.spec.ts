@@ -61,7 +61,7 @@ describe('CustomerTicketingService', () => {
   ));
 
   describe('getTicket', () => {
-    it('should call customerTicketingConnector.getTicket', () => {
+    it('should call customerTicketingConnector.getTicket', (done) => {
       service
         .getTicket()
         .pipe(take(1))
@@ -71,6 +71,7 @@ describe('CustomerTicketingService', () => {
             mockRoutingParams.ticketCode
           );
           expect(data).toEqual(mockTicketDetails);
+          done();
         });
     });
   });
