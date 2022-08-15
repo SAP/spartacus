@@ -1558,7 +1558,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
-    it('should return conflict group title for expert mode', () => {
+it('should return only conflict group description as title even if expert mode is on', () => {
       spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
       const configForExpMode =
         ConfigurationTestData.productConfigurationWithConflicts;
