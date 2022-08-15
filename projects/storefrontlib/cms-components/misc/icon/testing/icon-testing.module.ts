@@ -20,10 +20,18 @@ export class MockIconComponent {
 const mockComponents = [MockIconComponent];
 
 export class MockIconLoaderService {
-  getHtml() {}
-  getStyleClasses() {}
-  addStyleClasses() {}
-  addLinkResource() {}
+  getHtml() {
+    // Intentional empty method
+  }
+  getStyleClasses() {
+    // Intentional empty method
+  }
+  addStyleClasses() {
+    // Intentional empty method
+  }
+  addLinkResource() {
+    // Intentional empty method
+  }
 }
 
 @NgModule({

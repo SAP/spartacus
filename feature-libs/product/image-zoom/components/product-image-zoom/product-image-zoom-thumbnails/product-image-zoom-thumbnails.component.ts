@@ -36,7 +36,9 @@ export class ProductImageZoomThumbnailsComponent implements OnInit, OnDestroy {
 
   selectedIndex: number;
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.subscription.add(
