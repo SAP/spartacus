@@ -24,6 +24,9 @@ export default defineConfig({
     OCC_PREFIX_ORDER_ENDPOINT: 'orders',
   },
   e2e: {
+    setupNodeEvents(on, config) {
+      return require('./cypress/plugins/index.js')(on, config);
+    },
     baseUrl: 'http://localhost:4200',
   },
 });
