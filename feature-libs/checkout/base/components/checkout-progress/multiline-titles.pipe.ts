@@ -13,7 +13,9 @@ export class MultiLinePipe implements PipeTransform {
   transform(value: string): string {
     const lastIndex = value.lastIndexOf(' ');
 
-    if (lastIndex === -1) return value;
+    if (lastIndex === -1) {
+      return value;
+    }
 
     return (
       value.substring(0, lastIndex) +
