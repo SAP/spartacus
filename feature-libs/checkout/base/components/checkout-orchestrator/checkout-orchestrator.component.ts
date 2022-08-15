@@ -6,5 +6,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutOrchestratorComponent {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 }

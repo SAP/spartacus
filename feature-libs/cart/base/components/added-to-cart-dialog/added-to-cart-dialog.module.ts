@@ -32,5 +32,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
   exports: [AddedToCartDialogComponent],
 })
 export class AddedToCartDialogModule {
-  constructor(_addToCartDialogEventListener: AddedToCartDialogEventListener) {}
+  constructor(_addToCartDialogEventListener: AddedToCartDialogEventListener) {
+    // Intentional empty constructor
+  }
 }

@@ -40,7 +40,9 @@ export class StatePersistenceService {
     state$,
     context$ = of(''),
     storageType = StorageSyncType.LOCAL_STORAGE,
-    onRead = () => {},
+    onRead = () => {
+      // Intentional empty arrow function
+    },
   }: {
     key: string;
     state$: Observable<T>;

@@ -28,7 +28,9 @@ export enum CommandStrategy {
 export class CommandService implements OnDestroy {
   protected subscriptions: Subscription = new Subscription();
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   create<PARAMS = undefined, RESULT = unknown>(
     commandFactory: (command: PARAMS) => Observable<any>,

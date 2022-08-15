@@ -11,7 +11,9 @@ export class OccConfiguratorTextfieldNormalizer
       ConfiguratorTextfield.Configuration
     >
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
   /**
    * Converts addToCart parameters into the generic format
    * @param source Add to cart parameters in OCC format

@@ -20,7 +20,9 @@ export class ConfiguratorConflictSuggestionComponent {
 
   @HostBinding('tabindex') tabindex = '0';
 
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   /**
    * Verifies whether the conflict suggestion should be displayed for the current group.

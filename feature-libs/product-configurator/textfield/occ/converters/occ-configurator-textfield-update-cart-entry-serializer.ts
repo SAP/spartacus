@@ -14,7 +14,9 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
       OccConfiguratorTextfield.UpdateCartEntryParameters
     >
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   /**
    * Converts the attributes for the updateCartEntry request into OCC format. Most attributes are just copied,
