@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -o pipefail
 
+# -azure argument used by azure hyperspace pipeline
 if [[ $1 == '-azure' ]]; then
     target=""   
 else
