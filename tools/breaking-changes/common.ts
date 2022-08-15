@@ -4,6 +4,7 @@ import * as fs from 'fs';
 
 export const NEW_MAJOR_VERSION = '6';
 export const BREAKING_CHANGES_FILE_PATH = `data/${NEW_MAJOR_VERSION}_0/breaking-changes.json`;
+export const DELETED_API_COMMENTS_FILE_PATH = `../../docs/migration/${NEW_MAJOR_VERSION}_0/deleted-api.json`;
 
 // Shared Functions
 export function readBreakingChangeFile(): any {
@@ -14,6 +15,29 @@ export function readBreakingChangeFile(): any {
     `Read: ${BREAKING_CHANGES_FILE_PATH}, ${breakingChangesData.length} entries`
   );
   return breakingChangesData;
+}
+
+export function readDeletedApiCommentsFile(): any {
+  const deletedApiCommentData = JSON.parse(
+    fs.readFileSync(DELETED_API_COMMENTS_FILE_PATH, 'utf-8')
+  );
+  console.log(
+    `Read: ${BREAKING_CHANGES_FILE_PATH}, ${deletedApiCommentData.length} entries`
+  );
+  return deletedApiCommentData;
+}
+
+export function findDeletedApiComment(
+  apiElement: any,
+  deletedApiCommentData: any[]
+): string {
+  const apiCommentEntry = deletedApiCommentData.find((entry) => {
+    return (
+      entry.name === apiElement.name &&
+      entry.entryPoint === apiElement.entryPoint
+    );
+  });
+  return apiCommentEntry?.migrationComment || '';
 }
 
 export function printStats(breakingChangeElements: any[]) {

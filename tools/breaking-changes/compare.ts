@@ -1,7 +1,6 @@
 import deepEqual from 'deep-equal';
 import * as fs from 'fs';
-import { getElementCategory, getSignatureDoc, printStats } from './common';
-
+import * as common from './common';
 // --------------------------------------------------
 // Main Logic
 // --------------------------------------------------
@@ -10,6 +9,7 @@ const newApiFile = process.argv[3];
 
 const newApiData = JSON.parse(fs.readFileSync(newApiFile, 'utf-8'));
 const oldApiData = JSON.parse(fs.readFileSync(oldApiFile, 'utf-8'));
+const deletedCommentsData = common.readDeletedApiCommentsFile();
 
 console.log(`Comparing public API between:`);
 console.log(`old: ${oldApiFile}, ${oldApiData.length} entries`);
@@ -62,7 +62,10 @@ oldApiData.forEach((oldApiElement: any) => {
       }${
         oldApiElement.name
       } has been removed and is no longer part of the public API.`;
-      oldApiElement.migrationComment = '';
+      oldApiElement.migrationComment = common.findDeletedApiComment(
+        oldApiElement,
+        deletedCommentsData
+      );
       addBreakingChanges(oldApiElement, [
         {
           ...getChangeDesc(oldApiElement, 'DELETED'),
@@ -73,9 +76,12 @@ oldApiData.forEach((oldApiElement: any) => {
   }
 });
 
-printStats(breakingChanges);
+common.printStats(breakingChanges);
 
-fs.writeFileSync(`data/breaking-changes.json`, JSON.stringify(breakingChanges));
+fs.writeFileSync(
+  common.BREAKING_CHANGES_FILE_PATH,
+  JSON.stringify(breakingChanges)
+);
 
 // --------------------------------------------------
 // Functions
@@ -182,8 +188,8 @@ function getFunctionBreakingChange(oldElement: any, newElement: any): any[] {
     return [
       {
         ...getChangeDesc(oldElement, 'CHANGED'),
-        previousStateDoc: getSignatureDoc(oldElement),
-        currentStateDoc: getSignatureDoc(newElement),
+        previousStateDoc: common.getSignatureDoc(oldElement),
+        currentStateDoc: common.getSignatureDoc(newElement),
         oldElement: oldElementCopy,
         newElement: newElementCopy,
       },
@@ -269,8 +275,8 @@ function getParametersBreakingChange(oldMember: any, newMember: any): any[] {
     return [
       {
         ...getChangeDesc(oldMember, 'CHANGED'),
-        previousStateDoc: getSignatureDoc(oldMember),
-        currentStateDoc: getSignatureDoc(newMember),
+        previousStateDoc: common.getSignatureDoc(oldMember),
+        currentStateDoc: common.getSignatureDoc(newMember),
         details: {
           kind: oldMember.kind,
           name: oldMember.name,
@@ -392,7 +398,7 @@ function getChangeDesc(element: any, changeType: string): any {
     changeKind: element.kind,
     changeLabel: getChangeLabel(changeType),
     changeElementName: element.name,
-    changeElementCategory: getElementCategory(element),
+    changeElementCategory: common.getElementCategory(element),
   };
 }
 

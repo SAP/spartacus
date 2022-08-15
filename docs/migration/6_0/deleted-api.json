@@ -1,0 +1,10 @@
+// This file contains the doc input for deleted api.
+// The file format is an array with a list of entries that contain the migration comment.
+// Add a json entry like this for each top level api deleted.
+//
+// {
+//   "name": "CheckoutDetailsService",
+//   "entryPoint": "@spartacus/checkout/components",
+//   "migrationComment": "Use class abcd indtead."
+// }
+[]
