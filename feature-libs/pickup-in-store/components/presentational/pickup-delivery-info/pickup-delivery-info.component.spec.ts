@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CxPickupDeliveryInfoComponent } from './cx-pickup-delivery-info.component';
+import { CxPickupDeliveryInfoComponent } from './pickup-delivery-info.component';
 
 describe('CxPickupDeliveryInfoComponent', () => {
   let component: CxPickupDeliveryInfoComponent;

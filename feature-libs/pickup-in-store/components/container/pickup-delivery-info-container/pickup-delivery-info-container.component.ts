@@ -6,5 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: ['./pickup-delivery-info-container.component.scss'],
 })
 export class PickupDeliveryInfoContainerComponent {
-  constructor() {}
 }
