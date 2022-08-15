@@ -11,5 +11,7 @@ import { CheckoutScheduledReplenishmentEventListener } from './checkout-schedule
 export class CheckoutScheduledReplenishmentEventModule {
   constructor(
     _checkoutScheduledReplenishmentEventListener: CheckoutScheduledReplenishmentEventListener
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 }

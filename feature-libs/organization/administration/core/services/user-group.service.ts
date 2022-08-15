@@ -283,7 +283,9 @@ export class UserGroupService {
             customerId,
           })
         ),
-      () => {}
+      () => {
+        // Intentional empty arrow function
+      }
     );
   }
 
@@ -296,7 +298,9 @@ export class UserGroupService {
             userGroupId,
           })
         ),
-      () => {}
+      () => {
+        // Intentional empty arrow function
+      }
     );
   }
 
@@ -310,7 +314,9 @@ export class UserGroupService {
             permissionUid,
           })
         ),
-      () => {}
+      () => {
+        // Intentional empty arrow function
+      }
     );
   }
 
@@ -324,7 +330,9 @@ export class UserGroupService {
             permissionUid,
           })
         ),
-      () => {}
+      () => {
+        // Intentional empty arrow function
+      }
     );
   }
 

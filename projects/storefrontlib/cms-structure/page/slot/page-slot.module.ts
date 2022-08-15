@@ -18,5 +18,7 @@ import { PageSlotService } from './page-slot.service';
 })
 export class PageSlotModule {
   // instantiate PageSlotService ASAP, so it can examine SSR pre-rendered DOM
-  constructor(_pageSlot: PageSlotService) {}
+  constructor(_pageSlot: PageSlotService) {
+    // Intentional empty constructor
+  }
 }
