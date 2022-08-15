@@ -1533,7 +1533,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       ).toEqual(mockProductConfiguration.groups[0].description);
     });
 
-    it('should return group title for expert mode', () => {
+    it('should return group description and name as title when expert mode is on', () => {
       spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
       initialize();
 
