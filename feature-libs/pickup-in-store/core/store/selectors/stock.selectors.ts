@@ -59,9 +59,10 @@ export const getStoresWithStockForProductCode = (
     getHideOutOfStockState,
     (stockEntities, hideOutOfStock) =>
       stockEntities[productCode]?.stores?.filter(
-        (store) =>
-          (store.stockInfo?.stockLevelStatus !== 'outOfStock' &&
-            store.stockInfo?.stockLevelStatus !== 'lowStock') ||
+        ({ stockInfo }) =>
+          (stockInfo &&
+            stockInfo.stockLevelStatus !== 'outOfStock' &&
+            stockInfo.stockLevelStatus !== 'lowStock') ||
           !hideOutOfStock
       ) ?? []
   );
