@@ -13,8 +13,8 @@ const pickupOptions = {
 
 export const store = {
   pickupFromHere: 'Pick Up from here',
-  stockLevel_other: '{{ count }} in Stock',
-  stockLevel_zero: 'Out of Stock',
+  stockLevel_inStock: '{{ count }} in Stock',
+  stockLevel_outOfStock: 'Out of Stock',
   viewHours: 'View Hours',
 };
 

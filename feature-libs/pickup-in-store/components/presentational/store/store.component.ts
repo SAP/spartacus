@@ -25,4 +25,11 @@ export class StoreComponent {
   toggleOpenHours(): void {
     this.openHoursOpen = !this.openHoursOpen;
   }
+
+  isInStock(): boolean {
+    return (
+      this.storeDetails?.stockInfo?.stockLevelStatus !== 'outOfStock' &&
+      this.storeDetails?.stockInfo?.stockLevelStatus !== 'lowStock'
+    );
+  }
 }
