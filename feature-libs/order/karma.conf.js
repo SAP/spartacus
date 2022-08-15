@@ -21,8 +21,11 @@ module.exports = function (config) {
     },
     reporters: ['progress', 'kjhtml', 'dots', 'junit'],
     junitReporter: {
-      outputFile: 'unit-test-results.xml',
-      outputDir: require('path').join(__dirname, '../../unit-tests/storefront'),
+      outputFile: 'unit-test-order.xml',
+      outputDir: require('path').join(
+        __dirname,
+        '../../unit-tests-reports/order'
+      ),
       useBrowserName: false,
     },
     coverageReporter: {
