@@ -44,10 +44,11 @@ export class ConfiguratorOverviewNotificationBannerComponent {
         return configOv.numberOfIncompleteCharacteristics !== undefined
           ? configOv.numberOfIncompleteCharacteristics
           : configOv.totalNumberOfIssues;
-      } else
+      } else {
         return configuration.totalNumberOfIssues
           ? configuration.totalNumberOfIssues
           : 0;
+      }
     })
   );
 
