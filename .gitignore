@@ -45,7 +45,7 @@ scripts/install/config.sh
 **/coverage
 
 # Unit test reports
-**/unit-tests
+**/unit-tests-reports
 
 # misc
 /.angular/cache
