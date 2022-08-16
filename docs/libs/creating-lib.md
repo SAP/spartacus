@@ -73,7 +73,7 @@ module.exports = function (config) {
     junitReporter: {
       outputFile: 'unit-test-<lib-name>.xml',
       outputDir: require('path').join(__dirname, '../../unit-tests-reports'),      
-       useBrowserName: false,
+      useBrowserName: false,
     },
     coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/TODO:'),
