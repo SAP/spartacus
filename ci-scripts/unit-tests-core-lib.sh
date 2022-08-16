@@ -2,7 +2,7 @@
 set -o pipefail
 
 # -azure argument used by azure hyperspace pipeline
-if [[ $1 == '--azure' ]]; then
+if [[ $1 == '--release' ]]; then
     target=""
 else
     set -e
