@@ -27,10 +27,10 @@
 
     <!-- Card: Current Balance & Open Balance -->
     <div class="cx-summary-card cx-summary-card-balance">
-      <cx-card [content]="getCurrentBalanceCardContent(headerDetails?.amountBalanceData?.currentBalance) | async">
+      <cx-card [content]="getCurrentBalanceCardContent(headerDetails?.amountBalance?.currentBalance) | async">
       </cx-card>
 
-      <cx-card [content]="getOpenBalanceCardContent(headerDetails?.amountBalanceData?.openBalance) | async">
+      <cx-card [content]="getOpenBalanceCardContent(headerDetails?.amountBalance?.openBalance) | async">
       </cx-card>
     </div>
 
@@ -38,22 +38,22 @@
     <div class="cx-summary-card cx-summary-card-due">
 
       <!-- If there range of past due balances are provided, display them here in a bordered section -->
-      <div *ngIf="headerDetails.amountBalanceData && headerDetails.amountBalanceData.dueBalance as pastDue; else noDueRange"
+      <div *ngIf="headerDetails.amountBalance && headerDetails.amountBalance.dueBalances as pastDue; else noDueRange"
            [class.cx-account-summary-header-past-due-section]="pastDue.length > 0">
 
 
         <!-- Dynamically create lines of past due date ranges -->
         <div *ngIf="pastDue.length > 0" class="cx-account-summary-header-past-due-range-dates">
           <div *ngFor="let rangeBalance of pastDue" class="cx-account-summary-header-past-due-range-collection">
-            <div class="past-due-range-date">
-              <span>{{ rangeBalance?.key?.minBoundery }}</span>
+            <div class="past-due-range-date" *ngIf="rangeBalance.numberOfDayRange as numberOfDayRange">
+              <span>{{ numberOfDayRange?.minBoundery }}</span>
               <span>
-                {{ rangeBalance?.key?.maxBoundery ? '-' + rangeBalance?.key?.maxBoundery : '+' }}
+                {{ numberOfDayRange?.maxBoundery ? '- ' + numberOfDayRange?.maxBoundery : '+' }}
               </span>
               <span> Days</span>
             </div>
             <div>
-              {{ rangeBalance?.value }}
+              {{ rangeBalance.amount }}
             </div>
           </div>
         </div>
@@ -62,13 +62,13 @@
           <div class="past-due-balance-label cx-card-title">
             {{ 'orgAccountSummary.details.pastDueBalance' | cxTranslate }}
           </div>
-          <div>{{ headerDetails?.amountBalanceData?.pastDueBalance }}</div>
+          <div>{{ headerDetails?.amountBalance?.pastDueBalance }}</div>
         </div>
       </div>
 
       <!-- When there are no Ranges, only show a card containing the Past Due Balance -->
       <ng-template #noDueRange>
-        <cx-card [content]="getPastDueBalanceCardContent(headerDetails?.amountBalanceData?.pastDueBalance) | async">
+        <cx-card [content]="getPastDueBalanceCardContent(headerDetails?.amountBalance?.pastDueBalance) | async">
         </cx-card>
       </ng-template>
 

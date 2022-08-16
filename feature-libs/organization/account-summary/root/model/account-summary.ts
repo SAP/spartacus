@@ -19,11 +19,21 @@ interface B2BDocumentTypeData {
   payableOrUsable?: string;
 }
 
-interface B2BAmountBalanceData {
+interface AmountBalance {
   currentBalance?: string;
-  dueBalance?: any;
+  dueBalances?: DueBalanceRange[];
   openBalance?: string;
   pastDueBalance?: string;
+}
+
+interface DueBalanceRange {
+  amount?: string;
+  numberOfDayRange?: NumberOfDayRange;
+}
+
+interface NumberOfDayRange {
+  minBoundery?: number;
+  maxBoundery?: number;
 }
 
 export enum DocumentStatus {
@@ -51,7 +61,7 @@ export enum FilterByOptions {
 export interface AccountSummaryDetails {
   accountManagerEmail?: string;
   accountManagerName?: string;
-  amountBalanceData?: B2BAmountBalanceData;
+  amountBalance?: AmountBalance;
   unit?: B2BUnit;
   billingAddress?: Address;
   formattedCreditLimit?: string;

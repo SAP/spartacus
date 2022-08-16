@@ -8,7 +8,7 @@ import {
 } from '@spartacus/organization/account-summary/root';
 import { combineLatest } from 'rxjs';
 
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
+import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 
 interface ItemType {
   code: string;
@@ -155,14 +155,14 @@ export class AccountSummaryDocumentFilterComponent {
       return this.fb.group({
         from: [filterByKey === filterByOption && startRange ? startRange : '', validator?.startRange],
         to: [filterByKey === filterByOption && endRange ? endRange : '', validator?.endRange],
-      }, { validator: validator?.groupValidator});
+      }, { validators: validator?.groupValidator } as AbstractControlOptions);
     };
 
     const generateDateRangeGroup = (filterByOption: FilterByOptions, validator?: GroupValidator | null): FormGroup => {
       return this.fb.group({
         from: [filterByKey === filterByOption && startRange ? this.decodeDate(startRange) : '', validator?.startRange],
         to: [filterByKey === filterByOption && endRange ? this.decodeDate(endRange) : '', validator?.endRange],
-      }, { validator: validator?.groupValidator});
+      }, { validators: validator?.groupValidator } as AbstractControlOptions);
     };
 
     const validRange = (type: 'date' | 'number'): ValidationErrors => {
@@ -177,7 +177,6 @@ export class AccountSummaryDocumentFilterComponent {
         } else if (type === 'number') {
           const fromValue = parseFloat(from.value) || 0;
           const toValue = parseFloat(to.value) || 0;
-          console.log(fromValue, toValue);
           return (!isNaN(from.value) && !isNaN(to.value) && fromValue > toValue) ? { toAmountMustBeLargeThanFrom: true } : null;
         } else {
           return null;

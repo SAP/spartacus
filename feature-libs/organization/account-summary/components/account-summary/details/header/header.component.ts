@@ -14,7 +14,6 @@ const notApplicable = 'n/a';
 export class HeaderComponent implements OnInit {
 
   headerDetails$: Observable<AccountSummaryDetails>;
-  pastDue: any[];
 
   constructor(
     private accountSummaryFacade: AccountSummaryFacade,
@@ -23,7 +22,6 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.headerDetails$ = this.accountSummaryFacade.getAccountSummary();
-    this.headerDetails$.subscribe(hd => this.pastDue = hd?.amountBalanceData?.dueBalance);
   }
 
   getIdCardContent(id?: string): Observable<Card> {
