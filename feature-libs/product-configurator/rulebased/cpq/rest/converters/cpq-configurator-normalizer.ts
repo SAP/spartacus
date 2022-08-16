@@ -340,44 +340,47 @@ export class CpqConfiguratorNormalizer
       return Configurator.UiType.READ_ONLY;
     }
 
+    const uiType = this.findUiTypeFromDisplayType(
+      displayAs,
+      displayAsProduct,
+      sourceAttribute
+    );
+    return uiType;
+  }
+
+  protected findUiTypeFromDisplayType(
+    displayAs: number | undefined,
+    displayAsProduct: boolean,
+    sourceAttribute: Cpq.Attribute
+  ): Configurator.UiType {
     let uiType: Configurator.UiType;
     switch (displayAs) {
       case Cpq.DisplayAs.RADIO_BUTTON: {
-        if (displayAsProduct) {
-          uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
-        } else {
-          uiType = Configurator.UiType.RADIOBUTTON;
-        }
-
+        uiType = displayAsProduct
+          ? Configurator.UiType.RADIOBUTTON_PRODUCT
+          : (uiType = Configurator.UiType.RADIOBUTTON);
         break;
       }
 
       case Cpq.DisplayAs.DROPDOWN: {
-        if (displayAsProduct) {
-          uiType = Configurator.UiType.DROPDOWN_PRODUCT;
-        } else {
-          uiType = Configurator.UiType.DROPDOWN;
-        }
-
+        uiType = displayAsProduct
+          ? Configurator.UiType.DROPDOWN_PRODUCT
+          : (uiType = Configurator.UiType.DROPDOWN);
         break;
       }
 
       case Cpq.DisplayAs.CHECK_BOX: {
-        if (displayAsProduct) {
-          uiType = Configurator.UiType.CHECKBOXLIST_PRODUCT;
-        } else {
-          uiType = Configurator.UiType.CHECKBOXLIST;
-        }
-
+        uiType = displayAsProduct
+          ? Configurator.UiType.CHECKBOXLIST_PRODUCT
+          : (uiType = Configurator.UiType.CHECKBOXLIST);
         break;
       }
 
       case Cpq.DisplayAs.INPUT: {
-        if (sourceAttribute?.dataType === Cpq.DataType.INPUT_STRING) {
-          uiType = Configurator.UiType.STRING;
-        } else {
-          uiType = Configurator.UiType.NOT_IMPLEMENTED;
-        }
+        uiType =
+          sourceAttribute?.dataType === Cpq.DataType.INPUT_STRING
+            ? Configurator.UiType.STRING
+            : Configurator.UiType.NOT_IMPLEMENTED;
         break;
       }
 
