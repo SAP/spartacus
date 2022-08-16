@@ -1,0 +1,17 @@
+[
+  // This file contains the doc input for deleted api.
+  // The file format is an array with a list of entries that contain the migration comment.
+  // Add a json entry for each top level api that was renamed:
+  // "newEntryPoint" is optional and can be used in the case where the api element was renamed and also moved.
+  // {
+  //   "apiElementName": "CheckoutDetailsService",
+  //   "entryPoint": "@spartacus/checkout/components",
+  //   "newApiElementName": "CheckoutPaymentDetailsService"
+  // },
+  // {
+  //   "apiElementName": "SomeClass",
+  //   "entryPoint": "@spartacus/checkout/components",
+  //   "newApiElementName": "SomeRenamedClass",
+  //   "newEntryPoint": "@spartacus/featureA/components"
+  // }
+]
