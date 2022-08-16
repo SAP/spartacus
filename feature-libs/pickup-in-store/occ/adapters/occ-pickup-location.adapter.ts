@@ -15,6 +15,7 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
     return this.http.get<PointOfService>(
       this.occEndpointsService.buildUrl('storeDetails', {
         urlParams: { storeName },
+        queryParams: { fields: 'FULL' },
       })
     );
   }
