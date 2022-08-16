@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { Stock, StoreFinderStockSearchPage } from '@spartacus/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
@@ -9,7 +15,9 @@ import { StockAdapter } from './stock.adapter';
  */
 @Injectable({ providedIn: 'root' })
 export class StockConnector {
-  constructor(protected adapter: StockAdapter) {}
+  constructor(protected adapter: StockAdapter) {
+    // Intentional empty constructor
+  }
 
   /**
    * Finds stock levels of a product at stores near a location.

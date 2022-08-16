@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import {
   Component,
   ElementRef,
@@ -61,7 +67,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected currentLocationService: CurrentLocationService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected preferredStoreService: PreferredStoreService
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     const productCode$ = this.currentProductService.getProduct().pipe(

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   ConsentService,
@@ -25,7 +31,9 @@ export class PreferredStoreService implements OnDestroy {
     protected readonly consentService: ConsentService,
     protected config: PickupInStoreConfig,
     protected readonly winRef: WindowRef
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   /**
    * Gets the user's preferred store for Pickup in Store.

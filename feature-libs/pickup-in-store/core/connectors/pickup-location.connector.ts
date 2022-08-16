@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -8,7 +14,9 @@ import { PickupLocationAdapter } from './pickup-location.adapter';
  */
 @Injectable({ providedIn: 'root' })
 export class PickupLocationConnector {
-  constructor(protected adapter: PickupLocationAdapter) {}
+  constructor(protected adapter: PickupLocationAdapter) {
+    // Intentional empty constructor
+  }
 
   /**
    * Get the store details by store name.

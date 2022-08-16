@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /** The latitude and longitude of the user for searching for a location. */
 type BrowserLocationSearchParameters = {
   latitude: number;
