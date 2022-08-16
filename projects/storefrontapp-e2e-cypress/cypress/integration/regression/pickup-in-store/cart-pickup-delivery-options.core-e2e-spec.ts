@@ -28,7 +28,7 @@ const SEARCH_LOCATION_TEXTBOX = '#txtFindAStore';
 const FIND_STORES_BUTTON = '#btnFindStores';
 const USE_MY_LOCATION = '#lnkUseMyLocation';
 const SELECT_STORE_LINK = `${BOPIS_TAG} a.cx-action-link`;
-const PICKUP_FROM_HERE_BUTTON_MANCHESTER = `[data-pickup-in-store-button="Manchester"]`;
+const PICKUP_FROM_HERE_BUTTON_NOTTINGHAM_ICE_CENTER = `[data-pickup-in-store-button="Nottingham Ice Center"]`;
 const DIALOG_CLOSE = 'button.cx-dialog-close';
 const ADD_TO_CART = 'span[aria-label="Add to cart"]';
 const VIEW_CART = 'a[cxmodalreason="View Cart click"]';
@@ -47,11 +47,11 @@ describe('Pickup delivery options', () => {
       cy.visit('/product/300310300', mockLocation(53, 0));
     });
 
-    it('Delivery selected by default. CLick Pickup. Pickup radio becomes selected. Dismiss dialog without picking a store. Delivery is selected', () => {
+    it('Delivery selected by default. Click Pickup. Pickup radio becomes selected. Dismiss dialog without picking a store. Delivery is selected', () => {
       cy.get(DELIVERY_RADIO_BUTTON).should('have.attr', 'aria-checked', 'true');
       cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(USE_MY_LOCATION).click();
-      cy.get(PICKUP_FROM_HERE_BUTTON_MANCHESTER).click();
+      cy.get(PICKUP_FROM_HERE_BUTTON_NOTTINGHAM_ICE_CENTER).click();
       cy.get(ADD_TO_CART).click();
       cy.get(VIEW_CART).click();
     });
