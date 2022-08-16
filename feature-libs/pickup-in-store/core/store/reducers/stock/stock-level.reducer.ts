@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Action, createAction, createReducer, on, props } from '@ngrx/store';
 import { StockLevelActions } from '../../actions/index';
 import { StockLevelSuccessPayload } from '../../actions/stock.action';

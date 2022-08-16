@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createAction, props } from '@ngrx/store';
 import { StateUtils, Stock, StoreFinderStockSearchPage } from '@spartacus/core';
 import { StockLocationSearchParams } from '@spartacus/pickup-in-store/root';
