@@ -15,7 +15,7 @@ class MockFutureStockAdapter implements Partial<FutureStockAdapter> {
 	);
 
 	getFutureStocks = createSpy('FutureStockAdapter.getFutureStocks').and.callFake(
-		(productCodes: string, userId: string) => of(`getFutureStock-${userId}-${productCodes}`)
+		(productCodes: string, userId: string) => of(`getFutureStocks-${userId}-${productCodes}`)
 	);
 }
 

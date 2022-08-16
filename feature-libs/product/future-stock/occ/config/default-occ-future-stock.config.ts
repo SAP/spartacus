@@ -5,7 +5,7 @@ export const defaultOccFutureStockConfig: OccConfig = {
     occ: {
       endpoints: {
         product: {
-          getFutureStock: '/users/${userId}/futureStock/${productCode}',
+          getFutureStock: '/users/${userId}/futureStocks/${productCode}',
           getFutureStocks: '/users/${userId}/futureStocks',
         },
       },
