@@ -5,7 +5,7 @@ import * as fs from 'fs';
 export const NEW_MAJOR_VERSION = '6';
 export const BREAKING_CHANGES_FILE_PATH = `data/${NEW_MAJOR_VERSION}_0/breaking-changes.json`;
 export const DELETED_API_COMMENTS_FILE_PATH = `../../docs/migration/${NEW_MAJOR_VERSION}_0/deleted-api.json`;
-export const DELETED_MEMBERS_COMMENTS_FILE_PATH = `../../docs/migration/${NEW_MAJOR_VERSION}_0/deleted-members.json`;
+export const DELETED_MEMBERS_COMMENTS_FILE_PATH = `../../docs/migration/${NEW_MAJOR_VERSION}_0/deleted-api-members.json`;
 
 // Shared Functions
 export function readBreakingChangeFile(): any {
