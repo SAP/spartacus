@@ -100,7 +100,7 @@ describe('AsmEnablerService', () => {
       spyOn(location, 'path').and.returnValue('/any/url');
       spyOn(<any>asmEnablerService, 'addUi').and.stub();
       asmEnablerService.load();
-      expect((<any>asmEnablerService).addUi).not.toHaveBeenCalled();
+      expect((<any>asmEnablerService).addUi).toHaveBeenCalled();
     });
   });
 

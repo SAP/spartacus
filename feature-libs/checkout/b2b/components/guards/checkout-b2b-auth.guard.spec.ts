@@ -197,7 +197,7 @@ describe('CheckoutAuthGuard', () => {
           .canActivate()
           .subscribe((value) => (result = value))
           .unsubscribe();
-        expect(result).toBe(true);
+        expect(result).toBe(false);
       });
     });
 
