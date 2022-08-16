@@ -11,6 +11,7 @@ readonly help_display="Usage: $0 [ command_options ] [ param ]
         --environment, --env                    [ 2005 | 2011 | ccv2]. Default: 2005
         --help, -h                              show help
         --ssr                                   Run ssr smoke test
+        --release                               Run the release script
 "
 
 while [ "${1:0:1}" == "-" ]
@@ -28,6 +29,10 @@ do
             ;;
         '--ssr' )
             SSR=true
+            shift
+            ;;
+        '--release' )
+            RELEASE=true
             shift
             ;;
         '--help' | '-h' )
@@ -86,7 +91,11 @@ if [[ "${SSR}" = true ]]; then
     echo '-----'
     echo "Running SSR Cypress smoke test"
 
-    yarn e2e:run:ci:ssr
+    if [[ "${RELEASE}" = true ]]; then
+        yarn e2e:run:ci:ssr:release
+    else
+        yarn e2e:run:ci:ssr
+    fi
 else
     yarn start:pwa &
 
@@ -96,6 +105,10 @@ else
     if [ "${GITHUB_EVENT_NAME}" == "pull_request" ]; then
         yarn e2e:run:ci:core"${SUITE}"
     else
-        yarn e2e:run:ci"${SUITE}"
+        if [[ "${RELEASE}" = true ]]; then
+            yarn e2e:run:ci"${SUITE}":release
+        else
+            yarn e2e:run:ci"${SUITE}"
+        fi
     fi
 fi
