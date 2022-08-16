@@ -14,7 +14,9 @@ import { UserGroup } from '@spartacus/organization/administration/core';
 export class OccUserGroupNormalizer
   implements Converter<Occ.OrgUnitUserGroup, UserGroup>
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   convert(source: Occ.OrgUnitUserGroup, target?: UserGroup): UserGroup {
     if (target === undefined) {

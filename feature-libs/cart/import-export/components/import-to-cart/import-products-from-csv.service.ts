@@ -11,7 +11,9 @@ import { ProductData } from '@spartacus/cart/base/root';
   providedIn: 'root',
 })
 export class ImportProductsFromCsvService {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
 
   csvDataToProduct(csvData: string[][]): ProductData[] {
     return csvData.map((row: string[]) => ({
