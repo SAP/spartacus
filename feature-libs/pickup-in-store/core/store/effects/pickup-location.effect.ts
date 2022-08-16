@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError } from '@spartacus/core';
 import { of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { PickupLocationConnector } from '../../connectors';
 import * as PickupLocationActions from '../actions/pickup-location.action';
 
@@ -21,9 +21,8 @@ export class PickupLocationEffect {
           action: ReturnType<typeof PickupLocationActions.GetStoreDetailsById>
         ) => action.payload
       ),
-      switchMap((storeName) =>
+      mergeMap((storeName) =>
         this.pickupLocationConnector.getStoreDetails(storeName).pipe(
-          tap((storeDetails) => console.log('Debugg effect :', storeDetails)),
           map((storeDetails) =>
             PickupLocationActions.SetStoreDetailsSuccess({
               payload: storeDetails,

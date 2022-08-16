@@ -16,7 +16,7 @@ import {
   OrderEntry,
   PromotionLocation,
   SelectiveCartFacade,
-  CartOutlets
+  CartOutlets,
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -96,7 +96,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         ?.getUserId()
         .subscribe((userId) => (this.userId = userId))
     );
-    console.log("items", this._items);
   }
 
   protected getInputsFromContext(): Subscription | undefined {
