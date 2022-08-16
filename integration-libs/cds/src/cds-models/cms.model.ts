@@ -15,4 +15,5 @@ export interface CmsMerchandisingCarouselComponent extends CmsComponent {
   textColour?: string;
   backgroundColour?: string;
   viewportPercentage?: number;
+  filterOutOfStockProducts?: string;
 }
