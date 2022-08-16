@@ -8,6 +8,7 @@ import { SearchConfig } from '../../../product/model/search-config';
 import { UserCostCenterAdapter } from '../../../user/connectors/cost-center/user-cost-center.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
+import { AsmContextService } from '../../services/asm-context.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
@@ -15,12 +16,17 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
+    protected asmContext: AsmContextService
   ) {}
 
   loadActiveList(userId: string): Observable<EntitiesModel<CostCenter>> {
+    const context = this.asmContext.createContext({ userId });
+
     return this.http
-      .get<Occ.CostCentersList>(this.getCostCentersEndpoint(userId))
+      .get<Occ.CostCentersList>(this.getCostCentersEndpoint(userId), {
+        context,
+      })
       .pipe(this.converter.pipeable(COST_CENTERS_NORMALIZER));
   }
 

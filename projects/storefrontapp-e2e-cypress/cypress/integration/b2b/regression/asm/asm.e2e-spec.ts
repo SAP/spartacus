@@ -7,9 +7,6 @@ import { register } from '../../../../helpers/auth-forms';
 import { addB2bProductToCartAndCheckout } from '../../../../helpers/b2b/b2b-checkout';
 import { interceptGet } from '../../../../support/utils/intercept';
 
-/**
- * TODO
- */
 context('B2B - Assisted Service Module', () => {
   before(() => {
     clearAllStorage();

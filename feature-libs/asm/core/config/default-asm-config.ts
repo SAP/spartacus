@@ -8,8 +8,5 @@ export const defaultAsmConfig: AsmConfig = {
     customerSearch: {
       maxResults: 20,
     },
-    userIdInterceptor: {
-      patterns: ['**/products/search*', '**/costcenters*'],
-    },
   },
 };

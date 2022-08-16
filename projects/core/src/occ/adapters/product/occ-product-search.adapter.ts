@@ -14,6 +14,7 @@ import { ProductSearchAdapter } from '../../../product/connectors/search/product
 import { SearchConfig } from '../../../product/model/search-config';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
+import { AsmContextService } from '../../services/asm-context.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 const DEFAULT_SEARCH_CONFIG: SearchConfig = {
@@ -25,15 +26,18 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
-    protected converter: ConverterService
+    protected converter: ConverterService,
+    protected asmContext: AsmContextService
   ) {}
 
   search(
     query: string,
     searchConfig: SearchConfig = DEFAULT_SEARCH_CONFIG
   ): Observable<ProductSearchPage> {
+    const context = this.asmContext.createContext({});
+
     return this.http
-      .get(this.getSearchEndpoint(query, searchConfig))
+      .get(this.getSearchEndpoint(query, searchConfig), { context })
       .pipe(this.converter.pipeable(PRODUCT_SEARCH_PAGE_NORMALIZER));
   }
 
