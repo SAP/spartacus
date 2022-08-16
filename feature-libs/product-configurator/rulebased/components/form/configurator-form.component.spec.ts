@@ -35,6 +35,7 @@ import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
@@ -116,6 +117,7 @@ class MockConfiguratorCommonsService {
     return hasConfigurationConflictsObservable;
   }
 }
+
 class MockConfiguratorGroupsService {
   getCurrentGroup(): Observable<string> {
     return currentGroupObservable;
@@ -135,6 +137,15 @@ class MockConfiguratorGroupsService {
   navigateToFirstIncompleteGroup(): void {}
   isConflictGroupType() {}
 }
+
+class MockConfiguratorExpertModeService {
+  setExpMode(): void {}
+
+  getExpMode(): Observable<boolean> {
+    return of(true);
+  }
+}
+
 function checkConfigurationObs(
   routerMarbels: string,
   configurationServiceMarbels: string,
@@ -180,6 +191,7 @@ describe('ConfigurationFormComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
+  let configExpertModeService: ConfiguratorExpertModeService;
   let mockLanguageService;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorFormComponent>;
@@ -219,7 +231,6 @@ describe('ConfigurationFormComponent', () => {
             provide: ConfiguratorCommonsService,
             useClass: MockConfiguratorCommonsService,
           },
-
           {
             provide: ConfiguratorGroupsService,
             useClass: MockConfiguratorGroupsService,
@@ -228,6 +239,10 @@ describe('ConfigurationFormComponent', () => {
           {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: ConfiguratorStorefrontUtilsService,
+          },
+          {
+            provide: ConfiguratorExpertModeService,
+            useClass: MockConfiguratorExpertModeService,
           },
         ],
       })
@@ -255,6 +270,12 @@ describe('ConfigurationFormComponent', () => {
       'isConfigurationLoading'
     ).and.callThrough();
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
+
+    configExpertModeService = TestBed.inject(
+      ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
+    );
+    spyOn(configExpertModeService, 'setExpMode').and.callThrough();
+    spyOn(configExpertModeService, 'getExpMode').and.callThrough();
 
     configuratorUtils.setOwnerKey(owner);
     configuratorCommonsService = TestBed.inject(
@@ -392,6 +413,30 @@ describe('ConfigurationFormComponent', () => {
       expect(
         configuratorGroupsService.navigateToFirstIncompleteGroup
       ).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call setExpMode method once', () => {
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { expMode: 'true' },
+        },
+      });
+      createComponent().ngOnInit();
+      expect(configExpertModeService.setExpMode).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not call setExpMode method', () => {
+      routerStateObservable = of({
+        ...mockRouterState,
+        state: {
+          ...mockRouterState.state,
+          queryParams: { expMode: 'false' },
+        },
+      });
+      createComponent().ngOnInit();
+      expect(configExpertModeService.setExpMode).toHaveBeenCalledTimes(0);
     });
   });
 

@@ -420,13 +420,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should convert a configuration with undefined kb key', () => {
-      configuration.kbKey = {};
+      configuration.kbKey = undefined;
       const result = occConfiguratorVariantNormalizer.convert(configuration);
-      expect(result.kbKey).toBeDefined();
-      expect(result.kbKey.kbName).toBeUndefined();
-      expect(result.kbKey.kbLogsys).toBeUndefined();
-      expect(result.kbKey.kbVersion).toBeUndefined();
-      expect(result.kbKey.kbBuildNumber).toBeUndefined();
+      expect(result.kbKey).toBeUndefined();
     });
   });
 

@@ -473,7 +473,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'a.cx-conflict-msg'
+        'div.cx-conflict-msg a.link.cx-action-link'
       );
     });
 
@@ -485,7 +485,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'div .cx-conflict-msg'
+        'div.cx-conflict-msg'
       );
     });
   });
@@ -499,7 +499,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-conflict-msg'
+        'div.cx-conflict-msg'
       );
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
