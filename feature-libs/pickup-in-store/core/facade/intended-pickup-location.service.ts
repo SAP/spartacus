@@ -23,7 +23,9 @@ import { StateWithPickupLocations } from '../store/pickup-location-state';
 export class IntendedPickupLocationService
   implements IntendedPickupLocationFacade
 {
-  constructor(protected readonly store: Store<StateWithPickupLocations>) {}
+  constructor(protected readonly store: Store<StateWithPickupLocations>) {
+    // Intentional empty constructor
+  }
 
   getIntendedLocation(
     productCode: string

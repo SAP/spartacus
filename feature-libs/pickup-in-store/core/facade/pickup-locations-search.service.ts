@@ -32,7 +32,9 @@ export class PickupLocationsSearchService
 {
   constructor(
     protected readonly store: Store<StateWithStock & StateWithPickupLocations>
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   stockLevelAtStore(productCode: string, storeName: string): void {
     this.store.dispatch(

@@ -17,7 +17,9 @@ export class PickupLocationEffect {
   constructor(
     private readonly actions$: Actions,
     private readonly pickupLocationConnector: PickupLocationConnector
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   storeDetails$ = createEffect(() =>
     this.actions$.pipe(

@@ -15,7 +15,9 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   getStoreDetails(storeName: string): Observable<PointOfService> {
     return this.http.get<PointOfService>(

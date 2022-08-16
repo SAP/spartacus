@@ -23,7 +23,9 @@ export class OccStockAdapter implements StockAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   loadStockLevels(
     productCode: string,

@@ -14,7 +14,9 @@ import { WindowRef } from '@spartacus/core';
   providedIn: 'root',
 })
 export class CurrentLocationService {
-  constructor(protected windowRef: WindowRef) {}
+  constructor(protected windowRef: WindowRef) {
+    // Intentional empty constructor
+  }
 
   /**
    * Obtains the user's current position for the browser and calls the provided callback with it.

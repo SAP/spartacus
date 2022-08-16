@@ -31,7 +31,9 @@ export class PreferredStoreService implements OnDestroy {
     protected readonly consentService: ConsentService,
     protected config: PickupInStoreConfig,
     protected readonly winRef: WindowRef
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   /**
    * Gets the user's preferred store for Pickup in Store.

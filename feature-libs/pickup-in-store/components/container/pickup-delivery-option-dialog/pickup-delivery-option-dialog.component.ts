@@ -32,7 +32,9 @@ export class PickupDeliveryOptionDialogComponent implements OnInit {
     protected readonly launchDialogService: LaunchDialogService,
     protected readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected readonly intendedPickupLocationService: IntendedPickupLocationFacade
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.launchDialogService.data$.subscribe(({ productCode }) => {

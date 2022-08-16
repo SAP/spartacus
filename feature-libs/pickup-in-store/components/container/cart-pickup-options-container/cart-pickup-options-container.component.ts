@@ -24,7 +24,9 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   constructor(
     @Optional() protected outlet: OutletContextData<OrderEntry>,
     protected storeDetails: PickupLocationsSearchFacade
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.pickupOption$ = this.outlet?.context$.pipe(

@@ -17,7 +17,9 @@ export class StockEffect {
   constructor(
     private readonly actions$: Actions,
     private readonly stockConnector: StockConnector
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   loadStockLevels$ = createEffect(() =>
     this.actions$.pipe(

@@ -14,7 +14,9 @@ import { PickupLocationAdapter } from './pickup-location.adapter';
  */
 @Injectable({ providedIn: 'root' })
 export class PickupLocationConnector {
-  constructor(protected adapter: PickupLocationAdapter) {}
+  constructor(protected adapter: PickupLocationAdapter) {
+    // Intentional empty constructor
+  }
 
   /**
    * Get the store details by store name.

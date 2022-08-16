@@ -23,8 +23,6 @@ export class StoreScheduleComponent implements OnInit {
 
   openingTimes: OpeningTime[] = [];
 
-  constructor() {}
-
   ngOnInit() {
     this.openingTimes =
       this.storeDetails?.openingHours?.weekDayOpeningList?.map(

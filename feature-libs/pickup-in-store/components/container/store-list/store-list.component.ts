@@ -31,7 +31,9 @@ export class StoreListComponent implements OnInit {
     private readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
     private readonly preferredStoreService: PreferredStoreService,
     private readonly intendedPickupLocationService: IntendedPickupLocationFacade
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.stores$ = this.pickupLocationsSearchService.getSearchResults(

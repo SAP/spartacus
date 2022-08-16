@@ -67,7 +67,9 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     protected currentLocationService: CurrentLocationService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected preferredStoreService: PreferredStoreService
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     const productCode$ = this.currentProductService.getProduct().pipe(

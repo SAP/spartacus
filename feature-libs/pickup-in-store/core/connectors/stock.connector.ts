@@ -15,7 +15,9 @@ import { StockAdapter } from './stock.adapter';
  */
 @Injectable({ providedIn: 'root' })
 export class StockConnector {
-  constructor(protected adapter: StockAdapter) {}
+  constructor(protected adapter: StockAdapter) {
+    // Intentional empty constructor
+  }
 
   /**
    * Finds stock levels of a product at stores near a location.

@@ -19,7 +19,9 @@ export class StoreSearchComponent {
 
   @Input() hideOutOfStock: boolean = false;
 
-  constructor(protected currentLocationService: CurrentLocationService) {}
+  constructor(protected currentLocationService: CurrentLocationService) {
+    // Intentional empty constructor
+  }
 
   onFindStores(location: string): boolean {
     this.findStores.emit({ location });
