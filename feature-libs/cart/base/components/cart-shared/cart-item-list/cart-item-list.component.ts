@@ -96,6 +96,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         ?.getUserId()
         .subscribe((userId) => (this.userId = userId))
     );
+    console.log("items", this._items);
   }
 
   protected getInputsFromContext(): Subscription | undefined {

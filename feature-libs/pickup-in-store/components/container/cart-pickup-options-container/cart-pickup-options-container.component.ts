@@ -30,7 +30,6 @@ export class CartPickupOptionsContainerComponent implements OnInit {
 
     this.displayName$ = this.outlet?.context$.pipe(
       map((entry) => entry?.deliveryPointOfService?.name),
-      tap((storeName) => console.log('Debug: storeName: ', storeName)),
       filter((name): name is string => !!name),
       tap((storeName) => this.storeDetails.loadStoreDetails(storeName)),
       switchMap((storeName) => this.storeDetails.getStoreDetails(storeName)),
