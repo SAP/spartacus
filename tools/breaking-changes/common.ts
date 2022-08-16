@@ -5,6 +5,7 @@ import * as fs from 'fs';
 export const NEW_MAJOR_VERSION = '6';
 export const BREAKING_CHANGES_FILE_PATH = `data/${NEW_MAJOR_VERSION}_0/breaking-changes.json`;
 export const DELETED_API_COMMENTS_FILE_PATH = `../../docs/migration/${NEW_MAJOR_VERSION}_0/deleted-api.json`;
+export const DELETED_MEMBERS_COMMENTS_FILE_PATH = `../../docs/migration/${NEW_MAJOR_VERSION}_0/deleted-members.json`;
 
 // Shared Functions
 export function readBreakingChangeFile(): any {
@@ -22,7 +23,7 @@ export function readDeletedApiCommentsFile(): any {
     fs.readFileSync(DELETED_API_COMMENTS_FILE_PATH, 'utf-8')
   );
   console.log(
-    `Read: ${BREAKING_CHANGES_FILE_PATH}, ${deletedApiCommentData.length} entries`
+    `Read: ${DELETED_API_COMMENTS_FILE_PATH}, ${deletedApiCommentData.length} entries`
   );
   return deletedApiCommentData;
 }
@@ -38,6 +39,31 @@ export function findDeletedApiComment(
     );
   });
   return apiCommentEntry?.migrationComment || '';
+}
+
+export function readDeletedMembersCommentsFile(): any {
+  const deletedMembersCommentData = JSON.parse(
+    fs.readFileSync(DELETED_MEMBERS_COMMENTS_FILE_PATH, 'utf-8')
+  );
+  console.log(
+    `Read: ${DELETED_MEMBERS_COMMENTS_FILE_PATH}, ${deletedMembersCommentData.length} entries`
+  );
+  return deletedMembersCommentData;
+}
+
+export function findDeletedMemberComment(
+  apiElement: any,
+  memberName: string,
+  deletedMemberCommentData: any[]
+): string {
+  const memberCommentEntry = deletedMemberCommentData.find((entry) => {
+    return (
+      entry.apiElementName === apiElement.name &&
+      entry.entryPoint === apiElement.entryPoint &&
+      entry.memberName === memberName
+    );
+  });
+  return memberCommentEntry?.migrationComment || '';
 }
 
 export function printStats(breakingChangeElements: any[]) {

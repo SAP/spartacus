@@ -10,6 +10,7 @@ const newApiFile = process.argv[3];
 const newApiData = JSON.parse(fs.readFileSync(newApiFile, 'utf-8'));
 const oldApiData = JSON.parse(fs.readFileSync(oldApiFile, 'utf-8'));
 const deletedCommentsData = common.readDeletedApiCommentsFile();
+const deletedMembersCommentData = common.readDeletedMembersCommentsFile();
 
 console.log(`Comparing public API between:`);
 console.log(`old: ${oldApiFile}, ${oldApiData.length} entries`);
@@ -218,7 +219,11 @@ function getMembersBreakingChange(
         apiElementKind: oldApiElement.kind,
         entryPoint: oldApiElement.entryPoint,
         deletedComment: `// TODO:Spartacus - ${oldMember.kind} '${oldMember.name}' was removed from ${oldApiElement.kind} '${oldApiElement.name}'.`,
-        migrationComment: '',
+        migrationComment: common.findDeletedMemberComment(
+          oldApiElement,
+          oldMember.name,
+          deletedMembersCommentData
+        ),
       });
     } else {
       breakingChanges.push(...getMemberBreakingChange(oldMember, newMember));
