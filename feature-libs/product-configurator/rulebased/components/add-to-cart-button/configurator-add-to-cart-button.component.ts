@@ -225,32 +225,38 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
       )
       .subscribe((configWithNextOwner) => {
         //See preceeding filter operator: configWithNextOwner.nextOwner is always defined here
-        const nextOwner =
-          configWithNextOwner.nextOwner ??
-          ConfiguratorModelUtils.createInitialOwner();
-
-        this.performNavigation(
+        this.navigateForProductBound(
+          configWithNextOwner,
           configuratorType,
-          nextOwner,
-          true,
-          isOverview,
-          true
+          isOverview
         );
-
-        // we clean up the cart entry related configuration, as we might have a
-        // configuration for the same cart entry number stored already.
-        // (Cart entries might have been deleted)
-        // Needs to happen only if we are on configuration page, navigation to
-        // cart will anyhow delete
-        // we do not clean up the product bound configuration yet, as existing
-        // observables would instantly trigger a re-create.
-        // Cleaning up this obsolete product bound configuration will only happen
-        // when a new config form requests a new observable for a product bound
-        // configuration
-        if (!isOverview) {
-          this.configuratorCommonsService.removeConfiguration(nextOwner);
-        }
       });
+  }
+
+  protected navigateForProductBound(
+    configWithNextOwner: Configurator.Configuration,
+    configuratorType: string,
+    isOverview: boolean
+  ) {
+    const nextOwner =
+      configWithNextOwner.nextOwner ??
+      ConfiguratorModelUtils.createInitialOwner();
+
+    this.performNavigation(configuratorType, nextOwner, true, isOverview, true);
+
+    // we clean up the cart entry related configuration, as we might have a
+    // configuration for the same cart entry number stored already.
+    // (Cart entries might have been deleted)
+    // Needs to happen only if we are on configuration page, navigation to
+    // cart will anyhow delete
+    // we do not clean up the product bound configuration yet, as existing
+    // observables would instantly trigger a re-create.
+    // Cleaning up this obsolete product bound configuration will only happen
+    // when a new config form requests a new observable for a product bound
+    // configuration
+    if (!isOverview) {
+      this.configuratorCommonsService.removeConfiguration(nextOwner);
+    }
   }
 
   protected onUpdateCart(
