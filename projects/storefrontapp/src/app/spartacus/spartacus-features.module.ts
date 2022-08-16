@@ -99,6 +99,10 @@ if (environment.epdVisualization) {
   featureModules.push(EpdVisualizationFeatureModule);
 }
 
+if (environment.pickupInStore) {
+  featureModules.push(PickupInStoreFeatureModule);
+}
+
 @NgModule({
   imports: [
     // Auth Core
@@ -196,7 +200,6 @@ if (environment.epdVisualization) {
 
     VariantsFeatureModule,
     ImageZoomFeatureModule,
-    PickupInStoreFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
 

@@ -28,7 +28,7 @@ const SEARCH_LOCATION_TEXTBOX = '#txtFindAStore';
 const FIND_STORES_BUTTON = '#btnFindStores';
 const USE_MY_LOCATION = '#lnkUseMyLocation';
 const SELECT_STORE_LINK = `${BOPIS_TAG} a.cx-action-link`;
-const PICKUP_FROM_HERE_BUTTON_MANCHESTER = `[data-pickup-in-store-button="Manchester"]`;
+const PICKUP_FROM_HERE_BUTTON_NOTTINGHAM_ICE_CENTER = `[data-pickup-in-store-button="Nottingham Ice Center"]`;
 const DIALOG_CLOSE = 'button.cx-dialog-close';
 
 describe('Pickup delivery options', () => {
@@ -61,7 +61,7 @@ describe('Pickup delivery options', () => {
       cy.get(SELECT_STORE_LINK).should('have.text', 'Select Store');
       cy.get(PICKUP_IN_STORE_RADIO_BUTTON).click();
       cy.get(USE_MY_LOCATION).click();
-      cy.get(PICKUP_FROM_HERE_BUTTON_MANCHESTER).click();
+      cy.get(PICKUP_FROM_HERE_BUTTON_NOTTINGHAM_ICE_CENTER).click();
       cy.get(SELECT_STORE_LINK).should('have.text', 'Change Store');
       cy.get(SELECT_STORE_LINK).should('not.have.text', 'Select Store');
       cy.get(DELIVERY_RADIO_BUTTON).click();
@@ -87,7 +87,7 @@ describe('Pickup delivery options', () => {
       cy.get(USE_MY_LOCATION).click();
       cy.get('cx-store').should('have.length', 20);
       cy.get(HIDE_OUT_OF_STOCK_CHECK_BOX).click();
-      cy.get('cx-store').should('have.length', 11);
+      cy.get('cx-store').should('have.length', 10);
     });
 
     it('uses the search term entered if Find Stores button clicked ', () => {

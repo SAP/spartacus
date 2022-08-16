@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { PickupOptionsComponent } from './pickup-options.component';
+
 describe('PickupOptionsComponent', () => {
   let component: PickupOptionsComponent;
   let fixture: ComponentFixture<PickupOptionsComponent>;
@@ -17,18 +18,24 @@ describe('PickupOptionsComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 
-  it('should set value on Form when ngOnChanges is called', () => {
+  it('should set value of the form to the selected option whenever it changes', () => {
     component.selectedOption = 'delivery';
     component.ngOnChanges();
-    expect(component.deliveryOptionsForm.get('deliveryOption')?.value).toBe(
+    expect(component.pickupOptionsForm.get('pickupOption')?.value).toBe(
       'delivery'
+    );
+
+    component.selectedOption = 'pickup';
+    component.ngOnChanges();
+    expect(component.pickupOptionsForm.get('pickupOption')?.value).toBe(
+      'pickup'
     );
   });
 
-  it('should emit pickup option on onPickupOptionChange', () => {
+  it('should emit the new pickup option on onPickupOptionChange', () => {
     spyOn(component.pickupOptionChange, 'emit');
     component.onPickupOptionChange('delivery');
 
@@ -40,5 +47,79 @@ describe('PickupOptionsComponent', () => {
     component.onPickupLocationChange();
 
     expect(component.pickupLocationChange.emit).toHaveBeenCalled();
+  });
+
+  describe('template', () => {
+    it('should show delivery option', () => {
+      fixture.detectChanges();
+
+      const label = fixture.debugElement.nativeElement.querySelector(
+        'label[for="delivery"]'
+      );
+      expect(label.textContent).toContain('pickupOptions.delivery');
+    });
+
+    it('should show pickup option and select store when no display location is set', () => {
+      fixture.detectChanges();
+
+      const label = fixture.debugElement.nativeElement.querySelector(
+        'label[for="pickup"]'
+      );
+      expect(label.textContent).toContain('pickupOptions.pickup');
+      expect(label.textContent).toContain('pickupOptions.selectStore');
+    });
+
+    it('should show pickup option and change store when no display location is set', () => {
+      component.displayPickupLocation = 'Test location';
+      fixture.detectChanges();
+
+      const label = fixture.debugElement.nativeElement.querySelector(
+        'label[for="pickup"]'
+      );
+      expect(label.textContent).toContain('pickupOptions.pickup');
+      expect(label.textContent).toContain('pickupOptions.changeStore');
+      expect(label.textContent).toContain('Test location');
+    });
+
+    it('should call onPickupOptionChange when the radio buttons are clicked', () => {
+      spyOn(component, 'onPickupOptionChange');
+      fixture.detectChanges();
+
+      // for delivery
+      let radioButton =
+        fixture.debugElement.nativeElement.querySelector('#delivery');
+      radioButton.click();
+
+      expect(component.onPickupOptionChange).toHaveBeenCalledWith('delivery');
+
+      // for pickup
+      radioButton = fixture.debugElement.nativeElement.querySelector('#pickup');
+      radioButton.click();
+
+      expect(component.onPickupOptionChange).toHaveBeenCalledWith('pickup');
+    });
+
+    it('should call onPickupLocationChange when the select store button is clicked', () => {
+      spyOn(component, 'onPickupLocationChange');
+      fixture.detectChanges();
+
+      const selectStoreButton =
+        fixture.debugElement.nativeElement.querySelector('a[role="button"]');
+      selectStoreButton.click();
+
+      expect(component.onPickupLocationChange).toHaveBeenCalled();
+    });
+
+    it('should call onPickupLocationChange when the change store button is clicked', () => {
+      spyOn(component, 'onPickupLocationChange');
+      component.displayPickupLocation = 'Test location';
+      fixture.detectChanges();
+
+      const changeStoreButton =
+        fixture.debugElement.nativeElement.querySelector('a[role="button"]');
+      changeStoreButton.click();
+
+      expect(component.onPickupLocationChange).toHaveBeenCalled();
+    });
   });
 });

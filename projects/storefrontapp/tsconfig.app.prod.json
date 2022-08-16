@@ -117,6 +117,7 @@
         "dist/organization/order-approval/root"
       ],
       "@spartacus/pickup-in-store/assets": ["dist/pickup-in-store/assets"],
+      "@spartacus/pickup-in-store/cart": ["dist/pickup-in-store/cart"],
       "@spartacus/pickup-in-store/components": [
         "dist/pickup-in-store/components"
       ],
