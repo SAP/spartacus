@@ -1,20 +1,19 @@
 cx-account-summary-header {
 
-  .past-due-section {
-    border: 1px solid black;
+  .cx-account-summary-header-past-due-section {
+    border: 1px solid var(--cx-color-text);
     padding: 1rem; margin-top: 1rem;
 
     @include media-breakpoint-down(md) {
       border: none;
     }
-
   }
 
-  .past-due-range-block {
-    border-bottom: 1px solid black;
+  .cx-account-summary-header-past-due-range-dates {
+    border-bottom: 1px solid var(--cx-color-text);
   }
 
-  .past-due-range-container {
+  .cx-account-summary-header-past-due-range-collection {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -23,29 +22,18 @@ cx-account-summary-header {
     .past-due-range-date {
       font-weight: bold;
     }
-
-    .past-due-range-value {
-      //text-align: end;
-    }
   }
 
-  .past-due-balance-container {
+  .cx-account-summary-header-past-due-balance-total {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     padding-top: 1rem;
-  }
 
-  .past-due-balance-text {
-    //padding-top: 1rem;
-    font-size: $font-size-base * 1.125;
+    .past-due-balance-label {
+      font-size: $font-size-base * 1.125;
+    }
   }
-
-  .grid-item-name { grid-area: name }
-  .grid-item-address { grid-area: address }
-  .grid-item-credit { grid-area: credit }
-  .grid-item-balance { grid-area: balance }
-  .grid-item-due { grid-area: due }
 
   .cx-account-summary {
     background-color: var(--cx-color-background);
@@ -55,9 +43,16 @@ cx-account-summary-header {
       background-color: var(--cx-color-inverse);
     }
 
-    .container {
+    .cx-account-summary-header-cards {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+
+      .cx-summary-card-name { grid-area: name }
+      .cx-summary-card-address { grid-area: address }
+      .cx-summary-card-credit { grid-area: credit }
+      .cx-summary-card-balance { grid-area: balance }
+      .cx-summary-card-due { grid-area: due }
+
       grid-template-areas:
         "name credit balance due"
         "address credit balance due";

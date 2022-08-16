@@ -1,24 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  AccountSummaryDocumentType,
   AccountSummaryFacade,
   AccountSummaryList,
-  DocumentQueryParams,
   DocumentFields,
+  DocumentQueryParams,
   DocumentStatus,
   FilterByOptions,
 } from '@spartacus/organization/account-summary/root';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { Currency, SortModel, TranslationService } from '@spartacus/core';
-import { map, take } from "rxjs/operators";
+import { ICON_TYPE} from '@spartacus/storefront';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-account-summary-document',
   templateUrl: './account-summary-document.component.html',
 })
 export class AccountSummaryDocumentComponent implements OnInit {
+
+  /* For Enum use in HTML */
+  ICON_TYPE = ICON_TYPE
+
   accountSummary$: BehaviorSubject<AccountSummaryList> = new BehaviorSubject<AccountSummaryList>({});
   queryParams: DocumentQueryParams = {
-    fields: DocumentFields.FULL,
     status: DocumentStatus.ALL,
     filterByKey: FilterByOptions.DOCUMENT_NUMBER,
     page: 0,
@@ -26,13 +31,16 @@ export class AccountSummaryDocumentComponent implements OnInit {
     sort: 'byDocumentDateAsc',
   };
 
+  documentTypeOptions: AccountSummaryDocumentType[];
+  sortOptions: SortModel[];
+
   constructor(
     private accountSummaryFacade: AccountSummaryFacade,
     protected translation: TranslationService
   ) { }
 
   ngOnInit(): void {
-    this.fetchDocuments();
+    this.fetchDocuments(true);
   }
 
   pageChange(page: number): void {
@@ -48,7 +56,6 @@ export class AccountSummaryDocumentComponent implements OnInit {
 
   filterChange(newFilters: DocumentQueryParams): void {
     this.queryParams.page = 0;
-    // this.queryParams.fields = newFilters.fields;
     this.queryParams.status = newFilters.status;
     this.queryParams.startRange = newFilters.startRange;
     this.queryParams.endRange = newFilters.endRange;
@@ -57,27 +64,41 @@ export class AccountSummaryDocumentComponent implements OnInit {
     this.fetchDocuments();
   }
 
-  addNamesToSortModel(sorts: SortModel[]): Observable<Array<SortModel>> {
-    const sortCodes: Array<string> = sorts?.map(sort => sort.code) as Array<string>;
-    const translations = sortCodes?.map(sortCode =>
-      this.translation.translate(`orgAccountSummary.sorts.${sortCode}`)) ?? [];
-
-    return combineLatest(translations).pipe(
-      map(translations => {
-        sorts?.forEach((sort, index) => sort.name = translations[index]);
-        return sorts;
-      })
-    );
-  }
-
   formatCurrency(amount?: number, currency?: Currency): string {
     return amount && currency?.isocode ?
       amount.toLocaleString(navigator.language, {style: 'currency', currency: currency?.isocode}) : '';
   }
 
-  private fetchDocuments(): void {
-    this.accountSummaryFacade.getDocumentList(this.queryParams)
+  private fetchDocuments(isFullFetch = false): void {
+    const params = {
+      ...this.queryParams,
+      fields: isFullFetch ? DocumentFields.FULL : DocumentFields.DEFAULT,
+    }
+    this.accountSummaryFacade.getDocumentList(params)
       .pipe(take(1))
-      .subscribe((accountSummaryList: AccountSummaryList) => this.accountSummary$.next(accountSummaryList));
+      .subscribe((accountSummaryList: AccountSummaryList) => {
+
+        if (!this.documentTypeOptions && accountSummaryList.documentTypes) {
+          this.documentTypeOptions = accountSummaryList.documentTypes;
+        }
+
+        if (!this.sortOptions && accountSummaryList.sorts) {
+          this.addNamesToSortModel(accountSummaryList.sorts);
+        }
+
+        this.accountSummary$.next(accountSummaryList);
+      });
+  }
+
+  private addNamesToSortModel(sorts: Array<SortModel>) {
+    this.sortOptions = sorts;
+    const translations = sorts?.map(sort =>
+      this.translation.translate(`orgAccountSummary.sorts.${sort.code}`)) ?? [];
+
+    combineLatest(translations).subscribe(translated =>
+      this.sortOptions.forEach((sort, index) =>
+        sort.name = translated[index]
+      )
+    );
   }
 }

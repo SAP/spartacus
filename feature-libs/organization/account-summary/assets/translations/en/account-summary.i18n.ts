@@ -23,6 +23,7 @@ export const accountSummary = {
       openAmount: 'Open Amount',
       status: 'Status',
       attachment: 'Attachment',
+      view: 'View',
       noneFound: 'No Documents Found',
     },
     sorts: {

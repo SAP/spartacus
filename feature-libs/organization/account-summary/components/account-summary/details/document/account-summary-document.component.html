@@ -11,16 +11,15 @@
     <div class="cx-account-summary-document-body">
 
       <cx-account-summary-document-filter
-        [documentTypeOptions]="accountSummary.documentTypes || []"
+        [documentTypeOptions]="documentTypeOptions"
         [initialFilters]="queryParams"
         (filterListEvent)="filterChange($event)">
       </cx-account-summary-document-filter>
 
-      <ng-container
-        *ngIf="
+      <ng-container *ngIf="
           accountSummary.pagination &&
-            accountSummary.pagination.totalResults &&
-            accountSummary.pagination.totalResults > 0;
+          accountSummary.pagination.totalResults &&
+          accountSummary.pagination.totalResults > 0;
         else noDocument"
       >
 
@@ -30,7 +29,7 @@
               {{ 'orgAccountSummary.sortBy' | cxTranslate }}
             </span>
             <cx-sorting
-              [sortOptions]="(addNamesToSortModel(accountSummary.sorts || []) | async) || []"
+              [sortOptions]="sortOptions"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="accountSummary.pagination.sort"
               placeholder="{{ 'orgAccountSummary.sortBy' | cxTranslate }}"
@@ -38,13 +37,10 @@
               ariaControls="account-summary-document-table"
             ></cx-sorting>
           </label>
-          <div
-            *ngIf="
-              accountSummary.pagination &&
-              accountSummary.pagination.totalPages &&
-              accountSummary.pagination.totalPages > 1
-            "
-            class="cx-account-summary-document-pagination"
+          <div class="cx-account-summary-document-pagination" *ngIf="
+            accountSummary.pagination &&
+            accountSummary.pagination.totalPages &&
+            accountSummary.pagination.totalPages > 1"
           >
             <cx-pagination
               [pagination]="accountSummary.pagination"
@@ -54,10 +50,7 @@
         </div>
 
         <!-- TABLE -->
-        <table
-          id="account-summary-document-table"
-          class="table cx-account-summary-document-table"
-        >
+        <table id="account-summary-document-table" class="table cx-account-summary-document-table">
           <thead class="cx-account-summary-document-thead-mobile">
             <th scope="col">
               {{ 'orgAccountSummary.document.id' | cxTranslate }}
@@ -81,7 +74,11 @@
               {{ 'orgAccountSummary.document.status' | cxTranslate }}
             </th>
             <th scope="col">
-              <i class="fas fa-download attachment-icon"></i>
+              <cx-icon
+                [type]="ICON_TYPE.DOWNLOAD"
+                class="cx-account-summary-document-attachment-icon"
+                title="{{ 'orgAccountSummary.document.attachment' | cxTranslate }}"
+              ></cx-icon>
             </th>
           </thead>
           <tbody>
@@ -123,9 +120,7 @@
               </td>
               <td class="cx-account-summary-document-monetary">
                 <div class="cx-account-summary-document-label">
-                  {{
-                    'orgAccountSummary.document.originalAmount' | cxTranslate
-                  }}
+                  {{ 'orgAccountSummary.document.originalAmount' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
                   {{ formatCurrency(document.amount, document.currency) }}
@@ -144,13 +139,7 @@
                   {{ 'orgAccountSummary.document.status' | cxTranslate }}
                 </div>
                 <div class="cx-account-summary-document-value">
-                  <span
-                    [ngClass]="
-                      document.status === 'open'
-                        ? 'status-open'
-                        : 'status-closed'
-                    "
-                  >
+                  <span [ngClass]="{'status-open': document.status === 'open', 'status-closed': document.status === 'closed'}">
                     {{ document?.status }}
                   </span>
                 </div>
@@ -164,8 +153,14 @@
                      [href]="document.documentMedia"
                      target="_blank"
                      rel="noopener noreferrer">
-                    <i class="fas fa-file attachment-icon"></i>
-                    <span class="attachment-text">View</span>
+                    <cx-icon
+                      [type]="ICON_TYPE.FILE"
+                      class="cx-account-summary-document-attachment-icon"
+                      title="{{ 'orgAccountSummary.document.view' | cxTranslate }}">
+                    </cx-icon>
+                    <span class="cx-account-summary-document-attachment-text">
+                      {{ 'orgAccountSummary.document.view' | cxTranslate }}
+                    </span>
                   </a>
                 </div>
               </td>

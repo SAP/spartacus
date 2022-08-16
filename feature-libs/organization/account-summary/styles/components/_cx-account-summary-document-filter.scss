@@ -1,12 +1,12 @@
 cx-account-summary-document-filter {
 
-  .flex-container {
+  .cx-account-summary-document-filter-form {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-start;
   }
 
-  .flex-item {
+  .cx-account-summary-document-filter-form-item {
     flex-direction: column;
     flex-basis: 25%;
     padding: 0.5rem;
@@ -22,7 +22,7 @@ cx-account-summary-document-filter {
     }
   }
 
-  .input-field {
+  .cx-account-summary-document-filter-form-input {
     padding: 0.5rem;
     width: 100%;
     height: 50px;
@@ -32,7 +32,7 @@ cx-account-summary-document-filter {
     border-radius: 4px;
   }
 
-  .button-block {
+  .cx-account-summary-document-filter-form-button-block {
     flex-basis: 100%;
     justify-content: flex-end;
     margin-left: auto;
@@ -42,26 +42,26 @@ cx-account-summary-document-filter {
 
     display: flex;
     flex-direction: row;
-  }
 
-  .search-btn {
-    background-color: var(--cx-color-primary);
-    border-color: var(--cx-color-primary);
-    color: var(--cx-color-inverse);
-    opacity: 1;
-    font-weight: var(--cx-font-weight-bold);
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-  }
+    .search-btn {
+      background-color: var(--cx-color-primary);
+      border-color: var(--cx-color-primary);
+      color: var(--cx-color-inverse);
+      opacity: 1;
+      font-weight: var(--cx-font-weight-bold);
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+    }
 
-  .clear-btn {
-    margin-right: 1rem;
-    align-self: center;
-    border: none;
-    background-color: inherit;
-    padding: 14px 28px;
-    font-size: 16px;
-    cursor: pointer;
-    display: inline-block;
+    .clear-btn {
+      margin-right: 1rem;
+      align-self: center;
+      border: none;
+      background-color: inherit;
+      padding: 14px 28px;
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-block;
+    }
   }
 }

@@ -1,24 +1,24 @@
 <ng-template #rangeInput let-formGroup="formGroup" let-type="type">
   <ng-container [formGroup]="formGroup">
 
-    <label class="flex-item">
+    <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.startRange' | cxTranslate }}</span>
       <ng-container *ngIf="type === 'date'; else inputFrom">
         <cx-date-picker [control]="formGroup.controls.from"></cx-date-picker>
       </ng-container>
       <ng-template #inputFrom>
-        <input class="input-field" [type]="type" formControlName="from"/>
+        <input class="cx-account-summary-document-filter-form-input" [type]="type" formControlName="from"/>
         <cx-form-errors [control]="formGroup.controls.from"></cx-form-errors>
       </ng-template>
     </label>
 
-    <label class="flex-item">
+    <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.endRange' | cxTranslate }}</span>
       <ng-container *ngIf="type === 'date'; else inputTo">
         <cx-date-picker [control]="formGroup.controls.to"></cx-date-picker>
       </ng-container>
       <ng-template #inputTo>
-        <input class="input-field" [type]="type" formControlName="to"/>
+        <input class="cx-account-summary-document-filter-form-input" [type]="type" formControlName="to"/>
         <cx-form-errors [control]="formGroup.controls.to"></cx-form-errors>
       </ng-template>
       <cx-form-errors [control]="formGroup" [prefix]="'orgAccountSummary.filter.errors'"></cx-form-errors>
@@ -28,9 +28,9 @@
 </ng-template>
 
 <form (ngSubmit)="formSearch()" [formGroup]="filterForm">
-  <div class="flex-container" *ngIf="filterForm.controls.filterBy.value as filterBy">
+  <div class="cx-account-summary-document-filter-form" *ngIf="filterForm.controls.filterBy.value as filterBy">
 
-    <label class="flex-item">
+    <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.status' | cxTranslate }}</span>
       <ng-select [searchable]="false" [clearable]="false" [items]="statusOptions"
                  bindLabel="name" bindValue="code" formControlName="status">
@@ -38,7 +38,7 @@
       <cx-form-errors [control]="filterForm.controls.status"></cx-form-errors>
     </label>
 
-    <label class="flex-item">
+    <label class="cx-account-summary-document-filter-form-item">
       <span>{{ 'orgAccountSummary.filter.filterBy' | cxTranslate }}</span>
       <ng-select [searchable]="false" [clearable]="false" [items]="filterByOptions"
                  bindLabel="name" bindValue="code" formControlName="filterBy">
@@ -46,7 +46,7 @@
       <cx-form-errors [control]="filterForm.controls.filterBy"></cx-form-errors>
     </label>
 
-    <label class="flex-item" *ngIf="filterBy === FilterByOptions.DOCUMENT_TYPE">
+    <label class="cx-account-summary-document-filter-form-item" *ngIf="filterBy === FilterByOptions.DOCUMENT_TYPE">
       <span>{{ 'orgAccountSummary.filter.documentType' | cxTranslate }}</span>
       <ng-select [searchable]="false" [clearable]="false" [items]="documentTypeOptions"
                  bindLabel="name" bindValue="code" formControlName="documentType">
@@ -54,9 +54,9 @@
       <cx-form-errors [control]="filterForm.controls.documentType"></cx-form-errors>
     </label>
 
-    <label class="flex-item" *ngIf="filterBy === FilterByOptions.DOCUMENT_NUMBER">
+    <label class="cx-account-summary-document-filter-form-item" *ngIf="filterBy === FilterByOptions.DOCUMENT_NUMBER">
       <span>{{ 'orgAccountSummary.filter.documentNumber' | cxTranslate }}</span>
-      <input class="input-field" formControlName="documentNumber"/>
+      <input class="cx-account-summary-document-filter-form-input" formControlName="documentNumber"/>
       <cx-form-errors [control]="filterForm.controls.documentNumber"></cx-form-errors>
     </label>
 
@@ -85,7 +85,7 @@
       </ng-container>
     </ng-template>
 
-    <div class="button-block">
+    <div class="cx-account-summary-document-filter-form-button-block">
       <button class="clear-btn" type="button" (click)="resetForm(true)">
         {{ 'orgAccountSummary.filter.clear' | cxTranslate }}
       </button>

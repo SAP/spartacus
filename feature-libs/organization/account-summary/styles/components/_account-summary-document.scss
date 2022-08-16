@@ -84,6 +84,7 @@ cx-account-summary-document {
     .cx-account-summary-document-value {
       text-decoration: underline;
       font-weight: 600;
+      text-align: end;
       color: #FE5757;
     }
   }
@@ -212,30 +213,6 @@ cx-account-summary-document {
       padding-inline-start: 1.25rem;
       padding-inline-end: 1.25rem;
     }
-
-    .btn {
-      margin: 1.25rem 0;
-    }
-  }
-
-  .cx-replenishment-details-order-history-header {
-    margin-top: 30px;
-    padding: 20px;
-
-    background-color: var(--cx-color-background);
-
-    h4 {
-      margin-bottom: 0;
-      font-weight: bold;
-    }
-  }
-
-  .cx-replenishment-details-order-history-no-order {
-    display: flex;
-    justify-content: center;
-
-    padding: 40px 0 0 0;
-    min-height: 0;
   }
 
   .cx-account-summary-document-row {
@@ -246,11 +223,11 @@ cx-account-summary-document {
     }
   }
 
-  .attachment-icon {
-    font-size: 1.5rem;
+  .cx-account-summary-document-attachment-icon {
+    font-size: 1.4rem;
   }
 
-  .attachment-text {
+  .cx-account-summary-document-attachment-text {
     padding-left: 1rem;
     @include media-breakpoint-up(lg) {
       display: none;
