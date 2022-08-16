@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -32,5 +38,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
   exports: [AddedToCartDialogComponent],
 })
 export class AddedToCartDialogModule {
-  constructor(_addToCartDialogEventListener: AddedToCartDialogEventListener) {}
+  constructor(_addToCartDialogEventListener: AddedToCartDialogEventListener) {
+    // Intentional empty constructor
+  }
 }
