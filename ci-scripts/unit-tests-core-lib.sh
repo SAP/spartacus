@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -o pipefail
 
-# -azure argument used by azure hyperspace pipeline
+# --release argument used by azure hyperspace pipeline
 if [[ $1 == '--release' ]]; then
     target=""
 else
