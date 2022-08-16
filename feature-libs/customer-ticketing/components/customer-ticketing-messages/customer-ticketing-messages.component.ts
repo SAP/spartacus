@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Component } from '@angular/core';
 import { MessageDetails, MessagingConfigs } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { CustomerTicketingConfig } from '../root';
+import { CustomerTicketingService } from '../customer-ticketing.service';
 
-@Injectable({
-  providedIn: 'root',
+@Component({
+  selector: 'cx-customer-ticketing-messages',
+  templateUrl: './customer-ticketing-messages.component.html',
 })
-export class CustomerTicketingService {
-  constructor(protected customerTicketingConfig: CustomerTicketingConfig) {}
+export class CustomerTicketingMessagesComponent {
+  constructor(protected customerTicketingService: CustomerTicketingService) {}
 
   ticketDetails$ = of({
     associatedTo: {
@@ -27,7 +27,7 @@ export class CustomerTicketingService {
     modifiedAt: '2022-06-22T20:25:02+0000',
     status: {
       id: 'OPEN',
-      name: 'Close',
+      name: 'Open',
     },
     subject: 'test ticket again',
     ticketCategory: {
@@ -69,27 +69,13 @@ export class CustomerTicketingService {
     ],
   });
 
-  getTicketSubject(): Observable<string> {
-    return this.ticketDetails$.pipe(map((details) => details.subject));
+  messageDetails$: Observable<MessageDetails> =
+    this.customerTicketingService.prepareMessageDetails();
+
+  messagingConfigs: MessagingConfigs =
+    this.customerTicketingService.prepareMessagingConfigs();
+
+  onSend(_event: { files: FileList | undefined; message: string }) {
+    // call to submit new event and upload attachment
   }
-
-  getTicketStatus(): Observable<string> {
-    return this.ticketDetails$.pipe(map((details) => details.status.name));
-  }
-
-  prepareMessageDetails = (): Observable<MessageDetails> =>
-    this.ticketDetails$.pipe(
-      map(
-        (messageDetails): MessageDetails => ({
-          messages: messageDetails.ticketEvents,
-        })
-      )
-    );
-
-  prepareMessagingConfigs = (): MessagingConfigs => ({
-    attachmentRestrictions:
-      this.customerTicketingConfig.customerTicketing?.attachmentRestrictions,
-    charactersLimit:
-      this.customerTicketingConfig.customerTicketing?.inputCharactersLimit,
-  });
 }

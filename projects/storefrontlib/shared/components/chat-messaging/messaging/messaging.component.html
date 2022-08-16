@@ -1,0 +1,80 @@
+<ng-container *ngIf="messageDetails$ | async as messageDetails">
+  <div class="container">
+    <div class="cx-avatar-line"></div>
+    <div class="cx-messages" id="cx-messages">
+      <ng-container *ngFor="let event of messageDetails.messages">
+        <div
+          class="cx-message-card"
+          [ngClass]="{ 'padding-left': event.author !== 'Mark Rivers' }"
+        >
+          <cx-avatar [event]="event"> </cx-avatar>
+
+          <div>
+            <label>{{
+              event.createdAt | cxDate: 'MMMM d, YYYY h:mm aa'
+            }}</label>
+            <div
+              [ngClass]="
+                event.author === 'Mark Rivers'
+                  ? 'cx-message-left-align-text'
+                  : 'cx-message-right-align-text'
+              "
+            >
+              {{ event.message }}
+            </div>
+            <p *ngIf="event.attachments" class="cx-attachment">
+              <cx-icon [type]="iconTypes.ATTACHMENT"></cx-icon>
+              {{ event.attachments[0].filename }}
+            </p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div [formGroup]="form" class="cx-message-footer padding-left">
+    <div class="cx-message-box">
+      <input
+        formControlName="message"
+        type="text"
+        class="form-control"
+        placeholder="{{
+          messagingConfigs?.newMessagePlaceHolder ||
+            ('chatMessaging.addNewMessage' | cxTranslate)
+        }}"
+        [maxLength]="messagingConfigs?.charactersLimit || MAX_INPUT_CHARACTERS"
+      />
+      <div class="cx-message-footer-labels" id="cx-message-footer">
+        <cx-file-upload
+          [formControl]="form.get('file')"
+          [accept]="messagingConfigs?.attachmentRestrictions?.allowedTypes"
+          multiple="maxEntries > 1"
+        >
+          <ng-template>
+            <cx-icon [type]="iconTypes.UPLOAD"></cx-icon>
+            <span class="cx-message-footer-text">{{
+              'chatMessaging.uploadFile' | cxTranslate
+            }}</span>
+          </ng-template>
+        </cx-file-upload>
+
+        <p class="cx-message-footer-label">
+          {{
+            'chatMessaging.charactersLeft'
+              | cxTranslate: { count: inputCharacterLeft }
+          }}
+        </p>
+      </div>
+      <cx-form-errors
+        [control]="form.get('file')"
+        prefix="formErrors.file"
+      ></cx-form-errors>
+    </div>
+
+    <div class="col-xs-6 col-md-3 col-lg-2">
+      <button class="btn btn-block btn-primary" (click)="send()">
+        {{ 'chatMessaging.send' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-container>

@@ -9,6 +9,7 @@ import {
   defaultCustomerTicketingFormLayoutConfig,
 } from './customer-ticketing-reopen';
 import { CustomerTicketingListModule } from './customer-ticketing-list';
+import { CustomerTicketingMessagesModule } from './customer-ticketing-messages';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { CustomerTicketingListModule } from './customer-ticketing-list';
     CustomerTicketingCloseModule,
     CustomerTicketingReopenModule,
     CustomerTicketingListModule,
+    CustomerTicketingMessagesModule,
   ],
   declarations: [],
   exports: [],
