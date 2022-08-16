@@ -4,7 +4,7 @@ import { PointOfServiceStock } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
-  PatchDeliveryOptionPayload,
+  SetDeliveryOptionPayload,
   PickupLocationsSearchFacade,
   PickupOption,
 } from '@spartacus/pickup-in-store/root';
@@ -69,7 +69,7 @@ export class StoreListComponent implements OnInit {
     const { stockInfo: _, ...pointOfService } = store;
     const { name, displayName } = pointOfService;
 
-    const data: PatchDeliveryOptionPayload = {
+    const data: SetDeliveryOptionPayload = {
       cartId: this.cartId,
       pickupOption: 'pickup',
       name: name ?? '',
@@ -85,7 +85,7 @@ export class StoreListComponent implements OnInit {
       pickupOption: 'pickup',
     });
 
-    this.pickupLocationsSearchService.patchDeliveryOption(data);
+    this.pickupLocationsSearchService.setDeliveryOption(data);
 
     this.storeSelected.emit();
   }

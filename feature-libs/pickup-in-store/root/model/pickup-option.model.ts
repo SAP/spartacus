@@ -5,7 +5,7 @@ export type AugmentedPointOfService = PointOfService & {
   pickupOption: PickupOption;
 };
 
-export type PatchDeliveryOptionPayload = {
+export type SetDeliveryOptionPayload = {
   cartId: string;
   pickupOption: PickupOption;
   name: string;

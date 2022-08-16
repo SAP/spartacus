@@ -6,7 +6,7 @@ import {
   PointOfService,
 } from '@spartacus/core';
 import { PickupLocationAdapter } from '@spartacus/pickup-in-store/core';
-import { PatchDeliveryOptionPayload } from '@spartacus/pickup-in-store/root';
+import { SetDeliveryOptionPayload } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
     );
   }
 
-  patchDeliveryOption({
+  setDeliveryOption({
     cartId,
     pickupOption,
     name,
@@ -33,7 +33,7 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
     userId,
     productCode,
     quantity,
-  }: PatchDeliveryOptionPayload): Observable<any> {
+  }: SetDeliveryOptionPayload): Observable<any> {
     const putPayload = {
       deliveryPointOfService: {
         name: '',

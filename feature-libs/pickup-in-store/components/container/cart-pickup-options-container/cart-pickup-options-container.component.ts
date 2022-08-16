@@ -10,7 +10,7 @@ import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
-  PatchDeliveryOptionPayload,
+  SetDeliveryOptionPayload,
   PickupLocationsSearchFacade,
   PickupOption,
 } from '@spartacus/pickup-in-store/root';
@@ -97,7 +97,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   }
 
   onPickupOptionChange(pickupOption: PickupOption): void {
-    const data: PatchDeliveryOptionPayload = {
+    const data: SetDeliveryOptionPayload = {
       cartId: this.cartId,
       pickupOption,
       entryNumber: this.entryNumber,
@@ -115,7 +115,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
       this.intendedPickupLocationService.removeIntendedLocation(
         this.productCode
       );
-      this.storeDetails.patchDeliveryOption(data);
+      this.storeDetails.setDeliveryOption(data);
       return;
     }
     const preferredStore = this.preferredStoreService.getPreferredStore();

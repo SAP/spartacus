@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError } from '@spartacus/core';
-import { PatchDeliveryOptionPayload } from '@spartacus/pickup-in-store/root';
+import { SetDeliveryOptionPayload } from '@spartacus/pickup-in-store/root';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PickupLocationConnector } from '../../connectors';
@@ -43,21 +43,17 @@ export class PickupLocationEffect {
 
   patchDeliveryOption$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PickupLocationActions.PATCH_DELIVERY_OPTION),
+      ofType(PickupLocationActions.SET_DELIVERY_OPTION),
       map(
-        (
-          action: ReturnType<typeof PickupLocationActions.PatchDeliveryOption>
-        ) => action.payload
+        (action: ReturnType<typeof PickupLocationActions.SetDeliveryOption>) =>
+          action.payload
       ),
-      switchMap((patchDeliveryOptionPayload: PatchDeliveryOptionPayload) =>
+      switchMap((setDeliveryOptionPayload: SetDeliveryOptionPayload) =>
         this.pickupLocationConnector
-          .patchDeliveryOption(patchDeliveryOptionPayload)
+          .setDeliveryOption(setDeliveryOptionPayload)
           .pipe(
             map(() => {
-              return PickupLocationActions.PatchDeliveryOptionSuccess({
-                /*
-                Todo: Need to discuss what has to be done with action.payload
-                */
+              return PickupLocationActions.SetDeliveryOptionSuccess({
                 payload: {},
               });
             })

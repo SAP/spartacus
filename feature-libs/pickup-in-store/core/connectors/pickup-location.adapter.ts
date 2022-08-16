@@ -1,5 +1,5 @@
 import { PointOfService } from '@spartacus/core';
-import { PatchDeliveryOptionPayload } from 'feature-libs/pickup-in-store/root';
+import { SetDeliveryOptionPayload } from 'feature-libs/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
 export abstract class PickupLocationAdapter {
@@ -8,7 +8,7 @@ export abstract class PickupLocationAdapter {
    * @param storeName;
    */
   abstract getStoreDetails(storeName: string): Observable<PointOfService>;
-  abstract patchDeliveryOption(
-    patchDeliveryOptionPayload: PatchDeliveryOptionPayload
+  abstract setDeliveryOption(
+    setDeliveryOptionPayload: SetDeliveryOptionPayload
   ): Observable<any>;
 }

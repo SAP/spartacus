@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
-  PatchDeliveryOptionPayload,
+  SetDeliveryOptionPayload,
   PickupLocationsSearchFacade,
   StockLocationSearchParams,
 } from '@spartacus/pickup-in-store/root';
@@ -99,13 +99,11 @@ export class PickupLocationsSearchService
     );
   }
 
-  patchDeliveryOption(
-    patchDeliveryOptionPayload: PatchDeliveryOptionPayload
-  ): void {
+  setDeliveryOption(setDeliveryOptionPayload: SetDeliveryOptionPayload): void {
     this.store.dispatch(
-      PickupLocationActions.PatchDeliveryOption({
+      PickupLocationActions.SetDeliveryOption({
         payload: {
-          ...patchDeliveryOptionPayload,
+          ...setDeliveryOptionPayload,
         },
       })
     );
