@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDocumentType,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions,
+  FilterByOptions
 } from '@spartacus/organization/account-summary/root';
 import { combineLatest } from 'rxjs';
-import { TranslationService } from '@spartacus/core';
 
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms'
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors } from '@angular/forms';
 
 interface ItemType {
   code: string;
@@ -16,9 +16,9 @@ interface ItemType {
 }
 
 interface GroupValidator {
-  startRange?: ValidationErrors | null,
-  endRange?: ValidationErrors | null,
-  groupValidator?: ValidationErrors | null,
+  startRange?: ValidationErrors | null;
+  endRange?: ValidationErrors | null;
+  groupValidator?: ValidationErrors | null;
 }
 
 @Component({
@@ -39,7 +39,7 @@ export class AccountSummaryDocumentFilterComponent {
   filterListEvent: EventEmitter<DocumentQueryParams>;
 
   /* For Enum use in HTML */
-  FilterByOptions = FilterByOptions
+  FilterByOptions = FilterByOptions;
 
   filterForm: FormGroup;
 
@@ -155,15 +155,15 @@ export class AccountSummaryDocumentFilterComponent {
       return this.fb.group({
         from: [filterByKey === filterByOption && startRange ? startRange : '', validator?.startRange],
         to: [filterByKey === filterByOption && endRange ? endRange : '', validator?.endRange],
-      }, { validator: validator?.groupValidator})
-    }
+      }, { validator: validator?.groupValidator});
+    };
 
     const generateDateRangeGroup = (filterByOption: FilterByOptions, validator?: GroupValidator | null): FormGroup => {
       return this.fb.group({
         from: [filterByKey === filterByOption && startRange ? this.decodeDate(startRange) : '', validator?.startRange],
         to: [filterByKey === filterByOption && endRange ? this.decodeDate(endRange) : '', validator?.endRange],
-      }, { validator: validator?.groupValidator})
-    }
+      }, { validator: validator?.groupValidator});
+    };
 
     const validRange = (type: 'date' | 'number'): ValidationErrors => {
       return (c: AbstractControl): ValidationErrors | null => {
@@ -171,19 +171,19 @@ export class AccountSummaryDocumentFilterComponent {
         const to = c.get('to') as AbstractControl;
 
         if (from.pristine || from.invalid || to.pristine || to.invalid) {
-          return null
+          return null;
         } else if (type === 'date' && from.value > to.value) {
           return { toDateMustComeAfterFrom: true };
         } else if (type === 'number') {
           const fromValue = parseFloat(from.value) || 0;
           const toValue = parseFloat(to.value) || 0;
           console.log(fromValue, toValue);
-          return (!isNaN(from.value) && !isNaN(to.value) && fromValue > toValue) ? { toAmountMustBeLargeThanFrom: true } : null
+          return (!isNaN(from.value) && !isNaN(to.value) && fromValue > toValue) ? { toAmountMustBeLargeThanFrom: true } : null;
         } else {
           return null;
         }
-      }
-    }
+      };
+    };
 
     this.filterForm = this.fb.group({
       status: status || DocumentStatus.ALL,

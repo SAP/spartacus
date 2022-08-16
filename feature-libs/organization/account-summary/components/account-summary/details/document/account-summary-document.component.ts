@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Currency, SortModel, TranslationService } from '@spartacus/core';
 import {
   AccountSummaryDocumentType,
   AccountSummaryFacade,
@@ -6,11 +7,10 @@ import {
   DocumentFields,
   DocumentQueryParams,
   DocumentStatus,
-  FilterByOptions,
+  FilterByOptions
 } from '@spartacus/organization/account-summary/root';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { Currency, SortModel, TranslationService } from '@spartacus/core';
-import { ICON_TYPE} from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -20,7 +20,7 @@ import { take } from 'rxjs/operators';
 export class AccountSummaryDocumentComponent implements OnInit {
 
   /* For Enum use in HTML */
-  ICON_TYPE = ICON_TYPE
+  ICON_TYPE = ICON_TYPE;
 
   accountSummary$: BehaviorSubject<AccountSummaryList> = new BehaviorSubject<AccountSummaryList>({});
   queryParams: DocumentQueryParams = {
@@ -73,7 +73,7 @@ export class AccountSummaryDocumentComponent implements OnInit {
     const params = {
       ...this.queryParams,
       fields: isFullFetch ? DocumentFields.FULL : DocumentFields.DEFAULT,
-    }
+    };
     this.accountSummaryFacade.getDocumentList(params)
       .pipe(take(1))
       .subscribe((accountSummaryList: AccountSummaryList) => {
