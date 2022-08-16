@@ -1,28 +1,51 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ConverterService,
+  InterceptorUtil,
   Occ,
-  OccEndpointsService
+  OccEndpointsService,
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+  USE_CLIENT_TOKEN
 } from '@spartacus/core';
-import { OrderHistoryAdapter } from '../../core/connectors/order-approval.adapter';
-import {
-  ORDER_HISTORY_NORMALIZER,
-} from '../../core/connectors/converters';
 import { Observable } from 'rxjs';
 import {
+  ConsignmentTracking,
+  CONSIGNMENT_TRACKING_NORMALIZER,
+  Order,
   OrderHistoryList,
   ORDER_HISTORY_NORMALIZER,
+  ORDER_NORMALIZER,
 } from '@spartacus/order/root';
+import { UnitOrderAdapter } from '../../public_api';
+
+
+
 @Injectable()
-export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
+export class OccUnitOrderAdapter implements UnitOrderAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 
-  public loadHistory(
+  public load(userId: string, orderCode: string): Observable<Order> {
+    const url = this.occEndpoints.buildUrl('orderDetail', {
+      urlParams: { userId, orderId: orderCode },
+    });
+
+    let headers = new HttpHeaders();
+    if (userId === OCC_USER_ID_ANONYMOUS) {
+      headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
+    }
+
+    return this.http
+      .get<Occ.Order>(url, { headers })
+      .pipe(this.converter.pipeable(ORDER_NORMALIZER));
+  }
+
+    public loadUnitOrderHistory(
     userId: string,
     pageSize?: number,
     currentPage?: number,
@@ -39,7 +62,7 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       params['sort'] = sort.toString();
     }
 
-    const url = this.occEndpoints.buildUrl('orderHistory', {
+    const url = this.occEndpoints.buildUrl('unitLevelOrderHistory', {
       urlParams: { userId },
       queryParams: params,
     });
@@ -48,4 +71,20 @@ export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
       .get<Occ.OrderHistoryList>(url)
       .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
   }
+
+  public getConsignmentTracking(
+    orderCode: string,
+    consignmentCode: string,
+    userId: string = OCC_USER_ID_CURRENT
+  ): Observable<ConsignmentTracking> {
+    const url = this.occEndpoints.buildUrl('consignmentTracking', {
+      urlParams: { userId, orderCode, consignmentCode },
+    });
+    return this.http
+      .get<ConsignmentTracking>(url)
+      .pipe(this.converter.pipeable(CONSIGNMENT_TRACKING_NORMALIZER));
+  }
+
 }
+
+

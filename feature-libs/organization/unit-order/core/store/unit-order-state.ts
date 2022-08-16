@@ -1,40 +1,17 @@
 import { StateUtils } from '@spartacus/core';
-import { OrderApproval } from '../model/unit-order.model';
+import { ConsignmentTrackingState } from '@spartacus/order/core';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 
-export const ORDER_APPROVAL_FEATURE = 'order-approval';
-export const ORDER_APPROVAL_ENTITIES = 'order-approval-entities';
-export const ORDER_APPROVAL_LIST = 'order-approval-list';
-export const ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID =
-  'orderApproval.makeDecision';
+export const UNIT_ORDER_FEATURE = 'unit order';
+export const UNIT_ORDERS = '[Unit Order] Unit Orders';
+export const UNIT_ORDER_DETAILS = '[Unit Order] Order Details';
 
-export interface OrderApprovalManagement
-  extends StateUtils.EntityListState<OrderApproval> {}
-
-export interface OrderHistoryState {
-  [ORDER_APPROVAL_FEATURE]: OrderApprovalManagement;
+export interface StateWithUnitOrder {
+  [UNIT_ORDER_FEATURE]: UnitOrderState;
 }
 
-
-
-export const ORDER_FEATURE = 'order';
-
-export const ORDERS = '[Order] User Orders';
-export const ORDER_DETAILS = '[Order] User Order Details';
-
-export interface StateWithOrder {
-  [ORDER_FEATURE]: OrderState;
-}
-
-export interface OrderState {
+export interface UnitOrderState {
   orders: StateUtils.LoaderState<OrderHistoryList>;
   orderDetail: StateUtils.LoaderState<Order>;
-  replenishmentOrders: StateUtils.LoaderState<ReplenishmentOrderList>;
-  orderReturn: StateUtils.LoaderState<ReturnRequest>;
-  orderReturnList: StateUtils.LoaderState<ReturnRequestList>;
   consignmentTracking: ConsignmentTrackingState;
-  replenishmentOrder: StateUtils.LoaderState<ReplenishmentOrder>;
-}
-
-export interface ConsignmentTrackingState {
-  tracking: ConsignmentTracking;
 }

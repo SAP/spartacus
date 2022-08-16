@@ -1,32 +1,43 @@
-import { EntitiesModel, SearchConfig } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import {
-  OrderApproval,
-  OrderApprovalDecision,
-} from '../model/order-approval.model';
+  ConsignmentTracking,
+  Order,
+  OrderHistoryList,
+} from '@spartacus/order/root';
+import { Observable } from 'rxjs';
 
-export abstract class OrderHistoryAdapter {
+export abstract class UnitOrderAdapter {
   /**
-   * Abstract method used to load orderApprovalManagement's details data.
-   * OrderApproval's data can be loaded from alternative sources, as long as the structure
-   * converts to the `OrderApproval`.
+   * Abstract method used to load order data.
    *
-   * @param userId The `userId` for given orderApprovalManagement
-   * @param orderApprovalCode The `orderApprovalCode` for given orderApprovalManagement
+   * @param userId The `userId` for given user
+   * @param orderCode The `orderCode` for given order
    */
-  abstract load(
-    userId: string,
-    orderApprovalCode: string
-  ): Observable<OrderApproval>;
+  abstract load(userId: string, orderCode: string): Observable<Order>;
 
-  abstract loadList(
+  /**
+   * Abstract method used to load order history for units.
+   *
+   * @param userId The `userId` for given user
+   * @param pageSize
+   * @param currentPage
+   * @param sort Sorting method
+   */
+  abstract loadUnitOrderHistory(
     userId: string,
-    params?: SearchConfig
-  ): Observable<EntitiesModel<OrderApproval>>;
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<OrderHistoryList>;
 
-  abstract makeDecision(
-    userId: string,
-    orderApprovalCode: string,
-    orderApprovalDecision: OrderApprovalDecision
-  ): Observable<OrderApprovalDecision>;
+  /**
+   * Abstract method used to get consignment tracking details
+   * @param orderCode an order code
+   * @param consignmentCode a consignment code
+   * @param userId user id related to order
+   */
+  abstract getConsignmentTracking(
+    orderCode: string,
+    consignmentCode: string,
+    userId?: string
+  ): Observable<ConsignmentTracking>;
 }

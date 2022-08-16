@@ -10,4 +10,4 @@ import { UnitOrderOccModule } from './occ';
     UnitOrderComponentsModule,
   ],
 })
-export class OrderHistoryModule {}
+export class UnitOrderModule {}

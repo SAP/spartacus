@@ -1,1 +1,1 @@
-export const ORGANIZATION_ORDER_APPROVAL_FEATURE = 'organizationOrderApproval';
+export const ORGANIZATION_UNIT_ORDER_FEATURE = 'organizationUnitOrder';

@@ -1,60 +1,35 @@
 import { InjectionToken, Provider } from '@angular/core';
+import { ActionReducerMap } from '@ngrx/store';
+import { StateUtils } from '@spartacus/core';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import {
-  Action,
-  ActionReducer,
-  ActionReducerMap,
-  combineReducers,
-  MetaReducer,
-} from '@ngrx/store';
-import { AuthActions, ListModel, StateUtils } from '@spartacus/core';
-import { OrderApproval } from '../../model/unit-order.model';
-import {
-  OrderHistoryState,
-  ORDER_APPROVAL_ENTITIES,
-  ORDER_APPROVAL_FEATURE,
-  ORDER_APPROVAL_LIST,
+  UnitOrderState,
+  UNIT_ORDERS,
+  UNIT_ORDER_DETAILS,
 } from '../unit-order-state';
-import {
-  orderApprovalsEntitiesReducer,
-  orderApprovalsListReducer,
-} from './unit-order.reducer';
 
-export function getReducers(): ActionReducerMap<OrderHistoryState> {
+import * as fromUnitOrdersReducer from './unit-order.reducer';
+import * as fromOrderDetailsReducer from './unit-order-details.reducer';
+import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
+
+export function getReducers(): ActionReducerMap<UnitOrderState, any> {
   return {
-    [ORDER_APPROVAL_FEATURE]: combineReducers({
-      entities: StateUtils.entityLoaderReducer<OrderApproval>(
-        ORDER_APPROVAL_ENTITIES,
-        orderApprovalsEntitiesReducer
-      ),
-      list: StateUtils.entityLoaderReducer<ListModel, any>(
-        ORDER_APPROVAL_LIST,
-        orderApprovalsListReducer
-      ),
-    }),
+    orders: StateUtils.loaderReducer<OrderHistoryList, any>(
+      UNIT_ORDERS,
+      fromUnitOrdersReducer.reducer
+    ),
+    orderDetail: StateUtils.loaderReducer<Order, any>(
+      UNIT_ORDER_DETAILS,
+      fromOrderDetailsReducer.reducer
+    ),
+    consignmentTracking: fromConsignmentTrackingReducer.reducer,
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<OrderHistoryState>
-> = new InjectionToken<ActionReducerMap<OrderHistoryState>>(
-  'OrganizationReducers'
-);
+export const reducerToken: InjectionToken<ActionReducerMap<UnitOrderState>> =
+  new InjectionToken<ActionReducerMap<UnitOrderState>>('UnitOrderReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,
 };
-
-export function clearOrganizationState(
-  reducer: ActionReducer<OrderHistoryState, Action>
-): ActionReducer<OrderHistoryState, Action> {
-  return function (state, action) {
-    if (action.type === AuthActions.LOGOUT) {
-      state = undefined;
-    }
-
-    return reducer(state, action);
-  };
-}
-
-export const metaReducers: MetaReducer<any>[] = [clearOrganizationState];

@@ -1,60 +1,57 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
-  EntitiesModel,
-  ProcessSelectors,
-  SearchConfig,
-  StateUtils,
-  StateWithProcess,
-  UserIdService,
-} from '@spartacus/core';
-import { Observable, queueScheduler } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import {
-  OrderApproval,
-  OrderApprovalDecision,
-} from '../model/order-approval.model';
-import { OrderApprovalActions } from '../store/actions/index';
-import {
-  OrderHistoryState,
-  ORDER_APPROVAL_MAKE_DECISION_PROCESS_ID,
-} from '../store/order-approval-state';
-import { OrderApprovalSelectors } from '../store/selectors';
-
-import { Injectable } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import {
-  ProcessSelectors,
   RoutingService,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import {
-  CancellationRequestEntryInputList,
-  ConsignmentTracking,
-  Order,
-  OrderHistoryFacade,
-  OrderHistoryList,
-} from '@spartacus/order/root';
+import { Order, OrderHistoryList } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { OrderActions } from '../store/actions/index';
-import { CANCEL_ORDER_PROCESS_ID, StateWithOrder } from '../store/order-state';
-import { OrderSelectors } from '../store/selectors/index';
+import {
+  StateWithUnitOrder,
+  UnitOrderActions,
+  UnitOrderSelectors,
+} from '../store';
 
 @Injectable()
 export class UnitOrderService {
   constructor(
-    protected store: Store<UnitOrderState | StateWithProcess<void>>,
-    protected userIdService: UserIdService
-  ) {}
-
-  constructor(
-    protected store: Store<StateWithOrder>,
+    protected store: Store<StateWithUnitOrder>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected userIdService: UserIdService,
     protected routingService: RoutingService
   ) {}
+
+  /**
+   * Returns an order's detail
+   */
+  getOrderDetails(): Observable<Order> {
+    return this.store.pipe(select(UnitOrderSelectors.getOrderDetails));
+  }
+
+  /**
+   * Retrieves order's details
+   *
+   * @param orderCode an order code
+   */
+  loadOrderDetails(orderCode: string): void {
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UnitOrderActions.LoadUnitOrderDetails({
+          userId,
+          orderCode,
+        })
+      );
+    });
+  }
+
+  /**
+   * Clears order's details
+   */
+  clearOrderDetails(): void {
+    this.store.dispatch(new UnitOrderActions.ClearUnitOrderDetails());
+  }
 
   /**
    * Returns order history list
@@ -63,7 +60,7 @@ export class UnitOrderService {
     pageSize: number
   ): Observable<OrderHistoryList | undefined> {
     return this.store.pipe(
-      select(OrderSelectors.getOrdersState),
+      select(UnitOrderSelectors.getOrdersState),
       tap((orderListState) => {
         const attemptedLoad =
           orderListState.loading ||
@@ -81,7 +78,7 @@ export class UnitOrderService {
    * Returns a loaded flag for order history list
    */
   getOrderHistoryListLoaded(): Observable<boolean> {
-    return this.store.pipe(select(OrderSelectors.getOrdersLoaded));
+    return this.store.pipe(select(UnitOrderSelectors.getOrdersLoaded));
   }
 
   /**
@@ -105,7 +102,7 @@ export class UnitOrderService {
           .unsubscribe();
 
         this.store.dispatch(
-          new OrderActions.LoadUserOrders({
+          new UnitOrderActions.LoadUnitOrders({
             userId,
             pageSize,
             currentPage,

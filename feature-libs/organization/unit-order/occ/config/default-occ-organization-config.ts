@@ -1,15 +1,13 @@
 import { OccConfig } from '@spartacus/core';
 
-export const defaultOccOrderApprovalConfig: OccConfig = {
+export const defaultOccUnitOrderConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        orderApprovals: '/users/${userId}/orderapprovals',
-        orderHistory: '/users/{userId}/orgUnits/orders',
-        orderApproval:
-          '/users/${userId}/orderapprovals/${orderApprovalCode}?fields=FULL',
-        orderApprovalDecision:
-          '/users/${userId}/orderapprovals/${orderApprovalCode}/decision',
+        unitLevelOrderHistory: '/orgUsers/${userId}/orgUnits/orders',
+        orderDetail: 'users/${userId}/orders/${orderId}?fields=FULL',
+        consignmentTracking:
+          'users/${userId}/orders/${orderCode}/consignments/${consignmentCode}/tracking',
       },
     },
   },

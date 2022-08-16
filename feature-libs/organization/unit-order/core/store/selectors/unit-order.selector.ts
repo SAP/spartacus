@@ -1,57 +1,27 @@
 import {
   createSelector,
   MemoizedSelector,
-  createFeatureSelector,
 } from '@ngrx/store';
-import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
-import { OrderApproval } from '../../model/order-approval.model';
-import {
-  OrderApprovalManagement,
-  ORDER_APPROVAL_FEATURE,
-  OrderHistoryState,
-} from '../order-approval-state';
+import { StateUtils } from '@spartacus/core';
+import { OrderHistoryList } from '@spartacus/order/root';
+import { StateWithUnitOrder, UnitOrderState } from '../unit-order-state';
+import { getOrderState } from './feature.selector';
 
-export const getOrderApprovalState: MemoizedSelector<
-  OrderHistoryState,
-  OrderHistoryState
-> = createFeatureSelector<OrderHistoryState>(ORDER_APPROVAL_FEATURE);
+export const getOrdersState: MemoizedSelector<
+  StateWithUnitOrder,
+  StateUtils.LoaderState<OrderHistoryList>
+> = createSelector(getOrderState, (state: UnitOrderState) => state.orders);
 
-export const getOrderApprovalManagementState: MemoizedSelector<
-  OrderHistoryState,
-  OrderApprovalManagement
-> = createSelector(
-  getOrderApprovalState,
-  (state: OrderHistoryState) => state[ORDER_APPROVAL_FEATURE]
-);
-
-export const getOrderApprovalsState: MemoizedSelector<
-  OrderHistoryState,
-  StateUtils.EntityLoaderState<OrderApproval>
-> = createSelector(
-  getOrderApprovalManagementState,
-  (state: OrderApprovalManagement) => state && state.entities
-);
-
-export const getOrderApproval = (
-  orderApprovalCode: string
-): MemoizedSelector<
-  OrderHistoryState,
-  StateUtils.LoaderState<OrderApproval>
-> =>
+export const getOrdersLoaded: MemoizedSelector<StateWithUnitOrder, boolean> =
   createSelector(
-    getOrderApprovalsState,
-    (state: StateUtils.EntityLoaderState<OrderApproval>) =>
-      StateUtils.entityLoaderStateSelector(state, orderApprovalCode)
+    getOrdersState,
+    (state: StateUtils.LoaderState<OrderHistoryList>) =>
+      StateUtils.loaderSuccessSelector(state)
   );
 
-export const getOrderApprovalList = (
-  params: SearchConfig
-): MemoizedSelector<
-  OrderHistoryState,
-  StateUtils.LoaderState<EntitiesModel<OrderApproval>>
-> =>
+export const getOrders: MemoizedSelector<StateWithUnitOrder, OrderHistoryList> =
   createSelector(
-    getOrderApprovalManagementState,
-    (state: OrderApprovalManagement) =>
-      StateUtils.denormalizeSearch<OrderApproval>(state, params)
+    getOrdersState,
+    (state: StateUtils.LoaderState<OrderHistoryList>) =>
+      StateUtils.loaderValueSelector(state)
   );

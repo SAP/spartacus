@@ -1,38 +1,45 @@
 import { Injectable } from '@angular/core';
-import { EntitiesModel, SearchConfig } from '@spartacus/core';
-import { Observable } from 'rxjs';
 import {
-  OrderApproval,
-  OrderApprovalDecision,
-} from '../model/unit-order.model';
-import { OrderHistoryAdapter } from './unit-order.adapter';
+  ConsignmentTracking,
+  Order,
+  OrderHistoryList,
+} from '@spartacus/order/root';
+import { Observable } from 'rxjs';
+import { UnitOrderAdapter } from './unit-order.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UnitOrderConnector {
-  constructor(protected adapter: OrderHistoryAdapter) {}
+  constructor(protected adapter: UnitOrderAdapter) {}
 
-  get(userId: string, orderApprovalCode: string): Observable<OrderApproval> {
-    return this.adapter.load(userId, orderApprovalCode);
+  public get(userId: string, orderCode: string): Observable<Order> {
+    return this.adapter.load(userId, orderCode);
   }
 
-  getList(
+  public getUnitOrderHistory(
     userId: string,
-    params?: SearchConfig
-  ): Observable<EntitiesModel<OrderApproval>> {
-    return this.adapter.loadList(userId, params);
-  }
-
-  makeDecision(
-    userId: string,
-    orderApprovalCode: string,
-    orderApprovalDecision: OrderApprovalDecision
-  ): Observable<OrderApprovalDecision> {
-    return this.adapter.makeDecision(
+    pageSize?: number,
+    currentPage?: number,
+    sort?: string
+  ): Observable<OrderHistoryList> {
+    return this.adapter.loadUnitOrderHistory(
       userId,
-      orderApprovalCode,
-      orderApprovalDecision
+      pageSize,
+      currentPage,
+      sort
+    );
+  }
+
+  public getConsignmentTracking(
+    orderCode: string,
+    consignmentCode: string,
+    userId?: string
+  ): Observable<ConsignmentTracking> {
+    return this.adapter.getConsignmentTracking(
+      orderCode,
+      consignmentCode,
+      userId
     );
   }
 }

@@ -1,123 +1,55 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  EntitiesModel,
-  normalizeHttpError,
-  StateUtils,
-  OCC_USER_ID_ANONYMOUS,
-} from '@spartacus/core';
+import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
+import { OrderHistoryList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { UnitOrderConnector } from '../../connectors/unit-order.connector';
-import { OrderApproval } from '../../model/unit-order.model';
-import { OrderApprovalActions } from '../actions/index';
+import { UnitOrderActions } from '../actions';
 
 @Injectable()
-export class OrderApprovalEffects {
-  loadOrderApproval$: Observable<
-    | OrderApprovalActions.LoadOrderApprovalSuccess
-    | OrderApprovalActions.LoadOrderApprovalFail
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType(OrderApprovalActions.LOAD_ORDER_APPROVAL),
-      map((action: OrderApprovalActions.LoadOrderApproval) => action.payload),
-      filter((payload) => payload.userId !== OCC_USER_ID_ANONYMOUS),
-      switchMap(({ userId, orderApprovalCode }) => {
-        return this.orderApprovalConnector.get(userId, orderApprovalCode).pipe(
-          map((orderApproval: OrderApproval) => {
-            return new OrderApprovalActions.LoadOrderApprovalSuccess([
-              orderApproval,
-            ]);
-          }),
-          catchError((error: HttpErrorResponse) =>
-            of(
-              new OrderApprovalActions.LoadOrderApprovalFail({
-                orderApprovalCode,
-                error: normalizeHttpError(error),
-              })
-            )
-          )
-        );
-      })
-    )
-  );
-
-  loadOrderApprovals$: Observable<
-    | OrderApprovalActions.LoadOrderApprovalsSuccess
-    | OrderApprovalActions.LoadOrderApprovalSuccess
-    | OrderApprovalActions.LoadOrderApprovalsFail
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType(OrderApprovalActions.LOAD_ORDER_APPROVALS),
-      map((action: OrderApprovalActions.LoadOrderApprovals) => action.payload),
-      filter((payload) => payload.userId !== OCC_USER_ID_ANONYMOUS),
-      switchMap(({ userId, params }) =>
-        this.orderApprovalConnector.getList(userId, params).pipe(
-          switchMap((orderApprovals: EntitiesModel<OrderApproval>) => {
-            const { values, page } = StateUtils.normalizeListPage(
-              orderApprovals,
-              'code'
-            );
-            return [
-              new OrderApprovalActions.LoadOrderApprovalSuccess(values),
-              new OrderApprovalActions.LoadOrderApprovalsSuccess({
-                page,
-                params,
-              }),
-            ];
-          }),
-          catchError((error: HttpErrorResponse) =>
-            of(
-              new OrderApprovalActions.LoadOrderApprovalsFail({
-                params: params,
-                error: normalizeHttpError(error),
-              })
-            )
-          )
-        )
-      )
-    )
-  );
-
-  makeDecision$: Observable<
-    | OrderApprovalActions.MakeDecisionSuccess
-    | OrderApprovalActions.LoadOrderApproval
-    | OrderApprovalActions.MakeDecisionFail
-  > = createEffect(() =>
-    this.actions$.pipe(
-      ofType(OrderApprovalActions.MAKE_DECISION),
-      map((action: OrderApprovalActions.MakeDecision) => action.payload),
-      filter((payload) => payload.userId !== OCC_USER_ID_ANONYMOUS),
-      switchMap(({ userId, orderApprovalCode, orderApprovalDecision }) =>
-        this.orderApprovalConnector
-          .makeDecision(userId, orderApprovalCode, orderApprovalDecision)
-          .pipe(
-            switchMap((orderApprovalDecisionData) => [
-              new OrderApprovalActions.MakeDecisionSuccess({
-                orderApprovalCode,
-                orderApprovalDecision: orderApprovalDecisionData,
-              }),
-              new OrderApprovalActions.LoadOrderApproval({
-                userId,
-                orderApprovalCode,
-              }),
-            ]),
-            catchError((error: HttpErrorResponse) =>
-              of(
-                new OrderApprovalActions.MakeDecisionFail({
-                  orderApprovalCode: orderApprovalCode,
-                  error: normalizeHttpError(error),
-                })
-              )
-            )
-          )
-      )
-    )
-  );
-
+export class UnitOrderEffect {
   constructor(
     private actions$: Actions,
-    private orderApprovalConnector: UnitOrderConnector
+    private orderConnector: UnitOrderConnector
   ) {}
+
+  loadUnitOrders$: Observable<UnitOrderActions.UnitOrdersAction> = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UnitOrderActions.LOAD_UNIT_ORDERS),
+        map((action: UnitOrderActions.LoadUnitOrders) => action.payload),
+        switchMap((payload) => {
+          return this.orderConnector
+            .getUnitOrderHistory(
+              payload.userId,
+              payload.pageSize,
+              payload.currentPage,
+              payload.sort
+            )
+            .pipe(
+              map((orders: OrderHistoryList) => {
+                return new UnitOrderActions.LoadUnitOrdersSuccess(orders);
+              }),
+              catchError((error) =>
+                of(
+                  new UnitOrderActions.LoadUnitOrdersFail(
+                    normalizeHttpError(error)
+                  )
+                )
+              )
+            );
+        })
+      )
+  );
+
+  resetUserOrders$: Observable<UnitOrderActions.ClearUnitOrders> = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SiteContextActions.LANGUAGE_CHANGE),
+        map(() => {
+          return new UnitOrderActions.ClearUnitOrders();
+        })
+      )
+  );
 }
