@@ -41,7 +41,20 @@ describe('StoreComponent', () => {
     component.storeDetails = {
       name: 'storeName',
       stockInfo: {
-        stockLevel: 0,
+        stockLevelStatus: 'outOfStock',
+      },
+    };
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.nativeElement.querySelector('button');
+    expect(button.disabled).toEqual(true);
+  });
+
+  it('should disable the select button if the store is low on stock', () => {
+    component.storeDetails = {
+      name: 'storeName',
+      stockInfo: {
+        stockLevelStatus: 'lowStock',
       },
     };
     fixture.detectChanges();
