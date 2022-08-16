@@ -3,7 +3,7 @@
 // Add a json entry like this for each top level api deleted.
 //
 // {
-//   "name": "CheckoutDetailsService",
+//   "apiElementName": "CheckoutDetailsService",
 //   "entryPoint": "@spartacus/checkout/components",
 //   "migrationComment": "Use class abcd indtead."
 // }

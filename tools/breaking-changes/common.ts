@@ -34,7 +34,7 @@ export function findDeletedApiComment(
 ): string {
   const apiCommentEntry = deletedApiCommentData.find((entry) => {
     return (
-      entry.name === apiElement.name &&
+      entry.apiElementName === apiElement.name &&
       entry.entryPoint === apiElement.entryPoint
     );
   });
