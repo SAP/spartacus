@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   PointOfServiceNames,
@@ -17,7 +18,27 @@ import { SpinnerModule } from '@spartacus/storefront';
 import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
+import { Observable, of } from 'rxjs';
 import { StoreListComponent } from './store-list.component';
+
+export class MockActiveCartService {
+  addEntry(_productCode: string, _quantity: number): void {}
+  getEntry(_productCode: string): Observable<OrderEntry> {
+    return of();
+  }
+  isStable(): Observable<boolean> {
+    return of();
+  }
+  getActive(): Observable<Cart> {
+    return of();
+  }
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
+  getLastEntry(_productCode: string): Observable<OrderEntry> {
+    return of();
+  }
+}
 
 describe('StoreListComponent', () => {
   let component: StoreListComponent;
@@ -51,6 +72,10 @@ describe('StoreListComponent', () => {
         {
           provide: IntendedPickupLocationFacade,
           useClass: MockIntendedPickupLocationService,
+        },
+        {
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
         },
       ],
     }).compileComponents();

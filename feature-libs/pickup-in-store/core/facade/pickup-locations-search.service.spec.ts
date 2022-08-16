@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
+  SetDeliveryOptionPayload,
   StockLocationSearchParams,
 } from 'feature-libs/pickup-in-store/root';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -64,6 +65,9 @@ export class MockPickupLocationsSearchService
   }
 
   loadStoreDetails(_name: string): void {}
+  setDeliveryOption(
+    _setDeliveryOptionPayload: SetDeliveryOptionPayload
+  ): void {}
 }
 
 describe('PickupLocationsSearchService', () => {

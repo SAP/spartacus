@@ -48,6 +48,7 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   );
   getStoreDetails = createSpy();
   loadStoreDetails = createSpy();
+  setDeliveryOption = createSpy();
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
