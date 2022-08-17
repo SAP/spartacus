@@ -1131,42 +1131,48 @@ export class VisualViewerService implements OnDestroy {
     });
   }
 
+  private destroyContentConnector(viewport: Viewport): void {
+    const contentConnector = this.getCore().byId(
+      viewport.getContentConnector()
+    );
+    if (contentConnector) {
+      contentConnector.destroy();
+    }
+  }
+
+  private destroyAnimationPlayer(viewStateManager: ViewStateManager): void {
+    const animationPlayer = viewStateManager.getAnimationPlayer();
+    if (animationPlayer) {
+      animationPlayer.destroy();
+    }
+  }
+
+  private destroyViewManager(viewStateManager: ViewStateManager): void {
+    const viewManager = this.getCore().byId(viewStateManager.getViewManager());
+    if (viewManager) {
+      viewManager.destroy();
+    }
+  }
+
+  private getViewStateManager(viewport: Viewport): ViewStateManager | null {
+    return this.getCore().byId(
+      viewport.getViewStateManager()
+    ) as ViewStateManager | null;
+  }
+
   private destroyViewportAssociations(viewport: Viewport): void {
     const core = this.getCore();
     if (!core) {
       return;
     }
 
-    const contentConnectorId = viewport.getContentConnector();
-    if (contentConnectorId) {
-      const contentConnector = core.byId(contentConnectorId);
-      if (contentConnector) {
-        contentConnector.destroy();
-      }
-    }
+    this.destroyContentConnector(viewport);
 
-    const viewStateManagerId = viewport.getViewStateManager();
-
-    if (viewStateManagerId && core.byId(viewStateManagerId)) {
-      const viewStateManager = core.byId(
-        viewStateManagerId
-      ) as ViewStateManager;
-
-      if (viewStateManager) {
-        const animationPlayer = viewStateManager.getAnimationPlayer();
-        if (animationPlayer) {
-          animationPlayer.destroy();
-        }
-
-        const viewManagerId = viewStateManager.getViewManager();
-        if (viewManagerId) {
-          const viewManager = core.byId(viewManagerId);
-          if (viewManager) {
-            viewManager.destroy();
-          }
-        }
-        viewStateManager.destroy();
-      }
+    const viewStateManager = this.getViewStateManager(viewport);
+    if (viewStateManager) {
+      this.destroyAnimationPlayer(viewStateManager);
+      this.destroyViewManager(viewStateManager);
+      viewStateManager.destroy();
     }
   }
 
