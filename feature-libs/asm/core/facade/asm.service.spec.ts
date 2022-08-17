@@ -1,14 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  AsmCustomerListFacade,
-  CustomerListsPage,
-  CustomerSearchOptions,
-  CustomerSearchPage,
-} from '@spartacus/asm/root';
+import { AsmCustomerListFacade, CustomerListsPage } from '@spartacus/asm/root';
 import { QueryState, User } from '@spartacus/core';
 import { NEVER, of } from 'rxjs';
-import { AsmUi } from '../models/asm.models';
+import {
+  AsmUi,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '../models/asm.models';
 import { AsmActions } from '../store/actions/index';
 import { AsmState, ASM_FEATURE } from '../store/asm-state';
 import * as fromReducers from '../store/reducers/index';
