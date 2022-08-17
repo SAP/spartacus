@@ -12,7 +12,7 @@ env:
   NODE_VERSION: '16'
 
 concurrency: 
-  group: ci-${{ github.head_ref || github.run_id }}
+  group: ci-${{ github.run-attempt || github.run_id }}
   cancel-in-progress: true
 
 name: Spartacus build pipeline
@@ -151,6 +151,7 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
+          BUILD_NUMBER: ci-build-number-${{ github.run-attempt }}
         run: |
           ci-scripts/e2e-cypress.sh
   b2c_ssr_e2e_tests:
@@ -179,6 +180,7 @@ jobs:
       - name: Run e2es
         env: 
           SPA_ENV: ci,b2c
+          BUILD_NUMBER: ci-build-number-${{ github.run-attempt }}
         run: |
           ci-scripts/e2e-cypress.sh --ssr
   b2b_e2e_tests:
@@ -210,6 +212,7 @@ jobs:
       - name: Run e2es
         env:
           SPA_ENV: ci,b2b
+          BUILD_NUMBER: ci-build-number-${{ github.run-attempt }}
         run: |     
           ci-scripts/e2e-cypress.sh -s b2b
   build_conclusion:
