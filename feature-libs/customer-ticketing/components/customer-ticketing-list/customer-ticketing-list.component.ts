@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-customer-ticketing-list',
   templateUrl: './customer-ticketing-list.component.html',
 })
 export class CustomerTicketingListComponent {
+  iconTypes = ICON_TYPE;
+
   constructor() {}
 
   // Create table Headers
