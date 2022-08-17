@@ -7,12 +7,15 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { AsmConfig, AsmService } from '@spartacus/asm/core';
+import {
+  AsmConfig,
+  AsmService,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '@spartacus/asm/core';
 import {
   CustomerListColumnActionType,
   CustomerListsPage,
-  CustomerSearchOptions,
-  CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { I18nTestingModule, QueryState, User } from '@spartacus/core';
 import {

@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {
-  AsmFacade,
-  CustomerListsPage,
-  CustomerSearchOptions,
-  CustomerSearchPage,
-} from '@spartacus/asm/root';
+import { AsmFacade, CustomerListsPage } from '@spartacus/asm/root';
 import { QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { AsmUi } from '../models/asm.models';
+import {
+  AsmUi,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '../models/asm.models';
 import { AsmActions } from '../store/actions/index';
 import { StateWithAsm } from '../store/asm-state';
 import { AsmSelectors } from '../store/index';
@@ -24,12 +23,6 @@ export class AsmService {
 
   getCustomerLists(): Observable<QueryState<CustomerListsPage>> {
     return this.asmFacade.getCustomerLists();
-  }
-
-  searchCustomers(
-    options?: CustomerSearchOptions
-  ): Observable<CustomerSearchPage> {
-    return this.asmFacade.getCustomers(options);
   }
 
   /**
@@ -61,6 +54,38 @@ export class AsmService {
     return this.store.pipe(
       select(AsmSelectors.getCustomerSearchResultsLoading)
     );
+  }
+
+  /**
+   * Search for customers in a customer list
+   */
+  customerListCustomersSearch(options: CustomerSearchOptions): void {
+    this.store.dispatch(new AsmActions.CustomerListCustomersSearch(options));
+  }
+
+  /**
+   * Returns the customer search result data for a customer list
+   */
+  getCustomerListCustomersSearchResults(): Observable<CustomerSearchPage> {
+    return this.store.pipe(
+      select(AsmSelectors.getCustomerListCustomersSearchResults)
+    );
+  }
+
+  /**
+   * Returns the customer list customers search result loading status.
+   */
+  getCustomerListCustomersSearchResultsLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(AsmSelectors.getCustomerListCustomersSearchResultsLoading)
+    );
+  }
+
+  /**
+   * Reset the customer list customers search result data to the initial state.
+   */
+  customerListCustomersSearchReset(): void {
+    this.store.dispatch(new AsmActions.CustomerListCustomersSearchReset());
   }
 
   /**

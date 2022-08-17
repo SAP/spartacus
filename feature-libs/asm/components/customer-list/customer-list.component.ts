@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { AsmConfig, AsmService } from '@spartacus/asm/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AsmConfig,
+  AsmService,
+  CustomerSearchOptions,
+  CustomerSearchPage,
+} from '@spartacus/asm/core';
 import {
   CustomerListColumnActionType,
   CustomerListsPage,
-  CustomerSearchOptions,
-  CustomerSearchPage,
 } from '@spartacus/asm/root';
 import { SortModel, TranslationService, User } from '@spartacus/core';
 import {
@@ -14,7 +17,7 @@ import {
   ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
-import { combineLatest, defer, Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
 
@@ -22,8 +25,8 @@ import { CustomerListAction } from './customer-list.model';
   selector: 'cx-customer-list',
   templateUrl: './customer-list.component.html',
 })
-export class CustomerListComponent implements OnInit {
-  private PAGE_SIZE = 5;
+export class CustomerListComponent implements OnInit, OnDestroy {
+  protected PAGE_SIZE = 5;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -38,7 +41,7 @@ export class CustomerListComponent implements OnInit {
 
   selectedUserGroupId: string | undefined;
 
-  customerSearchPage$: Observable<CustomerSearchPage | null>;
+  customerSearchPage$: Observable<CustomerSearchPage | undefined>;
 
   customerListsPage$: Observable<CustomerListsPage | undefined>;
 
@@ -58,6 +61,10 @@ export class CustomerListComponent implements OnInit {
 
   customerListConfig = this.asmConfig?.asm?.customerList;
 
+  customerSearchLoading$: Observable<boolean>;
+
+  pageSize = this.asmConfig.asm?.customerList?.pageSize ?? this.PAGE_SIZE;
+
   constructor(
     protected modalService: ModalService,
     protected asmService: AsmService,
@@ -69,58 +76,64 @@ export class CustomerListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.customerListsPage$ = this.asmService
-      .getCustomerLists()
-      .pipe(
-        filter((queryState) => queryState.loading === false),
-        map((queryState) => {
-          return queryState.data;
-        })
-      )
-      .pipe(
-        map((customerListsPage) => customerListsPage),
-        filter(() => true),
+    this.customerListsPage$ = this.asmService.getCustomerLists().pipe(
+      filter((queryState) => queryState.loading === false),
+      map((queryState) => queryState.data),
+      tap((result) => {
         // set the first value of this.customerListsPage$ to be selected
-        tap((result) => {
-          if (!this.selectedUserGroupId) {
-            this.selectedUserGroupId = result?.userGroups?.[0].uid;
-            this.sorts = null;
-            this.fetchCustomers();
-          }
-        })
+        if (!this.selectedUserGroupId) {
+          this.selectedUserGroupId = result?.userGroups?.[0].uid;
+          this.sorts = null;
+          this.fetchCustomers();
+        }
+      })
+    );
+
+    this.customerSearchLoading$ = this.asmService
+      .getCustomerListCustomersSearchResultsLoading()
+      .pipe(
+        tap((loading) => console.log('loading', loading)),
+        tap((loading) => (this.loaded = !loading))
       );
-  }
+    this.customerSearchLoading$.subscribe();
 
-  fetchCustomers(): void {
-    const pageSize =
-      this.asmConfig.asm?.customerList?.pageSize ?? this.PAGE_SIZE;
-    if (this.selectedUserGroupId) {
-      const options: CustomerSearchOptions = {
-        customerListId: this.selectedUserGroupId,
-        pageSize: pageSize,
-        currentPage: this.currentPage,
-      };
-      if (this.sortCode) {
-        options.sort = this.sortCode;
-      }
-
-      this.customerSearchPage$ = defer(() => {
-        this.loaded = false;
-        return this.asmService.searchCustomers(options);
-      }).pipe(
+    this.customerSearchPage$ = this.asmService
+      .getCustomerListCustomersSearchResults()
+      .pipe(
+        // filter(isNotUndefined),
+        tap((result) => console.log('page', result)),
         tap((result) => {
-          this.loaded = true;
-          if (result.sorts) {
+          if (result?.sorts) {
             this.sorts = result.sorts;
             this.sortCode = result.pagination?.sort;
           }
-          if (result.entries.length < pageSize) {
+          if (result?.entries.length < this.pageSize) {
             this.maxPage = result.pagination?.currentPage || 0;
           } else {
             this.maxPage = this.currentPage + 1;
           }
         })
       );
+  }
+
+  ngOnDestroy(): void {
+    this.asmService.customerListCustomersSearchReset();
+  }
+
+  fetchCustomers(): void {
+    if (this.selectedUserGroupId) {
+      const options: CustomerSearchOptions = {
+        customerListId: this.selectedUserGroupId,
+        pageSize: this.pageSize,
+        currentPage: this.currentPage,
+      };
+      if (this.sortCode) {
+        options.sort = this.sortCode;
+      }
+
+      this.asmService.customerListCustomersSearchReset();
+
+      this.asmService.customerListCustomersSearch(options);
     }
   }
 

@@ -16,7 +16,7 @@ These will be the 2 versions compared for breaking changes.
 In both ./src/old and ./src/new, run `yarn install` and `yarn build:libs`.
 
 
-- Extract the publiic API.
+- Extract the public API.
 Run `yarn extract-all` in the breaking change tool home folder (tools/breaking-changes/).  This will extract the public api in ./src/*/temp folder into many files. (one per entry point)
 
 - Parse the public API

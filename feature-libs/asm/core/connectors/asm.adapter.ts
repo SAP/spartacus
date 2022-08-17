@@ -1,10 +1,9 @@
+import { CustomerListsPage } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 import {
-  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '@spartacus/asm/root';
-
+} from '../models/asm.models';
 export abstract class AsmAdapter {
   /**
    * Abstract function used to search for customers.

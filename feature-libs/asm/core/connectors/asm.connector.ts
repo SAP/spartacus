@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { CustomerListsPage } from '@spartacus/asm/root';
 import { Observable } from 'rxjs';
 import {
-  CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
-} from '@spartacus/asm/root';
+} from '../models/asm.models';
 import { AsmAdapter } from './asm.adapter';
 
 @Injectable({

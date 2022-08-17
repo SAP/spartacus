@@ -8,8 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AsmConfig, AsmService } from '@spartacus/asm/core';
-import { CustomerSearchPage } from '@spartacus/asm/root';
+import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
 import { User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
