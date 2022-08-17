@@ -8,11 +8,11 @@ import { CustomerListsPage } from '../model/customer-list.model';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: AsmFacade,
+      facade: AsmCustomerListFacade,
       feature: ASM_FEATURE,
       methods: ['getCustomerLists'],
     }),
 })
-export abstract class AsmFacade {
+export abstract class AsmCustomerListFacade {
   abstract getCustomerLists(): Observable<QueryState<CustomerListsPage>>;
 }

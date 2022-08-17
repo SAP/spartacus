@@ -1,1 +1,1 @@
-export * from './asm.facade';
+export * from './asm-customer-list.facade';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { AsmFacade, CustomerListsPage } from '@spartacus/asm/root';
+import { AsmCustomerListFacade, CustomerListsPage } from '@spartacus/asm/root';
 import { QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -18,7 +18,7 @@ import { AsmSelectors } from '../store/index';
 export class AsmService {
   constructor(
     protected store: Store<StateWithAsm>,
-    protected asmFacade: AsmFacade
+    protected asmFacade: AsmCustomerListFacade
   ) {}
 
   getCustomerLists(): Observable<QueryState<CustomerListsPage>> {

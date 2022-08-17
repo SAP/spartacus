@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-  AsmFacade,
+  AsmCustomerListFacade,
   CustomerListsPage,
   CustomerSearchOptions,
   CustomerSearchPage,
@@ -27,7 +27,7 @@ const mockCustomerSearchPage: CustomerSearchPage = {
   entries: [mockUser],
 };
 
-class MockAsmFacade implements Partial<AsmFacade> {
+class MockAsmFacade implements Partial<AsmCustomerListFacade> {
   getCustomerLists() {
     return NEVER;
   }
@@ -39,7 +39,7 @@ class MockAsmFacade implements Partial<AsmFacade> {
 describe('AsmService', () => {
   let service: AsmService;
   let store: Store<AsmState>;
-  let asmFacade: AsmFacade;
+  let asmFacade: AsmCustomerListFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -47,12 +47,15 @@ describe('AsmService', () => {
         StoreModule.forRoot({}),
         StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
       ],
-      providers: [AsmService, { provide: AsmFacade, useClass: MockAsmFacade }],
+      providers: [
+        AsmService,
+        { provide: AsmCustomerListFacade, useClass: MockAsmFacade },
+      ],
     });
 
     service = TestBed.inject(AsmService);
     store = TestBed.inject(Store);
-    asmFacade = TestBed.inject(AsmFacade);
+    asmFacade = TestBed.inject(AsmCustomerListFacade);
   });
 
   it('should be created', () => {

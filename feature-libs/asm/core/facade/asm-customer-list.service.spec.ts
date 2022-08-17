@@ -1,18 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  CustomerListsPage,
-  CustomerSearchOptions,
-  CustomerSearchPage,
-} from '@spartacus/asm/root';
-import {
-  CommandService,
-  QueryService,
-  QueryState,
-  User,
-} from '@spartacus/core';
+import { CustomerListsPage } from '@spartacus/asm/root';
+import { QueryService, QueryState, User } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { AsmConnector } from '../connectors';
-import { AsmQueryService } from './asm-query.service';
+import { CustomerSearchPage } from '../models/asm.models';
+import { AsmCustomerListService } from './asm-customer-list.service';
 
 const mockUser: User = {
   displayUid: 'Display Uid',
@@ -45,16 +37,15 @@ class MockAsmConnector implements Partial<AsmConnector> {
   }
 }
 
-describe('AsmQueryService', () => {
-  let service: AsmQueryService;
+describe('AsmCustomerListService', () => {
+  let service: AsmCustomerListService;
   let asmConnector: AsmConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        AsmQueryService,
+        AsmCustomerListService,
         QueryService,
-        CommandService,
         { provide: AsmConnector, useClass: MockAsmConnector },
       ],
     });
@@ -63,7 +54,7 @@ describe('AsmQueryService', () => {
     spyOn(asmConnector, 'customerLists').and.callThrough();
     spyOn(asmConnector, 'customerSearch').and.callThrough();
 
-    service = TestBed.inject(AsmQueryService);
+    service = TestBed.inject(AsmCustomerListService);
   });
 
   it('should be created', () => {
@@ -88,25 +79,6 @@ describe('AsmQueryService', () => {
       service.getCustomerLists().subscribe();
 
       expect(asmConnector.customerLists).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('getCustomers()', () => {
-    it('should request customers on subscription', () => {
-      let actual: CustomerSearchPage | undefined;
-      const expected: CustomerSearchPage = mockCustomerSearchPage;
-
-      service.getCustomers().subscribe((response) => (actual = response));
-
-      expect(actual).toEqual(expected);
-    });
-
-    it('should pass search options to the connector', () => {
-      let input: CustomerSearchOptions = { customerListId: 'mock-uid' };
-
-      service.getCustomers(input);
-
-      expect(asmConnector.customerSearch).toHaveBeenCalledWith(input);
     });
   });
 });
