@@ -1,18 +1,14 @@
 [
-  // This file contains the doc input for deleted members of API classes / interfaces.
-  // The file format is an array with a list of entries that contain the migration comment.
-  // Add a json entry like this for each deleted member.
-  //
-  // {
-  //   "apiElementName": "CustomerEmulationComponent",
-  //   "entryPoint": "@spartacus/asm/components",
-  //   "memberName": "userService",
-  //   "migrationComment": "Use method userFacade instead."
-  // },
-  // {
-  //   "apiElementName": "OtherComponent",
-  //   "entryPoint": "@spartacus/asm/components",
-  //   "memberName": "order",
-  //   "migrationComment": "Use the property currentOrder instead."
-  // }
+  {
+    "apiElementName": "ExampleClassName",
+    "entryPoint": "@spartacus/feature/components",
+    "memberName": "someService",
+    "migrationComment": "Use method otherService instead."
+  },
+  {
+    "apiElementName": "ExampleComponentName",
+    "entryPoint": "@spartacus/feature2/components",
+    "memberName": "order",
+    "migrationComment": "Use the property currentOrder instead."
+  }
 ]
