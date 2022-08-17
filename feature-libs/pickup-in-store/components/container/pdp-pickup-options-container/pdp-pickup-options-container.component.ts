@@ -90,7 +90,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
         iif(
           () =>
             intendedLocation?.pickupOption === 'pickup' &&
-            !!intendedLocation?.displayName,
+            !!intendedLocation.displayName,
           of(intendedLocation?.displayName),
           of(this.preferredStoreService.getPreferredStore()).pipe(
             filter(hasNames),

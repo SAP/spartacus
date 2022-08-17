@@ -28,7 +28,7 @@ export class PickupDeliveryInfoContainerComponent implements OnInit {
         filter((entries): entries is OrderEntry[] => !!entries),
         map((entries) =>
           entries
-            .map((entry) => entry?.deliveryPointOfService?.name)
+            .map((entry) => entry.deliveryPointOfService?.name)
             .filter((name): name is string => !!name)
         ),
         tap((storeNames) =>

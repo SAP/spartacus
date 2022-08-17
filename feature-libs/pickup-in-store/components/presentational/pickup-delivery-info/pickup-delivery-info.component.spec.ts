@@ -1,20 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PickupDeliveryInfoComponent } from './pickup-delivery-info.component';
 
-import { CxPickupDeliveryInfoComponent } from './pickup-delivery-info.component';
-
-describe('CxPickupDeliveryInfoComponent', () => {
-  let component: CxPickupDeliveryInfoComponent;
-  let fixture: ComponentFixture<CxPickupDeliveryInfoComponent>;
+describe('PickupDeliveryInfoComponent', () => {
+  let component: PickupDeliveryInfoComponent;
+  let fixture: ComponentFixture<PickupDeliveryInfoComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CxPickupDeliveryInfoComponent ]
-    })
-    .compileComponents();
+      declarations: [PickupDeliveryInfoComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CxPickupDeliveryInfoComponent);
+    fixture = TestBed.createComponent(PickupDeliveryInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
