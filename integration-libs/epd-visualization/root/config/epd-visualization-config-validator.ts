@@ -6,9 +6,15 @@
 
 import { UsageId, UsageIdDefinition } from '../models';
 import { getUrl, isHttpOrHttps } from '../util/url-utils';
-import { EpdVisualizationConfig, EpdVisualizationInnerConfig, UsageIdConfig } from './epd-visualization-config';
+import {
+  EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
+  UsageIdConfig,
+} from './epd-visualization-config';
 
-type ValidationFunction = (epdVisualizationConfig: EpdVisualizationConfig) => string | null;
+type ValidationFunction = (
+  epdVisualizationConfig: EpdVisualizationConfig
+) => string | null;
 
 export function epdVisualizationConfigValidator(
   epdVisualizationConfig: EpdVisualizationConfig
@@ -20,10 +26,10 @@ export function epdVisualizationConfigValidator(
     validateUsageIds,
     validateFolderUsageId,
     validateProductUsageId,
-    validateVisualPicking
-  ]
+    validateVisualPicking,
+  ];
 
-  for(var validationFunction of validationFunctions) {
+  for (var validationFunction of validationFunctions) {
     const errorMessage = validationFunction(epdVisualizationConfig);
     if (errorMessage !== null) {
       return errorMessage;
@@ -31,7 +37,9 @@ export function epdVisualizationConfigValidator(
   }
 }
 
-function validateEpdVisualization(epdVisualizationConfig: EpdVisualizationConfig): string | null {
+function validateEpdVisualization(
+  epdVisualizationConfig: EpdVisualizationConfig
+): string | null {
   const epdVisualization = epdVisualizationConfig.epdVisualization;
   if (!epdVisualization) {
     return unconfiguredPropertyMessage('epdVisualization');
@@ -39,8 +47,11 @@ function validateEpdVisualization(epdVisualizationConfig: EpdVisualizationConfig
   return null;
 }
 
-function validateApis(epdVisualizationConfig: EpdVisualizationConfig): string | null {
-  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
+function validateApis(
+  epdVisualizationConfig: EpdVisualizationConfig
+): string | null {
+  const epdVisualization =
+    epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
   if (!epdVisualization.apis) {
     return unconfiguredPropertyMessage('epdVisualization.apis');
   }
@@ -63,8 +74,11 @@ function validateApis(epdVisualizationConfig: EpdVisualizationConfig): string | 
   return null;
 }
 
-function validateUi5(epdVisualizationConfig: EpdVisualizationConfig): string | null {
-  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
+function validateUi5(
+  epdVisualizationConfig: EpdVisualizationConfig
+): string | null {
+  const epdVisualization =
+    epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
   if (!epdVisualization.ui5) {
     return unconfiguredPropertyMessage('epdVisualization.ui5');
   }
@@ -88,8 +102,11 @@ function validateUi5(epdVisualizationConfig: EpdVisualizationConfig): string | n
   return null;
 }
 
-function validateFolderUsageId(epdVisualizationConfig: EpdVisualizationConfig) : string | null {
-  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
+function validateFolderUsageId(
+  epdVisualizationConfig: EpdVisualizationConfig
+): string | null {
+  const epdVisualization =
+    epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
   const usageIds: UsageIdConfig = epdVisualization.usageIds as UsageIdConfig;
   const folderUsageId: UsageId = usageIds.folderUsageId;
   if (!folderUsageId.name) {
@@ -97,19 +114,12 @@ function validateFolderUsageId(epdVisualizationConfig: EpdVisualizationConfig) :
       'epdVisualization.usageIds.folderUsageId.name'
     );
   }
-  if (
-    !folderUsageId.keys ||
-    !folderUsageId.keys.length
-  ) {
+  if (!folderUsageId.keys || !folderUsageId.keys.length) {
     return unconfiguredPropertyMessage(
       'epdVisualization.usageIds.folderUsageId.keys'
     );
   }
-  for (
-    let i = 0;
-    i < folderUsageId.keys.length;
-    i++
-  ) {
+  for (let i = 0; i < folderUsageId.keys.length; i++) {
     if (!folderUsageId.keys[i].name) {
       return unconfiguredPropertyMessage(
         `epdVisualization.usageIds.folderUsageId.keys[${i}].name`
@@ -124,8 +134,11 @@ function validateFolderUsageId(epdVisualizationConfig: EpdVisualizationConfig) :
   return null;
 }
 
-function validateProductUsageId(epdVisualizationConfig: EpdVisualizationConfig) : string | null {
-  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
+function validateProductUsageId(
+  epdVisualizationConfig: EpdVisualizationConfig
+): string | null {
+  const epdVisualization =
+    epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
   const usageIds: UsageIdConfig = epdVisualization.usageIds as UsageIdConfig;
   const productUsageId: UsageIdDefinition = usageIds.productUsageId;
   if (!productUsageId.source) {
@@ -146,8 +159,11 @@ function validateProductUsageId(epdVisualizationConfig: EpdVisualizationConfig) 
   return null;
 }
 
-function validateUsageIds(epdVisualizationConfig: EpdVisualizationConfig): string | null {
-  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
+function validateUsageIds(
+  epdVisualizationConfig: EpdVisualizationConfig
+): string | null {
+  const epdVisualization =
+    epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
   if (!epdVisualization.usageIds) {
     return unconfiguredPropertyMessage('epdVisualization.usageIds');
   }
@@ -155,8 +171,11 @@ function validateUsageIds(epdVisualizationConfig: EpdVisualizationConfig): strin
   return null;
 }
 
-function validateVisualPicking(epdVisualizationConfig: EpdVisualizationConfig): string | null {
-  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
+function validateVisualPicking(
+  epdVisualizationConfig: EpdVisualizationConfig
+): string | null {
+  const epdVisualization =
+    epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
   if (!epdVisualization.visualPicking) {
     return unconfiguredPropertyMessage('epdVisualization.visualPicking');
   }

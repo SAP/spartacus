@@ -1138,7 +1138,9 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private destroyContentConnector(viewport: Viewport): void {
-    const contentConnector = this.getCore().byId(viewport.getContentConnector());
+    const contentConnector = this.getCore().byId(
+      viewport.getContentConnector()
+    );
     if (contentConnector) {
       contentConnector.destroy();
     }
@@ -1158,8 +1160,10 @@ export class VisualViewerService implements OnDestroy {
     }
   }
 
-  private getViewStateManager(viewport: Viewport) : ViewStateManager | null {
-    return this.getCore().byId(viewport.getViewStateManager()) as ViewStateManager | null;
+  private getViewStateManager(viewport: Viewport): ViewStateManager | null {
+    return this.getCore().byId(
+      viewport.getViewStateManager()
+    ) as ViewStateManager | null;
   }
 
   private destroyViewportAssociations(viewport: Viewport): void {
@@ -1172,9 +1176,9 @@ export class VisualViewerService implements OnDestroy {
 
     const viewStateManager = this.getViewStateManager(viewport);
     if (viewStateManager) {
-        this.destroyAnimationPlayer(viewStateManager);
-        this.destroyViewManager(viewStateManager);
-        viewStateManager.destroy();
+      this.destroyAnimationPlayer(viewStateManager);
+      this.destroyViewManager(viewStateManager);
+      viewStateManager.destroy();
     }
   }
 
