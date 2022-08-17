@@ -1,5 +1,9 @@
 cx-customer-ticketing-list {
   .cx-table {
+    @include media-breakpoint-down(lg) {
+      display: none;
+    }
+
     thead {
       border-top: 1px solid var(--cx-color-light);
 
@@ -22,6 +26,32 @@ cx-customer-ticketing-list {
           padding: 16px 0;
         }
       }
+    }
+  }
+
+  .cx-ticketing-list-mobile {
+    @include media-breakpoint-down(lg) {
+      border-top: 1px solid var(--cx-color-light);
+      display: flex;
+    }
+
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+
+    .cx-tickting-list-ticket-mobile-icon {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+
+    cx-icon {
+      color: #a0aabf;
+    }
+
+    .cx-ticketing-list-ticket-item-mobile {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      display: inline-block;
     }
   }
 
