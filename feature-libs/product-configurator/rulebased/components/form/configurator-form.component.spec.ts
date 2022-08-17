@@ -141,9 +141,7 @@ class MockConfiguratorGroupsService {
 class MockConfiguratorExpertModeService {
   setExpMode(): void {}
 
-  getExpMode(): Observable<boolean> {
-    return of(true);
-  }
+  getExpMode() {}
 }
 
 function checkConfigurationObs(
@@ -187,7 +185,7 @@ function checkCurrentGroupObs(
   );
 }
 
-describe('ConfigurationFormComponent', () => {
+fdescribe('ConfigurationFormComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
@@ -195,6 +193,7 @@ describe('ConfigurationFormComponent', () => {
   let mockLanguageService;
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorFormComponent>;
+  let component: ConfiguratorFormComponent;
 
   beforeEach(
     waitForAsync(() => {
@@ -275,7 +274,6 @@ describe('ConfigurationFormComponent', () => {
       ConfiguratorExpertModeService as Type<ConfiguratorExpertModeService>
     );
     spyOn(configExpertModeService, 'setExpMode').and.callThrough();
-    spyOn(configExpertModeService, 'getExpMode').and.callThrough();
 
     configuratorUtils.setOwnerKey(owner);
     configuratorCommonsService = TestBed.inject(
@@ -287,6 +285,7 @@ describe('ConfigurationFormComponent', () => {
 
   function createComponent(): ConfiguratorFormComponent {
     fixture = TestBed.createComponent(ConfiguratorFormComponent);
+    component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     return fixture.componentInstance;
   }
@@ -526,6 +525,30 @@ describe('ConfigurationFormComponent', () => {
         'cx-configurator-attribute-radio-button',
         2
       );
+    });
+  });
+
+  describe('expMode', () => {
+    it("should check whether expert mode status is set to 'true'", () => {
+      createComponent();
+      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(true));
+
+      component.expMode
+        .subscribe((expMode) => {
+          expect(expMode).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it("should check whether expert mode status is set to 'false'", () => {
+      createComponent();
+      spyOn(configExpertModeService, 'getExpMode').and.returnValue(of(false));
+
+      component.expMode
+        .subscribe((expMode) => {
+          expect(expMode).toBe(false);
+        })
+        .unsubscribe();
     });
   });
 });

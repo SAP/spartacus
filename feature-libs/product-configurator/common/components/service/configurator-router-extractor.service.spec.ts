@@ -62,6 +62,7 @@ describe('ConfigRouterExtractorService', () => {
   it('should create component', () => {
     expect(serviceUnderTest).toBeDefined();
   });
+
   describe('extractRouterData', () => {
     it('should find proper owner for route based purely on product code', () => {
       let owner: CommonConfigurator.Owner;
@@ -182,6 +183,17 @@ describe('ConfigRouterExtractorService', () => {
         .unsubscribe();
     });
 
+    it('should check whether an expert was set via query parameter', () => {
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.expMode).toBe(false);
+        })
+        .unsubscribe();
+    });
+
     it('should tell from the URL if we need to fetch a configuration for an expert mode', () => {
       mockRouterState.state.queryParams = { expMode: 'true' };
       let routerData: ConfiguratorRouter.Data;
@@ -190,6 +202,18 @@ describe('ConfigRouterExtractorService', () => {
         .subscribe((data) => {
           routerData = data;
           expect(routerData.expMode).toBe(true);
+        })
+        .unsubscribe();
+    });
+
+    it('should tell from the URL if we do not need to fetch a configuration for an expert mode', () => {
+      mockRouterState.state.queryParams = { expMode: 'false' };
+      let routerData: ConfiguratorRouter.Data;
+      serviceUnderTest
+        .extractRouterData()
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.expMode).toBe(false);
         })
         .unsubscribe();
     });
