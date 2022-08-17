@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/setup",
-  "version": "4.3.6",
+  "version": "4.3.7",
   "description": "Includes features that makes Spartacus and it's setup easier and streamlined.",
   "keywords": [
     "spartacus",
@@ -17,9 +17,9 @@
   },
   "peerDependencies": {
     "@angular/core": "^12.0.5",
-    "@spartacus/checkout": "4.3.6",
-    "@spartacus/core": "4.3.6",
-    "@spartacus/user": "4.3.6"
+    "@spartacus/checkout": "4.3.7",
+    "@spartacus/core": "4.3.7",
+    "@spartacus/user": "4.3.7"
   },
   "optionalDependencies": {
     "@nguniversal/express-engine": "^12.0.2",
