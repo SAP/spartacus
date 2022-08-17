@@ -62,7 +62,7 @@ cx-customer-ticketing-list {
     padding: 6px 4px;
     border: 1px solid var(--cx-color-light);
     margin-bottom: 20px;
-    background-color: var(--cx-color-inverse);
+    background-color: #fbfbfb;
 
     @include media-breakpoint-down(lg) {
       @include type(7, $font-weight-normal);
