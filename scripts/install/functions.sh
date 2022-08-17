@@ -211,10 +211,24 @@ function restore_clone {
     fi
 }
 
+function patch_pm2() {
+    printh "Patching PM2"
+    NPM_DIR=`npm config get prefix`
+    PM2_PATCH_SEARCH="require('module')._load(process.env.pm_exec_path, null, true);"
+    PM2_PATCH_REPLACEMENT="import(process.env.pm_exec_path);"
+    PM2_PATCH_FILE=`find $NPM_DIR/lib/node_modules/pm2 -iname 'ProcessContainerFork.js'`
+
+    print "Patching '$PM2_PATCH_FILE'"
+    sed -i.bak "s/$PM2_PATCH_SEARCH/$PM2_PATCH_REPLACEMENT/gi" $PM2_PATCH_FILE
+    rm $PM2_PATCH_FILE
+}
+
 function install_from_sources {
     printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
 
     prepare_install
+
+    patch_pm2
 
     npm set @spartacus:registry http://localhost:4873/
 
