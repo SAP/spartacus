@@ -20,5 +20,9 @@ export const customerTicketing = {
     noTickets: `You don't have any request`,
     requestTitle: 'All Requests',
     sortSubtitle: 'Sort by',
+    // Mobile view
+    ticketIdFull: 'Ticket ID',
+    dateCreated: 'Date Created',
+    dateUpdated: 'Date Updated',
   },
 };
