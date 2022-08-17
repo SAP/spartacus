@@ -82,11 +82,17 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   const locale = 'en';
   let htmlElem: HTMLElement;
   let configuratorAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService;
-  let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = { ...defaultConfiguratorUISettingsConfig, productConfigurator: { ...defaultConfiguratorUISettingsConfig.productConfigurator } };
+  let configuratorUISettingsConfig: ConfiguratorUISettingsConfig = {
+    ...defaultConfiguratorUISettingsConfig,
+    productConfigurator: {
+      ...defaultConfiguratorUISettingsConfig.productConfigurator,
+    },
+  };
 
   beforeEach(
     waitForAsync(() => {
-      configuratorUISettingsConfig.productConfigurator = defaultConfiguratorUISettingsConfig.productConfigurator;
+      configuratorUISettingsConfig.productConfigurator =
+        defaultConfiguratorUISettingsConfig.productConfigurator;
       mockLanguageService = {
         getAll: () => of([]),
         getActive: jasmine.createSpy().and.returnValue(of(locale)),

@@ -211,6 +211,38 @@ describe('ConfigUtilsService', () => {
     expect(values.length).toBe(1);
   });
 
+  it('should gracefully handle situation that no values are present: an empty array should be returned', () => {
+    const controlArray = new Array<FormControl>();
+    const control1 = new FormControl(true);
+    controlArray.push(control1);
+    const attribute: Configurator.Attribute = {
+      name: 'attr',
+    };
+
+    const values: Configurator.Value[] =
+      classUnderTest.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
+    expect(values.length).toBe(0);
+  });
+
+  describe('scroll', () => {
+    it('should ', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const focusedElements = createFocusedElements('ATTR', 2, 3);
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(focusedElements);
+      spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+        focusedElements
+      );
+      //const element = {};
+      //classUnderTest['scroll'](element)
+      //expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('Focused elements', () => {
     describe('focusFirstAttribute', () => {
       it('should delegate to keyboard focus service', () => {
