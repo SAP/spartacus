@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -40,7 +41,7 @@ export class ConfiguratorGroupTitleComponent {
 
   iconTypes = ICON_TYPE;
 
-  //TODO(CXSPA-1014): take care about constructor deprecation
+  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
   constructor(
     configuratorCommonsService: ConfiguratorCommonsService,
     configuratorGroupsService: ConfiguratorGroupsService,

@@ -64,7 +64,7 @@ export class ConfiguratorProductTitleComponent {
   showMore = false;
   iconTypes = ICON_TYPE;
 
-  //TODO(CXSPA-1014): take care about constructor deprecation
+  //TODO(CXSPA-1014): make ConfiguratorExpertModeService a required dependency
   constructor(
     configuratorCommonsService: ConfiguratorCommonsService,
     configRouterExtractorService: ConfiguratorRouterExtractorService,
