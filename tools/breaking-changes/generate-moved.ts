@@ -16,10 +16,14 @@ import * as common from './common';
  * -----------
  */
 
- const breakingChangesData = common.readBreakingChangeFile();
+const breakingChangesData = common.readBreakingChangeFile();
 const movedApiSchematics = [];
 breakingChangesData
-  .filter((apiElement: any) => apiElement.isMoved && !apiElement.namespace)
+  .filter((apiElement: any) => !apiElement.namespace) // schematics doesn't support namespaces
+  .filter(
+    (apiElement: any) =>
+      apiElement.isMoved || common.isElementRenamed(apiElement)
+  )
   .forEach((apiElement: any) => {
     movedApiSchematics.push(getSchematicsData(apiElement));
   });
@@ -36,8 +40,8 @@ function getSchematicsData(apiElement: any): any {
   const schematicsData: any = {};
   schematicsData.previousNode = apiElement.name;
   schematicsData.previousImportPath = apiElement.entryPoint;
-  if (!!apiElement.newName) {
-    schematicsData.newNode = apiElement.newName;
+  if (common.isElementRenamed(apiElement)) {
+    schematicsData.newNode = common.getNewName(apiElement);
   }
   if (!!apiElement.newEntryPoint) {
     schematicsData.newImportPath = apiElement.newEntryPoint;

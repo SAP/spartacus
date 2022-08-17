@@ -4,8 +4,10 @@ import * as fs from 'fs';
 
 export const NEW_MAJOR_VERSION = '6';
 export const BREAKING_CHANGES_FILE_PATH = `data/${NEW_MAJOR_VERSION}_0/breaking-changes.json`;
-export const DELETED_API_COMMENTS_FILE_PATH = `../../docs/migration/${NEW_MAJOR_VERSION}_0/deleted-api.json`;
-export const DELETED_MEMBERS_COMMENTS_FILE_PATH = `../../docs/migration/${NEW_MAJOR_VERSION}_0/deleted-api-members.json`;
+export const MAJOR_VERSION_DOC_HOME = `../../docs/migration/${NEW_MAJOR_VERSION}_0`;
+export const DELETED_API_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/deleted-api.json`;
+export const DELETED_MEMBERS_COMMENTS_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/deleted-api-members.json`;
+export const RENAMED_API_LOOKUP_FILE_PATH = `${MAJOR_VERSION_DOC_HOME}/renamed-api.json`;
 
 // Shared Functions
 export function readBreakingChangeFile(): any {
@@ -64,6 +66,63 @@ export function findDeletedMemberComment(
     );
   });
   return memberCommentEntry?.migrationComment || '';
+}
+
+export function readRenamedApiLookupFile(): any {
+  const renamedApiLookupData = JSON.parse(
+    fs.readFileSync(RENAMED_API_LOOKUP_FILE_PATH, 'utf-8')
+  );
+  console.log(
+    `Read: ${RENAMED_API_LOOKUP_FILE_PATH}, ${renamedApiLookupData.length} entries`
+  );
+  return renamedApiLookupData;
+}
+
+export function findRenamedApiLookup(
+  apiElement: any,
+  renamedApiLookupData: any[]
+): any {
+  const renamedApiLookupEntry = renamedApiLookupData.find((entry) => {
+    return (
+      entry.apiElementName === apiElement.name &&
+      entry.entryPoint === apiElement.entryPoint
+    );
+  });
+  return renamedApiLookupEntry;
+}
+
+function findElementInApi(
+  apiData: Array<any>,
+  apiElementName: string,
+  entryPoint: string
+): any {
+  return apiData.find((apiDataElement) => {
+    return (
+      apiDataElement.name === apiElementName &&
+      apiDataElement.entryPoint === entryPoint
+    );
+  });
+}
+
+export function findRenamedElementInApi(
+  newApiData: any,
+  renamedApiLookupData: any,
+  oldApiElement: any
+) {
+  const renamedApiMapping = findRenamedApiLookup(
+    oldApiElement,
+    renamedApiLookupData
+  );
+
+  if (!renamedApiMapping) return undefined;
+
+  const renamedElemment = findElementInApi(
+    newApiData,
+    renamedApiMapping.newApiElementName,
+    renamedApiMapping.newEntryPoint
+  );
+
+  return renamedElemment;
 }
 
 export function printStats(breakingChangeElements: any[]) {
@@ -172,5 +231,38 @@ export function getElementCategory(apiElement: any): string {
   }
   throw new Error(
     `Unknown api element category for element "${apiElement.name}" with kind ${apiElement.kind}}`
+  );
+}
+
+export function getNewName(apiElement: any): boolean {
+  const breakingChangeEntry = getTopLevelBreakingChangeEntry(
+    apiElement,
+    'RENAMED'
+  );
+  return breakingChangeEntry?.newName;
+}
+
+export function isElementRenamed(apiElement: any): boolean {
+  const breakingChangeEntry = getTopLevelBreakingChangeEntry(
+    apiElement,
+    'RENAMED'
+  );
+  return !!breakingChangeEntry;
+}
+
+export function getTopLevelBreakingChangeEntry(
+  apiElement: any,
+  changeType: string
+): any {
+  const breakingChangeEntry = getAllTopLevelBreakingChanges(apiElement).find(
+    (breakingChange: any) => breakingChange.changeType === changeType
+  );
+
+  return breakingChangeEntry;
+}
+
+export function getAllTopLevelBreakingChanges(apiElement: any): any[] {
+  return apiElement.breakingChanges.filter((breakingChange: any) =>
+    isTopLevelApi(breakingChange.changeKind)
   );
 }

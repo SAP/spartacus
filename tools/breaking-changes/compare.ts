@@ -11,6 +11,7 @@ const newApiData = JSON.parse(fs.readFileSync(newApiFile, 'utf-8'));
 const oldApiData = JSON.parse(fs.readFileSync(oldApiFile, 'utf-8'));
 const deletedCommentsData = common.readDeletedApiCommentsFile();
 const deletedMembersCommentData = common.readDeletedMembersCommentsFile();
+const renamedApiLookupData = common.readRenamedApiLookupFile();
 
 console.log(`Comparing public API between:`);
 console.log(`old: ${oldApiFile}, ${oldApiData.length} entries`);
@@ -31,23 +32,47 @@ oldApiData.forEach((oldApiElement: any) => {
     }
   } else {
     // Old Element is not in new api
-    // Was it moved?
-    const newApiElementMoved = findMovedElementInApi(newApiData, oldApiElement);
+    // was it renamed?
+    let newApiElementMoved = common.findRenamedElementInApi(
+      newApiData,
+      renamedApiLookupData,
+      oldApiElement
+    );
+
+    // If no element found via rename lookup, try to detect a move by matching the name.
+    if (!newApiElementMoved) {
+      newApiElementMoved = findMovedElementInApi(newApiData, oldApiElement);
+    }
+
     if (newApiElementMoved) {
-      // element was moved
-      oldApiElement.isMoved = true;
-      oldApiElement.newName = '';
-      oldApiElement.newEntryPoint = newApiElementMoved.entryPoint;
-      (oldApiElement.newNamespace = newApiElementMoved.namespace ?? ''),
+      //element was moved and/or renamed
+
+      // handle rename
+      if (oldApiElement.name !== newApiElementMoved.name) {
         addBreakingChanges(oldApiElement, [
           {
-            ...getChangeDesc(oldApiElement, 'MOVED'),
-            to: {
-              entryPoint: newApiElementMoved.entryPoint,
-              namespace: newApiElementMoved.namespace ?? '',
-            },
+            ...getChangeDesc(oldApiElement, 'RENAMED'),
+            newName: newApiElementMoved.name,
           },
         ]);
+      }
+
+      //handle move
+      if (oldApiElement.entryPoint !== newApiElementMoved.entryPoint) {
+        oldApiElement.isMoved = true;
+        oldApiElement.newEntryPoint = newApiElementMoved.entryPoint;
+        (oldApiElement.newNamespace = newApiElementMoved.namespace ?? ''),
+          addBreakingChanges(oldApiElement, [
+            {
+              ...getChangeDesc(oldApiElement, 'MOVED'),
+              to: {
+                entryPoint: newApiElementMoved.entryPoint,
+                namespace: newApiElementMoved.namespace ?? '',
+              },
+            },
+          ]);
+      }
+      // handle inner breaking changes
       const elementBreakingChanges = compareElements(
         oldApiElement,
         newApiElementMoved

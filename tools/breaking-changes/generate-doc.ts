@@ -36,8 +36,13 @@ function getBreakingChangeDoc(apiElement: any): string {
   let doc = getDocHeader(apiElement);
   if (apiElement.isDeleted) {
     doc += getDeletdDoc(apiElement) + '\n';
-  } else if (apiElement.isMoved) {
+  }
+
+  if (apiElement.isMoved) {
     doc += getMovedDoc(apiElement) + '\n';
+  }
+  if (common.isElementRenamed(apiElement)) {
+    doc += getRenamedDoc(apiElement) + '\n';
   }
   doc += getChangedDoc(apiElement);
 
@@ -64,9 +69,6 @@ function getFullName(apiElement: any): string {
   }
 }
 
-function isRenamed(apiElement: any): boolean {
-  return !!apiElement.newName;
-}
 function hasNewNamespace(apiElement: any): boolean {
   return !!apiElement.newNamespace;
 }
@@ -89,10 +91,14 @@ function getMovedDoc(apiElement: any): string {
   if (hasNewNamespace(apiElement)) {
     movedDoc = movedDoc + `moved to namespace ${apiElement.newNamespace}\n`;
   }
-  if (isRenamed(apiElement)) {
-    movedDoc = movedDoc + `renamed to ${apiElement.newName}\n`;
-  }
   return movedDoc;
+}
+function getRenamedDoc(apiElement: any): string {
+  let renamedDoc = '';
+  if (common.isElementRenamed(apiElement)) {
+    renamedDoc = `renamed to ${common.getNewName(apiElement)}\n`;
+  }
+  return renamedDoc;
 }
 
 function getMembersDoc(apiElement: any): string {
