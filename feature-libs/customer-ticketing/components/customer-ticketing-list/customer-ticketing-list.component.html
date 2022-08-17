@@ -22,6 +22,61 @@
     </select>
 
     <ng-container class="cx-ticket-list" *ngIf="tickets.length > 0">
+      <div class="cx-ticketing-list-mobile" *ngFor="let ticket of tickets">
+        <div class="col-11">
+          <div>
+            <span class="col-4 cx-ticketing-list-ticket-item-mobile">
+            {{ 'customerTicketing.ticketIdFull' | cxTranslate }}
+            </span>
+            <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+            {{ ticket.id }}
+            </span>
+          </div>
+          <div>
+            <span class="col-4 cx-ticketing-list-ticket-item-mobile">
+            {{ 'customerTicketing.subject' | cxTranslate }}
+            </span>
+            <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+            {{ ticket.subject }}
+            </span>
+          </div>
+          <div>
+            <span class="col-4 cx-ticketing-list-ticket-item-mobile">
+            {{ 'customerTicketing.ticketCategory' | cxTranslate }}
+            </span>
+            <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+            {{ ticket.ticketCategory }}
+            </span>
+          </div>
+          <div>
+            <span class="col-4 cx-ticketing-list-ticket-item-mobile">
+            {{ 'customerTicketing.dateCreated' | cxTranslate }}
+            </span>
+            <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+            {{ ticket.createdAt }}
+            </span>
+          </div>
+          <div>
+            <span class="col-4 cx-ticketing-list-ticket-item-mobile">
+            {{ 'customerTicketing.dateUpdated' | cxTranslate }}
+            </span>
+            <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+            {{ ticket.modifiedAt }}
+            </span>
+          </div>
+          <div>
+            <span class="col-4 cx-ticketing-list-ticket-item-mobile">
+            {{ 'customerTicketing.status' | cxTranslate }}
+            </span>
+            <span class="col-8 cx-ticketing-list-ticket-item-mobile">
+            {{ ticket.status }}
+            </span>
+          </div>
+        </div>
+        <div class="col-1 cx-tickting-list-ticket-mobile-icon">
+          <cx-icon class="fa fa-angle-right fa-2x"></cx-icon>
+        </div>
+      </div>
       <table class="table cx-table">
         <thead>
           <tr>
