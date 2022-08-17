@@ -4,21 +4,43 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import { UsageId, UsageIdDefinition } from '../models';
 import { getUrl, isHttpOrHttps } from '../util/url-utils';
-import { EpdVisualizationConfig } from './epd-visualization-config';
+import { EpdVisualizationConfig, EpdVisualizationInnerConfig, UsageIdConfig } from './epd-visualization-config';
+
+type ValidationFunction = (epdVisualizationConfig: EpdVisualizationConfig) => string | null;
 
 export function epdVisualizationConfigValidator(
   epdVisualizationConfig: EpdVisualizationConfig
 ): string | void {
-  // -- epdVisualization
+  const validationFunctions: ValidationFunction[] = [
+    validateEpdVisualization,
+    validateApis,
+    validateUi5,
+    validateUsageIds,
+    validateFolderUsageId,
+    validateProductUsageId,
+    validateVisualPicking
+  ]
 
+  for(var validationFunction of validationFunctions) {
+    const errorMessage = validationFunction(epdVisualizationConfig);
+    if (errorMessage !== null) {
+      return errorMessage;
+    }
+  }
+}
+
+function validateEpdVisualization(epdVisualizationConfig: EpdVisualizationConfig): string | null {
   const epdVisualization = epdVisualizationConfig.epdVisualization;
   if (!epdVisualization) {
     return unconfiguredPropertyMessage('epdVisualization');
   }
+  return null;
+}
 
-  // -- apis section
-
+function validateApis(epdVisualizationConfig: EpdVisualizationConfig): string | null {
+  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
   if (!epdVisualization.apis) {
     return unconfiguredPropertyMessage('epdVisualization.apis');
   }
@@ -38,9 +60,11 @@ export function epdVisualizationConfigValidator(
   if (!isHttpOrHttps(apiBaseUrl)) {
     return invalidUrlProtocolMessage(configApisBaseUrlProperty);
   }
+  return null;
+}
 
-  // -- ui5 section
-
+function validateUi5(epdVisualizationConfig: EpdVisualizationConfig): string | null {
+  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
   if (!epdVisualization.ui5) {
     return unconfiguredPropertyMessage('epdVisualization.ui5');
   }
@@ -61,20 +85,21 @@ export function epdVisualizationConfigValidator(
   if (!isHttpOrHttps(ui5BootStrapUrl)) {
     return invalidUrlProtocolMessage(configUi5BootstrapUrlProperty);
   }
+  return null;
+}
 
-  // -- usageIds section
-
-  if (!epdVisualization.usageIds) {
-    return unconfiguredPropertyMessage('epdVisualization.usageIds');
-  }
-  if (!epdVisualization.usageIds.folderUsageId.name) {
+function validateFolderUsageId(epdVisualizationConfig: EpdVisualizationConfig) : string | null {
+  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
+  const usageIds: UsageIdConfig = epdVisualization.usageIds as UsageIdConfig;
+  const folderUsageId: UsageId = usageIds.folderUsageId;
+  if (!folderUsageId.name) {
     return unconfiguredPropertyMessage(
       'epdVisualization.usageIds.folderUsageId.name'
     );
   }
   if (
-    !epdVisualization.usageIds.folderUsageId.keys ||
-    !epdVisualization.usageIds.folderUsageId.keys.length
+    !folderUsageId.keys ||
+    !folderUsageId.keys.length
   ) {
     return unconfiguredPropertyMessage(
       'epdVisualization.usageIds.folderUsageId.keys'
@@ -82,39 +107,56 @@ export function epdVisualizationConfigValidator(
   }
   for (
     let i = 0;
-    i < epdVisualization.usageIds.folderUsageId.keys.length;
+    i < folderUsageId.keys.length;
     i++
   ) {
-    if (!epdVisualization.usageIds.folderUsageId.keys[i].name) {
+    if (!folderUsageId.keys[i].name) {
       return unconfiguredPropertyMessage(
         `epdVisualization.usageIds.folderUsageId.keys[${i}].name`
       );
     }
-    if (!epdVisualization.usageIds.folderUsageId.keys[i].value) {
+    if (!folderUsageId.keys[i].value) {
       return unconfiguredPropertyMessage(
         `epdVisualization.usageIds.folderUsageId.keys[${i}].value`
       );
     }
   }
+  return null;
+}
 
-  if (!epdVisualization.usageIds.productUsageId.source) {
+function validateProductUsageId(epdVisualizationConfig: EpdVisualizationConfig) : string | null {
+  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
+  const usageIds: UsageIdConfig = epdVisualization.usageIds as UsageIdConfig;
+  const productUsageId: UsageIdDefinition = usageIds.productUsageId;
+  if (!productUsageId.source) {
     return unconfiguredPropertyMessage(
       'epdVisualization.usageIds.productUsageId.source'
     );
   }
-  if (!epdVisualization.usageIds.productUsageId.category) {
+  if (!productUsageId.category) {
     return unconfiguredPropertyMessage(
       'epdVisualization.usageIds.productUsageId.category'
     );
   }
-  if (!epdVisualization.usageIds.productUsageId.keyName) {
+  if (!productUsageId.keyName) {
     return unconfiguredPropertyMessage(
       'epdVisualization.usageIds.productUsageId.keyName'
     );
   }
+  return null;
+}
 
-  // -- visualPicking section
+function validateUsageIds(epdVisualizationConfig: EpdVisualizationConfig): string | null {
+  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
+  if (!epdVisualization.usageIds) {
+    return unconfiguredPropertyMessage('epdVisualization.usageIds');
+  }
 
+  return null;
+}
+
+function validateVisualPicking(epdVisualizationConfig: EpdVisualizationConfig): string | null {
+  const epdVisualization = epdVisualizationConfig.epdVisualization as EpdVisualizationInnerConfig;
   if (!epdVisualization.visualPicking) {
     return unconfiguredPropertyMessage('epdVisualization.visualPicking');
   }
@@ -124,6 +166,7 @@ export function epdVisualizationConfigValidator(
       'epdVisualization.visualPicking.productReferenceType'
     );
   }
+  return null;
 }
 
 function unconfiguredPropertyMessage(propertyName: string) {
