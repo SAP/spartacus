@@ -61,4 +61,12 @@ debug.log
 .DS_Store
 Thumbs.db
 
+# Yarn Files
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
 **/git-ignore

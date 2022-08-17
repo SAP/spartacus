@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '12'
       - name: Yarn
-        run: yarn
+        run: yarn --immutable
       - name: Check configurations
         run: yarn config:check
         env:

@@ -5,3 +5,11 @@ cypress.env.json
 cypress/fixtures/example.json
 cypress/downloads
 results
+
+# Yarn Files
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
