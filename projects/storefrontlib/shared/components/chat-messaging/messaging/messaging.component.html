@@ -5,7 +5,7 @@
       <ng-container *ngFor="let event of messageDetails.messages">
         <div
           class="cx-message-card"
-          [ngClass]="{ 'padding-left': event.author !== 'Mark Rivers' }"
+          [ngClass]="{ 'cx-message-display': event.author !== 'Mark Rivers' }"
         >
           <cx-avatar [event]="event"> </cx-avatar>
 
