@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { TicketDetails } from '@spartacus/customer-ticketing/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CustomerTicketingAdapter } from './customer-ticketing.adapter';
@@ -6,10 +7,14 @@ import { CustomerTicketingConnector } from './customer-ticketing.connector';
 
 import createSpy = jasmine.createSpy;
 
+const mockTicketDetails: TicketDetails = {
+  id: '1',
+  subject: 'mockTicket',
+};
 class MockCustomerTicketingAdapter
   implements Partial<CustomerTicketingAdapter>
 {
-  getTicket = createSpy().and.returnValue(of({}));
+  getTicket = createSpy().and.returnValue(of(mockTicketDetails));
 }
 
 describe('CustomerTicketingConnentor', () => {
