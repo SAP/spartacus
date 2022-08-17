@@ -7,7 +7,6 @@ import {
   PdpPickupOptionsContainerModule,
   PickupDeliveryInfoContainerModule,
 } from './container/index';
-
 @NgModule({
   imports: [
     ReactiveFormsModule,

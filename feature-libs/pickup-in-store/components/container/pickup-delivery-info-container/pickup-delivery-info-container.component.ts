@@ -14,6 +14,7 @@ import { filter, map, mergeMap, tap } from 'rxjs/operators';
 })
 export class PickupDeliveryInfoContainerComponent implements OnInit {
   cart$: Observable<Cart>;
+  storesDetailsData: Object[];
   constructor(
     protected readonly activeCartService: ActiveCartFacade,
     protected readonly intendedPickupLocationService: IntendedPickupLocationFacade,
@@ -44,14 +45,15 @@ export class PickupDeliveryInfoContainerComponent implements OnInit {
             )
           )
         ),
-        tap((data) => console.log('cart', data))
+        map((data) =>
+          data.map(({ address, displayName, openingHours }) => ({
+            address,
+            displayName,
+            openingHours,
+          }))
+        ),
+        tap((data) => (this.storesDetailsData = data))
       )
       .subscribe();
-
-    // this.intendedPickupLocationService
-    //   .getIntendedLocation('300310300')
-    //   .subscribe((code) => {
-    //     console.log('location', code);
-    //   });
   }
 }
