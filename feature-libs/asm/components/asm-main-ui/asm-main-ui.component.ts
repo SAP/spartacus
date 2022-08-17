@@ -48,8 +48,8 @@ export class AsmMainUiComponent implements OnInit {
     asmComponentService: AsmComponentService,
     globalMessageService: GlobalMessageService,
     routingService: RoutingService,
-    userAccountFacade: UserAccountFacade,
     asmService: AsmService,
+    userAccountFacade: UserAccountFacade,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     modalService: ModalService
   );
@@ -62,18 +62,17 @@ export class AsmMainUiComponent implements OnInit {
     asmComponentService: AsmComponentService,
     globalMessageService: GlobalMessageService,
     routingService: RoutingService,
-    userAccountFacade: UserAccountFacade,
-    asmService: AsmService
+    asmService: AsmService,
+    userAccountFacade: UserAccountFacade
   );
-
   constructor(
     protected authService: AuthService,
     protected csAgentAuthService: CsAgentAuthService,
     protected asmComponentService: AsmComponentService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    protected userAccountFacade: UserAccountFacade,
     protected asmService: AsmService,
+    protected userAccountFacade: UserAccountFacade,
     @Optional() protected modalService?: ModalService
   ) {}
 
