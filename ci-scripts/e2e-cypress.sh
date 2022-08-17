@@ -49,9 +49,9 @@ set -- "${POSITIONAL[@]}"
 echo '-----'
 echo "Building Spartacus libraries"
 
-yarn install
+yarn install --immutable
 
-(cd projects/storefrontapp-e2e-cypress && yarn install)
+(cd projects/storefrontapp-e2e-cypress && yarn install --immutable)
 
 yarn build:libs 2>&1 | tee build.log
 
