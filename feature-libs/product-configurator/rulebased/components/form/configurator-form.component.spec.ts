@@ -185,7 +185,7 @@ function checkCurrentGroupObs(
   );
 }
 
-fdescribe('ConfigurationFormComponent', () => {
+describe('ConfigurationFormComponent', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
