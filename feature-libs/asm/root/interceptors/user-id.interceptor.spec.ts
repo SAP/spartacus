@@ -1,4 +1,8 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpContext,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -9,6 +13,10 @@ import { take } from 'rxjs/operators';
 
 import { OCC_USER_ID_CURRENT } from '../../../../projects/core/src/occ/utils/occ-constants';
 import { UserIdService } from '../../../../projects/core/src/auth/user-auth/facade';
+import {
+  OCC_ASM_TOKEN,
+  OCC_USER_ID_CONSTANTS,
+} from '../../../../projects/core/src/occ/utils';
 import { UserIdInterceptor } from './user-id.interceptor';
 
 describe('UserIdInterceptor', () => {
@@ -26,6 +34,7 @@ describe('UserIdInterceptor', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        { provide: OCC_USER_ID_CONSTANTS, useValue: [] },
         { provide: UserIdService, useClass: MockUserIdService },
         {
           provide: HTTP_INTERCEPTORS,
@@ -108,8 +117,10 @@ describe('UserIdInterceptor', () => {
   });
 
   it("should add a 'sap-commerce-cloud-user-id' header to the request if a user is being emulated", (done) => {
+    const context = new HttpContext().set(OCC_ASM_TOKEN, {});
+
     http
-      .get('/products/search')
+      .get('/products/search', { context })
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toBe('bar');
