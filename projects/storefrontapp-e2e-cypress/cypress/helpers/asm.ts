@@ -25,7 +25,7 @@ export function listenForAuthenticationRequest(): string {
 
 export function listenForCustomerSearchRequest(): string {
   return interceptGet(
-    'customerLists',
+    'customerSearch',
     '/assistedservicewebservices/customers/search?*',
     false
   );
@@ -33,7 +33,7 @@ export function listenForCustomerSearchRequest(): string {
 
 export function listenForCustomerListsRequest(): string {
   return interceptGet(
-    'customerSearch',
+    'customerLists',
     '/assistedservicewebservices/customerlists?*',
     false
   );
