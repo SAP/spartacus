@@ -37,10 +37,7 @@ describe('CustomerTicketingEventListener', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  function assertServiceDispatchForEvent(
-    event: CxEvent,
-    dispatchedEvent: CxEvent
-  ) {
+  function assertServiceDispatchForEvent(event: CxEvent, dispatchedEvent: any) {
     mockEventStream$.next(event);
     expect(eventService.dispatch).toHaveBeenCalledWith({}, dispatchedEvent);
   }
