@@ -1,10 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  ConverterService,
-  OccEndpointsService,
-  PointOfService,
-} from '@spartacus/core';
+import { OccEndpointsService, PointOfService } from '@spartacus/core';
 import { PickupLocationAdapter } from '@spartacus/pickup-in-store/core';
 import {
   SetPickupOptionInStorePayload,
@@ -16,9 +18,10 @@ import { Observable } from 'rxjs';
 export class OccPickupLocationAdapter implements PickupLocationAdapter {
   constructor(
     protected http: HttpClient,
-    protected occEndpointsService: OccEndpointsService,
-    protected converterService: ConverterService
-  ) {}
+    protected occEndpointsService: OccEndpointsService
+  ) {
+    // Intentional empty constructor
+  }
 
   getStoreDetails(storeName: string): Observable<PointOfService> {
     return this.http.get<PointOfService>(

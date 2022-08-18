@@ -104,16 +104,21 @@ describe('StockSelectors', () => {
     };
     const storeWithStockInfoAndNoStock: PointOfServiceStock = {
       name: 'store with stock info and no stock',
-      stockInfo: { stockLevel: 0 },
+      stockInfo: { stockLevelStatus: 'outOfStock' },
+    };
+    const storeWithStockInfoAndLowStock: PointOfServiceStock = {
+      name: 'store with stock info and no stock',
+      stockInfo: { stockLevelStatus: 'lowStock' },
     };
     const storeWithStockInfoAndStock: PointOfServiceStock = {
       name: 'store with stock info and stock',
-      stockInfo: { stockLevel: 1 },
+      stockInfo: { stockLevelStatus: 'inStock' },
     };
 
     const stores: PointOfServiceStock[] = [
       storeWithoutStockInfo,
       storeWithStockInfoAndNoStock,
+      storeWithStockInfoAndLowStock,
       storeWithStockInfoAndStock,
     ];
 

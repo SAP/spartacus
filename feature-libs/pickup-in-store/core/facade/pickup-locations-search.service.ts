@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
@@ -29,7 +35,9 @@ export class PickupLocationsSearchService
 {
   constructor(
     protected readonly store: Store<StateWithStock & StateWithPickupLocations>
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   stockLevelAtStore(productCode: string, storeName: string): void {
     this.store.dispatch(

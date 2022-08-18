@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
@@ -99,6 +105,10 @@ if (environment.epdVisualization) {
   featureModules.push(EpdVisualizationFeatureModule);
 }
 
+if (environment.pickupInStore) {
+  featureModules.push(PickupInStoreFeatureModule);
+}
+
 @NgModule({
   imports: [
     // Auth Core
@@ -196,7 +206,6 @@ if (environment.epdVisualization) {
 
     VariantsFeatureModule,
     ImageZoomFeatureModule,
-    PickupInStoreFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ProductConfiguratorRulebasedFeatureModule,
 

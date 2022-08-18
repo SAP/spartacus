@@ -42,19 +42,23 @@
     <div>
       <cx-icon
         class="cx-store-stock-icon"
-        *ngIf="!!storeDetails?.stockInfo?.stockLevel"
+        *ngIf="isInStock"
         [type]="iconTypes.CHECK"
       ></cx-icon>
       <span
         class="cx-stock-level"
         [ngClass]="{
-          'cx-store-out-of-stock': !storeDetails?.stockInfo?.stockLevel,
-          'cx-store-in-stock': !!storeDetails?.stockInfo?.stockLevel
+          'cx-store-in-stock': isInStock,
+          'cx-store-out-of-stock': !isInStock
         }"
       >
         {{
           'store.stockLevel'
-            | cxTranslate: { count: storeDetails?.stockInfo?.stockLevel }
+            | cxTranslate
+              : {
+                  context: isInStock ? 'inStock' : 'outOfStock',
+                  count: storeDetails?.stockInfo?.stockLevel
+                }
         }}</span
       >
     </div>
@@ -64,7 +68,7 @@
   <button
     (click)="selectStore()"
     class="btn btn-outline-secondary btn-block"
-    [disabled]="!storeDetails?.stockInfo?.stockLevel"
+    [disabled]="!isInStock"
     [attr.data-pickup-in-store-button]="storeDetails.name"
   >
     {{ 'store.pickupFromHere' | cxTranslate }}

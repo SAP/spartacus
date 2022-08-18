@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   ActiveCartFacade,
@@ -383,12 +389,6 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   addEntry(productCode: string, quantity: number): void {
     // TODO(#13645): Support multiple, simultaneous invocation of this function, when cart is not loaded/created
-
-    // TODO check feature level
-    // this.featureConfigService.isLevel('5.1');
-
-    // TODO check if product code has pickup location in store
-    // this.intendedLocationService.getPickupLocation(productCode).subscribe();
 
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))

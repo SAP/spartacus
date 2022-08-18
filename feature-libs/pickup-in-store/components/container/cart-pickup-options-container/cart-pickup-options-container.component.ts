@@ -1,3 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { Component, OnInit, Optional } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Component,
   ElementRef,
@@ -49,7 +57,9 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     protected preferredStoreService: PreferredStoreService,
     protected pickupLocationsSearchService: PickupLocationsSearchFacade,
     protected vcr: ViewContainerRef
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.pickupOption$ = this.outlet.context$.pipe(

@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { LocationSearchParams } from '@spartacus/pickup-in-store/root';
 import { CurrentLocationService } from '../../services/current-location.service';
@@ -13,7 +19,9 @@ export class StoreSearchComponent {
 
   @Input() hideOutOfStock: boolean = false;
 
-  constructor(protected currentLocationService: CurrentLocationService) {}
+  constructor(protected currentLocationService: CurrentLocationService) {
+    // Intentional empty constructor
+  }
 
   onFindStores(location: string): boolean {
     this.findStores.emit({ location });

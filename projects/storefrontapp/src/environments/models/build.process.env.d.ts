@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 declare var buildProcess: BuildProcess;
 
 interface BuildProcess {
@@ -12,4 +18,5 @@ interface Env {
   CX_CPQ: boolean;
   CX_DIGITAL_PAYMENTS: boolean;
   CX_EPD_VISUALIZATION: boolean;
+  CX_PICKUP_IN_STORE: boolean;
 }

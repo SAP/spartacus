@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { PointOfServiceStock } from '@spartacus/core';
@@ -36,7 +42,9 @@ export class StoreListComponent implements OnInit {
     private readonly preferredStoreService: PreferredStoreService,
     private readonly intendedPickupLocationService: IntendedPickupLocationFacade,
     protected activeCartFacade: ActiveCartFacade
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 
   ngOnInit() {
     this.stores$ = this.pickupLocationsSearchService.getSearchResults(

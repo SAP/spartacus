@@ -1,5 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { PointOfServiceStock, StateUtils, Stock } from '@spartacus/core';
+import { storeHasStock } from '../../utils';
 import { StateWithStock, StockLevelState } from '../stock-state';
 import { getStockState } from './feature.selectors';
 import { getHideOutOfStockState } from './hide-out-of-stock.selectors';
@@ -59,7 +66,7 @@ export const getStoresWithStockForProductCode = (
     getHideOutOfStockState,
     (stockEntities, hideOutOfStock) =>
       stockEntities[productCode]?.stores?.filter(
-        (store) => (store.stockInfo?.stockLevel ?? 0) > 0 || !hideOutOfStock
+        (store) => !hideOutOfStock || storeHasStock(store)
       ) ?? []
   );
 
