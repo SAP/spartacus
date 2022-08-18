@@ -60,7 +60,8 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pickupOption$ = this.outlet.context$.pipe(
+    this.pickupOption$ = this.outlet?.context$.pipe(
+      filter((outletContextData) => !!outletContextData),
       tap(
         (outletContextData) =>
           (this.entryNumber = outletContextData.entryNumber ?? -1)
@@ -83,7 +84,8 @@ export class CartPickupOptionsContainerComponent implements OnInit {
       )
     );
 
-    this.displayName$ = this.outlet.context$.pipe(
+    this.displayName$ = this.outlet?.context$.pipe(
+      filter((outletContextData) => !!outletContextData),
       map((entry) => entry.deliveryPointOfService?.name),
       filter((name): name is string => !!name),
       tap((storeName) =>

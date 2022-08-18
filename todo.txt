@@ -23,5 +23,7 @@ x connector
 x add PATCH to occ, adapter, connector, facade
 x radio buttons should call PATCH on change
 
-(F) Modal Window to select store is not firing up on selection of Pick up in Store
-Does not default to selected pickup option chosen from product details page on cart page
+x (F) Modal Window to select store is not firing up on selection of Pick up in Store
+x Does not default to selected pickup option chosen from product details page on cart page
+
+(G) Fix issue with Display name
