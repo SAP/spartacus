@@ -17,7 +17,7 @@ import {
   ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, NEVER, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CustomerListAction } from './customer-list.model';
 
@@ -82,18 +82,19 @@ export class CustomerListComponent implements OnInit, OnDestroy {
       this.asmConfig.asm?.customerList?.pageSize ?? this.DEFAULT_PAGE_SIZE;
     this.customerListConfig = this.asmConfig?.asm?.customerList;
 
-    this.customerListsPage$ = this.asmService.getCustomerLists().pipe(
-      filter((queryState) => queryState.loading === false),
-      map((queryState) => queryState.data),
-      tap((result) => {
-        // set the first value of this.customerListsPage$ to be selected
-        if (!this.selectedUserGroupId) {
-          this.selectedUserGroupId = result?.userGroups?.[0].uid;
-          this.sorts = null;
-          this.fetchCustomers();
-        }
-      })
-    );
+    this.customerListsPage$ =
+      this.asmService.getCustomerLists()?.pipe(
+        filter((queryState) => queryState.loading === false),
+        map((queryState) => queryState.data),
+        tap((result) => {
+          // set the first value of this.customerListsPage$ to be selected
+          if (!this.selectedUserGroupId) {
+            this.selectedUserGroupId = result?.userGroups?.[0].uid;
+            this.sorts = null;
+            this.fetchCustomers();
+          }
+        })
+      ) ?? NEVER;
 
     this.customerSearchLoading$ = this.asmService
       .getCustomerListCustomersSearchResultsLoading()
