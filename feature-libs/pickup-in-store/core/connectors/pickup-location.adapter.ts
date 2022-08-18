@@ -17,7 +17,7 @@ export abstract class PickupLocationAdapter {
    */
   abstract getStoreDetails(storeName: string): Observable<PointOfService>;
   /**
-   * Change Pickup Option to Delivery for item in cart
+   * Change Pickup Option to Delivery for item at entryNumber in user cart
    * @param cartId
    * @param entryNumber
    * @param userId
@@ -32,7 +32,7 @@ export abstract class PickupLocationAdapter {
     quantity: number
   ): Observable<any>;
   /**
-   * Change Pickup Option to In Store for item in cart
+   * Change Pickup Option to In Store for item at entryNumber in user cart
    * @param cartId
    * @param entryNumber
    * @param userId
