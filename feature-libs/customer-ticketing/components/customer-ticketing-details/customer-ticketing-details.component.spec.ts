@@ -71,22 +71,25 @@ describe('CustomerTicketingDetailsComponent', () => {
   });
 
   describe('getStatusClass', () => {
-    it('should return open class when the status is open', () => {
-      let result = component.getStatusClass('OPEN');
+    function assertStatusClassByStatusId(expectedClass: string, statusId: string) {
+      const result = component.getStatusClass(statusId);
+      expect(result).toEqual(expectedClass);
+    }
 
-      expect(result).toEqual('cx-text-green');
+    it('should return open class when the status is open', () => {
+      assertStatusClassByStatusId('cx-text-green', 'OPEN');
     });
 
     it('should return close class when the status is close', () => {
-      let result = component.getStatusClass('CLOSE');
-
-      expect(result).toEqual('cx-text-gray');
+      assertStatusClassByStatusId('cx-text-gray', 'CLOSE');
     });
 
     it('should return empty if the id is not passed', () => {
-      let result = component.getStatusClass('');
-
-      expect(result).toEqual('');
+      assertStatusClassByStatusId('', '');
+    });
+    
+    it('should return empty if the id is undefined', () => {
+      assertStatusClassByStatusId('', undefined);
     });
   });
 });
