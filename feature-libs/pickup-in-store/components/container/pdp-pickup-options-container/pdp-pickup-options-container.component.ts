@@ -152,7 +152,7 @@ export class PdpPickupOptionsContainerComponent implements OnInit, OnDestroy {
     );
 
     if (dialog) {
-      dialog.pipe(take(1));
+      dialog.pipe(take(1)).subscribe();
     }
   }
 
