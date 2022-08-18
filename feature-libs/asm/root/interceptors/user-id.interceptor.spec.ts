@@ -25,7 +25,7 @@ describe('UserIdInterceptor', () => {
   let interceptor: UserIdInterceptor;
 
   class MockUserIdService implements Partial<UserIdService> {
-    getUserId(): Observable<string> {
+    takeUserId(): Observable<string> {
       return of('user001');
     }
   }
@@ -74,7 +74,7 @@ describe('UserIdInterceptor', () => {
 
   it('should pass the original request if a customer is not being emulated', (done) => {
     const userIdService = TestBed.inject(UserIdService);
-    spyOn(userIdService, 'getUserId').and.returnValue(of(undefined));
+    spyOn(userIdService, 'takeUserId').and.returnValue(of(undefined));
 
     http
       .get('/products/search')
@@ -96,7 +96,7 @@ describe('UserIdInterceptor', () => {
 
   it('should pass the original request if the current user ID is a mock', (done) => {
     const userIdService = TestBed.inject(UserIdService);
-    spyOn(userIdService, 'getUserId').and.returnValue(of(OCC_USER_ID_CURRENT));
+    spyOn(userIdService, 'takeUserId').and.returnValue(of(OCC_USER_ID_CURRENT));
 
     http
       .get('/products/search')

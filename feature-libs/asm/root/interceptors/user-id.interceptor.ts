@@ -49,7 +49,7 @@ export class UserIdInterceptor implements HttpInterceptor {
       userIdObservable = of(asmContext.sendUserIdAsHeader);
     } else if (asmContext.sendUserIdAsHeader) {
       userIdObservable = this.userIdService
-        .getUserId()
+        .takeUserId()
         .pipe(
           map((userId) =>
             this.uniqueUserIdConstants.has(userId) ? undefined : userId
