@@ -34,7 +34,7 @@
               [selectedOption]="accountSummary.pagination.sort"
               placeholder="{{ 'orgAccountSummary.sortBy' | cxTranslate }}"
               [ariaLabel]="'orgAccountSummary.sortDocuments' | cxTranslate"
-              ariaControls="account-summary-document-table"
+              ariaControls="cx-account-summary-document-table"
             ></cx-sorting>
           </label>
           <div class="cx-account-summary-document-pagination" *ngIf="
@@ -50,7 +50,7 @@
         </div>
 
         <!-- TABLE -->
-        <table id="account-summary-document-table" class="table cx-account-summary-document-table">
+        <table id="cx-account-summary-document-table" class="table cx-account-summary-document-table">
           <thead class="cx-account-summary-document-thead-mobile">
             <th scope="col">
               {{ 'orgAccountSummary.document.id' | cxTranslate }}
@@ -150,16 +150,17 @@
                 </div>
                 <div class="cx-account-summary-document-value">
                   <a *ngIf="document.documentMedia"
-                     [href]="document.documentMedia"
-                     target="_blank"
-                     rel="noopener noreferrer">
+                      class="cx-action-link"
+                      [href]="document.documentMedia"
+                      target="_blank"
+                      rel="noopener noreferrer">
                     <cx-icon
                       [type]="ICON_TYPE.FILE"
                       class="cx-account-summary-document-attachment-icon"
                       title="{{ 'orgAccountSummary.document.view' | cxTranslate }}">
                     </cx-icon>
-                    <span class="cx-account-summary-document-attachment-text">
-                      {{ 'orgAccountSummary.document.view' | cxTranslate }}
+                    <span class="cx-account-summary-document-attachment-text"
+                      [innerText]="'orgAccountSummary.document.view' | cxTranslate">
                     </span>
                   </a>
                 </div>

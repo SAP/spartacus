@@ -43,25 +43,11 @@ cx-account-summary-document-filter {
     display: flex;
     flex-direction: row;
 
-    .search-btn {
-      background-color: var(--cx-color-primary);
-      border-color: var(--cx-color-primary);
-      color: var(--cx-color-inverse);
-      opacity: 1;
-      font-weight: var(--cx-font-weight-bold);
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-    }
-
     .clear-btn {
       margin-right: 1rem;
-      align-self: center;
       border: none;
       background-color: inherit;
-      padding: 14px 28px;
-      font-size: 16px;
-      cursor: pointer;
-      display: inline-block;
+      font-size: 1rem;
     }
   }
 }

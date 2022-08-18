@@ -1,41 +1,47 @@
 <div class="cx-account-summary" *ngIf="headerDetails$ | async as headerDetails">
   <div class="cx-account-summary-header-cards">
 
-    <!-- Card: Unit ID & Unit Name -->
-    <div class="cx-summary-card cx-summary-card-name">
-      <cx-card [content]="getIdCardContent(headerDetails?.unit?.uid) | async">
-      </cx-card>
+    <div class="cx-summary-card-responsive-group cx-summary-card-group-unit-address">
 
-      <cx-card [content]="getNameCardContent(headerDetails?.unit?.name) | async">
-      </cx-card>
+      <!-- Card: Unit ID & Unit Name -->
+      <div class="cx-summary-card">
+        <cx-card [content]="getIdCardContent(headerDetails?.unit?.uid) | async">
+        </cx-card>
+
+        <cx-card [content]="getNameCardContent(headerDetails?.unit?.name) | async">
+        </cx-card>
+      </div>
+
+      <!-- Card: Address -->
+      <div class="cx-summary-card">
+        <cx-card [content]="getAddressCardContent(headerDetails?.billingAddress) | async">
+        </cx-card>
+      </div>
+
     </div>
 
-    <!-- Card: Address -->
-    <div class="cx-summary-card cx-summary-card-address">
-      <cx-card [content]="getAddressCardContent(headerDetails?.billingAddress) | async">
-      </cx-card>
-    </div>
+    <div class="cx-summary-card-responsive-group cx-summary-card-group-credit-balance">
+      <!-- Card: Credit Rep & Credit Line -->
+      <div class="cx-summary-card">
+        <cx-card [content]="getCreditRepCardContent(headerDetails?.accountManagerName) | async">
+        </cx-card>
 
-    <!-- Card: Credit Rep & Credit Line -->
-    <div class="cx-summary-card cx-summary-card-credit">
-      <cx-card [content]="getCreditRepCardContent(headerDetails?.accountManagerName) | async">
-      </cx-card>
+        <cx-card [content]="getCreditLineCardContent(headerDetails?.formattedCreditLimit) | async">
+        </cx-card>
+      </div>
 
-      <cx-card [content]="getCreditLineCardContent(headerDetails?.formattedCreditLimit) | async">
-      </cx-card>
-    </div>
+      <!-- Card: Current Balance & Open Balance -->
+      <div class="cx-summary-card cx-summary-card-balance">
+        <cx-card [content]="getCurrentBalanceCardContent(headerDetails?.amountBalance?.currentBalance) | async">
+        </cx-card>
 
-    <!-- Card: Current Balance & Open Balance -->
-    <div class="cx-summary-card cx-summary-card-balance">
-      <cx-card [content]="getCurrentBalanceCardContent(headerDetails?.amountBalance?.currentBalance) | async">
-      </cx-card>
-
-      <cx-card [content]="getOpenBalanceCardContent(headerDetails?.amountBalance?.openBalance) | async">
-      </cx-card>
+        <cx-card [content]="getOpenBalanceCardContent(headerDetails?.amountBalance?.openBalance) | async">
+        </cx-card>
+      </div>
     </div>
 
     <!-- Card: Past Due Balance & Date Ranges -->
-    <div class="cx-summary-card cx-summary-card-due">
+    <div class="cx-summary-card cx-summary-card-group-due">
 
       <!-- If there range of past due balances are provided, display them here in a bordered section -->
       <div *ngIf="headerDetails.amountBalance && headerDetails.amountBalance.dueBalances as pastDue; else noDueRange"
@@ -45,7 +51,7 @@
         <!-- Dynamically create lines of past due date ranges -->
         <div *ngIf="pastDue.length > 0" class="cx-account-summary-header-past-due-range-dates">
           <div *ngFor="let rangeBalance of pastDue" class="cx-account-summary-header-past-due-range-collection">
-            <div class="past-due-range-date" *ngIf="rangeBalance.numberOfDayRange as numberOfDayRange">
+            <div class="cx-past-due-range-date" *ngIf="rangeBalance.numberOfDayRange as numberOfDayRange">
               <span>{{ numberOfDayRange?.minBoundery }}</span>
               <span>
                 {{ numberOfDayRange?.maxBoundery ? '- ' + numberOfDayRange?.maxBoundery : '+' }}
@@ -59,7 +65,7 @@
         </div>
 
         <div class="cx-account-summary-header-past-due-balance-total">
-          <div class="past-due-balance-label cx-card-title">
+          <div class="cx-past-due-balance-label cx-card-title">
             {{ 'orgAccountSummary.details.pastDueBalance' | cxTranslate }}
           </div>
           <div>{{ headerDetails?.amountBalance?.pastDueBalance }}</div>
