@@ -266,22 +266,4 @@ describe('PickupOptionsComponent', () => {
       expect(component.openDialog).toHaveBeenCalled();
     });
   });
-  describe('without intended location', () => {
-    beforeEach(() => {
-      configureTestingModule()
-        .overrideProvider(IntendedPickupLocationFacade, {
-          useValue: {
-            getIntendedLocation: () => of(null),
-            removeIntendedLocation: () => {},
-            setIntendedLocation: () => {},
-            getPickupOption: () => of(null),
-          },
-        })
-        .compileComponents();
-      stubServiceAndCreateComponent();
-    });
-    it('should onInit with no intended location', () => {
-      component.ngOnInit();
-    });
-  });
 });

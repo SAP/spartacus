@@ -1,5 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { PointOfService } from '@spartacus/core';
 import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
@@ -10,11 +17,10 @@ import { filter, map, mergeMap, tap } from 'rxjs/operators';
 @Component({
   selector: 'cx-pickup-delivery-info-container',
   templateUrl: './pickup-delivery-info-container.component.html',
-  styleUrls: ['./pickup-delivery-info-container.component.scss'],
 })
 export class PickupDeliveryInfoContainerComponent implements OnInit {
   cart$: Observable<Cart>;
-  storesDetailsData: Object[];
+  storesDetailsData: Partial<PointOfService>[];
   constructor(
     protected readonly activeCartService: ActiveCartFacade,
     protected readonly intendedPickupLocationService: IntendedPickupLocationFacade,
@@ -24,7 +30,7 @@ export class PickupDeliveryInfoContainerComponent implements OnInit {
     this.cart$ = this.activeCartService.getActive();
     this.cart$
       .pipe(
-        map((data) => data.entries),
+        map((cart) => cart.entries),
         filter((entries): entries is OrderEntry[] => !!entries),
         map((entries) =>
           entries
@@ -45,14 +51,14 @@ export class PickupDeliveryInfoContainerComponent implements OnInit {
             )
           )
         ),
-        map((data) =>
-          data.map(({ address, displayName, openingHours }) => ({
+        map((pointOfService) =>
+          pointOfService.map(({ address, displayName, openingHours }) => ({
             address,
             displayName,
             openingHours,
           }))
         ),
-        tap((data) => (this.storesDetailsData = data))
+        tap((storesDetailsData) => (this.storesDetailsData = storesDetailsData))
       )
       .subscribe();
   }

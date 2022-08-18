@@ -62,9 +62,12 @@ describe('PickupDeliveryInfoContainerComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
   it('should call on init', () => {
+    const result: Partial<PointOfService>[] = [
+      { address: undefined, displayName: undefined, openingHours: undefined },
+    ];
     spyOn(activeCartService, 'getActive').and.callThrough();
     spyOn(pickupLocationsSearchService, 'loadStoreDetails').and.callThrough();
     spyOn(pickupLocationsSearchService, 'getStoreDetails').and.callThrough();
@@ -76,5 +79,6 @@ describe('PickupDeliveryInfoContainerComponent', () => {
     expect(pickupLocationsSearchService.getStoreDetails).toHaveBeenCalledWith(
       'London School'
     );
+    expect(component.storesDetailsData).toEqual(result);
   });
 });
