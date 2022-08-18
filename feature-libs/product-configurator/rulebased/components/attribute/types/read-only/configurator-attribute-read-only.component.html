@@ -1,4 +1,7 @@
-<div id="{{ createAttributeIdForConfigurator(attribute) }}">
+<div
+  id="{{ createAttributeIdForConfigurator(attribute) }}"
+  *ngIf="attribute.values !== undefined && attribute.values.length > 0"
+>
   <ng-container
     *ngIf="
       attribute.values !== undefined && attribute.values.length > 0;

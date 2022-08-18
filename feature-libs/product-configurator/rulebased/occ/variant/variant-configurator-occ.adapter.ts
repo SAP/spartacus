@@ -17,7 +17,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../../core/model/configurator.model';
 import {
@@ -46,7 +46,7 @@ export class VariantConfiguratorOccAdapter
     return ConfiguratorType.VARIANT;
   }
 
-  protected getExpMode(): boolean {
+  protected getExpModeRequested(): boolean {
     let expMode = false;
     this.configExpertModeService
       .getExpMode()
@@ -55,11 +55,15 @@ export class VariantConfiguratorOccAdapter
     return expMode;
   }
 
+  protected setEpxModeActive(expMode: boolean) {
+    this.configExpertModeService.setExpMode(expMode);
+  }
+
   createConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     const productCode = owner.id;
-    const expMode = this.getExpMode();
+    const expMode = this.getExpModeRequested();
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
@@ -69,6 +73,11 @@ export class VariantConfiguratorOccAdapter
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
+        tap((resultConfiguration) => {
+          resultConfiguration.kbKey
+            ? this.setEpxModeActive(true)
+            : this.setEpxModeActive(false);
+        }),
         map((resultConfiguration) => {
           return {
             ...resultConfiguration,
@@ -83,7 +92,7 @@ export class VariantConfiguratorOccAdapter
     groupId: string,
     configurationOwner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    const expMode = this.getExpMode();
+    const expMode = this.getExpModeRequested();
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.buildUrl('readVariantConfiguration', {
@@ -93,6 +102,11 @@ export class VariantConfiguratorOccAdapter
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
+        tap((resultConfiguration) => {
+          resultConfiguration.kbKey
+            ? this.setEpxModeActive(true)
+            : this.setEpxModeActive(false);
+        }),
         map((resultConfiguration) => {
           return {
             ...resultConfiguration,
@@ -106,7 +120,7 @@ export class VariantConfiguratorOccAdapter
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
     const configId = configuration.configId;
-    const expMode = this.getExpMode();
+    const expMode = this.getExpModeRequested();
     const url = this.occEndpointsService.buildUrl(
       'updateVariantConfiguration',
       {
@@ -123,6 +137,11 @@ export class VariantConfiguratorOccAdapter
       .patch<OccConfigurator.Configuration>(url, occConfiguration)
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
+        tap((resultConfiguration) => {
+          resultConfiguration.kbKey
+            ? this.setEpxModeActive(true)
+            : this.setEpxModeActive(false);
+        }),
         map((resultConfiguration) => {
           return {
             ...resultConfiguration,
