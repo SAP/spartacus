@@ -41,7 +41,11 @@ export const storeSearch = {
   useMyLocation: 'Use my location',
   viewAllStores: 'View all stores',
 };
-
+export const pickupDeliveryInfo = {
+  inStorePickup: 'In Store Pickup',
+  pickupBy: 'Pick up by',
+  pickupFrom: 'Pick up from',
+};
 /** All the translation chunks for pickup in store. */
 export const pickupInStore = {
   pickupInStoreDialog,
@@ -50,4 +54,5 @@ export const pickupInStore = {
   storeList,
   storeSchedule,
   storeSearch,
+  pickupDeliveryInfo,
 };

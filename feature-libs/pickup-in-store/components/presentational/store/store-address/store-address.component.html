@@ -1,0 +1,25 @@
+<div class="cx-store-address">
+  <div *ngIf="storeDetails?.displayName" class="cx-store-name">
+    {{ storeDetails?.displayName }}
+  </div>
+  <div class="cx-store-full-address">
+    <div *ngIf="storeDetails?.address?.line1">
+      {{ storeDetails.address?.line1 }}
+    </div>
+    <div *ngIf="storeDetails?.address?.line2">
+      {{ storeDetails.address?.line2 }}
+    </div>
+    <div *ngIf="storeDetails?.address?.town">
+      {{ storeDetails.address?.town }}
+    </div>
+    <div *ngIf="storeDetails?.address?.region">
+      {{ storeDetails.address?.region }}
+    </div>
+    <div *ngIf="storeDetails?.address?.district">
+      {{ storeDetails.address?.district }}
+    </div>
+    <div *ngIf="storeDetails?.address?.phone">
+      {{ storeDetails.address?.phone }}
+    </div>
+  </div>
+</div>
