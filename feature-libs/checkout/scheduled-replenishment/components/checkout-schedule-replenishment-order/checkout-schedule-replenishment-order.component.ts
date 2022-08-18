@@ -117,7 +117,9 @@ export class CheckoutScheduleReplenishmentOrderComponent
     } else {
       const foundDay = this.currentDaysOfWeek.find((data) => day === data);
 
-      if (!foundDay) return;
+      if (!foundDay) {
+        return;
+      }
 
       const index = this.currentDaysOfWeek.indexOf(foundDay);
       this.currentDaysOfWeek.splice(index, 1);
