@@ -18,7 +18,7 @@ import {
   ORDER_HISTORY_NORMALIZER,
   ORDER_NORMALIZER,
 } from '@spartacus/order/root';
-import { UnitOrderAdapter } from '../../public_api';
+import { UnitOrderAdapter } from '../../core/connectors/unit-order.adapter';
 
 
 

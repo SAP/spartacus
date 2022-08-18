@@ -9,22 +9,14 @@ import {
 } from '@spartacus/core';
 import { ORDER_FEATURE } from '@spartacus/order/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { ORGANIZATION_ORDER_APPROVAL_FEATURE } from './feature-name';
+import { ORGANIZATION_UNIT_ORDER_FEATURE } from './feature-name';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
-export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
+export function defaultOrganizationUnitOrderComponentsConfig(): CmsConfig {
   const config: CmsConfig = {
     featureModules: {
-      [ORGANIZATION_ORDER_APPROVAL_FEATURE]: {
-        cmsComponents: [
-          'OrderApprovalListComponent',
-          'OrderApprovalDetailTotalsComponent',
-          'OrderApprovalDetailApprovalDetailsComponent',
-          'OrderApprovalDetailShippingComponent',
-          'OrderApprovalDetailItemsComponent',
-          'OrderApprovalDetailFormComponent',
-          'AccountOrderDetailsApprovalDetailsComponent',
-        ],
+      [ORGANIZATION_UNIT_ORDER_FEATURE]: {
+        cmsComponents: ['UnitLevelOrderHistoryComponent'],
         dependencies: [ORDER_FEATURE],
       },
     },
@@ -41,23 +33,21 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'orderApprovalDetails' },
+        data: { cxRoute: 'unitLevelOrders' },
       },
     ]),
   ],
   providers: [
-    provideDefaultConfigFactory(
-      defaultOrganizationOrderApprovalComponentsConfig
-    ),
+    provideDefaultConfigFactory(defaultOrganizationUnitOrderComponentsConfig),
     provideDefaultConfig(<RoutingConfig>{
       routing: {
         routes: {
-          // orderHistory: {
-          //   paths: ['my-account/unitLevelOrders'],
-          // },
+          unitLevelOrders: {
+            paths: ['my-account/unitLevelOrders'],
+          },
         },
       },
     }),
   ],
 })
-export class OrderHistoryRootModule {}
+export class UnitOrderRootModule {}

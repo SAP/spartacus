@@ -6,12 +6,12 @@ import {
 } from '@spartacus/core';
 import {
   Order,
-  OrderHistoryFacade,
   OrderHistoryList,
   ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
+import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
 
 @Component({
   selector: 'cx-unit-level-order-history',
@@ -24,12 +24,12 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
 
   constructor(
     protected routing: RoutingService,
-    protected orderHistoryFacade: OrderHistoryFacade,
+    protected unitOrdersFacade: UnitOrderFacade,
     protected translation: TranslationService,
     protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
   ) {}
 
-  orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
+  orders$: Observable<OrderHistoryList | undefined> = this.unitOrdersFacade
     .getOrderHistoryList(this.PAGE_SIZE, 'TSD')
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
@@ -40,7 +40,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
     );
 
   isLoaded$: Observable<boolean> =
-    this.orderHistoryFacade.getOrderHistoryListLoaded();
+    this.unitOrdersFacade.getOrderHistoryListLoaded();
 
   /**
    * When "Order Return" feature is enabled, this component becomes one tab in
@@ -53,7 +53,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   );
 
   ngOnDestroy(): void {
-    this.orderHistoryFacade.clearOrderList();
+    this.unitOrdersFacade.clearOrderList();
   }
 
   changeSortCode(sortCode: string): void {
@@ -95,7 +95,7 @@ export class UnitLevelOrderHistoryComponent implements OnDestroy {
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-    this.orderHistoryFacade.loadOrderList(
+    this.unitOrdersFacade.loadOrderList(
       this.PAGE_SIZE,
       event.currentPage,
       event.sortCode

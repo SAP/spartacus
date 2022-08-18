@@ -15,8 +15,6 @@ export class LoadUnitOrders extends StateUtils.LoaderLoadAction {
       pageSize?: number;
       currentPage?: number;
       sort?: string;
-      replenishmentOrderCode?: string;
-      unitLevelOrderCode?: string;
     }
   ) {
     super(UNIT_ORDERS);

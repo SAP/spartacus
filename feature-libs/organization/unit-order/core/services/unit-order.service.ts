@@ -5,17 +5,22 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { Order, OrderHistoryList } from '@spartacus/order/root';
+import {
+  ConsignmentTracking,
+  Order,
+  OrderHistoryList,
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { map, take, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { UnitOrderFacade } from '../../root/facade/unit-order.facade';
 import {
   StateWithUnitOrder,
   UnitOrderActions,
   UnitOrderSelectors,
 } from '../store';
 
-@Injectable()
-export class UnitOrderService {
+@Injectable({providedIn: 'root'})
+export class UnitOrderService implements UnitOrderFacade {
   constructor(
     protected store: Store<StateWithUnitOrder>,
     protected processStateStore: Store<StateWithProcess<void>>,
@@ -90,24 +95,12 @@ export class UnitOrderService {
   loadOrderList(pageSize: number, currentPage?: number, sort?: string): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
-        let replenishmentOrderCode: string | undefined;
-
-        this.routingService
-          .getRouterState()
-          .pipe(take(1))
-          .subscribe((data) => {
-            replenishmentOrderCode =
-              data?.state?.params?.replenishmentOrderCode;
-          })
-          .unsubscribe();
-
         this.store.dispatch(
           new UnitOrderActions.LoadUnitOrders({
             userId,
             pageSize,
             currentPage,
             sort,
-            replenishmentOrderCode,
           })
         );
       },
@@ -115,5 +108,43 @@ export class UnitOrderService {
         // TODO: for future releases, refactor this part to thrown errors
       }
     );
+  }
+
+  /**
+   * Cleaning order list
+   */
+  clearOrderList(): void {
+    this.store.dispatch(new UnitOrderActions.ClearUnitOrders());
+  }
+
+  /**
+   *  Returns a consignment tracking detail
+   */
+  getConsignmentTracking(): Observable<ConsignmentTracking> {
+    return this.store.pipe(select(UnitOrderSelectors.getConsignmentTracking));
+  }
+
+  /**
+   * Retrieves consignment tracking details
+   * @param orderCode an order code
+   * @param consignmentCode a consignment code
+   */
+  loadConsignmentTracking(orderCode: string, consignmentCode: string): void {
+    this.userIdService.takeUserId().subscribe((userId) => {
+      this.store.dispatch(
+        new UnitOrderActions.LoadConsignmentTracking({
+          userId,
+          orderCode,
+          consignmentCode,
+        })
+      );
+    });
+  }
+
+  /**
+   * Cleaning consignment tracking
+   */
+  clearConsignmentTracking(): void {
+    this.store.dispatch(new UnitOrderActions.ClearConsignmentTracking());
   }
 }

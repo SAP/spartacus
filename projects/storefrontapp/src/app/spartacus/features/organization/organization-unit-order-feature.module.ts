@@ -4,11 +4,11 @@ import {
   orderApprovalTranslationChunksConfig,
   orderApprovalTranslations,
 } from '@spartacus/organization/order-approval/assets';
+import { UnitOrderRootModule } from '@spartacus/organization/unit-order/root';
 import { ORGANIZATION_UNIT_ORDER_FEATURE } from 'feature-libs/organization/unit-order/root/feature-name';
-import { UnitOrderModule } from 'feature-libs/organization/unit-order/unit-order.module';
 
 @NgModule({
-  imports: [UnitOrderModule],
+  imports: [UnitOrderRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {

@@ -124,13 +124,6 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'unitLevelOrders' },
-      },
-      {
-        // @ts-ignore
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
         data: { cxRoute: 'replenishmentDetails' },
       },
       {

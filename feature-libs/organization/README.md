@@ -8,6 +8,5 @@ The Spartacus Organization library contains the following packages:
 
 - `@spartacus/organization/administration` is a package that contains various organization administration related features (eg. units, budgets, approvers management, etc.).
 - `@spartacus/organization/order-approval` is a package that adds order approval dashboard feature.
-- 'unit-orders'
-
+- `@spartacus/organization/unit-order` is a package that adds unit level orders feature.
 For more information about Spartacus, see [Spartacus](https://github.com/SAP/spartacus).
