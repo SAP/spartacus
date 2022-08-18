@@ -1,30 +1,30 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CartModification,
-  CART_MODIFICATION_NORMALIZER
+  CART_MODIFICATION_NORMALIZER,
 } from '@spartacus/cart/base/root';
 import {
   BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
   OccEndpointsService,
-  TranslationService
+  TranslationService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
-  ConfiguratorType
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import {
   VariantConfiguratorOccAdapter,
-  VARIANT_CONFIGURATOR_PRICE_NORMALIZER
+  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
 } from '.';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -35,7 +35,7 @@ import { OccConfiguratorVariantPriceNormalizer } from './converters/occ-configur
 import {
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
-  VARIANT_CONFIGURATOR_SERIALIZER
+  VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
 import { ConfiguratorExpertModeService } from '../../core/services/configurator-expert-mode.service';
@@ -79,12 +79,12 @@ const configuration: Configurator.Configuration = {
       productCode
     )
   ),
-  productCode: productCode
+  productCode: productCode,
 };
 
 const productConfigurationOcc: OccConfigurator.Configuration = {
   configId: configId,
-  rootProduct: productCode
+  rootProduct: productCode,
 };
 
 const pricesOcc: OccConfigurator.Prices =
@@ -98,12 +98,12 @@ const productConfigurationForCartEntry: Configurator.Configuration = {
       cartEntryNo
     )
   ),
-  productCode: productCode
+  productCode: productCode,
 };
 
 const overviewOcc: OccConfigurator.Overview = {
   id: configId,
-  productCode: productCode
+  productCode: productCode,
 };
 
 const variantSearchResult: Configurator.Variant[] = [{ productCode: 'a' }];
@@ -128,19 +128,19 @@ fdescribe('OccConfigurationVariantAdapter', () => {
         {
           provide: VARIANT_CONFIGURATOR_NORMALIZER,
           useExisting: OccConfiguratorVariantNormalizer,
-          multi: true
+          multi: true,
         },
         {
           provide: VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
           useExisting: OccConfiguratorVariantOverviewNormalizer,
-          multi: true
+          multi: true,
         },
         {
           provide: VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
           useExisting: OccConfiguratorVariantPriceNormalizer,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
 
     httpMock = TestBed.inject(
@@ -199,9 +199,9 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       'createVariantConfiguration',
       {
         urlParams: {
-          productCode
+          productCode,
         },
-        queryParams: { expMode }
+        queryParams: { expMode },
       }
     );
 
@@ -216,7 +216,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       kbName: productCode + '_KB',
       kbLogsys: 'RR5CLNT910',
       kbVersion: '1',
-      kbBuildNumber: '2'
+      kbBuildNumber: '2',
     };
 
     occConfiguratorVariantAdapter
@@ -239,9 +239,9 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       'createVariantConfiguration',
       {
         urlParams: {
-          productCode
+          productCode,
         },
-        queryParams: { expMode }
+        queryParams: { expMode },
       }
     );
 
@@ -270,7 +270,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       'readVariantConfiguration',
       {
         urlParams: { configId },
-        queryParams: { groupId, expMode }
+        queryParams: { groupId, expMode },
       }
     );
 
@@ -288,7 +288,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       kbName: productCode + '_KB',
       kbLogsys: 'RR5CLNT910',
       kbVersion: '1',
-      kbBuildNumber: '2'
+      kbBuildNumber: '2',
     };
 
     occConfiguratorVariantAdapter
@@ -306,7 +306,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       'readVariantConfiguration',
       {
         urlParams: { configId },
-        queryParams: { groupId, expMode }
+        queryParams: { groupId, expMode },
       }
     );
 
@@ -338,9 +338,9 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       'updateVariantConfiguration',
       {
         urlParams: {
-          configId
+          configId,
         },
-        queryParams: { expMode }
+        queryParams: { expMode },
       }
     );
 
@@ -362,7 +362,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       kbName: productCode + '_KB',
       kbLogsys: 'RR5CLNT910',
       kbVersion: '1',
-      kbBuildNumber: '2'
+      kbBuildNumber: '2',
     };
 
     occConfiguratorVariantAdapter
@@ -380,9 +380,9 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       'updateVariantConfiguration',
       {
         urlParams: {
-          configId
+          configId,
         },
-        queryParams: { expMode }
+        queryParams: { expMode },
       }
     );
 
@@ -477,9 +477,9 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       'readVariantConfigurationPriceSummary',
       {
         urlParams: {
-          configId
+          configId,
         },
-        queryParams: { groupId: configuration?.interactionState?.currentGroup }
+        queryParams: { groupId: configuration?.interactionState?.currentGroup },
       }
     );
 
@@ -499,7 +499,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
         owner: configuration.owner,
         userId: userId,
         cartId: documentId,
-        cartEntryNumber: documentEntryNumber
+        cartEntryNumber: documentEntryNumber,
       };
     occConfiguratorVariantAdapter
       .readConfigurationForCartEntry(params)
@@ -521,8 +521,8 @@ fdescribe('OccConfigurationVariantAdapter', () => {
         urlParams: {
           userId,
           cartId: documentId,
-          cartEntryNumber: documentEntryNumber
-        }
+          cartEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -541,7 +541,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
         owner: configuration.owner,
         userId: userId,
         orderId: documentId,
-        orderEntryNumber: documentEntryNumber
+        orderEntryNumber: documentEntryNumber,
       };
     occConfiguratorVariantAdapter
       .readConfigurationForOrderEntry(params)
@@ -563,8 +563,8 @@ fdescribe('OccConfigurationVariantAdapter', () => {
         urlParams: {
           userId,
           orderId: documentId,
-          orderEntryNumber: documentEntryNumber
-        }
+          orderEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -582,7 +582,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       configuration: configuration,
       userId: userId,
       cartId: documentId,
-      cartEntryNumber: documentEntryNumber
+      cartEntryNumber: documentEntryNumber,
     };
     occConfiguratorVariantAdapter
       .updateConfigurationForCartEntry(params)
@@ -606,8 +606,8 @@ fdescribe('OccConfigurationVariantAdapter', () => {
         urlParams: {
           userId,
           cartId: documentId,
-          cartEntryNumber: documentEntryNumber
-        }
+          cartEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -627,7 +627,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       configId: configId,
       owner: configuration.owner,
       userId: userId,
-      cartId: documentId
+      cartId: documentId,
     };
     occConfiguratorVariantAdapter
       .addToCart(params)
@@ -658,7 +658,7 @@ fdescribe('OccConfigurationVariantAdapter', () => {
         owner: productConfigurationForCartEntry.owner,
         userId: userId,
         cartId: documentId,
-        cartEntryNumber: documentEntryNumber
+        cartEntryNumber: documentEntryNumber,
       };
     spyOn(converterService, 'pipeable').and.returnValue(() =>
       of(configuration)
@@ -693,8 +693,8 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       'getVariantConfigurationOverview',
       {
         urlParams: {
-          configId
-        }
+          configId,
+        },
       }
     );
 
@@ -722,8 +722,8 @@ fdescribe('OccConfigurationVariantAdapter', () => {
       'searchConfiguratorVariants',
       {
         urlParams: {
-          configId
-        }
+          configId,
+        },
       }
     );
 

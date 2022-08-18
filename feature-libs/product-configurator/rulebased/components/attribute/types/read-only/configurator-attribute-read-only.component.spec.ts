@@ -95,7 +95,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   });
 
   describe('Accessibility', () => {
-    beforeEach(()=> {
+    beforeEach(() => {
       myValues[0].selected = true;
       component.attribute.selectedSingleValue = myValues[0].valueCode;
       component.attribute.values = myValues;
