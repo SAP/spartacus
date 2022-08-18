@@ -10,11 +10,5 @@
     "entryPoint": "@spartacus/feature2/components",
     "memberName": "order",
     "migrationComment": "Use the property currentOrder instead."
-  },
-  {
-    "apiElementName": "QuickOrderService",
-    "entryPoint": "@spartacus/cart/quick-order/core",
-    "newApiElementName": "QuickOrderServiceRenamed",
-    "newEntryPoint": "@spartacus/cart/quick-order/core"
   }
 ]
