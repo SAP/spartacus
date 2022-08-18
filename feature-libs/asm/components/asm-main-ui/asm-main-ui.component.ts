@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 import { Component, HostBinding, OnInit, Optional } from '@angular/core';
 import { AsmService, AsmUi } from '@spartacus/asm/core';
 import {
