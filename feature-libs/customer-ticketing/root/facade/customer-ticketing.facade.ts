@@ -10,7 +10,7 @@ import { TicketDetails } from '../model';
     facadeFactory({
       facade: CustomerTicketingFacade,
       feature: CUSTOMER_TICKETING_FEATURE,
-      methods: ['getTicket'],
+      methods: ['getTicketState', 'getTicket'],
     }),
 })
 export abstract class CustomerTicketingFacade {
