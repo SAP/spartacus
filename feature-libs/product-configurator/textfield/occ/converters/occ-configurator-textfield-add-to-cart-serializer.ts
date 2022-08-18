@@ -14,7 +14,9 @@ export class OccConfiguratorTextfieldAddToCartSerializer
       OccConfiguratorTextfield.AddToCartParameters
     >
 {
-  constructor() {}
+  constructor() {
+    // Intentional empty constructor
+  }
   /**
    * Converts addToCart parameters into the OCC format
    * @param source Add to cart parameters in generic format

@@ -15,5 +15,7 @@ export class CheckoutEventModule {
     _checkoutPaymentEventListener: CheckoutPaymentEventListener,
     _checkoutPlaceOrderEventListener: CheckoutPlaceOrderEventListener,
     _checkoutLegacyStoreEventListener: CheckoutLegacyStoreEventListener
-  ) {}
+  ) {
+    // Intentional empty constructor
+  }
 }
