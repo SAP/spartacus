@@ -47,7 +47,6 @@
       <div *ngIf="headerDetails.amountBalance && headerDetails.amountBalance.dueBalances as pastDue; else noDueRange"
            [class.cx-account-summary-header-past-due-section]="pastDue.length > 0">
 
-
         <!-- Dynamically create lines of past due date ranges -->
         <div *ngIf="pastDue.length > 0" class="cx-account-summary-header-past-due-range-dates">
           <div *ngFor="let rangeBalance of pastDue" class="cx-account-summary-header-past-due-range-collection">

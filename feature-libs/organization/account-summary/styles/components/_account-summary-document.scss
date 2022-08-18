@@ -22,15 +22,10 @@ cx-account-summary-document {
     }
 
     td {
-      //width: 25%;
       padding: 1.625rem 0;
 
       @include media-breakpoint-up(md) {
         text-align: start;
-
-        //&:last-child {
-        //  text-align: end;
-        //}
       }
 
       @include media-breakpoint-down(md) {
@@ -83,7 +78,6 @@ cx-account-summary-document {
   .cx-account-summary-document-attachment {
     .cx-account-summary-document-value {
       text-decoration: underline;
-      font-weight: $font-weight-bold;
       text-align: end;
       color: var(--cx-color-primary);
     }
@@ -228,7 +222,8 @@ cx-account-summary-document {
   }
 
   .cx-account-summary-document-attachment-text {
-    padding-left: 0.5rem;
+    font-weight: var(--cx-font-weight-bold);
+    padding-inline-start: 0.5rem;
     @include media-breakpoint-up(lg) {
       display: none;
     }

@@ -73,27 +73,23 @@ cx-account-summary-header {
       display: flex;
       flex-direction: row;
 
-      & > * {
-        flex-basis: 50%;
-      }
+      & > * { flex-basis: 50% }
     }
   }
 
   // When in desktop mode, this places in the fourth (last) column the Past Due Balance information
   .cx-summary-card-group-due {
-    @include media-breakpoint-up(lg) {
-      flex: 1;
-    }
+    @include media-breakpoint-up(lg) { flex: 1 }
   }
 
   // This places a black border around the Past Due Balance section in desktop mode, otherwise hides it
   .cx-account-summary-header-past-due-section {
     border: 1px solid var(--cx-color-text);
-    padding: 1rem; margin-top: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
 
-    @include media-breakpoint-down(md) {
-      border: none;
-    }
+    @include media-breakpoint-up(lg) { margin-right: 20px }
+    @include media-breakpoint-down(md) { border: none }
   }
 
   // The summation bar in the Past Due Balance Section
@@ -109,7 +105,7 @@ cx-account-summary-header {
     padding-bottom: 1rem;
 
     .cx-past-due-range-date {
-      font-weight: bold;
+      font-weight: var(--cx-font-weight-bold);
     }
   }
 
