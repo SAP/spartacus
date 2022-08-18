@@ -31,18 +31,18 @@ export class PickupLocationEffect {
       ),
       mergeMap((storeName) =>
         this.pickupLocationConnector.getStoreDetails(storeName).pipe(
-          map((storeDetails) => {
-            return PickupLocationActions.SetStoreDetailsSuccess({
+          map((storeDetails) =>
+            PickupLocationActions.SetStoreDetailsSuccess({
               payload: storeDetails,
-            });
-          }),
-          catchError((error) => {
-            return of(
+            })
+          ),
+          catchError((error) =>
+            of(
               PickupLocationActions.SetStoreDetailsFailure({
                 payload: normalizeHttpError(error),
               })
-            );
-          })
+            )
+          )
         )
       )
     )
@@ -58,16 +58,20 @@ export class PickupLocationEffect {
           >
         ) => action.payload
       ),
-      switchMap(({ cartId, entryNumber, userId, requestPayload }) =>
-        this.pickupLocationConnector
-          .setPickupOptionDelivery(cartId, entryNumber, userId, requestPayload)
-          .pipe(
-            map(() => {
-              return PickupLocationActions.SetPickupOptionDeliverySuccess({
-                payload: {},
-              });
-            })
-          )
+      switchMap(
+        ({ cartId, entryNumber, userId, name, productCode, quantity }) =>
+          this.pickupLocationConnector
+            .setPickupOptionDelivery(
+              cartId,
+              entryNumber,
+              userId,
+              name,
+              productCode,
+              quantity
+            )
+            .pipe(
+              map(() => PickupLocationActions.SetPickupOptionDeliverySuccess())
+            )
       )
     )
   );
@@ -82,15 +86,11 @@ export class PickupLocationEffect {
           >
         ) => action.payload
       ),
-      switchMap(({ cartId, entryNumber, userId, requestPayload }) =>
+      switchMap(({ cartId, entryNumber, userId, name, quantity }) =>
         this.pickupLocationConnector
-          .setPickupOptionInStore(cartId, entryNumber, userId, requestPayload)
+          .setPickupOptionInStore(cartId, entryNumber, userId, name, quantity)
           .pipe(
-            map(() => {
-              return PickupLocationActions.SetPickupOptionInStoreSuccess({
-                payload: {},
-              });
-            })
+            map(() => PickupLocationActions.SetPickupOptionInStoreSuccess())
           )
       )
     )

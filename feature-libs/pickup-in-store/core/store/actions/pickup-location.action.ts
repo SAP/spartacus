@@ -9,8 +9,6 @@ import { PointOfService } from '@spartacus/core';
 import {
   AugmentedPointOfService,
   PickupOption,
-  SetPickupOptionDeliveryPayload,
-  SetPickupOptionInStorePayload,
 } from '@spartacus/pickup-in-store/root';
 
 export const ADD_LOCATION = '[Pickup Locations] Add Location';
@@ -92,14 +90,15 @@ export const SetPickupOptionDelivery = createAction(
       cartId: string;
       entryNumber: number;
       userId: string;
-      requestPayload: SetPickupOptionDeliveryPayload;
+      name: string;
+      productCode: string;
+      quantity: number;
     };
   }>()
 );
 
 export const SetPickupOptionDeliverySuccess = createAction(
-  SET_PICKUP_OPTION_DELIVERY_SUCCESS,
-  props<{ payload: any }>()
+  SET_PICKUP_OPTION_DELIVERY_SUCCESS
 );
 
 export const SetPickupOptionInStore = createAction(
@@ -109,12 +108,12 @@ export const SetPickupOptionInStore = createAction(
       cartId: string;
       entryNumber: number;
       userId: string;
-      requestPayload: SetPickupOptionInStorePayload;
+      name: string;
+      quantity: number;
     };
   }>()
 );
 
 export const SetPickupOptionInStoreSuccess = createAction(
-  SET_PICKUP_OPTION_IN_STORE_SUCCESS,
-  props<{ payload: any }>()
+  SET_PICKUP_OPTION_IN_STORE_SUCCESS
 );

@@ -14,7 +14,7 @@ import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
 } from '@spartacus/pickup-in-store/root';
-import { SpinnerModule } from '@spartacus/storefront';
+import { CurrentProductService, SpinnerModule } from '@spartacus/storefront';
 import { MockIntendedPickupLocationService } from 'feature-libs/pickup-in-store/core/facade/intended-pickup-location.service.spec';
 import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/services/preferred-store.service.spec';
@@ -43,7 +43,11 @@ export class MockActiveCartService {
     return of();
   }
 }
-
+class MockCurrentProductService {
+  getProduct(): Observable<null> {
+    return of(null);
+  }
+}
 describe('StoreListComponent', () => {
   let component: StoreListComponent;
   let fixture: ComponentFixture<StoreListComponent>;
@@ -82,6 +86,10 @@ describe('StoreListComponent', () => {
           provide: ActiveCartFacade,
           useClass: MockActiveCartService,
         },
+        {
+          provide: CurrentProductService,
+          useClass: MockCurrentProductService,
+        },
       ],
     }).compileComponents();
 
@@ -93,7 +101,6 @@ describe('StoreListComponent', () => {
       IntendedPickupLocationFacade
     );
     activeCartService = TestBed.inject(ActiveCartFacade);
-
     component.productCode = 'productCode';
     fixture.detectChanges();
   });
@@ -117,6 +124,7 @@ describe('StoreListComponent', () => {
 
   it('should set the preferred store when a store is selected', () => {
     spyOn(preferredStoreService, 'setPreferredStore');
+    component.isPDP = true;
     spyOn(intendedPickupLocationService, 'setIntendedLocation');
     spyOn(component.storeSelected, 'emit');
 
@@ -138,7 +146,7 @@ describe('StoreListComponent', () => {
 
   it('should set blank preferred store when store has no name', () => {
     spyOn(preferredStoreService, 'setPreferredStore');
-
+    component.isPDP = true;
     component.onSelectStore({ storeContent: 'storeContent' });
     expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith({
       name: '',

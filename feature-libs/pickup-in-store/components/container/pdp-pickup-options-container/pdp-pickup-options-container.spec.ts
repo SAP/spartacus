@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -21,6 +20,7 @@ import { Observable, of, Subscription } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { CurrentLocationService } from '../../services/current-location.service';
 import { PdpPickupOptionsContainerComponent } from './pdp-pickup-options-container.component';
+import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
 
 import createSpy = jasmine.createSpy;
 
@@ -52,22 +52,7 @@ class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
   setPickupOptionInStore = createSpy();
 }
 
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialog(
-    _caller: LAUNCH_CALLER,
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ) {
-    return of();
-  }
-
-  get dialogClose(): Observable<string | undefined> {
-    return of(undefined);
-  }
-}
-
-class MockCurrentProductService {
+export class MockCurrentProductService {
   getProduct(): Observable<Product | null> {
     return of({ code: 'productCode', availableForPickup: true });
   }

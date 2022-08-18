@@ -13,11 +13,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
-import {
-  SetPickupOptionDeliveryPayload,
-  SetPickupOptionInStorePayload,
-  StockLocationSearchParams,
-} from '../model';
+import { StockLocationSearchParams } from '../model';
 
 // TODO jsdoc
 
@@ -66,12 +62,15 @@ export abstract class PickupLocationsSearchFacade {
     cartId: string,
     entryNumber: number,
     userId: string,
-    requestPayload: SetPickupOptionDeliveryPayload
+    name: string,
+    productCode: string,
+    quantity: number
   ): void;
   abstract setPickupOptionInStore(
     cartId: string,
     entryNumber: number,
     userId: string,
-    requestPayload: SetPickupOptionInStorePayload
+    name: string,
+    quantity: number
   ): void;
 }

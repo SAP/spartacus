@@ -18,7 +18,6 @@ import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
   PickupOption,
-  SetPickupOptionDeliveryPayload,
 } from '@spartacus/pickup-in-store/root';
 import {
   LaunchDialogService,
@@ -62,22 +61,12 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   ngOnInit() {
     this.pickupOption$ = this.outlet?.context$.pipe(
       filter((outletContextData) => !!outletContextData),
-      tap(
-        (outletContextData) =>
-          (this.entryNumber = outletContextData.entryNumber ?? -1)
-      ),
-      tap(
-        (outletContextData) =>
-          (this.quantity = outletContextData.quantity ?? -1)
-      ),
-      tap(
-        (outletContextData) =>
-          (this.productCode = outletContextData.product?.code || '')
-      ),
-      tap(
-        (outletContextData) =>
-          (this.name = outletContextData.deliveryPointOfService?.name ?? '')
-      ),
+      tap((outletContextData) => {
+        this.entryNumber = outletContextData.entryNumber ?? -1;
+        this.quantity = outletContextData.quantity ?? -1;
+        this.productCode = outletContextData.product?.code || '';
+        this.name = outletContextData.deliveryPointOfService?.name ?? '';
+      }),
       map(
         (item): PickupOption =>
           item.deliveryPointOfService ? 'pickup' : 'delivery'
@@ -85,7 +74,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     );
 
     this.displayName$ = this.outlet?.context$.pipe(
-      filter((outletContextData) => !!outletContextData),
+      filter((entry) => !!entry),
       map((entry) => entry.deliveryPointOfService?.name),
       filter((name): name is string => !!name),
       tap((storeName) =>
@@ -108,40 +97,18 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   }
 
   onPickupOptionChange(pickupOption: PickupOption): void {
-    const payload: SetPickupOptionDeliveryPayload = {
-      deliveryPointOfService: {
-        name: '',
-      },
-      product: {
-        code: this.productCode,
-      },
-      quantity: this.quantity as number,
-    };
-
-    this.intendedPickupLocationService.setPickupOption(
-      this.productCode,
-      pickupOption
-    );
-
-    this.intendedPickupLocationService.removeIntendedLocation(this.productCode);
-
-    const preferredStore = this.preferredStoreService.getPreferredStore();
-
     pickupOption === 'delivery' &&
       this.pickupLocationsSearchService.setPickupOptionDelivery(
         this.cartId,
         this.entryNumber,
         this.userId,
-        payload
+        '',
+        this.productCode,
+        this.quantity
       );
 
     if (!this.displayNameIsSet) {
       this.openDialog();
-    } else if (preferredStore) {
-      this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
-        ...preferredStore,
-        pickupOption: 'pickup',
-      });
     }
   }
 
@@ -154,7 +121,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
     );
 
     if (dialog) {
-      this.subscription.add(dialog.pipe(take(1)).subscribe());
+      dialog.pipe(take(1)).subscribe();
     }
   }
 }

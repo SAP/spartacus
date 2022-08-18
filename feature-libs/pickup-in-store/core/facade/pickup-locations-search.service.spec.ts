@@ -9,8 +9,6 @@ import {
 } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
-  SetPickupOptionDeliveryPayload,
-  SetPickupOptionInStorePayload,
   StockLocationSearchParams,
 } from 'feature-libs/pickup-in-store/root';
 import { EMPTY, Observable, of } from 'rxjs';
@@ -74,14 +72,17 @@ export class MockPickupLocationsSearchService
     _cartId: string,
     _entryNumber: number,
     _userId: string,
-    _requestPayload: SetPickupOptionDeliveryPayload
+    _name: string,
+    _productCode: string,
+    _quantity: number
   ): void {}
 
   setPickupOptionInStore(
     _cartId: string,
     _entryNumber: number,
     _userId: string,
-    _requestPayload: SetPickupOptionInStorePayload
+    _name: string,
+    _quantity: number
   ): void {}
 }
 
@@ -166,47 +167,46 @@ describe('PickupLocationsSearchService', () => {
   });
 
   it('setPickupOptionDelivery', () => {
-    const requestPayload: SetPickupOptionDeliveryPayload = {
-      deliveryPointOfService: {
-        name: '',
-      },
-      product: {
-        code: 'productCode',
-      },
-      quantity: 1,
-    };
-    service.setPickupOptionDelivery('cartID', 1, 'userID', requestPayload);
+    const name = '';
+    const productCode = 'productCode';
+    const quantity = 1;
+    service.setPickupOptionDelivery(
+      'cartID',
+      1,
+      'userID',
+      name,
+      productCode,
+      quantity
+    );
     expect(store.dispatch).toHaveBeenCalledWith(
       PickupLocationActions.SetPickupOptionDelivery({
         payload: {
           cartId: 'cartID',
           entryNumber: 1,
           userId: 'userID',
-          requestPayload,
+          name,
+          productCode,
+          quantity,
         },
       })
     );
   });
 
   it('setPickupOptionInStore', () => {
-    const requestPayload: SetPickupOptionInStorePayload = {
-      deliveryPointOfService: {
-        name: 'storeName',
-      },
-      quantity: 1,
-    };
     const cartId = 'cartID';
     const entryNumber = 1;
     const userId = 'userID';
-
-    service.setPickupOptionInStore(cartId, entryNumber, userId, requestPayload);
+    const name = 'name';
+    const quantity = 1;
+    service.setPickupOptionInStore(cartId, entryNumber, userId, name, quantity);
     expect(store.dispatch).toHaveBeenCalledWith(
       PickupLocationActions.SetPickupOptionInStore({
         payload: {
           cartId,
           entryNumber,
           userId,
-          requestPayload,
+          name,
+          quantity,
         },
       })
     );

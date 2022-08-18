@@ -5,10 +5,6 @@
  */
 
 import { PointOfService } from '@spartacus/core';
-import {
-  SetPickupOptionDeliveryPayload,
-  SetPickupOptionInStorePayload,
-} from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 
 /**
@@ -21,7 +17,7 @@ export abstract class PickupLocationAdapter {
    */
   abstract getStoreDetails(storeName: string): Observable<PointOfService>;
   /**
-   * Set Pickup Option to Delivery
+   * Change Pickup Option to Delivery for item in cart
    * @param cartId
    * @param entryNumber
    * @param userId
@@ -31,10 +27,12 @@ export abstract class PickupLocationAdapter {
     cartId: string,
     entryNumber: number,
     userId: string,
-    payload: SetPickupOptionDeliveryPayload
+    name: string,
+    productCode: string,
+    quantity: number
   ): Observable<any>;
   /**
-   * Set Pickup Option to Pickup in Store
+   * Change Pickup Option to In Store for item in cart
    * @param cartId
    * @param entryNumber
    * @param userId
@@ -44,6 +42,7 @@ export abstract class PickupLocationAdapter {
     cartId: string,
     entryNumber: number,
     userId: string,
-    payload: SetPickupOptionInStorePayload
+    name: string,
+    quantity: number
   ): Observable<any>;
 }

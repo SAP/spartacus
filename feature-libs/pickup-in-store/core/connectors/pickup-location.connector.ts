@@ -6,10 +6,6 @@
 
 import { Injectable } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
-import {
-  SetPickupOptionDeliveryPayload,
-  SetPickupOptionInStorePayload,
-} from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { PickupLocationAdapter } from './pickup-location.adapter';
 
@@ -33,13 +29,17 @@ export class PickupLocationConnector {
     cartId: string,
     entryNumber: number,
     userId: string,
-    payload: SetPickupOptionDeliveryPayload
+    name: string,
+    productCode: string,
+    quantity: number
   ): Observable<any> {
     return this.adapter.setPickupOptionDelivery(
       cartId,
       entryNumber,
       userId,
-      payload
+      name,
+      productCode,
+      quantity
     );
   }
 
@@ -47,13 +47,15 @@ export class PickupLocationConnector {
     cartId: string,
     entryNumber: number,
     userId: string,
-    payload: SetPickupOptionInStorePayload
+    name: string,
+    quantity: number
   ): Observable<any> {
     return this.adapter.setPickupOptionInStore(
       cartId,
       entryNumber,
       userId,
-      payload
+      name,
+      quantity
     );
   }
 }

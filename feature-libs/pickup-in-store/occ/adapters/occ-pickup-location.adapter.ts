@@ -35,8 +35,19 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
     cartId: string,
     entryNumber: number,
     userId: string,
-    payload: SetPickupOptionDeliveryPayload
+    name: string,
+    code: string,
+    quantity: number
   ): Observable<any> {
+    const payload: SetPickupOptionDeliveryPayload = {
+      deliveryPointOfService: {
+        name,
+      },
+      product: {
+        code: code,
+      },
+      quantity: quantity,
+    };
     return this.http.put(
       this.occEndpointsService.buildUrl('patchDeliveryOption', {
         urlParams: { userId, cartId, entryNumber },
@@ -49,8 +60,15 @@ export class OccPickupLocationAdapter implements PickupLocationAdapter {
     cartId: string,
     entryNumber: number,
     userId: string,
-    payload: SetPickupOptionInStorePayload
+    name: string,
+    quantity: number
   ): Observable<any> {
+    const payload: SetPickupOptionInStorePayload = {
+      deliveryPointOfService: {
+        name,
+      },
+      quantity,
+    };
     return this.http.patch(
       this.occEndpointsService.buildUrl('patchDeliveryOption', {
         urlParams: { userId, cartId, entryNumber },

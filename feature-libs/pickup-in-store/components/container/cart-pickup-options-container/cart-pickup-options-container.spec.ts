@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
@@ -17,54 +16,24 @@ import { MockPreferredStoreService } from 'feature-libs/pickup-in-store/core/ser
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { MockIntendedPickupLocationService } from '../../../core/facade/intended-pickup-location.service.spec';
 import { CartPickupOptionsContainerComponent } from './cart-pickup-options-container.component';
+import { MockPickupLocationsSearchService } from 'feature-libs/pickup-in-store/core/facade/pickup-locations-search.service.spec';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
-
-import createSpy = jasmine.createSpy;
-
-class MockPickupLocationsSearchFacade implements PickupLocationsSearchFacade {
-  startSearch = createSpy();
-  hasSearchStarted = createSpy();
-  isSearchRunning = createSpy();
-  getSearchResults = createSpy().and.returnValue(
-    of([
-      {
-        name: 'preferredStore',
-        stockInfo: {
-          stockLevel: 12,
-        },
-      },
-    ])
-  );
-  clearSearchResults = createSpy();
-  getHideOutOfStock = createSpy();
-  setBrowserLocation = createSpy();
-  toggleHideOutOfStock = createSpy();
-  stockLevelAtStore = createSpy();
-  getStockLevelAtStore = createSpy().and.returnValue(
-    of({ stockLevel: { displayName: 'London School' } })
-  );
+import { MockLaunchDialogService } from '../pickup-delivery-option-dialog/pickup-delivery-option-dialog.component.spec';
+class MockPickupLocationsSearchFacade
+  implements Partial<MockPickupLocationsSearchService>
+{
   getStoreDetails = () =>
     of({
       displayName: 'London School',
     });
-  loadStoreDetails = createSpy();
-  setPickupOptionDelivery = createSpy();
-  setPickupOptionInStore = createSpy();
-}
-
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  openDialog(
-    _caller: LAUNCH_CALLER,
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ) {
-    return of();
-  }
-
-  get dialogClose(): Observable<string | undefined> {
-    return of(undefined);
-  }
+  setPickupOptionDelivery(
+    _cartId: string,
+    _entryNumber: number,
+    _userId: string,
+    _name: string,
+    _productCode: string,
+    _quantity: number
+  ): void {}
 }
 
 const mockActiveCart: Cart = {
@@ -175,24 +144,7 @@ describe('Cart PickupOptionsComponent', () => {
         { productCode: 'productCode' }
       );
     });
-    it('onPickupOptionChange where option is delivery', () => {
-      spyOn(intendedPickupLocationService, 'getIntendedLocation');
 
-      component['productCode'] = 'productCode';
-      component.onPickupOptionChange('delivery');
-
-      expect(
-        intendedPickupLocationService.removeIntendedLocation
-      ).toHaveBeenCalledWith('productCode');
-    });
-
-    it('onPickupOptionChange where option is pickup', () => {
-      component['displayNameIsSet'] = true;
-      component.onPickupOptionChange('delivery');
-      expect(
-        intendedPickupLocationService.setIntendedLocation
-      ).toHaveBeenCalled();
-    });
     it('should openDialog if display name is not set', () => {
       spyOn(component, 'openDialog');
       component['displayNameIsSet'] = false;

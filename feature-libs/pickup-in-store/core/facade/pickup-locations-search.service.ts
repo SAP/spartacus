@@ -10,8 +10,6 @@ import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
   PickupLocationsSearchFacade,
   StockLocationSearchParams,
-  SetPickupOptionDeliveryPayload,
-  SetPickupOptionInStorePayload,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { GetStoreDetailsById } from '../store/actions/pickup-location.action';
@@ -112,7 +110,9 @@ export class PickupLocationsSearchService
     cartId: string,
     entryNumber: number,
     userId: string,
-    requestPayload: SetPickupOptionDeliveryPayload
+    name: string,
+    productCode: string,
+    quantity: number
   ): void {
     this.store.dispatch(
       PickupLocationActions.SetPickupOptionDelivery({
@@ -120,7 +120,9 @@ export class PickupLocationsSearchService
           cartId,
           entryNumber,
           userId,
-          requestPayload,
+          name,
+          productCode,
+          quantity,
         },
       })
     );
@@ -130,7 +132,8 @@ export class PickupLocationsSearchService
     cartId: string,
     entryNumber: number,
     userId: string,
-    requestPayload: SetPickupOptionInStorePayload
+    name: string,
+    quantity: number
   ): void {
     this.store.dispatch(
       PickupLocationActions.SetPickupOptionInStore({
@@ -138,7 +141,8 @@ export class PickupLocationsSearchService
           cartId,
           entryNumber,
           userId,
-          requestPayload,
+          name,
+          quantity,
         },
       })
     );

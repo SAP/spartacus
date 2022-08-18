@@ -12,8 +12,8 @@ import {
   IntendedPickupLocationFacade,
   PickupLocationsSearchFacade,
   PickupOption,
-  SetPickupOptionInStorePayload,
 } from '@spartacus/pickup-in-store/root';
+import { CurrentProductService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -36,12 +36,14 @@ export class StoreListComponent implements OnInit {
   entryNumber: number;
   userId: string;
   quantity: number;
+  isPDP: boolean;
 
   constructor(
     private readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
     private readonly preferredStoreService: PreferredStoreService,
     private readonly intendedPickupLocationService: IntendedPickupLocationFacade,
-    protected activeCartFacade: ActiveCartFacade
+    private readonly activeCartFacade: ActiveCartFacade,
+    private readonly currentProductService: CurrentProductService
   ) {
     // Intentional empty constructor
   }
@@ -71,31 +73,32 @@ export class StoreListComponent implements OnInit {
         })
       )
       .subscribe();
+
+    this.currentProductService
+      .getProduct()
+      .subscribe((_data) => (this.isPDP = !!_data));
   }
 
   onSelectStore(store: PointOfServiceStock) {
     const { stockInfo: _, ...pointOfService } = store;
     const { name = '', displayName } = pointOfService;
 
-    const payload: SetPickupOptionInStorePayload = {
-      deliveryPointOfService: {
+    if (this.isPDP) {
+      this.preferredStoreService.setPreferredStore({ name, displayName });
+      this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
+        ...pointOfService,
+        pickupOption: 'pickup',
+      });
+    }
+
+    !this.isPDP &&
+      this.pickupLocationsSearchService.setPickupOptionInStore(
+        this.cartId,
+        this.entryNumber,
+        this.userId,
         name,
-      },
-      quantity: this.quantity,
-    };
-
-    this.preferredStoreService.setPreferredStore({ name, displayName });
-    this.intendedPickupLocationService.setIntendedLocation(this.productCode, {
-      ...pointOfService,
-      pickupOption: 'pickup',
-    });
-
-    this.pickupLocationsSearchService.setPickupOptionInStore(
-      this.cartId,
-      this.entryNumber,
-      this.userId,
-      payload
-    );
+        this.quantity
+      );
 
     this.storeSelected.emit();
   }
