@@ -183,7 +183,7 @@
 
         <!-- NO ORDER CONTAINER -->
         <ng-template #noOrder>
-          <div *ngIf="isLoaded$ | async">
+          <div *ngIf="isLoaded$ | async" class="cx-unit-level-order-history-no-order">
             <div>
               <div>{{ 'unitLevelOrderHistory.noOrders' | cxTranslate }}</div>
               <a
