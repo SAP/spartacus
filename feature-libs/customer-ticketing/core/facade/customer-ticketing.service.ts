@@ -3,6 +3,7 @@ import {
   Query,
   QueryNotifier,
   QueryService,
+  QueryState,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -63,14 +64,17 @@ export class CustomerTicketingService implements CustomerTicketingFacade {
       take(1),
       map(([userId, ticketId]) => {
         if (!userId || !ticketId) {
-          throw new Error('Customer tickets pre conditions not met');
+          throw new Error('Customer ticketing pre conditions not met');
         }
         return [userId, ticketId];
       })
     );
   }
+  getTicketState(): Observable<QueryState<TicketDetails | undefined>> {
+    return this.getTicketQuery$.getState();
+  }
 
   getTicket(): Observable<TicketDetails | undefined> {
-    return this.getTicketQuery$.getState().pipe(map((state) => state.data));
+    return this.getTicketState().pipe(map((state) => state.data));
   }
 }

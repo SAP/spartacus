@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory } from '@spartacus/core';
+import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CUSTOMER_TICKETING_FEATURE } from '../feature-name';
 import { TicketDetails } from '../model';
@@ -14,5 +14,7 @@ import { TicketDetails } from '../model';
     }),
 })
 export abstract class CustomerTicketingFacade {
+  abstract getTicketState(): Observable<QueryState<TicketDetails | undefined>>;
+
   abstract getTicket(): Observable<TicketDetails | undefined>;
 }

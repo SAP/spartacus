@@ -74,5 +74,23 @@ describe('CustomerTicketingService', () => {
           done();
         });
     });
+
+    it('should contain the query state', (done) => {
+      service
+        .getTicketState()
+        .pipe(take(1))
+        .subscribe((state) => {
+          expect(connector.getTicket).toHaveBeenCalledWith(
+            mockUserId,
+            mockRoutingParams.ticketCode
+          );
+          expect(state).toEqual({
+            loading: false,
+            error: false,
+            data: mockTicketDetails,
+          });
+          done();
+        });
+    });
   });
 });
