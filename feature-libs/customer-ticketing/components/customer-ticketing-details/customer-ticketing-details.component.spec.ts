@@ -71,7 +71,10 @@ describe('CustomerTicketingDetailsComponent', () => {
   });
 
   describe('getStatusClass', () => {
-    function assertStatusClassByStatusId(expectedClass: string, statusId: string) {
+    function assertStatusClassByStatusId(
+      expectedClass: string,
+      statusId: string | undefined
+    ) {
       const result = component.getStatusClass(statusId);
       expect(result).toEqual(expectedClass);
     }
@@ -87,7 +90,7 @@ describe('CustomerTicketingDetailsComponent', () => {
     it('should return empty if the id is not passed', () => {
       assertStatusClassByStatusId('', '');
     });
-    
+
     it('should return empty if the id is undefined', () => {
       assertStatusClassByStatusId('', undefined);
     });

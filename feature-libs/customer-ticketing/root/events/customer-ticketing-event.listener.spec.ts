@@ -37,21 +37,25 @@ describe('CustomerTicketingEventListener', () => {
     eventService = TestBed.inject(EventService);
   });
 
+  function assertServiceDispatchForEvent(
+    event: CxEvent,
+    dispatchedEvent: CxEvent
+  ) {
+    mockEventStream$.next(event);
+    expect(eventService.dispatch).toHaveBeenCalledWith({}, dispatchedEvent);
+  }
+
   describe('onGetTicketQueryReload', () => {
     it('LanguageSetEvent should dispatch GetTicketQueryReloadEvent', () => {
-      mockEventStream$.next(new LanguageSetEvent());
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
+      assertServiceDispatchForEvent(
+        new LanguageSetEvent(),
         GetTicketQueryReloadEvent
       );
     });
 
     it('CurrencySetEvent should dispatch GetTicketQueryReloadEvent', () => {
-      mockEventStream$.next(new CurrencySetEvent());
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
+      assertServiceDispatchForEvent(
+        new CurrencySetEvent(),
         GetTicketQueryReloadEvent
       );
     });
@@ -59,21 +63,14 @@ describe('CustomerTicketingEventListener', () => {
 
   describe('onGetTicketQueryReset', () => {
     it('LogoutEvent should dispatch GetTicketQueryResetEvent', () => {
-      mockEventStream$.next(new LogoutEvent());
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
+      assertServiceDispatchForEvent(
+        new LogoutEvent(),
         GetTicketQueryResetEvent
       );
     });
 
     it('LoginEvent should dispatch GetTicketQueryResetEvent', () => {
-      mockEventStream$.next(new LoginEvent());
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        GetTicketQueryResetEvent
-      );
+      assertServiceDispatchForEvent(new LoginEvent(), GetTicketQueryResetEvent);
     });
   });
 });

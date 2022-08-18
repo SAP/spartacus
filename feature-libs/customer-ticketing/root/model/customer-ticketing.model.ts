@@ -14,6 +14,7 @@ export interface TicketDetails {
   createdAt?: string;
   modifiedAt?: string;
   status?: Status;
+  toStatus?: Status;
   subject?: string;
   ticketCategory?: Category;
   ticketEvents?: Array<Event>;
