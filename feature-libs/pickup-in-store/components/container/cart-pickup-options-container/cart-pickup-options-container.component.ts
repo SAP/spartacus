@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Component, OnInit, Optional } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Component,
   ElementRef,
