@@ -1,14 +1,16 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import {
+  CDS_MERCHANDISING_FACET_NORMALIZER,
+  CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER,
+} from '../../../shared/constants';
+import { SPARTACUS_CDS } from '../../../shared/libs-constants';
+
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    return removedPublicApiDeprecation(
-      tree,
-      context,
-      GENERATED_REMOVED_PUBLIC_API_DATA
-    );
+    return removedPublicApiDeprecation(tree, context, REMOVED_PUBLIC_API_DATA);
   };
 }
 
@@ -1461,5 +1463,21 @@ export const GENERATED_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: '@spartacus/storefront',
     comment:
       'Class OrderDetailsServiceTransitionalToken has been removed and is no longer part of the public API. ',
+  },
+];
+
+export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+  ...GENERATED_REMOVED_PUBLIC_API_DATA,
+  // integration-libs/cds/src/merchandising/converters/merchandising-facet-normalizer.ts
+  {
+    node: CDS_MERCHANDISING_FACET_NORMALIZER,
+    importPath: SPARTACUS_CDS,
+    comment: `'${CDS_MERCHANDISING_FACET_NORMALIZER} has been removed and is no longer part of the public API.`,
+  },
+  // integration-libs/cds/src/merchandising/converters/merchandising-facet-to-queryparam-normalizer.ts
+  {
+    node: CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER,
+    importPath: SPARTACUS_CDS,
+    comment: `'${CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER} has been removed and is no longer part of the public API.`,
   },
 ];
