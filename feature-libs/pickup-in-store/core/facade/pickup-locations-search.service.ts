@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { PointOfService, PointOfServiceStock, Stock } from '@spartacus/core';
 import {
-  SetDeliveryOptionPayload,
   PickupLocationsSearchFacade,
   StockLocationSearchParams,
+  SetPickupOptionDeliveryPayload,
+  SetPickupOptionInStorePayload,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { GetStoreDetailsById } from '../store/actions/pickup-location.action';
@@ -99,11 +100,37 @@ export class PickupLocationsSearchService
     );
   }
 
-  setDeliveryOption(setDeliveryOptionPayload: SetDeliveryOptionPayload): void {
+  setPickupOptionDelivery(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    requestPayload: SetPickupOptionDeliveryPayload
+  ): void {
     this.store.dispatch(
-      PickupLocationActions.SetDeliveryOption({
+      PickupLocationActions.SetPickupOptionDelivery({
         payload: {
-          ...setDeliveryOptionPayload,
+          cartId,
+          entryNumber,
+          userId,
+          requestPayload,
+        },
+      })
+    );
+  }
+
+  setPickupOptionInStore(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    requestPayload: SetPickupOptionInStorePayload
+  ): void {
+    this.store.dispatch(
+      PickupLocationActions.SetPickupOptionInStore({
+        payload: {
+          cartId,
+          entryNumber,
+          userId,
+          requestPayload,
         },
       })
     );

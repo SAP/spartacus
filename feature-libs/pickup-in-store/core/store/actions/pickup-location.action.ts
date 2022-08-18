@@ -2,8 +2,9 @@ import { createAction, props } from '@ngrx/store';
 import { PointOfService } from '@spartacus/core';
 import {
   AugmentedPointOfService,
-  SetDeliveryOptionPayload,
   PickupOption,
+  SetPickupOptionDeliveryPayload,
+  SetPickupOptionInStorePayload,
 } from '@spartacus/pickup-in-store/root';
 
 export const ADD_LOCATION = '[Pickup Locations] Add Location';
@@ -14,9 +15,15 @@ export const STORE_DETAILS_SUCCESS =
   '[Pickup Locations] Get Store Details Success';
 export const STORE_DETAILS_FAIL = '[Pickup Locations] Get Store Details Fail';
 
-export const SET_DELIVERY_OPTION = '[Pickup Locations] Set Delivery Option';
-export const SET_DELIVERY_OPTION_SUCCESS =
-  '[Pickup Locations] Set Delivery Option Success';
+export const SET_PICKUP_OPTION_DELIVERY =
+  '[Pickup Locations] Set Pickup Option Delivery';
+export const SET_PICKUP_OPTION_DELIVERY_SUCCESS =
+  '[Pickup Locations] Set Pickup Option Delivery Success';
+
+export const SET_PICKUP_OPTION_IN_STORE =
+  '[Pickup Locations] Set Pickup Option In Store';
+export const SET_PICKUP_OPTION_IN_STORE_SUCCESS =
+  '[Pickup Locations] Set Pickup Option In Store Success';
 
 export type AddLocationProps = {
   payload: {
@@ -72,12 +79,36 @@ export const SetStoreDetailsFailure = createAction(
   props<{ payload: any }>()
 );
 
-export const SetDeliveryOption = createAction(
-  SET_DELIVERY_OPTION,
-  props<{ payload: SetDeliveryOptionPayload }>()
+export const SetPickupOptionDelivery = createAction(
+  SET_PICKUP_OPTION_DELIVERY,
+  props<{
+    payload: {
+      cartId: string;
+      entryNumber: number;
+      userId: string;
+      requestPayload: SetPickupOptionDeliveryPayload;
+    };
+  }>()
 );
 
-export const SetDeliveryOptionSuccess = createAction(
-  SET_DELIVERY_OPTION_SUCCESS,
+export const SetPickupOptionDeliverySuccess = createAction(
+  SET_PICKUP_OPTION_DELIVERY_SUCCESS,
+  props<{ payload: any }>()
+);
+
+export const SetPickupOptionInStore = createAction(
+  SET_PICKUP_OPTION_IN_STORE,
+  props<{
+    payload: {
+      cartId: string;
+      entryNumber: number;
+      userId: string;
+      requestPayload: SetPickupOptionInStorePayload;
+    };
+  }>()
+);
+
+export const SetPickupOptionInStoreSuccess = createAction(
+  SET_PICKUP_OPTION_IN_STORE_SUCCESS,
   props<{ payload: any }>()
 );

@@ -10,15 +10,14 @@ import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
-  SetDeliveryOptionPayload,
   PickupLocationsSearchFacade,
   PickupOption,
+  SetPickupOptionDeliveryPayload,
 } from '@spartacus/pickup-in-store/root';
 import {
   LaunchDialogService,
   OutletContextData,
   LAUNCH_CALLER,
-  CurrentProductService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
@@ -44,9 +43,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
 
   constructor(
     @Optional() protected outlet: OutletContextData<OrderEntry>,
-    protected storeDetails: PickupLocationsSearchFacade,
     protected activeCartFacade: ActiveCartFacade,
-    protected currentProductService: CurrentProductService,
     protected intendedPickupLocationService: IntendedPickupLocationFacade,
     protected launchDialogService: LaunchDialogService,
     protected preferredStoreService: PreferredStoreService,
@@ -55,7 +52,7 @@ export class CartPickupOptionsContainerComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.pickupOption$ = this.outlet?.context$.pipe(
+    this.pickupOption$ = this.outlet.context$.pipe(
       tap(
         (outletContextData) =>
           (this.entryNumber = outletContextData.entryNumber ?? -1)
@@ -66,59 +63,68 @@ export class CartPickupOptionsContainerComponent implements OnInit {
       ),
       tap(
         (outletContextData) =>
-          (this.productCode = outletContextData?.product?.code ?? '')
+          (this.productCode = outletContextData.product?.code || '')
       ),
       tap(
         (outletContextData) =>
-          (this.name = outletContextData?.deliveryPointOfService?.name ?? '')
+          (this.name = outletContextData.deliveryPointOfService?.name ?? '')
       ),
       map(
         (item): PickupOption =>
-          item?.deliveryPointOfService ? 'pickup' : 'delivery'
+          item.deliveryPointOfService ? 'pickup' : 'delivery'
       )
     );
 
-    this.displayName$ = this.outlet?.context$.pipe(
-      map((entry) => entry?.deliveryPointOfService?.name),
+    this.displayName$ = this.outlet.context$.pipe(
+      map((entry) => entry.deliveryPointOfService?.name),
       filter((name): name is string => !!name),
-      tap((storeName) => this.storeDetails.loadStoreDetails(storeName)),
-      switchMap((storeName) => this.storeDetails.getStoreDetails(storeName)),
+      tap((storeName) =>
+        this.pickupLocationsSearchService.loadStoreDetails(storeName)
+      ),
+      switchMap((storeName) =>
+        this.pickupLocationsSearchService.getStoreDetails(storeName)
+      ),
       map((store) => store?.displayName ?? ''),
-      tap((_displayName) => (this.displayNameIsSet = true))
+      tap((_displayName) => _displayName && (this.displayNameIsSet = true))
     );
 
     this.activeCartFacade
       .getActive()
       .pipe(
         tap((cart) => (this.cartId = cart.guid ?? '')),
-        tap((cart) => (this.userId = cart?.user?.uid ?? ''))
+        tap((cart) => (this.userId = cart.user?.uid ?? ''))
       )
       .subscribe();
   }
 
   onPickupOptionChange(pickupOption: PickupOption): void {
-    const data: SetDeliveryOptionPayload = {
-      cartId: this.cartId,
-      pickupOption,
-      entryNumber: this.entryNumber,
-      userId: this.userId,
-      productCode: this.productCode,
-      quantity: this.quantity,
-      name: 'pickup',
+    const payload: SetPickupOptionDeliveryPayload = {
+      deliveryPointOfService: {
+        name: '',
+      },
+      product: {
+        code: this.productCode,
+      },
+      quantity: this.quantity as number,
     };
 
     this.intendedPickupLocationService.setPickupOption(
       this.productCode,
       pickupOption
     );
-    if (pickupOption === 'delivery') {
-      this.intendedPickupLocationService.removeIntendedLocation(
-        this.productCode
-      );
-      this.storeDetails.setDeliveryOption(data);
-      return;
-    }
+
+    this.intendedPickupLocationService.removeIntendedLocation(this.productCode);
+
     const preferredStore = this.preferredStoreService.getPreferredStore();
+
+    pickupOption === 'delivery' &&
+      this.pickupLocationsSearchService.setPickupOptionDelivery(
+        this.cartId,
+        this.entryNumber,
+        this.userId,
+        payload
+      );
+
     if (!this.displayNameIsSet) {
       this.openDialog();
     } else if (preferredStore) {

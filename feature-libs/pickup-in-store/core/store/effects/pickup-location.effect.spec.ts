@@ -4,6 +4,10 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { normalizeHttpError, PointOfService } from '@spartacus/core';
+import {
+  SetPickupOptionDeliveryPayload,
+  SetPickupOptionInStorePayload,
+} from '@spartacus/pickup-in-store/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { PickupLocationConnector } from '../../connectors';
@@ -11,11 +15,31 @@ import {
   GetStoreDetailsById,
   SetStoreDetailsFailure,
   SetStoreDetailsSuccess,
+  SetPickupOptionDelivery,
+  SetPickupOptionDeliverySuccess,
+  SetPickupOptionInStore,
+  SetPickupOptionInStoreSuccess,
 } from '../actions/pickup-location.action';
 import { PickupLocationEffect } from './pickup-location.effect';
 
 class MockPickupLocationConnector {
   getStoreDetails(_storeName: string): Observable<PointOfService> {
+    return of({});
+  }
+  setPickupOptionDelivery(
+    _cartId: string,
+    _entryNumber: number,
+    _userId: string,
+    _requestPayload: any
+  ): Observable<any> {
+    return of({});
+  }
+  setPickupOptionInStore(
+    _cartId: string,
+    _entryNumber: number,
+    _userId: string,
+    _requestPayload: any
+  ): Observable<any> {
     return of({});
   }
 }
@@ -58,6 +82,46 @@ describe('PickupLocationEffect', () => {
     actions$ = hot('-a', { a: action });
     const expected = cold('-(b)', { b: actionSuccess });
     expect(pickupLocationEffects.storeDetails$).toBeObservable(expected);
+  });
+
+  it('should call the connection on the SET_PICKUP_OPTION_DELIVERY action and create SetPickupOptionDeliverySuccess action', () => {
+    const cartId = 'cartId';
+    const entryNumber = 1;
+    const userId = 'userId';
+    const requestPayload: SetPickupOptionDeliveryPayload = {
+      deliveryPointOfService: { name: '' },
+      quantity: 1,
+      product: { code: 'code' },
+    };
+    spyOn(pickupLocationConnector, 'setPickupOptionDelivery').and.callThrough();
+    const action = SetPickupOptionDelivery({
+      payload: { cartId, entryNumber, userId, requestPayload },
+    });
+    const actionSuccess = SetPickupOptionDeliverySuccess({ payload: {} });
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-(b)', { b: actionSuccess });
+    expect(pickupLocationEffects.setPickupOptionDelivery$).toBeObservable(
+      expected
+    );
+  });
+  it('should call the connection on the SET_PICKUP_OPTION_In_Store action and create SetPickupOptionInStoreSuccess action', () => {
+    const cartId = 'cartId';
+    const entryNumber = 1;
+    const userId = 'userId';
+    const requestPayload: SetPickupOptionInStorePayload = {
+      deliveryPointOfService: { name: 'storeName' },
+      quantity: 1,
+    };
+    spyOn(pickupLocationConnector, 'setPickupOptionDelivery').and.callThrough();
+    const action = SetPickupOptionInStore({
+      payload: { cartId, entryNumber, userId, requestPayload },
+    });
+    const actionSuccess = SetPickupOptionInStoreSuccess({ payload: {} });
+    actions$ = hot('-a', { a: action });
+    const expected = cold('-(b)', { b: actionSuccess });
+    expect(pickupLocationEffects.setPickupOptionInStore$).toBeObservable(
+      expected
+    );
   });
 });
 

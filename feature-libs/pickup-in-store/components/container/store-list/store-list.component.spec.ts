@@ -30,7 +30,11 @@ export class MockActiveCartService {
     return of();
   }
   getActive(): Observable<Cart> {
-    return of();
+    return of({
+      guid: 'test',
+      user: { uid: 'test' },
+      entries: [{ product: { code: 'test' }, quantity: 1, entryNumber: 1 }],
+    });
   }
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
@@ -46,6 +50,7 @@ describe('StoreListComponent', () => {
   let pickupLocationsSearchService: PickupLocationsSearchFacade;
   let preferredStoreService: PreferredStoreService;
   let intendedPickupLocationService: IntendedPickupLocationFacade;
+  let activeCartService: ActiveCartFacade;
   const preferredStore: AugmentedPointOfService = {
     name: 'London School',
     displayName: 'London School',
@@ -87,6 +92,7 @@ describe('StoreListComponent', () => {
     intendedPickupLocationService = TestBed.inject(
       IntendedPickupLocationFacade
     );
+    activeCartService = TestBed.inject(ActiveCartFacade);
 
     component.productCode = 'productCode';
     fixture.detectChanges();
@@ -135,8 +141,34 @@ describe('StoreListComponent', () => {
 
     component.onSelectStore({ storeContent: 'storeContent' });
     expect(preferredStoreService.setPreferredStore).toHaveBeenCalledWith({
-      name: undefined,
+      name: '',
       displayName: undefined,
     });
+  });
+
+  it('should call getSearchResults with productCode', () => {
+    component.productCode = 'productCode';
+    spyOn(pickupLocationsSearchService, 'getSearchResults');
+    component.ngOnInit();
+    expect(pickupLocationsSearchService.getSearchResults).toHaveBeenCalledWith(
+      'productCode'
+    );
+  });
+
+  it('should set entry number to 1 when adding an entry', () => {
+    const expected = 1;
+    component.productCode = 'test';
+    component.ngOnInit();
+    const received = component.entryNumber;
+    expect(received).toEqual(expected);
+  });
+  it('should not set quantity if entry item product code is not equal to product code', () => {
+    spyOn(activeCartService, 'getActive').and.returnValue(
+      of({
+        entries: [{}],
+      })
+    );
+    component.ngOnInit();
+    expect(component.quantity).toBeUndefined();
   });
 });

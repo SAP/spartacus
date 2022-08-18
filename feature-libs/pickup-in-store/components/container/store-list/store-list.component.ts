@@ -4,9 +4,9 @@ import { PointOfServiceStock } from '@spartacus/core';
 import { PreferredStoreService } from '@spartacus/pickup-in-store/core';
 import {
   IntendedPickupLocationFacade,
-  SetDeliveryOptionPayload,
   PickupLocationsSearchFacade,
   PickupOption,
+  SetPickupOptionInStorePayload,
 } from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -29,7 +29,7 @@ export class StoreListComponent implements OnInit {
   name: string;
   entryNumber: number;
   userId: string;
-  quantity?: number;
+  quantity: number;
 
   constructor(
     private readonly pickupLocationsSearchService: PickupLocationsSearchFacade,
@@ -52,12 +52,12 @@ export class StoreListComponent implements OnInit {
       .pipe(
         tap((cart) => {
           this.cartId = cart.guid ?? '';
-          this.userId = cart?.user?.uid ?? '';
+          this.userId = cart.user?.uid ?? '';
           cart.entries &&
             cart.entries.forEach((entry) => {
-              if (entry?.product?.code === this.productCode) {
-                this.entryNumber = entry?.entryNumber ?? -1;
-                this.quantity = entry.quantity;
+              if (entry.product?.code === this.productCode) {
+                this.entryNumber = entry.entryNumber ?? -1;
+                this.quantity = entry.quantity as number;
               }
             });
         })
@@ -67,15 +67,12 @@ export class StoreListComponent implements OnInit {
 
   onSelectStore(store: PointOfServiceStock) {
     const { stockInfo: _, ...pointOfService } = store;
-    const { name, displayName } = pointOfService;
+    const { name = '', displayName } = pointOfService;
 
-    const data: SetDeliveryOptionPayload = {
-      cartId: this.cartId,
-      pickupOption: 'pickup',
-      name: name ?? '',
-      entryNumber: this.entryNumber,
-      userId: this.userId,
-      productCode: this.productCode,
+    const payload: SetPickupOptionInStorePayload = {
+      deliveryPointOfService: {
+        name,
+      },
       quantity: this.quantity,
     };
 
@@ -85,7 +82,12 @@ export class StoreListComponent implements OnInit {
       pickupOption: 'pickup',
     });
 
-    this.pickupLocationsSearchService.setDeliveryOption(data);
+    this.pickupLocationsSearchService.setPickupOptionInStore(
+      this.cartId,
+      this.entryNumber,
+      this.userId,
+      payload
+    );
 
     this.storeSelected.emit();
   }

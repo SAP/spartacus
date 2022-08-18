@@ -7,7 +7,11 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PICKUP_IN_STORE_CORE_FEATURE } from '../feature-name';
-import { SetDeliveryOptionPayload, StockLocationSearchParams } from '../model';
+import {
+  SetPickupOptionDeliveryPayload,
+  SetPickupOptionInStorePayload,
+  StockLocationSearchParams,
+} from '../model';
 
 // TODO jsdoc
 
@@ -28,6 +32,8 @@ import { SetDeliveryOptionPayload, StockLocationSearchParams } from '../model';
         'toggleHideOutOfStock',
         'stockLevelAtStore',
         'getStockLevelAtStore',
+        'setPickupOptionDelivery',
+        'setPickupOptionInStore',
       ],
       async: true,
     }),
@@ -50,7 +56,16 @@ export abstract class PickupLocationsSearchFacade {
   abstract toggleHideOutOfStock(): void;
   abstract getStoreDetails(name: string): Observable<PointOfService>;
   abstract loadStoreDetails(name: string): void;
-  abstract setDeliveryOption(
-    setDeliveryOptionPayload: SetDeliveryOptionPayload
+  abstract setPickupOptionDelivery(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    requestPayload: SetPickupOptionDeliveryPayload
+  ): void;
+  abstract setPickupOptionInStore(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    requestPayload: SetPickupOptionInStorePayload
   ): void;
 }

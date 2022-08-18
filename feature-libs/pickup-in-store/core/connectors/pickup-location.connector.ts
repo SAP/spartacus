@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
-import { SetDeliveryOptionPayload } from '@spartacus/pickup-in-store/root';
+import {
+  SetPickupOptionDeliveryPayload,
+  SetPickupOptionInStorePayload,
+} from '@spartacus/pickup-in-store/root';
 import { Observable } from 'rxjs';
 import { PickupLocationAdapter } from './pickup-location.adapter';
 
@@ -11,9 +14,31 @@ export class PickupLocationConnector {
   getStoreDetails(storeName: string): Observable<PointOfService> {
     return this.adapter.getStoreDetails(storeName);
   }
-  setDeliveryOption(
-    patchDeliveryOptionPayload: SetDeliveryOptionPayload
+  setPickupOptionDelivery(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    payload: SetPickupOptionDeliveryPayload
   ): Observable<any> {
-    return this.adapter.setDeliveryOption(patchDeliveryOptionPayload);
+    return this.adapter.setPickupOptionDelivery(
+      cartId,
+      entryNumber,
+      userId,
+      payload
+    );
+  }
+
+  setPickupOptionInStore(
+    cartId: string,
+    entryNumber: number,
+    userId: string,
+    payload: SetPickupOptionInStorePayload
+  ): Observable<any> {
+    return this.adapter.setPickupOptionInStore(
+      cartId,
+      entryNumber,
+      userId,
+      payload
+    );
   }
 }
