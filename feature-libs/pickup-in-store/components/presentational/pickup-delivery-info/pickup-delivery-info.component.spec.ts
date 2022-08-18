@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { PickupDeliveryInfoComponent } from './pickup-delivery-info.component';
 
 describe('PickupDeliveryInfoComponent', () => {
@@ -8,6 +9,7 @@ describe('PickupDeliveryInfoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PickupDeliveryInfoComponent],
+      imports: [I18nTestingModule],
     }).compileComponents();
   });
 
