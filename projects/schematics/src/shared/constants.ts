@@ -526,6 +526,26 @@ export const PAGE_LAYOUT_HANDLER = 'PageLayoutHandler';
 export const BAD_REQUEST_HANDLER = 'BadRequestHandler';
 export const BAD_VOUCHER_REQUEST_HANDLER = 'BadVoucherRequestHandler';
 
+export const FACET_SERVICE = 'FacetService';
+export const PROFILE_TAG_EVENT_SERVICE = 'ProfileTagEventService';
+export const PROFILE_TAG_LIFECYCLE_SERVICE = 'ProfileTagLifecycleService';
+
+export const CDS_MERCHANDISING_PRODUCT_SERVICE =
+  'CdsMerchandisingProductService';
+export const MERCHANDISING_STRATEGY_CONNECTOR =
+  'MerchandisingStrategyConnector';
+export const CDS_MERCHANDISING_USER_CONTEXT_SERVICE =
+  'CdsMerchandisingUserContextService';
+export const CDS_MERCHANDISING_SITE_CONTEXT_SERVICE =
+  'CdsMerchandisingSiteContextService';
+export const CDS_MERCHANDISING_SEARCH_CONTEXT_SERVICE =
+  'CdsMerchandisingSearchContextService';
+export const CDS_MERCHANDISING_FACET_NORMALIZER =
+  'MerchandisingFacetNormalizer';
+export const CDS_MERCHANDISING_FACET_TO_QUERY_PARAM_NORMALIZER =
+  'MerchandisingFacetToQueryparamNormalizer';
+export const LOAD_PRODUCT_FOR_STRATEGY_METHOD = 'loadProductsForStrategy';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
