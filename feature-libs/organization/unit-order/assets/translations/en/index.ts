@@ -1,5 +1,5 @@
-import { TODO } from './order-history.i18n';
+import { unitOrder } from './unit-order.i18n';
 
 export const en = {
-  orderHistory,
+  unitOrder,
 };

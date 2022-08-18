@@ -135,11 +135,6 @@ export const order = {
     },
     tabPanelContainerRegion: 'Group with order history details',
   },
-  UnitLevelOrderHistoryTabContainer: {
-    tabs: {
-      UnitLevelOrderHistoryComponent: 'UNIT-LEVEL ORDERS ({{param}})',
-    },
-  },
   returnRequestList: {
     returnRequestId: 'Return #',
     orderId: 'Order #',

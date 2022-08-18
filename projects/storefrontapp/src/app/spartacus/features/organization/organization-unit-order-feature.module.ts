@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
-  orderApprovalTranslationChunksConfig,
-  orderApprovalTranslations,
-} from '@spartacus/organization/order-approval/assets';
-import { UnitOrderRootModule } from '@spartacus/organization/unit-order/root';
-import { ORGANIZATION_UNIT_ORDER_FEATURE } from 'feature-libs/organization/unit-order/root/feature-name';
+  unitOrderTranslationChunksConfig,
+  unitOrderTranslations,
+} from '@spartacus/organization/unit-order/assets';
+import {
+  UnitOrderRootModule,
+  ORGANIZATION_UNIT_ORDER_FEATURE,
+} from '@spartacus/organization/unit-order/root';
 
 @NgModule({
   imports: [UnitOrderRootModule],
@@ -22,8 +24,8 @@ import { ORGANIZATION_UNIT_ORDER_FEATURE } from 'feature-libs/organization/unit-
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: orderApprovalTranslations,
-        chunks: orderApprovalTranslationChunksConfig,
+        resources: unitOrderTranslations,
+        chunks: unitOrderTranslationChunksConfig,
       },
     }),
   ],

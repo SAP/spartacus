@@ -10,7 +10,6 @@ export const orderTranslationChunksConfig: TranslationChunksConfig = {
     'orderDetails',
     'orderHistory',
     'AccountOrderHistoryTabContainer',
-    'UnitLevelOrderHistoryTabContainer',
     'returnRequestList',
     'returnRequest',
   ],
