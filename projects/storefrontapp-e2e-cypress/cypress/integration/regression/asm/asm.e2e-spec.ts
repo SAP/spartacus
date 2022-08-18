@@ -13,6 +13,41 @@ context('Assisted Service Module', () => {
 
   describe('Customer Support Agent - Emulation', () => {
     asm.testCustomerEmulation();
+
+    it('should checkout as customer', () => {
+      const customer = getSampleUser();
+      checkout.registerUser(false, customer);
+
+      cy.log('--> Agent logging in');
+      checkout.visitHomePage('asm=true');
+      cy.get('cx-asm-main-ui').should('exist');
+      cy.get('cx-asm-main-ui').should('be.visible');
+
+      asm.agentLogin();
+
+      cy.log('--> Starting customer emulation');
+      asm.startCustomerEmulation(customer);
+
+      cy.log('--> Add product to cart and go to checkout');
+      checkout.goToCheapProductDetailsPage();
+      checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
+
+      cy.log('--> Go through delivery form');
+      cy.contains('Continue').click();
+      checkout.fillAddressFormWithCheapProduct();
+
+      cy.log('--> Choose delivery method');
+      checkout.verifyDeliveryMethod();
+
+      cy.log('--> Fill payment form and continue');
+      checkout.fillPaymentForm();
+
+      cy.log('--> Place order');
+      checkout.placeOrderWithCheapProduct();
+
+      cy.log('--> sign out and close ASM UI');
+      asm.agentSignOut();
+    });
   });
 
   describe('When a customer session and an asm agent session are both active', () => {

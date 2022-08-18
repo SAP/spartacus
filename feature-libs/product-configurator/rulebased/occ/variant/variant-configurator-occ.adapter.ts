@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
@@ -261,5 +267,15 @@ export class VariantConfiguratorOccAdapter
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
       );
+  }
+
+  searchVariants(configId: string): Observable<Configurator.Variant[]> {
+    const url = this.occEndpointsService.buildUrl(
+      'searchConfiguratorVariants',
+      { urlParams: { configId } }
+    );
+    //no need to work with a converter here, as Configurator.Variant is a projection of the OCC
+    //variant representation
+    return this.http.get<Configurator.Variant[]>(url);
   }
 }

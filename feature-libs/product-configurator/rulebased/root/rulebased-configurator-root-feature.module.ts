@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2022 SAP Spartacus team <spartacus-team@sap.com>
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE } from './feature-name';
@@ -15,6 +21,7 @@ const cmsComponents: string[] = [
   'ConfiguratorProductTitle',
   'ConfiguratorTabBar',
   'ConfiguratorExitButton',
+  'ConfiguratorVariantCarousel',
   'CpqConfiguratorConflictAndErrorMessagesComponent',
 ];
 
