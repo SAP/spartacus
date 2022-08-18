@@ -91,16 +91,12 @@ export class CustomerListComponent implements OnInit, OnDestroy {
 
     this.customerSearchLoading$ = this.asmService
       .getCustomerListCustomersSearchResultsLoading()
-      .pipe(
-        tap((loading) => console.log('loading', loading)),
-        tap((loading) => (this.loaded = !loading))
-      );
+      .pipe(tap((loading) => (this.loaded = !loading)));
     this.customerSearchLoading$.subscribe();
 
     this.customerSearchPage$ = this.asmService
       .getCustomerListCustomersSearchResults()
       .pipe(
-        // filter(isNotUndefined),
         tap((result) => console.log('page', result)),
         tap((result) => {
           if (result?.sorts) {
